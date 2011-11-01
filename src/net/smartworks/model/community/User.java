@@ -58,13 +58,13 @@ public class User extends WorkSpace {
 		this.orgPictureName = orgPictureName;
 	}
 	public String getMidPictureName() {
-		return super.getId() + "_mid.gif";
+		return super.getId() + "_mid.jpg";
 	}
 	public void setMidPictureName(String midPictureName) {
 		this.midPictureName = midPictureName;
 	}
 	public String getMinPictureName() {
-		return super.getId() + "_min.gif";
+		return super.getId() + "_min.jpg";
 	}
 	public void setMinPictureName(String minPictureName) {
 		this.minPictureName = minPictureName;

@@ -7,6 +7,7 @@ import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.EventInstance;
+import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
@@ -240,6 +241,11 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public SmartWork[] getMyAllWorksByGroupId(String userId, String groupId) throws Exception {
 		return workListService.getMyAllWorksByGroupId(userId, groupId);
+	}
+
+	@Override
+	public Instance[] getMyRunningInstances() throws Exception {
+		return taskInstanceService.getMyRunningInstances();
 	}
 
 }

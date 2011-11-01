@@ -8,21 +8,32 @@ import net.smartworks.util.LocalDate;
 
 public class WorkInstance extends Instance {
 
-	private TaskInstance currentTask;
+	private TaskInstance[] tasks;
+	private TaskInstance firstTask;
+	private TaskInstance runningTask;	
 	private User lastModifier;
 
-	public TaskInstance getCurrentTask() {
-		return currentTask;
+	public TaskInstance[] getTasks() {
+		return tasks;
 	}
-
-	public void setCurrentTask(TaskInstance currentTask) {
-		this.currentTask = currentTask;
+	public void setTasks(TaskInstance[] tasks) {
+		this.tasks = tasks;
 	}
-
+	public TaskInstance getFirstTask() {
+		return firstTask;
+	}
+	public void setFirstTask(TaskInstance firstTask) {
+		this.firstTask = firstTask;
+	}
+	public TaskInstance getRunningTask() {
+		return runningTask;
+	}
+	public void setRunningTask(TaskInstance runningTask) {
+		this.runningTask = runningTask;
+	}
 	public User getLastModifier() {
 		return lastModifier;
 	}
-
 	public void setLastModifier(User lastModifier) {
 		this.lastModifier = lastModifier;
 	}
@@ -37,5 +48,4 @@ public class WorkInstance extends Instance {
 		super.setWork(work);
 		this.lastModifier = owner;
 	}
-
 }

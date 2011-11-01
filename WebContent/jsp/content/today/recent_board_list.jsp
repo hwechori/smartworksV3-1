@@ -23,7 +23,7 @@
 		<li>
 			<div class="noti_pic">
 				<a href="user_space.sw?cid=<%=owner.getId()%>"><img
-					src="<%=owner.getMidPicture()%>" alt="<%=owner.getLongName()%>"
+					src="<%=owner.getMinPicture()%>" alt="<%=owner.getLongName()%>"
 					align="bottom" /> </a>
 			</div>
 			<div class="noti_in">

@@ -5,6 +5,7 @@ import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.instance.EventInstance;
+import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.NoticeMessage;
@@ -228,6 +229,10 @@ public class SmartTest {
 		date1.setGMTDate(date1.getGMTDate() + LocalDate.ONE_DAY*2);
 		event.setPlannedEnd(date1);
 		return event;
+	}
+
+	public static Instance[] getRunningInstances() throws Exception {
+		return new Instance[] {SmartTest.getTaskInstance1(), SmartTest.getWorkInstance2()};
 	}
 	
 

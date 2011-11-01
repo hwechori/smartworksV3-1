@@ -25,6 +25,7 @@ public class Instance {
 	public static int STATUS_RETURNED = 3;
 	public static int STATUS_COMPLETED = 4;
 	public static int STATUS_PLANNED = 5;
+	public static int STATUS_RETURNED_DELAYED = 6;
 	
 	private String id;
 	private String subject;
@@ -38,35 +39,27 @@ public class Instance {
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
 	public String getSubject() {
 		return subject;
 	}
-
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-
 	public int getInstanceType() {
 		return instanceType;
 	}
-
 	public void setInstanceType(int instanceType) {
 		this.instanceType = instanceType;
 	}
-
 	public Work getWork() {
 		return work;
 	}
-
 	public void setWork(Work work) {
 		this.work = work;
 	}
-
 	public WorkSpace getWorkSpace() {
 		if (workSpace == null && owner != null)
 			return owner;
@@ -76,31 +69,25 @@ public class Instance {
 	public void setWorkSpace(WorkSpace workSpace) {
 		this.workSpace = workSpace;
 	}
-
 	public int getStatus() {
 		return status;
 	}
-
 	public void setStatus(int status) {
 		this.status = status;
 	}
-
 	public User getOwner() {
 		return owner;
 	}
-
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
-
 	public LocalDate getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-
 	public void setLastModifiedDate(LocalDate lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
-
+	
 	public Instance() {
 		super();
 	}
@@ -115,5 +102,4 @@ public class Instance {
 		this.owner = owner;
 		this.lastModifiedDate = lastModifiedDate;
 	}
-
 }

@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.work.SmartWork"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -9,7 +10,7 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	//	Instance[] instances = smartWorks.getMyRunningInstances(new LocalDate(), 10);
+	Instance[] instances = smartWorks.getMyRunningInstances();
 %>
 
 <!-- 나의 진행중인 업무 -->
@@ -33,24 +34,45 @@
 						</div>
 						<div style="display: none"></div>
 					</li>
-					</li>
+					<%
+					for(Instance instance : instances){
+						String statusImage;
+						String statusAlt;
+						WorkInstance workInstance = (instance.getClass().equals(WorkInstance.class) ? (WorkInstance)instance : ((TaskInstance)instance).getWorkInstance());
+						User owner = workInstance.getOwner();
+						SmartWork work = (SmartWork)workInstance.getWork();
+						if(instance.getStatus() == Instance.STATUS_RUNNING){
+							statusImage = "images/ic_state_ing.jpg";
+						}else if(instance.getStatus() == Instance.STATUS_DELAYED_RUNNING){
+							statusImage = "images/ic_state_ing.jpg";
+						}else if(instance.getStatus() == Instance.STATUS_RETURNED){
+							statusImage = "images/ic_state_ing.jpg";
+						}else if(instance.getStatus() == Instance.STATUS_RETURNED_DELAYED){
+							statusImage = "images/ic_state_ing.jpg";
+						}else{
+							statusImage = "images/ic_state_ing.jpg";
+						}
+					%>
 					<li class="working_br">
 						<div class="pic">
-							<img src="images/ic_state_ing.jpg" alt="진행중" /> <img
-								src="images/pic_size_48.jpg" alt="임종훈" />
+							<img src="<%=statusImage %>" alt="진행중" /> <img
+								src="<%=owner.getMidPicture()%>" alt="<%=owner.getLongName() %>" />
 						</div>
 						<div>
-							<span class="t_name">Jisook Kim</span>의 업무가 <span
+							<span class="t_name"><%=owner.getName()%></span>의 업무가 <span
 								class="t_woname">대표이사 승인</span>을 기다리고 있습니다
 						</div>
 						<div>
-							<span class="ico_iworks t_date">일반관리 > 근태품의</span> <span
-								class="t_bold">건강검진으로 인해 근태신청합니다</span>
+							<span class="ico_iworks t_date"><%=work.getFullpathName() %></span> <span
+								class="t_bold"><%=workInstance.getSubject() %></span>
 						</div>
 						<div>
-							<span class="t_date">2011.08.12 18:00</span>
+							<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString() %></span>
 						</div>
 					</li>
+					<%
+					}
+					%>
 				</ul>
 			</div>
 		</ul>

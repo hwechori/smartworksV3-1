@@ -7,6 +7,7 @@ import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.EventInstance;
+import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
@@ -57,6 +58,8 @@ public interface ISmartWorks {
 	public static String CONTEXT_PREFIX_PWORK_TASK = "pw.ts.";
 	public static String CONTEXT_PREFIX_SWORK_TASK = "sw.ts.";
 
+	public abstract Instance[] getMyRunningInstances() throws Exception;
+	
 	public abstract String[] getBroadcastingMessages() throws Exception;
 
 	public abstract CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, int days) throws Exception;
