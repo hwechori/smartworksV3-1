@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.process.process.model" default-lazy="false">
+	<class name="PrcProcessInst" table="PrcPrcInst">
+		<id name="objId" column="prcObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="prcName" type="string" length="100"/>
+		<property name="creationUser" column="prcCreateUser" type="string" length="50" index="IxPrcPrcInst"/>
+		<property name="creationDate" column="prcCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="prcModifyUser" type="string" length="50" index="IxPrcPrcInst1"/>
+		<property name="modificationDate" column="prcModifyDate" type="timestamp"/>
+		<property name="status" column="prcStatus" type="string" length="100" index="IxPrcPrcInst2"/>
+		<property name="title" column="prcTitle" type="string" length="200" index="IxPrcPrcInst3"/>
+		<property name="description" column="tskDesc" type="text"/>
+		<property name="priority" column="tskPriority" type="string" length="50"/>
+		<property name="diagramId" column="prcDId" type="string" length="100" index="IxPrcPrcInst4"/>
+		<property name="diagramVersion" column="prcDVer" type="string" length="100" index="IxPrcPrcInst5"/>
+		<property name="processId" column="prcPrcId" type="string" length="100" index="IxPrcPrcInst6"/>
+		<property name="diagram" column="prcDiagram" type="text"/>
+		<property name="isSubInstance" column="isSubInstance" type="string" length="50"/>
+		<property name="instVariable" column="prcInstVariable" type="text"/>
+		<array name="extendedProperties" table="PrcPrcInstExtProp">
+			<key column="prcObjId" foreign-key="FkPrcPrcInstExtProp"/>
+			<list-index column="prcSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="prcName" type="string" length="100" index="IxPrcPrcInstExtProp"/>
+				<property name="value" column="prcValue" type="string" length="100" index="IxPrcPrcInstExtProp2"/>
+			</composite-element>
+		</array>
+	</class>
+	<class name="PrcProcess" table="PrcPrc">
+		<id name="objId" column="prcObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="prcName" type="string" length="100"/>
+		<property name="creationUser" column="prcCreateUser" type="string" length="50" index="IxPrcPrc"/>
+		<property name="creationDate" column="prcCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="prcModifyUser" type="string" length="50" index="IxPrcPrc1"/>
+		<property name="modificationDate" column="prcModifyDate" type="timestamp"/>
+		<property name="description" column="tskDesc" type="text"/>
+		<property name="diagramId" column="prcDId" type="string" length="100" index="IxPrcPrc2"/>
+		<property name="diagramVersion" column="prcDVer" type="string" length="100" index="IxPrcPrc3"/>
+		<property name="processId" column="prcPrcId" type="string" length="100" index="IxPrcPrc4"/>
+		<property name="diagram" column="prcDiagram" type="text"/>
+		<array name="extendedProperties" table="PrcPrcExtProp">
+			<key column="prcObjId" foreign-key="FkPrcPrcExtProp"/>
+			<list-index column="prcSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="prcName" type="string" length="100" index="IxPrcPrcExtProp"/>
+				<property name="value" column="prcValue" type="string" length="100" index="IxPrcPrcExtProp2"/>
+			</composite-element>
+		</array>
+	</class>
+	
+	<class name="PrcProcessInstRel" table="PrcPrcInstRel">
+		<id name="objId" column="prcObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="creationUser" column="prcCreateUser" type="string" length="50" index="IxPrcPrcInstRel"/>
+		<property name="creationDate" column="prcCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="prcModifyUser" type="string" length="50" index="IxPrcPrcInstRel1"/>
+		<property name="modificationDate" column="prcModifyDate" type="timestamp"/>
+		<property name="type" column="prcType" type="string" length="50" index="IxPrcPrcInstRel2"/>
+		<property name="instanceId" column="prcInstanceId" type="string" length="100" index="IxPrcPrcInstRel3"/>
+		<property name="pinstanceId" column="prcParentInstId" type="string" length="100" index="IxPrcPrcInstRel4"/>
+		<array name="extendedProperties" table="PrcPrcInstRelExtProp">
+			<key column="prcObjId" foreign-key="FkPrcPrcInstRelExtProp"/>
+			<list-index column="prcSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="prcName" type="string" length="100" index="IxPrcPrcInstRelExtProp"/>
+				<property name="value" column="prcValue" type="string" length="100" index="IxPrcPrcInstRelExtProp2"/>
+			</composite-element>
+		</array>
+	</class>
+	<class name="PrcProcessVariable" table="PrcPrcVariable">
+		<id name="objId" column="prcObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="prcName" type="string" length="100"/>
+		<property name="creationUser" column="prcCreateUser" type="string" length="50" index="IxPrcPrcVarRel"/>
+		<property name="creationDate" column="prcCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="prcModifyUser" type="string" length="50" index="IxPrcPrcVarRel1"/>
+		<property name="modificationDate" column="prcModifyDate" type="timestamp"/>
+		<property name="type" column="prcType" type="string" length="50" index="IxPrcPrcVarRel2"/>
+		<property name="processId" column="prcPrcId" type="string" length="100" index="IxPrcPrcVarRel3"/>
+		<property name="initialValue" column="prcInitialValue" type="string" length="100"/>
+		<property name="required" column="prcRequired" type="boolean"/>
+		<property name="mode" column="prcMode" type="string" length="50" index="IxPrcPrcVarRel4"/>
+		<array name="extendedProperties" table="PrcPrcVariableExtProp">
+			<key column="prcObjId" foreign-key="FkPrcPrcVariableExtProp"/>
+			<list-index column="prcSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="prcName" type="string" length="100" index="IxPrcPrcVariableExtProp"/>
+				<property name="value" column="prcValue" type="string" length="100" index="IxPrcPrcVariableExtProp2"/>
+			</composite-element>
+		</array>
+	</class>
+	<class name="PrcProcessInstVariable" table="PrcPrcInstVariable">
+		<id name="objId" column="prcObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="prcName" type="string" length="100"/>
+		<property name="creationUser" column="prcCreateUser" type="string" length="50" index="IxPrcPrcInstVarRel"/>
+		<property name="creationDate" column="prcCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="prcModifyUser" type="string" length="50" index="IxPrcPrcInstVarRel1"/>
+		<property name="modificationDate" column="prcModifyDate" type="timestamp"/>
+		<property name="type" column="prcType" type="string" length="50" index="IxPrcPrcInstVarRel2"/>
+		<property name="prcInstId" column="prcPrcInstId" type="string" length="100" index="IxPrcPrcInstVarRel3"/>
+		<property name="prcVariableId" column="prcVariableId" type="string" length="100" index="IxPrcPrcInstVarRel4"/>
+		<property name="required" column="prcRequired" type="boolean"/>
+		<property name="mode" column="prcMode" type="string" length="50" index="IxPrcPrcInstVarRel5"/>
+		<property name="value" column="prcValue" type="text"/>
+		<array name="extendedProperties" table="PrcPrcInstVariableExtProp">
+			<key column="prcObjId" foreign-key="FkPrcPrcInstVariableExtProp"/>
+			<list-index column="prcSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="prcName" type="string" length="100" index="IxPrcPrcInstVariableExtProp"/>
+				<property name="value" column="prcValue" type="string" length="100" index="IxPrcPrcInstVariableExtProp2"/>
+			</composite-element>
+		</array>
+	</class>
+</hibernate-mapping>

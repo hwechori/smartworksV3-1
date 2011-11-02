@@ -12,10 +12,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import net.smartworks.server.util.CommonUtil;
-import net.smartworks.server.util.DateUtil;
-import net.smartworks.server.util.ListMap;
-import net.smartworks.server.util.XmlUtil;
+import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.DateUtil;
+import net.smartworks.server.engine.common.util.ListMap;
+import net.smartworks.server.engine.common.util.XmlUtil;
 
 public class BaseObject implements Serializable {
 	private static final long serialVersionUID = 1L;

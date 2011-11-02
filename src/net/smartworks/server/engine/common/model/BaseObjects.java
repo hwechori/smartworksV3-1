@@ -1,8 +1,8 @@
 package net.smartworks.server.engine.common.model;
 
 import net.smartworks.server.engine.common.exception.MisException;
-import net.smartworks.server.util.CommonUtil;
-import net.smartworks.server.util.XmlUtil;
+import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.XmlUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

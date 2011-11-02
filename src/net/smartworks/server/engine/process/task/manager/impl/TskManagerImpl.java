@@ -8,22 +8,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.ws.ServiceMode;
+
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.ClassObject;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.model.Property;
+import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.process.task.exception.TskException;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
-import net.smartworks.server.util.CommonUtil;
-import net.smartworks.server.util.DateUtil;
 
 import org.hibernate.Query;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TskManagerImpl extends AbstractManager implements ITskManager{
 	public TskManagerImpl() {
 		super();

@@ -1,4 +1,4 @@
-package net.smartworks.server.util;
+package net.smartworks.server.engine.common.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
