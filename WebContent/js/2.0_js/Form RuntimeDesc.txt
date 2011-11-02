@@ -1,0 +1,77 @@
+* ȭ�鿡�� �� �� Ŭ�� ��
+	-> form/formIndex.jsp - 371line �̹��� Ŭ�� �� 
+		formView('frm_1b8a77ba29ca48ea8a4d38f75f3ffea9', 
+				'1', '', '', 
+				'&defaultfilterSearchWord=&filterSelect=&filterSearchKey=&filterSearchWord=&filterSearchUser=&searchWord=&pageNo=1&pageSize=10&order=createdtime&isAsc=false', 
+				'../form/formIndex.jsp', '')
+		�޼ҵ� ȣ��
+	-> main/index.jsp 429line 
+		function formView(formId, version, recordId, param, nextPage, accessLevel) {...} 8�� �̵�
+		�Ű�����  d�� :
+			formId = '�ش� �� ���̵�'
+			version = '1'
+			recordId = ""
+			param = ""
+			nextPage = "nextPage=&defaultfilterSearchWord=&filterSelect=&filterSearchKey=&filterSearchWord=&filterSearchUser=&searchWord=&pageNo=1&pageSize=10&order=createdtime&isAsc=false&userId=000015&formId=frm_1b8a77ba29ca48ea8a4d38f75f3ffea9&version=1&recordId=&formName="
+			accessLevel = "../form/formIndex.jsp"
+		���ú��� d�K
+			loadType = "2" -> "3";
+			infoTaskView = false;
+		
+		458line : formWork.initFormRuntime('000015', '../', formId, version, '', recordId, loadType, (loadType == "2")?'view':'edit'); 8�� �̵�
+
+	-> js/FormWork.js
+		67line : 	this.initFormRuntime = function(_userId, _serviceUrl, _formId, _formVer, _processId, _instanceId, _type, _mode, _switchVisible){ ...
+		82line :	this.drawEtc(this.mode, this.type); //mode:"edit", type: "3"
+		99line :	parameters = {method:'getForm', userId : FormEnv.userId, formId : this.formId, version : this.formVer};
+				var req = new Ajax.Request(FormEnv.serviceUrl + '/services/runtime/executionService.jsp',
+				{
+					method:'get',
+					contentType : 'text/xml',
+					parameters: parameters,
+					onSuccess: this.loadModelCallBack,
+					onFailure: this.failCallBack,
+					onException : this.exceptionCallBack,
+					req : this
+				});
+		99line : request ���� �� --> 113line: this.loadModelCallBack(...) --> 127line : this.loadModel = function(formXml){...
+		131line : this.formRuntime = new FormRuntime(this.workspaceId); FormRuntime ��ü ��
+		132line : var docSpace = this.formRuntime.createForm(this._formXml, this.mode); �� ��Ʈ�� ��
+
+	-> js/FormRuntime.js
+		26line : this.createForm = function(formXml, formMode){...
+		73line : var formFieldsDiv = this.createFormFields(formXml, formMainSpace);
+		149line : this.createFormFields = function(formXml, formMainSpace){...
+			�ֿ� ���� :
+				document.createElement("div");
+				formMainSpace.appendChild(formFieldsDiv);
+		162line : this.layout = new FormGridLayout(formXml, formFieldsDiv, this, layoutXml);
+				
+	-->js/FormGridLayout.js
+		86line:  formRuntime.createFormField(targetFormEntity, formFieldsRow, gridColsXml[j].getAttribute("span"), 0, 0, colWidth, gridRowsXml[i].getAttribute("size"), ratio);
+
+	-> js/FormRuntime.js
+		169line : this.createFormField = function(formEntityXml, formFieldsRow, formFieldsColspan, x, y, width, height, ratio) {...
+		290line : formFieldsLabelCol.innerHTML = formFieldLabelHtml;//�� ���
+		303line : this.createFormFieldContents(formEntityXml, contentWidth, formFieldsContentsCol, heightSize);
+		308line : this.createFormFieldContents = function(formEntityXml, contentWidth, contentsContainer, heightSize) {...
+	
+
+	-> js/FormWork.js
+		141line : this.formRuntime.initDataFields(); 
+
+	-> js/FormRuntime.js
+		731line : this.initDataFields = function(){...
+		755line : this.refreshData = function(mappingRecordXmlStr){
+				mappingRecordXmlStr = "<?xml version="1.0"?><DataRecord formId="frm_aaa851d72bdd4cb3865275d504869857" formVersion="1" workItemId=""/>"
+		==> refreshData���� ��� ��8�Ƿ� �� �� ~��
+		
+	
+
+		
+				
+
+* ȭ�鿡�� �� ����Ʈ Ŭ�� �� 
+	
+* ȭ�鿡�� �� ����Ʈ Ŭ�� �� ��d ��ư ����; ���
+	

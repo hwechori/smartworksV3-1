@@ -1,0 +1,97 @@
+loadType
+	// 0 : 폼 모델만 보여주기(폼 화면만 그림)
+	// 1 : 업무함과 연결된 실행할 작업(이하 워크아이템) 보여주기
+	// 2 : 단위업무 수정하는 화면 보여주기
+	// 3 : 단위업무 생성하는 화면 보여주기
+	// 4 : 프로세스 업무 시작하는 화면 보여주기
+	// 5 : 워크아이템 보여주기
+
+// 메소드 정의	
+	// 폼 화면을 생성하는 메소드
+	FormWork.initFormRuntime(_userId, _serviceUrl, _formId, _formVer, _processId, _instanceId, _type, _mode) 
+		- _userId : 현재 유저 아이디
+		- _serviceUrl : 현재 서비스 url(현재의 경우는 ../) - 기본 경로는 찾아갈수 만 있으면 됨
+		- _formId : 표시하려는 폼의 아이디(워크아이템과 관련된 작업의 경우 불필요 - 1,5번)
+		- _formVer : 표시하려는 폼의 버전(워크아이템과 관련된 작업의 경우 불필요 - 1,5번)
+		- _processId : 시작하려는 프로세스의 아이디(4번 타입에만 필요)
+		- _instanceId : 처리하려는 인스턴스 아이디(모델만 보여주거나 새로 시작하는 작업에는 필요없음 - 0, 3, 4 번)
+			- 1,5 번 : 워크아이템 아이디
+			- 2번 레코드 아이디
+		- _type : loadType과 동일
+		- _mode : 화면 모드 설정
+			- 선택 값
+				- view : 조회 모드
+				- edit : 편집 모드
+			
+	// 폼 화면을 완료하는 메소드 (loadType 1,2,3,4 번 가능)
+	FormWork.complete() 
+	// 폼 화면을 저장하는 메소드(loadType 1,2 번 가능) - 2번에선 save와 complete가 같은 동작
+	FormWork.save() 
+	// 폼 화면을 취소하는 메소드
+	FormWork.cancel() 
+	// 폼 화면(정보작업)을 삭제하는 메소드
+	FormWork.remove() 	
+	// 폼 화면(일반작업)을 삭제하는 메소드
+	FormWork.removeWorkitem() : 2009.06310삭제 - 사용하지 않는 메소드임.
+	// 폼 화면의 화면모드를 변경하는 메소드
+	FormWork.switchMode(viewMode) 
+		- viewMode : 모드 지정
+			- 선택 값
+				- view : 조회 모드
+				- edit : 편집 모드
+	// 폼 화면의 모드를 반환하는 메소드
+	FormWork.getMode() 
+// 이벤트 정의
+	completed : 작업이 완료되었을 때
+	saved : 작업이 저장되었을 때
+	canceled : 작업이 취소되었을 때	
+	initialized : 화면 로딩이 완료되었을 때
+	failed : 각 액션이 실패했을 때
+	removed : 작업을 삭제했을때
+
+// 이벤트 사용방법
+	Element.observe($("workspace"), '이벤트 이름', function(event){
+		
+	});		
+		
+// 실행 바 표시, 모드 전환 버튼 표시
+	loadType 0 : 실행 바 없음, 모드 전환 버튼  없음(기본 모드 : 편집 모드)
+	loadType 1 : 실행 바 있음(저장, 완료, 취소), 모드 전환 버튼  없음
+				- 실행할 업무함(업무) (기본 모드 : 편집 모드)
+				- 그 외 업무함(업무) (기본 모드 : 조회 모드)
+	loadType 2 : 실행 바 있음(저장, 취소), 모드 전환 버튼  있음 (기본 모드 : 조회 모드)
+	loadType 3 : 실행 바 있음(완료, 취소), 모드 전환 버튼  없음(기본 모드 : 편집 모드)
+	loadType 4 : 실행 바 있음(완료, 취소), 모드 전환 버튼  없음(기본 모드 : 편집 모드)
+	loadType 5 : 실행 바 없음, 모드 전환 버튼  없음(기본 모드 : 조회 모드)
+	
+// 액션 후 처리
+	- 정상적인  완료시(completed 이벤트)
+		loadType 1
+			메시지 표시
+			목록으로 
+		loadType 2
+			메시지 표시
+			조회 모드로 
+		loadType 3
+			메시지 표시
+			목록으로 
+		loadType 4
+			메시지 표시
+			목록으로 	
+	- 정상적인  저장시(saved 이벤트)
+		loadType 1
+			메시지 표시
+		loadType 2
+			메시지 표시
+			조회 모드로 
+	- 취소 시 (canceled 이벤트)
+		loadType 1
+			목록으로 
+		loadType 2
+			조회 모드로 
+		loadType 3
+			목록으로 
+		loadType 4
+			목록으로 	
+	- 실패 시 (failed 이벤트)
+		??
