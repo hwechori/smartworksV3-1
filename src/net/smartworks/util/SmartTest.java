@@ -170,10 +170,67 @@ public class SmartTest {
 
 	}
 
-	public static TaskInstance getTaskInstance1() throws Exception {
-		TaskInstance taskInstance = new TaskInstance("taskInstance1", "대표이사승인", TaskInstance.PROCESS_TASK_ASSIGNED, getUser2(), new LocalDate());
+	public static TaskInstance getTaskInstancePA() throws Exception {
+		TaskInstance taskInstance = new TaskInstance("taskInstance1", "대표이사승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, getUser2(), new LocalDate());
+		taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
 		taskInstance.setWorkInstance(getWorkInstance1());
 		taskInstance.setAssignee(SmartUtil.getCurrentUser());
+		return taskInstance;
+	}
+
+	public static TaskInstance getTaskInstancePF() throws Exception {
+		TaskInstance taskInstance = new TaskInstance("taskInstance2", "참고하시기 바랍니다.", TaskInstance.TYPE_PROCESS_TASK_FORWARDED, getUser3(), new LocalDate());
+		taskInstance.setStatus(Instance.STATUS_RUNNING);
+		taskInstance.setWorkInstance(getWorkInstance2());
+		taskInstance.setAssignee(getUser1());
+		return taskInstance;
+	}
+
+	public static TaskInstance getTaskInstanceIA() throws Exception {
+		TaskInstance taskInstance = new TaskInstance("taskInstance11", "주간회의 회의록 작성하여 주시기 바랍니다.", TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED, getUser2(), new LocalDate());
+		taskInstance.setStatus(Instance.STATUS_DELAYED_RUNNING);
+		taskInstance.setWorkInstance(getWorkInstance1());
+		taskInstance.setAssignee(SmartUtil.getCurrentUser());
+		return taskInstance;
+	}
+
+	public static TaskInstance getTaskInstanceIF() throws Exception {
+		TaskInstance taskInstance = new TaskInstance("taskInstance12", "주간회의 회의록입니다.", TaskInstance.TYPE_INFORMATION_TASK_FORWARDED, getUser3(), new LocalDate());
+		taskInstance.setStatus(Instance.STATUS_RUNNING);
+		taskInstance.setWorkInstance(getWorkInstance2());
+		taskInstance.setAssignee(getUser1());
+		return taskInstance;
+	}
+
+	public static TaskInstance getTaskInstanceSA() throws Exception {
+		TaskInstance taskInstance = new TaskInstance("taskInstance13", "제품개발 스토리보드 작성업무", TaskInstance.TYPE_SCHEDULE_TASK_ASSIGNED, getUser2(), new LocalDate());
+		taskInstance.setStatus(Instance.STATUS_DELAYED_RUNNING);
+		taskInstance.setWorkInstance(getWorkInstance1());
+		taskInstance.setAssignee(SmartUtil.getCurrentUser());
+		return taskInstance;
+	}
+
+	public static TaskInstance getTaskInstanceSF() throws Exception {
+		TaskInstance taskInstance = new TaskInstance("taskInstance14", "참조바랍니다<제품개발 스토리보드 작성업무>", TaskInstance.TYPE_SCHEDULE_TASK_FORWARDED, getUser3(), new LocalDate());
+		taskInstance.setStatus(Instance.STATUS_RUNNING);
+		taskInstance.setWorkInstance(getWorkInstance2());
+		taskInstance.setAssignee(getUser1());
+		return taskInstance;
+	}
+
+	public static TaskInstance getTaskInstanceAA() throws Exception {
+		TaskInstance taskInstance = new TaskInstance("taskInstance13", "신규사업기획서 품의", TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED, getUser2(), new LocalDate());
+		taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
+		taskInstance.setWorkInstance(getWorkInstance1());
+		taskInstance.setAssignee(SmartUtil.getCurrentUser());
+		return taskInstance;
+	}
+
+	public static TaskInstance getTaskInstanceAF() throws Exception {
+		TaskInstance taskInstance = new TaskInstance("taskInstance14", "기안한 품의서 입니다. 참고하시기 바랍니다.", TaskInstance.TYPE_APPROVAL_TASK_FORWARDED, getUser3(), new LocalDate());
+		taskInstance.setStatus(Instance.STATUS_RUNNING);
+		taskInstance.setWorkInstance(getWorkInstance2());
+		taskInstance.setAssignee(getUser1());
 		return taskInstance;
 	}
 
@@ -193,7 +250,7 @@ public class SmartTest {
 		}
 		if (noticeType == NoticeMessage.TYPE_TASK_DELAYED) {
 			notice3 = new NoticeMessage("notice3", NoticeMessage.TYPE_TASK_DELAYED, SmartUtil.getCurrentUser(), new LocalDate());
-			notice3.setInstance(getTaskInstance1());
+			notice3.setInstance(getTaskInstancePA());
 			return notice3;
 		}
 
@@ -232,39 +289,51 @@ public class SmartTest {
 	}
 
 	public static Instance[] getRunningInstances() throws Exception {
-		return SmartTest.getAssignedTaskInstances();
+		TaskInstance[] taskInstances = getAssignedTaskInstances();
+
+		WorkInstance workInstance1 = getWorkInstance1();
+		workInstance1.setTasks(new TaskInstance[] {getTaskInstancePA(), getTaskInstancePF(), getTaskInstancePF()});
+		
+		WorkInstance workInstance2 = getWorkInstance2();
+		workInstance2.setTasks(new TaskInstance[] {getTaskInstanceIA(), getTaskInstanceIF()});
+		return new Instance[] {taskInstances[0], taskInstances[1], taskInstances[2], taskInstances[3], taskInstances[4], workInstance1, workInstance2};
 	}
 
 	public static TaskInstance[] getAssignedTaskInstances() throws Exception{
-		TaskInstance assignedInstance1 = new TaskInstance("assignedtask1", "대표이사 승인", TaskInstance.PROCESS_TASK_ASSIGNED, SmartTest.getUser3(),
+		TaskInstance assignedInstance1 = new TaskInstance("assignedtask1", "대표이사 승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, SmartTest.getUser3(),
 			new LocalDate());
+		assignedInstance1.setStatus(Instance.STATUS_DELAYED_RUNNING);
 		WorkInstance workInstance1 = getWorkInstance1();
-		workInstance1.setRunningTask(assignedInstance1);
+		workInstance1.setTasks(new TaskInstance[] {assignedInstance1});
 		assignedInstance1.setWorkInstance(workInstance1);
 
-		TaskInstance assignedInstance2 = new TaskInstance("assignedtask2", "구매기안 기안제출", TaskInstance.PROCESS_TASK_FORWARDED,
+		TaskInstance assignedInstance2 = new TaskInstance("assignedtask2", "구매기안 기안제출", TaskInstance.TYPE_PROCESS_TASK_FORWARDED,
 			SmartTest.getUser3(), new LocalDate());
+		assignedInstance2.setStatus(Instance.STATUS_RETURNED);
 		WorkInstance workInstance2 = getWorkInstance2();
-		workInstance2.setRunningTask(assignedInstance2);
+		workInstance2.setTasks(new TaskInstance[] {assignedInstance2});
 		workInstance2.setWorkSpace(getDepartment1());
 		assignedInstance2.setWorkInstance(workInstance2);
 
-		TaskInstance assignedInstance3 = new TaskInstance("assignedtask3", "반도체회사 제안서 공유합니다.", TaskInstance.INFORMATION_TASK_FORWARDED,
+		TaskInstance assignedInstance3 = new TaskInstance("assignedtask3", "반도체회사 제안서 공유합니다.", TaskInstance.TYPE_INFORMATION_TASK_FORWARDED,
 			SmartTest.getUser3(), new LocalDate());
+		assignedInstance3.setStatus(Instance.STATUS_RUNNING);
 		WorkInstance workInstance3 = getWorkInstance3();
-		workInstance3.setRunningTask(assignedInstance3);
+		workInstance3.setTasks(new TaskInstance[] {assignedInstance3});
 		assignedInstance3.setWorkInstance(workInstance3);
 
-		TaskInstance assignedInstance4 = new TaskInstance("assignedtask4", "검토자 결재", TaskInstance.APPROVAL_TASK_ASSIGNED, SmartTest.getUser3(),
+		TaskInstance assignedInstance4 = new TaskInstance("assignedtask4", "검토자 결재", TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED, SmartTest.getUser3(),
 			new LocalDate());
+		assignedInstance4.setStatus(Instance.STATUS_RUNNING);
 		WorkInstance workInstance4 = getWorkInstance4();
-		workInstance4.setRunningTask(assignedInstance4);
+		workInstance4.setTasks(new TaskInstance[] {assignedInstance4});
 		assignedInstance4.setWorkInstance(workInstance4);
 
-		TaskInstance assignedInstance5 = new TaskInstance("assignedtask5", "일일보고 입니다.", TaskInstance.INFORMATION_TASK_ASSIGNED,
+		TaskInstance assignedInstance5 = new TaskInstance("assignedtask5", "일일보고 입니다.", TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED,
 			SmartTest.getUser3(), new LocalDate());
+		assignedInstance5.setStatus(Instance.STATUS_RETURNED_DELAYED);
 		WorkInstance workInstance5 = getWorkInstance5();
-		workInstance5.setRunningTask(assignedInstance5);
+		workInstance5.setTasks(new TaskInstance[] {assignedInstance5});
 		workInstance5.setWorkSpace(getGroup1());
 		assignedInstance5.setWorkInstance(workInstance5);
 

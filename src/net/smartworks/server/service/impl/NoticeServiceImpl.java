@@ -121,7 +121,7 @@ public class NoticeServiceImpl implements INoticeService {
 		notice2 = new NoticeMessage("notic2", NoticeMessage.TYPE_EVENT_ALARM, SmartTest.getUser2(), new LocalDate());
 		notice2.setEvent(SmartTest.getEventInstance1());
 		notice3 = new NoticeMessage("notice3", NoticeMessage.TYPE_TASK_DELAYED, SmartUtil.getCurrentUser(), new LocalDate());
-		notice3.setInstance(SmartTest.getTaskInstance1());
+		notice3.setInstance(SmartTest.getTaskInstancePA());
 		notice4 = new NoticeMessage("notice4", NoticeMessage.TYPE_JOIN_REQUEST, SmartTest.getUser1(), new LocalDate());
 		notice4.setGroup(SmartTest.getGroup1());
 		notice4.setMessage("님이 커뮤너티에 가입을 신청하셨습니다.");
@@ -175,7 +175,7 @@ public class NoticeServiceImpl implements INoticeService {
 
 		CommentsInstance commentsInstance4 = new CommentsInstance("comments4", CommentsInstance.COMMENTS_TYPE_ON_TASK_INSTANCE, "재 기안해 주시기 바랍니다...",
 				SmartTest.getUser3(), new LocalDate());
-		commentsInstance4.setTaskInstance(SmartTest.getTaskInstance1());
+		commentsInstance4.setTaskInstance(SmartTest.getTaskInstancePA());
 		notice4 = new NoticeMessage("notice24", 0, SmartTest.getUser3(), new LocalDate());
 		notice4.setInstance(commentsInstance4);
 
