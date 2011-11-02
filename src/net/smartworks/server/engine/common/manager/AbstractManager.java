@@ -10,14 +10,16 @@ import java.util.Set;
 import net.smartworks.server.engine.common.model.Cond;
 import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.model.Order;
-import net.smartworks.server.util.CommonUtil;
+import net.smartworks.server.engine.common.util.CommonUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -33,6 +35,11 @@ public abstract class AbstractManager extends HibernateDaoSupport implements IMa
 	
 	private boolean enableLogging = true;
 
+	@Autowired
+	public void anyMethod(SessionFactory sessionFactory) {
+		setSessionFactory(sessionFactory);
+	}
+	
 	public AbstractManager() {
 		super();
 		if (logger.isInfoEnabled())

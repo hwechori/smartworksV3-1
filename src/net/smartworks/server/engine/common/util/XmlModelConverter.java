@@ -1,4 +1,4 @@
-package net.smartworks.server.util;
+package net.smartworks.server.engine.common.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

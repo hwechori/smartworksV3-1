@@ -1,72 +1,46 @@
-package net.smartworks.server.engine.common.model;
+package net.smartworks.server.engine.process.link.model;
 
+import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class PropertyCond extends Cond{
+public class LnkCondition extends BaseObject {
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(PropertyCond.class);
+	private static Log logger = LogFactory.getLog(LnkCondition.class);
+	protected static final String PREFIX = "Lnk";
 	
-	private static final String NAME = CommonUtil.toName(PropertyCond.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(LnkCondition.class, PREFIX);
+	public static final String A_TYPE = "type";
+	public static final String A_EXPRESSION = "expression";
 	
-	public static final String A_NAME = "name";
-	public static final String A_NAMELIKE = "nameLike";
-	public static final String A_VALUE = "value";
-	
-	private String name;
-	private String nameLike;
-	private String value;
-	public PropertyCond() {
+	private String type;
+	private String expression;
+	public LnkCondition() {
 		super();
 	}
-	
-	public String toString(String name, String tab){
-		if(name == null || name.trim().length() == 0)
+	public String toString(String name, String tab) {
+		if (name == null || name.trim().length() == 0)
 			name = NAME;
 		return super.toString(name, tab);
+	}
+	public String toAttributesString() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(super.toAttributesString());
+		appendAttributeString(A_TYPE, type, buf);
+		return buf.toString();
 	}
 	public String toElementsString(String tab) {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toElementsString(tab));
-		appendElementString(A_NAME, getName(), tab, buf);
-		appendElementString(A_NAMELIKE, getNameLike(), tab, buf);
-		appendElementString(A_VALUE, getValue(), tab, true, buf);
+		appendElementString(A_EXPRESSION, getExpression(), tab, buf);
 		return buf.toString();
-	}
-	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
-		if (node == null)
-			return null;
-		
-		PropertyCond obj = null;
-		if (baseObj == null || !(baseObj instanceof BaseObject))
-			obj = new PropertyCond();
-		else
-			obj = (PropertyCond)baseObj;
-		
-		ClassObjectCond.toObject(node, obj);
-		
-		NodeList childNodeList = node.getChildNodes();
-		if (childNodeList == null || childNodeList.getLength() == 0)
-			return obj;
-		for (int i=0; i<childNodeList.getLength(); i++) {
-			Node childNode = childNodeList.item(i);
-			if (childNode.getNodeType() != Node.ELEMENT_NODE || childNode.getNodeName() == null)
-				continue;
-			if (childNode.getNodeName().equals(A_NAME)) {
-				obj.setName(getNodeValue(childNode));
-			} else if (childNode.getNodeName().equals(A_NAMELIKE)) {
-				obj.setNameLike(getNodeValue(childNode));
-			} else if (childNode.getNodeName().equals(A_VALUE)) {
-				obj.setValue(getNodeValue(childNode, true));
-			}
-		}
-		return obj;
 	}
 	public static BaseObject toObject(String str) throws Exception {
 		if (str == null)
@@ -76,21 +50,53 @@ public class PropertyCond extends Cond{
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	
-	public static PropertyCond[] add(PropertyCond[] objs, PropertyCond obj) {
+	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
+		if (node == null)
+			return null;
+		
+		LnkCondition obj = null;
+		if (baseObj == null || !(baseObj instanceof LnkCondition))
+			obj = new LnkCondition();
+		else
+			obj = (LnkCondition)baseObj;
+		
+		BaseObject.toObject(node, obj);
+		
+		NamedNodeMap attrMap = node.getAttributes();
+		if (attrMap != null) {
+			Node type = attrMap.getNamedItem(A_TYPE);
+			if (type != null)
+				obj.setType(type.getNodeValue());
+		}
+		
+		NodeList childNodeList = node.getChildNodes();
+		if (childNodeList == null || childNodeList.getLength() == 0)
+			return obj;
+		for (int i=0; i<childNodeList.getLength(); i++) {
+			Node childNode = childNodeList.item(i);
+			if (childNode.getNodeType() != Node.ELEMENT_NODE || childNode.getNodeName() == null)
+				continue;
+			if (childNode.getNodeName().equals(A_EXPRESSION)) {
+				obj.setExpression(getNodeValue(childNode));
+			}
+		}
+		
+		return obj;
+	}
+	public static LnkCondition[] add(LnkCondition[] objs, LnkCondition obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		PropertyCond[] newObjs = new PropertyCond[size+1];
+		LnkCondition[] newObjs = new LnkCondition[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static PropertyCond[] remove(PropertyCond[] objs, PropertyCond obj) {
+	public static LnkCondition[] remove(LnkCondition[] objs, LnkCondition obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -98,7 +104,7 @@ public class PropertyCond extends Cond{
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		PropertyCond[] newObjs = new PropertyCond[size-1];
+		LnkCondition[] newObjs = new LnkCondition[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -108,7 +114,7 @@ public class PropertyCond extends Cond{
 		}
 		return newObjs;
 	}
-	public static PropertyCond[] left(PropertyCond[] objs, PropertyCond obj) {
+	public static LnkCondition[] left(LnkCondition[] objs, LnkCondition obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -120,7 +126,7 @@ public class PropertyCond extends Cond{
 		}
 		if (idx < 1)
 			return objs;
-		PropertyCond[] newObjs = new PropertyCond[objs.length];
+		LnkCondition[] newObjs = new LnkCondition[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -133,7 +139,7 @@ public class PropertyCond extends Cond{
 		}
 		return newObjs;
 	}
-	public static PropertyCond[] right(PropertyCond[] objs, PropertyCond obj) {
+	public static LnkCondition[] right(LnkCondition[] objs, LnkCondition obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -145,7 +151,7 @@ public class PropertyCond extends Cond{
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		PropertyCond[] newObjs = new PropertyCond[objs.length];
+		LnkCondition[] newObjs = new LnkCondition[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
@@ -166,23 +172,22 @@ public class PropertyCond extends Cond{
 			return null;
 		}
 	}
-	
-	public String getName() {
-		return name;
+	public String[] getActions() {
+		return CommonUtil.toArray(expression, null);
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setActions(String[] actions) {
+		this.setExpression(CommonUtil.toString(actions, null));
 	}
-	public String getValue() {
-		return value;
+	public String getExpression() {
+		return expression;
 	}
-	public void setValue(String value) {
-		this.value = value;
+	public void setExpression(String expression) {
+		this.expression = expression;
 	}
-	public String getNameLike() {
-		return nameLike;
+	public String getType() {
+		return type;
 	}
-	public void setNameLike(String nameLike) {
-		this.nameLike = nameLike;
+	public void setType(String type) {
+		this.type = type;
 	}
 }
