@@ -253,9 +253,8 @@
 				</ul>
 			</div>
 		</ul>
-
-
 	</div>
+	<div></div>
 	<div class="portlet_b" style="display: block;"></div>
 </div>
 <!-- 나의 진행중인 업무 //-->
