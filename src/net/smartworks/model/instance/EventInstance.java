@@ -10,20 +10,20 @@ import net.smartworks.util.LocalDate;
 
 public class EventInstance extends WorkInstance {
 
-	public static int EVENT_STATUS_NORMAL			= 0;
-	public static int EVENT_STATUS_ALARM_START		= 1;
-	public static int EVENT_STATUS_ALARM_CONFIRMED	= 2;
+	public final static int EVENT_STATUS_NORMAL			= 0;
+	public final static int EVENT_STATUS_ALARM_START		= 1;
+	public final static int EVENT_STATUS_ALARM_CONFIRMED	= 2;
 	
-	public static int ALARM_NONE				= 0;
-	public static int ALARM_ON_TIME			= 1;
-	public static int ALARM_ON_ALARM_TIME		= 2;
-	public static int ALARM_ON_BOTH_TIME		= 3;
+	public final static int ALARM_NONE				= 0;
+	public final static int ALARM_ON_TIME			= 1;
+	public final static int ALARM_ON_ALARM_TIME		= 2;
+	public final static int ALARM_ON_BOTH_TIME		= 3;
 		
 	private String			content;
 	private User[]			relatedUsers;
 	private LocalDate		start;
 	private LocalDate		end;
-	private int				alarmOption; 	// 시작시간에 한번만, 미리알림시간에 한번만, 미리알리시간과 시작시간에 한번씩, 미리알미리알미리알림없음 
+	private int				alarmOption=-1; 	// 시작시간에 한번만, 미리알림시간에 한번만, 미리알리시간과 시작시간에 한번씩, 미리알미리알미리알림없음 
 	private Date			alarmTime;
 
 	public String getContent() {

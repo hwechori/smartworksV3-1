@@ -186,35 +186,21 @@ public class NoticeServiceImpl implements INoticeService {
 	private NoticeMessage[] getAssignedMessages() throws Exception {
 
 		NoticeMessage notice1, notice2, notice3, notice4, notice5;
-		TaskInstance assignedInstance1 = new TaskInstance("assignedtask1", "대표이사 승인", TaskInstance.TASK_TYPE_PROCESSWORK_TASK_ASSIGNED, SmartTest.getUser3(),
-				new LocalDate());
-		assignedInstance1.setWorkInstance(SmartTest.getWorkInstance1());
+		TaskInstance[] assignedInstances = SmartTest.getAssignedTaskInstances();
 		notice1 = new NoticeMessage("notice31", 0, SmartTest.getUser1(), new LocalDate());
-		notice1.setInstance(assignedInstance1);
+		notice1.setInstance(assignedInstances[0]);
 
-		TaskInstance assignedInstance2 = new TaskInstance("assignedtask2", "구매기안 기안제출", TaskInstance.TASK_TYPE_PROCESSWORK_TASK_FORWARDED,
-				SmartTest.getUser3(), new LocalDate());
 		notice2 = new NoticeMessage("notice32", 0, SmartTest.getUser2(), new LocalDate());
-		assignedInstance2.setWorkInstance(SmartTest.getWorkInstance3());
-		notice2.setInstance(assignedInstance2);
+		notice2.setInstance(assignedInstances[1]);
 
-		TaskInstance assignedInstance3 = new TaskInstance("assignedtask3", "반도체회사 제안서 공유합니다.", TaskInstance.TASK_TYPE_INFORMATIONWORK_TASK_FORWARDED,
-				SmartTest.getUser3(), new LocalDate());
 		notice3 = new NoticeMessage("notice33", 0, SmartTest.getUser3(), new LocalDate());
-		assignedInstance3.setWorkInstance(SmartTest.getWorkInstance2());
-		notice3.setInstance(assignedInstance3);
+		notice3.setInstance(assignedInstances[2]);
 
-		TaskInstance assignedInstance4 = new TaskInstance("assignedtask4", "검토자 결재", TaskInstance.TASK_TYPE_APPROVALWORK_TASK_ASSIGNED, SmartTest.getUser3(),
-				new LocalDate());
 		notice4 = new NoticeMessage("notice34", 0, SmartUtil.getCurrentUser(), new LocalDate());
-		assignedInstance4.setWorkInstance(SmartTest.getWorkInstance4());
-		notice4.setInstance(assignedInstance4);
+		notice4.setInstance(assignedInstances[3]);
 
-		TaskInstance assignedInstance5 = new TaskInstance("assignedtask5", "일일보고 입니다.", TaskInstance.TASK_TYPE_INFORMATIONWORK_TASK_ASSIGNED,
-				SmartTest.getUser3(), new LocalDate());
 		notice5 = new NoticeMessage("notice35", 0, SmartUtil.getCurrentUser(), new LocalDate());
-		assignedInstance5.setWorkInstance(SmartTest.getWorkInstance5());
-		notice5.setInstance(assignedInstance5);
+		notice5.setInstance(assignedInstances[4]);
 
 		return new NoticeMessage[] { notice1, notice2, notice3, notice4, notice5 };
 	}

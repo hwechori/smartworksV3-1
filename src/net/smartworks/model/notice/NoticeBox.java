@@ -7,7 +7,7 @@ import net.smartworks.util.LocalDate;
 
 public class NoticeBox {
 	
-	private int 			noticeType;
+	private int 			noticeType=-1;
 	private NoticeMessage[]	noticeMessages;
 	private LocalDate		dateOfLastNotice;
 	private int				remainingLength;	

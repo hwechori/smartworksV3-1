@@ -13,14 +13,14 @@ import net.smartworks.util.LocalDate;
 
 public class NoticeMessage{
 
-	public static int	TYPE_SYSTEM_NOTICE 	= 1;
-	public static int	TYPE_EVENT_ALARM 		= 2;
-	public static int	TYPE_TASK_DELAYED 		= 3;
-	public static int	TYPE_JOIN_REQUEST 		= 4;
-	public static int	TYPE_INSTANCE_CREATED 	= 5;
+	public final static int	TYPE_SYSTEM_NOTICE 	= 1;
+	public final static int	TYPE_EVENT_ALARM 		= 2;
+	public final static int	TYPE_TASK_DELAYED 		= 3;
+	public final static int	TYPE_JOIN_REQUEST 		= 4;
+	public final static int	TYPE_INSTANCE_CREATED 	= 5;
 	
 	private String			id;
-	private int				type;
+	private int				type=-1;
 	private User			issuer;
 	private LocalDate		issuedDate;
 	private Instance 		instance;

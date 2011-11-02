@@ -2,17 +2,17 @@ package net.smartworks.model.notice;
 
 public class Notice {
 	
-	public static int 	NUMBER_OF_NOTICES = 6;
+	public final static int 	NUMBER_OF_NOTICES = 6;
 	
-	public static int	TYPE_INVALID 		= -1;
-	public static int	TYPE_NOTIFICATION 	= 0;
-	public static int	TYPE_MESSAGE 		= 1;
-	public static int	TYPE_COMMENTS 		= 2;
-	public static int	TYPE_ASSIGNED 		= 3;
-	public static int	TYPE_MAILBOX 		= 4;
-	public static int	TYPE_SAVEDBOX 		= 5;
+	public final static int	TYPE_INVALID 		= -1;
+	public final static int	TYPE_NOTIFICATION 	= 0;
+	public final static int	TYPE_MESSAGE 		= 1;
+	public final static int	TYPE_COMMENTS 		= 2;
+	public final static int	TYPE_ASSIGNED 		= 3;
+	public final static int	TYPE_MAILBOX 		= 4;
+	public final static int	TYPE_SAVEDBOX 		= 5;
 
-	private int 	type;
+	private int 	type=-1;
 	private int	   	length;
 
 	public int getType() {

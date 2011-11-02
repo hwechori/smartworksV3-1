@@ -8,12 +8,12 @@ import net.smartworks.util.LocalDate;
 
 public class CommentsInstance extends Instance {
 
-	public static int COMMENTS_TYPE_ON_WORK_DESC = 1;
-	public static int COMMENTS_TYPE_ON_WORK_MANUAL = 2;
-	public static int COMMENTS_TYPE_ON_WORK_INSTANCE = 3;
-	public static int COMMENTS_TYPE_ON_TASK_INSTANCE = 4;
+	public final static int COMMENTS_TYPE_ON_WORK_DESC = 1;
+	public final static int COMMENTS_TYPE_ON_WORK_MANUAL = 2;
+	public final static int COMMENTS_TYPE_ON_WORK_INSTANCE = 3;
+	public final static int COMMENTS_TYPE_ON_TASK_INSTANCE = 4;
 
-	private int commentsType;
+	private int commentsType=-1;
 	private Work work;
 	private WorkInstance workInstance;
 	private TaskInstance taskInstance;

@@ -5,20 +5,20 @@ import net.smartworks.util.LocalDate;
 
 public class RepeatEvent{
 
-	public static int	REPEAT_INTERVAL_EVERY_WEEK 		= 10;
-	public static int	REPEAT_INTERVAL_ANOTHER_WEEK 	= 11;
-	public static int	REPEAT_INTERVAL_EVERY_MONTH 	= 20;
-	public static int	REPEAT_INTERVAL_ANOTHER_MONTH 	= 21;
-	public static int	REPEAT_INTERVAL_EVERY_QUARTER 	= 30;
-	public static int	REPEAT_INTERVAL_EVERY_YEAR 		= 40;
+	public final static int	REPEAT_INTERVAL_EVERY_WEEK 		= 10;
+	public final static int	REPEAT_INTERVAL_ANOTHER_WEEK 	= 11;
+	public final static int	REPEAT_INTERVAL_EVERY_MONTH 	= 20;
+	public final static int	REPEAT_INTERVAL_ANOTHER_MONTH 	= 21;
+	public final static int	REPEAT_INTERVAL_EVERY_QUARTER 	= 30;
+	public final static int	REPEAT_INTERVAL_EVERY_YEAR 		= 40;
 
-	public static int	DAY_OF_WEEK_SUNDAY		= 0;
-	public static int	DAY_OF_WEEK_MONDAY 		= 1;
-	public static int	DAY_OF_WEEK_TUESDAY 	= 2;
-	public static int	DAY_OF_WEEK_WENDSDAY 	= 3;
-	public static int	DAY_OF_WEEK_THURSDAY	= 4;
-	public static int	DAY_OF_WEEK_FRIDAY 		= 5;
-	public static int	DAY_OF_WEEK_SATERDAY 	= 6;
+	public final static int	DAY_OF_WEEK_SUNDAY		= 0;
+	public final static int	DAY_OF_WEEK_MONDAY 		= 1;
+	public final static int	DAY_OF_WEEK_TUESDAY 	= 2;
+	public final static int	DAY_OF_WEEK_WENDSDAY 	= 3;
+	public final static int	DAY_OF_WEEK_THURSDAY	= 4;
+	public final static int	DAY_OF_WEEK_FRIDAY 		= 5;
+	public final static int	DAY_OF_WEEK_SATERDAY 	= 6;
 	
 	private int 		repeatInterval; 	// 반복 기간 : 매주, 격주, 매월, 격월, 매분기, 매년
 	private LocalDate	repeatStart;		// 반복 시작일자

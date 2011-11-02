@@ -2,12 +2,12 @@ package net.smartworks.util;
 
 public class LocaleInfo {
 
-	public static String LOCALE_KOREAN = "ko";
-	public static String LOCALE_ENGLISH = "en";
-	public static String LOCALE_DEFAULT = "ko";
-	public static String LOCALE_GENERAL = "en";
+	public final static String LOCALE_KOREAN = "ko";
+	public final static String LOCALE_ENGLISH = "en";
+	public final static String LOCALE_DEFAULT = "ko";
+	public final static String LOCALE_GENERAL = "en";
 	
-	private static String[] supportingLocales = new String[] { "ko", "en"};
+	private final static String[] supportingLocales = new String[] { "ko", "en"};
 	
 	public static boolean isSupportingLocale(String locale){
 		for(String str : supportingLocales)

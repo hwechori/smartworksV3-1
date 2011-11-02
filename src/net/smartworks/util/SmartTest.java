@@ -171,7 +171,7 @@ public class SmartTest {
 	}
 
 	public static TaskInstance getTaskInstance1() throws Exception {
-		TaskInstance taskInstance = new TaskInstance("taskInstance1", "대표이사승인", TaskInstance.TASK_TYPE_PROCESSWORK_TASK_ASSIGNED, getUser2(), new LocalDate());
+		TaskInstance taskInstance = new TaskInstance("taskInstance1", "대표이사승인", TaskInstance.PROCESS_TASK_ASSIGNED, getUser2(), new LocalDate());
 		taskInstance.setWorkInstance(getWorkInstance1());
 		taskInstance.setAssignee(SmartUtil.getCurrentUser());
 		return taskInstance;
@@ -232,8 +232,42 @@ public class SmartTest {
 	}
 
 	public static Instance[] getRunningInstances() throws Exception {
-		return new Instance[] {SmartTest.getTaskInstance1(), SmartTest.getWorkInstance2()};
+		return SmartTest.getAssignedTaskInstances();
 	}
-	
 
+	public static TaskInstance[] getAssignedTaskInstances() throws Exception{
+		TaskInstance assignedInstance1 = new TaskInstance("assignedtask1", "대표이사 승인", TaskInstance.PROCESS_TASK_ASSIGNED, SmartTest.getUser3(),
+			new LocalDate());
+		WorkInstance workInstance1 = getWorkInstance1();
+		workInstance1.setRunningTask(assignedInstance1);
+		assignedInstance1.setWorkInstance(workInstance1);
+
+		TaskInstance assignedInstance2 = new TaskInstance("assignedtask2", "구매기안 기안제출", TaskInstance.PROCESS_TASK_FORWARDED,
+			SmartTest.getUser3(), new LocalDate());
+		WorkInstance workInstance2 = getWorkInstance2();
+		workInstance2.setRunningTask(assignedInstance2);
+		workInstance2.setWorkSpace(getDepartment1());
+		assignedInstance2.setWorkInstance(workInstance2);
+
+		TaskInstance assignedInstance3 = new TaskInstance("assignedtask3", "반도체회사 제안서 공유합니다.", TaskInstance.INFORMATION_TASK_FORWARDED,
+			SmartTest.getUser3(), new LocalDate());
+		WorkInstance workInstance3 = getWorkInstance3();
+		workInstance3.setRunningTask(assignedInstance3);
+		assignedInstance3.setWorkInstance(workInstance3);
+
+		TaskInstance assignedInstance4 = new TaskInstance("assignedtask4", "검토자 결재", TaskInstance.APPROVAL_TASK_ASSIGNED, SmartTest.getUser3(),
+			new LocalDate());
+		WorkInstance workInstance4 = getWorkInstance4();
+		workInstance4.setRunningTask(assignedInstance4);
+		assignedInstance4.setWorkInstance(workInstance4);
+
+		TaskInstance assignedInstance5 = new TaskInstance("assignedtask5", "일일보고 입니다.", TaskInstance.INFORMATION_TASK_ASSIGNED,
+			SmartTest.getUser3(), new LocalDate());
+		WorkInstance workInstance5 = getWorkInstance5();
+		workInstance5.setRunningTask(assignedInstance5);
+		workInstance5.setWorkSpace(getGroup1());
+		assignedInstance5.setWorkInstance(workInstance5);
+
+		return new TaskInstance[]{assignedInstance1, assignedInstance2, assignedInstance3, assignedInstance4, assignedInstance5};
+	}
 }

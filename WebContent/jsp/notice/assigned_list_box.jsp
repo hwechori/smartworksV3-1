@@ -23,10 +23,10 @@
 		if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_ASSIGNED) {
 			TaskInstance taskInstance = (TaskInstance) nMessage.getInstance();
 			int taskType = taskInstance.getTaskType();
-			if (taskType == TaskInstance.TASK_TYPE_PROCESSWORK_TASK_ASSIGNED || taskType == TaskInstance.TASK_TYPE_APPROVALWORK_TASK_ASSIGNED
-					|| taskType == TaskInstance.TASK_TYPE_INFORMATIONWORK_TASK_ASSIGNED
-					|| taskType == TaskInstance.TASK_TYPE_INFORMATIONWORK_TASK_FORWARDED
-					|| taskType == TaskInstance.TASK_TYPE_PROCESSWORK_TASK_FORWARDED) {
+			if (taskType == TaskInstance.PROCESS_TASK_ASSIGNED || taskType == TaskInstance.APPROVAL_TASK_ASSIGNED
+					|| taskType == TaskInstance.INFORMATION_TASK_ASSIGNED
+					|| taskType == TaskInstance.INFORMATION_TASK_FORWARDED
+					|| taskType == TaskInstance.PROCESS_TASK_FORWARDED) {
 				User owner = taskInstance.getOwner();
 				WorkInstance workInstance = taskInstance.getWorkInstance();
 				Work work = workInstance.getWork();

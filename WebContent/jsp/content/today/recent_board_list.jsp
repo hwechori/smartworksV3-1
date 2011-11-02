@@ -28,7 +28,7 @@
 			</div>
 			<div class="noti_in">
 				<a href="user_space.sw?cid=<%=userContext%>"><span
-					class="t_name"><%=owner.getName()%></span> </a>
+					class="t_name"><%=owner.getLongName()%></span> </a>
 				<%
 					if (!board.getWorkSpace().getId().equals(owner.getId())) {
 							WorkSpace workSpace = board.getWorkSpace();

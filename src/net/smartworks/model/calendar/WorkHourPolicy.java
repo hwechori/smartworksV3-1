@@ -6,7 +6,7 @@ import net.smartworks.util.LocalDate;
 
 public class WorkHourPolicy {
 
-	public static WorkHour[] DEFAULT_WORKHOURS = new WorkHour[]{
+	public final static WorkHour[] DEFAULT_WORKHOURS = new WorkHour[]{
 							new WorkHour(9*LocalDate.ONE_HOUR, 18*LocalDate.ONE_HOUR, 9*LocalDate.ONE_HOUR),
 							new WorkHour(9*LocalDate.ONE_HOUR, 18*LocalDate.ONE_HOUR, 9*LocalDate.ONE_HOUR),
 							new WorkHour(9*LocalDate.ONE_HOUR, 18*LocalDate.ONE_HOUR, 9*LocalDate.ONE_HOUR),

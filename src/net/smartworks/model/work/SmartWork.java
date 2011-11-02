@@ -2,10 +2,10 @@ package net.smartworks.model.work;
 
 public class SmartWork extends Work {
 
-	public static int 	TYPE_GROUP 		= 11;
-	public static int 	TYPE_INFORMATION 	= 12;
-	public static int 	TYPE_PROCESS 		= 13;
-	public static int 	TYPE_SCHEDULE 		= 14;
+	public final static int 	TYPE_GROUP 		= 11;
+	public final static int 	TYPE_INFORMATION 	= 12;
+	public final static int 	TYPE_PROCESS 		= 13;
+	public final static int 	TYPE_SCHEDULE 		= 14;
 	
 	private String 	fullpathName = null;
 	private Work   	myGroup = null;

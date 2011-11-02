@@ -17,46 +17,46 @@ import net.smartworks.util.LocalDate;
 
 public interface ISmartWorks {
 
-	public static String CONTEXT_HOME = "sf.hm";
-	public static String CONTEXT_SMARTCASTER = "sf.sc";
-	public static String CONTEXT_DASHBOARD = "sf.db";
-	public static String CONTEXT_MYPROFILE = "sf.pf";
+	public final static String CONTEXT_HOME = "sf.hm";
+	public final static String CONTEXT_SMARTCASTER = "sf.sc";
+	public final static String CONTEXT_DASHBOARD = "sf.db";
+	public final static String CONTEXT_MYPROFILE = "sf.pf";
 
-	public static String CONTEXT_PREFIX_SELF = "sf.";
+	public final static String CONTEXT_PREFIX_SELF = "sf.";
 
-	public static int SPACE_TYPE_WORK_LIST = 1;
-	public static int SPACE_TYPE_WORK_INSTANCE = 2;
-	public static int SPACE_TYPE_TASK_INSTANCE = 3;
+	public final static int SPACE_TYPE_WORK_LIST = 1;
+	public final static int SPACE_TYPE_WORK_INSTANCE = 2;
+	public final static int SPACE_TYPE_TASK_INSTANCE = 3;
 
-	public static int CONTEXT_PREFIX_LENGTH = 6;
-	public static String CONTEXT_PREFIX_USER_SPACE = "us.sp.";
-	public static String CONTEXT_PREFIX_GROUP_SPACE = "gp.sp.";
-	public static String CONTEXT_PREFIX_DEPARTMENT_SPACE = "dp.sp.";
+	public final static int CONTEXT_PREFIX_LENGTH = 6;
+	public final static String CONTEXT_PREFIX_USER_SPACE = "us.sp.";
+	public final static String CONTEXT_PREFIX_GROUP_SPACE = "gp.sp.";
+	public final static String CONTEXT_PREFIX_DEPARTMENT_SPACE = "dp.sp.";
 
-	public static String CONTEXT_PREFIX_IWORK_LIST = "iw.li.";
-	public static String CONTEXT_PREFIX_PWORK_LIST = "pw.li.";
-	public static String CONTEXT_PREFIX_SWORK_LIST = "sw.li.";
-	public static String CONTEXT_PREFIX_FILE_LIST = "fl.li.";
-	public static String CONTEXT_PREFIX_IMAGE_LIST = "im.li.";
-	public static String CONTEXT_PREFIX_EVENT_LIST = "ev.li.";
-	public static String CONTEXT_PREFIX_MEMO_LIST = "mm.li.";
-	public static String CONTEXT_PREFIX_BOARD_LIST = "bd.li.";
-	public static String CONTEXT_PREFIX_MAIL_LIST = "ml.li.";
-	public static String CONTEXT_PREFIX_SAVED_LIST = "sv.li.";
+	public final static String CONTEXT_PREFIX_IWORK_LIST = "iw.li.";
+	public final static String CONTEXT_PREFIX_PWORK_LIST = "pw.li.";
+	public final static String CONTEXT_PREFIX_SWORK_LIST = "sw.li.";
+	public final static String CONTEXT_PREFIX_FILE_LIST = "fl.li.";
+	public final static String CONTEXT_PREFIX_IMAGE_LIST = "im.li.";
+	public final static String CONTEXT_PREFIX_EVENT_LIST = "ev.li.";
+	public final static String CONTEXT_PREFIX_MEMO_LIST = "mm.li.";
+	public final static String CONTEXT_PREFIX_BOARD_LIST = "bd.li.";
+	public final static String CONTEXT_PREFIX_MAIL_LIST = "ml.li.";
+	public final static String CONTEXT_PREFIX_SAVED_LIST = "sv.li.";
 
-	public static String CONTEXT_PREFIX_IWORK_SPACE = "iw.sp.";
-	public static String CONTEXT_PREFIX_PWORK_SPACE = "pw.sp.";
-	public static String CONTEXT_PREFIX_SWORK_SPACE = "sw.sp.";
-	public static String CONTEXT_PREFIX_FILE_SPACE = "fl.sp.";
-	public static String CONTEXT_PREFIX_IMAGE_SPACE = "im.sp.";
-	public static String CONTEXT_PREFIX_EVENT_SPACE = "ev.sp.";
-	public static String CONTEXT_PREFIX_MEMO_SPACE = "mm.sp.";
-	public static String CONTEXT_PREFIX_BOARD_SPACE = "bd.sp.";
-	public static String CONTEXT_PREFIX_MAIL_SPACE = "ml.sp.";
+	public final static String CONTEXT_PREFIX_IWORK_SPACE = "iw.sp.";
+	public final static String CONTEXT_PREFIX_PWORK_SPACE = "pw.sp.";
+	public final static String CONTEXT_PREFIX_SWORK_SPACE = "sw.sp.";
+	public final static String CONTEXT_PREFIX_FILE_SPACE = "fl.sp.";
+	public final static String CONTEXT_PREFIX_IMAGE_SPACE = "im.sp.";
+	public final static String CONTEXT_PREFIX_EVENT_SPACE = "ev.sp.";
+	public final static String CONTEXT_PREFIX_MEMO_SPACE = "mm.sp.";
+	public final static String CONTEXT_PREFIX_BOARD_SPACE = "bd.sp.";
+	public final static String CONTEXT_PREFIX_MAIL_SPACE = "ml.sp.";
 
-	public static String CONTEXT_PREFIX_IWORK_TASK = "iw.ts.";
-	public static String CONTEXT_PREFIX_PWORK_TASK = "pw.ts.";
-	public static String CONTEXT_PREFIX_SWORK_TASK = "sw.ts.";
+	public final static String CONTEXT_PREFIX_IWORK_TASK = "iw.ts.";
+	public final static String CONTEXT_PREFIX_PWORK_TASK = "pw.ts.";
+	public final static String CONTEXT_PREFIX_SWORK_TASK = "sw.ts.";
 
 	public abstract Instance[] getMyRunningInstances() throws Exception;
 	

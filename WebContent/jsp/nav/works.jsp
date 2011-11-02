@@ -28,7 +28,7 @@
 			class=""><fmt:message key="nav.works.my_all_works" /> </a>
 	</div>
 	<div id='my_works'>
-		<jsp:include page="my_favorite_works.sw" />
+		<jsp:include page="my_favorite_works.jsp" />
 	</div>
 	<!--내부메뉴//-->
 </div>
