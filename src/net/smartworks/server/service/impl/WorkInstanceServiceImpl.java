@@ -56,7 +56,7 @@ public class WorkInstanceServiceImpl implements IWorkInstanceService {
 		BoardInstance board9 = new BoardInstance("board9", "사무실 이전 계획 입니다.", new SocialWork("socialwork1", "Board Work"), SmartTest.getUser1(), time9);
 		BoardInstance board10 = new BoardInstance("board10", "스마트웍스닷넷 장기 로드맵 입니다.", new SocialWork("socialwork1", "Board Work"), SmartUtil.getCurrentUser(),
 				time10);
-		return new BoardInstance[] { board1, board2, board3, board4, board5, board6, board7, board8, board9, board10 };
+		return new BoardInstance[] { board1, board2, board3, board4, board5 };
 	}
 
 	/*

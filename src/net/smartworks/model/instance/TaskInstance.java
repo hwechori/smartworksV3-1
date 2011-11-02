@@ -9,24 +9,25 @@ import net.smartworks.util.LocalDate;
 
 public class TaskInstance extends Instance {
 
-	public final static int INFORMATION_TASK_CREATED = 11;
-	public final static int INFORMATION_TASK_UDATED = 12;
-	public final static int INFORMATION_TASK_DELETED = 13;
-	public final static int INFORMATION_TASK_ASSIGNED = 14;
-	public final static int INFORMATION_TASK_FORWARDED = 15;
+	public final static int TYPE_INFORMATION_TASK_ASSIGNED = 11;
+	public final static int TYPE_INFORMATION_TASK_FORWARDED = 12;
+	public final static int TYPE_INFORMATION_TASK_CREATED = 13;
+	public final static int TYPE_INFORMATION_TASK_UDATED = 14;
+	public final static int TYPE_INFORMATION_TASK_DELETED = 15;
 
-	public final static int PROCESS_TASK_ASSIGNED = 21;
-	public final static int PROCESS_TASK_FORWARDED = 22;
+	public final static int TYPE_PROCESS_TASK_ASSIGNED = 21;
+	public final static int TYPE_PROCESS_TASK_FORWARDED = 22;
 
-	public final static int SCHEDULE_TASK_ASSIGNED = 31;
-	public final static int SCHEDULE_TASK_FORWARDED = 32;
+	public final static int TYPE_SCHEDULE_TASK_ASSIGNED = 31;
+	public final static int TYPE_SCHEDULE_TASK_FORWARDED = 32;
 
-	public final static int APPROVAL_TASK_ASSIGNED = 41;
-	public final static int APPROVAL_TASK_FORWARDED = 42;
+	public final static int TYPE_APPROVAL_TASK_ASSIGNED = 41;
+	public final static int TYPE_APPROVAL_TASK_FORWARDED = 42;
 
 	private String name;
 	private int taskType=-1;
 	private WorkInstance workInstance;
+	private boolean isStartTask=false;
 	private User assignee;
 	private User performer;
 	private SmartForm smartForm;
@@ -61,6 +62,14 @@ public class TaskInstance extends Instance {
 
 	public void setWorkInstance(WorkInstance workInstance) {
 		this.workInstance = workInstance;
+	}
+
+	public boolean isStartTask() {
+		return isStartTask;
+	}
+
+	public void setStartTask(boolean isStartTask) {
+		this.isStartTask = isStartTask;
 	}
 
 	public User getPerformer() {

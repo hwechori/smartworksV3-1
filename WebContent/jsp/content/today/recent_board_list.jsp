@@ -9,7 +9,7 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	BoardInstance[] boards = smartWorks.getBoardInstances(new LocalDate(), 10);
+	BoardInstance[] boards = smartWorks.getBoardInstances(new LocalDate(), 5);
 %>
 <!-- 공지사항 -->
 <div id="notice">
