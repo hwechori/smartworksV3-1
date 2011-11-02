@@ -1,0 +1,261 @@
+.formFieldsGridTable{
+}
+.formFieldLabel{
+	background-color: #ECECEC;
+	padding-left:5pt;
+	/* BORDER-RIGHT-WIDTH: 1px;
+	BORDER-LEFT-WIDTH: 1px;
+	BORDER-TOP-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	border-style: solid;
+	border-color : #ECECEC; */
+	 
+}
+.formFieldNoLabel{		
+	padding-left:5pt;
+	/* background-color: #FFFFFF;
+	BORDER-RIGHT-WIDTH: 1px;
+	BORDER-LEFT-WIDTH: 0px;
+	BORDER-TOP-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	border-style: solid;
+	border-color : #FFFFFF;*/
+	 
+}
+.formFieldOnlyLabel{
+	background-color: #ECECEC;
+	padding-left:5pt;
+	/* BORDER-RIGHT-WIDTH: 1px;
+	BORDER-LEFT-WIDTH: 1px;
+	BORDER-TOP-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	border-style: solid;
+	border-color : #ECECEC;*/
+	 
+}
+.formFieldRequiredLabel{
+}
+.formRequiredBar{
+	width:3px;
+	right:1px;
+	height : 100%;
+	background-color: #FF8544;
+}
+.formRequiredLabelTable{
+	width:100%;
+	height:100%;
+}
+
+.formRequiredLabelTable td{
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #DADADA;
+	padding-right: 0px;
+	color: #000000;
+}/*
+.formRequiredLabelTable td div{
+	border-top-style: none;
+	border-bottom-style: none;
+	border-right-style: none;
+	border-left-style: none;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+}*/
+.formFieldContents{
+	/* BORDER-RIGHT-WIDTH: 1px;
+	BORDER-LEFT-WIDTH: 0px;
+	BORDER-TOP-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	border-style: solid;
+	border-color : #D4E4E3;*/
+	padding-left:5px;
+	  
+}
+.formFieldContentsInputNoborder{
+	 
+	/*FONT-SIZE: 8pt;  */
+	LINE-HEIGHT: 100%; 
+	TEXT-DECORATION: none;
+	border:0px;
+}
+
+.formFieldContentsInput{
+	 
+	/*FONT-SIZE: 8pt;  */
+	LINE-HEIGHT: 100%; 
+	TEXT-DECORATION: none;
+	border:1px solid #bebebe;
+}
+.formFieldContentsView{
+	  
+	/*FONT-SIZE: 8pt;  */
+	LINE-HEIGHT: 120%; 
+	TEXT-DECORATION: none
+}
+.formFieldContentsRich{
+	color: #666666;
+	vertical-align : top;
+}
+.formFieldTable{
+	padding : 0px;
+}
+.formFieldOnlyLabel{
+}
+.formFieldsTable {	
+	margin: 0px;
+	border-top-style: solid;
+	border-left-style: solid;
+	border-top-width: 5px;
+	border-left-width: 1px;
+	border-top-color: #DADADA;
+	border-left-color: #DADADA;
+	color: #000000;
+	min-height:21px;
+}
+.formFieldsTableLabelTd{
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-right-color: #DADADA;
+	border-bottom-color: #DADADA;
+	padding-right: 1px;
+	padding-left: 5px;
+	color: #000000;
+}
+.formFieldsTableTd{
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-right-color: #DADADA;
+	border-bottom-color: #DADADA;
+	padding-right: 5px;
+	padding-left: 5px;
+	color: #000000;
+}
+.userFieldLink{
+	cursor : pointer;
+	text-decoration: underline;
+	color : #0000FF;
+}
+.formFieldInnerTable {	
+}
+.formFieldInnerTable td{
+	border-top-style: none;
+	border-bottom-style: none;
+	border-right-style: none;
+	border-left-style: none;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+.refFieldLink{
+	cursor : pointer;
+	text-decoration: underline;
+	color : #0000FF;
+}
+.formModeBtn{
+	cursor : pointer;
+	text-decoration: underline;
+}
+
+.fileListTable{
+	padding : 0px;
+	border: 0px;
+	border-style: none;
+	border-color : black;
+	/* border: 1px;
+	border-style: solid;
+	border-color : black;
+	table-layout:fixed;*/
+}
+
+.fileListTable td{
+	padding : 0px;
+	border: 0px;
+	border-style: none;
+	border-color : black;
+	vertical-align : bottom;
+	/* border: 1px;
+	border-style: solid;
+	border-color : black;
+	table-layout:fixed;*/
+}
+
+.fileListTableRow{
+}
+.fileListTableCol{
+}
+.fileListTableHeader{
+}
+.fileListTableNormal{
+}
+.fileListTableSpecial{
+}
+.fileListName{
+}
+.fileListSize{
+}
+.fileListRemove{
+}
+.formFileFieldRemoveBtn{
+	cursor : pointer;
+	vertical-align : bottom;
+}
+.fileInput{
+	font-size : 8pt;
+}
+.formFieldContentsFile{
+	vertical-align : top;
+}
+.formCheckBoxField{
+	align : left;
+}
+.formFieldRadioItem{
+	border: 0px;
+	border-style: none;
+}
+
+.tableCtrlBorder {
+	border: 0px;
+	background-color: #DADADA;
+}
+.tableCtrlTable {
+	border: 0px;
+	font-size: 12px;
+}
+.tableCtrlTitleTr {
+	height: 20px;
+	text-align: center;
+	background-color: #DADADA;
+}
+.tableCtrlTitleTd {
+	  
+	background-color: #eeeeee;
+}
+.tableCtrlRecordTr {
+	height: 20px;
+	border-bottom-style:solid;
+	border-bottom-color: #DADADA;
+	border-bottom-width: 1px;
+}
+.tableCtrlRecordTd {
+	background-color: #ffffff;
+	border-bottom-style:solid;
+	border-bottom-color: #DADADA;
+	border-bottom-width: 1px;
+}
+
+.tableCtrlTextInput {
+	width: 100%;
+	font-size: 12px;
+	height: 20px;
+	  
+	/* jk yoon 
+	border:1px solid #bebebe;
+	*/
+}
