@@ -1,6 +1,7 @@
 package net.smartworks.server.service;
 
 import net.smartworks.model.work.SmartWork;
+import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
 
 public interface IWorkListService {
@@ -14,5 +15,7 @@ public interface IWorkListService {
 	SmartWork[] getMyAllWorksByGroupId(String userId, String groupId) throws Exception;
 
 	SmartWork[] searchWorkList(String user, String key) throws Exception;
+	
+	Work getWorkById(String workId) throws Exception;
 
 }

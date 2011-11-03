@@ -64,4 +64,13 @@ public class SearchController {
 				"jsp/search/work_list.jsp",
 				"");
 	}
+
+	@RequestMapping("/work_name_list")
+	public ModelAndView workNameList(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/search/work_name_list.jsp",
+				"");
+	}
 }

@@ -12,6 +12,7 @@ import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.work.SmartWork;
+import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
 import net.smartworks.util.LocalDate;
 
@@ -115,4 +116,8 @@ public interface ISmartWorks {
 	public abstract Notice[] getNoticesForMe(String userId) throws Exception;
 
 	public abstract NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception;
+	
+	public abstract Work getWorkById(String workId) throws Exception;
+	
+	public abstract Instance getInstanceById(String instanceId) throws Exception;
 }

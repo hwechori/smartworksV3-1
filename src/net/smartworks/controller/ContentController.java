@@ -59,5 +59,4 @@ public class ContentController {
 		return SmartUtil.returnMnv(request, "jsp/content/today/more_instance_list.jsp",
 				"");
 	}
-
 }

@@ -6,7 +6,7 @@
 <div id="up_board">
 	<div class="up_form up_size js_upload_input">
 		<div class="up_point posit_event"></div>
-		<input class="up" id="" type="text"
+		<input class="up" id="" type="text" value=""
 			title="<fmt:message key='common.upload.message.board'/>"
 			placeholder="<fmt:message key='common.upload.message.board'/>">
 	</div>

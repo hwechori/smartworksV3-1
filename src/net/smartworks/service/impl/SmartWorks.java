@@ -12,13 +12,16 @@ import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.work.SmartWork;
+import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
+import net.smartworks.server.service.IContentService;
 import net.smartworks.server.service.INoticeService;
 import net.smartworks.server.service.ITaskInstanceService;
 import net.smartworks.server.service.IWorkInstanceService;
 import net.smartworks.server.service.IWorkListService;
+import net.smartworks.server.service.impl.ContentServiceImpl;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 
@@ -34,6 +37,7 @@ public class SmartWorks implements ISmartWorks {
 	IWorkInstanceService workInstanceService;
 	ITaskInstanceService taskInstanceService;
 	IWorkListService workListService;
+	IContentService contentService;
 
 	/*
 	 * (non-Javadoc)
@@ -246,6 +250,16 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public Instance[] getMyRunningInstances() throws Exception {
 		return taskInstanceService.getMyRunningInstances();
+	}
+
+	@Override
+	public Work getWorkById(String workId) throws Exception {
+		return workListService.getWorkById(workId);
+	}
+
+	@Override
+	public Instance getInstanceById(String instanceId) throws Exception {
+		return contentService.getInstanceById(instanceId);
 	}
 
 }

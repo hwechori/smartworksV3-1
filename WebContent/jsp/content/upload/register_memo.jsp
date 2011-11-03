@@ -7,7 +7,7 @@
 	<div class="up_form js_upload_input">
 		<div class="up_point posit_memo"></div>
 		<div class="up_form" style="height: 65px; top: -1px">
-			<textarea class="up up_textarea" name="메모를 입력하세요!" cols="" rows="5"
+			<textarea class="up up_textarea" name="메모를 입력하세요!" cols="" rows="5" 
 				placeholder="<fmt:message key='common.upload.message.memo'/>">
         </textarea>
 		</div>

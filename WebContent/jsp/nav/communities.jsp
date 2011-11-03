@@ -3,7 +3,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <ul class="navi_tit">
-	<li class="js_collapse_slide">&gt; <fmt:message
+	<li class="js_collapse_parent_siblings">&gt; <fmt:message
 			key="nav.communities.my_communities" />
 	</li>
 	<li class="nav_srch">
@@ -21,7 +21,7 @@
 
 <div class='navi_list js_collapsible'>
 	<!-- 내부 메뉴 -->
-	<div class="categ_link js_tab_com">
+	<div class="categ_link js_nav_tab_com">
 		<a href="my_departments.sw" class="current"><fmt:message
 				key="nav.communities.my_departments" /> </a> <a href="my_groups.sw"><fmt:message
 				key="nav.communities.my_groups" /> </a>
