@@ -24,15 +24,17 @@
                 </textarea>
 		</div>
 
-		<div class="txt_btn float_right">
-			<div class="">
-				<a href="" onclick="$(this).parent().parent().next('div').toggle();return false;"><fmt:message key="common.upload.button.file_detail"/></a>
+		<div class="txt_btn float_right js_file_detail_form">
+			<div id="view_file_detail">
+				<a href="file_detail_form.sw" ><fmt:message key="common.upload.button.view_file_detail"/></a>
+			</div>
+			<div id="close_file_detail" style="display:none">
+				<a href="" ><fmt:message key="common.upload.button.close_file_detail"/></a>
 			</div>
 		</div>
 
 		<!-- 상세 정보 추가시 화면 -->
 		<div id="form_import" style="display:none">
-			<jsp:include page="/jsp/content/work/form/file_detail_form.jsp"></jsp:include>
 		</div>
 		<!-- 상세 정보 추가시 화면 //-->
 

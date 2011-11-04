@@ -11,6 +11,7 @@
 	</div>
 
 	<div class="js_upload_form_detail" style="display: none">
+
 		<div class="input_1line">
 			<div class="fieldline space_date float_left">
 				<input id="" type="text" value="2010.11.10" title="">
@@ -26,9 +27,14 @@
 				</select>
 			</div>
 			<div class="float_left txt_btn">
-				<a href="" class="space_l">종료날짜 추가하기</a>
+				<a href="" class="space_l"
+					onclick="$(this).hide().siblings().show().parent().next('div').toggle(); return false;"><fmt:message
+						key="common.upload.button.add_eventend" />
+				</a> <a style="display: none" href="" class="space_l"
+					onclick="$(this).hide().siblings().show().parent().next('div').toggle(); return false;"><fmt:message
+						key="common.upload.button.delete_eventend" />
+				</a>
 			</div>
-
 
 			<div class="float_left space_l" style="display: none;">
 				<div class="fieldline space_date float_left">
@@ -43,6 +49,24 @@
 						<option>12:00</option>
 					</select>
 				</div>
+			</div>
+
+			<div class="float_left txt_btn">
+				<a href="" class="space_l"
+					onclick="$(this).parent().next('div').toggle(); return false;"><input type="checkbox"><fmt:message
+						key="common.upload.button.set_alarm" />
+				</a>
+			</div>
+			<div>
+			</div>
+
+			<div class="float_left txt_btn">
+				<a href="" class="space_l"
+					onclick="$(this).parent().next('div').toggle(); return false;"><fmt:message
+						key="common.upload.button.set_repeat" />
+				</a>
+			</div>
+			<div>
 			</div>
 
 		</div>

@@ -43,4 +43,12 @@ public class FormController {
 		return SmartUtil.returnMnv(request, "jsp/content/work/form/load_detail_form.jsp",
 				"");
 	}
+
+	@RequestMapping("/file_detail_form")
+	public ModelAndView fileDetailForm(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/form/file_detail_form.jsp",
+				"");
+	}
 }

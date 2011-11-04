@@ -17,10 +17,7 @@
 	</div>
 	<div id="upload_work_list" style="display:none"></div>
 
-	<div id="start_work_form" style="display: none">
+	<div class="js_upload_form_detail" id="start_work_form" style="display: none">
 	</div>
 </div>
-<!-- 등록하기- 새업무 입력 폼//-->
-
-<!-- 등록하기- 새업무 기본//-->
 

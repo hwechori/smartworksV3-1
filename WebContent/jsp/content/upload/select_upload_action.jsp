@@ -14,7 +14,7 @@
 
 <div id="upload">
 	<ul class="js_select_action">
-		<li class="up_works"><a id="action_work" href=""><fmt:message
+		<li class="up_works"><a class="current" id="action_work" href=""><fmt:message
 					key='common.upload.work' /> </a></li>
 		<li class="up_file"><a id="action_file" href=""><fmt:message
 					key='common.upload.file' /> </a></li>

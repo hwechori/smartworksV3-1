@@ -36,9 +36,6 @@
 	<div class="current">
 		<a href="load_brief_form.sw?key=<%=cWork.getId() %>" ><fmt:message key="common.upload.button.brief"/></a>
 	</div>
-	<div>
-		<a href="load_process_diagram_viewer.sw?key=<%=cWork.getId() %>" ><fmt:message key="common.upload.button.process"/></a>
-	</div>
 </div>
 
 <div id="form_import">

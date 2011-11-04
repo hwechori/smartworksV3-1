@@ -20,14 +20,14 @@
 <div class="navi_list js_collapsible">
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_work">
-		<a href="my_favorite_works.sw" class="current"><fmt:message
-				key="nav.works.my_favorite_works" /> </a> <a
-			href="my_recent_instances.sw" class=""><fmt:message
-				key="nav.works.my_recent_instances" /> </a> <a href="my_all_works.sw"
-			class=""><fmt:message key="nav.works.my_all_works" /> </a>
+		<a href="my_recent_instances.sw" class="current"><fmt:message
+				key="nav.works.my_recent_instances" /> </a>
+		<a href="my_favorite_works.sw"><fmt:message
+				key="nav.works.my_favorite_works" /> </a>
+ 		<a href="my_all_works.sw"><fmt:message key="nav.works.my_all_works" /> </a>
 	</div>
 	<div id='my_works'>
-		<jsp:include page="my_favorite_works.jsp" />
+		<jsp:include page="my_recent_instances.jsp" />
 	</div>
 	<!--내부메뉴//-->
 </div>
