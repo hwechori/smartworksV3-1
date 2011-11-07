@@ -8,24 +8,17 @@
 
 package net.smartworks.server.engine.factory;
 
-import javax.annotation.PostConstruct;
-
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class MisManagerFactory {
+public class SwManagerFactory {
 
 	protected final Log logger = LogFactory.getLog(getClass());
-	@Autowired
-	ILnkManager lnkManager;
-	@Autowired
-	ITskManager tskManager;
+	private ILnkManager lnkManager;
+	private ITskManager tskManager;
 //	private IChtManager chtManager;
 //	private IPrcManager prcManager;
 //	private IMdlManager mdlManager;
@@ -34,20 +27,19 @@ public class MisManagerFactory {
 //	private IAprManager aprManager;
 	//private IRepManager repManager;
 
-	public MisManagerFactory() {
+	public SwManagerFactory() {
 		super();
 		if (logger.isInfoEnabled())
 			logger.info(this.getClass().getName() + " created");
 	}
-	private static MisManagerFactory factory;
+	private static SwManagerFactory factory;
 	
-	@PostConstruct
-	public synchronized static MisManagerFactory createInstance() {
+	public synchronized static SwManagerFactory createInstance() {
 		if(factory == null) 
-			factory = new MisManagerFactory();
+			factory = new SwManagerFactory();
 		return factory;
 	}
-	public static MisManagerFactory getInstance() {
+	public static SwManagerFactory getInstance() {
 		return factory;
 	}
 	public ILnkManager getLnkManager() {

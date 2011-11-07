@@ -18,7 +18,6 @@ import net.smartworks.server.engine.process.link.model.LnkObject;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 
-@Service
 public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 	private static final String BAR = CommonUtil.BAR;
 	private static final String PERCENT = CommonUtil.PERCENT;
@@ -26,7 +25,7 @@ public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 	public LnkManagerImpl() {
 		super();
 	}
-	@Override
+	
 	public LnkLink getLink(String user, String id, String level) throws LnkException {
 		try {
 			if (level == null)
@@ -48,7 +47,7 @@ public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 			throw new LnkException(e);
 		}
 	}
-	@Override
+	
 	public LnkLink getLink(String user, LnkLinkCond cond, String level) throws LnkException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -66,7 +65,7 @@ public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 		}
 		return objs[0];
 	}
-	@Override
+	
 	public void setLink(String user, LnkLink obj, String level) throws LnkException {
 		try {
 			fill(user, obj);
@@ -77,7 +76,7 @@ public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 			throw new LnkException(e);
 		}
 	}
-	@Override
+	
 	public void createLink(String user, LnkLink obj) throws LnkException {
 		try {
 			fill(user, obj);
@@ -88,7 +87,7 @@ public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 			throw new LnkException(e);
 		}
 	}
-	@Override
+	
 	public void removeLink(String user, String id) throws LnkException {
 		try {
 			remove(LnkLink.class, id);
@@ -98,7 +97,7 @@ public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 			throw new LnkException(e);
 		}
 	}
-	@Override
+	
 	public void removeLink(String user, LnkLinkCond cond) throws LnkException {
 		LnkLink obj = getLink(user, cond, null);
 		if (obj == null)
@@ -246,7 +245,7 @@ public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 		}
 		return query;
 	}
-	@Override
+	
 	public long getLinkSize(String user, LnkLinkCond cond) throws LnkException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -262,7 +261,7 @@ public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 			throw new LnkException(e);
 		}
 	}
-	@Override
+	
 	public LnkLink[] getLinks(String user, LnkLinkCond cond, String level) throws LnkException {
 		try {
 			if (level == null)
@@ -328,7 +327,7 @@ public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 			throw new LnkException(e);
 		}
 	}
-	@Override
+	
 	public void removeLinks(String user, LnkLinkCond cond) throws LnkException {
 		try {
 			LnkLink[] objs = this.getLinks(user, cond, LEVEL_ALL);

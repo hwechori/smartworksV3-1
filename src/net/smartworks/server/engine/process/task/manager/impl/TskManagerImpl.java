@@ -25,14 +25,13 @@ import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 
-@Service
 public class TskManagerImpl extends AbstractManager implements ITskManager{
 	public TskManagerImpl() {
 		super();
 		if (logger.isInfoEnabled())
 			logger.info(this.getClass().getName() + " created");
 	}
-	@Override
+	
 	public TskTask getTask(String user, String id, String level) throws TskException {
 		try {
 			if (level == null)
@@ -54,7 +53,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			throw new TskException(e);
 		}
 	}
-	@Override
+	
 	public TskTask setTask(String user, TskTask obj, String level) throws TskException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -120,7 +119,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			throw new TskException(e);
 		}
 	}
-	@Override
+	
 	public void removeTask(String user, String id) throws TskException {
 		try {
 			TskTask obj = this.getTask(user, id, LEVEL_ALL);
@@ -571,7 +570,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		}
 		return query;
 	}
-	@Override
+	
 	public long getTaskSize(String user, TskTaskCond cond) throws TskException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -587,7 +586,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			throw new TskException(e);
 		}
 	}
-	@Override
+	
 	public TskTask[] getTasks(String user, TskTaskCond cond, String level) throws TskException {
 		try {
 			if (level == null)
@@ -661,7 +660,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			throw new TskException(e);
 		}
 	}
-	@Override
+	
 	public void startTask(String user, String id) throws TskException {
 		TskTask obj = this.getTask(user, id, LEVEL_LITE);
 		if (obj.getStartDate() != null)
@@ -669,7 +668,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		obj.setStartDate(new Date());
 		setTask(user, obj, LEVEL_LITE);
 	}
-	@Override
+	
 	public void executeTask(String user, TskTask obj, String action) throws TskException {
 		Date date = new Date();
 		if (obj.getStartDate() == null)
@@ -679,7 +678,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		this.setTask(user, obj, LEVEL_ALL);
 	}
 
-	@Override
+	
 	public TskTaskDef getTaskDef(String user, String id, String level) throws TskException {
 		try {
 			if (CommonUtil.isEmpty(id))
@@ -703,7 +702,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			throw new TskException(e);
 		}
 	}
-	@Override
+	
 	public void setTaskDef(String user, TskTaskDef obj, String level) throws TskException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -759,7 +758,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			throw new TskException(e);
 		}
 	}
-	@Override
+	
 	public void removeTaskDef(String user, String id) throws TskException {
 		try {
 			TskTaskDef obj = this.getTaskDef(user, id, LEVEL_ALL);
@@ -924,7 +923,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		}
 		return query;
 	}
-	@Override
+	
 	public long getTaskDefSize(String user, TskTaskDefCond cond) throws TskException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -940,7 +939,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			throw new TskException(e);
 		}
 	}
-	@Override
+	
 	public TskTaskDef[] getTaskDefs(String user, TskTaskDefCond cond, String level) throws TskException {
 		try {
 			if (level == null)
