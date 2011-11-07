@@ -184,7 +184,10 @@ $(document).ready(
 								url : url,
 								data : {},
 								success : function(data, status, jqXHR) {
-									target.html(data).slideDown(500);
+									target.html(data);
+								},
+								complete : function(){
+									target.slideDown(500);
 								}
 							});
 						}

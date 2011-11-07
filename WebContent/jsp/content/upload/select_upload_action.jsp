@@ -25,27 +25,28 @@
 		<li class="up_board"><a id="action_board" href="new_board.sw"><fmt:message
 					key='common.upload.board' /> </a></li>
 	</ul>
-
-	<!-- 새업무 등록 -->
-	<div class="js_upload_form" id="action_work_box">
-		<jsp:include page="/jsp/content/upload/start_work.jsp" />
+	<div>
+		<!-- 새업무 등록 -->
+		<div class="js_upload_form" id="action_work_box">
+			<jsp:include page="/jsp/content/upload/start_work.jsp" />
+		</div>
+		<!-- 새업무 등록 //-->
+		<!-- 파일 올리기  -->
+		<div class="js_upload_form" id="action_file_box" style="display: none">
+		</div>
+		<!-- 파일 올리기  //-->
+		<!-- 이벤트 등록 -->
+		<div class="js_upload_form" id="action_event_box"
+			style="display: none"></div>
+		<!-- 이벤트 등록 //-->
+		<!-- 메모 등록 -->
+		<div class="js_upload_form" id="action_memo_box" style="display: none">
+		</div>
+		<!-- 메모 등록 //-->
+		<!-- 공지 등록 -->
+		<div class="js_upload_form" id="action_board_box"
+			style="display: none"></div>
+		<!-- 공지 등록 //-->
 	</div>
-	<!-- 새업무 등록 //-->
-	<!-- 파일 올리기  -->
-	<div class="js_upload_form" id="action_file_box" style="display: none">
-	</div>
-	<!-- 파일 올리기  //-->
-	<!-- 이벤트 등록 -->
-	<div class="js_upload_form" id="action_event_box" style="display: none">
-	</div>
-	<!-- 이벤트 등록 //-->
-	<!-- 메모 등록 -->
-	<div class="js_upload_form" id="action_memo_box" style="display: none">
-	</div>
-	<!-- 메모 등록 //-->
-	<!-- 공지 등록 -->
-	<div class="js_upload_form" id="action_board_box" style="display: none">
-	</div>
-	<!-- 공지 등록 //-->
 </div>
 <!-- 등록하기//-->
