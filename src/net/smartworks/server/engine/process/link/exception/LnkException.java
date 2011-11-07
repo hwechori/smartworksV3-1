@@ -1,8 +1,8 @@
 package net.smartworks.server.engine.process.link.exception;
 
-import net.smartworks.server.engine.common.exception.MisException;
+import net.smartworks.server.engine.common.exception.SwException;
 
-public class LnkException extends MisException {
+public class LnkException extends SwException {
 	private static final long serialVersionUID = 1L;
 	public LnkException() {
 		super();

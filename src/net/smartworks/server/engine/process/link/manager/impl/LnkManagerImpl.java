@@ -16,7 +16,6 @@ import net.smartworks.server.engine.process.link.model.LnkLinkCond;
 import net.smartworks.server.engine.process.link.model.LnkObject;
 
 import org.hibernate.Query;
-import org.springframework.stereotype.Service;
 
 public class LnkManagerImpl extends AbstractManager implements ILnkManager {
 	private static final String BAR = CommonUtil.BAR;

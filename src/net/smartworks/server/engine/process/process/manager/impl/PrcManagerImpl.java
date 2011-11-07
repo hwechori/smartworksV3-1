@@ -29,7 +29,6 @@ import net.smartworks.server.engine.process.process.model.PrcProcessVariable;
 import net.smartworks.server.engine.process.process.model.PrcProcessVariableCond;
 
 import org.hibernate.Query;
-import org.springframework.stereotype.Service;
 
 public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 

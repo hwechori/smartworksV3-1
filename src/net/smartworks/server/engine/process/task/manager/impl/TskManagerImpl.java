@@ -23,7 +23,6 @@ import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 
 import org.hibernate.Query;
-import org.springframework.stereotype.Service;
 
 public class TskManagerImpl extends AbstractManager implements ITskManager{
 	public TskManagerImpl() {

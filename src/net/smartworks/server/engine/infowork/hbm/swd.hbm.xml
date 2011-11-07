@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.infowork.form.model" default-lazy="false">
+	<class name="SwdField" table="SWDomainField">
+		<id name="objId" column="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="formFieldId" column="formFieldId" type="string" length="50"/>
+		<property name="formFieldPath" column="formFieldPath" type="string" length="255"/>
+		<property name="formFieldName" column="formFieldName" type="string" length="255"/>
+		<property name="formFieldType" column="formFieldType" type="string" length="50"/>
+		<property name="tableColumnName" column="tableColName" type="string" length="50"/>
+		<property name="arrayYn" column="arrayYn" type="string" length="1" access="field"/>
+		<property name="systemFieldYn" column="systemFieldYn" type="string" length="1" access="field"/>
+		<property name="displayOrder" column="dispOrder" type="int"/>
+		<property name="tableWidth" column="tableWidth" type="float"/>
+		<many-to-one name="domain" column="domainId" not-null="true" foreign-key="FkSwdField"/>
+	</class>
+	<class name="SwdDomain" table="SWDomain">
+		<id name="objId" column="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="formId" column="formId" type="string" length="50"/>
+		<property name="formVersion" column="formVersion" type="int"/>
+		<property name="formName" column="formName" type="string" length="255"/>
+		<property name="tableName" column="tblName" type="string" length="50"/>
+		<property name="keyColumn" column="keyColumn" type="string" length="50"/>
+		<property name="titleFieldId" column="titleFieldId" type="string" length="50"/>
+		<property name="systemDomainYn" column="systemDomainYn" type="string" length="1" access="field"/>
+		<property name="publishMode" column="publishMode" type="string" length="10"/>
+		<property name="companyId" type="string" length="100"/>
+		<set name="fieldSet" access="field" cascade="all" order-by="dispOrder asc">
+			<key column="domainId"/>
+			<one-to-many class="SwdField"/>
+		</set>
+	</class>
+	<class name="SwdDataRef" table="SWDataRef">
+		<id name="objId" column="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="myFormId" column="myFormId" type="string" length="50"/>
+		<property name="myFormFieldId" column="myFormFieldId" type="string" length="50"/>
+		<property name="myRecordId" column="myRecordId" type="string" length="20"/>
+		<property name="refFormId" column="refFormId" type="string" length="50"/>
+		<property name="refFormFieldId" column="refFormFieldId" type="string" length="50"/>
+		<property name="refRecordId" column="refRecordId" type="string" length="20"/>
+	</class>
+</hibernate-mapping>
