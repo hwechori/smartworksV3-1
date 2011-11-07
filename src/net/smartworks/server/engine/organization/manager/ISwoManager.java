@@ -1,7 +1,7 @@
 /*	
  * $Id$
- * created by    : maninsoft
- * creation-date : 2011. 11. 2.
+ * created by    : hsshin
+ * creation-date : 2011. 11. 7.
  * =========================================================
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
  */
@@ -10,7 +10,6 @@ package net.smartworks.server.engine.organization.manager;
 
 import java.util.List;
 
-import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.organization.exception.SwoException;
 import net.smartworks.server.engine.organization.model.SwoAuthority;
 import net.smartworks.server.engine.organization.model.SwoAuthorityCond;
@@ -27,84 +26,131 @@ import net.smartworks.server.engine.organization.model.SwoTeamCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserCond;
 
-public interface ISwoManager extends IManager {
+public interface ISwoManager {
 
-	//연락처 "md_802be6e0b5f6484ea9c1ed57700c5b5e"
-	public SwoContact getContact(String user, String id, String level) throws SwoException;
-	public SwoContact getContact(String user, SwoContactCond cond, String level) throws SwoException;
-	public void setContact(String user, SwoContact obj, String level) throws SwoException;
-	public void createContact(String user, SwoContact obj) throws SwoException;
-	public void removeContact(String user, String id) throws SwoException;
-	public void removeContact(String user, SwoContactCond cond) throws SwoException;
-	public long getContactSize(String user, SwoContactCond cond) throws SwoException;
-	public SwoContact[] getContacts(String user, SwoContactCond cond, String level) throws SwoException;
-	
-	//회사 "md_a55ee2455d55444b96e5730e4ed9e6b1"
-	public SwoCompany getCompany(String user, String id, String level) throws SwoException;
-	public SwoCompany getCompany(String user, SwoCompanyCond cond, String level) throws SwoException;
-	public void setCompany(String user, SwoCompany obj, String level) throws SwoException;
-	public void createCompany(String user, SwoCompany obj) throws SwoException;
-	public void removeCompany(String user, String id) throws SwoException;
-	public void removeCompany(String user, SwoCompanyCond cond) throws SwoException;
-	public long getCompanySize(String user, SwoCompanyCond cond) throws SwoException;
-	public SwoCompany[] getCompanys(String user, SwoCompanyCond cond, String level) throws SwoException;
-	
-	//역할 "md_6587facdd4de4f94beebfa61f7c3cd93"
-	public SwoAuthority getAuthority(String user, String id, String level) throws SwoException;
-	public SwoAuthority getAuthority(String user, SwoAuthorityCond cond, String level) throws SwoException;
-	public void setAuthority(String user, SwoAuthority obj, String level) throws SwoException;
-	public void createAuthority(String user, SwoAuthority obj) throws SwoException;
-	public void removeAuthority(String user, String id) throws SwoException;
-	public void removeAuthority(String user, SwoAuthorityCond cond) throws SwoException;
-	public long getAuthoritySize(String user, SwoAuthorityCond cond) throws SwoException;
-	public SwoAuthority[] getAuthoritys(String user, SwoAuthorityCond cond, String level) throws SwoException;
+	public abstract SwoContact getContact(String userId, String id, String level) throws SwoException;
 
-	//부서 "md_6404fb24f1ba47f4a535996426c2186a"
-	public SwoDepartment getDepartment(String user, String id, String level) throws SwoException;
-	public SwoDepartment getDepartment(String user, SwoDepartmentCond cond, String level) throws SwoException;
-	public void setDepartment(String user, SwoDepartment obj, String level) throws SwoException;
-	public void createDepartment(String user, SwoDepartment obj) throws SwoException;
-	public void removeDepartment(String user, String id) throws SwoException;
-	public void removeDepartment(String user, SwoDepartmentCond cond) throws SwoException;
-	public long getDepartmentSize(String user, SwoDepartmentCond cond) throws SwoException;
-	public SwoDepartment[] getDepartments(String user, SwoDepartmentCond cond, String level) throws SwoException;
-	
-	//사용자 "md_87fce51a61d04e779d4d946c72b7a815"
-	public SwoUser getUser(String user, String id, String level) throws SwoException;
-	public SwoUser getUser(String user, SwoUserCond cond, String level) throws SwoException;
-	public void setUser(String userId, SwoUser obj, String level) throws SwoException;
-	public void createUser(String userId, SwoUser obj) throws SwoException;
-	public void removeUser(String user, String id) throws SwoException;
-	public void removeUser(String user, SwoUserCond cond) throws SwoException;
-	public long getUserSize(String user, SwoUserCond cond) throws SwoException;
-	public SwoUser[] getUsers(String user, SwoUserCond cond, String level) throws SwoException;
-	public SwoUser[] getSearchUsers(String user, SwoUserCond cond, String level) throws SwoException;
-	
-	public String getDefaultLogo() throws SwoException;
-	public String getLogo(String user, String companyId) throws SwoException;
-	public void setLogo(String user, String companyId, String pictureName) throws SwoException;
-	public void createLogo(String user, String companyId, String pictureName) throws SwoException;
-	
-	//메일 설정
-	public SwoConfig getConfig(String user, String id, String level) throws SwoException;
-	public SwoConfig getConfig(String user, SwoConfigCond cond, String level) throws SwoException;
-	public void setConfig(String user, SwoConfig obj, String level) throws SwoException;
-	public void removeConfig(String user, String id) throws SwoException;
-	public void removeConfig(String user, SwoConfigCond cond) throws SwoException;
-	public long getConfigSize(String user, SwoConfigCond cond) throws SwoException;
-	public SwoConfig[] getConfigs(String user, SwoConfigCond cond, String level) throws SwoException;
+	public abstract SwoContact getContact(String userId, SwoContactCond cond, String level) throws SwoException;
 
-	//팀
-	public SwoTeam getTeam(String user, String id, String level) throws SwoException;
-	public SwoTeam getTeam(String user, SwoTeamCond cond, String level) throws SwoException;
-	public void createTeam(String user, SwoTeam obj) throws SwoException;
-	public void setTeam(String user, SwoTeam obj, String level) throws SwoException;
-	public void removeTeam(String user, String id) throws SwoException;
-	public void removeTeam(String user, SwoTeamCond cond) throws SwoException;
-	public long getTeamSize(String user, SwoTeamCond cond) throws SwoException;
-	public SwoTeam[] getTeams(String user, SwoTeamCond cond, String level) throws SwoException;
-	
-	//조직도
-	public List getOrganization(String deptId) throws SwoException;
+	public abstract void setContact(String userId, SwoContact obj, String level) throws SwoException;
+
+	public abstract void createContact(String userId, SwoContact obj) throws SwoException;
+
+	public abstract void removeContact(String userId, String id) throws SwoException;
+
+	public abstract void removeContact(String userId, SwoContactCond cond) throws SwoException;
+
+	public abstract long getContactSize(String userId, SwoContactCond cond) throws SwoException;
+
+	public abstract SwoContact[] getContacts(String userId, SwoContactCond cond, String level) throws SwoException;
+
+	public abstract SwoCompany getCompany(String userId, String id, String level) throws SwoException;
+
+	public abstract SwoCompany getCompany(String userId, SwoCompanyCond cond, String level) throws SwoException;
+
+	public abstract void setCompany(String userId, SwoCompany obj, String level) throws SwoException;
+
+	public abstract void createCompany(String userId, SwoCompany obj) throws SwoException;
+
+	public abstract void removeCompany(String userId, String id) throws SwoException;
+
+	public abstract void removeCompany(String userId, SwoCompanyCond cond) throws SwoException;
+
+	public abstract long getCompanySize(String userId, SwoCompanyCond cond) throws SwoException;
+
+	public abstract SwoCompany[] getCompanys(String userId, SwoCompanyCond cond, String level) throws SwoException;
+
+	public abstract SwoAuthority getAuthority(String userId, String id, String level) throws SwoException;
+
+	public abstract SwoAuthority getAuthority(String userId, SwoAuthorityCond cond, String level) throws SwoException;
+
+	public abstract void setAuthority(String userId, SwoAuthority obj, String level) throws SwoException;
+
+	public abstract void createAuthority(String userId, SwoAuthority obj) throws SwoException;
+
+	public abstract void removeAuthority(String userId, String id) throws SwoException;
+
+	public abstract void removeAuthority(String userId, SwoAuthorityCond cond) throws SwoException;
+
+	public abstract long getAuthoritySize(String userId, SwoAuthorityCond cond) throws SwoException;
+
+	public abstract SwoAuthority[] getAuthoritys(String userId, SwoAuthorityCond cond, String level) throws SwoException;
+
+	public abstract SwoDepartment getDepartment(String userId, String id, String level) throws SwoException;
+
+	public abstract SwoDepartment getDepartment(String userId, SwoDepartmentCond cond, String level) throws SwoException;
+
+	public abstract void setDepartment(String userId, SwoDepartment obj, String level) throws SwoException;
+
+	public abstract void createDepartment(String userId, SwoDepartment obj) throws SwoException;
+
+	public abstract void removeDepartment(String userId, String id) throws SwoException;
+
+	public abstract void removeDepartment(String userId, SwoDepartmentCond cond) throws SwoException;
+
+	public abstract long getDepartmentSize(String userId, SwoDepartmentCond cond) throws SwoException;
+
+	public abstract SwoDepartment[] getDepartments(String userId, SwoDepartmentCond cond, String level) throws SwoException;
+
+	public abstract SwoUser getUser(String userId, String id, String level) throws SwoException;
+
+	public abstract SwoUser getUser(String userId, SwoUserCond cond, String level) throws SwoException;
+
+	public abstract void setUser(String userId, SwoUser obj, String level) throws SwoException;
+
+	public abstract void createUser(String userId, SwoUser obj) throws SwoException;
+
+	public abstract void removeUser(String userId, String id) throws SwoException;
+
+	public abstract void removeUser(String userId, SwoUserCond cond) throws SwoException;
+
+	public abstract long getUserSize(String userId, SwoUserCond cond) throws SwoException;
+
+	//사원찾기
+	public abstract SwoUser[] getSearchUsers(String userId, SwoUserCond cond, String level) throws SwoException;
+
+	public abstract SwoUser[] getUsers(String userId, SwoUserCond cond, String level) throws SwoException;
+
+	public abstract String getDefaultLogo() throws SwoException;
+
+	public abstract String getLogo(String user, String companyId) throws SwoException;
+
+	public abstract void setLogo(String user, String companyId, String pictureName) throws SwoException;
+
+	public abstract void createLogo(String user, String companyId, String pictureName) throws SwoException;
+
+	public abstract SwoConfig getConfig(String user, String id, String level) throws SwoException;
+
+	public abstract SwoConfig getConfig(String user, SwoConfigCond cond, String level) throws SwoException;
+
+	public abstract void setConfig(String user, SwoConfig obj, String level) throws SwoException;
+
+	public abstract void createConfig(String user, SwoConfig obj) throws SwoException;
+
+	public abstract void removeConfig(String user, String id) throws SwoException;
+
+	public abstract void removeConfig(String user, SwoConfigCond cond) throws SwoException;
+
+	public abstract long getConfigSize(String user, SwoConfigCond cond) throws SwoException;
+
+	public abstract SwoConfig[] getConfigs(String user, SwoConfigCond cond, String level) throws SwoException;
+
+	public abstract SwoTeam getTeam(String user, String id, String level) throws SwoException;
+
+	public abstract SwoTeam getTeam(String user, SwoTeamCond cond, String level) throws SwoException;
+
+	public abstract void setTeam(String user, SwoTeam obj, String level) throws SwoException;
+
+	public abstract void createTeam(String user, SwoTeam obj) throws SwoException;
+
+	public abstract void removeTeam(String user, String id) throws SwoException;
+
+	public abstract void removeTeam(String user, SwoTeamCond cond) throws SwoException;
+
+	public abstract long getTeamSize(String user, SwoTeamCond cond) throws SwoException;
+
+	public abstract SwoTeam[] getTeams(String user, SwoTeamCond cond, String level) throws SwoException;
+
+	public abstract List getOrganization(String deptId) throws SwoException;
 
 }

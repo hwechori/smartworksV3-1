@@ -59,7 +59,8 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			obj.setCreationDate(date);
 		}
 	}
-		
+
+	@Override
 	public SwoContact getContact(String userId, String id, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -80,6 +81,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoContact getContact(String userId, SwoContactCond cond, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -96,6 +98,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return contacts[0];
 	}
+	@Override
 	public void setContact(String userId, SwoContact obj, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -129,6 +132,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void createContact(String userId, SwoContact obj) throws SwoException {
 		try {
 			fill(userId, obj);
@@ -138,6 +142,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeContact(String userId, String id) throws SwoException {
 		try {
 			remove(SwoContact.class, id);
@@ -146,6 +151,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeContact(String userId, SwoContactCond cond) throws SwoException {
 		SwoContact obj = getContact(userId, cond, null);
 		if (obj == null)
@@ -240,6 +246,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return query;
 	}
+	@Override
 	public long getContactSize(String userId, SwoContactCond cond) throws SwoException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -254,6 +261,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoContact[] getContacts(String userId, SwoContactCond cond, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -303,6 +311,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	@Override
 	public SwoCompany getCompany(String userId, String id, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -323,6 +332,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoCompany getCompany(String userId, SwoCompanyCond cond, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -339,6 +349,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return companys[0];
 	}
+	@Override
 	public void setCompany(String userId, SwoCompany obj, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -367,6 +378,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void createCompany(String userId, SwoCompany obj) throws SwoException {
 		try {
 			fill(userId, obj);
@@ -376,6 +388,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeCompany(String userId, String id) throws SwoException {
 		try {
 			remove(SwoCompany.class, id);
@@ -384,6 +397,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeCompany(String userId, SwoCompanyCond cond) throws SwoException {
 		SwoCompany obj = getCompany(userId, cond, null);
 		if (obj == null)
@@ -454,6 +468,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return query;
 	}
+	@Override
 	public long getCompanySize(String userId, SwoCompanyCond cond) throws SwoException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -468,6 +483,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoCompany[] getCompanys(String userId, SwoCompanyCond cond, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -511,6 +527,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoAuthority getAuthority(String userId, String id, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -531,6 +548,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoAuthority getAuthority(String userId, SwoAuthorityCond cond, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -547,6 +565,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return authoritys[0];
 	}
+	@Override
 	public void setAuthority(String userId, SwoAuthority obj, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -577,6 +596,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 	
+	@Override
 	public void createAuthority(String userId, SwoAuthority obj) throws SwoException {
 		try {
 			fill(userId, obj);
@@ -586,6 +606,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeAuthority(String userId, String id) throws SwoException {
 		try {
 			remove(SwoAuthority.class, id);
@@ -594,6 +615,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeAuthority(String userId, SwoAuthorityCond cond) throws SwoException {
 		SwoAuthority obj = getAuthority(userId, cond, null);
 		if (obj == null)
@@ -670,6 +692,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return query;
 	}
+	@Override
 	public long getAuthoritySize(String userId, SwoAuthorityCond cond) throws SwoException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -684,6 +707,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoAuthority[] getAuthoritys(String userId, SwoAuthorityCond cond, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -729,6 +753,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 	
+	@Override
 	public SwoDepartment getDepartment(String userId, String id, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -749,6 +774,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoDepartment getDepartment(String userId, SwoDepartmentCond cond, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -765,6 +791,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return departments[0];
 	}
+	@Override
 	public void setDepartment(String userId, SwoDepartment obj, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -800,6 +827,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void createDepartment(String userId, SwoDepartment obj) throws SwoException {
 		try {
 			fill(userId, obj);
@@ -811,6 +839,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeDepartment(String userId, String id) throws SwoException {
 		try {
 			remove(SwoDepartment.class, id);
@@ -819,6 +848,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeDepartment(String userId, SwoDepartmentCond cond) throws SwoException {
 		SwoDepartment obj = getDepartment(userId, cond, null);
 		if (obj == null)
@@ -911,6 +941,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return query;
 	}
+	@Override
 	public long getDepartmentSize(String userId, SwoDepartmentCond cond) throws SwoException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -925,6 +956,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoDepartment[] getDepartments(String userId, SwoDepartmentCond cond, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -973,6 +1005,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 	
+	@Override
 	public SwoUser getUser(String userId, String id, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -993,6 +1026,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoUser getUser(String userId, SwoUserCond cond, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -1009,6 +1043,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return users[0];
 	}
+	@Override
 	public void setUser(String userId, SwoUser obj, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -1056,6 +1091,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void createUser(String userId, SwoUser obj) throws SwoException {
 		try {
 			fill(userId, obj);
@@ -1065,6 +1101,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeUser(String userId, String id) throws SwoException {
 		try {
 			remove(SwoUser.class, id);
@@ -1073,6 +1110,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeUser(String userId, SwoUserCond cond) throws SwoException {
 		SwoUser obj = getUser(userId, cond, null);
 		if (obj == null)
@@ -1249,6 +1287,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return query;
 	}
+	@Override
 	public long getUserSize(String userId, SwoUserCond cond) throws SwoException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -1264,6 +1303,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 	//사원찾기
+	@Override
 	public SwoUser[] getSearchUsers(String userId, SwoUserCond cond, String level) throws SwoException {
 		String name = cond.getName();
 		StringBuffer sqlBuf = new StringBuffer();
@@ -1301,6 +1341,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		throw new SwoException(e);
 	}
 }
+	@Override
 	public SwoUser[] getUsers(String userId, SwoUserCond cond, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -1360,6 +1401,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	@Override
 	public String getDefaultLogo() throws SwoException {
 		String sql = "select logo from SWConfig where id = 'maninsoft'";
 		Query query = this.getSession().createSQLQuery(sql);
@@ -1367,6 +1409,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		return (String)logo;
 	}
 	
+	@Override
 	public String getLogo(String user, String companyId ) throws SwoException {
 		String sql = "select logo from SWConfig where id = '" + companyId + "'";
 		Query query = this.getSession().createSQLQuery(sql);
@@ -1374,18 +1417,21 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		return (String)logo;
 	}
 
+	@Override
 	public void setLogo(String user, String companyId, String pictureName) throws SwoException {
 		String sql = "update SWConfig set logo = '" + pictureName + "' where id = '" + companyId + "'";
 		Query query = this.getSession().createSQLQuery(sql);
 		query.executeUpdate();
 	}
 
+	@Override
 	public void createLogo(String user, String companyId, String pictureName) throws SwoException {
 		String sql = "insert into SWConfig (id, logo) values ('"+ companyId +"', '"+ pictureName +"')";
 		Query query = this.getSession().createSQLQuery(sql);
 		query.executeUpdate();
 	}
 	
+	@Override
 	public SwoConfig getConfig(String user, String id, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -1407,6 +1453,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	@Override
 	public SwoConfig getConfig(String user, SwoConfigCond cond, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -1423,6 +1470,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return configs[0];
 	}
+	@Override
 	public void setConfig(String user, SwoConfig obj, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -1464,6 +1512,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void createConfig(String user, SwoConfig obj) throws SwoException {
 		try {
 			fill(user, obj);
@@ -1480,6 +1529,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeConfig(String user, String id) throws SwoException {
 		try {
 			remove(SwoConfig.class, id);
@@ -1488,6 +1538,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeConfig(String user, SwoConfigCond cond) throws SwoException {
 		SwoConfig obj = getConfig(user, cond, null);
 		if (obj == null)
@@ -1570,6 +1621,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return query;
 	}
+	@Override
 	public long getConfigSize(String user, SwoConfigCond cond) throws SwoException{
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -1584,6 +1636,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoConfig[] getConfigs(String user, SwoConfigCond cond, String level) throws SwoException {
 		// TODO Auto-generated method stub
 		try {
@@ -1623,6 +1676,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	@Override
 	public SwoTeam getTeam(String user, String id, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -1643,6 +1697,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public SwoTeam getTeam(String user, SwoTeamCond cond, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -1659,6 +1714,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		return teams[0];
 	}
+	@Override
 	public void setTeam(String user, SwoTeam obj, String level) throws SwoException {
 		if (level == null)
 			level = LEVEL_ALL;
@@ -1696,6 +1752,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void createTeam(String user, SwoTeam obj) throws SwoException {
 		try {
 			fill(user, obj);
@@ -1707,6 +1764,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeTeam(String user, String id) throws SwoException {
 		try {
 			remove(SwoTeam.class, id);
@@ -1715,6 +1773,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			throw new SwoException(e);
 		}
 	}
+	@Override
 	public void removeTeam(String user, SwoTeamCond cond) throws SwoException {
 		SwoTeam obj = getTeam(user, cond, null);
 		if (obj == null)
@@ -1811,6 +1870,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		return query;
 	}
 	
+	@Override
 	public long getTeamSize(String user, SwoTeamCond cond) throws SwoException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -1826,6 +1886,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	@Override
 	public SwoTeam[] getTeams(String user, SwoTeamCond cond, String level) throws SwoException {
 		try {
 			if (level == null)
@@ -1876,6 +1937,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	@Override
 	public List getOrganization(String deptId) throws SwoException {
 		StringBuffer sqlBuf = new StringBuffer();
 		sqlBuf.append(" select id, deptId, name, 'u' as type from sworguser where deptId = '"+ deptId +"' ");
