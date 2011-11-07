@@ -1,0 +1,35 @@
+<form id="frm_aaa851d72bdd4cb3865275d504869857" version="1" name="��������" title="��������" formType="null" systemName="">
+	<children>
+		<formentity id="2" name="항목1" title="�׸�4" systemType="string" array="false" required="false" systemName="" system="false">
+		</formentity>
+		<formentity id="4" name="항목2" title="�׸�6" systemType="string" array="false" required="false" systemName="" system="false">
+		</formentity>
+		<formentity id="6" name="항목3" title="�׸�8" systemType="text" array="false" required="false" systemName="" system="false">
+		</formentity>
+		<formentity id="11" name="항목4" title="�׸�13" systemType="string" array="false" required="false" systemName="" system="false">
+		</formentity>
+	</children>
+	<mappings />
+	<graphic width="760" height="705" cellSize="1" currentEntityNum="28" currentMappingNum="0" styleId="null" scalePercent="100" titleHeight="30" itemHeightGap="7">
+		<title>
+		</title>
+		<space head="20" left="20" right="20" top="20" bottom="20" />
+		<textstyle size="11" color="0" align="left" bold="false" italic="false" underline="false">
+		</textstyle>
+	</graphic>
+	<setting nextPerformer="null" assignee="null" />
+	<layout type="grid_layout" verticalGap="5" horizontalGap="5">
+		<columns>
+		</columns>
+		<gridrow size="30">
+		</gridrow>
+		<gridrow size="30">
+		</gridrow>
+		<gridrow size="451.5">
+		</gridrow>
+		<gridrow size="30">"WebRoot/js/form_sample.xml"
+			<gridcell size="358.5" span="1" fieldId="11" />
+		</gridrow>
+	</layout>
+	<mappingforms />
+</form>

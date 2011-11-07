@@ -1,0 +1,20 @@
+var FormLang = {
+	fileFieldHeaderName : "name",
+	fileFieldHeaderSize : "size",
+	fileFieldHeaderDel : "del.",
+	//fileFieldNoFile : "Doesn`t exist file!",
+	fileFieldNoFile : "No File Attached!",
+	fileFieldErrorService : "File Service has problem!",
+	timeFieldAM : "AM",
+	timeFieldPM : "PM",
+	checkFieldTrue : "Yes",
+	checkFieldFalse : "No",
+	loadFormFail : '작업 가져오기에 실패했습니다.',
+	doNotRejectTask : "반려할 수 없는 종류의 업무입니다.",
+	completeRejectTask : '반려처리되었습니다.',
+	failRejectTask : '반려 실패하였습니다.',
+	field : 'Field',
+	fillVar : "is null!",
+	completeRemoveTask : '작업이 삭제 되었습니다.',
+	faileRemoveTask : '작업 삭제에 실패했습니다.'
+};
