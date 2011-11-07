@@ -7,7 +7,7 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser();
-	Notice[] notices = smartWorks.getNoticesForMe(currentUser.getId());
+	Notice[] notices = smartWorks.getNoticesForMe();
 	String cid = request.getParameter("cid");
 	if (cid == null)
 		cid = ISmartWorks.CONTEXT_HOME;

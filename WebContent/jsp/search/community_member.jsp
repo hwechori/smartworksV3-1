@@ -5,7 +5,8 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	User[] users = smartWorks.searchCommunityMemberList(SmartUtil.getCurrentUser().getId(), key);
+	String communityId = request.getParameter("communityId");
+	User[] users = smartWorks.searchCommunityMember(communityId, key);
 %>
 
 <ul>
@@ -17,8 +18,7 @@
 			String comName = user.getName();
 			String comId = user.getId();
 	%>
-	<li><img src="<%=picName%>" border="0"><a
-		href="<%=targetContent%>?cid=<%=comContext%>&wid=<%=comId%>"><%=comName%></a>
+	<li><a href="<%=targetContent%>?cid=<%=comContext%>&wid=<%=comId%>"><img src="<%=picName%>" border="0"><%=comName%></a>
 	</li>
 	<%
 		}

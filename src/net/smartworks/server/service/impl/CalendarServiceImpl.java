@@ -157,7 +157,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * , net.smartworks.util.LocalDate, int)
 	 */
 	@Override
-	public EventInstance[] getMyEventsByDate(String userId, LocalDate date, int maxEvents) throws Exception {
+	public EventInstance[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception {
 		EventInstance[] events = new EventInstance[] {
 
 		};

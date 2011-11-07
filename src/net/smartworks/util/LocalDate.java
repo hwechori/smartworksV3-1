@@ -10,10 +10,13 @@ import java.util.TimeZone;
 public class LocalDate extends Date{
 
 	public final static int ONE_SECOND = 1000;
-	public final static int ONE_MINUTE = 60*ONE_SECOND;
+	public final static	int ONE_MINUTE = 60*ONE_SECOND;
 	public final static int ONE_HOUR = 60*ONE_MINUTE;
-	public final static int ONE_DAY = 24*ONE_HOUR;
-	public final static int ONE_YEAR = 365*ONE_DAY;
+	public final static long ONE_DAY = 24*ONE_HOUR;
+	public final static long ONE_YEAR = 365*ONE_DAY;
+	
+	public final static String TIMEZONE_SEOUL = "Asia/Seoul";
+	public final static String TIMEZONE_LOS_ANGELES = "America/Los_Angeles";
 	
 	private static final long serialVersionUID = 1L;
 	private TimeZone timeZone;
@@ -23,11 +26,23 @@ public class LocalDate extends Date{
 	public LocalDate(){
 		super();
 		super.setTime(super.getTime()-hostTimeZone.getRawOffset());
-		this.timeZone = hostTimeZone;
+		try {
+			if(SmartUtil.getCurrentUser().getTimeZone()!=null)
+				this.timeZone = TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone());
+			else this.timeZone = this.hostTimeZone;
+		} catch (Exception e) {
+			this.timeZone = this.hostTimeZone;
+		}
 	}
 	public LocalDate(long GMTDate){
 		super(GMTDate);
-		if(this.timeZone==null) this.timeZone = hostTimeZone;
+		try {
+			if(SmartUtil.getCurrentUser().getTimeZone()!=null)
+				this.timeZone = TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone());
+			else this.timeZone = this.hostTimeZone;
+		} catch (Exception e) {
+			this.timeZone = this.hostTimeZone;
+		}
 	}
 	
 	public LocalDate(long GMTDate, String timeZone, String locale){
@@ -106,43 +121,12 @@ public class LocalDate extends Date{
 		return false;
 	}
 	
-	private boolean isToday(){
-		if(getLocalDateOnly(this).getTime() == getLocalDateOnly(new LocalDate(localNow)).getTime())
-			return true;
-		return false;
-	}
-
-	private boolean isThisYear(){
-		if(getLocalYearOnly(this).getTime() == getLocalYearOnly(new LocalDate(localNow)).getTime())
-			return true;
-		return false;
-	}
-
 	public long getLocalTime(){
 		if(this.timeZone == null){
 			return super.getTime() + TimeZone.getDefault().getRawOffset();
 		}else{
 			return super.getTime() + this.timeZone.getRawOffset();
 		}
-	}
-	
-	private LocalDate getLocalDateOnly(LocalDate localDate){
-		long time = localDate.getLocalTime();
-		time = time/LocalDate.ONE_DAY;
-		time = time*LocalDate.ONE_DAY;
-		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
-		lDate.setTimeZone(localDate.getTimeZone());
-		return lDate;
-
-	}
-	private LocalDate getLocalYearOnly(LocalDate localDate){
-		long time = localDate.getLocalTime();
-		time = time/LocalDate.ONE_YEAR;
-		time = time*LocalDate.ONE_YEAR;
-		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
-		lDate.setTimeZone(localDate.getTimeZone());
-		return lDate;
-
 	}
 	
 	public static boolean isValidTimeZone(String timeZone){
@@ -163,4 +147,47 @@ public class LocalDate extends Date{
 			return new Date(GMTDate + TimeZone.getTimeZone(timeZone).getRawOffset());
 		return new Date(GMTDate);
 	}
+
+	public static Date convertStringToDate(String yyyyMMddHHmm) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+		return df.parse(yyyyMMddHHmm);					
+	}
+	
+	public static long convertStringToTime(String yyyyMMddHHmm) throws Exception{
+		return convertStringToDate(yyyyMMddHHmm).getTime();					
+	}
+	
+	private boolean isToday(){
+		if(getLocalDateOnly(this).getTime() == getLocalDateOnly(new LocalDate(localNow)).getTime())
+			return true;
+		return false;
+	}
+
+	private boolean isThisYear(){
+		if(getLocalYearOnly(this).getTime() == getLocalYearOnly(new LocalDate(localNow)).getTime())
+			return true;
+		return false;
+	}
+
+	private LocalDate getLocalDateOnly(LocalDate localDate){
+
+		long time = localDate.getLocalTime();
+		time = time/LocalDate.ONE_DAY;
+		time = time*LocalDate.ONE_DAY;
+		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
+		lDate.setTimeZone(localDate.getTimeZone());
+		return lDate;
+
+	}
+
+	private LocalDate getLocalYearOnly(LocalDate localDate){
+
+		long time = localDate.getLocalTime();
+		time = time/LocalDate.ONE_YEAR;
+		time = time*LocalDate.ONE_YEAR;
+		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
+		lDate.setTimeZone(localDate.getTimeZone());
+		return lDate;
+
+	}	
 }

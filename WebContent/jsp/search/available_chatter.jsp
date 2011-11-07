@@ -4,7 +4,7 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	User[] chatters = smartWorks.searchAvailableChatterList(key);
+	User[] chatters = smartWorks.searchAvailableChatter(key);
 %>
 
 <ul>

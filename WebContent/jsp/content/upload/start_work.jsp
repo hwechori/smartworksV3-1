@@ -7,7 +7,7 @@
 	<div class="up_warp space js_start_work">
 		<div class="up_form">
 			<div class="up_point posit_works"></div>
-			<input class="up js_auto_complete" id="" type="text" href="work_name_list.sw"
+			<input class="up js_auto_complete" id="" type="text" href="work_name.sw"
 				placeholder="<fmt:message key='common.upload.message.work'/>">
 		</div>
 		<div class="btn" id="all_work_btn" style="right: 0;display:none">

@@ -3,7 +3,7 @@
 <%@ page import="net.smartworks.model.work.*"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	SmartWork[] works = smartWorks.getMyFavoriteWorks("currentUser");
+	SmartWork[] works = smartWorks.getMyFavoriteWorks();
 	String iconType = null;
 	String classType = "js_content";
 	String workContext = null;

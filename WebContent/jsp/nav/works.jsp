@@ -10,7 +10,7 @@
 			<input id="" class="input js_auto_complete" type="text"
 				title="<fmt:message key='search.search_work'/>"
 				placeholder="<fmt:message key='search.search_work'/>"
-				href="work_list.sw" />
+				href="work.sw" />
 			<button title="<fmt:message key='search.search'/>" onclick=""></button>
 		</div>
 		<div style="display: none"></div>

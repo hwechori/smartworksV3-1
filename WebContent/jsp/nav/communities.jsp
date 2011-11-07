@@ -11,7 +11,7 @@
 			<input id="" class="input js_auto_complete" type="text"
 				title="<fmt:message key='search.search_people_depart_group'/>"
 				placeholder="<fmt:message key='search.search_people_depart_group'/>"
-				href="community_list.sw">
+				href="community.sw">
 			<button title="<fmt:message key='search.search'/>" onclick=""></button>
 		</div>
 		<div style="display: none"></div>

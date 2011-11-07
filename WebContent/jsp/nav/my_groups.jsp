@@ -4,7 +4,7 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	Group[] groups = smartWorks.getMyGroups("currentUser");
+	Group[] groups = smartWorks.getMyGroups();
 %>
 
 <ul>

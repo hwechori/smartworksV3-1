@@ -3,13 +3,13 @@ package net.smartworks.server.service.impl;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
-import net.smartworks.server.service.IWorkListService;
+import net.smartworks.server.service.IWorkService;
 import net.smartworks.util.SmartTest;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkListServiceImpl implements IWorkListService {
+public class WorkServiceImpl implements IWorkService {
 
 	/*
 	 * (non-Javadoc)
@@ -19,7 +19,7 @@ public class WorkListServiceImpl implements IWorkListService {
 	 * String)
 	 */
 	@Override
-	public SmartWork[] getMyFavoriteWorks(String userId) throws Exception {
+	public SmartWork[] getMyFavoriteWorks() throws Exception {
 
 		return new SmartWork[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3() };
 	}
@@ -32,7 +32,7 @@ public class WorkListServiceImpl implements IWorkListService {
 	 * .String)
 	 */
 	@Override
-	public WorkCategory[] getMyWorkCategories(String userId) throws Exception {
+	public WorkCategory[] getMyWorkCategories() throws Exception {
 
 		return new WorkCategory[] { SmartTest.getWorkCategory1(), SmartTest.getWorkCategory2() };
 	}
@@ -45,7 +45,7 @@ public class WorkListServiceImpl implements IWorkListService {
 	 * .lang.String, java.lang.String)
 	 */
 	@Override
-	public SmartWork[] getMyAllWorksByCategoryId(String userId, String categoryId) throws Exception {
+	public SmartWork[] getMyAllWorksByCategoryId(String categoryId) throws Exception {
 
 		SmartWork[] smartWorks = new SmartWork[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork4(),
 				SmartTest.getSmartWork5(), SmartTest.getSmartWork6() };
@@ -74,15 +74,15 @@ public class WorkListServiceImpl implements IWorkListService {
 	 * .String, java.lang.String)
 	 */
 	@Override
-	public SmartWork[] getMyAllWorksByGroupId(String userId, String groupId) throws Exception {
+	public SmartWork[] getMyAllWorksByGroupId(String groupId) throws Exception {
 
 		return new SmartWork[] { SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9() };
 	}
 
 	@Override
-	public SmartWork[] searchWorkList(String user, String key) throws Exception {
+	public SmartWork[] searchWork(String key) throws Exception {
 
-		return getMyFavoriteWorks("");
+		return getMyFavoriteWorks();
 	}
 
 	@Override
@@ -95,5 +95,4 @@ public class WorkListServiceImpl implements IWorkListService {
 		}
 		return null;
 	}
-
 }

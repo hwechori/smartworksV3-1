@@ -1,9 +1,10 @@
 package net.smartworks.server.service.impl;
 
 import net.smartworks.model.instance.BoardInstance;
+import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.work.SocialWork;
-import net.smartworks.server.service.IWorkInstanceService;
+import net.smartworks.server.service.IInstanceService;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
@@ -11,7 +12,7 @@ import net.smartworks.util.SmartUtil;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkInstanceServiceImpl implements IWorkInstanceService {
+public class InstanceServiceImpl implements IInstanceService {
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -80,9 +81,33 @@ public class WorkInstanceServiceImpl implements IWorkInstanceService {
 	 * .String)
 	 */
 	@Override
-	public WorkInstance[] getMyRecentInstances(String userId) throws Exception {
+	public WorkInstance[] getMyRecentInstances() throws Exception {
 
 		return new WorkInstance[] { SmartTest.getWorkInstance1(), SmartTest.getWorkInstance2(), SmartTest.getWorkInstance3(), SmartTest.getWorkInstance4(),
 				SmartTest.getWorkInstance5() };
 	}
+
+	@Override
+	public Instance getInstanceById(String instanceId) throws Exception {
+		Instance[] instances = new Instance[] { SmartTest.getWorkInstance1(), SmartTest.getWorkInstance2(), SmartTest.getWorkInstance3(),
+				SmartTest.getWorkInstance4(), SmartTest.getWorkInstance5(), SmartTest.getTaskInstanceIA(), SmartTest.getTaskInstanceIF(),
+				SmartTest.getTaskInstancePA(), SmartTest.getTaskInstancePF(), SmartTest.getTaskInstanceSA(), SmartTest.getTaskInstanceSF(),
+				SmartTest.getTaskInstanceAA(), SmartTest.getTaskInstanceAF() };
+		for (Instance instance : instances) {
+			if (instance.getId().equals(instanceId))
+				return instance;
+		}
+		return null;
+	}
+
+	@Override
+	public Instance[] getMyRunningInstances() throws Exception {
+		return SmartTest.getRunningInstances();
+	}
+
+	@Override
+	public Instance[] searchMyRunningInstance(String key) throws Exception {
+		return SmartTest.getRunningInstances();
+	}	
+	
 }

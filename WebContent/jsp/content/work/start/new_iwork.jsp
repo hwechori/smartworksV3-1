@@ -8,7 +8,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String workId = request.getParameter("key");
+	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
 	Work work = smartWorks.getWorkById(workId);

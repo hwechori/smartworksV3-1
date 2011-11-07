@@ -7,7 +7,7 @@
 	<div class="up_warp space js_upload_input">
 		<div class="up_form">
 			<div class="up_point posit_file"></div>
-			<input class="up" id="" type="text" title=""
+			<input class="up" href="new_file.sw" targetId="start_new_file" type="text" title=""
 				placeholder="<fmt:message key='common.upload.message.file'/>">
 		</div>
 
@@ -17,29 +17,6 @@
 		</div>
 	</div>
 
-	<div class="js_upload_form_detail" style="display: none">
-		<div class="up_form" style="height: 65px;">
-			<textarea class="up up_textarea" name="<fmt:message key="common.upload.message.file_desc"/>" cols=""
-				rows="5" value="<fmt:message key="common.upload.message.file_desc"/>"><fmt:message key="common.upload.message.file_desc"/>
-                </textarea>
-		</div>
-
-		<div class="txt_btn float_right js_file_detail_form">
-			<div id="view_file_detail">
-				<a href="file_detail_form.sw" ><fmt:message key="common.upload.button.view_file_detail"/></a>
-			</div>
-			<div id="close_file_detail" style="display:none">
-				<a href="" ><fmt:message key="common.upload.button.close_file_detail"/></a>
-			</div>
-		</div>
-
-		<!-- 상세 정보 추가시 화면 -->
-		<div id="form_import" style="display:none">
-		</div>
-		<!-- 상세 정보 추가시 화면 //-->
-
-		<!-- 하단 등록,취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
-		<!-- 하단 등록,취소 버튼 -->
+	<div class="js_upload_form_detail" id="start_new_file">
 	</div>
 </div>

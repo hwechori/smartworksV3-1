@@ -31,7 +31,7 @@
 							<input id="" class="input js_auto_complete" type="text"
 								title="<fmt:message key="search.search_running_instance"/>"
 								placeholder="<fmt:message key="search.search_running_instance"/>"
-								href="running_instance_list.sw">
+								href="my_running_instance.sw">
 							<button title="<fmt:message key='search.search'/>" onclick=""></button>
 						</div>
 						<div style="display: none"></div>

@@ -5,7 +5,7 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	SmartWork[] works = smartWorks.searchWorkList(SmartUtil.getCurrentUser().getId(), key);
+	SmartWork[] works = smartWorks.searchWork(key);
 %>
 
 <ul>
@@ -30,7 +30,7 @@
 			}
 	%>
 	<li class="<%=iconType%>"><a
-		href="<%=targetContent%>?key=<%=work.getId() %>" class="js_select_work"><%=work.getFullpathName()%></a>
+		href="<%=targetContent%>?workId=<%=work.getId() %>" class="js_select_work"><%=work.getFullpathName()%></a>
 	</li>
 	<%
 		}

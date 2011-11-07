@@ -5,7 +5,7 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	SmartWork[] works = smartWorks.searchWorkList(SmartUtil.getCurrentUser().getId(), key);
+	SmartWork[] works = smartWorks.searchWork(key);
 %>
 
 <ul>

@@ -5,7 +5,7 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	WorkSpace[] communities = smartWorks.searchCommunityList(SmartUtil.getCurrentUser().getId(), key);
+	WorkSpace[] communities = smartWorks.searchCommunity(key);
 %>
 
 <ul>
