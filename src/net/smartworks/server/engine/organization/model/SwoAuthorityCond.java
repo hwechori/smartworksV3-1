@@ -11,7 +11,6 @@ package net.smartworks.server.engine.organization.model;
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
-import net.smartworks.server.engine.domain.model.SwdObjectCond;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +19,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SwoAuthorityCond extends SwdObjectCond {
+public class SwoAuthorityCond extends SwoObjectCond {
 
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(SwoAuthorityCond.class);
@@ -70,7 +69,7 @@ public class SwoAuthorityCond extends SwdObjectCond {
 			obj = (SwoAuthorityCond)baseObj;
 		
 		// 부모 attributes, elements 값 설정
-		SwdObjectCond.toObject(node, obj);
+		SwoObjectCond.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {

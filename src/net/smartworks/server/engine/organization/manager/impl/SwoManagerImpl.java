@@ -18,7 +18,6 @@ import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.id.IDCreator;
-import net.smartworks.server.engine.domain.model.SwdObject;
 import net.smartworks.server.engine.organization.exception.SwoException;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoAuthority;
@@ -31,6 +30,7 @@ import net.smartworks.server.engine.organization.model.SwoContact;
 import net.smartworks.server.engine.organization.model.SwoContactCond;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
+import net.smartworks.server.engine.organization.model.SwoObject;
 import net.smartworks.server.engine.organization.model.SwoTeam;
 import net.smartworks.server.engine.organization.model.SwoTeamCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
@@ -48,7 +48,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			logger.info(this.getClass().getName() + " created");
 	}
 	
-	protected void fill(String user, SwdObject obj) throws Exception {
+	protected void fill(String user, SwoObject obj) throws Exception {
 		if (obj == null)
 			return;
 		Date date = new Date();
@@ -125,7 +125,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				query.setString(SwoContact.A_CREATIONUSER, obj.getCreationUser());
 				query.setString(SwoContact.A_MODIFICATIONUSER, obj.getModificationUser());
 				query.setTimestamp(SwoContact.A_MODIFICATIONDATE, obj.getModificationDate());
-				query.setString(SwdObject.A_ID, obj.getId());
+				query.setString(SwoObject.A_ID, obj.getId());
 			}
 		} catch (Exception e) {
 			logger.error(e, e);
@@ -371,7 +371,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				query.setString(SwoCompany.A_CREATIONUSER, obj.getCreationUser());
 				query.setTimestamp(SwoCompany.A_MODIFICATIONUSER, obj.getModificationDate());
 				query.setTimestamp(SwoCompany.A_MODIFICATIONDATE, obj.getModificationDate());
-				query.setString(SwdObject.A_ID, obj.getId());
+				query.setString(SwoObject.A_ID, obj.getId());
 			}
 		} catch (Exception e) {
 			logger.error(e, e);
