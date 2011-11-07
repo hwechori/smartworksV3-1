@@ -4,11 +4,11 @@
  * creation-date : 2011. 11. 7.
  * =========================================================
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
- 
+ */
 
 package net.smartworks.server.engine.factory;
 
-import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+//import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
@@ -23,24 +23,23 @@ public class SwManagerFactory {
 	protected final Log logger = LogFactory.getLog(getClass());
 	private ILnkManager lnkManager;
 	private ITskManager tskManager;
-	private IPrcManager prcManager;
 //	private IChtManager chtManager;
-//	private IPrcManager prcManager;
+	private IPrcManager prcManager;
 //	private IMdlManager mdlManager;
 //	private ILcsManager lcsManager;
 //	private IUpdManager updManager;
 //	private IAprManager aprManager;
 	//private IRepManager repManager;
-	private ISwdManager swdManager;
+//	private ISwdManager swdManager;
 	private ISwfManager swfManager;
 	private ISwoManager swoManager;
 
-	public ISwdManager getSwdManager() {
+/*	public ISwdManager getSwdManager() {
 		return swdManager;
 	}
 	public void setSwdManager(ISwdManager swdManager) {
 		this.swdManager = swdManager;
-	}
+	}*/
 
 	public ISwfManager getSwfManager() {
 		return swfManager;
@@ -75,24 +74,18 @@ public class SwManagerFactory {
 	public void setTskManager(ITskManager tskManager) {
 		this.tskManager = tskManager;
 	}
-	public IPrcManager getPrcManager() {
-		return prcManager;
-	}
-	public void setPrcManager(IPrcManager prcManager) {
-		this.prcManager = prcManager;
-	}
 //	public IChtManager getChtManager() {
 //		return chtManager;
 //	}
 //	public void setChtManager(IChtManager chtManager) {
 //		this.chtManager = chtManager;
 //	}
-//	public IPrcManager getPrcManager() {
-//		return prcManager;
-//	}
-//	public void setPrcManager(IPrcManager prcManager) {
-//		this.prcManager = prcManager;
-//	}
+	public IPrcManager getPrcManager() {
+		return prcManager;
+	}
+	public void setPrcManager(IPrcManager prcManager) {
+		this.prcManager = prcManager;
+	}
 //	public IMdlManager getMdlManager() {
 //		return mdlManager;
 //	}
@@ -130,4 +123,3 @@ public class SwManagerFactory {
 		this.swoManager = swoManager;
 	}
 }
-*/

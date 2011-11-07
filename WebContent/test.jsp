@@ -1,9 +1,7 @@
-
 <%@page import="net.smartworks.server.engine.organization.model.SwoUserCond"%>
 <%@page import="net.smartworks.server.engine.organization.model.SwoUser"%>
 <%@page import="net.smartworks.server.engine.organization.manager.ISwoManager"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
-<%@page import="net.smartworks.server.engine.factory.SwManagerFactory"%>
 <%@page import="net.smartworks.server.engine.process.link.model.LnkLink"%>
 <%@page import="net.smartworks.server.engine.process.link.manager.ILnkManager"%>
 <%@page import="net.smartworks.server.engine.process.process.model.PrcProcess"%>
@@ -30,7 +28,6 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-
 	ISwoManager mgr = (ISwoManager)SmartUtil.getBean("swoManagerImpl", request);
 
 	SwoUserCond swoUserCond = new SwoUserCond();

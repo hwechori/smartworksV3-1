@@ -1,9 +1,9 @@
 package net.smartworks.server.engine.process.deploy.exception;
 
-import net.smartworks.server.engine.common.exception.MisException;
+import net.smartworks.server.engine.common.exception.SwException;
 
 
-public class DepException extends MisException {
+public class DepException extends SwException {
 	private static final long serialVersionUID = 1L;
 	public DepException() {
 		super();
