@@ -1,9 +1,10 @@
-package net.smartworks.server.engine.process.link.model;
+package net.smartworks.server.engine.common.collection.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
+import net.smartworks.server.engine.process.link.model.LnkObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,28 +12,23 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class LnkLink extends MisObject {
+public class ColList extends MisObject {
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(LnkLink.class);
+	private static Log logger = LogFactory.getLog(ColList.class);
 
 	protected static final String PREFIX = "Lnk";
-	private static final String NAME = CommonUtil.toName(LnkLink.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(ColList.class, PREFIX);
 	public static final String A_CORRELATION = "correlation";
 	public static final String A_TYPE = "type";
-	public static final String A_FROM = "from";
-	public static final String A_TO = "to";
-	public static final String A_CONDITION = "condition";
-	
-	//lnktype = processInst -> prcprcinst.prcObjId
+	public static final String A_ITEM = "item";
+	public static final String A_ITEMS = "items";
+
 	private String correlation;
-	//lnktype process, processInst
 	private String type;
 	
-	private LnkObject from;
-	private LnkObject to;
-	private LnkCondition condition;
+	private LnkObject[] items;
 	
-	public LnkLink() {
+	public ColList() {
 		super();
 	}
 	public Object clone() throws CloneNotSupportedException {
@@ -43,20 +39,20 @@ public class LnkLink extends MisObject {
 			return null;
 		}
 	}
-	public static LnkLink[] add(LnkLink[] objs, LnkLink obj) {
+	public static ColList[] add(ColList[] objs, ColList obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		LnkLink[] newObjs = new LnkLink[size+1];
+		ColList[] newObjs = new ColList[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static LnkLink[] remove(LnkLink[] objs, LnkLink obj) {
+	public static ColList[] remove(ColList[] objs, ColList obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -64,7 +60,7 @@ public class LnkLink extends MisObject {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		LnkLink[] newObjs = new LnkLink[size-1];
+		ColList[] newObjs = new ColList[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -74,7 +70,7 @@ public class LnkLink extends MisObject {
 		}
 		return newObjs;
 	}
-	public static LnkLink[] left(LnkLink[] objs, LnkLink obj) {
+	public static ColList[] left(ColList[] objs, ColList obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -86,7 +82,7 @@ public class LnkLink extends MisObject {
 		}
 		if (idx < 1)
 			return objs;
-		LnkLink[] newObjs = new LnkLink[objs.length];
+		ColList[] newObjs = new ColList[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -99,7 +95,7 @@ public class LnkLink extends MisObject {
 		}
 		return newObjs;
 	}
-	public static LnkLink[] right(LnkLink[] objs, LnkLink obj) {
+	public static ColList[] right(ColList[] objs, ColList obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -111,7 +107,7 @@ public class LnkLink extends MisObject {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		LnkLink[] newObjs = new LnkLink[objs.length];
+		ColList[] newObjs = new ColList[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
@@ -128,11 +124,11 @@ public class LnkLink extends MisObject {
 		if (node == null)
 			return null;
 		
-		LnkLink obj = null;
-		if (baseObj == null || !(baseObj instanceof LnkLink))
-			obj = new LnkLink();
+		ColList obj = null;
+		if (baseObj == null || !(baseObj instanceof ColList))
+			obj = new ColList();
 		else
-			obj = (LnkLink)baseObj;
+			obj = (ColList)baseObj;
 		
 		MisObject.toObject(node, obj);
 		
@@ -147,12 +143,16 @@ public class LnkLink extends MisObject {
 				obj.setCorrelation(getNodeValue(childNode));
 			} else if (childNode.getNodeName().equals(A_TYPE)) {
 				obj.setType(getNodeValue(childNode));
-			} else if (childNode.getNodeName().equals(A_FROM)) {
-				obj.setFrom((LnkObject)LnkObject.toObject(childNode, null));
-			} else if (childNode.getNodeName().equals(A_TO)) {
-				obj.setTo((LnkObject)LnkObject.toObject(childNode, null));
-			} else if (childNode.getNodeName().equals(A_CONDITION)) {
-				obj.setCondition((LnkCondition)LnkCondition.toObject(childNode, null));
+			} else if (childNode.getNodeName().equals(A_ITEMS)) {
+				Node[] nodes = getNodes(childNode);
+				if (nodes == null || nodes.length == 0)
+					continue;
+				LnkObject[] objs = new LnkObject[nodes.length];
+				for (int j=0; j<nodes.length; j++)
+					objs[j] = (LnkObject)LnkObject.toObject(nodes[j], null);
+				obj.setItems(objs);
+			} else if (childNode.getNodeName().equals(A_ITEM)) {
+				obj.addItem((LnkObject)LnkObject.toObject(childNode, null));
 			}
 		}
 		return obj;
@@ -175,28 +175,8 @@ public class LnkLink extends MisObject {
 		buf.append(super.toElementsString(tab));
 		appendElementString(A_CORRELATION, correlation, tab, buf);
 		appendElementString(A_TYPE, type, tab, buf);
-		appendElementString(A_FROM, from, tab, buf);
-		appendElementString(A_TO, to, tab, buf);
-		appendElementString(A_CONDITION, condition, tab, buf);
+		appendElementsString(A_ITEMS, A_ITEM, getItems(), tab, buf);
 		return buf.toString();
-	}
-	public LnkCondition getCondition() {
-		return condition;
-	}
-	public void setCondition(LnkCondition condition) {
-		this.condition = condition;
-	}
-	public LnkObject getTo() {
-		return to;
-	}
-	public void setTo(LnkObject task) {
-		this.to = task;
-	}
-	public LnkObject getFrom() {
-		return from;
-	}
-	public void setFrom(LnkObject from) {
-		this.from = from;
 	}
 	public String getCorrelation() {
 		return correlation;
@@ -209,5 +189,34 @@ public class LnkLink extends MisObject {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public LnkObject[] getItems() {
+		return items;
+	}
+	public void setItems(LnkObject[] items) {
+		this.items = items;
+	}
+	public void addItem(LnkObject item) {
+		if (item == null)
+			return;
+		this.setItems(LnkObject.add(this.getItems(), item));
+	}
+	public void removeItem(LnkObject item) {
+		if (item == null)
+			return;
+		this.setItems(LnkObject.remove(this.getItems(), item));
+	}
+	public void removeItem(String ref) {
+		if (CommonUtil.isEmpty(ref) || CommonUtil.isEmpty(items))
+			return;
+		int length = items.length;
+		LnkObject item;
+		for (int i=0; i<length; i++) {
+			item = items[i];
+			if (!ref.equals(item.getRef()))
+				continue;
+			removeItem(item);
+			break;
+		}
 	}
 }

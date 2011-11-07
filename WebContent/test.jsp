@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.server.engine.factory.MisManagerFactory"%>
+<%@page import="net.smartworks.server.engine.process.link.model.LnkLink"%>
+<%@page import="net.smartworks.server.engine.process.link.manager.ILnkManager"%>
 <%@page import="net.smartworks.server.engine.process.process.model.PrcProcess"%>
 <%@page import="net.smartworks.server.engine.process.process.manager.IPrcManager"%>
 <%@page import="net.smartworks.server.engine.process.task.model.TskTaskDef"%>
@@ -25,12 +28,15 @@ public static Object getBean(String beanName, HttpServletRequest request) {
 %>
 <%
 
-	String getHeader = request.getHeader("X-Requested-With");
-	IPrcManager mgr = (IPrcManager)getBean("prcManagerImpl", request);
+	//String getHeader = request.getHeader("X-Requested-With");
+	//ILnkManager mgr = (ILnkManager)getBean("lnkManagerImpl", request);
 	
-	PrcProcess prc = mgr.getProcess("", "pkg_007e24bd7c3e4d1d8fc23fabf8195acc|prc_8a30f7efc66e488f9e8d2055e479da97", "all");	
+	MisManagerFactory fac = MisManagerFactory.createInstance();
+	ILnkManager mgr = fac.getLnkManager();
+	
+	LnkLink lnk = mgr.getLink("", "402880eb33241bca0133250c76ab000b", "all");	
 
 %>
-<textarea style="width:800px;height:400px;"><%=prc.toString() %></textarea>
+<textarea style="width:800px;height:400px;"><%=lnk.toString() %></textarea>
 </body>
 </html>

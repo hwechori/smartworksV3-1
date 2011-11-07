@@ -8,6 +8,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<!--######## Data Source ######## -->
 
+<!--######## Data Source ########
+	<bean id="misDs" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/misDs"/>
+	</bean>	
+-->
 	<beans:bean id="misDs"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="${smartworksDs.driverClassName}" />
@@ -16,11 +21,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="password" value="${smartworksDs.password}" />
 	</beans:bean>
 
-	<beans:bean id="misLobHandler"
-		class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
+	<beans:bean id="misLobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
 	<!-- Oracle <bean id="misLobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler"/> -->
-	<beans:bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<!-- beans:bean id="misHibernateSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"-->
+	<beans:bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<beans:property name="dataSource" ref="misDs" />
 		<beans:property name="lobHandler" ref="misLobHandler" />
 		<beans:property name="hibernateProperties">
@@ -42,8 +46,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="mappingDirectoryLocations">
 			<beans:list>
 				<!--value>model.hbm.xml</value -->
-				<beans:value>classpath:/net/smartworks/server/engine/process/hbm
-				</beans:value>
+				<beans:value>classpath:/net/smartworks/server/engine/process/hbm</beans:value>
+				<beans:value>classpath:/net/smartworks/server/engine/common/collection/hbm</beans:value>
 			</beans:list>
 		</beans:property>
 	</beans:bean>
