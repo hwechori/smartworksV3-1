@@ -11,57 +11,83 @@ package net.smartworks.server.engine.organization.model;
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
-import net.smartworks.server.engine.domain.model.SwdObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-public class SwoObject extends SwdObject {
+public class SwoAuthority extends SwoObject {
 
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(SwoObject.class);
+	private static Log logger = LogFactory.getLog(SwoAuthority.class);
 	
-	protected static final String PREFIX = "Swo";
-	private static final String NAME = CommonUtil.toName(SwoObject.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(SwoAuthority.class, PREFIX);
 
-	public static final String A_NAME = "name";
+	public static final String A_COMPANYID = "companyId";
+	public static final String A_DESCRIPTION = "description";
+	
+	private String companyId;
+	private String description;
 
-	private String name;
-
-	public SwoObject() {
+	public SwoAuthority() {
 		super();
 	}
-	public String toString(String name, String tab){
-		if(name == null || name.trim().length() == 0)
+	public String toString(String name, String tab) {
+		if (name == null || name.trim().length() == 0)
 			name = NAME;
 		return super.toString(name, tab);
+	}
+	public String toLiteString(String name, String tab) {
+		if (name == null || name.trim().length() == 0)
+			name = NAME;
+		return super.toLiteString(name, tab);
 	}
 	public String toAttributesString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
-		appendAttributeString(A_NAME, name, true, buf);
+		appendAttributeString(A_COMPANYID, companyId, buf);
+		return buf.toString();
+	}
+	public String toElementsString(String tab, boolean lite) {
+		StringBuffer buf = new StringBuffer();
+		buf.append(super.toElementsString(tab, lite));
+		appendElementString(A_DESCRIPTION, getDescription(), tab, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
 		if (node == null)
 			return null;
 		
-		SwoObject obj = null;
-		if (baseObj == null || !(baseObj instanceof SwoObject))
-			obj = new SwoObject();
+		SwoAuthority obj = null;
+		if (baseObj == null || !(baseObj instanceof SwoAuthority))
+			obj = new SwoAuthority();
 		else
-			obj = (SwoObject)baseObj;
+			obj = (SwoAuthority)baseObj;
 		
-		SwdObject.toObject(node, obj);
+		// 부모 attributes, elements 값 설정
+		SwoObject.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
-			Node name = attrMap.getNamedItem(A_NAME);
-			if (name != null)
-				obj.setName(name.getNodeValue());
+			Node companyId = attrMap.getNamedItem(A_COMPANYID);
+			if (companyId != null)
+				obj.setCompanyId(companyId.getNodeValue());
+		}
+		
+		// elements 값 설정
+		NodeList childNodeList = node.getChildNodes();
+		if (childNodeList == null || childNodeList.getLength() == 0)
+			return obj;
+		for (int i=0; i<childNodeList.getLength(); i++) {
+			Node childNode = childNodeList.item(i);
+			if (childNode.getNodeType() != Node.ELEMENT_NODE || childNode.getNodeName() == null)
+				continue;
+			if (childNode.getNodeName().equals(A_DESCRIPTION)) {
+				obj.setDescription(getNodeValue(childNode));
+			}
 		}
 		return obj;
 	}
@@ -73,20 +99,20 @@ public class SwoObject extends SwdObject {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static SwoObject[] add(SwoObject[] objs, SwoObject obj) {
+	public static SwoAuthority[] add(SwoAuthority[] objs, SwoAuthority obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		SwoObject[] newObjs = new SwoObject[size+1];
+		SwoAuthority[] newObjs = new SwoAuthority[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static SwoObject[] remove(SwoObject[] objs, SwoObject obj) {
+	public static SwoAuthority[] remove(SwoAuthority[] objs, SwoAuthority obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -94,7 +120,7 @@ public class SwoObject extends SwdObject {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		SwoObject[] newObjs = new SwoObject[size-1];
+		SwoAuthority[] newObjs = new SwoAuthority[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -104,7 +130,7 @@ public class SwoObject extends SwdObject {
 		}
 		return newObjs;
 	}
-	public static SwoObject[] left(SwoObject[] objs, SwoObject obj) {
+	public static SwoAuthority[] left(SwoAuthority[] objs, SwoAuthority obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -116,7 +142,7 @@ public class SwoObject extends SwdObject {
 		}
 		if (idx < 1)
 			return objs;
-		SwoObject[] newObjs = new SwoObject[objs.length];
+		SwoAuthority[] newObjs = new SwoAuthority[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -129,7 +155,7 @@ public class SwoObject extends SwdObject {
 		}
 		return newObjs;
 	}
-	public static SwoObject[] right(SwoObject[] objs, SwoObject obj) {
+	public static SwoAuthority[] right(SwoAuthority[] objs, SwoAuthority obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -141,7 +167,7 @@ public class SwoObject extends SwdObject {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		SwoObject[] newObjs = new SwoObject[objs.length];
+		SwoAuthority[] newObjs = new SwoAuthority[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
@@ -162,12 +188,18 @@ public class SwoObject extends SwdObject {
 			return null;
 		}
 	}
-
-	public String getName() {
-		return name;
+	
+	public String getCompanyId() {
+		return companyId;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

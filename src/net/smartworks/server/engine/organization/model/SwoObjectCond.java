@@ -9,9 +9,10 @@
 package net.smartworks.server.engine.organization.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
+import net.smartworks.server.engine.common.model.SmartObjectCond;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
-import net.smartworks.server.engine.domain.model.SwdObject;
+import net.smartworks.server.engine.domain.model.SwdObjectCond;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,19 +20,19 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SwoObject extends SwdObject {
+public class SwoObjectCond extends SmartObjectCond {
 
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(SwoObject.class);
+	private static Log logger = LogFactory.getLog(SwoObjectCond.class);
 	
 	protected static final String PREFIX = "Swo";
-	private static final String NAME = CommonUtil.toName(SwoObject.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(SwoObjectCond.class, PREFIX);
 
 	public static final String A_NAME = "name";
 
 	private String name;
 
-	public SwoObject() {
+	public SwoObjectCond() {
 		super();
 	}
 	public String toString(String name, String tab){
@@ -42,20 +43,20 @@ public class SwoObject extends SwdObject {
 	public String toAttributesString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
-		appendAttributeString(A_NAME, name, true, buf);
+		appendAttributeString(A_NAME, name, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
 		if (node == null)
 			return null;
 		
-		SwoObject obj = null;
-		if (baseObj == null || !(baseObj instanceof SwoObject))
-			obj = new SwoObject();
+		SwoObjectCond obj = null;
+		if (baseObj == null || !(baseObj instanceof SwoObjectCond))
+			obj = new SwoObjectCond();
 		else
-			obj = (SwoObject)baseObj;
+			obj = (SwoObjectCond)baseObj;
 		
-		SwdObject.toObject(node, obj);
+		SwdObjectCond.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
@@ -73,20 +74,20 @@ public class SwoObject extends SwdObject {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static SwoObject[] add(SwoObject[] objs, SwoObject obj) {
+	public static SwoObjectCond[] add(SwoObjectCond[] objs, SwoObjectCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		SwoObject[] newObjs = new SwoObject[size+1];
+		SwoObjectCond[] newObjs = new SwoObjectCond[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static SwoObject[] remove(SwoObject[] objs, SwoObject obj) {
+	public static SwoObjectCond[] remove(SwoObjectCond[] objs, SwoObjectCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -94,7 +95,7 @@ public class SwoObject extends SwdObject {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		SwoObject[] newObjs = new SwoObject[size-1];
+		SwoObjectCond[] newObjs = new SwoObjectCond[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -104,7 +105,7 @@ public class SwoObject extends SwdObject {
 		}
 		return newObjs;
 	}
-	public static SwoObject[] left(SwoObject[] objs, SwoObject obj) {
+	public static SwoObjectCond[] left(SwoObjectCond[] objs, SwoObjectCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -116,7 +117,7 @@ public class SwoObject extends SwdObject {
 		}
 		if (idx < 1)
 			return objs;
-		SwoObject[] newObjs = new SwoObject[objs.length];
+		SwoObjectCond[] newObjs = new SwoObjectCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -129,7 +130,7 @@ public class SwoObject extends SwdObject {
 		}
 		return newObjs;
 	}
-	public static SwoObject[] right(SwoObject[] objs, SwoObject obj) {
+	public static SwoObjectCond[] right(SwoObjectCond[] objs, SwoObjectCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -141,7 +142,7 @@ public class SwoObject extends SwdObject {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		SwoObject[] newObjs = new SwoObject[objs.length];
+		SwoObjectCond[] newObjs = new SwoObjectCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
