@@ -8,12 +8,27 @@
 
 package net.smartworks.server.engine.common.advisor;
 
+import org.aopalliance.intercept.MethodInvocation;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint;
 
 public class CommonAdvisor {
 
 	public Object trace(ProceedingJoinPoint joinPoint) throws Throwable {
+		
+		
+		for (int i = 0; i < joinPoint.getArgs().length; i++) {//파라미터정보
+			Object obj = joinPoint.getArgs();
+			System.out.println("arg " + i + " = " + obj.toString());
+		}
+		
+		
 		String signatureString = joinPoint.getSignature().toShortString();
+		
+		System.out.println(joinPoint.getSignature().getName());//메소드명
+		
 		System.out.println(signatureString + "시작");
 		long start = System.currentTimeMillis();
 		try {

@@ -9,6 +9,7 @@
 package net.smartworks.server.engine.factory;
 
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
+import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 
 import org.apache.commons.logging.Log;
@@ -19,6 +20,7 @@ public class SwManagerFactory {
 	protected final Log logger = LogFactory.getLog(getClass());
 	private ILnkManager lnkManager;
 	private ITskManager tskManager;
+	private IPrcManager prcManager;
 //	private IChtManager chtManager;
 //	private IPrcManager prcManager;
 //	private IMdlManager mdlManager;
@@ -53,6 +55,12 @@ public class SwManagerFactory {
 	}
 	public void setTskManager(ITskManager tskManager) {
 		this.tskManager = tskManager;
+	}
+	public IPrcManager getPrcManager() {
+		return prcManager;
+	}
+	public void setPrcManager(IPrcManager prcManager) {
+		this.prcManager = prcManager;
 	}
 //	public IChtManager getChtManager() {
 //		return chtManager;

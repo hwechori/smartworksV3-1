@@ -29,9 +29,9 @@
 	//ILnkManager mgr = (ILnkManager)getBean("lnkManagerImpl", request);
 	
 	SwManagerFactory fac = SwManagerFactory.getInstance();
-	ILnkManager mgr = fac.getLnkManager();
+	ITskManager mgr = fac.getTskManager();
 	
-	LnkLink lnk = mgr.getLink("", "402880eb33241bca0133250c76ab000b", "all");
+	TskTask lnk = mgr.getTask("", "402880eb33241bca0133250c6b6e0007", "all");
 %>
 <textarea style="width:800px;height:400px;"><%=lnk.toString() %></textarea>
 </body>

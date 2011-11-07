@@ -11,8 +11,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<!--property name="mdlManager" ref="mdlManager"/-->
 		<beans:property name="tskManager" ref="tskManager"/>
 		<beans:property name="lnkManager" ref="lnkManager"/>
-		<!-- beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="prcManager" ref="prcManager"/>
+		<!-- beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="lcsManager" ref="lcsManager"/>
 		<beans:property name="updManager" ref="updManager"/>
 		<beans:property name="aprManager" ref="aprManager"/-->
