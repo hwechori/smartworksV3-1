@@ -1,7 +1,5 @@
 package net.smartworks.model.calendar;
 
-import java.util.Date;
-
 import net.smartworks.model.BaseObject;
 import net.smartworks.model.community.User;
 import net.smartworks.util.LocalDate;

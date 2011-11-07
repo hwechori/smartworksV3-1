@@ -1,8 +1,5 @@
 package net.smartworks.model.notice;
 
-import java.util.Date;
-
-import net.smartworks.model.instance.Instance;
 import net.smartworks.util.LocalDate;
 
 public class NoticeBox {

@@ -1,14 +1,9 @@
 package net.smartworks.model.notice;
 
-import java.util.Date;
-
-import net.smartworks.model.BaseObject;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.Instance;
-import net.smartworks.model.work.SmartForm;
-import net.smartworks.model.work.Work;
 import net.smartworks.util.LocalDate;
 
 public class NoticeMessage{

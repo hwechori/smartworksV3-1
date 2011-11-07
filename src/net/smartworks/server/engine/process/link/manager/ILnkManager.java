@@ -1,7 +1,5 @@
 package net.smartworks.server.engine.process.link.manager;
 
-import org.springframework.stereotype.Service;
-
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.process.link.exception.LnkException;
 import net.smartworks.server.engine.process.link.model.LnkLink;

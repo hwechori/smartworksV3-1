@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.organization.model" default-lazy="false">
+	<class name="SwoAuthority" table="SWOrgRole">
+		<id name="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="companyId" type="string" length="50"/>
+		<property name="name" type="string" length="50"/>
+		<property name="description" type="string" length="4000"/>
+		<property name="domainId" type="string" length="50"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+		<!-- property name="" column="workItemId" type="string" length="50"/-->
+	</class>
+	
+	<class name="SwoCompany" table="SWOrgCompany">
+		<id name="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" type="string" length="50"/>
+		<property name="address" type="string" length="4000"/>
+		<property name="domainId" type="string" length="50"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+	
+	<class name="SwoContact" table="SWOrgContact">
+		<id name="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" type="string" length="50"/>
+		<property name="companyId" type="string" length="50"/>
+		<property name="deptId" type="string" length="50"/>
+		<property name="position" column="pos" type="string" length="50"/>
+		<property name="email" type="string" length="50"/>
+		<property name="telephone" type="string" length="50"/>
+		<property name="domainId" type="string" length="50"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+	
+	<class name="SwoDepartment" table="SWOrgDept">
+		<id name="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="companyId" type="string" length="50"/>
+		<property name="parentId" type="string" length="50"/>
+		<property name="type" type="string" length="50"/>
+		<property name="name" type="string" length="50"/>
+		<property name="description" type="string" length="4000"/>
+		<property name="domainId" type="string" length="50"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+	
+	<class name="SwoUser" table="SWOrgUser">
+		<id name="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="companyId" type="string" length="50"/>
+		<property name="deptId" type="string" length="50"/>
+		<property name="roleId" type="string" length="50"/>
+		<property name="authId" type="string" length="50"/>
+		<property name="empNo" type="string" length="50"/>
+		<property name="name" type="string" length="255"/>
+		<property name="type" type="string" length="50"/>
+		<property name="position" column="pos" type="string" length="50"/>
+		<property name="email" type="string" length="50"/>
+		<property name="password" column="passwd" type="string" length="20"/>
+		<property name="lang" type="string" length="20"/>
+		<property name="stdTime" type="string" length="20"/>
+		<property name="picture" type="string" length="50"/>
+		<property name="domainId" type="string" length="50"/>
+		<property name="retiree" type="string" length="50"/>
+		<property name="mobileNo" type="string" length="50"/>
+		<property name="internalNo" type="string" length="50"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+	
+	<class name="SwoConfig" table="SWOrgConfig">
+		<id name="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="smtpAddress" type="string" length="100"/>
+		<property name="userId" type="string" length="50"/>
+		<property name="password" type="string" length="20"/>
+		<property name="name" type="string" length="255"/>
+		<property name="domainId" type="string" length="50"/>
+		<property name="companyId" type="string" length="100"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+		<property name="isActivity" column="isActivity" type="boolean" access="field"/>
+	</class>
+	
+	<class name="SwoTeam" table="SWOrgTeam">
+		<id name="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="companyId" type="string" length="50"/>
+		<property name="name" type="string" length="255"/>
+		<property name="teamLeader" type="string" length="50"/>
+		<property name="dept" type="string" length="50"/>
+		<property name="member" type="text"/>
+		<property name="accessLevel" type="string" length="50"/>
+		<property name="state" type="string" length="50"/>
+		<property name="description" type="string" length="4000"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+	
+</hibernate-mapping>

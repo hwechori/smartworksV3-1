@@ -1,7 +1,5 @@
 package net.smartworks.model.instance;
 
-import java.util.Date;
-
 import net.smartworks.model.community.User;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
