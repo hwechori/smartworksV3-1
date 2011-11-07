@@ -49,6 +49,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				<beans:value>classpath:/net/smartworks/server/engine/process/hbm</beans:value>
 				<beans:value>classpath:/net/smartworks/server/engine/common/collection/hbm</beans:value>
 				<beans:value>classpath:/net/smartworks/server/engine/organization/hbm</beans:value>
+				<beans:value>classpath:/net/smartworks/server/engine/infowork/hbm</beans:value>
 			</beans:list>
 		</beans:property>
 	</beans:bean>
