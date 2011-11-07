@@ -1,6 +1,6 @@
 /*	
  * $Id$
- * created by    : hsshin
+ * created by    : maninsoft
  * creation-date : 2011. 11. 2.
  * =========================================================
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
@@ -8,7 +8,7 @@
 
 package net.smartworks.server.engine.organization.model;
 
-import net.smartworks.model.BaseObject;
+import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
 
@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SwoUser extends BaseObject {
+public class SwoUser extends SwoObject {
 
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(SwoUser.class);
