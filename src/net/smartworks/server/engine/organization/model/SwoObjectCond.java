@@ -15,7 +15,6 @@ import net.smartworks.server.engine.common.model.SmartObjectCond;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
-import net.smartworks.server.engine.domain.model.SwdObjectCond;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -77,7 +76,7 @@ public class SwoObjectCond extends SmartObjectCond {
 		else
 			obj = (SwoObjectCond)baseObj;
 		
-		SwdObjectCond.toObject(node, obj);
+		SwoObjectCond.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
