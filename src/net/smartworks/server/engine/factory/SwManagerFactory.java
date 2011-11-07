@@ -4,10 +4,13 @@
  * creation-date : 2011. 11. 7.
  * =========================================================
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
- */
+ 
 
 package net.smartworks.server.engine.factory;
 
+import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
+import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 
@@ -26,7 +29,23 @@ public class SwManagerFactory {
 //	private IUpdManager updManager;
 //	private IAprManager aprManager;
 	//private IRepManager repManager;
+	private ISwdManager swdManager;
+	private ISwfManager swfManager;
+	private ISwoManager swoManager;
 
+	public ISwdManager getSwdManager() {
+		return swdManager;
+	}
+	public void setSwdManager(ISwdManager swdManager) {
+		this.swdManager = swdManager;
+	}
+
+	public ISwfManager getSwfManager() {
+		return swfManager;
+	}
+	public void setSwfManager(ISwfManager swfManager) {
+		this.swfManager = swfManager;
+	}
 	public SwManagerFactory() {
 		super();
 		if (logger.isInfoEnabled())
@@ -96,4 +115,11 @@ public class SwManagerFactory {
 //	public void setAprManager(IAprManager aprManager) {
 //		this.aprManager = aprManager;
 //	}
+	public ISwoManager getSwoManager() {
+		return swoManager;
+	}
+	public void setSwoManager(ISwoManager swoManager) {
+		this.swoManager = swoManager;
+	}
 }
+*/

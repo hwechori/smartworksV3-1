@@ -8,6 +8,7 @@ import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 
 public interface ITskManager extends IManager {
+
 	public TskTask getTask(String user, String id, String level) throws TskException;
 	public TskTask setTask(String user, TskTask obj, String level) throws TskException;
 	public void removeTask(String user, String id) throws TskException;
@@ -21,4 +22,5 @@ public interface ITskManager extends IManager {
 	public void removeTaskDef(String user, String id) throws TskException;
 	public long getTaskDefSize(String user, TskTaskDefCond cond) throws TskException;
 	public TskTaskDef[] getTaskDefs(String user, TskTaskDefCond cond, String level) throws TskException;
+
 }
