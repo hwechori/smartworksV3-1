@@ -11,7 +11,6 @@ package net.smartworks.server.engine.organization.model;
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
-import net.smartworks.server.engine.domain.model.SwdObjectCond;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,7 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SwoTeamCond extends SwdObjectCond {
+public class SwoTeamCond extends SwoObjectCond {
 
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(SwoTeamCond.class);

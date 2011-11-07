@@ -1,6 +1,5 @@
 package net.smartworks.model.community;
 
-import net.smartworks.model.BaseObject;
 
 public class Group extends WorkSpace{
 

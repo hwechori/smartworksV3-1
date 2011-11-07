@@ -11,7 +11,6 @@ package net.smartworks.server.engine.organization.model;
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
-import net.smartworks.server.engine.domain.model.SwdObjectCond;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,7 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SwoCompanyCond extends SwdObjectCond {
+public class SwoCompanyCond extends SwoObjectCond {
 
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(SwoCompanyCond.class);
@@ -65,7 +64,7 @@ public class SwoCompanyCond extends SwdObjectCond {
 			obj = (SwoCompanyCond)baseObj;
 		
 		// 부모 attributes, elements 값 설정
-		SwdObjectCond.toObject(node, obj);
+		SwoObjectCond.toObject(node, obj);
 		
 		// elements 값 설정
 		NodeList childNodeList = node.getChildNodes();

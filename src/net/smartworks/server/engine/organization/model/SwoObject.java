@@ -8,8 +8,12 @@
 
 package net.smartworks.server.engine.organization.model;
 
+import java.util.Date;
+
 import net.smartworks.server.engine.common.model.BaseObject;
+import net.smartworks.server.engine.common.model.SmartObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
 import net.smartworks.server.engine.domain.model.SwdObject;
 
@@ -19,17 +23,29 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SwoObject extends SwdObject {
+public class SwoObject extends SmartObject {
 
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(SwoObject.class);
-	
+
 	protected static final String PREFIX = "Swo";
 	private static final String NAME = CommonUtil.toName(SwoObject.class, PREFIX);
 
+	public static final String A_ID = "id";
 	public static final String A_NAME = "name";
+	public static final String A_DOMAINID = "domainId";
+	public static final String A_CREATIONUSER = "creationUser";
+	public static final String A_CREATIONDATE = "creationDate";
+	public static final String A_MODIFICATIONUSER = "modificationUser";
+	public static final String A_MODIFICATIONDATE = "modificationDate";
 
+	private String id;
 	private String name;
+	private String domainId;
+	private String creationUser;
+	private Date creationDate;
+	private String modificationUser;
+	private Date modificationDate;
 
 	public SwoObject() {
 		super();
@@ -42,7 +58,13 @@ public class SwoObject extends SwdObject {
 	public String toAttributesString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
+		appendAttributeString(A_ID, id, buf);
 		appendAttributeString(A_NAME, name, true, buf);
+		appendAttributeString(A_DOMAINID, domainId, buf);
+		appendAttributeString(A_CREATIONUSER, creationUser, buf);
+		appendAttributeString(A_CREATIONDATE, creationDate, buf);
+		appendAttributeString(A_MODIFICATIONUSER, modificationUser, buf);
+		appendAttributeString(A_MODIFICATIONDATE, modificationDate, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
@@ -59,9 +81,27 @@ public class SwoObject extends SwdObject {
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
+			Node id = attrMap.getNamedItem(A_ID);
 			Node name = attrMap.getNamedItem(A_NAME);
+			Node domainId = attrMap.getNamedItem(A_DOMAINID);
+			Node creationUser = attrMap.getNamedItem(A_CREATIONUSER);
+			Node creationDate = attrMap.getNamedItem(A_CREATIONDATE);
+			Node modificationUser = attrMap.getNamedItem(A_MODIFICATIONUSER);
+			Node modificationDate = attrMap.getNamedItem(A_MODIFICATIONDATE);
+			if (id != null)
+				obj.setId(id.getNodeValue());
 			if (name != null)
 				obj.setName(name.getNodeValue());
+			if (domainId != null)
+				obj.setDomainId(domainId.getNodeValue());
+			if (creationUser != null)
+				obj.setCreationUser(creationUser.getNodeValue());
+			if (creationDate != null)
+				obj.setCreationDate(DateUtil.toDate(creationDate.getNodeValue()));
+			if (modificationUser != null)
+				obj.setModificationUser(modificationUser.getNodeValue());
+			if (modificationDate != null)
+				obj.setModificationDate(DateUtil.toDate(modificationDate.getNodeValue()));
 		}
 		return obj;
 	}
@@ -163,11 +203,47 @@ public class SwoObject extends SwdObject {
 		}
 	}
 
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getDomainId() {
+		return domainId;
+	}
+	public void setDomainId(String domainId) {
+		this.domainId = domainId;
+	}
+	public String getCreationUser() {
+		return creationUser;
+	}
+	public void setCreationUser(String creationUser) {
+		this.creationUser = creationUser;
+	}
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	public String getModificationUser() {
+		return modificationUser;
+	}
+	public void setModificationUser(String modificationUser) {
+		this.modificationUser = modificationUser;
+	}
+	public Date getModificationDate() {
+		return modificationDate;
+	}
+	public void setModificationDate(Date modificationDate) {
+		this.modificationDate = modificationDate;
 	}
 
 }
