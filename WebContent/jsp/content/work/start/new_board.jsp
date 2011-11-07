@@ -12,10 +12,19 @@
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-		<div class="up_form" style="height: 65px;">
-			<textarea class="up up_textarea" cols="" rows="5"
-				placeholder="<fmt:message key='common.upload.message.board'/>">
+<div id="up_board">
+	<div class="up_form up_size">
+		<div class="up_point posit_event"></div>
+		<input class="up" type="text" value=""
+			title="<fmt:message key='common.upload.message.board'/>"
+			placeholder="<fmt:message key='common.upload.message.board'/>">
+	</div>
+
+	<div class="up_form" style="height: 65px;">
+		<textarea class="up up_textarea" cols="" rows="5"
+			placeholder="<fmt:message key='common.upload.message.board'/>">
 			</textarea>
-		</div>
-		<!-- 하단 등록,취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+	</div>
+	<!-- 하단 등록,취소 버튼 -->
+	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+</div>

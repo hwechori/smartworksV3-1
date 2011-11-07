@@ -16,13 +16,13 @@
 	<ul class="js_select_action">
 		<li class="up_works"><a class="current" id="action_work" href=""><fmt:message
 					key='common.upload.work' /> </a></li>
-		<li class="up_file"><a id="action_file" href=""><fmt:message
+		<li class="up_file"><a id="action_file" href="new_file.sw"><fmt:message
 					key='common.upload.file' /> </a></li>
-		<li class="up_event"><a id="action_event" href=""><fmt:message
+		<li class="up_event"><a id="action_event" href="new_event.sw"><fmt:message
 					key='common.upload.event' /> </a></li>
-		<li class="up_memo"><a id="action_memo" href=""><fmt:message
+		<li class="up_memo"><a id="action_memo" href="new_memo.sw"><fmt:message
 					key='common.upload.memo' /> </a></li>
-		<li class="up_board"><a id="action_board" href=""><fmt:message
+		<li class="up_board"><a id="action_board" href="new_board.sw"><fmt:message
 					key='common.upload.board' /> </a></li>
 	</ul>
 
@@ -33,22 +33,18 @@
 	<!-- 새업무 등록 //-->
 	<!-- 파일 올리기  -->
 	<div class="js_upload_form" id="action_file_box" style="display: none">
-		<jsp:include page="/jsp/content/upload/upload_file.jsp" />
 	</div>
 	<!-- 파일 올리기  //-->
 	<!-- 이벤트 등록 -->
 	<div class="js_upload_form" id="action_event_box" style="display: none">
-		<jsp:include page="/jsp/content/upload/register_event.jsp" />
 	</div>
 	<!-- 이벤트 등록 //-->
 	<!-- 메모 등록 -->
 	<div class="js_upload_form" id="action_memo_box" style="display: none">
-		<jsp:include page="/jsp/content/upload/register_memo.jsp" />
 	</div>
 	<!-- 메모 등록 //-->
 	<!-- 공지 등록 -->
 	<div class="js_upload_form" id="action_board_box" style="display: none">
-		<jsp:include page="/jsp/content/upload/register_board.jsp" />
 	</div>
 	<!-- 공지 등록 //-->
 </div>

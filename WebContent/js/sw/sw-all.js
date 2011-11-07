@@ -161,30 +161,35 @@ $(document).ready(
 						}
 					});
 
-			/*
-			 * 업무나 파일등을 등록하는 화면에서, 초기에 나타나는 아이콘들에 설정 class값이 js_select_action이며,
-			 * 이를 클릭하면, 아이콘에 설정되 id값을 가져와 targetId로 지정하며, targetId + "_box"라는
-			 * id값을 가진항목을 보여준다. (start_work_box, upload_file_box,
-			 * register_event_box, register_memo_box, register_board_box) 이를
-			 * 실행하기전에, js_upload_form(위의 id targetId + "_box" 것들이 공통으로 가지고 있는
-			 * class)들을 찾아 숨겨주고, id가 start_work_form인(새업무시작하기 업무검색화면인 input박스)
-			 * 것을 찾아서 숨겨준다. 또, 모든 등록상세화면들이 가지고 있는 class값을 js_upload_form_detail
-			 * 찾아, 모두 닫아준다. 그리고, 아이콘들에서 current를 제거해주고, 현재것만 current를 준다.
-			 */
 			$('.js_select_action li a')
-					.live(
-							'click',
-							function(e) {
-								$('.js_upload_form').hide();
-								$('.js_upload_form_detail').hide();
-								$('.js_select_action').find('a').removeClass(
-										'current');
-								var targetId = $(e.target).parents('li:first')
-										.find('a').addClass('current').attr(
-												'id');
-								$('#' + targetId + '_box').show();
-								return false;
+			.live(
+					'click',
+					function(e) {
+						var input = $(e.target);
+						$('.js_upload_form').hide();
+						$('.js_upload_form_detail').hide();
+						$('.js_select_action').find('a').removeClass(
+								'current');
+						var targetId = input.parents('li:first')
+								.find('a').addClass('current').attr(
+										'id');
+						var target = $('#' + targetId + '_box');
+						$('.js_start_work input').removeAttr('value');
+						
+						if(targetId === "action_work"){
+							target.slideDown(500).find('.js_start_work input').show();
+						}else{
+							var url = input.attr('href');
+							$.ajax({
+								url : url,
+								data : {},
+								success : function(data, status, jqXHR) {
+									target.html(data).slideDown(500);
+								}
 							});
+						}
+						return false;
+					});
 
 			/*
 			 * 새업무시작하기에서, 처음나오는 입력창을 클릭하면 실행되는 이벤트로, 우측에 전체업무찾기 버튼을 보여준다.
@@ -203,7 +208,7 @@ $(document).ready(
 			$('.js_select_work').swnavi({
 				target : 'start_work_form',
 				before : function(event) {
-					$('#start_work_form').slideUp(500).slideDown(500);
+					$('#start_work_form').slideUp().slideDown();
 				}
 			});
 
@@ -222,39 +227,10 @@ $(document).ready(
 						return false;
 					});
 
-			$('.js_upload_input input').live('click', function(e) {
-				var input = $(e.target);
-				var url = input.attr('href');
-				var targetId = input.attr('targetId');
-				var target = $('#' + targetId);
-				
-				$.ajax({
-					url : url,
-					data : {},
-					success : function(data, status, jqXHR) {
-						target.slideDown(500).html(data);
-					}
-				});
-			});
-
-			$('.js_upload_input textarea').live('click', function(e) {
-				var input = $(e.target);
-				var url = input.attr('href');
-				var targetId = input.attr('targetId');
-				var target = $('#' + targetId);
-				$.ajax({
-					url : url,
-					data : {},
-					success : function(data, status, jqXHR) {
-						target.slideDown(500).html(data);
-					}
-				});
-			});
-
 			$('a.js_toggle_file_detail').swnavi({
-				target : 'form_import',
+				target : 'file_detail',
 				before : function(event) {
-					$('#form_import').toggle();
+					$('#file_detail').toggle();
 				},
 				after : function(event) {
 					$(event.target).parent().hide().siblings().show();
