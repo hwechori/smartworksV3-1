@@ -9,6 +9,7 @@
 package net.smartworks.server.engine.factory;
 
 //import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
@@ -30,16 +31,16 @@ public class SwManagerFactory {
 //	private IUpdManager updManager;
 //	private IAprManager aprManager;
 	//private IRepManager repManager;
-//	private ISwdManager swdManager;
+	private ISwdManager swdManager;
 	private ISwfManager swfManager;
 	private ISwoManager swoManager;
 
-/*	public ISwdManager getSwdManager() {
+	public ISwdManager getSwdManager() {
 		return swdManager;
 	}
 	public void setSwdManager(ISwdManager swdManager) {
 		this.swdManager = swdManager;
-	}*/
+	}
 
 	public ISwfManager getSwfManager() {
 		return swfManager;

@@ -4,7 +4,7 @@
  * creation-date : 2011. 11. 7.
  * =========================================================
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
- 
+ */
 
 package net.smartworks.server.engine.infowork.domain.manager;
 
@@ -55,33 +55,33 @@ public interface ISwdManager extends IManager {
 	public long getDataRefSize(String user, SwdDataRefCond cond) throws SwdException;
 	public SwdDataRef[] getDataRefs(String user, SwdDataRefCond cond, String level) throws SwdException;
 
-	*//**
+	/**
 	 * 이전 매핑을 처리합니다.
 	 * @param user
 	 * @param form
 	 * @param self
 	 * @param context
 	 * @throws SwdException
-	 *//*
+	 */
 	public void preFieldMapping(String user, SwfForm form, SwdRecord self, Map context) throws SwdException;
 	public void preFieldMapping(String user, SwfForm form, SwdRecord[] selfs, Map context) throws SwdException;
-	*//**
+	/**
 	 * 이후 매핑을 처리합니다.
 	 * @param user
 	 * @param form
 	 * @param self
 	 * @param context
 	 * @throws SwdException
-	 *//*
+	 */
 	public void postFieldMapping(String user, SwfForm form, SwdRecord self, Map context) throws SwdException;
-	*//**
+	/**
 	 * 매핑 폼 조건에 맞는 레코드를 반환합니다.
 	 * @param user
 	 * @param self
 	 * @param mappingForm
 	 * @return
 	 * @throws SwdException
-	 *//*
+	 */
 	public SwdRecord getRecordByMappingForm(String user, SwdRecord self, SwfFormLink mappingForm) throws SwdException;
 	public double getRecordValueByMappingForm(String user, SwdRecord self, SwfFormLink mappingForm, String field, String func) throws SwdException;
 	public SwdRecord[] getRecordsByMappingForm(String user, SwdRecord self, SwfFormLink mappingForm) throws SwdException;
@@ -90,4 +90,4 @@ public interface ISwdManager extends IManager {
 	public List<String> getDomainTableColumnNameList(String user, String table) throws SwdException;
 	public void addTableColumn(String user, String table, String columnName, String type) throws SwdException;
 
-}*/
+}

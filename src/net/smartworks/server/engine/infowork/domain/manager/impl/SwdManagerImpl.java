@@ -4,7 +4,7 @@
  * creation-date : 2011. 11. 7.
  * =========================================================
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
- 
+ */
 
 package net.smartworks.server.engine.infowork.domain.manager.impl;
 
@@ -29,10 +29,13 @@ import net.smartworks.server.engine.common.model.InstanceVariable;
 import net.smartworks.server.engine.common.model.InstanceVariables;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.model.Property;
+import net.smartworks.server.engine.common.script.exception.SctException;
+import net.smartworks.server.engine.common.script.manager.ISctManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.ConnectionUtil;
 import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.common.util.DbUtil;
+import net.smartworks.server.engine.common.util.MisUtil;
 import net.smartworks.server.engine.common.util.Wrapper;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.exception.SwdException;
@@ -1389,7 +1392,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 							String instanceId = exeTask.getProcessInstId();
 							if (instanceId == null)
 								continue;
-							IPrcAdminService prcSvc = MisServiceFactory.getInstance().getPrcAdminService();
+							IPrcAdminService prcSvc = SwManagerFactory.getInstance().getPrcAdminService();
 							PrcProcessInst prcInst = prcSvc.getProcessInst(user, instanceId);
 							if (prcInst.getInstVariable() == null || prcInst.getInstVariable().length() == 0)
 								continue;
@@ -1574,7 +1577,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 						if (exeTsk == null)
 							continue;
 						String processInstId = exeTsk.getProcessInstId();
-						IPrcManager prcMgr = MisManagerFactory.getInstance().getPrcManager();
+						IPrcManager prcMgr = SwManagerFactory.getInstance().getPrcManager();
 						
 						PrcProcessInst prcInst = prcMgr.getProcessInst(user, processInstId, IManager.LEVEL_ALL);
 						if (prcInst == null)
@@ -2009,4 +2012,4 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		this.dbType = dbType;
 	}
 
-}*/
+}
