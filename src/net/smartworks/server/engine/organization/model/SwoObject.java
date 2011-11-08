@@ -15,7 +15,6 @@ import net.smartworks.server.engine.common.model.SmartObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
-import net.smartworks.server.engine.domain.model.SwdObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -77,7 +76,7 @@ public class SwoObject extends SmartObject {
 		else
 			obj = (SwoObject)baseObj;
 		
-		SwdObject.toObject(node, obj);
+		SwoObject.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
