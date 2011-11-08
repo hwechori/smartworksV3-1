@@ -13,33 +13,56 @@
 
 	Work work = smartWorks.getWorkById(workId);
 	SmartWork cWork = null;
-	if(work.getClass().equals(SmartWork.class))
-		cWork = (SmartWork)work;
+	if (work.getClass().equals(SmartWork.class))
+		cWork = (SmartWork) work;
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div>
-<%=cWork.getFullpathName() %>
+<div id="form_works">
+	<table>
+		<colgroup>
+			<col class="item">
+			<col class="field">
+			<col class="item">
+			<col class="field">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th colspan="2"><%=cWork.getFullpathName()%></th>
+				<td colspan="2">
+					<div class="txt_btn">
+						<div>
+							<a class="js_select_forwardee" href=""><fmt:message
+									key="common.upload.button.forwardee" /> </a>
+						</div>
+						<div>
+							<a class="js_select_approval" href=""><fmt:message
+									key="common.upload.button.approval" /> </a>
+						</div>
+					</div></td>
+			</tr>
+			<tr>
+				<td colspan="4" class="solid_line"></td>
+			</tr>
+			<tr class="js_start_tab_form">
+				<td colspan="4">
+					<div class="txt_btn">
+						<div>
+							<a href="load_detail_form.sw?key=<%=cWork.getId()%>"><fmt:message
+									key="common.upload.button.detail" /> </a>
+						</div>
+						<div class="current">
+							<a href="load_brief_form.sw?key=<%=cWork.getId()%>"><fmt:message
+									key="common.upload.button.brief" /> </a>
+						</div>
+					</div>
+	<div id="form_import">
+		<jsp:include page="/jsp/content/work/form/load_brief_form.jsp"></jsp:include>
+	</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
-	<div>
-		<a class="js_select_forwardee" href=""><fmt:message key="common.upload.button.forwardee"/></a>
-	</div>
-	<div>
-		<a class="js_select_approval" href=""><fmt:message key="common.upload.button.approval"/></a>
-	</div>
-
-<div class="txt_btn js_start_tab_form">
-	<div>
-		<a href="load_detail_form.sw?key=<%=cWork.getId() %>" ><fmt:message key="common.upload.button.detail"/></a>
-	</div>
-	<div class="current">
-		<a href="load_brief_form.sw?key=<%=cWork.getId() %>" ><fmt:message key="common.upload.button.brief"/></a>
-	</div>
-</div>
-
-<div id="form_import">
-<jsp:include page="/jsp/content/work/form/load_brief_form.jsp"></jsp:include>
-</div>
-<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
-<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>

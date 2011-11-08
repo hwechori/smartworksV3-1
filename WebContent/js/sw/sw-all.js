@@ -1,5 +1,4 @@
-$(document).ready(
-		function() {
+$(function() {
 			/*
 			 * 좌측 "나의 업무" 박스의 좌측상단에 있는 탭(즐겨찾기, 최근처리, 전체업무)탭들이
 			 * class="js_nav_tab_work"로 지정되어 있으며, 이를 선택하면, 밑에 있는 id="my_works"인
@@ -102,7 +101,7 @@ $(document).ready(
 				var start_work = input.parents('div.js_start_work');
 				var target;
 				if (start_work.length > 0)
-					target = start_work.next('#upload_work_list');
+					target = start_work.find('#upload_work_list');
 				else
 					target = input.parent().next('div');
 				var url = input.attr('href');
@@ -209,8 +208,9 @@ $(document).ready(
 			 * ajax를 실행하여 가져온 값으로 id가 start_work_form인 곳 화면을 그려서, 아래로 펼쳐준다.
 			 */
 			$('.js_select_work').swnavi({
-				target : 'start_work_form',
+				target : 'form_works',
 				before : function(event) {
+					$(event.target).parents('#upload_work_list').hide();
 					$('#start_work_form').slideUp().slideDown();
 				}
 			});

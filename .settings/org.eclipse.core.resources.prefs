@@ -1,4 +1,4 @@
-#Thu Oct 27 14:54:48 KST 2011
+#Tue Nov 08 13:43:44 KST 2011
 eclipse.preferences.version=1
 encoding//WebContent/jsp/content/home.jsp=UTF-8
 encoding//WebContent/jsp/content/smartcaster.jsp=UTF-8
@@ -11,4 +11,5 @@ encoding//WebContent/jsp/nav/chatting.jsp=UTF-8
 encoding//WebContent/jsp/nav/communities.jsp=UTF-8
 encoding//WebContent/jsp/nav/mail.jsp=UTF-8
 encoding//WebContent/jsp/nav/space_profile.jsp=UTF-8
+encoding//src/net/smartworks/old/IDBDomain.java=UTF-8
 encoding/<project>=UTF-8
