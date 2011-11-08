@@ -9,5 +9,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<beans:bean id="tskManager" class="net.smartworks.server.engine.process.task.manager.impl.TskManagerImpl"/>
 	<beans:bean id="lnkManager" class="net.smartworks.server.engine.process.link.manager.impl.LnkManagerImpl"/>
 	<beans:bean id="prcManager" class="net.smartworks.server.engine.process.process.manager.impl.PrcManagerImpl"/>
+	<beans:bean id="depManager" class="net.smartworks.server.engine.process.deploy.manager.impl.DepXpdlManagerImpl"/>
 
 </beans:beans>

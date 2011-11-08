@@ -5,19 +5,65 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<beans:bean id="misUtil" class="net.smartworks.server.engine.common.util.MisUtil">
+		<beans:property name="processInstStatusMap">
+			<beans:map>
+				<beans:entry key="started" value="2"/>
+				<beans:entry key="completed" value="3"/>
+				<beans:entry key="terminated" value="4"/>
+			</beans:map>
+		</beans:property>
+		<beans:property name="processInstExecutedStatusSet">
+			<beans:set>
+				<beans:value>3</beans:value>
+			</beans:set>
+		</beans:property>
+		<beans:property name="taskDefTypeMap">
+			<beans:map>
+				<beans:entry key="normal" value="COMMON"/>
+				<beans:entry key="reference" value="REFERENCE"/>
+				<beans:entry key="approval" value="APPROVAL"/>
+				<beans:entry key="subFlow" value="SUBFLOW"/>
+				<beans:entry key="service" value="SERVICE"/>
+			</beans:map>
+		</beans:property>
+		<beans:property name="taskStatusMap">
+			<beans:map>
+				<beans:entry key="created" value="1"/>
+				<beans:entry key="started" value="11"/>
+				<beans:entry key="suspended" value="13"/>
+				<beans:entry key="executed" value="21"/>
+				<beans:entry key="returned" value="23"/>
+				<beans:entry key="terminated" value="22"/>
+				<beans:entry key="canceled" value="24"/>
+			</beans:map>
+		</beans:property>
+		<beans:property name="taskExecutedStatusSet">
+			<beans:set>
+				<beans:value>21</beans:value>
+				<beans:value>22</beans:value>
+				<beans:value>23</beans:value>
+			</beans:set>
+		</beans:property>
+		<beans:property name="defaultForm" value="frm_default_SYSTEM"/>
+		<beans:property name="dbDialect" value="${hibernate.dialect}"/>
+	</beans:bean>
 
 	<beans:bean id="swManagerFactory" class="net.smartworks.server.engine.factory.SwManagerFactory" factory-method="createInstance">
 		<!--property name="mdlManager" ref="mdlManager"/-->
 		<beans:property name="tskManager" ref="tskManager"/>
 		<beans:property name="lnkManager" ref="lnkManager"/>
 		<beans:property name="prcManager" ref="prcManager"/>
+		<beans:property name="colManager" ref="colManager"/>
+		<beans:property name="depManager" ref="depManager"/>
 		<!-- beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="lcsManager" ref="lcsManager"/>
 		<beans:property name="updManager" ref="updManager"/>
-		<beans:property name="aprManager" ref="aprManager"/-->
+		<beans:property name="aprManager" ref="aprManager"/>
 		<beans:property name="swdManager" ref="swdManager"/>
 		<beans:property name="swfManager" ref="swfManager"/>
-		<beans:property name="swoManager" ref="swoManager"/>
+		<beans:property name="swoManager" ref="swoManager"/-->
 	</beans:bean>
 
+	<beans:bean id="colManager" class="net.smartworks.server.engine.common.collection.manager.impl.ColManagerImpl"/>
 </beans:beans>

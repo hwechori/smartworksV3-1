@@ -117,7 +117,7 @@ public class ColManagerImpl extends AbstractManager implements IColManager {
 			toRef = cond.getToRef();
 			extProps = cond.getExtendedProperties();
 		}
-		buf.append(" from LnkMap obj");
+		buf.append(" from ColMap obj");
 		if (extProps != null && extProps.length != 0) {
 			for (int i=0; i<extProps.length; i++) {
 				buf.append(" left join obj.extendedProperties as extProp").append(i);
@@ -335,7 +335,7 @@ public class ColManagerImpl extends AbstractManager implements IColManager {
 			expirationDateTo = cond.getExpirationDateTo();
 			extProps = cond.getExtendedProperties();
 		}
-		buf.append(" from LnkValue obj");
+		buf.append(" from ColValue obj");
 		if (extProps != null && extProps.length != 0) {
 			for (int i=0; i<extProps.length; i++) {
 				buf.append(" left join obj.extendedProperties as extProp").append(i);
@@ -571,7 +571,7 @@ public class ColManagerImpl extends AbstractManager implements IColManager {
 			status = cond.getStatus();
 			lnkObjects = cond.getItems();
 		}
-		buf.append(" from LnkList obj");
+		buf.append(" from ColList obj");
 		if (lnkObjects != null && lnkObjects.length != 0) {
 			for (int i=0; i<lnkObjects.length; i++) {
 				buf.append(" left join obj.items as item").append(i);
