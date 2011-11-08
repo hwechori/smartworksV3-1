@@ -35,6 +35,5 @@
 		<!-- 폼- 업무 입력 후 -->
 		<div class="js_upload_form_detail" id="form_works"></div>
 		<!-- 폼- 업무 입력 후 //-->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 	</div>
 </div>

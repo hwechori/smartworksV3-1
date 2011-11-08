@@ -42,7 +42,7 @@
 				<div class="fieldline space_date float_left">
 					<input id="" type="text" value="" title="">
 				</div>
-				<img src="../images/btn_s_person.png" width="21" height="20" />
+				<img src="images/btn_s_person.png" width="21" height="20" />
 			</div>
 		</div>
 

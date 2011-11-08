@@ -10,55 +10,24 @@
 	</colgroup>
 	<tbody>
 		<tr>
-			<th colspan="2">신제품 기획 TFT > TFT 회의록</th>
-			<td colspan="2">
-				<div class="txt_btn">
-					<div>
-						<a href="">참조자 지정</a>
-					</div>
-					<div>
-						<a href="">전자결재</a>
-					</div>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4" class="solid_line"></td>
-		</tr>
-		<tr>
-			<td colspan="4">
-				<div class="txt_btn">
-					<div>
-						<a href="">프로세스 보기</a>
-					</div>
-					<div>
-						<a href="">자세히</a>
-					</div>
-					<div class="current">
-						<a href="">간단히</a>
-					</div>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<th>제 목</th>
+			<td>제 목</td>
 			<td colspan="3" class=""><div class="fieldline essen">
 					<input id="" type="text" title="" value="">
 				</div></td>
 		</tr>
 		<tr>
-			<th>과제명</th>
+			<td>과제명</td>
 			<td>
 				<div class="ico_space">
 					<div class="fieldline">
 						<input id="" type="text" title="" value="">
 					</div>
 					<div class="ico_posi">
-						<img src="../images/btn_s_search.jpg" />
+						<img src="images/btn_s_search.jpg" />
 					</div>
 				</div>
 			</td>
-			<th class="padding_l">진행단계</th>
+			<td class="padding_l20">진행단계</td>
 			<td>
 				<div>
 					<form name="form" id="form">
@@ -74,31 +43,31 @@
 			</td>
 		</tr>
 		<tr>
-			<th>작성자</th>
+			<td>작성자</td>
 			<td>
 				<div class="ico_space">
 					<div class="fieldline essen">
 						<input id="" type="text" title="" value="">
 					</div>
 					<div class="ico_posi">
-						<img src="../images/btn_s_person.png" />
+						<img src="images/btn_s_person.png" />
 					</div>
 				</div>
 			</td>
-			<th class="padding_l">작성일자</th>
+			<td class="padding_l20">작성일자</td>
 			<td>
 				<div class="ico_space">
 					<div class="fieldline essen">
 						<input id="" type="text" title="" value="">
 					</div>
 					<div class="ico_posi">
-						<img src="../images/btn_s_calendar.png" />
+						<img src="images/btn_s_calendar.png" />
 					</div>
 				</div>
 			</td>
 		</tr>
 		<tr>
-			<th>시작시간</th>
+			<td>시작시간</td>
 			<td>
 				<div class="">
 					<form name="form" id="form">
@@ -112,7 +81,7 @@
 					</form>
 				</div>
 			</td>
-			<th class="padding_l">종료시간</th>
+			<td class="padding_l20">종료시간</td>
 			<td>
 				<div class="">
 					<form name="form" id="form">
@@ -128,22 +97,22 @@
 			</td>
 		</tr>
 		<tr>
-			<th>장 소</th>
+			<td>장 소</td>
 			<td colspan="3" class=""><div class="fieldline essen">
 					<input id="" type="text" title="" value="">
 				</div></td>
 		</tr>
 		<tr>
-			<th>내 용</th>
+			<td>내 용</td>
 			<td colspan="3" class="">
-				<div class="up_form" style="height: 60px;">
+				<div class="up_form textarea_size">
 					<textarea class="up up_textarea essen" name="내용" cols="" rows="5"
 						value="내용"></textarea>
 				</div>
 			</td>
 		</tr>
 		<tr>
-			<th>첨부파일</th>
+			<td>첨부파일</td>
 			<td colspan="3" class="">
 				<div class="btn_space">
 					<div class="fieldline">
@@ -159,4 +128,3 @@
 		</tr>
 	</tbody>
 </table>
-
