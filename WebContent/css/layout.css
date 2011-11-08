@@ -217,9 +217,9 @@ body, #nav {background: url("../images/bg_body.jpg");}
 /* 입력폼 */
 
 #form_title .title {float:left; font-weight:bold; font-size:14px;}
-#form_contents {padding-bottom:10px; clear:both;}
+#form_contents {margin-bottom:10px; clear:both; border:1px solid #e0e0e0;}
 #form_contents .item {width:80px;}
-#form_contents table { border:1px solid #e0e0e0; padding:0 8px 8px 8px; }
+#form_contents table {padding:0 8px 8px 8px; }
 
 #form_add_a {padding-bottom:10px;}
 #form_add_a .item {width:70px;}
@@ -349,7 +349,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_wh .Btn01End {background: url("../images/btn_wh_right.gif") repeat scroll 0 0 transparent;
     		float:left; height:22px; width:5px;}
 			
-.btn_wh_ov {background-color:#FFF; float:right; height:22px; position:absolute;}
+.btn_wh_ov {clear: both; display:inline-block;}
 .btn_wh_ov .Btn01Start {background: url("../images/btn_wh_left_ov.jpg") repeat scroll 0 0 transparent;
 			float:left; height:22px; width:5px;}
 .btn_wh_ov .Btn01Center {background: url("../images/btn_wh_center_ov.jpg") repeat scroll 0 0 transparent;
@@ -365,11 +365,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_black .Btn01End {background: url("../images/btn_blk_bg_right.jpg") repeat scroll 0 0 transparent;
     		float:left; height:22px; width:5px;}
 			
-.btn a:hover, .btn a:focus, .btn a:active, .btn a:link, .btn a:visited,
-.btn_wh a:hover, .btn_wh a:focus, .btn_wh a:active, .btn_wh a:link, .btn_wh a:visited,
-.btn_wh_ov a:hover, .btn_wh_ov a:focus, .btn_wh_ov a:active, .btn_wh_ov a:link, .btn_wh_ov a:visited,
-.btn_black a:hover, .btn_black a:focus, .btn_black a:active, .btn_black a:link, .btn_black a:visited,
-{text-decoration:none;}
+
 			
 .btn_right {left: 515px; position:absolute;}
 			
