@@ -18,27 +18,18 @@
 	<div class="up up_padding">
 		<!-- 폼- 확장 -->
 		<div id="form_wrap">
-			<div class="up_form textarea_size">
-				<textarea class="up up_textarea" rows="5"
-					placeholder="<fmt:message
-						key="common.button.attach_file" />">
-                </textarea>
-			</div>
-
-			<div class="btn_space">
-				<div class="fieldline">
-					<input id="" type="text"
-						placeholder="<fmt:message key='common.upload.message.file'/>">
+			<div class="js_file_brief_form">
+				<div class="up_form textarea_size">
+					<textarea class="up up_textarea" rows="5"
+						placeholder="<fmt:message
+						key="common.upload.message.file_desc" />"><fmt:message
+						key="common.upload.message.file_desc" /></textarea>
 				</div>
 
-				<div class="btn_wh btn_posi">
-					<a href=""> <span class="Btn01Start"></span> <span
-						class="Btn01Center"><fmt:message
-								key="common.button.attach_file" /> </span> <span class="Btn01End"></span>
-					</a>
+				<div class="btn_space">
+					<input type="file" name="">
 				</div>
 			</div>
-
 			<div class="txt_btn js_file_detail_form">
 				<div>
 					<a class="js_toggle_file_detail" href="file_detail_form.sw"><fmt:message
@@ -51,9 +42,7 @@
 			</div>
 
 			<!-- 상세 정보 추가시 화면 -->
-			<div id="form_contents">
-				<div id="file_detail" style="display: none"></div>
-			</div>
+			<div id="file_detail" style="display: none"></div>
 			<!-- 상세 정보 추가시 화면 //-->
 		</div>
 

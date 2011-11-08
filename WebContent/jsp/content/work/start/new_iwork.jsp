@@ -23,9 +23,6 @@
 <div id="form_wrap">
 	<div id="form_title">
 		<div class="ico_iworks title"><%=cWork.getFullpathName()%></div>
-		<div class="txt_btn float_left padding_l10">
-			<a href="">프로세스 보기▼</a>
-		</div>
 		<div class="txt_btn">
 			<div>
 				<a href=""><fmt:message key="common.upload.button.forwardee" />
@@ -40,13 +37,13 @@
 
 	<div id="form_contents">
 
-		<div class="txt_btn padding_r10 js_start_tab_form">
+		<div class="txt_btn padding_r10">
 			<div>
-				<a href="load_detail_form.sw?key=<%=cWork.getId()%>"><fmt:message
+				<a class="js_toggle_form_detail" href="load_detail_form.sw?key=<%=cWork.getId()%>"><fmt:message
 						key="common.upload.button.detail" /> </a>
 			</div>
-			<div class="current">
-				<a href="load_brief_form.sw?key=<%=cWork.getId()%>"><fmt:message
+			<div  style="display:none">
+				<a class="js_toggle_form_detail" href="load_brief_form.sw?key=<%=cWork.getId()%>"><fmt:message
 						key="common.upload.button.brief" /> </a>
 			</div>
 		</div>

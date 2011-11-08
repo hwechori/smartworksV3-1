@@ -14,7 +14,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <div id="up_board">
 	<div class="up_form up_size">
-		<div class="up_point posit_event"></div>
+		<div class="up_point posit_board"></div>
 		<input class="up" type="text" value=""
 			title="<fmt:message key='common.upload.message.board'/>"
 			placeholder="<fmt:message key='common.upload.message.board'/>">

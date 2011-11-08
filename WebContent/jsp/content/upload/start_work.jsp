@@ -3,7 +3,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <!-- 등록하기- 새업무 입력 폼-->
-<div class="up_form" style="height: 450px">
+<div class="up_form"  style="height:450px">
 	<div class="up_point posit_works"></div>
 	<div class="up up_padding">
 		<!-- 폼- 디폴트-->

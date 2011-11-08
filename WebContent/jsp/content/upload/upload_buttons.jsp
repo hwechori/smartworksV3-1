@@ -41,7 +41,7 @@
 	<div class="float_right padding_r10">
 		<form name="form" id="" class="float_right form_space">
 			<select name="">
-				<option value="<%=cUser.getId()%>">
+				<option  value="<%=cUser.getId()%>">
 					<fmt:message key="common.upload.space.self" />
 				</option>
 				<optgroup

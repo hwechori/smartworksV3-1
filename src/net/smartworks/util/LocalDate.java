@@ -7,6 +7,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+import net.smartworks.model.community.User;
+
 public class LocalDate extends Date{
 
 	public final static int ONE_SECOND = 1000;
@@ -19,35 +21,36 @@ public class LocalDate extends Date{
 	public final static String TIMEZONE_LOS_ANGELES = "America/Los_Angeles";
 	
 	private static final long serialVersionUID = 1L;
-	private TimeZone timeZone;
+	private TimeZone timeZone = TimeZone.getDefault();
 	private TimeZone hostTimeZone = TimeZone.getDefault();
-	private Locale locale= new Locale(LocaleInfo.LOCALE_GENERAL);
+	private Locale locale = new Locale(LocaleInfo.LOCALE_GENERAL);
 	private long localNow = System.currentTimeMillis();
 	public LocalDate(){
 		super();
 		super.setTime(super.getTime()-hostTimeZone.getRawOffset());
 		try {
-			if(SmartUtil.getCurrentUser().getTimeZone()!=null)
-				this.timeZone = TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone());
-			else this.timeZone = this.hostTimeZone;
-		} catch (Exception e) {
-			this.timeZone = this.hostTimeZone;
-		}
+			User user = SmartUtil.getCurrentUser();
+			if(user.getTimeZone()!=null && isValidTimeZone(user.getTimeZone()))
+				this.timeZone = TimeZone.getTimeZone(user.getTimeZone());
+			if(user.getLocale()!=null && LocaleInfo.isSupportingLocale(user.getLocale()))
+				this.locale = new Locale(user.getLocale());
+		} catch (Exception e) {}
 	}
 	public LocalDate(long GMTDate){
 		super(GMTDate);
 		try {
-			if(SmartUtil.getCurrentUser().getTimeZone()!=null)
-				this.timeZone = TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone());
-			else this.timeZone = this.hostTimeZone;
-		} catch (Exception e) {
-			this.timeZone = this.hostTimeZone;
-		}
+			User user = SmartUtil.getCurrentUser();
+			if(user.getTimeZone()!=null && isValidTimeZone(user.getTimeZone()))
+				this.timeZone = TimeZone.getTimeZone(user.getTimeZone());
+			if(user.getLocale()!=null && LocaleInfo.isSupportingLocale(user.getLocale()))
+				this.locale = new Locale(user.getLocale());
+		} catch (Exception e) {}
 	}
 	
 	public LocalDate(long GMTDate, String timeZone, String locale){
 		super(GMTDate);
-		this.setTimeZone(timeZone);
+		if(isValidTimeZone(timeZone))
+			this.setTimeZone(timeZone);
 		if(LocaleInfo.isSupportingLocale(locale))
 			this.setLocale(locale);
 	}
@@ -86,15 +89,15 @@ public class LocalDate extends Date{
 	}
 
 	public String toLocalDateString(){
-		return DateFormat.getDateInstance(DateFormat.FULL, locale).format(getLocalTime());
+		return DateFormat.getDateInstance(DateFormat.FULL, this.locale).format(getLocalTime());
 	}
 	
 	public String toLocalDateShortString(){
-		return (new SimpleDateFormat("MM.dd E", locale)).format(getLocalTime());
+		return (new SimpleDateFormat("MM.dd E", this.locale)).format(getLocalTime());
 	}
 	
 	public String toLocalTimeString(){
-		return DateFormat.getTimeInstance(DateFormat.MEDIUM, locale).format(getLocalTime());
+		return DateFormat.getTimeInstance(DateFormat.MEDIUM, this.locale).format(getLocalTime());
 	}
 	
 	public String toLocalTimeShortString(){

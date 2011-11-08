@@ -135,7 +135,7 @@ $(function() {
 				var user_name = input.parents('div.js_user_name');
 				var target;
 				if (start_work.length > 0)
-					target = start_work.next('#upload_work_list');
+					target = start_work.find('#upload_work_list');
 				else if (user_name.length > 0)
 					target = user_name.next('div');
 				else
@@ -145,20 +145,6 @@ $(function() {
 					target.hide();
 				}, 500);
 			});
-
-			/*
-			 * 새업무시작하는 화면에서 "간단히"와 "자세히" 텝에 설정된 class값으로, 탭을 선택하면 href값으로 ajax를
-			 * 호출하여 id form_import인 곳에 보여준다. 그리고나서, 선택된 곳에 current를 지정하고, 나머지에는
-			 * current를 제거한다.
-			 */
-			$('.js_start_tab_form a').swnavi(
-					{
-						target : 'form_import',
-						after : function(event) {
-							$(event.target).parent().addClass('current')
-									.siblings().removeClass('current');
-						}
-					});
 
 			$('.js_select_action li a')
 			.live(
@@ -173,10 +159,9 @@ $(function() {
 								.find('a').addClass('current').attr(
 										'id');
 						var target = $('#' + targetId + '_box');
-						$('.js_start_work input').removeAttr('value');
 						
 						if(targetId === "action_work"){
-							target.slideDown(500).find('.js_start_work input').show();
+							target.slideDown(500).find('.js_start_work').show().find('input').removeAttr('value').show();
 						}else{
 							var url = input.attr('href');
 							$.ajax({
@@ -210,8 +195,8 @@ $(function() {
 			$('.js_select_work').swnavi({
 				target : 'form_works',
 				before : function(event) {
-					$(event.target).parents('#upload_work_list').hide();
-					$('#form_works').slideUp().slideDown();
+					$('#form_works').slideUp().slideDown(500);
+					$(event.target).parents('#upload_work_list').hide().parents("#up_works:first").slideUp();
 				}
 			});
 
@@ -233,10 +218,18 @@ $(function() {
 			$('a.js_toggle_file_detail').swnavi({
 				target : 'file_detail',
 				before : function(event) {
+					$('#form_wrap .js_file_brief_form').slideToggle(500);
 					$('#file_detail').toggle();
 				},
 				after : function(event) {
-					$(event.target).parent().hide().siblings().show();
+					$(event.target).parent().toggle().siblings().toggle();
+				}
+			});
+
+			$('a.js_toggle_form_detail').swnavi({
+				target : 'form_import',
+				after : function(event) {
+					$(event.target).parent().toggle().siblings().toggle();
 				}
 			});
 
