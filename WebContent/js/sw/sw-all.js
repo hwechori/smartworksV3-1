@@ -211,7 +211,7 @@ $(function() {
 				target : 'form_works',
 				before : function(event) {
 					$(event.target).parents('#upload_work_list').hide();
-					$('#start_work_form').slideUp().slideDown();
+					$('#form_works').slideUp().slideDown();
 				}
 			});
 

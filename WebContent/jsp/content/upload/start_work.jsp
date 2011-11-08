@@ -33,7 +33,7 @@
 		<!-- 폼- 디폴트//-->
 
 		<!-- 폼- 업무 입력 후 -->
-		<div class="js_upload_form_detail" id="form_works"></div>
+		<div class="js_upload_form_detail" id="form_works" style="display:none"></div>
 		<!-- 폼- 업무 입력 후 //-->
 	</div>
 </div>
