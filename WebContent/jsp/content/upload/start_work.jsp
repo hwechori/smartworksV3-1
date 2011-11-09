@@ -3,19 +3,19 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <!-- 등록하기- 새업무 입력 폼-->
-<div class="up_form"  style="height:450px">
+<div class="up_wrap">
 	<div class="up_point posit_works"></div>
-	<div class="up up_padding">
+	<div class="up up_padding up_width">
 		<!-- 폼- 디폴트-->
 		<div id="up_works" class="js_start_work">
-			<div class="up_warp space">
-				<div class="up_form">
-					<input class="up input_size js_auto_complete" type="text"
+			<div class="up_wrap space">
+				<div class="up_form input_size">
+					<input class="input_size js_auto_complete" type="text"
 						href="work_name.sw"
 						placeholder="<fmt:message key='common.upload.message.work'/>">
 				</div>
 
-				<div class="btn_wh btn_right" id="all_work_btn"
+				<div class="btn_gray btn_right" id="all_work_btn"
 					style="display: none">
 					<a href=""> <span class="Btn01Start"></span> <span
 						class="Btn01Center"><fmt:message
@@ -31,9 +31,9 @@
 
 		</div>
 		<!-- 폼- 디폴트//-->
-
-		<!-- 폼- 업무 입력 후 -->
-		<div class="js_upload_form_detail" id="form_works" style="display:none"></div>
-		<!-- 폼- 업무 입력 후 //-->
 	</div>
+	<!-- 폼- 업무 입력 후 -->
+	<div class="js_upload_form_detail" id="form_works"
+		style="display: none"></div>
+	<!-- 폼- 업무 입력 후 //-->
 </div>

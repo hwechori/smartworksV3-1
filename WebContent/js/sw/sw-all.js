@@ -146,7 +146,7 @@ $(function() {
 				}, 500);
 			});
 
-			$('.js_select_action li a')
+			$('.js_select_action a')
 			.live(
 					'click',
 					function(e) {
@@ -155,11 +155,10 @@ $(function() {
 						$('.js_upload_form_detail').hide();
 						$('.js_select_action').find('a').removeClass(
 								'current');
-						var targetId = input.parents('li:first')
+						var targetId = input.parents('.up_icon_list')
 								.find('a').addClass('current').attr(
 										'id');
 						var target = $('#' + targetId + '_box');
-						
 						if(targetId === "action_work"){
 							target.slideDown(500).find('.js_start_work').show().find('input').removeAttr('value').show();
 						}else{
