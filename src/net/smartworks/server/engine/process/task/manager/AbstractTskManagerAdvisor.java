@@ -1,5 +1,6 @@
 package net.smartworks.server.engine.process.task.manager;
 
+import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
@@ -30,6 +31,7 @@ public abstract class AbstractTskManagerAdvisor {
 	private ITskManager tskManager;
 	private ILnkManager lnkManager;
 	private IPrcManager prcManager;
+	private IColManager colManager;
 //	private IAprManager aprManager;
 //	private IPrcManager prcManager;
 //	private IChtManager chtManager;
@@ -37,6 +39,11 @@ public abstract class AbstractTskManagerAdvisor {
 //	private ITskAdminService tskService;
 //	private IMonAdminService monXpdlService;
 //	private IChtAdminService chtService;
+	public IColManager getColManager() {
+		if (colManager == null)
+			colManager = SwManagerFactory.getInstance().getColManager();
+		return colManager;
+	}
 	public ITskManager getTskManager() {
 		if (tskManager == null)
 			tskManager = SwManagerFactory.getInstance().getTskManager();
