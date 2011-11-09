@@ -6,10 +6,10 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<beans:bean id="swdManager" class="net.smartworks.server.engine.infowork.manager.impl.SwdManagerImpl">
+	<beans:bean id="swdManager" class="net.smartworks.server.engine.infowork.domain.manager.impl.SwdManagerImpl">
 		<beans:property name="swfManager" ref="swfManager"/>
-		<beans:property name="sctManager" ref="sctManager"/>
+		<!-- <beans:property name="sctManager" ref="sctManager"/> -->
 	</beans:bean>
-	<beans:bean id="swfManager" class="net.smartworks.server.engine.infowork.manager.impl.SwfManagerImpl"/>
+	<beans:bean id="swfManager" class="net.smartworks.server.engine.infowork.form.manager.impl.SwfManagerImpl"/>
 
 </beans:beans>
