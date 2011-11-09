@@ -660,24 +660,25 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		}
 	}
 	
-	public void startTask(String user, String id) throws TskException {
+	public TskTask startTask(String user, String id) throws TskException {
 		TskTask obj = this.getTask(user, id, LEVEL_LITE);
 		if (obj.getStartDate() != null)
-			return;
+			return obj;
 		obj.setStartDate(new Date());
 		setTask(user, obj, LEVEL_LITE);
+		return obj;
 	}
-	
-	public void executeTask(String user, TskTask obj, String action) throws TskException {
+
+	public TskTask executeTask(String user, TskTask obj, String action) throws TskException {
 		Date date = new Date();
 		if (obj.getStartDate() == null)
 			obj.setStartDate(new Date(date.getTime() - 600000));
 		obj.setPerformer(user);
 		obj.setExecutionDate(date);
 		this.setTask(user, obj, LEVEL_ALL);
+		return obj;
 	}
 
-	
 	public TskTaskDef getTaskDef(String user, String id, String level) throws TskException {
 		try {
 			if (CommonUtil.isEmpty(id))
@@ -702,7 +703,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		}
 	}
 	
-	public void setTaskDef(String user, TskTaskDef obj, String level) throws TskException {
+	public TskTaskDef setTaskDef(String user, TskTaskDef obj, String level) throws TskException {
 		if (level == null)
 			level = LEVEL_ALL;
 		try {
@@ -751,6 +752,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				query.setString(TskTaskDef.A_SERVICETARGETID, obj.getServiceTargetId());
 				query.setString(ClassObject.A_OBJID, obj.getObjId());
 			}
+			return obj;
 		} catch (TskException e) {
 			throw e;
 		} catch (Exception e) {

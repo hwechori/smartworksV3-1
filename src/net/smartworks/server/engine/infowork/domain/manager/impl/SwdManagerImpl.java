@@ -1,6 +1,6 @@
 /*	
  * $Id$
- * created by    : hsshin
+ * created by    : maninsoft
  * creation-date : 2011. 11. 7.
  * =========================================================
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
@@ -1392,8 +1392,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 							String instanceId = exeTask.getProcessInstId();
 							if (instanceId == null)
 								continue;
-							IPrcAdminService prcSvc = SwManagerFactory.getInstance().getPrcAdminService();
-							PrcProcessInst prcInst = prcSvc.getProcessInst(user, instanceId);
+							IPrcManager prcManager = SwManagerFactory.getInstance().getPrcManager();
+							PrcProcessInst prcInst = prcManager.getProcessInst(user, instanceId, null);
 							if (prcInst.getInstVariable() == null || prcInst.getInstVariable().length() == 0)
 								continue;
 							InstanceVariables instVariables = (InstanceVariables)InstanceVariables.toObject(prcInst.getInstVariable());
@@ -1517,7 +1517,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			cond.setTypeNotIns(new String[]{"xor", "or", "and", "route"});
 			cond.setFormIns(CommonUtil.toStringArray(formIdFieldMappingMap.keySet()));
 			cond.setOrders(new Order[] {new Order("executionDate", false)});
-			TskTask[] tasks = MisServiceFactory.getInstance().getTskAdminService().getTasks("smartAdvisor", cond);
+			TskTask[] tasks = SwManagerFactory.getInstance().getTskManager().getTasks("smartAdvisor", cond, null);
 			if (CommonUtil.isEmpty(tasks))
 				continue;
 			nowTask = tasks[0];

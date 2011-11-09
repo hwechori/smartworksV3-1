@@ -1,10 +1,10 @@
 /*	
  * $Id$
- * created by    : hsshin
+ * created by    : maninsoft
  * creation-date : 2011. 11. 7.
  * =========================================================
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
- 
+ */
 
 package net.smartworks.server.engine.infowork.form.manager.impl;
 
@@ -161,4 +161,4 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 		}
 	}
 
-}*/
+}

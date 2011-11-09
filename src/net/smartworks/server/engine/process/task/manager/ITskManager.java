@@ -14,11 +14,11 @@ public interface ITskManager extends IManager {
 	public void removeTask(String user, String id) throws TskException;
 	public long getTaskSize(String user, TskTaskCond cond) throws TskException;
 	public TskTask[] getTasks(String user, TskTaskCond cond, String level) throws TskException;
-	public void startTask(String user, String id) throws TskException;
-	public void executeTask(String user, TskTask obj, String action) throws TskException;
+	public TskTask startTask(String user, String id) throws TskException;
+	public TskTask executeTask(String user, TskTask obj, String action) throws TskException;
 	
 	public TskTaskDef getTaskDef(String user, String id, String level) throws TskException;
-	public void setTaskDef(String user, TskTaskDef obj, String level) throws TskException;
+	public TskTaskDef setTaskDef(String user, TskTaskDef obj, String level) throws TskException;
 	public void removeTaskDef(String user, String id) throws TskException;
 	public long getTaskDefSize(String user, TskTaskDefCond cond) throws TskException;
 	public TskTaskDef[] getTaskDefs(String user, TskTaskDefCond cond, String level) throws TskException;
