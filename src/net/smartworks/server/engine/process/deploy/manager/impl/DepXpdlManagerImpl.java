@@ -87,6 +87,9 @@ public class DepXpdlManagerImpl implements IDepManager {
 	}
 	public void deploy(String user, String str, Property[] opts) throws DepException {
 		try {
+			if (logger.isInfoEnabled()) {
+				logger.info("Deploy Process Start!");
+			}
 			PackageType pt = ProcessModelHelper.load(str);
 			Properties optProps = new Properties();
 			if (opts != null && opts.length != 0) {
@@ -109,6 +112,9 @@ public class DepXpdlManagerImpl implements IDepManager {
 			WorkflowProcesses prcs = pt.getWorkflowProcesses();
 			deployProcesses(user, prcs, dId, dVer, str);
 
+			if (logger.isInfoEnabled()) {
+				logger.info("Deploy Process Success!");
+			}
 		} catch (DepException e) {
 			logger.error(" Deploy Process Fail ", e);
 			throw e;
