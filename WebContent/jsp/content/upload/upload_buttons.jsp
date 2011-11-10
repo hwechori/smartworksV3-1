@@ -29,10 +29,15 @@
 <div id="glo_btn_space">
 
 	<div class="float_right">
-		<span class="btn_gray"> <a href=""> <span class="Btn01Start"></span>
+		<span class="btn_gray"> 
+		<a href=""> 
+			<span class="Btn01Start"></span>
 				<span class="Btn01Center"><fmt:message
 						key="common.button.complete" />
-			</span> <span class="Btn01End"></span> </a> </span> <span class="btn_gray space_r10">
+				</span> 
+			<span class="Btn01End"></span> </a> </span> 
+			
+			<span class="btn_gray space_r10">
 			<a href=""> <span class="Btn01Start"></span> <span
 				class="Btn01Center"><fmt:message key="common.button.cancel" />
 			</span> <span class="Btn01End"></span> </a> </span>
