@@ -102,7 +102,7 @@ public class CommunityServiceImpl implements ICommunityService {
 			System.out.println(str);
 			list.add(str);
 		}
-		
+
 		return new Group("group1", groupName, new User[]{ SmartTest.getUser1(), SmartTest.getUser2(), SmartTest.getUser3() }, leader);
 
 	}
