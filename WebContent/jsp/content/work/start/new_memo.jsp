@@ -14,6 +14,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <div id="up_memo">
+<%-- 
 	<div class="up_form">
 		<div class="up_form">
 			<div class="up_point posit_memo"></div>
@@ -22,12 +23,11 @@
 				placeholder="<fmt:message key='common.upload.message.memo'/>">
 		</div>
 	</div>
-
 	<div class="up_form" style="height: 65px; top: -1px">
 		<textarea class="up up_textarea" cols="" rows="5"
 			placeholder="<fmt:message key='common.upload.message.memo'/>">
         	</textarea>
 	</div>
-	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+ --%>	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 	<!-- 하단 등록,취소 버튼 -->
-</div>
+ </div>

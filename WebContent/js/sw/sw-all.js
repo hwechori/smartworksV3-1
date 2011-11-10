@@ -1,5 +1,4 @@
-$(document).ready(
-		function() {
+$(function() {
 			/*
 			 * 좌측 "나의 업무" 박스의 좌측상단에 있는 탭(즐겨찾기, 최근처리, 전체업무)탭들이
 			 * class="js_nav_tab_work"로 지정되어 있으며, 이를 선택하면, 밑에 있는 id="my_works"인
@@ -102,7 +101,7 @@ $(document).ready(
 				var start_work = input.parents('div.js_start_work');
 				var target;
 				if (start_work.length > 0)
-					target = start_work.next('#upload_work_list');
+					target = start_work.find('#upload_work_list');
 				else
 					target = input.parent().next('div');
 				var url = input.attr('href');
@@ -136,7 +135,7 @@ $(document).ready(
 				var user_name = input.parents('div.js_user_name');
 				var target;
 				if (start_work.length > 0)
-					target = start_work.next('#upload_work_list');
+					target = start_work.find('#upload_work_list');
 				else if (user_name.length > 0)
 					target = user_name.next('div');
 				else
@@ -147,21 +146,7 @@ $(document).ready(
 				}, 500);
 			});
 
-			/*
-			 * 새업무시작하는 화면에서 "간단히"와 "자세히" 텝에 설정된 class값으로, 탭을 선택하면 href값으로 ajax를
-			 * 호출하여 id form_import인 곳에 보여준다. 그리고나서, 선택된 곳에 current를 지정하고, 나머지에는
-			 * current를 제거한다.
-			 */
-			$('.js_start_tab_form a').swnavi(
-					{
-						target : 'form_import',
-						after : function(event) {
-							$(event.target).parent().addClass('current')
-									.siblings().removeClass('current');
-						}
-					});
-
-			$('.js_select_action li a')
+			$('.js_select_action a')
 			.live(
 					'click',
 					function(e) {
@@ -170,14 +155,12 @@ $(document).ready(
 						$('.js_upload_form_detail').hide();
 						$('.js_select_action').find('a').removeClass(
 								'current');
-						var targetId = input.parents('li:first')
+						var targetId = input.parents('.up_icon_list')
 								.find('a').addClass('current').attr(
 										'id');
 						var target = $('#' + targetId + '_box');
-						$('.js_start_work input').removeAttr('value');
-						
 						if(targetId === "action_work"){
-							target.slideDown(500).find('.js_start_work input').show();
+							target.slideDown(500).find('.up_padding').show().find('.js_start_work').show().find('input').removeAttr('value').show();
 						}else{
 							var url = input.attr('href');
 							$.ajax({
@@ -209,10 +192,10 @@ $(document).ready(
 			 * ajax를 실행하여 가져온 값으로 id가 start_work_form인 곳 화면을 그려서, 아래로 펼쳐준다.
 			 */
 			$('.js_select_work').swnavi({
-				target : 'start_work_form',
+				target : 'form_works',
 				before : function(event) {
-					$('#start_work_form').slideUp().slideDown();
-				}
+					$('#form_works').slideUp().slideDown(500);
+					$(event.target).parents('#upload_work_list').hide().parents(".up_padding").slideUp();}
 			});
 
 			$('.js_select_user').live(
@@ -233,10 +216,18 @@ $(document).ready(
 			$('a.js_toggle_file_detail').swnavi({
 				target : 'file_detail',
 				before : function(event) {
+					$('#form_wrap .js_file_brief_form').slideToggle(500);
 					$('#file_detail').toggle();
 				},
 				after : function(event) {
-					$(event.target).parent().hide().siblings().show();
+					$(event.target).parent().toggle().siblings().toggle();
+				}
+			});
+
+			$('a.js_toggle_form_detail').swnavi({
+				target : 'form_import',
+				after : function(event) {
+					$(event.target).parent().toggle().siblings().toggle();
 				}
 			});
 
