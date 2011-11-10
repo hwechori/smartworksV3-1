@@ -79,7 +79,7 @@ public class SmartTest {
 	}
 
 	public static SmartWork getSmartWork1() throws Exception {
-		return new SmartWork("work1", "근태품의", SmartWork.TYPE_PROCESS, "", getWorkCategory1());
+		return new SmartWork("work1", "근태품의 (회사규정번호-2343979187628743628468273482374), (ISO9001-293849234732948928743298472394)", SmartWork.TYPE_PROCESS, "", getWorkCategory1());
 	}
 
 	public static SmartWork getSmartWork2() throws Exception {

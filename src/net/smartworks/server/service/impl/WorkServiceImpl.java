@@ -21,7 +21,10 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	public SmartWork[] getMyFavoriteWorks() throws Exception {
 
-		return new SmartWork[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3() };
+		return new SmartWork[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork1(),
+				SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(),
+				SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork1(), SmartTest.getSmartWork2(),
+				SmartTest.getSmartWork3() };
 	}
 
 	/*
@@ -89,8 +92,8 @@ public class WorkServiceImpl implements IWorkService {
 	public Work getWorkById(String workId) throws Exception {
 		Work[] works = new Work[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork4(),
 				SmartTest.getSmartWork5(), SmartTest.getSmartWork6(), SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9() };
-		for(Work work : works){
-			if(work.getId().equals(workId))
+		for (Work work : works) {
+			if (work.getId().equals(workId))
 				return work;
 		}
 		return null;

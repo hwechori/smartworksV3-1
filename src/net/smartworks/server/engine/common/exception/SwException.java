@@ -5,32 +5,32 @@ import net.smartworks.server.util.XmlUtil;
 
 import org.w3c.dom.Node;
 
-public class MisException extends Exception {
+public class SwException extends Exception {
 	private static final long serialVersionUID = 1L;
 	protected static final String PREFIX = "Mis";
-	private static final String NAME = CommonUtil.toName(MisException.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(SwException.class, PREFIX);
 	private String errorCode;
-	public MisException() {
+	public SwException() {
 		super();
 	}
-	public MisException(String message) {
+	public SwException(String message) {
 		super(message);
 	}
-	public MisException(String errorCode, String message) {
+	public SwException(String errorCode, String message) {
 		super(message);
 		setErrorCode(errorCode);
 	}
-	public MisException(MisException e) {
+	public SwException(SwException e) {
 		super(e);
 		setErrorCode(e.getErrorCode());
 	}
-	public MisException(Throwable t) {
+	public SwException(Throwable t) {
 		super(t);
 	}
-	public MisException(String message, Throwable t) {
+	public SwException(String message, Throwable t) {
 		super(message, t);
 	}
-	public MisException(String errorCode, String message, Throwable t) {
+	public SwException(String errorCode, String message, Throwable t) {
 		super(message, t);
 		setErrorCode(errorCode);
 	}
@@ -69,8 +69,8 @@ public class MisException extends Exception {
 	public static String getErrorCode(String str) {
 		return toObject(str).getErrorCode();
 	}
-	protected static MisException toObject(Node node) {
-		MisException e = new MisException();
+	protected static SwException toObject(Node node) {
+		SwException e = new SwException();
 		if (node == null)
 			return e;
 		try {
@@ -79,8 +79,8 @@ public class MisException extends Exception {
 			return null;
 		}
 	}
-	protected static MisException toObject(String str) {
-		MisException e = new MisException();
+	protected static SwException toObject(String str) {
+		SwException e = new SwException();
 		if (str == null)
 			return e;
 		if (str.startsWith("errorCode: ")) {

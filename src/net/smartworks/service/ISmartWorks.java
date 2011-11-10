@@ -1,5 +1,7 @@
 package net.smartworks.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
@@ -98,6 +100,8 @@ public interface ISmartWorks {
 
 	public abstract Group getGroupById(String groupId) throws Exception;
 
+	public abstract Group setGroup(HttpServletRequest request) throws Exception;
+
 	public abstract User getUserById(String userId) throws Exception;
 
 	public abstract SmartWork[] searchWork(String key) throws Exception;
@@ -127,4 +131,5 @@ public interface ISmartWorks {
 	public abstract Instance[] searchMyRunningInstance(String key) throws Exception;
 
 	public abstract Community[] getMyCommunities() throws Exception;
+
 }

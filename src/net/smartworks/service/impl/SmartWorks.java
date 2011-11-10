@@ -1,5 +1,7 @@
 package net.smartworks.service.impl;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
@@ -17,8 +19,8 @@ import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
-import net.smartworks.server.service.INoticeService;
 import net.smartworks.server.service.IInstanceService;
+import net.smartworks.server.service.INoticeService;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
@@ -92,6 +94,11 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public Group getGroupById(String groupId) throws Exception {
 		return communityService.getGroupById(groupId);
+	}
+
+	@Override
+	public Group setGroup(HttpServletRequest request) throws Exception {
+		return communityService.setGroup(request);
 	}
 
 	@Override
