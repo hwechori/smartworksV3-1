@@ -13,8 +13,8 @@
 					<input class="js_auto_complete" type="text"
 						href="work_name.sw"
 						placeholder="<fmt:message key='common.upload.message.work'/>">
-	<!-- 돋보기 아이콘 -- <div class="ico"></div> -->
-	<!--  X버튼  --><div class="btn_im_x"></div>
+				<div class="srch_ico"></div>
+				<div class="btn_im_x"></div>
 	
 				</div>
 
