@@ -20,24 +20,25 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 폼- 확장 -->
-<div id="form_wrap">
+<div id="form_wrap" class="up up_padding">
 	<div id="form_title">
 		<div class="ico_iworks title"><%=cWork.getFullpathName()%></div>
 		<div class="txt_btn">
 			<div>
-				<a href=""><fmt:message key="common.upload.button.forwardee" />
+				<a href=""><img src="images/btn_approvep.gif" alt="전자결재" />
 				</a>
 			</div>
 			<div>
-				<a href=""><fmt:message key="common.upload.button.approval" />
+				<a href=""><img src="images/btn_referw.gif" alt="참조자 지정" />
 				</a>
 			</div>
 		</div>
+		<div class="solid_line"></div>
 	</div>
 
 	<div id="form_contents">
 
-		<div class="txt_btn padding_r10">
+		<div class="txt_btn padding_r30">
 			<div>
 				<a class="js_toggle_form_detail" href="load_detail_form.sw?key=<%=cWork.getId()%>"><fmt:message
 						key="common.upload.button.detail" /> </a>
