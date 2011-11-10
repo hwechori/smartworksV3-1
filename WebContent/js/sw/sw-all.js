@@ -195,8 +195,7 @@ $(function() {
 				target : 'form_works',
 				before : function(event) {
 					$('#form_works').slideUp().slideDown(500);
-					$(event.target).parents('#upload_work_list').hide().parents(".up_padding").slideUp();
-				}
+					$(event.target).parents('#upload_work_list').hide().parents(".up_padding").slideUp();}
 			});
 
 			$('.js_select_user').live(
