@@ -1,5 +1,11 @@
 package net.smartworks.server.service.impl;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
@@ -69,6 +75,35 @@ public class CommunityServiceImpl implements ICommunityService {
 				return groups[i];
 		}
 		return null;
+
+	}
+
+	public Group setGroup(HttpServletRequest request) throws Exception {
+		String groupName = request.getParameter("groupName");
+		String groupDesc = request.getParameter("groupDesc");
+		String groupLeader = request.getParameter("groupLeader");
+		String groupOwner = request.getParameter("groupOwner");
+		String[] groupMembers = request.getParameterValues("groupMembers");
+		
+		boolean isPublic = Boolean.getBoolean(request.getParameter("isPublic"));
+		Group group = new Group();
+		group.setName(groupName);
+		group.setDesc(groupDesc);
+		User leader = new User();
+		leader.setId(groupLeader);
+		group.setLeader(leader);
+		User owner = new User();
+		owner.setId(groupOwner);
+		group.setOwner(owner);
+		group.setPublic(isPublic);
+
+		List list = new ArrayList();
+		for(String str : groupMembers) {
+			System.out.println(str);
+			list.add(str);
+		}
+		
+		return new Group("group1", groupName, new User[]{ SmartTest.getUser1(), SmartTest.getUser2(), SmartTest.getUser3() }, leader);
 
 	}
 

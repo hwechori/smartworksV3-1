@@ -1,5 +1,7 @@
 package net.smartworks.server.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
@@ -17,6 +19,8 @@ public interface ICommunityService {
 	public abstract Group getGroupById(String groupId) throws Exception;
 
 	public abstract Group[] getMyGroups() throws Exception;
+
+	public abstract Group setGroup(HttpServletRequest request) throws Exception;
 
 	public abstract Department getDepartmentById(String departId) throws Exception;
 
