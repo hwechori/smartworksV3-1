@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.server.engine.process.approval.model.AprApproval"%>
+<%@page import="net.smartworks.server.engine.factory.SwManagerFactory"%>
+<%@page import="net.smartworks.server.engine.process.approval.manager.IAprManager"%>
 <%@page import="net.smartworks.server.engine.process.process.model.PrcProcessCond"%>
 <%@page import="net.smartworks.server.engine.process.deploy.manager.IDepManager"%>
 <%@page import="net.smartworks.server.engine.organization.model.SwoUserCond"%>
@@ -30,24 +33,13 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-	IDepManager mgr = (IDepManager)SmartUtil.getBean("depManager", request);
 
-	IPrcManager prcMgr = (IPrcManager)SmartUtil.getBean("prcManager", request);
-
-	PrcProcessCond cond = new PrcProcessCond();
-	
-	cond.setObjId("pkg_007e24bd7c3e4d1d8fc23fabf8195acc|prc_8a30f7efc66e488f9e8d2055e479da97");
-	
-	PrcProcess[] prcs = prcMgr.getProcesses("kmyu@maninsoft.co.kr", cond, null);
-	
-	
-	String xpdl = prcs[0].getDiagram();
-	
-	mgr.deploy("kmyu@maninsoft.co.kr", xpdl, null);
+	AprApproval apr = SwManagerFactory.getInstance().getAprManager().getApproval("", "402880eb338779f6013387eeab3b001a", "ALL");
 	
 	
 %>
 <textarea style="width:800px;height:400px;">
+<%=apr.toString() %>
 </textarea>
 </body>
 </html>
