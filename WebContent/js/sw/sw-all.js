@@ -160,7 +160,7 @@ $(function() {
 										'id');
 						var target = $('#' + targetId + '_box');
 						if(targetId === "action_work"){
-							target.slideDown(500).find('.js_start_work').show().find('input').removeAttr('value').show();
+							target.slideDown(500).find('.up_padding').show().find('.js_start_work').show().find('input').removeAttr('value').show();
 						}else{
 							var url = input.attr('href');
 							$.ajax({
@@ -195,7 +195,7 @@ $(function() {
 				target : 'form_works',
 				before : function(event) {
 					$('#form_works').slideUp().slideDown(500);
-					$(event.target).parents('#upload_work_list').hide().parents("#up_works:first").slideUp();
+					$(event.target).parents('#upload_work_list').hide().parents(".up_padding").slideUp();
 				}
 			});
 
