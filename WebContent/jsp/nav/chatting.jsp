@@ -14,7 +14,7 @@
 			<input id="" class="input js_auto_complete" type="text"
 				title="<fmt:message key="search.search_available_chatter"/>"
 				placeholder="<fmt:message key="search.search_available_chatter"/>"
-				href="available_chatter_list.sw">
+				href="available_chatter.sw">
 			<button title="<fmt:message key='search.search'/>" onclick=""></button>
 		</div>
 		<div style="display: none"></div>

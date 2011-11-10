@@ -4,7 +4,7 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	Department[] departments = smartWorks.getMyDepartments("currentUser");
+	Department[] departments = smartWorks.getMyDepartments();
 %>
 
 <ul>

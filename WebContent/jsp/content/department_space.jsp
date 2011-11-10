@@ -4,7 +4,6 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 
-	System.out.println(smartWorks);
 	String cid = request.getParameter("cid");
 	if (cid == null)
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);

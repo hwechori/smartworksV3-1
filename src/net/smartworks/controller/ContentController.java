@@ -52,4 +52,11 @@ public class ContentController {
 				"my_profile.tiles");
 	}
 
+	@RequestMapping("/more_instance_list")
+	public ModelAndView moreInstanceList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/today/more_instance_list.jsp",
+				"");
+	}
 }

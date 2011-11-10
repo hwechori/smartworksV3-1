@@ -81,11 +81,17 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 				
 				apprLine.setStatus(status);
 				getAprManager().setApprovalLine("linkadvisor", apprLine, null);
+				if (logger.isInfoEnabled()) {
+					logger.info("Reject Approval [" + obj.getName() + "/" + obj.getTitle() + " (TaskId : " + obj.getObjId() + " , User : " + obj.getAssignee() + ") ]");
+				}
 				return;
 				
 			// 승인인 경우
 			} else {
 				nextTask = setNextApproval(null, obj, apprLine);
+				if (logger.isInfoEnabled()) {
+					logger.info("Execute Approval [" + obj.getName() + "/" + obj.getTitle() + " (TaskId : " + obj.getObjId() + " , User : " + obj.getAssignee() + ") ]");
+				}
 				if (nextTask != null)
 					status = nextTask.getStatus();
 			}
@@ -97,7 +103,11 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 				String taskRef = obj.getExtendedPropertyValue("taskRef");
 				if (CommonUtil.isEmpty(taskRef)) {
 					updateProcessInstStatus(user, obj.getProcessInstId());
+					if (logger.isInfoEnabled()) {
+						logger.info("End Approval [" + obj.getName() + "/" + obj.getTitle() + " ]");
+					}
 					return;
+					
 				}
 				
 				obj = getTskManager().getTask(user, taskRef, null);
@@ -123,6 +133,9 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 			AprApprovalLine apprLine = this.getAprManager().getApprovalLine(user, apprLineId, null);
 			apprLine.setStatus(aprStatus);
 			getAprManager().setApprovalLine("linkadvisor", apprLine, null);
+			if (logger.isInfoEnabled()) {
+				logger.info("Cancel Approval [" + obj.getName() + "/" + obj.getTitle() + " (TaskId : " + obj.getObjId() + " , User : " + obj.getAssignee() + ") ]");
+			}
 			return;
 				
 		} else {          
@@ -308,7 +321,9 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 			apprTask.setExtendedPropertyValue("approvalLine", apprLine.getObjId());
 			apprTask.setExtendedPropertyValue("approval", appr.getObjId());
 			this.getTskManager().setTask("linkadvisor", apprTask, null);
-			
+			if (logger.isInfoEnabled()) {
+				logger.info("Assignee Next Approval [" + obj.getTitle() + " ( User : " + obj.getAssignee() + " ) ]");
+			}
 			return apprTask;
 		}
 		

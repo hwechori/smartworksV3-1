@@ -7,7 +7,7 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkInstance[] workInstances = smartWorks.getMyRecentInstances("currentUser");
+	WorkInstance[] workInstances = smartWorks.getMyRecentInstances();
 	String iconType = null;
 	String classType = null;
 	String instanceContext = null;

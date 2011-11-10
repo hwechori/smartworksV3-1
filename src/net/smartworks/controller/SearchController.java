@@ -20,48 +20,66 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SearchController {
 
-	@RequestMapping("/available_chatter_list")
-	public ModelAndView availableChatterList(HttpServletRequest request,
+	@RequestMapping("/available_chatter")
+	public ModelAndView availableChatter(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/search/available_chatter_list.jsp",
+				"jsp/search/available_chatter.jsp",
 				"");
 	}
 
-	@RequestMapping("/community_list")
-	public ModelAndView communityList(HttpServletRequest request,
+	@RequestMapping("/community")
+	public ModelAndView community(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/search/community_list.jsp",
+				"jsp/search/community.jsp",
 				"");
 	}
 
-	@RequestMapping("/community_member_list")
-	public ModelAndView communityMemberList(HttpServletRequest request,
+	@RequestMapping("/community_member")
+	public ModelAndView communityMember(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/search/community_member_list.jsp",
+				"jsp/search/community_member.jsp",
 				"");
 	}
 
-	@RequestMapping("/running_instance_list")
-	public ModelAndView runningInstanceList(HttpServletRequest request,
+	@RequestMapping("/my_running_instance")
+	public ModelAndView myRunningInstance(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/search/running_instance_list.jsp",
+				"jsp/search/my_running_instance.jsp",
 				"");
 	}
 
-	@RequestMapping("/work_list")
-	public ModelAndView workList(HttpServletRequest request,
+	@RequestMapping("/work")
+	public ModelAndView work(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/search/work_list.jsp",
+				"jsp/search/work.jsp",
+				"");
+	}
+
+	@RequestMapping("/work_name")
+	public ModelAndView workName(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/search/work_name.jsp",
+				"");
+	}
+
+	@RequestMapping("/user_name")
+	public ModelAndView userName(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/search/user_name.jsp",
 				"");
 	}
 }

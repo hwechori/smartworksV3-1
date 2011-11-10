@@ -5,7 +5,7 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkCategory[] workCategories = smartWorks.getMyWorkCategories(SmartUtil.getCurrentUser().getId());
+	WorkCategory[] workCategories = smartWorks.getMyWorkCategories();
 %>
 
 <ul>

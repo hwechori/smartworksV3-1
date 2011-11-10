@@ -31,7 +31,7 @@ public class NoticeServiceImpl implements INoticeService {
 	 * net.smartworks.service.impl.ISmartWorks#getNoticesForMe(java.lang.String)
 	 */
 	@Override
-	public Notice[] getNoticesForMe(String userId) throws Exception {
+	public Notice[] getNoticesForMe() throws Exception {
 		return new Notice[] { new Notice(Notice.TYPE_NOTIFICATION, 1), new Notice(Notice.TYPE_MESSAGE, 0), new Notice(Notice.TYPE_COMMENTS, 29),
 				new Notice(Notice.TYPE_ASSIGNED, 0), new Notice(Notice.TYPE_MAILBOX, 420), new Notice(Notice.TYPE_SAVEDBOX, 7) };
 	}
@@ -118,14 +118,14 @@ public class NoticeServiceImpl implements INoticeService {
 		NoticeMessage notice1, notice2, notice3, notice4, notice5;
 		notice1 = new NoticeMessage("notice1", NoticeMessage.TYPE_SYSTEM_NOTICE, SmartTest.getUser1(), new LocalDate());
 		notice1.setMessage("금주 주말(토요일, 일요일)에 시스템 정기점검을 실시하는 관계를 시스템을 1시간 가량 사용할 수 없으니 이점 양해 바랍니다.");
-		notice2 = new NoticeMessage("notic2", NoticeMessage.TYPE_EVENT_ALARM, SmartTest.getUser2(), new LocalDate());
+		notice2 = new NoticeMessage("notic2", NoticeMessage.TYPE_EVENT_ALARM, SmartTest.getUser2(), SmartTest.getEventInstance1().getLastModifiedDate());
 		notice2.setEvent(SmartTest.getEventInstance1());
-		notice3 = new NoticeMessage("notice3", NoticeMessage.TYPE_TASK_DELAYED, SmartUtil.getCurrentUser(), new LocalDate());
+		notice3 = new NoticeMessage("notice3", NoticeMessage.TYPE_TASK_DELAYED, SmartUtil.getCurrentUser(), SmartTest.getTaskInstancePA().getLastModifiedDate());
 		notice3.setInstance(SmartTest.getTaskInstancePA());
 		notice4 = new NoticeMessage("notice4", NoticeMessage.TYPE_JOIN_REQUEST, SmartTest.getUser1(), new LocalDate());
 		notice4.setGroup(SmartTest.getGroup1());
 		notice4.setMessage("님이 커뮤너티에 가입을 신청하셨습니다.");
-		notice5 = new NoticeMessage("notice5", NoticeMessage.TYPE_INSTANCE_CREATED, SmartTest.getUser1(), new LocalDate());
+		notice5 = new NoticeMessage("notice5", NoticeMessage.TYPE_INSTANCE_CREATED, SmartTest.getUser1(), SmartTest.getWorkInstance1().getLastModifiedDate());
 		notice5.setInstance(SmartTest.getWorkInstance1());
 		notice5.setMessage("새로운 업무를 등록하였습니다..");
 		return new NoticeMessage[] { notice1, notice2, notice3, notice4, notice5 };
@@ -234,5 +234,4 @@ public class NoticeServiceImpl implements INoticeService {
 
 		return mailboxNotices;
 	}
-
 }

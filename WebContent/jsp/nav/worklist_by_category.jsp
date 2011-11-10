@@ -4,7 +4,7 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	SmartWork[] works = smartWorks.getMyAllWorksByCategoryId("currentUser", request.getParameter("categoryId"));
+	SmartWork[] works = smartWorks.getMyAllWorksByCategoryId(request.getParameter("categoryId"));
 	String iconType = null;
 	String classType = "js_content";
 	String workContext = null;

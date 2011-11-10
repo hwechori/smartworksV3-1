@@ -44,4 +44,28 @@ public class TaskInstanceController {
 				"jsp/content/work/task/swork_task.jsp", "swork_task.tiles");
 	}
 
+	@RequestMapping("/new_iwork")
+	public ModelAndView newIwork(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/start/new_iwork.jsp", "");
+	}
+
+	@RequestMapping("/start_pwork")
+	public ModelAndView startPwork(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/start/start_pwork.jsp", "");
+	}
+
+	@RequestMapping("/plan_swork")
+	public ModelAndView planSwork(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/start/plan_swork.jsp", "");
+	}
+
 }

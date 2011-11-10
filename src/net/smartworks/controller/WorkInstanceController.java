@@ -91,4 +91,36 @@ public class WorkInstanceController {
 		return SmartUtil.returnMnv(request,
 				"jsp/content/work/space/mail_space.jsp", "mail_space.tiles");
 	}
+
+	@RequestMapping("/new_file")
+	public ModelAndView newFile(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/start/new_file.jsp", "");
+	}
+
+	@RequestMapping("/new_event")
+	public ModelAndView newEvent(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/start/new_event.jsp", "");
+	}
+
+	@RequestMapping("/new_memo")
+	public ModelAndView newMemo(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/start/new_memo.jsp", "");
+	}
+
+	@RequestMapping("/new_board")
+	public ModelAndView newBoard(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/start/new_board.jsp", "");
+	}
 }
