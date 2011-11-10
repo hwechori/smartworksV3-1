@@ -1,6 +1,9 @@
 package net.smartworks.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
@@ -12,6 +15,7 @@ import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.work.SmartWork;
+import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
 import net.smartworks.util.LocalDate;
 
@@ -78,41 +82,54 @@ public interface ISmartWorks {
 
 	public abstract CompanyCalendar getCompanyEventBox(LocalDate date) throws Exception;
 
-	public abstract SmartWork[] getMyFavoriteWorks(String userId) throws Exception;
+	public abstract SmartWork[] getMyFavoriteWorks() throws Exception;
 
-	public abstract WorkCategory[] getMyWorkCategories(String userId) throws Exception;
+	public abstract WorkCategory[] getMyWorkCategories() throws Exception;
 
-	public abstract SmartWork[] getMyAllWorksByCategoryId(String userId, String categoryId) throws Exception;
+	public abstract SmartWork[] getMyAllWorksByCategoryId(String categoryId) throws Exception;
 
-	public abstract SmartWork[] getMyAllWorksByGroupId(String userId, String groupId) throws Exception;
+	public abstract SmartWork[] getMyAllWorksByGroupId(String groupId) throws Exception;
 
-	public abstract WorkInstance[] getMyRecentInstances(String userId) throws Exception;
+	public abstract WorkInstance[] getMyRecentInstances() throws Exception;
 
-	public abstract Department[] getMyDepartments(String userId) throws Exception;
+	public abstract Department[] getMyDepartments() throws Exception;
 
 	public abstract Department getDepartmentById(String departId) throws Exception;
 
-	public abstract Group[] getMyGroups(String userId) throws Exception;
+	public abstract Group[] getMyGroups() throws Exception;
 
 	public abstract Group getGroupById(String groupId) throws Exception;
 
+	public abstract Group setGroup(HttpServletRequest request) throws Exception;
+
 	public abstract User getUserById(String userId) throws Exception;
 
-	public abstract SmartWork[] searchWorkList(String user, String key) throws Exception;
+	public abstract SmartWork[] searchWork(String key) throws Exception;
 
-	public abstract WorkSpace[] searchCommunityList(String user, String key) throws Exception;
+	public abstract WorkSpace[] searchCommunity(String key) throws Exception;
 
-	public abstract User[] searchCommunityMemberList(String user, String key) throws Exception;
+	public abstract User[] searchCommunityMember(String communityId, String key) throws Exception;
 
 	public abstract User[] getAvailableChatter() throws Exception;
 
-	public abstract User[] searchAvailableChatterList(String key) throws Exception;
+	public abstract User[] searchAvailableChatter(String key) throws Exception;
+
+	public abstract User[] searchUser(String key) throws Exception;
 
 	public abstract EventInstance[] getCompanyEventsByDate(LocalDate date, int maxEvents) throws Exception;
 
-	public abstract EventInstance[] getMyEventsByDate(String userId, LocalDate date, int maxEvents) throws Exception;
+	public abstract EventInstance[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception;
 
-	public abstract Notice[] getNoticesForMe(String userId) throws Exception;
+	public abstract Notice[] getNoticesForMe() throws Exception;
 
 	public abstract NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception;
+	
+	public abstract Work getWorkById(String workId) throws Exception;
+	
+	public abstract Instance getInstanceById(String instanceId) throws Exception;
+	
+	public abstract Instance[] searchMyRunningInstance(String key) throws Exception;
+
+	public abstract Community[] getMyCommunities() throws Exception;
+
 }

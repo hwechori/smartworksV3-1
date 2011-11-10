@@ -31,9 +31,6 @@ public class CalendarServiceImpl implements ICalendarService {
 				new CompanyEvent[] { SmartTest.getCompanyEvent2() }, new WorkHour());
 		CompanyCalendar cc3 = new CompanyCalendar(new LocalDate((new LocalDate()).getTime() + LocalDate.ONE_DAY * 2),
 				new CompanyEvent[] { SmartTest.getCompanyEvent1() }, new WorkHour());
-		cc1.getDate().setLocale(LocaleInfo.LOCALE_KOREAN);
-		cc2.getDate().setLocale(LocaleInfo.LOCALE_KOREAN);
-		cc3.getDate().setLocale(LocaleInfo.LOCALE_KOREAN);
 		return new CompanyCalendar[] { cc1, cc2, cc3 };
 
 	}
@@ -157,7 +154,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * , net.smartworks.util.LocalDate, int)
 	 */
 	@Override
-	public EventInstance[] getMyEventsByDate(String userId, LocalDate date, int maxEvents) throws Exception {
+	public EventInstance[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception {
 		EventInstance[] events = new EventInstance[] {
 
 		};

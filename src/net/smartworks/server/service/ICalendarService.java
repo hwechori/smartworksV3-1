@@ -18,6 +18,6 @@ public interface ICalendarService {
 
 	public abstract EventInstance[] getCompanyEventsByDate(LocalDate date, int maxEvents) throws Exception;
 
-	public abstract EventInstance[] getMyEventsByDate(String userId, LocalDate date, int maxEvents) throws Exception;
+	public abstract EventInstance[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception;
 
 }

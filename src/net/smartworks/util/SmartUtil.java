@@ -210,7 +210,7 @@ public class SmartUtil {
 		user.setPosition("CEO");
 		user.setDepartment("경영기획실 디자인팀");
 		user.setLocale("ko"); // ko, en
-		user.setTimeZone("SEOUL");
+		user.setTimeZone(LocalDate.TIMEZONE_SEOUL); //Asia/Seoul, America/Los_Angeles
 		user.setCompany("(주)맨인소프트");
 		user.setPicturePath("images/");
 		user.setOrgPictureName(user.getId() + ".jpg");

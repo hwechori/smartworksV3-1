@@ -1,27 +1,31 @@
-$('.more').live('click', function(e) {
+$('.js_more_list').live('click', function(e) {
 	var anchor = $(e.target);
-	var base_ul = anchor.prev('ul')
-	var last_id = base_ul.children('li:last').attr('id');
-
+	var base_ul = anchor.parent().prev('ul');
 	$.ajax({
-		url: anchor.attr('href'),
-		type : 'GET',
-		data : {last_id: last_id},
-		dataType : 'json',
-		success : function(data) {
-			var tmpl = '<li id="news_${id}">${text}</li>'
-			$.tmpl(tmpl, data).appendTo(base_ul);
+		url : anchor.attr('href'),
+		data : {
+		// last_id : null
 		},
-		error : function(xhr, status, err) {
-			alert("Error : " + err + ", Type : " + status + ", Response : " + xhr.status + " " + xhr.statusText);
+		success : function(data, status, jqXHR) {
+			$(data).appendTo(base_ul);
 		}
 	});
-	
+
 	return false;
 });
 
-$(window).scroll(function(){
-	if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-		$('#content .more').trigger('click');
-	}
-});
+$(window).scroll(
+		function() {
+			var more_anchor = $('#work_ing .js_more_list a');
+			if ($(window).scrollTop() == $(document).height()
+					- $(window).height()
+					&& (more_anchor.length > 0 && !more_anchor.isWaiting)) {
+				more_anchor.isWaiting = true;
+				setTimeout(function() {
+					if ($(window).scrollTop() == $(document).height()
+							- $(window).height())
+						more_anchor.trigger('click');
+					more_anchor.isWaiting = false;
+				}, 2000);
+			}
+		});

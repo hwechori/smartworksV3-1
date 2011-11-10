@@ -1,8 +1,6 @@
 package net.smartworks.model.community;
 
-import net.smartworks.model.BaseObject;
-
-public class WorkSpace extends BaseObject {
+public class WorkSpace extends Community {
 
 	public WorkSpace(){
 		super();

@@ -55,6 +55,7 @@ img, button, select, textarea {
 input[type="image"], input[type="text"], input[type="submit"], input[type="password"], textarea {resize: none;}
 	
 input {border:0 none; outline:medium none; padding:2px 3px 0; vertical-align: middle;}
+select { border:1px solid #C7C7C7; height:22px;}
 
 ul, ol {
      list-style: none outside none;
@@ -102,4 +103,11 @@ mark, rp, rt, ruby, summary, time {
 .center {text-align:center;}
 .clear {display:block; clear:both;}
 
-.space_l {margin-left:5px;}
+.space_l5 {margin-left:5px;}
+.space_l10 {margin-left:10px;}
+.space_r10 {margin-right:10px;}
+.padding_l20 {padding-left:20px;}
+.padding_l10 {padding-left:10px;}
+.padding_r10 { padding-right:10px;}
+.padding_r30 { padding-right:30px;}
+.padding_t5 {padding-top:5px;}
