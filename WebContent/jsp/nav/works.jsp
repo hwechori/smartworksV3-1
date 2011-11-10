@@ -11,7 +11,7 @@
 				title="<fmt:message key='search.search_work'/>"
 				placeholder="<fmt:message key='search.search_work'/>"
 				href="work.sw" />
-			<button title="<fmt:message key='search.search'/>" onclick=""></button>
+			<div class='srch_ico js_srch_x'></div>
 		</div>
 		<div style="display: none"></div>
 	</li>
