@@ -9,12 +9,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/resource"/>
-	<classpathentry kind="lib" path="/com.maninsoft.framework_saas"/>
-	<classpathentry kind="lib" path="/com.maninsoft.framework2smart_saas"/>
-	<classpathentry kind="lib" path="/com.maninsoft.smart.domain_saas"/>
-	<classpathentry kind="lib" path="/com.maninsoft.smart.engine_saas"/>
-	<classpathentry kind="lib" path="/com.maninsoft.smart.model.process_saas"/>
-	<classpathentry kind="lib" path="/com.maninsoft.smart.portal.jsp_saas_original"/>
-	<classpathentry kind="lib" path="/com.maninsoft.smart.repository_saas"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
