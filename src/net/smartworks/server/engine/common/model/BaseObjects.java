@@ -1,6 +1,6 @@
 package net.smartworks.server.engine.common.model;
 
-import net.smartworks.server.engine.common.exception.MisException;
+import net.smartworks.server.engine.common.exception.SwException;
 import net.smartworks.server.util.CommonUtil;
 import net.smartworks.server.util.XmlUtil;
 
@@ -32,7 +32,7 @@ public class BaseObjects extends BaseObject {
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
 		if (node == null)
 			return null;
-		throw new MisException("Not implemented yet.");
+		throw new SwException("Not implemented yet.");
 	}
 	public static BaseObject toObject(String str) throws Exception {
 		if (str == null)
