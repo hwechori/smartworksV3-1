@@ -12,6 +12,7 @@ package net.smartworks.server.engine.factory;
 import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
+import net.smartworks.server.engine.process.approval.manager.IAprManager;
 import net.smartworks.server.engine.process.deploy.manager.IDepManager;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
@@ -29,12 +30,12 @@ public class SwManagerFactory {
 	private IColManager colManager;
 	private ITskManager tskManager;
 	private IDepManager depManager;
+	private IAprManager aprManager;
 //	private IChtManager chtManager;
 	private IPrcManager prcManager;
 //	private IMdlManager mdlManager;
 //	private ILcsManager lcsManager;
 //	private IUpdManager updManager;
-//	private IAprManager aprManager;
 	//private IRepManager repManager;
 //	private ISwdManager swdManager;
 	private ISwfManager swfManager;
@@ -95,6 +96,12 @@ public class SwManagerFactory {
 	public void setPrcManager(IPrcManager prcManager) {
 		this.prcManager = prcManager;
 	}
+	public IAprManager getAprManager() {
+		return aprManager;
+	}
+	public void setAprManager(IAprManager aprManager) {
+		this.aprManager = aprManager;
+	}
 	/*	public ISwdManager getSwdManager() {
 	return swdManager;
 }
@@ -130,11 +137,5 @@ public void setSwdManager(ISwdManager swdManager) {
 //	}
 //	public void setUpdManager(IUpdManager updManager) {
 //		this.updManager = updManager;
-//	}
-//	public IAprManager getAprManager() {
-//		return aprManager;
-//	}
-//	public void setAprManager(IAprManager aprManager) {
-//		this.aprManager = aprManager;
 //	}
 }

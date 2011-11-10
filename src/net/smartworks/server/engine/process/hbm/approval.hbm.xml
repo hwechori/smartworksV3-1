@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.process.approval.model" default-lazy="false">
+	<class name="AprApproval" table="AprApr">
+		<id name="objId" column="aprObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="aprName" type="string" length="100"/>
+		<property name="creationUser" column="aprCreateUser" type="string" length="50" index="IxAprApr"/>
+		<property name="creationDate" column="aprCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="aprModifyUser" type="string" length="50" index="IxAprApr1"/>
+		<property name="modificationDate" column="aprModifyDate" type="timestamp"/>
+		<property name="description" column="aprDesc" type="text"/>
+		<property name="status" column="aprStatus" type="string" length="50" index="IxAprApr2"/>
+		<property name="type" column="aprType" type="string" length="50" index="IxAprApr3"/>
+		<property name="approver" column="aprApprover" type="string" length="50" index="IxAprApr4"/>
+		<property name="isMandatory" column="aprIsManda" type="boolean" access="field"/>
+		<property name="isModifiable" column="aprIsModify" type="boolean" access="field"/>
+		<array name="extendedProperties" table="AprAprExtProp">
+			<key column="aprObjId" foreign-key="FkAprAprExtProp"/>
+			<list-index column="aprSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="aprName" type="string" length="100" index="IxAprAprExtProp"/>
+				<property name="value" column="aprValue" type="string" length="100" index="IxAprAprExtProp2"/>
+			</composite-element>
+		</array>
+		<many-to-one name="approvalLine" column="approvalLine" insert="false" update="false"/>
+	</class>
+	<class name="AprApprovalLine" table="AprAprLine">
+		<id name="objId" column="aprObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="aprName" type="string" length="100"/>
+		<property name="creationUser" column="aprCreateUser" type="string" length="50" index="IxAprAprLine"/>
+		<property name="creationDate" column="aprCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="aprModifyUser" type="string" length="50" index="IxAprAprLine1"/>
+		<property name="modificationDate" column="aprModifyDate" type="timestamp"/>
+		<property name="description" column="aprDesc" type="text"/>
+		<property name="status" column="aprStatus" type="string" length="50" index="IxAprAprLine2"/>
+		<property name="correlation" column="aprCorr" type="string" length="50" index="IxAprAprLine3"/>
+		<array name="extendedProperties" table="AprAprLineExtProp">
+			<key column="aprObjId" foreign-key="FkAprAprLineExtProp"/>
+			<list-index column="aprSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="aprName" type="string" length="100" index="IxAprAprLineExtProp"/>
+				<property name="value" column="aprValue" type="string" length="100" index="IxAprAprLineExtProp2"/>
+			</composite-element>
+		</array>
+		<array name="approvals" cascade="all">
+			<key column="approvalLine" foreign-key="FkAprAprLineAprs"/>
+			<list-index column="aprSeq"/>
+			<one-to-many class="AprApproval"/>
+		</array>
+	</class>
+	<class name="AprApprovalLineDef" table="AprAprLineDef">
+		<id name="objId" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="aprLineName" type="string" length="255"/>
+		<property name="aprDescription" type="string" length="50"/>
+		<property name="aprLevel" type="string" length="50"/>
+		<property name="companyId" type="string" length="255"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+		<array name="approvalDefs" table="AprAprDef">
+			<key column="objId" foreign-key="FkAprApprovalDef"/>
+			<list-index column="defSeq"/>
+			<composite-element class="AprApprovalDef">
+				<property name="type" type="string"/>
+				<property name="aprName" type="string" length="150"/>
+				<property name="aprPerson" type="string" length="50"/>
+				<property name="level" type="string" length="50"/>
+				<property name="creationUser" column="creator" type="string" length="50"/>
+				<property name="creationDate" column="createdTime" type="timestamp"/>
+				<property name="modificationUser" column="modifier" type="string" length="50"/>
+				<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+			</composite-element>
+		</array>
+	</class>
+</hibernate-mapping>

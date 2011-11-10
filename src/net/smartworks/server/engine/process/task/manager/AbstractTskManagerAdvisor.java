@@ -2,6 +2,7 @@ package net.smartworks.server.engine.process.task.manager;
 
 import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.process.approval.manager.IAprManager;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.task.exception.TskException;
@@ -32,7 +33,7 @@ public abstract class AbstractTskManagerAdvisor {
 	private ILnkManager lnkManager;
 	private IPrcManager prcManager;
 	private IColManager colManager;
-//	private IAprManager aprManager;
+	private IAprManager aprManager;
 //	private IPrcManager prcManager;
 //	private IChtManager chtManager;
 //	private IPrcAdminService prcService;
@@ -58,6 +59,11 @@ public abstract class AbstractTskManagerAdvisor {
 		if (prcManager == null)
 			prcManager = SwManagerFactory.getInstance().getPrcManager();
 		return prcManager;
+	}
+	public IAprManager getAprManager() {
+		if (aprManager == null)
+			aprManager = SwManagerFactory.getInstance().getAprManager();
+		return aprManager;
 	}
 	
 	public AbstractTskManagerAdvisor() {
