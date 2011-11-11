@@ -6,8 +6,8 @@ button.img_btn img {display: inline-block; margin: -1px -3px; vertical-align: to
 img, fieldset {border: 0 none;}
 table {-moz-user-select: none; cursor: pointer; margin: 0 auto;}
 
-.select_free_layer {overflow: hidden; position: absolute; z-index: 10;}
-.basic_calender {background-color: #FFFFFF; border: 1px solid #777777; line-height: normal; position: absolute; width: 195px;}
+.select_free_layer {overflow: hidden; position: absolute; z-index: 100;}
+.basic_calender {background-color: #FFFFFF; border: 1px solid #c7c7c7; line-height: normal; width: 195px;}
 .no_view {display: none;}
 .basic_calender .move_month {
     background-color: #f1f1f1;

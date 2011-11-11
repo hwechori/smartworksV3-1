@@ -124,7 +124,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .nav_list {width:226px;}
 .nav_current {color:#fcab4c; text-decoration:underline;}
 .ico_pworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; height:20px; padding:1px 0 2px 19px; line-height:18px;}
-.ico_cworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; hieght:20px; padding:1px 0 2px 19px; line-hieght:18px;}
+.ico_cworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; hieght:20px; padding:1px 20px 2px 19px; line-hieght:18px;}
 .ico_sworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; hieght:20px; padding:1px 0 2px 19px; line-hieght:18px;}
 .ico_gworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; hieght:20px; padding:1px 0 2px 19px; line-hieght:18px;}
 .ico_iworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; height:20px; padding:1px 0 2px 19px; line-height:18px;}
@@ -193,21 +193,19 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .up_board a.current:hover 
 {background: url("../images/header_nico.png") no-repeat -322px -190px; height:22px; padding:4px 0 3px 28px; display:block; font-weight:bold;}
 
-.up {border:1px solid #c7c7c7; position:absolute; padding:3px 0; width:100%; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;}
-.fieldline {border:1px solid #c7c7c7; left:0px; height:16px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;}
-
+.up {border:1px solid #c7c7c7; position:absolute; padding:3px 0; width:100%; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
+.fieldline {border:1px solid #c7c7c7; left:0px; height:16px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
 .up_padding {padding:0; position:relative;}
 .up_width {width:450px;}
 
 .up_form {position:absolute;}
 .up_point {background: url("../images/up_point.gif") no-repeat left top; width:11px; height:7px;}
-.up_textarea {height:50px; width: 100%; vertical-align:top; border: 1px solid #c7c7c7;}
-.up_size { height:21px; padding-bottom: 5px;}
-.textarea_size {height:65px;}
+.up_textarea {height:50px; width: 100%; vertical-align:top; border: 1px solid #c7c7c7;} /* 라인 포함된 textarea h50 */
+.input_1line_first { height:21px; padding-bottom: 5px; position:relative;} /* 한줄라인 input정보- 맨위줄*/
+.input_1line {height:21px; width:100%; position:relative; margin:8px 0;} /* 한줄라인 input정보 */
 
 .btn_posi {right:0; top:0; position:absolute;}
 .btn_ico {float:right; margin:0 0 2px 8px; height: 18px;}
-.btn_ico img {}
 
 .txt_btn {font-family:'돋움',Dotum; font-size: 11px; height: 21px; padding-top:2px;}
 .txt_btn div {float:right; margin-left:8px;}
@@ -238,7 +236,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .form_add_a .title { padding:0 10px 0 20px;}
 .form_add_a .tx_space { padding:0 5px;}
 
-.form_pop {margin-bottom:5px; border:1px solid #c7c7c7; padding:5px 5px 0; background-color:#f8f8f8;}
+.form_pop {margin-bottom:5px; border:1px solid #c7c7c7; padding:5px 5px 0; background-color:#f8f8f8;} /* 폼 안에서 팝업 - 반복 이벤트 설정 */
 
 .form_space {padding-right:3px;}
 .ico_space { padding-right:26px; position:relative;}
@@ -247,8 +245,6 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .essen {border-left:2px solid #ef972b; border-top:1px solid #c7c7c7; border-right:1px solid #c7c7c7; border-bottom:1px solid #c7c7c7;}
 .pos_day input {margin: 0 0 0 9px;}
 .pos_day label {margin: 0 0 0 5px;}
-
-.input_1line {height:21px; width:100%; position:relative; margin:8px 0;}
 
 .ico_posi {position:absolute; right:0; top:0;}
 
