@@ -161,12 +161,14 @@ function updateListRecordCallback() {
 
 // 신규 인자값 추가 (기존 업무 화면에서의 신규업무시작과 업무선택하기후 신규업무시작을 구분하기위함.)
 function createRecord(formId, nextPage, isNew) {
+
 	if(nextPage == undefined)
 		nextPage = "../form/formList.jsp";
 
 	var loadType = "3";
 
 	var form = document.listForm;
+
 	var v_filterSelect = "";
 	var v_filterSearchKey = "";
 	var v_filterSearchWord = "";
@@ -220,13 +222,13 @@ function createRecord(formId, nextPage, isNew) {
 	if($('filterTitle'))
 		filterTitle = $F('filterTitle');
 	
-	if($F('mainTitle'))
-		mainTitle = $F('mainTitle');
+	/*if($F('mainTitle'))
+		mainTitle = $F('mainTitle');*/
 
 	// jk yoon 시작 버튼 클릭시 시간.
 	var d = new Date();
 	//alert(d);
-	
+
 	var params = new Array();
 	params.push("nextPage=" + nextPage);
 	params.push("formId=" + formId);
@@ -254,21 +256,28 @@ function createRecord(formId, nextPage, isNew) {
 	}
 	FormEnv.comBoMode = false;
 	FormEnv.loadDataComplete = true;
-	update("../form/formInsert.jsp", "mainTd", params, createRecordCallBack, "loading", "failed");
+	update("../testData/test1.jsp", "mainTd", params, createRecordCallBack, "loading", "failed");
 }
 function createRecordCallBack() {
-	var loadType = $F('loadType');
+	//var loadType = $F('loadType');
 	var formId = $F('formId');
-	var recordId = $F('recordId');
-	var version = $F('version');
+	//var recordId = $F('recordId');
+	//var version = $F('version');
+	var version = "version3";
 	var formWork = new FormWork('workspace');
-	$('workspace')['formWork'] = formWork;
-	var plan = $F('plan');
+	console.dir(formWork);
+	console.dir($('workspace'));
+	try {
+		$('workspace')['formWork'] = formWork;
+	} catch (e) {
+		console.log(e.message);
+	}
+	/*var plan = $F('plan');
 	if(plan == 'PLAN'){
 		formWork.initFormRuntime(userId, '../', formId, version, '', '', '3', 'view');
-	}else{
+	}else{*/
 		formWork.initFormRuntime(userId, '../', formId, version, '', '', '3', 'edit');
-	}
+	/*}*/
 	var subject = readCookie("subject");
 	var workContentsT = readCookie("workContentsT");
 	var projectNameT = readCookie("projectNameT");

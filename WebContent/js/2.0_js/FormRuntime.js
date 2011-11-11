@@ -2723,9 +2723,9 @@ var FormFileFieldUtil = {
 	}
 };
 
-Event.addBehavior.reassignAfterAjax = true;
+//Event.addBehavior.reassignAfterAjax = true;
 
-Event.addBehavior({
+/*Event.addBehavior({
   ".formFileFieldRemoveBtn:click" : function(e) {
   	var formField = FormFileFieldUtil.getFormFileByUid(e.target.name);
 	formField.removeFile(e.target["fileId"], e.target["fieldId"]);
@@ -2750,4 +2750,4 @@ Event.addBehavior({
 Event.addBehavior({".numberFieldChangeValue:change" : function(event) {
 		var formRuntime = jQuery("#" + event.target.getAttribute("workspaceId")).data("FormRuntime");
 		formRuntime.refreshCombo();
-}});
+}});*/

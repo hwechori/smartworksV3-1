@@ -1,7 +1,7 @@
 FormWork = function(workspaceId){
 	this.workspaceId = workspaceId;
-	//this.userId = null;
-	//this.serviceUrl = null;
+/*	this.userId = null;
+	this.serviceUrl = null;*/
 	this.formId = null;
 	this.formVer = null;			
 	this.processId = null;
@@ -68,7 +68,6 @@ FormWork = function(workspaceId){
 			} else {
 				parameters = {method:'getForm', userId : FormEnv.userId, formId : this.formId, version : this.formVer, language : defaultLanguage, type : this.type, mode : this.mode};
 			}
-			
 			var req = new Ajax.Request(FormEnv.serviceUrl + '/services/runtime/executionService.jsp',
 									{
 										method:'get',
