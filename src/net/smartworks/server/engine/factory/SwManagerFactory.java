@@ -31,15 +31,15 @@ public class SwManagerFactory {
 	private ITskManager tskManager;
 	private IDepManager depManager;
 	private IAprManager aprManager;
-//	private IChtManager chtManager;
 	private IPrcManager prcManager;
+	private ISwfManager swfManager;
+	private ISwoManager swoManager;
+//	private IChtManager chtManager;
 //	private IMdlManager mdlManager;
 //	private ILcsManager lcsManager;
 //	private IUpdManager updManager;
 	//private IRepManager repManager;
 //	private ISwdManager swdManager;
-	private ISwfManager swfManager;
-	private ISwoManager swoManager;
 
 	public SwManagerFactory() {
 		super();
