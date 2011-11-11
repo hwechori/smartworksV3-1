@@ -399,7 +399,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
     padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
 	
 /* 사람지정 */
-.user_select {background: none repeat scroll 0 0 #E5F3FF; border: 1px solid #CBE6FF; padding: 0 0 0 2px;}    
+.user_select {background: none repeat scroll 0 0 #E5F3FF; border: 1px solid #CBE6FF; margin: 2px 2px 0 2px;}    
 
 /* Text style */
 .t_red {color:#d84a4a;}

@@ -161,7 +161,7 @@
 				<div class="float_left txt_btn">
 					<input class="space_l10" name="chkEventAlarm" type="checkbox"
 						value=""
-						onclick="$(this).parent().next('div').toggle(); return false;" />
+						onclick="$(this).parent().next('div').toggle();" />
 					<fmt:message key="common.upload.button.set_alarm" />
 				</div>
 				<!-- 알림 설정 내용 -->
@@ -177,7 +177,7 @@
 
 				<div class="float_left txt_btn">
 					<input class="space_l10" name="chkEventRepeat"
-						onclick="$(this).parent().parent().next('div').toggle(); return false;"
+						onclick="$(this).parent().parent().next('div').toggle();"
 						type="checkbox" value="" />
 					<fmt:message key="common.upload.button.set_repeat" />
 				</div>
@@ -244,7 +244,7 @@
 				<input class="fieldline" id="" type="text" title=""
 					placeholder="<fmt:message key='common.upload.event.place'/>">
 			</div>
-			<div class="input_1line fieldline js_user_names" ><div class="js_selected_users"></div>
+			<div class="input_1line fieldline js_user_names" ><div class="js_selected_users float_left"></div>
 				<input class="js_auto_complete" href='user_name.sw'
 					type="text" title=""
 					placeholder="<fmt:message key='common.upload.event.related_users'/>">

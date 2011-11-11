@@ -131,13 +131,12 @@ $(function() {
 		var start_work = input.parents('div.js_start_work');
 		var user_name = input.parents('div.js_user_names');
 		var target;
-		if (user_name.length)
-			if (start_work.length)
-				target = start_work.find('#upload_work_list');
-			else if (user_name.length)
-				target = user_name.next('div');
-			else
-				target = input.parent().siblings('div');
+		if (start_work.length)
+			target = start_work.find('#upload_work_list');
+		else if (user_name.length)
+			target = user_name.next('div');
+		else
+			target = input.parent().siblings('div');
 		setTimeout(function() {
 			input[0].value = '';
 			target.hide();
@@ -199,14 +198,10 @@ $(function() {
 					function(e) {
 						var input = $(e.target);
 						var userName = input.attr('uname');
-						alert(userName);
 						var userId = input.attr('uid');
-						alert(userId);
 						var target = input.parents('div.js_user_list').prev()
 								.find('div.js_selected_users');
-						alert(target);
-						var oldHTML = target[0].innerHTML;
-						alert(oldHTML);
+						var oldHTML = target.html();
 						if (oldHTML == null)
 							oldHTML = "";
 						var newHTML = oldHTML
@@ -215,12 +210,16 @@ $(function() {
 								+ "'>"
 								+ userName
 								+ "<span class='btn_x_gr'><a class='js_remove_user' href=''> x</a></span></span>";
-						target[0].innerHTML = newHTML;
+						target.html(newHTML);
+						target.next().focus();
 						return false;
 					});
 
 	$('.js_remove_user').live('click', function(e) {
-		$(e.target).parents('span.js_user_item').remove();
+		var input = $(e.target);
+		var selected_users = input.parents('div.js_selected_users');
+		input.parents('span.js_user_item').remove();
+		selected_users.next().focus();
 		return false;
 	});
 
