@@ -129,15 +129,15 @@ $(function() {
 	$('input.js_auto_complete').live('focusout', function(e) {
 		var input = $(e.target);
 		var start_work = input.parents('div.js_start_work');
-		var user_name = input.parents('div.js_user_name');
+		var user_name = input.parents('div.js_user_names');
 		var target;
-		input.next('div').removeClass('btn_im_x').addClass('srch_ico');
-		if (start_work.length > 0)
-			target = start_work.find('#upload_work_list');
-		else if (user_name.length > 0)
-			target = user_name.next('div');
-		else
-			target = input.parent().siblings('div');
+		if (user_name.length)
+			if (start_work.length)
+				target = start_work.find('#upload_work_list');
+			else if (user_name.length)
+				target = user_name.next('div');
+			else
+				target = input.parent().siblings('div');
 		setTimeout(function() {
 			input[0].value = '';
 			target.hide();
@@ -150,7 +150,9 @@ $(function() {
 		return false;
 	});
 
-	$('.js_select_action a').live('click', function(e) {
+	$('.js_select_action a').live(
+			'click',
+			function(e) {
 				var input = $(e.target);
 				$('.js_select_action').find('a').removeClass('current');
 				input.parents('.up_icon_list').find('a').addClass('current')
@@ -191,31 +193,47 @@ $(function() {
 				}
 			});
 
-	$('.js_select_user').live(
-			'click',
-			function(e) {
-				var input = $(e.target);
-				var userName = input.attr('uname');
-				var userId = input.attr('uid');
-				var target = input.parents('#start_new_event')
-						.find('.js_users');
-				var oldHTML = target[0].innerHTML;
-				if (oldHTML == null)
-					oldHTML = "";
-				var newHTML = oldHTML + "<a href='user_space.sw?cid=us.sp."
-						+ userId + "' >" + userName + ";</a>";
-				target[0].innerHTML = newHTML;
-				return false;
-			});
+	$('.js_select_user')
+			.live(
+					'click',
+					function(e) {
+						var input = $(e.target);
+						var userName = input.attr('uname');
+						alert(userName);
+						var userId = input.attr('uid');
+						alert(userId);
+						var target = input.parents('div.js_user_list').prev()
+								.find('div.js_selected_users');
+						alert(target);
+						var oldHTML = target[0].innerHTML;
+						alert(oldHTML);
+						if (oldHTML == null)
+							oldHTML = "";
+						var newHTML = oldHTML
+								+ "<span class='js_user_item user_select' uid='"
+								+ userId
+								+ "'>"
+								+ userName
+								+ "<span class='btn_x_gr'><a class='js_remove_user' href=''> x</a></span></span>";
+						target[0].innerHTML = newHTML;
+						return false;
+					});
 
-	$('a.js_toggle_form_detail').swnavi({
-		target : 'form_import',
-		after : function(event) {
-			var input = $(event.target);
-			input.parents('div.js_file_detail_form').parent().prev().slideToggle(500);
-			input.parent().toggle().siblings().toggle();
-		}
+	$('.js_remove_user').live('click', function(e) {
+		$(e.target).parents('span.js_user_item').remove();
+		return false;
 	});
+
+	$('a.js_toggle_form_detail').swnavi(
+			{
+				target : 'form_import',
+				after : function(event) {
+					var input = $(event.target);
+					input.parents('div.js_file_detail_form').parent().prev()
+							.slideToggle(500);
+					input.parent().toggle().siblings().toggle();
+				}
+			});
 
 	var lastCatTarget = null;
 	var lastGroupTarget = null;

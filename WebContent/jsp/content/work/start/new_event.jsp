@@ -244,13 +244,13 @@
 				<input class="fieldline" id="" type="text" title=""
 					placeholder="<fmt:message key='common.upload.event.place'/>">
 			</div>
-			<div class="input_1line fieldline" ><span>정윤식<span class="btn_im_x"></span>;</span>
+			<div class="input_1line fieldline js_user_names" ><div class="js_selected_users"></div>
 				<input class="js_auto_complete" href='user_name.sw'
 					type="text" title=""
 					placeholder="<fmt:message key='common.upload.event.related_users'/>">
-				<div class='js_srch_x'></div>
-			</div>
-			<div style="display: none"></div>
+<!-- 				<div class='js_srch_x'></div>
+ -->			</div>
+			<div class="js_user_list" style="display: none"></div>
 
 			<div>
 				<textarea class="up_textarea" cols="" rows="5">
