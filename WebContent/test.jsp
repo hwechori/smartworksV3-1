@@ -34,12 +34,17 @@
 }%>
 <%
 
-	AprApproval apr = SwManagerFactory.getInstance().getAprManager().getApproval("", "402880eb338779f6013387eeab3b001a", "ALL");
+	//AprApproval apr = SwManagerFactory.getInstance().getAprManager().getApproval("", "402880eb338779f6013387eeab3b001a", "ALL");
+	
+
+	TskTask runObj = SwManagerFactory.getInstance().getTskManager().getTask("", "402880eb338bbc5801338bc3e09f0007", null);
+
+	SwManagerFactory.getInstance().getTskManager().executeTask("", runObj, "all");
 	
 	
 %>
 <textarea style="width:800px;height:400px;">
-<%=apr.toString() %>
+<%=runObj.toString() %>
 </textarea>
 </body>
 </html>

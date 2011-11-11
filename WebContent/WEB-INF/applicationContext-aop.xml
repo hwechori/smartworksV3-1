@@ -11,22 +11,49 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 
 	
-	<!-- beans:bean id="testCommonAdvice" class="net.smartworks.server.engine.common.advisor.CommonAdvisor"/>
+	<beans:bean id="testCommonAdvice" class="net.smartworks.server.engine.common.advisor.CommonAdvisor"/>
 	
-	<aop:config>
+	<!-- aop:config>
 		<aop:aspect id="commonAdvice" ref="testCommonAdvice">
 			<aop:pointcut id="publicMethod" expression="execution(public * net.smartworks.server.engine.process..*(..))"/>
 			<aop:around pointcut-ref="publicMethod" method="trace"/>
 		</aop:aspect>
+	</aop:config-->
+	
+	<!-- Mail Advisor -->
+	<beans:bean id="tskManagerMailAdvisor" class="net.smartworks.server.engine.process.task.manager.impl.TskManagerMailAdvisorImpl"/>
+	<aop:config>
+		<aop:aspect id="tskMailAdvisor" ref="tskManagerMailAdvisor">
+			<aop:pointcut id="mailMethod" expression="target(net.smartworks.server.engine.process.task.manager.impl.TskManagerImpl)"/>
+			<aop:around pointcut-ref="mailMethod" method="invoke"/>
+		</aop:aspect>
 	</aop:config>
 	
-	<beans:bean id="tskManagerAdvisor" class="net.smartworks.server.engine.process.task.manager.impl.TskManagerAdvisorImpl"/>
-	
+	<!-- SubProcess Advisor -->
+	<beans:bean id="tskManagerSubFlowAdvisor" class="net.smartworks.server.engine.process.task.manager.impl.TskManagerSubFlowAdvisorImpl"/>
 	<aop:config>
-		<aop:aspect id="tskManagerAdvice" ref="tskManagerAdvisor">
-			<aop:pointcut id="tskMethod" expression="execution(public * net.smartworks.server.engine.process.task.manager.impl..*(..))"/>
-			<aop:around pointcut-ref="tskMethod" method="invoke"/>
+		<aop:aspect id="tskSubFlowAdvisor" ref="tskManagerSubFlowAdvisor">
+			<aop:pointcut id="subMethod" expression="target(net.smartworks.server.engine.process.task.manager.impl.TskManagerImpl)"/>
+			<aop:around pointcut-ref="subMethod" method="invoke"/>
 		</aop:aspect>
-	</aop:config-->
+	</aop:config>
+	
+	<!-- Service Advisor -->
+	<beans:bean id="tskManagerServiceAdvisor" class="net.smartworks.server.engine.process.task.manager.impl.TskManagerServiceAdvisorImpl"/>
+	<aop:config>
+		<aop:aspect id="tskServiceAdvisor" ref="tskManagerServiceAdvisor">
+			<aop:pointcut id="serviceMethod" expression="target(net.smartworks.server.engine.process.task.manager.impl.TskManagerImpl)"/>
+			<aop:around pointcut-ref="serviceMethod" method="invoke"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- link Advisor -->
+	<beans:bean id="tskManagerLinkAdvisor" class="net.smartworks.server.engine.process.task.manager.impl.TskManagerLinkAdvisorImpl"/>
+	<aop:config>
+		<aop:aspect id="tskLinkAdvisor" ref="tskManagerLinkAdvisor">
+			<aop:pointcut id="linkMethod" expression="target(net.smartworks.server.engine.process.task.manager.impl.TskManagerImpl)"/>
+			<aop:around pointcut-ref="linkMethod" method="invoke"/>
+		</aop:aspect>
+	</aop:config>
 
 </beans:beans>
