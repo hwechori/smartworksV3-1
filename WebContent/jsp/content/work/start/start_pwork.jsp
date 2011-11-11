@@ -7,8 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
-	ISmartWorks smartWorks = (ISmartWorks) request
-			.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
@@ -24,24 +23,23 @@
 <div class="form_wrap up up_padding">
 	<div class="form_title">
 		<div class="ico_pworks title"><%=cWork.getFullpathName()%>
-		
-		<span class="txt_btn padding_l10">
-			<a href=""><fmt:message key="common.upload.button.view_process" />▼</a>
-		</span>
-				
+
+			<span class="txt_btn padding_l10"> <a href=""><fmt:message
+						key="common.upload.button.view_process" />▼</a> </span>
+
 		</div>
-		
+
 		<div class="txt_btn">
 			<div>
-				<a href=""><img src="images/btn_referw.gif" alt="참조자 지정" /> </a>
+				<a href=""><img src="images/btn_referw.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
 			</div>
 		</div>
 		<div class="solid_line"></div>
 	</div>
 
 	<div class="form_contents">
-	
-	<div class="txt_btn padding_r30">
+
+		<div class="txt_btn">
 			<div>
 				<a class="js_toggle_form_detail"
 					href="load_detail_form.sw?key=<%=cWork.getId()%>"><fmt:message
@@ -53,30 +51,31 @@
 						key="common.upload.button.brief" /> </a>
 			</div>
 		</div>
-		
-
-			<div>
-				<table>
-					<colgroup>
-						<col class="item">
-						<col class="field">
-						<col class="item">
-						<col class="field">
-					</colgroup>
-					<tbody>
-						<tr>
-							<td>업무제목</td>
-							<td colspan="3"><input class="fieldline essen" type="text"
-								title="" value=""></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-
-			<div class="dash_line"></div>
 
 
-		
+		<div>
+			<table>
+				<colgroup>
+					<col class="item">
+					<col class="field">
+					<col class="item">
+					<col class="field">
+				</colgroup>
+				<tbody>
+					<tr>
+						<td><fmt:message key='common.upload.field.subject'/></td>
+						<td colspan="3"><input class="fieldline essen" type="text"
+							title="" value="">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="dash_line"></div>
+
+
+
 		<div id="form_import">
 			<jsp:include page="/jsp/content/work/form/load_brief_form.jsp"></jsp:include>
 		</div>
