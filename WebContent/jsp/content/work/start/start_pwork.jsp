@@ -20,24 +20,26 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 폼- 확장 -->
-<div id="form_wrap" class="up up_padding">
-	<div id="form_title">
-		<div class="ico_pworks title"><%=cWork.getFullpathName()%></div>
-		<div class="txt_btn float_left padding_l10">
-			<a href=""><fmt:message key="common.upload.button.view_process" />▼</a>
+<div class="form_wrap up up_padding">
+	<div class="form_title">
+		<div class="ico_pworks title"><%=cWork.getFullpathName()%>
+
+			<span class="txt_btn padding_l10"> <a href=""><fmt:message
+						key="common.upload.button.view_process" />▼</a> </span>
+
 		</div>
+
 		<div class="txt_btn">
 			<div>
-				<a href=""><img src="images/btn_referw.gif" alt="참조자 지정" />
-				</a>
+				<a href=""><img src="images/btn_referw.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
 			</div>
 		</div>
 		<div class="solid_line"></div>
 	</div>
 
-	<div id="form_contents">
+	<div class="form_contents">
 
-		<div class="txt_btn padding_r30">
+		<div class="txt_btn">
 			<div>
 				<a class="js_toggle_form_detail"
 					href="load_detail_form.sw?key=<%=cWork.getId()%>"><fmt:message
@@ -49,11 +51,36 @@
 						key="common.upload.button.brief" /> </a>
 			</div>
 		</div>
+
+
+		<div>
+			<table>
+				<colgroup>
+					<col class="item">
+					<col class="field">
+					<col class="item">
+					<col class="field">
+				</colgroup>
+				<tbody>
+					<tr>
+						<td><fmt:message key='common.upload.field.subject'/></td>
+						<td colspan="3"><input class="fieldline essen" type="text"
+							title="" value="">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="dash_line"></div>
+
+
+
 		<div id="form_import">
 			<jsp:include page="/jsp/content/work/form/load_brief_form.jsp"></jsp:include>
 		</div>
 	</div>
-	
+
 	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 </div>
 <!-- 폼- 확장 //-->
