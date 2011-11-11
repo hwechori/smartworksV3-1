@@ -23,10 +23,14 @@
 <!-- 폼- 확장 -->
 <div class="form_wrap up up_padding">
 	<div class="form_title">
-		<div class="ico_pworks title"><%=cWork.getFullpathName()%></div>
-		<div class="txt_btn float_left padding_l10">
+		<div class="ico_pworks title"><%=cWork.getFullpathName()%>
+		
+		<span class="txt_btn padding_l10">
 			<a href=""><fmt:message key="common.upload.button.view_process" />▼</a>
+		</span>
+				
 		</div>
+		
 		<div class="txt_btn">
 			<div>
 				<a href=""><img src="images/btn_referw.gif" alt="참조자 지정" /> </a>
@@ -50,7 +54,7 @@
 			</div>
 		</div>
 		
-		<div class="title_2dep">
+
 			<div>
 				<table>
 					<colgroup>
@@ -70,7 +74,7 @@
 			</div>
 
 			<div class="dash_line"></div>
-		</div>
+
 
 		
 		<div id="form_import">

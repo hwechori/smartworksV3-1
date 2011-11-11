@@ -34,7 +34,7 @@
 				</div>
 
 			</div>
-			<div class="txt_btn txt_btn_height js_file_detail_form">
+			<div class="txt_btn txt_btn_height padding_r10 js_file_detail_form">
 				<div>
 					<a class="js_toggle_file_detail" href="file_detail_form.sw"><fmt:message
 							key="common.upload.button.view_file_detail" /> </a>

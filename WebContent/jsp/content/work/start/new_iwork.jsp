@@ -21,7 +21,7 @@
 
 <!-- 폼- 확장 -->
 <div class=form_wrap "up up_padding">
-	<div c="form_title">
+	<div class="form_title">
 		<div class="ico_iworks title"><%=cWork.getFullpathName()%></div>
 		<div class="txt_btn">
 			<div>
@@ -38,7 +38,7 @@
 
 	<div class="form_contents">
 
-		<div class="txt_btn padding_r30">
+		<div class="txt_btn">
 			<div>
 				<a class="js_toggle_form_detail" href="load_detail_form.sw?key=<%=cWork.getId()%>"><fmt:message
 						key="common.upload.button.detail" /> </a>
