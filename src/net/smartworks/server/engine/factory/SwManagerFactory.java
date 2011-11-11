@@ -9,7 +9,6 @@
 package net.smartworks.server.engine.factory;
 
 import net.smartworks.server.engine.common.collection.manager.IColManager;
-import net.smartworks.server.engine.config.update.manager.IUpdManager;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
@@ -36,7 +35,7 @@ public class SwManagerFactory {
 	private IPrcManager prcManager;
 //	private IMdlManager mdlManager;
 //	private ILcsManager lcsManager;
-	private IUpdManager updManager;
+//	private IUpdManager updManager;
 	//private IRepManager repManager;
 	private ISwdManager swdManager;
 	private ISwfManager swfManager;
@@ -139,11 +138,11 @@ public void setSwdManager(ISwdManager swdManager) {
 //	public void setLcsManager(ILcsManager lcsManager) {
 //		this.lcsManager = lcsManager;
 //	}
-	public IUpdManager getUpdManager() {
-		return updManager;
-	}
-	public void setUpdManager(IUpdManager updManager) {
-		this.updManager = updManager;
-	}
+//	public IUpdManager getUpdManager() {
+//		return updManager;
+//	}
+//	public void setUpdManager(IUpdManager updManager) {
+//		this.updManager = updManager;
+//	}
 
 }
