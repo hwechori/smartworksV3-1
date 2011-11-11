@@ -28,6 +28,8 @@
 </link>
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
 </link>
+<link href="css/calendar.css" type="text/css" rel="stylesheet" />
+</link>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
 		<fmt:param value="<%=currentUser.getCompany() %>" />

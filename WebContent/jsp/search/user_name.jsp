@@ -17,7 +17,7 @@
 			String comName = user.getName();
 			String comId = user.getId();
 	%>
-	<li><a href="" uname="<%=user.getLongName()%>" uid="<%=comId %>" class="js_select_user"><img src="<%=picName%>" border="0"><%=comName%></a>
+	<li><a href="" uname="<%=user.getLongName()%>" uid="<%=comId %>" class="js_select_user"><img src="<%=picName%>"><%=comName%></a>
 	</li>
 	<%
 		}
