@@ -36,7 +36,7 @@
 		<div class="solid_line"></div>
 	</div>
 
-	<div id="form_contents">
+	<div class="form_contents">
 
 		<div class="txt_btn padding_r30">
 			<div>

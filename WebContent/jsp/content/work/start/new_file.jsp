@@ -20,19 +20,20 @@
 		<div id="form_wrap">
 			<div id="form_title" class="js_file_brief_form">
 
-					<textarea class="up_textarea" rows="5"
-						placeholder="<fmt:message
-						key="common.upload.message.file_desc" />"><fmt:message
-						key="common.upload.message.file_desc" /></textarea>
-				
-			<div class="btn_gray padding_t5"> 
-			<a href=""> 
-			<span class="Btn01Start"></span>
-				<span class="Btn01Center">찾아보기</span> 
-			<span class="Btn01End"></span></a>
-			</span> 
-			</div> 
-			
+				<textarea class="up_textarea" rows="5"
+					placeholder="<fmt:message
+						key="common.upload.message.file_desc" />">
+					<fmt:message key="common.upload.message.file_desc" />
+				</textarea>
+
+				<div class="btn_gray padding_t5">
+					<a href=""> <span class="Btn01Start"></span> <span
+						class="Btn01Center"><fmt:message
+								key='common.upload.button.find_file' /> </span> <span class="Btn01End"></span>
+					</a>
+				</div>
+
+			</div>
 			<div class="txt_btn txt_btn_height js_file_detail_form">
 				<div>
 					<a class="js_toggle_file_detail" href="file_detail_form.sw"><fmt:message
@@ -43,18 +44,14 @@
 							key="common.upload.button.close_file_detail" /> </a>
 				</div>
 			</div>
-			
-			
+
+			<div class="form_contents">
+				<!-- 상세 정보 추가시 화면 -->
+				<div id="file_detail" class='form_' style="display: none"></div>
+				<!-- 상세 정보 추가시 화면 //-->
+			</div>
+			<!-- 하단 등록,취소 버튼 -->
+			<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+			<!-- 하단 등록,취소 버튼 -->
 		</div>
-		
-
-
-			<!-- 상세 정보 추가시 화면 -->
-			<div id="file_detail" style="display: none"></div>
-			<!-- 상세 정보 추가시 화면 //-->
-
-		<!-- 하단 등록,취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
-		<!-- 하단 등록,취소 버튼 -->
 	</div>
-</div>

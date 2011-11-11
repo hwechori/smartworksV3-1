@@ -12,7 +12,7 @@
 				title="<fmt:message key='search.search_people_depart_group'/>"
 				placeholder="<fmt:message key='search.search_people_depart_group'/>"
 				href="community.sw">
-			<button title="<fmt:message key='search.search'/>" onclick=""></button>
+			<div class='srch_ico js_srch_x'></div>
 		</div>
 		<div style="display: none"></div>
 	</li>
