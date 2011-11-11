@@ -25,7 +25,7 @@
 	EventInstance[] events = smartWorks.getEventInstances(new LocalDate(), 10);
 %>
 <!-- 이벤트,공지 포틀릿 -->
-<div id="section_portlet">
+<div class="section_portlet">
 	<div class="tab_portlet">
 		<div class="tab_portlet_l"></div>
 		<div class="tab_portletx">
@@ -60,7 +60,7 @@
 						for (int cnt = 0; cnt < threeDaysCC.length; cnt++) {
 					%>
 					<li class="float_left">
-						<div id="event">
+						<div class="event">
 							<div class="event_t">
 								<div class="event_t_l"></div>
 							</div>

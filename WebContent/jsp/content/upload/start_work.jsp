@@ -7,7 +7,7 @@
 	<div class="up_point posit_works"></div>
 
 	<!-- 폼- 디폴트-->
-	<div id="start_worksinput" class="js_start_work">
+	<div class="start_worksinput js_start_work">
 
 		<div class="input_size srch">
 			<input class="js_auto_complete" type="text" href="work_name.sw"

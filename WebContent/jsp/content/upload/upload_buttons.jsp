@@ -26,7 +26,7 @@
 %>
 
 <!-- 등록 취소 버튼 -->
-<div id="glo_btn_space">
+<div class="glo_btn_space">
 
 	<div class="float_right">
 		<span class="btn_gray"> 

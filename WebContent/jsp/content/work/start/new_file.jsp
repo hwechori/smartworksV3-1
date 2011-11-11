@@ -17,8 +17,8 @@
 	<div class="up_point posit_file"></div>
 	<div class="up up_padding">
 		<!-- 폼- 확장 -->
-		<div id="form_wrap">
-			<div id="form_title" class="js_file_brief_form">
+		<div class="form_wrap">
+			<div class="form_title" class="js_file_brief_form">
 
 				<textarea class="up_textarea" rows="5"
 					placeholder="<fmt:message

@@ -20,8 +20,8 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 폼- 확장 -->
-<div id="form_wrap" class="up up_padding">
-	<div id="form_title">
+<div class=form_wrap "up up_padding">
+	<div c="form_title">
 		<div class="ico_iworks title"><%=cWork.getFullpathName()%></div>
 		<div class="txt_btn">
 			<div>

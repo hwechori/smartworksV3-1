@@ -3,7 +3,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <!-- 업무계획하기 -->
-<div id="form_add_a">
+<div class="form_add_a">
 	<div class="dash_line"></div>
 	<div class="input_1line">
 		<div class="float_left padding_r10">

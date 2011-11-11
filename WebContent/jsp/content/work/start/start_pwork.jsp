@@ -21,8 +21,8 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 폼- 확장 -->
-<div id="form_wrap" class="up up_padding">
-	<div id="form_title">
+<div class="form_wrap up up_padding">
+	<div class="form_title">
 		<div class="ico_pworks title"><%=cWork.getFullpathName()%></div>
 		<div class="txt_btn float_left padding_l10">
 			<a href=""><fmt:message key="common.upload.button.view_process" />▼</a>
@@ -35,7 +35,7 @@
 		<div class="solid_line"></div>
 	</div>
 
-	<div id="form_contents">
+	<div class="form_contents">
 	
 	<div class="txt_btn padding_r30">
 			<div>
