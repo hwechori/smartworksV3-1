@@ -40,8 +40,12 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 	public TskManagerLinkAdvisorImpl() {
 		super();
 	}
-	
+
+	public void preExecuteTask(String user, TskTask obj, String action) throws Exception {
+		System.out.println("LinkAdvisor preExecuteTask");
+	}
 	public void postExecuteTask(String user, TskTask obj, String action) throws Exception {
+		System.out.println("LinkAdvisor postExecuteTask");
 		
 		// ####참조업무#### 
 		//obj 객체에 담겨 넘어오는 참조자에게 업무를 전달(생성)한다
@@ -145,13 +149,8 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		}
 		//####전자결재 끝####
 		
-		
-		// 수신 업무 반영
+		// 연결 업무 반영
 		LnkLink recLink = this.applyReceiptTask(user, obj);
-		
-		// 링크 반영
-		if (!this.checkMultiInstCondition(obj, action))
-			return;
 		
 		// task를 from으로 하는 link 조회
 		LnkLink[] links = this.getNextLinks(obj, action);
@@ -209,24 +208,6 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 				LnkLink link = (LnkLink)linkItr.next();
 				this.getLnkManager().setLink("linkadvisor", link, null);
 			}
-			
-//			프로세스 상태 갱신
-//			PrcProcessInst prcInst = this.getPrcManager().getProcessInst("linkadvisor", obj.getProcessInstId(), IManager.LEVEL_LITE);
-//			if (prcInst != null) {
-//				String prcInstStatus = prcInst.getStatus();
-//				Date modDate = prcInst.getModificationDate();
-//				if (
-//						prcInstStatus == null || 
-//						(
-//								modDate != null && 
-//								modDate.getTime() < new Date().getTime() - 5000 && 
-//								prcInstStatus.equals(CommonUtil.toDefault((String)MisUtil.processInstStatusMap().get("completed"), "completed"))
-//						)
-//					) {
-//					prcInst.setStatus(CommonUtil.toDefault((String)MisUtil.processInstStatusMap().get("started"), "started"));
-//					this.getPrcManager().setProcessInst("linkadvisor", prcInst, IManager.LEVEL_LITE);
-//				}
-//			}
 		}
 		
 		// 프로세스 상태 갱신
@@ -384,6 +365,9 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		recTask.setExpectEndDate(expectEndDate);
 		
 		this.getTskManager().setTask(user, recTask, null);
+		if (logger.isInfoEnabled()) {
+			logger.info("Assgined Receipt Task [ " + recTask.getTitle() + " To " + recTask.getAssignee() + " From Task Id : " + obj.getObjId() + " ]");
+		}
 		
 		obj.setExtendedPropertyValue("processInstCreationUser", user);
 		
@@ -475,9 +459,13 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 			if (status == null || !MisUtil.processInstExecutedStatusSet().contains(status)) {
 				prcInst.setStatus(CommonUtil.toDefault((String)MisUtil.processInstStatusMap().get("completed"), "completed"));
 				this.getPrcManager().setProcessInst("linkadvisor", prcInst, IManager.LEVEL_LITE);
+				if (logger.isInfoEnabled()) {
+					logger.info("Completed Process Instance [ " + prcInst.getTitle() + "( " + prcInst.getObjId() + " ) ]");
+				}
 				//서브인스턴스이면 부모의 SUBFLOW TASK를 찾아서 실행한다
-				if (prcInst.getIsSubInstance() != null && prcInst.getIsSubInstance().equalsIgnoreCase("TRUE"))
+				if (prcInst.getIsSubInstance() != null && prcInst.getIsSubInstance().equalsIgnoreCase("TRUE")) {
 					invokeParentPrcInstTask(user, prcInst);
+				}
 			}
 		
 		// 진행 중인 태스크가 있고, 완료상태이면, 진행상태로 변경
@@ -487,43 +475,42 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 				this.getPrcManager().setProcessInst("linkadvisor", prcInst, IManager.LEVEL_LITE);
 			}
 		}
-		
 	}
 	private void invokeParentPrcInstTask(String user, PrcProcessInst prcInst) throws Exception {
 		String parentPrcInstId = prcInst.getExtendedPropertyValue("parentPrcInstId");
 		String parentTskDefId = prcInst.getExtendedPropertyValue("parentTskDefId");
 		//부모의 instanceVariable 를 업데이트 한다.
 		//부모의 전역변수를 업데이트 칠이유가 있나?????????????????????????
-		PrcProcessInst pPrcInst = this.getPrcManager().getProcessInst(user, parentPrcInstId, IManager.LEVEL_LITE);
-		if (pPrcInst != null && pPrcInst.getInstVariable() != null) {
-			InstanceVariables prcInstVariables = (InstanceVariables)InstanceVariables.toObject(prcInst.getInstVariable());
-			InstanceVariable[] prcInstVariable = prcInstVariables.getInstanceVariables();
-
-			InstanceVariables pPrcInstVariables = (InstanceVariables)InstanceVariables.toObject(pPrcInst.getInstVariable());
-			InstanceVariable[] pPrcInstVariable = pPrcInstVariables.getInstanceVariables();
-			
-			Map pPrcInstVariableMap = new HashMap();
-			for (int i = 0; i < pPrcInstVariable.length; i++) {
-				pPrcInstVariableMap.put(pPrcInstVariable[i].getId(), pPrcInstVariable[i]);
-			}
-			
-			for (int i = 0; i < prcInstVariable.length; i++) {
-				if (pPrcInstVariableMap.get(prcInstVariable[i].getId()) == null) {
-					pPrcInstVariables.addInstanceVariable(prcInstVariable[i]);
-				} else {
-					InstanceVariable tempVariable = (InstanceVariable)pPrcInstVariableMap.get(prcInstVariable[i].getId());
-					tempVariable.setVariableValue(prcInstVariable[i].getVariableValue());
-				}
-				
-			}
-			
-			pPrcInst.setInstVariable(pPrcInstVariables.toString());
-			
-			this.getPrcManager().setProcessInst(user, pPrcInst, IManager.LEVEL_LITE);	
-		} else {
-			pPrcInst.setInstVariable(prcInst.getInstVariable());
-			this.getPrcManager().setProcessInst(user, pPrcInst, IManager.LEVEL_LITE);	
-		}
+//		PrcProcessInst pPrcInst = this.getPrcManager().getProcessInst(user, parentPrcInstId, IManager.LEVEL_LITE);
+//		if (pPrcInst != null && pPrcInst.getInstVariable() != null) {
+//			InstanceVariables prcInstVariables = (InstanceVariables)InstanceVariables.toObject(prcInst.getInstVariable());
+//			InstanceVariable[] prcInstVariable = prcInstVariables.getInstanceVariables();
+//
+//			InstanceVariables pPrcInstVariables = (InstanceVariables)InstanceVariables.toObject(pPrcInst.getInstVariable());
+//			InstanceVariable[] pPrcInstVariable = pPrcInstVariables.getInstanceVariables();
+//			
+//			Map pPrcInstVariableMap = new HashMap();
+//			for (int i = 0; i < pPrcInstVariable.length; i++) {
+//				pPrcInstVariableMap.put(pPrcInstVariable[i].getId(), pPrcInstVariable[i]);
+//			}
+//			
+//			for (int i = 0; i < prcInstVariable.length; i++) {
+//				if (pPrcInstVariableMap.get(prcInstVariable[i].getId()) == null) {
+//					pPrcInstVariables.addInstanceVariable(prcInstVariable[i]);
+//				} else {
+//					InstanceVariable tempVariable = (InstanceVariable)pPrcInstVariableMap.get(prcInstVariable[i].getId());
+//					tempVariable.setVariableValue(prcInstVariable[i].getVariableValue());
+//				}
+//				
+//			}
+//			
+//			pPrcInst.setInstVariable(pPrcInstVariables.toString());
+//			
+//			this.getPrcManager().setProcessInst(user, pPrcInst, IManager.LEVEL_LITE);	
+//		} else {
+//			pPrcInst.setInstVariable(prcInst.getInstVariable());
+//			this.getPrcManager().setProcessInst(user, pPrcInst, IManager.LEVEL_LITE);	
+//		}
 		TskTaskCond cond = new TskTaskCond();
 		cond.setProcessInstId(parentPrcInstId);
 		cond.setDef(parentTskDefId);
@@ -535,43 +522,12 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 			return;
 		parentTask[0].setInstVariable(prcInst.getInstVariable());
 		getTskManager().executeTask(user, parentTask[0], "execute");
+		if (logger.isInfoEnabled()) {
+			logger.info("End Sub Process, Invoke Parent Process [ " + prcInst.getTitle() + " - Sub Process Instance: " + prcInst.getObjId() + " To Parent Process Instance: " + parentPrcInstId + ", Parent Task Instance : " + parentTask[0].getObjId() + " ]");
+		}
 			
 	}
-	private boolean checkMultiInstCondition(TskTask obj, String action) throws Exception {
-		String miId = obj.getMultiInstId();
-		if (miId == null)
-			return true;
-		// TODO Multi Instance Ordering
-//		String miOrder = obj.getMultiInstOrdering();
-		String miFlowCond = obj.getMultiInstFlowCondition();
-		if (miFlowCond != null && miFlowCond.equalsIgnoreCase("none"))
-			return true;
-		TskTaskCond miCond = new TskTaskCond();
-		miCond.setMultiInstId(miId);
-		TskTask[] miTasks = this.getTskManager().getTasks("linkAdvisor", miCond, IManager.LEVEL_LITE);
-		if (miTasks == null || miTasks.length == 0)
-			return true;
-		if (miFlowCond == null || miFlowCond.equalsIgnoreCase("all")) {
-			for (int i=0; i<miTasks.length; i++) {
-				TskTask miTask = miTasks[i];
-				String miTaskStatus = miTask.getStatus();
-				if (miTaskStatus == null)
-					return false;
-				if (!MisUtil.taskExecutedStatusSet().contains(miTaskStatus))
-					return false;
-			}
-		} else {
-			for (int i=0; i<miTasks.length; i++) {
-				TskTask miTask = miTasks[i];
-				String miTaskStatus = miTask.getStatus();
-				if (miTaskStatus == null)
-					return false;
-				if (MisUtil.taskExecutedStatusSet().contains(miTaskStatus))
-					return false;
-			}
-		}
-		return true;
-	}
+
 	protected LnkLink[] getNextLinks(TskTask obj, String action) throws Exception {
 		if (action != null && action.equalsIgnoreCase("return")) {
 			TskTask prevTask = this.getPreviousTask(obj);
@@ -693,18 +649,6 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		} else if (toType.equalsIgnoreCase("task")) {
 			// TODO 지저분한 소스 (보내기 업무, 반려)
 			tasks = new TskTask[] {cloneTask(toRef)};
-		} else if (toType.equalsIgnoreCase("multiinst")) {
-			TskTaskCond taskCond =new TskTaskCond();
-			taskCond.setMultiInstId(toRef);
-			TskTask[] multis = this.getTskManager().getTasks("linkadvisor", taskCond, IManager.LEVEL_ALL);
-			if (multis != null && multis.length != 0) {
-				tasks = new TskTask[multis.length];
-				String multiInstId = CommonUtil.newId();
-				for (int i=0; i<multis.length; i++) {
-					tasks[i] = (TskTask)multis[i].cloneNew();
-					tasks[i].setMultiInstId(multiInstId);
-				}
-			}
 		}
 		
 		if (tasks != null && tasks.length != 0) {
@@ -972,4 +916,49 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		linkCond.setToRef(id);
 		getLnkManager().removeLinks(user, linkCond);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

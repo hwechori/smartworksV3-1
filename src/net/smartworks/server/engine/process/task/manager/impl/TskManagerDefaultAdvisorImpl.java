@@ -12,12 +12,17 @@ import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.MisUtil;
+import net.smartworks.server.engine.process.link.manager.ILnkManager;
+import net.smartworks.server.engine.process.link.model.LnkCondition;
+import net.smartworks.server.engine.process.link.model.LnkLink;
+import net.smartworks.server.engine.process.link.model.LnkLinkCond;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInst;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.task.exception.TskException;
 import net.smartworks.server.engine.process.task.manager.AbstractTskManagerAdvisor;
+import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
 
@@ -170,8 +175,47 @@ public class TskManagerDefaultAdvisorImpl extends AbstractTskManagerAdvisor {
 			}
 		}
 	}
-	
+	public void postSetTask(String user, TskTask obj, String level) throws Exception {
+		if (obj.getType().equalsIgnoreCase("and") || obj.getType().equalsIgnoreCase("route") ||
+				obj.getType().equalsIgnoreCase("xor")) {
+			if (level != null && level.equals(IManager.LEVEL_LITE))
+				return;
+			
+			super.postSetTask(user, obj, level);
+			
+			ITskManager tskSvc = this.getTskManager();
+			if (tskSvc == null)
+				return;
+			
+			// 이전 액션 조회
+			String action = getPreviousAction(obj.getObjId());
+			// 태스크 처리
+			tskSvc.executeTask(user, obj, action);
+		}
+		
+	}
+	private String getPreviousAction(String taskId) throws Exception {
+		ILnkManager lnkMgr = this.getLnkManager();
+		if (lnkMgr == null)
+			return null;
+
+		LnkLinkCond cond = new LnkLinkCond();
+		cond.setToType("task");
+		cond.setToRef(taskId);
+		LnkLink[] lnks = lnkMgr.getLinks(null, cond, null);
+		if (lnks == null || lnks.length == 0)
+			return null;
+		
+		LnkLink lnk = lnks[0];
+		LnkCondition lnkCond = lnk.getCondition();
+		if (lnkCond == null)
+			return null;
+		
+		String action = lnkCond.getExpression();
+		return action;
+	}
 	public void preExecuteTask(String user, TskTask obj, String action) throws Exception {
+		System.out.println("DefaultAdvisor preExecuteTask");
 		// 업무의 상태가 taskExecutedStatusSet에 포함되었다면 실행 할수 없음
 		String objStatus = CommonUtil.toDefault((String)MisUtil.taskStatusMap().get(obj.getStatus()), obj.getStatus());
 		if (objStatus != null) {
@@ -213,9 +257,14 @@ public class TskManagerDefaultAdvisorImpl extends AbstractTskManagerAdvisor {
 				.append(" processId:").append(pId).append(") of task(title: ").append(obj.getTitle()).append(")").toString());
 	}
 	public void postExecuteTask(String user, TskTask obj, String action) throws Exception {
+		System.out.println("DefaultAdvisor postExecuteTask");
 		// 인스턴스 우선순위 업데이트
 		this.updateProcessInstPriority(obj);
 	}
+	
+	
+	
+	
 	private void updateProcessInstPriority(TskTask obj) throws Exception {
 		if (getPrcManager() == null)
 			return;
