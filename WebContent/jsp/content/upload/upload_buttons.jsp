@@ -30,10 +30,10 @@
 
 	<div class="float_right">
 		<span class="btn_gray"> 
-		<a href=""> 
+		<a href="" onclick='submitForms()'> 
 			<span class="Btn01Start"></span>
 				<span class="Btn01Center"><fmt:message
-						key="common.button.complete" />
+						key="common.button.complete"/>
 				</span> 
 			<span class="Btn01End"></span> </a> </span> 
 			

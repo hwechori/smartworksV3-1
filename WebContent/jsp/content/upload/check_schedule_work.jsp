@@ -7,10 +7,10 @@
 	<div class="dash_line"></div>
 	<div class="input_1line">
 		<div class="float_left padding_r10">
-			<input name="" type="checkbox" value="" onclick="$(this).parent().next('div').toggle();"/><fmt:message key="common.upload.button.schedule" />
+			<input name="chkScheduleWork" type="checkbox" value="" onclick="$(this).parent().next('form').toggle();"/><fmt:message key="common.upload.button.schedule" />
 		</div>
 
-		<div style='display:none'>
+		<form name='frmScheduleWork' style='display:none'>
 			<div class="float_left" style="">
 				<input class="fieldline space_data" type="text" value="2010.11.10" title="">
 			</div>
@@ -43,7 +43,7 @@
 				</div>
 				<img src="images/btn_s_person.png" width="21" height="20" />
 			</div>
-		</div>
+		</form>
 
 	</div>
 </div>

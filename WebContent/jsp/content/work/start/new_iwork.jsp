@@ -8,28 +8,40 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <script type="text/javascript">
-function newInformationWork() {
-	var frmApproval = document.frmApproval;
-	var frmForward = document.frmForward;
-	var frmScheduleWork = document.frmScheduleWork;
-
-	var workId = Request('workId');
+function submitForms() {
+	var frmApproval = null;
+	if(document.getElementsByName('frmApproval').length == 1){
+		frmApproval = document.frmApproval;
+	}
+	var frmForward = null;
+	if(document.getElementsByName('frmForward').length == 1){
+		frmForward = document.frmForward;
+	}
+	var frmScheduleWork = null;
+	var chkScheduleWork = document.getElementsByName('chkScheduleWork');
+	if(chkScheduleWork[0].checked == true){
+		frmScheduleWork = document.frmScheduleWork;
+	}
+	var workId = Request.parameter('workId');
+	alert("workId=" + workId);
+	alert(frmScheduleWork);
 	var frmTotal = document.getElementById(workId);
+	alert(frmTotal);
 	if(frmTotal){
-		if(frmApproval){
-			
-		}
-		if(frmFormward){
-			
-		}
-		if(frmScheduleWork){
-			
-		}
+		if(frmApproval)
+			for(var element in frmApproval.elements)
+				frmTotal.addChild(element);
+		if(frmForward)
+			for(var element in frmForward.elements)
+				frmTotal.addChild(element);
+		if(frmScheduleWork)
+			for(var element in frmScheduleWork.elements)
+				frmTotal.addChild(element);
 		frmTotal.action = "create_iwork.sw";
 		frmTotal.submit();
 	}else{
-		
 	}
+	return false;
 }
 </script>
 <%
