@@ -244,8 +244,8 @@
 				<input class="fieldline" id="" type="text" title=""
 					placeholder="<fmt:message key='common.upload.event.place'/>">
 			</div>
-			<div class="input_1line">
-				<input class="fieldline js_auto_complete" href='user_name.sw'
+			<div class="input_1line fieldline" ><span>정윤식<span class="btn_im_x"></span>;</span>
+				<input class="js_auto_complete" href='user_name.sw'
 					type="text" title=""
 					placeholder="<fmt:message key='common.upload.event.related_users'/>">
 				<div class='js_srch_x'></div>
