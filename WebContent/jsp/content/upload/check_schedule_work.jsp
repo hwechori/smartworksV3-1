@@ -10,7 +10,7 @@
 			<input name="" type="checkbox" value="" onclick="$(this).parent().next('div').toggle();"/><fmt:message key="common.upload.button.schedule" />
 		</div>
 
-		<div class="">
+		<div style='display:none'>
 			<div class="float_left" style="">
 				<input class="fieldline space_data" type="text" value="2010.11.10" title="">
 			</div>

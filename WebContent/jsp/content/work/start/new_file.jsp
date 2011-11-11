@@ -34,20 +34,20 @@
 				</div>
 
 			</div>
-			<div class="txt_btn txt_btn_height padding_r10 js_file_detail_form">
-				<div>
-					<a class="js_toggle_file_detail" href="file_detail_form.sw"><fmt:message
-							key="common.upload.button.view_file_detail" /> </a>
-				</div>
-				<div style="display: none">
-					<a class="js_toggle_file_detail" href=""><fmt:message
-							key="common.upload.button.close_file_detail" /> </a>
-				</div>
-			</div>
-
 			<div class="form_contents">
+				<div class="txt_btn txt_btn_height js_file_detail_form">
+					<div>
+						<a class="js_toggle_form_detail" href="file_detail_form.sw"><fmt:message
+								key="common.upload.button.view_file_detail" /> </a>
+					</div>
+					<div style="display: none">
+						<a class="js_toggle_form_detail" href="empty_content.sw"><fmt:message
+								key="common.upload.button.close_file_detail" /> </a>
+					</div>
+				</div>
+
 				<!-- 상세 정보 추가시 화면 -->
-				<div id="file_detail" class='form_' style="display: none"></div>
+				<div id="form_import"></div>
 				<!-- 상세 정보 추가시 화면 //-->
 			</div>
 			<!-- 하단 등록,취소 버튼 -->
@@ -55,3 +55,4 @@
 			<!-- 하단 등록,취소 버튼 -->
 		</div>
 	</div>
+</div>

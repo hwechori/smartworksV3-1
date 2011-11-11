@@ -150,33 +150,20 @@ $(function() {
 		return false;
 	});
 
-	$('.js_select_action a').live(
-			'click',
-			function(e) {
+	$('.js_select_action a').live('click', function(e) {
 				var input = $(e.target);
-				$('.js_upload_form').hide();
-				$('.js_upload_form_detail').hide();
 				$('.js_select_action').find('a').removeClass('current');
-				var targetId = input.parents('.up_icon_list').find('a')
-						.addClass('current').attr('id');
-				var target = $('#' + targetId + '_box');
-				if (targetId === "action_work") {
-					target.slideDown(500).find('.js_start_work').show().find(
-							'input').removeAttr('value').show();
-					target.find('#all_work_btn').hide();
-				} else {
-					var url = input.attr('href');
-					$.ajax({
-						url : url,
-						data : {},
-						success : function(data, status, jqXHR) {
-							target.html(data);
-						},
-						complete : function() {
-							target.slideDown(500);
-						}
-					});
-				}
+				input.parents('.up_icon_list').find('a').addClass('current')
+						.attr('id');
+				var target = $('#upload_form_box');
+				var url = input.attr('href');
+				$.ajax({
+					url : url,
+					data : {},
+					success : function(data, status, jqXHR) {
+						target.html(data).slideDown(500);
+					}
+				});
 				return false;
 			});
 
@@ -221,21 +208,12 @@ $(function() {
 				return false;
 			});
 
-	$('a.js_toggle_file_detail').swnavi({
-		target : 'file_detail',
-		before : function(event) {
-			$('#form_wrap .js_file_brief_form').slideToggle(500);
-			$('#file_detail').toggle();
-		},
-		after : function(event) {
-			$(event.target).parent().toggle().siblings().toggle();
-		}
-	});
-
 	$('a.js_toggle_form_detail').swnavi({
 		target : 'form_import',
 		after : function(event) {
-			$(event.target).parent().toggle().siblings().toggle();
+			var input = $(event.target);
+			input.parents('div.js_file_detail_form').parent().prev().slideToggle(500);
+			input.parent().toggle().siblings().toggle();
 		}
 	});
 
