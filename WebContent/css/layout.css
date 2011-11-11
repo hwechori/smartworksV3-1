@@ -397,7 +397,9 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_x_gr {color:#c7c7c7; font-size:12px;}
 .btn_im_x {background: url("../images/btn_im_x2.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
     padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
-    
+	
+/* 사람지정 */
+.user_select {background: none repeat scroll 0 0 #E5F3FF; border: 1px solid #CBE6FF; padding: 0 0 0 2px;}    
 
 /* Text style */
 .t_red {color:#d84a4a;}

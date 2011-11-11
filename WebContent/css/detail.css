@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/* 상세보기- 타이틀 아이콘*/
+.titic_pworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; padding:1px 0 2px 19px; line-height:18px;}
+.titic_iworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; padding:1px 0 2px 19px; line-height:18px;}
+
+/* 상세보기 컨텐츠 */
+.contents_space {padding: 0 20px 10px 20px;}
+.contents_space .det_title { position:absolute; padding-right:120px;} /* 타이틀 */
+.contents_space .det_contents table { padding:10px;}
+
+/* Replay Info */
+.info_repl {vertical-align:bottom; position:absolute;}
+
+/* 상세보기 UP, List */
+.contents_upspace { padding:20px 0 0 30px;}
+.replay { margin:0 15px;}
+.replay li {border-bottom: 1px dashed #DCDFE0; clear: both; vertical-align: middle;}
