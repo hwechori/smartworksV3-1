@@ -11,32 +11,22 @@
 function submitForms() {
 	var frmMemo = document.frmMemo;
 	var frmAccessSpace = document.frmAccessSpace;
+	var url = "create_new_memo.sw";
 	if($('form.js_validation_required').validate().form()){
-		alert('11');
 		var params = $('form').serialize();
-		alert(params);
-		var url = "/jsp/search/work.jsp";
-		alert('dfdf');
 		$.ajax({
 			url : url,
-			data : {},
-			success : function(data, status, jqXHR) {
-				alert("success");
-			},
-			exception : function(e){
-				alert(e);
-			}
-		});
-/* 		$.ajax({
-			url : url,
+			data : params,
+			type : 'POST',
 			success : function() {
-				alert("success!!");
+				alert("success");
+				location.href = "home.sw";
 			},
-			exception : function(e){
+			error : function(e){
 				alert(e);
 			}
 		});
- */	}else{
+	}else{
 		alert('validation failure!!');
 		return false;
 	}

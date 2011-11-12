@@ -30,7 +30,7 @@
 
 	<div class="float_right">
 		<span class="btn_gray"> 
-		<a href="" onclick='submitForms()'> 
+		<a href="" onclick='submitForms(); return false;'> 
 			<span class="Btn01Start"></span>
 				<span class="Btn01Center"><fmt:message
 						key="common.button.complete"/>

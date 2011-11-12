@@ -11,7 +11,6 @@ package net.smartworks.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.smartworks.model.community.Group;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 @Controller
 public class WorkInstanceController {
@@ -134,14 +134,13 @@ public class WorkInstanceController {
 				"jsp/content/work/start/new_board.jsp", "");
 	}
 
-	@RequestMapping("/craete_new_memo")
-	public ModelAndView craeteNewMemo(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping("/create_new_memo")
+	public void createNewMemo(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			smartworks.setMemoInstance(request);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("jsp/verify_group_creation.jsp");
 	}
 
 }
