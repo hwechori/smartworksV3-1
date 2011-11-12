@@ -56,14 +56,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="prcManager" ref="prcManager"/>
 		<beans:property name="colManager" ref="colManager"/>
 		<beans:property name="depManager" ref="depManager"/>
-		<!-- <beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="aprManager" ref="aprManager"/>
-		beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="monManager" ref="monXpdlManager"/>
-		<!-- beans:property name="chtManager" ref="chtManager"/>
+		<!-- <beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="lcsManager" ref="lcsManager"/>
-		<beans:property name="updManager" ref="updManager"/>
-		<beans:property name="aprManager" ref="aprManager"/> -->
+		<beans:property name="updManager" ref="updManager"/> -->
 		<beans:property name="swdManager" ref="swdManager"/>
 		<beans:property name="swfManager" ref="swfManager"/>
 		<beans:property name="swoManager" ref="swoManager"/>

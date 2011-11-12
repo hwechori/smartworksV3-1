@@ -38,14 +38,10 @@ public class SwManagerFactory {
 	private ISwdManager swdManager;
 	private IMonManager monManager;
 //	private IChtManager chtManager;
-	private IPrcManager prcManager;
 //	private IMdlManager mdlManager;
 //	private ILcsManager lcsManager;
 //	private IUpdManager updManager;
 	//private IRepManager repManager;
-	private ISwdManager swdManager;
-	private ISwfManager swfManager;
-	private ISwoManager swoManager;
 
 	public ISwdManager getSwdManager() {
 		return swdManager;
