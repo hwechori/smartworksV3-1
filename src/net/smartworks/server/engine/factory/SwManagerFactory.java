@@ -15,6 +15,7 @@ import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.process.approval.manager.IAprManager;
 import net.smartworks.server.engine.process.deploy.manager.IDepManager;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
+import net.smartworks.server.engine.process.monitoring.manager.IMonManager;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 
@@ -31,6 +32,11 @@ public class SwManagerFactory {
 	private ITskManager tskManager;
 	private IDepManager depManager;
 	private IAprManager aprManager;
+	private IPrcManager prcManager;
+	private ISwfManager swfManager;
+	private ISwoManager swoManager;
+	private ISwdManager swdManager;
+	private IMonManager monManager;
 //	private IChtManager chtManager;
 	private IPrcManager prcManager;
 //	private IMdlManager mdlManager;
@@ -108,12 +114,12 @@ public class SwManagerFactory {
 	public void setAprManager(IAprManager aprManager) {
 		this.aprManager = aprManager;
 	}
-	/*	public ISwdManager getSwdManager() {
-	return swdManager;
-}
-public void setSwdManager(ISwdManager swdManager) {
-	this.swdManager = swdManager;
-}*/
+	public IMonManager getMonManager() {
+		return monManager;
+	}
+	public void setMonManager(IMonManager monManager) {
+		this.monManager = monManager;
+	}
 //	public IChtManager getChtManager() {
 //		return chtManager;
 //	}

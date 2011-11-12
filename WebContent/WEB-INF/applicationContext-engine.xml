@@ -59,6 +59,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<!-- <beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="aprManager" ref="aprManager"/>
 		beans:property name="chtManager" ref="chtManager"/>
+		<beans:property name="monManager" ref="monXpdlManager"/>
+		<!-- beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="lcsManager" ref="lcsManager"/>
 		<beans:property name="updManager" ref="updManager"/>
 		<beans:property name="aprManager" ref="aprManager"/> -->
