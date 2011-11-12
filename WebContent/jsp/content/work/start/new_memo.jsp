@@ -9,17 +9,13 @@
 
 <script type="text/javascript">
 function submitForms() {
-	var frmMemo = document.frmMemo;
-	var frmAccessSpace = document.frmAccessSpace;
 	if($('form.js_validation_required').validate().form()){
-		alert('11');
 		var params = $('form').serialize();
-		alert(params);
-		var url = "/jsp/search/work.jsp";
-		alert('dfdf');
+		var url = "create_new_memo.sw";
 		$.ajax({
 			url : url,
-			data : {},
+			type : 'POST',
+			data : {params : params},
 			success : function(data, status, jqXHR) {
 				alert("success");
 			},
@@ -27,20 +23,10 @@ function submitForms() {
 				alert(e);
 			}
 		});
-/* 		$.ajax({
-			url : url,
-			success : function() {
-				alert("success!!");
-			},
-			exception : function(e){
-				alert(e);
-			}
-		});
- */	}else{
-		alert('validation failure!!');
-		return false;
+	}else{
+		return;
 	}
-	return false;
+	return;
 }
 </script>
 

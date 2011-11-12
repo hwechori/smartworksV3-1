@@ -134,10 +134,60 @@ public class WorkInstanceController {
 				"jsp/content/work/start/new_board.jsp", "");
 	}
 
-	@RequestMapping("/craete_new_memo")
-	public ModelAndView craeteNewMemo(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping("/create_new_iwork")
+	public ModelAndView createNewIwork(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			smartworks.setInformationWorkInstance(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView("jsp/verify_group_creation.jsp");
+	}
+
+	@RequestMapping("/start_new_pwork")
+	public ModelAndView startNewPwork(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			smartworks.startProcessWorkInstance(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView("jsp/verify_group_creation.jsp");
+	}
+
+	@RequestMapping("/upload_new_file")
+	public ModelAndView uploadNewFile(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			smartworks.setFileInstance(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView("jsp/verify_group_creation.jsp");
+	}
+
+	@RequestMapping("/create_new_event")
+	public ModelAndView createNewEvent(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			smartworks.setEventInstance(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView("jsp/verify_group_creation.jsp");
+	}
+
+	@RequestMapping("/create_new_memo")
+	public ModelAndView createNewMemo(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			smartworks.setMemoInstance(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView("jsp/verify_group_creation.jsp");
+	}
+
+	@RequestMapping("/create_new_board")
+	public ModelAndView createNewBoard(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			smartworks.setBoardInstance(request);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
