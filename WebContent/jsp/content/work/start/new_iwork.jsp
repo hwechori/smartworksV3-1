@@ -22,6 +22,10 @@ function submitForms() {
 	if(chkScheduleWork[0].checked == true){
 		frmScheduleWork = document.frmScheduleWork;
 	}
+	var frmAccessSpace = null;
+	if(document.getElementsByName('frmAccessSpace').length == 1){
+		frmAccessSpace = document.frmAccessSpace;
+	}
 	var workId = Request.parameter('workId');
 	alert("workId=" + workId);
 	alert(frmScheduleWork);
@@ -37,8 +41,15 @@ function submitForms() {
 		if(frmScheduleWork)
 			for(var element in frmScheduleWork.elements)
 				frmTotal.addChild(element);
-		frmTotal.action = "create_iwork.sw";
+		if(frmAccessSpace)
+			for(var element in frmAccessSpace.elements)
+				frmTotal.addChild(element);
+/* 		frmTotal.action = "create_iwork.sw";
 		frmTotal.submit();
+ */
+ 		frmScheduleWork.action = "create_iwork.sw";
+		frmScheduleWork.submit();
+//		form.serialize()
 	}else{
 	}
 	return false;

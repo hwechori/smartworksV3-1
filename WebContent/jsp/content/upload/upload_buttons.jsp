@@ -43,9 +43,9 @@
 			</span> <span class="Btn01End"></span> </a> </span>
 	</div>
 
-	<div class="float_right padding_r10">
-		<form name="form" id="" class="float_right form_space">
-			<select name="">
+	<form name="frmAccessSpace" class="float_right padding_r10">
+		<div id="" class="float_right form_space">
+			<select name="selWorkSpace">
 				<option  value="<%=cUser.getId()%>">
 					<fmt:message key="common.upload.space.self" />
 				</option>
@@ -73,10 +73,10 @@
 					%>
 				</optgroup>
 			</select>
-		</form>
+		</div>
 
-		<form name="form" id="" class="float_right form_space">
-			<select name="">
+		<div id="" class="float_right form_space">
+			<select name="selAccessLevel">
 				<%
 					int accessLevel = work.getAccessPolicy().getLevel();
 					if (accessLevel == AccessPolicy.LEVEL_PUBLIC) {
@@ -109,8 +109,8 @@
 					}
 				%>
 			</select>
-		</form>
-	</div>
+		</div>
+	</form>
 
 </div>
 <!-- 등록 취소 버튼//-->

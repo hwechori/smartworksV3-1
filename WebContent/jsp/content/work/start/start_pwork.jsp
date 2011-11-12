@@ -6,6 +6,46 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
+
+<script type="text/javascript">
+function submitForms() {
+	var frmForward = null;
+	if(document.getElementsByName('frmForward').length == 1){
+		frmForward = document.frmForward;
+	}
+	var frmInstanceSubject = null;
+	if(document.getElementsByName('frmInstanceSubject').length == 1){
+		frmInstanceSubject = document.frmInstanceSubject;
+	}
+	var frmAccessSpace = null;
+	if(document.getElementsByName('frmAccessSpace').length == 1){
+		frmAccessSpace = document.frmAccessSpace;
+	}
+	var workId = Request.parameter('workId');
+	alert("workId=" + workId);
+	alert(frmScheduleWork);
+	var frmTotal = document.getElementById(workId);
+	alert(frmTotal);
+	if(frmTotal){
+		if(frmForward)
+			for(var element in frmForward.elements)
+				frmTotal.addChild(element);
+		if(frmInstanceSubject)
+			for(var element in frmInstanceSubject.elements)
+				frmTotal.addChild(element);
+		if(frmAccessSpace)
+			for(var element in frmAccessSpace.elements)
+				frmTotal.addChild(element);
+ 		frmTotal.action = "create_iwork.sw";
+		frmTotal.submit();
+
+		form.serialize()
+	}else{
+	}
+	return false;
+}
+</script>
+
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
@@ -53,7 +93,7 @@
 		</div>
 
 
-		<div>
+		<form name='frmInstanceSubject'>
 			<table>
 				<colgroup>
 					<col class="item">
@@ -64,13 +104,13 @@
 				<tbody>
 					<tr>
 						<td><fmt:message key='common.upload.field.subject'/></td>
-						<td colspan="3"><input class="fieldline essen" type="text"
+						<td colspan="3"><input class="fieldline essen required" type="text"
 							title="" value="">
 						</td>
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		</form>
 
 		<div class="dash_line"></div>
 

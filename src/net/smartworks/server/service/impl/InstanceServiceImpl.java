@@ -1,5 +1,7 @@
 package net.smartworks.server.service.impl;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
@@ -108,6 +110,12 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public Instance[] searchMyRunningInstance(String key) throws Exception {
 		return SmartTest.getRunningInstances();
+	}
+
+	@Override
+	public void setMemoInstance(HttpServletRequest request) throws Exception {
+		
+		
 	}	
 	
 }

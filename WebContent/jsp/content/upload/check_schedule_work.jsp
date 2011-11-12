@@ -5,12 +5,12 @@
 <!-- 업무계획하기 -->
 <div class="form_add_a">
 	<div class="dash_line"></div>
-	<div class="input_1line">
+	<form name='frmScheduleWork' class="input_1line js_validation_required">
 		<div class="float_left padding_r10">
-			<input name="chkScheduleWork" type="checkbox" value="" onclick="$(this).parent().next('form').toggle();"/><fmt:message key="common.upload.button.schedule" />
+			<input name="chkScheduleWork" type="checkbox" class='required' value="" onclick="$(this).parent().next('form').toggle();"/><fmt:message key="common.upload.button.schedule" />
 		</div>
 
-		<form name='frmScheduleWork' style='display:none'>
+		<div style='display:none'>
 			<div class="float_left" style="">
 				<input class="fieldline space_data" type="text" value="2010.11.10" title="">
 			</div>
@@ -43,8 +43,8 @@
 				</div>
 				<img src="images/btn_s_person.png" width="21" height="20" />
 			</div>
-		</form>
+		</div>
 
-	</div>
+	</form>
 </div>
 <!-- 업무계획하기 //-->

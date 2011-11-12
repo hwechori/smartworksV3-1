@@ -275,4 +275,9 @@ public class SmartWorks implements ISmartWorks {
 	public Community[] getMyCommunities() throws Exception {
 		return communityService.getMyCommunities();
 	}
+
+	@Override
+	public void setMemoInstance(HttpServletRequest request) throws Exception {
+		instanceService.setMemoInstance(request);		
+	}
 }
