@@ -129,7 +129,7 @@ $(function() {
 	$('input.js_auto_complete').live('focusout', function(e) {
 		var input = $(e.target);
 		var start_work = input.parents('div.js_start_work');
-		var user_name = input.parents('div.js_user_names');
+		var user_name = input.parents('div.js_community_names');
 		var target;
 		if (start_work.length)
 			target = start_work.find('#upload_work_list');
@@ -139,13 +139,24 @@ $(function() {
 			target = input.parent().siblings('div');
 		setTimeout(function() {
 			input[0].value = '';
+			input.next('div').removeClass('btn_im_x').addClass('srch_ico');
 			target.hide();
 		}, 500);
+	});
+
+	$('input.js_auto_complete').live('keydown', function(e) {
+		if(e.keyCode == 40){
+			var nextDivLis = $(e.target).parent().next('div').find('li');
+			if(nextDivLis.length > 0){
+				$(nextDivLis[0]).select().focus();
+			}
+		}
 	});
 
 	$('div.js_srch_x').live('click', function(e) {
 		var input = $(e.target).prev();
 		input.value = "";
+		input.next('div').removeClass('btn_im_x').addClass('srch_ico');
 		return false;
 	});
 
@@ -192,37 +203,55 @@ $(function() {
 				}
 			});
 
-	$('.js_select_user')
+	$('.js_select_community')
 			.live(
 					'click',
 					function(e) {
 						var input = $(e.target);
-						var userName = input.attr('uname');
-						var userId = input.attr('uid');
-						var target = input.parents('div.js_user_list').prev()
-								.find('div.js_selected_users');
+						var comName = input.attr('comName');
+						var comId = input.attr('comId');
+						var target = input.parents('div.js_community_list').prev()
+								.find('div.js_selected_communities');
 						var oldHTML = target.html();
 						if (oldHTML == null)
 							oldHTML = "";
-						var newHTML = oldHTML
-								+ "<span class='js_user_item user_select' uid='"
-								+ userId
+						var communityItems = $(target).find('span.js_community_item');
+						var isSameId = false;
+						for(var i=0; i<communityItems.length; i++){
+							var oldComId = $(communityItems[i]).attr('comId');
+							if(oldComId !=null && oldComId === comId){
+								isSameId = true;
+								break;
+							}
+						}
+						if(!isSameId){
+							var newHTML = oldHTML
+								+ "<span class='js_community_item user_select' comId='"
+								+ comId
 								+ "'>"
-								+ userName
-								+ "<span class='btn_x_gr'><a class='js_remove_user' href=''> x</a></span></span>";
-						target.html(newHTML);
+								+ comName
+								+ "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
+							target.html(newHTML);
+						}
 						target.next().focus();
 						return false;
 					});
 
-	$('.js_remove_user').live('click', function(e) {
+	$('.js_remove_community').live('click', function(e) {
 		var input = $(e.target);
-		var selected_users = input.parents('div.js_selected_users');
-		input.parents('span.js_user_item').remove();
+		var selected_users = input.parents('div.js_selected_communities');
+		input.parents('span.js_community_item').remove();
 		selected_users.next().focus();
 		return false;
 	});
 
+	$('input.js_whole_day').live('click', function(e){
+		var input = $(e.target);
+		input.parent().siblings('div.js_start_time').toggle();
+		var endtime = input.parent().siblings('div.js_end_datetime').find('div.js_end_time').hide();
+		if(input[0].checked) endtime.hide();
+		else endtime.show();
+	});
 	$('a.js_toggle_form_detail').swnavi(
 			{
 				target : 'form_import',

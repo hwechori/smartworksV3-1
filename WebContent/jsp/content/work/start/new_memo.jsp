@@ -8,26 +8,28 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <script type="text/javascript">
-function submitForms() {
-	if($('form.js_validation_required').validate().form()){
-		var params = $('form').serialize();
-		var url = "create_new_memo.sw";
-		$.ajax({
-			url : url,
-			type : 'POST',
-			data : {params : params},
-			success : function(data, status, jqXHR) {
-				alert("success");
-			},
-			exception : function(e){
-				alert(e);
-			}
-		});
-	}else{
+	function submitForms() {
+		if ($('form.js_validation_required').validate().form()) {
+			var params = $('form').serialize();
+			var url = "create_new_memo.sw";
+			$.ajax({
+				url : url,
+				type : 'POST',
+				data : {
+					params : params
+				},
+				success : function(data, status, jqXHR) {
+					alert("success");
+				},
+				exception : function(e) {
+					alert(e);
+				}
+			});
+		} else {
+			return;
+		}
 		return;
 	}
-	return;
-}
 </script>
 
 <%
@@ -45,7 +47,8 @@ function submitForms() {
 		<!-- 폼- 확장 -->
 		<form name='frmMemo' class="form_title js_validation_required">
 			<div>
-				<textarea class="up_textarea required" name="txtMemoDesc" cols="" rows="5"></textarea>
+				<textarea class="up_textarea required" name="txtMemoDesc" cols=""
+					rows="5"></textarea>
 			</div>
 		</form>
 		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
