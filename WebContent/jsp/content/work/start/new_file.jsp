@@ -11,7 +11,7 @@
 		if ($('form.js_validation_required').validate().form()) {
 			var params = $('form').serialize();
 			alert(params);
-			var url = "create_new_file.sw";
+			var url = "upload_new_file.sw";
 			$.ajax({
 				url : url,
 				type : 'POST',
@@ -21,8 +21,10 @@
 				success : function(data, status, jqXHR) {
 					alert("success");
 				},
-				exception : function(e) {
-					alert(e);
+				error : function(jqXHR, status, error) {
+					console.log(status);
+					console.log(error);
+					alert(error);
 				}
 			});
 		} else {

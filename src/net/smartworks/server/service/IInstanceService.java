@@ -21,16 +21,16 @@ public interface IInstanceService {
 
 	Instance[] searchMyRunningInstance(String key) throws Exception;
 
-	void setInformationWorkInstance(HttpServletRequest request) throws Exception;
+	String setInformationWorkInstance(HttpServletRequest request) throws Exception;
 
-	void startProcessWorkInstance(HttpServletRequest request) throws Exception;
+	String startProcessWorkInstance(HttpServletRequest request) throws Exception;
 
-	void setFileInstance(HttpServletRequest request) throws Exception;
+	String setFileInstance(HttpServletRequest request) throws Exception;
 
-	void setEventInstance(HttpServletRequest request) throws Exception;
+	String setEventInstance(HttpServletRequest request) throws Exception;
 
-	void setMemoInstance(HttpServletRequest request) throws Exception;
+	String setMemoInstance(HttpServletRequest request) throws Exception;
 
-	void setBoardInstance(HttpServletRequest request) throws Exception;
+	String setBoardInstance(HttpServletRequest request) throws Exception;
 
 }

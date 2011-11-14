@@ -13,11 +13,14 @@
 	function submitForms(e) {
 		if ($('form.js_validation_required').validate().form()) {
 			var newEvent = $(document.getElementsByName('frmNewEvent'));
-			var selectedCom = newEvent.find('div.js_selected_communities span.js_community_item');
+			var selectedCom = newEvent
+					.find('div.js_selected_communities span.js_community_item');
 			var selectedIds = "";
-			for(var i=0; i<selectedCom.length; i++)
-				selectedIds = selectedIds + $(selectedCom[i]).attr('comId') + ";";
-			$(document.getElementsByName('hdnRelatedUsers')).attr('value', selectedIds);
+			for ( var i = 0; i < selectedCom.length; i++)
+				selectedIds = selectedIds + $(selectedCom[i]).attr('comId')
+						+ ";";
+			$(document.getElementsByName('hdnRelatedUsers')).attr('value',
+					selectedIds);
 			var params = $('form').serialize();
 			var url = "create_new_event.sw";
 			$.ajax({
@@ -29,7 +32,7 @@
 				success : function(data, status, jqXHR) {
 					alert("success");
 				},
-				exception : function(e) {
+				error : function(e) {
 					alert(e);
 				}
 			});
@@ -66,8 +69,8 @@
 
 			<div class="input_1line">
 				<div class="float_left">
-					<input class="fieldline space_data required date js_todaypicker"
-						type="text" name="txtEventStartDate" value="<%=today%>">
+					<input class="fieldline space_data date js_todaypicker" type="text"
+						name="txtEventStartDate" readonly="" readonly" value="<%=today%>">
 				</div>
 
 				<div class="float_left js_start_time">
@@ -99,7 +102,7 @@
 				<div class="float_left space_l10 js_end_datetime"
 					style='display: none'>
 					<div class="float_left">
-						-  <input name="txtEventEndDate"
+						- <input name="txtEventEndDate"
 							class="fieldline space_data date js_todaypicker" type="text"
 							value="<%=today%>">
 					</div>
@@ -200,19 +203,20 @@
 				<input class="fieldline" name="txtEventPlace" type="text" title=""
 					placeholder="<fmt:message key='common.upload.event.place'/>">
 			</div>
-			<input type="hidden" name="hdnRelatedUsers"/>
+			<input type="hidden" name="hdnRelatedUsers" />
 			<div class="input_1line fieldline js_community_names">
 				<div class="js_selected_communities float_left"></div>
 				<input class="js_auto_complete" href='community_name.sw' type="text"
 					title=""
 					placeholder="<fmt:message key='common.upload.event.related_users'/>">
- 				<div class='js_srch_x'></div>
+				<div class='js_srch_x'></div>
 
 			</div>
 			<div class="js_community_list" style="display: none"></div>
 
 			<div>
-				<textarea class="up_textarea" name="txtaEventContent" cols="" rows="5">
+				<textarea class="up_textarea" name="txtaEventContent" cols=""
+					rows="5">
 					<fmt:message key='common.upload.event.content' />
 				</textarea>
 			</div>

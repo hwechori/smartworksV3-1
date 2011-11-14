@@ -19,7 +19,7 @@ function submitForms() {
 			success : function(data, status, jqXHR) {
 				alert("success");
 			},
-			exception : function(e){
+			error : function(e){
 				alert(e);
 			}
 		});

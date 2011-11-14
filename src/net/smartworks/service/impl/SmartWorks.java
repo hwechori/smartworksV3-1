@@ -277,37 +277,37 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public void setInformationWorkInstance(HttpServletRequest request) throws Exception {
-		instanceService.setInformationWorkInstance(request);
+	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setInformationWorkInstance(request);
 		
 	}
 
 	@Override
-	public void startProcessWorkInstance(HttpServletRequest request) throws Exception {
-		instanceService.startProcessWorkInstance(request);
+	public String startProcessWorkInstance(HttpServletRequest request) throws Exception {
+		return instanceService.startProcessWorkInstance(request);
 		
 	}
 
 	@Override
-	public void setFileInstance(HttpServletRequest request) throws Exception {
-		instanceService.setFileInstance(request);
+	public String setFileInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setFileInstance(request);
 		
 	}
 
 	@Override
-	public void setEventInstance(HttpServletRequest request) throws Exception {
-		instanceService.setEventInstance(request);
+	public String setEventInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setEventInstance(request);
 		
 	}
 
 	@Override
-	public void setMemoInstance(HttpServletRequest request) throws Exception {
-		instanceService.setMemoInstance(request);		
+	public String setMemoInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setMemoInstance(request);		
 	}
 
 	@Override
-	public void setBoardInstance(HttpServletRequest request) throws Exception {
-		instanceService.setBoardInstance(request);
+	public String setBoardInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setBoardInstance(request);
 		
 	}
 }

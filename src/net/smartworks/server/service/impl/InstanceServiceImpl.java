@@ -12,6 +12,7 @@ import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service
 public class InstanceServiceImpl implements IInstanceService {
@@ -113,39 +114,33 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public void setMemoInstance(HttpServletRequest request) throws Exception {
-		
-		
+	public String  setMemoInstance(HttpServletRequest request) throws Exception {		
+		return "testId";
 	}
 
 	@Override
-	public void setInformationWorkInstance(HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
 	}
 
 	@Override
-	public void startProcessWorkInstance(HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public String startProcessWorkInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
 	}
 
 	@Override
-	public void setFileInstance(HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public String setFileInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
 	}
 
 	@Override
-	public void setEventInstance(HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public String setEventInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
 	}
 
 	@Override
-	public void setBoardInstance(HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public String setBoardInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
 	}	
 	
 }

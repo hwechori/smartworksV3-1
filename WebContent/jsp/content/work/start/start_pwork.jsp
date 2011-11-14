@@ -12,7 +12,7 @@
 		if ($('form.js_validation_required').validate().form()) {
 			var params = $('form').serialize();
 			alert(params);
-			var url = "create_new_pwork.sw";
+			var url = "start_new_pwork.sw";
 			$.ajax({
 				url : url,
 				type : 'POST',
@@ -20,10 +20,14 @@
 					params : params
 				},
 				success : function(data, status, jqXHR) {
-					alert("success");
+					console.log(data);
+					console.log(status);
+					console.log(jqXHR);
 				},
-				exception : function(e) {
-					alert(e);
+				error : function(jqXHR, status, error) {
+					console.log(jqXHR);
+					console.log(status);
+					console.log(error);
 				}
 			});
 		} else {

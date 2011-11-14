@@ -33,8 +33,8 @@
 
 		<div style='display: none'>
 			<div class="float_left">
-				<input class="fieldline space_data required date js_todaypicker"
-					type="text" name="txtScheduleStartDate" value="<%=today%>">
+				<input class="fieldline space_data date js_todaypicker"
+					type="text" name="txtScheduleStartDate" readonly="readonly" value="<%=today%>">
 			</div>
 
 			<div class="float_left js_start_time">
@@ -62,10 +62,10 @@
 					%>
 				</select>
 			</div>
-			<div class="float_left tx_space">~</div>
+			<div class="float_left tx_space">-</div>
 			<div class="float_left">
-				<input class="fieldline space_data required date js_todaypicker"
-					type="text" name="txtScheduleEndDate" value="<%=today%>">
+				<input class="fieldline space_data date js_todaypicker"
+					type="text" name="txtScheduleEndDate" readonly="readonly" value="<%=today%>">
 			</div>
 
 			<div class="float_left js_start_time">
@@ -102,7 +102,7 @@
 				<div class="float_left">
 					<input name="hdnSchedulePerformer" type="hidden">
 					<input name="txtSchedulePerformer"
-						class="fieldline space_data required" type="text"
+						class="fieldline space_data " type="text"
 						value="<%=cUser.getLongName()%>" uid="<%=cUser.getId() %>" readonly="readonly">
 				</div>
 				<img src="images/btn_s_person.png" width="21" height="20" />
