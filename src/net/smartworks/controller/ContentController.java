@@ -20,6 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ContentController {
 
+/*	@RequestMapping("/")
+	public String goHome() {
+
+		return "redirect:home.sw";
+	}*/
+
 	@RequestMapping("/home")
 	public ModelAndView home(HttpServletRequest request,
 			HttpServletResponse response) {
