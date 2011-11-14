@@ -1,13 +1,9 @@
 package net.smartworks.server.engine.common.model;
 
 import net.smartworks.server.engine.common.exception.SwException;
-<<<<<<< HEAD
-import net.smartworks.server.util.CommonUtil;
-import net.smartworks.server.util.XmlUtil;
-=======
+import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
->>>>>>> refs/heads/serverpart
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
