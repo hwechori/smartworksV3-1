@@ -20,18 +20,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SwpPackages extends BaseObject {
+public class PkgPackages extends BaseObject {
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(SwpPackages.class);
+	private static Log logger = LogFactory.getLog(PkgPackages.class);
 	
 	protected static final String PREFIX = "Swp";
-	private static final String NAME = CommonUtil.toName(SwpPackages.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(PkgPackages.class, PREFIX);
 
 	public static final String A_PACKAGE = "package";
 	
-	private SwpPackage[] pkg;
+	private PkgPackage[] pkg;
 	
-	public SwpPackages() {
+	public PkgPackages() {
 		super();
 	}
 	
@@ -56,11 +56,11 @@ public class SwpPackages extends BaseObject {
 		if (node == null)
 			return null;
 		
-		SwpPackages obj = null;
-		if (baseObj == null || !(baseObj instanceof SwpPackages))
-			obj = new SwpPackages();
+		PkgPackages obj = null;
+		if (baseObj == null || !(baseObj instanceof PkgPackages))
+			obj = new PkgPackages();
 		else
-			obj = (SwpPackages)baseObj;
+			obj = (PkgPackages)baseObj;
 		
 		MisObject.toObject(node, obj);
 		
@@ -72,7 +72,7 @@ public class SwpPackages extends BaseObject {
 			if (childNode.getNodeType() != Node.ELEMENT_NODE || childNode.getNodeName() == null)
 				continue;
 			if (childNode.getNodeName().equals(A_PACKAGE)) {
-				obj.addPackage((SwpPackage)SwpPackage.toObject(childNode, null));
+				obj.addPackage((PkgPackage)PkgPackage.toObject(childNode, null));
 			}
 		}
 		return obj;
@@ -85,20 +85,20 @@ public class SwpPackages extends BaseObject {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static SwpPackages[] add(SwpPackages[] objs, SwpPackages obj) {
+	public static PkgPackages[] add(PkgPackages[] objs, PkgPackages obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		SwpPackages[] newObjs = new SwpPackages[size+1];
+		PkgPackages[] newObjs = new PkgPackages[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static SwpPackages[] remove(SwpPackages[] objs, SwpPackages obj) {
+	public static PkgPackages[] remove(PkgPackages[] objs, PkgPackages obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -106,7 +106,7 @@ public class SwpPackages extends BaseObject {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		SwpPackages[] newObjs = new SwpPackages[size-1];
+		PkgPackages[] newObjs = new PkgPackages[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -116,7 +116,7 @@ public class SwpPackages extends BaseObject {
 		}
 		return newObjs;
 	}
-	public static SwpPackages[] left(SwpPackages[] objs, SwpPackages obj) {
+	public static PkgPackages[] left(PkgPackages[] objs, PkgPackages obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -128,7 +128,7 @@ public class SwpPackages extends BaseObject {
 		}
 		if (idx < 1)
 			return objs;
-		SwpPackages[] newObjs = new SwpPackages[objs.length];
+		PkgPackages[] newObjs = new PkgPackages[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -141,7 +141,7 @@ public class SwpPackages extends BaseObject {
 		}
 		return newObjs;
 	}
-	public static SwpPackages[] right(SwpPackages[] objs, SwpPackages obj) {
+	public static PkgPackages[] right(PkgPackages[] objs, PkgPackages obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -153,7 +153,7 @@ public class SwpPackages extends BaseObject {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		SwpPackages[] newObjs = new SwpPackages[objs.length];
+		PkgPackages[] newObjs = new PkgPackages[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
@@ -179,8 +179,8 @@ public class SwpPackages extends BaseObject {
 	 */
 	public Object cloneNew__() throws CloneNotSupportedException {
 		try {
-			SwpPackages obj = (SwpPackages)clone();
-			SwpPackage[] pkgs = obj.getPackage();
+			PkgPackages obj = (PkgPackages)clone();
+			PkgPackage[] pkgs = obj.getPackage();
 			if (CommonUtil.isEmpty(pkgs))
 				return obj;
 			
@@ -192,7 +192,7 @@ public class SwpPackages extends BaseObject {
 			String newFrmId;
 			String name;
 			String type;
-			for (SwpPackage pkg : pkgs) {
+			for (PkgPackage pkg : pkgs) {
 				name = pkg.getName();
 				type = pkg.getType();
 				ctt = pkg.getContent();
@@ -271,7 +271,7 @@ public class SwpPackages extends BaseObject {
 			}
 			
 			if (!CommonUtil.isEmpty(frmIdMap)) {
-				for (SwpPackage pkg : pkgs) {
+				for (PkgPackage pkg : pkgs) {
 					ctt = pkg.getContent();
 					if (!CommonUtil.isEmpty(ctt)) {
 						for (Iterator frmIdItr = frmIdMap.keySet().iterator(); frmIdItr.hasNext();) {
@@ -308,15 +308,15 @@ public class SwpPackages extends BaseObject {
 			return null;
 		}
 	}
-	public void addPackage(SwpPackage pkg) {
+	public void addPackage(PkgPackage pkg) {
 		if (pkg == null)
 			return;
-		this.setPackage(SwpPackage.add(this.getPackage(), pkg));
+		this.setPackage(PkgPackage.add(this.getPackage(), pkg));
 	}
-	public SwpPackage[] getPackage() {
+	public PkgPackage[] getPackage() {
 		return pkg;
 	}
-	public void setPackage(SwpPackage[] pkg) {
+	public void setPackage(PkgPackage[] pkg) {
 		this.pkg = pkg;
 	}
 

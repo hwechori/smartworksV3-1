@@ -12,12 +12,12 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SwpPackage extends MisObject{
+public class PkgPackage extends MisObject{
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(SwpPackage.class);
+	private static Log logger = LogFactory.getLog(PkgPackage.class);
 
 	protected static final String PREFIX = "Swp";
-	private static final String NAME = CommonUtil.toName(SwpPackage.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(PkgPackage.class, PREFIX);
 
 	public static final String STATUS_UNDER_DEVEL = "CHECKED-OUT";	
 	public static final String STATUS_CHECKED_IN = "CHECKED-IN";	
@@ -44,7 +44,7 @@ public class SwpPackage extends MisObject{
 	private String content;
 	private String[] formContents;
 	
-	public SwpPackage() {
+	public PkgPackage() {
 		super();
 	}
 	public String NAME() {
@@ -81,11 +81,11 @@ public class SwpPackage extends MisObject{
 		if (node == null)
 			return null;
 		
-		SwpPackage obj = null;
-		if (baseObj == null || !(baseObj instanceof SwpPackage))
-			obj = new SwpPackage();
+		PkgPackage obj = null;
+		if (baseObj == null || !(baseObj instanceof PkgPackage))
+			obj = new PkgPackage();
 		else
-			obj = (SwpPackage)baseObj;
+			obj = (PkgPackage)baseObj;
 		
 		MisObject.toObject(node, obj);
 		
@@ -137,20 +137,20 @@ public class SwpPackage extends MisObject{
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static SwpPackage[] add(SwpPackage[] objs, SwpPackage obj) {
+	public static PkgPackage[] add(PkgPackage[] objs, PkgPackage obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		SwpPackage[] newObjs = new SwpPackage[size+1];
+		PkgPackage[] newObjs = new PkgPackage[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static SwpPackage[] remove(SwpPackage[] objs, SwpPackage obj) {
+	public static PkgPackage[] remove(PkgPackage[] objs, PkgPackage obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -158,7 +158,7 @@ public class SwpPackage extends MisObject{
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		SwpPackage[] newObjs = new SwpPackage[size-1];
+		PkgPackage[] newObjs = new PkgPackage[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -168,7 +168,7 @@ public class SwpPackage extends MisObject{
 		}
 		return newObjs;
 	}
-	public static SwpPackage[] left(SwpPackage[] objs, SwpPackage obj) {
+	public static PkgPackage[] left(PkgPackage[] objs, PkgPackage obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -180,7 +180,7 @@ public class SwpPackage extends MisObject{
 		}
 		if (idx < 1)
 			return objs;
-		SwpPackage[] newObjs = new SwpPackage[objs.length];
+		PkgPackage[] newObjs = new PkgPackage[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -193,7 +193,7 @@ public class SwpPackage extends MisObject{
 		}
 		return newObjs;
 	}
-	public static SwpPackage[] right(SwpPackage[] objs, SwpPackage obj) {
+	public static PkgPackage[] right(PkgPackage[] objs, PkgPackage obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -205,7 +205,7 @@ public class SwpPackage extends MisObject{
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		SwpPackage[] newObjs = new SwpPackage[objs.length];
+		PkgPackage[] newObjs = new PkgPackage[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];

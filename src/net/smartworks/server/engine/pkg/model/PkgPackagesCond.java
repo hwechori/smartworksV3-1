@@ -11,19 +11,19 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SwpPackagesCond extends MisObjectCond {
+public class PkgPackagesCond extends MisObjectCond {
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(SwpPackagesCond.class);
+	private static Log logger = LogFactory.getLog(PkgPackagesCond.class);
 	
 	protected static final String PREFIX = "Swp";
-	private static final String NAME = CommonUtil.toName(SwpPackagesCond.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(PkgPackagesCond.class, PREFIX);
 
 	public static final String A_PKG = "pkg";
 	public static final String A_PKGS = "pkgs";
 	
-	private SwpPackage[] pkgs;
+	private PkgPackage[] pkgs;
 	
-	public SwpPackagesCond() {
+	public PkgPackagesCond() {
 		super();
 	}
 	
@@ -48,11 +48,11 @@ public class SwpPackagesCond extends MisObjectCond {
 		if (node == null)
 			return null;
 		
-		SwpPackagesCond obj = null;
-		if (baseObj == null || !(baseObj instanceof SwpPackagesCond))
-			obj = new SwpPackagesCond();
+		PkgPackagesCond obj = null;
+		if (baseObj == null || !(baseObj instanceof PkgPackagesCond))
+			obj = new PkgPackagesCond();
 		else
-			obj = (SwpPackagesCond)baseObj;
+			obj = (PkgPackagesCond)baseObj;
 		
 		MisObjectCond.toObject(node, obj);
 		
@@ -67,9 +67,9 @@ public class SwpPackagesCond extends MisObjectCond {
 				Node[] nodes = getNodes(childNode);
 				if (nodes == null || nodes.length == 0)
 					continue;
-				SwpPackage[] objs = new SwpPackage[nodes.length];
+				PkgPackage[] objs = new PkgPackage[nodes.length];
 				for (int j=0; j<nodes.length; j++)
-					objs[j] = (SwpPackage)SwpPackage.toObject(nodes[j], null);
+					objs[j] = (PkgPackage)PkgPackage.toObject(nodes[j], null);
 				obj.setPkgs(objs);
 			}
 		}
@@ -83,20 +83,20 @@ public class SwpPackagesCond extends MisObjectCond {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static SwpPackagesCond[] add(SwpPackagesCond[] objs, SwpPackagesCond obj) {
+	public static PkgPackagesCond[] add(PkgPackagesCond[] objs, PkgPackagesCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		SwpPackagesCond[] newObjs = new SwpPackagesCond[size+1];
+		PkgPackagesCond[] newObjs = new PkgPackagesCond[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static SwpPackagesCond[] remove(SwpPackagesCond[] objs, SwpPackagesCond obj) {
+	public static PkgPackagesCond[] remove(PkgPackagesCond[] objs, PkgPackagesCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -104,7 +104,7 @@ public class SwpPackagesCond extends MisObjectCond {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		SwpPackagesCond[] newObjs = new SwpPackagesCond[size-1];
+		PkgPackagesCond[] newObjs = new PkgPackagesCond[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -114,7 +114,7 @@ public class SwpPackagesCond extends MisObjectCond {
 		}
 		return newObjs;
 	}
-	public static SwpPackagesCond[] left(SwpPackagesCond[] objs, SwpPackagesCond obj) {
+	public static PkgPackagesCond[] left(PkgPackagesCond[] objs, PkgPackagesCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -126,7 +126,7 @@ public class SwpPackagesCond extends MisObjectCond {
 		}
 		if (idx < 1)
 			return objs;
-		SwpPackagesCond[] newObjs = new SwpPackagesCond[objs.length];
+		PkgPackagesCond[] newObjs = new PkgPackagesCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -139,7 +139,7 @@ public class SwpPackagesCond extends MisObjectCond {
 		}
 		return newObjs;
 	}
-	public static SwpPackagesCond[] right(SwpPackagesCond[] objs, SwpPackagesCond obj) {
+	public static PkgPackagesCond[] right(PkgPackagesCond[] objs, PkgPackagesCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -151,7 +151,7 @@ public class SwpPackagesCond extends MisObjectCond {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		SwpPackagesCond[] newObjs = new SwpPackagesCond[objs.length];
+		PkgPackagesCond[] newObjs = new PkgPackagesCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
@@ -172,15 +172,15 @@ public class SwpPackagesCond extends MisObjectCond {
 			return null;
 		}
 	}
-	public void addPackage(SwpPackage pkg) {
+	public void addPackage(PkgPackage pkg) {
 		if (pkg == null)
 			return;
-		this.setPkgs(SwpPackage.add(this.getPkgs(), pkg));
+		this.setPkgs(PkgPackage.add(this.getPkgs(), pkg));
 	}
-	public SwpPackage[] getPkgs() {
+	public PkgPackage[] getPkgs() {
 		return pkgs;
 	}
-	public void setPkgs(SwpPackage[] pkgs) {
+	public void setPkgs(PkgPackage[] pkgs) {
 		this.pkgs = pkgs;
 	}
 

@@ -12,29 +12,29 @@ import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.pkg.exception.SwpException;
-import net.smartworks.server.engine.pkg.manager.ISwpManager;
-import net.smartworks.server.engine.pkg.model.SwpPackage;
-import net.smartworks.server.engine.pkg.model.SwpPackageCond;
+import net.smartworks.server.engine.pkg.manager.IPkgManager;
+import net.smartworks.server.engine.pkg.model.PkgPackage;
+import net.smartworks.server.engine.pkg.model.PkgPackageCond;
 
 import org.hibernate.Query;
 
-public class SwpManagerImpl extends AbstractManager implements ISwpManager {
+public class PkgManagerImpl extends AbstractManager implements IPkgManager {
 
-	public SwpManagerImpl() {
+	public PkgManagerImpl() {
 		super();
 		if (logger.isInfoEnabled())
 			logger.info(this.getClass().getName() + " created");
 	}
 	
-	public SwpPackage getPackage(String userId, String objId, String level) throws SwpException {
+	public PkgPackage getPackage(String userId, String objId, String level) throws SwpException {
 		try {
 			if (level == null)
 				level = LEVEL_ALL;
 			if (level.equals(LEVEL_ALL)) {
-				SwpPackage obj = (SwpPackage)this.get(SwpPackage.class, objId);
+				PkgPackage obj = (PkgPackage)this.get(PkgPackage.class, objId);
 				return obj;
 			} else {
-				SwpPackageCond cond = new SwpPackageCond();
+				PkgPackageCond cond = new PkgPackageCond();
 				cond.setObjId(objId);
 				return getPackage(userId, cond, level);
 			}
@@ -43,11 +43,11 @@ public class SwpManagerImpl extends AbstractManager implements ISwpManager {
 			throw new SwpException(e);
 		}
 	}
-	public SwpPackage getPackage(String userId, SwpPackageCond cond, String level) throws SwpException {
+	public PkgPackage getPackage(String userId, PkgPackageCond cond, String level) throws SwpException {
 		if (level == null)
 			level = LEVEL_ALL;
 			cond.setPageSize(2);
-			SwpPackage[] packages = getPackages(userId, cond, level);
+			PkgPackage[] packages = getPackages(userId, cond, level);
 			if (CommonUtil.isEmpty(packages))
 				return null;
 			try {
@@ -59,7 +59,7 @@ public class SwpManagerImpl extends AbstractManager implements ISwpManager {
 			}
 			return packages[0];
 	}
-	public void setPackage(String userId, SwpPackage obj, String level) throws SwpException {
+	public void setPackage(String userId, PkgPackage obj, String level) throws SwpException {
 		if (level == null)
 			level = LEVEL_ALL;
 		try {
@@ -75,23 +75,23 @@ public class SwpManagerImpl extends AbstractManager implements ISwpManager {
 				buf.append(" modificationUser=:modificationUser, modificationDate=:modificationDate");
 				buf.append(" where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
-				query.setString(SwpPackage.A_PACKAGEID, obj.getPackageId());
-				query.setInteger(SwpPackage.A_VERSION, obj.getVersion());
-				query.setString(SwpPackage.A_LATESTDEPLOYEDYN, obj.getLatestDeployedYn());
-				query.setString(SwpPackage.A_CATEGORYID, obj.getCategoryId());
-				query.setString(SwpPackage.A_TYPE, obj.getType());
-				query.setString(SwpPackage.A_CREATIONUSER, obj.getCreationUser());
-				query.setTimestamp(SwpPackage.A_CREATIONDATE, obj.getCreationDate());
-				query.setString(SwpPackage.A_MODIFICATIONUSER, obj.getModificationUser());
-				query.setTimestamp(SwpPackage.A_MODIFICATIONDATE, obj.getModificationDate());
-				query.setString(SwpPackage.A_OBJID, obj.getObjId());
+				query.setString(PkgPackage.A_PACKAGEID, obj.getPackageId());
+				query.setInteger(PkgPackage.A_VERSION, obj.getVersion());
+				query.setString(PkgPackage.A_LATESTDEPLOYEDYN, obj.getLatestDeployedYn());
+				query.setString(PkgPackage.A_CATEGORYID, obj.getCategoryId());
+				query.setString(PkgPackage.A_TYPE, obj.getType());
+				query.setString(PkgPackage.A_CREATIONUSER, obj.getCreationUser());
+				query.setTimestamp(PkgPackage.A_CREATIONDATE, obj.getCreationDate());
+				query.setString(PkgPackage.A_MODIFICATIONUSER, obj.getModificationUser());
+				query.setTimestamp(PkgPackage.A_MODIFICATIONDATE, obj.getModificationDate());
+				query.setString(PkgPackage.A_OBJID, obj.getObjId());
 			}
 		} catch (Exception e) {
 			logger.error(e, e);
 			throw new SwpException(e);
 		}
 	}
-	public void createPackage(String userId, SwpPackage obj) throws SwpException {
+	public void createPackage(String userId, PkgPackage obj) throws SwpException {
 		try {
 			fill(userId, obj);
 			create(obj);
@@ -102,19 +102,19 @@ public class SwpManagerImpl extends AbstractManager implements ISwpManager {
 	}
 	public void removePackage(String userId, String objId) throws SwpException {
 		try {
-			remove(SwpPackage.class, objId);
+			remove(PkgPackage.class, objId);
 		} catch (Exception e) {
 			logger.error(e, e);
 			throw new SwpException(e);
 		}
 	}
-	public void removePackage(String userId, SwpPackageCond cond) throws SwpException {
-		SwpPackage obj = getPackage(userId, cond, null);
+	public void removePackage(String userId, PkgPackageCond cond) throws SwpException {
+		PkgPackage obj = getPackage(userId, cond, null);
 		if (obj == null)
 			return;
 		removePackage(userId, obj.getObjId());
 	}
-	private Query appendQuery(StringBuffer buf, SwpPackageCond cond) throws Exception {
+	private Query appendQuery(StringBuffer buf, PkgPackageCond cond) throws Exception {
 		String objId = null;
 		String name = null;
 		String nameLike = null;
@@ -327,7 +327,7 @@ public class SwpManagerImpl extends AbstractManager implements ISwpManager {
 		}
 		return query;
 	}
-	public long getPackageSize(String userId, SwpPackageCond cond) throws SwpException {
+	public long getPackageSize(String userId, PkgPackageCond cond) throws SwpException {
 		try {
 			StringBuffer buf = new StringBuffer();
 			buf.append("select");
@@ -341,7 +341,7 @@ public class SwpManagerImpl extends AbstractManager implements ISwpManager {
 			throw new SwpException(e);
 		}
 	}
-	public SwpPackage[] getPackages(String userId, SwpPackageCond cond, String level) throws SwpException {
+	public PkgPackage[] getPackages(String userId, PkgPackageCond cond, String level) throws SwpException {
 		try {
 			if (level == null)
 				level = LEVEL_LITE;
@@ -363,7 +363,7 @@ public class SwpManagerImpl extends AbstractManager implements ISwpManager {
 				List objList = new ArrayList();
 				for (Iterator itr = list.iterator(); itr.hasNext();) {
 					Object[] fields = (Object[]) itr.next();
-					SwpPackage obj = new SwpPackage();
+					PkgPackage obj = new PkgPackage();
 					int j = 0;
 					obj.setObjId((String)fields[j++]);
 					obj.setName((String)fields[j++]);
@@ -381,7 +381,7 @@ public class SwpManagerImpl extends AbstractManager implements ISwpManager {
 				}
 				list = objList;
 			}
-			SwpPackage[] objs = new SwpPackage[list.size()];
+			PkgPackage[] objs = new PkgPackage[list.size()];
 			list.toArray(objs);
 			return objs;
 		} catch (Exception e) {
