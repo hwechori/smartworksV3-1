@@ -8,11 +8,12 @@
 
 package net.smartworks.server.engine.groupware.message.manager;
 
+import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.groupware.message.exception.MessageException;
 import net.smartworks.server.engine.groupware.message.model.Message;
 import net.smartworks.server.engine.groupware.message.model.MessageCond;
 
-public interface IMessageManager {
+public interface IMessageManager extends IManager {
 
 	public Message getMessage(String user, String id, String level) throws MessageException;
 	public Message getMessage(String user, MessageCond cond, String level) throws MessageException;
