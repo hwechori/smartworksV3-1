@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.common.collection.model" default-lazy="false">
+	<class name="ColMap" table="ColMap">
+		<id name="objId" column="colObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="colName" type="string" length="100"/>
+		<property name="creationUser" column="colCreateUser" type="string" length="50" index="IxColMap"/>
+		<property name="creationDate" column="colCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="colModifyUser" type="string" length="50" index="IxColMap1"/>
+		<property name="modificationDate" column="colModifyDate" type="timestamp"/>
+		<property name="type" column="colType" type="string" length="200" index="IxColMap2"/>
+		<property name="fromType" column="colFromType" type="string" length="200" index="IxColMap3"/>
+		<property name="fromRef" column="colFromRef" type="string" length="200" index="IxColMap3"/>
+		<property name="toType" column="colToType" type="string" length="200" index="IxColMap4"/>
+		<property name="toRef" column="colToRef" type="string" length="200" index="IxColMap4"/>
+		<array name="extendedProperties" table="ColMapExtProp">
+			<key column="colObjId" foreign-key="FkColMapExtProp"/>
+			<list-index column="colSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="tskName" type="string" length="100" index="IxColMapExtProp"/>
+				<property name="value" column="tskValue" type="string" length="100" index="IxColMapExtProp1"/>
+			</composite-element>
+		</array>
+	</class>
+	<class name="ColValue" table="ColValue">
+		<id name="objId" column="colObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="colName" type="string" length="100"/>
+		<property name="creationUser" column="colCreateUser" type="string" length="50" index="IxColValue"/>
+		<property name="creationDate" column="colCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="colModifyUser" type="string" length="50" index="IxColValue1"/>
+		<property name="modificationDate" column="colModifyDate" type="timestamp"/>
+		<property name="type" column="colType" type="string" length="100" index="IxColValue2"/>
+		<property name="ref" column="colRef" type="string" length="200" index="IxColValue2"/>
+		<property name="expirationDate" column="colExpDate" type="timestamp" index="IxColValue3"/>
+		<property name="status" column="colStatus" type="string" length="50" index="IxColValue4"/>
+		<property name="description" column="colDesc" type="text"/>
+		<property name="value" column="colValue" type="text"/>
+		<array name="extendedProperties" table="ColValueExtProp">
+			<key column="colObjId" foreign-key="FkColValueExtProp"/>
+			<list-index column="colSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="tskName" type="string" length="100" index="IxColValueExtProp"/>
+				<property name="value" column="tskValue" type="string" length="100" index="IxColValueExtProp1"/>
+			</composite-element>
+		</array>
+	</class>
+	<class name="ColList" table="ColList">
+		<id name="objId" column="colObjId" type="string" length="100" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="colName" type="string" length="100"/>
+		<property name="creationUser" column="colCreateUser" type="string" length="50" index="IxColList"/>
+		<property name="creationDate" column="colCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="colModifyUser" type="string" length="50" index="IxColList1"/>
+		<property name="modificationDate" column="colModifyDate" type="timestamp"/>
+		<property name="type" column="colType" type="string" length="100" index="IxColList2"/>
+		<property name="correlation" column="colCorr" type="string" length="200" index="IxColList2"/>
+		<property name="status" column="colStatus" type="string" length="50" index="IxColList3"/>
+		<property name="description" column="colDesc" type="text"/>
+		<array name="items" table="ColListItem">
+			<key column="colObjId" foreign-key="FkColListItem"/>
+			<list-index column="colSeq"/>
+			<composite-element class="ColObject">
+				<property name="type" column="colType" type="string" length="100" index="IxColListItem"/>
+				<property name="ref" column="colRef" type="string" length="100" index="IxColListItem1"/>
+				<property name="label" column="colLabel" type="string" length="100"/>
+				<property name="expression" column="colExpr" type="text"/>
+			</composite-element>
+		</array>
+		<array name="extendedProperties" table="ColListExtProp">
+			<key column="colObjId" foreign-key="FkColListExtProp"/>
+			<list-index column="colSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="tskName" type="string" length="100" index="IxColListExtProp"/>
+				<property name="value" column="tskValue" type="string" length="100" index="IxColListExtProp1"/>
+			</composite-element>
+		</array>
+	</class>
+</hibernate-mapping>

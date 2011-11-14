@@ -725,7 +725,7 @@ function update(url, targetId, params, response, progress, error, isAsync) {
 		return;
 	//isAsync = toBoolean(isAsync);
 	
-	if (!isNull(progress)) {
+/*	if (!isNull(progress)) {
 		try {
 			updateNotiId = notifyMessage(progress, 0, response);
 			update(url, targetId, params, null, null, error, true);
@@ -733,7 +733,7 @@ function update(url, targetId, params, response, progress, error, isAsync) {
 			onUpdateException(null, e);
 		}
 		return;
-	}
+	}*/
 	try {
 		updateResponse = null;
 		updateError = null;
@@ -775,7 +775,7 @@ function onUpdateException(res, e) {
 		if (isNull(error))
 			return;
 		updateError = null;
-		warnMessage(error, e.name + ": " + e.message);
+		//warnMessage(error, e.name + ": " + e.message);
 	} catch (e) {
 	} finally {
 		notifyMessageResult(false, updateNotiId);

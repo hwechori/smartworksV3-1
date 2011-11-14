@@ -43,4 +43,4 @@ var MisFormControlConfig = {
 	list: {labelWidth: 80, contentWidth: 155, height: 110, weight: 2}
 };
 
-Event.addBehavior.reassignAfterAjax = true;
+//Event.addBehavior.reassignAfterAjax = true;

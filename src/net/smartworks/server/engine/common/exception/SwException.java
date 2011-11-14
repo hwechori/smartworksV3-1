@@ -1,7 +1,7 @@
 package net.smartworks.server.engine.common.exception;
 
-import net.smartworks.server.util.CommonUtil;
-import net.smartworks.server.util.XmlUtil;
+import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.XmlUtil;
 
 import org.w3c.dom.Node;
 

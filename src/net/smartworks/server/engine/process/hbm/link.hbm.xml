@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.process.link.model" default-lazy="false">
+	<class name="LnkLink" table="LnkLnk">
+		<id name="objId" column="lnkObjId" type="string" length="200" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="lnkName" type="string" length="100"/>
+		<property name="creationUser" column="lnkCreateUser" type="string" length="50" index="IxLnkLnk"/>
+		<property name="creationDate" column="lnkCreateDate" type="timestamp"/>
+		<property name="modificationUser" column="lnkModifyUser" type="string" length="50" index="IxLnkLnk1"/>
+		<property name="modificationDate" column="lnkModifyDate" type="timestamp"/>
+		<property name="type" column="lnkType" type="string" length="100"/>
+		<property name="correlation" column="lnkCorr" type="string" length="400" index="IxLnkLnk2"/>
+		<component name="from" class="LnkObject">
+			<property name="type" column="lnkFromType" type="string" length="100" index="IxLnkLnk3"/>
+			<property name="ref" column="lnkFromRef" type="string" length="200" index="IxLnkLnk3"/>
+			<property name="label" column="lnkFromLabel" type="string" length="100" index="IxLnkLnk4"/>
+			<property name="expression" column="lnkFromExpr" type="text"/>
+		</component>
+		<component name="to" class="LnkObject">
+			<property name="type" column="lnkToType" type="string" length="100" index="IxLnkLnk5"/>
+			<property name="ref" column="lnkToRef" type="string" length="200" index="IxLnkLnk5"/>
+			<property name="label" column="lnkToLabel" type="string" length="100" index="IxLnkLnk6"/>
+			<property name="expression" column="lnkToExpr" type="text"/>
+		</component>
+		<component name="condition" class="LnkCondition">
+			<property name="type" column="lnkCondType" type="string" length="100" index="IxLnkLnk7"/>
+			<property name="expression" column="lnkCondExpr" type="text"/>
+		</component>
+		<array name="extendedProperties" table="LnkLnkExtProp">
+			<key column="lnkObjId" foreign-key="FkLnkLnkExtProp"/>
+			<list-index column="lnkSeq"/>
+			<composite-element class="net.smartworks.server.engine.common.model.Property">
+				<property name="name" column="tskName" type="string" length="100" index="IxLnkLnkExtProp"/>
+				<property name="value" column="tskValue" type="string" length="100" index="IxLnkLnkExtProp1"/>
+			</composite-element>
+		</array>
+	</class>
+</hibernate-mapping>

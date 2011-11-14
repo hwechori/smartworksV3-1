@@ -12,6 +12,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			value="conf/spring/smart.conf.properties" />
 	</beans:bean>
 
+	<!-- <beans:bean id="swfManager" class="net.smartworks.server.engine.infowork.form.manager.impl.SwfManagerImpl"/> -->
+
 	<annotation-driven />
 
 	<context:component-scan base-package="net.smartworks" />
