@@ -6,7 +6,7 @@
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
  */
 
-package net.smartworks.server.engine.groupware.message.model;
+package net.smartworks.server.engine.groupware.memo.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.MisObject;
@@ -19,21 +19,33 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class Message extends MisObject {
+public class Memo extends MisObject {
 
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(Message.class);
-	
-	protected static final String PREFIX = "Message";
-	private static final String NAME = CommonUtil.toName(Message.class, PREFIX);
-	
+	private static Log logger = LogFactory.getLog(Memo.class);
+
+	protected static final String PREFIX = "Memo";
+	private static final String NAME = CommonUtil.toName(Memo.class, PREFIX);
+
+	public static final String A_TITLE = "title";
 	public static final String A_CONTENT = "content";
-	public static final String A_TARGETUSER = "targetUser";
-	
+
+	private String title;
 	private String content;
-	private String targetUser;
-	
-	public Message() {
+
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public Memo() {
 		super();
 		
 	}
@@ -50,8 +62,8 @@ public class Message extends MisObject {
 	public String toAttributesString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
+		appendAttributeString(A_TITLE, title, buf);
 		appendAttributeString(A_CONTENT, content, buf);
-		appendAttributeString(A_TARGETUSER, targetUser, buf);
 		
 		return buf.toString();
 	}
@@ -63,23 +75,23 @@ public class Message extends MisObject {
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
 		if (node == null)
 			return null;
-		
-		Message obj = null;
-		if (baseObj == null || !(baseObj instanceof Message))
-			obj = new Message();
+
+		Memo obj = null;
+		if (baseObj == null || !(baseObj instanceof Memo))
+			obj = new Memo();
 		else
-			obj = (Message)baseObj;
+			obj = (Memo)baseObj;
 		//부모 attributes, elements값 설정
 		MisObject.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
+			Node title = attrMap.getNamedItem(A_TITLE);
 			Node content = attrMap.getNamedItem(A_CONTENT);
-			Node targetUser = attrMap.getNamedItem(A_TARGETUSER);
 			
 			if (content != null)
+				obj.setTitle(title.getNodeValue());
 				obj.setContent(content.getNodeValue());
-				obj.setTargetUser(targetUser.getNodeValue());
 		}
 		//element값 설정
 		
@@ -93,19 +105,19 @@ public class Message extends MisObject {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static Message[] add(Message[] objs, Message obj) {
+	public static Memo[] add(Memo[] objs, Memo obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		Message[] newObjs = new Message[size+1];
+		Memo[] newObjs = new Memo[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		return newObjs;
 	}
-	public static Message[] remove(Message[] objs, Message obj) {
+	public static Memo[] remove(Memo[] objs, Memo obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -113,7 +125,7 @@ public class Message extends MisObject {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		Message[] newObjs = new Message[size-1];
+		Memo[] newObjs = new Memo[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -123,7 +135,7 @@ public class Message extends MisObject {
 		}
 		return newObjs;
 	}
-	public static Message[] left(Message[] objs, Message obj) {
+	public static Memo[] left(Memo[] objs, Memo obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -135,7 +147,7 @@ public class Message extends MisObject {
 		}
 		if (idx < 1)
 			return objs;
-		Message[] newObjs = new Message[objs.length];
+		Memo[] newObjs = new Memo[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -148,7 +160,7 @@ public class Message extends MisObject {
 		}
 		return newObjs;
 	}
-	public static Message[] right(Message[] objs, Message obj) {
+	public static Memo[] right(Memo[] objs, Memo obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -160,7 +172,7 @@ public class Message extends MisObject {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		Message[] newObjs = new Message[objs.length];
+		Memo[] newObjs = new Memo[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
@@ -180,18 +192,6 @@ public class Message extends MisObject {
 			logger.warn(e, e);
 			return null;
 		}
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public String getTargetUser() {
-		return targetUser;
-	}
-	public void setTargetUser(String targetUser) {
-		this.targetUser = targetUser;
 	}
 
 }
