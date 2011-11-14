@@ -10,16 +10,13 @@
 	function submitForms(e) {
 		if ($('form.js_validation_required').validate().form()) {
 			var params = $('form').serialize();
-			alert(params);
 			var url = "upload_new_file.sw";
 			$.ajax({
 				url : url,
 				type : 'POST',
-				data : {
-					params : params
-				},
+				data : params,
 				success : function(data, status, jqXHR) {
-					alert("success");
+					document.location.href = data.href;
 				},
 				error : function(jqXHR, status, error) {
 					console.log(status);

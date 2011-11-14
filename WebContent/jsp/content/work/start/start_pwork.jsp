@@ -11,18 +11,13 @@
 	function submitForms() {
 		if ($('form.js_validation_required').validate().form()) {
 			var params = $('form').serialize();
-			alert(params);
 			var url = "start_new_pwork.sw";
 			$.ajax({
 				url : url,
 				type : 'POST',
-				data : {
-					params : params
-				},
+				data : params,
 				success : function(data, status, jqXHR) {
-					console.log(data);
-					console.log(status);
-					console.log(jqXHR);
+					document.location.href = data.href;
 				},
 				error : function(jqXHR, status, error) {
 					console.log(jqXHR);

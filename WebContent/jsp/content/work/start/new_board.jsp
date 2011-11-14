@@ -15,9 +15,9 @@ function submitForms() {
 		$.ajax({
 			url : url,
 			type : 'POST',
-			data : {params : params},
+			data : params,
 			success : function(data, status, jqXHR) {
-				alert("success");
+				document.location.href = data.href;
 			},
 			error : function(e){
 				alert(e);

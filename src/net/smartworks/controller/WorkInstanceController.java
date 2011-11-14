@@ -33,8 +33,7 @@ public class WorkInstanceController {
 
 	@ExceptionHandler(NullPointerException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public @ResponseBody
-	String nullPointExceptionHandler(NullPointerException e) {
+	public @ResponseBody String nullPointExceptionHandler(NullPointerException e) {
 		return e.getMessage();
 	}
 
@@ -125,10 +124,12 @@ public class WorkInstanceController {
 
 	@RequestMapping(value = "/create_new_iwork", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody String createNewIwork(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody Map<String, Object> createNewIwork(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(request);
 		// TO DO : Exception handler
-		return instanceId;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		return map;
 	}
 
 	@RequestMapping(value = "/start_new_pwork", method = RequestMethod.POST)
@@ -137,41 +138,48 @@ public class WorkInstanceController {
 		String instanceId = smartworks.startProcessWorkInstance(request);
 		// TO DO : Exception handler
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("cId", SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceId);
-		map.put("wId", "ysjung@maninsoft.co.kr");
+		map.put("href", "pwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
 		return map;
 	}
 
 	@RequestMapping(value = "/upload_new_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody String uploadNewFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody Map<String, Object> uploadNewFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setFileInstance(request);
 		// TO DO : Exception handler
-		return instanceId;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("href", "file_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_FILE_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		return map;
 	}
 
 	@RequestMapping(value = "/create_new_event", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody String createNewEvent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody Map<String, Object> createNewEvent(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setEventInstance(request);
 		// TO DO : Exception handler
-		return instanceId;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("href", "event_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_EVENT_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		return map;
 	}
 
 	@RequestMapping(value = "/create_new_memo", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody String createNewMemo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody Map<String, Object> createNewMemo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setMemoInstance(request);
 		// TO DO : Exception handler
-		return instanceId;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("href", "memo_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_MEMO_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		return map;
 	}
 
 	@RequestMapping(value = "/create_new_board", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody String createNewBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody Map<String, Object> createNewBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setBoardInstance(request);
 		// TO DO : Exception handler
-		return instanceId;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("href", "board_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_BOARD_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		return map;
 	}
 
 }
