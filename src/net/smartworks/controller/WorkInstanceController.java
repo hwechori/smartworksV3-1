@@ -141,7 +141,7 @@ public class WorkInstanceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("jsp/verify_group_creation.jsp");
+		return new ModelAndView("");
 	}
 
 	@RequestMapping("/start_new_pwork")
@@ -151,7 +151,7 @@ public class WorkInstanceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("jsp/verify_group_creation.jsp");
+		return new ModelAndView("");
 	}
 
 	@RequestMapping("/upload_new_file")
@@ -161,7 +161,7 @@ public class WorkInstanceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("jsp/verify_group_creation.jsp");
+		return new ModelAndView("");
 	}
 
 	@RequestMapping("/create_new_event")
@@ -171,7 +171,7 @@ public class WorkInstanceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("jsp/verify_group_creation.jsp");
+		return new ModelAndView("");
 	}
 
 	@RequestMapping("/create_new_memo")
@@ -181,7 +181,7 @@ public class WorkInstanceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("jsp/verify_group_creation.jsp");
+		return new ModelAndView("");
 	}
 
 	@RequestMapping("/create_new_board")
@@ -191,7 +191,7 @@ public class WorkInstanceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("jsp/verify_group_creation.jsp");
+		return new ModelAndView("");
 	}
 
 }

@@ -299,4 +299,25 @@ $(function() {
 		});
 	});
 
+	$('input.js_file_upload').live('change', function(e) {
+		var input = $(e.target);
+		var newInput = document.createElement( 'input' );
+		newInput.type = 'file';
+		$(newInput).addClass('js_file_upload');
+		
+		input.parent().add( newInput);
+//		e.target.style.display = 'none';
+		alert('1');
+		var target = input.parent().next('div.js_selected_files');
+		var oldHTML = target.html();
+		if (oldHTML == null)
+			oldHTML = "";		
+		var newHTML = oldHTML
+		+ "<span class='js_file_item user_select' >"
+		+ input[0].value
+		+ "<span class='btn_x_gr'><a class='js_remove_file' href=''> x</a></span></span>";
+		target.html(newHTML);
+		$(target).find('span.js_file_item').add(e.target);
+		alert('added');
+	});
 });

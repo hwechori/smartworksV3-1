@@ -197,7 +197,7 @@
 			</div>
 
 			<div class="input_1line">
-				<input class="fieldline" id="" type="text" title=""
+				<input class="fieldline" name="txtEventPlace" type="text" title=""
 					placeholder="<fmt:message key='common.upload.event.place'/>">
 			</div>
 			<input type="hidden" name="hdnRelatedUsers"/>
@@ -212,7 +212,7 @@
 			<div class="js_community_list" style="display: none"></div>
 
 			<div>
-				<textarea class="up_textarea" cols="" rows="5">
+				<textarea class="up_textarea" name="txtaEventContent" cols="" rows="5">
 					<fmt:message key='common.upload.event.content' />
 				</textarea>
 			</div>
