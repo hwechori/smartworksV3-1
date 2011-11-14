@@ -8,52 +8,34 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <script type="text/javascript">
-function submitForms() {
-	var frmApproval = null;
-	if(document.getElementsByName('frmApproval').length == 1){
-		frmApproval = document.frmApproval;
+function submitForms(e) {
+	if ($('form.js_validation_required').validate().form()) {
+		var scheduleWork = document.getElementsByName('frmScheduleWork');
+		if(scheduleWork[0].chkScheduleWork.value === 'on'){
+			scheduleWork[0].hdnSchedulePerformer.value = $(scheduleWork[0].txtSchedulePerformer).attr('uid');
+		}
+		var params = $('form').serialize();
+		alert(params);
+		var url = "create_new_iwork.sw";
+		$.ajax({
+			url : url,
+			type : 'POST',
+			data : {
+				params : params
+			},
+			success : function(data, status, jqXHR) {
+				alert("success");
+			},
+			exception : function(e) {
+				alert(e);
+			}
+		});
+	} else {
+		return;
 	}
-	var frmForward = null;
-	if(document.getElementsByName('frmForward').length == 1){
-		frmForward = document.frmForward;
-	}
-	var frmScheduleWork = null;
-	var chkScheduleWork = document.getElementsByName('chkScheduleWork');
-	if(chkScheduleWork[0].checked == true){
-		frmScheduleWork = document.frmScheduleWork;
-	}
-	var frmAccessSpace = null;
-	if(document.getElementsByName('frmAccessSpace').length == 1){
-		frmAccessSpace = document.frmAccessSpace;
-	}
-	var workId = Request.parameter('workId');
-	alert("workId=" + workId);
-	alert(frmScheduleWork);
-	var frmTotal = document.getElementById(workId);
-	alert(frmTotal);
-	if(frmTotal){
-		if(frmApproval)
-			for(var element in frmApproval.elements)
-				frmTotal.addChild(element);
-		if(frmForward)
-			for(var element in frmForward.elements)
-				frmTotal.addChild(element);
-		if(frmScheduleWork)
-			for(var element in frmScheduleWork.elements)
-				frmTotal.addChild(element);
-		if(frmAccessSpace)
-			for(var element in frmAccessSpace.elements)
-				frmTotal.addChild(element);
-/* 		frmTotal.action = "create_iwork.sw";
-		frmTotal.submit();
- */
- 		frmScheduleWork.action = "create_iwork.sw";
-		frmScheduleWork.submit();
-//		form.serialize()
-	}else{
-	}
-	return false;
+	return;
 }
+
 </script>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
@@ -83,7 +65,7 @@ function submitForms() {
 		<div class="solid_line"></div>
 	</div>
 
-	<div class="form_contents">
+	<form name='frmNewIWork' class="form_contents js_validation_required">
 
 		<div class="txt_btn">
 			<div>
@@ -100,7 +82,7 @@ function submitForms() {
 		<div id="form_import">
 			<jsp:include page="/jsp/content/work/form/load_brief_form.jsp"></jsp:include>
 		</div>
-	</div>
+	</form>
 	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
 	<!-- 폼- 확장 //-->
 	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>

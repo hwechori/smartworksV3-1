@@ -96,6 +96,10 @@ public class LocalDate extends Date{
 		return (new SimpleDateFormat("MM.dd E", this.locale)).format(getLocalTime());
 	}
 	
+	public String toLocalDateSimpleString(){
+		return (new SimpleDateFormat("yyyy.MM.dd", this.locale)).format(getLocalTime());
+	}
+	
 	public String toLocalTimeString(){
 		return DateFormat.getTimeInstance(DateFormat.MEDIUM, this.locale).format(getLocalTime());
 	}
@@ -140,6 +144,9 @@ public class LocalDate extends Date{
 		
 	}	
 	
+	public static String convertTimeToString(long time){
+		return (new SimpleDateFormat("HH:mm")).format(time);
+	}
 	public static Date convertLocalToGMT(long localDate, String timeZone){
 		if(isValidTimeZone(timeZone))
 			return new Date(localDate - TimeZone.getTimeZone(timeZone).getRawOffset());
@@ -158,6 +165,11 @@ public class LocalDate extends Date{
 	
 	public static long convertStringToTime(String yyyyMMddHHmm) throws Exception{
 		return convertStringToDate(yyyyMMddHHmm).getTime();					
+	}
+	
+	public static long convertTimeStringToTime(String HHmm) throws Exception{
+		DateFormat df = new SimpleDateFormat("HH:mm");
+		return df.parse(HHmm).getTime();					
 	}
 	
 	private boolean isToday(){

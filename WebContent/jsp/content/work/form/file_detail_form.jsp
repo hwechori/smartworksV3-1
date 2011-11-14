@@ -15,7 +15,7 @@
 				</div></td>
 		</tr>
 		<tr>
-			<td>과제명</td>
+			<td>관리부서</td>
 			<td>
 				<div class="ico_space">
 					<div class="fieldline">
@@ -26,23 +26,7 @@
 					</div>
 				</div>
 			</td>
-			<td class="padding_l20">진행단계</td>
-			<td>
-				<div>
-					<form name="form" id="form">
-						<select name="jumpMenu" id="jumpMenu"
-							onchange="MM_jumpMenu('parent',this,0)" style="width: 100%;">
-							<option>계획</option>
-							<option>item2</option>
-							<option>item3</option>
-							<option>item4</option>
-						</select>
-					</form>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>작성자</td>
+			<td>관리담당자</td>
 			<td>
 				<div class="ico_space">
 					<div class="fieldline essen">
@@ -50,17 +34,6 @@
 					</div>
 					<div class="ico_posi">
 						<img src="images/btn_s_person.png" />
-					</div>
-				</div>
-			</td>
-			<td class="padding_l20">작성일자</td>
-			<td>
-				<div class="ico_space">
-					<div class="fieldline essen">
-						<input id="" type="text" title="" value="">
-					</div>
-					<div class="ico_posi">
-						<img src="images/btn_s_calendar.png" />
 					</div>
 				</div>
 			</td>

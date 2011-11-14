@@ -13,7 +13,6 @@
 		for (User user : users) {
 			String picName = user.getMinPicture();
 			String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
-			String targetContent = "user_name_text.sw";
 			String comName = user.getName();
 			String comId = user.getId();
 	%>

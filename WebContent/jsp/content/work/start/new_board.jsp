@@ -6,6 +6,31 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
+
+<script type="text/javascript">
+function submitForms() {
+	if($('form.js_validation_required').validate().form()){
+		var params = $('form').serialize();
+		var url = "create_new_board.sw";
+		$.ajax({
+			url : url,
+			type : 'POST',
+			data : {params : params},
+			success : function(data, status, jqXHR) {
+				alert("success");
+			},
+			exception : function(e){
+				alert(e);
+			}
+		});
+	}else{
+		alert('validation failure!!');
+		return;
+	}
+	return;
+}
+</script>
+
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
@@ -18,17 +43,15 @@
 
 
 		<!-- 폼- 확장 -->
-		<div class="form_title">
+		<form name="frmBoard" class="form_title js_validation_required">
 			<div class="input_1line_first">
-				<input class="fieldline" id="" type="text" title=""
+				<input class="fieldline required" name="txtBoardName" type="text" title=""
 					placeholder='<fmt:message key='common.upload.message.board'/>'>
 			</div>
 			<div>
-				<textarea class="up_textarea" name="" cols="" rows="5" value="">
-					<fmt:message key='common.upload.message.board' />
-				</textarea>
+				<textarea class="up_textarea required" name="txtaBoardContent" cols="" rows="5"></textarea>
 			</div>
-		</div>
+		</form>
 		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 	</div>
 </div>

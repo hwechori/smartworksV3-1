@@ -116,6 +116,36 @@ public class InstanceServiceImpl implements IInstanceService {
 	public void setMemoInstance(HttpServletRequest request) throws Exception {
 		
 		
+	}
+
+	@Override
+	public void setInformationWorkInstance(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startProcessWorkInstance(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setFileInstance(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEventInstance(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setBoardInstance(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}	
 	
 }

@@ -6,6 +6,32 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
+<script type="text/javascript">
+	function submitForms(e) {
+		if ($('form.js_validation_required').validate().form()) {
+			var params = $('form').serialize();
+			alert(params);
+			var url = "create_new_file.sw";
+			$.ajax({
+				url : url,
+				type : 'POST',
+				data : {
+					params : params
+				},
+				success : function(data, status, jqXHR) {
+					alert("success");
+				},
+				exception : function(e) {
+					alert(e);
+				}
+			});
+		} else {
+			return;
+		}
+		return;
+	}
+</script>
+
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
@@ -17,22 +43,17 @@
 	<div class="up_point posit_file"></div>
 	<div class="up up_padding">
 		<!-- 폼- 확장 -->
-		<div class="form_wrap">
+		<form name="frmNewFile" class="form_wrap js_validation_required">
 			<div class="form_title" class="js_file_brief_form">
 
-				<textarea class="up_textarea" rows="5"
+				<textarea class="up_textarea" name='txtaFileDesc' rows="5"
 					placeholder="<fmt:message
 						key="common.upload.message.file_desc" />">
-					<fmt:message key="common.upload.message.file_desc" />
 				</textarea>
 
 				<div class="btn_gray padding_t5">
-					<a href=""> <span class="Btn01Start"></span> <span
-						class="Btn01Center"><fmt:message
-								key='common.upload.button.find_file' /> </span> <span class="Btn01End"></span>
-					</a>
-				</div>
-
+ 					<input class='required' name="fileAttachment" type="file">
+ 				</div>
 			</div>
 			<div class="form_contents">
 				<div class="txt_btn txt_btn_height js_file_detail_form">
@@ -53,6 +74,6 @@
 			<!-- 하단 등록,취소 버튼 -->
 			<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 			<!-- 하단 등록,취소 버튼 -->
-		</div>
-	</div>
+	</form>
+</div>
 </div>
