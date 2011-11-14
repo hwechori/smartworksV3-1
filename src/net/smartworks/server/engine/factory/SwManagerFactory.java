@@ -36,9 +36,9 @@ public class SwManagerFactory {
 	private IDepManager depManager;
 	private IAprManager aprManager;
 	private IPrcManager prcManager;
+	private ISwdManager swdManager;
 	private ISwfManager swfManager;
 	private ISwoManager swoManager;
-	private ISwdManager swdManager;
 	private IMonManager monManager;
 	private IPkgManager pkgManager;
 	private ICtgManager ctgManager;
