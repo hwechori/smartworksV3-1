@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ContentController {
-
+	
 	@RequestMapping("/home")
 	public ModelAndView home(HttpServletRequest request,
 			HttpServletResponse response) {
