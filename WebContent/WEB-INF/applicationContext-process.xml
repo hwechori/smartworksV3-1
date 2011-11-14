@@ -14,7 +14,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<beans:bean id="sctXPathManager" class="net.smartworks.server.engine.process.script.manager.impl.SctXPathManagerImpl">
 		<beans:property name="functionsList">
 			<beans:list>
-				<beans:bean id="xPathFunction" class="net.smartworks.server.engine.process.script.function.SctSwXPathFunction">
+				<beans:bean id="xPathFunction" class="net.smartworks.server.engine.process.script.function.SctXPathFunction">
 					<beans:property name="prefix" value="mis"/>
 				</beans:bean>
 			</beans:list>
