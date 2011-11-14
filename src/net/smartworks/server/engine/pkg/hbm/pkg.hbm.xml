@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.pkg.model" default-lazy="false">
+	<class name="PkgPackage" table="SWpackage">
+		<id name="objId" column="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" type="string" length="100"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="date"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="date"/>
+		<property name="description" type="text"/>
+		<property name="status" type="string" length="30"/>
+		<property name="categoryId" type="string" length="50"/>
+		<property name="packageId" type="string" length="50"/>
+		<property name="version" type="int"/>
+		<property name="type" type="string" length="20"/>
+		<property name="latestDeployedYn" type="string" length="1" access="field"/>
+		<!-- property name="domainId" type="string" length="50"/-->
+	</class>
+</hibernate-mapping>

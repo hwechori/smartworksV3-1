@@ -58,13 +58,17 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="depManager" ref="depManager"/>
 		<beans:property name="aprManager" ref="aprManager"/>
 		<beans:property name="monManager" ref="monXpdlManager"/>
-		<!-- <beans:property name="chtManager" ref="chtManager"/>
+		<beans:property name="ctgManager" ref="ctgManager"/>
+		<beans:property name="pkgManager" ref="pkgManager"/>
+		<!-- beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="lcsManager" ref="lcsManager"/>
-		<beans:property name="updManager" ref="updManager"/> -->
+		<beans:property name="updManager" ref="updManager"/>
 		<beans:property name="swdManager" ref="swdManager"/>
 		<beans:property name="swfManager" ref="swfManager"/>
-		<beans:property name="swoManager" ref="swoManager"/>
+		<beans:property name="swoManager" ref="swoManager"/-->
 	</beans:bean>
 
 	<beans:bean id="colManager" class="net.smartworks.server.engine.common.collection.manager.impl.ColManagerImpl"/>
+	<beans:bean id="ctgManager" class="net.smartworks.server.engine.category.manager.impl.CtgManagerImpl"/>
+	<beans:bean id="pkgManager" class="net.smartworks.server.engine.pkg.manager.impl.PkgManagerImpl"/>
 </beans:beans>

@@ -8,10 +8,13 @@
 
 package net.smartworks.server.engine.factory;
 
+//import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
+import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.process.approval.manager.IAprManager;
 import net.smartworks.server.engine.process.deploy.manager.IDepManager;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
@@ -37,24 +40,14 @@ public class SwManagerFactory {
 	private ISwoManager swoManager;
 	private ISwdManager swdManager;
 	private IMonManager monManager;
+	private IPkgManager pkgManager;
+	private ICtgManager ctgManager;
 //	private IChtManager chtManager;
 //	private IMdlManager mdlManager;
 //	private ILcsManager lcsManager;
 //	private IUpdManager updManager;
 	//private IRepManager repManager;
 
-	public ISwdManager getSwdManager() {
-		return swdManager;
-	}
-	public void setSwdManager(ISwdManager swdManager) {
-		this.swdManager = swdManager;
-	}
-	public ISwfManager getSwfManager() {
-		return swfManager;
-	}
-	public void setSwfManager(ISwfManager swfManager) {
-		this.swfManager = swfManager;
-	}
 	public SwManagerFactory() {
 		super();
 		if (logger.isInfoEnabled())
@@ -76,6 +69,12 @@ public class SwManagerFactory {
 	}
 	public void setColManager(IColManager colManager) {
 		this.colManager = colManager;
+	}
+	public ISwfManager getSwfManager() {
+		return swfManager;
+	}
+	public void setSwfManager(ISwfManager swfManager) {
+		this.swfManager = swfManager;
 	}
 	public static SwManagerFactory getInstance() {
 		return factory;
@@ -110,12 +109,31 @@ public class SwManagerFactory {
 	public void setAprManager(IAprManager aprManager) {
 		this.aprManager = aprManager;
 	}
+	public ISwdManager getSwdManager() {
+		return swdManager;
+	}
+	public void setSwdManager(ISwdManager swdManager) {
+		this.swdManager = swdManager;
+	}
 	public IMonManager getMonManager() {
 		return monManager;
 	}
 	public void setMonManager(IMonManager monManager) {
 		this.monManager = monManager;
 	}
+	public IPkgManager getPkgManager() {
+		return pkgManager;
+	}
+	public void setPkgManager(IPkgManager pkgManager) {
+		this.pkgManager = pkgManager;
+	}
+	public ICtgManager getCtgManager() {
+		return ctgManager;
+	}
+	public void setCtgManager(ICtgManager ctgManager) {
+		this.ctgManager = ctgManager;
+	}
+	
 //	public IChtManager getChtManager() {
 //		return chtManager;
 //	}
@@ -146,5 +164,4 @@ public class SwManagerFactory {
 //	public void setUpdManager(IUpdManager updManager) {
 //		this.updManager = updManager;
 //	}
-
 }
