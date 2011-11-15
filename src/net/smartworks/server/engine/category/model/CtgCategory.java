@@ -15,6 +15,7 @@ public class CtgCategory extends MisObject {
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(CtgCategory.class);
 	
+	public static final String ROOTCTGID = "_PKG_ROOT_";
 	protected static final String PREFIX = "Ctg";
 	private static final String NAME = CommonUtil.toName(CtgCategory.class, PREFIX);
 

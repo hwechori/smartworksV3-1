@@ -37,7 +37,10 @@
 <%
 		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
 		WorkCategory[] ctgs = smartworks.getMyWorkCategories("semiteq", "kmyu@maninsoft.co.kr");
-	
+		for (WorkCategory ctg : ctgs) {
+			System.out.println(ctg.getName());
+			
+		}
 %>
 <textarea style="width:800px;height:400px;">
 <%= ctgs[0].getName()%>
