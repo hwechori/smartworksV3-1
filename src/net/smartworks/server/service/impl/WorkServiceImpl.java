@@ -111,7 +111,7 @@ public class WorkServiceImpl implements IWorkService {
 			//System.arraycopy(workCtgs, 0, resultWork, 0, workCtgsSize);  
 			//System.arraycopy(pkgPkgs, 0, resultWork, workCtgsSize, pkgPkgsSize);
 			
-			List<Work> workList = new ArrayList();
+			List<Work> workList = new ArrayList<Work>();
 			for (int i = 0; i < workCtgsSize; i++) {
 				workList.add(workCtgs[i]);
 			}
