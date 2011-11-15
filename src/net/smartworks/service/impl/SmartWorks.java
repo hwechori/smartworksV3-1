@@ -242,7 +242,7 @@ public class SmartWorks implements ISmartWorks {
 
 	@Override
 	public WorkCategory[] getMyWorkCategories(String companyId, String userId) throws Exception {
-		return workService.getMyWorkCategories();
+		return workService.getMyWorkCategories(companyId, userId);
 	}
 
 	@Override
