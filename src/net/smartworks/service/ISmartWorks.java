@@ -132,4 +132,16 @@ public interface ISmartWorks {
 
 	public abstract Community[] getMyCommunities() throws Exception;
 
+	public abstract String setInformationWorkInstance(HttpServletRequest request) throws Exception;
+
+	public abstract String startProcessWorkInstance(HttpServletRequest request) throws Exception;
+
+	public abstract String setFileInstance(HttpServletRequest request) throws Exception;
+
+	public abstract String setEventInstance(HttpServletRequest request) throws Exception;
+
+	public abstract String setMemoInstance(HttpServletRequest request) throws Exception;
+
+	public abstract String setBoardInstance(HttpServletRequest request) throws Exception;
+
 }

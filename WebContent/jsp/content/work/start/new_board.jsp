@@ -6,25 +6,52 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
+
+<script type="text/javascript">
+function submitForms() {
+	if($('form.js_validation_required').validate().form()){
+		var params = $('form').serialize();
+		var url = "create_new_board.sw";
+		$.ajax({
+			url : url,
+			type : 'POST',
+			data : params,
+			success : function(data, status, jqXHR) {
+				document.location.href = data.href;
+			},
+			error : function(e){
+				alert(e);
+			}
+		});
+	}else{
+		alert('validation failure!!');
+		return;
+	}
+	return;
+}
+</script>
+
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-<div id="up_board">
-	<div class="up_form up_size">
-		<div class="up_point posit_board"></div>
-		<input class="up" type="text" value=""
-			title="<fmt:message key='common.upload.message.board'/>"
-			placeholder="<fmt:message key='common.upload.message.board'/>">
-	</div>
+<div class="up_wrap">
+	<div class="up_point posit_board"></div>
+	<div class="form_wrap up up_padding">
 
-	<div class="up_form" style="height: 65px;">
-		<textarea class="up up_textarea" cols="" rows="5"
-			placeholder="<fmt:message key='common.upload.message.board'/>">
-			</textarea>
+
+		<!-- 폼- 확장 -->
+		<form name="frmBoard" class="form_title js_validation_required">
+			<div class="input_1line_first">
+				<input class="fieldline required" name="txtBoardName" type="text" title=""
+					placeholder='<fmt:message key='common.upload.message.board'/>'>
+			</div>
+			<div>
+				<textarea class="up_textarea required" name="txtaBoardContent" cols="" rows="5"></textarea>
+			</div>
+		</form>
+		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 	</div>
-	<!-- 하단 등록,취소 버튼 -->
-	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 </div>

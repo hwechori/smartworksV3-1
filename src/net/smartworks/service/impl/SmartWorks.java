@@ -275,4 +275,39 @@ public class SmartWorks implements ISmartWorks {
 	public Community[] getMyCommunities() throws Exception {
 		return communityService.getMyCommunities();
 	}
+
+	@Override
+	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setInformationWorkInstance(request);
+		
+	}
+
+	@Override
+	public String startProcessWorkInstance(HttpServletRequest request) throws Exception {
+		return instanceService.startProcessWorkInstance(request);
+		
+	}
+
+	@Override
+	public String setFileInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setFileInstance(request);
+		
+	}
+
+	@Override
+	public String setEventInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setEventInstance(request);
+		
+	}
+
+	@Override
+	public String setMemoInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setMemoInstance(request);		
+	}
+
+	@Override
+	public String setBoardInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setBoardInstance(request);
+		
+	}
 }

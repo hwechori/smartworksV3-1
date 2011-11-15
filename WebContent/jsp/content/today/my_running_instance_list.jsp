@@ -16,7 +16,7 @@
 %>
 
 <!-- 나의 진행중인 업무 -->
-<div id="section_portlet">
+<div class="section_portlet">
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>

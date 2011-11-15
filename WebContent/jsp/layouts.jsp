@@ -25,19 +25,28 @@
 <head>
 
 <link href="css/default.css" type="text/css" rel="stylesheet" />
-</link>
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
-</link>
+<link href="css/calendar.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
 		<fmt:param value="<%=currentUser.getCompany() %>" />
 	</fmt:message></title>
 
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.effects.explode.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
+<script type="text/javascript" src="js/sw/sw-util.js"></script>
 <script type="text/javascript" src="js/sw/sw-all.js"></script>
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
+<script type="text/javascript" src="js/sw/sw-validate.js"></script>
 
 </head>
 

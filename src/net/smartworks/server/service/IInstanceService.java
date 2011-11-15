@@ -1,5 +1,7 @@
 package net.smartworks.server.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
@@ -18,5 +20,17 @@ public interface IInstanceService {
 	Instance[] getMyRunningInstances() throws Exception;
 
 	Instance[] searchMyRunningInstance(String key) throws Exception;
+
+	String setInformationWorkInstance(HttpServletRequest request) throws Exception;
+
+	String startProcessWorkInstance(HttpServletRequest request) throws Exception;
+
+	String setFileInstance(HttpServletRequest request) throws Exception;
+
+	String setEventInstance(HttpServletRequest request) throws Exception;
+
+	String setMemoInstance(HttpServletRequest request) throws Exception;
+
+	String setBoardInstance(HttpServletRequest request) throws Exception;
 
 }

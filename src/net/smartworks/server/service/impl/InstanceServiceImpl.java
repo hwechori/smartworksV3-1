@@ -1,5 +1,7 @@
 package net.smartworks.server.service.impl;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
@@ -10,6 +12,7 @@ import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service
 public class InstanceServiceImpl implements IInstanceService {
@@ -108,6 +111,36 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public Instance[] searchMyRunningInstance(String key) throws Exception {
 		return SmartTest.getRunningInstances();
+	}
+
+	@Override
+	public String  setMemoInstance(HttpServletRequest request) throws Exception {		
+		return "testId";
+	}
+
+	@Override
+	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
+	}
+
+	@Override
+	public String startProcessWorkInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
+	}
+
+	@Override
+	public String setFileInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
+	}
+
+	@Override
+	public String setEventInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
+	}
+
+	@Override
+	public String setBoardInstance(HttpServletRequest request) throws Exception {
+		return "testId";		
 	}	
 	
 }

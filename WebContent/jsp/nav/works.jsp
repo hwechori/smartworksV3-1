@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <ul class="navi_tit">
-	<li class='js_collapse_parent_siblings'>&gt; <fmt:message
+	<li class='js_collapse_parent_siblings arr_on'><fmt:message
 			key="nav.works.my_works" />
 	</li>
 	<li class="nav_srch">
@@ -11,9 +11,13 @@
 				title="<fmt:message key='search.search_work'/>"
 				placeholder="<fmt:message key='search.search_work'/>"
 				href="work.sw" />
-			<button title="<fmt:message key='search.search'/>" onclick=""></button>
+			<div class='srch_ico js_srch_x'></div>
 		</div>
-		<div style="display: none"></div>
+		
+		<!-- nav 검색 리스트 -->
+		<div class="nav_srch_list" style="display: none"></div>
+		<!-- nav 검색 리스트 -->
+		
 	</li>
 </ul>
 

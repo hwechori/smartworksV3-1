@@ -13,11 +13,10 @@
 		for (User user : users) {
 			String picName = user.getMinPicture();
 			String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
-			String targetContent = "user_name_text.sw";
 			String comName = user.getName();
 			String comId = user.getId();
 	%>
-	<li><a href="" uname="<%=user.getLongName()%>" uid="<%=comId %>" class="js_select_user"><img src="<%=picName%>" border="0"><%=comName%></a>
+	<li><a href="" uname="<%=user.getLongName()%>" uid="<%=comId %>" class="js_select_user"><img src="<%=picName%>"><%=comName%></a>
 	</li>
 	<%
 		}

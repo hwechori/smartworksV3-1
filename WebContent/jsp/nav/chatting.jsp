@@ -15,7 +15,7 @@
 				title="<fmt:message key="search.search_available_chatter"/>"
 				placeholder="<fmt:message key="search.search_available_chatter"/>"
 				href="available_chatter.sw">
-			<button title="<fmt:message key='search.search'/>" onclick=""></button>
+			<div class='srch_ico js_srch_x'></div>
 		</div>
 		<div style="display: none"></div>
 	</li>
