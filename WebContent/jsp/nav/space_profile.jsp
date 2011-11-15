@@ -5,6 +5,9 @@
 <%@ page import="net.smartworks.model.community.*"%>
 
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	if (cid == null)
@@ -18,13 +21,13 @@
 	User thisUser = null;
 	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
 	if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, cid)) {
-		thisGroup = (Group) smartWorks.getWorkSpaceById(spaceId);
+		thisGroup = (Group) smartWorks.getWorkSpaceById(companyId, spaceId);
 	} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE, cid)) {
-		thisDepartment = (Department) smartWorks.getWorkSpaceById(spaceId);
+		thisDepartment = (Department) smartWorks.getWorkSpaceById(companyId, spaceId);
 	} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_USER_SPACE, cid)) {
-		thisUser = (User) smartWorks.getWorkSpaceById(spaceId);
+		thisUser = (User) smartWorks.getWorkSpaceById(companyId, spaceId);
 	} else if (!wid.equals(SmartUtil.getCurrentUser().getId())) {
-		WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
+		WorkSpace workSpace = smartWorks.getWorkSpaceById(companyId, wid);
 		if (workSpace == null) {
 			thisUser = SmartUtil.getCurrentUser();
 		} else if (workSpace.getClass() == User.class) {
@@ -37,14 +40,6 @@
 	} else {
 		thisUser = SmartUtil.getCurrentUser();
 	}
-	/*
-	 if(smartWorks.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, navContext)){
-	 thisGroup = smartWorks.getGroupById(smartWorks.getSpaceIdFromContentContext(navContext));
-	 }else if(smartWorks.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE, navContext)){
-	 thisDepartment = smartWorks.getDepartmentById(smartWorks.getSpaceIdFromContentContext(navContext));		
-	 }else if(smartWorks.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_USER_SPACE, navContext)){
-	 thisUser = smartWorks.getUserById(smartWorks.getSpaceIdFromContentContext(navContext));
-	 */
 %>
 
 <ul>

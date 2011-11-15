@@ -7,8 +7,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String[] messages = smartWorks.getBroadcastingMessages();
+	String[] messages = smartWorks.getBroadcastingMessages(companyId);
 %>
 
 <!-- Broadcasting Board -->

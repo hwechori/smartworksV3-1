@@ -4,8 +4,11 @@
 <%@ page import="net.smartworks.model.work.*"%>
 
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkCategory[] workCategories = smartWorks.getMyWorkCategories();
+	WorkCategory[] workCategories = smartWorks.getMyWorkCategories(companyId, userId);
 %>
 
 <ul>

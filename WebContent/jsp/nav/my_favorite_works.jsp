@@ -2,8 +2,11 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.work.*"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	SmartWork[] works = smartWorks.getMyFavoriteWorks();
+	SmartWork[] works = smartWorks.getMyFavoriteWorks(companyId, userId);
 	String iconType = null;
 	String classType = "js_content";
 	String workContext = null;

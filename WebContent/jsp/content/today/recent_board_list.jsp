@@ -6,10 +6,13 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	BoardInstance[] boards = smartWorks.getBoardInstances(new LocalDate(), 5);
+	BoardInstance[] boards = smartWorks.getBoardInstances(companyId, userId, new LocalDate(), 5);
 %>
 <!-- 공지사항 -->
 <div id="notice">

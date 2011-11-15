@@ -10,6 +10,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	String wid = request.getParameter("wid");
 	if (wid == null)
 		wid = SmartUtil.getCurrentUser().getId();
@@ -19,10 +22,10 @@
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	Work work = smartWorks.getWorkById(workId);
+	Work work = smartWorks.getWorkById(companyId, workId);
 	if (work == null)
 		work = new Work();
-	Community[] communities = smartWorks.getMyCommunities();
+	Community[] communities = smartWorks.getMyCommunities(companyId, userId);
 %>
 
 <!-- 등록 취소 버튼 -->

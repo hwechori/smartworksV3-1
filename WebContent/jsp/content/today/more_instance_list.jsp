@@ -9,10 +9,13 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	Instance[] instances = smartWorks.getMyRunningInstances();
+	Instance[] instances = smartWorks.getMyRunningInstances(companyId, userId);
 	for (Instance instance : instances) {
 		String statusImage;
 		String statusTitle;

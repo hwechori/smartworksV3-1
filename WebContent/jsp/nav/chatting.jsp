@@ -4,8 +4,11 @@
 <%@ page import="net.smartworks.model.community.*"%>
 
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User[] chatters = smartWorks.getAvailableChatter();
+	User[] chatters = smartWorks.getAvailableChatter(companyId, userId);
 %>
 
 <ul>

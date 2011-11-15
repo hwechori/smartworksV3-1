@@ -6,6 +6,9 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	String cid = request.getParameter("cid");
@@ -19,10 +22,10 @@
 	else
 		session.setAttribute("wid", wid);
 
-	CompanyCalendar[] threeDaysCC = smartWorks.getCompanyCalendars(new LocalDate(), 3);
+	CompanyCalendar[] threeDaysCC = smartWorks.getCompanyCalendars(companyId, new LocalDate(), 3);
 	LocalDate today = threeDaysCC[0].getDate();
 	LocalDate tomorrow = threeDaysCC[1].getDate();
-	EventInstance[] events = smartWorks.getEventInstances(new LocalDate(), 10);
+	EventInstance[] events = smartWorks.getEventInstances(companyId, userId, new LocalDate(), 10);
 %>
 <!-- 이벤트,공지 포틀릿 -->
 <div class="section_portlet">

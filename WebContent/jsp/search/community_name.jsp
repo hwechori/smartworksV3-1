@@ -3,9 +3,12 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	WorkSpace[] communities = smartWorks.searchCommunity(key);
+	WorkSpace[] communities = smartWorks.searchCommunity(companyId, userId, key);
 %>
 
 <ul>

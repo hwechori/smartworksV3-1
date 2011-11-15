@@ -14,11 +14,12 @@
 		session.setAttribute("companyId", "Maninsoft");
 		session.setAttribute("userId", "jskim@maninsoft.co.kr");
 	}
-	String companyId = session.getAttribute("companyId");
-	String userId = session.getAttribute("userId");
 	
-	
-	if (session.getAttribute("cid") == null) {
+	String companyId = (String)session.getAttribute("companyId");
+	String userId = (String)session.getAttribute("userId");
+	String cid = (String)session.getAttribute("cid");
+	String wid = (String)session.getAttribute("wid");
+	if (cid == null) {
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
 	}
 %>

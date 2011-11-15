@@ -3,8 +3,11 @@
 <%@ page import="net.smartworks.model.community.*"%>
 
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	Department[] departments = smartWorks.getMyDepartments();
+	Department[] departments = smartWorks.getMyDepartments(companyId, userId);
 %>
 
 <ul>
