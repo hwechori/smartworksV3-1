@@ -16,7 +16,6 @@ import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
-import net.smartworks.model.work.WorkCategory;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IInstanceService;
@@ -241,18 +240,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public WorkCategory[] getMyWorkCategories(String companyId, String userId) throws Exception {
-		return workService.getMyWorkCategories(companyId, userId);
-	}
-
-	@Override
-	public SmartWork[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
+	public Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
 		return workService.getMyAllWorksByCategoryId(categoryId);
-	}
-
-	@Override
-	public SmartWork[] getMyAllWorksByGroupId(String companyId, String userId, String groupId) throws Exception {
-		return workService.getMyAllWorksByGroupId(groupId);
 	}
 
 	@Override

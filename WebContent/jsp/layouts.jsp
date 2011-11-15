@@ -35,6 +35,7 @@
 
 <link href="css/default.css" type="text/css" rel="stylesheet" />
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
+<link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/calendar.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

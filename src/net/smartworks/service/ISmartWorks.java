@@ -16,7 +16,6 @@ import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
-import net.smartworks.model.work.WorkCategory;
 import net.smartworks.util.LocalDate;
 
 public interface ISmartWorks {
@@ -84,11 +83,7 @@ public interface ISmartWorks {
 
 	public abstract SmartWork[] getMyFavoriteWorks(String companyId, String userId) throws Exception;
 
-	public abstract WorkCategory[] getMyWorkCategories(String companyId, String userId) throws Exception;
-
-	public abstract SmartWork[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception;
-
-	public abstract SmartWork[] getMyAllWorksByGroupId(String companyId, String userId, String groupId) throws Exception;
+	public abstract Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception;
 
 	public abstract WorkInstance[] getMyRecentInstances(String companyId, String userId) throws Exception;
 
