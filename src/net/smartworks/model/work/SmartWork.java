@@ -1,5 +1,8 @@
 package net.smartworks.model.work;
 
+import net.smartworks.model.community.User;
+import net.smartworks.util.LocalDate;
+
 public class SmartWork extends Work {
 
 	public final static int 	TYPE_INFORMATION 	= 11;
@@ -9,6 +12,11 @@ public class SmartWork extends Work {
 	private String 	fullpathName = null;
 	private WorkCategory myGroup = null;
 	private WorkCategory myCategory = null;
+	private AccessPolicy accessPolicy = new AccessPolicy();
+	private WritePolicy writePolicy = new WritePolicy();
+	private EditPolicy editPolicy = new EditPolicy();
+	private User lastModifier;
+	private LocalDate lastModifiedDate;
 
 	public String getFullpathName() {
 		return this.myCategory.getName() + ( (this.myGroup != null && this.myGroup.getId()!= null) ? ">" + this.myGroup.getName() : "") + ">" + super.getName();

@@ -1,6 +1,8 @@
 package net.smartworks.model.work;
 
 import net.smartworks.model.BaseObject;
+import net.smartworks.model.community.User;
+import net.smartworks.util.LocalDate;
 
 public class Work extends BaseObject{
 
@@ -11,14 +13,7 @@ public class Work extends BaseObject{
 
 	private int 	type=-1; 
 	private String 	desc;
-	private AccessPolicy accessPolicy;
 	
-	public AccessPolicy getAccessPolicy() {
-		return accessPolicy;
-	}
-	public void setAccessPolicy(AccessPolicy accessPolicy) {
-		this.accessPolicy = accessPolicy;
-	}
 	public int getType() {
 		return type;
 	}
@@ -34,16 +29,13 @@ public class Work extends BaseObject{
 
 	public Work(){
 		super();
-		accessPolicy = new AccessPolicy();
 	}
 	public Work(String id, String name){
 		super(id, name);
-		accessPolicy = new AccessPolicy();
 	}	
 	public Work(String id, String name, int type, String desc){
 		super(id, name);
 		this.type = type;
 		this.desc = desc;
-		accessPolicy = new AccessPolicy();
 	}
 }
