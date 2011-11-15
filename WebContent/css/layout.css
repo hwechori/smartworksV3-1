@@ -154,6 +154,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 #upload div {float:left; padding-right:9px;}
 
 .up_wrap {position:relative; margin: 0 3px 10px;}
+.detail_up_wrap {margin:0 15px 15px;} /* 상세보기 페이지의 up_wrap */ 
 
 
 .start_worksinput {position:relative; height:21px;}
@@ -257,7 +258,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 .ico_posi {position:absolute; right:0; top:0;}
 
-.glo_btn_space {background-color:#FFF; padding:8px 10px; height: 22px; border-top: 1px solid #c7c7c7;}
+.glo_btn_space {background-color:#FFF; padding:8px 10px; margin:0 10px; height: 22px; border-top: 1px solid #c7c7c7;}
 .glo_btn_space .btn_finish {float:right; padding-right:10px;}
 
 .posit_works {left:15px; top:1px; position:relative; z-index:20;}
@@ -416,7 +417,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 /* Line Style */
 .solid_line { border-top:2px solid #999999; width:100%;}
 .solid_line_s { border-top:1px solid #c7c7c7; width:100%;}
-.dash_line {border-top:1px dashed #999999; margin: 5px 0 10px;}
+.dash_line {border-top:1px dashed #9c9c9c; margin: 5px 0 10px;}
 .line_width {padding:0 10px;}
 
 
