@@ -3,26 +3,34 @@
 
 
 /* 상세보기- 타이틀 아이콘*/
-.body_title { padding:10px; height: 60px}
-.body_title .title_noico {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}
+.body_title { padding:10px; height: 60px} /* 컨텐츠 페이지 타이틀*/
+.body_title_pic { padding:10px;} /* 컨텐츠 페이지 타이틀 - 사람사진이 들어갈 경우 */
+.body_title_pic .title_picico {font-size: 14px; font-weight: bold;} /* 컨텐츠 페이지 타이틀 - 사람사진이 들어갈 경우: 제목 텍스트 */
+
+.body_title .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
+.body_title .title_noico {font-size: 14px; font-weight: bold; height: 52px;}  /* 타이틀 우측으로 아이콘이 없을때 */
 .body_btiti_pworks {background: url("../images/body_title_proces.png") no-repeat left top transparent; padding:1px 0 2px 19px; height: 52px; line-height:18px;}
-.body_titi_iworks {background: url("../images/body_title_inform.png") no-repeat left top transparent; padding:28px 0 2px 65px; height: 52px; line-height:18px;}
-.body_title .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding-top: 30px;}
+.body_titi_iworks {background: url("../images/body_title_inform.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
+.body_title .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding-top: 30px;} /* 타이틀 우측으로 버튼 */
+
+
 
 /* 상세보기 컨텐츠 */
 .contents_space {padding: 0 20px 10px 20px;}
 .contents_space .det_title {padding:3px 0;} /* 타이틀 */
+.contents_space .det_contents {}
 .contents_space .det_contents table { padding:10px;}
 
 /* Replay Info */
 .info_repl {vertical-align:bottom; position:absolute;}
 
-/* 상세보기 UP, List */
+/* 상세보기 List */
 .contents_upspace { padding:20px 0 0 30px;}
 .replay { margin:0 15px;}
-.replay li {border-bottom: 1px dashed #DCDFE0; clear: both; vertical-align: middle;}
-.replay .end {border-bottom: 0px; clear:both; vertical-align: middle;}
-
+.replay li {border-bottom: 1px dashed #DCDFE0; vertical-align: middle; padding:3px 0;}
+.replay .end {border-bottom: 0px; vertical-align: middle;}
+.replay_upload { padding:10px 0; margin:0 15px;}
+a
 
 
 /* 목록 타이틀 */

@@ -15,15 +15,16 @@
 		session.setAttribute("wid", wid);
 %>
 
+
 <!-- 컨텐츠 레이아웃-->
 <div class="up_wrap">
     	<div class="form_wrap up up_padding">
             
             <!-- 타이틀 -->
             	<div class="body_title">
-                	<div class="body_titi_iworks title_noico">신제품 기획 TFT > TFT 회의록 </div> 
+                	<div class="body_titi_iworks title">신제품 기획 TFT > TFT 회의록 </div> 
                     
-                    <!-- 우측 버튼-->
+            <!-- 우측 버튼-->
             <div class="txt_btn">
                 <div class="po_right"><a href="">2011.11.14 16:00</a></div>
                 <div class="po_right"><a href="">최종수정: jisook kim</a></div>
@@ -74,6 +75,7 @@
 
 </div>
 
+<!-- 업무설명보기  펼침부분 -->
 <div class="contents_space">
 			<!-- 업무설명 영역 -->
             <div class="det_contents">      
@@ -118,7 +120,7 @@
                     <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^</div>
                 </div>
         </li>
-        <li class="end">
+        <li>
             <div class="det_title">
                 <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
                 <div class="noti_in">
@@ -129,15 +131,20 @@
         </li>
         </ul>
     </div>
+    
+    <div class="replay_upload">
+    <textarea class="up_textarea" rows="5" cols="" name="txtaEventContent">궁금한 점을 올려주세요!</textarea>
+    </div>
     <!-- 댓글 //-->
     
     <!-- 라인 -->
     <div class="solid_line_s"> </div>             
             
 </div>
+<!-- 업무설명보기  펼침부분 //-->
 
 
-<div class=" contents_space">    
+<div class="contents_space">    
     <!-- 목록보기 -->
     	<!-- 목록보기 타이틀-->
         <div class="list_title_space">
