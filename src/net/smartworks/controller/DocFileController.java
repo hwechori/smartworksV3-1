@@ -44,7 +44,7 @@ public class DocFileController {
 
 	@RequestMapping(value = "/create_file_xml", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public String createFileXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody String createFileXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String groupId = "";
 		smartworks.createFileXml(request);
