@@ -8,17 +8,31 @@
 
 package net.smartworks.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.service.ISmartWorks;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 public class DocFileController {
+
+	@ExceptionHandler(NullPointerException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public @ResponseBody String nullPointExceptionHandler(NullPointerException e) {
+		return e.getMessage();
+	}
 
 	ISmartWorks smartworks;
 
@@ -28,29 +42,23 @@ public class DocFileController {
 	}
 
 	@RequestMapping("/create_file_xml")
-	public String createFileXml(HttpServletRequest request, HttpServletResponse response) {
+	public String createFileXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String groupId = "";
-		try {
-			groupId = smartworks.createFileXml(request);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		smartworks.createFileXml(request);
+		// TO DO : Exception handler
 
 		return groupId;
 	}
 
 	@RequestMapping("/find_file_group")
-	public String findFileGroup(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody List<IFileModel> findFileGroup(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String groupId = "";
-		try {
-			groupId = smartworks.createFileXml(request);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<IFileModel> list = new ArrayList<IFileModel>();
+		list = smartworks.findFileGroup(request);
+		// TO DO : Exception handler
 
-		return groupId;
+		return list;
 	}
 
 }

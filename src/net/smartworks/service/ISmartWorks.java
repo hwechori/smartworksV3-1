@@ -1,5 +1,7 @@
 package net.smartworks.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.calendar.CompanyCalendar;
@@ -17,6 +19,7 @@ import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
+import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.util.LocalDate;
 
 public interface ISmartWorks {
@@ -133,5 +136,7 @@ public interface ISmartWorks {
 	public abstract Community[] getMyCommunities() throws Exception;
 
 	public abstract String createFileXml(HttpServletRequest request) throws Exception;
+
+	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 
 }

@@ -71,6 +71,18 @@ public class DocFileServiceImpl implements IDocFileService {
 
 	}
 
+	public List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception {
+
+		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));
+
+		List<IFileModel> fileList = new ArrayList<IFileModel>(); 
+
+		fileList = getDocManager().findFileGroup(groupId);
+
+		return fileList;
+
+	}
+
 /*	@Override
 	public String createFile(String userId, String groupId, IFileModel file) throws Exception {
 		return getDocManager().createFile(userId, groupId, file);

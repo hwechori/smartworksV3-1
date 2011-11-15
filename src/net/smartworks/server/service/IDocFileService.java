@@ -8,7 +8,11 @@
 
 package net.smartworks.server.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
+import net.smartworks.server.engine.docfile.model.IFileModel;
 
 
 public interface IDocFileService {
@@ -44,5 +48,7 @@ public interface IDocFileService {
 	public abstract IDocumentModel retrieveDocumentByRef(int refType, String refId) throws Exception;*/
 
 	public abstract String createFileXml(HttpServletRequest request) throws Exception;
+
+	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 
 }
