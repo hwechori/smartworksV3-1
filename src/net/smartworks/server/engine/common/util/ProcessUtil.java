@@ -6,12 +6,6 @@ import net.smartworks.server.engine.process.xpdl.util.ProcessModelHelper;
 import net.smartworks.server.engine.process.xpdl.xpdl2.PackageType;
 import net.smartworks.server.engine.process.xpdl.xpdl2.ProcessType1;
 
-/**
- * 유틸리티
- * 
- * @author jhnam
- * @version $Id: SmartServerUtil.java,v 1.1 2011/11/08 03:15:20 kmyu Exp $
- */
 public class ProcessUtil {
 
 	/**
