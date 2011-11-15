@@ -7,7 +7,7 @@
 	String userId = (String) session.getAttribute("userId");
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	SmartWork[] works = smartWorks.getMyAllWorksByGroupId(companyId, userId, request.getParameter("groupId"));
+	Work[] works = smartWorks.getMyAllWorksByCategoryId(companyId, userId, request.getParameter("groupId"));
 	String iconType = null;
 	String classType = "js_content";
 	String workContext = null;
@@ -17,7 +17,7 @@
 <ul>
 	<%
 		if (works != null) {
-			for (SmartWork work : works) {
+			for (Work work : works) {
 				if (work.getType() == SmartWork.TYPE_PROCESS) {
 					iconType = "ico_pworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
@@ -31,7 +31,7 @@
 					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
 					targetContent = "swork_list.sw";
 				}
-				if (work.getType() != SmartWork.TYPE_GROUP) {
+				if (!work.getClass().equals(WorkCategory.class)) {
 	%>
 	<li class="<%=iconType%>"><a
 		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>"><%=work.getName()%></a>
