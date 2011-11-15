@@ -3,7 +3,14 @@ package net.smartworks.server.service.impl;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
+import net.smartworks.server.engine.category.manager.ICtgManager;
+import net.smartworks.server.engine.category.model.CtgCategory;
+import net.smartworks.server.engine.category.model.CtgCategoryCond;
+import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.service.IWorkService;
+import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.SmartTest;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class WorkServiceImpl implements IWorkService {
 
+	private ICtgManager getCtgManager() {
+		return SwManagerFactory.getInstance().getCtgManager();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -35,9 +46,17 @@ public class WorkServiceImpl implements IWorkService {
 	 * .String)
 	 */
 	@Override
-	public WorkCategory[] getMyWorkCategories() throws Exception {
-
-		return new WorkCategory[] { SmartTest.getWorkCategory1(), SmartTest.getWorkCategory2() };
+	public WorkCategory[] getMyWorkCategories(String companyId, String userId) throws Exception {
+		if (CommonUtil.isEmpty(userId))
+			return null;
+		
+		CtgCategoryCond cond = new CtgCategoryCond();
+		cond.setCompanyId(companyId);
+		
+		CtgCategory[] ctgs = getCtgManager().getCategorys(userId, cond, IManager.LEVEL_ALL);
+		
+		return (WorkCategory[])ModelConverter.arrayToArray(ctgs);
+		
 	}
 
 	/*

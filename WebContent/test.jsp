@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.work.WorkCategory"%>
+<%@page import="net.smartworks.service.ISmartWorks"%>
 <%@page import="net.smartworks.server.engine.process.approval.model.AprApproval"%>
 <%@page import="net.smartworks.server.engine.factory.SwManagerFactory"%>
 <%@page import="net.smartworks.server.engine.process.approval.manager.IAprManager"%>
@@ -33,18 +35,12 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-
-	//AprApproval apr = SwManagerFactory.getInstance().getAprManager().getApproval("", "402880eb338779f6013387eeab3b001a", "ALL");
-	
-
-	TskTask runObj = SwManagerFactory.getInstance().getTskManager().getTask("", "402880eb338bbc5801338bc3e09f0007", null);
-
-	SwManagerFactory.getInstance().getTskManager().executeTask("", runObj, "all");
-	
+		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
+		WorkCategory[] ctgs = smartworks.getMyWorkCategories("semiteq", "kmyu@maninsoft.co.kr");
 	
 %>
 <textarea style="width:800px;height:400px;">
-<%=runObj.toString() %>
+<%= ctgs[0].getName()%>
 </textarea>
 </body>
 </html>

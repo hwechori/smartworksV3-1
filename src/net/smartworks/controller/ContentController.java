@@ -59,7 +59,6 @@ public class ContentController {
 		return SmartUtil.returnMnv(request, "jsp/content/today/more_instance_list.jsp",
 				"");
 	}
-	
 	@RequestMapping("/start_work")
 	public ModelAndView startWork(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -75,5 +74,4 @@ public class ContentController {
 		return SmartUtil.returnMnv(request,
 				"jsp/content/empty_content.jsp", "");
 	}
-
 }
