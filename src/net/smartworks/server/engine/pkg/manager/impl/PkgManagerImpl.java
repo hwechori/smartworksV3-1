@@ -68,7 +68,7 @@ public class PkgManagerImpl extends AbstractManager implements IPkgManager {
 				set(obj);
 			} else {
 				StringBuffer buf = new StringBuffer();
-				buf.append("update SwpPackage set");
+				buf.append("update PkgPackage set");
 				buf.append(" packageId=:packageId, version=:version, latestDeployedYn=:latestDeployedYn,");
 				buf.append(" categoryId=:categoryId, type=:type,");
 				buf.append(" creationUser=:creationUser, creationDate=:creationDate,");
@@ -152,7 +152,7 @@ public class PkgManagerImpl extends AbstractManager implements IPkgManager {
 			categoryIdIns = cond.getCategoryIdIns();
 			logicalOperator = cond.getOperator();
 		}
-		buf.append(" from SwpPackage obj");
+		buf.append(" from PkgPackage obj");
 		buf.append(" where obj.objId is not null");
 		Map filterMap = new HashMap();
 		//TODO 시간 검색에 대한 확인 필요
