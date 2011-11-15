@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="net.smartworks.server.engine.basicwork.message.model" default-lazy="false">
-	<class name="MsgMessage" table="MsgMessage">
+	<class name="Message" table="MsgMessage">
 		<id name="objId" column="id" type="string" length="50" unsaved-value="undefined">
 			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
 		</id>
