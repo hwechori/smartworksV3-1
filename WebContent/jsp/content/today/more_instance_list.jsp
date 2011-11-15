@@ -11,104 +11,105 @@
 <%
 	String companyId = (String) session.getAttribute("companyId");
 	String userId = (String) session.getAttribute("userId");
-	
+
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
 	Instance[] instances = smartWorks.getMyRunningInstances(companyId, userId);
-	for (Instance instance : instances) {
-		String statusImage;
-		String statusTitle;
-		WorkInstance workInstance = null;
-		TaskInstance taskInstance = null;
-		TaskInstance[] assignedTasks = null;
-		TaskInstance[] forwardedTasks = null;
-		boolean isAssignedTask = false;
-		if (instance.getClass().equals(WorkInstance.class)) {
-			isAssignedTask = false;
-			workInstance = (WorkInstance) instance;
+	if (instances != null) {
+		for (Instance instance : instances) {
+			String statusImage;
+			String statusTitle;
+			WorkInstance workInstance = null;
+			TaskInstance taskInstance = null;
+			TaskInstance[] assignedTasks = null;
+			TaskInstance[] forwardedTasks = null;
+			boolean isAssignedTask = false;
+			if (instance.getClass().equals(WorkInstance.class)) {
+				isAssignedTask = false;
+				workInstance = (WorkInstance) instance;
 
-			List<TaskInstance> assignedList = new ArrayList<TaskInstance>();
-			List<TaskInstance> forwardedList = new ArrayList<TaskInstance>();
-			for (TaskInstance task : workInstance.getTasks()) {
-				if ((task.getTaskType() % 10) == 1)
-					assignedList.add(task);
-				else if ((task.getTaskType() % 10) == 2)
-					forwardedList.add(task);
+				List<TaskInstance> assignedList = new ArrayList<TaskInstance>();
+				List<TaskInstance> forwardedList = new ArrayList<TaskInstance>();
+				for (TaskInstance task : workInstance.getTasks()) {
+					if ((task.getTaskType() % 10) == 1)
+						assignedList.add(task);
+					else if ((task.getTaskType() % 10) == 2)
+						forwardedList.add(task);
+				}
+				assignedTasks = (TaskInstance[]) assignedList.toArray(new TaskInstance[0]);
+				forwardedTasks = (TaskInstance[]) forwardedList.toArray(new TaskInstance[0]);
+
+			} else if (instance.getClass().equals(TaskInstance.class)) {
+				isAssignedTask = true;
+				workInstance = ((TaskInstance) instance).getWorkInstance();
+				taskInstance = (TaskInstance) instance;
 			}
-			assignedTasks = (TaskInstance[]) assignedList.toArray(new TaskInstance[0]);
-			forwardedTasks = (TaskInstance[]) forwardedList.toArray(new TaskInstance[0]);
+			User owner = workInstance.getOwner();
+			SmartWork work = (SmartWork) workInstance.getWork();
+			String runningTaskName = "";
+			if (taskInstance != null)
+				runningTaskName = taskInstance.getName();
+			String ownerContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 
-		} else if (instance.getClass().equals(TaskInstance.class)) {
-			isAssignedTask = true;
-			workInstance = ((TaskInstance) instance).getWorkInstance();
-			taskInstance = (TaskInstance) instance;
-		}
-		User owner = workInstance.getOwner();
-		SmartWork work = (SmartWork) workInstance.getWork();
-		String runningTaskName = "";
-		if (taskInstance != null)
-			runningTaskName = taskInstance.getName();
-		String ownerContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
-
-		String targetContent, taskContextId, workContextId, workListContextId, workTypeClass;
-		switch (work.getType()) {
-		case SmartWork.TYPE_INFORMATION:
-			workTypeClass = "ico_iworks";
-			targetContent = "iwork_";
-			taskContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
-			workContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + workInstance.getId();
-			workListContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
-			break;
-		case SmartWork.TYPE_PROCESS:
-			workTypeClass = "ico_pworks";
-			targetContent = "pwork_";
-			taskContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
-			workContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + workInstance.getId();
-			workListContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
-			break;
-		case SmartWork.TYPE_SCHEDULE:
-			workTypeClass = "ico_sworks";
-			targetContent = "swork_";
-			taskContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
-			workContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
-			workListContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
-			break;
-		default:
-			workTypeClass = "";
-			targetContent = "";
-			taskContextId = "";
-			workContextId = "";
-			workListContextId = "";
-			break;
-		}
-
-		if (isAssignedTask) {
-			switch (taskInstance.getStatus()) {
-			case Instance.STATUS_RUNNING:
-				statusImage = "images/ic_state_ing.jpg";
-				statusTitle = "content.status.running";
+			String targetContent, taskContextId, workContextId, workListContextId, workTypeClass;
+			switch (work.getType()) {
+			case SmartWork.TYPE_INFORMATION:
+				workTypeClass = "ico_iworks";
+				targetContent = "iwork_";
+				taskContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
+				workContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + workInstance.getId();
+				workListContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
 				break;
-			case Instance.STATUS_DELAYED_RUNNING:
-				statusImage = "images/ic_state_ing.jpg";
-				statusTitle = "content.status.delayed_running";
+			case SmartWork.TYPE_PROCESS:
+				workTypeClass = "ico_pworks";
+				targetContent = "pwork_";
+				taskContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
+				workContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + workInstance.getId();
+				workListContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
 				break;
-			case Instance.STATUS_RETURNED:
-				statusImage = "images/ic_state_ing.jpg";
-				statusTitle = "content.status.returned";
-				break;
-			case Instance.STATUS_RETURNED_DELAYED:
-				statusImage = "images/ic_state_ing.jpg";
-				statusTitle = "content.status.returned_delayed";
+			case SmartWork.TYPE_SCHEDULE:
+				workTypeClass = "ico_sworks";
+				targetContent = "swork_";
+				taskContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
+				workContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
+				workListContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
 				break;
 			default:
+				workTypeClass = "";
+				targetContent = "";
+				taskContextId = "";
+				workContextId = "";
+				workListContextId = "";
+				break;
+			}
+
+			if (isAssignedTask) {
+				switch (taskInstance.getStatus()) {
+				case Instance.STATUS_RUNNING:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.running";
+					break;
+				case Instance.STATUS_DELAYED_RUNNING:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.delayed_running";
+					break;
+				case Instance.STATUS_RETURNED:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.returned";
+					break;
+				case Instance.STATUS_RETURNED_DELAYED:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.returned_delayed";
+					break;
+				default:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.running";
+				}
+			} else {
 				statusImage = "images/ic_state_ing.jpg";
 				statusTitle = "content.status.running";
 			}
-		} else {
-			statusImage = "images/ic_state_ing.jpg";
-			statusTitle = "content.status.running";
-		}
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -126,16 +127,16 @@
 			class="t_name"><%=owner.getLongName()%></span> </a>
 		<%
 			if (!workInstance.getWorkSpace().getId().equals(owner.getId())) {
-					WorkSpace workSpace = workInstance.getWorkSpace();
-					String spaceContent = "";
-					String commContext = "";
-					if (workSpace.getClass().equals(Group.class)) {
-						targetContent = "group_space.sw";
-						commContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + workSpace.getId();
-					} else if (workSpace.getClass().equals(Department.class)) {
-						targetContent = "department_space.sw";
-						commContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + workSpace.getId();
-					}
+						WorkSpace workSpace = workInstance.getWorkSpace();
+						String spaceContent = "";
+						String commContext = "";
+						if (workSpace.getClass().equals(Group.class)) {
+							targetContent = "group_space.sw";
+							commContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + workSpace.getId();
+						} else if (workSpace.getClass().equals(Department.class)) {
+							targetContent = "department_space.sw";
+							commContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + workSpace.getId();
+						}
 		%>
 		<span class="arr">▶</span><a
 			href="<%=spaceContent%>?cid=<%=commContext%>"><span
@@ -148,7 +149,7 @@
 		%>
 		<%
 			switch (taskInstance.getTaskType()) {
-					case TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED:
+						case TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED:
 		%><fmt:message key="content.sentence.itask_assigned">
 			<fmt:param>
 				<a
@@ -158,7 +159,7 @@
 		</fmt:message>
 		<%
 			break;
-					case TaskInstance.TYPE_INFORMATION_TASK_FORWARDED:
+						case TaskInstance.TYPE_INFORMATION_TASK_FORWARDED:
 		%>
 		<fmt:message key="content.sentence.itask_forwarded">
 			<fmt:param>
@@ -169,7 +170,7 @@
 		</fmt:message>
 		<%
 			break;
-					case TaskInstance.TYPE_PROCESS_TASK_ASSIGNED:
+						case TaskInstance.TYPE_PROCESS_TASK_ASSIGNED:
 		%>
 		<fmt:message key="content.sentence.ptask_assigned">
 			<fmt:param>
@@ -180,7 +181,7 @@
 		</fmt:message>
 		<%
 			break;
-					case TaskInstance.TYPE_PROCESS_TASK_FORWARDED:
+						case TaskInstance.TYPE_PROCESS_TASK_FORWARDED:
 		%>
 		<fmt:message key="content.sentence.ptask_forwarded">
 			<fmt:param>
@@ -191,7 +192,7 @@
 		</fmt:message>
 		<%
 			break;
-					case TaskInstance.TYPE_SCHEDULE_TASK_ASSIGNED:
+						case TaskInstance.TYPE_SCHEDULE_TASK_ASSIGNED:
 		%>
 		<fmt:message key="content.sentence.stask_assigned">
 			<fmt:param>
@@ -202,7 +203,7 @@
 		</fmt:message>
 		<%
 			break;
-					case TaskInstance.TYPE_SCHEDULE_TASK_FORWARDED:
+						case TaskInstance.TYPE_SCHEDULE_TASK_FORWARDED:
 		%>
 		<fmt:message key="content.sentence.stask_forwarded">
 			<fmt:param>
@@ -213,7 +214,7 @@
 		</fmt:message>
 		<%
 			break;
-					case TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED:
+						case TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED:
 		%>
 		<fmt:message key="content.sentence.stask_forwarded">
 			<fmt:param>
@@ -224,7 +225,7 @@
 		</fmt:message>
 		<%
 			break;
-					case TaskInstance.TYPE_APPROVAL_TASK_FORWARDED:
+						case TaskInstance.TYPE_APPROVAL_TASK_FORWARDED:
 		%>
 		<fmt:message key="content.sentence.stask_forwarded">
 			<fmt:param>
@@ -235,23 +236,23 @@
 		</fmt:message>
 		<%
 			break;
-					default:
-						break;
-					}
-				} else {
-					if (assignedTasks != null) {
+						default:
+							break;
+						}
+					} else {
+						if (assignedTasks != null) {
 		%>
 		<fmt:message key="content.sentence.users_work_is" />
 		<%
 			boolean firstRun = true;
-						for (TaskInstance assignedTask : assignedTasks) {
-							User assignee = assignedTask.getAssignee();
-							String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + assignee.getId();
-							String assignedContextId = taskContextId + assignee.getId();
-							runningTaskName = assignedTask.getName();
-							if (firstRun) {
-								firstRun = false;
-							} else {
+							for (TaskInstance assignedTask : assignedTasks) {
+								User assignee = assignedTask.getAssignee();
+								String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + assignee.getId();
+								String assignedContextId = taskContextId + assignee.getId();
+								runningTaskName = assignedTask.getName();
+								if (firstRun) {
+									firstRun = false;
+								} else {
 		%>,
 		<%
 			}
@@ -274,20 +275,20 @@
 		<fmt:message key="content.sentence.task_is_running" />
 		<%
 			}
-					if (forwardedTasks != null) {
-						User forwardee = forwardedTasks[0].getAssignee();
-						String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + forwardee.getId();
-						String forwardedContextId = taskContextId + forwardee.getId();
-						runningTaskName = forwardedTasks[0].getName();
-						if(assignedTasks != null){
+						if (forwardedTasks != null) {
+							User forwardee = forwardedTasks[0].getAssignee();
+							String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + forwardee.getId();
+							String forwardedContextId = taskContextId + forwardee.getId();
+							runningTaskName = forwardedTasks[0].getName();
+							if (assignedTasks != null) {
 		%>
-		<fmt:message key="content.sentence.and_also"/>
-		<%					
-						}else{
-		%>
-		<fmt:message key="content.sentence.forwarded_work_is"/>
+		<fmt:message key="content.sentence.and_also" />
 		<%
-						}
+			} else {
+		%>
+		<fmt:message key="content.sentence.forwarded_work_is" />
+		<%
+			}
 		%>
 		<fmt:message key="content.sentence.and_user">
 			<fmt:param>
@@ -308,7 +309,7 @@
 		<fmt:message key="content.sentence.on_forwarded_task" />
 		<%
 			}
-				}
+					}
 		%>
 	</div>
 	<div>
@@ -321,7 +322,9 @@
 	</div>
 	<div>
 		<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
-	</div></li>
+	</div>
+</li>
 <%
+	}
 	}
 %>

@@ -8,7 +8,7 @@
 <%
 	String companyId = (String) session.getAttribute("companyId");
 	String userId = (String) session.getAttribute("userId");
-	
+
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	WorkInstance[] workInstances = smartWorks.getMyRecentInstances(companyId, userId);
 	String iconType = null;
@@ -19,37 +19,40 @@
 
 <ul>
 	<%
-		for (WorkInstance workInstance : workInstances) {
-			SmartWork work = (SmartWork) workInstance.getWork();
-			String workSpaceId = workInstance.getWorkSpace().getId();
-			User owner = workInstance.getOwner();
-			String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
-			if (workInstance.getWork().getType() == SmartWork.TYPE_PROCESS) {
-				iconType = "ico_pworks";
-				instanceContext = ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + workInstance.getId();
-				targetContent = "pwork_space.sw";
-			} else if (workInstance.getWork().getType() == SmartWork.TYPE_INFORMATION) {
-				iconType = "ico_iworks";
-				instanceContext = ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + workInstance.getId();
-				targetContent = "iwork_space.sw";
-			} else if (workInstance.getWork().getType() == SmartWork.TYPE_SCHEDULE) {
-				iconType = "ico_sworks";
-				instanceContext = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
-				targetContent = "swork_space.sw";
-			}
-			if (workSpaceId != null && !workSpaceId.equals(SmartUtil.getCurrentUser().getId())) {
-				classType = "";
-			} else {
-				classType = "js_content";
-			}
+		if (workInstances != null) {
+			for (WorkInstance workInstance : workInstances) {
+				SmartWork work = (SmartWork) workInstance.getWork();
+				String workSpaceId = workInstance.getWorkSpace().getId();
+				User owner = workInstance.getOwner();
+				String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
+				if (workInstance.getWork().getType() == SmartWork.TYPE_PROCESS) {
+					iconType = "ico_pworks";
+					instanceContext = ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + workInstance.getId();
+					targetContent = "pwork_space.sw";
+				} else if (workInstance.getWork().getType() == SmartWork.TYPE_INFORMATION) {
+					iconType = "ico_iworks";
+					instanceContext = ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + workInstance.getId();
+					targetContent = "iwork_space.sw";
+				} else if (workInstance.getWork().getType() == SmartWork.TYPE_SCHEDULE) {
+					iconType = "ico_sworks";
+					instanceContext = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
+					targetContent = "swork_space.sw";
+				}
+				if (workSpaceId != null && !workSpaceId.equals(SmartUtil.getCurrentUser().getId())) {
+					classType = "";
+				} else {
+					classType = "js_content";
+				}
 	%>
 	<li><a href="user_space.sw?cid=<%=userContext%>"><img
 			src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>"
-			border="0"></a><a
+			border="0">
+	</a><a
 		href="<%=targetContent%>?cid=<%=instanceContext%>&wid=<%=workSpaceId%>"
 		class="<%=classType%>" title="<%=work.getFullpathName()%>"><%=workInstance.getSubject()%></a>
 	</li>
 	<%
+		}
 		}
 	%>
 </ul>

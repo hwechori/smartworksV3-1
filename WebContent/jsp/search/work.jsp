@@ -13,28 +13,30 @@
 
 <ul>
 	<%
-		for (SmartWork work : works) {
-			String iconType = null;
-			String workContext = null;
-			String targetContent = null;
-			if (work.getType() == SmartWork.TYPE_PROCESS) {
-				iconType = "ico_pworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
-				targetContent = "pwork_list.sw";
-			} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
-				iconType = "ico_iworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
-				targetContent = "iwork_list.sw";
-			} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
-				iconType = "ico_sworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
-				targetContent = "swork_list.sw";
-			}
+		if (works != null) {
+			for (SmartWork work : works) {
+				String iconType = null;
+				String workContext = null;
+				String targetContent = null;
+				if (work.getType() == SmartWork.TYPE_PROCESS) {
+					iconType = "ico_pworks";
+					workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
+					targetContent = "pwork_list.sw";
+				} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
+					iconType = "ico_iworks";
+					workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
+					targetContent = "iwork_list.sw";
+				} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
+					iconType = "ico_sworks";
+					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
+					targetContent = "swork_list.sw";
+				}
 	%>
 	<li class="<%=iconType%>"><a
 		href="<%=targetContent%>?cid=<%=workContext%>" class="js_content"><%=work.getFullpathName()%></a>
 	</li>
 	<%
+		}
 		}
 	%>
 </ul>
