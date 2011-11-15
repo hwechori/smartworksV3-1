@@ -13,13 +13,15 @@
 
 <ul>
 	<%
-		for (WorkCategory workCategory : workCategories) {
+		if(workCategories != null){
+			for (WorkCategory workCategory : workCategories) {
 	%>
 	<li class="js_drill_down ico_cworks"><a
 		targetContent="worklist_by_category.sw"
 		categoryId="<%=workCategory.getId()%>"> <%=workCategory.getName()%></a>
 		<div style="display: none"></div></li>
 	<%
+			}
 		}
 	%>
 </ul>

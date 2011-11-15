@@ -14,16 +14,18 @@
 
 <ul>
 	<%
-		for (User user : users) {
-			String picName = user.getMinPicture();
-			String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
-			String targetContent = "user_space.sw";
-			String comName = user.getName();
-			String comId = user.getId();
-	%>
+		if(users != null){
+			for (User user : users) {
+				String picName = user.getMinPicture();
+				String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
+				String targetContent = "user_space.sw";
+				String comName = user.getName();
+				String comId = user.getId();
+	%>	
 	<li><a href="<%=targetContent%>?cid=<%=comContext%>&wid=<%=comId%>"><img src="<%=picName%>" border="0"><%=comName%></a>
 	</li>
 	<%
+			}
 		}
 	%>
 </ul>

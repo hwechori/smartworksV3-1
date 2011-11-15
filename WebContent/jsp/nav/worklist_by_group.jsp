@@ -5,7 +5,7 @@
 <%
 	String companyId = (String) session.getAttribute("companyId");
 	String userId = (String) session.getAttribute("userId");
-	
+
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	SmartWork[] works = smartWorks.getMyAllWorksByGroupId(companyId, userId, request.getParameter("groupId"));
 	String iconType = null;
@@ -16,21 +16,22 @@
 
 <ul>
 	<%
-		for (SmartWork work : works) {
-			if (work.getType() == SmartWork.TYPE_PROCESS) {
-				iconType = "ico_pworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
-				targetContent = "pwork_list.sw";
-			} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
-				iconType = "ico_iworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
-				targetContent = "iwork_list.sw";
-			} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
-				iconType = "ico_sworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
-				targetContent = "swork_list.sw";
-			}
-			if (work.getType() != SmartWork.TYPE_GROUP) {
+		if (works != null) {
+			for (SmartWork work : works) {
+				if (work.getType() == SmartWork.TYPE_PROCESS) {
+					iconType = "ico_pworks";
+					workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
+					targetContent = "pwork_list.sw";
+				} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
+					iconType = "ico_iworks";
+					workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
+					targetContent = "iwork_list.sw";
+				} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
+					iconType = "ico_sworks";
+					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
+					targetContent = "swork_list.sw";
+				}
+				if (work.getType() != SmartWork.TYPE_GROUP) {
 	%>
 	<li class="<%=iconType%>"><a
 		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>"><%=work.getName()%></a>
@@ -39,6 +40,7 @@
 		}
 	%>
 	<%
+		}
 		}
 	%>
 </ul>
