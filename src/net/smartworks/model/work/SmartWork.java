@@ -15,6 +15,7 @@ public class SmartWork extends Work {
 	private AccessPolicy accessPolicy = new AccessPolicy();
 	private WritePolicy writePolicy = new WritePolicy();
 	private EditPolicy editPolicy = new EditPolicy();
+	private SmartForm[] forms = null;
 	private User lastModifier;
 	private LocalDate lastModifiedDate;
 
