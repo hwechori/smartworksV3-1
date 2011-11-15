@@ -5,7 +5,7 @@ import net.smartworks.model.work.Work;
 
 public interface IWorkService {
 
-	Work[] getMyAllWorksByCategoryId(String categoryId) throws Exception;
+	Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception;
 
 	SmartWork[] getMyFavoriteWorks() throws Exception;
 
