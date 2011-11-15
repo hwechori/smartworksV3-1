@@ -132,4 +132,6 @@ public interface ISmartWorks {
 
 	public abstract Community[] getMyCommunities() throws Exception;
 
+	public abstract String createFileXml(HttpServletRequest request) throws Exception;
+
 }

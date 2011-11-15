@@ -24,7 +24,7 @@ public class MessageCond extends MisObjectCond {
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(MessageCond.class);
 	
-	protected static final String PREFIX = "Message";
+	protected static final String PREFIX = "Msg";
 	private static final String NAME = CommonUtil.toName(MessageCond.class, PREFIX);
 	
 	public static final String A_CONTENT = "content";

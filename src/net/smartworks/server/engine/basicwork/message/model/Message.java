@@ -24,7 +24,7 @@ public class Message extends MisObject {
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(Message.class);
 	
-	protected static final String PREFIX = "Message";
+	protected static final String PREFIX = "Msg";
 	private static final String NAME = CommonUtil.toName(Message.class, PREFIX);
 	
 	public static final String A_CONTENT = "content";
