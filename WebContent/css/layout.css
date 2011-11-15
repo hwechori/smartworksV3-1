@@ -334,6 +334,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 #notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; clear:both;}
 .noti_pic {float:left; margin-right:10px; padding:5px 0;}
 .noti_in {word-wrap: break-word;}
+.noti_in_bodytitle {word-wrap: break-word; padding-top:9px;} /* Body Title로 들어갈 때 */
 .noti_tit {background: url("../images/ico_notice_s.gif") no-repeat scroll 40px 2px transparent;
 		    padding:0 0 0 55px; display:block; font-weight:bold;}
 			

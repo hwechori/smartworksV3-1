@@ -8,13 +8,13 @@
 	String userId = (String) session.getAttribute("userId");
 	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkCategory[] workCategories = smartWorks.getMyWorkCategories(companyId, userId);
+	Work[] workCategories = smartWorks.getMyAllWorksByCategoryId(companyId, userId, "");
 %>
 
 <ul>
 	<%
 		if(workCategories != null){
-			for (WorkCategory workCategory : workCategories) {
+			for (Work workCategory : workCategories) {
 	%>
 	<li class="js_drill_down ico_cworks"><a
 		targetContent="worklist_by_category.sw"
