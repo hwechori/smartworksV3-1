@@ -33,8 +33,8 @@
 			<!-- 우측 버튼-->
 			<div class="txt_btn">
 				<div class="po_right">
-					<span><%=work.get %></span>
-				</div>
+<%-- 					<span><%=work.getLastModifiedDate().toLocalString() %></span>
+ --%>				</div>
 				<div class="po_right">
 					<a href="">최종수정: jisook kim</a>
 				</div>
