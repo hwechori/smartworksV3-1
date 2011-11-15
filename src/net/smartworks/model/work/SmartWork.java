@@ -2,13 +2,12 @@ package net.smartworks.model.work;
 
 public class SmartWork extends Work {
 
-	public final static int 	TYPE_GROUP 		= 11;
-	public final static int 	TYPE_INFORMATION 	= 12;
-	public final static int 	TYPE_PROCESS 		= 13;
-	public final static int 	TYPE_SCHEDULE 		= 14;
+	public final static int 	TYPE_INFORMATION 	= 11;
+	public final static int 	TYPE_PROCESS 		= 12;
+	public final static int 	TYPE_SCHEDULE 		= 13;
 	
 	private String 	fullpathName = null;
-	private Work   	myGroup = null;
+	private WorkCategory myGroup = null;
 	private WorkCategory myCategory = null;
 
 	public String getFullpathName() {
@@ -17,10 +16,10 @@ public class SmartWork extends Work {
 	public void setFullpathName(String fullpathName) {
 		this.fullpathName = fullpathName;
 	}
-	public Work getMyGroup() {
+	public WorkCategory getMyGroup() {
 		return myGroup;
 	}
-	public void setMyGroup(Work myGroup) {
+	public void setMyGroup(WorkCategory myGroup) {
 		this.myGroup = myGroup;
 	}
 	public WorkCategory getMyCategory() {
