@@ -8,18 +8,26 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
+<!-- For Development Purpose -->
+<%
+	if(session.getAttribute("companyId")==null || session.getAttribute("userId")==null){
+		session.setAttribute("companyId", "Maninsoft");
+		session.setAttribute("userId", "jskim@maninsoft.co.kr");
+	}
+	String companyId = session.getAttribute("companyId");
+	String userId = session.getAttribute("userId");
+	
+	
+	if (session.getAttribute("cid") == null) {
+		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
+	}
+%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser();
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-
-<%
-	if (session.getAttribute("cid") == null) {
-		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
-	}
-%>
 
 
 <head>
