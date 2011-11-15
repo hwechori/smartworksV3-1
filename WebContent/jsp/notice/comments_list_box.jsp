@@ -11,7 +11,7 @@
 <%
 	String companyId = (String) session.getAttribute("companyId");
 	String userId = (String) session.getAttribute("userId");
-	
+
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String sNoticeType = request.getParameter("noticeType");
 	String sLastNotice = request.getParameter("dateOfLastNotice");
@@ -20,25 +20,26 @@
 	NoticeBox noticeBox = smartWorks.getNoticeBoxForMe10(companyId, userId, noticeType, dateOfLastNotice);
 %>
 <%
-	for (NoticeMessage nMessage : (NoticeMessage[]) noticeBox.getNoticeMessages()) {
-		if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_COMMENTS) {
-			CommentsInstance commentsInstance = (CommentsInstance) nMessage.getInstance();
-			String instContext = null, targetContent = null;
-			User owner = commentsInstance.getOwner();
-			String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
-			Work work = null;
-			if (commentsInstance.getCommentsType() == CommentsInstance.COMMENTS_TYPE_ON_WORK_DESC
-					|| commentsInstance.getCommentsType() == CommentsInstance.COMMENTS_TYPE_ON_WORK_MANUAL) {
-				work = commentsInstance.getWork();
-				owner = commentsInstance.getOwner();
-				targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_LIST);
-				instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_LIST) + work.getId();
+	NoticeMessage[] noticeMessages = noticeBox.getNoticeMessages();
+	if (noticeMessages != null) {
+		for (NoticeMessage nMessage : (NoticeMessage[]) noticeBox.getNoticeMessages()) {
+			if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_COMMENTS) {
+				CommentsInstance commentsInstance = (CommentsInstance) nMessage.getInstance();
+				String instContext = null, targetContent = null;
+				User owner = commentsInstance.getOwner();
+				String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
+				Work work = null;
+				if (commentsInstance.getCommentsType() == CommentsInstance.COMMENTS_TYPE_ON_WORK_DESC
+						|| commentsInstance.getCommentsType() == CommentsInstance.COMMENTS_TYPE_ON_WORK_MANUAL) {
+					work = commentsInstance.getWork();
+					owner = commentsInstance.getOwner();
+					targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_LIST);
+					instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_LIST) + work.getId();
 %>
 <li><div class="info_img">
 		<a href="user_space.sw?cid=<%=userContext%>"
 			title="<%=owner.getLongName()%>"> <img
-			src="<%=owner.getMinPicture()%>" border="0">
-		</a>
+			src="<%=owner.getMinPicture()%>" border="0"> </a>
 	</div>
 	<div class="info_list">
 		<a href="<%=targetContent%>?cid=<%=instContext%>"><%=work.getName()%></a>
@@ -48,19 +49,19 @@
 				<a href="">X</a>
 			</div>
 		</div>
-	</div></li>
+	</div>
+</li>
 <%
 	} else if (commentsInstance.getCommentsType() == CommentsInstance.COMMENTS_TYPE_ON_WORK_INSTANCE) {
-				work = commentsInstance.getWorkInstance().getWork();
-				WorkInstance workInstance = commentsInstance.getWorkInstance();
-				targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_INSTANCE);
-				instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_INSTANCE) + workInstance.getId();
+					work = commentsInstance.getWorkInstance().getWork();
+					WorkInstance workInstance = commentsInstance.getWorkInstance();
+					targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_INSTANCE);
+					instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_INSTANCE) + workInstance.getId();
 %>
 <li><div class="info_img">
 		<a href="user_space.sw?cid=<%=userContext%>"
 			title="<%=owner.getLongName()%>"> <img
-			src="<%=owner.getMinPicture()%>" border="0">
-		</a>
+			src="<%=owner.getMinPicture()%>" border="0"> </a>
 	</div>
 	<div class="info_list">
 		<a
@@ -71,20 +72,20 @@
 				<a href="">X</a>
 			</div>
 		</div>
-	</div></li>
+	</div>
+</li>
 <%
 	} else if (commentsInstance.getCommentsType() == CommentsInstance.COMMENTS_TYPE_ON_TASK_INSTANCE) {
-				work = commentsInstance.getTaskInstance().getWorkInstance().getWork();
-				TaskInstance taskInstance = commentsInstance.getTaskInstance();
-				targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE);
-				instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE)
-						+ taskInstance.getWorkInstance().getId();
+					work = commentsInstance.getTaskInstance().getWorkInstance().getWork();
+					TaskInstance taskInstance = commentsInstance.getTaskInstance();
+					targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE);
+					instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE)
+							+ taskInstance.getWorkInstance().getId();
 %>
 <li><div class="info_img">
 		<a href="user_space.sw?cid=<%=userContext%>"
 			title="<%=owner.getLongName()%>"> <img
-			src="<%=owner.getMinPicture()%>" border="0">
-		</a>
+			src="<%=owner.getMinPicture()%>" border="0"> </a>
 	</div>
 	<div class="info_list">
 		<a
@@ -95,9 +96,11 @@
 				<a href="">X</a>
 			</div>
 		</div>
-	</div></li>
+	</div>
+</li>
 <%
 	}
+			}
 		}
 	}
 %>

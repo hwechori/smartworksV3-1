@@ -64,7 +64,7 @@
 		}
 	%>
 
-	<div class="btn_black close_message_box">
+	<div class="btn_black js_close_message">
 		<a href=""> <span class="Btn01Start"></span> <span
 			class="Btn01Center"><fmt:message
 					key="notice.message.box.close" /> </span> <span class="Btn01End"></span>

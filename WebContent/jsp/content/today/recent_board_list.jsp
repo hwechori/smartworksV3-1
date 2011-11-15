@@ -18,6 +18,7 @@
 <div id="notice">
 	<ul>
 		<%
+		if(boards != null){
 			for (BoardInstance board : boards) {
 				User owner = board.getOwner();
 				String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
@@ -59,6 +60,7 @@
 		</li>
 		<%
 			}
+		}
 		%>
 	</ul>
 </div>

@@ -12,12 +12,14 @@
 
 <ul>
 	<%
-		for (User chatter : chatters) {
+		if(chatters != null){
+			for (User chatter : chatters) {
 	%>
 	<li><img src="<%=chatter.getMinPicture()%>" border="0"><a
 		title="<%=chatter.getDepartment()%>"><%=chatter.getPosition()%> <%=chatter.getName()%></a>
 	</li>
 	<%
+			}
 		}
 	%>
 </ul>
