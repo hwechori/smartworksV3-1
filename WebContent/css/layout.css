@@ -232,7 +232,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 .form_title {padding:10px;}
 .form_title .title {float:left; font-weight:bold; font-size:14px; position:absolute;} /* 타이틀 우측으로 아이콘이 있을때 */
-.form_title .title_noico {font-weight:bold; font-size:14px; position:relative;} /* 타이틀 우측으로 아이콘이 없을때 */
+.form_title .title_noico  {font-weight:bold; font-size:14px; position:absolute;} /* 타이틀 우측으로 아이콘이 없을때 */
 .form_contents {padding:0 30px 10px; text-align: center;}
 .form_contents .title_2dep {text-align:left;} 
 .form_contents .item {width:80px;}
@@ -332,7 +332,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 /* Noice */
 #notice {clear:both; margin:0 30px 5px 5px; padding-top:10px;}
 #notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; clear:both;}
-.noti_pic {float:left; margin-right:10px; padding-top:3px; height:40px;}
+.noti_pic {float:left; margin-right:10px; padding:5px 0;}
 .noti_in {word-wrap: break-word;}
 .noti_tit {background: url("../images/ico_notice_s.gif") no-repeat scroll 40px 2px transparent;
 		    padding:0 0 0 55px; display:block; font-weight:bold;}
@@ -399,7 +399,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
     padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
 	
 /* 사람지정 */
-.user_select {background: none repeat scroll 0 0 #E5F3FF; border: 1px solid #CBE6FF; margin: 2px 2px 0 2px;}    
+    
 
 /* Text style */
 .t_red {color:#d84a4a;}
