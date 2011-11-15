@@ -123,9 +123,9 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .nav_list {width:226px;}
 .nav_current {color:#fcab4c; text-decoration:underline;}
 .ico_pworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; padding:1px 0 2px 19px; line-height:18px;}
-.ico_cworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; hieght:20px; padding:1px 0px 2px 19px; line-hieght:18px;}
-.ico_sworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; hieght:20px; padding:1px 0 2px 19px; line-hieght:18px;}
-.ico_gworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; hieght:20px; padding:1px 0 2px 19px; line-hieght:18px;}
+.ico_cworks {background: url("../images/ico_category.gif") no-repeat left top transparent; hieght:20px; padding:1px 0px 2px 19px; line-hieght:18px;}
+.ico_sworks {background: url("../images/ico_swoks.gif") no-repeat left top transparent; hieght:20px; padding:1px 0 2px 19px; line-hieght:18px;}
+.ico_gworks {background: url("../images/ico_category.gif") no-repeat left top transparent; hieght:20px; padding:1px 0 2px 19px; line-hieght:18px;}
 .ico_iworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; padding:1px 0 2px 19px; line-height:18px;}
 .ico_depart {background: url("../images/ico_group.gif") no-repeat left top transparent; height:28px; padding:3px 0 0 28px;}
 .ico_pe01 {background: url("../images/ico_pe01.gif") no-repeat 10px top transparent; height:28px; padding:3px 0 0 38px;}
@@ -403,7 +403,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
     
 
 /* Text style */
-.t_red {color:#d84a4a;}
+.t_red {color:#e54b4b;}
+.t_up_num {color:#e54b4b; font-weight:bold;}
 .t_bold {font-weight:bold;}
 .t_gbold {color:#656565; font-weight:bold;}
 .t_name {color:#23579e;}
