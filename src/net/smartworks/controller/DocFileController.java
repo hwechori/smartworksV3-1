@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -41,7 +42,8 @@ public class DocFileController {
 		this.smartworks = smartworks;
 	}
 
-	@RequestMapping("/create_file_xml")
+	@RequestMapping(value = "/create_file_xml", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
 	public String createFileXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String groupId = "";
@@ -51,7 +53,8 @@ public class DocFileController {
 		return groupId;
 	}
 
-	@RequestMapping("/find_file_group")
+	@RequestMapping(value = "/find_file_group", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody List<IFileModel> findFileGroup(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		List<IFileModel> list = new ArrayList<IFileModel>();
