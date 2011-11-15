@@ -47,7 +47,13 @@ public class ModelConverter {
 			Map<String, WorkCategory> pkgCtgPathMap = getPkgCtgInfoMapByPackageId(pkg);
 			work.setMyCategory(pkgCtgPathMap.get("category"));
 			work.setMyGroup(pkgCtgPathMap.get("group"));
-				
+			if (pkg.getType().equalsIgnoreCase("PROCESS")) {
+				work.setType(SmartWork.TYPE_PROCESS);	
+			} else if (pkg.getType().equalsIgnoreCase("SINGLE")) {
+				work.setType(SmartWork.TYPE_INFORMATION);	
+			} else if (pkg.getType().equalsIgnoreCase("GANTT")) {
+				work.setType(SmartWork.TYPE_SCHEDULE);	
+			}
 			work.setDesc(pkgDesc);
 			
 			return work;
@@ -68,13 +74,8 @@ public class ModelConverter {
 			WorkCategory[] workCtgs = new WorkCategory[ctgs.length];
 			int i = 0;
 			for (CtgCategory ctg : ctgs) {
-				
-				String ctgId = ctg.getObjId();
-				String ctgName = ctg.getName();
-				String ctgDesc = ctg.getDescription();
-				
-				WorkCategory workCtg = new WorkCategory(ctgId, ctgName);
-				workCtg.setDesc(ctgDesc);
+
+				WorkCategory workCtg = (WorkCategory)objectToObject(ctg);
 				workCtgs[i] = workCtg; 
 				i++;
 			}
@@ -87,18 +88,12 @@ public class ModelConverter {
 			int i = 0;
 			for (PkgPackage pkg : pkgs) {
 				
-				String pkgId = pkg.getObjId();
-				String pkgName = pkg.getName();
-				String pkgDesc = pkg.getDescription();
-				
-				SmartWork work = new SmartWork(pkgId, pkgName);
+				SmartWork work = (SmartWork)objectToObject(pkg);
 				
 				Map<String, WorkCategory> pkgCtgPathMap = getPkgCtgInfoMapByPackageId(pkg);
 
 				work.setMyCategory(pkgCtgPathMap.get("category"));
 				work.setMyGroup(pkgCtgPathMap.get("group"));
-				
-				work.setDesc(pkgDesc);
 				
 				works[i] = work; 
 				i++;
@@ -129,5 +124,4 @@ public class ModelConverter {
 		}
 		return resultMap;
 	}
-	
 }
