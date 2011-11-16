@@ -8,9 +8,12 @@
 
 package net.smartworks.server.engine.basicwork.notice.model;
 
+import java.util.Date;
+
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
 
 import org.apache.commons.logging.Log;
@@ -30,11 +33,27 @@ public class Notice extends MisObject {
 	public static final String A_TITLE = "title";
 	public static final String A_CONTENT = "content";
 	public static final String A_FILEGROUPID = "fileGroupId";
+	public static final String A_STARTDATE = "startDate";
+	public static final String A_ENDDATE = "endDate";
 
 	private String title;
 	private String content;
 	private String fileGroupId;
+	private Date startDate;
+	private Date endDate;
 
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 	public String getFileGroupId() {
 		return fileGroupId;
 	}
@@ -73,6 +92,8 @@ public class Notice extends MisObject {
 		appendAttributeString(A_TITLE, title, buf);
 		appendAttributeString(A_CONTENT, content, buf);
 		appendAttributeString(A_FILEGROUPID, fileGroupId, buf);
+		appendAttributeString(A_STARTDATE, startDate, buf);
+		appendAttributeString(A_ENDDATE, endDate, buf);
 		
 		return buf.toString();
 	}
@@ -98,11 +119,15 @@ public class Notice extends MisObject {
 			Node title = attrMap.getNamedItem(A_TITLE);
 			Node content = attrMap.getNamedItem(A_CONTENT);
 			Node fileGroupId = attrMap.getNamedItem(A_FILEGROUPID);
-			
+			Node startDate = attrMap.getNamedItem(A_STARTDATE);
+			Node endDate = attrMap.getNamedItem(A_ENDDATE);
+
 			if (content != null)
 				obj.setTitle(title.getNodeValue());
 				obj.setContent(content.getNodeValue());
 				obj.setFileGroupId(fileGroupId.getNodeValue());
+				obj.setStartDate(DateUtil.toDate(startDate.getNodeValue()));
+				obj.setEndDate(DateUtil.toDate(endDate.getNodeValue()));
 		}
 		//element값 설정
 		

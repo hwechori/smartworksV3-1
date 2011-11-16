@@ -72,13 +72,15 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 			} else {
 				StringBuffer buf = new StringBuffer();
 				buf.append("update SWBNotice set ");
-				buf.append(" title=:title, content=:content, fileGroupId=:fileGroupId,");
+				buf.append(" title=:title, content=:content, fileGroupId=:fileGroupId, startDate:startDate, endDate:endDate,");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser, modificationUser=:modificationUser,");
 				buf.append(" modificationDate=:modificationDate where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
 				query.setString(Notice.A_TITLE, obj.getTitle());
 				query.setString(Notice.A_CONTENT, obj.getContent());
 				query.setString(Notice.A_FILEGROUPID, obj.getFileGroupId());
+				query.setTimestamp(Notice.A_STARTDATE, obj.getStartDate());
+				query.setTimestamp(Notice.A_ENDDATE, obj.getEndDate());
 				query.setTimestamp(Notice.A_CREATIONDATE, obj.getCreationDate());
 				query.setString(Notice.A_CREATIONUSER, obj.getCreationUser());
 				query.setString(Notice.A_MODIFICATIONUSER, obj.getModificationUser());

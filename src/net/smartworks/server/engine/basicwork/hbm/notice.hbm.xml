@@ -8,6 +8,8 @@
 		<property name="title" column="title" type="string" length="100"/>
 		<property name="content" column="content" type="string" length="2000"/>
 		<property name="fileGroupId" column="fileGroupId" type="string" length="255"/>
+		<property name="startDate" column="startDate" type="timestamp"/>
+		<property name="endDate" column="endDate" type="timestamp"/>
 		<property name="creationUser" column="creator" type="string" length="50"/>
 		<property name="creationDate" column="createdTime" type="timestamp"/>
 		<property name="modificationUser" column="modifier" type="string" length="50"/>	

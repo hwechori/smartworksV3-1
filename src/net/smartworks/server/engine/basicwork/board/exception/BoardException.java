@@ -8,6 +8,22 @@
 
 package net.smartworks.server.engine.basicwork.board.exception;
 
-public class BoardException {
+import net.smartworks.server.engine.common.exception.SwException;
+
+public class BoardException extends SwException {
+
+	private static final long serialVersionUID = 1L;
+	public BoardException() {
+		super();
+	}
+	public BoardException(String message) {
+		super(message);
+	}
+	public BoardException(Throwable t) {
+		super(t);
+	}
+	public BoardException(String message, Throwable t) {
+		super(message, t);
+	}
 
 }
