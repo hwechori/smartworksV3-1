@@ -9,7 +9,6 @@
 package net.smartworks.server.engine.basicwork.notice.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
-import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.model.MisObjectCond;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
@@ -30,17 +29,17 @@ public class NoticeCond extends MisObjectCond {
 
 	public static final String A_TITLE = "title";
 	public static final String A_CONTENT = "content";
-	public static final String A_PRIORITY = "priority";
+	public static final String A_FILEGROUPID = "fileGroupId";
 
 	private String title;
 	private String content;
-	private String priority;
+	private String fileGroupId;
 
-	public String getPriority() {
-		return priority;
+	public String getFileGroupId() {
+		return fileGroupId;
 	}
-	public void setPriority(String priority) {
-		this.priority = priority;
+	public void setFileGroupId(String fileGroupId) {
+		this.fileGroupId = fileGroupId;
 	}
 	public String getTitle() {
 		return title;
@@ -73,7 +72,7 @@ public class NoticeCond extends MisObjectCond {
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_TITLE, title, buf);
 		appendAttributeString(A_CONTENT, content, buf);
-		appendAttributeString(A_PRIORITY, priority, buf);
+		appendAttributeString(A_FILEGROUPID, fileGroupId, buf);
 		
 		return buf.toString();
 	}
@@ -92,18 +91,18 @@ public class NoticeCond extends MisObjectCond {
 		else
 			obj = (NoticeCond)baseObj;
 		//부모 attributes, elements값 설정
-		MisObject.toObject(node, obj);
+		MisObjectCond.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
 			Node title = attrMap.getNamedItem(A_TITLE);
 			Node content = attrMap.getNamedItem(A_CONTENT);
-			Node priority = attrMap.getNamedItem(A_PRIORITY);
+			Node fileGroupId = attrMap.getNamedItem(A_FILEGROUPID);
 			
 			if (content != null)
 				obj.setTitle(title.getNodeValue());
 				obj.setContent(content.getNodeValue());
-				obj.setPriority(priority.getNodeValue());
+				obj.setFileGroupId(fileGroupId.getNodeValue());
 		}
 		//element값 설정
 		

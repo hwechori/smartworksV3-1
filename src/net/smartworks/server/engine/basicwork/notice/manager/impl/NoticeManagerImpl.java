@@ -72,13 +72,13 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 			} else {
 				StringBuffer buf = new StringBuffer();
 				buf.append("update SWBNotice set ");
-				buf.append(" title=:title, content=:content, priority=:priority,");
+				buf.append(" title=:title, content=:content, fileGroupId=:fileGroupId,");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser, modificationUser=:modificationUser,");
 				buf.append(" modificationDate=:modificationDate where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
 				query.setString(Notice.A_TITLE, obj.getTitle());
 				query.setString(Notice.A_CONTENT, obj.getContent());
-				query.setString(Notice.A_PRIORITY, obj.getPriority());
+				query.setString(Notice.A_FILEGROUPID, obj.getFileGroupId());
 				query.setTimestamp(Notice.A_CREATIONDATE, obj.getCreationDate());
 				query.setString(Notice.A_CREATIONUSER, obj.getCreationUser());
 				query.setString(Notice.A_MODIFICATIONUSER, obj.getModificationUser());
@@ -119,7 +119,7 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 		String objId = null;
 		String title = null;
 		String content = null;
-		String priority = null;
+		String fileGroupId = null;
 		String creationUser = null;
 		Date creationDate = null;
 		String modificationUser = null;
@@ -129,7 +129,7 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 				objId = cond.getObjId();
 				title = cond.getTitle();
 				content = cond.getContent();
-				priority = cond.getPriority();
+				fileGroupId = cond.getFileGroupId();
 				creationUser = cond.getCreationUser();
 				creationDate = cond.getCreationDate();
 				modificationUser = cond.getModificationUser();
@@ -145,8 +145,8 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 					buf.append(" and obj.title = :title");
 				if (content != null) 
 					buf.append(" and obj.content = :content");
-				if (priority != null) 
-					buf.append(" and obj.priority = :priority");
+				if (fileGroupId != null) 
+					buf.append(" and obj.fileGroupId = :fileGroupId");
 				if (creationUser != null)
 					buf.append(" and obj.creationUser = :creationUser");
 				if (creationDate != null)
@@ -166,8 +166,8 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 						query.setString("title", title);
 					if (content != null)
 						query.setString("content", content);
-					if (priority != null)
-						query.setString("priority", priority);
+					if (fileGroupId != null)
+						query.setString("fileGroupId", fileGroupId);
 					if (creationUser != null)
 						query.setString("creationUser", creationUser);
 					if (creationDate != null)
@@ -204,7 +204,7 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 			if (level.equals(LEVEL_ALL)) {
 				buf.append(" obj");
 			} else {
-				buf.append(" obj.objId, obj.title, obj.content, obj.priority,");
+				buf.append(" obj.objId, obj.title, obj.content, obj.fileGroupId,");
 				buf.append(" obj.creationUser, obj.creationDate, obj.modificationUser, obj.modificationDate");
 			}
 			Query query = this.appendQuery(buf, cond);
@@ -220,7 +220,7 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 					obj.setObjId((String)fields[j++]);
 					obj.setTitle((String)fields[j++]);
 					obj.setContent((String)fields[j++]);
-					obj.setPriority((String)fields[j++]);
+					obj.setFileGroupId((String)fields[j++]);
 					obj.setCreationUser(((String)fields[j++]));
 					obj.setCreationDate(((Timestamp)fields[j++]));
 					obj.setModificationUser(((String)fields[j++]));

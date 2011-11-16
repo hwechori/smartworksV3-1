@@ -9,7 +9,6 @@
 package net.smartworks.server.engine.basicwork.data.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
-import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.model.MisObjectCond;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
@@ -110,7 +109,7 @@ public class DataCond extends MisObjectCond {
 		else
 			obj = (DataCond)baseObj;
 		//부모 attributes, elements값 설정
-		MisObject.toObject(node, obj);
+		MisObjectCond.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
