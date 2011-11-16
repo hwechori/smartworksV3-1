@@ -3,8 +3,8 @@
 
 
 /* 상세보기- 타이틀 아이콘*/
-.body_title { padding:10px; height: 60px} /* 컨텐츠 페이지 타이틀*/
-.body_title_pic { padding:10px;} /* 컨텐츠 페이지 타이틀 - 사람사진이 들어갈 경우 */
+.body_title { padding:10px 15px;} /* 컨텐츠 페이지 타이틀*/
+.body_title_pic { padding:10px 15px;} /* 컨텐츠 페이지 타이틀 - 사람사진이 들어갈 경우 */
 .body_title_pic .title_picico {font-size: 14px; font-weight: bold;} /* 컨텐츠 페이지 타이틀 - 사람사진이 들어갈 경우: 제목 텍스트 */
 
 .body_title .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
@@ -16,30 +16,28 @@
 
 
 /* 상세보기 컨텐츠 */
-.contents_space {padding: 0 20px 10px 20px;}
+.contents_space {padding: 0 25px 10px;}
 .contents_space .det_title {padding:3px 0;} /* 타이틀 */
 .contents_space .det_contents {}
-.contents_space .det_contents table { padding:10px;}
 
 /* Replay Info */
 .info_repl {vertical-align:bottom; position:absolute;}
 
 /* 상세보기 List */
 .contents_upspace { padding:5px 0 0 0;}
-.replay { margin:0 15px;}
-.replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:3px 0;}
-.replay .end {border-bottom: 0px; vertical-align: middle;}
-.replay_upload { padding:10px 0; margin:0 15px;}
+.replay { margin:10px 15px 0;}
+.list_replay {margin:10px 0;} /* 리스트 페이지 댓글 */
+.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:3px 0;}
+.list_replay .end .replay .end {border-bottom: 0px; vertical-align: middle;}
 
 
 
 /* 목록 타이틀 */
 .list_title_space {background-color:#ededed; margin-top:10px; padding: 5px;}
 .list_title_space .title { font-size:14px; font-weight:bold;  padding-top: 3px;}
-.list_contents table {padding:5px;} 
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0;}
-.list_contents table .r_line {border-right:1px solid #DCDFE0; padding:2px 0;}
-.list_contents table th {text-align:right; padding:5px 15px;}
+.list_contents table .r_line {border-right:1px solid #DCDFE0;}
+.list_contents table th {text-align:center; padding:3px 15px;}
 .list_contents table td {padding-left:10px; }
 
 /* 상세보기 포인트 */

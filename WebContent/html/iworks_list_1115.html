@@ -13,14 +13,18 @@
 <div id="content">
 
 <!-- 컨텐츠 레이아웃-->
-<div class="up_wrap">
-    	<div class="form_wrap up up_padding">
+<div class="section_portlet">
+    <div class="portlet_t">
+      <div class="portlet_tl"></div>
+    </div>
+    <div class="portlet_l" style="display: block;">
+    <ul class="portlet_r" style="display: block;">
             
             <!-- 타이틀 -->
             	<div class="body_title">
-                	<div class="body_titi_iworks title_noico">신제품 기획 TFT > TFT 회의록 </div> 
+                	<div class="body_titi_iworks title">신제품 기획 TFT > TFT 회의록 </div> 
                     
-                    <!-- 우측 버튼-->
+            <!-- 우측 버튼-->
             <div class="txt_btn">
                 <div class="po_right"><a href="">2011.11.14 16:00</a></div>
                 <div class="po_right"><a href="">최종수정: jisook kim</a></div>
@@ -99,7 +103,7 @@
             <!-- 업무 설명 영역 //-->
            
            <!-- 댓글 -->
-    <div class="replay">
+    <div class="list_replay">
         <ul>
         <li>
                 <div class="noti_pic"><img src="../images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
@@ -115,7 +119,7 @@
                     <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^</div>
                 </div>
         </li>
-        <li class="end">
+        <li>
             <div class="det_title">
                 <div class="noti_pic"><img src="../images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
                 <div class="noti_in">
@@ -126,6 +130,11 @@
         </li>
         </ul>
     </div>
+    
+    <div class="list_replay">
+    <textarea class="up_textarea" rows="5" cols="" name="txtaEventContent">궁금한 점을 올려주세요!</textarea>
+    </div>
+    
     <!-- 댓글 //-->
     
     <!-- 라인 -->
@@ -170,7 +179,7 @@
             
            
         <!-- 목록 테이블 -->   
-        <div class="up list_contents">      
+        <div class="list_contents">      
                 <table>
                     <colgroup>
                         <col class="item">
@@ -179,8 +188,8 @@
                     </colgroup>
                 <tbody>
                     <tr>
-                        <th>등록자</th>
-                        <th>제 목</th>
+                        <th class="r_line">등록자</th>
+                        <th class="r_line">제 목</th>
                         <th>수정자/수정일</th>
                     </tr>
                     <tr>
@@ -279,8 +288,10 @@
 
     
     
+</ul>
 </div>
-</div>
+<div class="portlet_b" style="display: block;"></div>
+</div> 
 <!-- 컨텐츠 레이아웃//-->
 
 </div>

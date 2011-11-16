@@ -258,7 +258,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 .ico_posi {position:absolute; right:0; top:0;}
 
-.glo_btn_space {background-color:#FFF; padding:8px 10px; margin:0 10px; height: 22px; border-top: 1px solid #c7c7c7;}
+.glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 15px; height: 22px; border-top: 1px solid #c7c7c7;}
 .glo_btn_space .btn_finish {float:right; padding-right:10px;}
 
 .posit_works {left:15px; top:1px; position:relative; z-index:20;}
@@ -291,16 +291,16 @@ body, #nav {background: url("../images/bg_body.jpg");}
     position:relative; height:100%; width:100%; z-index:10;}	
 .portlet_r {
     background: url("../images/bg_portlet_r.jpg") repeat-y scroll 100% 0 transparent;
-    margin-top:-1px; height:100%; width:100%; float:none;
+    height:100%; width:100%; float:none;
 }
 	
 .portlet_b {
     background: url("../images/bg_portlet_b.jpg") no-repeat scroll 100% 100% transparent;
-    height:16px; margin-left:10px; display:inline-block; }
+    height:12px; margin-left:10px; display:inline-block; }
 	
 .portlet_t {
     background: url("../images/bg_portlet.jpg") repeat-y scroll 100% -319px transparent;
-    clea:both; width:100%; height:16px; overflow:hidden; position:relative;}
+    clea:both; width:100%; height:12px; overflow:hidden; position:relative;}
 		
 .portlet_t .portlet_tl {
     background: url("../images/bg_portlet.jpg") repeat-y scroll 0 -319px transparent;
