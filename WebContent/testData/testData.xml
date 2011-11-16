@@ -67,3 +67,93 @@
 		<space head="20" left="20" right="20" top="20" bottom="10" />
 	</graphic>
 </form>
+<form id="frm_board_SYSTEM" name="지출결의서" title="지출결의서" version="1">
+	<children>
+		<formEntity id="2" name="제목" required="true" system="true"
+			systemName="title" systemType="string">
+			<children />
+			<format type="textInput" viewingType="textInput" />
+			<graphic cellSize="1" contentWidth="240" fitToScreen="false"
+				fitWidth="false" height="23" hidden="false" labelWidth="101"
+				listEditable="false" multipleUsers="false" readOnly="false"
+				textAlign="left" verticalScrollPolicy="true" />
+		</formEntity>
+		<formEntity id="4" name="중요도" required="true" system="true"
+			systemName="priority" systemType="string">
+			<children />
+			<format type="radioButton" viewingType="radioButton">
+				<list listType="static" refCodeCategoryId="null"
+					refCodeCategoryName="null" type="">
+					<staticItems>
+						<staticItem>상</staticItem>
+						<staticItem>중</staticItem>
+						<staticItem>하</staticItem>
+					</staticItems>
+				</list>
+			</format>
+			<graphic cellSize="1" contentWidth="278" fitToScreen="false"
+				fitWidth="false" height="23" hidden="false" labelWidth="101"
+				listEditable="false" multipleUsers="false" readOnly="false"
+				textAlign="left" verticalScrollPolicy="true" />
+		</formEntity>
+		<formEntity id="6" name="내용" required="true" system="true"
+			systemName="content" systemType="text">
+			<children />
+			<format type="richEditor" viewingType="richEditor" />
+			<graphic cellSize="1" contentWidth="633" fitToScreen="false"
+				fitWidth="false" height="97" hidden="false" labelWidth="101"
+				listEditable="false" multipleUsers="false" readOnly="false"
+				textAlign="left" verticalScrollPolicy="true" />
+		</formEntity>
+		<formEntity id="14" name="첨부파일" required="false" system="true"
+			systemName="filegroupid" systemType="string">
+			<children />
+			<format type="fileField" viewingType="fileField" />
+			<graphic cellSize="1" contentWidth="348" fitToScreen="false"
+				fitWidth="false" height="23" hidden="false" labelWidth="101"
+				listEditable="false" multipleUsers="false" readOnly="false"
+				textAlign="left" verticalScrollPolicy="true" />
+		</formEntity>
+		<formEntity id="18" name="전체공지" required="false" system="false"
+			systemType="boolean">
+			<children />
+			<format type="checkBox" viewingType="checkBox" />
+			<graphic cellSize="1" contentWidth="82" fitToScreen="false"
+				fitWidth="false" height="23" hidden="false" labelWidth="101"
+				listEditable="false" multipleUsers="false" readOnly="false"
+				textAlign="left" verticalScrollPolicy="true" />
+		</formEntity>
+	</children>
+	<mappingForms />
+	<mappingServices />
+	<layout type="grid_layout">
+		<columns>
+			<gridColumn labelSize="101.34800550206327" size="454.165749656121" />
+			<gridColumn labelSize="101.34800550206327" size="454.165749656121" />
+		</columns>
+		<gridRow size="30">
+			<gridCell fieldId="2" gridColumnIndex="0" rowSpan="1"
+				size="454.165749656121" span="2" />
+		</gridRow>
+		<gridRow size="30">
+			<gridCell fieldId="4" gridColumnIndex="0" rowSpan="1"
+				size="454.165749656121" span="2" />
+		</gridRow>
+		<gridRow size="104.5">
+			<gridCell fieldId="6" gridColumnIndex="0" rowSpan="1"
+				size="454.165749656121" span="2" />
+		</gridRow>
+		<gridRow size="30">
+			<gridCell fieldId="18" gridColumnIndex="0" rowSpan="1" size="0"
+				span="2" />
+		</gridRow>
+		<gridRow size="30">
+			<gridCell fieldId="14" gridColumnIndex="0" rowSpan="1" size="0"
+				span="2" />
+		</gridRow>
+	</layout>
+	<graphic currentEntityNum="19" currentMappingNum="0" height="392"
+		width="923">
+		<space />
+	</graphic>
+</form> 

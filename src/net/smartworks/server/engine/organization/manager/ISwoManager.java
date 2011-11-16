@@ -153,4 +153,6 @@ public interface ISwoManager {
 
 	public List getOrganization(String deptId) throws SwoException;
 
+	public String getUserDispName(String userId) throws SwoException;
+
 }

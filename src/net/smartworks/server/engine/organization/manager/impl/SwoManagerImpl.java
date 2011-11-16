@@ -11,8 +11,10 @@ package net.smartworks.server.engine.organization.manager.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
@@ -39,6 +41,8 @@ import net.smartworks.server.engine.organization.model.SwoUserCond;
 import org.hibernate.Query;
 
 public class SwoManagerImpl extends AbstractManager implements ISwoManager {
+
+	private Map<String, SwoUser> userCache = new Hashtable<String, SwoUser>();
 
 	public SwoManagerImpl() {
 		super();
@@ -1946,6 +1950,26 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			list = new ArrayList();
 		}
 		return list;
+	}
+
+	public SwoUser retrieveUser(String userId, String id) throws SwoException {
+		
+		if(this.userCache.containsKey(id)) {
+			return (SwoUser)this.userCache.get(id);
+			
+		} else {
+			SwoUser user = (SwoUser)this.getHibernateTemplate().get(SwoUser.class, userId);
+			if(user != null)
+				this.userCache.put(id, user);
+			
+			return user;
+		}
+	}
+
+	public String getUserDispName(String userId) throws SwoException {
+
+		SwoUser user = this.retrieveUser(userId, userId);
+		return user != null ? (user.getPosition() + " " + user.getName()) : null;
 	}
 
 }
