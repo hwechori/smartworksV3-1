@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.docfile.model" default-lazy="false">
+<!-- 	<class name="DocFile" table="DOCFile">
+		<id name="id" column="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="companyId" type="string" length="30"/>
+		<property name="type" type="string" length="255"/>
+		<property name="fileName" column="fileName" type="string" length="100"/>
+		<property name="filePath" column="filePath" type="string" length="200"/>
+		<property name="fileSize" column="fileSize" type="long" length="2000"/>
+		<property name="writtenTime" column="writtenTime" type="timestamp"/>
+	</class> -->
+	<class name="HbDocumentModel" table="SWDocument">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="assigned"/>
+		</id>
+		<property name="title" column="title" type="string" length="255"/>
+		<property name="code" column="code" type="string" length="255"/>
+		<property name="ownerDept" column="ownerDept" type="string" length="50"/>
+		<property name="ownerUser" column="ownerUser" type="string" length="50"/>
+		<property name="fileGroupId" column="fileGroupId" type="string" length="50"/>
+		<property name="refType" column="refType" type="int"/>
+		<property name="refId" column="refId" type="string" length="50"/>
+	</class>
+		
+	<class name="HbFileModel" table="SWFile">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="assigned"/>
+		</id>
+		<property name="fileName" column="fileName" type="string" length="255"/>
+		<property name="filePath" column="filePath" type="string" length="500"/>
+		<property name="type" column="type" type="string" length="255"/>
+		<property name="fileSize" column="fileSize" type="long"/>
+		<property name="writtenTime" column="writtenTime" type="timestamp"/>
+	</class>
+</hibernate-mapping>

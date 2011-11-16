@@ -18,6 +18,10 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.sun.org.apache.xpath.internal.XPathAPI;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 public class XmlUtil {
 	public static final String ENCODING_UTF8 = "UTF-8";
 	public static final String ENCODING_EUCKR = "EUC-KR";
@@ -166,4 +170,17 @@ public class XmlUtil {
 		Document doc = db.parse(is);
 		return doc;
 	}
+
+	public static String beanToXmlString(String rootNodeName, Object bean, Class clazz) throws Exception {
+		XStream nodeXs = new XStream(new DomDriver());
+		nodeXs.alias(rootNodeName, clazz);
+		StringWriter writer = new StringWriter();
+		nodeXs.toXML(bean, writer);
+		return writer.toString();
+	}
+
+	public static Node getXpathNode(Node node, String xpath) throws Exception {
+		return XPathAPI.selectSingleNode(node, xpath);
+	}
+
 }

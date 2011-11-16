@@ -39,7 +39,7 @@
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider>
 			<jdbc-user-service data-source-ref="misDs" 
-			users-by-username-query="select * from sworguser where id=?"
+			users-by-username-query="select id, passwd, 1 from sworguser where id=?"
 			authorities-by-username-query="select name, 'ROLE_USER' from sworguser where id=?"			
 			/>
 		</authentication-provider>
