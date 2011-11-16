@@ -71,13 +71,14 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 				set(obj);
 			} else {
 				StringBuffer buf = new StringBuffer();
-				buf.append("update Notice set ");
-				buf.append(" title=:title, content=:content,");
+				buf.append("update SWBNotice set ");
+				buf.append(" title=:title, content=:content, priority=:priority,");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser, modificationUser=:modificationUser,");
 				buf.append(" modificationDate=:modificationDate where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
 				query.setString(Notice.A_TITLE, obj.getTitle());
 				query.setString(Notice.A_CONTENT, obj.getContent());
+				query.setString(Notice.A_PRIORITY, obj.getPriority());
 				query.setTimestamp(Notice.A_CREATIONDATE, obj.getCreationDate());
 				query.setString(Notice.A_CREATIONUSER, obj.getCreationUser());
 				query.setString(Notice.A_MODIFICATIONUSER, obj.getModificationUser());
@@ -118,6 +119,7 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 		String objId = null;
 		String title = null;
 		String content = null;
+		String priority = null;
 		String creationUser = null;
 		Date creationDate = null;
 		String modificationUser = null;
@@ -127,12 +129,13 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 				objId = cond.getObjId();
 				title = cond.getTitle();
 				content = cond.getContent();
+				priority = cond.getPriority();
 				creationUser = cond.getCreationUser();
 				creationDate = cond.getCreationDate();
 				modificationUser = cond.getModificationUser();
 				modificationDate = cond.getModificationDate();
 			}
-			buf.append(" from Notice obj");
+			buf.append(" from SWBNotice obj");
 			buf.append(" where obj.objId is not null");
 			//TODO 시간 검색에 대한 확인 필요
 			if (cond != null) {
@@ -142,6 +145,8 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 					buf.append(" and obj.title = :title");
 				if (content != null) 
 					buf.append(" and obj.content = :content");
+				if (priority != null) 
+					buf.append(" and obj.priority = :priority");
 				if (creationUser != null)
 					buf.append(" and obj.creationUser = :creationUser");
 				if (creationDate != null)
@@ -161,6 +166,8 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 						query.setString("title", title);
 					if (content != null)
 						query.setString("content", content);
+					if (priority != null)
+						query.setString("priority", priority);
 					if (creationUser != null)
 						query.setString("creationUser", creationUser);
 					if (creationDate != null)
@@ -197,7 +204,7 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 			if (level.equals(LEVEL_ALL)) {
 				buf.append(" obj");
 			} else {
-				buf.append(" obj.objId, obj.title, obj.content,");
+				buf.append(" obj.objId, obj.title, obj.content, obj.priority,");
 				buf.append(" obj.creationUser, obj.creationDate, obj.modificationUser, obj.modificationDate");
 			}
 			Query query = this.appendQuery(buf, cond);
@@ -213,6 +220,7 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 					obj.setObjId((String)fields[j++]);
 					obj.setTitle((String)fields[j++]);
 					obj.setContent((String)fields[j++]);
+					obj.setPriority((String)fields[j++]);
 					obj.setCreationUser(((String)fields[j++]));
 					obj.setCreationDate(((Timestamp)fields[j++]));
 					obj.setModificationUser(((String)fields[j++]));

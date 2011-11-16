@@ -11,8 +11,9 @@ package net.smartworks.server.engine.basicwork.notice.manager;
 import net.smartworks.server.engine.basicwork.notice.exception.NoticeException;
 import net.smartworks.server.engine.basicwork.notice.model.Notice;
 import net.smartworks.server.engine.basicwork.notice.model.NoticeCond;
+import net.smartworks.server.engine.common.manager.IManager;
 
-public interface INoticeManager {
+public interface INoticeManager extends IManager {
 
 	public Notice getNotice(String user, String id, String level) throws NoticeException;
 	public Notice getNotice(String user, NoticeCond cond, String level) throws NoticeException;

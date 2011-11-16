@@ -71,7 +71,7 @@ public class MessageManagerImpl extends AbstractManager implements IMessageManag
 				set(obj);
 			} else {
 				StringBuffer buf = new StringBuffer();
-				buf.append("update MsgMessage set ");
+				buf.append("update SWBMessage set ");
 				buf.append(" content=:content, targetUser=:targetUser,");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser, modificationUser=:modificationUser,");
 				buf.append(" modificationDate=:modificationDate where objId=:objId");
@@ -132,7 +132,7 @@ public class MessageManagerImpl extends AbstractManager implements IMessageManag
 				modificationUser = cond.getModificationUser();
 				modificationDate = cond.getModificationDate();
 			}
-			buf.append(" from MsgMessage obj");
+			buf.append(" from SWBMessage obj");
 			buf.append(" where obj.objId is not null");
 			//TODO 시간 검색에 대한 확인 필요
 			if (cond != null) {
