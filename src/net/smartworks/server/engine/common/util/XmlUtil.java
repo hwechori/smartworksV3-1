@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.sun.org.apache.xpath.internal.XPathAPI;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -176,6 +177,10 @@ public class XmlUtil {
 		StringWriter writer = new StringWriter();
 		nodeXs.toXML(bean, writer);
 		return writer.toString();
+	}
+
+	public static Node getXpathNode(Node node, String xpath) throws Exception {
+		return XPathAPI.selectSingleNode(node, xpath);
 	}
 
 }
