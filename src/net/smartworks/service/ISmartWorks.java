@@ -18,6 +18,7 @@ import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
+import net.smartworks.model.work.WorkCategory;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.util.LocalDate;
 
