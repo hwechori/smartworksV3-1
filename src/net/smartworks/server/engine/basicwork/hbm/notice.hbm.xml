@@ -7,9 +7,10 @@
 		</id>
 		<property name="title" column="title" type="string" length="100"/>
 		<property name="content" column="content" type="string" length="2000"/>
+		<property name="priority" column="priority" type="string" length="10"/>
 		<property name="creationUser" column="userId" type="string" length="50"/>
 		<property name="creationDate" column="createdTime" type="timestamp"/>
-		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>	
 		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
 	</class>
 </hibernate-mapping>

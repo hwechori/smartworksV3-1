@@ -29,10 +29,18 @@ public class Notice extends MisObject {
 
 	public static final String A_TITLE = "title";
 	public static final String A_CONTENT = "content";
+	public static final String A_PRIORITY = "priority";
 
 	private String title;
 	private String content;
+	private String priority;
 
+	public String getPriority() {
+		return priority;
+	}
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -64,6 +72,7 @@ public class Notice extends MisObject {
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_TITLE, title, buf);
 		appendAttributeString(A_CONTENT, content, buf);
+		appendAttributeString(A_PRIORITY, priority, buf);
 		
 		return buf.toString();
 	}
@@ -88,10 +97,12 @@ public class Notice extends MisObject {
 		if (attrMap != null) {
 			Node title = attrMap.getNamedItem(A_TITLE);
 			Node content = attrMap.getNamedItem(A_CONTENT);
+			Node priority = attrMap.getNamedItem(A_PRIORITY);
 			
 			if (content != null)
 				obj.setTitle(title.getNodeValue());
 				obj.setContent(content.getNodeValue());
+				obj.setPriority(priority.getNodeValue());
 		}
 		//element값 설정
 		
