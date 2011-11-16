@@ -29,13 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class WorkInstanceController {
-
-	@ExceptionHandler(NullPointerException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public @ResponseBody String nullPointExceptionHandler(NullPointerException e) {
-		return e.getMessage();
-	}
+public class WorkInstanceController extends ExceptionInterceptor {
 
 	ISmartWorks smartworks;
 

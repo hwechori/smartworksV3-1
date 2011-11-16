@@ -8,19 +8,40 @@
 
 package net.smartworks.server.engine.docfile.manager;
 
+import java.util.List;
+
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
-import net.smartworks.server.engine.docfile.model.DocFile;
-import net.smartworks.server.engine.docfile.model.DocFileCond;
+import net.smartworks.server.engine.docfile.model.IDocumentModel;
+import net.smartworks.server.engine.docfile.model.IFileModel;
+
+import org.apache.commons.fileupload.FileItem;
 
 public interface IDocFileManager extends IManager {
 
-	public DocFile getDocFile(String user, String objId, String level) throws DocFileException;
+/*	public DocFile getDocFile(String user, String objId, String level) throws DocFileException;
 	public DocFile getDocFile(String user, DocFileCond cond, String level) throws DocFileException;
 	public void setDocFile(String user, DocFile obj, String level) throws DocFileException;
 	public void removeDocFile(String user, String objId) throws DocFileException;
 	public void removeDocFile(String user, DocFileCond cond) throws DocFileException;
 	public long getDocFileSize(String user, DocFileCond cond) throws DocFileException;
-	public DocFile[] getDocFiles(String user, DocFileCond cond, String level) throws DocFileException;
+	public DocFile[] getDocFiles(String user, DocFileCond cond, String level) throws DocFileException;*/
+
+	public String createFile(String userId, String groupId, IFileModel file) throws DocFileException;
+	public String createFileList(String userId, String groupId, List<IFileModel> fileList) throws DocFileException;
+	public IFileModel retrieveFile(String fileId) throws DocFileException;
+	public void updateFile(String userId, IFileModel file) throws DocFileException;
+	public void deleteFile(String fileId) throws DocFileException;
+	public void deleteFileGroup(String groupId) throws DocFileException;
+	public List<IFileModel> findFileGroup(String groupId) throws DocFileException;
+	public List<String> findFileIdListByGroup(String groupId) throws DocFileException;
+
+	public String createDocument(String userId, String groupId, IDocumentModel document, List<FileItem> fileList) throws DocFileException;
+	public void updateDocument(String userId, IDocumentModel document) throws DocFileException;
+	public IDocumentModel retrieveDocument(String documentId) throws DocFileException;
+	public IDocumentModel retrieveDocumentByGroupId(String fileGroupId) throws DocFileException;
+	public List<String> findDocIdByGroupId(String fileGroupId) throws DocFileException;
+	public void deleteDocument(String documentId) throws DocFileException;
+	public IDocumentModel retrieveDocumentByRef(int refType, String refId) throws DocFileException;
 
 }
