@@ -47,7 +47,7 @@ public interface IDocFileService {
 
 	public abstract IDocumentModel retrieveDocumentByRef(int refType, String refId) throws Exception;*/
 
-	public abstract String createFileXml(HttpServletRequest request) throws Exception;
+	public abstract String uploadFile(HttpServletRequest request) throws Exception;
 
 	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 

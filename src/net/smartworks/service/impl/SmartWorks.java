@@ -322,8 +322,8 @@ public class SmartWorks implements ISmartWorks {
 		return docFileService.retrieveDocumentByRef(refType, refId);
 	}*/
 
-	public String createFileXml(HttpServletRequest request) throws Exception {
-		return docFileService.createFileXml(request);
+	public String uploadFile(HttpServletRequest request) throws Exception {
+		return docFileService.uploadFile(request);
 	}
 
 	public List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception {

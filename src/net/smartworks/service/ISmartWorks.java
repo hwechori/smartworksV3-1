@@ -135,7 +135,7 @@ public interface ISmartWorks {
 
 	public abstract Community[] getMyCommunities() throws Exception;
 
-	public abstract String createFileXml(HttpServletRequest request) throws Exception;
+	public abstract String uploadFile(HttpServletRequest request) throws Exception;
 
 	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 

@@ -37,7 +37,7 @@ public class DocFileServiceImpl implements IDocFileService {
 
 	private ServletConfig config;
 
-	public String createFileXml(HttpServletRequest request) throws Exception {
+	public String uploadFile(HttpServletRequest request) throws Exception {
 
 		String userId = CommonUtil.toNotNull(request.getParameter("userId"));
 		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));	
@@ -64,7 +64,7 @@ public class DocFileServiceImpl implements IDocFileService {
 	    	doc.setFileItem(item);
 			docList.add(doc);
  		}
-	 		
+
 		groupId = getDocManager().createFileList(userId, (groupId.equals("") ? null : groupId), docList);
 
 		return groupId;

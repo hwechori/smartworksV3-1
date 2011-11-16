@@ -42,12 +42,12 @@ public class DocFileController {
 		this.smartworks = smartworks;
 	}
 
-	@RequestMapping(value = "/create_file_xml", method = RequestMethod.POST)
+	@RequestMapping(value = "/upload_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody String createFileXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody String uploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String groupId = "";
-		smartworks.createFileXml(request);
+		groupId = smartworks.uploadFile(request);
 		// TO DO : Exception handler
 
 		return groupId;
