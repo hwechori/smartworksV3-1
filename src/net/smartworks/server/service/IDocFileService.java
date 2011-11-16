@@ -51,4 +51,6 @@ public interface IDocFileService {
 
 	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 
+	public abstract void deleteFile(HttpServletRequest request) throws Exception;
+
 }

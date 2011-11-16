@@ -67,10 +67,9 @@ public class DocFileController {
 	@RequestMapping(value = "/delete_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void deleteFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	
-		smartworks.findFileGroup(request);
-		// TO DO : Exception handler
 
+		smartworks.deleteFile(request);
+		// TO DO : Exception handler
 	}
 
 }

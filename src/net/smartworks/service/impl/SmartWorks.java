@@ -330,4 +330,8 @@ public class SmartWorks implements ISmartWorks {
 		return docFileService.findFileGroup(request);
 	}
 
+	public void deleteFile(HttpServletRequest request) throws Exception {
+		docFileService.deleteFile(request);
+	}
+
 }

@@ -83,6 +83,18 @@ public class DocFileServiceImpl implements IDocFileService {
 
 	}
 
+	public void deleteFile(HttpServletRequest request) throws Exception {
+
+		String fileId = CommonUtil.toNotNull(request.getParameter("fileId"));
+		IFileModel doc = getDocManager().retrieveFile(fileId);
+		String filePath = doc.getFilePath();
+		getDocManager().deleteFile(fileId);
+
+		File f = new File(filePath);
+		f.delete();
+
+	}
+
 /*	@Override
 	public String createFile(String userId, String groupId, IFileModel file) throws Exception {
 		return getDocManager().createFile(userId, groupId, file);
