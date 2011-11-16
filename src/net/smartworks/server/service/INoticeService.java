@@ -16,13 +16,13 @@ public interface INoticeService {
 	/* (non-Javadoc)
 	 * @see net.smartworks.service.impl.ISmartWorks#getNoticesForMe(java.lang.String)
 	 */
-	public Notice[] getNoticesForMe() throws Exception;
+	public Notice[] getNoticesForMe(String companyId, String userId) throws Exception;
 
 	/* (non-Javadoc)
 	 * @see net.smartworks.service.impl.ISmartWorks#getNoticeBoxForMe10(int, net.smartworks.util.LocalDate)
 	 */
-	public NoticeBox getNoticeBoxForMe10(int noticeType,
+	public NoticeBox getNoticeBoxForMe10(String companyId, String userId, int noticeType,
 			LocalDate lastNotice) throws Exception;
 
-	public String[] getBroadcastingMessages() throws Exception;
+	public String[] getBroadcastingMessages(String companyId) throws Exception;
 }

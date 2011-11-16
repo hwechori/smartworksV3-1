@@ -39,7 +39,7 @@ public class WorkServiceImpl implements IWorkService {
 	 * String)
 	 */
 	@Override
-	public SmartWork[] getMyFavoriteWorks() throws Exception {
+	public SmartWork[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
 
 		return new SmartWork[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork1(),
 				SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(),
@@ -143,13 +143,13 @@ workList.add(SmartTest.getInformationWork1());
 //	}
 //
 	@Override
-	public SmartWork[] searchWork(String key) throws Exception {
+	public SmartWork[] searchWork(String companyId, String userId, String key) throws Exception {
 
-		return getMyFavoriteWorks();
+		return getMyFavoriteWorks(companyId, userId);
 	}
 
 	@Override
-	public Work getWorkById(String workId) throws Exception {
+	public Work getWorkById(String companyId, String workId) throws Exception {
 		Work[] works = new Work[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork4(),
 				SmartTest.getSmartWork5(), SmartTest.getSmartWork6(), SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9() };
 		for (Work work : works) {

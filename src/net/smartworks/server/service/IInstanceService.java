@@ -9,17 +9,17 @@ import net.smartworks.util.LocalDate;
 
 public interface IInstanceService {
 
-	BoardInstance[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
+	BoardInstance[] getBoardInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	WorkInstance[] getMyRecentInstances() throws Exception;
+	WorkInstance[] getMyRecentInstances(String companyId, String userId) throws Exception;
 
-	BoardInstance[] getBoardInstances(LocalDate fromDate, int days) throws Exception;
+	BoardInstance[] getBoardInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception;
 
-	Instance getInstanceById(String instanceId) throws Exception;
+	Instance getInstanceById(String companyId, String instanceId) throws Exception;
 
-	Instance[] getMyRunningInstances() throws Exception;
+	Instance[] getMyRunningInstances(String companyId, String userId) throws Exception;
 
-	Instance[] searchMyRunningInstance(String key) throws Exception;
+	Instance[] searchMyRunningInstance(String companyId, String userId, String key) throws Exception;
 
 	String setInformationWorkInstance(HttpServletRequest request) throws Exception;
 

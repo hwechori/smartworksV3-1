@@ -7,7 +7,7 @@ public class Work extends BaseObject{
 	public final static int	TYPE_ASYNC_MESSAGE	= 1;
 	public final static int	TYPE_NOTIFICAITON	= 2;
 	public final static int	TYPE_COMMENTS		= 3;
-	public static int	TYPE_MAIL_MESSAGE	= 4;
+	public final static int	TYPE_MAIL_MESSAGE	= 4;
 
 	private int 	type=-1; 
 	private String 	desc;

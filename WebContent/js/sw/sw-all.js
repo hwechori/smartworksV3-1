@@ -272,10 +272,10 @@ $(function() {
 		var categoryId = input[0].getAttribute("categoryId");
 		var groupId = input[0].getAttribute("groupId");
 		if (lastCatTarget != null && categoryId != null) {
-			lastCatTarget.slideToggle();
+			lastCatTarget.hide();
 			lastCatTarget = null;
 		} else if (lastGroupTarget != null && groupId != null) {
-			lastGroupTarget.slideToggle();
+			lastGroupTarget.hide();
 			lastGroupTarget = null;
 		}
 		if (url == 'undefined' || (categoryId == null && groupId == null)) {
@@ -289,7 +289,7 @@ $(function() {
 			},
 			context : input,
 			success : function(data, status, jqXHR) {
-				target.slideToggle();
+				target.show();
 				target.html(data);
 				if (categoryId != null)
 					lastCatTarget = target;

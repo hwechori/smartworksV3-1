@@ -5,8 +5,11 @@ import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.instance.AsyncMessageInstance;
+import net.smartworks.model.instance.CommentsInstance;
 import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.NoticeMessage;
@@ -367,5 +370,127 @@ public class SmartTest {
 		assignedInstance5.setWorkInstance(workInstance5);
 
 		return new TaskInstance[]{assignedInstance1, assignedInstance2, assignedInstance3, assignedInstance4, assignedInstance5};
+	}
+	// For Test...
+	public static NoticeMessage[] getNotificationMessages() throws Exception {
+
+		NoticeMessage notice1, notice2, notice3, notice4, notice5;
+		notice1 = new NoticeMessage("notice1", NoticeMessage.TYPE_SYSTEM_NOTICE, SmartTest.getUser1(), new LocalDate());
+		notice1.setMessage("금주 주말(토요일, 일요일)에 시스템 정기점검을 실시하는 관계를 시스템을 1시간 가량 사용할 수 없으니 이점 양해 바랍니다.");
+		notice2 = new NoticeMessage("notic2", NoticeMessage.TYPE_EVENT_ALARM, SmartTest.getUser2(), SmartTest.getEventInstance1().getLastModifiedDate());
+		notice2.setEvent(SmartTest.getEventInstance1());
+		notice3 = new NoticeMessage("notice3", NoticeMessage.TYPE_TASK_DELAYED, SmartUtil.getCurrentUser(), SmartTest.getTaskInstancePA().getLastModifiedDate());
+		notice3.setInstance(SmartTest.getTaskInstancePA());
+		notice4 = new NoticeMessage("notice4", NoticeMessage.TYPE_JOIN_REQUEST, SmartTest.getUser1(), new LocalDate());
+		notice4.setGroup(SmartTest.getGroup1());
+		notice4.setMessage("님이 커뮤너티에 가입을 신청하셨습니다.");
+		notice5 = new NoticeMessage("notice5", NoticeMessage.TYPE_INSTANCE_CREATED, SmartTest.getUser1(), SmartTest.getWorkInstance1().getLastModifiedDate());
+		notice5.setInstance(SmartTest.getWorkInstance1());
+		notice5.setMessage("새로운 업무를 등록하였습니다..");
+		return new NoticeMessage[] { notice1, notice2, notice3, notice4, notice5 };
+
+	}
+
+	public static NoticeMessage[] getMessageMessages() throws Exception {
+
+		NoticeMessage notice1, notice2, notice3, notice4, notice5;
+		AsyncMessageInstance messageInstance1 = new AsyncMessageInstance("message1", SmartTest.getUser1(), new LocalDate(), "안녕하세요?  잘지내시죠??? ㅎㅎㅎ");
+		notice1 = new NoticeMessage("notice21", 0, SmartTest.getUser1(), new LocalDate());
+		notice1.setInstance(messageInstance1);
+
+		AsyncMessageInstance messageInstance2 = new AsyncMessageInstance("message2", SmartTest.getUser2(), new LocalDate(),
+				"일간 한번 찾아뵙겠습니다. 그동안 몇번 연락드렸었는데, 연락이 안되던데요???");
+		notice2 = new NoticeMessage("notice22", 0, SmartTest.getUser1(), new LocalDate());
+		notice2.setInstance(messageInstance2);
+
+		AsyncMessageInstance messageInstance3 = new AsyncMessageInstance("message3", SmartTest.getUser3(), new LocalDate(), "누구시더라????ㅠ");
+		notice3 = new NoticeMessage("notice23", 0, SmartTest.getUser1(), new LocalDate());
+		notice3.setInstance(messageInstance3);
+
+		return new NoticeMessage[] { notice1, notice2, notice3 };
+
+	}
+
+	public static NoticeMessage[] getCommentsMessages() throws Exception {
+
+		NoticeMessage notice1, notice2, notice3, notice4, notice5;
+		CommentsInstance commentsInstance1 = new CommentsInstance("comments1", CommentsInstance.COMMENTS_TYPE_ON_WORK_DESC, "조금더 보강해야 될것 같은데요????",
+				SmartTest.getUser3(), new LocalDate());
+		commentsInstance1.setWork(SmartTest.getSmartWork1());
+		notice1 = new NoticeMessage("notice21", 0, SmartTest.getUser3(), new LocalDate());
+		notice1.setInstance(commentsInstance1);
+
+		CommentsInstance commentsInstance2 = new CommentsInstance("comments2", CommentsInstance.COMMENTS_TYPE_ON_WORK_MANUAL, "잘모르겠습니다. ㅠㅠ",
+				SmartTest.getUser1(), new LocalDate());
+		commentsInstance2.setWork(SmartTest.getSmartWork3());
+		notice2 = new NoticeMessage("notice22", 0, SmartTest.getUser1(), new LocalDate());
+		notice2.setInstance(commentsInstance2);
+
+		CommentsInstance commentsInstance3 = new CommentsInstance("comments3", CommentsInstance.COMMENTS_TYPE_ON_WORK_INSTANCE, "휴가잘다녀오세요!!!",
+				SmartTest.getUser2(), new LocalDate());
+		commentsInstance3.setWorkInstance(SmartTest.getWorkInstance1());
+		notice3 = new NoticeMessage("notice23", 0, SmartTest.getUser2(), new LocalDate());
+		notice3.setInstance(commentsInstance3);
+
+		CommentsInstance commentsInstance4 = new CommentsInstance("comments4", CommentsInstance.COMMENTS_TYPE_ON_TASK_INSTANCE, "재 기안해 주시기 바랍니다...",
+				SmartTest.getUser3(), new LocalDate());
+		commentsInstance4.setTaskInstance(SmartTest.getTaskInstancePA());
+		notice4 = new NoticeMessage("notice24", 0, SmartTest.getUser3(), new LocalDate());
+		notice4.setInstance(commentsInstance4);
+
+		return new NoticeMessage[] { notice1, notice2, notice3, notice4 };
+
+	}
+
+	public static NoticeMessage[] getAssignedMessages() throws Exception {
+
+		NoticeMessage notice1, notice2, notice3, notice4, notice5;
+		TaskInstance[] assignedInstances = SmartTest.getAssignedTaskInstances();
+		notice1 = new NoticeMessage("notice31", 0, SmartTest.getUser1(), new LocalDate());
+		notice1.setInstance(assignedInstances[0]);
+
+		notice2 = new NoticeMessage("notice32", 0, SmartTest.getUser2(), new LocalDate());
+		notice2.setInstance(assignedInstances[1]);
+
+		notice3 = new NoticeMessage("notice33", 0, SmartTest.getUser3(), new LocalDate());
+		notice3.setInstance(assignedInstances[2]);
+
+		notice4 = new NoticeMessage("notice34", 0, SmartUtil.getCurrentUser(), new LocalDate());
+		notice4.setInstance(assignedInstances[3]);
+
+		notice5 = new NoticeMessage("notice35", 0, SmartUtil.getCurrentUser(), new LocalDate());
+		notice5.setInstance(assignedInstances[4]);
+
+		return new NoticeMessage[] { notice1, notice2, notice3, notice4, notice5 };
+	}
+
+	public static NoticeMessage[] getMailboxMessages() throws Exception {
+
+		NoticeMessage notice1, notice2, notice3, notice4, notice5;
+		MailInstance mailInstance1 = new MailInstance("mailinst1", "하이닉스프로젝트관련 회의록입니다.", SmartTest.getUser3(), new LocalDate());
+		mailInstance1.setMailCategory(SmartTest.getWorkCategory1());
+		mailInstance1.setMailGroup(SmartTest.getSmartWork6());
+		notice1 = new NoticeMessage("notice41", 0, SmartTest.getUser3(), new LocalDate());
+		notice1.setInstance(mailInstance1);
+
+		MailInstance mailInstance2 = new MailInstance("mailinst2", "내용검토하시고 의견주시기 바랍니다.", SmartTest.getUser1(), new LocalDate());
+		mailInstance2.setMailCategory(SmartTest.getWorkCategory1());
+		notice2 = new NoticeMessage("notice42", 0, SmartTest.getUser3(), new LocalDate());
+		notice2.setInstance(mailInstance2);
+
+		MailInstance mailInstance3 = new MailInstance("mailinst3", "연락처입니다.", SmartTest.getUser3(), new LocalDate());
+		mailInstance3.setMailCategory(SmartTest.getWorkCategory1());
+		mailInstance3.setMailGroup(SmartTest.getSmartWork6());
+		notice3 = new NoticeMessage("notice43", 0, SmartTest.getUser3(), new LocalDate());
+		notice3.setInstance(mailInstance3);
+
+		return new NoticeMessage[] { notice1, notice2, notice3 };
+	}
+
+	public static NoticeMessage[] getSavedboxMessages() throws Exception {
+
+		NoticeMessage[] mailboxNotices = getMailboxMessages();
+
+		return mailboxNotices;
 	}
 }
