@@ -1,8 +1,6 @@
 package net.smartworks.model.work;
 
 import net.smartworks.model.BaseObject;
-import net.smartworks.model.community.User;
-import net.smartworks.util.LocalDate;
 
 public class Work extends BaseObject{
 

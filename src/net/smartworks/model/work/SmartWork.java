@@ -1,13 +1,16 @@
 package net.smartworks.model.work;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.security.AccessPolicy;
+import net.smartworks.model.security.EditPolicy;
+import net.smartworks.model.security.WritePolicy;
 import net.smartworks.util.LocalDate;
 
 public class SmartWork extends Work {
 
-	public final static int 	TYPE_INFORMATION 	= 11;
-	public final static int 	TYPE_PROCESS 		= 12;
-	public final static int 	TYPE_SCHEDULE 		= 13;
+	public final static int 	TYPE_INFORMATION 	= 21;
+	public final static int 	TYPE_PROCESS 		= 22;
+	public final static int 	TYPE_SCHEDULE 		= 23;
 	
 	private String 	fullpathName = null;
 	private WorkCategory myGroup = null;
@@ -15,7 +18,6 @@ public class SmartWork extends Work {
 	private AccessPolicy accessPolicy = new AccessPolicy();
 	private WritePolicy writePolicy = new WritePolicy();
 	private EditPolicy editPolicy = new EditPolicy();
-	private SmartForm[] forms = null;
 	private User lastModifier;
 	private LocalDate lastModifiedDate;
 
@@ -37,7 +39,36 @@ public class SmartWork extends Work {
 	public void setMyCategory(WorkCategory myCategory) {
 		this.myCategory = myCategory;
 	}
-
+	public AccessPolicy getAccessPolicy() {
+		return accessPolicy;
+	}
+	public void setAccessPolicy(AccessPolicy accessPolicy) {
+		this.accessPolicy = accessPolicy;
+	}
+	public WritePolicy getWritePolicy() {
+		return writePolicy;
+	}
+	public void setWritePolicy(WritePolicy writePolicy) {
+		this.writePolicy = writePolicy;
+	}
+	public EditPolicy getEditPolicy() {
+		return editPolicy;
+	}
+	public void setEditPolicy(EditPolicy editPolicy) {
+		this.editPolicy = editPolicy;
+	}
+	public User getLastModifier() {
+		return lastModifier;
+	}
+	public void setLastModifier(User lastModifier) {
+		this.lastModifier = lastModifier;
+	}
+	public LocalDate getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+	public void setLastModifiedDate(LocalDate lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
 	public SmartWork(){
 		super();
 	}

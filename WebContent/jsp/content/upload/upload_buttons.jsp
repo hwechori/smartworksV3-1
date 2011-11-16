@@ -1,5 +1,5 @@
 <%@page import="net.smartworks.model.community.Group"%>
-<%@page import="net.smartworks.model.work.AccessPolicy"%>
+<%@page import="net.smartworks.model.security.AccessPolicy"%>
 <%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.model.community.Community"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
@@ -22,9 +22,9 @@
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	Work work = smartWorks.getWorkById(companyId, workId);
+	SmartWork work = (SmartWork)smartWorks.getWorkById(companyId, workId);
 	if (work == null)
-		work = new Work();
+		work = new SmartWork();
 	Community[] communities = smartWorks.getMyCommunities(companyId, userId);
 %>
 

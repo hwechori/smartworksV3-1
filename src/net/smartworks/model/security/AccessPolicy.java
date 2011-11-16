@@ -1,4 +1,4 @@
-package net.smartworks.model.work;
+package net.smartworks.model.security;
 
 import net.smartworks.model.community.Community;
 

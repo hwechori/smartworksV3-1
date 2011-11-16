@@ -30,11 +30,11 @@
 					iconType = "ico_sworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
 					targetContent = "swork_list.sw";
-				} else if (work.getClass().equals(WorkCategory.class)) {
+				} else if (work.getType() == WorkCategory.TYPE_CATEGORY) {
 					iconType = "ico_gworks";
-					targetContent = "swork_list.sw";
+					targetContent = "worklist_by_group.sw";
 				}
-				if (work.getClass().equals(WorkCategory.class)) {
+				if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
 	<li class="<%=iconType%>"><a
 		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>"><%=work.getName()%></a>

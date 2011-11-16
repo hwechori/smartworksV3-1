@@ -4,11 +4,18 @@ import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
+import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.NoticeMessage;
+import net.smartworks.model.security.AccessPolicy;
+import net.smartworks.model.security.EditPolicy;
+import net.smartworks.model.security.WritePolicy;
+import net.smartworks.model.work.FormField;
+import net.smartworks.model.work.InformationWork;
+import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
@@ -78,8 +85,30 @@ public class SmartTest {
 		return new WorkCategory("cat2", "영업관리");
 	}
 
+	public static SmartForm getForm1() throws Exception{
+		SmartForm form = new SmartForm();
+		form.setFields(new FormField[] {new FormField("f1", "제 목", "String"), new FormField("f2", "작성자", "User"), new FormField("f3", "관리부서", "Department"), new FormField("f4", "상세설명", "Editor"), new FormField("f5", "첨부파일", "file")});
+		form.setDetails("문서를 등록하는 화면입니다. 원하는 문서를 첨부하시고 제목, 작성자 등을 작성하여 주시기 바랍니다.");
+		return form;
+	}
+	
+	public static InformationWork getInformationWork1() throws Exception{
+		InformationWork work = new InformationWork("iwork1", "자료실-UITest", "회사에 필요한 문서를 등록관리하는 정보관리 업무입니다. 필요한 파일선택하여 제목, 등록자등을 입력하여 등록할 수 있습니다.", getWorkCategory1());
+		work.setLastModifier(getUser1());
+		work.setLastModifiedDate(new LocalDate());
+		work.setForm(getForm1());
+		work.setKeyField(new FormField("f1", "제 목", "String"));
+		work.setDisplayFields(new FormField[] {new FormField("f1", "제 목", "String"), new FormField("f2", "작성자", "User"), new FormField("f3", "관리부서", "Department"), new FormField("f4", "상세설명", "Editor"), new FormField("f5", "첨부파일", "file")});
+		work.setHelpUrl("http://manual.smartworks.net");
+		work.setManualFilePath("test/files/");
+		work.setManualFileName("법무지원시스템_dashboard디자인가이드.pptx");
+		return work;
+	}
+	
 	public static SmartWork getSmartWork1() throws Exception {
-		return new SmartWork("work1", "근태품의 (회사규정번호-2343979187628743628468273482374), (ISO9001-293849234732948928743298472394)", SmartWork.TYPE_PROCESS, "", getWorkCategory1());
+		
+		SmartWork work = new SmartWork("work1", "근태품의 (회사규정번호-2343979187628743628468273482374), (ISO9001-293849234732948928743298472394)", SmartWork.TYPE_PROCESS, "", getWorkCategory1());
+		return work;
 	}
 
 	public static SmartWork getSmartWork2() throws Exception {
