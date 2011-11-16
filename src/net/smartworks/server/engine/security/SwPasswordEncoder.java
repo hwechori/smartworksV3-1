@@ -17,7 +17,8 @@ public class SwPasswordEncoder implements PasswordEncoder {
 	public String encodePassword(String rawPass, Object salt) throws DataAccessException {
 		System.out.println("##########################  SwPasswordEncoder ############################");
 		// 인코딩 로직
-		return rawPass;
+		String encPass = rawPass;
+		return encPass;
 	}
 
 	@Override

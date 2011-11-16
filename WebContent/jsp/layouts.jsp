@@ -46,7 +46,7 @@
 	</fmt:message>
 	<sec:authentication property="principal.name"/>
 	<sec:authorize access="hasRole('ADMINISTRATOR')" > 
-		I AM ADMINISTRATOR!
+		(ADMIN)
 	</sec:authorize>
 	</title>
 
