@@ -6,7 +6,7 @@
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
  */
 
-package net.smartworks.server.engine.basicwork.notification.model;
+package net.smartworks.server.engine.basicwork.notice.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.MisObject;
@@ -19,13 +19,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class Notification extends MisObject {
+public class Notice extends MisObject {
 
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(Notification.class);
+	private static Log logger = LogFactory.getLog(Notice.class);
 
 	protected static final String PREFIX = "Noti";
-	private static final String NAME = CommonUtil.toName(Notification.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(Notice.class, PREFIX);
 
 	public static final String A_TITLE = "title";
 	public static final String A_CONTENT = "content";
@@ -45,7 +45,7 @@ public class Notification extends MisObject {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Notification() {
+	public Notice() {
 		super();
 		
 	}
@@ -76,11 +76,11 @@ public class Notification extends MisObject {
 		if (node == null)
 			return null;
 
-		Notification obj = null;
-		if (baseObj == null || !(baseObj instanceof Notification))
-			obj = new Notification();
+		Notice obj = null;
+		if (baseObj == null || !(baseObj instanceof Notice))
+			obj = new Notice();
 		else
-			obj = (Notification)baseObj;
+			obj = (Notice)baseObj;
 		//부모 attributes, elements값 설정
 		MisObject.toObject(node, obj);
 		
@@ -105,19 +105,19 @@ public class Notification extends MisObject {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static Notification[] add(Notification[] objs, Notification obj) {
+	public static Notice[] add(Notice[] objs, Notice obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		Notification[] newObjs = new Notification[size+1];
+		Notice[] newObjs = new Notice[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		return newObjs;
 	}
-	public static Notification[] remove(Notification[] objs, Notification obj) {
+	public static Notice[] remove(Notice[] objs, Notice obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -125,7 +125,7 @@ public class Notification extends MisObject {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		Notification[] newObjs = new Notification[size-1];
+		Notice[] newObjs = new Notice[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -135,7 +135,7 @@ public class Notification extends MisObject {
 		}
 		return newObjs;
 	}
-	public static Notification[] left(Notification[] objs, Notification obj) {
+	public static Notice[] left(Notice[] objs, Notice obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -147,7 +147,7 @@ public class Notification extends MisObject {
 		}
 		if (idx < 1)
 			return objs;
-		Notification[] newObjs = new Notification[objs.length];
+		Notice[] newObjs = new Notice[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -160,7 +160,7 @@ public class Notification extends MisObject {
 		}
 		return newObjs;
 	}
-	public static Notification[] right(Notification[] objs, Notification obj) {
+	public static Notice[] right(Notice[] objs, Notice obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -172,7 +172,7 @@ public class Notification extends MisObject {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		Notification[] newObjs = new Notification[objs.length];
+		Notice[] newObjs = new Notice[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];

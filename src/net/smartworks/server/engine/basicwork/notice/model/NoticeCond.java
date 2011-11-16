@@ -6,7 +6,7 @@
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
  */
 
-package net.smartworks.server.engine.basicwork.notification.model;
+package net.smartworks.server.engine.basicwork.notice.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.MisObject;
@@ -20,13 +20,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class NotificationCond extends MisObjectCond {
+public class NoticeCond extends MisObjectCond {
 
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(NotificationCond.class);
+	private static Log logger = LogFactory.getLog(NoticeCond.class);
 
 	protected static final String PREFIX = "Noti";
-	private static final String NAME = CommonUtil.toName(NotificationCond.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(NoticeCond.class, PREFIX);
 
 	public static final String A_TITLE = "title";
 	public static final String A_CONTENT = "content";
@@ -46,7 +46,7 @@ public class NotificationCond extends MisObjectCond {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public NotificationCond() {
+	public NoticeCond() {
 		super();
 		
 	}
@@ -77,11 +77,11 @@ public class NotificationCond extends MisObjectCond {
 		if (node == null)
 			return null;
 
-		NotificationCond obj = null;
-		if (baseObj == null || !(baseObj instanceof NotificationCond))
-			obj = new NotificationCond();
+		NoticeCond obj = null;
+		if (baseObj == null || !(baseObj instanceof NoticeCond))
+			obj = new NoticeCond();
 		else
-			obj = (NotificationCond)baseObj;
+			obj = (NoticeCond)baseObj;
 		//부모 attributes, elements값 설정
 		MisObject.toObject(node, obj);
 		
@@ -106,19 +106,19 @@ public class NotificationCond extends MisObjectCond {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static NotificationCond[] add(NotificationCond[] objs, NotificationCond obj) {
+	public static NoticeCond[] add(NoticeCond[] objs, NoticeCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		NotificationCond[] newObjs = new NotificationCond[size+1];
+		NoticeCond[] newObjs = new NoticeCond[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		return newObjs;
 	}
-	public static NotificationCond[] remove(NotificationCond[] objs, NotificationCond obj) {
+	public static NoticeCond[] remove(NoticeCond[] objs, NoticeCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -126,7 +126,7 @@ public class NotificationCond extends MisObjectCond {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		NotificationCond[] newObjs = new NotificationCond[size-1];
+		NoticeCond[] newObjs = new NoticeCond[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -136,7 +136,7 @@ public class NotificationCond extends MisObjectCond {
 		}
 		return newObjs;
 	}
-	public static NotificationCond[] left(NotificationCond[] objs, NotificationCond obj) {
+	public static NoticeCond[] left(NoticeCond[] objs, NoticeCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -148,7 +148,7 @@ public class NotificationCond extends MisObjectCond {
 		}
 		if (idx < 1)
 			return objs;
-		NotificationCond[] newObjs = new NotificationCond[objs.length];
+		NoticeCond[] newObjs = new NoticeCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -161,7 +161,7 @@ public class NotificationCond extends MisObjectCond {
 		}
 		return newObjs;
 	}
-	public static NotificationCond[] right(NotificationCond[] objs, NotificationCond obj) {
+	public static NoticeCond[] right(NoticeCond[] objs, NoticeCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -173,7 +173,7 @@ public class NotificationCond extends MisObjectCond {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		NotificationCond[] newObjs = new NotificationCond[objs.length];
+		NoticeCond[] newObjs = new NoticeCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
