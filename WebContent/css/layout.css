@@ -362,7 +362,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_wh .Btn01Start {background: url("../images/btn_wh_left.gif") repeat scroll 0 0 transparent;
 			 float:left; height:22px; width:5px;}
 .btn_wh .Btn01Center {background: url("../images/btn_wh_center.gif") repeat scroll 0 0 transparent;
-    		float:left; color:#575757; height:20px; padding:2px 3px 0; text-align:center; font-weight:bold;}
+    		float:left; color:#575757; height:20px; padding:2px 3px 0; text-align:center; font-size:11px;}
 .btn_wh .Btn01End {background: url("../images/btn_wh_right.gif") repeat scroll 0 0 transparent;
     		float:left; height:22px; width:5px;}
 			
@@ -370,7 +370,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_wh_ov .Btn01Start {background: url("../images/btn_wh_left_ov.jpg") repeat scroll 0 0 transparent;
 			float:left; height:22px; width:5px;}
 .btn_wh_ov .Btn01Center {background: url("../images/btn_wh_center_ov.jpg") repeat scroll 0 0 transparent;
-    		float:left; color:#847f7b; height:20px; padding:2px 3px 0; text-align:center;}
+    		float:left; color:#847f7b; height:20px; padding:2px 3px 0; text-align:center; font-size:11px;}
 .btn_wh_ov .Btn01End {background: url("../images/btn_wh_right_ov.jpg") repeat scroll 0 0 transparent;
     		float:left; height:22px; width:5px;}
 			
@@ -398,7 +398,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_x {float:right; color:#9b9b9b; font-size:12px;}
 .btn_x_gr {color:#c7c7c7; font-size:12px;}
 .btn_x_grb {background: url("../images/btn_x_b.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 11px;
-    padding: 0; right: 5px; top:5px; width: 11px; position: relative;}
+    padding: 0; right: 5px; width: 11px; position: relative;}
 .btn_im_x {background: url("../images/btn_im_x2.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
     padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
 	
