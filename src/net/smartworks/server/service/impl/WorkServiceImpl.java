@@ -10,11 +10,21 @@ import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.category.model.CtgCategoryCond;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
+import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
+import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemList;
+import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
+import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
+import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
+import net.smartworks.server.engine.process.task.manager.ITskManager;
+import net.smartworks.server.engine.process.task.model.TskTask;
+import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.SmartTest;
@@ -30,51 +40,100 @@ public class WorkServiceImpl implements IWorkService {
 	private IPkgManager getPkgManager() {
 		return SwManagerFactory.getInstance().getPkgManager();
 	}
+	private IItmManager getItmManager() {
+		return SwManagerFactory.getInstance().getItmManager();
+	}
+	private ITskManager getTskManager() {
+		return SwManagerFactory.getInstance().getTskManager();
+	}
+	private ISwfManager getSwfManager() {
+		return SwManagerFactory.getInstance().getSwfManager();
+	}
 	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.smartworks.service.impl.ISmartWorks#getMyFavoriteWorks(java.lang.
-	 * String)
+	 * @see net.smartworks.server.service.IWorkService#getMyRecentlyExecutedWork(java.lang.String, java.lang.String)
+	 * 사용자가 최근에 처리한 업무 10개를 리턴한다
+	 */
+	@Override
+	public Work[] getMyRecentlyExecutedWork(String companyId, String userId) throws Exception {
+		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+			return null;
+
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setAssignee(userId);
+		tskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
+		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+		tskCond.setOrders(new Order[]{new Order("executionDate" , false)});
+		tskCond.setPageNo(0);
+		tskCond.setPageSize(10);
+		
+		TskTask[] tsks = getTskManager().getTasks(userId, tskCond, IManager.LEVEL_ALL);
+		
+		List<String> packageIdList = new ArrayList<String>();
+		for (int i = 0; i < tsks.length; i++) {
+			
+			TskTask tsk = tsks[i];
+			String formId = tsk.getForm();
+			
+			SwfForm form = getSwfManager().getForm(userId, formId);
+			if (form == null || form.getPackageId() == null)
+				continue;
+			packageIdList.add(form.getPackageId());
+		}
+		String[] packageIdArray = new String[packageIdList.size()];
+		
+		packageIdList.toArray(packageIdArray);
+
+		PkgPackageCond pkgCond = new PkgPackageCond();
+		pkgCond.setCompanyId(companyId);
+		pkgCond.setPackageIdIns(packageIdArray);
+		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
+		
+		SmartWork[] workPkgs = (SmartWork[])ModelConverter.arrayToArray(pkgs);
+		
+		return workPkgs;
+	}
+	/*
+	 * (non-Javadoc)
+	 * @see net.smartworks.server.service.IWorkService#getMyFavoriteWorks(java.lang.String, java.lang.String)
+	 * 사용자가 등록한 즐겨 찾기 업무를 리턴한다
 	 */
 	@Override
 	public SmartWork[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
+		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+			return null;
+		
+		ItmMenuItemListCond itemListCond = new ItmMenuItemListCond();
+		itemListCond.setCompanyId(companyId);
+		itemListCond.setUserId(userId);
+		
+		ItmMenuItemList itmList = getItmManager().getMenuItemList(userId, itemListCond, IManager.LEVEL_ALL);
+		if (itmList == null)
+			return null;
 
-		return new SmartWork[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork1(),
-				SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(),
-				SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork1(), SmartTest.getSmartWork2(),
-				SmartTest.getSmartWork3() };
+		ItmMenuItem[] items = itmList.getMenuItems();
+		
+		if (CommonUtil.isEmpty(items)) 
+			return null;
+		
+		String[] packageIdArray = new String[items.length];
+		for (int i = 0; i < items.length; i++) {
+			ItmMenuItem item = items[i];
+			String packageId = item.getPackageId();
+			packageIdArray[i] = packageId;
+		}
+		
+		PkgPackageCond pkgCond = new PkgPackageCond();
+		pkgCond.setCompanyId(companyId);
+		pkgCond.setPackageIdIns(packageIdArray);
+		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
+		
+		SmartWork[] workPkgs = (SmartWork[])ModelConverter.arrayToArray(pkgs);
+		
+		return workPkgs;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.smartworks.service.impl.ISmartWorks#getMyWorkCategories(java.lang
-	 * .String)
-	 */
-//	@Override
-//	public WorkCategory[] getMyWorkCategories(String companyId, String userId) throws Exception {
-//		if (CommonUtil.isEmpty(userId))
-//			return null;
-//		
-//		CtgCategoryCond cond = new CtgCategoryCond();
-//		cond.setCompanyId(companyId);
-//		
-//		CtgCategory[] ctgs = getCtgManager().getCategorys(userId, cond, IManager.LEVEL_ALL);
-//		
-//		return (WorkCategory[])ModelConverter.arrayToArray(ctgs);
-//		
-//	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.smartworks.service.impl.ISmartWorks#getMyAllWorksByCategoryId(java
-	 * .lang.String, java.lang.String)
-	 */
 	@Override
 	public Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
 
@@ -129,19 +188,6 @@ workList.add(SmartTest.getInformationWork1());
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.smartworks.service.impl.ISmartWorks#getMyAllWorksByGroupId(java.lang
-	 * .String, java.lang.String)
-	 */
-//	@Override
-//	public SmartWork[] getMyAllWorksByGroupId(String groupId) throws Exception {
-//
-//		return new SmartWork[] { SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9() };
-//	}
-//
 	@Override
 	public SmartWork[] searchWork(String companyId, String userId, String key) throws Exception {
 

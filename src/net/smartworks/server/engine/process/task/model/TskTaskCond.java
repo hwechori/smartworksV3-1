@@ -20,6 +20,7 @@ public class TskTaskCond extends MisObjectCond{
 	private static Log logger = LogFactory.getLog(TskTaskCond.class);
 	
 	private static final String NAME = CommonUtil.toName(TskTaskCond.class, PREFIX);
+
 	public static final String A_CORRELATION = "correlation";
 	public static final String A_TYPE = "type";
 	public static final String A_PROCESSINSTID = "processInstId";
