@@ -1,3 +1,6 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.List"%>
+<%@page import="net.smartworks.server.engine.factory.SwManagerFactory"%>
 <%@page import="net.smartworks.server.engine.infowork.domain.model.SwdDataField"%>
 <%@page import="net.smartworks.server.engine.infowork.domain.model.SwdRecordCond"%>
 <%@page import="net.smartworks.server.engine.infowork.domain.model.SwdRecord"%>
@@ -74,6 +77,10 @@
 		dataField.getValue();
 	}
 
+	List<String> list = SwManagerFactory.getInstance().getDocManager().findDocIdByGroupId("fg_0019ae0b682e451b953fbf823a633db6");
+	for(String str : list) {
+		out.println(str);
+	}
 %>
 <textarea style="width:800px;height:400px;">
 <%=swfForm %>

@@ -45,6 +45,7 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 		SmartUtil.formMap.put(id, form);
 		return form;
 	}
+
 	private Query appendQuery(StringBuffer buf, SwfFormCond cond) throws Exception {
 		String objId = null;
 		String status = null;
@@ -73,7 +74,7 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 				buf.append(" and obj.packageId = :packageId");
 		}
 		this.appendOrderQuery(buf, "obj", cond);
-		
+
 		Query query = this.createQuery(buf.toString(), cond);
 		if (cond != null) {
 			if (objId != null)
@@ -89,6 +90,7 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 		}
 		return query;
 	}
+
 	public long getFormSize(String user, SwfFormCond cond) throws SwfException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -96,12 +98,13 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 			buf.append(" count(obj.objId)");
 			Query query = this.appendQuery(buf, cond);
 			List list = query.list();
-			long count =((Long)list.get(0)).longValue();
+			long count = ((Long) list.get(0)).longValue();
 			return count;
 		} catch (Exception e) {
 			throw new SwfException(e);
 		}
 	}
+
 	public SwfForm[] getForms(String user, SwfFormCond cond, String level) throws SwfException {
 		try {
 			if (level == null)
@@ -126,25 +129,25 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 					Object[] fields = (Object[]) itr.next();
 					obj = new SwfForm();
 					int j = 0;
-					obj.setObjId((String)fields[j++]);
-					obj.setName((String)fields[j++]);
-					obj.setCreationUser((String)fields[j++]);
-					obj.setCreationDate((Timestamp)fields[j++]);
-					obj.setModificationUser((String)fields[j++]);
-					obj.setModificationDate((Timestamp)fields[j++]);
-					obj.setStatus((String)fields[j++]);
-					obj.setId((String)fields[j++]);
-					obj.setVersion((Integer)fields[j++]);
-					obj.setPackageId((String)fields[j++]);
-					obj.setFormType((String)fields[j++]);
-					obj.setKeyword((String)fields[j++]);
+					obj.setObjId((String) fields[j++]);
+					obj.setName((String) fields[j++]);
+					obj.setCreationUser((String) fields[j++]);
+					obj.setCreationDate((Timestamp) fields[j++]);
+					obj.setModificationUser((String) fields[j++]);
+					obj.setModificationDate((Timestamp) fields[j++]);
+					obj.setStatus((String) fields[j++]);
+					obj.setId((String) fields[j++]);
+					obj.setVersion((Integer) fields[j++]);
+					obj.setPackageId((String) fields[j++]);
+					obj.setFormType((String) fields[j++]);
+					obj.setKeyword((String) fields[j++]);
 				} else {
-					obj = (SwfForm)itr.next();
+					obj = (SwfForm) itr.next();
 					String pkgId = obj.getPackageId();
 					String objId = obj.getObjId();
 					String objStr = obj.getObjString();
 					if (objStr != null) {
-						obj = (SwfForm)SwfForm.toObject(objStr);
+						obj = (SwfForm) SwfForm.toObject(objStr);
 						obj.setPackageId(pkgId);
 						obj.setObjString(objStr);
 						if (obj.getObjId() == null)
@@ -160,5 +163,29 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 			throw new SwfException(e);
 		}
 	}
+
+/*	public List<IFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException {
+
+		// 폼 아이디로 가장 최근 버전의
+		Session session = this.getSession();
+		StringBuffer hql = new StringBuffer("from SWForm where formId = :formId and version = (");
+		hql.append("select max(version) from HbFormContent where formId = :formId");
+		// 배포된 폼만 검색하기를 원할 경우
+		if (deployedCondition)
+			hql.append(" and status = '").append(IFormModel.STATUS_DEPLOYED).append("'");
+		hql.append(")");
+
+		Query query = session.createQuery(hql.toString());
+		query.setString("formId", formId);
+		IFormContent formContent = (IFormContent) query.uniqueResult();
+		if (formContent == null || formContent.getContent() == null)
+			return new ArrayList<IFormFieldDef>();
+
+		List<IFormFieldDef> result = new ArrayList<IFormFieldDef>();
+		IFormDef formDef = SmartServerModelUtil.xmlToForm(formContent.getContent());
+		for (Iterator<IFormFieldDef> fieldDefIt = formDef.getFormFieldMap().values().iterator(); fieldDefIt.hasNext();)
+			result.add(fieldDefIt.next());
+		return result;
+	}*/
 
 }
