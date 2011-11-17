@@ -9,14 +9,17 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	Instance[] instances = smartWorks.getMyRunningInstances();
+	Instance[] instances = smartWorks.getMyRunningInstances(companyId, userId);
 %>
 
 <!-- 나의 진행중인 업무 -->
-<div id="section_portlet">
+<div class="section_portlet">
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>

@@ -5,9 +5,12 @@
 <%@ page import="net.smartworks.model.community.*"%>
 <%@ page import="net.smartworks.model.notice.*"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser();
-	Notice[] notices = smartWorks.getNoticesForMe();
+	Notice[] notices = smartWorks.getNoticesForMe(companyId, userId);
 	String cid = request.getParameter("cid");
 	if (cid == null)
 		cid = ISmartWorks.CONTEXT_HOME;

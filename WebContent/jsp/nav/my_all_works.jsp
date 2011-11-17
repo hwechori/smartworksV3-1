@@ -4,19 +4,24 @@
 <%@ page import="net.smartworks.model.work.*"%>
 
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkCategory[] workCategories = smartWorks.getMyWorkCategories();
+	Work[] workCategories = smartWorks.getMyAllWorksByCategoryId(companyId, userId, "");
 %>
 
 <ul>
 	<%
-		for (WorkCategory workCategory : workCategories) {
+		if(workCategories != null){
+			for (Work workCategory : workCategories) {
 	%>
 	<li class="js_drill_down ico_cworks"><a
 		targetContent="worklist_by_category.sw"
 		categoryId="<%=workCategory.getId()%>"> <%=workCategory.getName()%></a>
 		<div style="display: none"></div></li>
 	<%
+			}
 		}
 	%>
 </ul>

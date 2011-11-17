@@ -8,10 +8,6 @@ public class Group extends WorkSpace{
 	private User	leader = null;
 	private User[] 	members = null;
 	private User	owner = null;
-	private String 	picturePath = null;
-	private String 	orgPictureName = null;
-	private String 	midPictureName = null;
-	private String 	minPictureName = null;
 
 	public String getDesc() {
 		return desc;
@@ -42,39 +38,6 @@ public class Group extends WorkSpace{
 	}
 	public void setOwner(User owner) {
 		this.owner = owner;
-	}
-	public String getPicturePath() {
-		return "images/";
-	}
-	public void setPicturePath(String picturePath) {
-		this.picturePath = picturePath;
-	}
-	public String getOrgPictureName() {
-		return "pic_personal_info.jpg";
-	}
-	public void setOrgPictureName(String orgPictureName) {
-		this.orgPictureName = orgPictureName;
-	}
-	public String getMidPictureName() {
-		return "ico_group.gif";
-	}
-	public void setMidPictureName(String midPictureName) {
-		this.midPictureName = midPictureName;
-	}
-	public String getMinPictureName() {
-		return "ico_group.gif";
-	}
-	public void setMinPictureName(String minPictureName) {
-		this.minPictureName = minPictureName;
-	}
-	public String getOrgPicture(){
-		return getPicturePath() + getOrgPictureName();
-	}
-	public String getMidPicture(){
-		return getPicturePath() + getMidPictureName();
-	}
-	public String getMinPicture(){
-		return getPicturePath() + getMinPictureName();
 	}
 
 	public Group(){

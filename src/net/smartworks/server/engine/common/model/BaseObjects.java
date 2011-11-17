@@ -1,6 +1,7 @@
 package net.smartworks.server.engine.common.model;
 
 import net.smartworks.server.engine.common.exception.SwException;
+import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
 

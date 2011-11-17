@@ -4,8 +4,11 @@
 <%@ page import="net.smartworks.model.community.*"%>
 
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User[] chatters = smartWorks.getAvailableChatter();
+	User[] chatters = smartWorks.getAvailableChatter(companyId, userId);
 %>
 
 <ul>
@@ -15,7 +18,7 @@
 				title="<fmt:message key="search.search_available_chatter"/>"
 				placeholder="<fmt:message key="search.search_available_chatter"/>"
 				href="available_chatter.sw">
-			<button title="<fmt:message key='search.search'/>" onclick=""></button>
+			<div class='srch_ico js_srch_x'></div>
 		</div>
 		<div style="display: none"></div>
 	</li>

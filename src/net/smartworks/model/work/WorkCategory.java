@@ -1,8 +1,6 @@
 package net.smartworks.model.work;
 
-import net.smartworks.model.BaseObject;
-
-public class WorkCategory extends BaseObject {
+public class WorkCategory extends Work {
 	
 	private String 	desc = null;
 	

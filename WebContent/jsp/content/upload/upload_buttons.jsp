@@ -10,6 +10,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	String wid = request.getParameter("wid");
 	if (wid == null)
 		wid = SmartUtil.getCurrentUser().getId();
@@ -19,28 +22,33 @@
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	Work work = smartWorks.getWorkById(workId);
+	Work work = smartWorks.getWorkById(companyId, workId);
 	if (work == null)
 		work = new Work();
-	Community[] communities = smartWorks.getMyCommunities();
+	Community[] communities = smartWorks.getMyCommunities(companyId, userId);
 %>
 
 <!-- 등록 취소 버튼 -->
-<div id="glo_btn_space">
+<div class="glo_btn_space">
 
 	<div class="float_right">
-		<span class="btn_gray"> <a href=""> <span class="Btn01Start"></span>
+		<span class="btn_gray"> 
+		<a href="" onclick='submitForms(); return false;'> 
+			<span class="Btn01Start"></span>
 				<span class="Btn01Center"><fmt:message
-						key="common.button.complete" />
-			</span> <span class="Btn01End"></span> </a> </span> <span class="btn_gray space_r10">
+						key="common.button.complete"/>
+				</span> 
+			<span class="Btn01End"></span> </a> </span> 
+			
+			<span class="btn_gray">
 			<a href=""> <span class="Btn01Start"></span> <span
 				class="Btn01Center"><fmt:message key="common.button.cancel" />
 			</span> <span class="Btn01End"></span> </a> </span>
 	</div>
 
-	<div class="float_right padding_r10">
-		<form name="form" id="" class="float_right form_space">
-			<select name="">
+	<form name="frmAccessSpace" class="float_right padding_r10">
+		<div id="" class="float_right form_space">
+			<select name="selWorkSpace">
 				<option  value="<%=cUser.getId()%>">
 					<fmt:message key="common.upload.space.self" />
 				</option>
@@ -68,10 +76,10 @@
 					%>
 				</optgroup>
 			</select>
-		</form>
+		</div>
 
-		<form name="form" id="" class="float_right form_space">
-			<select name="">
+		<div id="" class="float_right form_space">
+			<select name="selAccessLevel">
 				<%
 					int accessLevel = work.getAccessPolicy().getLevel();
 					if (accessLevel == AccessPolicy.LEVEL_PUBLIC) {
@@ -104,8 +112,8 @@
 					}
 				%>
 			</select>
-		</form>
-	</div>
+		</div>
+	</form>
 
 </div>
 <!-- 등록 취소 버튼//-->

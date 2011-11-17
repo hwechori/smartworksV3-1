@@ -105,8 +105,8 @@
 		<tr>
 			<td>내 용</td>
 			<td colspan="3" class="">
-				<div class="up_form textarea_size">
-					<textarea class="up up_textarea essen" name="내용" cols="" rows="5"
+				<div class="textarea_size">
+					<textarea class="up_textarea essen" name="내용" cols="" rows="5"
 						value="내용"></textarea>
 				</div>
 			</td>

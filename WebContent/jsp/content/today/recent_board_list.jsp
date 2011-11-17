@@ -6,15 +6,19 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
+	String companyId = (String) session.getAttribute("companyId");
+	String userId = (String) session.getAttribute("userId");
+	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	BoardInstance[] boards = smartWorks.getBoardInstances(new LocalDate(), 5);
+	BoardInstance[] boards = smartWorks.getBoardInstances(companyId, userId, new LocalDate(), 5);
 %>
 <!-- 공지사항 -->
 <div id="notice">
 	<ul>
 		<%
+		if(boards != null){
 			for (BoardInstance board : boards) {
 				User owner = board.getOwner();
 				String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
@@ -56,6 +60,7 @@
 		</li>
 		<%
 			}
+		}
 		%>
 	</ul>
 </div>

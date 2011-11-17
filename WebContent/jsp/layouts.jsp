@@ -5,9 +5,26 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
+<!-- For Development Purpose -->
+<%
+	if(session.getAttribute("companyId")==null || session.getAttribute("userId")==null){
+		session.setAttribute("companyId", "Semiteq");
+		session.setAttribute("userId", "jskim@maninsoft.co.kr");
+	}
+	
+	String companyId = (String)session.getAttribute("companyId");
+	String userId = (String)session.getAttribute("userId");
+	String cid = (String)session.getAttribute("cid");
+	String wid = (String)session.getAttribute("wid");
+	if (cid == null) {
+		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
+	}
+%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser();
@@ -15,29 +32,38 @@
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<%
-	if (session.getAttribute("cid") == null) {
-		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
-	}
-%>
-
 
 <head>
 
 <link href="css/default.css" type="text/css" rel="stylesheet" />
-</link>
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
-</link>
+<link href="css/detail.css" type="text/css" rel="stylesheet" />
+<link href="css/calendar.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
 		<fmt:param value="<%=currentUser.getCompany() %>" />
-	</fmt:message></title>
+	</fmt:message>
+	<sec:authentication property="principal.name"/>
+	<sec:authorize access="hasRole('ADMINISTRATOR')" > 
+		I AM ADMINISTRATOR!
+	</sec:authorize>
+	</title>
 
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.effects.explode.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
+<script type="text/javascript" src="js/sw/sw-util.js"></script>
 <script type="text/javascript" src="js/sw/sw-all.js"></script>
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
+<script type="text/javascript" src="js/sw/sw-validate.js"></script>
 
 </head>
 

@@ -12,10 +12,8 @@
 		<intercept-url pattern="/login.sw" access="permitAll" />
 		<intercept-url pattern="/css/*.css" access="permitAll" />
 		<intercept-url pattern="/images/*.*" access="permitAll" />
-		<intercept-url pattern="/**/*" access="permitAll" />
-		<!-- <intercept-url pattern="/**/*" access="hasRole('ROLE_USER')" /> -->
-		<intercept-url pattern="/secure/**/*"
-			access="hasRole('ROLE_MANAGER') and fullyAuthenticated" />
+		<intercept-url pattern="/**/*" access="hasAnyRole('USER','ADMINISTRATOR') and fullyAuthenticated" />
+		<intercept-url pattern="/admin/**/*" access="hasRole('ADMINISTRATOR') and fullyAuthenticated" />
 		<form-login login-page="/login.sw" />
 		<logout invalidate-session="true" success-handler-ref="myLogoutSuccessHandler"
 			logout-url="/logout" />
@@ -35,13 +33,18 @@
 	<beans:bean
 		class="org.springframework.security.access.vote.AuthenticatedVoter"
 		id="authenticatedVoter" />
+	
+	<beans:bean class="net.smartworks.server.engine.security.SwPasswordEncoder" id="swPasswordEncoder"/>
+	
+	<beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" id="saltSource" >
+		<beans:property name="userPropertyToUse" value="username"/>
+	</beans:bean>
 
 	<authentication-manager alias="authenticationManager">
-		<authentication-provider>
-			<jdbc-user-service data-source-ref="misDs" 
-			users-by-username-query="select id, passwd, 1 from sworguser where id=?"
-			authorities-by-username-query="select name, 'ROLE_USER' from sworguser where id=?"			
-			/>
+		<authentication-provider user-service-ref="authenticationDao">
+			<password-encoder ref="passwordEncoder">
+				<salt-source ref="saltSource"/>
+			</password-encoder>
 		</authentication-provider>
 	</authentication-manager>
 
@@ -50,5 +53,17 @@
 		<beans:property name="defaultTargetUrl" value="/" />
 		<beans:property name="alwaysUseDefaultTargetUrl" value="true" />
 	</beans:bean>
+	
+	<beans:bean id="passwordEncoder" class="net.smartworks.server.engine.security.SwPasswordEncoder"/>
+	
+	<beans:bean id="authenticationDao" class="net.smartworks.server.engine.security.manager.impl.AuthenticationDaoImpl">
+		<beans:property name="loginDao" ref="loginDao"/>
+	</beans:bean>
+
+	<beans:bean id="loginDao" class="net.smartworks.server.engine.security.manager.impl.LoginDaoImpl">
+		<beans:property name="dataSource" ref="misDs"/>
+	</beans:bean>
+	
+	
 
 </beans:beans>

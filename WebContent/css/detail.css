@@ -1,0 +1,78 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/* 상세보기- 타이틀 아이콘*/
+.body_title { padding:10px 15px;} /* 컨텐츠 페이지 타이틀*/
+.body_title_pic { padding:10px 15px;} /* 컨텐츠 페이지 타이틀 - 사람사진이 들어갈 경우 */
+.body_title_pic .title_picico {font-size: 14px; font-weight: bold;} /* 컨텐츠 페이지 타이틀 - 사람사진이 들어갈 경우: 제목 텍스트 */
+
+.body_title .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
+.body_title .title_noico {font-size: 14px; font-weight: bold; height: 52px;}  /* 타이틀 우측으로 아이콘이 없을때 */
+.body_btiti_pworks {background: url("../images/body_title_proces.png") no-repeat left top transparent; padding:1px 0 2px 19px; height: 52px; line-height:18px;}
+.body_titi_iworks {background: url("../images/body_title_inform.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
+.body_title .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding-top: 30px;} /* 타이틀 우측으로 버튼 */
+
+
+
+/* 상세보기 컨텐츠 */
+.contents_space {padding: 0 25px 10px;}
+.contents_space .det_title {padding:3px 0;} /* 타이틀 */
+.contents_space .det_contents {}
+
+/* Replay Info */
+.info_repl {vertical-align:bottom; position:absolute;}
+
+/* 상세보기 List */
+.contents_upspace { padding:5px 0 0 0;}
+.replay { margin:10px 15px 0;}
+.list_replay {margin:10px 0;} /* 리스트 페이지 댓글 */
+.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:3px 0;}
+.list_replay .end .replay .end {border-bottom: 0px; vertical-align: middle;}
+
+
+
+/* 목록 타이틀 */
+.list_title_space {background-color:#ededed; margin-top:10px; padding: 5px;}
+.list_title_space .title { font-size:14px; font-weight:bold;  padding-top: 3px;}
+.list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0;}
+.list_contents table .r_line {border-right:1px solid #DCDFE0;}
+.list_contents table th {text-align:center; padding:3px 15px;}
+.list_contents table td {padding-left:10px; }
+
+/* 상세보기 포인트 */
+.gr_up_point {background: url("../images/up_point_gr.gif") no-repeat scroll left top transparent; height: 13px; width: 23px;}
+.posit_point {left:20px; position: relative; top:7px; z-index:90;}
+
+
+/* 상세보기 포틀릿 */
+.gr_portlet {
+    background: url("../images/gr_bg_portlet_b.jpg") no-repeat scroll 0 100% transparent;
+    margin-bottom:10px; position:relative; width:100%; z-index:30;}
+.gr_portlet ul {height:100%;}
+	
+.gr_tab_portlet {
+    background: url("../images/bg_portlet.jpg") no-repeat scroll 100% -77px transparent;
+    clea:both; width:100%; height:45px; overflow:hidden; position:relative;}
+.gr_tab_portlet .gr_tab_portlet_l {
+    background: url("../images/bg_portlet.jpg") no-repeat scroll 0 -77px transparent;
+    display:inline-block; width:10px; height:45px; left:0; position:absolute;}
+
+.gr_portlet_l {
+    background: url("../images/gr_bg_portlet_l.jpg") repeat-y scroll 0 0 #ece9e2;
+    position:relative; height:100%; width:100%; z-index:10;}	
+.gr_portlet_r {
+    background: url("../images/gr_bg_portlet_r.jpg") repeat-y scroll 100% 0 transparent;
+    margin-top:-1px; height:100%; width:100%; float:none;}
+	
+.gr_portlet_b {
+    background: url("../images/gr_bg_portlet_b.jpg") no-repeat scroll 100% 100% transparent;
+    height:16px; margin-left:10px; display:inline-block; }
+	
+.gr_portlet_t {
+    background: url("../images/bg_portlet.jpg") repeat-y scroll 100% -522px transparent;
+    clea:both; width:100%; height:16px; overflow:hidden; position:relative;}
+		
+.gr_portlet_t .gr_portlet_tl {
+    background: url("../images/bg_portlet.jpg") repeat-y scroll 0 -522px transparent;
+    display:inline-block; width:10px; height:16px; left:0; position:absolute;}

@@ -99,7 +99,7 @@ public class SmartTest {
 	}
 
 	public static SmartWork getSmartWork6() throws Exception {
-		return new SmartWork("work6", "자료실", SmartWork.TYPE_GROUP, "", getWorkCategory2());
+		return new SmartWork("work6", "자료실", SmartWork.TYPE_SCHEDULE, "", getWorkCategory2());
 	}
 
 	public static SmartWork getSmartWork7() throws Exception {

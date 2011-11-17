@@ -73,22 +73,22 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public Department[] getMyDepartments() throws Exception {
+	public Department[] getMyDepartments(String companyId, String userId) throws Exception {
 		return communityService.getMyDepartments();
 	}
 
 	@Override
-	public Department getDepartmentById(String departId) throws Exception {
+	public Department getDepartmentById(String companyId, String departId) throws Exception {
 		return communityService.getDepartmentById(departId);
 	}
 
 	@Override
-	public Group[] getMyGroups() throws Exception {
+	public Group[] getMyGroups(String companyId, String userId) throws Exception {
 		return communityService.getMyGroups();
 	}
 
 	@Override
-	public Group getGroupById(String groupId) throws Exception {
+	public Group getGroupById(String companyId, String groupId) throws Exception {
 		return communityService.getGroupById(groupId);
 	}
 
@@ -98,155 +98,178 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public User getUserById(String userId) throws Exception {
+	public User getUserById(String companyId, String userId) throws Exception {
 		return communityService.getUserById(userId);
 	}
 
 	@Override
-	public WorkSpace[] searchCommunity(String key) throws Exception {
+	public WorkSpace[] searchCommunity(String companyId, String userId, String key) throws Exception {
 		return communityService.searchCommunity(key);
 	}
 
 	@Override
-	public User[] searchCommunityMember(String communityId, String key) throws Exception {
+	public User[] searchCommunityMember(String companyId, String communityId, String key) throws Exception {
 		return communityService.searchCommunityMember(communityId, key);
 	}
 
 	@Override
-	public SmartWork[] searchWork(String key) throws Exception {
+	public SmartWork[] searchWork(String companyId, String userId, String key) throws Exception {
 		return workService.searchWork(key);
 	}
 
 	@Override
-	public User[] searchUser(String key) throws Exception {
+	public User[] searchUser(String companyId, String key) throws Exception {
 		return communityService.searchUser(key);
 	}
 
 	@Override
-	public Instance[] searchMyRunningInstance(String key) throws Exception {
+	public Instance[] searchMyRunningInstance(String companyId, String userId, String key) throws Exception {
 		return instanceService.searchMyRunningInstance(key);
 	}
 
 	@Override
-	public WorkSpace getWorkSpaceById(String workSpaceId) throws Exception {
+	public WorkSpace getWorkSpaceById(String companyId, String workSpaceId) throws Exception {
 		return communityService.getWorkSpaceById(workSpaceId);
 	}
 
 	@Override
-	public User[] getAvailableChatter() throws Exception {
+	public User[] getAvailableChatter(String companyId, String userId) throws Exception {
 		return communityService.getAvailableChatter();
 	}
 
 	@Override
-	public User[] searchAvailableChatter(String key) throws Exception {
+	public User[] searchAvailableChatter(String companyId, String userId, String key) throws Exception {
 		return communityService.searchAvailableChatter(key);
 	}
 
 	@Override
-	public String[] getBroadcastingMessages() throws Exception {
+	public String[] getBroadcastingMessages(String companyId) throws Exception {
 		return noticeService.getBroadcastingMessages();
 	}
 
 	@Override
-	public Notice[] getNoticesForMe() throws Exception {
+	public Notice[] getNoticesForMe(String companyId, String userId) throws Exception {
 		return noticeService.getNoticesForMe();
 	}
 
 	@Override
-	public NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception {
+	public NoticeBox getNoticeBoxForMe10(String companyId, String userId, int noticeType, LocalDate lastNotice) throws Exception {
 		return noticeService.getNoticeBoxForMe10(noticeType, lastNotice);
 	}
 
 	@Override
-	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, int days) throws Exception {
+	public CompanyCalendar[] getCompanyCalendars(String companyId, LocalDate fromDate, int days) throws Exception {
 		return calendarService.getCompanyCalendars(fromDate, days);
 	}
 
 	@Override
-	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception {
+	public CompanyCalendar[] getCompanyCalendars(String companyId, LocalDate fromDate, LocalDate toDate) throws Exception {
 		return calendarService.getCompanyCalendars(fromDate, toDate);
 	}
 
 	@Override
-	public EventInstance[] getEventInstances(LocalDate fromDate, int days) throws Exception {
+	public EventInstance[] getEventInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
 		return calendarService.getEventInstances(fromDate, days);
 	}
 
 	@Override
-	public EventInstance[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
+	public EventInstance[] getEventInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
 		return calendarService.getEventInstances(fromDate, toDate);
 	}
 
 	@Override
-	public CompanyCalendar getCompanyEventBox(LocalDate date) throws Exception {
+	public CompanyCalendar getCompanyEventBox(String companyId, LocalDate date) throws Exception {
 		return calendarService.getCompanyEventBox(date);
 	}
 
 	@Override
-	public EventInstance[] getCompanyEventsByDate(LocalDate date, int maxEvents) throws Exception {
+	public EventInstance[] getCompanyEventsByDate(String companyId, LocalDate date, int maxEvents) throws Exception {
 		return calendarService.getCompanyEventsByDate(date, maxEvents);
 	}
 
 	@Override
-	public EventInstance[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception {
+	public EventInstance[] getMyEventsByDate(String companyId, String userId, LocalDate date, int maxEvents) throws Exception {
 		return calendarService.getMyEventsByDate(date, maxEvents);
 	}
 
 	@Override
-	public BoardInstance[] getBoardInstances(LocalDate fromDate, int days) throws Exception {
+	public BoardInstance[] getBoardInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
 		return instanceService.getBoardInstances(fromDate, days);
 	}
 
 	@Override
-	public BoardInstance[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
+	public BoardInstance[] getBoardInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
 		return instanceService.getBoardInstances(fromDate, toDate);
 	}
 
 	@Override
-	public WorkInstance[] getMyRecentInstances() throws Exception {
+	public WorkInstance[] getMyRecentInstances(String companyId, String userId) throws Exception {
 		return instanceService.getMyRecentInstances();
 	}
 
 	@Override
-	public SmartWork[] getMyFavoriteWorks() throws Exception {
+	public SmartWork[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
 		return workService.getMyFavoriteWorks();
 	}
 
 	@Override
-	public WorkCategory[] getMyWorkCategories() throws Exception {
-		return workService.getMyWorkCategories();
+	public Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
+		return workService.getMyAllWorksByCategoryId(companyId, userId, categoryId);
 	}
 
 	@Override
-	public SmartWork[] getMyAllWorksByCategoryId(String categoryId) throws Exception {
-		return workService.getMyAllWorksByCategoryId(categoryId);
-	}
-
-	@Override
-	public SmartWork[] getMyAllWorksByGroupId(String groupId) throws Exception {
-		return workService.getMyAllWorksByGroupId(groupId);
-	}
-
-	@Override
-	public Instance[] getMyRunningInstances() throws Exception {
+	public Instance[] getMyRunningInstances(String companyId, String userId) throws Exception {
 		return instanceService.getMyRunningInstances();
 	}
 
 	@Override
-	public Work getWorkById(String workId) throws Exception {
+	public Work getWorkById(String companyId, String workId) throws Exception {
 		return workService.getWorkById(workId);
 	}
 
 	@Override
-	public Instance getInstanceById(String instanceId) throws Exception {
+	public Instance getInstanceById(String companyId, String instanceId) throws Exception {
 		return instanceService.getInstanceById(instanceId);
 	}
 
 	@Override
-	public Community[] getMyCommunities() throws Exception {
+	public Community[] getMyCommunities(String companyId, String userId) throws Exception {
 		return communityService.getMyCommunities();
 	}
 
+	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setInformationWorkInstance(request);
+
+	}
+
+	@Override
+	public String startProcessWorkInstance(HttpServletRequest request) throws Exception {
+		return instanceService.startProcessWorkInstance(request);
+
+	}
+
+	@Override
+	public String setFileInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setFileInstance(request);
+
+	}
+
+	@Override
+	public String setEventInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setEventInstance(request);
+
+	}
+
+	@Override
+	public String setMemoInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setMemoInstance(request);
+	}
+
+	@Override
+	public String setBoardInstance(HttpServletRequest request) throws Exception {
+		return instanceService.setBoardInstance(request);
+
+	}
 /*	@Override
 	public String createFile(String userId, String groupId, IFileModel file) throws Exception {
 		return docFileService.createFile(userId, groupId, file);
