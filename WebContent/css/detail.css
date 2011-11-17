@@ -26,11 +26,13 @@
 
 /* 본문 댓글 관련 */
 .replay_point {background: url("../images/replay_point.gif") no-repeat left top; width:11px; height:7px;}
-.replay_section { background-color:#eef2f6; padding:10px;}
-.replay { margin:10px 15px 0;}
-.list_replay {margin:0 0 10px 0;} /* 댓글 목록 */
-.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:3px 0;}
+.replay_section { background-color:#eef2f6; padding:10px; width:600px;}
+.replay {margin:10px 15px 0;} /* 상세페이지에 댓글,업무,메모 입력 영역*/
+.list_replay {margin:0;} /* 댓글 목록 */
+.replay_input {margin-top:10px;} /* 댓글 입력 영역 */
+.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; margin:5px 0;}
 .list_replay .end .replay .end {border-bottom: 0px; vertical-align: middle;}
+.repl_tinfo {background: url("../images/header_nico.png") no-repeat -8px -286px; padding:0 0 0 20px;}
 
 
 /* 목록보기 부분 타이틀 */
@@ -142,8 +144,27 @@
 
 /* 필터 */
 .filter_section {overflow:hidden;}
-.filter_group {border:1px solid #e2e2e2; width:430px; padding:5px; margin:3px 0;}
-.filter_area {height:22px; padding:5px 0;}
+.filter_group {border:1px solid #e2e2e2; padding:5px; margin:3px 0;}
+.filter_group table { margin:0; text-align:right; } 
+.filter_area {height:22px; padding:5px 0; float:right;}
+.filter_area .selb_size { width:100px;}
 
 .btn_plus {margin-right:5px; width:25px;}
-.filter_btn_space {background-color:#FFF; padding:8px 0 0; width:430px; height:22px; border-top: 1px solid #c7c7c7;}
+.filter_btn_space {background-color:#FFF; padding:8px 0 0; height:22px; border-top: 1px solid #c7c7c7;}
+
+
+/* 페이징 */
+.paginate { height: 25px; padding-top: 10px; position: relative; text-align: center;}
+.paginate .num {margin-right:1px; padding: 2px 3px; text-decoration: none; vertical-align: middle;}
+
+.spr { cursor: pointer; display: inline-block; overflow: hidden; vertical-align: middle;}
+.paginate a.pre_end span {background: url("../images/header_nico.png") no-repeat scroll 0 -345px transparent; 
+display: inline-block; height: 16px; width:16px;}
+.paginate a.pre span {background: url("../images/header_nico.png") no-repeat scroll -15px -345px transparent;
+display: inline-block; height: 16px; width: 16px; margin-right:11px;}
+.paginate a.next span { background: url("../images/header_nico.png") no-repeat scroll -39px -345px transparent; 
+display: inline-block; height: 16px; width: 16px; margin-left:11px;}
+.paginate a.next_end span { background: url("../images/header_nico.png") no-repeat scroll -54px -345px transparent;
+display: inline-block; height: 16px; width: 16px;}
+
+.num_box {float:right; margin: -30px 25px 0; position:relative;}
