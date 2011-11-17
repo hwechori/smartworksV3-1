@@ -10,7 +10,7 @@ public interface IWorkService {
 	SmartWork[] getMyFavoriteWorks() throws Exception;
 
 	SmartWork[] searchWork(String key) throws Exception;
-	
-	Work getWorkById(String workId) throws Exception;
+
+	Work getWorkById(String companyId, String userId, String workId) throws Exception;
 
 }

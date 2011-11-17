@@ -3,20 +3,30 @@ package net.smartworks.server.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.smartworks.model.work.AccessPolicy;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
+import net.smartworks.server.engine.authority.manager.ISwaManager;
+import net.smartworks.server.engine.authority.model.SwaResource;
+import net.smartworks.server.engine.authority.model.SwaResourceCond;
+import net.smartworks.server.engine.authority.model.SwaUser;
+import net.smartworks.server.engine.authority.model.SwaUserCond;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.category.model.CtgCategoryCond;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
+import net.smartworks.server.engine.infowork.form.model.SwfForm;
+import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
+import net.smartworks.server.service.util.SmartCommonConstants;
 import net.smartworks.util.SmartTest;
 
 import org.springframework.stereotype.Service;
@@ -30,7 +40,13 @@ public class WorkServiceImpl implements IWorkService {
 	private IPkgManager getPkgManager() {
 		return SwManagerFactory.getInstance().getPkgManager();
 	}
-	
+	private ISwaManager getSwaManager() {
+		return SwManagerFactory.getInstance().getSwaManager();
+	}
+	private ISwfManager getSwfManager() {
+		return SwManagerFactory.getInstance().getSwfManager();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -144,13 +160,67 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public Work getWorkById(String workId) throws Exception {
-		Work[] works = new Work[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork4(),
+	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
+/*		Work[] works = new Work[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork4(),
 				SmartTest.getSmartWork5(), SmartTest.getSmartWork6(), SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9() };
 		for (Work work : works) {
 			if (work.getId().equals(workId))
 				return work;
 		}
-		return null;
+		return null;*/
+		PkgPackageCond pkgCond = new PkgPackageCond();
+		pkgCond.setCompanyId(companyId);
+		pkgCond.setPackageId(workId);
+
+		SwfFormCond swfCond = new SwfFormCond();
+		swfCond.setPackageId(workId);
+		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, null);
+		SwfForm swfForm = swfForms[0];
+		String formId = swfForm.getId();
+
+		SwaResourceCond swaResourceCond = new SwaResourceCond();
+		swaResourceCond.setResourceId(formId);
+		SwaResource[] swaResources = getSwaManager().getResources(userId, swaResourceCond, null);
+		
+		
+/*		SwaUserCond swaUserCond = null;
+		SwaUser[] swaUsers = null;
+
+		if(swaResource.getPermission().equals("PUB_SELECT")) {
+			swaUserCond = new SwaUserCond();
+			swaUserCond.setResourceId(formId);
+			swaUsers = getSwaManager().getUsers(userId, swaUserCond, null);
+			for(SwaUser swaUser : swaUsers) {
+				System.out.println(swaUser.getUserId());
+			}
+		}*/
+
+		String userMode = CommonUtil.toNotNull(getSwaManager().getUserMode(userId, formId, SmartCommonConstants.TYPE_REF_SINGLE_WORK, null, companyId));
+
+		/* -- 공개여부 --
+		 공개 / 비공개*/
+
+/*		 -- 형태 --
+		 블로그형 : v2.0 구조
+		 위키형 : 누구나 수정 가능*/
+
+		 /*-- 작성권한 --
+		 전체 / 선택사용자*/
+
+		System.out.println("userMode>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+userMode);
+		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_ALL);
+		String id = pkg.getPackageId();
+		String name = pkg.getName();
+		String typeStr = pkg.getType();
+		int type = typeStr.equals("PROCESS") ? SmartWork.TYPE_PROCESS : typeStr.equals("SINGLE") ? SmartWork.TYPE_INFORMATION : SmartWork.TYPE_SCHEDULE;
+		String description = pkg.getDescription();
+
+		Work work = new Work(id, name, type, description);
+		AccessPolicy accessPolicy = new AccessPolicy();
+		accessPolicy.setLevel(AccessPolicy.LEVEL_DEFAULT);
+		work.setAccessPolicy(accessPolicy);
+		return work;
+
 	}
+
 }

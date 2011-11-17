@@ -14,6 +14,9 @@ import net.smartworks.server.engine.authority.model.SwaResourceCond;
 import net.smartworks.server.engine.authority.model.SwaUser;
 import net.smartworks.server.engine.authority.model.SwaUserCond;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.infowork.domain.exception.SwdException;
+import net.smartworks.server.engine.organization.exception.SwoException;
+import net.smartworks.server.engine.process.process.exception.PrcException;
 
 public interface ISwaManager extends IManager {
 
@@ -32,5 +35,7 @@ public interface ISwaManager extends IManager {
 	public void removeUser(String user, SwaUserCond cond) throws SwaException;
 	public long getUserSize(String user, SwaUserCond cond) throws SwaException;
 	public SwaUser[] getUsers(String user, SwaUserCond cond, String level) throws SwaException;
+
+	public String getUserMode(String user, String rscId, int type, String instId, String companyId) throws SwaException, SwoException, SwdException, PrcException;
 
 }

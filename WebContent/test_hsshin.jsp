@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.work.Work"%>
+<%@page import="net.smartworks.service.ISmartWorks"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef"%>
 <%@page import="java.util.Iterator"%>
@@ -95,6 +97,14 @@
 	for(SwfFormFieldDef formFieldDef : formFieldDefList) {
 		System.out.println(formFieldDef.getId() + formFieldDef.getName() + formFieldDef.getViewingType() + formFieldDef.getFormatType() + formFieldDef.getSystemName());
 	}
+
+	ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
+
+	Work work = smartworks.getWorkById("Maninsoft", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
+
+	System.out.println("PackageName = " + work.getName() + ", PackageId = " + work.getId() + ", PackageType = " + work.getType() + ", PackageDescription = " + work.getDesc());
+
+	System.out.println(work.getAccessPolicy().getLevel());
 %>
 <textarea style="width:800px;height:400px;">
 <%=swfForm %>
