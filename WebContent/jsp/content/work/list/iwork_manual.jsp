@@ -64,8 +64,8 @@
 					<img src="<%=commentor.getMidPicture()%>" align="bottom" />
 				</div>
 				<div class="noti_in">
-					<span class="t_name"><%=commentor.getLongName()%></span><<span
-						class="t_date"><%=comment.getLastModifiedDate()%></span>
+					<span class="t_name"><%=commentor.getLongName()%></span><span
+						class="t_date"><%=comment.getLastModifiedDate().toLocalString()%></span>
 					<div><%=comment.getComment()%></div>
 				</div></li>
 			<%

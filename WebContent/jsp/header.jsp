@@ -47,10 +47,10 @@
 			}
 		%>
 		<li class="i_replay js_notice_count"><a
-			href="notice_message_box.sw?noticeType=<%=Notice.TYPE_COMMENTS%>"
+			href="notice_message_box.sw?noticeType=<%=Notice.TYPE_COMMENT%>"
 			title="<fmt:message key='header.notice.icon.comments'/>"> <%
- 	if (notices.length > Notice.TYPE_COMMENTS && notices[Notice.TYPE_COMMENTS].getLength() > 0) {
- %> <em class="num_ic"><%=notices[Notice.TYPE_COMMENTS].getLength()%><span></span>
+ 	if (notices.length > Notice.TYPE_COMMENT && notices[Notice.TYPE_COMMENT].getLength() > 0) {
+ %> <em class="num_ic"><%=notices[Notice.TYPE_COMMENT].getLength()%><span></span>
 			</em>
 		</a></li>
 		<%
