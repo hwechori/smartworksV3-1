@@ -37,8 +37,8 @@
 		<ul class="portlet_r" style="display: block;">
 
 			<!-- 타이틀 -->
-			<div class="body_title">
-				<div class="body_titi_iworks title"><%=work.getName()%></div>
+			<div class="body_titl">
+				<div class="body_titl_iworks title"><%=work.getName()%></div>
 
 				<!-- 우측 버튼-->
 				<div class="txt_btn">
