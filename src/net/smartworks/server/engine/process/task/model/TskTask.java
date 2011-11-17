@@ -22,6 +22,13 @@ public class TskTask extends MisObject {
 	protected static final String PREFIX = "Tsk";
 	
 	private static final String NAME = CommonUtil.toName(TskTask.class, PREFIX);
+	
+	public static final String TASKSTATUS_ASSIGN = "11";
+	public static final String TASKSTATUS_COMPLETE = "21";
+	public static final String TASKSTATUS_CREATE = "1";
+	
+	public static final String[] NOTUSERTASKTYPES = new String[]{"route", "and", "xor", "SUBFLOW", "SERVICE"};
+	
 	public static final String A_CORRELATION = "correlation";
 	public static final String A_TYPE = "type";
 	public static final String A_PROCESSINSTID = "processInstId";

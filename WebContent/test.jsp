@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.model.work.Work"%>
+<%@page import="net.smartworks.server.service.IWorkService"%>
+<%@page import="net.smartworks.model.work.SmartWork"%>
 <%@page import="net.smartworks.model.work.WorkCategory"%>
 <%@page import="net.smartworks.service.ISmartWorks"%>
 <%@page import="net.smartworks.server.engine.process.approval.model.AprApproval"%>
@@ -35,15 +38,15 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
-		WorkCategory[] ctgs = smartworks.getMyWorkCategories("semiteq", "kmyu@maninsoft.co.kr");
-		for (WorkCategory ctg : ctgs) {
-			System.out.println(ctg.getName());
+		IWorkService smartworks = (IWorkService)SmartUtil.getBean("workServiceImpl", request);
+		Work[] works = smartworks.getMyRecentlyExecutedWork("semiteq", "kmyu@maninsoft.co.kr");
+		for (Work work : works) {
+			System.out.println(work.getName());
 			
 		}
 %>
 <textarea style="width:800px;height:400px;">
-<%= ctgs[0].getName()%>
+<%= works[0].getName()%>
 </textarea>
 </body>
 </html>
