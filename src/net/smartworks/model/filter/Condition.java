@@ -1,38 +1,54 @@
 package net.smartworks.model.filter;
 
+import net.smartworks.model.community.User;
 import net.smartworks.model.work.FormField;
+import net.smartworks.util.LocalDate;
 
 public class Condition {
 	
-	private FormField leftField;
-	private String operand;
-	private FormField rightField;
+	private FormField leftOperand;
+	private String operator;
+	private Object rightOperand;
 	
-	public FormField getLeftField() {
-		return leftField;
+	public FormField getLeftOperand() {
+		return leftOperand;
 	}
-	public void setLeftField(FormField leftField) {
-		this.leftField = leftField;
+	public void setLeftOperand(FormField leftOperand) {
+		this.leftOperand = leftOperand;
 	}
-	public String getOperand() {
-		return operand;
+	public String getOperator() {
+		return operator;
 	}
-	public void setOperand(String operand) {
-		this.operand = operand;
+	public void setOperator(String operator) {
+		this.operator = operator;
 	}
-	public FormField getRightField() {
-		return rightField;
+	public Object getRightOperand() {
+		return rightOperand;
 	}
-	public void setRightField(FormField rightField) {
-		this.rightField = rightField;
+	public void setRightOperand(Object rightOperand) {
+		this.rightOperand = rightOperand;
+	}
+	public Condition(){
+	}	
+	public Condition(FormField leftOperand, String operator, Object rightOperand){
+		this.leftOperand = leftOperand;
+		this.operator = operator;
+		this.rightOperand = rightOperand;
 	}
 
-	public Condition(){
+	public Condition[] getMyInstancesCondition(User currentUser){
+		return new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL, currentUser )};
 	}
-	
-	public Condition(FormField leftField, String operand, FormField rightField){
-		this.leftField = leftField;
-		this.operand = operand;
-		this.rightField = rightField;
+
+	public Condition[] getRecentInstancesCondition(){
+		LocalDate currentDate = new LocalDate();
+		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
+		return new Condition[] {new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL, new LocalDate(oneWeekBefore) )};
+	}
+	public Condition[] getMyRecentInstancesCondition(User currentUser){
+		LocalDate currentDate = new LocalDate();
+		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
+		return new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL, currentUser ),
+				new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL, new LocalDate(oneWeekBefore) )};
 	}
 }

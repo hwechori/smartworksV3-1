@@ -1,6 +1,7 @@
 package net.smartworks.model.filter;
 
 import net.smartworks.model.BaseObject;
+import net.smartworks.model.community.User;
 
 public class SearchFilter extends BaseObject{
 	
@@ -9,6 +10,10 @@ public class SearchFilter extends BaseObject{
 	public static final int BASIC_FILTER_RECENT_INSTANCES = 3;
 	public static final int BASIC_FILTER_MY_RECENT_INSTANCES = 4;
 	
+	public static final String FILTER_ALL_INSTANCES = "allInstances";
+	public static final String FILTER_MY_INSTANCES = "myInstances";
+	public static final String FILTER_RECENT_INSTANCES = "recentInstances";
+	public static final String FILTER_MY_RECENT_INSTANCES = "myRecentInstances";
 	private Condition[] conditions;
 
 	public Condition[] getConditions() {
@@ -20,5 +25,4 @@ public class SearchFilter extends BaseObject{
 
 	public SearchFilter(){
 	}
-
 }
