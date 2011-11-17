@@ -30,6 +30,8 @@ public class PrcProcessInstCond extends MisObjectCond {
 	public static final String A_PRIORITYINS = "priorityIns";
 	public static final String A_PRIORITYNOTIN = "priorityNotIn";
 	public static final String A_PRIORITYNOTINS = "priorityNotIns";
+	public static final String A_OBJIDIN = "objIdIn";
+	public static final String A_OBJIDINS = "objIdIns";
 	public static final String A_ISSUBINSTANCE = "isSubInstance";
 	
 	private String title;
@@ -40,6 +42,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 	private String processId;
 	private String diagram;
 	
+	private String[] objIdIns;
 	private String[] priorityIns;
 	private String[] priorityNotIns;
 	private String isSubInstance;
@@ -74,6 +77,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 		appendElementString(A_DIAGRAM, getDiagram(), tab, true, buf);
 		appendElementsString(A_PRIORITYINS, A_PRIORITYIN, getPriorityIns(), tab, buf);
 		appendElementsString(A_PRIORITYNOTINS, A_PRIORITYNOTIN, getPriorityNotIns(), tab, buf);
+		appendElementsString(A_OBJIDINS, A_OBJIDIN, getObjIdIns(), tab, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
@@ -133,7 +137,15 @@ public class PrcProcessInstCond extends MisObjectCond {
 				for (int j=0; j<nodes.length; j++)
 					objs[j] = nodes[j].getNodeValue();
 				obj.setPriorityNotIns(objs);
-			}
+			} else if (childNode.getNodeName().equals(A_OBJIDINS)) {
+				Node[] nodes = getNodes(childNode);
+				if (nodes == null || nodes.length == 0)
+					continue;
+				String[] objs = new String[nodes.length];
+				for (int j=0; j<nodes.length; j++)
+					objs[j] = nodes[j].getNodeValue();
+				obj.setObjIdIns(objs);
+			} 
 		}
 		return obj;
 	}
@@ -300,5 +312,11 @@ public class PrcProcessInstCond extends MisObjectCond {
 	}
 	public void setIsSubInstance(String isSubInstance) {
 		this.isSubInstance = isSubInstance;
+	}
+	public String[] getObjIdIns() {
+		return objIdIns;
+	}
+	public void setObjIdIns(String[] objIdIns) {
+		this.objIdIns = objIdIns;
 	}
 }

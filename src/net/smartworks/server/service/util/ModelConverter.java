@@ -8,9 +8,11 @@
 
 package net.smartworks.server.service.util;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.WorkCategory;
 import net.smartworks.server.engine.category.model.CtgCategory;
@@ -18,6 +20,8 @@ import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
+import net.smartworks.server.engine.process.process.model.PrcProcessInst;
+import net.smartworks.util.LocalDate;
 
 public class ModelConverter {
 	
@@ -58,6 +62,55 @@ public class ModelConverter {
 			
 			return work;
 			
+		} else if (argObj instanceof PrcProcessInst) {
+//			PrcProcessInst prcInst = (PrcProcessInst)argObj;
+//			
+//			String prcInstId = prcInst.getObjId();
+//			String prcInstType = "";
+//			Date prcInstLastModifiedDate = prcInst.getModificationDate();
+//			String prcInstLastModifier = prcInst.getModificationUser();
+//			String prcInstOwner = prcInst.getCreationUser();
+//			String prcInstStatus = prcInst.getStatus(); // CODE 값으로 변경
+//			String prcInstSubject = prcInst.getTitle();
+//			
+//			WorkInstance workInst = new WorkInstance();
+//			
+//			workInst.setId(prcInstId);
+//			workInst.setInstanceType(prcInstType);
+//			workInst.setLastModifiedDate(new LocalDate(prcInstLastModifiedDate.getTime()));
+//			workInst.setLastModifier(prcInstLastModifier);
+//			workInst.setOwner(prcInstOwner);
+//			workInst.setStatus(prcInstStatus);
+//			workInst.setSubject(prcInstSubject);
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			String pkgId = prcInst.getObjId();
+//			String pkgName = pkg.getName();
+//			String pkgDesc = pkg.getDescription();
+//				
+//			SmartWork work = new SmartWork(pkgId, pkgName);
+//				
+//			Map<String, WorkCategory> pkgCtgPathMap = getPkgCtgInfoMapByPackageId(pkg);
+//			work.setMyCategory(pkgCtgPathMap.get("category"));
+//			work.setMyGroup(pkgCtgPathMap.get("group"));
+//			if (pkg.getType().equalsIgnoreCase("PROCESS")) {
+//				work.setType(SmartWork.TYPE_PROCESS);	
+//			} else if (pkg.getType().equalsIgnoreCase("SINGLE")) {
+//				work.setType(SmartWork.TYPE_INFORMATION);	
+//			} else if (pkg.getType().equalsIgnoreCase("GANTT")) {
+//				work.setType(SmartWork.TYPE_SCHEDULE);	
+//			}
+//			work.setDesc(pkgDesc);
+//			
+//			return work;
+//			
+			return null;
 		} else {
 			return null;
 		}
@@ -99,6 +152,19 @@ public class ModelConverter {
 				i++;
 			}
 			return works;
+			
+		} else if (argObj instanceof PrcProcessInst[]) {
+			PrcProcessInst[] prcInsts = (PrcProcessInst[])argObj;
+			
+			WorkInstance[] workInsts = new WorkInstance[prcInsts.length];
+			
+			int i = 0;
+			for (PrcProcessInst prcInst : prcInsts) {
+				WorkInstance workInst = (WorkInstance)objectToObject(prcInst);
+				workInsts[i] = workInst; 
+				i++;
+			}
+			return workInsts;
 			
 		} else {
 			return null;

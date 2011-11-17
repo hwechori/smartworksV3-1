@@ -144,6 +144,7 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		Property[] extProps = null;
 		String[] priorityIns = null;
 		String[] priorityNotIns = null;
+		String[] objIdIns = null;
 		String searchKey = null;
 		Filter[] filters = null;
 		String logicalOperator = null;
@@ -167,6 +168,7 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			extProps = cond.getExtendedProperties();
 			priorityIns = cond.getPriorityIns();
 			priorityNotIns = cond.getPriorityNotIns();
+			objIdIns = cond.getObjIdIns();
 			searchKey = cond.getSearchKey();
 			filters = cond.getFilter();
 			logicalOperator = cond.getOperator();
@@ -229,6 +231,15 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 					if (i != 0)
 						buf.append(", ");
 					buf.append(":priorityIn").append(i);
+				}
+				buf.append(")");
+			}
+			if (objIdIns != null && objIdIns.length != 0) {
+				buf.append(" and obj.objId in (");
+				for (int i=0; i<objIdIns.length; i++) {
+					if (i != 0)
+						buf.append(", ");
+					buf.append(":objIdIn").append(i);
 				}
 				buf.append(")");
 			}
@@ -368,6 +379,11 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			if (priorityIns != null && priorityIns.length != 0) {
 				for (int i=0; i<priorityIns.length; i++) {
 					query.setString("priorityIn"+i, priorityIns[i]);
+				}
+			}
+			if (objIdIns != null && objIdIns.length != 0) {
+				for (int i=0; i<objIdIns.length; i++) {
+					query.setString("objIdIn"+i, objIdIns[i]);
 				}
 			}
 			if (priorityNotIns != null && priorityNotIns.length != 0) {

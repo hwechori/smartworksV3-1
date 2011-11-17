@@ -52,50 +52,6 @@ public class WorkServiceImpl implements IWorkService {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see net.smartworks.server.service.IWorkService#getMyRecentlyExecutedWork(java.lang.String, java.lang.String)
-	 * 사용자가 최근에 처리한 업무 10개를 리턴한다
-	 */
-	@Override
-	public Work[] getMyRecentlyExecutedWork(String companyId, String userId) throws Exception {
-		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
-			return null;
-
-		TskTaskCond tskCond = new TskTaskCond();
-		tskCond.setAssignee(userId);
-		tskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
-		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
-		tskCond.setOrders(new Order[]{new Order("executionDate" , false)});
-		tskCond.setPageNo(0);
-		tskCond.setPageSize(10);
-		
-		TskTask[] tsks = getTskManager().getTasks(userId, tskCond, IManager.LEVEL_ALL);
-		
-		List<String> packageIdList = new ArrayList<String>();
-		for (int i = 0; i < tsks.length; i++) {
-			
-			TskTask tsk = tsks[i];
-			String formId = tsk.getForm();
-			
-			SwfForm form = getSwfManager().getForm(userId, formId);
-			if (form == null || form.getPackageId() == null)
-				continue;
-			packageIdList.add(form.getPackageId());
-		}
-		String[] packageIdArray = new String[packageIdList.size()];
-		
-		packageIdList.toArray(packageIdArray);
-
-		PkgPackageCond pkgCond = new PkgPackageCond();
-		pkgCond.setCompanyId(companyId);
-		pkgCond.setPackageIdIns(packageIdArray);
-		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
-		
-		SmartWork[] workPkgs = (SmartWork[])ModelConverter.arrayToArray(pkgs);
-		
-		return workPkgs;
-	}
-	/*
-	 * (non-Javadoc)
 	 * @see net.smartworks.server.service.IWorkService#getMyFavoriteWorks(java.lang.String, java.lang.String)
 	 * 사용자가 등록한 즐겨 찾기 업무를 리턴한다
 	 */
