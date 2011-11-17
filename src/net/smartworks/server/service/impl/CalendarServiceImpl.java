@@ -24,7 +24,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, int)
 	 */
 	@Override
-	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, int days) throws Exception {
+	public CompanyCalendar[] getCompanyCalendars(String companyId, LocalDate fromDate, int days) throws Exception {
 		CompanyCalendar cc1 = new CompanyCalendar(new LocalDate(), new CompanyEvent[] { SmartTest.getCompanyEvent1(), SmartTest.getCompanyEvent2() },
 				new WorkHour());
 		CompanyCalendar cc2 = new CompanyCalendar(new LocalDate((new LocalDate()).getTime() + LocalDate.ONE_DAY),
@@ -43,7 +43,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, net.smartworks.util.LocalDate)
 	 */
 	@Override
-	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception {
+	public CompanyCalendar[] getCompanyCalendars(String companyId, LocalDate fromDate, LocalDate toDate) throws Exception {
 		return null;
 	}
 
@@ -55,7 +55,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, int)
 	 */
 	@Override
-	public EventInstance[] getEventInstances(LocalDate fromDate, int days) throws Exception {
+	public EventInstance[] getEventInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
 		LocalDate time1 = new LocalDate();
 		time1.plusToGMTTime(-1 * LocalDate.ONE_HOUR);
 		LocalDate time2 = new LocalDate();
@@ -110,7 +110,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, net.smartworks.util.LocalDate)
 	 */
 	@Override
-	public EventInstance[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
+	public EventInstance[] getEventInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
 		return null;
 	}
 
@@ -122,7 +122,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate)
 	 */
 	@Override
-	public CompanyCalendar getCompanyEventBox(LocalDate date) throws Exception {
+	public CompanyCalendar getCompanyEventBox(String companyId, LocalDate date) throws Exception {
 		CompanyCalendar eventBox = new CompanyCalendar();
 		eventBox.setDate(date);
 		CompanyEvent event1 = new CompanyEvent();
@@ -139,7 +139,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, int)
 	 */
 	@Override
-	public EventInstance[] getCompanyEventsByDate(LocalDate date, int maxEvents) throws Exception {
+	public EventInstance[] getCompanyEventsByDate(String companyId, LocalDate date, int maxEvents) throws Exception {
 		EventInstance[] events = new EventInstance[] {
 
 		};
@@ -154,7 +154,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * , net.smartworks.util.LocalDate, int)
 	 */
 	@Override
-	public EventInstance[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception {
+	public EventInstance[] getMyEventsByDate(String companyId, String userId, LocalDate date, int maxEvents) throws Exception {
 		EventInstance[] events = new EventInstance[] {
 
 		};

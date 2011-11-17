@@ -28,6 +28,8 @@ public class PkgPackageCond extends MisObjectCond{
 	public static final String A_CATEGORYID = "categoryId";
 	public static final String A_CATEGORYIDIN = "categoryIdIn";
 	public static final String A_CATEGORYIDINS = "categoryIdIns";
+	public static final String A_PACKAGEIDIN = "packageIdIn";
+	public static final String A_PACKAGEIDINS = "packageIdIns";
 	public static final String A_TYPE = "type";
 	public static final String A_CONTENT = "content";
 	public static final String A_FORMCONTENTLIST = "formContentList";
@@ -37,6 +39,7 @@ public class PkgPackageCond extends MisObjectCond{
 	private String latestDeployedYn;
 	private String categoryId;
 	private String[] categoryIdIns;
+	private String[] packageIdIns;
 	private String type;
 	private String content;
 	private String[] formContentList;
@@ -73,6 +76,7 @@ public class PkgPackageCond extends MisObjectCond{
 		appendElementString(A_CONTENT, getContent(), tab, true, buf);
 		appendElementsString(A_FORMCONTENTLIST, "string", formContentList, tab, buf);
 		appendElementsString(A_CATEGORYIDINS, A_CATEGORYIDIN, getCategoryIdIns(), tab, buf);
+		appendElementsString(A_PACKAGEIDINS, A_PACKAGEIDIN, getPackageIdIns(), tab, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
@@ -123,6 +127,14 @@ public class PkgPackageCond extends MisObjectCond{
 				for (int j=0; j<nodes.length; j++)
 					objs[j] = getNodeValue(nodes[j]);
 				obj.setCategoryIdIns(objs);
+			} else if (childNode.getNodeName().equals(A_PACKAGEIDINS)) {
+				Node[] nodes = getNodes(childNode);
+				if (nodes == null || nodes.length == 0)
+					continue;
+				String[] objs = new String[nodes.length];
+				for (int j=0; j<nodes.length; j++)
+					objs[j] = getNodeValue(nodes[j]);
+				obj.setPackageIdIns(objs);
 			}
 		}
 		return obj;
@@ -282,5 +294,12 @@ public class PkgPackageCond extends MisObjectCond{
 
 	public void setCategoryIdIns(String[] categoryIdIns) {
 		this.categoryIdIns = categoryIdIns;
+	}
+	public String[] getPackageIdIns() {
+		return packageIdIns;
+	}
+
+	public void setPackageIdIns(String[] packageIdIns) {
+		this.packageIdIns = packageIdIns;
 	}
 }

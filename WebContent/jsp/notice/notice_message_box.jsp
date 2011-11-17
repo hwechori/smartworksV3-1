@@ -37,11 +37,11 @@
 	</li>
 	<jsp:include page="/jsp/notice/message_list_box.jsp" />
 	<%
-		} else if (noticeType == Notice.TYPE_COMMENTS) {
+		} else if (noticeType == Notice.TYPE_COMMENT) {
 	%>
 	<li class="t_bold"><fmt:message key="notice.message.box.comments" />
 	</li>
-	<jsp:include page="/jsp/notice/comments_list_box.jsp" />
+	<jsp:include page="/jsp/notice/comment_list_box.jsp" />
 	<%
 		} else if (noticeType == Notice.TYPE_ASSIGNED) {
 	%>

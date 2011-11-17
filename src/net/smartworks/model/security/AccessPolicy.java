@@ -1,4 +1,4 @@
-package net.smartworks.model.work;
+package net.smartworks.model.security;
 
 import net.smartworks.model.community.Community;
 
@@ -11,7 +11,6 @@ public class AccessPolicy {
 	
 	private int level = LEVEL_DEFAULT;
 	private Community[] communitiesToOpen;
-	private Community[] communitiesToClose;
 	public int getLevel() {
 		return level;
 	}
@@ -23,12 +22,6 @@ public class AccessPolicy {
 	}
 	public void setCommunitiesToOpen(Community[] communitiesToOpen) {
 		this.communitiesToOpen = communitiesToOpen;
-	}
-	public Community[] getCommunitiesToClose() {
-		return communitiesToClose;
-	}
-	public void setCommunitiesToClose(Community[] communitiesToClose) {
-		this.communitiesToClose = communitiesToClose;
 	}
 	public AccessPolicy(){
 		super();

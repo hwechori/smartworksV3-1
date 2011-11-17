@@ -1,5 +1,5 @@
 <%@page import="net.smartworks.model.community.Group"%>
-<%@page import="net.smartworks.model.work.AccessPolicy"%>
+<%@page import="net.smartworks.model.security.AccessPolicy"%>
 <%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.model.community.Community"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
@@ -22,9 +22,9 @@
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	Work work = smartWorks.getWorkById(companyId, workId);
+	SmartWork work = (SmartWork)smartWorks.getWorkById(companyId, workId);
 	if (work == null)
-		work = new Work();
+		work = new SmartWork();
 	Community[] communities = smartWorks.getMyCommunities(companyId, userId);
 %>
 
@@ -85,28 +85,28 @@
 					if (accessLevel == AccessPolicy.LEVEL_PUBLIC) {
 				%>
 				<option selected value="<%=AccessPolicy.LEVEL_PUBLIC%>">
-					<fmt:message key="common.upload.open.public" />
+					<fmt:message key="common.security.access.public" />
 				</option>
 				<option value="<%=AccessPolicy.LEVEL_PRIVATE%>">
-					<fmt:message key="common.upload.open.private" />
+					<fmt:message key="common.security.access.private" />
 				</option>
 				<option value="<%=AccessPolicy.LEVEL_CUSTOM%>">
-					<fmt:message key="common.upload.open.custom" />
+					<fmt:message key="common.security.access.custom" />
 				</option>
 				<%
 					} else if (work.getAccessPolicy().getLevel() == AccessPolicy.LEVEL_CUSTOM) {
 				%>
 				<option value="<%=AccessPolicy.LEVEL_PRIVATE%>">
-					<fmt:message key="common.upload.open.private" />
+					<fmt:message key="common.security.access.private" />
 				</option>
 				<option selected value="<%=AccessPolicy.LEVEL_CUSTOM%>">
-					<fmt:message key="common.upload.open.custom" />
+					<fmt:message key="common.security.access.custom" />
 				</option>
 				<%
 					} else if (work.getAccessPolicy().getLevel() == AccessPolicy.LEVEL_PUBLIC) {
 				%>
 				<option value="<%=AccessPolicy.LEVEL_PRIVATE%>">
-					<fmt:message key="common.upload.open.private" />
+					<fmt:message key="common.security.access.private" />
 				</option>
 				<%
 					}

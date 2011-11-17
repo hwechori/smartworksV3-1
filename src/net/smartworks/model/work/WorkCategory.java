@@ -1,17 +1,17 @@
 package net.smartworks.model.work;
 
 public class WorkCategory extends Work {
-	
-	private String 	desc = null;
-	
-	public String getDesc() {
-		return desc;
-	}
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
 
+	public final static int	TYPE_CATEGORY	= 11;
+	
+	public WorkCategory(){
+		
+	}
 	public WorkCategory(String id, String name){
 		super(id, name);
-	}	
+		super.setType(TYPE_CATEGORY);
+	}
+	public WorkCategory(String id, String name, String desc){
+		super(id, name, TYPE_CATEGORY, desc);
+	}
 }

@@ -5,12 +5,14 @@ import net.smartworks.model.work.Work;
 
 public interface IWorkService {
 
-	Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception;
+	public Work[] getMyRecentlyExecutedWork(String companyId, String userId) throws Exception;
+	
+	public Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception;
 
-	SmartWork[] getMyFavoriteWorks() throws Exception;
+	public SmartWork[] getMyFavoriteWorks(String companyId, String userId) throws Exception;
 
-	SmartWork[] searchWork(String key) throws Exception;
-
-	Work getWorkById(String companyId, String userId, String workId) throws Exception;
+	public SmartWork[] searchWork(String companyId, String userId, String key) throws Exception;
+	
+	public Work getWorkById(String companyId, String userId, String workId) throws Exception;
 
 }

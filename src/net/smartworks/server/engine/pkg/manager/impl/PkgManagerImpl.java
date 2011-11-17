@@ -131,6 +131,7 @@ public class PkgManagerImpl extends AbstractManager implements IPkgManager {
 		Filter[] filters = null;
 		String[] statusIns = null;
 		String[] categoryIdIns = null;
+		String[] packageIdIns = null;
 		String logicalOperator = null;
 		
 		if (cond != null) {
@@ -150,6 +151,7 @@ public class PkgManagerImpl extends AbstractManager implements IPkgManager {
 			filters = cond.getFilter();
 			statusIns = cond.getStatusIns();
 			categoryIdIns = cond.getCategoryIdIns();
+			packageIdIns = cond.getPackageIdIns();
 			logicalOperator = cond.getOperator();
 		}
 		buf.append(" from PkgPackage obj");
@@ -198,6 +200,16 @@ public class PkgManagerImpl extends AbstractManager implements IPkgManager {
 					if (i != 0)
 						buf.append(", ");
 					buf.append(":categoryIdIn").append(i);
+				}
+				buf.append(")");
+			}
+
+			if (packageIdIns != null && packageIdIns.length != 0) {
+				buf.append(" and obj.packageId in (");
+				for (int i=0; i<packageIdIns.length; i++) {
+					if (i != 0)
+						buf.append(", ");
+					buf.append(":packageIdIn").append(i);
 				}
 				buf.append(")");
 			}
@@ -285,6 +297,11 @@ public class PkgManagerImpl extends AbstractManager implements IPkgManager {
 			if (categoryIdIns != null && categoryIdIns.length != 0) {
 				for (int i=0; i<categoryIdIns.length; i++) {
 					query.setString("categoryIdIn"+i, categoryIdIns[i]);
+				}
+			}
+			if (packageIdIns != null && packageIdIns.length != 0) {
+				for (int i=0; i<packageIdIns.length; i++) {
+					query.setString("packageIdIn"+i, packageIdIns[i]);
 				}
 			}
 			if (filters != null) {

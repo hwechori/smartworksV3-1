@@ -31,7 +31,7 @@
 					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
 					targetContent = "swork_list.sw";
 				}
-				if (!work.getClass().equals(WorkCategory.class)) {
+				if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
 	<li class="<%=iconType%>"><a
 		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>"><%=work.getName()%></a>

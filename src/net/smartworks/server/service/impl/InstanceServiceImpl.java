@@ -3,7 +3,10 @@ package net.smartworks.server.service.impl;
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.instance.BoardInstance;
+import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.InstanceList;
+import net.smartworks.model.instance.ListRequestParams;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.work.SocialWork;
 import net.smartworks.server.service.IInstanceService;
@@ -12,7 +15,6 @@ import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service
 public class InstanceServiceImpl implements IInstanceService {
@@ -24,7 +26,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	 * .util.LocalDate, int)
 	 */
 	@Override
-	public BoardInstance[] getBoardInstances(LocalDate fromDate, int days) throws Exception {
+	public BoardInstance[] getBoardInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
 		LocalDate time1 = new LocalDate();
 		time1.plusToGMTTime(-(1 * LocalDate.ONE_HOUR));
 		LocalDate time2 = new LocalDate();
@@ -71,7 +73,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	 * .util.LocalDate, net.smartworks.util.LocalDate)
 	 */
 	@Override
-	public BoardInstance[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
+	public BoardInstance[] getBoardInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
 		return null;
 	}
 
@@ -84,14 +86,14 @@ public class InstanceServiceImpl implements IInstanceService {
 	 * .String)
 	 */
 	@Override
-	public WorkInstance[] getMyRecentInstances() throws Exception {
+	public WorkInstance[] getMyRecentInstances(String companyId, String userId) throws Exception {
 
 		return new WorkInstance[] { SmartTest.getWorkInstance1(), SmartTest.getWorkInstance2(), SmartTest.getWorkInstance3(), SmartTest.getWorkInstance4(),
 				SmartTest.getWorkInstance5() };
 	}
 
 	@Override
-	public Instance getInstanceById(String instanceId) throws Exception {
+	public Instance getInstanceById(String companyId, String instanceId) throws Exception {
 		Instance[] instances = new Instance[] { SmartTest.getWorkInstance1(), SmartTest.getWorkInstance2(), SmartTest.getWorkInstance3(),
 				SmartTest.getWorkInstance4(), SmartTest.getWorkInstance5(), SmartTest.getTaskInstanceIA(), SmartTest.getTaskInstanceIF(),
 				SmartTest.getTaskInstancePA(), SmartTest.getTaskInstancePF(), SmartTest.getTaskInstanceSA(), SmartTest.getTaskInstanceSF(),
@@ -104,12 +106,12 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public Instance[] getMyRunningInstances() throws Exception {
+	public Instance[] getMyRunningInstances(String companyId, String userId) throws Exception {
 		return SmartTest.getRunningInstances();
 	}
 
 	@Override
-	public Instance[] searchMyRunningInstance(String key) throws Exception {
+	public Instance[] searchMyRunningInstance(String companyId, String userId, String key) throws Exception {
 		return SmartTest.getRunningInstances();
 	}
 
@@ -141,6 +143,17 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public String setBoardInstance(HttpServletRequest request) throws Exception {
 		return "testId";		
+	}
+
+	@Override
+	public CommentInstance[] getRecentCommentsInWorkManual(String companyId, String workId, int length) throws Exception {
+		// TODO Auto-generated method stub
+		return SmartTest.getCommentInstances();
+	}
+
+	@Override
+	public InstanceList getWorkInstanceList(String companyId, String workId, ListRequestParams params) throws Exception {
+		return SmartTest.getWorkInstanceList(params);
 	}	
 	
 }

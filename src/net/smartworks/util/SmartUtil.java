@@ -216,6 +216,7 @@ public class SmartUtil {
 		user.setOrgPictureName(user.getId() + ".jpg");
 		user.setMinPictureName(user.getId() + "_min.gif");
 		user.setMidPictureName(user.getId() + "_mid.gif");
+		user.setUserLevel(User.USER_LEVEL_AMINISTRATOR);
 
 		return user;
 	}

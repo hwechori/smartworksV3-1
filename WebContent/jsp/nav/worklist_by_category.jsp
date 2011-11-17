@@ -30,11 +30,11 @@
 					iconType = "ico_sworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
 					targetContent = "swork_list.sw";
-				} else if (work.getClass().equals(WorkCategory.class)) {
+				} else if (work.getType() == WorkCategory.TYPE_CATEGORY) {
 					iconType = "ico_gworks";
-					targetContent = "swork_list.sw";
+					targetContent = "worklist_by_group.sw";
 				}
-				if (work.getClass().equals(WorkCategory.class)) {
+				if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
 	<li class="<%=iconType%>"><a
 		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>"><%=work.getName()%></a>
@@ -42,7 +42,7 @@
 	<%
 		} else {
 	%>
-	<li class="js_drilling_down <%=iconType%>"><a
+	<li class="js_drill_down <%=iconType%>"><a
 		targetContent="worklist_by_group.sw" groupId="<%=work.getId()%>">
 			<%=work.getName()%></a>
 		<div style="display: none"></div></li>

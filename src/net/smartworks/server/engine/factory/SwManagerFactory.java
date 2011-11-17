@@ -12,6 +12,7 @@ package net.smartworks.server.engine.factory;
 import net.smartworks.server.engine.authority.manager.ISwaManager;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.common.collection.manager.IColManager;
+import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
@@ -46,6 +47,7 @@ public class SwManagerFactory {
 	private ICtgManager ctgManager;
 	private IDocFileManager docManager;
 	private ISwaManager swaManager;
+	private IItmManager itmManager;
 //	private IChtManager chtManager;
 //	private IMdlManager mdlManager;
 //	private ILcsManager lcsManager;
@@ -149,7 +151,13 @@ public class SwManagerFactory {
 	public void setCtgManager(ICtgManager ctgManager) {
 		this.ctgManager = ctgManager;
 	}
-	
+	public IItmManager getItmManager() {
+		return itmManager;
+	}
+	public void setItmManager(IItmManager itmManager) {
+		this.itmManager = itmManager;
+	}
+
 //	public IChtManager getChtManager() {
 //		return chtManager;
 //	}
