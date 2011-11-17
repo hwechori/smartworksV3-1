@@ -85,28 +85,28 @@
 					if (accessLevel == AccessPolicy.LEVEL_PUBLIC) {
 				%>
 				<option selected value="<%=AccessPolicy.LEVEL_PUBLIC%>">
-					<fmt:message key="common.upload.open.public" />
+					<fmt:message key="common.security.access.public" />
 				</option>
 				<option value="<%=AccessPolicy.LEVEL_PRIVATE%>">
-					<fmt:message key="common.upload.open.private" />
+					<fmt:message key="common.security.access.private" />
 				</option>
 				<option value="<%=AccessPolicy.LEVEL_CUSTOM%>">
-					<fmt:message key="common.upload.open.custom" />
+					<fmt:message key="common.security.access.custom" />
 				</option>
 				<%
 					} else if (work.getAccessPolicy().getLevel() == AccessPolicy.LEVEL_CUSTOM) {
 				%>
 				<option value="<%=AccessPolicy.LEVEL_PRIVATE%>">
-					<fmt:message key="common.upload.open.private" />
+					<fmt:message key="common.security.access.private" />
 				</option>
 				<option selected value="<%=AccessPolicy.LEVEL_CUSTOM%>">
-					<fmt:message key="common.upload.open.custom" />
+					<fmt:message key="common.security.access.custom" />
 				</option>
 				<%
 					} else if (work.getAccessPolicy().getLevel() == AccessPolicy.LEVEL_PUBLIC) {
 				%>
 				<option value="<%=AccessPolicy.LEVEL_PRIVATE%>">
-					<fmt:message key="common.upload.open.private" />
+					<fmt:message key="common.security.access.private" />
 				</option>
 				<%
 					}

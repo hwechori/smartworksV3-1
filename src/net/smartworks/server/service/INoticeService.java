@@ -8,6 +8,7 @@
 
 package net.smartworks.server.service;
 
+import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.util.LocalDate;
@@ -25,4 +26,5 @@ public interface INoticeService {
 			LocalDate lastNotice) throws Exception;
 
 	public String[] getBroadcastingMessages(String companyId) throws Exception;
+
 }

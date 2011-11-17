@@ -11,14 +11,16 @@ import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.instance.BoardInstance;
+import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.InstanceList;
+import net.smartworks.model.instance.ListRequestParams;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
-import net.smartworks.model.work.WorkCategory;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
@@ -237,6 +239,11 @@ public class SmartWorks implements ISmartWorks {
 		return communityService.getMyCommunities(companyId, userId);
 	}
 
+	@Override
+	public CommentInstance[] getRecentCommentsInWorkManual(String companyId, String workId, int length) throws Exception{
+		return instanceService.getRecentCommentsInWorkManual(companyId, workId, length);
+	}
+
 	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
 		return instanceService.setInformationWorkInstance(request);
 
@@ -270,7 +277,14 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.setBoardInstance(request);
 
 	}
+
+	@Override
+	public InstanceList getWorkInstanceList(String companyId, String workId, ListRequestParams params) throws Exception {
+		return instanceService.getWorkInstanceList(companyId, workId, params);
+	}
+
 /*	@Override
+>>>>>>> branch 'master' of git@github.com:maninsoft/smartworksV3.git
 	public String createFile(String userId, String groupId, IFileModel file) throws Exception {
 		return docFileService.createFile(userId, groupId, file);
 	}

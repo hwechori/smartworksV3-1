@@ -11,7 +11,7 @@ public class Instance {
 	public final static int TYPE_TASK = 2;
 	public final static int TYPE_ASYNC_MESSAGE = 3;
 	public final static int TYPE_NOTIFICATION = 4;
-	public final static int TYPE_COMMENTS = 5;
+	public final static int TYPE_COMMENT = 5;
 	public final static int TYPE_MAIL = 6;
 	public final static int TYPE_EVENT = 7;
 	public final static int TYPE_FILE = 8;

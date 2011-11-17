@@ -26,7 +26,7 @@ public class NoticeServiceImpl implements INoticeService {
 	 */
 	@Override
 	public Notice[] getNoticesForMe(String companyId, String userId) throws Exception {
-		return new Notice[] { new Notice(Notice.TYPE_NOTIFICATION, 1), new Notice(Notice.TYPE_MESSAGE, 0), new Notice(Notice.TYPE_COMMENTS, 29),
+		return new Notice[] { new Notice(Notice.TYPE_NOTIFICATION, 1), new Notice(Notice.TYPE_MESSAGE, 0), new Notice(Notice.TYPE_COMMENT, 29),
 				new Notice(Notice.TYPE_ASSIGNED, 0), new Notice(Notice.TYPE_MAILBOX, 420), new Notice(Notice.TYPE_SAVEDBOX, 7) };
 	}
 
@@ -56,10 +56,10 @@ public class NoticeServiceImpl implements INoticeService {
 			return noticeBox;
 		}
 
-		if (noticeType == Notice.TYPE_COMMENTS) {
+		if (noticeType == Notice.TYPE_COMMENT) {
 			NoticeBox noticeBox = new NoticeBox();
 			noticeBox.setNoticeMessages(SmartTest.getCommentsMessages());
-			noticeBox.setNoticeType(Notice.TYPE_COMMENTS);
+			noticeBox.setNoticeType(Notice.TYPE_COMMENT);
 			noticeBox.setDateOfLastNotice(new LocalDate());
 			noticeBox.setRemainingLength(48);
 			return noticeBox;

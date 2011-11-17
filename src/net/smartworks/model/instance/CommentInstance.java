@@ -4,26 +4,26 @@ import net.smartworks.model.community.User;
 import net.smartworks.model.work.Work;
 import net.smartworks.util.LocalDate;
 
-public class CommentsInstance extends Instance {
+public class CommentInstance extends Instance {
 
-	public final static int COMMENTS_TYPE_ON_WORK_DESC = 1;
-	public final static int COMMENTS_TYPE_ON_WORK_MANUAL = 2;
-	public final static int COMMENTS_TYPE_ON_WORK_INSTANCE = 3;
-	public final static int COMMENTS_TYPE_ON_TASK_INSTANCE = 4;
+	public final static int COMMENT_TYPE_ON_WORK_DESC = 1;
+	public final static int COMMENT_TYPE_ON_WORK_MANUAL = 2;
+	public final static int COMMENT_TYPE_ON_WORK_INSTANCE = 3;
+	public final static int COMMENT_TYPE_ON_TASK_INSTANCE = 4;
 
-	private int commentsType=-1;
+	private int commentType=-1;
 	private Work work;
 	private WorkInstance workInstance;
 	private TaskInstance taskInstance;
 	private User commentor;
-	private String comments;
+	private String comment;
 
-	public int getCommentsType() {
-		return commentsType;
+	public int getCommentType() {
+		return commentType;
 	}
 
-	public void setCommentsType(int commentsType) {
-		this.commentsType = commentsType;
+	public void setCommentType(int commentType) {
+		this.commentType = commentType;
 	}
 
 	public Work getWork() {
@@ -58,24 +58,24 @@ public class CommentsInstance extends Instance {
 		this.commentor = commentor;
 	}
 
-	public String getComments() {
-		return comments;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setComments(String comments) {
-		this.comments = comments;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
-	public CommentsInstance() {
+	public CommentInstance() {
 		super();
 	}
 
-	public CommentsInstance(String id, int commentsType, String comments,
+	public CommentInstance(String id, int commentType, String comment,
 			User commentor, LocalDate lastModifiedDate) {
-		super(id, "", Instance.TYPE_COMMENTS, commentor,
+		super(id, "", Instance.TYPE_COMMENT, commentor,
 				lastModifiedDate);
-		this.commentsType = commentsType;
+		this.commentType = commentType;
 		this.commentor = commentor;
-		this.comments = comments;
+		this.comment = comment;
 	}
 }

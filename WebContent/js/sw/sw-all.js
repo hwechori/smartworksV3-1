@@ -263,6 +263,14 @@ $(function() {
 				}
 			});
 
+	$('a.js_view_iwork_manual').live('click', function(e){
+		var input = $(e.target);
+		input.parents("div.contents_space:first").siblings('#iwork_manual').toggle();
+		input.hide();
+		input.siblings().show();
+		return false;
+	});
+
 	var lastCatTarget = null;
 	var lastGroupTarget = null;
 	$('.js_drill_down').live('click', function(e) {
