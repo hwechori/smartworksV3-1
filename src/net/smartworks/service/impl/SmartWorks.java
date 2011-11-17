@@ -283,7 +283,8 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getWorkInstanceList(companyId, workId, params);
 	}
 
-	/*	@Override
+/*	@Override
+>>>>>>> branch 'master' of git@github.com:maninsoft/smartworksV3.git
 	public String createFile(String userId, String groupId, IFileModel file) throws Exception {
 		return docFileService.createFile(userId, groupId, file);
 	}
