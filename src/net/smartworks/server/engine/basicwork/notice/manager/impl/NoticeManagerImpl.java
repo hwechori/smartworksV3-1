@@ -71,7 +71,7 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 				set(obj);
 			} else {
 				StringBuffer buf = new StringBuffer();
-				buf.append("update SWBNotice set ");
+				buf.append("update Notice set ");
 				buf.append(" title=:title, content=:content, fileGroupId=:fileGroupId, startDate:startDate, endDate:endDate,");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser, modificationUser=:modificationUser,");
 				buf.append(" modificationDate=:modificationDate where objId=:objId");
@@ -137,7 +137,7 @@ public class NoticeManagerImpl extends AbstractManager implements INoticeManager
 				modificationUser = cond.getModificationUser();
 				modificationDate = cond.getModificationDate();
 			}
-			buf.append(" from SWBNotice obj");
+			buf.append(" from Notice obj");
 			buf.append(" where obj.objId is not null");
 			//TODO 시간 검색에 대한 확인 필요
 			if (cond != null) {
