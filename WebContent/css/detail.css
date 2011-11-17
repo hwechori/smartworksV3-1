@@ -39,7 +39,7 @@
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0;}
 .list_contents table .r_line {border-right:1px solid #DCDFE0;}
 .list_contents table .tit_bg {border-top:1px solid #DCDFE0; background-color:#f7f7f7;}
-.list_contents table th {text-align:center; padding:3px 15px;}
+.list_contents table th {text-align:center; padding:0 15px;}
 .list_contents table td {padding-left:10px; }
 
 
