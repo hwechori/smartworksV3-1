@@ -65,4 +65,13 @@ public class InformationWork extends SmartWork {
 	public InformationWork(String id, String name, String desc, WorkCategory myCategory){
 		super(id, name, TYPE_INFORMATION, desc, myCategory);
 	}
+	
+	public SearchFilter getSearchFilterById(String id){
+		if(this.searchFilters != null){
+			for(SearchFilter filter : this.searchFilters){
+				if(filter.getId().equals(id)) return filter;
+			}
+		}
+		return null;
+	}
 }

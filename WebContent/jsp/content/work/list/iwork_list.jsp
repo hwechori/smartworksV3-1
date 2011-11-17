@@ -234,7 +234,8 @@
 								</select>
 							</form>
 						</div>
-						<div class="po_left"><fmt:message key='filter.button.search_filter' /></div>
+						<a href="search_filter.sw?workdId=<%=workId %>&filterId=" ><div class="po_left js_search_filter"><fmt:message key='filter.button.search_filter' /></div></a>
+						<a href="search_filter.sw?workdId=<%=workId %>&filterId="><div class="po_left js_search_filter"><fmt:message key='filter.button.new_search_filter' /></div></a>
 					</div>
 
 					<div class="txt_btn">
@@ -249,6 +250,10 @@
 					</div>
 					<!-- 목록보기 타이틀-->
 
+					<!-- 상세필터 -->
+        			<div id="iwork_search_filter" class="filter_section">
+					</div>
+					<!-- 상세필터 -->
 
 					<!-- 목록 테이블 -->
 					<div class="list_contents">

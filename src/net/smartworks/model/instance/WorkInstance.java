@@ -6,6 +6,10 @@ import net.smartworks.util.LocalDate;
 
 public class WorkInstance extends Instance {
 
+	public static final int INSTANCE_TYPE_PROCESS = 11;
+	public static final int INSTANCE_TYPE_INFORMATION = 12;
+	public static final int INSTANCE_TYPE_SCHEDULE = 13;
+	
 	private TaskInstance[] tasks;
 	private User lastModifier;
 

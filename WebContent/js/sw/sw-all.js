@@ -179,6 +179,22 @@ $(function() {
 				return false;
 			});
 
+	$('a.js_search_filter').live(
+			'click',
+			function(e) {
+				var input = $(e.target);
+				var target = $('#iwork_search_filter');
+				var url = input.attr('href');
+				$.ajax({
+					url : url,
+					data : {},
+					success : function(data, status, jqXHR) {
+						target.html(data).slideDown(500);
+					}
+				});
+				return false;
+			});
+
 	/*
 	 * 새업무시작하기에서, 처음나오는 입력창을 클릭하면 실행되는 이벤트로, 우측에 전체업무찾기 버튼을 보여준다.
 	 */
