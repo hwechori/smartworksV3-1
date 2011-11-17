@@ -37,8 +37,8 @@
 		<ul class="portlet_r" style="display: block;">
 
 			<!-- 타이틀 -->
-			<div class="body_title">
-				<div class="body_titi_iworks title"><%=work.getName()%></div>
+			<div class="body_titl">
+				<div class="body_titl_iworks title"><%=work.getName()%></div>
 
 				<!-- 우측 버튼-->
 				<div class="txt_btn">
@@ -246,19 +246,15 @@
 						</div>
 
 					</div>
+					</div>
 					<!-- 목록보기 타이틀-->
 
 
 					<!-- 목록 테이블 -->
 					<div class="list_contents">
 						<table>
-							<colgroup>
-								<col class="item">
-								<col class="field">
-								<col class="field">
-							</colgroup>
 							<tbody>
-								<tr>
+								<tr class="tit_bg">
 									<th></th>
 									<%
 									FormField[] fields = work.getDisplayFields();
@@ -282,9 +278,10 @@
 						</div>
 					</div>
 					<!-- 목록 테이블 //-->
-
+					
+					</div>
 					<!-- 목록보기 -->
-				</div>
+				
 		</ul>
 	</div>
 	<div class="portlet_b" style="display: block;"></div>
