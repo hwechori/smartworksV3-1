@@ -40,6 +40,12 @@ public class SmartForm extends BaseObject{
 	public void setOrgImageName(String orgImageName) {
 		this.orgImageName = orgImageName;
 	}
+	public String getOrgImage(){
+		return getImagePath() + getOrgImageName();
+	}
+	public String getMinImage(){
+		return getImagePath() + getMinImageName();
+	}
 	public SmartForm(){
 		super();
 	}

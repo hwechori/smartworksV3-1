@@ -9,8 +9,11 @@ import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.instance.BoardInstance;
+import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.InstanceList;
+import net.smartworks.model.instance.ListRequestParams;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
@@ -127,6 +130,10 @@ public interface ISmartWorks {
 
 	public abstract Community[] getMyCommunities(String companyId, String userId) throws Exception;
 
+	public abstract CommentInstance[] getRecentCommentsInWorkManual(String companyId, String workId, int length) throws Exception;
+	
+	public abstract InstanceList getWorkInstanceList(String companyId, String workId, ListRequestParams params) throws Exception;
+	
 	public abstract String setInformationWorkInstance(HttpServletRequest request) throws Exception;
 
 	public abstract String startProcessWorkInstance(HttpServletRequest request) throws Exception;

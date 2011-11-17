@@ -7,7 +7,7 @@ public class Notice {
 	public final static int	TYPE_INVALID 		= -1;
 	public final static int	TYPE_NOTIFICATION 	= 0;
 	public final static int	TYPE_MESSAGE 		= 1;
-	public final static int	TYPE_COMMENTS 		= 2;
+	public final static int	TYPE_COMMENT 		= 2;
 	public final static int	TYPE_ASSIGNED 		= 3;
 	public final static int	TYPE_MAILBOX 		= 4;
 	public final static int	TYPE_SAVEDBOX 		= 5;

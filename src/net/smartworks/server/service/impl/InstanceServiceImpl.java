@@ -3,7 +3,10 @@ package net.smartworks.server.service.impl;
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.instance.BoardInstance;
+import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.InstanceList;
+import net.smartworks.model.instance.ListRequestParams;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.work.SocialWork;
 import net.smartworks.server.service.IInstanceService;
@@ -140,6 +143,17 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public String setBoardInstance(HttpServletRequest request) throws Exception {
 		return "testId";		
+	}
+
+	@Override
+	public CommentInstance[] getRecentCommentsInWorkManual(String companyId, String workId, int length) throws Exception {
+		// TODO Auto-generated method stub
+		return SmartTest.getCommentInstances();
+	}
+
+	@Override
+	public InstanceList getWorkInstanceList(String companyId, String workId, ListRequestParams params) throws Exception {
+		return SmartTest.getWorkInstanceList(params);
 	}	
 	
 }

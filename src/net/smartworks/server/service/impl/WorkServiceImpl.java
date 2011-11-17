@@ -151,7 +151,7 @@ workList.add(SmartTest.getInformationWork1());
 	@Override
 	public Work getWorkById(String companyId, String workId) throws Exception {
 		Work[] works = new Work[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork4(),
-				SmartTest.getSmartWork5(), SmartTest.getSmartWork6(), SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9() };
+				SmartTest.getSmartWork5(), SmartTest.getSmartWork6(), SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9(), SmartTest.getInformationWork1() };
 		for (Work work : works) {
 			if (work.getId().equals(workId))
 				return work;

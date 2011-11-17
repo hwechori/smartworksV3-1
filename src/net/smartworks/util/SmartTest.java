@@ -6,9 +6,13 @@ import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.AsyncMessageInstance;
-import net.smartworks.model.instance.CommentsInstance;
+import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.EventInstance;
+import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.InstanceList;
+import net.smartworks.model.instance.InstanceRecord;
+import net.smartworks.model.instance.ListRequestParams;
 import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
@@ -411,28 +415,43 @@ public class SmartTest {
 
 	}
 
+	public static CommentInstance[] getCommentInstances() throws Exception{
+		CommentInstance commentInstance1 = new CommentInstance("comments1", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "조금더 보강해야 될것 같은데요????",
+				SmartTest.getUser3(), new LocalDate());
+		commentInstance1.setWork(SmartTest.getInformationWork1());
+
+		CommentInstance commentInstance2 = new CommentInstance("comments2", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "잘모르겠습니다. ㅠㅠ",
+				SmartTest.getUser1(), new LocalDate());
+		commentInstance2.setWork(SmartTest.getInformationWork1());
+
+		CommentInstance commentInstance3 = new CommentInstance("comments3", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "휴가잘다녀오세요!!!",
+				SmartTest.getUser2(), new LocalDate());
+		commentInstance3.setWork(SmartTest.getInformationWork1());
+		return new CommentInstance[] {commentInstance1, commentInstance2, commentInstance3};
+		
+	}
 	public static NoticeMessage[] getCommentsMessages() throws Exception {
 
 		NoticeMessage notice1, notice2, notice3, notice4, notice5;
-		CommentsInstance commentsInstance1 = new CommentsInstance("comments1", CommentsInstance.COMMENTS_TYPE_ON_WORK_DESC, "조금더 보강해야 될것 같은데요????",
+		CommentInstance commentsInstance1 = new CommentInstance("comments1", CommentInstance.COMMENT_TYPE_ON_WORK_DESC, "조금더 보강해야 될것 같은데요????",
 				SmartTest.getUser3(), new LocalDate());
 		commentsInstance1.setWork(SmartTest.getSmartWork1());
 		notice1 = new NoticeMessage("notice21", 0, SmartTest.getUser3(), new LocalDate());
 		notice1.setInstance(commentsInstance1);
 
-		CommentsInstance commentsInstance2 = new CommentsInstance("comments2", CommentsInstance.COMMENTS_TYPE_ON_WORK_MANUAL, "잘모르겠습니다. ㅠㅠ",
+		CommentInstance commentsInstance2 = new CommentInstance("comments2", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "잘모르겠습니다. ㅠㅠ",
 				SmartTest.getUser1(), new LocalDate());
 		commentsInstance2.setWork(SmartTest.getSmartWork3());
 		notice2 = new NoticeMessage("notice22", 0, SmartTest.getUser1(), new LocalDate());
 		notice2.setInstance(commentsInstance2);
 
-		CommentsInstance commentsInstance3 = new CommentsInstance("comments3", CommentsInstance.COMMENTS_TYPE_ON_WORK_INSTANCE, "휴가잘다녀오세요!!!",
+		CommentInstance commentsInstance3 = new CommentInstance("comments3", CommentInstance.COMMENT_TYPE_ON_WORK_INSTANCE, "휴가잘다녀오세요!!!",
 				SmartTest.getUser2(), new LocalDate());
 		commentsInstance3.setWorkInstance(SmartTest.getWorkInstance1());
 		notice3 = new NoticeMessage("notice23", 0, SmartTest.getUser2(), new LocalDate());
 		notice3.setInstance(commentsInstance3);
 
-		CommentsInstance commentsInstance4 = new CommentsInstance("comments4", CommentsInstance.COMMENTS_TYPE_ON_TASK_INSTANCE, "재 기안해 주시기 바랍니다...",
+		CommentInstance commentsInstance4 = new CommentInstance("comments4", CommentInstance.COMMENT_TYPE_ON_TASK_INSTANCE, "재 기안해 주시기 바랍니다...",
 				SmartTest.getUser3(), new LocalDate());
 		commentsInstance4.setTaskInstance(SmartTest.getTaskInstancePA());
 		notice4 = new NoticeMessage("notice24", 0, SmartTest.getUser3(), new LocalDate());
@@ -492,5 +511,22 @@ public class SmartTest {
 		NoticeMessage[] mailboxNotices = getMailboxMessages();
 
 		return mailboxNotices;
+	}
+	
+	private static InstanceRecord[] getInstanceRecords() throws Exception{
+		FieldData[] fieldDatas = new FieldData[] {new FieldData("f1", "String", "금성출판사 제안 자료입니다."), new FieldData("f2", "User", "과장 김지숙"), new FieldData("f3", "Department", "경영기획본부/마케팅팀"), new FieldData("f4", "Editer", "유용한자료이니 참조들 하시기 바랍니다."), new FieldData("f5", "file", "금성출판사-제안서.ppt")};
+		InstanceRecord instanceRecord = new InstanceRecord(getUser1(), getUser2(), new LocalDate(), fieldDatas);
+		return new InstanceRecord[] {instanceRecord};
+	}
+	
+	public static InstanceList getWorkInstanceList(ListRequestParams params) throws Exception{
+		InstanceList instanceList = new InstanceList();
+		instanceList.setType(InstanceList.TYPE_INFORMATION_INSTANCE_LIST);
+		instanceList.setCountInPage(params.getCountInPage());
+		instanceList.setTotalPages(31);
+		instanceList.setCurrentPage(params.getPageNumber());
+		InstanceRecord[] instanceRecords = getInstanceRecords();
+		instanceList.setInstanceDatas(instanceRecords);
+		return instanceList;
 	}
 }
