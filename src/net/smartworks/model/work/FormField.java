@@ -27,9 +27,9 @@ public class FormField extends BaseObject{
 	
 
 	public static final FormField FIELD_OWNER = new FormField(ID_OWNER, "", TYPE_USER);
-	public static final FormField FIELD_CREATED_DATE = new FormField(ID_CREATED_DATE, "", TYPE_DATE);
+	public static final FormField FIELD_CREATED_DATE = new FormField(ID_CREATED_DATE, "", TYPE_DATETIME);
 	public static final FormField FIELD_LAST_MODIFIER = new FormField(ID_LAST_MODIFIER, "", TYPE_USER);
-	public static final FormField FIELD_LAST_MODIFIED_DATE = new FormField(ID_LAST_MODIFIED_DATE, "", TYPE_DATE);
+	public static final FormField FIELD_LAST_MODIFIED_DATE = new FormField(ID_LAST_MODIFIED_DATE, "", TYPE_DATETIME);
 
 	private String type;
 	
@@ -45,5 +45,29 @@ public class FormField extends BaseObject{
 	public FormField(String id, String name, String type){
 		super(id, name);
 		this.setType(type);
+	}
+	
+	public String getPageName(){
+		if(this.type == null) return null;
+		if(type.equals(TYPE_TEXT) || type.equals(TYPE_RICHTEXT_EDITOR) || type.equals(TYPE_COMBO) || type.equals(TYPE_IMAGE) || type.equals(TYPE_EMAIL)){
+			return "string_field";
+		}else if(type.equals(TYPE_USER)){
+			return "user_field";
+		}else if(type.equals(TYPE_FILE)){
+			return "file_field";
+		}else if(type.equals(TYPE_OTHER_WORK)){
+			return "work_field";
+		}else if(type.equals(TYPE_NUMBER) || type.equals(TYPE_CURRENCY) || type.equals(TYPE_PERCENT)){
+			return "number_field";
+		}else if(type.equals(TYPE_CHECK_BOX)){
+			return "boolean_field";
+		}else if(type.equals(TYPE_DATE)){
+			return "date_field";
+		}else if(type.equals(TYPE_TIME)){
+			return "time_field";
+		}else if(type.equals(TYPE_DATETIME)){
+			return "datetime_field";
+		}
+		return null;
 	}
 }

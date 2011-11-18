@@ -116,12 +116,6 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		return SmartUtil.returnMnv(request, "jsp/content/work/start/new_board.jsp", "");
 	}
 
-	@RequestMapping("/search_filter")
-	public ModelAndView searchFilter(HttpServletRequest request, HttpServletResponse response) {
-
-		return SmartUtil.returnMnv(request, "jsp/content/work/filter/search_filter.jsp", "");
-	}
-
 	@RequestMapping(value = "/create_new_iwork", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody Map<String, Object> createNewIwork(HttpServletRequest request, HttpServletResponse response) throws Exception {

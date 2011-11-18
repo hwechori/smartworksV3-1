@@ -1,3 +1,4 @@
+<%@page import="java.net.URLDecoder"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.model.filter.KeyMap"%>
@@ -9,6 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String operator = request.getParameter("operator");
+	String operandValue = URLDecoder.decode(request.getParameter("operandValue"), "UTF-8");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	KeyMap[] generalOpers = ConditionOperator.generalOperators;
@@ -16,22 +18,26 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<form name="frmFilterBooleanField">
-	<select name="selFilterBooleanOperator">
-		<%
-			for (KeyMap generalOper : generalOpers) {
-		%>
-		<option value="<%=generalOper.getId()%>" <%if (operator!=null && operator.equals(generalOper.getId())) {%> selected <%}%>>
-			<fmt:message key="<%=generalOper.getKey() %>" />
+<select name="selFilterBooleanOperator">
+	<%
+		for (KeyMap generalOper : generalOpers) {
+	%>
+	<option value="<%=generalOper.getId()%>"
+		<%if (operator != null && operator.equals(generalOper.getId())) {%>
+		selected <%}%>>
+		<fmt:message key="<%=generalOper.getKey() %>" />
+	</option>
+	<%
+		}
+	%>
+</select>
+<span class="str_field"><select name="txtFilterBooleanOperand">
+		<option value="true" <%if((operandValue != null) && operandValue.equals("true")){%> selected<%} %>>
+			<fmt:message key="filter.operand.true" />
 		</option>
-		<%
-			}
-		%>
-	</select> <select name="txtFilterBooleanOperand">
-		<option value="true"><fmt:message key="filter.operand.true"/></option>
-		<option value="false"><fmt:message key="filter.operand.false"/></option>
-	</select>
-	<div class="float_right space_l10">
-		<button class="btn_x_grb"></button>
-	</div>
-</form>
+		<option value="false" <%if((operandValue != null) && operandValue.equals("false")){%> selected<%} %>>
+			<fmt:message key="filter.operand.false" />
+		</option>
+</select> </span>
+<span class="btn_x_grb_posi">
+	<button class="btn_x_grb"></button> </span>

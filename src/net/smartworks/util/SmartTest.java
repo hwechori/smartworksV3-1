@@ -94,7 +94,7 @@ public class SmartTest {
 
 	public static SmartForm getForm1() throws Exception{
 		SmartForm form = new SmartForm();
-		form.setFields(new FormField[] {new FormField("f1", "제 목", "String"), new FormField("f2", "작성자", "User"), new FormField("f3", "관리부서", "Department"), new FormField("f4", "상세설명", "Editor"), new FormField("f5", "첨부파일", "file")});
+		form.setFields(new FormField[] {new FormField("f1", "제 목", FormField.TYPE_TEXT), new FormField("f2", "작성자", FormField.TYPE_DATETIME), new FormField("f3", "관리부서", FormField.TYPE_CHECK_BOX), new FormField("f4", "상세설명", FormField.TYPE_NUMBER), new FormField("f5", "첨부파일", FormField.TYPE_FILE)});
 		form.setDetails("문서를 등록하는 화면입니다. 원하는 문서를 첨부하시고 제목, 작성자 등을 작성하여 주시기 바랍니다.");
 		return form;
 	}
@@ -105,10 +105,13 @@ public class SmartTest {
 		work.setLastModifiedDate(new LocalDate());
 		work.setForm(getForm1());
 		work.setKeyField(new FormField("f1", "제 목", "String"));
-		work.setDisplayFields(new FormField[] {new FormField("f1", "제 목", "String"), new FormField("f2", "작성자", "User"), new FormField("f3", "관리부서", "Department"), new FormField("f4", "상세설명", "Editor"), new FormField("f5", "첨부파일", "file")});
+		work.setDisplayFields(new FormField[] {new FormField("f1", "제 목", FormField.TYPE_TEXT), new FormField("f2", "작성자", FormField.TYPE_DATETIME), new FormField("f3", "관리부서", FormField.TYPE_CHECK_BOX), new FormField("f4", "상세설명", FormField.TYPE_NUMBER), new FormField("f5", "첨부파일", FormField.TYPE_FILE)});
 		work.setHelpUrl("http://manual.smartworks.net");
 		work.setManualFilePath("test/files/");
 		work.setManualFileName("법무지원시스템_dashboard디자인가이드.pptx");
+		SearchFilter sf = new SearchFilter();
+		sf.setId("searchFilter1");
+		sf.setName("테스트필터");
 		return work;
 	}
 	

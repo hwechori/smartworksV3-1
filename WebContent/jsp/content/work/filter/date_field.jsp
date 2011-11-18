@@ -15,6 +15,7 @@
 </script>
 <%
 	String operator = request.getParameter("operator");
+	String operandValue = request.getParameter("operandValue");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	LocalDate date = new LocalDate();
@@ -25,21 +26,22 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-
-<form name="frmFilterDateField">
-	<select name="selFilterDateOperator">
-		<%
-			for (KeyMap dateOper : dateOpers) {
-		%>
-		<option value="<%=dateOper.getId()%>" <%if (operator!=null && operator.equals(dateOper.getId())) {%> selected <%}%>>
-			<fmt:message key="<%=dateOper.getKey() %>" />
-		</option>
-		<%
-			}
-		%>
-	</select> <input class="date js_todaypicker" type="text"
-		name="txtFilterDateOperand" readonly="readonly" value="<%=today%>">
-</form>
-<div class="float_right space_l10">
-	<button class="btn_x_grb"></button>
-</div>
+<select name="selFilterDateOperator">
+	<%
+		for (KeyMap dateOper : dateOpers) {
+	%>
+	<option value="<%=dateOper.getId()%>"
+		<%if (operator != null && operator.equals(dateOper.getId())) {%>
+		selected <%}%>>
+		<fmt:message key="<%=dateOper.getKey() %>" />
+	</option>
+	<%
+		}
+	%>
+</select>
+<span class="str_field"> <input
+	class="inputline js_todaypicker" type="text"
+	name="txtFilterDateOperand" readonly="readonly" value="<%if(operandValue!=null){%><%=operandValue %><%}else{ %><%=today%><%}%>">
+</span>
+<span class="btn_x_grb_posi">
+	<button class="btn_x_grb"></button> </span>

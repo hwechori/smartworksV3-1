@@ -16,6 +16,8 @@
 </script>
 <%
 	String operator = request.getParameter("operator");
+	String operandValue = request.getParameter("operandValue");
+	String operandValueSecond = request.getParameter("operandValueSecond");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	LocalDate date = new LocalDate();
@@ -27,42 +29,24 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 
-<form name="frmFilterDateTimeField">
-	<select name="selFilterDateTimeOperator">
-		<%
-			for (KeyMap dateOper : dateOpers) {
-		%>
-		<option value="<%=dateOper.getId()%>" <%if (operator!=null && operator.equals(dateOper.getId())) {%> selected <%}%>>
-			<fmt:message key="<%=dateOper.getKey() %>" />
-		</option>
-		<%
-			}
-		%>
-	</select> <input class="date js_todaypicker" type="text"
-		name="txtFilterDateOperand" readonly="readonly" value="<%=today%>">
-	<select name="selFilterTimeOperand">
-		<%
-			{
-				boolean isNow = false, isPassed = false;
-				DecimalFormat df = new DecimalFormat("00");
-				int iCurHour = df.parse(curTime.substring(0, 2)).intValue();
-				for (int i = 0; i < 24; i++) {
-					String hourString = df.format(i) + ":00";
-					String thirtyMinuteString = df.format(i) + ":30";
-					if (iCurHour < i && !isPassed)
-						isNow = true;
-		%>
-		<option <%if (isNow) {
-						isNow = false;
-						isPassed = true;%>
-			selected <%}%> value="<%=hourString%>"><%=hourString%></option>
-		<option><%=thirtyMinuteString%></option>
-		<%
-			}
-			}
-		%>
-	</select>
-</form>
-<div class="float_right space_l10">
-	<button class="btn_x_grb"></button>
-</div>
+<select name="selFilterDateTimeOperator">
+	<%
+		for (KeyMap dateOper : dateOpers) {
+	%>
+	<option value="<%=dateOper.getId()%>"
+		<%if (operator != null && operator.equals(dateOper.getId())) {%>
+		selected <%}%>>
+		<fmt:message key="<%=dateOper.getKey() %>" />
+	</option>
+	<%
+		}
+	%>
+</select>
+<span class="str_field"><input class="inputline js_todaypicker"
+	type="text" name="txtFilterDateOperand" readonly="readonly"
+	value="<%if (operandValue != null) {%><%=operandValue%><%} else {%><%=today%><%}%>">
+	<input class="inputline" name="txtFilterTimeOperand" type="text"
+	value="<%if (operandValueSecond != null) {%><%=operandValueSecond%><%} else {%><%=curTime%><%}%>">
+</span>
+<span class="btn_x_grb_posi">
+	<button class="btn_x_grb"></button> </span>

@@ -10,6 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String operator = request.getParameter("operator");
+	String operandValue = request.getParameter("operandValue");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	LocalDate date = new LocalDate();
@@ -20,40 +21,22 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<form name="frmFilterTimeField">
-	<select name="selFilterTimeOperator">
-		<%
-			for (KeyMap dateOper : dateOpers) {
-		%>
-		<option value="<%=dateOper.getId()%>" <%if (operator!=null && operator.equals(dateOper.getId())) {%> selected <%}%>>
-			<fmt:message key="<%=dateOper.getKey() %>" />
-		</option>
-		<%
-			}
-		%>
-	</select> <select name="selFilterTimeOperand">
-		<%
-			{
-				boolean isNow = false, isPassed = false;
-				DecimalFormat df = new DecimalFormat("00");
-				int iCurHour = df.parse(curTime.substring(0, 2)).intValue();
-				for (int i = 0; i < 24; i++) {
-					String hourString = df.format(i) + ":00";
-					String thirtyMinuteString = df.format(i) + ":30";
-					if (iCurHour < i && !isPassed)
-						isNow = true;
-		%>
-		<option <%if (isNow) {
-						isNow = false;
-						isPassed = true;%>
-			selected <%}%> value="<%=hourString%>"><%=hourString%></option>
-		<option><%=thirtyMinuteString%></option>
-		<%
-			}
-			}
-		%>
-	</select>
-	<div class="float_right space_l10">
-		<button class="btn_x_grb"></button>
-	</div>
-</form>
+<select name="selFilterTimeOperator">
+	<%
+		for (KeyMap dateOper : dateOpers) {
+	%>
+	<option value="<%=dateOper.getId()%>"
+		<%if (operator != null && operator.equals(dateOper.getId())) {%>
+		selected <%}%>>
+		<fmt:message key="<%=dateOper.getKey() %>" />
+	</option>
+	<%
+		}
+	%>
+</select>
+<span class="str_field"><input name="selFilterTimeOperand"
+	type="text"
+	value="<%if (operandValue != null) {%><%=operandValue%><%} else {%><%=curTime%><%}%>">
+</span>
+<span class="btn_x_grb_posi">
+	<button class="btn_x_grb"></button> </span>

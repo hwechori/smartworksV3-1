@@ -178,6 +178,22 @@ $(function() {
 				});
 				return false;
 			});
+	$('select.js_select_filter_operand').live(
+			'change',
+			function(e) {
+				var input = $(e.target);
+				var pageName = input.children('option:selected').attr('title');
+				var url = pageName + ".sw";
+				var target = input.next('span.js_filter_operator');
+				$.ajax({
+					url : url,
+					data : {},
+					success : function(data, status, jqXHR) {
+						target.html(data).show();
+					}
+				});
+				return false;
+			});
 
 	$('a.js_search_filter').live(
 			'click',
@@ -190,6 +206,22 @@ $(function() {
 					data : {},
 					success : function(data, status, jqXHR) {
 						target.html(data).slideDown(500);
+					}
+				});
+				return false;
+			});
+
+	$('select.js_select_filter').live(
+			'change',
+			function(e) {
+				var input = $(e.target);
+				var target = $('#iwork_search_filter');
+				var url = input.attr('href') + "&filterId=" + input.children('option:selected').attr('value');
+				$.ajax({
+					url : url,
+					data : {},
+					success : function(data, status, jqXHR) {
+						target.html(data).show();
 					}
 				});
 				return false;

@@ -1,3 +1,4 @@
+<%@page import="java.net.URLDecoder"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.model.filter.KeyMap"%>
@@ -9,6 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String operator = request.getParameter("operator");
+	String operandValue = request.getParameter("operandValue");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	KeyMap[] numberOpers = ConditionOperator.numberOperators;
@@ -16,19 +18,20 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<form name="frmFilterNumberField">
-	<select name="selFilterNumberOperator">
-		<%
-			for (KeyMap numberOper : numberOpers) {
-		%>
-		<option value="<%=numberOper.getId()%>" <%if (operator!=null && operator.equals(numberOper.getId())) {%> selected <%}%>>
-			<fmt:message key="<%=numberOper.getKey() %>" />
-		</option>
-		<%
-			}
-		%>
-	</select> <input type="text" name="txtFilterNumberOperand">
-	<div class="float_right space_l10">
-		<button class="btn_x_grb"></button>
-	</div>
-</form>
+<select name="selFilterNumberOperator">
+	<%
+		for (KeyMap numberOper : numberOpers) {
+	%>
+	<option value="<%=numberOper.getId()%>"
+		<%if (operator != null && operator.equals(numberOper.getId())) {%>
+		selected <%}%>>
+		<fmt:message key="<%=numberOper.getKey() %>" />
+	</option>
+	<%
+		}
+	%>
+</select>
+<span class="str_field"><input class="inputline" type="text"
+	name="txtFilterNumberOperand" value="<%if(operandValue!=null){ %><%=operandValue%><%}%>"> </span>
+<span class="btn_x_grb_posi">
+	<button class="btn_x_grb"></button> </span>

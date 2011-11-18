@@ -1,8 +1,6 @@
 package net.smartworks.model.filter;
 
-import net.smartworks.model.community.User;
 import net.smartworks.model.work.FormField;
-import net.smartworks.util.LocalDate;
 
 public class Condition {
 	
@@ -34,21 +32,5 @@ public class Condition {
 		this.leftOperand = leftOperand;
 		this.operator = operator;
 		this.rightOperand = rightOperand;
-	}
-
-	public Condition[] getMyInstancesCondition(User currentUser){
-		return new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser )};
-	}
-
-	public Condition[] getRecentInstancesCondition(){
-		LocalDate currentDate = new LocalDate();
-		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
-		return new Condition[] {new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL.getId(), new LocalDate(oneWeekBefore) )};
-	}
-	public Condition[] getMyRecentInstancesCondition(User currentUser){
-		LocalDate currentDate = new LocalDate();
-		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
-		return new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
-				new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL.getId(), new LocalDate(oneWeekBefore) )};
 	}
 }
