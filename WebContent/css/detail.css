@@ -146,13 +146,14 @@
 .filter_section {overflow:hidden;}
 .filter_group {border:1px solid #e2e2e2; padding:5px; margin:3px 0;}
 .filter_group table { margin:0; text-align:right; } 
-.filter_area {height:22px; padding:5px 0; float:right; clear:both;}
-.filter_area .selb_size { width:100px;}
-.str_field {width:200px; text-align:left;}
+.filter_area {height:22px; padding:5px 0; clear:both; float:right;}
+.filter_area .selb_size_fir {float:left; margin-right:5px;}
+.filter_area .selb_size_sec {float:left; margin-right:5px; width:100px;}
+.str_field {width:145px; text-align:left; float:left;}
 
 .btn_plus {margin-right:5px; width:25px;}
 .filter_btn_space {background-color:#FFF; padding:8px 0 0; height:22px; border-top: 1px solid #c7c7c7;}
-.btn_x_grb_posi {margin:5px}
+.btn_x_grb_posi {margin:5px;}
 
 
 /* 페이징 */
