@@ -195,6 +195,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 .up {border:1px solid #c7c7c7; padding:3px 0; width:100%; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
 .fieldline {border:1px solid #c7c7c7; left:0px; height:16px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
+.inputline {border:1px solid #c7c7c7; left:0px; height:16px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:500px;} /* 살세필터 input */
 .up_padding {padding:0; position:relative;}
 .up_width {width:450px;}
 

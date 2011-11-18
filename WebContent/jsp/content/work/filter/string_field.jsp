@@ -27,7 +27,7 @@
 		<%
 			}
 		%>
-	</select> <input class="fieldline" type="text" name="txtFilterStringOperand">
+	</select> <input class="inputline" type="text" name="txtFilterStringOperand">
 </form>
 <div class="float_right space_l10">
 	<button class="btn_x_grb"></button>
