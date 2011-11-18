@@ -13,8 +13,8 @@
 <!-- For Development Purpose -->
 <%
 	if(session.getAttribute("companyId")==null || session.getAttribute("userId")==null){
-		session.setAttribute("companyId", "HCC");
-		session.setAttribute("userId", "pss@pilot.smartworks.net");
+		session.setAttribute("companyId", "Semiteq");
+		session.setAttribute("userId", "jskim@maninsoft.co.kr");
 	}
 	
 	String companyId = (String)session.getAttribute("companyId");

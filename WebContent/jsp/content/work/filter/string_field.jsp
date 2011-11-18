@@ -27,8 +27,13 @@
 		<%
 			}
 		%>
-	</select> <input class="inputline" type="text" name="txtFilterStringOperand">
+	</select>
+	
+	<span class="str_field">
+	 <input class="inputline" type="text" name="txtFilterStringOperand">
+	 </span>
+	 
 </form>
-<div class="float_right space_l10">
+<span class="btn_x_grb_posi">
 	<button class="btn_x_grb"></button>
-</div>
+</span>

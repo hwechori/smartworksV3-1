@@ -208,16 +208,18 @@
  	}
  %>
 			</td>
+			
 			<td class="btn_plus"><img src="images/btn_plus.gif" />
 			</td>
+			
 		</tr>
 	</table>
 
 	<div class="filter_btn_space">
 		<div class="float_right">
-			<span class="btn_gray"> <span class="Btn01Start"></span> <span
+			<span class="btn_wh"> <span class="Btn01Start"></span> <span
 				class="Btn01Center">필터저장</span> <span class="Btn01End"></span> </span> <span
-				class="btn_gray"> <span class="Btn01Start"></span> <span
+				class="btn_wh"> <span class="Btn01Start"></span> <span
 				class="Btn01Center">필터실행</span> <span class="Btn01End"></span> </span>
 
 		</div>
