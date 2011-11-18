@@ -37,18 +37,18 @@ public class Condition {
 	}
 
 	public Condition[] getMyInstancesCondition(User currentUser){
-		return new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL, currentUser )};
+		return new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser )};
 	}
 
 	public Condition[] getRecentInstancesCondition(){
 		LocalDate currentDate = new LocalDate();
 		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
-		return new Condition[] {new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL, new LocalDate(oneWeekBefore) )};
+		return new Condition[] {new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL.getId(), new LocalDate(oneWeekBefore) )};
 	}
 	public Condition[] getMyRecentInstancesCondition(User currentUser){
 		LocalDate currentDate = new LocalDate();
 		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
-		return new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL, currentUser ),
-				new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL, new LocalDate(oneWeekBefore) )};
+		return new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
+				new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL.getId(), new LocalDate(oneWeekBefore) )};
 	}
 }

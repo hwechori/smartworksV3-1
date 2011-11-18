@@ -234,8 +234,8 @@
 								</select>
 							</form>
 						</div>
-						<a href="search_filter.sw?workdId=<%=workId %>&filterId=" ><div class="po_left js_search_filter"><fmt:message key='filter.button.search_filter' /></div></a>
-						<a href="search_filter.sw?workdId=<%=workId %>&filterId="><div class="po_left js_search_filter"><fmt:message key='filter.button.new_search_filter' /></div></a>
+						<a href="search_filter.sw?workId=<%=workId %>&filterId=" class=" js_search_filter" ><div class="po_left" ><fmt:message key='filter.button.search_filter' /></div></a>
+						<a href="search_filter.sw?workId=<%=workId %>&filterId=" class=" js_search_filter" ><div class="po_left" ><fmt:message key='filter.button.new_search_filter' /></div></a>
 					</div>
 
 					<div class="txt_btn">

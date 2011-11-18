@@ -1,7 +1,6 @@
 package net.smartworks.model.filter;
 
 import net.smartworks.model.BaseObject;
-import net.smartworks.model.community.User;
 
 public class SearchFilter extends BaseObject{
 	

@@ -182,7 +182,7 @@ $(function() {
 	$('a.js_search_filter').live(
 			'click',
 			function(e) {
-				var input = $(e.target);
+				var input = $(e.target).parent();
 				var target = $('#iwork_search_filter');
 				var url = input.attr('href');
 				$.ajax({
