@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String operator = request.getParameter("operator");
-	String operandValue = URLDecoder.decode(request.getParameter("operandValue"), "UTF-8");
+	String operandValue = request.getParameter("operandValue");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	KeyMap[] generalOpers = ConditionOperator.generalOperators;
@@ -18,7 +18,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<select name="selFilterBooleanOperator">
+<select name="selFilterBooleanOperator" class="selb_size_sec">
 	<%
 		for (KeyMap generalOper : generalOpers) {
 	%>
@@ -40,4 +40,4 @@
 		</option>
 </select> </span>
 <span class="btn_x_grb_posi">
-	<button class="btn_x_grb"></button> </span>
+	<button class="btn_x_grb js_remove_condition"></button> </span>

@@ -29,7 +29,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 
-<select name="selFilterDateTimeOperator">
+<select name="selFilterDateTimeOperator" class="selb_size_sec">
 	<%
 		for (KeyMap dateOper : dateOpers) {
 	%>
@@ -49,4 +49,4 @@
 	value="<%if (operandValueSecond != null) {%><%=operandValueSecond%><%} else {%><%=curTime%><%}%>">
 </span>
 <span class="btn_x_grb_posi">
-	<button class="btn_x_grb"></button> </span>
+	<button class="btn_x_grb js_remove_condition"></button> </span>

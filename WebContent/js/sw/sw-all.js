@@ -182,7 +182,7 @@ $(function() {
 			'change',
 			function(e) {
 				var input = $(e.target);
-				var pageName = input.children('option:selected').attr('title');
+				var pageName = input.children('option:selected').attr('type');
 				var url = pageName + ".sw";
 				var target = input.next('span.js_filter_operator');
 				$.ajax({
@@ -205,7 +205,11 @@ $(function() {
 					url : url,
 					data : {},
 					success : function(data, status, jqXHR) {
-						target.html(data).slideDown(500);
+						target.html(data);
+						var condition = $(target).find('form.js_new_condition');
+						var newCondition = condition.clone().removeClass("js_new_condition");
+						condition.parent().append(newCondition.show());
+						target.slideDown(500);
 					}
 				});
 				return false;
@@ -224,6 +228,22 @@ $(function() {
 						target.html(data).show();
 					}
 				});
+				return false;
+			});
+
+	$('button.js_remove_condition').live(
+			'click',
+			function(e) {
+				$(e.target).parents('form.js_filter_condition:first').remove();
+				return false;
+			});
+
+	$('img.js_add_condition').live(
+			'click',
+			function(e) {
+				var target = $(e.target).parents('div.js_search_filter').find('form.js_filter_condition').parent();
+				var newCondition = target.find('form.js_new_condition:first').clone().show().removeClass('js_new_condition');
+				target.append(newCondition.show());
 				return false;
 			});
 
