@@ -15,8 +15,6 @@ import net.smartworks.model.work.WorkCategory;
 import net.smartworks.server.engine.authority.manager.ISwaManager;
 import net.smartworks.server.engine.authority.model.SwaResource;
 import net.smartworks.server.engine.authority.model.SwaResourceCond;
-import net.smartworks.server.engine.authority.model.SwaUser;
-import net.smartworks.server.engine.authority.model.SwaUserCond;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.category.model.CtgCategoryCond;
@@ -42,7 +40,6 @@ import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
-import net.smartworks.server.service.util.SmartCommonConstants;
 import net.smartworks.util.SmartTest;
 
 import org.springframework.stereotype.Service;
@@ -219,34 +216,11 @@ workList.add(SmartTest.getInformationWork1());
 	@Override
 	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
 
-		PkgPackageCond pkgCond = new PkgPackageCond();
-		pkgCond.setCompanyId(companyId);
-		pkgCond.setPackageId(workId);
-
 		SwfFormCond swfCond = new SwfFormCond();
 		swfCond.setPackageId(workId);
 		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_ALL);
 		SwfForm swfForm = swfForms[0];
 		String formId = swfForm.getId();
-
-		SwaResourceCond swaResourceCond = new SwaResourceCond();
-		swaResourceCond.setResourceId(formId);
-		SwaResource[] swaResources = getSwaManager().getResources(userId, swaResourceCond, IManager.LEVEL_ALL);
-
-		SwaUserCond swaUserCond = null;
-		SwaUser[] swaUsers = null;
-
-		for(SwaResource swaResource : swaResources) {
-
-			if(swaResource.getPermission().equals(SwaResource.PERMISSION_SELECT)) {
-				swaUserCond = new SwaUserCond();
-				swaUserCond.setResourceId(formId);
-				swaUsers = getSwaManager().getUsers(userId, swaUserCond, IManager.LEVEL_ALL);
-				for(SwaUser swaUser : swaUsers) {
-					System.out.println(swaUser.getUserId());
-				}
-			}
-		}
 
 		List<SwdDomainFieldView> fieldViewList = getSwdManager().findDomainFieldViewList(formId);
 		List<SwfFormFieldDef> formFieldDefList = getSwfManager().findFormFieldByForm(formId, true);
@@ -255,8 +229,20 @@ workList.add(SmartTest.getInformationWork1());
 			SwfFormFieldDef fieldDef = (SwfFormFieldDef)formFieldDefList.get(idx);
 			hash.put(fieldDef.getId(), fieldDef);
 		}
-		FormField[] formFields = new FormField[fieldViewList.size()];
+		FormField[] formFields = null;
 		if(fieldViewList != null) {
+			int formFieldsSize = 0;
+			for(SwdDomainFieldView dfv : fieldViewList) {
+				SwfFormFieldDef fieldDef = (SwfFormFieldDef)hash.get(dfv.getFormFieldId());
+				String viewingType = "";
+				if(fieldDef != null) {
+					viewingType = CommonUtil.toNotNull(fieldDef.getViewingType());
+				}
+				if(dfv.getDispOrder() > -1 && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
+					formFieldsSize++;
+				}
+			}
+			formFields = new FormField[formFieldsSize];
 			int i = 0;
 			for(SwdDomainFieldView dfv : fieldViewList) {
 				SwfFormFieldDef fieldDef = (SwfFormFieldDef)hash.get(dfv.getFormFieldId());
@@ -269,49 +255,63 @@ workList.add(SmartTest.getInformationWork1());
 					formField.setId(fieldDef.getId());
 					formField.setName(fieldDef.getName());
 					formField.setType(fieldDef.getType());
-					i++;
 					formFields[i] = formField;
+					i++;
 				}
 			}
 		}
 
-		Work infoWork = new InformationWork();
-		((InformationWork)infoWork).setDisplayFields(formFields);
-
-		String userMode = CommonUtil.toNotNull(getSwaManager().getUserMode(userId, formId, SmartCommonConstants.TYPE_REF_SINGLE_WORK, null, companyId));
-
-		AccessPolicy accessPolicy = new AccessPolicy();
-		WritePolicy writePolicy = new WritePolicy();
-		EditPolicy editPolicy = new EditPolicy();
-
-		Work smartWork = new SmartWork();
-		if(userMode.equals("D")) {
-			writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
-			((SmartWork)smartWork).setWritePolicy(writePolicy);
-		} else if(userMode.equals("M")) {
-			writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
-			((SmartWork)smartWork).setWritePolicy(writePolicy);
-		} else if(userMode.equals("W")) {
-			writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
-			((SmartWork)smartWork).setWritePolicy(writePolicy);
-		} else if(userMode.equals("R")) {
-			writePolicy.setLevel(WritePolicy.LEVEL_CUSTOM);
-			((SmartWork)smartWork).setWritePolicy(writePolicy);
-		} else if(userMode.equals("WR")) {
-			writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
-			((SmartWork)smartWork).setWritePolicy(writePolicy);
-		}
+		Work resultwork = new InformationWork();
+		((InformationWork)resultwork).setDisplayFields(formFields);
 
 		/* -- 공개여부 --
 		 공개 / 비공개*/
 
-/*		 -- 형태 --
+		/* -- 형태 --
 		 블로그형 : v2.0 구조
 		 위키형 : 누구나 수정 가능*/
 
 		 /*-- 작성권한 --
 		 전체 / 선택사용자*/
-		//userMode.equals("")
+
+		AccessPolicy accessPolicy = new AccessPolicy();
+		WritePolicy writePolicy = new WritePolicy();
+		EditPolicy editPolicy = new EditPolicy();
+
+		SwaResourceCond swaResourceCond = new SwaResourceCond();
+		swaResourceCond.setResourceId(formId);
+		SwaResource[] swaResources = getSwaManager().getResources(userId, swaResourceCond, IManager.LEVEL_ALL);
+
+		for(SwaResource swaResource : swaResources) {
+			if(CommonUtil.toNotNull(swaResource.getMode()).equals("R")) {
+				if(swaResource.getPermission().equals("PUB_ALL"))
+					accessPolicy.setLevel(AccessPolicy.LEVEL_DEFAULT);
+				else if(swaResource.getPermission().equals("PUB_SELECT"))
+					accessPolicy.setLevel(AccessPolicy.LEVEL_CUSTOM);
+				else
+					accessPolicy.setLevel(AccessPolicy.LEVEL_PRIVATE);
+			} else if(CommonUtil.toNotNull(swaResource.getMode()).equals("W")) {
+				if(swaResource.getPermission().equals("PUB_ALL"))
+					writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
+				else
+					writePolicy.setLevel(WritePolicy.LEVEL_CUSTOM);
+			} else if(CommonUtil.toNotNull(swaResource.getMode()).equals("M")) {
+				if(swaResource.getPermission().equals("PUB_ALL"))
+					editPolicy.setLevel(EditPolicy.LEVEL_DEFAULT);
+				else if(swaResource.getPermission().equals("PUB_SELECT"))
+					editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
+				else
+					editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
+			}
+		}
+
+		((SmartWork)resultwork).setAccessPolicy(accessPolicy);
+		((SmartWork)resultwork).setWritePolicy(writePolicy);
+		((SmartWork)resultwork).setEditPolicy(editPolicy);
+
+		PkgPackageCond pkgCond = new PkgPackageCond();
+		pkgCond.setCompanyId(companyId);
+		pkgCond.setPackageId(workId);
 
 		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_ALL);
 		String id = pkg.getPackageId();
@@ -319,16 +319,38 @@ workList.add(SmartTest.getInformationWork1());
 		String typeStr = pkg.getType();
 		int type = typeStr.equals("PROCESS") ? SmartWork.TYPE_PROCESS : typeStr.equals("SINGLE") ? SmartWork.TYPE_INFORMATION : SmartWork.TYPE_SCHEDULE;
 		String description = pkg.getDescription();
+		resultwork.setId(id);
+		resultwork.setName(name);
+		resultwork.setType(type);
+		resultwork.setDesc(description);
 
-		Work work = new Work();
-		work.setId(id);
-		work.setName(name);
-		work.setType(type);
-		work.setDesc(description);
+		String groupName = "";
+		String groupId = pkg.getCategoryId();
+		String categoryName = "";
+		String categoryId = "";
+		CtgCategoryCond ctgCond = new CtgCategoryCond();
+		ctgCond.setObjId(groupId);
+		CtgCategory ctg = getCtgManager().getCategory(userId, ctgCond, IManager.LEVEL_ALL);
+		groupName = ctg.getName();
+		if(!(ctg.getParentId().toUpperCase().equals("ROOT"))) {
+			CtgCategoryCond ctgCond2 = new CtgCategoryCond();
+			ctgCond2.setObjId(ctg.getParentId());
+			CtgCategory ctg2 = getCtgManager().getCategory(userId, ctgCond2, IManager.LEVEL_ALL);
+			categoryName = ctg2.getName();
+			categoryId = ctg2.getObjId();
+		}
 
-		Work resultWork = new Work();
+		WorkCategory myCategory = new WorkCategory();
+		myCategory.setId(categoryId);
+		myCategory.setName(categoryName);
+		((SmartWork)resultwork).setMyCategory(myCategory);
 
-		return resultWork;
+		WorkCategory myGroup = new WorkCategory();
+		myGroup.setId(groupId);
+		myGroup.setName(groupName);
+		((SmartWork)resultwork).setMyGroup(myGroup);
+
+		return resultwork;
 
 	}
 
