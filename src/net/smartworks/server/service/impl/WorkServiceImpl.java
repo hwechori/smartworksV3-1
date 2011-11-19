@@ -121,7 +121,7 @@ public class WorkServiceImpl implements IWorkService {
 			int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
 			int pkgPkgsSize = workPkgs == null? 0 : workPkgs.length;
 			
-			Work[] resultWork = new Work[workCtgsSize + pkgPkgsSize + /* UI test*/ 1];
+			Work[] resultWork = new Work[workCtgsSize + pkgPkgsSize + /* UI test*/ 2];
 			
 			//System.arraycopy(workCtgs, 0, resultWork, 0, workCtgsSize);  
 			//System.arraycopy(pkgPkgs, 0, resultWork, workCtgsSize, pkgPkgsSize);
@@ -135,7 +135,8 @@ public class WorkServiceImpl implements IWorkService {
 			}
 
 // UI test용 코드
-workList.add(SmartTest.getInformationWork1());
+			workList.add(SmartTest.getInformationWork1());
+			workList.add(SmartTest.getProcessWork1());
 // UI test용 코드
 
 			workList.toArray(resultWork);

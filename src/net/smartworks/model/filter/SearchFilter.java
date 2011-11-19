@@ -2,13 +2,10 @@ package net.smartworks.model.filter;
 
 import net.smartworks.model.BaseObject;
 import net.smartworks.model.community.User;
+import net.smartworks.model.work.FormField;
+import net.smartworks.util.LocalDate;
 
 public class SearchFilter extends BaseObject{
-	
-	public static final int BASIC_FILTER_ALL_INSTANCES = 1;
-	public static final int BASIC_FILTER_MY_INSTANCES = 2;
-	public static final int BASIC_FILTER_RECENT_INSTANCES = 3;
-	public static final int BASIC_FILTER_MY_RECENT_INSTANCES = 4;
 	
 	public static final String FILTER_ALL_INSTANCES = "allInstances";
 	public static final String FILTER_MY_INSTANCES = "myInstances";
@@ -25,4 +22,26 @@ public class SearchFilter extends BaseObject{
 
 	public SearchFilter(){
 	}
+	
+	public SearchFilter(Condition[] conditions){
+		super();
+		this.conditions = conditions;
+	}
+
+	public static SearchFilter getMyInstancesFilter(User currentUser){
+		return new SearchFilter(new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser )});
+	}
+
+	public static SearchFilter getRecentInstancesFilter(){
+		LocalDate currentDate = new LocalDate();
+		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
+		return new SearchFilter(new Condition[] {new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL.getId(), new LocalDate(oneWeekBefore) )});
+	}
+	public static SearchFilter getMyRecentInstancesFilter(User currentUser){
+		LocalDate currentDate = new LocalDate();
+		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
+		return new SearchFilter(new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
+				new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL.getId(), new LocalDate(oneWeekBefore) )});
+	}
+
 }

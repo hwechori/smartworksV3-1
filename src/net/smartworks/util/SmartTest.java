@@ -22,7 +22,10 @@ import net.smartworks.model.security.EditPolicy;
 import net.smartworks.model.security.WritePolicy;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
+import net.smartworks.model.work.ProcessWork;
+import net.smartworks.model.work.SmartDiagram;
 import net.smartworks.model.work.SmartForm;
+import net.smartworks.model.work.SmartTask;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
@@ -94,9 +97,39 @@ public class SmartTest {
 
 	public static SmartForm getForm1() throws Exception{
 		SmartForm form = new SmartForm();
-		form.setFields(new FormField[] {new FormField("f1", "제 목", "String"), new FormField("f2", "작성자", "User"), new FormField("f3", "관리부서", "Department"), new FormField("f4", "상세설명", "Editor"), new FormField("f5", "첨부파일", "file")});
+		form.setFields(new FormField[] {new FormField("f1", "제 목", FormField.TYPE_TEXT), new FormField("f2", "작성자", FormField.TYPE_DATETIME), new FormField("f3", "관리부서", FormField.TYPE_CHECK_BOX), new FormField("f4", "상세설명", FormField.TYPE_NUMBER), new FormField("f5", "첨부파일", FormField.TYPE_FILE)});
 		form.setDetails("문서를 등록하는 화면입니다. 원하는 문서를 첨부하시고 제목, 작성자 등을 작성하여 주시기 바랍니다.");
 		return form;
+	}
+
+	public static SmartTask getTask1() throws Exception{
+		SmartTask task = new SmartTask("task1", "근태기안");
+		task.setForm(getForm1());
+		return task;
+	}
+	
+	public static SmartTask getTask2() throws Exception{
+		SmartTask task = new SmartTask("task2", "팀장 승인");
+		task.setForm(getForm1());
+		return task;
+	}
+	
+	public static SmartTask getTask3() throws Exception{
+		SmartTask task = new SmartTask("task3", "검토자 확인");
+		task.setForm(getForm1());
+		return task;
+	}
+	
+	public static SmartTask getTask4() throws Exception{
+		SmartTask task = new SmartTask("task4", "대표이사 승인");
+		task.setForm(getForm1());
+		return task;
+	}
+	
+	public static SmartDiagram getDiagram1() throws Exception{
+		SmartDiagram diagram = new SmartDiagram("diagram1", "");
+		diagram.setTasks(new SmartTask[] {getTask1(), getTask2(), getTask3(), getTask4()});
+		return diagram;
 	}
 	
 	public static InformationWork getInformationWork1() throws Exception{
@@ -105,10 +138,24 @@ public class SmartTest {
 		work.setLastModifiedDate(new LocalDate());
 		work.setForm(getForm1());
 		work.setKeyField(new FormField("f1", "제 목", "String"));
-		work.setDisplayFields(new FormField[] {new FormField("f1", "제 목", "String"), new FormField("f2", "작성자", "User"), new FormField("f3", "관리부서", "Department"), new FormField("f4", "상세설명", "Editor"), new FormField("f5", "첨부파일", "file")});
+		work.setDisplayFields(new FormField[] {new FormField("f1", "제 목", FormField.TYPE_TEXT), new FormField("f2", "작성자", FormField.TYPE_DATETIME), new FormField("f3", "관리부서", FormField.TYPE_CHECK_BOX), new FormField("f4", "상세설명", FormField.TYPE_NUMBER), new FormField("f5", "첨부파일", FormField.TYPE_FILE)});
 		work.setHelpUrl("http://manual.smartworks.net");
 		work.setManualFilePath("test/files/");
 		work.setManualFileName("법무지원시스템_dashboard디자인가이드.pptx");
+		SearchFilter sf = new SearchFilter();
+		sf.setId("searchFilter1");
+		sf.setName("테스트필터");
+		return work;
+	}
+	
+	public static ProcessWork getProcessWork1() throws Exception{
+		ProcessWork work = new ProcessWork("pwork1", "근태기안-UITest", "개인들이 근태를 신청하는 프로세스업무 입니다. 프로세를 선택하여 필요한 결재라인을 지정하고 근태신청을 진행할 수 있습니다..", getWorkCategory1());
+		work.setLastModifier(getUser1());
+		work.setLastModifiedDate(new LocalDate());
+		work.setHelpUrl("http://manual.smartworks.net");
+		work.setManualFilePath("test/files/");
+		work.setManualFileName("법무지원시스템_dashboard디자인가이드.pptx");
+		work.setDiagram(getDiagram1());
 		return work;
 	}
 	
@@ -516,7 +563,7 @@ public class SmartTest {
 	private static InstanceRecord[] getInstanceRecords() throws Exception{
 		FieldData[] fieldDatas = new FieldData[] {new FieldData("f1", "String", "금성출판사 제안 자료입니다."), new FieldData("f2", "User", "과장 김지숙"), new FieldData("f3", "Department", "경영기획본부/마케팅팀"), new FieldData("f4", "Editer", "유용한자료이니 참조들 하시기 바랍니다."), new FieldData("f5", "file", "금성출판사-제안서.ppt")};
 		InstanceRecord instanceRecord = new InstanceRecord(getUser1(), getUser2(), new LocalDate(), fieldDatas);
-		return new InstanceRecord[] {instanceRecord};
+		return new InstanceRecord[] {instanceRecord, instanceRecord, instanceRecord, instanceRecord, instanceRecord, instanceRecord, instanceRecord, instanceRecord, instanceRecord, instanceRecord, instanceRecord, instanceRecord};
 	}
 	
 	public static InstanceList getWorkInstanceList(ListRequestParams params) throws Exception{

@@ -2,30 +2,30 @@ package net.smartworks.model.filter;
 
 public class ConditionOperator {
 
-	public static final String EQUAL = "=";
-	public static final String NOT_EQUAL = "!=";
-	public static final String CONTAIN = "like";
-	public static final String NOT_CONTAIN = "not like";
-	public static final String SMALLER = "<";
-	public static final String SMALLER_EQUAL = "<=";
-	public static final String GREATER = ">";
-	public static final String GREATER_EQUAL = ">=";
-	public static final String AND = "and";
-	public static final String OR = "or";
+	public static final KeyMap EQUAL = new KeyMap("=", "filter.operator.title.equal");
+	public static final KeyMap NOT_EQUAL = new KeyMap("!=", "filter.operator.title.not_equal");
+	public static final KeyMap CONTAIN = new KeyMap("like", "filter.operator.title.contain");
+	public static final KeyMap NOT_CONTAIN = new KeyMap("not like", "filter.operator.title.not_contain");
+	public static final KeyMap SMALLER = new KeyMap("<", "filter.operator.title.smaller");
+	public static final KeyMap SMALLER_EQUAL = new KeyMap("<=", "filter.operator.title.smaller_equal");
+	public static final KeyMap GREATER = new KeyMap(">", "filter.operator.title.greater");
+	public static final KeyMap GREATER_EQUAL = new KeyMap(">=", "filter.operator.title.greater_equal");
+	public static final KeyMap AND = new KeyMap("and", "filter.operator.title.and");
+	public static final KeyMap OR = new KeyMap("or", "filter.operator.title.or");
 
-	public static final String[] connectorOperators = new String[] {
+	public static final KeyMap[] connectorOperators = new KeyMap[] {
 		AND,
 		OR
 	};
 	
-	public static final String[] stringOperators = new String[] {
+	public static final KeyMap[] stringOperators = new KeyMap[] {
 		EQUAL,
 		NOT_EQUAL,
 		CONTAIN,
 		NOT_CONTAIN
 	};
 	
-	public static final String[] numberOperators = new String[] {
+	public static final KeyMap[] numberOperators = new KeyMap[] {
 		EQUAL,
 		NOT_EQUAL,
 		SMALLER,
@@ -34,7 +34,7 @@ public class ConditionOperator {
 		GREATER_EQUAL
 	};
 	
-	public static final String[] dateOperators = new String[] {
+	public static final KeyMap[] dateOperators = new KeyMap[] {
 		EQUAL,
 		NOT_EQUAL,
 		SMALLER,
@@ -43,7 +43,7 @@ public class ConditionOperator {
 		GREATER_EQUAL
 	};
 	
-	public static String[] generalOperators = new String[] {
+	public static KeyMap[] generalOperators = new KeyMap[] {
 		EQUAL,
 		NOT_EQUAL
 	};
