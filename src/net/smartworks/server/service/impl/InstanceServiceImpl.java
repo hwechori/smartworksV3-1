@@ -1,10 +1,12 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.smartworks.model.community.User;
 import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
@@ -24,6 +26,7 @@ import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IInstanceService;
+import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
@@ -108,7 +111,9 @@ public class InstanceServiceImpl implements IInstanceService {
 	 */
 	@Override
 	public WorkInstance[] getMyRecentInstances(String companyId, String userId) throws Exception {
-
+		if (true)
+			return null;
+		
 		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 			return null;
 
@@ -121,6 +126,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		taskCond.setPageSize(50);
 		
 		TskTask[] tasks = getTskManager().getTasks(userId, taskCond, IManager.LEVEL_ALL);
+		if (CommonUtil.isEmpty(tasks))
+			return null;
 		
 		List<String> prcInstIdList = new ArrayList<String>();
 		for (int i = 0; i < tasks.length; i++) {
@@ -143,25 +150,44 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(userId, prcInstCond, IManager.LEVEL_LITE);
 		
-		
-		
-		
-
-		
+		WorkInstance workInst = new WorkInstance();
 		
 		
 		
 		
 		
 		
+	
 		
 		
 		
 		
 		
 		
-		return new WorkInstance[] { SmartTest.getWorkInstance1(), SmartTest.getWorkInstance2(), SmartTest.getWorkInstance3(), SmartTest.getWorkInstance4(),
-				SmartTest.getWorkInstance5() };
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return (WorkInstance[])ModelConverter.arrayToArray(prcInsts);
 	}
 
 	@Override

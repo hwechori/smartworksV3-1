@@ -19,7 +19,15 @@ public class PrcProcessInst extends MisObject {
 	
 	private static final String NAME = CommonUtil.toName(PrcProcessInst.class, PREFIX);
 	
+	public static final String PROCESSINSTSTATUS_RUNNING = "2";
+	public static final String PROCESSINSTSTATUS_COMPLETE = "3";
+	
+	public static final String PROCESSINSTTYPE_PROCESS = "PROCESS";
+	public static final String PROCESSINSTTYPE_INFORMATION = "INFORMATION";
+	public static final String PROCESSINSTTYPE_SCHEDULE = "SCHEDULE";
+	
 	public static final String A_TITLE = "title";
+	public static final String A_TYPE = "type";
 	public static final String A_PRIORITY = "priority";
 	public static final String A_DIAGRAMID = "diagramId";
 	public static final String A_DIAGRAMVERSION = "diagramVersion";
@@ -29,6 +37,7 @@ public class PrcProcessInst extends MisObject {
 	public static final String A_INSTVARIABLE = "instVariable";
 	
 	private String title;
+	private String type;
 	private String priority;
 	private String diagramId;
 	private String diagramVersion;
@@ -49,6 +58,7 @@ public class PrcProcessInst extends MisObject {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_PRIORITY, priority, buf);
+		appendAttributeString(A_TYPE, type, buf);
 		appendAttributeString(A_DIAGRAMID, diagramId, buf);
 		appendAttributeString(A_DIAGRAMVERSION, diagramVersion, true, buf);
 		appendAttributeString(A_PROCESSID, processId, buf);
@@ -79,12 +89,15 @@ public class PrcProcessInst extends MisObject {
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
 			Node priority = attrMap.getNamedItem(A_PRIORITY);
+			Node type = attrMap.getNamedItem(A_TYPE);
 			Node diagramId = attrMap.getNamedItem(A_DIAGRAMID);
 			Node diagramVersion = attrMap.getNamedItem(A_DIAGRAMVERSION);
 			Node processId = attrMap.getNamedItem(A_PROCESSID);
 			Node isSubInstance = attrMap.getNamedItem(A_ISSUBINSTANCE);
 			if (priority != null)
 				obj.setPriority(priority.getNodeValue());
+			if (type != null)
+				obj.setType(type.getNodeValue());
 			if (diagramId != null)
 				obj.setDiagramId(diagramId.getNodeValue());
 			if (diagramVersion != null)
@@ -257,5 +270,11 @@ public class PrcProcessInst extends MisObject {
 	}
 	public void setInstVariable(String instVariable) {
 		this.instVariable = instVariable;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }

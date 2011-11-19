@@ -35,6 +35,7 @@ import net.smartworks.server.engine.organization.model.SwoTeam;
 import net.smartworks.server.engine.organization.model.SwoTeamCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserCond;
+import net.smartworks.server.engine.organization.model.SwoUserExtend;
 
 import org.hibernate.Query;
 
@@ -1394,6 +1395,43 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	
+	
+	public SwoUserExtend getUserExtend(String userId, String id) throws SwoException {
+		StringBuffer buff = new StringBuffer();
+		
+		buff.append("select new net.smartworks.server.engine.organization.model.SwoUserExtend( ");
+		buff.append(" user.id,  user.name,  company.name, ");
+		buff.append(" dept.name,  user.lang, ");
+		buff.append(" user.picture,  user.picture, user.position, ");
+		buff.append(" user.stdTime,  user.authId");
+		buff.append(" )");
+		buff.append(" from SwoUser user, SwoDepartment dept, SwoCompany company ");
+		buff.append(" where user.deptId = dept.id");
+		buff.append(" and user.companyId = company.id");
+		buff.append(" and user.id = :id");
+		
+		Query query = this.getSession().createQuery(buff.toString());
+		
+		query.setString("id", id);
+
+		SwoUserExtend userExtend = (SwoUserExtend)query.uniqueResult();
+		
+		return userExtend;
+	}
+	public SwoUserExtend[] getUsersExtend(String userId, String[] ids) throws SwoException {
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public String getDefaultLogo() throws SwoException {
 		String sql = "select logo from SWConfig where id = 'maninsoft'";
 		Query query = this.getSession().createSQLQuery(sql);

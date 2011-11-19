@@ -20,6 +20,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 	private static final String NAME = CommonUtil.toName(PrcProcessInstCond.class, PREFIX);
 	
 	public static final String A_TITLE = "title";
+	public static final String A_TYPE = "type";
 	public static final String A_TITLELIKE = "titleLike";
 	public static final String A_PRIORITY = "priority";
 	public static final String A_DIAGRAMID = "diagramId";
@@ -35,6 +36,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 	public static final String A_ISSUBINSTANCE = "isSubInstance";
 	
 	private String title;
+	private String type;
 	private String titleLike;
 	private String priority;
 	private String diagramId;
@@ -62,6 +64,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_PRIORITY, priority, buf);
+		appendAttributeString(A_TYPE, type, buf);
 		appendAttributeString(A_DIAGRAMID, diagramId, buf);
 		appendAttributeString(A_DIAGRAMVERSION, diagramVersion, true, buf);
 		appendAttributeString(A_PROCESSID, processId, buf);
@@ -95,11 +98,14 @@ public class PrcProcessInstCond extends MisObjectCond {
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
 			Node diagramId = attrMap.getNamedItem(A_DIAGRAMID);
+			Node type = attrMap.getNamedItem(A_TYPE);
 			Node diagramVersion = attrMap.getNamedItem(A_DIAGRAMVERSION);
 			Node processId = attrMap.getNamedItem(A_PROCESSID);
 			Node isSubInstance = attrMap.getNamedItem(A_ISSUBINSTANCE);
 			if (diagramId != null)
 				obj.setDiagramId(diagramId.getNodeValue());
+			if (type != null)
+				obj.setType(type.getNodeValue());
 			if (diagramVersion != null)
 				obj.setDiagramVersion(diagramVersion.getNodeValue());
 			if (processId != null)
@@ -318,5 +324,11 @@ public class PrcProcessInstCond extends MisObjectCond {
 	}
 	public void setObjIdIns(String[] objIdIns) {
 		this.objIdIns = objIdIns;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }
