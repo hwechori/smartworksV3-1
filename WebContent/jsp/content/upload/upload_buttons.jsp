@@ -22,7 +22,7 @@
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	SmartWork work = (SmartWork)smartWorks.getWorkById(companyId, workId);
+	SmartWork work = (SmartWork)smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	if (work == null)
 		work = new SmartWork();
 	Community[] communities = smartWorks.getMyCommunities(companyId, userId);

@@ -27,7 +27,7 @@
 	ListRequestParams params = new ListRequestParams();
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
-	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, workId);
+	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	InstanceList instanceList = smartWorks.getWorkInstanceList(companyId, workId, params);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

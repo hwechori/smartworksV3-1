@@ -23,7 +23,7 @@
 	NoticeMessage[] noticeMessages = noticeBox.getNoticeMessages();
 	if (noticeMessages != null) {
 		for (NoticeMessage nMessage : (NoticeMessage[]) noticeBox.getNoticeMessages()) {
-	if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_COMMENTS) {
+	if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_COMMENT) {
 		CommentInstance commentInstance = (CommentInstance) nMessage.getInstance();
 		String instContext = null, targetContent = null;
 		User owner = commentInstance.getOwner();
