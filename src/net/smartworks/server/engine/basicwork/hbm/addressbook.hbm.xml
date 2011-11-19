@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.basicwork.addressbook.model" default-lazy="false">
+	<class name="AddressBook" table="SWBAddressBook">
+		<id name="objId" column="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="name" column="name" type="string" length="100"/>
+		<property name="companyId" column="company" type="string" length="100"/>
+		<property name="deptId" column="department" type="string" length="100"/>
+		<property name="position" column="position" type="string" length="100"/>
+		<property name="mobile" column="mobile" type="string" length="50"/>
+		<property name="telephone" column="telephone" type="string" length="50"/>
+		<property name="fax" column="fax" type="string" length="50"/>
+		<property name="email" column="email" type="string" length="50"/>
+		<property name="messenger" column="messenger" type="string" length="50"/>
+		<property name="address" column="address" type="string" length="200"/>
+		<property name="country" column="country" type="string" length="50"/>
+		<property name="relation" column="relation" type="string" length="50"/>
+		<property name="description" column="description" type="string" length="2000"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>	
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+</hibernate-mapping>

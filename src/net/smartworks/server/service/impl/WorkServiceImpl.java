@@ -1,15 +1,22 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.smartworks.model.security.AccessPolicy;
+import net.smartworks.model.security.EditPolicy;
+import net.smartworks.model.security.WritePolicy;
+import net.smartworks.model.work.FormField;
+import net.smartworks.model.work.InformationWork;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
 import net.smartworks.server.engine.authority.manager.ISwaManager;
 import net.smartworks.server.engine.authority.model.SwaResource;
 import net.smartworks.server.engine.authority.model.SwaResourceCond;
+import net.smartworks.server.engine.authority.model.SwaUser;
+import net.smartworks.server.engine.authority.model.SwaUserCond;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.category.model.CtgCategoryCond;
@@ -21,9 +28,12 @@ import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomainFieldView;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
+import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
@@ -48,6 +58,9 @@ public class WorkServiceImpl implements IWorkService {
 	}
 	private ISwaManager getSwaManager() {
 		return SwManagerFactory.getInstance().getSwaManager();
+	}
+	private ISwdManager getSwdManager() {
+		return SwManagerFactory.getInstance().getSwdManager();
 	}
 	private ISwfManager getSwfManager() {
 		return SwManagerFactory.getInstance().getSwfManager();
@@ -205,46 +218,89 @@ workList.add(SmartTest.getInformationWork1());
 
 	@Override
 	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
-/*		Work[] works = new Work[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork4(),
-				SmartTest.getSmartWork5(), SmartTest.getSmartWork6(), SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9() };
-=======
-	public Work getWorkById(String companyId, String workId) throws Exception {
-		Work[] works = new Work[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork4(),
-				SmartTest.getSmartWork5(), SmartTest.getSmartWork6(), SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9(), SmartTest.getInformationWork1() };
->>>>>>> branch 'serverpart' of git@github.com:maninsoft/smartworksV3.git
-		for (Work work : works) {
-			if (work.getId().equals(workId))
-				return work;
-		}
-		return null;*/
+
 		PkgPackageCond pkgCond = new PkgPackageCond();
 		pkgCond.setCompanyId(companyId);
 		pkgCond.setPackageId(workId);
 
 		SwfFormCond swfCond = new SwfFormCond();
 		swfCond.setPackageId(workId);
-		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, null);
+		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_ALL);
 		SwfForm swfForm = swfForms[0];
 		String formId = swfForm.getId();
 
 		SwaResourceCond swaResourceCond = new SwaResourceCond();
 		swaResourceCond.setResourceId(formId);
-		SwaResource[] swaResources = getSwaManager().getResources(userId, swaResourceCond, null);
-		
-		
-/*		SwaUserCond swaUserCond = null;
+		SwaResource[] swaResources = getSwaManager().getResources(userId, swaResourceCond, IManager.LEVEL_ALL);
+
+		SwaUserCond swaUserCond = null;
 		SwaUser[] swaUsers = null;
 
-		if(swaResource.getPermission().equals("PUB_SELECT")) {
-			swaUserCond = new SwaUserCond();
-			swaUserCond.setResourceId(formId);
-			swaUsers = getSwaManager().getUsers(userId, swaUserCond, null);
-			for(SwaUser swaUser : swaUsers) {
-				System.out.println(swaUser.getUserId());
+		for(SwaResource swaResource : swaResources) {
+
+			if(swaResource.getPermission().equals(SwaResource.PERMISSION_SELECT)) {
+				swaUserCond = new SwaUserCond();
+				swaUserCond.setResourceId(formId);
+				swaUsers = getSwaManager().getUsers(userId, swaUserCond, IManager.LEVEL_ALL);
+				for(SwaUser swaUser : swaUsers) {
+					System.out.println(swaUser.getUserId());
+				}
 			}
-		}*/
+		}
+
+		List<SwdDomainFieldView> fieldViewList = getSwdManager().findDomainFieldViewList(formId);
+		List<SwfFormFieldDef> formFieldDefList = getSwfManager().findFormFieldByForm(formId, true);
+		HashMap<String, SwfFormFieldDef> hash = new HashMap<String, SwfFormFieldDef>();
+		for (int idx = 0 ; idx < formFieldDefList.size() ; idx++) {
+			SwfFormFieldDef fieldDef = (SwfFormFieldDef)formFieldDefList.get(idx);
+			hash.put(fieldDef.getId(), fieldDef);
+		}
+		FormField[] formFields = new FormField[fieldViewList.size()];
+		if(fieldViewList != null) {
+			int i = 0;
+			for(SwdDomainFieldView dfv : fieldViewList) {
+				SwfFormFieldDef fieldDef = (SwfFormFieldDef)hash.get(dfv.getFormFieldId());
+				String viewingType = "";
+				if(fieldDef != null) {
+					viewingType = CommonUtil.toNotNull(fieldDef.getViewingType());
+				}
+				FormField formField = new FormField();
+				if(dfv.getDispOrder() > -1 && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
+					formField.setId(fieldDef.getId());
+					formField.setName(fieldDef.getName());
+					formField.setType(fieldDef.getType());
+					i++;
+					formFields[i] = formField;
+				}
+			}
+		}
+
+		Work infoWork = new InformationWork();
+		((InformationWork)infoWork).setDisplayFields(formFields);
 
 		String userMode = CommonUtil.toNotNull(getSwaManager().getUserMode(userId, formId, SmartCommonConstants.TYPE_REF_SINGLE_WORK, null, companyId));
+
+		AccessPolicy accessPolicy = new AccessPolicy();
+		WritePolicy writePolicy = new WritePolicy();
+		EditPolicy editPolicy = new EditPolicy();
+
+		Work smartWork = new SmartWork();
+		if(userMode.equals("D")) {
+			writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
+			((SmartWork)smartWork).setWritePolicy(writePolicy);
+		} else if(userMode.equals("M")) {
+			writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
+			((SmartWork)smartWork).setWritePolicy(writePolicy);
+		} else if(userMode.equals("W")) {
+			writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
+			((SmartWork)smartWork).setWritePolicy(writePolicy);
+		} else if(userMode.equals("R")) {
+			writePolicy.setLevel(WritePolicy.LEVEL_CUSTOM);
+			((SmartWork)smartWork).setWritePolicy(writePolicy);
+		} else if(userMode.equals("WR")) {
+			writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
+			((SmartWork)smartWork).setWritePolicy(writePolicy);
+		}
 
 		/* -- 공개여부 --
 		 공개 / 비공개*/
@@ -255,8 +311,8 @@ workList.add(SmartTest.getInformationWork1());
 
 		 /*-- 작성권한 --
 		 전체 / 선택사용자*/
+		//userMode.equals("")
 
-		System.out.println("userMode>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+userMode);
 		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_ALL);
 		String id = pkg.getPackageId();
 		String name = pkg.getName();
@@ -264,11 +320,15 @@ workList.add(SmartTest.getInformationWork1());
 		int type = typeStr.equals("PROCESS") ? SmartWork.TYPE_PROCESS : typeStr.equals("SINGLE") ? SmartWork.TYPE_INFORMATION : SmartWork.TYPE_SCHEDULE;
 		String description = pkg.getDescription();
 
-		Work work = new Work(id, name, type, description);
-		AccessPolicy accessPolicy = new AccessPolicy();
-		accessPolicy.setLevel(AccessPolicy.LEVEL_DEFAULT);
-		work.setAccessPolicy(accessPolicy);
-		return work;
+		Work work = new Work();
+		work.setId(id);
+		work.setName(name);
+		work.setType(type);
+		work.setDesc(description);
+
+		Work resultWork = new Work();
+
+		return resultWork;
 
 	}
 
