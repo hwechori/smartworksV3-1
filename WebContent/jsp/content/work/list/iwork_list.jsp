@@ -204,19 +204,19 @@
 						<div class="po_left">
 							<form class="form_space" name="frmIworkFilterName" class="js_select_filter">
 								<select name="selFilterName" >
-									<option value="<%=SearchFilter.BASIC_FILTER_ALL_INSTANCES %>"
+									<option value="<%=SearchFilter.FILTER_ALL_INSTANCES %>"
 										selected>
 										<fmt:message key='filter.name.all_instances' />
 									</option>
-									<option value="<%=SearchFilter.BASIC_FILTER_MY_INSTANCES %>">
+									<option value="<%=SearchFilter.FILTER_MY_INSTANCES %>">
 										<fmt:message key='filter.name.my_instances' />
 									</option>
 									<option
-										value="<%=SearchFilter.BASIC_FILTER_RECENT_INSTANCES %>">
+										value="<%=SearchFilter.FILTER_RECENT_INSTANCES %>">
 										<fmt:message key='filter.name.recent_instances' />
 									</option>
 									<option
-										value="<%=SearchFilter.BASIC_FILTER_MY_RECENT_INSTANCES %>">
+										value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES %>">
 										<fmt:message key='filter.name.my_recent_instances' />
 									</option>
 									<%
