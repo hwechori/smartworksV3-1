@@ -1,5 +1,6 @@
 package net.smartworks.model.work;
 
+import net.smartworks.model.community.User;
 import net.smartworks.model.filter.SearchFilter;
 
 public class InformationWork extends SmartWork {
@@ -64,5 +65,20 @@ public class InformationWork extends SmartWork {
 	}
 	public InformationWork(String id, String name, String desc, WorkCategory myCategory){
 		super(id, name, TYPE_INFORMATION, desc, myCategory);
+	}
+	
+	public SearchFilter getSearchFilterById(String id, User currentUser){
+
+		if(id.equals(SearchFilter.FILTER_ALL_INSTANCES)) return null;
+		if(id.equals(SearchFilter.FILTER_MY_INSTANCES)) return SearchFilter.getMyInstancesFilter(currentUser);
+		if(id.equals(SearchFilter.FILTER_RECENT_INSTANCES)) return SearchFilter.getRecentInstancesFilter();
+		if(id.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) return SearchFilter.getMyRecentInstancesFilter(currentUser);
+
+		if(this.searchFilters != null){
+			for(SearchFilter filter : this.searchFilters){
+				if(filter.getId().equals(id)) return filter;
+			}
+		}
+		return null;
 	}
 }

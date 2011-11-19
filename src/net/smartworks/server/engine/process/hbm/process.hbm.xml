@@ -17,6 +17,7 @@
 		<property name="diagramId" column="prcDId" type="string" length="100" index="IxPrcPrcInst4"/>
 		<property name="diagramVersion" column="prcDVer" type="string" length="100" index="IxPrcPrcInst5"/>
 		<property name="processId" column="prcPrcId" type="string" length="100" index="IxPrcPrcInst6"/>
+		<property name="type" column="prcType" type="string" length="100" index="IxPrcPrcInst7"/>
 		<property name="diagram" column="prcDiagram" type="text"/>
 		<property name="isSubInstance" column="isSubInstance" type="string" length="50"/>
 		<property name="instVariable" column="prcInstVariable" type="text"/>
@@ -42,6 +43,7 @@
 		<property name="diagramId" column="prcDId" type="string" length="100" index="IxPrcPrc2"/>
 		<property name="diagramVersion" column="prcDVer" type="string" length="100" index="IxPrcPrc3"/>
 		<property name="processId" column="prcPrcId" type="string" length="100" index="IxPrcPrc4"/>
+		<property name="type" column="prcType" type="string" length="100" index="IxPrcPrcInst5"/>
 		<property name="diagram" column="prcDiagram" type="text"/>
 		<array name="extendedProperties" table="PrcPrcExtProp">
 			<key column="prcObjId" foreign-key="FkPrcPrcExtProp"/>
