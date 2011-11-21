@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@ page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -9,13 +10,13 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
 	String communityId = request.getParameter("communityId");
-	User[] users = smartWorks.searchCommunityMember(companyId, communityId, key);
+	UserInfo[] users = smartWorks.searchCommunityMember(companyId, communityId, key);
 %>
 
 <ul>
 	<%
 		if(users != null){
-			for (User user : users) {
+			for (UserInfo user : users) {
 				String picName = user.getMinPicture();
 				String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
 				String targetContent = "user_space.sw";

@@ -1,3 +1,8 @@
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.work.info.WorkInfo"%>
+<%@page import="net.smartworks.model.instance.info.CommentInstanceInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -24,11 +29,11 @@
 	if (noticeMessages != null) {
 		for (NoticeMessage nMessage : (NoticeMessage[]) noticeBox.getNoticeMessages()) {
 	if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_COMMENT) {
-		CommentInstance commentInstance = (CommentInstance) nMessage.getInstance();
+		CommentInstanceInfo commentInstance = (CommentInstanceInfo) nMessage.getInstance();
 		String instContext = null, targetContent = null;
-		User owner = commentInstance.getOwner();
+		UserInfo owner = commentInstance.getOwner();
 		String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
-		Work work = null;
+		WorkInfo work = null;
 		if (commentInstance.getCommentType() == CommentInstance.COMMENT_TYPE_ON_WORK_DESC
 				|| commentInstance.getCommentType() == CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL) {
 			work = commentInstance.getWork();
@@ -54,7 +59,7 @@
 <%
 	} else if (commentInstance.getCommentType() == CommentInstance.COMMENT_TYPE_ON_WORK_INSTANCE) {
 			work = commentInstance.getWorkInstance().getWork();
-			WorkInstance workInstance = commentInstance.getWorkInstance();
+			InstanceInfo workInstance = commentInstance.getWorkInstance();
 			targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_INSTANCE);
 			instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_INSTANCE) + workInstance.getId();
 %>
@@ -77,7 +82,7 @@
 <%
 	} else if (commentInstance.getCommentType() == CommentInstance.COMMENT_TYPE_ON_TASK_INSTANCE) {
 			work = commentInstance.getTaskInstance().getWorkInstance().getWork();
-			TaskInstance taskInstance = commentInstance.getTaskInstance();
+			TaskInstanceInfo taskInstance = commentInstance.getTaskInstance();
 			targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE);
 			instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE)
 					+ taskInstance.getWorkInstance().getId();

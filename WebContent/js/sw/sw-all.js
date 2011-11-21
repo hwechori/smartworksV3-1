@@ -178,6 +178,74 @@ $(function() {
 				});
 				return false;
 			});
+	$('select.js_select_filter_operand').live(
+			'change',
+			function(e) {
+				var input = $(e.target);
+				var pageName = input.children('option:selected').attr('type');
+				var url = pageName + ".sw";
+				var target = input.next('span.js_filter_operator');
+				$.ajax({
+					url : url,
+					data : {},
+					success : function(data, status, jqXHR) {
+						target.html(data).show();
+					}
+				});
+				return false;
+			});
+
+	$('a.js_search_filter').live(
+			'click',
+			function(e) {
+				var input = $(e.target).parent();
+				var target = $('#iwork_search_filter');
+				var url = input.attr('href');
+				$.ajax({
+					url : url,
+					data : {},
+					success : function(data, status, jqXHR) {
+						target.html(data);
+						var condition = $(target).find('form.js_new_condition');
+						var newCondition = condition.clone().removeClass("js_new_condition");
+						condition.parent().append(newCondition.show());
+						target.slideDown(500);
+					}
+				});
+				return false;
+			});
+
+	$('select.js_select_filter').live(
+			'change',
+			function(e) {
+				var input = $(e.target);
+				var target = $('#iwork_search_filter');
+				var url = input.attr('href') + "&filterId=" + input.children('option:selected').attr('value');
+				$.ajax({
+					url : url,
+					data : {},
+					success : function(data, status, jqXHR) {
+						target.html(data).slideDown(500);
+					}
+				});
+				return false;
+			});
+
+	$('button.js_remove_condition').live(
+			'click',
+			function(e) {
+				$(e.target).parents('form.js_filter_condition:first').remove();
+				return false;
+			});
+
+	$('img.js_add_condition').live(
+			'click',
+			function(e) {
+				var target = $(e.target).parents('div.js_search_filter').find('form.js_filter_condition').parent();
+				var newCondition = target.find('form.js_new_condition:first').clone().show().removeClass('js_new_condition');
+				target.append(newCondition.show());
+				return false;
+			});
 
 	/*
 	 * 새업무시작하기에서, 처음나오는 입력창을 클릭하면 실행되는 이벤트로, 우측에 전체업무찾기 버튼을 보여준다.
@@ -263,11 +331,20 @@ $(function() {
 				}
 			});
 
-	$('a.js_view_iwork_manual').live('click', function(e){
+	$('a.js_view_work_manual').live('click', function(e){
 		var input = $(e.target);
-		input.parents("div.contents_space:first").siblings('#iwork_manual').toggle();
+		input.parents("div.contents_space:first").siblings('#work_manual').slideToggle(500);
 		input.hide();
 		input.siblings().show();
+		return false;
+	});
+
+	$('a.js_select_task_manual').live('click', function(e){
+		var input = $(e.target).parents('a.js_select_task_manual:first');
+		var target = $("#"+input.attr("taskId"));
+		var target_point = $(target).find("div.up_point:first");
+		target_point.css({"left": (input.position().left + 20) + "px"});
+		$(target).show().siblings('div.js_task_manual').hide();
 		return false;
 	});
 

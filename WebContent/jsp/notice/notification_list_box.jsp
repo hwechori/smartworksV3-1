@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.instance.info.EventInstanceInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -25,7 +29,7 @@
 		for (NoticeMessage nMessage : (NoticeMessage[]) noticeBox.getNoticeMessages()) {
 			if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_NOTIFICATION) {
 				String instContext = null, targetContent = null, userContext = null;
-				User owner = null;
+				UserInfo owner = null;
 				if (nMessage.getType() == NoticeMessage.TYPE_SYSTEM_NOTICE) {
 %>
 <li><div class="info_img">
@@ -41,7 +45,7 @@
 </li>
 <%
 	} else if (nMessage.getType() == NoticeMessage.TYPE_EVENT_ALARM) {
-					EventInstance event = (EventInstance) nMessage.getEvent();
+					EventInstanceInfo event = (EventInstanceInfo) nMessage.getEvent();
 					owner = event.getOwner();
 					instContext = ISmartWorks.CONTEXT_PREFIX_EVENT_SPACE + event.getId();
 					userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
@@ -49,7 +53,7 @@
 <li><div class="info_img">
 		<a href="user_space.sw?cid=<%=userContext%>"
 			title="<%=owner.getLongName()%>"><img
-			src="<%=owner.getMidPicture()%>" border="0"> </a>
+			src="<%=owner.getMinPicture()%>" border="0"> </a>
 	</div>
 	<div class="info_list">
 		<a
@@ -65,16 +69,16 @@
 </li>
 <%
 	} else if (nMessage.getType() == NoticeMessage.TYPE_TASK_DELAYED) {
-					TaskInstance task = (TaskInstance) nMessage.getInstance();
+					TaskInstanceInfo task = (TaskInstanceInfo) nMessage.getInstance();
 					owner = task.getOwner();
-					WorkInstance work = (WorkInstance) task.getWorkInstance();
+					InstanceInfo work = (InstanceInfo) task.getWorkInstance();
 					instContext = ISmartWorks.CONTEXT_PREFIX_PWORK_TASK + task.getId();
 					userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 %>
 <li><div class="info_img">
 		<a href="user_space.sw?cid=<%=userContext%>"
 			title="<%=owner.getLongName()%>"><img
-			src="<%=owner.getMidPicture()%>" border="0"> </a>
+			src="<%=owner.getMinPicture()%>" border="0"> </a>
 	</div>
 	<div class="info_list">
 		<a
@@ -109,7 +113,7 @@
 </li>
 <%
 	} else if (nMessage.getType() == NoticeMessage.TYPE_INSTANCE_CREATED) {
-					WorkInstance instance = (WorkInstance) nMessage.getInstance();
+					InstanceInfo instance = (InstanceInfo) nMessage.getInstance();
 					owner = instance.getOwner();
 					targetContent = SmartUtil.getTargetContentByWorkType(nMessage.getInstance().getWork().getType(),
 							ISmartWorks.SPACE_TYPE_TASK_INSTANCE);

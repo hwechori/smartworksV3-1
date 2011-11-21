@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -8,7 +9,7 @@
 	String userId = (String) session.getAttribute("userId");
 	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User[] members = null;
+	UserInfo[] members = null;
 	{
 		String cid = request.getParameter("cid");
 		if (cid == null)
@@ -26,7 +27,7 @@
 	<%
 		if (members != null) {
 			String contextId = null;
-			for (User member : members) {
+			for (UserInfo member : members) {
 				contextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + member.getId();
 	%>
 	<li><img src="<%=member.getMinPicture()%>" border="0"> <a

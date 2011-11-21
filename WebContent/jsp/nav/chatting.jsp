@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -8,7 +9,7 @@
 	String userId = (String) session.getAttribute("userId");
 	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User[] chatters = smartWorks.getAvailableChatter(companyId, userId);
+	UserInfo[] chatters = smartWorks.getAvailableChatter(companyId, userId);
 %>
 
 <ul>
@@ -24,7 +25,7 @@
 	</li>
 	<li class="ico_chatpe">
 		<%
-			for (User chatter : chatters) {
+			for (UserInfo chatter : chatters) {
 		%> <img src="<%=chatter.getMinPicture()%>"
 		title="<%=chatter.getLongName()%>" /> <%
  	}

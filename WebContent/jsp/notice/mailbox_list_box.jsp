@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.info.MailInstanceInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -23,7 +24,7 @@
 	if (noticeMessages != null) {
 		for (NoticeMessage nMessage : (NoticeMessage[]) noticeBox.getNoticeMessages()) {
 			if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_MAILBOX) {
-				MailInstance mailInstance = (MailInstance) nMessage.getInstance();
+				MailInstanceInfo mailInstance = (MailInstanceInfo) nMessage.getInstance();
 				User owner = mailInstance.getSender();
 				String instContext = ISmartWorks.CONTEXT_PREFIX_MAIL_SPACE + owner.getId();
 %>

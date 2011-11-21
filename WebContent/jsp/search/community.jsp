@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.model.community.info.GroupInfo"%>
+<%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.community.info.WorkSpaceInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -8,30 +12,30 @@
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	WorkSpace[] communities = smartWorks.searchCommunity(companyId, userId, key);
+	WorkSpaceInfo[] communities = smartWorks.searchCommunity(companyId, userId, key);
 %>
 
 <ul>
 	<%
 		if (communities != null) {
-			for (WorkSpace workSpace : communities) {
+			for (WorkSpaceInfo workSpace : communities) {
 				String picName = null, comContext = null, targetContent = null, comName = null, comId = null;
-				if (workSpace.getClass() == User.class) {
-					User user = (User) workSpace;
+				if (workSpace.getClass() == UserInfo.class) {
+					UserInfo user = (UserInfo) workSpace;
 					picName = user.getMinPicture();
 					comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
 					targetContent = "user_space.sw";
 					comName = user.getName();
 					comId = user.getId();
-				} else if (workSpace.getClass() == Department.class) {
-					Department depart = (Department) workSpace;
+				} else if (workSpace.getClass() == DepartmentInfo.class) {
+					DepartmentInfo depart = (DepartmentInfo) workSpace;
 					picName = depart.getMinPicture();
 					comContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + depart.getId();
 					targetContent = "department_space.sw";
 					comName = depart.getName();
 					comId = depart.getId();
-				} else if (workSpace.getClass() == Group.class) {
-					Group group = (Group) workSpace;
+				} else if (workSpace.getClass() == GroupInfo.class) {
+					GroupInfo group = (GroupInfo) workSpace;
 					picName = group.getMinPicture();
 					comContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + group.getId();
 					targetContent = "group_space.sw";

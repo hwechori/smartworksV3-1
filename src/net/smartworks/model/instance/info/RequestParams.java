@@ -1,8 +1,9 @@
-package net.smartworks.model.instance;
+package net.smartworks.model.instance.info;
 
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.instance.SortingField;
 
-public class ListRequestParams {
+public class RequestParams {
 
 	private int countInPage;
 	private int pageNumber;
@@ -41,7 +42,7 @@ public class ListRequestParams {
 		this.searchFilter = searchFilter;
 	}
 
-	public ListRequestParams() {
+	public RequestParams() {
 		super();
 	}
 }

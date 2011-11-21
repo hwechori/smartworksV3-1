@@ -12,6 +12,9 @@ import net.smartworks.model.work.InformationWork;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
+import net.smartworks.model.work.info.SmartWorkInfo;
+import net.smartworks.model.work.info.WorkCategoryInfo;
+import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.authority.manager.ISwaManager;
 import net.smartworks.server.engine.authority.model.SwaResource;
 import net.smartworks.server.engine.authority.model.SwaResourceCond;
@@ -23,7 +26,6 @@ import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemList;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
-import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
@@ -36,8 +38,6 @@ import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
-import net.smartworks.server.engine.process.task.model.TskTask;
-import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.SmartTest;
@@ -75,43 +75,44 @@ public class WorkServiceImpl implements IWorkService {
 	 * 사용자가 최근에 처리한 업무 10개를 리턴한다
 	 */
 	@Override
-	public Work[] getMyRecentlyExecutedWork(String companyId, String userId) throws Exception {
+	public WorkInfo[] getMyRecentlyExecutedWork(String companyId, String userId) throws Exception {
 		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 			return null;
 
-		TskTaskCond tskCond = new TskTaskCond();
-		tskCond.setAssignee(userId);
-		tskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
-		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
-		tskCond.setOrders(new Order[]{new Order("executionDate" , false)});
-		tskCond.setPageNo(0);
-		tskCond.setPageSize(10);
-		
-		TskTask[] tsks = getTskManager().getTasks(userId, tskCond, IManager.LEVEL_ALL);
-		
-		List<String> packageIdList = new ArrayList<String>();
-		for (int i = 0; i < tsks.length; i++) {
-			
-			TskTask tsk = tsks[i];
-			String formId = tsk.getForm();
-			
-			SwfForm form = getSwfManager().getForm(userId, formId);
-			if (form == null || form.getPackageId() == null)
-				continue;
-			packageIdList.add(form.getPackageId());
-		}
-		String[] packageIdArray = new String[packageIdList.size()];
-		
-		packageIdList.toArray(packageIdArray);
-
-		PkgPackageCond pkgCond = new PkgPackageCond();
-		pkgCond.setCompanyId(companyId);
-		pkgCond.setPackageIdIns(packageIdArray);
-		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
-		
-		SmartWork[] workPkgs = (SmartWork[])ModelConverter.arrayToArray(pkgs);
-		
-		return workPkgs;
+//		TskTaskCond tskCond = new TskTaskCond();
+//		tskCond.setAssignee(userId);
+//		tskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
+//		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+//		tskCond.setOrders(new Order[]{new Order("executionDate" , false)});
+//		tskCond.setPageNo(0);
+//		tskCond.setPageSize(10);
+//		
+//		TskTask[] tsks = getTskManager().getTasks(userId, tskCond, IManager.LEVEL_ALL);
+//		
+//		List<String> packageIdList = new ArrayList<String>();
+//		for (int i = 0; i < tsks.length; i++) {
+//			
+//			TskTask tsk = tsks[i];
+//			String formId = tsk.getForm();
+//			
+//			SwfForm form = getSwfManager().getForm(userId, formId);
+//			if (form == null || form.getPackageId() == null)
+//				continue;
+//			packageIdList.add(form.getPackageId());
+//		}
+//		String[] packageIdArray = new String[packageIdList.size()];
+//		
+//		packageIdList.toArray(packageIdArray);
+//
+//		PkgPackageCond pkgCond = new PkgPackageCond();
+//		pkgCond.setCompanyId(companyId);
+//		pkgCond.setPackageIdIns(packageIdArray);
+//		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
+//		
+//		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
+//		
+//		return workPkgs;
+		return null;
 	}
 	/*
 	 * (non-Javadoc)
@@ -119,7 +120,7 @@ public class WorkServiceImpl implements IWorkService {
 	 * 사용자가 등록한 즐겨 찾기 업무를 리턴한다
 	 */
 	@Override
-	public SmartWork[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
+	public SmartWorkInfo[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
 		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 			return null;
 		
@@ -148,13 +149,13 @@ public class WorkServiceImpl implements IWorkService {
 		pkgCond.setPackageIdIns(packageIdArray);
 		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
 		
-		SmartWork[] workPkgs = (SmartWork[])ModelConverter.arrayToArray(pkgs);
+		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
 		
 		return workPkgs;
 	}
 
 	@Override
-	public Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
+	public WorkInfo[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
 
 		//categoryId 가 null 이라면 root 카테고리 밑의 1 level 의 카테고리를 리턴한다
 		//categoryId 가 넘어오면 카테고리안에 속한 2 level 카테고리(group) 와 work(package)를 리턴한다
@@ -166,7 +167,7 @@ public class WorkServiceImpl implements IWorkService {
 			//1 level category
 			ctgCond.setParentId(CtgCategory.ROOTCTGID);
 			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
-			return (WorkCategory[])ModelConverter.arrayToArray(ctgs);
+			return (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
 		
 		} else {
 			ctgCond.setParentId(categoryId);
@@ -176,20 +177,20 @@ public class WorkServiceImpl implements IWorkService {
 			pkgCond.setCategoryId(categoryId);
 
 			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
-			Work[] workCtgs = (WorkCategory[])ModelConverter.arrayToArray(ctgs);
+			WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
 			
 			PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
-			Work[] workPkgs = (SmartWork[])ModelConverter.arrayToArray(pkgs);
+			WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
 
 			int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
 			int pkgPkgsSize = workPkgs == null? 0 : workPkgs.length;
 			
-			Work[] resultWork = new Work[workCtgsSize + pkgPkgsSize + /* UI test*/ 1];
+			WorkInfo[] resultWork = new WorkInfo[workCtgsSize + pkgPkgsSize + /* UI test*/ 2];
 			
 			//System.arraycopy(workCtgs, 0, resultWork, 0, workCtgsSize);  
 			//System.arraycopy(pkgPkgs, 0, resultWork, workCtgsSize, pkgPkgsSize);
 			
-			List<Work> workList = new ArrayList<Work>();
+			List<WorkInfo> workList = new ArrayList<WorkInfo>();
 			for (int i = 0; i < workCtgsSize; i++) {
 				workList.add(workCtgs[i]);
 			}
@@ -198,7 +199,8 @@ public class WorkServiceImpl implements IWorkService {
 			}
 
 // UI test용 코드
-workList.add(SmartTest.getInformationWork1());
+			workList.add(SmartTest.getInformationWorkInfo1());
+			workList.add(SmartTest.getProcessWorkInfo1());
 // UI test용 코드
 
 			workList.toArray(resultWork);
@@ -208,7 +210,7 @@ workList.add(SmartTest.getInformationWork1());
 	}
 
 	@Override
-	public SmartWork[] searchWork(String companyId, String userId, String key) throws Exception {
+	public SmartWorkInfo[] searchWork(String companyId, String userId, String key) throws Exception {
 
 		return getMyFavoriteWorks(companyId, userId);
 	}
@@ -353,7 +355,5 @@ workList.add(SmartTest.getInformationWork1());
 		((SmartWork)resultwork).setMyGroup(myGroup);
 
 		return resultwork;
-
 	}
-
 }

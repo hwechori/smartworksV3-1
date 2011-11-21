@@ -1,3 +1,14 @@
+<%@page import="net.smartworks.model.work.ProcessWork"%>
+<%@page import="net.smartworks.model.work.FormField"%>
+<%@page import="net.smartworks.model.work.SmartForm"%>
+<%@page import="net.smartworks.model.filter.SearchFilter"%>
+<%@page import="net.smartworks.model.community.User"%>
+<%@page import="net.smartworks.model.security.EditPolicy"%>
+<%@page import="net.smartworks.model.security.WritePolicy"%>
+<%@page import="net.smartworks.model.security.AccessPolicy"%>
+<%@page import="net.smartworks.model.work.InformationWork"%>
+<%@page import="net.smartworks.model.work.SmartWork"%>
+<%@page import="net.smartworks.model.work.Work"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>

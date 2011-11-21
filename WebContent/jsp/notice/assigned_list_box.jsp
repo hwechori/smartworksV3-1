@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.model.work.info.WorkInfo"%>
+<%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -26,14 +30,14 @@
 	if (noticeMessages != null) {
 		for (NoticeMessage nMessage : noticeMessages) {
 			if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_ASSIGNED) {
-				TaskInstance taskInstance = (TaskInstance) nMessage.getInstance();
+				TaskInstanceInfo taskInstance = (TaskInstanceInfo) nMessage.getInstance();
 				int taskType = taskInstance.getTaskType();
 				if (taskType == TaskInstance.TYPE_PROCESS_TASK_ASSIGNED || taskType == TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED
 						|| taskType == TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED || taskType == TaskInstance.TYPE_INFORMATION_TASK_FORWARDED
 						|| taskType == TaskInstance.TYPE_PROCESS_TASK_FORWARDED) {
-					User owner = taskInstance.getOwner();
-					WorkInstance workInstance = taskInstance.getWorkInstance();
-					Work work = workInstance.getWork();
+					UserInfo owner = taskInstance.getOwner();
+					InstanceInfo workInstance = taskInstance.getWorkInstance();
+					WorkInfo work = workInstance.getWork();
 					String targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE);
 					String contextId = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE)
 							+ taskInstance.getId();
