@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.Collection;
+import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,9 +16,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import net.smartworks.server.engine.infowork.form.model.SwfFormDef;
+import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
+
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.sun.org.apache.xpath.internal.XPathAPI;
 import com.thoughtworks.xstream.XStream;
@@ -181,6 +188,184 @@ public class XmlUtil {
 
 	public static Node getXpathNode(Node node, String xpath) throws Exception {
 		return XPathAPI.selectSingleNode(node, xpath);
+	}
+
+	public static String formToXml(SwfFormDef form) throws Exception {
+		// <form id="frm_6c224445b5ab4a02be7131bcf1db88a3" version="1" name="이력서" title="이력서" systemName="">
+		StringBuffer buf = new StringBuffer("<form");
+		buf.append(" id=\"").append(CommonUtil.toNotNull(form.getId()));
+		buf.append("\" veresion=\"").append(form.getVersion());
+		buf.append("\" name=\"").append(CommonUtil.toNotNull(form.getName()));
+		buf.append("\" title=\"").append(CommonUtil.toNotNull(form.getTitle()));
+		buf.append("\" systemName=\"").append(CommonUtil.toNotNull(form.getSystemName()));		
+		buf.append("\">");
+		
+		Collection<SwfFormFieldDef> fieldCol = form.getFormFieldMap().values();
+		populateChildrenXml(fieldCol, buf);
+		
+		buf.append("</form>");
+		return buf.toString();
+	}
+	private static void populateChildrenXml(Collection<SwfFormFieldDef> fieldCol, StringBuffer buf) {
+		if (CommonUtil.isEmpty(fieldCol)) {
+			buf.append("<children/>");
+			return;
+		}
+		
+		buf.append("<children>");
+		
+		SwfFormFieldDef field = null;
+		String refForm = null;
+		for (Iterator<SwfFormFieldDef> fieldItr = fieldCol.iterator(); fieldItr.hasNext();) {
+			field = fieldItr.next();
+			
+			//<formEntity id="0" name="이름" title="이름" systemType="string" array="false">
+			buf.append("<formEntity");
+			buf.append(" id=\"").append(CommonUtil.toNotNull(field.getId()));
+			buf.append("\" systemType=\"").append(CommonUtil.toNotNull(field.getType()));
+			buf.append("\" name=\"").append(CommonUtil.toNotNull(field.getName()));
+			buf.append("\" title=\"").append(CommonUtil.toNotNull(field.getTitle()));
+			buf.append("\" array=\"").append(field.isArray());
+			buf.append("\" system=\"").append(field.isSystem());
+			buf.append("\" systemName=\"").append(field.getSystemName());
+			buf.append("\">");
+
+			if(field.isArray())
+				populateChildrenXml(field.getChildren(), buf);
+
+			buf.append("<format type=\"").append(CommonUtil.toNotNull(field.getFormatType())).append("\">");
+			refForm = field.getRefForm();
+			if(!CommonUtil.isEmpty(refForm)) {
+				buf.append("<refForm id=\"").append(field.getRefForm()).append("\" ver=\"1\">");
+				buf.append("<field id=\"").append(field.getRefFormField()).append("\"/>");
+				buf.append("</refForm>");
+			}
+			buf.append("</format>");
+			
+			buf.append("</formEntity>");
+		}
+		
+		buf.append("</children>");
+	}
+
+	public static NodeList getXpathNodeList(Node node, String xpath) throws Exception {
+		return XPathAPI.selectNodeList(node, xpath);
+	}
+
+	public static DocumentBuilder getDocumentBuilder(boolean namsepaceAware) throws Exception {
+		
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(namsepaceAware);
+		return factory.newDocumentBuilder();
+	}
+
+	public static SwfFormDef xmlToForm(String formContent) throws Exception {
+		SwfFormDef form = new SwfFormDef();
+		try {
+			Document doc = XmlUtil.parse(formContent, false, "UTF-8");
+			Element root = doc.getDocumentElement();
+			
+			String formId = root.getAttribute("id");
+			String version = root.getAttribute("version");
+			String formName = root.getAttribute("name");
+			String formTitle = root.getAttribute("title");
+			String formSystemName = root.getAttribute("systemName");
+			
+			form.setId(formId);
+			form.setVersion((version == null || version.trim().equals("")) ? 0 : Integer.parseInt(version));
+			form.setName(formName);
+			form.setTitle(formTitle);
+			form.setSystemName(formSystemName);
+			
+			Node childrenNode = XmlUtil.getXpathNode(root, "./children");
+			if (childrenNode == null)
+				return form;
+			NodeList entityNodeList = XmlUtil.getXpathNodeList(childrenNode, "./formEntity");
+			if (CommonUtil.isEmpty(entityNodeList))
+				return form;
+			
+			for(int i = 0 ; i < entityNodeList.getLength() ; i++) {
+				Element entity = (Element)entityNodeList.item(i);
+				SwfFormFieldDef field = toFormField(formId, entity);
+				form.addFormField(field);
+			}
+			return form;
+			
+		} catch (Throwable e) {
+			throw new Exception("Failed to convert form xml to form model!", e);
+		}
+	}
+
+	public static Document parse(String xmlContent) throws Exception {
+		return parse(xmlContent, false, "UTF-8");
+	}
+
+	public static Document parse(String xmlContent, boolean namespaceAware, String encoding) throws Exception {
+		
+		DocumentBuilder builder = getDocumentBuilder(namespaceAware);
+		return builder.parse(new ByteArrayInputStream(xmlContent.getBytes(encoding)));
+	}
+
+	public static SwfFormFieldDef toFormField(String formId, Element entity) throws Exception {
+		SwfFormFieldDef field = new SwfFormFieldDef();
+		String id = entity.getAttribute("id");
+		String name = entity.getAttribute("name");
+		String title = entity.getAttribute("title");
+		String type = entity.getAttribute("systemType");
+		boolean isArray = CommonUtil.toBoolean(entity.getAttribute("array"));
+		String system = entity.getAttribute("system");
+		String systemName = entity.getAttribute("systemName");
+		String formatType = null;
+		String viewingType = null;
+		String refFormId = null;
+		String refFormFieldId = null;
+		Element format = (Element)XmlUtil.getXpathNode(entity, "./format");
+		if (format != null) {
+			formatType = format.getAttribute("type");
+			viewingType = format.getAttribute("viewingType");
+			Element refForm = (Element)XmlUtil.getXpathNode(format, "./refForm");
+			if (refForm != null) {
+				refFormId = refForm.getAttribute("id");
+				Element refFormField = (Element)XmlUtil.getXpathNode(refForm, "./field");
+				if (refFormField != null)
+					refFormFieldId = refFormField.getAttribute("id");
+			}
+		}
+		
+		field.setId(id);
+		field.setName(name);
+		field.setTitle(title);
+		field.setType(type);
+		field.setArray(isArray);
+		field.setSystem(CommonUtil.toBoolean(system));
+		field.setFormId(formId);
+		field.setSystemName(systemName);
+		field.setViewingType(viewingType);
+		field.setFormatType(formatType);
+		field.setRefForm(refFormId);
+		field.setRefFormField(refFormFieldId);
+		
+		if (isArray)
+			populateFormFieldChildren(formId, entity, field);
+		
+		return field;
+	}
+
+	private static void populateFormFieldChildren(String formId, Element entity, SwfFormFieldDef field) throws Exception {
+		if (entity == null)
+			return;
+		Node children = XmlUtil.getXpathNode(entity, "./children");
+		if (children == null)
+			return;
+		NodeList childrenEntity = XmlUtil.getXpathNodeList(children, "./formEntity");
+		if (CommonUtil.isEmpty(childrenEntity))
+			return;
+		Element childEntity = null;
+		for(int i=0 ; i<childrenEntity.getLength(); i++) {
+			childEntity = (Element)childrenEntity.item(i);
+			SwfFormFieldDef childField = toFormField(formId, childEntity);
+			field.addChildField(childField);
+		}
 	}
 
 }

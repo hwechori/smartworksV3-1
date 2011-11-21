@@ -71,7 +71,7 @@ public class DataManagerImpl extends AbstractManager implements IDataManager {
 				set(obj);
 			} else {
 				StringBuffer buf = new StringBuffer();
-				buf.append("update SWBData set ");
+				buf.append("update Data set ");
 				buf.append(" title=:title, content=:content, fileGroupId=:fileGroupId, manager:manager, manageDept:manageDept, ");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser, modificationUser=:modificationUser,");
 				buf.append(" modificationDate=:modificationDate where objId=:objId");
@@ -141,7 +141,7 @@ public class DataManagerImpl extends AbstractManager implements IDataManager {
 				modificationUser = cond.getModificationUser();
 				modificationDate = cond.getModificationDate();
 			}
-			buf.append(" from SWBData obj");
+			buf.append(" from Data obj");
 			buf.append(" where obj.objId is not null");
 			//TODO 시간 검색에 대한 확인 필요
 			if (cond != null) {

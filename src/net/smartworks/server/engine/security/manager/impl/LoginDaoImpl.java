@@ -78,12 +78,15 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			Login login = new Login();
 			login.setId(rs.getString("id"));
 			login.setName(rs.getString("name"));
+			login.setCompanyId(rs.getString("companyId"));
 			login.setType(rs.getString("type"));
-			login.setDeptid(rs.getString("deptid"));
+			login.setDeptId(rs.getString("deptId"));
+			login.setEmpNo(rs.getString("empNo"));
 			login.setPos(rs.getString("pos"));
 			login.setEmail(rs.getString("email"));
 			login.setPassword(rs.getString("passwd"));
-			login.setAuthid(rs.getString("authId"));
+			login.setAuthId(rs.getString("authId"));
+			login.setLocale(rs.getString("lang"));
 			return login;
 		}
 	}

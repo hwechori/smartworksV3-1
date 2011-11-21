@@ -44,6 +44,7 @@ import net.smartworks.server.engine.infowork.domain.model.SwdDataRef;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataRefCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomainFieldView;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
@@ -2009,6 +2010,13 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 	}
 	public void setDbType(String dbType) {
 		this.dbType = dbType;
+	}
+
+	public List<SwdDomainFieldView> findDomainFieldViewList(String formId) {
+		String hql = "from SwdDomainFieldView where domainId = (select id from SwdDomain where masterId is null and formId = '" + formId + "' and formVersion = (select max(formVersion) from SwdDomain where formId = '" + formId + "')) order by dispOrder asc";
+		Query query = this.getSession().createQuery(hql);
+		List<SwdDomainFieldView> fieldViewList = query.list();
+		return fieldViewList;
 	}
 
 }
