@@ -1,17 +1,21 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
-import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
@@ -23,6 +27,7 @@ import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IInstanceService;
+import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 
@@ -72,9 +77,6 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception {
 		
-		if (true)
-			return null;
-		
 		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 			return null;
 
@@ -89,7 +91,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		TskTask[] tasks = getTskManager().getTasks(userId, taskCond, IManager.LEVEL_ALL);
 		if (CommonUtil.isEmpty(tasks))
 			return null;
-		
+	
 		List<String> prcInstIdList = new ArrayList<String>();
 		for (int i = 0; i < tasks.length; i++) {
 			TskTask task = tasks[i];
@@ -111,46 +113,10 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(userId, prcInstCond, IManager.LEVEL_LITE);
 		
-		WorkInstance workInst = new WorkInstance();
+		InstanceInfo[] instInfo = ModelConverter.prcInstToInstInfo(prcInsts);
 		
+		return instInfo;
 		
-		
-		
-		
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		//return (WorkInstance[])ModelConverter.arrayToArray(prcInsts);
-		
-		return SmartTest.getMyRecentInstances();
 	}
 
 	@Override

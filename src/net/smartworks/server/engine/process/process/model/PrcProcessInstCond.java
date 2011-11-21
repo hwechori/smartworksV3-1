@@ -21,6 +21,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 	
 	public static final String A_TITLE = "title";
 	public static final String A_TYPE = "type";
+	public static final String A_PACKAGEID = "packageId";
 	public static final String A_TITLELIKE = "titleLike";
 	public static final String A_PRIORITY = "priority";
 	public static final String A_DIAGRAMID = "diagramId";
@@ -37,6 +38,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 	
 	private String title;
 	private String type;
+	private String packageId;
 	private String titleLike;
 	private String priority;
 	private String diagramId;
@@ -65,6 +67,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_PRIORITY, priority, buf);
 		appendAttributeString(A_TYPE, type, buf);
+		appendAttributeString(A_PACKAGEID, packageId, buf);
 		appendAttributeString(A_DIAGRAMID, diagramId, buf);
 		appendAttributeString(A_DIAGRAMVERSION, diagramVersion, true, buf);
 		appendAttributeString(A_PROCESSID, processId, buf);
@@ -99,6 +102,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 		if (attrMap != null) {
 			Node diagramId = attrMap.getNamedItem(A_DIAGRAMID);
 			Node type = attrMap.getNamedItem(A_TYPE);
+			Node packageId = attrMap.getNamedItem(A_PACKAGEID);
 			Node diagramVersion = attrMap.getNamedItem(A_DIAGRAMVERSION);
 			Node processId = attrMap.getNamedItem(A_PROCESSID);
 			Node isSubInstance = attrMap.getNamedItem(A_ISSUBINSTANCE);
@@ -106,6 +110,8 @@ public class PrcProcessInstCond extends MisObjectCond {
 				obj.setDiagramId(diagramId.getNodeValue());
 			if (type != null)
 				obj.setType(type.getNodeValue());
+			if (packageId != null)
+				obj.setPackageId(packageId.getNodeValue());
 			if (diagramVersion != null)
 				obj.setDiagramVersion(diagramVersion.getNodeValue());
 			if (processId != null)
@@ -330,5 +336,11 @@ public class PrcProcessInstCond extends MisObjectCond {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getPackageId() {
+		return packageId;
+	}
+	public void setPackageId(String packageId) {
+		this.packageId = packageId;
 	}
 }

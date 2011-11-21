@@ -13,11 +13,13 @@ public class SwoUserExtend {
 		super();
 	}
 	
-	public SwoUserExtend(String id, String name, String companyName, String departmentName, String locale, String pictureName, String picturePath,
+	public SwoUserExtend(String id, String name, String companyId, String companyName, String departmentId, String departmentName, String locale, String pictureName, String picturePath,
 			String position, String timeZone, String userLevel) {
 		this.id = id;
 		this.name = name;
+		this.companyId = companyId;
 		this.companyName = companyName;
+		this.departmentId = departmentId;
 		this.departmentName = departmentName;
 		this.locale = locale;
 		this.pictureName = pictureName;
@@ -28,7 +30,9 @@ public class SwoUserExtend {
 	}
 	private String id = null;
 	private String name = null;
+	private String companyId = null;
 	private String companyName = null;
+	private String departmentId = null;
 	private String departmentName = null;
 	private String locale = null;
 	private String pictureName = null;
@@ -96,5 +100,17 @@ public class SwoUserExtend {
 	}
 	public void setUserLevel(String userLevel) {
 		this.userLevel = userLevel;
+	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 }

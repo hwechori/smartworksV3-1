@@ -18,6 +18,7 @@
 		<property name="diagramVersion" column="prcDVer" type="string" length="100" index="IxPrcPrcInst5"/>
 		<property name="processId" column="prcPrcId" type="string" length="100" index="IxPrcPrcInst6"/>
 		<property name="type" column="prcType" type="string" length="100" index="IxPrcPrcInst7"/>
+		<property name="packageId" column="prcPackageId" type="string" length="100" index="IxPrcPrcInst8"/>
 		<property name="diagram" column="prcDiagram" type="text"/>
 		<property name="isSubInstance" column="isSubInstance" type="string" length="50"/>
 		<property name="instVariable" column="prcInstVariable" type="text"/>
