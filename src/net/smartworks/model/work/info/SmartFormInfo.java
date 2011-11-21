@@ -1,7 +1,6 @@
 package net.smartworks.model.work.info;
 
 import net.smartworks.model.BaseObject;
-import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.SmartForm;
 
 public class SmartFormInfo extends BaseObject{

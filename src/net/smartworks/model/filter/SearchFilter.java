@@ -2,6 +2,7 @@ package net.smartworks.model.filter;
 
 import net.smartworks.model.BaseObject;
 import net.smartworks.model.community.User;
+import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.work.FormField;
 import net.smartworks.util.LocalDate;
 
@@ -11,6 +12,9 @@ public class SearchFilter extends BaseObject{
 	public static final String FILTER_MY_INSTANCES = "myInstances";
 	public static final String FILTER_RECENT_INSTANCES = "recentInstances";
 	public static final String FILTER_MY_RECENT_INSTANCES = "myRecentInstances";
+	public static final String FILTER_MY_RUNNING_INSTANCES = "myRunningInstances";
+	public static final String FILTER_MY_ASSIGEND_INSTANCES = "myAssignedInstances";
+
 	private Condition[] conditions;
 
 	public Condition[] getConditions() {
@@ -42,6 +46,11 @@ public class SearchFilter extends BaseObject{
 		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
 		return new SearchFilter(new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
 				new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL.getId(), new LocalDate(oneWeekBefore) )});
+	}
+	public static SearchFilter getMyRunningInstancesFilter(User currentUser){
+		return new SearchFilter(new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
+				new Condition(FormField.FIELD_STATUS, ConditionOperator.NOT_EQUAL.getId(), WorkInstance.STATUS_NOT_YET ),
+				new Condition(FormField.FIELD_STATUS, ConditionOperator.NOT_EQUAL.getId(), WorkInstance.STATUS_COMPLETED )});
 	}
 
 }
