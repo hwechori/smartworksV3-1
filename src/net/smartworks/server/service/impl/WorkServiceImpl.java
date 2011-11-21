@@ -104,7 +104,7 @@ public class WorkServiceImpl implements IWorkService {
 		pkgCond.setPackageIdIns(packageIdArray);
 		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
 		
-		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
+		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorksInfoArrayByPkgArray(pkgs);
 		
 		return workPkgs;
 	}
@@ -121,8 +121,8 @@ public class WorkServiceImpl implements IWorkService {
 		if (CommonUtil.isEmpty(categoryId)) {
 			//1 level category
 			ctgCond.setParentId(CtgCategory.ROOTCTGID);
-			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
-			return (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
+			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_LITE);
+			return (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgArray(ctgs);
 		
 		} else {
 			ctgCond.setParentId(categoryId);
@@ -131,11 +131,11 @@ public class WorkServiceImpl implements IWorkService {
 			pkgCond.setCompanyId(companyId);
 			pkgCond.setCategoryId(categoryId);
 
-			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
-			WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
+			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_LITE);
+			WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgArray(ctgs);
 			
-			PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
-			WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
+			PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_LITE);
+			WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorksInfoArrayByPkgArray(pkgs);
 
 			int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
 			int pkgPkgsSize = workPkgs == null? 0 : workPkgs.length;
