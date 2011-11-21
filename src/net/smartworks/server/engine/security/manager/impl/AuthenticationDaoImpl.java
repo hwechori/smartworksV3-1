@@ -17,12 +17,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ObjectRetrievalFailureException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 
 public class AuthenticationDaoImpl implements UserDetailsService {
 	private static final Log logger = LogFactory.getLog(AuthenticationDaoImpl.class);
@@ -60,7 +58,7 @@ public class AuthenticationDaoImpl implements UserDetailsService {
 		
 		List dbAuths = new ArrayList();
 		try {
-			GrantedAuthorityImpl authority = new GrantedAuthorityImpl(user.getAuthid());
+			GrantedAuthorityImpl authority = new GrantedAuthorityImpl(user.getAuthId());
 			dbAuths.add(authority);
 		} catch (NullPointerException e1) {
 			logger.error(e1);
