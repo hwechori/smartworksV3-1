@@ -1,3 +1,9 @@
+<%@page import="net.smartworks.model.community.info.WorkSpaceInfo"%>
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
+<%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
@@ -15,38 +21,39 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	Instance[] instances = smartWorks.getMyRunningInstances(companyId, userId);
+	InstanceInfo[] instances = smartWorks.getMyRunningInstances(companyId, userId);
 	if (instances != null) {
-		for (Instance instance : instances) {
+		for (InstanceInfo instance : instances) {
 			String statusImage;
 			String statusTitle;
-			WorkInstance workInstance = null;
-			TaskInstance taskInstance = null;
-			TaskInstance[] assignedTasks = null;
-			TaskInstance[] forwardedTasks = null;
+			WorkInstanceInfo workInstance = null;
+			TaskInstanceInfo taskInstance = null;
+			TaskInstanceInfo[] assignedTasks = null;
+			TaskInstanceInfo[] forwardedTasks = null;
 			boolean isAssignedTask = false;
-			if (instance.getClass().equals(WorkInstance.class)) {
-				isAssignedTask = false;
-				workInstance = (WorkInstance) instance;
-
-				List<TaskInstance> assignedList = new ArrayList<TaskInstance>();
-				List<TaskInstance> forwardedList = new ArrayList<TaskInstance>();
-				for (TaskInstance task : workInstance.getTasks()) {
-					if ((task.getTaskType() % 10) == 1)
-						assignedList.add(task);
-					else if ((task.getTaskType() % 10) == 2)
-						forwardedList.add(task);
+			if (instance.getType() == Instance.TYPE_WORK) {
+				workInstance = (WorkInstanceInfo) instance;
+				TaskInstanceInfo[] runningTasks = workInstance.getRunningTasks();
+				if(runningTasks!=null){
+					List<TaskInstanceInfo> assignedList = new ArrayList<TaskInstanceInfo>();
+					List<TaskInstanceInfo> forwardedList = new ArrayList<TaskInstanceInfo>();
+					for (TaskInstanceInfo task : workInstance.getRunningTasks()) {
+						if ((task.getTaskType() % 10) == 1)
+							assignedList.add(task);
+						else if ((task.getTaskType() % 10) == 2)
+							forwardedList.add(task);
+					}
+					assignedTasks = (TaskInstanceInfo[]) assignedList.toArray(new TaskInstanceInfo[0]);
+					forwardedTasks = (TaskInstanceInfo[]) forwardedList.toArray(new TaskInstanceInfo[0]);
 				}
-				assignedTasks = (TaskInstance[]) assignedList.toArray(new TaskInstance[0]);
-				forwardedTasks = (TaskInstance[]) forwardedList.toArray(new TaskInstance[0]);
-
-			} else if (instance.getClass().equals(TaskInstance.class)) {
+			} else if (instance.getType() == Instance.TYPE_TASK) {
 				isAssignedTask = true;
-				workInstance = ((TaskInstance) instance).getWorkInstance();
-				taskInstance = (TaskInstance) instance;
+				workInstance = (WorkInstanceInfo)((TaskInstanceInfo) instance).getWorkInstance();
+				
+				taskInstance = (TaskInstanceInfo) instance;
 			}
-			User owner = workInstance.getOwner();
-			SmartWork work = (SmartWork) workInstance.getWork();
+			UserInfo owner = workInstance.getOwner();
+			SmartWorkInfo work = (SmartWorkInfo) workInstance.getWork();
 			String runningTaskName = "";
 			if (taskInstance != null)
 				runningTaskName = taskInstance.getName();
@@ -127,7 +134,7 @@
 			class="t_name"><%=owner.getLongName()%></span> </a>
 		<%
 			if (!workInstance.getWorkSpace().getId().equals(owner.getId())) {
-						WorkSpace workSpace = workInstance.getWorkSpace();
+						WorkSpaceInfo workSpace = workInstance.getWorkSpace();
 						String spaceContent = "";
 						String commContext = "";
 						if (workSpace.getClass().equals(Group.class)) {
@@ -245,8 +252,8 @@
 		<fmt:message key="content.sentence.users_work_is" />
 		<%
 			boolean firstRun = true;
-							for (TaskInstance assignedTask : assignedTasks) {
-								User assignee = assignedTask.getAssignee();
+							for (TaskInstanceInfo assignedTask : assignedTasks) {
+								UserInfo assignee = assignedTask.getAssignee();
 								String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + assignee.getId();
 								String assignedContextId = taskContextId + assignee.getId();
 								runningTaskName = assignedTask.getName();
@@ -276,7 +283,7 @@
 		<%
 			}
 						if (forwardedTasks != null) {
-							User forwardee = forwardedTasks[0].getAssignee();
+							UserInfo forwardee = forwardedTasks[0].getAssignee();
 							String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + forwardee.getId();
 							String forwardedContextId = taskContextId + forwardee.getId();
 							runningTaskName = forwardedTasks[0].getName();

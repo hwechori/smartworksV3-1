@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
+<%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -10,7 +13,7 @@
 	String userId = (String) session.getAttribute("userId");
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkInstance[] workInstances = smartWorks.getMyRecentInstances(companyId, userId);
+	InstanceInfo[] workInstances = smartWorks.getMyRecentInstances(companyId, userId);
 	String iconType = null;
 	String classType = null;
 	String instanceContext = null;
@@ -20,10 +23,10 @@
 <ul>
 	<%
 		if (workInstances != null) {
-			for (WorkInstance workInstance : workInstances) {
-				SmartWork work = (SmartWork) workInstance.getWork();
+			for (InstanceInfo workInstance : workInstances) {
+				SmartWorkInfo work = (SmartWorkInfo) workInstance.getWork();
 				String workSpaceId = workInstance.getWorkSpace().getId();
-				User owner = workInstance.getOwner();
+				UserInfo owner = workInstance.getOwner();
 				String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 				if (workInstance.getWork().getType() == SmartWork.TYPE_PROCESS) {
 					iconType = "ico_pworks";

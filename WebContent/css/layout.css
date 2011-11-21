@@ -194,7 +194,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 {background: url("../images/header_nico.png") no-repeat -322px -190px; height:22px; padding:4px 0 3px 28px; display:block; font-weight:bold;}
 
 .up {border:1px solid #c7c7c7; padding:3px 0; width:100%; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
-.fieldline {border:1px solid #c7c7c7; left:0px; height:16px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
+.fieldline {border:1px solid #c7c7c7; height:16px; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
+.inputline {border:1px solid #c7c7c7; height:16px; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left;} /* 상세필터 input line*/
 .up_padding {padding:0; position:relative;}
 .up_width {width:450px;}
 
@@ -334,7 +335,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 #notice {clear:both; margin:0 30px 5px 5px; padding-top:10px;}
 #notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; clear:both;}
 .noti_pic {float:left; margin-right:10px; padding:5px 0;}
-.noti_in {word-wrap: break-word;}
+.noti_in {word-wrap: break-word; text-align:left; padding-left:33px;}
 .noti_in_bodytitle {word-wrap: break-word; padding-top:9px;} /* Body Title로 들어갈 때 */
 .noti_tit {background: url("../images/ico_notice_s.gif") no-repeat scroll 40px 2px transparent;
 		    padding:0 0 0 55px; display:block; font-weight:bold;}
@@ -360,19 +361,19 @@ body, #nav {background: url("../images/bg_body.jpg");}
 			
 .btn_wh {clear: both; display:inline-block;}
 .btn_wh .Btn01Start {background: url("../images/btn_wh_left.gif") repeat scroll 0 0 transparent;
-			 float:left; height:22px; width:5px;}
+			float:left; height:20px; width:5px;}
 .btn_wh .Btn01Center {background: url("../images/btn_wh_center.gif") repeat scroll 0 0 transparent;
-    		float:left; color:#575757; height:20px; padding:2px 3px 0; text-align:center; font-weight:bold;}
+    		float:left; color:#747474; height:18px; padding:2px 3px 0; text-align:center; font-size:11px;}
 .btn_wh .Btn01End {background: url("../images/btn_wh_right.gif") repeat scroll 0 0 transparent;
-    		float:left; height:22px; width:5px;}
+    		float:left; height:20px; width:5px;}
 			
 .btn_wh_ov {clear: both; display:inline-block;}
-.btn_wh_ov .Btn01Start {background: url("../images/btn_wh_left_ov.jpg") repeat scroll 0 0 transparent;
-			float:left; height:22px; width:5px;}
-.btn_wh_ov .Btn01Center {background: url("../images/btn_wh_center_ov.jpg") repeat scroll 0 0 transparent;
-    		float:left; color:#847f7b; height:20px; padding:2px 3px 0; text-align:center;}
-.btn_wh_ov .Btn01End {background: url("../images/btn_wh_right_ov.jpg") repeat scroll 0 0 transparent;
-    		float:left; height:22px; width:5px;}
+.btn_wh_ov .Btn01Start {background: url("../images/btn_wh_left_ov.gif") repeat scroll 0 0 transparent;
+			float:left; height:20px; width:5px;}
+.btn_wh_ov .Btn01Center {background: url("../images/btn_wh_center_ov.gif") repeat scroll 0 0 transparent;
+    		float:left; color:#747474; height:18px; padding:2px 3px 0; text-align:center; font-size:11px;}
+.btn_wh_ov .Btn01End {background: url("../images/btn_wh_right_ov.gif") repeat scroll 0 0 transparent;
+    		float:left; height:20px; width:5px;}
 			
 .btn_black {background-color:#666666; float:right; height:22px; margin-right:15px; position:relative;}
 .btn_black .Btn01Start {background: url("../images/btn_blk_bg_left.jpg") repeat scroll 0 0 transparent;
@@ -397,8 +398,12 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 .btn_x {float:right; color:#9b9b9b; font-size:12px;}
 .btn_x_gr {color:#c7c7c7; font-size:12px;}
+.btn_x_grb {background: url("../images/btn_x_b.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 11px;
+    padding: 0; width: 11px; position: relative;}
 .btn_im_x {background: url("../images/btn_im_x2.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
     padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
+	
+
 	
 /* 사람지정 */
     

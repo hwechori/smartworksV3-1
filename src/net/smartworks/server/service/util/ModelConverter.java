@@ -88,11 +88,11 @@ public class ModelConverter {
 			}
 			if (prcInst.getType() != null) {
 				if (prcInst.getType().equalsIgnoreCase(PrcProcessInst.PROCESSINSTTYPE_PROCESS)) {
-					workInst.setInstanceType(WorkInstance.TYPE_PROCESS);
+					//workInst.setInstanceType(WorkInstance.TYPE_PROCESS);
 				} else if (prcInst.getType().equalsIgnoreCase(PrcProcessInst.PROCESSINSTTYPE_INFORMATION)) {
-					workInst.setInstanceType(WorkInstance.TYPE_INFORMATION);
+					//workInst.setInstanceType(WorkInstance.TYPE_INFORMATION);
 				} else if (prcInst.getType().equalsIgnoreCase(PrcProcessInst.PROCESSINSTTYPE_SCHEDULE)) {
-					workInst.setInstanceType(WorkInstance.TYPE_SCHEDULE);
+					//workInst.setInstanceType(WorkInstance.TYPE_SCHEDULE);
 				}
 			} else {
 				//TODO prcInst.getType()
@@ -101,9 +101,9 @@ public class ModelConverter {
 				//일정관리 업무는 구별할 방법이 없음.....
 				//새로 오픈할 때에는 삭제 필요
 				if (prcInst.getDiagramId() == null) {
-					workInst.setInstanceType(WorkInstance.TYPE_INFORMATION);
+					//workInst.setInstanceType(WorkInstance.TYPE_INFORMATION);
 				} else {
-					workInst.setInstanceType(WorkInstance.TYPE_PROCESS);
+					//workInst.setInstanceType(WorkInstance.TYPE_PROCESS);
 				}
 			}
 			workInst.setLastModifiedDate(new LocalDate(prcInstLastModifiedDate.getTime()));
@@ -146,7 +146,7 @@ public class ModelConverter {
 			user.setMidPictureName(orgPictureName);
 			user.setMinPictureName(orgPictureName);
 			user.setOrgPictureName(orgPictureName);
-			user.setPicturePath(picturePath);
+//			user.setPicturePath(picturePath);
 			user.setPosition(position);
 			user.setTimeZone(timeZone);
 			user.setUserLevel(userLevel);

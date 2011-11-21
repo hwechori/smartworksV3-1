@@ -1,12 +1,14 @@
 package net.smartworks.model.community;
 
+import net.smartworks.model.community.info.UserInfo;
+
 
 public class Group extends WorkSpace{
 
 	private String	desc = null;
 	private boolean	isPublic = false;
 	private User	leader = null;
-	private User[] 	members = null;
+	private UserInfo[] 	members = null;
 	private User	owner = null;
 
 	public String getDesc() {
@@ -27,10 +29,10 @@ public class Group extends WorkSpace{
 	public void setLeader(User leader) {
 		this.leader = leader;
 	}
-	public User[] getMembers() {
+	public UserInfo[] getMembers() {
 		return members;
 	}
-	public void setMembers(User[] members) {
+	public void setMembers(UserInfo[] members) {
 		this.members = members;
 	}
 	public User getOwner() {
@@ -46,12 +48,12 @@ public class Group extends WorkSpace{
 	public Group(String id, String name){
 		super(id, name);
 	}
-	public Group(String id, String name, User[] members){
+	public Group(String id, String name, UserInfo[] members){
 		
 		super(id, name);
 		this.members = members;
 	}
-	public Group(String id, String name, User[] members, User leader){
+	public Group(String id, String name, UserInfo[] members, User leader){
 		
 		super(id, name);
 		this.members = members;

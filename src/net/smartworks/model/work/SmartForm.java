@@ -4,8 +4,9 @@ import net.smartworks.model.BaseObject;
 
 public class SmartForm extends BaseObject{
 
-	private String details;
-	private String imagePath;
+	public static final String FORM_IMAGE_PATH = "images/";
+	
+	private String description;
 	private String minImageName;
 	private String orgImageName;
 	private FormField[] fields;
@@ -16,17 +17,11 @@ public class SmartForm extends BaseObject{
 	public void setFields(FormField[] fields) {
 		this.fields = fields;
 	}
-	public String getDetails() {
-		return details;
+	public String getDescription() {
+		return description;
 	}
-	public void setDetails(String details) {
-		this.details = details;
-	}
-	public String getImagePath() {
-		return "images/";
-	}
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public String getMinImageName() {
 		return 		super.getId() + "_min.jpg";
@@ -41,10 +36,10 @@ public class SmartForm extends BaseObject{
 		this.orgImageName = orgImageName;
 	}
 	public String getOrgImage(){
-		return getImagePath() + getOrgImageName();
+		return FORM_IMAGE_PATH + getOrgImageName();
 	}
 	public String getMinImage(){
-		return getImagePath() + getMinImageName();
+		return FORM_IMAGE_PATH + getMinImageName();
 	}
 	public SmartForm(){
 		super();

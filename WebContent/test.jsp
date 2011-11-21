@@ -1,4 +1,3 @@
-<%@page import="net.smartworks.server.engine.organization.model.SwoUserExtend"%>
 <%@page import="net.smartworks.model.work.Work"%>
 <%@page import="net.smartworks.server.service.IWorkService"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
@@ -39,13 +38,15 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-
-	SwoUserExtend ex = SwManagerFactory.getInstance().getSwoManager().getUserExtend("kmyu@maninsoft.co.kr", "kmyu@maninsoft.co.kr");
-
-
+		IWorkService smartworks = (IWorkService)SmartUtil.getBean("workServiceImpl", request);
+		Work[] works = smartworks.getMyRecentlyExecutedWork("semiteq", "kmyu@maninsoft.co.kr");
+		for (Work work : works) {
+			System.out.println(work.getName());
+			
+		}
 %>
 <textarea style="width:800px;height:400px;">
-<%= ex.getName()%>
+<%= works[0].getName()%>
 </textarea>
 </body>
 </html>

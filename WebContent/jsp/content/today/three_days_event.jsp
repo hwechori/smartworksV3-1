@@ -1,3 +1,8 @@
+<%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
+<%@page import="net.smartworks.model.community.info.GroupInfo"%>
+<%@page import="net.smartworks.model.community.info.WorkSpaceInfo"%>
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.instance.info.EventInstanceInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -25,7 +30,7 @@
 	CompanyCalendar[] threeDaysCC = smartWorks.getCompanyCalendars(companyId, new LocalDate(), 3);
 	LocalDate today = threeDaysCC[0].getDate();
 	LocalDate tomorrow = threeDaysCC[1].getDate();
-	EventInstance[] events = smartWorks.getEventInstances(companyId, userId, new LocalDate(), 10);
+	EventInstanceInfo[] events = smartWorks.getEventInstances(companyId, userId, new LocalDate(), 10);
 %>
 <!-- 이벤트,공지 포틀릿 -->
 <div class="section_portlet">
@@ -105,19 +110,19 @@
 									</li>
 									<%
 										if (events != null) {
-												for (EventInstance event : events) {
+												for (EventInstanceInfo event : events) {
 													if (((cnt == 0) && today.isSameDate(event.getStart())) || ((cnt == 1) && tomorrow.isSameDate(event.getStart()))
 															|| ((cnt == 2) && tomorrow.isAfterDate(event.getStart()))) {
-														User owner = event.getOwner();
+														UserInfo owner = event.getOwner();
 														String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 														String commContext = null;
 														String targetContent = null;
 														String eventContext = ISmartWorks.CONTEXT_PREFIX_EVENT_SPACE + event.getId();
-														WorkSpace workSpace = event.getWorkSpace();
-														if (workSpace != null && workSpace.getClass() == Group.class) {
+														WorkSpaceInfo workSpace = event.getWorkSpace();
+														if (workSpace != null && workSpace.getClass() == GroupInfo.class) {
 															targetContent = "group_space.sw";
 															commContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + workSpace.getId();
-														} else if (event.getWorkSpace() != null && workSpace.getClass() == Department.class) {
+														} else if (event.getWorkSpace() != null && workSpace.getClass() == DepartmentInfo.class) {
 															targetContent = "department_space.sw";
 															commContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + workSpace.getId();
 														}

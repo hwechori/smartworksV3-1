@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
@@ -15,7 +16,7 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	Instance[] instances = smartWorks.getMyRunningInstances(companyId, userId);
+	InstanceInfo[] instances = smartWorks.getMyRunningInstances(companyId, userId);
 %>
 
 <!-- 나의 진행중인 업무 -->

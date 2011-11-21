@@ -2,8 +2,12 @@ package net.smartworks.model.notice;
 
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
+import net.smartworks.model.community.info.GroupInfo;
+import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.info.EventInstanceInfo;
+import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.util.LocalDate;
 
 public class NoticeMessage{
@@ -16,11 +20,11 @@ public class NoticeMessage{
 	
 	private String			id;
 	private int				type=-1;
-	private User			issuer;
+	private UserInfo		issuer;
 	private LocalDate		issuedDate;
-	private Instance 		instance;
-	private EventInstance	event;
-	private Group			group;	
+	private InstanceInfo 	instance;
+	private EventInstanceInfo	event;
+	private GroupInfo			group;	
 	private String			message;
 	
 	public String getId() {
@@ -35,10 +39,10 @@ public class NoticeMessage{
 	public void setType(int type) {
 		this.type = type;
 	}
-	public User getIssuer() {
+	public UserInfo getIssuer() {
 		return issuer;
 	}
-	public void setIssuer(User issuer) {
+	public void setIssuer(UserInfo issuer) {
 		this.issuer = issuer;
 	}
 	public LocalDate getIssuedDate() {
@@ -47,22 +51,22 @@ public class NoticeMessage{
 	public void setIssuedDate(LocalDate issuedDate) {
 		this.issuedDate = issuedDate;
 	}
-	public Instance getInstance() {
+	public InstanceInfo getInstance() {
 		return instance;
 	}
-	public void setInstance(Instance instance) {
+	public void setInstance(InstanceInfo instance) {
 		this.instance = instance;
 	}
-	public EventInstance getEvent() {
+	public EventInstanceInfo getEvent() {
 		return event;
 	}
-	public void setEvent(EventInstance event) {
+	public void setEvent(EventInstanceInfo event) {
 		this.event = event;
 	}
-	public Group getGroup() {
+	public GroupInfo getGroup() {
 		return group;
 	}
-	public void setGroup(Group group) {
+	public void setGroup(GroupInfo group) {
 		this.group = group;
 	}
 	public String getMessage() {
@@ -75,7 +79,7 @@ public class NoticeMessage{
 	public NoticeMessage(){
 		super();
 	}
-	public NoticeMessage(String id, int type, User issuer, LocalDate issuedDate){
+	public NoticeMessage(String id, int type, UserInfo issuer, LocalDate issuedDate){
 		this.type = type;
 		this.issuer = issuer;
 		this.issuedDate = issuedDate;

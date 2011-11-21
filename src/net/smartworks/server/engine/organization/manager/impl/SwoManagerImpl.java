@@ -1424,17 +1424,49 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		return userExtend;
 	}
 	public SwoUserExtend[] getUsersExtend(String userId, String[] ids) throws SwoException {
+
+		if (CommonUtil.isEmpty(ids))
+			return null;
 		
-		return null;
+		StringBuffer buff = new StringBuffer();
+		
+		buff.append("select new net.smartworks.server.engine.organization.model.SwoUserExtend( ");
+		buff.append(" user.id,  user.name,  company.name, ");
+		buff.append(" dept.name,  user.lang, ");
+		buff.append(" user.picture,  user.picture, user.position, ");
+		buff.append(" user.stdTime,  user.authId");
+		buff.append(" )");
+		buff.append(" from SwoUser user, SwoDepartment dept, SwoCompany company ");
+		buff.append(" where user.deptId = dept.id");
+		buff.append(" and user.companyId = company.id");
+		buff.append(" and user.id in ( ");
+		for (int i = 0; i < ids.length; i++) {
+			if (i != 0)
+				buff.append(", ");
+			buff.append(":userIn").append(i);
+		}
+		buff.append(")");
+		
+		Query query = this.getSession().createQuery(buff.toString());
+		
+		for (int i=0; i<ids.length; i++) {
+			query.setString("userIn"+i, ids[i]);
+		}
+		List list = query.list();
+		
+		if (list == null || list.isEmpty())
+			return null;
+		
+		SwoUserExtend[] usersExtendsArray = new SwoUserExtend[list.size()];
+		
+		int i = 0;
+		for (Iterator itr = list.iterator(); itr.hasNext();) {
+			SwoUserExtend user = (SwoUserExtend) itr.next();
+			usersExtendsArray[i] = user;
+			i++;
+		}
+		return usersExtendsArray;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public String getDefaultLogo() throws SwoException {
 		String sql = "select logo from SWConfig where id = 'maninsoft'";

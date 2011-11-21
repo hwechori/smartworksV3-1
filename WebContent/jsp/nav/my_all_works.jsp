@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.work.info.WorkInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -8,13 +9,13 @@
 	String userId = (String) session.getAttribute("userId");
 	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	Work[] workCategories = smartWorks.getMyAllWorksByCategoryId(companyId, userId, "");
+	WorkInfo[] workCategories = smartWorks.getMyAllWorksByCategoryId(companyId, userId, "");
 %>
 
 <ul>
 	<%
 		if(workCategories != null){
-			for (Work workCategory : workCategories) {
+			for (WorkInfo workCategory : workCategories) {
 	%>
 	<li class="js_drill_down ico_cworks"><a
 		targetContent="worklist_by_category.sw"

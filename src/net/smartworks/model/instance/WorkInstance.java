@@ -9,31 +9,23 @@ public class WorkInstance extends Instance {
 	public static final int TYPE_PROCESS = 11;
 	public static final int TYPE_INFORMATION = 12;
 	public static final int TYPE_SCHEDULE = 13;
-	
-	private TaskInstance[] tasks;
-	private User lastModifier;
 
+	private TaskInstance[] tasks;
+	
 	public TaskInstance[] getTasks() {
 		return tasks;
 	}
 	public void setTasks(TaskInstance[] tasks) {
 		this.tasks = tasks;
 	}
-	public User getLastModifier() {
-		return lastModifier;
-	}
-	public void setLastModifier(User lastModifier) {
-		this.lastModifier = lastModifier;
-	}
 
 	public WorkInstance() {
 		super();
 	}
 
-	public WorkInstance(String id, String subject, Work work, User owner,
+	public WorkInstance(String id, String subject, Work work, User owner, User lastModifier,
 			LocalDate lastModifiedDate) {
-		super(id, subject, Instance.TYPE_WORK, owner, lastModifiedDate);
+		super(id, subject, Instance.TYPE_WORK, owner, lastModifier, lastModifiedDate);
 		super.setWork(work);
-		this.lastModifier = owner;
 	}
 }

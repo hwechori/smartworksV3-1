@@ -1,13 +1,8 @@
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
-<%@page import="net.smartworks.model.work.FormField"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
-<%@page import="java.net.URLDecoder"%>
-<%@page import="java.net.URLEncoder"%>
+<%@page import="net.smartworks.model.work.FormField"%>
 <%@page import="net.smartworks.model.work.InformationWork"%>
-<%@page import="net.smartworks.model.work.Work"%>
 <%@page import="net.smartworks.service.ISmartWorks"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="net.smartworks.server.engine.factory.SwManagerFactory"%>
@@ -64,7 +59,7 @@
 
 	SwfForm swfForm = swfMgr.getForm("hsshin@maninsoft.co.kr", "frm_3dbf6b88c28346a181172db0828a4bd4");
 
-/* 	SwfField[] fields = swfForm.getFields();
+	SwfField[] fields = swfForm.getFields();
 
 	for(SwfField field : fields) {
 		System.out.println(field.getName());
@@ -90,18 +85,6 @@
 	List<String> list = SwManagerFactory.getInstance().getDocManager().findDocIdByGroupId("fg_0019ae0b682e451b953fbf823a633db6");
 	for(String str : list) {
 		out.println(str);
-	} */
-
-	List<SwfFormFieldDef> formFieldDefList = SwManagerFactory.getInstance().getSwfManager().findFormFieldByForm("frm_board_SYSTEM", true);
-/* 	HashMap<String, SwfFormFieldDef> hash = new HashMap<String, SwfFormFieldDef>();
-	for (int idx = 0 ; idx < formFieldDefList.size() ; idx++) {
-		SwfFormFieldDef fieldDef = (SwfFormFieldDef)formFieldDefList.get(idx);
-		hash.put(fieldDef.getId(), fieldDef);
-		System.out.println("key : " + fieldDef.getId() + " value : " + fieldDef);	
-	} */
-
-	for(SwfFormFieldDef formFieldDef : formFieldDefList) {
-		//System.out.println(formFieldDef.getId() + formFieldDef.getName() + formFieldDef.getViewingType() + formFieldDef.getFormatType() + formFieldDef.getSystemName());
 	}
 
 	ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);

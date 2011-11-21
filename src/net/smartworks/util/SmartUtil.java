@@ -212,7 +212,6 @@ public class SmartUtil {
 		user.setLocale("ko"); // ko, en
 		user.setTimeZone(LocalDate.TIMEZONE_SEOUL); //Asia/Seoul, America/Los_Angeles
 		user.setCompany("(주)맨인소프트");
-		user.setPicturePath("images/");
 		user.setOrgPictureName(user.getId() + ".jpg");
 		user.setMinPictureName(user.getId() + "_min.gif");
 		user.setMidPictureName(user.getId() + "_mid.gif");
