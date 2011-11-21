@@ -48,7 +48,7 @@ public class SwfForm extends ClassObject {
 	public static final String A_FIELD = "formEntity";
 	public static final String A_MAPPINGFORMS = "mappingForms";
 	public static final String A_MAPPINGFORM = "mappingForm";
-
+	
 	private String name;
 	private String creationUser;
 	private Date creationDate;

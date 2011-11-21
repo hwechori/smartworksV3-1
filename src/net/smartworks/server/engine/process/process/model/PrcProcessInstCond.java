@@ -20,8 +20,6 @@ public class PrcProcessInstCond extends MisObjectCond {
 	private static final String NAME = CommonUtil.toName(PrcProcessInstCond.class, PREFIX);
 	
 	public static final String A_TITLE = "title";
-	public static final String A_TYPE = "type";
-	public static final String A_PACKAGEID = "packageId";
 	public static final String A_TITLELIKE = "titleLike";
 	public static final String A_PRIORITY = "priority";
 	public static final String A_DIAGRAMID = "diagramId";
@@ -32,13 +30,9 @@ public class PrcProcessInstCond extends MisObjectCond {
 	public static final String A_PRIORITYINS = "priorityIns";
 	public static final String A_PRIORITYNOTIN = "priorityNotIn";
 	public static final String A_PRIORITYNOTINS = "priorityNotIns";
-	public static final String A_OBJIDIN = "objIdIn";
-	public static final String A_OBJIDINS = "objIdIns";
 	public static final String A_ISSUBINSTANCE = "isSubInstance";
 	
 	private String title;
-	private String type;
-	private String packageId;
 	private String titleLike;
 	private String priority;
 	private String diagramId;
@@ -46,7 +40,6 @@ public class PrcProcessInstCond extends MisObjectCond {
 	private String processId;
 	private String diagram;
 	
-	private String[] objIdIns;
 	private String[] priorityIns;
 	private String[] priorityNotIns;
 	private String isSubInstance;
@@ -66,8 +59,6 @@ public class PrcProcessInstCond extends MisObjectCond {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_PRIORITY, priority, buf);
-		appendAttributeString(A_TYPE, type, buf);
-		appendAttributeString(A_PACKAGEID, packageId, buf);
 		appendAttributeString(A_DIAGRAMID, diagramId, buf);
 		appendAttributeString(A_DIAGRAMVERSION, diagramVersion, true, buf);
 		appendAttributeString(A_PROCESSID, processId, buf);
@@ -83,7 +74,6 @@ public class PrcProcessInstCond extends MisObjectCond {
 		appendElementString(A_DIAGRAM, getDiagram(), tab, true, buf);
 		appendElementsString(A_PRIORITYINS, A_PRIORITYIN, getPriorityIns(), tab, buf);
 		appendElementsString(A_PRIORITYNOTINS, A_PRIORITYNOTIN, getPriorityNotIns(), tab, buf);
-		appendElementsString(A_OBJIDINS, A_OBJIDIN, getObjIdIns(), tab, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
@@ -101,17 +91,11 @@ public class PrcProcessInstCond extends MisObjectCond {
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
 			Node diagramId = attrMap.getNamedItem(A_DIAGRAMID);
-			Node type = attrMap.getNamedItem(A_TYPE);
-			Node packageId = attrMap.getNamedItem(A_PACKAGEID);
 			Node diagramVersion = attrMap.getNamedItem(A_DIAGRAMVERSION);
 			Node processId = attrMap.getNamedItem(A_PROCESSID);
 			Node isSubInstance = attrMap.getNamedItem(A_ISSUBINSTANCE);
 			if (diagramId != null)
 				obj.setDiagramId(diagramId.getNodeValue());
-			if (type != null)
-				obj.setType(type.getNodeValue());
-			if (packageId != null)
-				obj.setPackageId(packageId.getNodeValue());
 			if (diagramVersion != null)
 				obj.setDiagramVersion(diagramVersion.getNodeValue());
 			if (processId != null)
@@ -149,15 +133,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 				for (int j=0; j<nodes.length; j++)
 					objs[j] = nodes[j].getNodeValue();
 				obj.setPriorityNotIns(objs);
-			} else if (childNode.getNodeName().equals(A_OBJIDINS)) {
-				Node[] nodes = getNodes(childNode);
-				if (nodes == null || nodes.length == 0)
-					continue;
-				String[] objs = new String[nodes.length];
-				for (int j=0; j<nodes.length; j++)
-					objs[j] = nodes[j].getNodeValue();
-				obj.setObjIdIns(objs);
-			} 
+			}
 		}
 		return obj;
 	}
@@ -324,23 +300,5 @@ public class PrcProcessInstCond extends MisObjectCond {
 	}
 	public void setIsSubInstance(String isSubInstance) {
 		this.isSubInstance = isSubInstance;
-	}
-	public String[] getObjIdIns() {
-		return objIdIns;
-	}
-	public void setObjIdIns(String[] objIdIns) {
-		this.objIdIns = objIdIns;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public String getPackageId() {
-		return packageId;
-	}
-	public void setPackageId(String packageId) {
-		this.packageId = packageId;
 	}
 }

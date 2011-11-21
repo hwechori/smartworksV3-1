@@ -18,15 +18,13 @@ public class PrcProcess extends MisObject {
 	protected static final String PREFIX = "Prc";
 	
 	private static final String NAME = CommonUtil.toName(PrcProcess.class, PREFIX);
-	
+
 	public static final String A_DIAGRAMID = "diagramId";
-	public static final String A_TYPE = "type";
 	public static final String A_DIAGRAMVERSION = "diagramVersion";
 	public static final String A_PROCESSID = "processId";
 	public static final String A_DIAGRAM = "diagram";
 	
 	private String diagramId = null;
-	private String type = null;
 	private String diagramVersion = null;
 	private String processId = null;
 	private String diagram = null;
@@ -44,7 +42,6 @@ public class PrcProcess extends MisObject {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_DIAGRAMID, diagramId, buf);
-		appendAttributeString(A_TYPE, type, buf);
 		appendAttributeString(A_DIAGRAMVERSION, diagramVersion, true, buf);
 		appendAttributeString(A_PROCESSID, processId, buf);
 		return buf.toString();
@@ -71,13 +68,10 @@ public class PrcProcess extends MisObject {
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
 			Node diagramId = attrMap.getNamedItem(A_DIAGRAMID);
-			Node type = attrMap.getNamedItem(A_TYPE);
 			Node diagramVersion = attrMap.getNamedItem(A_DIAGRAMVERSION);
 			Node processId = attrMap.getNamedItem(A_PROCESSID);
 			if (diagramId != null)
 				obj.setDiagramId(diagramId.getNodeValue());
-			if (type != null)
-				obj.setType(type.getNodeValue());
 			if (diagramVersion != null)
 				obj.setDiagramVersion(diagramVersion.getNodeValue());
 			if (processId != null)
@@ -103,7 +97,6 @@ public class PrcProcess extends MisObject {
 		}
 		return obj;
 	}
-
 	public static BaseObject toObject(String str) throws Exception {
 		if (str == null)
 			return null;
@@ -226,11 +219,5 @@ public class PrcProcess extends MisObject {
 	}
 	public void setDiagram(String diagram) {
 		this.diagram = diagram;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 }

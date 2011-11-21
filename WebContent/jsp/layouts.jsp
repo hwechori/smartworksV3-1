@@ -14,7 +14,7 @@
 <%
 	if(session.getAttribute("companyId")==null || session.getAttribute("userId")==null){
 		session.setAttribute("companyId", "Semiteq");
-		session.setAttribute("userId", "kmyu@maninsoft.co.kr");
+		session.setAttribute("userId", "jskim@maninsoft.co.kr");
 	}
 	
 	String companyId = (String)session.getAttribute("companyId");

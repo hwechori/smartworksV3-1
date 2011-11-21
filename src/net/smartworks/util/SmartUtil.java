@@ -12,12 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.community.User;
 import net.smartworks.model.work.SmartWork;
-import net.smartworks.server.engine.common.manager.IManager;
-import net.smartworks.server.engine.factory.SwManagerFactory;
-import net.smartworks.server.engine.organization.model.SwoDepartment;
-import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
-import net.smartworks.server.engine.organization.model.SwoUser;
-import net.smartworks.server.engine.organization.model.SwoUserCond;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
 
@@ -223,35 +217,6 @@ public class SmartUtil {
 		user.setMidPictureName(user.getId() + "_mid.gif");
 		user.setUserLevel(User.USER_LEVEL_AMINISTRATOR);
 
-		return user;
-	}
-
-	public static User getCurrentUser2(HttpServletRequest request) throws Exception {
-
-		SwoUserCond swoUserCond = new SwoUserCond();
-		swoUserCond.setId((String)request.getSession().getAttribute("userId"));
-		swoUserCond.setCompanyId((String)request.getSession().getAttribute("companyId"));
-
-		SwoUser swoUser = SwManagerFactory.getInstance().getSwoManager().getUser(swoUserCond.getId(), swoUserCond, IManager.LEVEL_ALL);
-
-		User user = new User();
-		user.setId(swoUser.getId());
-		user.setName(swoUser.getName());
-		user.setPosition(swoUser.getPosition());
-
-		SwoDepartmentCond swoDeptCond = new SwoDepartmentCond();
-		swoDeptCond.setId(swoUser.getDeptId());
-		swoDeptCond.setCompanyId(swoUser.getCompanyId());
-		SwoDepartment swoDept = SwManagerFactory.getInstance().getSwoManager().getDepartment(swoUserCond.getId(), swoDeptCond, IManager.LEVEL_ALL);
-		user.setDepartment(swoDept.getName());
-
-		user.setLocale(swoUser.getLang().equals("KOR") ? "ko" : swoUser.getLang().equals("ENG") ? "en" : new LocalDate().getLocale()); // ko, en
-		user.setTimeZone(new LocalDate().getTimeZone()); //Asia/Seoul, America/Los_Angeles
-		user.setCompany(swoUser.getCompanyId());
-		user.setOrgPictureName(user.getId() + ".jpg");
-		user.setMinPictureName(user.getId() + "_min.gif");
-		user.setMidPictureName(user.getId() + "_mid.gif");
-		user.setUserLevel(swoUser.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
 		return user;
 	}
 }
