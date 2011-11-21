@@ -1421,6 +1421,20 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 	}
 	public SwoUserExtend[] getUsersExtend(String userId, String[] ids) throws SwoException {
 		
+		StringBuffer buff = new StringBuffer();
+		
+		buff.append("select new net.smartworks.server.engine.organization.model.SwoUserExtend( ");
+		buff.append(" user.id,  user.name,  company.name, ");
+		buff.append(" dept.name,  user.lang, ");
+		buff.append(" user.picture,  user.picture, user.position, ");
+		buff.append(" user.stdTime,  user.authId");
+		buff.append(" )");
+		buff.append(" from SwoUser user, SwoDepartment dept, SwoCompany company ");
+		buff.append(" where user.deptId = dept.id");
+		buff.append(" and user.companyId = company.id");
+		buff.append(" and user.id = :id");
+		
+		
 		return null;
 	}
 	
