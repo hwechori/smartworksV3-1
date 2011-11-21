@@ -49,7 +49,7 @@
 		for (IWInstanceInfo instanceInfo : instanceInfos) {
 			UserInfo owner = instanceInfo.getOwner();
 			UserInfo lastModifier = instanceInfo.getLastModifier();
-			FieldData[] fieldDatas = instanceInfo.getFieldDatas();
+			FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
 %>
 <tr>
 	<td><img src="<%=owner.getMinPicture()%>"
