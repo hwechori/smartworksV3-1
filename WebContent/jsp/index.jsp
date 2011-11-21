@@ -54,7 +54,7 @@
 				int minute = rightNow.get(Calendar.MINUTE);
 				int second = rightNow.get(Calendar.SECOND);
 
-				System.out.println("connectTime ==>" + year+"년 " + month+"월 " + date+"일 " + hour + "시 " + minute + "분 " + second + "초");
+				System.out.println("connectTime ==> " + year+"년 " + month+"월 " + date+"일 " + hour + "시 " + minute + "분 " + second + "초");
 
 			}
 		}
