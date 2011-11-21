@@ -2,50 +2,55 @@
 /* CSS Document */
 
 
-/* 상세보기- 타이틀 아이콘*/
-.body_title { padding:10px 15px;} /* 컨텐츠 페이지 타이틀*/
-.body_title_pic { padding:10px 15px;} /* 컨텐츠 페이지 타이틀 - 사람사진이 들어갈 경우 */
-.body_title_pic .title_picico {font-size: 14px; font-weight: bold;} /* 컨텐츠 페이지 타이틀 - 사람사진이 들어갈 경우: 제목 텍스트 */
+/* 본문- 타이틀 아이콘*/
+.body_titl { padding:0 15px 10px;} /* 본문 페이지 타이틀*/
+.body_titl .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
+.body_titl .title_noico {font-size: 14px; font-weight: bold; height: 52px;}  /* 타이틀 우측으로 아이콘이 없을때 */
+.body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding-top: 30px;} /* 타이틀 우측으로 버튼 */
 
-.body_title .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
-.body_title .title_noico {font-size: 14px; font-weight: bold; height: 52px;}  /* 타이틀 우측으로 아이콘이 없을때 */
-.body_btiti_pworks {background: url("../images/body_title_proces.png") no-repeat left top transparent; padding:1px 0 2px 19px; height: 52px; line-height:18px;}
-.body_titi_iworks {background: url("../images/body_title_inform.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
-.body_title .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding-top: 30px;} /* 타이틀 우측으로 버튼 */
+.body_titl_pic { padding:10px 15px;} /* 본문 페이지 타이틀 - 사람사진이 들어갈 경우 */
+.body_titl_pic .title_picico {font-size: 14px; font-weight: bold;} /* 본문 타이틀 - 사람사진이 들어갈 경우: 제목 텍스트 */
+.body_titl_pworks {background: url("../images/body_title_proces.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
+.body_titl_iworks {background: url("../images/body_title_inform.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
 
 
-
-/* 상세보기 컨텐츠 */
+/* 본문 컨텐츠 */
 .contents_space {padding: 0 25px 10px;}
 .contents_space .det_title {padding:3px 0;} /* 타이틀 */
-.contents_space .det_contents {}
+.contents_space .area {padding:10px;}
+
 
 /* Replay Info */
 .info_repl {vertical-align:bottom; position:absolute;}
 
-/* 상세보기 List */
-.contents_upspace { padding:5px 0 0 0;}
-.replay { margin:10px 15px 0;}
-.list_replay {margin:10px 0;} /* 리스트 페이지 댓글 */
-.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:3px 0;}
+
+/* 본문 댓글 관련 */
+.replay_point {background: url("../images/replay_point.gif") no-repeat left top; width:11px; height:7px;}
+.replay_section { background-color:#eef2f6; padding:10px; width:600px;}
+.replay {margin:10px 15px 0;} /* 상세페이지에 댓글,업무,메모 입력 영역*/
+.list_replay {margin:0;} /* 댓글 목록 */
+.replay_input {margin-top:10px;} /* 댓글 입력 영역 */
+.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; margin:5px 0;}
 .list_replay .end .replay .end {border-bottom: 0px; vertical-align: middle;}
+.repl_tinfo {background: url("../images/header_nico.png") no-repeat -8px -286px; padding:0 0 0 20px;}
 
 
-
-/* 목록 타이틀 */
-.list_title_space {background-color:#ededed; margin-top:10px; padding: 5px;}
+/* 목록보기 부분 타이틀 */
+.list_title_space {background-color:#ededed; padding: 5px;}
 .list_title_space .title { font-size:14px; font-weight:bold;  padding-top: 3px;}
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0;}
 .list_contents table .r_line {border-right:1px solid #DCDFE0;}
-.list_contents table th {text-align:center; padding:3px 15px;}
+.list_contents table .tit_bg {border-top:1px solid #DCDFE0; background-color:#f7f7f7;}
+.list_contents table th {text-align:center; padding:0 15px;}
 .list_contents table td {padding-left:10px; }
 
-/* 상세보기 포인트 */
+
+/* GR 포인트 */
 .gr_up_point {background: url("../images/up_point_gr.gif") no-repeat scroll left top transparent; height: 13px; width: 23px;}
 .posit_point {left:20px; position: relative; top:7px; z-index:90;}
 
 
-/* 상세보기 포틀릿 */
+/* GR 포틀릿 */
 .gr_portlet {
     background: url("../images/gr_bg_portlet_b.jpg") no-repeat scroll 0 100% transparent;
     margin-bottom:10px; position:relative; width:100%; z-index:30;}
@@ -76,3 +81,101 @@
 .gr_portlet_t .gr_portlet_tl {
     background: url("../images/bg_portlet.jpg") repeat-y scroll 0 -522px transparent;
     display:inline-block; width:10px; height:16px; left:0; position:absolute;}
+	
+	
+/* 프로세스 */
+.proce_space {height:45px; line-height:15px;}
+.proc_arr_next {background: url("../images/proc_bg.png") repeat-y scroll -175px -30px transparent; width:7px; height:14px; margin-top:13px;}
+.proc_start_compl {background: url("../images/proc_bg.png") repeat-y scroll -13px -13px transparent; 
+					height: 29px; padding-top: 10px; text-align: center; vertical-align: middle; width: 39px;}
+.proc_start_compl .current { font-weight:bold;}
+.proc_start_yet {}
+
+.proc_task_compl {display:inline-block;}
+.proc_task_compl .pstart {background: url("../images/prc_task_coml_l.gif") repeat scroll 0 0 transparent;
+			 float:left; height:47px; width:5px;}
+.proc_task_compl .pcenter {background: url("../images/prc_task_coml_c.gif") repeat scroll 0 0 transparent;
+    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
+.proc_task_compl .pend {background: url("../images/prc_task_coml_r.gif") repeat scroll 0 0 transparent;
+    		float:left; height:47px; width:5px;}
+			
+.proc_task_yet {display:inline-block;}
+.proc_task_yet .pstart {background: url("../images/prc_task_yet_l.gif") repeat scroll 0 0 transparent;
+			 float:left; height:47px; width:5px;}
+.proc_task_yet .pcenter {background: url("../images/prc_task_yet_c.gif") repeat scroll 0 0 transparent;
+    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
+.proc_task_yet .pend {background: url("../images/prc_task_yet_r.gif") repeat scroll 0 0 transparent;
+    		float:left; height:47px; width:5px;}
+			
+.proc_task_rturn {display:inline-block;}
+.proc_task_rturn .pstart {background: url("../images/prc_task_rturn_l.gif") repeat scroll 0 0 transparent;
+			 float:left; height:47px; width:5px;}
+.proc_task_rturn .pcenter {background: url("../images/prc_task_rturn_c.gif") repeat scroll 0 0 transparent;
+    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
+.proc_task_rturn .pend {background: url("../images/prc_task_rturn_r.gif") repeat scroll 0 0 transparent;
+    		float:left; height:47px; width:5px;}
+			
+.proc_task_ing {display:inline-block;}
+.proc_task_ing .pstart {background: url("../images/prc_task_ing_l.gif") repeat scroll 0 0 transparent;
+			 float:left; height:47px; width:5px;}
+.proc_task_ing .pcenter {background: url("../images/prc_task_ing_c.gif") repeat scroll 0 0 transparent;
+    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
+.proc_task_ing .pend {background: url("../images/prc_task_ing_r.gif") repeat scroll 0 0 transparent;
+    		float:left; height:47px; width:5px;}
+			
+.proc_task_dlay {display:inline-block;}
+.proc_task_dlay .pstart {background: url("../images/prc_task_dlay_l.gif") repeat scroll 0 0 transparent;
+			 float:left; height:47px; width:5px;}
+.proc_task_dlay .pcenter {background: url("../images/prc_task_dlay_c.gif") repeat scroll 0 0 transparent;
+    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
+.proc_task_dlay .pend {background: url("../images/prc_task_dlay_r.gif") repeat scroll 0 0 transparent;
+    		float:left; height:47px; width:5px;}
+			
+			
+/* 프로세스 포인트 위치 */
+.posit_default {left: 50px; position: relative; top: 1px; z-index: 20;}
+.posit_first {left: 125px; position: relative; top: 1px; z-index: 20;}
+.posit_second {left: 125px; position: relative; top: 1px; z-index: 20;}
+.posit_third {left: 125px; position: relative; top: 1px; z-index: 20;}
+.posit_fourth {left: 125px; position: relative; top: 1px; z-index: 20;}
+.posit_fifth {left: 125px; position: relative; top: 1px; z-index: 20;}
+.posit_sixth {left: 125px; position: relative; top: 1px; z-index: 20;}
+
+
+/* 필터 */
+.filter_section {overflow:hidden;}
+.filter_group {border:1px solid #e2e2e2; padding:5px; margin:3px 0;}
+.filter_group table { margin:0; text-align:right; } 
+.filter_area {height:22px; padding:5px 0; clear:both; float:right;}
+.filter_area .selb_size_fir {float:left; margin-right:5px;}
+.filter_area .selb_size_sec {float:left; margin-right:5px; width:100px;}
+.str_field {width:145px; text-align:left; float:left;}
+
+.btn_plus {margin-right:5px; width:25px;}
+.filter_btn_space {background-color:#FFF; padding:8px 0 0; height:22px; border-top: 1px solid #c7c7c7;}
+.btn_x_grb_posi {margin:5px;}
+
+
+/* 페이징 */
+.paginate { height: 25px; padding-top: 10px; position: relative; text-align: center;}
+.paginate .num {margin-right:1px; padding: 2px 3px; text-decoration: none; vertical-align: middle;}
+
+.spr { cursor: pointer; display: inline-block; overflow: hidden; vertical-align: middle;}
+.paginate a.pre_end span {background: url("../images/header_nico.png") no-repeat scroll 0 -345px transparent; 
+display: inline-block; height: 16px; width:16px; position:relative; left:5px;}
+.paginate a.pre span {background: url("../images/header_nico.png") no-repeat scroll -15px -345px transparent;
+display: inline-block; height: 16px; width: 16px; margin-right:11px;}
+.paginate a.next span { background: url("../images/header_nico.png") no-repeat scroll -39px -345px transparent; 
+display: inline-block; height: 16px; width: 16px; margin-left:11px;}
+.paginate a.next_end span { background: url("../images/header_nico.png") no-repeat scroll -54px -345px transparent;
+display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
+
+.paginate a.pre_end:hover span {background: url("../images/header_nico.png") no-repeat scroll 0 -377px transparent;}
+.paginate a.pre:hover span {background: url("../images/header_nico.png") no-repeat scroll -15px -377px transparent;
+display: inline-block; height: 16px; width: 16px; margin-right:11px;}
+.paginate a.next:hover span { background: url("../images/header_nico.png") no-repeat scroll -39px -377px transparent; 
+display: inline-block; height: 16px; width: 16px; margin-left:11px;}
+.paginate a.next_end:hover span { background: url("../images/header_nico.png") no-repeat scroll -54px -377px transparent;
+display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
+
+.num_box {float:right; margin: -30px 25px 0; position:relative;}

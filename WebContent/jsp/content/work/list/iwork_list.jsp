@@ -37,8 +37,8 @@
 		<ul class="portlet_r" style="display: block;">
 
 			<!-- 타이틀 -->
-			<div class="body_title">
-				<div class="body_titi_iworks title"><%=work.getName()%></div>
+			<div class="body_titl">
+				<div class="body_titl_iworks title"><%=work.getName()%></div>
 
 				<!-- 우측 버튼-->
 				<div class="txt_btn">
@@ -133,16 +133,16 @@
 				<div class="txt_btn">
 
 					<%
-					if(cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR){
+						if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
 					%>
 					<div class="float_right padding_l10">
 						<a href=""></a><span class="btn_gray"> <span
 							class="Btn01Start"></span> <span class="Btn01Center"><fmt:message
-									key='common.button.modify' />
-						</span> <span class="Btn01End"></span> </span></a>
+									key='common.button.modify' /> </span> <span class="Btn01End"></span>
+						</span></a>
 					</div>
 					<%
-					}
+						}
 					%>
 
 					<div class="float_right">
@@ -202,39 +202,42 @@
 						</div>
 
 						<div class="po_left">
-							<form class="form_space" name="frmIworkFilterName" class="js_select_filter">
-								<select name="selFilterName" >
-									<option value="<%=SearchFilter.FILTER_ALL_INSTANCES %>"
+							<form class="form_space" name="frmIworkFilterName">
+								<select name="selFilterName" class="js_select_filter"
+									href="search_filter.sw?workId=<%=workId%>">
+									<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>"
 										selected>
 										<fmt:message key='filter.name.all_instances' />
 									</option>
-									<option value="<%=SearchFilter.FILTER_MY_INSTANCES %>">
+									<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>">
 										<fmt:message key='filter.name.my_instances' />
 									</option>
-									<option
-										value="<%=SearchFilter.FILTER_RECENT_INSTANCES %>">
+									<option value="<%=SearchFilter.FILTER_RECENT_INSTANCES%>">
 										<fmt:message key='filter.name.recent_instances' />
 									</option>
-									<option
-										value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES %>">
+									<option value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES%>">
 										<fmt:message key='filter.name.my_recent_instances' />
 									</option>
 									<%
-									SearchFilter[] filters = work.getSearchFilters();
-									if(filters != null){
-										for(SearchFilter filter : filters){	
+										SearchFilter[] filters = work.getSearchFilters();
+										if (filters != null) {
+											for (SearchFilter filter : filters) {
 									%>
-									<option
-										value="<%=filter.getId() %>">
-										<%=filter.getName() %>
-									</option>									
+									<option value="<%=filter.getId()%>">
+										<%=filter.getName()%>
+									</option>
 									<%
-									}
-									}%>
+										}
+										}
+									%>
 								</select>
 							</form>
 						</div>
-						<div class="po_left"><fmt:message key='filter.button.search_filter' /></div>
+						<a href="search_filter.sw?workId=<%=workId%>"
+							class="js_search_filter"><div class="po_left">
+								<fmt:message key='filter.button.search_filter' />
+							</div>
+						</a>
 					</div>
 
 					<div class="txt_btn">
@@ -246,28 +249,27 @@
 						</div>
 
 					</div>
-					<!-- 목록보기 타이틀-->
+				</div>
+				<!-- 목록보기 타이틀-->
 
+				<!-- 상세필터 -->
+				<div id="iwork_search_filter" class="filter_section"></div>
+				<!-- 상세필터 -->
 
-					<!-- 목록 테이블 -->
-					<div class="list_contents">
-						<table>
-							<colgroup>
-								<col class="item">
-								<col class="field">
-								<col class="field">
-							</colgroup>
-							<tbody>
-								<tr>
-									<th></th>
-									<%
+				<!-- 목록 테이블 -->
+				<div class="list_contents">
+					<table>
+						<tbody>
+							<tr>
+								<th></th>
+								<%
 									FormField[] fields = work.getDisplayFields();
-									if(fields!=null){
-										for(FormField field : fields){											
-									%>
-									<th class="r_line"><%=field.getName() %></th>
-									<%
-										}
+									if (fields != null) {
+										for (FormField field : fields) {
+								%>
+								<th class="r_line"><%=field.getName()%></th>
+								<%
+									}
 									}
 								%>
 								<th><fmt:message key='common.title.last_modifier' />/<fmt:message
@@ -282,10 +284,10 @@
 					</table>
 				</div>
 				<!-- 목록 테이블 //-->
-					<!-- 목록보기 -->
-				</div>
+
+			</div>
+			<!-- 목록보기 -->
 		</ul>
 	</div>
-	<div class="portlet_b" style="display: block;"></div>
 </div>
 <!-- 컨텐츠 레이아웃//-->

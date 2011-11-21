@@ -68,7 +68,7 @@
 			<div class="input_1line">
 				<div class="float_left">
 					<input class="fieldline space_data date js_todaypicker" type="text"
-						name="txtEventStartDate" readonly="" readonly" value="<%=today%>">
+						name="txtEventStartDate" readonly="readonly" value="<%=today%>">
 				</div>
 
 				<div class="float_left js_start_time">
