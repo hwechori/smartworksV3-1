@@ -19,11 +19,70 @@ public class Login implements UserDetails {
 	private String id;
 	private String name;
 	private String type;
-	private String deptid;
+	private String companyId;
+	private String deptId;
+	private String empNo;
 	private String pos;
 	private String email;
 	private String password;
-	private String authid;
+	private String authId;
+	private String locale;
+
+	/**
+	 * @return the locale
+	 */
+	public String getLocale() {
+		return locale;
+	}
+
+	/**
+	 * @param locale the locale to set
+	 */
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	/**
+	 * @return the deptId
+	 */
+	public String getDeptId() {
+		return deptId;
+	}
+
+	/**
+	 * @param deptId the deptId to set
+	 */
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+
+	/**
+	 * @return the companyId
+	 */
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	/**
+	 * @param companyId the companyId to set
+	 */
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+
+	/**
+	 * @return the empNo
+	 */
+	public String getEmpNo() {
+		return empNo;
+	}
+
+	/**
+	 * @param empNo the empNo to set
+	 */
+	public void setEmpNo(String empNo) {
+		this.empNo = empNo;
+	}
 
 	private Collection<GrantedAuthority> authorities;
 
@@ -67,20 +126,6 @@ public class Login implements UserDetails {
 	 */
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	/**
-	 * @return Returns the deptid.
-	 */
-	public String getDeptid() {
-		return deptid;
-	}
-
-	/**
-	 * @param deptid The deptid to set.
-	 */
-	public void setDeptid(String deptid) {
-		this.deptid = deptid;
 	}
 
 	/**
@@ -185,12 +230,12 @@ public class Login implements UserDetails {
 	public Collection<GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
-	public String getAuthid() {
-		return authid;
+	public String getAuthId() {
+		return authId;
 	}
 
-	public void setAuthid(String authid) {
-		this.authid = authid;
+	public void setAuthId(String authId) {
+		this.authId = authId;
 	}
 
 }
