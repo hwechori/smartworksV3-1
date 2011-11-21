@@ -324,20 +324,22 @@ workList.add(SmartTest.getInformationWork1());
 		resultwork.setType(type);
 		resultwork.setDesc(description);
 
-		String groupName = "";
-		String groupId = pkg.getCategoryId();
-		String categoryName = "";
-		String categoryId = "";
+		String groupName = null;
+		String groupId = null;
+		String categoryName = null;
+		String categoryId = pkg.getCategoryId();
 		CtgCategoryCond ctgCond = new CtgCategoryCond();
-		ctgCond.setObjId(groupId);
+		ctgCond.setObjId(categoryId);
 		CtgCategory ctg = getCtgManager().getCategory(userId, ctgCond, IManager.LEVEL_ALL);
-		groupName = ctg.getName();
-		if(!(ctg.getParentId().toUpperCase().equals("ROOT"))) {
+		categoryName = ctg.getName();
+		if(!(ctg.getParentId()).equals("_PKG_ROOT_")) {
 			CtgCategoryCond ctgCond2 = new CtgCategoryCond();
 			ctgCond2.setObjId(ctg.getParentId());
 			CtgCategory ctg2 = getCtgManager().getCategory(userId, ctgCond2, IManager.LEVEL_ALL);
-			categoryName = ctg2.getName();
+			groupId = categoryId;
+			groupName = categoryName;
 			categoryId = ctg2.getObjId();
+			categoryName = ctg2.getName();
 		}
 
 		WorkCategory myCategory = new WorkCategory();
