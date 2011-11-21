@@ -88,7 +88,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		taskCond.setPageNo(0);
 		taskCond.setPageSize(50);
 		
-		TskTask[] tasks = getTskManager().getTasks(userId, taskCond, IManager.LEVEL_ALL);
+		TskTask[] tasks = getTskManager().getTasks(userId, taskCond, IManager.LEVEL_LITE);
 		if (CommonUtil.isEmpty(tasks))
 			return null;
 	
@@ -113,7 +113,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(userId, prcInstCond, IManager.LEVEL_LITE);
 		
-		InstanceInfo[] instInfo = ModelConverter.prcInstToInstInfo(prcInsts);
+		InstanceInfo[] instInfo = ModelConverter.getInstanceInfoArrayByPrcInstArray(prcInsts);
 		
 		return instInfo;
 */		
