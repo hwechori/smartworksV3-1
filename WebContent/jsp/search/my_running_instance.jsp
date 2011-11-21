@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
+<%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
 <%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.model.instance.Instance"%>
@@ -11,21 +15,21 @@
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	Instance[] instances = smartWorks.searchMyRunningInstance(companyId, userId, key);
+	InstanceInfo[] instances = smartWorks.searchMyRunningInstance(companyId, userId, key);
 %>
 
 <ul>
 	<%
 		if (instances != null) {
-			for (Instance instance : instances) {
+			for (InstanceInfo instance : instances) {
 				String iconType = null;
 				String workContext = null;
 				String targetContent = null;
-				SmartWork work = null;
-				WorkInstance workInstance = null;
-				if (instance.getClass().equals(WorkInstance.class)) {
-					workInstance = (WorkInstance) instance;
-					work = (SmartWork) workInstance.getWork();
+				SmartWorkInfo work = null;
+				WorkInstanceInfo workInstance = null;
+				if (instance.getClass().equals(WorkInstanceInfo.class)) {
+					workInstance = (WorkInstanceInfo) instance;
+					work = (SmartWorkInfo) workInstance.getWork();
 					switch (work.getType()) {
 					case SmartWork.TYPE_INFORMATION:
 						iconType = "ico_iworks";
@@ -44,9 +48,9 @@
 						break;
 					default:
 					}
-				} else if (instance.getClass().equals(TaskInstance.class)) {
-					workInstance = ((TaskInstance) instance).getWorkInstance();
-					work = (SmartWork) workInstance.getWork();
+				} else if (instance.getClass().equals(TaskInstanceInfo.class)) {
+					workInstance = ((TaskInstanceInfo) instance).getWorkInstance();
+					work = (SmartWorkInfo) workInstance.getWork();
 					switch (work.getType()) {
 					case SmartWork.TYPE_INFORMATION:
 						iconType = "ico_iworks";

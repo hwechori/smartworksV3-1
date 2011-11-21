@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.instance.info.AsyncMessageInstanceInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -24,8 +26,8 @@
 		for (NoticeMessage nMessage : (NoticeMessage[]) noticeBox.getNoticeMessages()) {
 			String instContext = null;
 			if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_MESSAGE) {
-				AsyncMessageInstance messageInstance = (AsyncMessageInstance) nMessage.getInstance();
-				User owner = messageInstance.getSender();
+				AsyncMessageInstanceInfo messageInstance = (AsyncMessageInstanceInfo) nMessage.getInstance();
+				UserInfo owner = messageInstance.getSender();
 				instContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 %>
 <li><div class="info_img">

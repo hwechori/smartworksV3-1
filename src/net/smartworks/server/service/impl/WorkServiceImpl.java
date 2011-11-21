@@ -6,6 +6,9 @@ import java.util.List;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
+import net.smartworks.model.work.info.SmartWorkInfo;
+import net.smartworks.model.work.info.WorkCategoryInfo;
+import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.category.model.CtgCategoryCond;
@@ -56,7 +59,7 @@ public class WorkServiceImpl implements IWorkService {
 	 * 사용자가 최근에 처리한 업무 10개를 리턴한다
 	 */
 	@Override
-	public Work[] getMyRecentlyExecutedWork(String companyId, String userId) throws Exception {
+	public WorkInfo[] getMyRecentlyExecutedWork(String companyId, String userId) throws Exception {
 		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 			return null;
 
@@ -90,7 +93,7 @@ public class WorkServiceImpl implements IWorkService {
 		pkgCond.setPackageIdIns(packageIdArray);
 		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
 		
-		SmartWork[] workPkgs = (SmartWork[])ModelConverter.arrayToArray(pkgs);
+		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
 		
 		return workPkgs;
 	}
@@ -100,7 +103,7 @@ public class WorkServiceImpl implements IWorkService {
 	 * 사용자가 등록한 즐겨 찾기 업무를 리턴한다
 	 */
 	@Override
-	public SmartWork[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
+	public SmartWorkInfo[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
 		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 			return null;
 		
@@ -129,13 +132,13 @@ public class WorkServiceImpl implements IWorkService {
 		pkgCond.setPackageIdIns(packageIdArray);
 		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
 		
-		SmartWork[] workPkgs = (SmartWork[])ModelConverter.arrayToArray(pkgs);
+		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
 		
 		return workPkgs;
 	}
 
 	@Override
-	public Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
+	public WorkInfo[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
 
 		//categoryId 가 null 이라면 root 카테고리 밑의 1 level 의 카테고리를 리턴한다
 		//categoryId 가 넘어오면 카테고리안에 속한 2 level 카테고리(group) 와 work(package)를 리턴한다
@@ -147,7 +150,7 @@ public class WorkServiceImpl implements IWorkService {
 			//1 level category
 			ctgCond.setParentId(CtgCategory.ROOTCTGID);
 			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
-			return (WorkCategory[])ModelConverter.arrayToArray(ctgs);
+			return (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
 		
 		} else {
 			ctgCond.setParentId(categoryId);
@@ -157,20 +160,20 @@ public class WorkServiceImpl implements IWorkService {
 			pkgCond.setCategoryId(categoryId);
 
 			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
-			Work[] workCtgs = (WorkCategory[])ModelConverter.arrayToArray(ctgs);
+			WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
 			
 			PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
-			Work[] workPkgs = (SmartWork[])ModelConverter.arrayToArray(pkgs);
+			WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
 
 			int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
 			int pkgPkgsSize = workPkgs == null? 0 : workPkgs.length;
 			
-			Work[] resultWork = new Work[workCtgsSize + pkgPkgsSize + /* UI test*/ 2];
+			WorkInfo[] resultWork = new WorkInfo[workCtgsSize + pkgPkgsSize + /* UI test*/ 2];
 			
 			//System.arraycopy(workCtgs, 0, resultWork, 0, workCtgsSize);  
 			//System.arraycopy(pkgPkgs, 0, resultWork, workCtgsSize, pkgPkgsSize);
 			
-			List<Work> workList = new ArrayList<Work>();
+			List<WorkInfo> workList = new ArrayList<WorkInfo>();
 			for (int i = 0; i < workCtgsSize; i++) {
 				workList.add(workCtgs[i]);
 			}
@@ -179,8 +182,8 @@ public class WorkServiceImpl implements IWorkService {
 			}
 
 // UI test용 코드
-			workList.add(SmartTest.getInformationWork1());
-			workList.add(SmartTest.getProcessWork1());
+			workList.add(SmartTest.getInformationWorkInfo1());
+			workList.add(SmartTest.getProcessWorkInfo1());
 // UI test용 코드
 
 			workList.toArray(resultWork);
@@ -190,19 +193,13 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public SmartWork[] searchWork(String companyId, String userId, String key) throws Exception {
+	public SmartWorkInfo[] searchWork(String companyId, String userId, String key) throws Exception {
 
 		return getMyFavoriteWorks(companyId, userId);
 	}
 
 	@Override
-	public Work getWorkById(String companyId, String workId) throws Exception {
-		Work[] works = new Work[] { SmartTest.getSmartWork1(), SmartTest.getSmartWork2(), SmartTest.getSmartWork3(), SmartTest.getSmartWork4(),
-				SmartTest.getSmartWork5(), SmartTest.getSmartWork6(), SmartTest.getSmartWork7(), SmartTest.getSmartWork8(), SmartTest.getSmartWork9(), SmartTest.getInformationWork1() };
-		for (Work work : works) {
-			if (work.getId().equals(workId))
-				return work;
-		}
-		return null;
+	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
+		return SmartTest.getWorkById(workId);
 	}
 }

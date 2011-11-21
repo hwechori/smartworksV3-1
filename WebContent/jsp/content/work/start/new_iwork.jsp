@@ -42,7 +42,7 @@ function submitForms(e) {
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	Work work = smartWorks.getWorkById(companyId, workId);
+	Work work = smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	SmartWork cWork = null;
 	if (work.getClass().equals(SmartWork.class))
 		cWork = (SmartWork) work;

@@ -62,11 +62,11 @@ public class EventInstance extends WorkInstance {
 	}
 	public EventInstance(){
 		super();
-		super.setInstanceType(Instance.TYPE_EVENT);
+		super.setType(Instance.TYPE_EVENT);
 	}
 
 	public EventInstance(String id, String subject, Work work, User owner, LocalDate lastModifiedDate){
-			super(id, subject, work, owner, lastModifiedDate);
-			super.setInstanceType(Instance.TYPE_EVENT);
+			super(id, subject, work, owner, owner, lastModifiedDate);
+			super.setType(Instance.TYPE_EVENT);
 	}
 }

@@ -21,7 +21,7 @@
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
-	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, workId);
+	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	CommentInstance[] comments = smartWorks.getRecentCommentsInWorkManual(companyId, workId, 3);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -41,7 +41,7 @@
 					<td><img src="<%=work.getForm().getOrgImage()%>" width="349"
 						height="289" />
 					</td>
-					<td><%=work.getForm().getDetails()%></td>
+					<td><%=work.getForm().getDescription()%></td>
 				</tr>
 			</tbody>
 		</table>

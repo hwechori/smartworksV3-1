@@ -22,7 +22,7 @@
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
-	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, workId);
+	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -124,9 +124,9 @@
 				<!-- 버튼 영역-->
 				<div class="txt_btn posi_ab">
 					<div class="po_left">
-						<a class="js_view_iwork_manual" href=""><fmt:message
+						<a class="js_view_work_manual" href=""><fmt:message
 								key="common.button.view.work_manual" />▼</a> <a
-							style="display: none" class="js_view_iwork_manual" href=""><fmt:message
+							style="display: none" class="js_view_work_manual" href=""><fmt:message
 								key="common.button.close.work_manual" />▼</a>
 					</div>
 				</div>
@@ -168,7 +168,7 @@
 				<!-- 버튼 영역 //-->
 
 			</div>
-			<div id="iwork_manual" style="display: none">
+			<div id="work_manual" style="display: none">
 				<jsp:include page="/jsp/content/work/list/iwork_manual.jsp"></jsp:include>
 			</div>
 			<div>
@@ -195,9 +195,9 @@
 
 						<div class="po_left">
 							<div class="srch">
-								<input id="" class="input js_auto_complete" type="text"
-									placeholder="<fmt:message key='search.search_work' />"
-									href="iwork_instance.sw">
+								<input id="" class="input" type="text"
+									placeholder="<fmt:message key='search.search_work' />">
+								<button onclick="" title="<fmt:message key='search.search_work'/>" ></button>
 							</div>
 						</div>
 
@@ -278,7 +278,7 @@
 							</tr>
 							<div id='iwork_list_page'>
 								<jsp:include
-									page="/jsp/content/work/list/instance_list_page.jsp"></jsp:include>
+									page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
 							</div>
 						</tbody>
 					</table>

@@ -1,7 +1,11 @@
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.PWInstanceInfo"%>
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
+<%@page import="net.smartworks.model.work.ProcessWork"%>
 <%@page import="net.smartworks.model.instance.FieldData"%>
-<%@page import="net.smartworks.model.instance.InstanceRecord"%>
-<%@page import="net.smartworks.model.instance.InstanceList"%>
-<%@page import="net.smartworks.model.instance.ListRequestParams"%>
+<%@page import="net.smartworks.model.instance.info.InstanceInfoList"%>
+<%@page import="net.smartworks.model.instance.info.RequestParams"%>
 <%@page import="net.smartworks.model.work.FormField"%>
 <%@page import="net.smartworks.model.work.SmartForm"%>
 <%@page import="net.smartworks.model.filter.SearchFilter"%>
@@ -24,13 +28,13 @@
 	String cid = request.getParameter("cid");
 	String wid = request.getParameter("wid");
 
-	ListRequestParams params = new ListRequestParams();
+	RequestParams params = new RequestParams();
 	params.setCountInPage(20);
 	params.setPageNumber(2);
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
-	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, workId);
-	InstanceList instanceList = smartWorks.getWorkInstanceList(companyId, workId, params);
+	ProcessWork work = (ProcessWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
+	InstanceInfoList instanceList = smartWorks.getPWorkInstanceList(companyId, cUser.getId(), workId, params);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -42,26 +46,30 @@
 		countInPage = instanceList.getCountInPage();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
-		FormField[] displayFields = work.getDisplayFields();
-		InstanceRecord[] instanceRecords = instanceList.getInstanceDatas();
-		for (InstanceRecord instanceRecord : instanceRecords) {
-			User owner = instanceRecord.getOwner();
-			User lastModifier = instanceRecord.getLastModifier();
-			FieldData[] fieldDatas = instanceRecord.getFieldDatas();
+		PWInstanceInfo[] instanceInfos = (PWInstanceInfo[])instanceList.getInstanceDatas();
+		for (PWInstanceInfo instanceInfo : instanceInfos) {
+			UserInfo owner = instanceInfo.getOwner();
+			UserInfo lastModifier = instanceInfo.getLastModifier();
+			TaskInstanceInfo[] runningTasks = instanceInfo.getRunningTasks();
+			TaskInstanceInfo lastTask = instanceInfo.getLastTask();
 %>
 <tr>
+	<td></td>
 	<td><img src="<%=owner.getMinPicture()%>"
 		title="<%=owner.getLongName()%>" />
 	</td>
+	<td><%=instanceInfo.getSubject()%></td>
 	<%
-		if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
-					for (FieldData data : fieldDatas) {
+	if(runningTasks!=null){
+		int runningCount = runningTasks.length;	
 	%>
-	<td><%=data.getValue()%></td>
+	<td><%=runningTasks[0].getName()%></td>
 	<%
-		}
-				}
+	}else if(lastTask!=null){
 	%>
+	<td><%=lastTask.getName()%></td>
+	<%
+	}%>
 	<td>
 		<div class="noti_pic">
 			<img src="<%=lastModifier.getMinPicture()%>"
@@ -69,7 +77,7 @@
 		</div>
 		<div class="noti_in">
 			<span class="t_name"><%=lastModifier.getLongName()%></span>
-			<div class="t_date"><%=instanceRecord.getLastModifiedDate().toLocalString()%></div>
+			<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
 		</div></td>
 </tr>
 <%

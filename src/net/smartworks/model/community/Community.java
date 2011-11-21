@@ -4,17 +4,11 @@ import net.smartworks.model.BaseObject;
 
 public class Community extends BaseObject {
 
-	private String 	picturePath = null;
+	public static final String 	PICTURE_PATH = "images/";
 	private String 	orgPictureName = null;
 	private String 	midPictureName = null;
 	private String 	minPictureName = null;
 
-	public String getPicturePath() {
-		return "images/";
-	}
-	public void setPicturePath(String picturePath) {
-		this.picturePath = picturePath;
-	}
 	public String getOrgPictureName() {
 		return 		super.getId() + ".jpg";
 	}
@@ -35,13 +29,13 @@ public class Community extends BaseObject {
 	}
 	
 	public String getOrgPicture(){
-		return getPicturePath() + getOrgPictureName();
+		return PICTURE_PATH + getOrgPictureName();
 	}
 	public String getMidPicture(){
-		return getPicturePath() + getMidPictureName();
+		return PICTURE_PATH + getMidPictureName();
 	}
 	public String getMinPicture(){
-		return getPicturePath() + getMinPictureName();
+		return PICTURE_PATH + getMinPictureName();
 	}
 	
 	public Community(){

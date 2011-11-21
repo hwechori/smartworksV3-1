@@ -26,7 +26,7 @@
 	String filterId = request.getParameter("filterId");
 
 	User cUser = SmartUtil.getCurrentUser();
-	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, workId);
+	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	FormField[] fields = null;
 	SearchFilter filter = null;
 	if ((work != null) && (work.getForm() != null))

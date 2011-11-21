@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
 <%@ page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -8,13 +9,13 @@
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	SmartWork[] works = smartWorks.searchWork(companyId, userId, key);
+	SmartWorkInfo[] works = smartWorks.searchWork(companyId, userId, key);
 %>
 
 <ul>
 	<%
 		if (works != null) {
-			for (SmartWork work : works) {
+			for (SmartWorkInfo work : works) {
 				String iconType = null;
 				String workContext = null;
 				String targetContent = null;

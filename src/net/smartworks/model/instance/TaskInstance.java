@@ -32,55 +32,43 @@ public class TaskInstance extends Instance {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public int getTaskType() {
 		return taskType;
 	}
-
 	public void setTaskType(int taskType) {
 		this.taskType = taskType;
 	}
-
 	public User getAssignee() {
 		return assignee;
 	}
-
 	public void setAssignee(User assignee) {
 		this.assignee = assignee;
 	}
-
 	public WorkInstance getWorkInstance() {
 		return workInstance;
 	}
-
 	public void setWorkInstance(WorkInstance workInstance) {
 		this.workInstance = workInstance;
 	}
-
 	public boolean isStartTask() {
 		return isStartTask;
 	}
-
 	public void setStartTask(boolean isStartTask) {
 		this.isStartTask = isStartTask;
 	}
-
 	public User getPerformer() {
 		return performer;
 	}
-
 	public void setPerformer(User performer) {
+		super.setLastModifier(performer);
 		this.performer = performer;
 	}
-
 	public SmartForm getSmartForm() {
 		return smartForm;
 	}
-
 	public void setSmartForm(SmartForm smartForm) {
 		this.smartForm = smartForm;
 	}
@@ -90,8 +78,8 @@ public class TaskInstance extends Instance {
 	}
 
 	public TaskInstance(String id, String name, int taskType, User owner,
-			LocalDate lastModifiedDate) {
-		super(id, name, Instance.TYPE_TASK, owner, lastModifiedDate);
+			User performer, LocalDate lastModifiedDate) {
+		super(id, name, Instance.TYPE_TASK, owner, performer, lastModifiedDate);
 		this.name = name;
 		this.taskType = taskType;
 	}

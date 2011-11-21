@@ -1,11 +1,14 @@
 package net.smartworks.model.work;
 
+import net.smartworks.model.filter.SearchFilter;
+
 public class ProcessWork extends SmartWork {
 
 	private SmartDiagram diagram;
 	private String helpUrl;
 	private String manualFilePath;
 	private String manualFileName;
+	private SearchFilter[] searchFilters;
 	
 	public SmartDiagram getDiagram() {
 		return diagram;
@@ -30,6 +33,12 @@ public class ProcessWork extends SmartWork {
 	}
 	public void setManualFileName(String manualFileName) {
 		this.manualFileName = manualFileName;
+	}
+	public SearchFilter[] getSearchFilters() {
+		return searchFilters;
+	}
+	public void setSearchFilters(SearchFilter[] searchFilters) {
+		this.searchFilters = searchFilters;
 	}
 	public ProcessWork(){
 		super();

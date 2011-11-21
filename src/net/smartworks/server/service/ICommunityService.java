@@ -7,32 +7,37 @@ import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
+import net.smartworks.model.community.info.CommunityInfo;
+import net.smartworks.model.community.info.DepartmentInfo;
+import net.smartworks.model.community.info.GroupInfo;
+import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.community.info.WorkSpaceInfo;
 
 public interface ICommunityService {
 
-	public abstract User[] searchCommunityMember(String companyId, String communityId, String key) throws Exception;
+	public abstract UserInfo[] searchCommunityMember(String companyId, String communityId, String key) throws Exception;
 
-	public abstract WorkSpace[] searchCommunity(String companyId, String userId, String key) throws Exception;
+	public abstract WorkSpaceInfo[] searchCommunity(String companyId, String userId, String key) throws Exception;
 
 	public abstract User getUserById(String companyId, String userId) throws Exception;
 
 	public abstract Group getGroupById(String companyId, String groupId) throws Exception;
 
-	public abstract Group[] getMyGroups(String companyId, String userId) throws Exception;
+	public abstract GroupInfo[] getMyGroups(String companyId, String userId) throws Exception;
 
 	public abstract Group setGroup(HttpServletRequest request) throws Exception;
 
 	public abstract Department getDepartmentById(String companyId, String departId) throws Exception;
 
-	public abstract Department[] getMyDepartments(String companyId, String userId) throws Exception;
+	public abstract DepartmentInfo[] getMyDepartments(String companyId, String userId) throws Exception;
 
 	public abstract WorkSpace getWorkSpaceById(String companyId, String workSpaceId) throws Exception;
 
-	public abstract User[] getAvailableChatter(String companyId, String userId) throws Exception;
+	public abstract UserInfo[] getAvailableChatter(String companyId, String userId) throws Exception;
 
-	public abstract User[] searchAvailableChatter(String companyId, String userId, String key) throws Exception;
+	public abstract UserInfo[] searchAvailableChatter(String companyId, String userId, String key) throws Exception;
 
-	public abstract User[] searchUser(String companyId, String key) throws Exception;
+	public abstract UserInfo[] searchUser(String companyId, String key) throws Exception;
 
-	public abstract Community[] getMyCommunities(String companyId, String userId) throws Exception;	
+	public abstract CommunityInfo[] getMyCommunities(String companyId, String userId) throws Exception;	
 }

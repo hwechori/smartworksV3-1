@@ -1,13 +1,14 @@
-package net.smartworks.model.instance;
+package net.smartworks.model.instance.info;
 
-public class InstanceList {
+
+public class InstanceInfoList {
 	
 	public static final int TYPE_PROCESS_INSTANCE_LIST = 1;
 	public static final int TYPE_INFORMATION_INSTANCE_LIST = 2;
 	public static final int TYPE_SCHDULE_INSTANCE_LIST = 3;
 	
 	private int type;
-	private InstanceRecord[]	instanceDatas;
+	private InstanceInfo[]	instanceDatas;
 	private int countInPage;
 	private int	totalPages;
 	private int currentPage;
@@ -18,10 +19,10 @@ public class InstanceList {
 	public void setType(int type) {
 		this.type = type;
 	}
-	public InstanceRecord[] getInstanceDatas() {
+	public InstanceInfo[] getInstanceDatas() {
 		return instanceDatas;
 	}
-	public void setInstanceDatas(InstanceRecord[] instanceDatas) {
+	public void setInstanceDatas(InstanceInfo[] instanceDatas) {
 		this.instanceDatas = instanceDatas;
 	}
 	public int getCountInPage() {
@@ -42,7 +43,7 @@ public class InstanceList {
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
-	public InstanceList(){
+	public InstanceInfoList(){
 		super();
 	}
 }

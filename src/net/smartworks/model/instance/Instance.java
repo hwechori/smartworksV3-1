@@ -29,11 +29,12 @@ public class Instance {
 	
 	private String id;
 	private String subject;
-	private int instanceType=-1;
+	private int type=-1;
 	private Work work;
 	private WorkSpace workSpace;
 	private int status=-1;
 	private User owner;
+	private User lastModifier;
 	private LocalDate lastModifiedDate;
 
 	public String getId() {
@@ -48,11 +49,11 @@ public class Instance {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public int getInstanceType() {
-		return instanceType;
+	public int getType() {
+		return type;
 	}
-	public void setInstanceType(int instanceType) {
-		this.instanceType = instanceType;
+	public void setType(int type) {
+		this.type = type;
 	}
 	public Work getWork() {
 		return work;
@@ -81,6 +82,12 @@ public class Instance {
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
+	public User getLastModifier() {
+		return lastModifier;
+	}
+	public void setLastModifier(User lastModifier) {
+		this.lastModifier = lastModifier;
+	}
 	public LocalDate getLastModifiedDate() {
 		return lastModifiedDate;
 	}
@@ -92,14 +99,15 @@ public class Instance {
 		super();
 	}
 
-	public Instance(String id, String subject, int instanceType, User owner,
+	public Instance(String id, String subject, int type, User owner, User lastModifier,
 			LocalDate lastModifiedDate) {
 		super();
 		this.id = id;
 		this.subject = subject;
-		this.instanceType = instanceType;
+		this.type = type;
 		this.workSpace = owner;
 		this.owner = owner;
+		this.lastModifier = lastModifier;
 		this.lastModifiedDate = lastModifiedDate;
 	}
 }

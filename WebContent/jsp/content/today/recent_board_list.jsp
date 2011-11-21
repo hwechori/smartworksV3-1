@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.model.community.info.WorkSpaceInfo"%>
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
+<%@page import="net.smartworks.model.instance.info.BoardInstanceInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -12,15 +15,15 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	BoardInstance[] boards = smartWorks.getBoardInstances(companyId, userId, new LocalDate(), 5);
+	BoardInstanceInfo[] boards = smartWorks.getBoardInstances(companyId, userId, new LocalDate(), 5);
 %>
 <!-- 공지사항 -->
 <div id="notice">
 	<ul>
 		<%
 		if(boards != null){
-			for (BoardInstance board : boards) {
-				User owner = board.getOwner();
+			for (BoardInstanceInfo board : boards) {
+				UserInfo owner = board.getOwner();
 				String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 				String boardContext = ISmartWorks.CONTEXT_PREFIX_BOARD_SPACE + board.getId();
 		%>
@@ -35,7 +38,7 @@
 					class="t_name"><%=owner.getLongName()%></span> </a>
 				<%
 					if (!board.getWorkSpace().getId().equals(owner.getId())) {
-							WorkSpace workSpace = board.getWorkSpace();
+							WorkSpaceInfo workSpace = board.getWorkSpace();
 							String targetContent = null;
 							String commContext = null;
 							if (workSpace.getClass().equals(Group.class)) {

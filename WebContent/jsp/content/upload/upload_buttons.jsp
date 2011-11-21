@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.info.CommunityInfo"%>
 <%@page import="net.smartworks.model.community.Group"%>
 <%@page import="net.smartworks.model.security.AccessPolicy"%>
 <%@page import="net.smartworks.model.community.Department"%>
@@ -22,10 +23,10 @@
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	SmartWork work = (SmartWork)smartWorks.getWorkById(companyId, workId);
+	SmartWork work = (SmartWork)smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	if (work == null)
 		work = new SmartWork();
-	Community[] communities = smartWorks.getMyCommunities(companyId, userId);
+	CommunityInfo[] communities = smartWorks.getMyCommunities(companyId, userId);
 %>
 
 <!-- 등록 취소 버튼 -->
@@ -55,7 +56,7 @@
 				<optgroup
 					label="<fmt:message key="common.upload.space.department"/>">
 					<%
-						for (Community community : communities) {
+						for (CommunityInfo community : communities) {
 							if (community.getClass().equals(Department.class)) {
 					%>
 					<option value="<%=community.getId()%>"><%=community.getName()%></option>
@@ -66,7 +67,7 @@
 				</optgroup>
 				<optgroup label="<fmt:message key="common.upload.space.group"/>">
 					<%
-						for (Community community : communities) {
+						for (CommunityInfo community : communities) {
 							if (community.getClass().equals(Group.class)) {
 					%>
 					<option value="<%=community.getId()%>"><%=community.getName()%></option>

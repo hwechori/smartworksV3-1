@@ -10,17 +10,27 @@ import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
+import net.smartworks.model.community.info.CommunityInfo;
+import net.smartworks.model.community.info.DepartmentInfo;
+import net.smartworks.model.community.info.GroupInfo;
+import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.Instance;
-import net.smartworks.model.instance.InstanceList;
-import net.smartworks.model.instance.ListRequestParams;
 import net.smartworks.model.instance.WorkInstance;
+import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.EventInstanceInfo;
+import net.smartworks.model.instance.info.InstanceInfo;
+import net.smartworks.model.instance.info.InstanceInfoList;
+import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
+import net.smartworks.model.work.info.SmartWorkInfo;
+import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
@@ -75,7 +85,7 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public Department[] getMyDepartments(String companyId, String userId) throws Exception {
+	public DepartmentInfo[] getMyDepartments(String companyId, String userId) throws Exception {
 		return communityService.getMyDepartments(companyId, userId);
 	}
 
@@ -85,7 +95,7 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public Group[] getMyGroups(String companyId, String userId) throws Exception {
+	public GroupInfo[] getMyGroups(String companyId, String userId) throws Exception {
 		return communityService.getMyGroups(companyId, userId);
 	}
 
@@ -105,27 +115,27 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public WorkSpace[] searchCommunity(String companyId, String userId, String key) throws Exception {
+	public WorkSpaceInfo[] searchCommunity(String companyId, String userId, String key) throws Exception {
 		return communityService.searchCommunity(companyId, userId, key);
 	}
 
 	@Override
-	public User[] searchCommunityMember(String companyId, String communityId, String key) throws Exception {
+	public UserInfo[] searchCommunityMember(String companyId, String communityId, String key) throws Exception {
 		return communityService.searchCommunityMember(companyId, communityId, key);
 	}
 
 	@Override
-	public SmartWork[] searchWork(String companyId, String userId, String key) throws Exception {
+	public SmartWorkInfo[] searchWork(String companyId, String userId, String key) throws Exception {
 		return workService.searchWork(companyId, userId, key);
 	}
 
 	@Override
-	public User[] searchUser(String companyId, String key) throws Exception {
+	public UserInfo[] searchUser(String companyId, String key) throws Exception {
 		return communityService.searchUser(companyId, key);
 	}
 
 	@Override
-	public Instance[] searchMyRunningInstance(String companyId, String userId, String key) throws Exception {
+	public InstanceInfo[] searchMyRunningInstance(String companyId, String userId, String key) throws Exception {
 		return instanceService.searchMyRunningInstance(companyId, userId, key);
 	}
 
@@ -135,12 +145,12 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public User[] getAvailableChatter(String companyId, String userId) throws Exception {
+	public UserInfo[] getAvailableChatter(String companyId, String userId) throws Exception {
 		return communityService.getAvailableChatter(companyId, userId);
 	}
 
 	@Override
-	public User[] searchAvailableChatter(String companyId, String userId, String key) throws Exception {
+	public UserInfo[] searchAvailableChatter(String companyId, String userId, String key) throws Exception {
 		return communityService.searchAvailableChatter(companyId, userId, key);
 	}
 
@@ -170,12 +180,12 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public EventInstance[] getEventInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
+	public EventInstanceInfo[] getEventInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
 		return calendarService.getEventInstances(companyId, userId, fromDate, days);
 	}
 
 	@Override
-	public EventInstance[] getEventInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
+	public EventInstanceInfo[] getEventInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
 		return calendarService.getEventInstances(companyId, userId, fromDate, toDate);
 	}
 
@@ -185,48 +195,48 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public EventInstance[] getCompanyEventsByDate(String companyId, LocalDate date, int maxEvents) throws Exception {
+	public EventInstanceInfo[] getCompanyEventsByDate(String companyId, LocalDate date, int maxEvents) throws Exception {
 		return calendarService.getCompanyEventsByDate(companyId, date, maxEvents);
 	}
 
 	@Override
-	public EventInstance[] getMyEventsByDate(String companyId, String userId, LocalDate date, int maxEvents) throws Exception {
+	public EventInstanceInfo[] getMyEventsByDate(String companyId, String userId, LocalDate date, int maxEvents) throws Exception {
 		return calendarService.getMyEventsByDate(companyId, userId, date, maxEvents);
 	}
 
 	@Override
-	public BoardInstance[] getBoardInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
+	public BoardInstanceInfo[] getBoardInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
 		return instanceService.getBoardInstances(companyId, userId, fromDate, days);
 	}
 
 	@Override
-	public BoardInstance[] getBoardInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
+	public BoardInstanceInfo[] getBoardInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
 		return instanceService.getBoardInstances(companyId, userId, fromDate, toDate);
 	}
 
 	@Override
-	public WorkInstance[] getMyRecentInstances(String companyId, String userId) throws Exception {
+	public InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception {
 		return instanceService.getMyRecentInstances(companyId, userId);
 	}
 
 	@Override
-	public SmartWork[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
+	public SmartWorkInfo[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
 		return workService.getMyFavoriteWorks(companyId, userId);
 	}
 
 	@Override
-	public Work[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
+	public WorkInfo[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
 		return workService.getMyAllWorksByCategoryId(companyId, userId, categoryId);
 	}
 
 	@Override
-	public Instance[] getMyRunningInstances(String companyId, String userId) throws Exception {
+	public InstanceInfo[] getMyRunningInstances(String companyId, String userId) throws Exception {
 		return instanceService.getMyRunningInstances(companyId, userId);
 	}
 
 	@Override
-	public Work getWorkById(String companyId, String workId) throws Exception {
-		return workService.getWorkById(companyId, workId);
+	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
+		return workService.getWorkById(companyId, userId, workId);
 	}
 
 	@Override
@@ -235,7 +245,7 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public Community[] getMyCommunities(String companyId, String userId) throws Exception {
+	public CommunityInfo[] getMyCommunities(String companyId, String userId) throws Exception {
 		return communityService.getMyCommunities(companyId, userId);
 	}
 
@@ -279,8 +289,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public InstanceList getWorkInstanceList(String companyId, String workId, ListRequestParams params) throws Exception {
-		return instanceService.getWorkInstanceList(companyId, workId, params);
+	public InstanceInfoList getIWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
+		return instanceService.getIWorkInstanceList(companyId, userId, workId, params);
+	}
+
+	@Override
+	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
+		return instanceService.getPWorkInstanceList(companyId, userId, workId, params);
 	}
 
 /*	@Override

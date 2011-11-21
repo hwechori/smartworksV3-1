@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.work.*"%>
@@ -6,7 +7,7 @@
 	String userId = (String) session.getAttribute("userId");
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	SmartWork[] works = smartWorks.getMyFavoriteWorks(companyId, userId);
+	SmartWorkInfo[] works = smartWorks.getMyFavoriteWorks(companyId, userId);
 	String iconType = null;
 	String classType = "js_content";
 	String workContext = null;
@@ -16,7 +17,7 @@
 <ul>
 	<%
 		if (works != null) {
-			for (SmartWork work : works) {
+			for (SmartWorkInfo work : works) {
 				if (work.getType() == SmartWork.TYPE_PROCESS) {
 					iconType = "ico_pworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();

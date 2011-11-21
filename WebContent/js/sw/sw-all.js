@@ -225,7 +225,7 @@ $(function() {
 					url : url,
 					data : {},
 					success : function(data, status, jqXHR) {
-						target.html(data).show();
+						target.html(data).slideDown(500);
 					}
 				});
 				return false;
@@ -331,11 +331,20 @@ $(function() {
 				}
 			});
 
-	$('a.js_view_iwork_manual').live('click', function(e){
+	$('a.js_view_work_manual').live('click', function(e){
 		var input = $(e.target);
-		input.parents("div.contents_space:first").siblings('#iwork_manual').toggle();
+		input.parents("div.contents_space:first").siblings('#work_manual').slideToggle(500);
 		input.hide();
 		input.siblings().show();
+		return false;
+	});
+
+	$('a.js_select_task_manual').live('click', function(e){
+		var input = $(e.target).parents('a.js_select_task_manual:first');
+		var target = $("#"+input.attr("taskId"));
+		var target_point = $(target).find("div.up_point:first");
+		target_point.css({"left": (input.position().left + 20) + "px"});
+		$(target).show().siblings('div.js_task_manual').hide();
 		return false;
 	});
 

@@ -8,6 +8,8 @@ public class User extends WorkSpace {
 	public static final int USER_LEVEL_SYSMANAGER = 3;
 	public static final int USER_LEVEL_DEFAULT = USER_LEVEL_INTERNAL_USER;
 	
+	private static final String NO_USER_PRICTURE_NAME = "pic_no_userpicture";
+	
 	private int	userLevel = USER_LEVEL_DEFAULT;
 	private String 	position;
 	private String 	locale;
@@ -59,5 +61,15 @@ public class User extends WorkSpace {
 	}
 	public User(String id, String name){
 		super(id, name);
+	}
+
+	public static String getOrgNoPicture(){
+		return Community.PICTURE_PATH + NO_USER_PRICTURE_NAME + ".jpg";
+	}
+	public static String getMidNoPicture(){
+		return Community.PICTURE_PATH + NO_USER_PRICTURE_NAME + "_mid.jpg";
+	}
+	public static String getMinNoPicture(){
+		return Community.PICTURE_PATH + NO_USER_PRICTURE_NAME + "_min.jpg";		
 	}
 }
