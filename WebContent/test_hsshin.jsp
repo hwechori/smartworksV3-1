@@ -127,7 +127,7 @@
 		}
 	} */
 
-	SmartWork smartWork = (SmartWork) smartworks.getWorkById("Maninsoft", "hsshin@maninsoft.co.kr", "pkg_265abe124f0d4349b7e298f90f98c9fc");
+	SmartWork smartWork = (SmartWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
 
 	System.out.println(smartWork.getFullpathName());
 %>
