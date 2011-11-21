@@ -9,7 +9,7 @@
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
 	if (wid == null)
-		wid = SmartUtil.getCurrentUser().getId();
+		wid = SmartUtil.getCurrentUser(request).getId();
 %>
 
 

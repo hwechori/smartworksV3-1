@@ -41,7 +41,7 @@
 					instanceContext = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
 					targetContent = "swork_space.sw";
 				}
-				if (workSpaceId != null && !workSpaceId.equals(SmartUtil.getCurrentUser().getId())) {
+				if (workSpaceId != null && !workSpaceId.equals(SmartUtil.getCurrentUser(request).getId())) {
 					classType = "";
 				} else {
 					classType = "js_content";

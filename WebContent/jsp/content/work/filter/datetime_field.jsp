@@ -19,7 +19,7 @@
 	String operandValue = request.getParameter("operandValue");
 	String operandValueSecond = request.getParameter("operandValueSecond");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser();
+	User cUser = SmartUtil.getCurrentUser(request);
 	LocalDate date = new LocalDate();
 	String today = date.toLocalDateSimpleString();
 	String curTime = date.toLocalTimeShortString();

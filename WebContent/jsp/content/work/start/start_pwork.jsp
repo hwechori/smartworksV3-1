@@ -37,7 +37,7 @@
 	String userId = (String) session.getAttribute("userId");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
-	User cUser = SmartUtil.getCurrentUser();
+	User cUser = SmartUtil.getCurrentUser(request);
 
 	Work work = smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	SmartWork cWork = null;

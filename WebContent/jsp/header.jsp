@@ -9,7 +9,7 @@
 	String userId = (String) session.getAttribute("userId");
 	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User currentUser = SmartUtil.getCurrentUser();
+	User currentUser = SmartUtil.getCurrentUser(request);
 	Notice[] notices = smartWorks.getNoticesForMe(companyId, userId);
 	String cid = request.getParameter("cid");
 	if (cid == null)
@@ -17,7 +17,7 @@
 	String wid = request.getParameter("wid");
 	if (wid == null)
 
-		wid = SmartUtil.getCurrentUser().getId();
+		wid = SmartUtil.getCurrentUser(request).getId();
 %>
 
 <div>

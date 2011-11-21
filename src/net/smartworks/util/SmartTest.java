@@ -335,7 +335,7 @@ public class SmartTest {
 	}
 
 	public static Group getGroup3() throws Exception {
-		return new Group("group3", "금성출판사 그룹웨어 프로젝트", new UserInfo[] { getUserInfo2() }, SmartUtil.getCurrentUser());
+		return new Group("group3", "금성출판사 그룹웨어 프로젝트", new UserInfo[] { getUserInfo2() }, SmartUtil.getCurrentUserOld());
 	}
 
 	public static GroupInfo getGroupInfo1() throws Exception {
@@ -391,7 +391,7 @@ public class SmartTest {
 	}
 
 	public static Department getDepartment1() throws Exception {
-		return new Department("depart1", "(주)맨인소프트", new UserInfo[] { getUserInfo1(), getUserInfo3() }, SmartUtil.getCurrentUser());
+		return new Department("depart1", "(주)맨인소프트", new UserInfo[] { getUserInfo1(), getUserInfo3() }, SmartUtil.getCurrentUserOld());
 	}
 
 	public static Department getDepartment2() throws Exception {
@@ -403,7 +403,7 @@ public class SmartTest {
 	}
 
 	public static Department getDepartment4() throws Exception {
-		return new Department("depart4", "기술사업본부", new UserInfo[] { getUserInfo1(), getUserInfo3() }, SmartUtil.getCurrentUser());
+		return new Department("depart4", "기술사업본부", new UserInfo[] { getUserInfo1(), getUserInfo3() }, SmartUtil.getCurrentUserOld());
 	}
 
 	public static DepartmentInfo getDepartmentInfo1() throws Exception {
@@ -423,7 +423,7 @@ public class SmartTest {
 	}
 
 	public static EventInstance getEventInstance1() throws Exception {
-		EventInstance event = new EventInstance("event1", "한라공조 협력업체 설명회", new Work("work1", "개인일정"), SmartUtil.getCurrentUser(), new LocalDate(LocalDate.convertStringToTime("201111051600")));
+		EventInstance event = new EventInstance("event1", "한라공조 협력업체 설명회", new Work("work1", "개인일정"), SmartUtil.getCurrentUserOld(), new LocalDate(LocalDate.convertStringToTime("201111051600")));
 		event.setStart(new LocalDate(LocalDate.convertStringToTime("201111061600")));
 		event.setEnd(new LocalDate(LocalDate.convertStringToTime("201111061800")));
 		return event;
@@ -440,7 +440,7 @@ public class SmartTest {
 		TaskInstance taskInstance = new TaskInstance("taskInstance1", "대표이사승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, getUser2(), getUser2(), new LocalDate(LocalDate.convertStringToTime("201110051600")));
 		taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
 		taskInstance.setWorkInstance(getWorkInstance1());
-		taskInstance.setAssignee(SmartUtil.getCurrentUser());
+		taskInstance.setAssignee(SmartUtil.getCurrentUserOld());
 		return taskInstance;
 	}
 
@@ -472,7 +472,7 @@ public class SmartTest {
 		TaskInstance taskInstance = new TaskInstance("taskInstance11", "주간회의 회의록 작성하여 주시기 바랍니다.", TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED, getUser2(), getUser2(), new LocalDate(LocalDate.convertStringToTime("201110250900")));
 		taskInstance.setStatus(Instance.STATUS_DELAYED_RUNNING);
 		taskInstance.setWorkInstance(getWorkInstance1());
-		taskInstance.setAssignee(SmartUtil.getCurrentUser());
+		taskInstance.setAssignee(SmartUtil.getCurrentUserOld());
 		return taskInstance;
 	}
 
@@ -488,7 +488,7 @@ public class SmartTest {
 		TaskInstance taskInstance = new TaskInstance("taskInstance13", "제품개발 스토리보드 작성업무", TaskInstance.TYPE_SCHEDULE_TASK_ASSIGNED, getUser2(), getUser2(), new LocalDate(LocalDate.convertStringToTime("201110252100")));
 		taskInstance.setStatus(Instance.STATUS_DELAYED_RUNNING);
 		taskInstance.setWorkInstance(getWorkInstance1());
-		taskInstance.setAssignee(SmartUtil.getCurrentUser());
+		taskInstance.setAssignee(SmartUtil.getCurrentUserOld());
 		return taskInstance;
 	}
 
@@ -504,7 +504,7 @@ public class SmartTest {
 		TaskInstance taskInstance = new TaskInstance("taskInstance13", "신규사업기획서 품의", TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED, getUser2(), getUser2(), new LocalDate(LocalDate.convertStringToTime("201110251600")));
 		taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
 		taskInstance.setWorkInstance(getWorkInstance1());
-		taskInstance.setAssignee(SmartUtil.getCurrentUser());
+		taskInstance.setAssignee(SmartUtil.getCurrentUserOld());
 		return taskInstance;
 	}
 
@@ -919,13 +919,13 @@ public class SmartTest {
 	}
 
 	public static User getUserById(String userId) throws Exception {
-		if (SmartUtil.getCurrentUser().getId().equals(userId))
-			return SmartUtil.getCurrentUser();
+		if (SmartUtil.getCurrentUserOld().getId().equals(userId))
+			return SmartUtil.getCurrentUserOld();
 		else if (SmartTest.getUser1().getId().equals(userId))
 			return SmartTest.getUser1();
 		else if (SmartTest.getUser2().getId().equals(userId))
 			return SmartTest.getUser2();
-		return SmartUtil.getCurrentUser();
+		return SmartUtil.getCurrentUserOld();
 	}
 
 	public static WorkSpaceInfo[] searchCommunity() throws Exception {
@@ -960,8 +960,8 @@ public class SmartTest {
 			return SmartTest.getUser2();
 		if (SmartTest.getUser3().getId().equals(workSpaceId))
 			return SmartTest.getUser3();
-		if (SmartUtil.getCurrentUser().getId().equals(workSpaceId))
-			return SmartUtil.getCurrentUser();
+		if (SmartUtil.getCurrentUserOld().getId().equals(workSpaceId))
+			return SmartUtil.getCurrentUserOld();
 
 		return workSpace;
 	}

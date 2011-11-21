@@ -13,7 +13,7 @@
 	String userId = (String) session.getAttribute("userId");
 	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser();
+	User cUser = SmartUtil.getCurrentUser(request);
 
 	BoardInstanceInfo[] boards = smartWorks.getBoardInstances(companyId, userId, new LocalDate(), 5);
 %>

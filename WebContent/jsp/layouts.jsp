@@ -12,11 +12,6 @@
 
 <!-- For Development Purpose -->
 <%
-	if(session.getAttribute("companyId")==null || session.getAttribute("userId")==null){
-		session.setAttribute("companyId", "Semiteq");
-		session.setAttribute("userId", "kmyu@maninsoft.co.kr");
-	}
-	
 	String companyId = (String)session.getAttribute("companyId");
 	String userId = (String)session.getAttribute("userId");
 	String cid = (String)session.getAttribute("cid");
@@ -27,7 +22,8 @@
 %>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User currentUser = SmartUtil.getCurrentUser();
+	//User currentUser = SmartUtil.getCurrentUser(request);
+	User currentUser = SmartUtil.getCurrentUser(request);
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

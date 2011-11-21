@@ -140,7 +140,7 @@ public class WorkServiceImpl implements IWorkService {
 			int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
 			int pkgPkgsSize = workPkgs == null? 0 : workPkgs.length;
 			
-			WorkInfo[] resultWork = new WorkInfo[workCtgsSize + pkgPkgsSize + /* UI test*/ 2];
+			WorkInfo[] resultWork = new WorkInfo[workCtgsSize + pkgPkgsSize +  /*UI test*/ 2];
 			
 			//System.arraycopy(workCtgs, 0, resultWork, 0, workCtgsSize);  
 			//System.arraycopy(pkgPkgs, 0, resultWork, workCtgsSize, pkgPkgsSize);
@@ -162,6 +162,7 @@ public class WorkServiceImpl implements IWorkService {
 
 			return resultWork;
 		}
+
 	}
 
 	@Override

@@ -76,8 +76,8 @@ public class InstanceServiceImpl implements IInstanceService {
 	 */
 	@Override
 	public InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception {
-		
-		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+	 return SmartTest.getMyRecentInstances();	
+/*		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 			return null;
 
 		TskTaskCond taskCond = new TskTaskCond();
@@ -116,7 +116,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		InstanceInfo[] instInfo = ModelConverter.prcInstToInstInfo(prcInsts);
 		
 		return instInfo;
-		
+*/		
 	}
 
 	@Override

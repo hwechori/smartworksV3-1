@@ -209,7 +209,7 @@ public class SmartUtil {
 	/* (non-Javadoc)
 	 * @see net.smartworks.service.impl.ISmartWorks#getCurrentUser()
 	 */
-	public static User getCurrentUser() throws Exception {
+	public static User getCurrentUserOld() throws Exception {
 		User user = new User();
 		user.setId("jisook@maninsoft.co.kr");
 		user.setName("김지숙");
@@ -226,7 +226,7 @@ public class SmartUtil {
 		return user;
 	}
 
-	public static User getCurrentUser2(HttpServletRequest request) throws Exception {
+	public static User getCurrentUser(HttpServletRequest request) throws Exception {
 
 		SwoUserCond swoUserCond = new SwoUserCond();
 		swoUserCond.setId((String)request.getSession().getAttribute("userId"));

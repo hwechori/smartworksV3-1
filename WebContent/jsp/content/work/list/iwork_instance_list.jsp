@@ -30,7 +30,7 @@
 	params.setCountInPage(20);
 	params.setPageNumber(2);
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser();
+	User cUser = SmartUtil.getCurrentUser(request);
 	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	InstanceInfoList instanceList = smartWorks.getIWorkInstanceList(companyId, cUser.getId(), workId, params);
 %>

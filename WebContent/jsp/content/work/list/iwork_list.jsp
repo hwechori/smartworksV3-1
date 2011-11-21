@@ -21,7 +21,7 @@
 	String wid = request.getParameter("wid");
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser();
+	User cUser = SmartUtil.getCurrentUser(request);
 	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

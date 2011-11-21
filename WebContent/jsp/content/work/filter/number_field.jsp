@@ -12,7 +12,7 @@
 	String operator = request.getParameter("operator");
 	String operandValue = request.getParameter("operandValue");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser();
+	User cUser = SmartUtil.getCurrentUser(request);
 	KeyMap[] numberOpers = ConditionOperator.numberOperators;
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

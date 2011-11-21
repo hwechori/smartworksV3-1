@@ -14,7 +14,7 @@
 	String userId = (String) session.getAttribute("userId");
 	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User currentUser = SmartUtil.getCurrentUser();
+	User currentUser = SmartUtil.getCurrentUser(request);
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

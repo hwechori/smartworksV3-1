@@ -9,7 +9,7 @@
 	String userId = (String) session.getAttribute("userId");
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser();
+	User cUser = SmartUtil.getCurrentUser(request);
 	String cid = request.getParameter("cid");
 	if (cid == null)
 		cid = ISmartWorks.CONTEXT_HOME;
