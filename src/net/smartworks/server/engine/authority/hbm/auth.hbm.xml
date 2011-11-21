@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.authority.model" default-lazy="false">
+	<class name="SwaResource" table="SWAuthResource">
+		<id name="objId" column="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="resourceId" type="string" length="50"/>
+		<property name="type" type="int"/>
+		<property name="mode" column="mode" type="string" length="1"/>
+		<property name="permission" type="string" length="20"/>
+		<property name="companyId" type="string" length="50"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+	<class name="SwaUser" table="SWAuthUser">
+		<id name="objId" column="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="resourceId" type="string" length="50"/>
+		<property name="type" type="string" length="20"/>
+		<property name="mode" column="mode" type="string" length="1"/>
+		<property name="userId" type="string" length="50"/>
+		<property name="companyId" type="string" length="50"/>
+	</class>
+</hibernate-mapping>

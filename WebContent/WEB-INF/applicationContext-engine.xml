@@ -64,6 +64,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="swfManager" ref="swfManager"/>
 		<beans:property name="swoManager" ref="swoManager"/>
 		<beans:property name="docManager" ref="docManager"/>
+		<beans:property name="swaManager" ref="swaManager"/>
 		<beans:property name="itmManager" ref="itmManager"/>
 		<!-- beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="lcsManager" ref="lcsManager"/>

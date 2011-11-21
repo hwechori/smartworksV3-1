@@ -225,8 +225,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public Work getWorkById(String companyId, String workId) throws Exception {
-		return workService.getWorkById(companyId, workId);
+	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
+		return workService.getWorkById(companyId, userId, workId);
 	}
 
 	@Override

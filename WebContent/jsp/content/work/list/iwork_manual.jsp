@@ -21,7 +21,7 @@
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
-	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, workId);
+	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	CommentInstance[] comments = smartWorks.getRecentCommentsInWorkManual(companyId, workId, 3);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -51,13 +51,9 @@
 	<div class="solid_line_s"></div>
 	<!-- 업무 설명 영역 //-->
 
-   <!-- 댓글 -->
-   <div class="replay_point posit_default"></div>
-   <div class="replay_section">
-   
-        <div class="list_replay">
-            <ul>
-            <li class="repl_tinfo"><a href=""><strong>7</strong>개의 댓글 모두 보기</a></li>
+	<!-- 댓글 -->
+	<div class="list_replay">
+		<ul>
 			<%
 				if (comments != null) {
 					for (CommentInstance comment : comments) {
@@ -65,11 +61,11 @@
 			%>
 			<li>
 				<div class="noti_pic">
-					<img src="<%=commentor.getMinPicture()%>" align="bottom" />
+					<img src="<%=commentor.getMidPicture()%>" align="bottom" />
 				</div>
 				<div class="noti_in">
-					<span class="t_name"><%=commentor.getLongName()%></span><span
-						class="t_date"><%=comment.getLastModifiedDate().toLocalString()%></span>
+					<span class="t_name"><%=commentor.getLongName()%></span><<span
+						class="t_date"><%=comment.getLastModifiedDate()%></span>
 					<div><%=comment.getComment()%></div>
 				</div></li>
 			<%
@@ -77,17 +73,16 @@
 				}
 			%>
 		</ul>
-        </div>
-        
-        <div class="replay_input">
+	</div>
+
+	<div class="list_replay">
 		<textarea class="up_textarea" rows="5" cols="" name="txtaEventContent"
 			placeholder="<fmt:message key='work.message.leave_question'/>">
 			<fmt:message key='work.message.leave_question' />
 		</textarea>
-        </div>
-    
-    </div>
-    <!-- 댓글 //-->
+	</div>
+
+	<!-- 댓글 //-->
 
 	<!-- 라인 -->
 	<div class="solid_line_s"></div>
