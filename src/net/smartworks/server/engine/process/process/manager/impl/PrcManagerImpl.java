@@ -83,7 +83,7 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				buf.append(" name=:name, creationUser=:creationUser, creationDate=:creationDate");
 				buf.append(", modificationUser=:modificationUser, modificationDate=:modificationDate");
 				buf.append(", description=:description");
-				buf.append(", status=:status, title=:title, type=:type, packageId=:packageId, priority=:priority");
+				buf.append(", status=:status, title=:title, priority=:priority");
 				buf.append(", diagramId=:diagramId, diagramVersion=:diagramVersion");
 				buf.append(", processId=:processId, diagram=:diagram, isSubInstance=:isSubInstance");
 				buf.append(", instVariable=:instVariable");
@@ -98,8 +98,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				query.setString(MisObject.A_DESCRIPTION, obj.getDescription());
 				query.setString(MisObject.A_STATUS, obj.getStatus());
 				query.setString(PrcProcessInst.A_TITLE, obj.getTitle());
-				query.setString(PrcProcessInst.A_TYPE, obj.getType());
-				query.setString(PrcProcessInst.A_PACKAGEID, obj.getPackageId());
 				query.setString(PrcProcessInst.A_PRIORITY, obj.getPriority());
 				query.setString(PrcProcessInst.A_DIAGRAMID, obj.getDiagramId());
 				query.setString(PrcProcessInst.A_DIAGRAMVERSION, obj.getDiagramVersion());
@@ -137,8 +135,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		String status = null;
 		String title = null;
 		String titleLike = null;
-		String type = null;
-		String packageId = null;
 		String priority = null;
 		String diagramId = null;
 		String diagramVersion = null;
@@ -148,7 +144,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		Property[] extProps = null;
 		String[] priorityIns = null;
 		String[] priorityNotIns = null;
-		String[] objIdIns = null;
 		String searchKey = null;
 		Filter[] filters = null;
 		String logicalOperator = null;
@@ -163,8 +158,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			status = cond.getStatus();
 			title = cond.getTitle();
 			titleLike = cond.getTitleLike();
-			type = cond.getType();
-			packageId = cond.getPackageId();
 			priority = cond.getPriority();
 			diagramId = cond.getDiagramId();
 			diagramVersion = cond.getDiagramVersion();
@@ -174,7 +167,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			extProps = cond.getExtendedProperties();
 			priorityIns = cond.getPriorityIns();
 			priorityNotIns = cond.getPriorityNotIns();
-			objIdIns = cond.getObjIdIns();
 			searchKey = cond.getSearchKey();
 			filters = cond.getFilter();
 			logicalOperator = cond.getOperator();
@@ -208,10 +200,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				buf.append(" and obj.title = :title");
 			if (titleLike != null)
 				buf.append(" and obj.title like :titleLike");
-			if (type != null)
-				buf.append(" and obj.type = :type");
-			if (packageId != null)
-				buf.append(" and obj.packageId = :packageId");
 			if (priority != null)
 				buf.append(" and obj.priority = :priority");
 			if (diagramId != null)
@@ -241,15 +229,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 					if (i != 0)
 						buf.append(", ");
 					buf.append(":priorityIn").append(i);
-				}
-				buf.append(")");
-			}
-			if (objIdIns != null && objIdIns.length != 0) {
-				buf.append(" and obj.objId in (");
-				for (int i=0; i<objIdIns.length; i++) {
-					if (i != 0)
-						buf.append(", ");
-					buf.append(":objIdIn").append(i);
 				}
 				buf.append(")");
 			}
@@ -361,10 +340,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				query.setString("status", status);
 			if (title != null)
 				query.setString("title", title);
-			if (type != null)
-				query.setString("type", type);
-			if (packageId != null)
-				query.setString("packageId", packageId);
 			if (titleLike != null)
 				query.setString("titleLike", CommonUtil.toLikeString(titleLike));
 			if (priority != null)
@@ -393,11 +368,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			if (priorityIns != null && priorityIns.length != 0) {
 				for (int i=0; i<priorityIns.length; i++) {
 					query.setString("priorityIn"+i, priorityIns[i]);
-				}
-			}
-			if (objIdIns != null && objIdIns.length != 0) {
-				for (int i=0; i<objIdIns.length; i++) {
-					query.setString("objIdIn"+i, objIdIns[i]);
 				}
 			}
 			if (priorityNotIns != null && priorityNotIns.length != 0) {
@@ -478,7 +448,7 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				buf.append(" obj");
 			} else {
 				buf.append(" obj.objId, obj.name, obj.creationUser, obj.creationDate, obj.modificationUser, obj.modificationDate");
-				buf.append(", obj.status, obj.title, obj.type, obj.packageId, obj.priority");
+				buf.append(", obj.status, obj.title, obj.priority");
 				buf.append(", obj.diagramId, obj.diagramVersion, obj.processId, obj.diagram, obj.isSubInstance");
 				buf.append(", obj.instVariable");
 				//buf.append(", obj.companyId");
@@ -501,8 +471,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 					obj.setModificationDate(((Timestamp)fields[j++]));
 					obj.setStatus(((String)fields[j++]));
 					obj.setTitle(((String)fields[j++]));
-					obj.setType(((String)fields[j++]));
-					obj.setPackageId(((String)fields[j++]));
 					obj.setPriority(((String)fields[j++]));
 					obj.setDiagramId(((String)fields[j++]));
 					obj.setDiagramVersion(((String)fields[j++]));

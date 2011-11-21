@@ -19,7 +19,6 @@ import net.smartworks.server.engine.infowork.domain.model.SwdDataRef;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataRefCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
-import net.smartworks.server.engine.infowork.domain.model.SwdDomainFieldView;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
@@ -90,7 +89,5 @@ public interface ISwdManager extends IManager {
 	
 	public List<String> getDomainTableColumnNameList(String user, String table) throws SwdException;
 	public void addTableColumn(String user, String table, String columnName, String type) throws SwdException;
-
-	public List<SwdDomainFieldView> findDomainFieldViewList(String formId) throws SwdException;
 
 }

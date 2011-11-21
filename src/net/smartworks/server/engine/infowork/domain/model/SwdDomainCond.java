@@ -22,7 +22,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SwdDomainCond extends ClassObjectCond {
+public class SwdDomainCond extends ClassObjectCond 
+{
 
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(SwdDomainCond.class);

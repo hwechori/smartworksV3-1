@@ -71,7 +71,7 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 				set(obj);
 			} else {
 				StringBuffer buf = new StringBuffer();
-				buf.append("update Board set ");
+				buf.append("update SWBBoard set ");
 				buf.append(" title=:title, content=:content, fileGroupId=:fileGroupId,");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser, modificationUser=:modificationUser,");
 				buf.append(" modificationDate=:modificationDate where objId=:objId");
@@ -135,7 +135,7 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 				modificationUser = cond.getModificationUser();
 				modificationDate = cond.getModificationDate();
 			}
-			buf.append(" from Board obj");
+			buf.append(" from SWBBoard obj");
 			buf.append(" where obj.objId is not null");
 			//TODO 시간 검색에 대한 확인 필요
 			if (cond != null) {

@@ -17,19 +17,13 @@ import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.SmartUtil;
-import net.smartworks.server.engine.common.util.XmlUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.form.exception.SwfException;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
-import net.smartworks.server.engine.infowork.form.model.SwfFormContent;
-import net.smartworks.server.engine.infowork.form.model.SwfFormDef;
-import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
-import net.smartworks.server.engine.infowork.form.model.SwfFormModel;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
 
 public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 
@@ -170,29 +164,28 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 		}
 	}
 
-	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException, Exception {
+/*	public List<IFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException {
 
 		// 폼 아이디로 가장 최근 버전의
 		Session session = this.getSession();
-		StringBuffer hql = new StringBuffer("from SwfFormContent where formId = :formId and version = (");
-		hql.append("select max(version) from SwfFormContent where formId = :formId");
+		StringBuffer hql = new StringBuffer("from SWForm where formId = :formId and version = (");
+		hql.append("select max(version) from HbFormContent where formId = :formId");
 		// 배포된 폼만 검색하기를 원할 경우
 		if (deployedCondition)
-			hql.append(" and status = '").append(SwfFormModel.STATUS_DEPLOYED).append("'");
+			hql.append(" and status = '").append(IFormModel.STATUS_DEPLOYED).append("'");
 		hql.append(")");
 
 		Query query = session.createQuery(hql.toString());
 		query.setString("formId", formId);
-		SwfFormContent formContent = (SwfFormContent) query.uniqueResult();
+		IFormContent formContent = (IFormContent) query.uniqueResult();
 		if (formContent == null || formContent.getContent() == null)
-			return new ArrayList<SwfFormFieldDef>();
+			return new ArrayList<IFormFieldDef>();
 
-		List<SwfFormFieldDef> result = new ArrayList<SwfFormFieldDef>();
-		SwfFormDef formDef = new SwfFormDef();
-		formDef = XmlUtil.xmlToForm(formContent.getContent());
-		for (Iterator<SwfFormFieldDef> fieldDefIt = formDef.getFormFieldMap().values().iterator(); fieldDefIt.hasNext();)
+		List<IFormFieldDef> result = new ArrayList<IFormFieldDef>();
+		IFormDef formDef = SmartServerModelUtil.xmlToForm(formContent.getContent());
+		for (Iterator<IFormFieldDef> fieldDefIt = formDef.getFormFieldMap().values().iterator(); fieldDefIt.hasNext();)
 			result.add(fieldDefIt.next());
 		return result;
-	}
+	}*/
 
 }

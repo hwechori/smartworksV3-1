@@ -9,7 +9,6 @@
 package net.smartworks.server.engine.factory;
 
 //import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
-import net.smartworks.server.engine.authority.manager.ISwaManager;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
@@ -46,7 +45,6 @@ public class SwManagerFactory {
 	private IPkgManager pkgManager;
 	private ICtgManager ctgManager;
 	private IDocFileManager docManager;
-	private ISwaManager swaManager;
 	private IItmManager itmManager;
 //	private IChtManager chtManager;
 //	private IMdlManager mdlManager;
@@ -54,18 +52,6 @@ public class SwManagerFactory {
 //	private IUpdManager updManager;
 	//private IRepManager repManager;
 
-	public ISwaManager getSwaManager() {
-		return swaManager;
-	}
-	public void setSwaManager(ISwaManager swaManager) {
-		this.swaManager = swaManager;
-	}
-	public IDocFileManager getDocManager() {
-		return docManager;
-	}
-	public void setDocManager(IDocFileManager docManager) {
-		this.docManager = docManager;
-	}
 	public SwManagerFactory() {
 		super();
 		if (logger.isInfoEnabled())
@@ -157,7 +143,13 @@ public class SwManagerFactory {
 	public void setItmManager(IItmManager itmManager) {
 		this.itmManager = itmManager;
 	}
-
+	public IDocFileManager getDocManager() {
+		return docManager;
+	}
+	public void setDocManager(IDocFileManager docManager) {
+		this.docManager = docManager;
+	}
+	
 //	public IChtManager getChtManager() {
 //		return chtManager;
 //	}

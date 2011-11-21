@@ -25,7 +25,6 @@ import net.smartworks.server.engine.organization.model.SwoTeam;
 import net.smartworks.server.engine.organization.model.SwoTeamCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserCond;
-import net.smartworks.server.engine.organization.model.SwoUserExtend;
 
 public interface ISwoManager {
 
@@ -111,10 +110,6 @@ public interface ISwoManager {
 	public SwoUser[] getSearchUsers(String userId, SwoUserCond cond, String level) throws SwoException;
 
 	public SwoUser[] getUsers(String userId, SwoUserCond cond, String level) throws SwoException;
-	
-	public SwoUserExtend getUserExtend(String userId, String id) throws SwoException;
-	
-	public SwoUserExtend[] getUsersExtend(String userId, String[] ids) throws SwoException;
 
 	public String getDefaultLogo() throws SwoException;
 
@@ -157,7 +152,5 @@ public interface ISwoManager {
 	public SwoTeam[] getTeams(String user, SwoTeamCond cond, String level) throws SwoException;
 
 	public List getOrganization(String deptId) throws SwoException;
-
-	public String getUserDispName(String userId) throws SwoException;
 
 }

@@ -71,7 +71,7 @@ public class MemoManagerImpl extends AbstractManager implements IMemoManager {
 				set(obj);
 			} else {
 				StringBuffer buf = new StringBuffer();
-				buf.append("update Memo set ");
+				buf.append("update SWBMemo set ");
 				buf.append(" title=:title, content=:content,");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser, modificationUser=:modificationUser,");
 				buf.append(" modificationDate=:modificationDate where objId=:objId");
@@ -132,7 +132,7 @@ public class MemoManagerImpl extends AbstractManager implements IMemoManager {
 				modificationUser = cond.getModificationUser();
 				modificationDate = cond.getModificationDate();
 			}
-			buf.append(" from Memo obj");
+			buf.append(" from SWBMemo obj");
 			buf.append(" where obj.objId is not null");
 			//TODO 시간 검색에 대한 확인 필요
 			if (cond != null) {

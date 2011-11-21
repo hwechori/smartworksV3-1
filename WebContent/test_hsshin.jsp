@@ -1,8 +1,3 @@
-<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
-<%@page import="net.smartworks.model.work.SmartWork"%>
-<%@page import="net.smartworks.model.work.FormField"%>
-<%@page import="net.smartworks.model.work.InformationWork"%>
-<%@page import="net.smartworks.service.ISmartWorks"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="net.smartworks.server.engine.factory.SwManagerFactory"%>
@@ -55,7 +50,7 @@
 	
 	mgr.deploy("hsshin@maninsoft.co.kr", xpdl, null); */
 	
-/* 	ISwfManager swfMgr = (ISwfManager)SmartUtil.getBean("swfManager", request);
+	ISwfManager swfMgr = (ISwfManager)SmartUtil.getBean("swfManager", request);
 
 	SwfForm swfForm = swfMgr.getForm("hsshin@maninsoft.co.kr", "frm_3dbf6b88c28346a181172db0828a4bd4");
 
@@ -110,9 +105,10 @@
 
 	SmartWork smartWork = (SmartWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
 	System.out.println(smartWork.getFullpathName());
+	}
 %>
 <textarea style="width:800px;height:400px;">
-
+<%=swfForm %>
 </textarea>
 </body>
 </html>
