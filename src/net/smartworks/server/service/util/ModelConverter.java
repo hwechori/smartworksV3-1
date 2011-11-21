@@ -20,7 +20,6 @@ import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
-import net.smartworks.model.work.WorkCategory;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
@@ -149,6 +148,7 @@ public class ModelConverter {
 		String ctgName = ctg.getName();
 			
 		WorkCategoryInfo workCtg = new WorkCategoryInfo(ctgId, ctgName);
+		
 		return workCtg;
 	}
 	public static WorkCategoryInfo[] getWorkCategoryInfoArrayByCtgArray(CtgCategory[] argCtgs) throws Exception {
@@ -166,7 +166,7 @@ public class ModelConverter {
 		return workCtgs;
 	}
 	public static Map<String, WorkCategoryInfo> getPkgCtgInfoMapByPackageId(PkgPackage pkg) throws Exception {
-	
+		
 		String categoryId = pkg.getCategoryId();
 		if (CommonUtil.isEmpty(categoryId) || categoryId.equalsIgnoreCase(CtgCategory.ROOTCTGID))
 			return null;

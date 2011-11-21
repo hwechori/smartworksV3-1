@@ -12,6 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.community.User;
 import net.smartworks.model.work.SmartWork;
+import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.organization.model.SwoDepartment;
+import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
+import net.smartworks.server.engine.organization.model.SwoUser;
+import net.smartworks.server.engine.organization.model.SwoUserCond;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
 

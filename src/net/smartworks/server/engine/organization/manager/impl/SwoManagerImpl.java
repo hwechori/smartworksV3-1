@@ -11,8 +11,10 @@ package net.smartworks.server.engine.organization.manager.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
@@ -35,10 +37,13 @@ import net.smartworks.server.engine.organization.model.SwoTeam;
 import net.smartworks.server.engine.organization.model.SwoTeamCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserCond;
+import net.smartworks.server.engine.organization.model.SwoUserExtend;
 
 import org.hibernate.Query;
 
 public class SwoManagerImpl extends AbstractManager implements ISwoManager {
+
+	private Map<String, SwoUser> userCache = new Hashtable<String, SwoUser>();
 
 	public SwoManagerImpl() {
 		super();
@@ -1394,6 +1399,75 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	
+	
+	public SwoUserExtend getUserExtend(String userId, String id) throws SwoException {
+		StringBuffer buff = new StringBuffer();
+		
+		buff.append("select new net.smartworks.server.engine.organization.model.SwoUserExtend( ");
+		buff.append(" user.id,  user.name, user.companyId,  company.name, ");
+		buff.append(" user.deptId, dept.name,  user.lang, ");
+		buff.append(" user.picture,  user.picture, user.position, ");
+		buff.append(" user.stdTime,  user.authId");
+		buff.append(" )");
+		buff.append(" from SwoUser user, SwoDepartment dept, SwoCompany company ");
+		buff.append(" where user.deptId = dept.id");
+		buff.append(" and user.companyId = company.id");
+		buff.append(" and user.id = :id");
+		
+		Query query = this.getSession().createQuery(buff.toString());
+		
+		query.setString("id", id);
+
+		SwoUserExtend userExtend = (SwoUserExtend)query.uniqueResult();
+		
+		return userExtend;
+	}
+	public SwoUserExtend[] getUsersExtend(String userId, String[] ids) throws SwoException {
+
+		if (CommonUtil.isEmpty(ids))
+			return null;
+		
+		StringBuffer buff = new StringBuffer();
+		
+		buff.append("select new net.smartworks.server.engine.organization.model.SwoUserExtend( ");
+		buff.append(" user.id,  user.name, user.companyId,  company.name, ");
+		buff.append(" user.deptId, dept.name,  user.lang, ");
+		buff.append(" user.picture,  user.picture, user.position, ");
+		buff.append(" user.stdTime,  user.authId");
+		buff.append(" )");
+		buff.append(" from SwoUser user, SwoDepartment dept, SwoCompany company ");
+		buff.append(" where user.deptId = dept.id");
+		buff.append(" and user.companyId = company.id");
+		buff.append(" and user.id in ( ");
+		for (int i = 0; i < ids.length; i++) {
+			if (i != 0)
+				buff.append(", ");
+			buff.append(":userIn").append(i);
+		}
+		buff.append(")");
+		
+		Query query = this.getSession().createQuery(buff.toString());
+		
+		for (int i=0; i<ids.length; i++) {
+			query.setString("userIn"+i, ids[i]);
+		}
+		List list = query.list();
+		
+		if (list == null || list.isEmpty())
+			return null;
+		
+		SwoUserExtend[] usersExtendsArray = new SwoUserExtend[list.size()];
+		
+		int i = 0;
+		for (Iterator itr = list.iterator(); itr.hasNext();) {
+			SwoUserExtend user = (SwoUserExtend) itr.next();
+			usersExtendsArray[i] = user;
+			i++;
+		}
+		return usersExtendsArray;
+	}
+	
 	public String getDefaultLogo() throws SwoException {
 		String sql = "select logo from SWConfig where id = 'maninsoft'";
 		Query query = this.getSession().createSQLQuery(sql);
@@ -1946,6 +2020,26 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			list = new ArrayList();
 		}
 		return list;
+	}
+
+	public SwoUser retrieveUser(String userId, String id) throws SwoException {
+		
+		if(this.userCache.containsKey(id)) {
+			return (SwoUser)this.userCache.get(id);
+			
+		} else {
+			SwoUser user = (SwoUser)this.getHibernateTemplate().get(SwoUser.class, userId);
+			if(user != null)
+				this.userCache.put(id, user);
+			
+			return user;
+		}
+	}
+
+	public String getUserDispName(String userId) throws SwoException {
+
+		SwoUser user = this.retrieveUser(userId, userId);
+		return user != null ? (user.getPosition() + " " + user.getName()) : null;
 	}
 
 }

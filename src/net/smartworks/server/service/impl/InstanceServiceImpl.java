@@ -1,21 +1,29 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcessInst;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
+import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IInstanceService;
@@ -27,6 +35,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InstanceServiceImpl implements IInstanceService {
+	
+	private ITskManager getTskManager() {
+		return SwManagerFactory.getInstance().getTskManager();
+	}
+	private IPrcManager getPrcManager() {
+		return SwManagerFactory.getInstance().getPrcManager();
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -61,7 +76,8 @@ public class InstanceServiceImpl implements IInstanceService {
 	 */
 	@Override
 	public InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception {
-		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+	 return SmartTest.getMyRecentInstances();	
+/*		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 			return null;
 
 		TskTaskCond taskCond = new TskTaskCond();
@@ -100,6 +116,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		InstanceInfo[] instInfo = ModelConverter.getInstanceInfoArrayByPrcInstArray(prcInsts);
 		
 		return instInfo;
+*/		
 	}
 
 	@Override
