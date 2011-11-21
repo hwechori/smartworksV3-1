@@ -50,8 +50,11 @@
 				int year = rightNow.get(Calendar.YEAR) % 100;
 				int month = rightNow.get(Calendar.MONTH);
 				int date = rightNow.get(Calendar.DATE);
+				int hour = rightNow.get(Calendar.HOUR);
+				int minute = rightNow.get(Calendar.MINUTE);
+				int second = rightNow.get(Calendar.SECOND);
 
-				System.out.println("connectTime ==>" + year+"년 " + month+"월 " + date+"일");
+				System.out.println("connectTime ==>" + year+"년 " + month+"월 " + date+"일 " + hour + "시 " + minute + "분 " + second + "초");
 
 			}
 		}
