@@ -253,7 +253,7 @@
 				<!-- 목록보기 타이틀-->
 
 				<!-- 상세필터 -->
-				<div id="iwork_search_filter" class="filter_section"></div>
+				<div id="search_filter" class="filter_section"></div>
 				<!-- 상세필터 -->
 
 				<!-- 목록 테이블 -->

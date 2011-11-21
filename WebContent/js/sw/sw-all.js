@@ -199,7 +199,7 @@ $(function() {
 			'click',
 			function(e) {
 				var input = $(e.target).parent();
-				var target = $('#iwork_search_filter');
+				var target = $('#search_filter');
 				var url = input.attr('href');
 				$.ajax({
 					url : url,
@@ -219,7 +219,7 @@ $(function() {
 			'change',
 			function(e) {
 				var input = $(e.target);
-				var target = $('#iwork_search_filter');
+				var target = $('#search_filter');
 				var url = input.attr('href') + "&filterId=" + input.children('option:selected').attr('value');
 				$.ajax({
 					url : url,

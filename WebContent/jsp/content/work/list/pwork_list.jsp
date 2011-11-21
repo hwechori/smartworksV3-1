@@ -223,6 +223,9 @@
 									<option value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES%>">
 										<fmt:message key='filter.name.my_recent_instances' />
 									</option>
+									<option value="<%=SearchFilter.FILTER_MY_RUNNING_INSTANCES%>">
+										<fmt:message key='filter.name.my_running_instances' />
+									</option>
 									<%
 										SearchFilter[] filters = work.getSearchFilters();
 										if (filters != null) {
@@ -256,7 +259,9 @@
 
 				</div>
 				<!-- 목록보기 타이틀-->
-
+				<!-- 상세필터 -->
+				<div id="search_filter" class="filter_section"></div>
+				<!-- 상세필터 -->
 
 				<!-- 목록 테이블 -->
 				<div class="list_contents">
