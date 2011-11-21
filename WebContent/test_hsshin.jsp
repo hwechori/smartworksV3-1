@@ -111,21 +111,21 @@
 
 	//System.out.println("PackageName = " + work.getName() + ", PackageId = " + work.getId() + ", PackageType = " + work.getType() + ", PackageDescription = " + work.getDesc());
 
-	//InformationWork infoWork = (InformationWork) smartworks.getWorkById("Maninsoft", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
+	InformationWork infoWork = (InformationWork) smartworks.getWorkById("Maninsoft", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
 
-/* 	System.out.println("getAccessPolicy().getLevel()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getAccessPolicy().getLevel());
+ 	System.out.println("getAccessPolicy().getLevel()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getAccessPolicy().getLevel());
 	System.out.println("getWritePolicy().getLevel()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getWritePolicy().getLevel());
-	System.out.println("getEditPolicy().getLevel()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getEditPolicy().getLevel()); */
+	System.out.println("getEditPolicy().getLevel()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getEditPolicy().getLevel());
 
-	//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getDisplayFields().length);
+	System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getDisplayFields().length);
 
-/* 	for(FormField form : infoWork.getDisplayFields()) {
+ 	for(FormField form : infoWork.getDisplayFields()) {
 		try {
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+CommonUtil.toNotNull(form.getId()));
 		} catch(NullPointerException e){
 			e.printStackTrace();
 		}
-	} */
+	}
 
 	SmartWork smartWork = (SmartWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
 
