@@ -55,7 +55,7 @@
 	
 	mgr.deploy("hsshin@maninsoft.co.kr", xpdl, null); */
 	
-	ISwfManager swfMgr = (ISwfManager)SmartUtil.getBean("swfManager", request);
+/* 	ISwfManager swfMgr = (ISwfManager)SmartUtil.getBean("swfManager", request);
 
 	SwfForm swfForm = swfMgr.getForm("hsshin@maninsoft.co.kr", "frm_3dbf6b88c28346a181172db0828a4bd4");
 
@@ -85,7 +85,7 @@
 	List<String> list = SwManagerFactory.getInstance().getDocManager().findDocIdByGroupId("fg_0019ae0b682e451b953fbf823a633db6");
 	for(String str : list) {
 		out.println(str);
-	}
+	} */
 
 	ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
 
@@ -94,7 +94,7 @@
 
 	//System.out.println("PackageName = " + work.getName() + ", PackageId = " + work.getId() + ", PackageType = " + work.getType() + ", PackageDescription = " + work.getDesc());
 
-	InformationWork infoWork = (InformationWork) smartworks.getWorkById("Maninsoft", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
+/* 	InformationWork infoWork = (InformationWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
 
  	System.out.println("getAccessPolicy().getLevel()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getAccessPolicy().getLevel());
 	System.out.println("getWritePolicy().getLevel()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getWritePolicy().getLevel());
@@ -108,14 +108,13 @@
 		} catch(NullPointerException e){
 			e.printStackTrace();
 		}
-	}
+	} */
 
 	SmartWork smartWork = (SmartWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
-
 	System.out.println(smartWork.getFullpathName());
 %>
 <textarea style="width:800px;height:400px;">
-<%=swfForm %>
+
 </textarea>
 </body>
 </html>
