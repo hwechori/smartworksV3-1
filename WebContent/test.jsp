@@ -40,12 +40,15 @@
 }%>
 <%
 
-	SwoUserExtend ex = SwManagerFactory.getInstance().getSwoManager().getUserExtend("kmyu@maninsoft.co.kr", "kmyu@maninsoft.co.kr");
+	String[] users = new String[]{"kmyu@maninsoft.co.kr","smlim@maninsoft.co.kr","jkyoon@maninsoft.co.kr"};
+	SwoUserExtend[] ex = SwManagerFactory.getInstance().getSwoManager().getUsersExtend("kmyu@maninsoft.co.kr", users);
 
 
 %>
 <textarea style="width:800px;height:400px;">
-<%= ex.getName()%>
+<%= ex[0].getName()%>
+<%= ex[1].getName()%>
+<%= ex[2].getName()%>
 </textarea>
 </body>
 </html>
