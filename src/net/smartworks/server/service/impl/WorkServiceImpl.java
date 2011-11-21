@@ -140,56 +140,61 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	public WorkInfo[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
 
+		if(categoryId == null || categoryId == ""){
+			return SmartTest.getMyWorkCategories();
+		}else{
+			return SmartTest.getMyWorksByCategory();
+		}
 		//categoryId 가 null 이라면 root 카테고리 밑의 1 level 의 카테고리를 리턴한다
 		//categoryId 가 넘어오면 카테고리안에 속한 2 level 카테고리(group) 와 work(package)를 리턴한다
 
-		CtgCategoryCond ctgCond = new CtgCategoryCond();
-		ctgCond.setCompanyId(companyId);
-		
-		if (CommonUtil.isEmpty(categoryId)) {
-			//1 level category
-			ctgCond.setParentId(CtgCategory.ROOTCTGID);
-			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
-			return (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
-		
-		} else {
-			ctgCond.setParentId(categoryId);
-			
-			PkgPackageCond pkgCond = new PkgPackageCond();
-			pkgCond.setCompanyId(companyId);
-			pkgCond.setCategoryId(categoryId);
-
-			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
-			WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
-			
-			PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
-			WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
-
-			int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
-			int pkgPkgsSize = workPkgs == null? 0 : workPkgs.length;
-			
-			WorkInfo[] resultWork = new WorkInfo[workCtgsSize + pkgPkgsSize + /* UI test*/ 2];
-			
-			//System.arraycopy(workCtgs, 0, resultWork, 0, workCtgsSize);  
-			//System.arraycopy(pkgPkgs, 0, resultWork, workCtgsSize, pkgPkgsSize);
-			
-			List<WorkInfo> workList = new ArrayList<WorkInfo>();
-			for (int i = 0; i < workCtgsSize; i++) {
-				workList.add(workCtgs[i]);
-			}
-			for (int i = 0; i < pkgPkgsSize; i++) {
-				workList.add(workPkgs[i]);
-			}
-
-// UI test용 코드
-			workList.add(SmartTest.getInformationWorkInfo1());
-			workList.add(SmartTest.getProcessWorkInfo1());
-// UI test용 코드
-
-			workList.toArray(resultWork);
-
-			return resultWork;
-		}
+////		CtgCategoryCond ctgCond = new CtgCategoryCond();
+////		ctgCond.setCompanyId(companyId);
+////		
+////		if (CommonUtil.isEmpty(categoryId)) {
+////			//1 level category
+////			ctgCond.setParentId(CtgCategory.ROOTCTGID);
+////			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
+////			return (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
+////		
+////		} else {
+////			ctgCond.setParentId(categoryId);
+////			
+////			PkgPackageCond pkgCond = new PkgPackageCond();
+////			pkgCond.setCompanyId(companyId);
+////			pkgCond.setCategoryId(categoryId);
+////
+////			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_ALL);
+////			WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.arrayToArray(ctgs);
+////			
+////			PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
+////			WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.arrayToArray(pkgs);
+////
+////			int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
+////			int pkgPkgsSize = workPkgs == null? 0 : workPkgs.length;
+////			
+////			WorkInfo[] resultWork = new WorkInfo[workCtgsSize + pkgPkgsSize + /* UI test*/ 2];
+////			
+////			//System.arraycopy(workCtgs, 0, resultWork, 0, workCtgsSize);  
+////			//System.arraycopy(pkgPkgs, 0, resultWork, workCtgsSize, pkgPkgsSize);
+////			
+////			List<WorkInfo> workList = new ArrayList<WorkInfo>();
+////			for (int i = 0; i < workCtgsSize; i++) {
+////				workList.add(workCtgs[i]);
+////			}
+////			for (int i = 0; i < pkgPkgsSize; i++) {
+////				workList.add(workPkgs[i]);
+////			}
+////
+////// UI test용 코드
+////			workList.add(SmartTest.getInformationWorkInfo1());
+////			workList.add(SmartTest.getProcessWorkInfo1());
+////// UI test용 코드
+////
+////			workList.toArray(resultWork);
+////
+////			return resultWork;
+//		}
 	}
 
 	@Override

@@ -4,6 +4,10 @@ import net.smartworks.model.BaseObject;
 
 public class FormField extends BaseObject{
 	
+	public static final String ID_STATUS = "status";
+	public static final String ID_SUBJECT = "subject";
+	public static final String ID_RUNNING_TASK = "runningTask";
+
 	public static final String ID_OWNER = "owner";
 	public static final String ID_CREATED_DATE = "createdDate";
 	public static final String ID_LAST_MODIFIER = "lastModifier";
@@ -25,6 +29,10 @@ public class FormField extends BaseObject{
 	public static final String TYPE_TIME = "timeChooser"; //time
 	public static final String TYPE_DATETIME = "date"; //datetime
 	
+
+	public static final FormField FIELD_STATUS = new FormField(ID_STATUS, "", TYPE_COMBO);
+	public static final FormField FIELD_SUBJECT = new FormField(ID_SUBJECT, "", TYPE_TEXT);
+	public static final FormField FIELD_RUNNING_TASK = new FormField(ID_RUNNING_TASK, "", TYPE_TEXT);
 
 	public static final FormField FIELD_OWNER = new FormField(ID_OWNER, "", TYPE_USER);
 	public static final FormField FIELD_CREATED_DATE = new FormField(ID_CREATED_DATE, "", TYPE_DATETIME);
