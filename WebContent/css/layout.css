@@ -195,7 +195,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 .up {border:1px solid #c7c7c7; padding:3px 0; width:100%; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
-.inputline {border:1px solid #c7c7c7; left:0px; margin-right:2px; width:174px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left;} /* 상세필터 input line*/
+.inputline {border:1px solid #c7c7c7; left:0px; margin-right:2px; width:170px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left;} /* 상세필터 input line*/
 .date_input {width:68px; padding:0 2px; float:left;} /* date input 사이즈*/
 .time_input {width:40px; padding:0 2px; float:left;} /* time input 사이즈*/
 .up_padding {padding:0; position:relative;}

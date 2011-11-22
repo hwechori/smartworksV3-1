@@ -173,7 +173,7 @@
  %>
 			</td>
 
-			<td class="btn_plus"><img src="images/btn_plus.gif"
+			<td valign="bottom" class="btn_plus"><img src="images/btn_plus.gif"
 				class="js_add_condition" /></td>
 
 		</tr>

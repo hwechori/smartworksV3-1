@@ -27,7 +27,7 @@
 
 
 /* 본문 댓글 관련 */
-.replay_point {background: url("../images/replay_point.gif") no-repeat left top; width:11px; height:7px;}
+.replay_point {background: url("../images/replay_point.gif") no-repeat left top; width:11px; height:7px; margin-top: 5px;}
 .replay_section { background-color:#eef2f6; padding:10px; width:600px; margin-left:40px;}
 .replay {margin:10px 15px 0;} /* 상세페이지에 댓글,업무,메모 입력 영역*/
 .list_replay {margin:0;} /* 댓글 목록 */
@@ -87,8 +87,14 @@
 	
 	
 /* 프로세스 */
-.proce_space {height:45px; line-height:15px;}
-.proc_arr_next {background: url("../images/proc_bg.png") repeat-y scroll -175px -30px transparent; width:7px; height:14px; margin-top:13px;}
+.proce_section { position:relative; height:50px;}
+.proce_space {height:47px; line-height:15px; margin:0 30px; position: absolute;}
+.proc_btn_prev {background: url("../images/proc_bg.png") repeat-y scroll -70px 0 transparent; width:11px; height:19px; position:absolute; margin-top:14px;}
+a .proc_btn_prev:hover {background: url("../images/proc_bg.png") repeat-y scroll -70px -28px transparent;}
+.proc_btn_next {background: url("../images/proc_bg.png") repeat-y scroll -129px 0 transparent; width:11px; height:19px; margin-top: 14px; position: absolute; right:10px;}
+a .proc_btn_next:hover {background: url("../images/proc_bg.png") repeat-y scroll -129px -28px; transparent;}
+
+.proc_arr_next {background: url("../images/proc_bg.png") repeat-y scroll -86px -82px transparent; width:23px; height:7px; margin-top:19px;}
 .proc_start_compl {background: url("../images/proc_bg.png") repeat-y scroll -13px -13px transparent; 
 					height: 29px; padding-top: 10px; text-align: center; vertical-align: middle; width: 39px;}
 .proc_start_compl .current { font-weight:bold;}
@@ -98,7 +104,7 @@
 .proc_task_compl .pstart {background: url("../images/prc_task_coml_l.gif") repeat scroll 0 0 transparent;
 			 float:left; height:47px; width:5px;}
 .proc_task_compl .pcenter {background: url("../images/prc_task_coml_c.gif") repeat scroll 0 0 transparent;
-    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
+    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center; min-width:113px;}
 .proc_task_compl .pend {background: url("../images/prc_task_coml_r.gif") repeat scroll 0 0 transparent;
     		float:left; height:47px; width:5px;}
 			
@@ -136,7 +142,7 @@
 			
 			
 /* 프로세스 포인트 위치 */
-.posit_default {left: 58px; position: relative; top: 1px; z-index: 20;}
+.posit_default {left: 58px; position: relative; top: 1px; margin-top:5px; z-index: 20;}
 .posit_replay {left: 70px; position: relative; top: 1px; z-index: 20;}
 
 
