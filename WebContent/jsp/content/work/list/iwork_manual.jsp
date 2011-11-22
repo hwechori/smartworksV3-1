@@ -38,10 +38,16 @@
 			</colgroup>
 			<tbody>
 				<tr>
+					<%
+					if(work.getForm() != null){
+					%>
 					<td><img src="<%=work.getForm().getOrgImage()%>" width="349"
 						height="289" />
 					</td>
 					<td><%=work.getForm().getDescription()%></td>
+					<%
+					}
+					%>
 				</tr>
 			</tbody>
 		</table>
