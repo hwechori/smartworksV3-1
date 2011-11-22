@@ -16,7 +16,8 @@
 	String companyId = (String) session.getAttribute("companyId");
 	String userId = (String) session.getAttribute("userId");
 
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request
+			.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	String wid = request.getParameter("wid");
 
@@ -67,7 +68,9 @@
 						break;
 						}
 					%>
-					<div class="po_right">읽기권한(아이콘) :</div>
+					<div class="po_right">
+						<img class="bu_read">
+					</div>
 					<%
 						switch (work.getWritePolicy().getLevel()) {
 						case WritePolicy.LEVEL_PUBLIC:
@@ -86,7 +89,9 @@
 						break;
 						}
 					%>
-					<div class="po_right">등록권한(아이콘) :</div>
+					<div class="po_right">
+						<img class="bu_regit">
+					</div>
 					<%
 						switch (work.getEditPolicy().getLevel()) {
 						case EditPolicy.LEVEL_WIKI:
@@ -105,7 +110,9 @@
 						break;
 						}
 					%>
-					<div class="po_right">수정권한(아이콘) :</div>
+					<div class="po_right">
+						<img class="bu_modfy">
+					</div>
 				</div>
 				<!-- 우측 버튼 -->
 
@@ -121,77 +128,86 @@
 
 				<!-- 업무 정의 영역 //-->
 
-				<!-- 버튼 영역-->
-				<div class="txt_btn posi_ab">
-					<div class="po_left">
-						<a class="js_view_work_manual" href=""><fmt:message
-								key="common.button.view.work_manual" />▼</a> <a
-							style="display: none" class="js_view_work_manual" href=""><fmt:message
-								key="common.button.close.work_manual" />▼</a>
-					</div>
-				</div>
-				<div class="txt_btn">
-
-					<%
-						if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
-					%>
-					<div class="float_right padding_l10">
-						<a href=""></a><span class="btn_gray"> <span
-							class="Btn01Start"></span> <span class="Btn01Center"><fmt:message
+<!-- 버튼 영역-->
+<div class="txt_btn margin_t10">
+	<span class="po_left bu_w_explan"> <a
+		class="js_view_iwork_manual" href=""><fmt:message
+				key="common.button.view.work_manual" />▼</a> <a
+		style="display: none" class="js_view_work_manual" href=""><fmt:message
+				key="common.button.close.work_manual" />▼</a> </span> 
+								
+								<span
+						class="po_left"> <%
+ 	if (work.getManualFileName() != null) {
+ %> <a href="" class="bu_video space_r2"
+						title="<fmt:message key='work.title.manual_file'/>"></a> <%
+ 	}
+ 	if (work.getHelpUrl() != null) {
+ %> <a href="<%=work.getHelpUrl()%>" class="bu_webex"
+						title="<fmt:message key='work.title.help_url'/>" target="_blank">
+					</a> <%
+ 	}
+ %> </span> 
+ 
+ <!-- 수정하기 -->
+ <span class="float_right"> <%
+ 	if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
+ %> <span class="btn_gray txt_btn_posi"> <span class="Btn01Start"></span>
+							<span class="Btn01Center"><fmt:message
 									key='common.button.modify' /> </span> <span class="Btn01End"></span>
-						</span></a>
-					</div>
-					<%
-						}
-					%>
+					</span> <%
+ 	}
+ %> </span>
+<!-- 수정하기 //-->
 
-					<div class="float_right">
-						<%
-							if (work.getManualFileName() != null) {
-						%>
-						<a href="" title="<fmt:message key='work.title.manual_file'/>">사용설명서(아이콘)</a>
-						<%
-							}
-							if (work.getHelpUrl() != null) {
-						%>
-						<a href="<%=work.getHelpUrl()%>"
-							title="<fmt:message key='work.title.help_url'/>" target="_blank">웹설명서
-							보기(아이콘)</a>
-						<%
-							}
-						%>
-					</div>
+<!-- 최종수정자 -->
+ <span class="float_right space_l5">
+	<div class="po_right"><%=work.getLastModifier().getLongName()%>
+		<%=work.getLastModifiedDate().toLocalString()%></div>
+	<img class="po_right"
+		src="<%=work.getLastModifier().getMinPicture()%>" />
+	<div class="po_right">
+		<fmt:message key="common.title.last_modifier" />
+		:
+	</div>
+</span>
+<!-- 최종수정자 //-->
 
-				</div>
-				<!-- 라인 -->
-				<div class="solid_line_s"></div>
-				<!-- 버튼 영역 //-->
+
+</div>
+<!-- 버튼 영역 //-->
+
+<!-- 라인 -->
+	<div class="solid_line_s"></div>
 
 			</div>
 			<div id="work_manual" style="display: none">
 				<jsp:include page="/jsp/content/work/list/iwork_manual.jsp"></jsp:include>
 			</div>
-			<div>
-				<div class="po_right"><%=work.getLastModifier().getLongName()%>
-					<%=work.getLastModifiedDate().toLocalString()%></div>
-				<img class="po_right"
-					src="<%=work.getLastModifier().getMinPicture()%>" />
-				<div class="po_right">
-					<fmt:message key="common.title.last_modifier" />
-					:
-				</div>
-			</div>
+			
 
 
-			<div class=" contents_space">
+<!-- 목록영역  -->
+<div class=" contents_space margin_t10">
+			
+<!--탭-->
+<div class="tab_lst">
+    <ul>
+    <li class="lst ">목록보기</li>
+    <li class="wup current">새업무 등록하기</li>
+    <li class="stat">통계분석</li>
+    <li class="end"> </li>
+    </ul>
+</div>       
+<!--탭//-->
+
 				<!-- 목록보기 -->
+				<div class="border view_list"> 
+				
 				<!-- 목록보기 타이틀-->
 				<div class="list_title_space">
 
 					<div class="txt_btn posi_ab">
-						<div class="po_left title">
-							<fmt:message key='common.title.instance_list' />
-						</div>
 
 						<div class="po_left">
 							<div class="srch">
@@ -205,8 +221,7 @@
 							<form class="form_space" name="frmIworkFilterName">
 								<select name="selFilterName" class="js_select_filter"
 									href="search_filter.sw?workId=<%=workId%>">
-									<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>"
-										selected>
+									<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" selected>
 										<fmt:message key='filter.name.all_instances' />
 									</option>
 									<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>">
@@ -236,16 +251,12 @@
 						<a href="search_filter.sw?workId=<%=workId%>"
 							class="js_search_filter"><div class="po_left">
 								<fmt:message key='filter.button.search_filter' />
-							</div>
-						</a>
+							</div> </a>
 					</div>
 
 					<div class="txt_btn">
 						<div class="po_right">
-							<a href="">목록보기</a>
-						</div>
-						<div class="po_right">
-							<a href="">엑셀 불러오기</a>
+							<img class="bu_excel"><a href="">엑셀 불러오기</a>
 						</div>
 
 					</div>
@@ -260,7 +271,7 @@
 				<div class="list_contents">
 					<table>
 						<tbody>
-							<tr>
+							<tr class="tit_bg">
 								<th></th>
 								<%
 									FormField[] fields = work.getDisplayFields();
@@ -273,8 +284,7 @@
 									}
 								%>
 								<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-										key='common.title.last_modified_date' />
-								</th>
+										key='common.title.last_modified_date' /></th>
 							</tr>
 							<div id='iwork_list_page'>
 								<jsp:include
@@ -287,7 +297,12 @@
 
 			</div>
 			<!-- 목록보기 -->
+			
+	</div>
+	<!-- 목록영역 // -->
+	
 		</ul>
 	</div>
+	<div class="portlet_b" style="display: block;"></div>
 </div>
 <!-- 컨텐츠 레이아웃//-->
