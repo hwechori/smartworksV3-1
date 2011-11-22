@@ -80,7 +80,7 @@
 %>
 <!-- 페이징 -->
 <tr>
-	<td>
+	<td colspan="7" class="end">
 		<div class="paginate">
 			<%
 				if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
