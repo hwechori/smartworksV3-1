@@ -29,6 +29,7 @@
 
 
 <div class="contents_space">
+	<div class="border">
 	<!-- 업무설명 영역 -->
 	<div class="det_contents">
 		<table>
@@ -95,7 +96,6 @@
     </div>
     <!-- 댓글 //-->
 
-	<!-- 라인 -->
-	<div class="solid_line_s"></div>
+	</div>
 
 </div>
