@@ -15,9 +15,11 @@
 
 
 /* 본문 컨텐츠 */
+.define_space {padding: 0 25px;}
 .contents_space {padding: 0 25px 10px;}
 .contents_space .det_title {padding:3px 0;} /* 타이틀 */
 .contents_space .area {padding:10px;}
+.contents_space .border {border:1px solid #c7c7c7; background-color:#FFF; padding:10px;}
 
 
 /* Replay Info */
@@ -26,7 +28,7 @@
 
 /* 본문 댓글 관련 */
 .replay_point {background: url("../images/replay_point.gif") no-repeat left top; width:11px; height:7px;}
-.replay_section { background-color:#eef2f6; padding:10px; width:600px;}
+.replay_section { background-color:#eef2f6; padding:10px; width:600px; margin-left:40px;}
 .replay {margin:10px 15px 0;} /* 상세페이지에 댓글,업무,메모 입력 영역*/
 .list_replay {margin:0;} /* 댓글 목록 */
 .replay_input {margin-top:10px;} /* 댓글 입력 영역 */
@@ -39,6 +41,7 @@
 .list_title_space {background-color:#ededed; padding: 5px;}
 .list_title_space .title { font-size:14px; font-weight:bold;  padding-top: 3px;}
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0;}
+.list_contents table tr .end, .list_contents table td .end {border-bottom: 0 none}
 .list_contents table .r_line {border-right:1px solid #DCDFE0;}
 .list_contents table .tit_bg {border-top:1px solid #DCDFE0; background-color:#f7f7f7;}
 .list_contents table th {text-align:center; padding:0 15px;}
@@ -133,31 +136,26 @@
 			
 			
 /* 프로세스 포인트 위치 */
-.posit_default {left: 50px; position: relative; top: 1px; z-index: 20;}
-.posit_first {left: 125px; position: relative; top: 1px; z-index: 20;}
-.posit_second {left: 125px; position: relative; top: 1px; z-index: 20;}
-.posit_third {left: 125px; position: relative; top: 1px; z-index: 20;}
-.posit_fourth {left: 125px; position: relative; top: 1px; z-index: 20;}
-.posit_fifth {left: 125px; position: relative; top: 1px; z-index: 20;}
-.posit_sixth {left: 125px; position: relative; top: 1px; z-index: 20;}
+.posit_default {left: 58px; position: relative; top: 1px; z-index: 20;}
+.posit_replay {left: 70px; position: relative; top: 1px; z-index: 20;}
 
 
 /* 필터 */
 .filter_section {overflow:hidden;}
 .filter_group {border:1px solid #e2e2e2; padding:5px; margin:3px 0;}
 .filter_group table { margin:0; text-align:right; } 
-.filter_area {height:22px; padding:5px 0; clear:both; float:right;}
+.filter_area {padding:1px 0; clear:both; float:right;}
 .filter_area .selb_size_fir {float:left; margin-right:5px;}
-.filter_area .selb_size_sec {float:left; margin-right:5px; width:100px;}
-.str_field {width:145px; text-align:left; float:left;}
+.filter_area .selb_size_sec {float:left; margin-right:5px; width:120px;}
+.str_field {width:200px; text-align:left; float:left;}
 
-.btn_plus {margin-right:5px; width:25px;}
+.btn_plus {padding-bottom:8px; width:25px;}
 .filter_btn_space {background-color:#FFF; padding:8px 0 0; height:22px; border-top: 1px solid #c7c7c7;}
-.btn_x_grb_posi {margin:5px;}
+.btn_x_grb_posi {padding: 0 5px 0 6px; line-height: 23px;}
 
 
 /* 페이징 */
-.paginate { height: 25px; padding-top: 10px; position: relative; text-align: center;}
+.paginate {padding-top: 10px; position: relative; text-align: center;}
 .paginate .num {margin-right:1px; padding: 2px 3px; text-decoration: none; vertical-align: middle;}
 
 .spr { cursor: pointer; display: inline-block; overflow: hidden; vertical-align: middle;}
@@ -178,4 +176,38 @@ display: inline-block; height: 16px; width: 16px; margin-left:11px;}
 .paginate a.next_end:hover span { background: url("../images/header_nico.png") no-repeat scroll -54px -377px transparent;
 display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
 
-.num_box {float:right; margin: -30px 25px 0; position:relative;}
+.num_box {float:right; margin: -20px 5px 0; position:relative;}
+
+
+/* 탭 */
+.tab {height: 31px; margin: 15px 0 0; position: relative; top: 6px; left:50px; z-index: 31;}
+.tab li { background: url("../images/bg_tab_l.jpg") no-repeat scroll 0 0 transparent; float: left; height: 31px;}
+.tab li.current { background-position: left -31px;}
+.tab li .intab { background: url("../images/bg_tab_r.jpg") no-repeat scroll right top transparent; display: block; float: left; height: 31px;}
+.tab li.current .intab { background-position: right -31px;}
+.tab li .intab a { display: inline-block; line-height: 32px; padding: 0 20px; color:#FFF;}
+.tab li.current .intab a { color: #000000; font-weight: bold;}
+
+
+/* 목록 탭 */
+.tab_lst {height:40px; position: relative; top:5px; z-index: 32;}
+.tab_lst li {float:left; height:23px; background-color:#FFF;}
+.tab_lst li.current {color:#000000; font-weight:bold; border:1px solid #c7c7c7; border-bottom:none;}
+.tab_lst li.lst {background: url("../images/body_icon.png") no-repeat scroll 10px -137px #FFF; padding:11px 15px 0 35px;}
+.tab_lst li.lst.current {background: url("../images/body_icon.png") no-repeat scroll 10px -171px #FFF; height:24px;}
+.tab_lst li.wup {background: url("../images/body_icon.png") no-repeat scroll -153px -137px #FFF; padding: 11px 10px 0 45px;}
+.tab_lst li.wup.current {background: url("../images/body_icon.png") no-repeat scroll -153px -171px #FFF; height:24px;}
+.tab_lst li.stat {background: url("../images/body_icon.png") no-repeat scroll -387px -137px #FFF; padding: 11px 10px 0 35px;}
+.tab_lst li.stat.current {background: url("../images/body_icon.png") no-repeat scroll -387px -171px #FFF; height:24px;}
+
+
+
+
+/* Body Icon */
+.bu_modfy {background: url("../images/body_icon.png") no-repeat scroll 0 -7px transparent; height:16px; width:16px; display:inline-block;}
+.bu_regit {background: url("../images/body_icon.png") no-repeat scroll -74px -7px transparent; height:16px; width:16px; display:inline-block;}
+.bu_read {background: url("../images/body_icon.png") no-repeat scroll -156px -7px transparent; height:16px; width:13px; display:inline-block;}
+.bu_w_explan {background: url("../images/body_icon.png") no-repeat scroll 0 -83px transparent; height:16px; display:inline-block; padding: 0 0 0 15px;}
+.bu_video {background: url("../images/body_icon.png") no-repeat scroll 0 -118px transparent; height:16px; display:inline-block; padding: 0 0 0 23px;}
+.bu_webex {background: url("../images/body_icon.png") no-repeat scroll -219px -83px transparent; height:16px; display:inline-block; padding: 0 0 0 24px;}
+.bu_excel {background: url("../images/body_icon.png") no-repeat scroll -352px -83px transparent; height:16px; display:inline-block; padding: 0 0 0 19px;}

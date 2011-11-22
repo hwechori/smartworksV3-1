@@ -100,7 +100,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
     border-width: 1px;
 	margin-bottom:3px;
 	}
-.srch .input {width:170px; height:14px;}
+.srch .input {width:170px;}
 .srch button, .srch .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch.gif") no-repeat left -1px transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; top:3px; padding:0; position:relative; float: right;}
 	
@@ -194,8 +194,10 @@ body, #nav {background: url("../images/bg_body.jpg");}
 {background: url("../images/header_nico.png") no-repeat -322px -190px; height:22px; padding:4px 0 3px 28px; display:block; font-weight:bold;}
 
 .up {border:1px solid #c7c7c7; padding:3px 0; width:100%; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
-.fieldline {border:1px solid #c7c7c7; height:16px; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
-.inputline {border:1px solid #c7c7c7; height:16px; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left;} /* 상세필터 input line*/
+.fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
+.inputline {border:1px solid #c7c7c7; left:0px; margin-right:2px; width:174px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left;} /* 상세필터 input line*/
+.date_input {width:68px; padding:0 2px; float:left;} /* date input 사이즈*/
+.time_input {width:40px; padding:0 2px; float:left;} /* time input 사이즈*/
 .up_padding {padding:0; position:relative;}
 .up_width {width:450px;}
 
@@ -208,12 +210,13 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_posi {right:0; top:0; position:absolute;}
 .btn_ico {float:right; margin:0 0 2px 8px; height: 18px;}
 
-.txt_btn {font-family:'돋움',Dotum; font-size: 11px; height: 21px; padding-top:2px; font-weight:normal;}
-.txt_btn .po_right {float:right; margin-left:8px;}
-.txt_btn .po_left {float:left; margin-right:8px;}
+.txt_btn {font-family:'돋움',Dotum; font-size: 11px; height: 21px; font-weight:normal;}
+.txt_btn .po_right {float:right; margin-left:10px;}
+.txt_btn .po_left {float:left; margin-right:10px;}
 .txt_btn .current { font-weight:bold;}
 .txt_btn a:hover, .txt_btn a:focus, .txt_btn a:active, .txt_btn a:link, .txt_btn a:visited {color:#8f8f8f; text-decoration:underline; }
 .txt_btn_height {height:16px;}
+.txt_btn_posi {position: relative; bottom:4px;}
 
 
 /* 검색- 자동 완성어 리스트 */
