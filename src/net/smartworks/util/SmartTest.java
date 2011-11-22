@@ -359,7 +359,8 @@ public class SmartTest {
 	}
 
 	public static WorkInstance getWorkInstance1() throws Exception {
-		return new WorkInstance("inst1", "휴가 신청합니다.", getSmartWork1(), getUser1(), getUser1(), new LocalDate(LocalDate.convertStringToTime("201110211300")));
+		WorkInstance instance = new WorkInstance("inst1", "휴가 신청합니다.", getSmartWork1(), getUser1(), getUser1(), new LocalDate(LocalDate.convertStringToTime("201110211300")));
+		return instance;
 	}
 
 	public static PWInstanceInfo getWorkInstanceInfo1() throws Exception {
@@ -371,7 +372,9 @@ public class SmartTest {
 	}
 
 	public static WorkInstance getWorkInstance2() throws Exception {
-		return new WorkInstance("inst2", "스마트웍스 3.0 개발계획 회의록 입니다.", getSmartWork2(), getUser1(), getUser1(), new LocalDate(LocalDate.convertStringToTime("201110230900")));
+		WorkInstance instance = new WorkInstance("inst2", "스마트웍스 3.0 개발계획 회의록 입니다.", getSmartWork2(), getUser1(), getUser1(), new LocalDate(LocalDate.convertStringToTime("201110230900")));
+		instance.setTasks(new TaskInstanceInfo[] {SmartTest.getTaskInstanceInfoIA()});
+		return instance;
 	}
 
 	public static WorkInstance getWorkInstance3() throws Exception {
@@ -388,6 +391,17 @@ public class SmartTest {
 
 	public static IWInstanceInfo getWorkInstanceInfo2() throws Exception {
 		return new IWInstanceInfo("inst2", "스마트웍스 3.0 개발계획 회의록 입니다.", getSmartWorkInfo2(), getUserInfo1(), getUserInfo1(), new LocalDate(LocalDate.convertStringToTime("201110230900")));
+	}
+	
+	public static WorkInstance getWorkInstanceById(String instanceId) throws Exception{
+		if(instanceId == null || instanceId.equals("")){
+			return getWorkInstance1();
+		}
+		WorkInstance[] workInstances = new WorkInstance[] {getWorkInstance1(), getWorkInstance2(), getWorkInstance3(), getWorkInstance4(), getWorkInstance5() };
+		for(WorkInstance instance : workInstances){
+			if(instance.getId().equals(instanceId)) return instance;
+		}
+		return getWorkInstance1();
 	}
 
 	public static PWInstanceInfo getWorkInstanceInfo3() throws Exception {

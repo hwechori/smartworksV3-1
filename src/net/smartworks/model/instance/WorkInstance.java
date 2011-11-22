@@ -1,6 +1,7 @@
 package net.smartworks.model.instance;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.work.Work;
 import net.smartworks.util.LocalDate;
 
@@ -10,12 +11,12 @@ public class WorkInstance extends Instance {
 	public static final int TYPE_INFORMATION = 12;
 	public static final int TYPE_SCHEDULE = 13;
 
-	private TaskInstance[] tasks;
+	private TaskInstanceInfo[] tasks;
 	
-	public TaskInstance[] getTasks() {
+	public TaskInstanceInfo[] getTasks() {
 		return tasks;
 	}
-	public void setTasks(TaskInstance[] tasks) {
+	public void setTasks(TaskInstanceInfo[] tasks) {
 		this.tasks = tasks;
 	}
 
