@@ -40,7 +40,7 @@
 	%>
 </select>
 <span class="str_field"> <input
-	class="inputline js_todaypicker" type="text"
+	class="inputline date_input js_todaypicker" type="text"
 	name="txtFilterDateOperand" readonly="readonly" value="<%if(operandValue!=null){%><%=operandValue %><%}else{ %><%=today%><%}%>">
 </span>
 <span class="btn_x_grb_posi">

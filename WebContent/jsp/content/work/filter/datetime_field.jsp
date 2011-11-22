@@ -42,10 +42,11 @@
 		}
 	%>
 </select>
-<span class="str_field"><input class="inputline js_todaypicker"
+<span class="str_field">
+	<input class="inputline date_input space_r2 js_todaypicker"
 	type="text" name="txtFilterDateOperand" readonly="readonly"
 	value="<%if (operandValue != null) {%><%=operandValue%><%} else {%><%=today%><%}%>">
-	<input class="inputline" name="txtFilterTimeOperand" type="text"
+	<input class="inputline time_input" name="txtFilterTimeOperand" type="text"
 	value="<%if (operandValueSecond != null) {%><%=operandValueSecond%><%} else {%><%=curTime%><%}%>">
 </span>
 <span class="btn_x_grb_posi">
