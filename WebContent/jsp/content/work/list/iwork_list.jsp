@@ -131,7 +131,7 @@
 <!-- 버튼 영역-->
 <div class="txt_btn margin_t10">
 	<span class="po_left bu_w_explan"> <a
-		class="js_view_iwork_manual" href=""><fmt:message
+		class="js_view_work_manual" href=""><fmt:message
 				key="common.button.view.work_manual" />▼</a> <a
 		style="display: none" class="js_view_work_manual" href=""><fmt:message
 				key="common.button.close.work_manual" />▼</a> </span> 
