@@ -38,8 +38,17 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<!-- 프로세스 영역 -->
+<!-- 업무 설명 보기 -->
 <div class="contents_space">
+	<div class="border">
+	
+	<!-- 프로세스 영역 -->
+        <div class="proce_section">
+        
+        <!-- 방향 Prev -->
+        <div class="float_left"><a href=""><img class="proc_btn_prev"></a></div>
+	
+	<!--  태스크 시작 -->
 	<div class="proce_space">
 
 		<%
@@ -49,6 +58,7 @@
 					String assigningName = task.getAssigningName();
 		%>
 		<!-- 태스크 -->
+
 		<div class="proc_task_yet float_left padding_r10">
 			<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> <span class="pstart"></span> <span class="pcenter">
 					<!-- task 정보 -->
@@ -60,6 +70,11 @@
 						<span><%=task.getName()%></span>
 					</div> <!-- task 정보 //--> </span> <span class="pend"></span> </a>
 		</div>
+		
+		 <!--화살표-->
+        <div class="proc_arr_next float_left padding_r10"></div>
+        <!--화살표-->
+        
 		<!-- 태스크 //-->
 		<%
 			}
@@ -67,6 +82,11 @@
 		%>
 
 	</div>
+	<!--  태스크 시작// -->
+	
+	<!-- 방향 Next -->
+    <div class="float_right"><a href=""><img class="proc_btn_next"></a></div>
+	
 </div>
 <!--프로세스 영역//-->
 
@@ -78,7 +98,7 @@
 			SmartFormInfo form = tasks[i].getForm();
 			if(form!=null){
 				%>
-<div class="contents_space js_task_manual" id="<%=tasks[i].getId() %>" <%if(i!=0){ %>style="display:none"<%} %>>
+<div class="js_task_manual padding_t5" id="<%=tasks[i].getId() %>" <%if(i!=0){ %>style="display:none"<%} %>>
 	<div class="up_point posit_default"></div>
 	<div class="form_wrap up up_padding">
 		<div class="area">
@@ -145,6 +165,12 @@
 			<fmt:message key='work.message.leave_question' />
 		</textarea>
 	</div>
+	
+	</div>
+	<!-- 댓글 //-->
+	
 
 </div>
-<!-- 댓글 //-->
+</div>
+<!-- 업무 설명 보기 -->
+
