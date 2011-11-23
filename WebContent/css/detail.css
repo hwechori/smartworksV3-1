@@ -5,7 +5,7 @@
 /* 본문- 타이틀 아이콘*/
 .body_titl { padding:0 15px 10px;} /* 본문 페이지 타이틀*/
 .body_titl .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
-.body_titl .title_noico {font-size: 14px; font-weight: bold; height: 52px;}  /* 타이틀 우측으로 아이콘이 없을때 */
+.body_titl .title_noico {font-size: 14px; font-weight: bold;}  /* 타이틀 우측으로 아이콘이 없을때 */
 .body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding-top: 30px;} /* 타이틀 우측으로 버튼 */
 
 .body_titl_pic { padding:10px 15px;} /* 본문 페이지 타이틀 - 사람사진이 들어갈 경우 */
@@ -14,7 +14,7 @@
 .body_titl_pic .title_picico {font-size: 14px; font-weight: bold;} /* 본문 타이틀 - 사람사진이 들어갈 경우: 제목 텍스트 */
 .body_titl_pic .title_section {position:absolute; width:100%;}
 .body_titl_pworks {background: url("../images/body_title_proces.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
-.body_titl_iworks {background: url("../images/body_title_inform.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
+.body_titl_iworks {background: url("../images/body_title_inform.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:22px;}
 
 
 /* 본문 컨텐츠 */
@@ -41,8 +41,8 @@
 
 
 /* 목록보기 부분 타이틀 */
-.list_title_space {background-color:#ededed; padding: 5px;}
-.list_title_space .title { font-size:14px; font-weight:bold;  padding-top: 3px;}
+.list_title_space {background-color:#ededed; padding: 10px 5px 5px 5px;}
+.list_title_space .title { background: url("../images/body_icon.png") no-repeat scroll 0 286px transparent; height:22px; font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left;}
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0;}
 .list_contents table tr .end, .list_contents table td .end {border-bottom: 0 none}
 .list_contents table .r_line {border-right:1px solid #DCDFE0;}
@@ -151,7 +151,7 @@ a .proc_btn_next:hover {background: url("../images/proc_bg.png") repeat-y scroll
 
 /* 필터 */
 .filter_section {overflow:hidden;}
-.filter_group {border:1px solid #e2e2e2; padding:5px; margin:3px 0;}
+.filter_group {border:1px solid #e2e2e2; padding:5px; margin:0 0 3px 0;}
 .filter_group table { margin:0; text-align:right; } 
 .filter_area {padding:1px 0; clear:both; float:right;}
 .filter_area .selb_size_fir {float:left; margin-right:5px;}
@@ -216,7 +216,9 @@ display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
 .bu_modfy {background: url("../images/body_icon.png") no-repeat scroll 0 -7px transparent; height:16px; width:16px; display:inline-block;}
 .bu_regit {background: url("../images/body_icon.png") no-repeat scroll -74px -7px transparent; height:16px; width:16px; display:inline-block;}
 .bu_read {background: url("../images/body_icon.png") no-repeat scroll -156px -7px transparent; height:16px; width:13px; display:inline-block;}
-.bu_w_explan {background: url("../images/body_icon.png") no-repeat scroll 0 -83px transparent; height:16px; display:inline-block; padding: 0 0 0 15px;}
+.bu_work_explan {background: url("../images/body_icon.png") no-repeat scroll 0 -83px transparent; height:16px; display:inline-block; padding: 0 0 0 15px;}
 .bu_video {background: url("../images/body_icon.png") no-repeat scroll 0 -118px transparent; height:16px; display:inline-block; padding: 0 0 0 23px;}
 .bu_webex {background: url("../images/body_icon.png") no-repeat scroll -219px -83px transparent; height:16px; display:inline-block; padding: 0 0 0 24px;}
 .bu_excel {background: url("../images/body_icon.png") no-repeat scroll -352px -83px transparent; height:16px; display:inline-block; padding: 0 0 0 19px;}
+.bu_nwork_upload {background: url("../images/body_icon.png") no-repeat scroll -249px 0 transparent; height:20px; display:inline-block; padding: 0 0 0 24px;}
+.bu_arr_b {background: url("../images/body_icon.png") no-repeat scroll -286px 0 transparent; height:4px; display:inline-block;}
