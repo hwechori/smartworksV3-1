@@ -44,7 +44,7 @@
 		} else {
 	%>
 	<li class="js_drill_down <%=iconType%>"><a
-		targetContent="worklist_by_group.sw" groupId="<%=work.getId()%>">
+		href="worklist_by_group.sw" groupId="<%=work.getId()%>">
 			<%=work.getName()%></a>
 		<div style="display: none"></div></li>
 	<%
