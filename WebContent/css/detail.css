@@ -9,13 +9,16 @@
 .body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding-top: 30px;} /* 타이틀 우측으로 버튼 */
 
 .body_titl_pic { padding:10px 15px;} /* 본문 페이지 타이틀 - 사람사진이 들어갈 경우 */
+.body_titl_pic .txt_btn {font-family:'돋움',Dotum; font-size: 11px; font-weight:normal;}
+.body_titl_pic .txt_btn.first {margin-bottom:13px;} /* 첫번째줄과 두번째줄 사이 간격 */
 .body_titl_pic .title_picico {font-size: 14px; font-weight: bold;} /* 본문 타이틀 - 사람사진이 들어갈 경우: 제목 텍스트 */
+.body_titl_pic .title_section {position:absolute; width:100%;}
 .body_titl_pworks {background: url("../images/body_title_proces.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
 .body_titl_iworks {background: url("../images/body_title_inform.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
 
 
 /* 본문 컨텐츠 */
-.define_space {padding: 0 25px;}
+.define_space {padding: 0 25px;} /* 상하 여백이 필요 없을떄*/
 .contents_space {padding: 0 25px 10px;}
 .contents_space .det_title {padding:3px 0;} /* 타이틀 */
 .contents_space .area {padding:10px;}
@@ -87,7 +90,7 @@
 	
 	
 /* 프로세스 */
-.proce_section { position:relative; height:50px;}
+.proce_section { position:relative; height:47px;}
 .proce_space {height:47px; line-height:15px; margin:0 30px; position: absolute;}
 .proc_btn_prev {background: url("../images/proc_bg.png") repeat-y scroll -70px 0 transparent; width:11px; height:19px; position:absolute; margin-top:14px;}
 a .proc_btn_prev:hover {background: url("../images/proc_bg.png") repeat-y scroll -70px -28px transparent;}
