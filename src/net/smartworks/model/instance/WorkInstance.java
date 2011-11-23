@@ -12,6 +12,7 @@ public class WorkInstance extends Instance {
 	public static final int TYPE_SCHEDULE = 13;
 
 	private TaskInstanceInfo[] tasks;
+	private int numberOfSubInstances; 
 	
 	public TaskInstanceInfo[] getTasks() {
 		return tasks;
@@ -20,6 +21,12 @@ public class WorkInstance extends Instance {
 		this.tasks = tasks;
 	}
 
+	public int getNumberOfSubInstances() {
+		return numberOfSubInstances;
+	}
+	public void setNumberOfSubInstances(int numberOfSubInstances) {
+		this.numberOfSubInstances = numberOfSubInstances;
+	}
 	public WorkInstance() {
 		super();
 	}

@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.model.work.InformationWork"%>
 <%@page import="net.smartworks.model.community.WorkSpace"%>
@@ -25,11 +26,13 @@ InformationWork work = (InformationWork)instance.getWork();
 int numberOfRelatedWorks = instance.getNumberOfRelatedWorks();
 int numberOfHistories = 0;
 if(!instance.isApprovalWork()){
-	TaskInstance[] tasks = instance.getTasks();
-	for(TaskInstance task : tasks){
-		if(task.getType() == TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED || task.getType() == TaskInstance.TYPE_INFORMATION_TASK_CREATED
+	TaskInstanceInfo[] tasks = instance.getTasks();
+	if(tasks != null){
+		for(TaskInstanceInfo task : tasks){
+			if(task.getType() == TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED || task.getType() == TaskInstance.TYPE_INFORMATION_TASK_CREATED
 				|| task.getType() == TaskInstance.TYPE_INFORMATION_TASK_UDATED){
-			numberOfHistories++;
+				numberOfHistories++;
+			}
 		}
 	}
 }
@@ -50,10 +53,10 @@ if(!instance.isApprovalWork()){
                     <div class="">
                         <div class="noti_pic"><img src="<%=instance.getOwner().getMidPicture() %>" /></div>
                         <div class="noti_in_bodytitle">
-                            <span class="t_name">instance.getOwner().getLongName()</span>
+                            <span class="t_name"><%=instance.getOwner().getLongName()%></span>
                             <%if(workSpace != null && !workSpace.getId().equals(owner.getId())){ %><span class="arr">▶</span><span class="ico_division_s"><%=workSpace.getName() %></span><%} %>
                             <span class="t_date"><%=instance.getCreatedDate().toLocalString() %></span>
-                            <div class=""><span class="ico_iworks t_date"><%=work.getFullpathName() %></span> <span class="title_picico">instance.getSubject()</span></div>
+                            <div class=""><span class="ico_iworks t_date"><%=work.getFullpathName() %></span> <span class="title_picico"><%=instance.getSubject()%></span></div>
                         </div>
                     </div>
                     

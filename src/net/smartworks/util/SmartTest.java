@@ -16,6 +16,7 @@ import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.FieldData;
+import net.smartworks.model.instance.InformationWorkInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
@@ -156,7 +157,7 @@ public class SmartTest {
 
 	public static SmartForm getForm1() throws Exception{
 		SmartForm form = new SmartForm();
-		form.setFields(new FormField[] {new FormField("f1", "제 목", FormField.TYPE_TEXT), new FormField("f2", "작성자", FormField.TYPE_DATETIME), new FormField("f3", "관리부서", FormField.TYPE_CHECK_BOX), new FormField("f4", "상세설명", FormField.TYPE_NUMBER), new FormField("f5", "첨부파일", FormField.TYPE_FILE)});
+		form.setFields(new FormField[] {new FormField("f1", "제 목", FormField.TYPE_TEXT), new FormField("f2", "작성자", FormField.TYPE_USER), new FormField("f3", "관리부서", FormField.TYPE_OTHER_WORK), new FormField("f4", "상세설명", FormField.TYPE_RICHTEXT_EDITOR), new FormField("f5", "첨부파일", FormField.TYPE_FILE)});
 		form.setDescription("문서를 등록하는 화면입니다. 원하는 문서를 첨부하시고 제목, 작성자 등을 작성하여 주시기 바랍니다.");
 		return form;
 	}
@@ -227,7 +228,7 @@ public class SmartTest {
 		work.setLastModifiedDate(new LocalDate());
 		work.setForm(getForm1());
 		work.setKeyField(new FormField("f1", "제 목", "String"));
-		work.setDisplayFields(new FormField[] {new FormField("f1", "제 목", FormField.TYPE_TEXT), new FormField("f2", "작성자", FormField.TYPE_DATETIME), new FormField("f3", "관리부서", FormField.TYPE_CHECK_BOX), new FormField("f4", "상세설명", FormField.TYPE_NUMBER), new FormField("f5", "첨부파일", FormField.TYPE_FILE)});
+		work.setDisplayFields(new FormField[] {new FormField("f1", "제 목", FormField.TYPE_TEXT), new FormField("f2", "작성자", FormField.TYPE_USER), new FormField("f3", "관리부서", FormField.TYPE_OTHER_WORK), new FormField("f4", "상세설명", FormField.TYPE_RICHTEXT_EDITOR), new FormField("f5", "첨부파일", FormField.TYPE_FILE)});
 		work.setHelpUrl("http://manual.smartworks.net");
 		work.setManualFilePath("test/files/");
 		work.setManualFileName("법무지원시스템_dashboard디자인가이드.pptx");
@@ -377,6 +378,13 @@ public class SmartTest {
 		return instance;
 	}
 
+	public static InformationWorkInstance getInformationWorkInstance1() throws Exception {
+		InformationWorkInstance instance = new InformationWorkInstance("inst2", "스마트웍스 3.0 개발계획 회의록 입니다.", getInformationWork1(), getUser1(), getUser1(), new LocalDate(LocalDate.convertStringToTime("201110230900")));
+		instance.setTasks(new TaskInstanceInfo[] {SmartTest.getTaskInstanceInfoIA()});
+		instance.setCreatedDate(new LocalDate());
+		return instance;
+	}
+
 	public static WorkInstance getWorkInstance3() throws Exception {
 		return new WorkInstance("inst3", "노트북 구매 기안합니다.", getSmartWork3(), getUser1(), getUser1(), new LocalDate(LocalDate.convertStringToTime("201110251621")));
 	}
@@ -394,14 +402,15 @@ public class SmartTest {
 	}
 	
 	public static WorkInstance getWorkInstanceById(String instanceId) throws Exception{
-		if(instanceId == null || instanceId.equals("")){
-			return getWorkInstance1();
-		}
-		WorkInstance[] workInstances = new WorkInstance[] {getWorkInstance1(), getWorkInstance2(), getWorkInstance3(), getWorkInstance4(), getWorkInstance5() };
-		for(WorkInstance instance : workInstances){
-			if(instance.getId().equals(instanceId)) return instance;
-		}
-		return getWorkInstance1();
+		return getInformationWorkInstance1();
+		//		if(instanceId == null || instanceId.equals("")){
+//			return getWorkInstance1();
+//		}
+//		WorkInstance[] workInstances = new WorkInstance[] {getWorkInstance1(), getWorkInstance2(), getWorkInstance3(), getWorkInstance4(), getWorkInstance5() };
+//		for(WorkInstance instance : workInstances){
+//			if(instance.getId().equals(instanceId)) return instance;
+//		}
+//		return getWorkInstance1();
 	}
 
 	public static PWInstanceInfo getWorkInstanceInfo3() throws Exception {
