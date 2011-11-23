@@ -37,6 +37,6 @@
 <span class="str_field"> <input class="inputline" type="text"
 	name="txtFilterUserOperand"
 	value="<%if (operandValue != null) {%><%=operandValue%><%}%>"
-	id="<%if (operandId != null) {%><%=operandId%><%}%>"> </span>
+	id="<%if (operandId != null) {%><%=operandId%><%}%>"></input><img src="images/btn_s_person.jpg" /></span>
 <span class="btn_x_grb_posi">
 	<button class="btn_x_grb js_remove_condition"></button> </span>

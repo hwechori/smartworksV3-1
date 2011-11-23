@@ -32,6 +32,8 @@ public interface IInstanceService {
 
 	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception;
 
+	public WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception;
+
 	public String setInformationWorkInstance(HttpServletRequest request) throws Exception;
 
 	public String startProcessWorkInstance(HttpServletRequest request) throws Exception;

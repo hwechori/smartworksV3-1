@@ -180,6 +180,8 @@ public class WorkServiceImpl implements IWorkService {
 
 	public Work getWorkById_hs(String companyId, String userId, String workId) throws Exception {
 
+		return SmartTest.getWorkById(workId);
+/*		
 		SwfFormCond swfCond = new SwfFormCond();
 		swfCond.setPackageId(workId);
 		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_ALL);
@@ -227,7 +229,7 @@ public class WorkServiceImpl implements IWorkService {
 
 		Work resultwork = new InformationWork();
 		((InformationWork)resultwork).setDisplayFields(formFields);
-
+*/
 		/* -- 공개여부 --
 		 공개 / 비공개*/
 
@@ -237,7 +239,7 @@ public class WorkServiceImpl implements IWorkService {
 
 		 /*-- 작성권한 --
 		 전체 / 선택사용자*/
-
+/*
 		AccessPolicy accessPolicy = new AccessPolicy();
 		WritePolicy writePolicy = new WritePolicy();
 		EditPolicy editPolicy = new EditPolicy();
@@ -317,6 +319,7 @@ public class WorkServiceImpl implements IWorkService {
 		((SmartWork)resultwork).setMyGroup(myGroup);
 
 		return resultwork;
+*/
 	}
 	
 	

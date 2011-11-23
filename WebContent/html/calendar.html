@@ -1,106 +1,46 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-<link href="../css/default.css" type="text/css" rel="stylesheet" /></link>
-<link href="../css/calendar.css" type="text/css" rel="stylesheet" /></link>
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+      
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+      
+      // Callback that creates and populates a data table, 
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
 
-<body>
-<div class="_basic_calendar basic_calender no_view select_free_layer" style="display: block; position: absolute; z-index: 1000;">
-<h4 class="no_view">기본 캘린더</h4>
+      // Create the data table.
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Topping');
+      data.addColumn('number', 'Slices');
+      data.addRows([
+        ['Mushrooms', 3],
+        ['Onions', 1],
+        ['Olives', 1], 
+        ['Zucchini', 1],
+        ['Pepperoni', 2]
+      ]);
 
-<div class="_move_control move_month">
-	<strong class="_now">2011. 11</strong>
-	<button class="_yprev btn_yprev img_btn" style="width:14px;height:13px;">
-		<img width="14" height="13" alt="이전 년도" src="http://static.naver.net/calendar/btn_l_year.gif">
-	</button>
-	<button class="_prev btn_prev img_btn" style="width:13px;height:13px;">
-		<img width="13" height="13" alt="이전 달" src="http://static.naver.net/calendar/btn_l_month.gif">
-	</button>
-	<button class="_next btn_next img_btn" style="width:13px;height:13px;">
-		<img width="13" height="13" alt="다음 달" src="http://static.naver.net/calendar/btn_r_month.gif">
-	</button>
-	<button class="_ynext btn_ynext img_btn" style="width:14px;height:13px;">
-		<img width="14" height="13" alt="다음 년도" src="http://static.naver.net/calendar/btn_r_year.gif">
-	</button>
-</div>
+      // Set chart options
+      var options = {'title':'How Much Pizza I Ate Last Night',
+                     'width':400,
+                     'height':300};
 
-<table class="_date_table" cellspacing="0" cellpadding="0" border="0">
-    <colgroup>
-    	<col width="25" span="7">
-    </colgroup>
-    <thead>
-        <tr class="_days">
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="_week">
-            <td class=" range_out_holiday">30</td>
-            <td class=" range_out">31</td>
-            <td class="">1</td>
-            <td class="today selected_area">
-            <strong>2</strong>
-            </td>
-            <td class="">3</td>
-            <td class="">4</td>
-            <td class="">5</td>
-        </tr>
-        <tr class="_week">
-            <td class=" holiday">6</td>
-            <td class="">7</td>
-            <td class="">8</td>
-            <td class="">9</td>
-            <td class="">10</td>
-            <td class="">11</td>
-            <td class="">12</td>
-        </tr>
-        <tr class="_week">
-            <td class=" holiday">13</td>
-            <td class="">14</td>
-            <td class="">15</td>
-            <td class="">16</td>
-            <td class="">17</td>
-            <td class="">18</td>
-            <td class="">19</td>
-        </tr>
-        <tr class="_week">
-            <td class=" holiday">20</td>
-            <td class="">21</td>
-            <td class="">22</td>
-            <td class="">23</td>
-            <td class="">24</td>
-            <td class="">25</td>
-            <td class="">26</td>
-        </tr>
-        <tr class="_week">
-            <td class=" holiday">27</td>
-            <td class="">28</td>
-            <td class="">29</td>
-            <td class="">30</td>
-            <td class=" range_out">1</td>
-            <td class=" range_out">2</td>
-            <td class=" range_out">3</td>
-        </tr>
-        <tr class="_week">
-            <td class=" range_out_holiday">4</td>
-            <td class=" range_out">5</td>
-            <td class=" range_out">6</td>
-            <td class=" range_out">7</td>
-            <td class=" range_out">8</td>
-            <td class=" range_out">9</td>
-            <td class=" range_out">10</td>
-        </tr>
-    </tbody>
-    </table>
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+    </script>
+  </head>
 
-</body>
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+  </body>
 </html>

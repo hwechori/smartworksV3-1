@@ -37,15 +37,11 @@ public class SearchFilter extends BaseObject{
 	}
 
 	public static SearchFilter getRecentInstancesFilter(){
-		LocalDate currentDate = new LocalDate();
-		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
-		return new SearchFilter(new Condition[] {new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL.getId(), new LocalDate(oneWeekBefore) )});
+		return new SearchFilter(new Condition[] {new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.RECENT_DAYS.getId(), null)});
 	}
 	public static SearchFilter getMyRecentInstancesFilter(User currentUser){
-		LocalDate currentDate = new LocalDate();
-		long oneWeekBefore = currentDate.getGMTDate() - 7*LocalDate.ONE_DAY;
 		return new SearchFilter(new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
-				new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.GREATER_EQUAL.getId(), new LocalDate(oneWeekBefore) )});
+				new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.RECENT_DAYS.getId(), null)});
 	}
 	public static SearchFilter getMyRunningInstancesFilter(User currentUser){
 		return new SearchFilter(new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),

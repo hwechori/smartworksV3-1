@@ -298,6 +298,11 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getPWorkInstanceList(companyId, userId, workId, params);
 	}
 
+	@Override
+	public WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception{
+		return instanceService.getWorkInstanceById(companyId, userId, instanceId);
+	}
+
 /*	@Override
 >>>>>>> branch 'master' of git@github.com:maninsoft/smartworksV3.git
 	public String createFile(String userId, String groupId, IFileModel file) throws Exception {

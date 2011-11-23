@@ -16,25 +16,25 @@
 	LocalDate date = new LocalDate();
 	String today = date.toLocalDateSimpleString();
 	String curTime = date.toLocalTimeShortString();
-	KeyMap[] dateOpers = ConditionOperator.dateOperators;
+	KeyMap[] timeOpers = ConditionOperator.timeOperators;
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <select name="selFilterTimeOperator" class="selb_size_sec">
 	<%
-		for (KeyMap dateOper : dateOpers) {
+		for (KeyMap timeOper : timeOpers) {
 	%>
-	<option value="<%=dateOper.getId()%>"
-		<%if (operator != null && operator.equals(dateOper.getId())) {%>
+	<option value="<%=timeOper.getId()%>"
+		<%if (operator != null && operator.equals(timeOper.getId())) {%>
 		selected <%}%>>
-		<fmt:message key="<%=dateOper.getKey() %>" />
+		<fmt:message key="<%=timeOper.getKey() %>" />
 	</option>
 	<%
 		}
 	%>
 </select>
-<span class="str_field"><input name="selFilterTimeOperand"
+<span class="str_field"><input name="selFilterTimeOperand" class="inputline time_input"
 	type="text"
 	value="<%if (operandValue != null) {%><%=operandValue%><%} else {%><%=curTime%><%}%>">
 </span>

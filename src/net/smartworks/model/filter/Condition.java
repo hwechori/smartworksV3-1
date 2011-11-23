@@ -3,7 +3,7 @@ package net.smartworks.model.filter;
 import net.smartworks.model.work.FormField;
 
 public class Condition {
-	
+		
 	private FormField leftOperand;
 	private String operator;
 	private Object rightOperand;

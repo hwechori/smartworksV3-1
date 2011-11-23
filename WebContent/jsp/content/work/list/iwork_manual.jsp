@@ -29,6 +29,7 @@
 
 
 <div class="contents_space">
+	<div class="border">
 	<!-- 업무설명 영역 -->
 	<div class="det_contents">
 		<table>
@@ -38,10 +39,16 @@
 			</colgroup>
 			<tbody>
 				<tr>
+					<%
+					if(work.getForm() != null){
+					%>
 					<td><img src="<%=work.getForm().getOrgImage()%>" width="349"
 						height="289" />
 					</td>
 					<td><%=work.getForm().getDescription()%></td>
+					<%
+					}
+					%>
 				</tr>
 			</tbody>
 		</table>
@@ -89,7 +96,6 @@
     </div>
     <!-- 댓글 //-->
 
-	<!-- 라인 -->
-	<div class="solid_line_s"></div>
+	</div>
 
 </div>

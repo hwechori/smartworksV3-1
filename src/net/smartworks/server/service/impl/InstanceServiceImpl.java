@@ -11,6 +11,7 @@ import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
@@ -178,5 +179,10 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
 		return SmartTest.getWorkInstanceList2(params);
+	}
+	@Override
+	public WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception {
+		
+		return SmartTest.getWorkInstanceById(instanceId);
 	}		
 }

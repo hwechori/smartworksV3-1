@@ -32,7 +32,7 @@
 		}
 	%>
 </select>
-<span class="str_field"> <input class="inputline" type="text"
+<span class="str_field"> <input class="fieldline" type="text"
 	name="txtFilterFileOperand"
 	value="<%if (operandValue != null) {%><%=operandValue%><%}%>"> </span>
 <span class="btn_x_grb_posi">

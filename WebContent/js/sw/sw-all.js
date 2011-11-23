@@ -195,6 +195,15 @@ $(function() {
 				return false;
 			});
 
+	$('select.js_select_filter_operator').live(
+			'change',
+			function(e) {
+				var input = $(e.target);
+				var target = input.children('option:selected').attr('type');
+				input.siblings('span.' + target).show().siblings('span.js_right_operand').hide();
+				return false;
+			});
+
 	$('a.js_search_filter').live(
 			'click',
 			function(e) {
@@ -333,7 +342,7 @@ $(function() {
 
 	$('a.js_view_work_manual').live('click', function(e){
 		var input = $(e.target);
-		input.parents("div.contents_space:first").siblings('#work_manual').slideToggle(500);
+		input.parents("div.contents_space:first").find('#work_manual').slideToggle(500);
 		input.hide();
 		input.siblings().show();
 		return false;
