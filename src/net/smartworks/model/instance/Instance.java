@@ -34,6 +34,7 @@ public class Instance {
 	private WorkSpace workSpace;
 	private int status=-1;
 	private User owner;
+	private LocalDate createdDate;
 	private User lastModifier;
 	private LocalDate lastModifiedDate;
 
@@ -84,6 +85,12 @@ public class Instance {
 	}
 	public User getLastModifier() {
 		return lastModifier;
+	}
+	public LocalDate getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(LocalDate createdDate) {
+		this.createdDate = createdDate;
 	}
 	public void setLastModifier(User lastModifier) {
 		this.lastModifier = lastModifier;

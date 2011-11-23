@@ -16,8 +16,7 @@
 	String companyId = (String) session.getAttribute("companyId");
 	String userId = (String) session.getAttribute("userId");
 
-	ISmartWorks smartWorks = (ISmartWorks) request
-			.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	String wid = request.getParameter("wid");
 
@@ -27,7 +26,6 @@
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-
 
 <!-- 컨텐츠 레이아웃-->
 <div class="section_portlet">
@@ -128,15 +126,13 @@
 
 				<!-- 업무 정의 영역 //-->
 
-<!-- 버튼 영역-->
-<div class="txt_btn margin_t10">
-	<span class="po_left bu_w_explan"> <a
-		class="js_view_work_manual" href=""><fmt:message
-				key="common.button.view.work_manual" />▼</a> <a
-		style="display: none" class="js_view_work_manual" href=""><fmt:message
-				key="common.button.close.work_manual" />▼</a> </span> 
-								
-								<span
+				<!-- 버튼 영역-->
+				<div class="txt_btn margin_t10">
+					<span class="po_left bu_w_explan"> <a
+						class="js_view_work_manual" href=""><fmt:message
+								key="common.button.view.work_manual" />▼</a> <a
+						style="display: none" class="js_view_work_manual" href=""><fmt:message
+								key="common.button.close.work_manual" />▼</a> </span> <span
 						class="po_left"> <%
  	if (work.getManualFileName() != null) {
  %> <a href="" class="bu_video space_r2"
@@ -147,160 +143,157 @@
 						title="<fmt:message key='work.title.help_url'/>" target="_blank">
 					</a> <%
  	}
- %> </span> 
- 
- <!-- 수정하기 -->
- <span class="float_right"> <%
- 	if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
- %> <span class="btn_gray txt_btn_posi"> <span class="Btn01Start"></span>
-							<span class="Btn01Center"><fmt:message
-									key='common.button.modify' /> </span> <span class="Btn01End"></span>
-					</span> <%
- 	}
  %> </span>
-<!-- 수정하기 //-->
-
-<!-- 최종수정자 -->
- <span class="float_right space_l5">
-	<div class="po_right"><%=work.getLastModifier().getLongName()%>
-		<%=work.getLastModifiedDate().toLocalString()%></div>
-	<img class="po_right"
-		src="<%=work.getLastModifier().getMinPicture()%>" />
-	<div class="po_right">
-		<fmt:message key="common.title.last_modifier" />
-		:
-	</div>
-</span>
-<!-- 최종수정자 //-->
 
 
-</div>
-<!-- 버튼 영역 //-->
 
-<!-- 라인 -->
-	<div class="solid_line_s"></div>
-
+				</div>
+				<!-- 버튼 영역 //-->
 			</div>
 			<div id="work_manual" style="display: none">
 				<jsp:include page="/jsp/content/work/list/iwork_manual.jsp"></jsp:include>
 			</div>
-			
+			<!-- 라인 -->
+			<div class="solid_line_s"></div>
+			<!-- 최종수정자 -->
+			<span class="float_right space_l5"> <img class="po_right"
+				src="<%=work.getLastModifier().getMinPicture()%>"
+				title="<fmt:message key="common.title.last_modifier" />" /> <span
+				class="po_right"><%=work.getLastModifier().getLongName()%> <%=work.getLastModifiedDate().toLocalString()%></span>
+				<!-- 수정하기 --> <span class="po_right"> <%
+ 	if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
+ %> <span class="btn_gray txt_btn_posi"> <span class="Btn01Start"></span>
+						<span class="Btn01Center"><fmt:message
+								key='common.button.modify' /> </span> <span class="Btn01End"></span> </span>
+					<%
+						}
+					%> </span> <!-- 수정하기 //--> </span>
+			<!-- 최종수정자 //-->
 
+			<!-- 목록영역  -->
+			<div class=" contents_space margin_t10">
 
-<!-- 목록영역  -->
-<div class=" contents_space margin_t10">
-			
-<!--탭-->
-<div class="tab_lst">
-    <ul>
-    <li class="lst ">목록보기</li>
-    <li class="wup current">새업무 등록하기</li>
-    <li class="stat">통계분석</li>
-    <li class="end"> </li>
-    </ul>
-</div>       
-<!--탭//-->
-
+				<!--탭-->
+				<div class="tab_lst">
+					<ul>
+						<li class="stat">
+							<select>
+								<option>주간보고</option>
+								<option>주별 영업진행 현황</option>
+							</select>
+							<a href="">새 통계분석 만들기</a></li>
+						<li class="end"></li>
+					</ul>
+				</div>
+				<!--탭//-->
 				<!-- 목록보기 -->
-				<div class="border view_list"> 
-				
-				<!-- 목록보기 타이틀-->
-				<div class="list_title_space">
+				<div class="border view_list">
 
-					<div class="txt_btn posi_ab">
+					<!-- 목록보기 타이틀-->
+					<div class="list_title_space">
 
-						<div class="po_left">
-							<div class="srch">
-								<input id="" class="input" type="text"
-									placeholder="<fmt:message key='search.search_work' />">
-								<button onclick="" title="<fmt:message key='search.search_work'/>" ></button>
+						<div class="txt_btn posi_ab">
+
+							<div class="lst po_left">
+								<fmt:message key="common.title.instance_list" />
 							</div>
+							<div class="po_left">
+								<div class="srch">
+									<input id="" class="input" type="text"
+										placeholder="<fmt:message key='search.search_work' />">
+									<button onclick=""
+										title="<fmt:message key='search.search_work'/>"></button>
+								</div>
+							</div>
+
+							<div class="po_left">
+								<form class="form_space" name="frmIworkFilterName">
+									<select name="selFilterName" class="js_select_filter"
+										href="search_filter.sw?workId=<%=workId%>">
+										<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>"
+											selected>
+											<fmt:message key='filter.name.all_instances' />
+										</option>
+										<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>">
+											<fmt:message key='filter.name.my_instances' />
+										</option>
+										<option value="<%=SearchFilter.FILTER_RECENT_INSTANCES%>">
+											<fmt:message key='filter.name.recent_instances' />
+										</option>
+										<option value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES%>">
+											<fmt:message key='filter.name.my_recent_instances' />
+										</option>
+										<%
+											SearchFilter[] filters = work.getSearchFilters();
+											if (filters != null) {
+												for (SearchFilter filter : filters) {
+										%>
+										<option value="<%=filter.getId()%>">
+											<%=filter.getName()%>
+										</option>
+										<%
+											}
+											}
+										%>
+									</select>
+								</form>
+							</div>
+							<a href="search_filter.sw?workId=<%=workId%>"
+								class="js_search_filter"><div class="po_left">
+									<fmt:message key='filter.button.search_filter' />
+								</div> </a>
 						</div>
 
-						<div class="po_left">
-							<form class="form_space" name="frmIworkFilterName">
-								<select name="selFilterName" class="js_select_filter"
-									href="search_filter.sw?workId=<%=workId%>">
-									<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" selected>
-										<fmt:message key='filter.name.all_instances' />
-									</option>
-									<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>">
-										<fmt:message key='filter.name.my_instances' />
-									</option>
-									<option value="<%=SearchFilter.FILTER_RECENT_INSTANCES%>">
-										<fmt:message key='filter.name.recent_instances' />
-									</option>
-									<option value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES%>">
-										<fmt:message key='filter.name.my_recent_instances' />
-									</option>
+						<div class="txt_btn">
+							<div class="po_right">
+								<a href="">엑셀로 등록하기</a>
+							</div>
+							<div class="po_right">
+								<a href="">새항목 등록하기</a>
+							</div>
+						</div>
+					</div>
+					<!-- 목록보기 타이틀-->
+
+					<!-- 상세필터 -->
+					<div id="search_filter" class="filter_section"></div>
+					<!-- 상세필터 -->
+
+					<!-- 목록 테이블 -->
+					<div class="list_contents">
+						<table>
+							<tbody>
+								<tr class="tit_bg">
+									<th></th>
 									<%
-										SearchFilter[] filters = work.getSearchFilters();
-										if (filters != null) {
-											for (SearchFilter filter : filters) {
+										FormField[] fields = work.getDisplayFields();
+										if (fields != null) {
+											for (FormField field : fields) {
 									%>
-									<option value="<%=filter.getId()%>">
-										<%=filter.getName()%>
-									</option>
+									<th class="r_line"><%=field.getName()%></th>
 									<%
 										}
 										}
 									%>
-								</select>
-							</form>
-						</div>
-						<a href="search_filter.sw?workId=<%=workId%>"
-							class="js_search_filter"><div class="po_left">
-								<fmt:message key='filter.button.search_filter' />
-							</div> </a>
+									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
+											key='common.title.last_modified_date' />
+									</th>
+								</tr>
+								<div id='iwork_list_page'>
+									<jsp:include
+										page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
+								</div>
+							</tbody>
+						</table>
 					</div>
+					<!-- 목록 테이블 //-->
 
-					<div class="txt_btn">
-						<div class="po_right">
-							<img class="bu_excel"><a href="">엑셀 불러오기</a>
-						</div>
-
-					</div>
 				</div>
-				<!-- 목록보기 타이틀-->
-
-				<!-- 상세필터 -->
-				<div id="search_filter" class="filter_section"></div>
-				<!-- 상세필터 -->
-
-				<!-- 목록 테이블 -->
-				<div class="list_contents">
-					<table>
-						<tbody>
-							<tr class="tit_bg">
-								<th></th>
-								<%
-									FormField[] fields = work.getDisplayFields();
-									if (fields != null) {
-										for (FormField field : fields) {
-								%>
-								<th class="r_line"><%=field.getName()%></th>
-								<%
-									}
-									}
-								%>
-								<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-										key='common.title.last_modified_date' /></th>
-							</tr>
-							<div id='iwork_list_page'>
-								<jsp:include
-									page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
-							</div>
-						</tbody>
-					</table>
-				</div>
-				<!-- 목록 테이블 //-->
+				<!-- 목록보기 -->
 
 			</div>
-			<!-- 목록보기 -->
-			
-	</div>
-	<!-- 목록영역 // -->
-	
+			<!-- 목록영역 // -->
+
 		</ul>
 	</div>
 	<div class="portlet_b" style="display: block;"></div>

@@ -150,6 +150,8 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception;
 	
+	public abstract WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception;
+	
 	public abstract String setInformationWorkInstance(HttpServletRequest request) throws Exception;
 
 	public abstract String startProcessWorkInstance(HttpServletRequest request) throws Exception;

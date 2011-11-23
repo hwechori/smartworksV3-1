@@ -26,11 +26,37 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<select name="selFilterDateOperator" class="selb_size_sec">
+<select name="selFilterDateOperator"
+	class="selb_size_sec js_select_filter_operator">
 	<%
-		for (KeyMap dateOper : dateOpers) {
+	String operType = "";
+	String selectedOperType = "js_operand_date";
+	if (dateOpers.length > 0) {
+		if(operator == null) operator = dateOpers[0].getId();
+		if (operator.equals(ConditionOperator.RECENT_DAYS.getId()) || operator.equals(ConditionOperator.TODAY.getId())
+				|| operator.equals(ConditionOperator.THIS_WEEK.getId()) || operator.equals(ConditionOperator.THIS_MONTH.getId())
+				|| operator.equals(ConditionOperator.THIS_QUARTER.getId()) || operator.equals(ConditionOperator.THIS_HALF_YEAR.getId())
+				|| operator.equals(ConditionOperator.THIS_YEAR.getId())) {
+			selectedOperType = "js_operand_none";
+		} else if (operator.equals(ConditionOperator.RECENT_SOME_DAYS.getId()) || operator.equals(ConditionOperator.RECENT_SOME_MONTHS.getId())) {
+			selectedOperType = "js_operand_number";
+		} else {
+			selectedOperType = "js_operand_date";
+		}
+	}
+	for (KeyMap dateOper : dateOpers) {
+		String operId = dateOper.getId();
+		if (operId.equals(ConditionOperator.RECENT_DAYS.getId()) || operId.equals(ConditionOperator.TODAY.getId()) || operId.equals(ConditionOperator.THIS_WEEK.getId())
+				|| operId.equals(ConditionOperator.THIS_MONTH.getId()) || operId.equals(ConditionOperator.THIS_QUARTER.getId())
+				|| operId.equals(ConditionOperator.THIS_HALF_YEAR.getId()) || operId.equals(ConditionOperator.THIS_YEAR.getId())){
+			operType = "js_operand_none";
+		}else if(operId.equals(ConditionOperator.RECENT_SOME_DAYS.getId())  || operId.equals(ConditionOperator.RECENT_SOME_MONTHS.getId())){
+			operType = "js_operand_number";
+		}else{
+			operType = "js_operand_date";
+		}
 	%>
-	<option value="<%=dateOper.getId()%>"
+	<option value="<%=dateOper.getId()%>" type="<%=operType %>"
 		<%if (operator != null && operator.equals(dateOper.getId())) {%>
 		selected <%}%>>
 		<fmt:message key="<%=dateOper.getKey() %>" />
@@ -39,9 +65,20 @@
 		}
 	%>
 </select>
-<span class="str_field"> <input
+<span class="str_field js_operand_date js_right_operand"
+	<%if (!selectedOperType.equals("js_operand_date")) {%> style="display: none"
+	<%}%>> <input
 	class="inputline date_input js_todaypicker" type="text"
-	name="txtFilterDateOperand" readonly="readonly" value="<%if(operandValue!=null){%><%=operandValue %><%}else{ %><%=today%><%}%>">
+	name="txtFilterDateOperand" readonly="readonly"
+	value="<%if (operandValue != null && !operandValue.equals("null")) {%><%=operandValue%><%} else {%><%=today%><%}%>">
 </span>
+<span class="str_filed js_operand_none  js_right_operand"
+	<%if (!selectedOperType.equals("js_operand_none")) {%> style="display: none"
+	<%}%>></span>
+<span class="str_field js_operand_number  js_right_operand"
+	<%if (!selectedOperType.equals("js_operand_number")) {%> style="display: none"
+	<%}%>> <input
+	class="inputline number" type="text" name="txtFilterDateOperandNumber"
+	value=""> </span>
 <span class="btn_x_grb_posi">
 	<button class="btn_x_grb js_remove_condition"></button> </span>
