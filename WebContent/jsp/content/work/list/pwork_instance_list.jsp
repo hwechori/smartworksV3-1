@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.service.impl.SmartWorks"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.PWInstanceInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
@@ -52,25 +53,28 @@
 			UserInfo lastModifier = instanceInfo.getLastModifier();
 			TaskInstanceInfo[] runningTasks = instanceInfo.getRunningTasks();
 			TaskInstanceInfo lastTask = instanceInfo.getLastTask();
+			cid = SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceInfo.getId();
+			wid = instanceInfo.getWorkSpace().getId();
+			String target = "pwork_space.sw?cid=" + cid + "?wid=" + wid;
 %>
 <tr>
 	<td></td>
-	<td><img src="<%=owner.getMinPicture()%>"
-		title="<%=owner.getLongName()%>" />
+	<td><a href="<%=target%>"><img src="<%=owner.getMinPicture()%>"
+		title="<%=owner.getLongName()%>" /></a>
 	</td>
-	<td><%=instanceInfo.getSubject()%></td>
+	<td><a href="<%=target%>"><%=instanceInfo.getSubject()%></a></td>
 	<%
 	if(runningTasks!=null){
 		int runningCount = runningTasks.length;	
 	%>
-	<td><%=runningTasks[0].getName()%></td>
+	<td><a href="<%=target%>"><%=runningTasks[0].getName()%></a></td>
 	<%
 	}else if(lastTask!=null){
 	%>
-	<td><%=lastTask.getName()%></td>
+	<td><a href="<%=target%>"><%=lastTask.getName()%></a></td>
 	<%
 	}%>
-	<td>
+	<td><a href="<%=target%>">
 		<div class="noti_pic">
 			<img src="<%=lastModifier.getMinPicture()%>"
 				title="<%=lastModifier.getLongName()%>" align="bottom" />
@@ -78,7 +82,7 @@
 		<div class="noti_in">
 			<span class="t_name"><%=lastModifier.getLongName()%></span>
 			<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
-		</div></td>
+		</div></a></td>
 </tr>
 <%
 	}

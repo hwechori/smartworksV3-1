@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.service.impl.SmartWorks"%>
 <%@page import="net.smartworks.model.instance.info.IWInstanceInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
@@ -45,34 +46,37 @@
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
 		FormField[] displayFields = work.getDisplayFields();
-		IWInstanceInfo[] instanceInfos = (IWInstanceInfo[])instanceList.getInstanceDatas();
+		IWInstanceInfo[] instanceInfos = (IWInstanceInfo[]) instanceList.getInstanceDatas();
 		for (IWInstanceInfo instanceInfo : instanceInfos) {
 			UserInfo owner = instanceInfo.getOwner();
 			UserInfo lastModifier = instanceInfo.getLastModifier();
 			FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
+			cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
+			wid = instanceInfo.getWorkSpace().getId();
+			String target = "iwork_space.sw?cid=" + cid + "&wid=" + wid;
 %>
 <tr>
-	<td><img src="<%=owner.getMinPicture()%>"
-		title="<%=owner.getLongName()%>" />
+	<td><a href="<%=target%>"><img src="<%=owner.getMinPicture()%>"
+		title="<%=owner.getLongName()%>" /></a>
 	</td>
 	<%
 		if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
 					for (FieldData data : fieldDatas) {
 	%>
-	<td><%=data.getValue()%></td>
+	<td><a href="<%=target%>"><%=data.getValue()%></a></td>
 	<%
 		}
 				}
 	%>
 	<td>
-		<div class="noti_pic">
+		<a href="<%=target%>"><div class="noti_pic">
 			<img src="<%=lastModifier.getMinPicture()%>"
 				title="<%=lastModifier.getLongName()%>" align="bottom" />
 		</div>
 		<div class="noti_in">
 			<span class="t_name"><%=lastModifier.getLongName()%></span>
 			<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
-		</div></td>
+		</div></a></td>
 </tr>
 <%
 	}
