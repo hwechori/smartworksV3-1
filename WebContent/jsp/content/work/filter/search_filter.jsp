@@ -2,7 +2,7 @@
 <%@page import="net.smartworks.model.work.ProcessWork"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="net.smartworks.util.LocalDate"%>
-<%@page import="net.smartworks.model.filter.KeyMap"%>
+<%@page import="net.smartworks.model.KeyMap"%>
 <%@page import="net.smartworks.model.filter.ConditionOperator"%>
 <%@page import="net.smartworks.model.filter.Condition"%>
 <%@page import="net.smartworks.model.work.FormField"%>

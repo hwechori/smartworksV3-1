@@ -254,4 +254,16 @@ public class SmartUtil {
 		user.setUserLevel(swoUser.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
 		return user;
 	}
+
+	public static User getSystemUser(){
+
+		User user = new User();
+		user.setId("systemUser");
+		user.setName("System");
+		user.setPosition("");
+		user.setDepartment("");
+		user.setCompany("");
+		user.setUserLevel(User.USER_LEVEL_AMINISTRATOR);
+		return user;
+	}
 }
