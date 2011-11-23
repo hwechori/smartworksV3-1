@@ -350,7 +350,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 #work_ing li.end { border:none;}
 .working_br {line-height:18px; padding:10px 0 3px 0;}
 #work_ing .pic {padding:0 10px 0 0; float:left;}
-#work_ing .tit { font-size:14px; font-weight:bold;}
+#work_ing .tit { font-size:14px; font-weight:bold; float:left; position:absolute;}
 
 /* Ico */
 .ico_division_s {background: url("../images/ico_division_s.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px; color:#23579e;}

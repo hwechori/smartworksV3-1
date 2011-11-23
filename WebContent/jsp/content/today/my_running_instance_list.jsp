@@ -27,27 +27,34 @@
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
 			<div id="work_ing">
-				<ul>
-					<li><span class="tit"><fmt:message
-								key="content.my_running_instance_list" /> </span>
-					<li class="nav_srch">
-						<div class="srch">
-							<input id="" class="input js_auto_complete" type="text"
-								title="<fmt:message key="search.search_running_instance"/>"
-								placeholder="<fmt:message key="search.search_running_instance"/>"
-								href="my_running_instance.sw">
-							<button title="<fmt:message key='search.search'/>" onclick=""></button>
-						</div>
-						<div style="display: none"></div>
-					</li>
-					<li>
+		
+			<div>
+				<div class="tit">
+				<fmt:message
+									key="content.my_running_instance_list" />
+				</div>
+				<div class="nav_srch">
+				<div class="srch">
+						<input id="" class="input js_auto_complete" type="text"
+							title="<fmt:message key="search.search_running_instance"/>"
+							placeholder="<fmt:message key="search.search_running_instance"/>"
+							href="my_running_instance.sw">
+						<button title="<fmt:message key='search.search'/>" onclick=""></button>
+				</div>
+				
+				<div style="display: none"></div>
+				</div>
+				
+				<!-- 라인  -->
+				<div class="solid_line"></div>
+			</div>
+			
 						<ul>
 							<jsp:include page="/jsp/content/today/more_instance_list.jsp" />
 						</ul>
 						<div class="js_more_list">
 							<a href="more_instance_list.sw">더보기</a>
-						</div></li>
-				</ul>
+						</div>
 			</div>
 		</ul>
 	</div>
