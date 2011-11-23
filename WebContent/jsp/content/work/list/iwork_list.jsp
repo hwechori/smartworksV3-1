@@ -41,6 +41,18 @@
 				<div class="solid_line"></div>
 			</div>
 			<!-- 타이틀 -->
+			
+			<!-- 최종수정자 -->
+			<div class="float_right">
+				<div class="noti_pic">
+					<img align="bottom" title="<fmt:message key="common.title.last_modifier" />" src="<%=work.getLastModifier().getMinPicture()%>">
+				</div>
+				<div class="noti_in">
+					<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
+					<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%></span>
+				</div>
+			</div>
+			<!-- 최종수정자 //-->
 
 			<!-- 컨텐츠 -->
 			<div class="define_space">
@@ -169,38 +181,29 @@
 				%> </div> 
 			<!-- 수정하기 //--> 
 				
-			<!-- 최종수정자 -->
-			<div class="float_right">
-				<div class="noti_pic">
-					<img align="bottom" title="<fmt:message key="common.title.last_modifier" />" src="<%=work.getLastModifier().getMinPicture()%>">
-				</div>
-				<div class="noti_in">
-					<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
-					<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%></span>
-				</div>
-			</div>
-			<!-- 최종수정자 //-->
+			
 			
 </div>
 
 			<!-- 목록영역  -->
-			<div class=" contents_space margin_t10">
+			<div class="contents_space">
 
-				<!--탭-->
-				<div class="tab_lst">
-					<ul>
-						<li class="stat">
-							<select>
+				<!--통계메뉴 영역-->
+				<div class="txt_btn margin_b2">
+					
+					<div class="po_right bu_n_stat"><a href="">새 통계분석 만들기</a></div>
+					<div class="po_right bu_stat"> 
+						<select>
 								<option>주간보고</option>
 								<option>주별 영업진행 현황</option>
 							</select>
-							<a href="">새 통계분석 만들기</a></li>
-						<li class="end"></li>
-					</ul>
+					</div>
 				</div>
-				<!--탭//-->
+				
+				<!--통계메뉴 영역//-->
+				
 				<!-- 목록보기 -->
-				<div class="border view_list">
+				<div class="border">
 
 					<!-- 목록보기 타이틀-->
 					<div class="list_title_space">
@@ -259,7 +262,7 @@
 
 						<div class="txt_btn">
 							<div class="po_right">
-								<img class="bu_excel"><a href="">엑셀로 등록하기</a>
+								<a href="">엑셀로 등록하기</a>
 							</div>
 							<div class="po_right">
 								<a href="">새항목 등록하기</a>

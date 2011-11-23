@@ -258,6 +258,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_space { padding-right:72px; position:relative;}
 .space_data {text-align:center; margin-right:5px; width:65px;}
 .essen {border-left:2px solid #ef972b; border-top:1px solid #c7c7c7; border-right:1px solid #c7c7c7; border-bottom:1px solid #c7c7c7;}
+.essen_r {border-right:2px solid #ef972b; margin-right: 5px;}
 .pos_day input {margin: 0 0 0 9px;}
 .pos_day label {margin: 0 0 0 5px;}
 
