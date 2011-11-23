@@ -289,41 +289,6 @@
 					<!-- 목록 테이블 //-->
 
 				</div>
-				<!-- 목록보기 타이틀-->
-
-				<!-- 상세필터 -->
-				<div id="search_filter" class="filter_section"></div>
-				<!-- 상세필터 -->
-
-				<!-- 목록 테이블 -->
-				<div class="list_contents">
-					<table>
-						<tbody>
-							<tr>
-								<th></th>
-								<%
-									FormField[] fields = work.getDisplayFields();
-									if (fields != null) {
-										for (FormField field : fields) {
-								%>
-								<th class="r_line"><%=field.getName()%></th>
-								<%
-									}
-									}
-								%>
-								<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-										key='common.title.last_modified_date' />
-								</th>
-							</tr>
-							<div id='iwork_list_page'>
-								<%-- <jsp:include
-									page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include> --%>
-							</div>
-						</tbody>
-					</table>
-				</div>
-				<!-- 목록 테이블 //-->
-			</div>
 			<!-- 목록영역 // -->
 
 		</ul>
