@@ -17,15 +17,18 @@
 	String companyId = (String) session.getAttribute("companyId");
 	String userId = (String) session.getAttribute("userId");
 
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request
+			.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	String wid = request.getParameter("wid");
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser(request);
-	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
+	InformationWork work = (InformationWork) smartWorks.getWorkById(
+			companyId, cUser.getId(), workId);
 
-	Report[] reports = smartWorks.getReportsByWorkId(companyId, cUser.getId(), workId);
+	Report[] reports = smartWorks.getReportsByWorkId(companyId,
+			cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -40,33 +43,57 @@
 
 			<!-- 타이틀 -->
 			<div class="body_titl">
-				<div class="body_titl_iworks title_noico"><%=work.getName()%></div>
-				<!-- 최종수정자 -->
-				<div class="float_right">
-					<div class="noti_pic">
-						<img title="<fmt:message key="common.title.last_modifier" />"
-							src="<%=work.getLastModifier().getMinPicture()%>">
+				<div class="body_titl_iworks title"><%=work.getName()%></div>
+
+				<!-- 우측 버튼 -->
+				<div class="txt_btn padding_b6">
+
+					<!-- 수정하기 -->
+					<div class="float_right space_l5">
+						<%
+							if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
+						%>
+						<span class="btn_gray"> <span class="Btn01Start"></span> <span
+							class="Btn01Center"><fmt:message
+									key='common.button.modify' /> </span> <span class="Btn01End"></span>
+						</span>
+						<%
+							}
+						%>
 					</div>
-					<div class="noti_in">
-						<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
-						<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%></span>
+					<!-- 수정하기 //-->
+
+					<!-- 최종수정자 -->
+					<div class="float_right padding_t5">
+						<img clss="margin_b2"
+							title="<fmt:message key="common.title.last_modifier" />"
+							src="<%=work.getLastModifier().getMinPicture()%>"> <span
+							class="t_name"><%=work.getLastModifier().getLongName()%></span> <span
+							class="t_date"><%=work.getLastModifiedDate().toLocalString()%>
+						</span>
 					</div>
+					<!-- 최종수정자 //-->
+
 				</div>
-				<!-- 최종수정자 //-->
+				<!-- 우측 버튼 //-->
+
+
+
 
 				<div class="solid_line"></div>
 			</div>
 			<!-- 타이틀 -->
 
+
 			<!-- 컨텐츠 -->
-			<div class="define_space js_content_div">
+			<div class="contents_space js_content_div">
 
 				<!-- 업무 정의 영역 -->
 				<div class=""><%=work.getDesc()%></div>
 				<!-- 업무 정의 영역 //-->
 
 				<!-- 버튼 영역-->
-				<div class="txt_btn margin_t10">
+				<div class="txt_btn solid_line_sb margin_t15">
 					<span class="po_left bu_work_explan"> <a
 						class="js_view_work_manual" href=""><fmt:message
 								key="common.button.view.work_manual" />▼</a> <a
@@ -157,35 +184,13 @@
 				<jsp:include page="/jsp/content/work/list/iwork_manual.jsp"></jsp:include>
 			</div>
 
-			<div class="define_space">
-				<!-- 라인 -->
-				<div class="solid_line_s margin_b5"></div>
-
-				<!-- 수정하기 -->
-				<div class="float_right space_l5">
-					<%
-						if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
-					%>
-					<span class="btn_gray"> <span class="Btn01Start"></span> <span
-						class="Btn01Center"><fmt:message key='common.button.modify' />
-					</span> <span class="Btn01End"></span> </span>
-					<%
-						}
-					%>
-				</div>
-				<!-- 수정하기 //-->
-
-
-
-			</div>
-
 			<!-- 목록영역  -->
 			<div class="contents_space">
 
 				<!--통계메뉴 영역-->
-				<div class="txt_btn margin_b2">
+				<div class="txt_btn margin_b5 margin_t10"">
 
-					<div class="po_right">
+					<div class="po_right bu_n_stat">
 						<a href="">새 통계분석 만들기</a>
 					</div>
 					<div class="po_right bu_stat">
@@ -195,7 +200,8 @@
 									for (Report report : reports) {
 
 										String reportName = null;
-										if (report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())) {
+										if (report.getOwner().getId()
+												.equals(SmartUtil.getSystemUser().getId())) {
 							%>
 							<option value="<%=report.getName()%>">
 								<fmt:message key="<%=report.getName()%>" />
@@ -288,40 +294,14 @@
 					<div id="search_filter" class="filter_section"></div>
 					<!-- 상세필터 -->
 
-					<!-- 목록 테이블 -->
-					<div class="list_contents">
-						<table>
-							<tbody>
-								<tr class="tit_bg">
-									<th></th>
-									<%
-										FormField[] fields = work.getDisplayFields();
-										if (fields != null) {
-											for (FormField field : fields) {
-									%>
-									<th class="r_line"><%=field.getName()%> <img
-										class="bu_arr_b">
-									</th>
-									<%
-										}
-										}
-									%>
-									<
-									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-											key='common.title.last_modified_date' /></th>
-								</tr>
-								<div id='iwork_list_page'>
-									<jsp:include
-										page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
-								</div>
-							</tbody>
-						</table>
+					<div class="list_contents" id='iwork_list_page'>
+						<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
 					</div>
+
 					<!-- 목록 테이블 //-->
 
 				</div>
-			<!-- 목록영역 // -->
-
+				<!-- 목록영역 // -->
 		</ul>
 	</div>
 	<div class="portlet_b" style="display: block;"></div>
