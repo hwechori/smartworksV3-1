@@ -17,6 +17,7 @@
 
 <!-- For Development Purpose -->
 <%
+
 	SecurityContext context = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
 	if (context != null) {
 		Authentication auth = context.getAuthentication();
@@ -26,7 +27,6 @@
 				System.out.println(((Login) auth.getPrincipal()).getPosition() + " " + ((Login) auth.getPrincipal()).getName() + " 님이 접속하였습니다.");
 				System.out.println("ID : "+ ((Login) auth.getPrincipal()).getId());
 				System.out.println("DEPT : "+ ((Login) auth.getPrincipal()).getDepartment());
-
 				Calendar rightNow = Calendar.getInstance();
 				int year = rightNow.get(Calendar.YEAR) % 100;
 				int month = rightNow.get(Calendar.MONTH);
@@ -70,7 +70,8 @@
 	</fmt:message> <sec:authentication property="principal.name" /> <sec:authorize
 		access="hasRole('ADMINISTRATOR')"> 
 		(ADMIN)
-	</sec:authorize></title>
+	</sec:authorize>
+</title>
 
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
@@ -90,8 +91,6 @@
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
-<!-- <script type="text/javascript" src="js/sw/sw-messaging.js"></script>
- -->
 
 </head>
 
