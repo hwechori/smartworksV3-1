@@ -87,7 +87,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 /*Search*/
 .global_srch {position:absolute; left:635px; top:7px;}
-.nav_srch {float:left;}
+.nav_srch {float:left; padding-bottom:10px;}
 .srch {
 	-moz-border-bottom-colors: none;
     -moz-border-image: none;
@@ -98,8 +98,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
     border-color: #c7c7c7;
     border-style: solid;
     border-width: 1px;
-	margin-bottom:3px;
 	width:203px;
+	height:16px;
 	}
 .srch .input {width:170px;}
 .srch button, .srch .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
@@ -211,7 +211,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_posi {right:0; top:0; position:absolute;}
 .btn_ico {float:right; margin:0 0 2px 8px; height: 18px;}
 
-.txt_btn {font-family:'돋움',Dotum; font-size: 11px; height: 21px; font-weight:normal;}
+.txt_btn {font-family:'돋움',Dotum; font-size: 11px; height: 17px; font-weight:normal;}
 .txt_btn .po_right {float:right; margin-left:10px;}
 .txt_btn .po_left {float:left; margin-right:10px;}
 .txt_btn .current { font-weight:bold;}
@@ -352,7 +352,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .working_br {line-height:18px; padding:10px 0 3px 0;}
 #work_ing .pic {padding:0 10px 0 0; float:left;}
 #work_ing .tit { font-size:14px; font-weight:bold; float:left; }
-#work_ing .titl_section {height:20px; padding-top:10px;}
+#work_ing .titl_section {height:21px; padding-top:14px;}
 
 /* Ico */
 .ico_division_s {background: url("../images/ico_division_s.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px; color:#23579e;}
@@ -430,12 +430,13 @@ body, #nav {background: url("../images/bg_body.jpg");}
 /* Line Style */
 .solid_line { border-top:2px solid #999999; width:100%;}
 .solid_line_s { border-top:1px solid #c7c7c7; width:100%;}
+.solid_line_sb { border-bottom:1px solid #c7c7c7; width:100%;}
 .dash_line {border-top:1px dashed #9c9c9c; margin: 5px 0 10px;}
 .line_width {padding:0 10px;}
 
 
 /*Footer*/
-#footer {text-align:center; height:28px; width:100%; color:#454545;}
+#footer {text-align:center; height:28px; color:#454545; margin: 15px 10px 10px 240px;}
 #footer .f_info { margin-left:4px; vertical-align: bottom;}
 #footer a:link, a:visited {color:#454545; text-decoration: none;}
 #footer a:hover, a:focus, a:active {color:#454545; text-decoration: underline;}

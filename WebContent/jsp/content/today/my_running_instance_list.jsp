@@ -39,7 +39,7 @@
 				</div>
 				
 				<!-- 검색 -->
-				<div class="nav_srch padding_r10">
+				<div class="nav_srch padding_b2">
 				<div class="srch">
 						<input id="" class="input js_auto_complete" type="text"
 							title="<fmt:message key="search.search_running_instance"/>"
