@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.smartworks.model.community.User;
 import net.smartworks.model.security.AccessPolicy;
 import net.smartworks.model.security.EditPolicy;
 import net.smartworks.model.security.WritePolicy;
@@ -39,6 +40,9 @@ import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
+import net.smartworks.server.engine.organization.manager.ISwoManager;
+import net.smartworks.server.engine.organization.model.SwoUser;
+import net.smartworks.server.engine.organization.model.SwoUserCond;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
@@ -73,6 +77,9 @@ public class WorkServiceImpl implements IWorkService {
 	}
 	private ITskManager getTskManager() {
 		return SwManagerFactory.getInstance().getTskManager();
+	}
+	private ISwoManager getSwokManager() {
+		return SwManagerFactory.getInstance().getSwoManager();
 	}
 
 	/*
@@ -184,7 +191,7 @@ public class WorkServiceImpl implements IWorkService {
 /*		
 		SwfFormCond swfCond = new SwfFormCond();
 		swfCond.setPackageId(workId);
-		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_ALL);
+		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_LITE);
 		SwfForm swfForm = swfForms[0];
 		String formId = swfForm.getId();
 
@@ -229,7 +236,27 @@ public class WorkServiceImpl implements IWorkService {
 
 		Work resultwork = new InformationWork();
 		((InformationWork)resultwork).setDisplayFields(formFields);
-*/
+
+		SmartForm smartForm = new SmartForm();
+		smartForm.setOrgImageName(swfForm.getSystemName());
+		smartForm.setDescription(swfForm.getDescription());
+		((InformationWork)resultwork).setForm(smartForm);
+
+		((InformationWork)resultwork).setName(swfForm.getName());
+		((InformationWork)resultwork).setDesc(swfForm.getDescription());
+
+		User user = new User();
+		user.setId(swfForm.getModificationUser());
+		SwoUserCond swoUserCond = new SwoUserCond();
+		swoUserCond.setId(swfForm.getModificationUser());
+		SwoUser swoUser = getSwokManager().getUser(userId, swoUserCond, IManager.LEVEL_ALL);
+		user.setName(swoUser.getName());
+		user.setPosition(swoUser.getPosition());
+
+		((InformationWork)resultwork).setLastModifier(user);
+
+		((InformationWork)resultwork).setLastModifiedDate(new LocalDate(swfForm.getModificationDate().getTime()));
+
 		/* -- 공개여부 --
 		 공개 / 비공개*/
 

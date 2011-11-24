@@ -9,38 +9,22 @@ package net.smartworks.server.engine.security.model;
 
 import java.util.Collection;
 
+import net.smartworks.model.community.User;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-public class Login implements UserDetails {
+public class Login extends User implements UserDetails {
 
 	private static final long serialVersionUID = 109756771178872916L;
-	private String id;
-	private String name;
 	private String type;
 	private String companyId;
 	private String deptId;
 	private String empNo;
-	private String pos;
 	private String email;
 	private String password;
 	private String authId;
-	private String locale;
-
-	/**
-	 * @return the locale
-	 */
-	public String getLocale() {
-		return locale;
-	}
-
-	/**
-	 * @param locale the locale to set
-	 */
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
 
 	/**
 	 * @return the deptId
@@ -87,34 +71,6 @@ public class Login implements UserDetails {
 	private Collection<GrantedAuthority> authorities;
 
 	/**
-	 * @return Returns the id.
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id The id to set.
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return Returns the name.
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name The name to set.
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return Returns the type.
 	 */
 	public String getType() {
@@ -126,20 +82,6 @@ public class Login implements UserDetails {
 	 */
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	/**
-	 * @return Returns the pos.
-	 */
-	public String getPos() {
-		return pos;
-	}
-
-	/**
-	 * @param pos The pos to set.
-	 */
-	public void setPos(String pos) {
-		this.pos = pos;
 	}
 
 	/**
@@ -187,7 +129,7 @@ public class Login implements UserDetails {
 	 */
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return id;
+		return super.getId();
 	}
 
 	/*
