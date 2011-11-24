@@ -13,8 +13,10 @@ import java.sql.Types;
 
 import javax.sql.DataSource;
 
+import net.smartworks.model.community.User;
 import net.smartworks.server.engine.security.manager.LoginDao;
 import net.smartworks.server.engine.security.model.Login;
+import net.smartworks.util.LocalDate;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.SqlParameter;
@@ -28,7 +30,12 @@ import org.springframework.orm.ObjectRetrievalFailureException;
  */
 public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 
-	private static String RETRIVE_USER = "select * from sworguser where id=?";
+	private static String RETRIVE_USER = "	select 	orguser.id, orguser.name, orguser.companyId, orgcompany.name as companyName, orguser.deptId, orgdept.name as deptName, 		" +
+										 "		   	orguser.empNo, orguser.type, orguser.lang, orguser.pos, orguser.stdtime, orguser.authId, orguser.email,	orguser.passwd		" +
+										 "    from 	sworguser orguser, sworgdept orgdept, sworgcompany orgcompany																" +
+										 "	 where 	orguser.deptid = orgdept.id																									" +
+										 "	   and 	orguser.companyid = orgcompany.id																							" +
+										 "	   and 	orguser.id = ?																												";
 	protected SelectQuery00 selectQuery00;
 
 	/*
@@ -75,18 +82,28 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			compile();
 		}
 		protected Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+
 			Login login = new Login();
 			login.setId(rs.getString("id"));
 			login.setName(rs.getString("name"));
 			login.setCompanyId(rs.getString("companyId"));
-			login.setType(rs.getString("type"));
+			login.setCompany(rs.getString("companyName"));
 			login.setDeptId(rs.getString("deptId"));
+			login.setDepartment(rs.getString("deptName"));
 			login.setEmpNo(rs.getString("empNo"));
-			login.setPos(rs.getString("pos"));
+			login.setType(rs.getString("type"));
+			login.setLocale(rs.getString("lang"));
+			login.setPosition(rs.getString("pos"));
+			login.setAuthId(rs.getString("authId"));
 			login.setEmail(rs.getString("email"));
 			login.setPassword(rs.getString("passwd"));
-			login.setAuthId(rs.getString("authId"));
-			login.setLocale(rs.getString("lang"));
+			login.setLocale(rs.getString("lang").equals("KOR") ? "ko" : rs.getString("lang").equals("ENG") ? "en" : new LocalDate().getLocale());
+			login.setTimeZone(new LocalDate().getTimeZone()); //Asia/Seoul, America/Los_Angeles
+			login.setOrgPictureName(login.getId() + ".jpg");
+			login.setMinPictureName(login.getId() + "_min.gif");
+			login.setMidPictureName(login.getId() + "_mid.gif");
+			login.setUserLevel(login.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
+
 			return login;
 		}
 	}

@@ -14,15 +14,13 @@ import net.smartworks.model.community.User;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.SmartWork;
-import net.smartworks.server.engine.common.manager.IManager;
-import net.smartworks.server.engine.factory.SwManagerFactory;
-import net.smartworks.server.engine.organization.model.SwoDepartment;
-import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
-import net.smartworks.server.engine.organization.model.SwoUser;
-import net.smartworks.server.engine.organization.model.SwoUserCond;
+import net.smartworks.server.engine.security.model.Login;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -230,7 +228,7 @@ public class SmartUtil {
 
 	public static User getCurrentUser(HttpServletRequest request) throws Exception {
 
-		SwoUserCond swoUserCond = new SwoUserCond();
+/*		SwoUserCond swoUserCond = new SwoUserCond();
 		swoUserCond.setId((String)request.getSession().getAttribute("userId"));
 		swoUserCond.setCompanyId((String)request.getSession().getAttribute("companyId"));
 
@@ -253,7 +251,17 @@ public class SmartUtil {
 		user.setOrgPictureName(user.getId() + ".jpg");
 		user.setMinPictureName(user.getId() + "_min.gif");
 		user.setMidPictureName(user.getId() + "_mid.gif");
-		user.setUserLevel(swoUser.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
+		user.setUserLevel(swoUser.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);*/
+
+		User user = new User();
+		SecurityContext context = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+		if(context != null) {
+			Authentication auth = context.getAuthentication();
+			if(auth != null) {
+				user = ((Login)auth.getPrincipal());
+			}
+		}
+
 		return user;
 	}
 

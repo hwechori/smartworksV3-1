@@ -11,19 +11,29 @@ package net.smartworks.server.service.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.smartworks.model.BaseObject;
+import net.smartworks.model.community.Department;
+import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.InstanceInfo;
+import net.smartworks.model.work.FormField;
+import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
+import net.smartworks.model.work.WorkCategory;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.infowork.domain.model.SwdField;
+import net.smartworks.server.engine.infowork.form.model.SwfField;
+import net.smartworks.server.engine.infowork.form.model.SwfForm;
+import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
@@ -40,6 +50,7 @@ public class ModelConverter {
 	private static IPkgManager getPkgManager() {
 		return SwManagerFactory.getInstance().getPkgManager();
 	}
+	
 	
 	//개발 하기 불편..완료후 변경?
 	public static InstanceInfo[] getInstanceInfoArrayByPrcInstArray(PrcProcessInst[] prcInsts) throws Exception {
@@ -114,7 +125,7 @@ public class ModelConverter {
 			workInfo.setType(SmartWork.TYPE_SCHEDULE);	
 		}
 
-		Map<String, WorkCategoryInfo> pkgCtgPathMap = getPkgCtgInfoMapByPackageId(pkg);
+		Map<String, WorkCategoryInfo> pkgCtgPathMap = getPkgCtgInfoMapByPackage(pkg);
 		workInfo.setMyCategory(pkgCtgPathMap.get("category"));
 		workInfo.setMyGroup(pkgCtgPathMap.get("group"));
 		
@@ -165,7 +176,7 @@ public class ModelConverter {
 		}
 		return workCtgs;
 	}
-	public static Map<String, WorkCategoryInfo> getPkgCtgInfoMapByPackageId(PkgPackage pkg) throws Exception {
+	public static Map<String, WorkCategoryInfo> getPkgCtgInfoMapByPackage(PkgPackage pkg) throws Exception {
 		
 		String categoryId = pkg.getCategoryId();
 		if (CommonUtil.isEmpty(categoryId) || categoryId.equalsIgnoreCase(CtgCategory.ROOTCTGID))
@@ -185,6 +196,117 @@ public class ModelConverter {
 		}
 		return resultMap;
 	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static User getUserByUserId(String userId) throws Exception {
+		
+		if (CommonUtil.isEmpty(userId))
+			return null;
+		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
+		if (userExtend == null)
+			return null;
+		
+		User user = new User();
+		
+		user.setId(userExtend.getId());
+		user.setName(userExtend.getName());
+		user.setDepartment(userExtend.getDepartmentName());
+		user.setMidPictureName(userExtend.getPictureName());
+		user.setMinPictureName(userExtend.getPictureName());
+		user.setPosition(userExtend.getPosition());
+		String locale = userExtend.getLocale();
+		if (locale == null)
+			locale = "ko";
+		if (locale.equalsIgnoreCase("kor"))
+			locale = "ko";
+		if (locale.equalsIgnoreCase("eng"))
+			locale = "en";
+		user.setLocale(locale);
+		user.setOrgPictureName(userExtend.getPictureName());
+		user.setCompany(userExtend.getCompanyName());
+		user.setTimeZone(userExtend.getTimeZone());
+		user.setUserLevel(-1);//userExtend.getUserLevel();
+		
+		return user;
+	}
+	public static WorkCategory getWorkCategoryByCtg(CtgCategory ctg) throws Exception {
+		String ctgId = ctg.getObjId();
+		String ctgName = ctg.getName();
+		String ctgDesc = ctg.getDescription();
+			
+		WorkCategory workCtg = new WorkCategory(ctgId, ctgName);
+		workCtg.setDesc(ctgDesc);
+		
+		return workCtg;
+	}
+	public static Map<String, WorkCategory> getPkgCtgMapByPackage(PkgPackage pkg) throws Exception {
+	
+		String categoryId = pkg.getCategoryId();
+		if (CommonUtil.isEmpty(categoryId) || categoryId.equalsIgnoreCase(CtgCategory.ROOTCTGID))
+			return null;
+		
+		CtgCategory ctg = SwManagerFactory.getInstance().getCtgManager().getCategory("", categoryId, IManager.LEVEL_LITE);
+		
+		CtgCategory parentCtg = SwManagerFactory.getInstance().getCtgManager().getCategory("", ctg.getParentId(), IManager.LEVEL_LITE);
+		
+		Map<String, WorkCategory> resultMap = new HashMap<String, WorkCategory>();
+		if (parentCtg == null || parentCtg.getObjId().equalsIgnoreCase(CtgCategory.ROOTCTGID)) {
+			resultMap.put("category", (WorkCategory)getWorkCategoryByCtg(ctg));
+			resultMap.put("group", null);
+		} else {
+			resultMap.put("category", (WorkCategory)getWorkCategoryByCtg(parentCtg));
+			resultMap.put("group", (WorkCategory)getWorkCategoryByCtg(ctg));
+		}
+		return resultMap;
+	}
+	
+	public static FormField[] getFormFieldArrayBySwfFieldArray(SwfField[] fields) throws Exception {
+		if (CommonUtil.isEmpty(fields))
+			return null;
+		
+		FormField[] formFields = new FormField[fields.length];
+		for (int i = 0; i < fields.length; i++) {
+			SwfField field = fields[i];
+			FormField formField = new FormField();
+			
+			/*<field id="4" name="내용" systemType="text" array="false" required="true" system="false">
+				<format type="richEditor" viewingType="richEditor"/>
+			</field>*/
+			String id = field.getId();
+			String name = field.getName();
+			SwfFormat format = field.getFormat();
+			String type = format.getType();
+			
+			formField.setId(id);
+			formField.setName(name);
+			formField.setType(type);
+			formFields[i] = formField;
+		}
+		return formFields;
+	}
+	public static SmartForm getSmartFormBySwFrom(SwfForm swForm) throws Exception {
+		if (swForm == null)
+			return null;
+		
+		String description = swForm.getDescription();
+		String id = swForm.getId();
+		String minImageName = "";
+		String orgImageName = "";
+		String name = swForm.getName();
+		SwfField[] swFields = swForm.getFields();
+		
+		SmartForm smartForm = new SmartForm();
+		
+		smartForm.setDescription(description);
+		smartForm.setFields(getFormFieldArrayBySwfFieldArray(swFields));
+		smartForm.setId(id);
+		smartForm.setMinImageName(minImageName);
+		smartForm.setName(name);
+		smartForm.setOrgImageName(orgImageName);
+		
+		return smartForm;
+	}
+	
 
 //	public static UserInfo getUserInfoBySwUser(SwoUser swUser) throws Exception {
 //		
