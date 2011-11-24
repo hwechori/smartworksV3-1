@@ -24,7 +24,7 @@
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser(request);
 	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
-	
+
 	Report[] reports = smartWorks.getReportsByWorkId(companyId, cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -40,24 +40,27 @@
 
 			<!-- 타이틀 -->
 			<div class="body_titl">
-				<div class="body_titl_iworks title_noico"><%=work.getName()%></div>
+				<div class="body_titl_iworks title"><%=work.getName()%></div>
+				
 				<!-- 최종수정자 -->
-				<div class="float_right">
-					<div class="noti_pic">
-						<img
-							title="<fmt:message key="common.title.last_modifier" />"
-							src="<%=work.getLastModifier().getMinPicture()%>">
-					</div>
-					<div class="noti_in">
-						<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
-						<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%></span>
-					</div>
-				</div>
-				<!-- 최종수정자 //-->
+
+			<div class="txt_btn">
+					<div class="po_right">
+					<img clss="margin_b2" title="<fmt:message key="common.title.last_modifier" />" src="<%=work.getLastModifier().getMinPicture()%>">
+					<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
+					<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%>
+					</span>
+			</div>
+			<!-- 최종수정자 //-->
+
+				
+
+
 
 				<div class="solid_line"></div>
 			</div>
 			<!-- 타이틀 -->
+
 
 			<!-- 컨텐츠 -->
 			<div class="define_space js_content_div">
@@ -192,19 +195,24 @@
 					<div class="po_right bu_stat">
 						<select name="selMyReportList">
 							<%
-							if(reports != null){
-								for(Report report : reports){
-									
-									String reportName = null;
-									if(report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())){
-										%>
-										<option value="<%=report.getName()%>"><fmt:message key="<%=report.getName()%>"/></option>
-									<%
-									}else{%>
-										<option><%=report.getName() %></option>
-									<%
+								if (reports != null) {
+									for (Report report : reports) {
+
+										String reportName = null;
+										if (report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())) {
+							%>
+							<option value="<%=report.getName()%>">
+								<fmt:message key="<%=report.getName()%>" />
+							</option>
+							<%
+								} else {
+							%>
+							<option><%=report.getName()%></option>
+							<%
+								}
 									}
-									%>
+								}
+							%>
 						</select>
 					</div>
 				</div>
@@ -302,6 +310,7 @@
 										}
 										}
 									%>
+									<
 									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
 											key='common.title.last_modified_date' /></th>
 								</tr>
