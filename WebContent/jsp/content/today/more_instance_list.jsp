@@ -15,13 +15,10 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser(request, response);
 
-	InstanceInfo[] instances = smartWorks.getMyRunningInstances(companyId, userId);
+	InstanceInfo[] instances = smartWorks.getMyRunningInstances(cUser.getCompanyId(), cUser.getId());
 	if (instances != null) {
 		for (InstanceInfo instance : instances) {
 			String statusImage;

@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
 <%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
@@ -10,12 +11,11 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.work.*"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	InstanceInfo[] instances = smartWorks.searchMyRunningInstance(companyId, userId, key);
+	InstanceInfo[] instances = smartWorks.searchMyRunningInstance(cUser.getCompanyId(), cUser.getId(), key);
 %>
 
 <ul>

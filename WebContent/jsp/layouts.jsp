@@ -55,7 +55,6 @@
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-
 <head>
 
 <link href="css/default.css" type="text/css" rel="stylesheet" />

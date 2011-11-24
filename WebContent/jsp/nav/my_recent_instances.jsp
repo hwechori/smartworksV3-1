@@ -7,13 +7,11 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.work.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
-
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	InstanceInfo[] workInstances = smartWorks.getMyRecentInstances(companyId, userId);
+	InstanceInfo[] workInstances = smartWorks.getMyRecentInstances(cUser.getCompanyId(), cUser.getId());
 	String iconType = null;
 	String classType = null;
 	String instanceContext = null;

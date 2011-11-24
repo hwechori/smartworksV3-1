@@ -5,12 +5,9 @@
 <%@ page import="net.smartworks.model.community.*"%>
 <%@ page import="net.smartworks.model.notice.*"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User currentUser = SmartUtil.getCurrentUser(request, response);
-	Notice[] notices = smartWorks.getNoticesForMe(companyId, userId);
+	User cUser = SmartUtil.getCurrentUser(request, response);
+	Notice[] notices = smartWorks.getNoticesForMe(cUser.getCompanyId(), cUser.getId());
 	String cid = request.getParameter("cid");
 	if (cid == null)
 		cid = ISmartWorks.CONTEXT_HOME;
@@ -152,8 +149,8 @@
 	</div>
 	<div>
 		<a href=""
-			onclick="$(this).parent().next('div').toggle(); return false;"><%=currentUser.getPosition()%>
-			<%=currentUser.getName()%>▼ </a>
+			onclick="$(this).parent().next('div').toggle(); return false;"><%=cUser.getPosition()%>
+			<%=cUser.getName()%>▼ </a>
 	</div>
 
 	<!-- global_menu sub -->

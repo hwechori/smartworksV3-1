@@ -11,31 +11,28 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-String companyId = (String) session.getAttribute("companyId");
-String userId = (String) session.getAttribute("userId");
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	String workId = request.getParameter("workId");
+	String instanceId = request.getParameter("instanceId");
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
-ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-String workId = request.getParameter("workId");
-String instanceId = request.getParameter("instanceId");
-User cUser = SmartUtil.getCurrentUser(request, response);
-
-InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(companyId, cUser.getId(), instanceId);
-User owner = instance.getOwner();
-WorkSpace workSpace = instance.getWorkSpace();
-InformationWork work = (InformationWork)instance.getWork();
-int numberOfRelatedWorks = instance.getNumberOfRelatedWorks();
-int numberOfHistories = 0;
-if(!instance.isApprovalWork()){
-	TaskInstanceInfo[] tasks = instance.getTasks();
-	if(tasks != null){
-		for(TaskInstanceInfo task : tasks){
-			if(task.getType() == TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED || task.getType() == TaskInstance.TYPE_INFORMATION_TASK_CREATED
-				|| task.getType() == TaskInstance.TYPE_INFORMATION_TASK_UDATED){
-				numberOfHistories++;
+	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(cUser.getCompanyId(), cUser.getId(), instanceId);
+	User owner = instance.getOwner();
+	WorkSpace workSpace = instance.getWorkSpace();
+	InformationWork work = (InformationWork)instance.getWork();
+	int numberOfRelatedWorks = instance.getNumberOfRelatedWorks();
+	int numberOfHistories = 0;
+	if(!instance.isApprovalWork()){
+		TaskInstanceInfo[] tasks = instance.getTasks();
+		if(tasks != null){
+			for(TaskInstanceInfo task : tasks){
+				if(task.getType() == TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED || task.getType() == TaskInstance.TYPE_INFORMATION_TASK_CREATED
+					|| task.getType() == TaskInstance.TYPE_INFORMATION_TASK_UDATED){
+					numberOfHistories++;
+				}
 			}
 		}
 	}
-}
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
