@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.report.Report;
 import net.smartworks.model.security.AccessPolicy;
 import net.smartworks.model.security.EditPolicy;
 import net.smartworks.model.security.WritePolicy;
@@ -350,10 +351,6 @@ public class WorkServiceImpl implements IWorkService {
 	}
 	
 	
-	
-	
-	
-	
 	public void setPolicyToWork(SmartWork work, String resourceId) throws Exception {
 		/* -- 공개여부 --
 		 공개 / 비공개*/
@@ -517,5 +514,9 @@ public class WorkServiceImpl implements IWorkService {
 		pkg.getModificationUser();
 		
 		return resultwork;
+	}	
+	@Override
+	public Report[] getReportsByWorkId(String companyId, String userId, String workId) throws Exception {
+		return SmartTest.getReportsByWorkId();
 	}
 }

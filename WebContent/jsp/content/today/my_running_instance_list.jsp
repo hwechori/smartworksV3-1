@@ -27,27 +27,44 @@
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
 			<div id="work_ing">
-				<ul>
-					<li><span class="tit"><fmt:message
-								key="content.my_running_instance_list" /> </span>
-					<li class="nav_srch">
-						<div class="srch">
-							<input id="" class="input js_auto_complete" type="text"
-								title="<fmt:message key="search.search_running_instance"/>"
-								placeholder="<fmt:message key="search.search_running_instance"/>"
-								href="my_running_instance.sw">
-							<button title="<fmt:message key='search.search'/>" onclick=""></button>
-						</div>
-						<div style="display: none"></div>
-					</li>
-					<li>
+		
+			<div class="titl_section">
+				<div class="tit padding_r10">
+				<fmt:message
+									key="content.my_running_instance_list" />
+				</div>
+				
+				<div class="txt_btn float_left">
+					<div class="po_left"><a href="">전체 <span class="t_red_bold">[10]</a></span> | <a href="">할당업무만 <span class="t_red_bold">[4]</a></span></div>
+				</div>
+				
+				<!-- 검색 -->
+				<div class="nav_srch padding_r10">
+				<div class="srch">
+						<input id="" class="input js_auto_complete" type="text"
+							title="<fmt:message key="search.search_running_instance"/>"
+							placeholder="<fmt:message key="search.search_running_instance"/>"
+							href="my_running_instance.sw">
+						<button title="<fmt:message key='search.search'/>" onclick=""></button>
+				</div>
+				<!-- 검색 //-->
+				
+				<div style="display: none"></div>
+				</div>
+				
+				<div class="txt_btn float_right"><a href="">시간순▼</a></div>
+				
+			</div>
+			
+			<!-- 라인  -->
+			<div class="solid_line"></div>
+			
 						<ul>
 							<jsp:include page="/jsp/content/today/more_instance_list.jsp" />
 						</ul>
 						<div class="js_more_list">
 							<a href="more_instance_list.sw">더보기</a>
-						</div></li>
-				</ul>
+						</div>
 			</div>
 		</ul>
 	</div>

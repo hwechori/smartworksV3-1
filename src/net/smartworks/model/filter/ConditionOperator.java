@@ -1,5 +1,7 @@
 package net.smartworks.model.filter;
 
+import net.smartworks.model.KeyMap;
+
 public class ConditionOperator {
 
 	public static final KeyMap EQUAL = new KeyMap("=", "filter.operator.title.equal");

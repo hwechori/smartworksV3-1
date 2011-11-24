@@ -270,7 +270,7 @@
 							<tr>
 								<th class="r_line"><fmt:message key='common.title.status'/></th>
 								<th></th>
-								<th class="r_line"><fmt:message key='common.title.subject'/></th>
+								<th class="r_line"><fmt:message key='common.title.instance_subject'/></th>
 								<th class="r_line"><fmt:message key='common.title.running_task'/></th>
 								<th><fmt:message key='common.title.last_modifier' />/<fmt:message
 										key='common.title.last_modified_date' />

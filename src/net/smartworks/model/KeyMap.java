@@ -1,4 +1,4 @@
-package net.smartworks.model.filter;
+package net.smartworks.model;
 
 public class KeyMap {
 

@@ -27,6 +27,7 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
+import net.smartworks.model.report.Report;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
@@ -389,6 +390,11 @@ public class SmartWorks implements ISmartWorks {
 
 	public void deleteFile(HttpServletRequest request) throws Exception {
 		docFileService.deleteFile(request);
+	}
+
+	@Override
+	public Report[] getReportsByWorkId(String companyId, String userId, String workId) throws Exception {
+		return workService.getReportsByWorkId(companyId, userId, workId);
 	}
 
 }

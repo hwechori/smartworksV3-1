@@ -3,7 +3,7 @@
 <%@page import="java.net.URLDecoder"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.util.LocalDate"%>
-<%@page import="net.smartworks.model.filter.KeyMap"%>
+<%@page import="net.smartworks.model.KeyMap"%>
 <%@page import="net.smartworks.model.filter.ConditionOperator"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
 <%@page import="net.smartworks.util.SmartUtil"%>

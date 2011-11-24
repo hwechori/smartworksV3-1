@@ -342,7 +342,7 @@ $(function() {
 
 	$('a.js_view_work_manual').live('click', function(e){
 		var input = $(e.target);
-		input.parents("div.contents_space:first").find('#work_manual').slideToggle(500);
+		input.parents("div.js_content_div:first").next('#work_manual').slideToggle(500);
 		input.hide();
 		input.siblings().show();
 		return false;
@@ -357,40 +357,36 @@ $(function() {
 		return false;
 	});
 
-	var lastCatTarget = null;
-	var lastGroupTarget = null;
 	$('.js_drill_down').live('click', function(e) {
 		var input = $(e.target);
 		var target = input.siblings('div');
-		var url = input.attr('targetContent');
+		var url = input.attr('href');
 		var categoryId = input[0].getAttribute("categoryId");
 		var groupId = input[0].getAttribute("groupId");
-		if (lastCatTarget != null && categoryId != null) {
-			lastCatTarget.hide();
-			lastCatTarget = null;
-		} else if (lastGroupTarget != null && groupId != null) {
-			lastGroupTarget.hide();
-			lastGroupTarget = null;
-		}
 		if (url == 'undefined' || (categoryId == null && groupId == null)) {
-			return;
+			return false;
 		}
-		$.ajax({
-			url : url,
-			data : {
-				categoryId : categoryId,
-				groupId : groupId
-			},
-			context : input,
-			success : function(data, status, jqXHR) {
-				target.show();
-				target.html(data);
-				if (categoryId != null)
-					lastCatTarget = target;
-				else if (groupId != null)
-					lastGroupTarget = target;
-			}
-		});
+		if($(target).children().length == 0){
+			$.ajax({
+				url : url,
+				data : {
+					categoryId : categoryId,
+					groupId : groupId,
+				},
+				context : input,
+				success : function(data, status, jqXHR) {
+					target.show();
+					target.html(data);
+					target.siblings('li.js_drill_down').find('div').hide();
+					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
+				}
+			});
+		}else{
+			target.show();
+			target.siblings('li.js_drill_down').find('div').hide();
+			target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
+		}
+		return false;
 	});
 
 	$('input.js_file_upload').live('change', function(e) {
