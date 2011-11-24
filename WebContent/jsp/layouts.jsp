@@ -22,14 +22,19 @@
 <%
 	session = request.getSession();
 	if (session.getAttribute("userId") == null) {
-		SecurityContext context = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+		SecurityContext context = (SecurityContext) request
+				.getSession()
+				.getAttribute(
+						HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
 		if (context != null) {
 			Authentication auth = context.getAuthentication();
 			if (auth != null) {
-				session.setAttribute("userId", ((Login) auth.getPrincipal()).getId());
+				session.setAttribute("userId",
+						((Login) auth.getPrincipal()).getId());
 				/* 				session.setAttribute("userName", ((Login) auth.getPrincipal()).getName());
 				 session.setAttribute("type", ((Login) auth.getPrincipal()).getType()); */
-				session.setAttribute("companyId", ((Login) auth.getPrincipal()).getCompanyId());
+				session.setAttribute("companyId",
+						((Login) auth.getPrincipal()).getCompanyId());
 				/* 				session.setAttribute("deptId", ((Login) auth.getPrincipal()).getDeptId());
 				 session.setAttribute("locale", ((Login) auth.getPrincipal()).getLocale());
 				 session.setAttribute("empNo", ((Login) auth.getPrincipal()).getEmpNo());
@@ -38,10 +43,12 @@
 				 session.setAttribute("passWord", ((Login) auth.getPrincipal()).getPassword());
 				 session.setAttribute("authId", ((Login) auth.getPrincipal()).getAuthId()); */
 
-				System.out.println("userId >>> " + session.getAttribute("userId"));
+				System.out.println("userId >>> "
+						+ session.getAttribute("userId"));
 				/* 				System.out.println("userName >>> " + session.getAttribute("userName"));
 				 System.out.println("type >>> " + session.getAttribute("type")); */
-				System.out.println("companyId >>> " + session.getAttribute("companyId"));
+				System.out.println("companyId >>> "
+						+ session.getAttribute("companyId"));
 				/* 				System.out.println("deptId >>> " + session.getAttribute("deptId"));
 				 System.out.println("empNo >>> " + session.getAttribute("empNo"));
 				 System.out.println("position >>> " + session.getAttribute("position"));
@@ -58,7 +65,9 @@
 				int minute = rightNow.get(Calendar.MINUTE);
 				int second = rightNow.get(Calendar.SECOND);
 
-				System.out.println("connectTime ==> " + year + "년 " + month + "월 " + date + "일 " + hour + "시 " + minute + "분 " + second + "초");
+				System.out.println("connectTime ==> " + year + "년 "
+						+ month + "월 " + date + "일 " + hour + "시 "
+						+ minute + "분 " + second + "초");
 
 			}
 		}
@@ -71,7 +80,8 @@
 	if (cid == null) {
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
 	}
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request
+			.getAttribute("smartWorks");
 	//User currentUser = SmartUtil.getCurrentUser(request);
 	User currentUser = SmartUtil.getCurrentUser(request);
 %>
@@ -93,8 +103,7 @@
 	</fmt:message> <sec:authentication property="principal.name" /> <sec:authorize
 		access="hasRole('ADMINISTRATOR')"> 
 		(ADMIN)
-	</sec:authorize>
-</title>
+	</sec:authorize></title>
 
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
@@ -112,6 +121,19 @@
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
+<script type="text/javascript" src="http://localhost:8000/faye.js"></script>
+<script type="text/javascript" src="js/sw/sw-messaging.js"></script>
+
+<script type="text/javascript">
+	smartTalk.init();
+	if(smartMsgClient != null){
+		smartTalk.subscribe("/test");
+		var repeat = function(){
+			smartTalk.publish("/test", "Hello, this is SmartWorks!! Welcome~~");			
+		}
+		setInterval(repeat, 2000);
+	}
+</script>
 
 </head>
 
