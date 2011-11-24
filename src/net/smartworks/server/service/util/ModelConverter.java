@@ -11,6 +11,7 @@ package net.smartworks.server.service.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.smartworks.model.BaseObject;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.DepartmentInfo;
@@ -49,6 +50,7 @@ public class ModelConverter {
 	private static IPkgManager getPkgManager() {
 		return SwManagerFactory.getInstance().getPkgManager();
 	}
+	
 	
 	//개발 하기 불편..완료후 변경?
 	public static InstanceInfo[] getInstanceInfoArrayByPrcInstArray(PrcProcessInst[] prcInsts) throws Exception {

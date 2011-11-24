@@ -387,7 +387,37 @@ public class WorkServiceImpl implements IWorkService {
 			
 		}
 	}
-	
+	public Work getProcessWorkById(String companyId, String userId, String workId) throws Exception {
+		
+		if (CommonUtil.isEmpty(workId))
+			return null;
+
+		PkgPackageCond pkgCond = new PkgPackageCond();
+		pkgCond.setCompanyId(companyId);
+		pkgCond.setPackageId(workId);
+
+		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_LITE);
+		
+		ProcessWork prcWork = new ProcessWork();
+
+//		prcWork.setId(id);
+//		prcWork.setDesc(desc);
+//		prcWork.setType(type);
+//		prcWork.setName(name);
+//		prcWork.setDiagram(diagram);
+//		prcWork.setLastModifiedDate(lastModifiedDate);
+//		prcWork.setAccessPolicy(accessPolicy);
+//		prcWork.setWritePolicy(writePolicy);
+//		prcWork.setEditPolicy(editPolicy);
+//		prcWork.setMyCategory(myCategory);
+//		prcWork.setMyGroup(myGroup);
+//		prcWork.setHelpUrl(helpUrl);
+//		prcWork.setSearchFilters(searchFilters);
+//		prcWork.setManualFileName(manualFileName);
+//		prcWork.setManualFilePath(manualFilePath);
+		
+		return prcWork;
+	}
 	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
 
 		SwfFormCond swfCond = new SwfFormCond();

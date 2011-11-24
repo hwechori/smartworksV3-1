@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<script type="text/javascript" src="http://localhost:8000/faye.js"></script>
+		
+		<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery.effects.explode.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery.ui.datepicker.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
+		<script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
+		
+		<script type="text/javascript">
+
+		var client = new Faye.Client('http://localhost:8000/faye', {
+			timeout: 120
+		});
+
+		client.disable('websocket');
+
+		var subscription = client.subscribe('/email/new', function(message) {
+			$('#aa').attr('value', message);
+		});
+
+		var repeat = function() {
+			client.publish('/email/new', 'Yukwanmgin!!!!!!!!!');
+		};
+
+		setInterval(repeat, 1000);
+		</script>
+	</head>
+
+	<body>
+		<textarea id="aa" rows="500" cols="500">Bayeux protocol</textarea>
+	</body>
+</html>
