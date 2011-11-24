@@ -34,6 +34,16 @@ import net.smartworks.server.engine.pkg.model.PkgPackageCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInst;
 import net.smartworks.util.LocalDate;
 
+
+/**
+ * 
+ * 
+ *  이전 ModelConverter 버젼 파일 삭제예정
+ * 
+ * 
+ */ 
+
+
 public class IModelConverter {
 
 	private static ISwoManager getSwoManager() {
