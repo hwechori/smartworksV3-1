@@ -34,6 +34,8 @@ import net.smartworks.model.instance.info.WorkInstanceInfo;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.notice.NoticeMessage;
+import net.smartworks.model.report.ChartReport;
+import net.smartworks.model.report.Report;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
 import net.smartworks.model.work.ProcessWork;
@@ -1156,5 +1158,9 @@ public class SmartTest {
 		}
 		return null;
 	}
-	
+
+	public static Report[] getReportsByWorkId() throws Exception{
+		return ChartReport.DEFAULT_CHARTS_INFORMATION;
+	}
+
 }
