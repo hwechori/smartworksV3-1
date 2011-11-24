@@ -8,17 +8,26 @@
 
 package net.smartworks.server.service.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
+import net.smartworks.model.filter.Condition;
+import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.InstanceInfo;
+import net.smartworks.model.security.AccessPolicy;
+import net.smartworks.model.security.EditPolicy;
+import net.smartworks.model.security.WritePolicy;
 import net.smartworks.model.work.FormField;
+import net.smartworks.model.work.ProcessWork;
+import net.smartworks.model.work.SmartDiagram;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
@@ -26,21 +35,36 @@ import net.smartworks.model.work.WorkCategory;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
+import net.smartworks.server.engine.authority.manager.ISwaManager;
+import net.smartworks.server.engine.authority.model.SwaResource;
+import net.smartworks.server.engine.authority.model.SwaResourceCond;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
+import net.smartworks.server.engine.common.collection.manager.IColManager;
+import net.smartworks.server.engine.common.collection.model.ColList;
+import net.smartworks.server.engine.common.collection.model.ColListCond;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.model.Filter;
+import net.smartworks.server.engine.common.model.Filters;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
+import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
+import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
+import net.smartworks.server.engine.process.link.model.LnkObject;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
+import net.smartworks.server.engine.process.process.model.PrcProcess;
+import net.smartworks.server.engine.process.process.model.PrcProcessCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInst;
+import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.util.LocalDate;
 
 public class ModelConverter {
@@ -56,6 +80,15 @@ public class ModelConverter {
 	}
 	private static ICtgManager getCtgManager() {
 		return SwManagerFactory.getInstance().getCtgManager();
+	}
+	private static ISwaManager getSwaManager() {
+		return SwManagerFactory.getInstance().getSwaManager();
+	}
+	private static ISwfManager getSwfManager() {
+		return SwManagerFactory.getInstance().getSwfManager();
+	}
+	private static IColManager getColManager() {
+		return SwManagerFactory.getInstance().getColManager();
 	}
 	private static PkgPackage getPkgPackageByPackageId(String packageId) throws Exception {
 		if (CommonUtil.isEmpty(packageId))
@@ -92,6 +125,61 @@ public class ModelConverter {
 		}
 		return instanceInfos;
 	}
+	public static void setPolicyToWork(SmartWork work, String resourceId) throws Exception {
+		/* -- 공개여부 --
+		 공개 / 비공개*/
+
+		/* -- 형태 --
+		 블로그형 : v2.0 구조
+		 위키형 : 누구나 수정 가능*/
+
+		 /*-- 작성권한 --
+		 전체 / 선택사용자*/
+		//resourceId = formId , processId;
+		AccessPolicy accessPolicy = new AccessPolicy();
+		WritePolicy writePolicy = new WritePolicy();
+		EditPolicy editPolicy = new EditPolicy();
+
+		SwaResourceCond swaResourceCond = new SwaResourceCond();
+		swaResourceCond.setResourceId(resourceId);//formid
+		SwaResource[] swaResources = getSwaManager().getResources("", swaResourceCond, IManager.LEVEL_LITE);
+		
+		if (CommonUtil.isEmpty(swaResources)) {
+			accessPolicy.setLevel(AccessPolicy.LEVEL_DEFAULT);
+			writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
+			editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
+		} else {
+			for(SwaResource swaResource : swaResources) {
+				if(CommonUtil.toNotNull(swaResource.getMode()).equals("R")) {
+					if(swaResource.getPermission().equals("PUB_ALL"))
+						accessPolicy.setLevel(AccessPolicy.LEVEL_DEFAULT);
+					else if(swaResource.getPermission().equals("PUB_SELECT"))
+						accessPolicy.setLevel(AccessPolicy.LEVEL_CUSTOM);
+					else
+						accessPolicy.setLevel(AccessPolicy.LEVEL_PRIVATE);
+				} else if(CommonUtil.toNotNull(swaResource.getMode()).equals("W")) {
+					if(swaResource.getPermission().equals("PUB_ALL"))
+						writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
+					else
+						writePolicy.setLevel(WritePolicy.LEVEL_CUSTOM);
+				} else if(CommonUtil.toNotNull(swaResource.getMode()).equals("M")) {
+					if(swaResource.getPermission().equals("PUB_ALL"))
+						editPolicy.setLevel(EditPolicy.LEVEL_DEFAULT);
+					else if(swaResource.getPermission().equals("PUB_SELECT"))
+						editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
+					else
+						editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
+				}
+			}
+		}
+		
+		work.setAccessPolicy(accessPolicy);
+		work.setWritePolicy(writePolicy);
+		work.setEditPolicy(editPolicy);
+			
+	}
+	
+	
 	public static InstanceInfo getInstanceInfoByPrcInst(InstanceInfo instInfo, PrcProcessInst prcInst) throws Exception {
 		if (prcInst == null)
 			return null;
@@ -180,7 +268,7 @@ public class ModelConverter {
 		workInfo.setMyCategory(pkgCtgPathMap.get("category"));
 		workInfo.setMyGroup(pkgCtgPathMap.get("group"));
 
-		return null;
+		return workInfo;
 	}	
 	
 	public static WorkCategoryInfo[] getWorkCategoryInfoArrayByCtgCategoryArray(CtgCategory[] argCtgs) throws Exception {
@@ -324,6 +412,174 @@ public class ModelConverter {
 		getWorkByCtgCategory(workCategory, ctg);
 		
 		return workCategory;
+	}
+	
+	
+	public static Work getWorkByPkgPackage(Work work, PkgPackage pkg) throws Exception {
+		if (pkg == null)
+			return null;
+		if (work == null)
+			work = new Work();
+			
+		String ctgId = pkg.getObjId();
+		String ctgName = pkg.getName();
+		String ctgDesc = pkg.getDescription();
+		//TODO
+		int ctgType = -1;
+		work.setId(ctgId);
+		work.setName(ctgName);
+		work.setDesc(ctgDesc);
+		work.setType(-1);
+		
+		return work;
+	}
+	public static SmartWork getSmartWorkByPkgPackage(String userId, SmartWork smartWork, PkgPackage pkg) throws Exception {
+		if (pkg == null)
+			return null;
+		if (smartWork == null)
+			smartWork = new SmartWork();
+		
+		getWorkByPkgPackage(smartWork, pkg);
+		
+		setPolicyToWork(smartWork, getResourceIdByPkgPackage(pkg));
+		
+		smartWork.setLastModifier(getUserByUserId(pkg.getModificationUser()));
+		smartWork.setLastModifiedDate(new LocalDate(pkg.getModificationDate().getTime()));
+		
+		smartWork.setSearchFilters(getSearchFilterArrayByPkgPackage(userId, pkg));
+		
+		Map<String, WorkCategory> pkgCtgPathMap = getPkgCtgMapByPackage(pkg);
+		smartWork.setMyCategory(pkgCtgPathMap.get("category"));
+		smartWork.setMyGroup(pkgCtgPathMap.get("group"));
+		
+		return smartWork;
+	}
+	
+	public static ProcessWork getProcessWorkByPkgPackage(String userId, ProcessWork processWork, PkgPackage pkg) throws Exception {
+		if (pkg == null)
+			return null;
+		if (processWork == null)
+			processWork = new ProcessWork();
+		
+		getSmartWorkByPkgPackage(userId, processWork, pkg);
+		
+		processWork.setHelpUrl("HELP URL");
+		processWork.setManualFileName("MANUAL FILE NAME");
+		processWork.setManualFilePath("MANUAL FILE PATH");
+		
+		return processWork;
+	}
+	
+	public static SearchFilter[] getSearchFilterArrayByPkgPackage(String userId, PkgPackage pkg) throws Exception {
+		if (pkg == null)
+			return null;
+		
+		ColListCond listCond = new ColListCond();
+		String pkgType = pkg.getType();
+		if (pkgType.equalsIgnoreCase("PROCESS") || pkgType.equalsIgnoreCase("GANTT")) {
+			//processinst.cond.admin@maninsoft.co.kr
+			listCond.setType("processinst.cond." + userId);
+		} else {
+			//record.cond.admin@maninsoft.co.kr
+			listCond.setType("record.cond." + userId);
+		}
+		String resourceId = getResourceIdByPkgPackage(pkg);
+		if (CommonUtil.isEmpty(resourceId))
+			return null;
+		listCond.setCorrelation(resourceId);
+		
+		ColList filterList = getColManager().getList(userId, listCond, IManager.LEVEL_ALL);
+		
+		return getSearchFilterArrayByColList(pkgType, filterList);
+	}
+	public static SearchFilter[] getSearchFilterArrayByColList(String type, ColList list) throws Exception {
+		if (list == null)
+			return null;
+		
+		LnkObject[] filterItemArray = list.getItems();
+		
+		if (CommonUtil.isEmpty(filterItemArray))
+			return null;
+		
+		List<SearchFilter> filterList = new ArrayList<SearchFilter>();
+		for (int i = 0; i < filterItemArray.length; i++) {
+
+			LnkObject filterItem = filterItemArray[i];
+			
+			String name = filterItem.getLabel();
+			String conditionStr = filterItem.getExpression();
+			Condition[] conditions = null;
+			if (!CommonUtil.isEmpty(conditionStr)) {
+				Filter[] filters = null;
+				if (type.equalsIgnoreCase("PROCESS") || type.equalsIgnoreCase("GANTT")) {
+					PrcProcessInstCond prcCond = (PrcProcessInstCond)PrcProcessInstCond.toObject(conditionStr);
+					if (prcCond == null)
+						continue;
+					filters = prcCond.getFilter();
+				} else {
+					SwdRecordCond recCond = (SwdRecordCond)SwdRecordCond.toObject(conditionStr);
+					if (recCond == null)
+						continue;
+					filters = recCond.getFilter();
+				}
+				if (filters == null)
+					continue;
+				Condition[] condArray = new Condition[filters.length];
+				for (int j = 0; j < filters.length; j++) {
+					Filter filter = filters[i];
+					String leftOperType = filter.getLeftOperandType();
+					String leftOperValue = filter.getLeftOperandValue();
+					String rightOperType = filter.getRightOperandType();
+					String rightOperValue = filter.getRightOperandValue();
+					String operator = filter.getOperator();
+					
+					Condition cond = new Condition(new FormField(leftOperValue, leftOperValue, leftOperType) , operator, new FormField(rightOperValue, rightOperValue, rightOperType));
+					condArray[i] = cond;
+				}
+				conditions = condArray;
+			}
+			
+			SearchFilter searchFilter = new SearchFilter();
+			searchFilter.setId(name);
+			searchFilter.setName(name);
+			searchFilter.setConditions(conditions);
+			
+			filterList.add(searchFilter);
+		}
+		SearchFilter[] searchFilter = new SearchFilter[filterList.size()];
+		filterList.toArray(searchFilter);
+		
+		return searchFilter;
+	}
+	
+	public static String getResourceIdByPkgPackage(PkgPackage pkg) throws Exception {
+		if (pkg == null)
+			return null;
+		
+		String type = pkg.getType();
+		String packageId = pkg.getPackageId();
+		
+		if (type.equalsIgnoreCase("PROCESS") || type.equalsIgnoreCase("GANTT")) {
+			PrcProcessCond prcCond = new PrcProcessCond();
+			prcCond.setDiagramId(packageId);
+			PrcProcess[] prc = getPrcManager().getProcesses("", prcCond, IManager.LEVEL_LITE);
+			if (CommonUtil.isEmpty(prc)) {
+				return null;
+			} else {
+				return prc[0].getProcessId();
+			}
+		} else if (type.equalsIgnoreCase("SINGLE")) {
+			SwfFormCond formCond = new SwfFormCond();
+			formCond.setPackageId(packageId);
+			
+			SwfForm[] form = getSwfManager().getForms("", formCond, IManager.LEVEL_LITE);
+			if (CommonUtil.isEmpty(form)) {
+				return null;
+			} else {
+				return form[0].getId();
+			}
+		} 
+		return null;
 	}
 	
 	public static Map<String, WorkCategory> getPkgCtgMapByPackage(PkgPackage pkg) throws Exception {
