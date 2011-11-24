@@ -1,10 +1,8 @@
-<%@page
-	import="org.springframework.security.web.context.HttpSessionSecurityContextRepository"%>
+<%@page import="org.springframework.security.web.context.HttpSessionSecurityContextRepository"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="net.smartworks.server.engine.security.model.Login"%>
 <%@page import="org.springframework.security.core.Authentication"%>
-<%@page
-	import="org.springframework.security.core.context.SecurityContext"%>
+<%@page	import="org.springframework.security.core.context.SecurityContext"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.service.ISmartWorks"%>
@@ -20,42 +18,15 @@
 
 <!-- For Development Purpose -->
 <%
-	session = request.getSession();
-	if (session.getAttribute("userId") == null) {
-		SecurityContext context = (SecurityContext) request
-				.getSession()
-				.getAttribute(
-						HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
-		if (context != null) {
-			Authentication auth = context.getAuthentication();
-			if (auth != null) {
-				session.setAttribute("userId",
-						((Login) auth.getPrincipal()).getId());
-				/* 				session.setAttribute("userName", ((Login) auth.getPrincipal()).getName());
-				 session.setAttribute("type", ((Login) auth.getPrincipal()).getType()); */
-				session.setAttribute("companyId",
-						((Login) auth.getPrincipal()).getCompanyId());
-				/* 				session.setAttribute("deptId", ((Login) auth.getPrincipal()).getDeptId());
-				 session.setAttribute("locale", ((Login) auth.getPrincipal()).getLocale());
-				 session.setAttribute("empNo", ((Login) auth.getPrincipal()).getEmpNo());
-				 session.setAttribute("position", ((Login) auth.getPrincipal()).getPos());
-				 session.setAttribute("email", ((Login) auth.getPrincipal()).getEmail());
-				 session.setAttribute("passWord", ((Login) auth.getPrincipal()).getPassword());
-				 session.setAttribute("authId", ((Login) auth.getPrincipal()).getAuthId()); */
-
-				System.out.println("userId >>> "
-						+ session.getAttribute("userId"));
-				/* 				System.out.println("userName >>> " + session.getAttribute("userName"));
-				 System.out.println("type >>> " + session.getAttribute("type")); */
-				System.out.println("companyId >>> "
-						+ session.getAttribute("companyId"));
-				/* 				System.out.println("deptId >>> " + session.getAttribute("deptId"));
-				 System.out.println("empNo >>> " + session.getAttribute("empNo"));
-				 System.out.println("position >>> " + session.getAttribute("position"));
-				 System.out.println("email >>> " + session.getAttribute("email"));
-				 System.out.println("passWord >>> " + session.getAttribute("passWord"));
-				 System.out.println("authId >>> " + session.getAttribute("authId"));
-				 System.out.println("locale >>> " + session.getAttribute("locale")); */
+	SecurityContext context = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+	if (context != null) {
+		Authentication auth = context.getAuthentication();
+		if (auth != null) {
+			if (request.getSession().getAttribute("loginId") == null) {
+				System.out.println("-------------------------------------------");
+				System.out.println(((Login) auth.getPrincipal()).getPosition() + " " + ((Login) auth.getPrincipal()).getName() + " 님이 접속하였습니다.");
+				System.out.println("ID : "+ ((Login) auth.getPrincipal()).getId());
+				System.out.println("DEPT : "+ ((Login) auth.getPrincipal()).getDepartment());
 
 				Calendar rightNow = Calendar.getInstance();
 				int year = rightNow.get(Calendar.YEAR) % 100;
@@ -65,23 +36,21 @@
 				int minute = rightNow.get(Calendar.MINUTE);
 				int second = rightNow.get(Calendar.SECOND);
 
-				System.out.println("connectTime ==> " + year + "년 "
-						+ month + "월 " + date + "일 " + hour + "시 "
-						+ minute + "분 " + second + "초");
+				System.out.println("ConnectTime : " + year + "년 " + month + "월 " + date + "일 " + hour + "시 " + minute + "분 " + second + "초");
 
+				request.getSession().setAttribute("loginId", ((Login) auth.getPrincipal()).getId());
+
+				System.out.println("-------------------------------------------");
 			}
 		}
 	}
 
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
 	String cid = (String) session.getAttribute("cid");
 	String wid = (String) session.getAttribute("wid");
 	if (cid == null) {
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
 	}
-	ISmartWorks smartWorks = (ISmartWorks) request
-			.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	//User currentUser = SmartUtil.getCurrentUser(request);
 	User currentUser = SmartUtil.getCurrentUser(request);
 %>
@@ -117,7 +86,8 @@
 	src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <!-- <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
- --><script type="text/javascript" src="js/sw/sw-util.js"></script>
+ -->
+<script type="text/javascript" src="js/sw/sw-util.js"></script>
 <script type="text/javascript" src="js/sw/sw-all.js"></script>
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>

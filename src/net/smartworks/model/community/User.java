@@ -16,7 +16,14 @@ public class User extends WorkSpace {
 	private String 	timeZone;
 	private String 	department;
 	private String 	company;
-	
+	private String 	companyId;
+
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
 	public int getUserLevel() {
 		return userLevel;
 	}

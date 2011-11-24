@@ -204,6 +204,8 @@
 										<option><%=report.getName() %></option>
 									<%
 									}
+								}
+							}
 									%>
 						</select>
 					</div>
@@ -299,15 +301,14 @@
 										class="bu_arr_b">
 									</th>
 									<%
-										}
+											}
 										}
 									%>
 									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
 											key='common.title.last_modified_date' /></th>
 								</tr>
 								<div id='iwork_list_page'>
-									<jsp:include
-										page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
+									<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
 								</div>
 							</tbody>
 						</table>
