@@ -6,15 +6,15 @@
 .body_titl { padding:0 15px 10px;} /* 본문 페이지 타이틀*/
 .body_titl .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
 .body_titl .title_noico {font-size: 14px; font-weight: bold;}  /* 타이틀 우측으로 아이콘이 없을때 */
-.body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding-top: 30px;} /* 타이틀 우측으로 버튼 */
+.body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding-top: 34px;} /* 타이틀 우측으로 버튼 */
 
 .body_titl_pic { padding:5px 15px 10px;} /* 본문 페이지 타이틀 - 사람사진이 들어갈 경우 */
 .body_titl_pic .txt_btn {font-family:'돋움',Dotum; font-size: 11px; font-weight:normal;}
 .body_titl_pic .txt_btn.first {margin-bottom:20px;} /* 첫번째줄과 두번째줄 사이 간격 */
 .body_titl_pic .title_picico {font-size: 14px; font-weight: bold;} /* 본문 타이틀 - 사람사진이 들어갈 경우: 제목 텍스트 */
 .body_titl_pic .title_section {position:absolute; width:100%;}
-.body_titl_pworks {background: url("../images/body_title_proces.png") no-repeat left top transparent; padding:28px 0 2px 65px; line-height:18px;}
-.body_titl_iworks {background: url("../images/body_title_inform.png") no-repeat left top transparent; padding:28px 0 0 65px; line-height:22px;}
+.body_titl_pworks {background: url("../images/body_title_proces.png") no-repeat 0 -2px transparent; padding:22px 0 0 68px; line-height:18px;}
+.body_titl_iworks {background: url("../images/body_title_inform.png") no-repeat 0 -2px transparent; padding:22px 0 0 68px; line-height:18px;}
 
 
 /* 본문 컨텐츠 */
@@ -35,13 +35,13 @@
 .replay {margin:10px 15px 0;} /* 상세페이지에 댓글,업무,메모 입력 영역*/
 .list_replay {margin:0;} /* 댓글 목록 */
 .replay_input {margin-top:10px;} /* 댓글 입력 영역 */
-.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; margin:5px 0 0 0;}
+.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:5px 0;}
 .list_replay .end, .replay .end {border-bottom: none; vertical-align: middle;}
 .repl_tinfo {background: url("../images/header_nico.png") no-repeat -8px -286px; padding:0 0 0 20px;}
 
 
 /* 목록보기 부분 타이틀 */
-.list_title_space {background-color:#ededed; padding: 10px 5px; overflow:hidden;}
+.list_title_space {background-color:#ededed; padding:7px 5px 0; overflow:hidden;}
 .list_title_space .title, .list_title {background: url("../images/body_icon.png") no-repeat scroll 0 -288px transparent; height:27px; font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
 .list_title_space .title_stat {background: url("../images/body_icon.png") no-repeat scroll -46px -288px transparent; height:27px; font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0;}
@@ -54,7 +54,7 @@
 
 /* GR 포인트 */
 .gr_up_point {background: url("../images/up_point_gr.gif") no-repeat scroll left top transparent; height: 13px; width: 23px;}
-.posit_point {left:20px; position: relative; top:7px; z-index:90;}
+.posit_point {left:30px; position: relative; top:7px; z-index:90;}
 
 
 /* GR 포틀릿 */
@@ -220,9 +220,6 @@ display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
 
 
 
-79 124
-
-
 /* Body Icon */
 .bu_modfy {background: url("../images/body_icon.png") no-repeat scroll 0 -7px transparent; height:16px; width:16px; display:inline-block;}
 .bu_regit {background: url("../images/body_icon.png") no-repeat scroll -74px -7px transparent; height:16px; width:16px; display:inline-block;}
@@ -235,3 +232,4 @@ display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
 .bu_arr_b {background: url("../images/body_icon.png") no-repeat scroll -286px 0 transparent; height:4px; display:inline-block;}
 .bu_stat {background: url("../images/body_icon.png") no-repeat scroll 0 -251px transparent; height:21px; display:inline-block; padding: 0 0 0 24px;}
 .bu_n_stat {background: url("../images/body_icon.png") no-repeat scroll -432px -250px transparent; height:21px; display:inline-block; padding: 0 0 0 25px;}
+.bu_file {background: url("../images/body_icon.png") no-repeat scroll -163px -365px transparent; height:17px; width:16px; display:inline-block;}

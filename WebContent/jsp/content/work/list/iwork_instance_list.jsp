@@ -115,6 +115,7 @@
 	%>
 </table>
 <!-- 페이징 -->
+
 <div class="paginate">
 	<%
 		if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
