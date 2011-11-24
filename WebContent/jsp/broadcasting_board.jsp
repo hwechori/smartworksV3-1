@@ -18,5 +18,5 @@
 
 <b>[<fmt:message key="broadcasting.board.title" />]
 </b>
-<marquee direction="left"><%=messages[0]%></marquee>
+<marquee id="marBroadcastingBoard" direction="left"><%=messages[0]%></marquee>
 

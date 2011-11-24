@@ -126,14 +126,20 @@
 
 <script type="text/javascript">
 	smartTalk.init();
-	if(smartMsgClient != null){
-		smartTalk.subscribe("/test");
-		var repeat = function(){
-			smartTalk.publish("/test", "Hello, this is SmartWorks!! Welcome~~");			
-		}
-		setInterval(repeat, 2000);
-	}
-</script>
+	smartTalk.startBcastSub();
+	smartTalk.startSubOnMe();
+	var repeat1 = function(){
+		smartTalk.publishBcast("Hello, this is SmartWorks!! Welcome~~");			
+	};
+	setInterval(repeat1, 2000);
+	
+  	smartTalk.publishNoticeCount({type : 0, count : 0});
+  	smartTalk.publishNoticeCount({type : 1, count : 1});
+  	smartTalk.publishNoticeCount({type : 2, count : 2});
+  	smartTalk.publishNoticeCount({type : 3, count : 3});
+  	smartTalk.publishNoticeCount({type : 4, count : 4});
+  	smartTalk.publishNoticeCount({type : 5, count : 5});
+  </script>
 
 </head>
 
