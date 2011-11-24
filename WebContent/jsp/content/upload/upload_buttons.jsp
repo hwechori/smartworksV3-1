@@ -16,12 +16,12 @@
 	
 	String wid = request.getParameter("wid");
 	if (wid == null)
-		wid = SmartUtil.getCurrentUser(request).getId();
+		wid = SmartUtil.getCurrentUser(request, response).getId();
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 
 	String workId = request.getParameter("workId");
-	User cUser = SmartUtil.getCurrentUser(request);
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	SmartWork work = (SmartWork)smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	if (work == null)

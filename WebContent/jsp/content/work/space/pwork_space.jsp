@@ -10,7 +10,7 @@
 		session.setAttribute("cid", cid);
 	String wid = request.getParameter("wid");
 	if (wid == null)
-		session.setAttribute("wid", SmartUtil.getCurrentUser(request).getId());
+		session.setAttribute("wid", SmartUtil.getCurrentUser(request, response).getId());
 	else
 		session.setAttribute("wid", wid);
 %>

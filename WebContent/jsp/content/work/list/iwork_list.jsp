@@ -22,7 +22,7 @@
 	String wid = request.getParameter("wid");
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser(request);
+	User cUser = SmartUtil.getCurrentUser(request, response);
 	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	
 	Report[] reports = smartWorks.getReportsByWorkId(companyId, cUser.getId(), workId);

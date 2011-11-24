@@ -191,11 +191,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		swdRecordCond.setCompanyId(companyId);
 		swdRecordCond.setFormId(workId);
 
-		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
-
-		for(SwdRecord swdRecord : swdRecords) {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + swdRecord.getFormId());
-		}
+		long totalSize = getSwdManager().getRecordSize(userId, swdRecordCond);
+		System.out.println("totalSize : " + totalSize);
+//		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
+//
+//		for(SwdRecord swdRecord : swdRecords) {
+//			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + swdRecord.getFormId());
+//		}
 		return instanceList;
 		//return SmartTest.getWorkInstanceList1(params);
 	}	

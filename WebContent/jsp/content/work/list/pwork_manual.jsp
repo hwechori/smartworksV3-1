@@ -27,7 +27,7 @@
 	String wid = request.getParameter("wid");
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser(request);
+	User cUser = SmartUtil.getCurrentUser(request, response);
 	ProcessWork work = (ProcessWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	CommentInstance[] comments = smartWorks.getRecentCommentsInWorkManual(companyId, workId, 3);
 	SmartDiagram diagram = work.getDiagram();

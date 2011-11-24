@@ -14,7 +14,7 @@
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
 	if (wid == null)
-		wid = SmartUtil.getCurrentUser(request).getId();
+		wid = SmartUtil.getCurrentUser(request, response).getId();
 
 	Group thisGroup = null;
 	Department thisDepartment = null;
@@ -26,10 +26,10 @@
 		thisDepartment = (Department) smartWorks.getWorkSpaceById(companyId, spaceId);
 	} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_USER_SPACE, cid)) {
 		thisUser = (User) smartWorks.getWorkSpaceById(companyId, spaceId);
-	} else if (!wid.equals(SmartUtil.getCurrentUser(request).getId())) {
+	} else if (!wid.equals(SmartUtil.getCurrentUser(request, response).getId())) {
 		WorkSpace workSpace = smartWorks.getWorkSpaceById(companyId, wid);
 		if (workSpace == null) {
-			thisUser = SmartUtil.getCurrentUser(request);
+			thisUser = SmartUtil.getCurrentUser(request, response);
 		} else if (workSpace.getClass() == User.class) {
 			thisUser = (User) workSpace;
 		} else if (workSpace.getClass() == Group.class) {
@@ -38,7 +38,7 @@
 			thisDepartment = (Department) workSpace;
 		}
 	} else {
-		thisUser = SmartUtil.getCurrentUser(request);
+		thisUser = SmartUtil.getCurrentUser(request, response);
 	}
 %>
 

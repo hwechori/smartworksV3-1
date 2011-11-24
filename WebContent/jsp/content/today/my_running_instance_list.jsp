@@ -14,7 +14,7 @@
 	String userId = (String) session.getAttribute("userId");
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request);
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	InstanceInfo[] instances = smartWorks.getMyRunningInstances(companyId, userId);
 %>

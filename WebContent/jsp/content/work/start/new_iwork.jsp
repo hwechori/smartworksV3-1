@@ -40,7 +40,7 @@ function submitForms(e) {
 	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
-	User cUser = SmartUtil.getCurrentUser(request);
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	Work work = smartWorks.getWorkById(companyId, cUser.getId(), workId);
 	SmartWork cWork = null;
