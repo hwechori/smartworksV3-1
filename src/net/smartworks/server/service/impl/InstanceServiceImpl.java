@@ -21,6 +21,10 @@ import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcessInst;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
@@ -42,6 +46,9 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	private IPrcManager getPrcManager() {
 		return SwManagerFactory.getInstance().getPrcManager();
+	}
+	private ISwdManager getSwdManager() {
+		return SwManagerFactory.getInstance().getSwdManager();
 	}
 	/*
 	 * (non-Javadoc)
@@ -173,7 +180,26 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	@Override
 	public InstanceInfoList getIWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
-		return SmartTest.getWorkInstanceList1(params);
+
+		InstanceInfoList instanceList = new InstanceInfoList();
+		instanceList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+		instanceList.setCountInPage(params.getCountInPage());
+		instanceList.setTotalPages(31);
+		instanceList.setCurrentPage(params.getPageNumber());
+
+		SwdRecordCond swdRecordCond = new SwdRecordCond();
+		swdRecordCond.setCompanyId(companyId);
+		swdRecordCond.setFormId(workId);
+
+		long totalSize = getSwdManager().getRecordSize(userId, swdRecordCond);
+		System.out.println("totalSize : " + totalSize);
+//		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
+//
+//		for(SwdRecord swdRecord : swdRecords) {
+//			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + swdRecord.getFormId());
+//		}
+		return instanceList;
+		//return SmartTest.getWorkInstanceList1(params);
 	}	
 	
 	@Override

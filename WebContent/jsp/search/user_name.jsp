@@ -4,12 +4,11 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	UserInfo[] users = smartWorks.searchUser(companyId, key);
+	UserInfo[] users = smartWorks.searchUser(cUser.getCompanyId(), key);
 %>
 
 <ul>

@@ -22,7 +22,7 @@
 	if (context != null) {
 		Authentication auth = context.getAuthentication();
 		if (auth != null) {
-			if (request.getSession().getAttribute("loginId") == null) {
+			if(request.getSession().getAttribute("loginId") == null) {
 				System.out.println("-------------------------------------------");
 				System.out.println(((Login) auth.getPrincipal()).getPosition() + " " + ((Login) auth.getPrincipal()).getName() + " 님이 접속하였습니다.");
 				System.out.println("ID : "+ ((Login) auth.getPrincipal()).getId());
@@ -50,12 +50,10 @@
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
 	}
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	//User currentUser = SmartUtil.getCurrentUser(request);
-	User currentUser = SmartUtil.getCurrentUser(request);
+	User currentUser = SmartUtil.getCurrentUser(request, response);
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-
 
 <head>
 

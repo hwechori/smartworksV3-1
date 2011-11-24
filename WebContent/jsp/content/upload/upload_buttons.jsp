@@ -11,22 +11,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-	
 	String wid = request.getParameter("wid");
 	if (wid == null)
-		wid = SmartUtil.getCurrentUser(request).getId();
+		wid = SmartUtil.getCurrentUser(request, response).getId();
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 
 	String workId = request.getParameter("workId");
-	User cUser = SmartUtil.getCurrentUser(request);
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
-	SmartWork work = (SmartWork)smartWorks.getWorkById(companyId, cUser.getId(), workId);
+	SmartWork work = (SmartWork)smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
 	if (work == null)
 		work = new SmartWork();
-	CommunityInfo[] communities = smartWorks.getMyCommunities(companyId, userId);
+	CommunityInfo[] communities = smartWorks.getMyCommunities(cUser.getCompanyId(), cUser.getId());
 %>
 
 <!-- 등록 취소 버튼 -->

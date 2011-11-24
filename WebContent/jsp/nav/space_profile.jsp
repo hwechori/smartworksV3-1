@@ -3,33 +3,30 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
-
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-	
+	User cUser = SmartUtil.getCurrentUser(request, response);
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	if (cid == null)
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
 	if (wid == null)
-		wid = SmartUtil.getCurrentUser(request).getId();
+		wid = SmartUtil.getCurrentUser(request, response).getId();
 
 	Group thisGroup = null;
 	Department thisDepartment = null;
 	User thisUser = null;
 	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
 	if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, cid)) {
-		thisGroup = (Group) smartWorks.getWorkSpaceById(companyId, spaceId);
+		thisGroup = (Group) smartWorks.getWorkSpaceById(cUser.getCompanyId(), spaceId);
 	} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE, cid)) {
-		thisDepartment = (Department) smartWorks.getWorkSpaceById(companyId, spaceId);
+		thisDepartment = (Department) smartWorks.getWorkSpaceById(cUser.getCompanyId(), spaceId);
 	} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_USER_SPACE, cid)) {
-		thisUser = (User) smartWorks.getWorkSpaceById(companyId, spaceId);
-	} else if (!wid.equals(SmartUtil.getCurrentUser(request).getId())) {
-		WorkSpace workSpace = smartWorks.getWorkSpaceById(companyId, wid);
+		thisUser = (User) smartWorks.getWorkSpaceById(cUser.getCompanyId(), spaceId);
+	} else if (!wid.equals(SmartUtil.getCurrentUser(request, response).getId())) {
+		WorkSpace workSpace = smartWorks.getWorkSpaceById(cUser.getCompanyId(), wid);
 		if (workSpace == null) {
-			thisUser = SmartUtil.getCurrentUser(request);
+			thisUser = SmartUtil.getCurrentUser(request, response);
 		} else if (workSpace.getClass() == User.class) {
 			thisUser = (User) workSpace;
 		} else if (workSpace.getClass() == Group.class) {
@@ -38,7 +35,7 @@
 			thisDepartment = (Department) workSpace;
 		}
 	} else {
-		thisUser = SmartUtil.getCurrentUser(request);
+		thisUser = SmartUtil.getCurrentUser(request, response);
 	}
 %>
 

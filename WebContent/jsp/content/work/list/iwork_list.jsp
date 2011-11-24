@@ -14,18 +14,15 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	String wid = request.getParameter("wid");
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser(request);
-	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
+	User cUser = SmartUtil.getCurrentUser(request, response);
+	InformationWork work = (InformationWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
 
-	Report[] reports = smartWorks.getReportsByWorkId(companyId, cUser.getId(), workId);
+	Report[] reports = smartWorks.getReportsByWorkId(cUser.getCompanyId(), cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
