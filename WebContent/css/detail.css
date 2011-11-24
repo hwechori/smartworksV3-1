@@ -35,8 +35,8 @@
 .replay {margin:10px 15px 0;} /* 상세페이지에 댓글,업무,메모 입력 영역*/
 .list_replay {margin:0;} /* 댓글 목록 */
 .replay_input {margin-top:10px;} /* 댓글 입력 영역 */
-.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; margin:5px 0;}
-.list_replay .end .replay .end {border-bottom: 0px; vertical-align: middle;}
+.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; margin:5px 0 0 0;}
+.list_replay .end, .replay .end {border-bottom: none; vertical-align: middle;}
 .repl_tinfo {background: url("../images/header_nico.png") no-repeat -8px -286px; padding:0 0 0 20px;}
 
 

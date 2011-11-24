@@ -17,15 +17,18 @@
 	String companyId = (String) session.getAttribute("companyId");
 	String userId = (String) session.getAttribute("userId");
 
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request
+			.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	String wid = request.getParameter("wid");
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser(request);
-	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
+	InformationWork work = (InformationWork) smartWorks.getWorkById(
+			companyId, cUser.getId(), workId);
 
-	Report[] reports = smartWorks.getReportsByWorkId(companyId, cUser.getId(), workId);
+	Report[] reports = smartWorks.getReportsByWorkId(companyId,
+			cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -41,38 +44,41 @@
 			<!-- 타이틀 -->
 			<div class="body_titl">
 				<div class="body_titl_iworks title"><%=work.getName()%></div>
-				
-			<!-- 우측 버튼 -->
-			<div class="txt_btn padding_b6">
-			
-				<!-- 수정하기 -->
-				<div class="float_right space_l5">
-					<%
-						if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
-					%>
-					<span class="btn_gray"> <span class="Btn01Start"></span> <span
-						class="Btn01Center"><fmt:message key='common.button.modify' />
-					</span> <span class="Btn01End"></span> </span>
-					<%
-						}
-					%>
+
+				<!-- 우측 버튼 -->
+				<div class="txt_btn padding_b6">
+
+					<!-- 수정하기 -->
+					<div class="float_right space_l5">
+						<%
+							if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
+						%>
+						<span class="btn_gray"> <span class="Btn01Start"></span> <span
+							class="Btn01Center"><fmt:message
+									key='common.button.modify' /> </span> <span class="Btn01End"></span>
+						</span>
+						<%
+							}
+						%>
+					</div>
+					<!-- 수정하기 //-->
+
+					<!-- 최종수정자 -->
+					<div class="float_right padding_t5">
+						<img clss="margin_b2"
+							title="<fmt:message key="common.title.last_modifier" />"
+							src="<%=work.getLastModifier().getMinPicture()%>"> <span
+							class="t_name"><%=work.getLastModifier().getLongName()%></span> <span
+							class="t_date"><%=work.getLastModifiedDate().toLocalString()%>
+						</span>
+					</div>
+					<!-- 최종수정자 //-->
+
 				</div>
-				<!-- 수정하기 //-->
-				
-				<!-- 최종수정자 -->
-				<div class="float_right padding_t5">
-					<img clss="margin_b2" title="<fmt:message key="common.title.last_modifier" />" src="<%=work.getLastModifier().getMinPicture()%>">
-					<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
-					<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%>
-					</span>
-				</div>
-				<!-- 최종수정자 //-->
-			
-			</div>
-			<!-- 우측 버튼 //-->
-			
-			
-			
+				<!-- 우측 버튼 //-->
+
+
+
 
 				<div class="solid_line"></div>
 			</div>
@@ -194,7 +200,8 @@
 									for (Report report : reports) {
 
 										String reportName = null;
-										if (report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())) {
+										if (report.getOwner().getId()
+												.equals(SmartUtil.getSystemUser().getId())) {
 							%>
 							<option value="<%=report.getName()%>">
 								<fmt:message key="<%=report.getName()%>" />
@@ -287,39 +294,14 @@
 					<div id="search_filter" class="filter_section"></div>
 					<!-- 상세필터 -->
 
-					<!-- 목록 테이블 -->
-					<div class="list_contents">
-						<table>
-							<tbody>
-								<tr class="tit_bg">
-									<th></th>
-									<%
-										FormField[] fields = work.getDisplayFields();
-										if (fields != null) {
-											for (FormField field : fields) {
-									%>
-									<th class="r_line"><%=field.getName()%> <img
-										class="bu_arr_b">
-									</th>
-									<%
-										}
-										}
-									%>
-									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-											key='common.title.last_modified_date' /></th>
-								</tr>
-								<div id='iwork_list_page'>
-									<jsp:include
-										page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
-								</div>
-							</tbody>
-						</table>
+					<div class="list_contents" id='iwork_list_page'>
+						<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
 					</div>
+
 					<!-- 목록 테이블 //-->
 
 				</div>
-			<!-- 목록영역 // -->
-
+				<!-- 목록영역 // -->
 		</ul>
 	</div>
 	<div class="portlet_b" style="display: block;"></div>
