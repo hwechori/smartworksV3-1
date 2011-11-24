@@ -1,5 +1,6 @@
 package net.smartworks.server.service;
 
+import net.smartworks.model.report.Report;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -13,5 +14,7 @@ public interface IWorkService {
 	public SmartWorkInfo[] searchWork(String companyId, String userId, String key) throws Exception;
 	
 	public Work getWorkById(String companyId, String userId, String workId) throws Exception;
+
+	public Report[] getReportsByWorkId(String companyId, String userId, String workId) throws Exception;
 
 }

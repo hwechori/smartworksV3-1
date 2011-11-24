@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.smartworks.model.report.Report;
 import net.smartworks.model.security.AccessPolicy;
 import net.smartworks.model.security.EditPolicy;
 import net.smartworks.model.security.WritePolicy;
@@ -314,5 +315,9 @@ public class WorkServiceImpl implements IWorkService {
 
 		return resultwork;
 */
+	}
+	@Override
+	public Report[] getReportsByWorkId(String companyId, String userId, String workId) throws Exception {
+		return SmartTest.getReportsByWorkId();
 	}
 }

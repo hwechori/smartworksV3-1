@@ -342,7 +342,7 @@ $(function() {
 
 	$('a.js_view_work_manual').live('click', function(e){
 		var input = $(e.target);
-		input.parents("div.contents_space:first").find('#work_manual').slideToggle(500);
+		input.parents("div.js_content_div:first").next('#work_manual').slideToggle(500);
 		input.hide();
 		input.siblings().show();
 		return false;

@@ -11,6 +11,8 @@ package net.smartworks.util;
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.report.ChartReport;
+import net.smartworks.model.report.Report;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
@@ -266,4 +268,5 @@ public class SmartUtil {
 		user.setUserLevel(User.USER_LEVEL_AMINISTRATOR);
 		return user;
 	}
+	
 }

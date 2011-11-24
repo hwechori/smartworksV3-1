@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.report.Report"%>
 <%@page import="net.smartworks.model.work.FormField"%>
 <%@page import="net.smartworks.model.work.SmartForm"%>
 <%@page import="net.smartworks.model.filter.SearchFilter"%>
@@ -23,6 +24,8 @@
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser(request);
 	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
+	
+	Report[] reports = smartWorks.getReportsByWorkId(companyId, cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -38,24 +41,26 @@
 			<!-- 타이틀 -->
 			<div class="body_titl">
 				<div class="body_titl_iworks title_noico"><%=work.getName()%></div>
+				<!-- 최종수정자 -->
+				<div class="float_right">
+					<div class="noti_pic">
+						<img
+							title="<fmt:message key="common.title.last_modifier" />"
+							src="<%=work.getLastModifier().getMinPicture()%>">
+					</div>
+					<div class="noti_in">
+						<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
+						<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%></span>
+					</div>
+				</div>
+				<!-- 최종수정자 //-->
+
 				<div class="solid_line"></div>
 			</div>
 			<!-- 타이틀 -->
-			
-			<!-- 최종수정자 -->
-			<div class="float_right">
-				<div class="noti_pic">
-					<img align="bottom" title="<fmt:message key="common.title.last_modifier" />" src="<%=work.getLastModifier().getMinPicture()%>">
-				</div>
-				<div class="noti_in">
-					<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
-					<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%></span>
-				</div>
-			</div>
-			<!-- 최종수정자 //-->
 
 			<!-- 컨텐츠 -->
-			<div class="define_space">
+			<div class="define_space js_content_div">
 
 				<!-- 업무 정의 영역 -->
 				<div class=""><%=work.getDesc()%></div>
@@ -67,141 +72,145 @@
 						class="js_view_work_manual" href=""><fmt:message
 								key="common.button.view.work_manual" />▼</a> <a
 						style="display: none" class="js_view_work_manual" href=""><fmt:message
-								key="common.button.close.work_manual" />▼</a> </span> 
-								
-					<span
+								key="common.button.close.work_manual" />▼</a> </span> <span
 						class="po_left"> <%
-					 	if (work.getManualFileName() != null) {
-					 %> <a href="" class="bu_video space_r2"
-											title="<fmt:message key='work.title.manual_file'/>"></a> <%
-					 	}
-					 	if (work.getHelpUrl() != null) {
-					 %> <a href="<%=work.getHelpUrl()%>" class="bu_webex"
-											title="<fmt:message key='work.title.help_url'/>" target="_blank">
-										</a> <%
-					 	}
-					 %> </span>
-					 
-			 <!-- 우측 권한 아이콘-->
-				<span>
-					<%
-						switch (work.getAccessPolicy().getLevel()) {
-						case AccessPolicy.LEVEL_PUBLIC:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.access.public" />
-					</div>
-					<%
-						break;
-						case AccessPolicy.LEVEL_PRIVATE:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.access.private" />
-					</div>
-					<%
-						break;
-						case AccessPolicy.LEVEL_CUSTOM:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.access.custom" />
-					</div>
-					<%
-						break;
-						}
-					%>
-					<div class="po_right">
-						<img class="bu_read">
-					</div>
-					<%
-						switch (work.getWritePolicy().getLevel()) {
-						case WritePolicy.LEVEL_PUBLIC:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.write.public" />
-					</div>
-					<%
-						break;
-						case WritePolicy.LEVEL_CUSTOM:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.write.custom" />
-					</div>
-					<%
-						break;
-						}
-					%>
-					<div class="po_right">
-						<img class="bu_regit">
-					</div>
-					<%
-						switch (work.getEditPolicy().getLevel()) {
-						case EditPolicy.LEVEL_WIKI:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.edit.wiki" />
-					</div>
-					<%
-						break;
-						case EditPolicy.LEVEL_BLOG:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.edit.blog" />
-					</div>
-					<%
-						break;
-						}
-					%>
-					<div class="po_right">
-						<img class="bu_modfy">
-					</div>
-				</span>
-				<!-- 우측 권한 아이콘-->
-					 
+ 	if (work.getManualFileName() != null) {
+ %> <a href="" class="bu_video space_r2"
+						title="<fmt:message key='work.title.manual_file'/>"></a> <%
+ 	}
+ 	if (work.getHelpUrl() != null) {
+ %> <a href="<%=work.getHelpUrl()%>" class="bu_webex"
+						title="<fmt:message key='work.title.help_url'/>" target="_blank">
+					</a> <%
+ 	}
+ %> </span>
+
+					<!-- 우측 권한 아이콘-->
+					<span> <%
+ 	switch (work.getAccessPolicy().getLevel()) {
+ 	case AccessPolicy.LEVEL_PUBLIC:
+ %>
+						<div class="po_right">
+							<fmt:message key="common.security.access.public" />
+						</div> <%
+ 	break;
+ 	case AccessPolicy.LEVEL_PRIVATE:
+ %>
+						<div class="po_right">
+							<fmt:message key="common.security.access.private" />
+						</div> <%
+ 	break;
+ 	case AccessPolicy.LEVEL_CUSTOM:
+ %>
+						<div class="po_right">
+							<fmt:message key="common.security.access.custom" />
+						</div> <%
+ 	break;
+ 	}
+ %>
+						<div class="po_right">
+							<img class="bu_read">
+						</div> <%
+ 	switch (work.getWritePolicy().getLevel()) {
+ 	case WritePolicy.LEVEL_PUBLIC:
+ %>
+						<div class="po_right">
+							<fmt:message key="common.security.write.public" />
+						</div> <%
+ 	break;
+ 	case WritePolicy.LEVEL_CUSTOM:
+ %>
+						<div class="po_right">
+							<fmt:message key="common.security.write.custom" />
+						</div> <%
+ 	break;
+ 	}
+ %>
+						<div class="po_right">
+							<img class="bu_regit">
+						</div> <%
+ 	switch (work.getEditPolicy().getLevel()) {
+ 	case EditPolicy.LEVEL_WIKI:
+ %>
+						<div class="po_right">
+							<fmt:message key="common.security.edit.wiki" />
+						</div> <%
+ 	break;
+ 	case EditPolicy.LEVEL_BLOG:
+ %>
+						<div class="po_right">
+							<fmt:message key="common.security.edit.blog" />
+						</div> <%
+ 	break;
+ 	}
+ %>
+						<div class="po_right">
+							<img class="bu_modfy">
+						</div> </span>
+					<!-- 우측 권한 아이콘-->
+
 				</div>
 				<!-- 버튼 영역 //-->
-				
-				
-			</div>
-	<div id="work_manual" style="display: none">
-		<jsp:include page="/jsp/content/work/list/iwork_manual.jsp"></jsp:include>
-	</div>
 
-<div class="define_space">		
-			<!-- 라인 -->
-			<div class="solid_line_s margin_b5"></div>
-			
-			<!-- 수정하기 -->
-				<div class="float_right space_l5"> <%
-			 	if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
-			 %> <span class="btn_gray"> <span class="Btn01Start"></span>
-						<span class="Btn01Center"><fmt:message
-								key='common.button.modify' /> </span> <span class="Btn01End"></span> </span>
-				<%
-					}
-				%> </div> 
-			<!-- 수정하기 //--> 
-				
-			
-			
-</div>
+
+			</div>
+			<div id="work_manual" style="display: none">
+				<jsp:include page="/jsp/content/work/list/iwork_manual.jsp"></jsp:include>
+			</div>
+
+			<div class="define_space">
+				<!-- 라인 -->
+				<div class="solid_line_s margin_b5"></div>
+
+				<!-- 수정하기 -->
+				<div class="float_right space_l5">
+					<%
+						if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
+					%>
+					<span class="btn_gray"> <span class="Btn01Start"></span> <span
+						class="Btn01Center"><fmt:message key='common.button.modify' />
+					</span> <span class="Btn01End"></span> </span>
+					<%
+						}
+					%>
+				</div>
+				<!-- 수정하기 //-->
+
+
+
+			</div>
 
 			<!-- 목록영역  -->
 			<div class="contents_space">
 
 				<!--통계메뉴 영역-->
 				<div class="txt_btn margin_b2">
-					
-					<div class="po_right bu_n_stat"><a href="">새 통계분석 만들기</a></div>
-					<div class="po_right bu_stat"> 
-						<select>
-								<option>주간보고</option>
-								<option>주별 영업진행 현황</option>
-							</select>
+
+					<div class="po_right">
+						<a href="">새 통계분석 만들기</a>
+					</div>
+					<div class="po_right bu_stat">
+						<select name="selMyReportList">
+							<%
+							if(reports != null){
+								for(Report report : reports){
+									
+									String reportName = null;
+									if(report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())){
+										%>
+										<option value="<%=report.getName()%>"><fmt:message key="<%=report.getName()%>"/></option>
+									<%
+									}else{%>
+										<option><%=report.getName() %></option>
+									<%
+									}
+									%>
+						</select>
 					</div>
 				</div>
-				
+
 				<!--통계메뉴 영역//-->
-				
+
 				<!-- 목록보기 -->
 				<div class="border">
 
@@ -286,14 +295,15 @@
 										if (fields != null) {
 											for (FormField field : fields) {
 									%>
-									<th class="r_line"><%=field.getName()%> <img class="bu_arr_b"></th>
+									<th class="r_line"><%=field.getName()%> <img
+										class="bu_arr_b">
+									</th>
 									<%
 										}
 										}
 									%>
 									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-											key='common.title.last_modified_date' />
-									</th>
+											key='common.title.last_modified_date' /></th>
 								</tr>
 								<div id='iwork_list_page'>
 									<jsp:include
