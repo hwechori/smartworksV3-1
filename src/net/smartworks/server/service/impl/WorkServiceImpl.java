@@ -118,7 +118,7 @@ public class WorkServiceImpl implements IWorkService {
 		pkgCond.setPackageIdIns(packageIdArray);
 		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
 		
-		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorksInfoArrayByPkgArray(pkgs);
+		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
 		
 		return workPkgs;
 	}
@@ -136,7 +136,7 @@ public class WorkServiceImpl implements IWorkService {
 			//1 level category
 			ctgCond.setParentId(CtgCategory.ROOTCTGID);
 			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_LITE);
-			return (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgArray(ctgs);
+			return (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgCategoryArray(ctgs);
 		
 		} else {
 			ctgCond.setParentId(categoryId);
@@ -147,10 +147,10 @@ public class WorkServiceImpl implements IWorkService {
 			pkgCond.setStatus("DEPLOYED");
 
 			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_LITE);
-			WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgArray(ctgs);
+			WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgCategoryArray(ctgs);
 			
 			PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_LITE);
-			WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorksInfoArrayByPkgArray(pkgs);
+			WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
 
 			int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
 			int pkgPkgsSize = workPkgs == null? 0 : workPkgs.length;
@@ -186,171 +186,6 @@ public class WorkServiceImpl implements IWorkService {
 		return getMyFavoriteWorks(companyId, userId);
 	}
 
-	public Work getWorkById_hs(String companyId, String userId, String workId) throws Exception {
-
-		return SmartTest.getWorkById(workId);
-/*		
-		SwfFormCond swfCond = new SwfFormCond();
-		swfCond.setPackageId(workId);
-		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_LITE);
-		SwfForm swfForm = swfForms[0];
-		String formId = swfForm.getId();
-
-		List<SwdDomainFieldView> fieldViewList = getSwdManager().findDomainFieldViewList(formId);
-		List<SwfFormFieldDef> formFieldDefList = getSwfManager().findFormFieldByForm(formId, true);
-		HashMap<String, SwfFormFieldDef> hash = new HashMap<String, SwfFormFieldDef>();
-		for (int idx = 0 ; idx < formFieldDefList.size() ; idx++) {
-			SwfFormFieldDef fieldDef = (SwfFormFieldDef)formFieldDefList.get(idx);
-			hash.put(fieldDef.getId(), fieldDef);
-		}
-		FormField[] formFields = null;
-		if(fieldViewList != null) {
-			int formFieldsSize = 0;
-			for(SwdDomainFieldView dfv : fieldViewList) {
-				SwfFormFieldDef fieldDef = (SwfFormFieldDef)hash.get(dfv.getFormFieldId());
-				String viewingType = "";
-				if(fieldDef != null) {
-					viewingType = CommonUtil.toNotNull(fieldDef.getViewingType());
-				}
-				if(dfv.getDispOrder() > -1 && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
-					formFieldsSize++;
-				}
-			}
-			formFields = new FormField[formFieldsSize];
-			int i = 0;
-			for(SwdDomainFieldView dfv : fieldViewList) {
-				SwfFormFieldDef fieldDef = (SwfFormFieldDef)hash.get(dfv.getFormFieldId());
-				String viewingType = "";
-				if(fieldDef != null) {
-					viewingType = CommonUtil.toNotNull(fieldDef.getViewingType());
-				}
-				FormField formField = new FormField();
-				if(dfv.getDispOrder() > -1 && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
-					formField.setId(fieldDef.getId());
-					formField.setName(fieldDef.getName());
-					formField.setType(fieldDef.getType());
-					formFields[i] = formField;
-					i++;
-				}
-			}
-		}
-
-		Work resultwork = new InformationWork();
-		((InformationWork)resultwork).setDisplayFields(formFields);
-
-		SmartForm smartForm = new SmartForm();
-		smartForm.setOrgImageName(swfForm.getSystemName());
-		smartForm.setDescription(swfForm.getDescription());
-		((InformationWork)resultwork).setForm(smartForm);
-
-		((InformationWork)resultwork).setName(swfForm.getName());
-		((InformationWork)resultwork).setDesc(swfForm.getDescription());
-
-		User user = new User();
-		user.setId(swfForm.getModificationUser());
-		SwoUserCond swoUserCond = new SwoUserCond();
-		swoUserCond.setId(swfForm.getModificationUser());
-		SwoUser swoUser = getSwokManager().getUser(userId, swoUserCond, IManager.LEVEL_ALL);
-		user.setName(swoUser.getName());
-		user.setPosition(swoUser.getPosition());
-
-		((InformationWork)resultwork).setLastModifier(user);
-
-		((InformationWork)resultwork).setLastModifiedDate(new LocalDate(swfForm.getModificationDate().getTime()));
-
-		/* -- 공개여부 --
-		 공개 / 비공개*/
-
-		/* -- 형태 --
-		 블로그형 : v2.0 구조
-		 위키형 : 누구나 수정 가능*/
-
-		 /*-- 작성권한 --
-		 전체 / 선택사용자*/
-/*
-		AccessPolicy accessPolicy = new AccessPolicy();
-		WritePolicy writePolicy = new WritePolicy();
-		EditPolicy editPolicy = new EditPolicy();
-
-		SwaResourceCond swaResourceCond = new SwaResourceCond();
-		swaResourceCond.setResourceId(formId);
-		SwaResource[] swaResources = getSwaManager().getResources(userId, swaResourceCond, IManager.LEVEL_ALL);
-
-		for(SwaResource swaResource : swaResources) {
-			if(CommonUtil.toNotNull(swaResource.getMode()).equals("R")) {
-				if(swaResource.getPermission().equals("PUB_ALL"))
-					accessPolicy.setLevel(AccessPolicy.LEVEL_DEFAULT);
-				else if(swaResource.getPermission().equals("PUB_SELECT"))
-					accessPolicy.setLevel(AccessPolicy.LEVEL_CUSTOM);
-				else
-					accessPolicy.setLevel(AccessPolicy.LEVEL_PRIVATE);
-			} else if(CommonUtil.toNotNull(swaResource.getMode()).equals("W")) {
-				if(swaResource.getPermission().equals("PUB_ALL"))
-					writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
-				else
-					writePolicy.setLevel(WritePolicy.LEVEL_CUSTOM);
-			} else if(CommonUtil.toNotNull(swaResource.getMode()).equals("M")) {
-				if(swaResource.getPermission().equals("PUB_ALL"))
-					editPolicy.setLevel(EditPolicy.LEVEL_DEFAULT);
-				else if(swaResource.getPermission().equals("PUB_SELECT"))
-					editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
-				else
-					editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
-			}
-		}
-
-		((SmartWork)resultwork).setAccessPolicy(accessPolicy);
-		((SmartWork)resultwork).setWritePolicy(writePolicy);
-		((SmartWork)resultwork).setEditPolicy(editPolicy);
-
-		PkgPackageCond pkgCond = new PkgPackageCond();
-		pkgCond.setCompanyId(companyId);
-		pkgCond.setPackageId(workId);
-
-		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_ALL);
-		String id = pkg.getPackageId();
-		String name = pkg.getName();
-		String typeStr = pkg.getType();
-		int type = typeStr.equals("PROCESS") ? SmartWork.TYPE_PROCESS : typeStr.equals("SINGLE") ? SmartWork.TYPE_INFORMATION : SmartWork.TYPE_SCHEDULE;
-		String description = pkg.getDescription();
-		resultwork.setId(id);
-		resultwork.setName(name);
-		resultwork.setType(type);
-		resultwork.setDesc(description);
-
-		String groupName = null;
-		String groupId = null;
-		String categoryName = null;
-		String categoryId = pkg.getCategoryId();
-		CtgCategoryCond ctgCond = new CtgCategoryCond();
-		ctgCond.setObjId(categoryId);
-		CtgCategory ctg = getCtgManager().getCategory(userId, ctgCond, IManager.LEVEL_ALL);
-		categoryName = ctg.getName();
-		if(!(ctg.getParentId()).equals("_PKG_ROOT_")) {
-			CtgCategoryCond ctgCond2 = new CtgCategoryCond();
-			ctgCond2.setObjId(ctg.getParentId());
-			CtgCategory ctg2 = getCtgManager().getCategory(userId, ctgCond2, IManager.LEVEL_ALL);
-			groupId = categoryId;
-			groupName = categoryName;
-			categoryId = ctg2.getObjId();
-			categoryName = ctg2.getName();
-		}
-
-		WorkCategory myCategory = new WorkCategory();
-		myCategory.setId(categoryId);
-		myCategory.setName(categoryName);
-		((SmartWork)resultwork).setMyCategory(myCategory);
-
-		WorkCategory myGroup = new WorkCategory();
-		myGroup.setId(groupId);
-		myGroup.setName(groupName);
-		((SmartWork)resultwork).setMyGroup(myGroup);
-
-		return resultwork;
-*/
-	}
-	
-	
 	public void setPolicyToWork(SmartWork work, String resourceId) throws Exception {
 		/* -- 공개여부 --
 		 공개 / 비공개*/
@@ -508,7 +343,7 @@ public class WorkServiceImpl implements IWorkService {
 		resultwork.setMyGroup(pkgCtgInfoMap.get("group"));
 		
 		//set form
-		SmartForm smFrom = ModelConverter.getSmartFormBySwFrom(swfForms[0]);
+		SmartForm smFrom = ModelConverter.getSmartFormBySwfFrom(null, swfForms[0]);
 		resultwork.setForm(smFrom);
 		
 		pkg.getModificationUser();
