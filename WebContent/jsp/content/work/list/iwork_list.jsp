@@ -24,7 +24,7 @@
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser(request);
 	InformationWork work = (InformationWork) smartWorks.getWorkById(companyId, cUser.getId(), workId);
-	
+
 	Report[] reports = smartWorks.getReportsByWorkId(companyId, cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -43,15 +43,20 @@
 				<div class="body_titl_iworks title"><%=work.getName()%></div>
 				
 				<!-- 최종수정자 -->
+
 			<div class="txt_btn">
 					<div class="po_right">
 					<img clss="margin_b2" title="<fmt:message key="common.title.last_modifier" />" src="<%=work.getLastModifier().getMinPicture()%>">
 					<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
-					<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%></span>
-					</div>
+					<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%>
+					</span>
 			</div>
 			<!-- 최종수정자 //-->
+
 				
+
+
+
 				<div class="solid_line"></div>
 			</div>
 			<!-- 타이틀 -->
@@ -190,19 +195,24 @@
 					<div class="po_right bu_stat">
 						<select name="selMyReportList">
 							<%
-							if(reports != null){
-								for(Report report : reports){
-									
-									String reportName = null;
-									if(report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())){
-										%>
-										<option value="<%=report.getName()%>"><fmt:message key="<%=report.getName()%>"/></option>
-									<%
-									}else{%>
-										<option><%=report.getName() %></option>
-									<%
+								if (reports != null) {
+									for (Report report : reports) {
+
+										String reportName = null;
+										if (report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())) {
+							%>
+							<option value="<%=report.getName()%>">
+								<fmt:message key="<%=report.getName()%>" />
+							</option>
+							<%
+								} else {
+							%>
+							<option><%=report.getName()%></option>
+							<%
+								}
 									}
-									%>
+								}
+							%>
 						</select>
 					</div>
 				</div>
@@ -300,6 +310,7 @@
 										}
 										}
 									%>
+									<
 									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
 											key='common.title.last_modified_date' /></th>
 								</tr>
@@ -313,9 +324,6 @@
 					<!-- 목록 테이블 //-->
 
 				</div>
-				<!-- 목록보기 -->
-
-			</div>
 			<!-- 목록영역 // -->
 
 		</ul>
