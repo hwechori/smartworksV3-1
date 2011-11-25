@@ -47,6 +47,7 @@ import net.smartworks.server.engine.common.collection.model.ColList;
 import net.smartworks.server.engine.common.collection.model.ColListCond;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Filter;
+import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
@@ -66,6 +67,9 @@ import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInst;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
+import net.smartworks.server.engine.process.task.manager.ITskManager;
+import net.smartworks.server.engine.process.task.model.TskTask;
+import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.util.LocalDate;
 
 public class ModelConverter {
@@ -90,6 +94,9 @@ public class ModelConverter {
 	}
 	private static IColManager getColManager() {
 		return SwManagerFactory.getInstance().getColManager();
+	}
+	private static ITskManager getTskManager() {
+		return SwManagerFactory.getInstance().getTskManager();
 	}
 	private static PkgPackage getPkgPackageByPackageId(String packageId) throws Exception {
 		if (CommonUtil.isEmpty(packageId))
@@ -180,6 +187,39 @@ public class ModelConverter {
 			
 	}
 	
+	public static TskTask getLastExecutedTskTaskByPrcInstId(String processInstId) throws Exception {
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setProcessInstId(processInstId);
+		String fieldName = "creationDate";
+		boolean isAsc = false;
+		tskCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
+		tskCond.setPageNo(0);
+		tskCond.setPageSize(1);
+		tskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
+		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+		
+		TskTask[] lastSwTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+		if (lastSwTask == null)
+			return null;
+		return lastSwTask[0];
+	}
+	public static TskTask getLastTskTaskByInstanceId(String processInstId) throws Exception {
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setProcessInstId(processInstId);
+		String fieldName = "creationDate";
+		boolean isAsc = false;
+		tskCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
+		tskCond.setPageNo(0);
+		tskCond.setPageSize(1);
+		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+		
+		TskTask[] lastSwTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+		if (lastSwTask == null)
+			return null;
+		return lastSwTask[0];
+	}
+	
+	
 	
 	public static InstanceInfo getInstanceInfoByPrcInst(InstanceInfo instInfo, PrcProcessInst prcInst) throws Exception {
 		if (prcInst == null)
@@ -189,8 +229,16 @@ public class ModelConverter {
 
 		instInfo.setId(prcInst.getObjId());//processInstanceId
 		instInfo.setSubject(prcInst.getTitle());
-		instInfo.setLastModifiedDate(new LocalDate());
-		instInfo.setLastModifier(getUserInfoByUserId(prcInst.getModificationUser()));
+		
+		TskTask lastTask = getLastExecutedTskTaskByPrcInstId(prcInst.getObjId());
+		if (lastTask == null) {
+			instInfo.setLastModifier(new UserInfo());
+			instInfo.setLastModifiedDate(new LocalDate(1)); //TODO LastModifiedDate now
+		} else {
+			instInfo.setLastModifier(getUserInfoByUserId(lastTask.getAssignee()));
+			instInfo.setLastModifiedDate(new LocalDate(lastTask.getExecutionDate().getTime())); //TODO LastModifiedDate now
+		}
+		
 		instInfo.setOwner(getUserInfoByUserId(prcInst.getCreationUser()));
 		if (prcInst.getStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_COMPLETE)) {
 			instInfo.setStatus(Instance.STATUS_COMPLETED);
@@ -211,6 +259,14 @@ public class ModelConverter {
 		return instInfo;
 	}
 	
+	public static WorkInfo getWorkInfoByTask(TskTask task) throws Exception {
+		String formId = task.getForm();
+		SwfForm form = getSwfManager().getForm("", formId);
+		if (form == null)
+			return null;
+		String packageId = form.getPackageId();
+		return getWorkInfoByPackageId(packageId);
+	}
 	public static WorkInfo getWorkInfoByPackageId(String packageId) throws Exception {
 		PkgPackage pkg = getPkgPackageByPackageId(packageId);
 		return getSmartWorkInfoByPkgPackage(null, pkg);
@@ -359,7 +415,7 @@ public class ModelConverter {
 		String id = prcInst.getObjId();
 		String subject = prcInst.getTitle();
 		int type = WorkInstance.TYPE_PROCESS;
-		WorkInfo work = getWorkInfoByPackageId(prcInst.getDiagram());//TODO prcInst.getPackageId 로 변경 해야함 현재(개발기간)에는 컬럼에 데이터가 없음
+		WorkInfo work = getWorkInfoByPackageId(prcInst.getDiagramId());//TODO prcInst.getPackageId 로 변경 해야함 현재(개발기간)에는 컬럼에 데이터가 없음
 		WorkSpaceInfo workSpace = null;
 		
 		int status = -1;
@@ -369,12 +425,17 @@ public class ModelConverter {
 			status = Instance.STATUS_COMPLETED;
 		}
 		UserInfo owner = ModelConverter.getUserInfoByUserId(prcInst.getCreationUser());
-		UserInfo lastModifier = ModelConverter.getUserInfoByUserId(prcInst.getModificationUser()); 
-		LocalDate lastModifiedDate = new LocalDate(prcInst.getModificationDate().getTime());
+		
+		TskTask lastTask = getLastExecutedTskTaskByPrcInstId(prcInst.getObjId());
+		if (lastTask == null) {
+			instanceInfo.setLastModifier(new UserInfo());
+			instanceInfo.setLastModifiedDate(new LocalDate(1)); //TODO LastModifiedDate now
+		} else {
+			instanceInfo.setLastModifier(getUserInfoByUserId(lastTask.getAssignee()));
+			instanceInfo.setLastModifiedDate(new LocalDate(lastTask.getExecutionDate().getTime())); //TODO LastModifiedDate now
+		}
 		
 		instanceInfo.setId(id);
-		instanceInfo.setLastModifiedDate(lastModifiedDate);
-		instanceInfo.setLastModifier(lastModifier);
 		instanceInfo.setOwner(owner);
 		instanceInfo.setStatus(status);
 		instanceInfo.setSubject(subject);
@@ -384,7 +445,12 @@ public class ModelConverter {
 		
 		return instanceInfo;
 	}
-	
+	public static WorkInstanceInfo getWorkInstanceInfoByPrcProcessInstId(String prcInstId) throws Exception {
+		if (CommonUtil.isEmpty(prcInstId))
+			return null;
+		PrcProcessInst prcInst = getPrcManager().getProcessInst("", prcInstId, IManager.LEVEL_LITE);
+		return getWorkInstanceInfoByPrcProcessInst(null, prcInst);
+	}
 	public static WorkInstanceInfo getWorkInstanceInfoByPrcProcessInst(WorkInstanceInfo workInstanceInfo, PrcProcessInst prcInst) throws Exception {
 		if (prcInst == null)
 			return null;
@@ -393,7 +459,14 @@ public class ModelConverter {
 		
 		getInstanceInfoByPrcProcessInst(workInstanceInfo, prcInst);
 		
-		TaskInstanceInfo[] runningTasks = null; //TODO 실행중 태스크?
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setProcessInstId(prcInst.getObjId());
+		String fieldName = "creationDate";
+		tskCond.setStatus(TskTask.TASKSTATUS_ASSIGN);
+		
+		TskTask[] runningTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+		
+		TaskInstanceInfo[] runningTasks = getTaskInstanceArrayByTskTaskArray(workInstanceInfo, runningTask);
 		
 		workInstanceInfo.setRunningTasks(runningTasks);
 		
@@ -418,13 +491,97 @@ public class ModelConverter {
 			pWInstanceInfo = new PWInstanceInfo();
 		
 		getWorkInstanceInfoByPrcProcessInst(pWInstanceInfo, prcInst);
-
-		TaskInstanceInfo lastTask = null;
-		pWInstanceInfo.setLastTask(lastTask); //TODO 마지막 실행된 태스크??
+		
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setProcessInstId(prcInst.getObjId());
+		String fieldName = "creationDate";
+		boolean isAsc = false;
+		tskCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
+		tskCond.setPageNo(0);
+		tskCond.setPageSize(1);
+		
+//		TskTask[] lastSwTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+		TskTask lastSwTask = getLastTskTaskByInstanceId(prcInst.getObjId());
+		
+		TaskInstanceInfo lastTask = getTaskInstanceInfoByTskTask(pWInstanceInfo, null, lastSwTask);
+		pWInstanceInfo.setLastTask(lastTask); 
 		
 		return pWInstanceInfo;
 	}
 	
+	public static InstanceInfo getInstanceInfoByTskTask(InstanceInfo instanceInfo, TskTask task) throws Exception {
+		if (task == null)
+			return null;
+		if (instanceInfo == null) 
+			instanceInfo = new InstanceInfo();
+		
+		String id = task.getObjId();
+		String subject = task.getTitle();
+		int type = WorkInstance.TYPE_TASK;
+		WorkInfo work = getWorkInfoByTask(task);
+		WorkSpaceInfo workSpace = null; //TODO
+		
+		int status = -1;
+		if (task.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN)) {
+			status = Instance.STATUS_COMPLETED;
+		} else if (task.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_COMPLETE)) {
+			status = Instance.STATUS_COMPLETED;
+		}
+		UserInfo owner = ModelConverter.getUserInfoByUserId(task.getCreationUser());
+		UserInfo lastModifier = ModelConverter.getUserInfoByUserId(task.getModificationUser()); 
+		LocalDate lastModifiedDate = new LocalDate(task.getModificationDate().getTime());
+		
+		instanceInfo.setId(id);
+		instanceInfo.setLastModifiedDate(lastModifiedDate);
+		instanceInfo.setLastModifier(lastModifier);
+		instanceInfo.setOwner(owner);
+		instanceInfo.setStatus(status);
+		instanceInfo.setSubject(subject);
+		instanceInfo.setType(type);
+		instanceInfo.setWork(work);
+		instanceInfo.setWorkSpace(workSpace);
+		
+		return instanceInfo;
+	}
+	public static TaskInstanceInfo[] getTaskInstanceArrayByTskTaskArray(WorkInstanceInfo paretProcessInstObj, TskTask[] swTasks) throws Exception {
+		if (CommonUtil.isEmpty(swTasks))
+			return null;
+		
+		TaskInstanceInfo[] taskInstanceInfos = new TaskInstanceInfo[swTasks.length];
+		for (int i =0; i < swTasks.length; i ++) {
+			TskTask task = swTasks[i];
+			TaskInstanceInfo taskInstanceInfo = (TaskInstanceInfo)getTaskInstanceInfoByTskTask(paretProcessInstObj, null, task);
+			taskInstanceInfos[i] = taskInstanceInfo; 
+		}
+		return taskInstanceInfos;
+	}
+	
+	public static TaskInstanceInfo getTaskInstanceInfoByTskTask (WorkInstanceInfo paretProcessInstObj, TaskInstanceInfo taskInstInfo , TskTask swTask) throws Exception {
+		if (swTask == null)
+			return null;
+		if (taskInstInfo == null)
+			taskInstInfo = new TaskInstanceInfo();
+		
+		getInstanceInfoByTskTask (taskInstInfo, swTask);
+		
+		String name = swTask.getName();
+		int taskType = WorkInstance.TYPE_TASK;
+		String assignee = swTask.getAssignee();
+		String performer = swTask.getAssignee();
+// 프로세스인스턴스가 태스크인스턴스를 포함하고 태스크인스턴스는 프로세스 인스턴스를 포함하기 때문에 무한 루프가 발생한다
+// 하여 태스크 인스턴스를 만들때는 부모 프로세스 인스턴스의 객체 래퍼런스를 가져와서 태스크에다가 주입한다
+//		WorkInstanceInfo workInstanceInfo = getWorkInstanceInfoByPrcProcessInstId(swTask.getProcessInstId());
+		WorkInstanceInfo workInstanceInfo = paretProcessInstObj;
+		
+		taskInstInfo.setName(name);
+		taskInstInfo.setTaskType(taskType);
+		taskInstInfo.setAssignee(getUserInfoByUserId(assignee));
+		taskInstInfo.setPerformer(getUserInfoByUserId(performer));
+		taskInstInfo.setWorkInstance(workInstanceInfo);
+		
+		return taskInstInfo;
+	}
+
 	
 	// #########################################  specific class  ########################################################################
 	
