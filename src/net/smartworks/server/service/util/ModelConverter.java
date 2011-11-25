@@ -14,12 +14,14 @@ import java.util.List;
 import java.util.Map;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.PWInstanceInfo;
@@ -466,7 +468,7 @@ public class ModelConverter {
 		
 		TskTask[] runningTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
 		
-		TaskInstanceInfo[] runningTasks = getTaskInstanceArrayByTskTaskArray(workInstanceInfo, runningTask);
+		TaskInstanceInfo[] runningTasks = getTaskInstanceInfoArrayByTskTaskArray(workInstanceInfo, runningTask);
 		
 		workInstanceInfo.setRunningTasks(runningTasks);
 		
@@ -543,7 +545,7 @@ public class ModelConverter {
 		
 		return instanceInfo;
 	}
-	public static TaskInstanceInfo[] getTaskInstanceArrayByTskTaskArray(WorkInstanceInfo paretProcessInstObj, TskTask[] swTasks) throws Exception {
+	public static TaskInstanceInfo[] getTaskInstanceInfoArrayByTskTaskArray(WorkInstanceInfo paretProcessInstObj, TskTask[] swTasks) throws Exception {
 		if (CommonUtil.isEmpty(swTasks))
 			return null;
 		
@@ -698,7 +700,9 @@ public class ModelConverter {
 		
 		return smartWork;
 	}
-	
+	public static ProcessWork getProcessWorkByPkgPackageId(String userId,String packageId) throws Exception {
+		return getProcessWorkByPkgPackage(userId, null, getPkgPackageByPackageId(packageId));
+	}
 	public static ProcessWork getProcessWorkByPkgPackage(String userId, ProcessWork processWork, PkgPackage pkg) throws Exception {
 		if (pkg == null)
 			return null;
@@ -897,6 +901,78 @@ public class ModelConverter {
 		smartForm.setOrgImageName(orgImageName);
 		
 		return smartForm;
+	}
+	public static Instance getInstanceByPrcProcessInst(String userId, Instance instance, PrcProcessInst prcInst) throws Exception {
+		if (prcInst == null)
+			return null;
+		if (instance == null)
+			instance = new Instance();
+		
+		instance.setId(prcInst.getObjId());//processInstanceId
+		instance.setSubject(prcInst.getTitle());
+		instance.setCreatedDate(new LocalDate(prcInst.getCreationDate().getTime()));
+		
+		TskTask lastTask = getLastExecutedTskTaskByPrcInstId(prcInst.getObjId());
+		if (lastTask == null) {
+			instance.setLastModifier(new User());
+			instance.setLastModifiedDate(new LocalDate(1)); //TODO LastModifiedDate now
+		} else {
+			instance.setLastModifier(getUserByUserId(lastTask.getAssignee()));
+			instance.setLastModifiedDate(new LocalDate(lastTask.getExecutionDate().getTime())); //TODO LastModifiedDate now
+		}
+		
+		instance.setOwner(getUserByUserId(prcInst.getCreationUser()));
+		if (prcInst.getStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_COMPLETE)) {
+			instance.setStatus(Instance.STATUS_COMPLETED);
+		} else if (prcInst.getStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING)) {
+			instance.setStatus(Instance.STATUS_RUNNING);
+		}
+		if (prcInst.getType() != null && prcInst.getType().equalsIgnoreCase(PrcProcessInst.PROCESSINSTTYPE_PROCESS)) {
+			instance.setType(WorkInstance.TYPE_PROCESS);
+		} else if (prcInst.getType() != null && prcInst.getType().equalsIgnoreCase(PrcProcessInst.PROCESSINSTTYPE_INFORMATION)) {
+			instance.setType(WorkInstance.TYPE_INFORMATION);
+		} else if (prcInst.getType() != null && prcInst.getType().equalsIgnoreCase(PrcProcessInst.PROCESSINSTTYPE_SCHEDULE)) {
+			instance.setType(WorkInstance.TYPE_SCHEDULE);
+		}
+		
+		String packageId = prcInst.getDiagramId();
+		
+		instance.setWork(getProcessWorkByPkgPackageId(userId, packageId));
+		//TODO workspaceid > ??
+		instance.setWorkSpace(new WorkSpace());
+		
+		return instance;
+	}
+	public static WorkInstance getWorkInstanceByPrcProcessInst(String userId, WorkInstance workInstance, PrcProcessInst prcInst) throws Exception {
+		if (prcInst == null)
+			return null;
+		if (workInstance == null)
+			workInstance = new WorkInstance();
+		
+		getInstanceByPrcProcessInst(userId, workInstance, prcInst);
+		
+		PWInstanceInfo pwInstInfo = getPWInstanceInfoByPrcProcessInst(null, prcInst);
+		
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setProcessInstId(prcInst.getObjId());
+		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+		
+		TskTask[] tasks = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+		
+		workInstance.setTasks(getTaskInstanceInfoArrayByTskTaskArray(pwInstInfo, tasks));
+		workInstance.setNumberOfSubInstances(-1);
+		
+		return workInstance;
+	}
+	public static ProcessWorkInstance getProcessWorkInstanceByPrcProcessInst(String userId, ProcessWorkInstance processWorkInstance, PrcProcessInst prcInst) throws Exception {
+		if (prcInst == null)
+			return null;
+		if (processWorkInstance == null)
+			processWorkInstance = new ProcessWorkInstance();
+		
+		getWorkInstanceByPrcProcessInst(userId, processWorkInstance, prcInst);
+		
+		return processWorkInstance;
 	}
 	
 }
