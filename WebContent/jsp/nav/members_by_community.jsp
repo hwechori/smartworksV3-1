@@ -3,11 +3,8 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
-
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-	
+	User cUser = SmartUtil.getCurrentUser(request, response);
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	UserInfo[] members = null;
 	{
@@ -16,9 +13,9 @@
 			cid = ISmartWorks.CONTEXT_HOME;
 
 		if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, cid)) {
-			members = smartWorks.getGroupById(companyId, SmartUtil.getSpaceIdFromContentContext(cid)).getMembers();
+			members = smartWorks.getGroupById(cUser.getCompanyId(), SmartUtil.getSpaceIdFromContentContext(cid)).getMembers();
 		} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE, cid)) {
-			members = smartWorks.getDepartmentById(companyId, SmartUtil.getSpaceIdFromContentContext(cid)).getMembers();
+			members = smartWorks.getDepartmentById(cUser.getCompanyId(), SmartUtil.getSpaceIdFromContentContext(cid)).getMembers();
 		}
 	}
 %>

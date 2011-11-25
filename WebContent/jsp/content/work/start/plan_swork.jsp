@@ -7,14 +7,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
-	User cUser = SmartUtil.getCurrentUser(request);
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
-	Work work = smartWorks.getWorkById(companyId, cUser.getId(), workId);
+	Work work = smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
 	SmartWork cWork = null;
 	if (work.getClass().equals(SmartWork.class))
 		cWork = (SmartWork) work;

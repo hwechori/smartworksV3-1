@@ -24,4 +24,10 @@ public class LoginController {
 		return new ModelAndView("/jsp/login.jsp");
 	}
 
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+
+		return new ModelAndView("/jsp/logout.jsp");
+	}
+
 }

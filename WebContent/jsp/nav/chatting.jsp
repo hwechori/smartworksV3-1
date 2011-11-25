@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -19,11 +20,9 @@ function updateAvailableChatters(userInfos){
 }
 </script>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-	
+	User cUser = SmartUtil.getCurrentUser(request, response);
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	UserInfo[] chatters = smartWorks.getAvailableChatter(companyId, userId);
+	UserInfo[] chatters = smartWorks.getAvailableChatter(cUser.getCompanyId(), cUser.getId());
 %>
 
 <ul>

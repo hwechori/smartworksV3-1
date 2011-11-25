@@ -1,6 +1,6 @@
+<%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
-<%@page
-	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@page import="org.springframework.context.ApplicationContextAware"%>
 <%@page import="org.springframework.context.ApplicationContext"%>
 <%@ page contentType="text/html; charset=utf-8"%>
@@ -30,12 +30,10 @@
 </script>
 
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-
-	ISmartWorks smartWorks = (ISmartWorks) request
-			.getAttribute("smartWorks");
-	String[] messages = smartWorks.getBroadcastingMessages(companyId);
+	User cUser = SmartUtil.getCurrentUser(request, response);
+	
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	String[] messages = smartWorks.getBroadcastingMessages(cUser.getCompanyId());
 %>
 
 <!-- Broadcasting Board -->

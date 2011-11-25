@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.model.work.info.WorkInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
@@ -5,11 +6,10 @@
 <%@ page import="net.smartworks.model.work.*"%>
 
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-	
+	User cUser = SmartUtil.getCurrentUser(request, response);
+
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkInfo[] workCategories = smartWorks.getMyAllWorksByCategoryId(companyId, userId, "");
+	WorkInfo[] workCategories = smartWorks.getMyAllWorksByCategoryId(cUser.getCompanyId(), cUser.getId(), "");
 %>
 
 <ul>

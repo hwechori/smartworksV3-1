@@ -15,15 +15,14 @@
 <%@ page import="net.smartworks.util.LocalDate"%>
 <%@ page import="java.util.Date"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String sNoticeType = request.getParameter("noticeType");
 	String sLastNotice = request.getParameter("dateOfLastNotice");
 	int noticeType = (sNoticeType == null) ? Notice.TYPE_INVALID : Integer.parseInt(sNoticeType);
 	LocalDate dateOfLastNotice = (sLastNotice == null) ? new LocalDate(0) : new LocalDate(Long.parseLong(sLastNotice));
-	NoticeBox noticeBox = smartWorks.getNoticeBoxForMe10(companyId, userId, noticeType, dateOfLastNotice);
+	NoticeBox noticeBox = smartWorks.getNoticeBoxForMe10(cUser.getCompanyId(), cUser.getId(), noticeType, dateOfLastNotice);
 %>
 <%
 	NoticeMessage[] noticeMessages = (NoticeMessage[]) noticeBox.getNoticeMessages();

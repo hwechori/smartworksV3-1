@@ -1,14 +1,13 @@
+<%@page import="net.smartworks.util.SmartUtil"%>
+<%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.model.work.info.WorkInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.work.*"%>
-
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-
+	User cUser = SmartUtil.getCurrentUser(request, response);
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkInfo[] works = smartWorks.getMyAllWorksByCategoryId(companyId, userId, request.getParameter("groupId"));
+	WorkInfo[] works = smartWorks.getMyAllWorksByCategoryId(cUser.getCompanyId(), cUser.getId(), request.getParameter("groupId"));
 	String iconType = null;
 	String classType = "js_content";
 	String workContext = null;

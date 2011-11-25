@@ -9,6 +9,7 @@
 package net.smartworks.util;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.community.User;
 import net.smartworks.model.work.SmartWork;
@@ -224,39 +225,19 @@ public class SmartUtil {
 		return user;
 	}
 
-	public static User getCurrentUser(HttpServletRequest request) throws Exception {
+	public static User getCurrentUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-/*		SwoUserCond swoUserCond = new SwoUserCond();
-		swoUserCond.setId((String)request.getSession().getAttribute("userId"));
-		swoUserCond.setCompanyId((String)request.getSession().getAttribute("companyId"));
-
-		SwoUser swoUser = SwManagerFactory.getInstance().getSwoManager().getUser(swoUserCond.getId(), swoUserCond, IManager.LEVEL_ALL);
-
-		User user = new User();
-		user.setId(swoUser.getId());
-		user.setName(swoUser.getName());
-		user.setPosition(swoUser.getPosition());
-
-		SwoDepartmentCond swoDeptCond = new SwoDepartmentCond();
-		swoDeptCond.setId(swoUser.getDeptId());
-		swoDeptCond.setCompanyId(swoUser.getCompanyId());
-		SwoDepartment swoDept = SwManagerFactory.getInstance().getSwoManager().getDepartment(swoUserCond.getId(), swoDeptCond, IManager.LEVEL_ALL);
-		user.setDepartment(swoDept.getName());
-
-		user.setLocale(swoUser.getLang().equals("KOR") ? "ko" : swoUser.getLang().equals("ENG") ? "en" : new LocalDate().getLocale()); // ko, en
-		user.setTimeZone(new LocalDate().getTimeZone()); //Asia/Seoul, America/Los_Angeles
-		user.setCompany(swoUser.getCompanyId());
-		user.setOrgPictureName(user.getId() + ".jpg");
-		user.setMinPictureName(user.getId() + "_min.gif");
-		user.setMidPictureName(user.getId() + "_mid.gif");
-		user.setUserLevel(swoUser.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);*/
-
-		User user = new User();
+		User user = new Login();
 		SecurityContext context = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
 		if(context != null) {
 			Authentication auth = context.getAuthentication();
 			if(auth != null) {
-				user = ((Login)auth.getPrincipal());
+				if(((Login)auth.getPrincipal()).getId() != null)
+					user = (Login)auth.getPrincipal();
+				else
+					response.sendRedirect("logout");
+			} else {
+				response.sendRedirect("logout");
 			}
 		}
 

@@ -1,14 +1,14 @@
+<%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	UserInfo[] chatters = smartWorks.searchAvailableChatter(companyId, userId, key);
+	UserInfo[] chatters = smartWorks.searchAvailableChatter(cUser.getCompanyId(), cUser.getId(), key);
 %>
 
 <ul>

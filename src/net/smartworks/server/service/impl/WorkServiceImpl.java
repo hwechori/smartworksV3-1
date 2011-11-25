@@ -96,7 +96,6 @@ public class WorkServiceImpl implements IWorkService {
 		ItmMenuItemListCond itemListCond = new ItmMenuItemListCond();
 		itemListCond.setCompanyId(companyId);
 		itemListCond.setUserId(userId);
-		
 		ItmMenuItemList itmList = getItmManager().getMenuItemList(userId, itemListCond, IManager.LEVEL_ALL);
 		if (itmList == null)
 			return null;
@@ -186,66 +185,23 @@ public class WorkServiceImpl implements IWorkService {
 		return getMyFavoriteWorks(companyId, userId);
 	}
 
-	public void setPolicyToWork(SmartWork work, String resourceId) throws Exception {
-		/* -- 공개여부 --
-		 공개 / 비공개*/
+	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
+		if (CommonUtil.isEmpty(workId))
+			return null;
 
-		/* -- 형태 --
-		 블로그형 : v2.0 구조
-		 위키형 : 누구나 수정 가능*/
+		PkgPackageCond pkgCond = new PkgPackageCond();
+		pkgCond.setCompanyId(companyId);
+		pkgCond.setPackageId(workId);
 
-		 /*-- 작성권한 --
-		 전체 / 선택사용자*/
-		if (work instanceof InformationWork) {
-			//resourceId = formId;
-			AccessPolicy accessPolicy = new AccessPolicy();
-			WritePolicy writePolicy = new WritePolicy();
-			EditPolicy editPolicy = new EditPolicy();
-
-			SwaResourceCond swaResourceCond = new SwaResourceCond();
-			swaResourceCond.setResourceId(resourceId);//formid
-			SwaResource[] swaResources = getSwaManager().getResources("", swaResourceCond, IManager.LEVEL_LITE);
-			
-			if (CommonUtil.isEmpty(swaResources)) {
-				accessPolicy.setLevel(AccessPolicy.LEVEL_DEFAULT);
-				writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
-				editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
-			} else {
-				for(SwaResource swaResource : swaResources) {
-					if(CommonUtil.toNotNull(swaResource.getMode()).equals("R")) {
-						if(swaResource.getPermission().equals("PUB_ALL"))
-							accessPolicy.setLevel(AccessPolicy.LEVEL_DEFAULT);
-						else if(swaResource.getPermission().equals("PUB_SELECT"))
-							accessPolicy.setLevel(AccessPolicy.LEVEL_CUSTOM);
-						else
-							accessPolicy.setLevel(AccessPolicy.LEVEL_PRIVATE);
-					} else if(CommonUtil.toNotNull(swaResource.getMode()).equals("W")) {
-						if(swaResource.getPermission().equals("PUB_ALL"))
-							writePolicy.setLevel(WritePolicy.LEVEL_DEFAULT);
-						else
-							writePolicy.setLevel(WritePolicy.LEVEL_CUSTOM);
-					} else if(CommonUtil.toNotNull(swaResource.getMode()).equals("M")) {
-						if(swaResource.getPermission().equals("PUB_ALL"))
-							editPolicy.setLevel(EditPolicy.LEVEL_DEFAULT);
-						else if(swaResource.getPermission().equals("PUB_SELECT"))
-							editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
-						else
-							editPolicy.setLevel(EditPolicy.LEVEL_BLOG);
-					}
-				}
-			}
-			
-			work.setAccessPolicy(accessPolicy);
-			work.setWritePolicy(writePolicy);
-			work.setEditPolicy(editPolicy);
-			
-		} else if (work instanceof ProcessWork) {
-			//resourceId = processId
-			
-			//TODO PROCESS POLICY
-			
+		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_LITE);
+		
+		if (pkg.getType().equalsIgnoreCase("PROCESS") || pkg.getType().equalsIgnoreCase("GANTT")) {
+			return getProcessWorkById(companyId, userId, workId);
+		} else {
+			return getInfortmationWorkById(companyId, userId, workId);
 		}
 	}
+	
 	public Work getProcessWorkById(String companyId, String userId, String workId) throws Exception {
 		
 		if (CommonUtil.isEmpty(workId))
@@ -257,28 +213,11 @@ public class WorkServiceImpl implements IWorkService {
 
 		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_LITE);
 		
-		ProcessWork prcWork = new ProcessWork();
+		return ModelConverter.getProcessWorkByPkgPackage(userId, null, pkg);
 
-//		prcWork.setId(id);
-//		prcWork.setDesc(desc);
-//		prcWork.setType(type);
-//		prcWork.setName(name);
-//		prcWork.setDiagram(diagram);
-//		prcWork.setLastModifiedDate(lastModifiedDate);
-//		prcWork.setAccessPolicy(accessPolicy);
-//		prcWork.setWritePolicy(writePolicy);
-//		prcWork.setEditPolicy(editPolicy);
-//		prcWork.setMyCategory(myCategory);
-//		prcWork.setMyGroup(myGroup);
-//		prcWork.setHelpUrl(helpUrl);
-//		prcWork.setSearchFilters(searchFilters);
-//		prcWork.setManualFileName(manualFileName);
-//		prcWork.setManualFilePath(manualFilePath);
-		
-		return prcWork;
 	}
-	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
-
+	public Work getInfortmationWorkById(String companyId, String userId, String workId) throws Exception {
+		
 		SwfFormCond swfCond = new SwfFormCond();
 		swfCond.setPackageId(workId);
 		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_LITE);
@@ -317,13 +256,17 @@ public class WorkServiceImpl implements IWorkService {
 		resultwork.setDisplayFields(formFields);
 
 		//권한설정
-		setPolicyToWork(resultwork, formId);
+		ModelConverter.setPolicyToWork(resultwork, formId);
+		
 		
 		PkgPackageCond pkgCond = new PkgPackageCond();
 		pkgCond.setCompanyId(companyId);
 		pkgCond.setPackageId(workId);
 
 		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_LITE);
+
+		//상세필터
+		resultwork.setSearchFilters(ModelConverter.getSearchFilterArrayByPkgPackage(userId, pkg));
 		
 		String name = pkg.getName();
 		String typeStr = pkg.getType();

@@ -19,7 +19,6 @@ public class Login extends User implements UserDetails {
 
 	private static final long serialVersionUID = 109756771178872916L;
 	private String type;
-	private String companyId;
 	private String deptId;
 	private String empNo;
 	private String email;
@@ -38,20 +37,6 @@ public class Login extends User implements UserDetails {
 	 */
 	public void setDeptId(String deptId) {
 		this.deptId = deptId;
-	}
-
-	/**
-	 * @return the companyId
-	 */
-	public String getCompanyId() {
-		return companyId;
-	}
-
-	/**
-	 * @param companyId the companyId to set
-	 */
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
 	}
 
 	/**

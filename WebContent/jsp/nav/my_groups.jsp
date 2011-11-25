@@ -1,14 +1,13 @@
+<%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
-
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
+	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	GroupInfo[] groups = smartWorks.getMyGroups(companyId, userId);
+	GroupInfo[] groups = smartWorks.getMyGroups(cUser.getCompanyId(), cUser.getId());
 %>
 
 <ul>

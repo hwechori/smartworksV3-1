@@ -14,21 +14,15 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	String companyId = (String) session.getAttribute("companyId");
-	String userId = (String) session.getAttribute("userId");
-
-	ISmartWorks smartWorks = (ISmartWorks) request
-			.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	String wid = request.getParameter("wid");
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser(request);
-	InformationWork work = (InformationWork) smartWorks.getWorkById(
-			companyId, cUser.getId(), workId);
+	User cUser = SmartUtil.getCurrentUser(request, response);
+	InformationWork work = (InformationWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
 
-	Report[] reports = smartWorks.getReportsByWorkId(companyId,
-			cUser.getId(), workId);
+	Report[] reports = smartWorks.getReportsByWorkId(cUser.getCompanyId(), cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -294,8 +288,33 @@
 					<div id="search_filter" class="filter_section"></div>
 					<!-- 상세필터 -->
 
-					<div class="list_contents" id='iwork_list_page'>
-						<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
+					<!-- 목록 테이블 -->
+					<div class="list_contents">
+						<table>
+							<tbody>
+								<tr class="tit_bg">
+									<th></th>
+									<%
+										FormField[] fields = work.getDisplayFields();
+										if (fields != null) {
+											for (FormField field : fields) {
+									%>
+									<th class="r_line"><%=field.getName()%> <img
+										class="bu_arr_b">
+									</th>
+									<%
+											}
+										}
+									%>
+									<
+									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
+											key='common.title.last_modified_date' /></th>
+								</tr>
+								<div id='iwork_list_page'>
+									<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
+								</div>
+							</tbody>
+						</table>
 					</div>
 
 					<!-- 목록 테이블 //-->
