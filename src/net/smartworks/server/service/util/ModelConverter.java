@@ -22,12 +22,14 @@ import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.InstanceInfo;
+import net.smartworks.model.instance.info.PWInstanceInfo;
+import net.smartworks.model.instance.info.TaskInstanceInfo;
+import net.smartworks.model.instance.info.WorkInstanceInfo;
 import net.smartworks.model.security.AccessPolicy;
 import net.smartworks.model.security.EditPolicy;
 import net.smartworks.model.security.WritePolicy;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.ProcessWork;
-import net.smartworks.model.work.SmartDiagram;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
@@ -45,7 +47,6 @@ import net.smartworks.server.engine.common.collection.model.ColList;
 import net.smartworks.server.engine.common.collection.model.ColListCond;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Filter;
-import net.smartworks.server.engine.common.model.Filters;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
@@ -337,6 +338,92 @@ public class ModelConverter {
 		return resultMap;
 	}
 	
+	public static InstanceInfo[] getInstanceInfoArrayByPrcProcessInstArray(PrcProcessInst[] prcInsts) throws Exception {
+		if (CommonUtil.isEmpty(prcInsts))
+			return null;
+		
+		InstanceInfo[] instanceInfos = new InstanceInfo[prcInsts.length];
+		for (int i =0; i < prcInsts.length; i ++) {
+			PrcProcessInst prcInst = prcInsts[i];
+			InstanceInfo instanceInfo = (InstanceInfo)getInstanceInfoByPrcProcessInst(null, prcInst);
+			instanceInfos[i] = instanceInfo; 
+		}
+		return instanceInfos;
+	}
+	public static InstanceInfo getInstanceInfoByPrcProcessInst(InstanceInfo instanceInfo, PrcProcessInst prcInst) throws Exception {
+		if (prcInst == null)
+			return null;
+		if (instanceInfo == null) 
+			instanceInfo = new InstanceInfo();
+		
+		String id = prcInst.getObjId();
+		String subject = prcInst.getTitle();
+		int type = WorkInstance.TYPE_PROCESS;
+		WorkInfo work = getWorkInfoByPackageId(prcInst.getDiagram());//TODO prcInst.getPackageId 로 변경 해야함 현재(개발기간)에는 컬럼에 데이터가 없음
+		WorkSpaceInfo workSpace = null;
+		
+		int status = -1;
+		if (prcInst.getStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING)) {
+			status = Instance.STATUS_COMPLETED;
+		} else if (prcInst.getStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_COMPLETE)) {
+			status = Instance.STATUS_COMPLETED;
+		}
+		UserInfo owner = ModelConverter.getUserInfoByUserId(prcInst.getCreationUser());
+		UserInfo lastModifier = ModelConverter.getUserInfoByUserId(prcInst.getModificationUser()); 
+		LocalDate lastModifiedDate = new LocalDate(prcInst.getModificationDate().getTime());
+		
+		instanceInfo.setId(id);
+		instanceInfo.setLastModifiedDate(lastModifiedDate);
+		instanceInfo.setLastModifier(lastModifier);
+		instanceInfo.setOwner(owner);
+		instanceInfo.setStatus(status);
+		instanceInfo.setSubject(subject);
+		instanceInfo.setType(type);
+		instanceInfo.setWork(work);
+		instanceInfo.setWorkSpace(workSpace);
+		
+		return instanceInfo;
+	}
+	
+	public static WorkInstanceInfo getWorkInstanceInfoByPrcProcessInst(WorkInstanceInfo workInstanceInfo, PrcProcessInst prcInst) throws Exception {
+		if (prcInst == null)
+			return null;
+		if (workInstanceInfo == null) 
+			workInstanceInfo = new WorkInstanceInfo();
+		
+		getInstanceInfoByPrcProcessInst(workInstanceInfo, prcInst);
+		
+		TaskInstanceInfo[] runningTasks = null; //TODO 실행중 태스크?
+		
+		workInstanceInfo.setRunningTasks(runningTasks);
+		
+		return workInstanceInfo;
+	}
+	public static PWInstanceInfo[] getPWInstanceInfoArrayByPrcProcessInstArray(PrcProcessInst[] prcInsts) throws Exception {
+		if (CommonUtil.isEmpty(prcInsts))
+			return null;
+		
+		PWInstanceInfo[] pWInstanceInfos = new PWInstanceInfo[prcInsts.length];
+		for (int i =0; i < prcInsts.length; i ++) {
+			PrcProcessInst prcInst = prcInsts[i];
+			PWInstanceInfo pWInstanceInfo = (PWInstanceInfo)getPWInstanceInfoByPrcProcessInst(null, prcInst);
+			pWInstanceInfos[i] = pWInstanceInfo; 
+		}
+		return pWInstanceInfos;
+	}
+	public static PWInstanceInfo getPWInstanceInfoByPrcProcessInst(PWInstanceInfo pWInstanceInfo, PrcProcessInst prcInst) throws Exception {
+		if (prcInst == null)
+			return null;
+		if (pWInstanceInfo == null) 
+			pWInstanceInfo = new PWInstanceInfo();
+		
+		getWorkInstanceInfoByPrcProcessInst(pWInstanceInfo, prcInst);
+
+		TaskInstanceInfo lastTask = null;
+		pWInstanceInfo.setLastTask(lastTask); //TODO 마지막 실행된 태스크??
+		
+		return pWInstanceInfo;
+	}
 	
 	
 	// #########################################  specific class  ########################################################################
