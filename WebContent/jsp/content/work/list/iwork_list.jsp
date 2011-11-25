@@ -288,7 +288,6 @@
 					<div id="search_filter" class="filter_section"></div>
 					<!-- 상세필터 -->
 
-<<<<<<< HEAD
 					<!-- 목록 테이블 -->
 					<div class="list_contents">
 						<table>
@@ -316,10 +315,6 @@
 								</div>
 							</tbody>
 						</table>
-=======
-					<div class="list_contents" id='iwork_list_page'>
-						<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
->>>>>>> refs/heads/master
 					</div>
 
 					<!-- 목록 테이블 //-->
