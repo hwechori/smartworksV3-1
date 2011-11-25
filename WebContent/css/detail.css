@@ -20,7 +20,7 @@
 /* 본문 컨텐츠 */
 .define_space {padding: 0 25px; overflow: hidden;} /* 상하 여백이 필요 없을떄*/
 .contents_space {padding: 0 25px 10px;}
-.contents_space .det_title {padding:3px 0;} /* 타이틀 */
+.contents_space .det_title {padding:3px 0; overflow:hidden;} /* 타이틀 */
 .contents_space .area {padding:10px;}
 .contents_space .border {border:1px solid #c7c7c7; background-color:#FFF; padding:10px;}
 
@@ -28,16 +28,25 @@
 /* Replay Info */
 .info_repl {vertical-align:bottom; position:absolute;}
 
+/* 공간 영역 */
+.space_section {padding-top: 8px;}
+.space_section .title {background: url("../images/body_icon.png") no-repeat scroll 0 -418px transparent; font-weight:bold; padding:5px 0 0 20px;}
+.space_section .title_off {background: url("../images/body_icon.png") no-repeat scroll -389px -418px transparent; font-weight:bold; padding:5px 0 0 20px;}
+.space_section .imag_area { margin:4px 0;}
+
 
 /* 본문 댓글 관련 */
 .replay_point {background: url("../images/replay_point.gif") no-repeat left top; width:11px; height:7px; margin-top: 5px;}
-.replay_section {background-color:#eef2f6; padding:10px; width:600px; margin-left:40px;}
+.replay_section {background-color:#eef2f6; padding:10px; width:600px;}
 .replay {margin:10px 15px 0;} /* 상세페이지에 댓글,업무,메모 입력 영역*/
 .list_replay {margin:0;} /* 댓글 목록 */
 .replay_input {margin-top:10px;} /* 댓글 입력 영역 */
-.list_replay li, .replay li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:5px 0;}
+.list_replay li, .replay li, .space_section li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:2px 0;}
 .list_replay .end, .replay .end {border-bottom: none; vertical-align: middle;}
-.repl_tinfo {background: url("../images/header_nico.png") no-repeat -8px -286px; padding:0 0 0 20px;}
+.repl_tinfo {background: url("../images/header_nico.png") no-repeat 4px -267px; padding:0 0 0 20px;}
+.repl_write {background: url("../images/header_nico.png") no-repeat 0 -411px; padding: 2px 0 1px 17px; font-size: 11px; color: #23579E;  margin-left: 5px;}
+a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -435px; text-decoration: underline;}
+
 
 
 /* 목록보기 부분 타이틀 */
@@ -98,7 +107,7 @@ a .proc_btn_prev:hover {background: url("../images/proc_bg.png") repeat-y scroll
 .proc_btn_next {background: url("../images/proc_bg.png") repeat-y scroll -129px 0 transparent; width:11px; height:19px; margin-top: 14px; position: absolute; right:10px;}
 a .proc_btn_next:hover {background: url("../images/proc_bg.png") repeat-y scroll -129px -28px; transparent;}
 
-.proc_arr_next {background: url("../images/proc_bg.png") repeat-y scroll -86px -82px transparent; width:23px; height:7px; margin-top:19px;}
+.proc_arr_next {background: url("../images/proc_bg.png") repeat-y scroll -86px -82px transparent; width:23px; height:10px; margin-top:19px;}
 .proc_start_compl {background: url("../images/proc_bg.png") repeat-y scroll -13px -13px transparent; 
 					height: 29px; padding-top: 10px; text-align: center; vertical-align: middle; width: 39px;}
 .proc_start_compl .current { font-weight:bold;}
@@ -148,7 +157,7 @@ a .proc_btn_next:hover {background: url("../images/proc_bg.png") repeat-y scroll
 			
 /* 프로세스 포인트 위치 */
 .posit_default {left: 58px; position: relative; top: 1px; margin-top:5px; z-index: 20;}
-.posit_replay {left: 70px; position: relative; top: 1px; z-index: 20;}
+.posit_replay {left: 40px; position: relative; top: 1px; z-index: 20;}
 
 
 /* 필터 */
@@ -232,4 +241,4 @@ display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
 .bu_arr_b {background: url("../images/body_icon.png") no-repeat scroll -286px 0 transparent; height:4px; display:inline-block;}
 .bu_stat {background: url("../images/body_icon.png") no-repeat scroll 0 -251px transparent; height:21px; display:inline-block; padding: 0 0 0 24px;}
 .bu_n_stat {background: url("../images/body_icon.png") no-repeat scroll -432px -250px transparent; height:21px; display:inline-block; padding: 0 0 0 25px;}
-.bu_file {background: url("../images/body_icon.png") no-repeat scroll -163px -365px transparent; height:17px; width:16px; display:inline-block;}
+.bu_file {background: url("../images/body_icon.png") no-repeat scroll -163px -364px transparent; height:20px; width:16px; display:inline-block;}
