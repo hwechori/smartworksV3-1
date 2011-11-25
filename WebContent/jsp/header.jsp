@@ -4,10 +4,35 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%@ page import="net.smartworks.model.notice.*"%>
+
+<script>
+function updateNoticeCount(message){
+	var type = message.body.type;
+	var count = message.body.count;
+	var data = "<span></span>";
+	if (count > 0)
+		data = "<em class='num_ic'>" + count + "<span></span></em>";
+
+	if (type == 0) {
+		$('#notification_count').html(data);
+	} else if (type == 1) {
+		$('#message_count').html(data);
+	} else if (type == 2) {
+		$('#comment_count').html(data);
+	} else if (type == 3) {
+		$('#assigned_count').html(data);
+	} else if (type == 4) {
+		$('#mailbox_count').html(data);
+	} else if (type == 5) {
+		$('#savedbox_count').html(data);
+	}
+};
+
+</script>
 <%
 	String companyId = (String) session.getAttribute("companyId");
 	String userId = (String) session.getAttribute("userId");
-	
+
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser(request);
 	Notice[] notices = smartWorks.getNoticesForMe(companyId, userId);
@@ -26,33 +51,33 @@
 </div>
 <div class="notice_ico">
 	<ul>
-		<li class="i_info js_notice_count"><a id="notification_count" 
+		<li class="i_info js_notice_count"><a id="notification_count"
 			href="notice_message_box.sw?noticeType=<%=Notice.TYPE_NOTIFICATION%>"
 			title="<fmt:message key='header.notice.icon.notification'/>"> <%
  	if (notices.length > Notice.TYPE_NOTIFICATION && notices[Notice.TYPE_NOTIFICATION].getLength() > 0) {
  %> <em class="num_ic"><%=notices[Notice.TYPE_NOTIFICATION].getLength()%><span></span>
-			</em>
-		</a></li>
+			</em> </a>
+		</li>
 		<%
 			}
 		%>
-		<li class="i_note js_notice_count"><a id="message_count" 
+		<li class="i_note js_notice_count"><a id="message_count"
 			href="notice_message_box.sw?noticeType=<%=Notice.TYPE_MESSAGE%>"
 			title="<fmt:message key='header.notice.icon.message'/>"> <%
  	if (notices.length > Notice.TYPE_MESSAGE && notices[Notice.TYPE_MESSAGE].getLength() > 0) {
  %> <em class="num_ic"><%=notices[Notice.TYPE_MESSAGE].getLength()%><span></span>
-			</em>
-		</a></li>
+			</em> </a>
+		</li>
 		<%
 			}
 		%>
-		<li class="i_replay js_notice_count"><a id="comment_count" 
+		<li class="i_replay js_notice_count"><a id="comment_count"
 			href="notice_message_box.sw?noticeType=<%=Notice.TYPE_COMMENT%>"
 			title="<fmt:message key='header.notice.icon.comments'/>"> <%
  	if (notices.length > Notice.TYPE_COMMENT && notices[Notice.TYPE_COMMENT].getLength() > 0) {
  %> <em class="num_ic"><%=notices[Notice.TYPE_COMMENT].getLength()%><span></span>
-			</em>
-		</a></li>
+			</em> </a>
+		</li>
 		<%
 			}
 		%>
@@ -61,18 +86,18 @@
 			title="<fmt:message key='header.notice.icon.assigned'/>"> <%
  	if (notices.length > Notice.TYPE_ASSIGNED && notices[Notice.TYPE_ASSIGNED].getLength() > 0) {
  %> <em class="num_ic"><%=notices[Notice.TYPE_ASSIGNED].getLength()%><span></span>
-			</em>
-		</a></li>
+			</em> </a>
+		</li>
 		<%
 			}
 		%>
-		<li class="i_mail js_notice_count"><a  id="mailbox_count"
+		<li class="i_mail js_notice_count"><a id="mailbox_count"
 			href="notice_message_box.sw?noticeType=<%=Notice.TYPE_MAILBOX%>"
 			title="<fmt:message key='header.notice.icon.mailbox'/>"> <%
  	if (notices.length > Notice.TYPE_MAILBOX && notices[Notice.TYPE_MAILBOX].getLength() > 0) {
  %> <em class="num_ic"><%=notices[Notice.TYPE_MAILBOX].getLength()%><span></span>
-			</em>
-		</a></li>
+			</em> </a>
+		</li>
 		<%
 			}
 		%>
@@ -81,8 +106,8 @@
 			title="<fmt:message key='header.notice.icon.savedbox'/>"> <%
  	if (notices.length > Notice.TYPE_SAVEDBOX && notices[Notice.TYPE_SAVEDBOX].getLength() > 0) {
  %> <em class="num_ic"><%=notices[Notice.TYPE_SAVEDBOX].getLength()%><span></span>
-			</em>
-		</a></li>
+			</em> </a>
+		</li>
 		<%
 			}
 		%>
@@ -118,7 +143,6 @@
 						key="header.top_menu.smartcaster" /> </a> </span> <%
  	}
  %>
-
 		</li>
 		<li class="idx3">
 			<%
@@ -161,9 +185,11 @@
 		<ul>
 			<li><a
 				href="my_profile.sw?cid=<%=ISmartWorks.CONTEXT_MYPROFILE%>"><fmt:message
-						key="header.global_menu.edit_my_profile" /> </a></li>
+						key="header.global_menu.edit_my_profile" /> </a>
+			</li>
 			<li><a href=""><fmt:message key="header.global_menu.logout" />
-			</a></li>
+			</a>
+			</li>
 		</ul>
 	</div>
 

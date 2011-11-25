@@ -11,8 +11,6 @@ package net.smartworks.util;
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.community.User;
-import net.smartworks.model.report.ChartReport;
-import net.smartworks.model.report.Report;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.server.engine.security.model.Login;
 import net.smartworks.service.ISmartWorks;
@@ -277,4 +275,7 @@ public class SmartUtil {
 		return user;
 	}
 	
+	public static String getSubjectString(String userId){
+		return userId.replaceAll(".", "_");
+	}
 }
