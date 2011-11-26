@@ -1,16 +1,33 @@
 
 
-.chat_section {border:1px solid #232323; background-color:#454645; width:273px; position:absolute; top:33px; left:106px; z-index:39;}
+.chat_section {border:1px solid #232323; background-color:#454645; width:273px; position:fixed; right:0; bottom:0; z-index:101;}
 .chat_section li {border-bottom:1px dashed #9C9C9C; margin:5px 10px 0; color:#454545; vertical-align: middle; padding: 2px 0; overflow:hidden;}	
 .chat_section li.end {border-bottom:none;}
-.chat_section .top_group {background: url("../images/bg_chat.jpg") repeat-x 0 0 transparent; font-weight:bold; color:#FFF; padding:5px 5px 0;}
+.chat_section .top_group {background: url("../images/bg_chat.jpg") repeat-x 0 0 transparent; font-weight:bold; color:#FFF; padding:5px 5px 0; height:21px;}
 .chat_section .top_area { position:absolute;}
-.chat_section .btn_min {background: url("../images/chat_img.png") no-repeat scroll 0 0 transparent; display:inline-block; height:17px; width:10px;}
-.chat_section .btn_admin {background: url("../images/chat_img.png") no-repeat scroll -17px 0 transparent; display:inline-block; height:17px; width:10px;}
-.chat_section .btn_x {background: url("../images/chat_img.png") no-repeat scroll -35px 0 transparent; display:inline-block; height:17px; width:10px;}
 
-.chat_section .chat_body {background-color:#FFF; margin: 0 2px 2px;}
-.chat_input_area { border-top:1px solid #9C9C9C; height:50px;}
-.chat_textarea {vertical-align: top; width: 99%; border:none;}
-	
+.chat_section .btn_min a {background: url("../images/chat_img.png") no-repeat scroll 0 0 transparent; display:block; height:18px; width:14px;}
+.chat_section .btn_min a:hover {background: url("../images/chat_img.png") no-repeat scroll 0 -25px transparent;}
+
+.chat_section .btn_admin a {background: url("../images/chat_img.png") no-repeat scroll -18px 0 transparent; display:block; height:18px; width:14px;}
+.chat_section .btn_admin a:hover {background: url("../images/chat_img.png") no-repeat scroll -18px -25px transparent;}
+
+.chat_section .btn_x a {background: url("../images/chat_img.png") no-repeat scroll -36px 0 transparent; display:block; height:18px; width:14px;}
+.chat_section .btn_x a:hover {background: url("../images/chat_img.png") no-repeat scroll -36px -25px transparent;}
+
+.chat_section .chat_body {background-color:#FFF; margin: 0 2px; max-height:300px; overflow-y:auto;}
+.chat_input_area { border-top:1px solid #9C9C9C;}
+.chat_textarea {vertical-align: top; width:100%; border:none; max-height:35px; min-height:16px; outline: medium none; overflow-y:auto;}
+
+/* 시스템 메세지 */
+.msg_section {background-color:#f5f3ec; color:#454545; font-size:11px; padding:5px; margin-bottom:2px;}
+.msg_section .ic_add_friend {background: url("../images/chat_img.png") no-repeat scroll 0 -49px transparent; display:inline-block; padding-right:4px; height:16px; width:14px;}
+
+.addfriend_section {padding:5px; overflow:hidden;} 
+.addfriend_h { padding-bottom:4px;}
+.user_sel_area {float:left; padding:2px;}
+.addf_line {border:1px solid #c7c7c7; left:0px; margin-right:2px; width:200px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; float:left;}
+
 .info_list {padding:0 0 2px 18px; line-height:16px; }
+
+.chat_input_section {margin: 0 2px 2px 2px; background-color:#FFF;}
