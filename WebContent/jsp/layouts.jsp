@@ -78,6 +78,7 @@
 <script type="">
 currentUser = {
 	userId : "<%=currentUser.getId()%>",
+	name : "<%=currentUser.getName()%>",
 	longName : "<%=currentUser.getLongName()%>",
 	companyId : "<%=currentUser.getCompanyId()%>",
 	minPicture : "<%=currentUser.getMinPicture()%>",
@@ -182,16 +183,19 @@ currentUser = {
 		var userInfos = message.userInfos;
 		var title = "";
 		if (userInfos != null && userInfos.length > 0) {
-			title = userInfos[0].longName;
-			if (userInfos.length > 2) {
-				title = title + "외 " + (userInfos.length - 1) + "명";
+			var chatterList = new Array();
+			for(var i=0, j=0; i<userInfos.length; i++){
+				if(userInfos[i].userId !== currentUser.userId) chatterList[j++] = userInfos[i];
+			}
+			title = chatterList[0].longName;
+			if (chatterList.length > 2) {
+				title = title + "외 " + (chatterList.length - 1) + "명";
 			} else {
-				for ( var i = 1; i < userInfos.length; i++) {
-					title = title + "," + userInfos[i].longName;
+				for ( var i = 1; i < chatterList.length; i++) {
+					title = title + "," + chatterList[i].longName;
 				}
 				title = title + "님";
 			}
-			title = title + "과의 대화";
 		}
 		var target = $('div.js_chatting_box')
 		target.find('div.js_chatting_title').html(title);

@@ -27,17 +27,21 @@ function receivedMessageOnChatId(message){
 	}else if(message.msgType === msgType.WRITING_CHAT_MESSAGE){
 		
 	}else if(message.msgType === msgType.CHAT_MESSAGE){
-		var data = "<li><div class='noti_pic'><img align='bottom' src='" + senderInfo.minPicture + "' title='>" + senderInfo.longName + "</div><div class='noti_in'><div>"
-					+ chatMessage + "<span class='t_date'>" + currentTime + "</span></div></div></li>";
+		var data = "<li><div class='noti_pic'><img align='bottom' src='" + senderInfo.minPicture + "' title='" + senderInfo.longName + "'></div><div class='noti_in'><div>"
+					+ chatMessage + "<span class='t_date' >" + currentTime + "</span></div></div></li>";
 		target.find('ul').append(data);
 	}
 }
 $('div.js_chatting_message_list textarea').live('keypress', function(e){
 	if(e.keyCode == 13){
 		var input = $(e.target);
-		var chatId = input.parents('div.js_chatting_list_box:first').attr('id');
+		var chatId = input.parents('div.js_chatting_box:first').attr('id');
 		var message = input.attr('value');
-		smartTalk.publishChatMessage(chatId, message);
+		if(message != null && message !== "" && message !== " "){
+			smartTalk.publishChatMessage(chatId, message);
+		}
+		console.log(message);
+		input.removeAttr('value');
 	}
 });
 </script>
