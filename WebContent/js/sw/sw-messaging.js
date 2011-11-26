@@ -79,14 +79,13 @@ var smartTalk = {
 	},
 
 	startSubOnMe : function() {
-		console.log(swSubject.USERID);
 		smartTalk.subscribe(swSubject.SMARTWORKS + swSubject.COMPANYID
 				+ swSubject.USERID, function(message) {
 			if (message.msgType === msgType.NOTICE_COUNT) {
 				updateNoticeCount(message);
 			} else if (message.msgType === msgType.JOIN_CHAT) {
 				startChattingWindow(message);
-				smartTalk.startSubOnChatId(message);
+				smartTalk.startSubOnChatId(message.chatId);
 			}
 		});
 	},
@@ -110,7 +109,6 @@ var smartTalk = {
 	},
 
 	chattingRequest : function(userInfos) {
-		console.log("userInfos = " + userInfos);
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
 				+ swSubject.FAYESERVER, {
 			msgType : msgType.CHAT_REQUEST,
@@ -125,6 +123,7 @@ var smartTalk = {
 			if (message.msgType === msgType.CHAT_HEARTBEAT) {
 
 			} else {
+				console.log(message);
 				receivedMessageOnChatId(message);
 			}
 		});
@@ -154,6 +153,7 @@ var smartTalk = {
 	},
 
 	publishChatMessage : function(chatId, message) {
+		console.log(message);
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID + "/"
 				+ chatId, {
 			msgType : msgType.CHAT_MESSAGE,

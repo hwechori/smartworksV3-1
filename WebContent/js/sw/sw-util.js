@@ -1,4 +1,9 @@
- var Request = {	
+
+console = console ||{
+	log : function() {}
+};
+
+var Request = {	
  	parameter: function(name) {
 		return this.parameters()[name];
  	},
