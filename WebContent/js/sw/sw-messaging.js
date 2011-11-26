@@ -17,7 +17,7 @@ var msgType = {
 	JOIN_CHAT : "JOINCHAT",
 	JOINED_IN_CHAT : "JOINEDCHAT",
 	LEAVE_CHAT : "LEAVECHAT",
-	SEND_CHAT_MESSAGE : "CHATTING",
+	CHAT_MESSAGE : "CHATTING",
 	WRITING_CHAT_MESSAGE : "WRITING",
 	CHAT_HEARTBEAT : "HEARTBEAT",
 	AVAILABLE_CHATTERS : "ACHATTERS"
@@ -84,7 +84,8 @@ var smartTalk = {
 			if (message.msgType === msgType.NOTICE_COUNT) {
 				updateNoticeCount(message);
 			} else if (message.msgType === msgType.JOIN_CHAT) {
-				startChattingWindow(message.chatId);
+				startChattingWindow(message);
+				smartTalk.startSubOnChatId(message);
 			}
 		});
 	},
@@ -107,19 +108,24 @@ var smartTalk = {
 		});
 	},
 
-	chattingRequest : function(users) {
-		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID,
+	chattingRequest : function(userInfos) {
+		console.log("userInfos = " + userInfos);
+		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID +
 				swSubject.FAYESERVER, {
 					msgType : msgType.CHAT_REQUEST,
 					sender : currentUserId,
-					body : users
+					userInfos : userInfos
 				});
 	},
 
 	startSubOnChatId : function(chatId) {
 		var subscription = smartTalk.subscribe(swSubject.SMARTWORKS
 				+ swSubject.COMPANYID + "/" + chatId, function(message) {
-		});
+			if(message.msgType === msgType.CHAT_HEARTBEAT){
+				
+			}else{
+				receivedMessageOnChatId(message);
+			}});
 		smartTalk.setChatSub(chatId, subscription);
 	},
 
@@ -131,7 +137,8 @@ var smartTalk = {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID + "/"
 				+ chatId, {
 			msgType : msgType.JOINED_IN_CHAT,
-			sender : currentUserId
+			sender : currentUserId,
+			chatId : chatId
 		});
 	},
 
@@ -139,16 +146,18 @@ var smartTalk = {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID + "/"
 				+ chatId, {
 			msgType : msgType.LEAVE_CHAT,
-			sender : currentUserId
+			sender : currentUserId,
+			chatId : chatId
 		});
 	},
 
 	publishChatMessage : function(chatId, message) {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID + "/"
 				+ chatId, {
-			msgType : msgType.SEND_CHAT_MESSAGE,
-			sender : currentUserId,
-			message : message
+			msgType : msgType.CHAT_MESSAGE,
+			senderInfo : {userId : currentUserId, minPicture : "images/ysjung@maninsoft.co.kr_min.jpg", longName : "대표이사 정윤식"},
+			chatId : chatId,
+			chatMessage : message
 		});
 	},
 
@@ -156,6 +165,7 @@ var smartTalk = {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID + "/"
 				+ chatId, {
 			msgType : msgType.WRITING_CHAT_MESSAGE,
+			chatId : chatId,
 			sender : currentUserId
 		});
 	},
@@ -165,7 +175,8 @@ var smartTalk = {
 			smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID + "/"
 					+ chatId, {
 				msgType : msgType.CHAT_HEARTBEAT,
-				sender : currentUserId
+				sender : currentUserId,
+				chatId : chatId
 			});
 		};
 		return setInterval(repeating, 2000);
@@ -186,6 +197,17 @@ var smartTalk = {
 	},
 
 	setChatSub : function(chatId, subscription) {
-		var repeater = startHeartBeat(chatId);
+		// var repeater = smartTalk.startHeartBeat(chatId);
+		
 	}
 };
+
+$('#available_chatter_list a').live('click', function(e){
+	var input = $(e.target).parent('a');
+	var userId = input.attr('userId');
+	var img = input.find('img');
+	var longName = img.attr('title');
+	var minPicture = img.attr('src');
+	smartTalk.chattingRequest(new Array({userId : "ysjung@maninsoft.co.kr", longName : "대표이사 정윤식", minPicture : "images/ysjung@maninsoft.co.kr_min.jpg"},{userId : userId, longName : longName, minPicture : minPicture}));
+	return false;
+});

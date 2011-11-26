@@ -409,9 +409,5 @@ $(function() {
 		target.html(newHTML);
 		$(target).find('span.js_file_item').add(e.target);
 		alert('added');
-	});
-	
-	$('#available_chatter_list').live('click', function(e){
-		
-	});
+	});	
 });

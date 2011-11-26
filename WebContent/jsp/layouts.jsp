@@ -59,6 +59,7 @@
 <link href="css/default.css" type="text/css" rel="stylesheet" />
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
+<link href="css/chat.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet"
 	href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css"
 	title="ui-theme" />
@@ -137,6 +138,27 @@
 	};
 	var timer = setInterval(sendChatterList, 5000);
 
+	function startChattingWindow(message){
+		var userInfos = message.userInfos;
+		var title = "";
+		if(userInfos!=null && userInfos.length>0){
+			title = userInfos[0].longName;
+			if(userInfos.length>2){
+				title = title + "외 " + (userInfos.length-1) + "명";
+			}else{
+				for(var i=1; i<userInfos.length; i++){
+					title = title + "," + userInfos[i].longName;
+				}
+				title = title + "님";
+			}
+			title = title + "과의 대화";
+		}
+		var target = $('div.js_chatting_box')
+		target.find('div.js_chatting_title').html(title);
+		target.attr("id", message.chatId);
+		target.slideDown();
+	}
+
 	
 </script>
 
@@ -174,6 +196,14 @@
 			<tiles:insertAttribute name="footer" />
 		</div>
 		<!-- Footer //-->
+
 	</div>
+
+<div class="js_chatting_box" style="display:none">
+<ul>
+	<jsp:include page="/jsp/chatting/chatting_box.jsp" />
+</ul>
+</div>
+
 </body>
 </html>

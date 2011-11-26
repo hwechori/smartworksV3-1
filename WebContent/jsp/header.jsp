@@ -27,7 +27,6 @@ function updateNoticeCount(message){
 		$('#savedbox_count').html(data);
 	}
 };
-
 </script>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
