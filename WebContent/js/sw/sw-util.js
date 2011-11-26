@@ -16,10 +16,3 @@
  	}
  };
  
- var Session = {
- 	companyId :'${sessionScope.companyId}',
- 	userId : '${sessionScope.userId}',
- 	cid : '${sessionScope.cid}',
- 	wid : '${sessionScope.wid}'
- };
- 

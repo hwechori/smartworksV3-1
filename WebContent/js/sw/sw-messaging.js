@@ -1,11 +1,11 @@
 var serverUrl = "http://192.168.0.8:8000";
 var swContext = "/faye";
-var currentUserId = "ysjung@maninsoft_co_kr";
+var currentUserId = currentUser.userId;
 
 var swSubject = {
 	SMARTWORKS : "/smartworks",
-	COMPANYID : "/Maninsoft",
-	USERID : "/ysjung@maninsoft_co_kr",
+	COMPANYID : "/" + currentUser.companyId,
+	USERID : "/" + currentUser.userId.replace(/\./g, '_'),
 	BROADCASTING : "/broadcasting",
 	FAYESERVER : "/fayeServer"
 };
@@ -71,7 +71,7 @@ var smartTalk = {
 				+ swSubject.BROADCASTING, function(message) {
 			if (message.msgType === msgType.BROADCASTING) {
 				updateBcastBoard(message.body);
-			} else if(message.msgType === msgType.AVAILABLE_CHATTERS){
+			} else if (message.msgType === msgType.AVAILABLE_CHATTERS) {
 				updateAvailableChatters(message.userInfos);
 			}
 		});
@@ -79,6 +79,7 @@ var smartTalk = {
 	},
 
 	startSubOnMe : function() {
+		console.log(swSubject.USERID);
 		smartTalk.subscribe(swSubject.SMARTWORKS + swSubject.COMPANYID
 				+ swSubject.USERID, function(message) {
 			if (message.msgType === msgType.NOTICE_COUNT) {
@@ -110,22 +111,23 @@ var smartTalk = {
 
 	chattingRequest : function(userInfos) {
 		console.log("userInfos = " + userInfos);
-		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID +
-				swSubject.FAYESERVER, {
-					msgType : msgType.CHAT_REQUEST,
-					sender : currentUserId,
-					userInfos : userInfos
-				});
+		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
+				+ swSubject.FAYESERVER, {
+			msgType : msgType.CHAT_REQUEST,
+			sender : currentUserId,
+			userInfos : userInfos
+		});
 	},
 
 	startSubOnChatId : function(chatId) {
 		var subscription = smartTalk.subscribe(swSubject.SMARTWORKS
 				+ swSubject.COMPANYID + "/" + chatId, function(message) {
-			if(message.msgType === msgType.CHAT_HEARTBEAT){
-				
-			}else{
+			if (message.msgType === msgType.CHAT_HEARTBEAT) {
+
+			} else {
 				receivedMessageOnChatId(message);
-			}});
+			}
+		});
 		smartTalk.setChatSub(chatId, subscription);
 	},
 
@@ -155,7 +157,11 @@ var smartTalk = {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID + "/"
 				+ chatId, {
 			msgType : msgType.CHAT_MESSAGE,
-			senderInfo : {userId : currentUserId, minPicture : "images/ysjung@maninsoft.co.kr_min.jpg", longName : "대표이사 정윤식"},
+			senderInfo : {
+				userId : currentUserId,
+				minPicture : currentUser.minPicture,
+				longName : currentUser.longName
+			},
 			chatId : chatId,
 			chatMessage : message
 		});
@@ -184,7 +190,7 @@ var smartTalk = {
 
 	sendJoinChat : function(chatId, user) {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID + "/"
-				+ user, {
+				+ user.replace(/\./g, '_'), {
 			msgType : msgType.JOIN_CHAT,
 			sender : currentUserId,
 			chatId : chatId
@@ -198,16 +204,24 @@ var smartTalk = {
 
 	setChatSub : function(chatId, subscription) {
 		// var repeater = smartTalk.startHeartBeat(chatId);
-		
+
 	}
 };
 
-$('#available_chatter_list a').live('click', function(e){
+$('#available_chatter_list a').live('click', function(e) {
 	var input = $(e.target).parent('a');
 	var userId = input.attr('userId');
 	var img = input.find('img');
 	var longName = img.attr('title');
 	var minPicture = img.attr('src');
-	smartTalk.chattingRequest(new Array({userId : "ysjung@maninsoft.co.kr", longName : "대표이사 정윤식", minPicture : "images/ysjung@maninsoft.co.kr_min.jpg"},{userId : userId, longName : longName, minPicture : minPicture}));
+	smartTalk.chattingRequest(new Array({
+		userId : currentUserId,
+		longName : currentUser.longName,
+		minPicture : currentUser.minPicture
+	}, {
+		userId : userId,
+		longName : longName,
+		minPicture : minPicture
+	}));
 	return false;
 });
