@@ -121,7 +121,8 @@ var smartTalk = {
 		var subscription = smartTalk.subscribe(swSubject.SMARTWORKS
 				+ swSubject.COMPANYID + "/" + chatId, function(message) {
 			if (message.msgType === msgType.CHAT_HEARTBEAT) {
-
+				if(message.sender === currentUser.userId) return;
+				console.log("[HEART-BEAT] user=" + message.sender);
 			} else {
 				console.log(message);
 				receivedMessageOnChatId(message);
@@ -203,7 +204,7 @@ var smartTalk = {
 	},
 
 	setChatSub : function(chatId, subscription) {
-		// var repeater = smartTalk.startHeartBeat(chatId);
+		var repeater = smartTalk.startHeartBeat(chatId);
 
 	}
 };

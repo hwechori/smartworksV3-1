@@ -42,6 +42,7 @@ $('div.js_chatting_message_list textarea').live('keypress', function(e){
 		}
 		console.log(message);
 		input.removeAttr('value');
+		return false;
 	}
 });
 </script>
