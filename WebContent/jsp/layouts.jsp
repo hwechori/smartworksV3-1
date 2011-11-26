@@ -238,9 +238,7 @@ currentUser = {
 	</div>
 
 	<div class="js_chatting_box" style="display: none">
-		<ul>
 			<jsp:include page="/jsp/chatting/chatting_box.jsp" />
-		</ul>
 	</div>
 
 </body>
