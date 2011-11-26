@@ -1,6 +1,6 @@
 
 
-.chat_section {border:1px solid #232323; background-color:#454645; width:273px; position:absolute; top:33px; left:106px; z-index:39;}
+.chat_section {border:1px solid #232323; background-color:#454645; width:273px; position:fixed; right:0; bottom:0; z-index:101;}
 .chat_section li {border-bottom:1px dashed #9C9C9C; margin:5px 10px 0; color:#454545; vertical-align: middle; padding: 2px 0; overflow:hidden;}	
 .chat_section li.end {border-bottom:none;}
 .chat_section .top_group {background: url("../images/bg_chat.jpg") repeat-x 0 0 transparent; font-weight:bold; color:#FFF; padding:5px 5px 0;}
@@ -10,7 +10,10 @@
 .chat_section .btn_x {background: url("../images/chat_img.png") no-repeat scroll -35px 0 transparent; display:inline-block; height:17px; width:10px;}
 
 .chat_section .chat_body {background-color:#FFF; margin: 0 2px 2px;}
-.chat_input_area { border-top:1px solid #9C9C9C; height:50px;}
-.chat_textarea {vertical-align: top; width: 99%; border:none;}
+.chat_input_area { border-top:1px solid #9C9C9C;}
+.chat_textarea {vertical-align: top; width: 99%; border:none; max-height: 77px; min-height: 16px; outline: medium none; overflow-x: hidden; overflow-y: auto;}
+
+/* 시스템 메세지 */
+.msg_logoff {background-color:#f5f3ec; color:#454545; font-size:11px; padding:5px;}
 	
 .info_list {padding:0 0 2px 18px; line-height:16px; }

@@ -20,7 +20,7 @@
 /* 본문 컨텐츠 */
 .define_space {padding: 0 25px; overflow: hidden;} /* 상하 여백이 필요 없을떄*/
 .contents_space {padding: 0 25px 10px;}
-.contents_space .det_title {padding:3px 0; overflow:hidden;} /* 타이틀 */
+.contents_space .det_title, .replay .det_title {padding:3px 0; overflow:hidden;} /* 타이틀 */
 .contents_space .area {padding:10px;}
 .contents_space .border {border:1px solid #c7c7c7; background-color:#FFF; padding:10px;}
 
