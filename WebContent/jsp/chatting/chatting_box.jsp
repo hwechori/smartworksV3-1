@@ -75,11 +75,61 @@ $('div.js_chatting_message_list textarea').live('keypress', function(e){
 	<!-- Body -->
 	<div class="chat_body js_chatting_message_list">
 	<!-- 시스템 메세지-->
-	<div class="msg_logoff"><span class="t_name">Hyunseong Shin</span>은 현재 오프라인이므로 쪽지로 보내집니다</div>
+	<div class="msg_section"><span class="t_name">Hyunseong Shin</span>은 현재 오프라인이므로 쪽지로 보내집니다</div>
 	<!-- 시스템 메세지//-->
+	
+	<!-- 시스템 메세지-->
+	<div class="msg_section"><span class="ic_add_friend"></span>회원님이 <span class="t_name">김선아</span>님을 추가하셨습니다</div>
+	<!-- 시스템 메세지//-->
+	
+<!-- 친구 검색, 추가 -->
+<div class="addfriend_section">
+    <div class="addf_line js_community_names">
+        <div class="js_selected_communities user_sel_area">
+            <span class="js_community_item user_select" comid="kmyu@maninsoft.co.kr">
+				유광민
+                <span class="btn_x_gr">
+                    <a class="js_remove_community" href=""> x</a>
+                </span>
+            </span>
+        </div>
+        
+        <input class="js_auto_complete" type="text" placeholder="참여자" title="" href="community_name.sw">
+        <div class="js_srch_x srch_ico"></div>
+    </div> 
+    
 
+    <span class="btn_wh">
+    <span class="Btn01Start"></span>
+    <span class="Btn01Center">추가</span>
+    <span class="Btn01End"></span>
+    </span>
+
+    
+</div>
+<!-- 친구 검색, 추가//-->
+
+<!-- 채팅 내용 -->
 		<div>
 			<ul>
+			<li>
+				<div class="noti_pic">
+		        <img src="images/chat_pic_29.jpg">
+		        </div>
+		        <div class="noti_in">
+		            <div>가을이 다 지나가부렀네요~~<span class="t_date"> 2011.10.13</span></div>
+		        </div>	
+			</li>
+			
+			<li>
+				<div class="noti_pic">
+		        <img src="images/chat_pic_29.jpg">
+		        </div>
+		        <div class="noti_in">
+		            <div>가을이 다 지나가부렀네요~~<span class="t_date"> 2011.10.13</span></div>
+		        </div>	
+			</li>
+			
 			<li>
 				<div class="noti_pic">
 		        <img src="images/chat_pic_29.jpg">
@@ -100,14 +150,19 @@ $('div.js_chatting_message_list textarea').live('keypress', function(e){
 			
 			</ul>
 		</div>
+<!-- 채팅 내용// -->
 
-		<div class="chat_input_area">
-			<textarea class="chat_textarea" name="txtaChatMessage" ></textarea>
-		</div>
+</div>
+<!-- Body //-->		
+
+<!-- 입력영역 -->
+<div class="chat_input_section">
+	<div class="chat_input_area">
+	   <textarea class="chat_textarea" >채팅 내용을 입력합니다!!!</textarea>
 	</div>
-	<!-- Body //-->
-
-
+</div>
+<!-- 입력영역 //-->
+	
 </div>
 <!-- 채팅 //-->
 
