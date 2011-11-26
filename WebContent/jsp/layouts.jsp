@@ -17,7 +17,6 @@
 
 <!-- For Development Purpose -->
 <%
-
 	SecurityContext context = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
 	if (context != null) {
 		Authentication auth = context.getAuthentication();
@@ -69,8 +68,7 @@
 	</fmt:message> <sec:authentication property="principal.name" /> <sec:authorize
 		access="hasRole('ADMINISTRATOR')"> 
 		(ADMIN)
-	</sec:authorize>
-</title>
+	</sec:authorize></title>
 
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
@@ -90,6 +88,57 @@
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
+<script type="text/javascript" src="http://localhost:8000/faye.js"></script>
+<script type="text/javascript" src="js/sw/sw-messaging.js"></script>
+
+<script type="text/javascript">
+	smartTalk.init();
+ 	var repeat1 = function() {
+		clearInterval(timer);
+		smartTalk.publishBcast(new Array(
+				" Hello, this is SmartWorks!! Welcome~~",
+				"오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
+	};
+	smartTalk.publishNoticeCount({
+		type : 0,
+		count : 0
+	});
+	smartTalk.publishNoticeCount({
+		type : 1,
+		count : 1
+	});
+	smartTalk.publishNoticeCount({
+		type : 2,
+		count : 2
+	});
+	smartTalk.publishNoticeCount({
+		type : 3,
+		count : 3
+	});
+	smartTalk.publishNoticeCount({
+		type : 4,
+		count : 4
+	});
+	smartTalk.publishNoticeCount({
+		type : 5,
+		count : 5
+	});
+
+	var sendChatterList = function(){
+		clearInterval(timer);
+		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
+			+ swSubject.BROADCASTING, {
+			msgType : msgType.AVAILABLE_CHATTERS,
+			sender : "smartworks.net",
+			userInfos : new Array({userId : "ysjung@maninsoft.co.kr", longName : "대표이사 정윤식",  minPicture : "images/ysjung@maninsoft.co.kr_min.jpg"},
+				{userId : "jskim@maninsoft.co.kr", longName : "과장 김지숙",  minPicture : "images/jskim@maninsoft.co.kr_min.jpg"},
+				{userId : "hsshin@maninsoft.co.kr", longName : "선임연구원 신현성",  minPicture : "images/hsshin@maninsoft.co.kr_min.jpg"})
+			});
+	};
+	var timer = setInterval(sendChatterList, 5000);
+
+	
+</script>
 
 </head>
 

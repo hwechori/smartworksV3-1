@@ -5,6 +5,20 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
 
+<script type="text/javascript">
+
+function updateAvailableChatters(userInfos){
+	if(userInfos != null){
+		var data = "";
+		var length = userInfos.length;
+		for(var i=0; i<length; i++){
+			console.log(userInfos[i]);
+			data = data + "<a href='' userId='" + userInfos[i].userId + "'><img src='" + userInfos[i].minPicture + "' title='" + userInfos[i].longName + "' /></a>";
+		}		
+		$("#available_chatter_list").html(data);
+	}
+}
+</script>
 <%
 	User cUser = SmartUtil.getCurrentUser(request, response);
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
@@ -22,11 +36,11 @@
 		</div>
 		<div style="display: none"></div>
 	</li>
-	<li class="ico_chatpe">
+	<li class="ico_chatpe" id="available_chatter_list">
 		<%
 			for (UserInfo chatter : chatters) {
-		%> <img src="<%=chatter.getMinPicture()%>"
-		title="<%=chatter.getLongName()%>" /> <%
+		%><a href="" userId="<%=chatter.getId()%>"><img src="<%=chatter.getMinPicture()%>"
+		title="<%=chatter.getLongName()%>" /> </a> <%
  	}
  %>
 	</li>
