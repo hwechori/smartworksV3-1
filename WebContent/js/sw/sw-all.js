@@ -94,14 +94,14 @@ $(function() {
 	$('input.js_auto_complete').live('keyup', function(e) {
 		var input = $(e.target);
 		var start_work = input.parents('div.js_start_work');
-		var chatter_name = input.parents('div.js_chatting_message_list');
+		var chatter_name = input.parents('div.js_chatter_names');
 		var target;
 		if (input[0].value.length > 0)
 			input.next('div').removeClass('srch_ico').addClass('btn_im_x');
 		if (start_work.length > 0)
 			target = start_work.find('#upload_work_list');
 		else if(chatter_name.length>0)
-			target = chatter_name.find('div.js_chatter_list');
+			target = chatter_name.siblings('div.js_chatter_list');
 		else
 			target = input.parent().next('div');
 		var url = input.attr('href');
@@ -133,14 +133,14 @@ $(function() {
 		var input = $(e.target);
 		var start_work = input.parents('div.js_start_work');
 		var user_name = input.parents('div.js_community_names');
-		var chatter_name = input.parents('div.js_chatting_message_list');
+		var chatter_name = input.parents('div.js_chatter_names');
 		var target;
 		if (start_work.length)
 			target = start_work.find('#upload_work_list');
 		else if (user_name.length)
 			target = user_name.next('div');
 		else if(chatter_name.length)
-			target = chatter_name.find('div.js_chatter_list');
+			target = chatter_name.siblings('div.js_chatter_list');
 		else
 			target = input.parent().siblings('div');
 		setTimeout(function() {

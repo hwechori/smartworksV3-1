@@ -1,5 +1,5 @@
 
-console = console ||{
+var console = console ||{
 	log : function() {}
 };
 
