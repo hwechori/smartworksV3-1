@@ -12,8 +12,15 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
+import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
+import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
@@ -22,6 +29,7 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
+import net.smartworks.server.service.util.ModelConverterInfo;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 
@@ -38,6 +46,9 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	private ISwdManager getSwdManager() {
 		return SwManagerFactory.getInstance().getSwdManager();
+	}
+	private ISwfManager getSwfManager() {
+		return SwManagerFactory.getInstance().getSwfManager();
 	}
 	/*
 	 * (non-Javadoc)
@@ -169,28 +180,56 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	@Override
 	public InstanceInfoList getIWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
-		return SmartTest.getWorkInstanceList1(params);
-//		InstanceInfoList instanceList = new InstanceInfoList();
-//		instanceList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-//		instanceList.setCountInPage(params.getCountInPage());
-//		instanceList.setTotalPages(31);
-//		instanceList.setCurrentPage(params.getPageNumber());
-//
-//		SwdRecordCond swdRecordCond = new SwdRecordCond();
-//		swdRecordCond.setCompanyId(companyId);
-//		swdRecordCond.setFormId(workId);
-//
-//		long totalSize = getSwdManager().getRecordSize(userId, swdRecordCond);
-//		System.out.println("totalSize : " + totalSize);
-////		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
-////
-////		for(SwdRecord swdRecord : swdRecords) {
-////			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + swdRecord.getFormId());
-////		}
-//		return instanceList;
-//		//return SmartTest.getWorkInstanceList1(params);
-	}	
-	
+
+		SwdDomainCond swdDomainCond = new SwdDomainCond();
+		swdDomainCond.setCompanyId(companyId);
+
+		SwfFormCond swfFormCond = new SwfFormCond();
+		swfFormCond.setCompanyId(companyId);
+		swfFormCond.setPackageId(workId);
+
+		swdDomainCond.setFormId(getSwfManager().getForms(userId, swfFormCond, IManager.LEVEL_LITE)[0].getId());
+
+		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdDomainCond, IManager.LEVEL_LITE);
+
+		SwdRecordCond swdRecordCond = new SwdRecordCond();
+		swdRecordCond.setCompanyId(companyId);
+		swdRecordCond.setFormId(swdDomain.getFormId());
+		swdRecordCond.setDomainId(swdDomain.getObjId());
+
+		long totalCount = getSwdManager().getRecordSize(userId, swdRecordCond);
+
+		int currentPage = params.getPageNumber();
+		int pageCount = params.getCountInPage();
+		SortingField sf = params.getSortingField();
+
+		String fieldName = "";
+		boolean isAsc;
+
+		if (sf != null) {
+			fieldName  = CommonUtil.toDefault("createdTime" , sf.getFiieldId());
+			isAsc =  sf.isAscending();
+		} else {
+			fieldName = "createdTime";
+			isAsc = false;
+		}
+		swdRecordCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
+
+		swdRecordCond.setPageNo(currentPage);
+		swdRecordCond.setPageSize(pageCount);
+
+		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
+
+		InstanceInfoList instanceList = new InstanceInfoList();
+		instanceList.setInstanceDatas(ModelConverterInfo.getIWInstanceInfoArrayBySwdRecordArray(swdRecords));
+		instanceList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+		instanceList.setCountInPage(pageCount);
+		instanceList.setTotalPages((int)totalCount);
+		instanceList.setCurrentPage(currentPage);
+
+		return instanceList;
+	}
+
 	@Override
 	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
 		

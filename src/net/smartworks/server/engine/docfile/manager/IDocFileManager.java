@@ -15,8 +15,6 @@ import net.smartworks.server.engine.docfile.exception.DocFileException;
 import net.smartworks.server.engine.docfile.model.IDocumentModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 
-import org.apache.commons.fileupload.FileItem;
-
 public interface IDocFileManager extends IManager {
 
 /*	public DocFile getDocFile(String user, String objId, String level) throws DocFileException;
@@ -36,7 +34,6 @@ public interface IDocFileManager extends IManager {
 	public List<IFileModel> findFileGroup(String groupId) throws DocFileException;
 	public List<String> findFileIdListByGroup(String groupId) throws DocFileException;
 
-	public String createDocument(String userId, String groupId, IDocumentModel document, List<FileItem> fileList) throws DocFileException;
 	public void updateDocument(String userId, IDocumentModel document) throws DocFileException;
 	public IDocumentModel retrieveDocument(String documentId) throws DocFileException;
 	public IDocumentModel retrieveDocumentByGroupId(String fileGroupId) throws DocFileException;

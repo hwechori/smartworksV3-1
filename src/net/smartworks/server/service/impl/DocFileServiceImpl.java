@@ -10,10 +10,9 @@ package net.smartworks.server.service.impl;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.server.engine.common.util.CommonUtil;
@@ -23,10 +22,9 @@ import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.service.IDocFileService;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Service
 public class DocFileServiceImpl implements IDocFileService {
@@ -35,26 +33,31 @@ public class DocFileServiceImpl implements IDocFileService {
 		return SwManagerFactory.getInstance().getDocManager();
 	}
 
-	private ServletConfig config;
-
 	public String uploadFile(HttpServletRequest request) throws Exception {
 
 		String userId = CommonUtil.toNotNull(request.getParameter("userId"));
 		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));	
-		String fileSaveTempPath = config.getServletContext().getRealPath("/uploadDataTemp/");
+		//String fileSaveTempPath = request.getSession().getServletContext().getRealPath("/uploadDataTemp/");
 
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-		factory.setSizeThreshold(1024 * 10);
-		factory.setRepository(new File(fileSaveTempPath));
-		ServletFileUpload upload = new ServletFileUpload(factory);
-		List items = upload.parseRequest(request);
-	 	upload.setSizeMax(1024 * 1024 * 1000);
+/*		DiskFileItemFactory factory = new DiskFileItemFactory();
+		factory.setSizeThreshold(1024 * 10);*/
+		//factory.setRepository(new File(fileSaveTempPath));
+		//ServletFileUpload upload = new ServletFileUpload(factory);
+		//List items = upload.parseRequest(request);
+	 	//upload.setSizeMax(1024 * 1024 * 1000);
 
-		List<IFileModel> docList = new ArrayList<IFileModel>();			
- 		Iterator<FileItem> itemIter = items.iterator();
+		List<IFileModel> docList = new ArrayList<IFileModel>();
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        Map<String, MultipartFile> files = multipartRequest.getFileMap();
 
+        for(String fileName : files.keySet()) {
+        	MultipartFile mf = files.get(fileName);
+        	IFileModel doc = new HbFileModel();
+        	doc.setMultipartFile(mf);
+        	docList.add(doc);
+        }
  		// 첨부 파일인 경우에는 첨부 파일 하나당 문서 모델 하나를 생성한다.
- 		while(itemIter.hasNext()) {
+/* 		while(itemIter.hasNext()) {
 			FileItem item = itemIter.next();
 
 			if(item.isFormField())
@@ -63,7 +66,7 @@ public class DocFileServiceImpl implements IDocFileService {
 			IFileModel doc = new HbFileModel();
 	    	doc.setFileItem(item);
 			docList.add(doc);
- 		}
+ 		}*/
 
 		groupId = getDocManager().createFileList(userId, (groupId.equals("") ? null : groupId), docList);
 
