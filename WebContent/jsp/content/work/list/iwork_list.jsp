@@ -227,7 +227,7 @@
 								<fmt:message key="common.title.instance_list" />
 							</div>
 							<div class="po_left">
-								<div class="srch">
+								<div class="srch srch_wsize">
 									<input id="" class="input" type="text"
 										placeholder="<fmt:message key='search.search_work' />">
 									<button onclick=""
@@ -306,7 +306,6 @@
 											}
 										}
 									%>
-									<
 									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
 											key='common.title.last_modified_date' /></th>
 								</tr>
