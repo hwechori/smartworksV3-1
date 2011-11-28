@@ -414,6 +414,5 @@ $(function() {
 		+ "<span class='btn_x_gr'><a class='js_remove_file' href=''> x</a></span></span>";
 		target.html(newHTML);
 		$(target).find('span.js_file_item').add(e.target);
-		alert('added');
 	});	
 });

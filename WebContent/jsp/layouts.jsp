@@ -99,7 +99,8 @@ currentUser = {
 	</fmt:message> <sec:authentication property="principal.name" /> <sec:authorize
 		access="hasRole('ADMINISTRATOR')"> 
 		(ADMIN)
-	</sec:authorize></title>
+	</sec:authorize>
+</title>
 
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
@@ -125,38 +126,38 @@ currentUser = {
 
 <script type="text/javascript">
 	smartTalk.init();
-/* 	var repeat1 = function() {
-		clearInterval(timer);
-		smartTalk.publishBcast(new Array(
-				" Hello, this is SmartWorks!! Welcome~~",
-				"오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
-	};
-	smartTalk.publishNoticeCount({
-		type : 0,
-		count : 0
-	});
-	smartTalk.publishNoticeCount({
-		type : 1,
-		count : 1
-	});
-	smartTalk.publishNoticeCount({
-		type : 2,
-		count : 2
-	});
-	smartTalk.publishNoticeCount({
-		type : 3,
-		count : 3
-	});
-	smartTalk.publishNoticeCount({
-		type : 4,
-		count : 4
-	});
-	smartTalk.publishNoticeCount({
-		type : 5,
-		count : 5
-	});
+	/* 	var repeat1 = function() {
+	 clearInterval(timer);
+	 smartTalk.publishBcast(new Array(
+	 " Hello, this is SmartWorks!! Welcome~~",
+	 "오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
+	 };
+	 smartTalk.publishNoticeCount({
+	 type : 0,
+	 count : 0
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 1,
+	 count : 1
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 2,
+	 count : 2
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 3,
+	 count : 3
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 4,
+	 count : 4
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 5,
+	 count : 5
+	 });
 
- */	setTimeout(function() {
+	 */setTimeout(function() {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
 				+ swSubject.BROADCASTING, {
 			msgType : msgType.AVAILABLE_CHATTERS,
@@ -176,7 +177,6 @@ currentUser = {
 			})
 		});
 	}, 5000);
-
 </script>
 
 </head>
@@ -215,9 +215,6 @@ currentUser = {
 		<!-- Footer //-->
 
 	</div>
-
-	<div class="js_chatting_box_list">
-	</div>
-
+ 	<jsp:include page="/jsp/chatting/chatter_list.jsp" />
 </body>
 </html>

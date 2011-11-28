@@ -37,7 +37,6 @@ function startChattingWindow(message) {
 			target.append(chattingBox);
 			updateChattingBoxTitle(chatId, chatterInfos);
 			for ( var i = 0; i < chatterInfos.length; i++){
-				alert(chatterInfos[i].status);
 				updateChatterStatus(chatId, chatterInfos[i],
 						chatterInfos[i].status);
 			}
@@ -66,6 +65,7 @@ function writingStatusOnChatId(chatId, sender) {
 }
 
 function updateChatterStatus(chatId, chatterInfo, status) {
+	if(!chatterInfo) return;
 	var userId = chatterInfo.userId;
 	var longName = chatterInfo.longName;
 	var target = $('#' + chatId).find('div.js_chatter_status_list');
@@ -81,6 +81,8 @@ function updateChatterStatus(chatId, chatterInfo, status) {
 				+ "'><span class='t_name'>" + longName
 				+ "</span>님은 오프라인이므로 쪽지로 보내집니다</div>";
 		target.append(data);
+	}else if(status === userStatus.LEAVED){
+		
 	}
 }
 
@@ -99,6 +101,7 @@ $('#available_chatter_list a').live('click', function(e) {
 		longName : longName,
 		minPicture : minPicture
 	}));
+	input.parents('div.js_chatter_list').find('div.js_chatter_search_area').slideUp(500);
 	return false;
 });
 
@@ -144,6 +147,14 @@ $('a.js_admin_chatting_box').live(
 			input.parents('div.js_chatting_header:first')
 					.siblings('div.js_chatting_body').children(
 							'div.js_chatters_search_box').slideDown(500);
+			return false;
+		});
+
+$('a.js_toggle_chatter_list').live(
+		'click',
+		function(e) {
+			var input = $(e.target);
+			input.parents('div.js_chatter_list').find('div.js_chatter_search_area').slideToggle(500);
 			return false;
 		});
 

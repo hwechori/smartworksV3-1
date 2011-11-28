@@ -4,26 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
-
-<script type="text/javascript">
-
-function updateAvailableChatters(userInfos){
-	if(userInfos != null){
-		var data = "";
-		var length = userInfos.length;
-		for(var i=0; i<length; i++){
-			data = data + "<a href='' userId='" + userInfos[i].userId + "'><img src='" + userInfos[i].minPicture + "' title='" + userInfos[i].longName + "' /></a>";
-		}		
-		$("#available_chatter_list").html(data);
-	}
-}
-</script>
-<%
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	UserInfo[] chatters = smartWorks.getAvailableChatter(cUser.getCompanyId(), cUser.getId());
-%>
-
+<%-- 
 <ul>
 	<li class="nav_srch">
 		<div class="srch srch_wsize">
@@ -44,3 +25,4 @@ function updateAvailableChatters(userInfos){
  %>
 	</li>
 </ul>
+ --%>
