@@ -83,6 +83,15 @@ public class SearchController {
 				"");
 	}
 
+	@RequestMapping("/chatter_name")
+	public ModelAndView chatterName(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/search/chatter_name.jsp",
+				"");
+	}
+
 	@RequestMapping("/user_name")
 	public ModelAndView userName(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

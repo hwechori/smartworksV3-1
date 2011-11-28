@@ -99,8 +99,7 @@ currentUser = {
 	</fmt:message> <sec:authentication property="principal.name" /> <sec:authorize
 		access="hasRole('ADMINISTRATOR')"> 
 		(ADMIN)
-	</sec:authorize>
-</title>
+	</sec:authorize></title>
 
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
@@ -120,8 +119,9 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
-<script type="text/javascript" src="http://192.168.0.8:8000/faye.js"></script>
-<script type="text/javascript" src="js/sw/sw-messaging.js"></script>
+<script type="text/javascript" src="http://localhost:8000/faye.js"></script>
+<script type="text/javascript" src="js/sw/sw-faye.js"></script>
+<script type="text/javascript" src="js/sw/sw-chat.js"></script>
 
 <script type="text/javascript">
 	smartTalk.init();
@@ -156,8 +156,7 @@ currentUser = {
 		count : 5
 	});
 
-	var sendChatterList = function() {
-		clearInterval(timer);
+	setTimeout(function() {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
 				+ swSubject.BROADCASTING, {
 			msgType : msgType.AVAILABLE_CHATTERS,
@@ -176,32 +175,8 @@ currentUser = {
 				minPicture : "images/hsshin@maninsoft.co.kr_min.jpg"
 			})
 		});
-	};
-	var timer = setInterval(sendChatterList, 5000);
+	}, 5000);
 
-	function startChattingWindow(message) {
-		var userInfos = message.userInfos;
-		var title = "";
-		if (userInfos != null && userInfos.length > 0) {
-			var chatterList = new Array();
-			for(var i=0, j=0; i<userInfos.length; i++){
-				if(userInfos[i].userId !== currentUser.userId) chatterList[j++] = userInfos[i];
-			}
-			title = chatterList[0].longName;
-			if (chatterList.length > 2) {
-				title = title + "외 " + (chatterList.length - 1) + "명";
-			} else {
-				for ( var i = 1; i < chatterList.length; i++) {
-					title = title + "," + chatterList[i].longName;
-				}
-				title = title + "님";
-			}
-		}
-		var target = $('div.js_chatting_box')
-		target.find('div.js_chatting_title').html(title);
-		target.attr("id", message.chatId);
-		target.slideDown();
-	}
 </script>
 
 </head>
@@ -241,8 +216,7 @@ currentUser = {
 
 	</div>
 
-	<div class="js_chatting_box" style="display: none">
-			<jsp:include page="/jsp/chatting/chatting_box.jsp" />
+	<div class="js_chatting_box_list">
 	</div>
 
 </body>

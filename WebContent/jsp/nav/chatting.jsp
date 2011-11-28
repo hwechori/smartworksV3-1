@@ -12,7 +12,6 @@ function updateAvailableChatters(userInfos){
 		var data = "";
 		var length = userInfos.length;
 		for(var i=0; i<length; i++){
-			console.log(userInfos[i]);
 			data = data + "<a href='' userId='" + userInfos[i].userId + "'><img src='" + userInfos[i].minPicture + "' title='" + userInfos[i].longName + "' /></a>";
 		}		
 		$("#available_chatter_list").html(data);
