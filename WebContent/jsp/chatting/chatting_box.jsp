@@ -66,10 +66,12 @@
 					<div class='js_srch_x'></div>
 
 				</div>
-				<div class="js_chatter_list" style="display: none"></div>
 			</div>
 			<a href="" class="js_add_chatters"><span class="btn_wh"> <span class="Btn01Start"></span> <span
 				class="Btn01Center">추가</span> <span class="Btn01End"></span> </span></a>
+		</div>
+		
+		<div class="js_chatter_list chatter_list_area" style="display: none"></div>
 			<!-- 친구 검색, 추가//-->
 
 			<!-- 채팅 내용 -->

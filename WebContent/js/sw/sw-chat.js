@@ -136,7 +136,7 @@
 		var input = $(e.target);
 		var comName = input.attr('comName');
 		var comId = input.attr('comId');
-		var target = input.parents('div.js_chatter_list').siblings('div.js_selected_chatters');
+		var target = input.parents('div.js_chatting_message_list').find('div.js_selected_chatters');
 		var oldHTML = target.html();
 		if (oldHTML == null)
 			oldHTML = "";
