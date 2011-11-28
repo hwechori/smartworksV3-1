@@ -25,7 +25,7 @@
             <!-- 타이틀 -->
             	<div class="body_titl_pic">
 
-                    <div class="">
+                    <div class="title_section">
                         <div class="noti_pic"><img src="images/pic_size_48.jpg" /></div>
                         <div class="noti_in_bodytitle">
                             <span class="t_name">Snagkil Ahn</span><span class="t_date"> 2011.11.15</span>
@@ -34,13 +34,13 @@
                     </div>
                     
             <!-- 우측 버튼-->
-             <div class="txt_btn">
+             <div class="txt_btn first">
                 <div class="po_right"><a href="">주소복사</a></div>
             </div>
             
             <div class="txt_btn">
-                <div class="po_right"><a href=""><img src="images/btn_print.gif" alt="프린트" /></a></div>
-                <div class="po_right"><a href=""><img src="images/btn_mail.gif" alt="메일" /></a></div>
+                <div class="po_right"><a href=""><img class="ico_print"></a></div>
+                <div class="po_right"><a href=""><img class="ico_mail"></a></div>
                 <div class="po_right"><a href="">프로세스 다이어그램보기▼</a></div>
             </div>
             <!-- 우측 버튼 -->
@@ -51,140 +51,129 @@
  
             
 <!-- 프로세스 영역 -->
-<div class="contents_space">
+<div class="define_space">
+        <div class="proce_section">
+        
+        <!-- 방향 Prev -->
+        <div class="float_left"><a href=""><img class="proc_btn_prev"></a></div>
+        
+        <!-- 시작
+        <div class="proc_start_compl float_left padding_r10"> 시작 </div>
+        	화살표
+        <div class="proc_arr_next float_left padding_r10"></div>
+        -->
+        
+        <!-- 태스크 시작-->
         <div class="proce_space">
         
-        <!-- 시작 --> 
-        <div class="proc_start_compl float_left padding_r10"> 시작 </div>
-        <!-- 시작 //--> 
-        
-        <!--화살표-->
-        <div class="proc_arr_next float_left padding_r10"></div>
-        <!--화살표-->
-        
-        <!-- 태스크 --> 
-        <div class="proc_task_compl float_left padding_r10">
-        	<a href="">
-            <span class="pstart"></span>
-            <span class="pcenter">
-            	<!-- task 정보 -->
-            	<div class="float_left">
-                <img align="bottom" src="images/pic_size_29.jpg">
-                </div>
-                <div class="noti_in">
-                <span>근태계 기안</span>
-                <div class="t_date">2011.11.15 14:00</div>
-                </div>
-                <!-- task 정보 //-->
-            </span>
-            <span class="pend"></span>
-            </a>
-        </div>
-        <!-- 태스크 //--> 
-        
-        <!--화살표-->
-        <div class="proc_arr_next float_left padding_r10"></div>
-        <!--화살표-->
-        
-        <!-- 태스크 --> 
-        <div class="proc_task_yet float_left padding_r10">
-        	<a href="">
-            <span class="pstart"></span>
-            <span class="pcenter">
-            	<!-- task 정보 -->
-            	<div class="float_left">
-                <img align="bottom" src="images/pic_size_29.jpg">
-                </div>
-                <div class="noti_in">
-                <span>이력 기록</span>
-                <div class="t_date">2011.11.15 14:00</div>
-                </div>
-                <!-- task 정보 //-->
-            </span>
-            <span class="pend"></span>
-            </a>
-        </div>
-        <!-- 태스크 //--> 
-        
-        <!--화살표-->
-        <div class="proc_arr_next float_left padding_r10"></div>
-        <!--화살표-->
-        
-       <!-- 태스크 --> 
-        <div class="proc_task_rturn float_left padding_r10">
-        	<a href="">
-            <span class="pstart"></span>
-            <span class="pcenter">
-            	<!-- task 정보 -->
-            	<div class="float_left">
-                <img align="bottom" src="images/pic_size_29.jpg">
-                </div>
-                <div class="noti_in">
-                <span>개인별 근태현황</span>
-                <div class="t_date">2011.11.15 14:00</div>
-                </div>
-                <!-- task 정보 //-->
-            </span>
-            <span class="pend"></span>
-            </a>
-        </div>
-        <!-- 태스크 //-->
-        
-        <!--화살표-->
-        <div class="proc_arr_next float_left padding_r10"></div>
-        <!--화살표-->
-        
-        <!-- 태스크 --> 
-        <div class="proc_task_ing float_left padding_r10">
-        	<a href="">
-            <span class="pstart"></span>
-            <span class="pcenter">
-            	<!-- task 정보 -->
-            	<div class="float_left">
-                <img align="bottom" src="images/pic_size_29.jpg">
-                </div>
-                <div class="noti_in">
-                <span>승인자 결재</span>
-                <div class="t_date">2011.11.15 14:00</div>
-                </div>
-                <!-- task 정보 //-->
-            </span>
-            <span class="pend"></span>
-            </a>
-        </div>
-        <!-- 태스크 //-->
-        
-        <!--화살표-->
-        <div class="proc_arr_next float_left padding_r10"></div>
-        <!--화살표-->
-        
-        <!-- 태스크 --> 
-        <div class="proc_task_dlay float_left padding_r10">
-        	<a href="">
-            <span class="pstart"></span>
-            <span class="pcenter">
-            	<!-- task 정보 -->
-            	<div class="float_left">
-                <img align="bottom" src="images/pic_size_29.jpg">
-                </div>
-                <div class="noti_in">
-                <span>승인자 결재</span>
-                <div class="t_date">2011.11.15 14:00</div>
-                </div>
-                <!-- task 정보 //-->
-            </span>
-            <span class="pend"></span>
-            </a>
-        </div>
-        <!-- 태스크 //-->        
+            <!-- 태스크 --> 
+            <ul>
+            <li class="proc_task_compl float_left padding_r10">
+                <a href="">
+                <span class="pstart"></span>
+                <span class="pcenter">
+                    <!-- task 정보 -->
+                    <div class="float_left">
+                    <img align="bottom" src="images/pic_size_29.jpg">
+                    </div>
+                    <div class="noti_in">
+                    <span>근태계 기안</span>
+                    <div class="t_date">2011.11.15 14:00</div>
+                    </div>
+                    <!-- task 정보 //-->
+                </span>
+                <span class="pend"></span>
+                </a>
+            </li>
+            <!-- 태스크 //--> 
+            
+            <!--화살표-->
+            <li class="proc_arr_next float_left padding_r10"></li>
+            <!--화살표-->
+            
+            <!-- 태스크 --> 
+            <li class="proc_task_yet float_left padding_r10">
+                <a href="">
+                <span class="pstart"></span>
+                <span class="pcenter">
+                    <!-- task 정보 -->
+                    <div class="float_left">
+                    <img align="bottom" src="images/pic_size_29.jpg">
+                    </div>
+                    <div class="noti_in">
+                    <span>이력 기록</span>
+                    <div class="t_date">2011.11.15 14:00</div>
+                    </div>
+                    <!-- task 정보 //-->
+                </span>
+                <span class="pend"></span>
+                </a>
+            </li>
+            <!-- 태스크 //--> 
+            
+            <!--화살표-->
+            <li class="proc_arr_next float_left padding_r10"></li>
+            <!--화살표-->
+            
+           <!-- 태스크 --> 
+            <li class="proc_task_rturn float_left padding_r10">
+                <a href="">
+                <span class="pstart"></span>
+                <span class="pcenter">
+                    <!-- task 정보 -->
+                    <div class="float_left">
+                    <img align="bottom" src="images/pic_size_29.jpg">
+                    </div>
+                    <div class="noti_in">
+                    <span>개인별 근태현황</span>
+                    <div class="t_date">2011.11.15 14:00</div>
+                    </div>
+                    <!-- task 정보 //-->
+                </span>
+                <span class="pend"></span>
+                </a>
+            </li>
+            <!-- 태스크 //-->
+            
+            <!--화살표-->
+            <li class="proc_arr_next float_left padding_r10"></li>
+            <!--화살표-->
+            
+            <!-- 태스크 --> 
+            <li class="proc_task_ing float_left padding_r10">
+                <a href="">
+                <span class="pstart"></span>
+                <span class="pcenter">
+                    <!-- task 정보 -->
+                    <div class="float_left">
+                    <img align="bottom" src="images/pic_size_29.jpg">
+                    </div>
+                    <div class="noti_in">
+                    <span>승인자 결재</span>
+                    <div class="t_date">2011.11.15 14:00</div>
+                    </div>
+                    <!-- task 정보 //-->
+                </span>
+                <span class="pend"></span>
+                </a>
+            </li>
+            <!-- 태스크 //-->
+            </ul>
         
         </div>
+        <!-- 태스크 시작//-->
+        
+        <!-- 방향 Next -->
+        <div class="float_right"><a href=""><img class="proc_btn_next"></a></div>
+
+	</div>
 </div>
 <!--프로세스 영역//-->
 
+
 <!-- 업무- 근태계 기안 -->
 <div class="contents_space">
-    <div class="up_point posit_first"></div>
+    <div class="up_point posit_default"></div>
         <div class="form_wrap up up_padding">
         
         	<!-- 컨텐츠-->
@@ -275,7 +264,7 @@
 <!--댓글 영역 -->
 
 <div class="gr_up_point posit_point"></div>
-  <!-- 댓글 목록 -->
+  <!-- 댓글 레이아웃 -->
   <div class="gr_portlet">
     <div class="gr_portlet_t">
       <div class="gr_portlet_tl"></div>
@@ -333,7 +322,7 @@
             <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
             <div class="noti_in">
                 <span class="t_name">Minashin</span><span class="arr">▶</span><span class="ico_division_s">마케팅/디자인팀</span><span class="t_date"> 2011.10.13</span>
-                <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^</div>
+                <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^ (메모는 타이틀 성격이 아니기 때문에 볼드가 안들어갑니다.)</div>
             </div>
         </div>
     </li>
@@ -342,7 +331,52 @@
             <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
             <div class="noti_in">
                 <span class="t_name">Minashin</span><span class="arr">▶</span><span class="ico_division_s">마케팅/디자인팀</span><span class="t_date"> 2011.10.13</span>
-                <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^</div>
+                <div>
+                <strong>워크샵 사진입니다...즐감하세요~ (타이틀은 볼드가 들어가는 것으로 통일입니다~)</strong>
+                <div>이미지 파일에 대한 설명 내용이 있다면 이 곳에 들어갑니다.. 즐거웠던 웍샵사진~~ 어질어질했던 메스꺼움의 기억이 되살아나요~~--;</div>
+                	<div><img src="images/up_image.jpg" /></div>
+                    
+   <!-- 댓글 -->
+   <div class="replay_point posit_replay"></div>
+   <div class="replay_section">
+   
+        <div class="list_replay">
+            <ul>
+            <li><img class="repl_tinfo" /><a href=""><strong>7</strong>개의 댓글 모두 보기</a></li>
+            <li>
+                    <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
+                    <div class="noti_in">
+                        <span class="t_name">Minashin</span><span class="t_date"> 2011.10.13</span>
+                        <div>와우~ 멋져요~</div>
+                </div>
+            </li>
+            <li>
+                    <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
+                    <div class="noti_in">
+                        <span class="t_name">Minashin</span><span class="t_date"> 2011.10.13</span>
+                        <div>재미있었겠네요~</div>
+                    </div>
+            </li>
+            <li>
+                <div class="det_title">
+                    <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
+                    <div class="noti_in">
+                        <span class="t_name">Minashin</span><span class="t_date"> 2011.10.13</span>
+                        <div>가을이 다 지나가부렀네요~~--;</div>
+                    </div>
+                </div>
+            </li>
+            </ul>
+        </div>
+        
+        <div class="replay_input">
+        <textarea class="up_textarea" rows="1" cols="" name="txtaEventContent">댓글을 입력하세요!</textarea>
+        </div>
+    
+    </div>
+    <!-- 댓글 //-->
+                    
+                </div>
             </div>
         </div>
     </li>
@@ -351,7 +385,8 @@
             <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
             <div class="noti_in">
                 <span class="t_name">Minashin</span><span class="arr">▶</span><span class="ico_division_s">마케팅/디자인팀</span><span class="t_date"> 2011.10.13</span>
-                <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^</div>
+                <div><img class="bu_file" /> <a href="">BT-case.ppt [678kb]</a> <strong>하반기 마케팅 기획 및 B2B 마케팅 자료입니다</strong></div>
+                <div>관련 설명이 들어갑니다... 없으면 안나오구요~^^ 내용이 많으면 줄바꿈됩니다...줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~</div>
             </div>
         </div>
     </li>
@@ -363,7 +398,7 @@
     </div>
     <div class="gr_portlet_b" style="display: block;"></div>
     </div>
-  <!-- 댓글 목록 //-->
+  <!-- 댓글 레이아웃 //-->
   
 <!--댓글 영역//-->
 

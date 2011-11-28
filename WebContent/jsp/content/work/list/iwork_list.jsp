@@ -38,19 +38,39 @@
 			<!-- 타이틀 -->
 			<div class="body_titl">
 				<div class="body_titl_iworks title"><%=work.getName()%></div>
-				
-				<!-- 최종수정자 -->
 
-			<div class="txt_btn">
-					<div class="po_right">
-					<img clss="margin_b2" title="<fmt:message key="common.title.last_modifier" />" src="<%=work.getLastModifier().getMinPicture()%>">
-					<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
-					<span class="t_date"><%=work.getLastModifiedDate().toLocalString()%>
-					</span>
-			</div>
-			<!-- 최종수정자 //-->
+				<!-- 우측 버튼 -->
+				<div class="txt_btn padding_b6">
 
-				
+					<!-- 수정하기 -->
+					<div class="float_right space_l5">
+						<%
+							if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
+						%>
+						<span class="btn_gray"> <span class="Btn01Start"></span> <span
+							class="Btn01Center"><fmt:message
+									key='common.button.modify' /> </span> <span class="Btn01End"></span>
+						</span>
+						<%
+							}
+						%>
+					</div>
+					<!-- 수정하기 //-->
+
+					<!-- 최종수정자 -->
+					<div class="float_right padding_t5">
+						<img clss="margin_b2"
+							title="<fmt:message key="common.title.last_modifier" />"
+							src="<%=work.getLastModifier().getMinPicture()%>"> <span
+							class="t_name"><%=work.getLastModifier().getLongName()%></span> <span
+							class="t_date"><%=work.getLastModifiedDate().toLocalString()%>
+						</span>
+					</div>
+					<!-- 최종수정자 //-->
+
+				</div>
+				<!-- 우측 버튼 //-->
+
 
 
 
@@ -60,14 +80,14 @@
 
 
 			<!-- 컨텐츠 -->
-			<div class="define_space js_content_div">
+			<div class="contents_space js_content_div">
 
 				<!-- 업무 정의 영역 -->
 				<div class=""><%=work.getDesc()%></div>
 				<!-- 업무 정의 영역 //-->
 
 				<!-- 버튼 영역-->
-				<div class="txt_btn margin_t10">
+				<div class="txt_btn solid_line_sb margin_t15">
 					<span class="po_left bu_work_explan"> <a
 						class="js_view_work_manual" href=""><fmt:message
 								key="common.button.view.work_manual" />▼</a> <a
@@ -158,35 +178,13 @@
 				<jsp:include page="/jsp/content/work/list/iwork_manual.jsp"></jsp:include>
 			</div>
 
-			<div class="define_space">
-				<!-- 라인 -->
-				<div class="solid_line_s margin_b5"></div>
-
-				<!-- 수정하기 -->
-				<div class="float_right space_l5">
-					<%
-						if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
-					%>
-					<span class="btn_gray"> <span class="Btn01Start"></span> <span
-						class="Btn01Center"><fmt:message key='common.button.modify' />
-					</span> <span class="Btn01End"></span> </span>
-					<%
-						}
-					%>
-				</div>
-				<!-- 수정하기 //-->
-
-
-
-			</div>
-
 			<!-- 목록영역  -->
 			<div class="contents_space">
 
 				<!--통계메뉴 영역-->
-				<div class="txt_btn margin_b2">
+				<div class="txt_btn margin_b5 margin_t10"">
 
-					<div class="po_right">
+					<div class="po_right bu_n_stat">
 						<a href="">새 통계분석 만들기</a>
 					</div>
 					<div class="po_right bu_stat">
@@ -196,7 +194,8 @@
 									for (Report report : reports) {
 
 										String reportName = null;
-										if (report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())) {
+										if (report.getOwner().getId()
+												.equals(SmartUtil.getSystemUser().getId())) {
 							%>
 							<option value="<%=report.getName()%>">
 								<fmt:message key="<%=report.getName()%>" />
@@ -317,11 +316,11 @@
 							</tbody>
 						</table>
 					</div>
+
 					<!-- 목록 테이블 //-->
 
 				</div>
-			<!-- 목록영역 // -->
-
+				<!-- 목록영역 // -->
 		</ul>
 	</div>
 	<div class="portlet_b" style="display: block;"></div>

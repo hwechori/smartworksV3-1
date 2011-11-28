@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.instance.WorkInstance"%>
+<%@page import="net.smartworks.server.service.impl.InstanceServiceImpl"%>
 <%@page import="net.smartworks.server.service.impl.WorkServiceImpl"%>
 <%@page import="net.smartworks.model.work.Work"%>
 <%@page import="net.smartworks.server.service.IWorkService"%>
@@ -39,12 +41,13 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-		WorkServiceImpl smartworks = (WorkServiceImpl)SmartUtil.getBean("workServiceImpl", request);
-		Work work = smartworks.getProcessWorkById("semiteq", "kmyu@maninsoft.co.kr", "pkg_253dbe2d0aa94c21b2e3148dcaadc7df");
-		System.out.println(work.getName());
+		InstanceServiceImpl smartworks = (InstanceServiceImpl)SmartUtil.getBean("instanceServiceImpl", request);
+		WorkInstance work = smartworks.getWorkInstanceById("semiteq", "kmyu@maninsoft.co.kr", "5ef4e5632c779b42012d59a1d7413022");
+		System.out.println(work.getSubject());
 			
 %>
 <textarea style="width:800px;height:400px;">
+<%= work.getSubject() %>
 </textarea>
 </body>
 </html>

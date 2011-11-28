@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
@@ -277,7 +278,24 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	@Override
 	public WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception {
+		//TODO 인스턴스로 패키지 타입을 알수가 없다 테이블에 컬럼을 생성하기는 했지만 초기 테스트시에는 데이터가 없기 때문에
+		//인스턴스에 diagramId = pkgId 가 있으면 프로세스 업무 없으면 정보관리 업무로 판단한다
+
+		PrcProcessInst prcInst = getPrcManager().getProcessInst(userId, instanceId, IManager.LEVEL_LITE);
+		if (prcInst == null)
+			return null;
+		String packageId = prcInst.getDiagramId();
 		
-		return SmartTest.getWorkInstanceById(instanceId);
-	}		
+		if (!CommonUtil.isEmpty(packageId)) {
+			return getProcessWorkInstanceById(companyId, userId, prcInst);
+		} else {
+			return SmartTest.getWorkInstanceById(instanceId);
+		}
+	}	
+	
+	public ProcessWorkInstance getProcessWorkInstanceById(String companyId, String userId, PrcProcessInst prcInst) throws Exception {
+		
+		return ModelConverter.getProcessWorkInstanceByPrcProcessInst(userId, null, prcInst);
+		
+	}
 }
