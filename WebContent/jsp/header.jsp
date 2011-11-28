@@ -157,7 +157,7 @@ function updateNoticeCount(message){
 </div>
 
 <div class="global_srch">
-	<div class="srch">
+	<div class="srch srch_wsize">
 		<input id="" class="input" type="text"
 			title="<fmt:message key='search.global_search'/>"
 			placeholder="<fmt:message key='search.global_search'/>">

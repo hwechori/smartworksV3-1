@@ -98,13 +98,13 @@ body, #nav {background: url("../images/bg_body.jpg");}
     border-color: #c7c7c7;
     border-style: solid;
     border-width: 1px;
-	width:203px;
+	/* width:203px; */
 	height:16px;
 	}
 .srch .input {width:170px;}
 .srch button, .srch .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
-	
+.srch_wsize {width:203px;}
 	
 /*Left Navigation*/	
 #nav {background-color:#6b6b6b;float:left;width:226px;height:100%; z-index:30;}
@@ -430,6 +430,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .t_woname {color:#23579e; font-weight:bold;}
 .t_date {font-size:11px; color:#999897; line-height:16px;}
 .t_location {font-size:11px; color:#999897; padding:}
+.t_white {font-size:12px; font-weight:normal;}
 .arr {font-size:10px; margin-right:2px;}
 
 /* Line Style */
