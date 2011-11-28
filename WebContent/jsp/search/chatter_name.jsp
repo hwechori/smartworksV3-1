@@ -17,6 +17,7 @@
 	<%
 		if(communities != null){
 			for (CommunityInfo community : communities) {
+				if(!community.getClass().equals(UserInfo.class)) continue;
 				String picName = community.getMinPicture();
 				String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + community.getId();
 				String comName = null;

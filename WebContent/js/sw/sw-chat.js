@@ -1,5 +1,4 @@
 
-
 	function updateChattingBoxTitle(chatId, chatterInfos){
 		var title = "";
 		var chatterList = new Array();
@@ -82,19 +81,25 @@
 		var userId = input.attr('userId');
 		var img = input.find('img');
 		var longName = img.attr('title');
+		var minPicture = img.attr('src');
 		smartTalk.chattingRequest(new Array({
 			userId : currentUserId,
 			longName : currentUser.longName,
+			minPicture : currentUser.minPicture
 		}, {
 			userId : userId,
 			longName : longName,
+			minPicture : minPicture
 		}));
 		return false;
 	});
 
 	$('a.js_close_chatting_box').live('click', function(e){
 		var input = $(e.target);
-		input.parents('div.js_chatting_box:first').remove();
+		var target = input.parents('div.js_chatting_box:first');
+		var chatId = target.attr('id');
+		target.remove();
+		smartTalk.stopSubOnChatId(chatId);
 		return false;
 	});
 
@@ -106,7 +111,7 @@
 		var chatterInfos = new Array();
 		for(var i=0; i<chatterList.length; i++){
 			var chatter = $(chatterList[i]);
-			chatterInfos.push({userId : chatter.attr('comId'), longName : chatter.attr('comName')}); 
+			chatterInfos.push({userId : chatter.attr('comId'), longName : chatter.attr('comName'), minPicture : chatter.attr('src')}); 
 		}
 		chatterList.remove();
 		smartTalk.addJoinChatters(chatId, chatterInfos);
