@@ -125,7 +125,7 @@ currentUser = {
 
 <script type="text/javascript">
 	smartTalk.init();
-	var repeat1 = function() {
+/* 	var repeat1 = function() {
 		clearInterval(timer);
 		smartTalk.publishBcast(new Array(
 				" Hello, this is SmartWorks!! Welcome~~",
@@ -156,7 +156,7 @@ currentUser = {
 		count : 5
 	});
 
-	setTimeout(function() {
+ */	setTimeout(function() {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
 				+ swSubject.BROADCASTING, {
 			msgType : msgType.AVAILABLE_CHATTERS,
