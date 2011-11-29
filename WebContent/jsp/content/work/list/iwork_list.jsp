@@ -182,13 +182,14 @@
 			<div class="contents_space">
 
 				<!--통계메뉴 영역-->
-				<div class="txt_btn margin_b5 margin_t10"">
+				<div class="txt_btn margin_b5 margin_t10 js_work_report">
 
 					<div class="po_right">
-						<a href="">새 통계분석 만들기</a>
+						<a href="work_report.sw?workId=<%=work.getId()%>" class="js_new_work_report">새 통계분석 만들기</a>
 					</div>
 					<div class="po_right bu_stat">
-						<select name="selMyReportList">
+						<select name="selMyReportList" class="js_select_work_report"
+										href="work_report.sw?workId=<%=workId%>">
 							<%
 								if (reports != null) {
 									for (Report report : reports) {
@@ -196,13 +197,13 @@
 										String reportName = null;
 										if (report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())) {
 							%>
-							<option value="<%=report.getName()%>">
+							<option value="<%=report.getId()%>">
 								<fmt:message key="<%=report.getName()%>" />
 							</option>
 							<%
 								} else {
 							%>
-							<option><%=report.getName()%></option>
+							<option value="<%=report.getId()%>"><%=report.getName()%></option>
 							<%
 								}
 									}
@@ -213,12 +214,15 @@
 				</div>
 
 				<!--통계메뉴 영역//-->
+				
+				<div class="js_work_report_form">
+				</div>
 
 				<!-- 목록보기 -->
-				<div class="border">
+				<div class="">
 
 					<!-- 목록보기 타이틀-->
-					<div class="list_title_space">
+					<div class="list_title_space js_work_list_title">
 
 						<div class="txt_btn posi_ab">
 
@@ -277,14 +281,14 @@
 								<a href="">엑셀로 등록하기</a>
 							</div>
 							<div class="po_right">
-								<a href="">새항목 등록하기</a>
+								<a href="new_iwork.sw?workId=<%=workId%>" class="js_create_new_work">새항목 등록하기</a>
 							</div>
 						</div>
 					</div>
 					<!-- 목록보기 타이틀-->
 
 					<!-- 상세필터 -->
-					<div id="search_filter" class="filter_section"></div>
+					<div id="search_filter" class="filter_section js_new_work_form"></div>
 					<!-- 상세필터 -->
 
 					<!-- 목록 테이블 -->

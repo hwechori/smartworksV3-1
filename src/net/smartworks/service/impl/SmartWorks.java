@@ -15,6 +15,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
+import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.EventInstance;
@@ -393,8 +394,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public Report[] getReportsByWorkId(String companyId, String userId, String workId) throws Exception {
-		return workService.getReportsByWorkId(companyId, userId, workId);
+	public Report getReportById(String companyId, String userId, String reportId) throws Exception {
+		return workService.getReportById(companyId, userId, reportId);
+	}
+
+	@Override
+	public SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception {
+		return workService.getSearchFilterById(companyId, userId, filterId);
 	}
 
 }

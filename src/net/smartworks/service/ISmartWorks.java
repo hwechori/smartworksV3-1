@@ -15,6 +15,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
+import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.EventInstance;
@@ -153,7 +154,9 @@ public interface ISmartWorks {
 	
 	public abstract WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception;
 
-	public abstract Report[] getReportsByWorkId(String companyId, String userId, String workId) throws Exception;
+	public abstract Report getReportById(String companyId, String userId, String reportId) throws Exception;
+
+	public abstract SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception;
 	
 	public abstract String setInformationWorkInstance(HttpServletRequest request) throws Exception;
 
