@@ -129,7 +129,7 @@ public class ChartReport extends Report {
 		super(id, name, type, owner, lastModifier, lastModifiedDate);
 	}
 
-	private static ChartReport getChartPCntMonthly() {
+	public static ChartReport getChartPCntMonthly() {
 		ChartReport chart = new ChartReport(CHART_PCNT_MONTHLY, CHART_PCNT_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
@@ -140,7 +140,7 @@ public class ChartReport extends Report {
 		return chart;
 	}
 
-	private static ChartReport getChartPCntMonthlyByDepartment() {
+	public static ChartReport getChartPCntMonthlyByDepartment() {
 		ChartReport chart = new ChartReport(CHART_PCNT_MONTHLY_DEPARTMENT, CHART_PCNT_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
@@ -153,7 +153,7 @@ public class ChartReport extends Report {
 		return chart;
 	}
 
-	private static ChartReport getChartPMeanMonthly() {
+	public static ChartReport getChartPMeanMonthly() {
 		ChartReport chart = new ChartReport(CHART_PMEAN_MONTHLY, CHART_PMEAN_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
@@ -164,7 +164,7 @@ public class ChartReport extends Report {
 		return chart;
 	}
 
-	private static ChartReport getChartPMeanMonthlyByDepartment() {
+	public static ChartReport getChartPMeanMonthlyByDepartment() {
 		ChartReport chart = new ChartReport(CHART_PMEAN_MONTHLY_DEPARTMENT, CHART_PMEAN_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
@@ -177,7 +177,7 @@ public class ChartReport extends Report {
 		return chart;
 	}
 
-	private static ChartReport getChartPSumMonthly() {
+	public static ChartReport getChartPSumMonthly() {
 		ChartReport chart = new ChartReport(CHART_PSUM_MONTHLY, CHART_PSUM_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
@@ -188,7 +188,7 @@ public class ChartReport extends Report {
 		return chart;
 	}
 
-	private static ChartReport getChartPSumMonthlyByDepartment() {
+	public static ChartReport getChartPSumMonthlyByDepartment() {
 		ChartReport chart = new ChartReport(CHART_PSUM_MONTHLY_DEPARTMENT, CHART_PSUM_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
@@ -201,7 +201,7 @@ public class ChartReport extends Report {
 		return chart;
 	}
 
-	private static ChartReport getChartPMaxMonthly() {
+	public static ChartReport getChartPMaxMonthly() {
 		ChartReport chart = new ChartReport(CHART_PMAX_MONTHLY, CHART_PMAX_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
@@ -212,7 +212,7 @@ public class ChartReport extends Report {
 		return chart;
 	}
 
-	private static ChartReport getChartPMaxMonthlyByDepartment() {
+	public static ChartReport getChartPMaxMonthlyByDepartment() {
 		ChartReport chart = new ChartReport(CHART_PMAX_MONTHLY_DEPARTMENT, CHART_PMAX_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
@@ -225,7 +225,7 @@ public class ChartReport extends Report {
 		return chart;
 	}
 
-	private static ChartReport getChartPMinMonthly() {
+	public static ChartReport getChartPMinMonthly() {
 		ChartReport chart = new ChartReport(CHART_PMIN_MONTHLY, CHART_PMIN_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
@@ -236,7 +236,7 @@ public class ChartReport extends Report {
 		return chart;
 	}
 
-	private static ChartReport getChartPMinMonthlyByDepartment() {
+	public static ChartReport getChartPMinMonthlyByDepartment() {
 		ChartReport chart = new ChartReport(CHART_PMIN_MONTHLY_DEPARTMENT, CHART_PMIN_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
