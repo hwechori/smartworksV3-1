@@ -128,7 +128,7 @@ $('div.js_chatting_header')
 		.live(
 				'click',
 				function(e) {
-					var input = $(e.target);
+					var input = $(e.target).parents('div.js_chatting_box:first').children('div.js_chatting_header');
 					if (input.children('div.js_chatting_title_icons').css(
 							"display") === "none") {
 						input.children('div.js_chatting_title_icons:first')

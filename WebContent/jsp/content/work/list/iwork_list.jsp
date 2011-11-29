@@ -184,7 +184,7 @@
 				<!--통계메뉴 영역-->
 				<div class="txt_btn margin_b5 margin_t10"">
 
-					<div class="po_right bu_n_stat">
+					<div class="po_right">
 						<a href="">새 통계분석 만들기</a>
 					</div>
 					<div class="po_right bu_stat">
