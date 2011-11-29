@@ -19,7 +19,8 @@
 			var length = userInfos.length;
 			for ( var i = 0; i < length; i++) {
 				data = data
-						+ "<li><a href='' userId='" + userInfos[i].userId + "'><img src='" + userInfos[i].minPicture + "' title='" + userInfos[i].longName + "' /></a></li>";
+						+ "<li><a href='' userId='" + userInfos[i].userId + "'><span><img src='" + userInfos[i].minPicture + "' title='" + userInfos[i].longName + "' />"
+						+ userInfos[i].longName + "</span></a></li>";
 			}
 			$("#available_chatter_list").html(data).parents(
 					'div.js_chatter_list').find('span.js_chatters_number')
@@ -56,16 +57,16 @@
 	</div>
 	<!-- 상단 //-->
 
-	<div class="js_chatter_search_area" style="display:none">
+	<div class="js_chatter_search_area" style="display: none">
 		<!-- Body -->
 		<div class="chat_de_list js_chatter_list" id="available_chatter_list">
 			<ul>
 				<%
 					for (UserInfo chatter : chatters) {
-				%><li><a href="" userId="<%=chatter.getId()%>"><img
+				%><li><a href="" userId="<%=chatter.getId()%>"><span><img
 						src="<%=chatter.getMinPicture()%>"
-						title="<%=chatter.getLongName()%>" /> </a>
-				</li>
+						title="<%=chatter.getLongName()%>" /><%=chatter.getLongName()%>
+				</span></a></li>
 				<%
 					}
 				%>

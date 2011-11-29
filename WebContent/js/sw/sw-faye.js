@@ -27,7 +27,7 @@ var msgType = {
 	LEAVE_CHAT : "LEAVECHAT",
 	CHAT_MESSAGE : "CHATTING",
 	WRITING_CHAT_MESSAGE : "WRITING",
-	CHAT_HEARTBEAT : "HEARTBEAT",
+	CHATTERS_INVITED : "CHTSINVITED",
 	AVAILABLE_CHATTERS : "ACHATTERS"
 };
 
@@ -256,26 +256,45 @@ var smartTalk = {
 		if (type === msgType.JOINED_IN_CHAT) {
 			
 		} else if (type === msgType.LEAVE_CHAT) {
-			if(chatId !== currentUser.userId){
+			if(sender !== currentUser.userId){
 				var chatterInfo = chatManager.chatterInfo(chatId, sender);
 				var chatterList = chatManager.removeChatter(chatId, sender);
 				updateChattingBoxTitle(chatId, chatterList);
 				updateChatterStatus(chatId, chatterInfo, userStatus.LEAVED);
 			}
 		} else if (type === msgType.WRITING_CHAT_MESSAGE) {
-//			if($('#' + chatId).length == 0){
-//				var newMessage = {chatId : chatId, chatterInfos : chatManager.chatterInfos(chatId)};
-//				startChattingWindow(newMessage);
-//			}
 
 		} else if (type === msgType.CHAT_MESSAGE) {
-//			if($('#' + chatId).length == 0){
-//				var newMessage = {chatId : chatId, chatterInfos : chatManager.chatterInfos(chatId)};
-//				startChattingWindow(newMessage);
-//				setTimeout(receivedMessageOnChatId(message), 500);
-//			}else{
 				receivedMessageOnChatId(message);
-//			}
+		} else if( type === msgType.CHATTERS_INVITED){
+			if(sender !== currentUser.userId){
+				var chatterInfos = message.chatterInfos;
+				var users = chatManager.chatById(chatId).users;
+				for ( var i = 0; i < chatterInfos.length; i++) {
+					var chatterInfo = chatterInfos[i];
+					if(chatManager.chatterInfo(chatId, chatterInfo.userId)!=null) continue;
+					var userInfo = {
+							userId : chatterInfo.userId,
+							longName : chatterInfo.longName,
+							status : userStatus.OFFLINE,
+							onlineSub : null,
+							offlineSub : null
+						};
+					users.push(userInfo);
+					userInfo.onlineSub = chatManager.onlineSub(chatterInfo.userId);
+					if(!userInfo.onlineSub)
+						userInfo.onlineSub = smartTalk.subscribe(smartTalk.myChannel("/"
+							+ chatterInfo.userId.replace(/\./g, '_')
+							+ swSubject.ONLINE), smartTalk.subOnChatterOnline);
+					userInfo.offlineSub = chatManager.offlineSub(chatterInfo.userId);
+					if(!userInfo.offlineSub)	
+						userInfo.offlineSub = smartTalk.subscribe(smartTalk.myChannel("/"
+							+ chatterInfo.userId.replace(/\./g, '_')
+							+ swSubject.OFFLINE), smartTalk.subOnChatterOffline);
+					updateChatterStatus(chatId, chatterInfo, userStatus.OFFLINE);
+				}
+				updateChattingBoxTitle(chatId, chatterInfos);
+			}
 		}
 	},
 	
@@ -385,6 +404,16 @@ var smartTalk = {
 		});
 	},
 
+	publishChattersInvited : function(chatId, chatterInfos) {
+		smartTalk.publish(smartTalk.myChannel("/"
+				+ chatId), {
+			msgType : msgType.CHATTERS_INVITED,
+			chatId : chatId,
+			sender : currentUserId,
+			chatterInfos : chatterInfos
+		});
+	},
+
 	publishLeavingChat : function(chatId) {
 		smartTalk.publish(smartTalk.myChannel("/"
 				+ chatId), {
@@ -435,10 +464,14 @@ var smartTalk = {
 		for(var i=0; i<users.length; i++){
 			userInfos.push({ userId : users[i].userId, longName : users[i].longName, minPicture : users[i].minPicture});
 		}
+		
+		smartTalk.publishChattersInvited(chatId, userInfos);
+		
 		for(var i=0; i<newChatterInfos.length; i++){
 			if(newChatterInfos[i].userId != currentUser.userId)
 				smartTalk.sendJoinChat(chatId, newChatterInfos[i].userId, userInfos);
 		}
+		
 		updateChattingBoxTitle(chatId, users);		
 	}
 };
