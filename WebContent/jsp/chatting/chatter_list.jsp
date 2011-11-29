@@ -34,6 +34,7 @@
 	UserInfo[] chatters = smartWorks.getAvailableChatter(cUser.getCompanyId(), cUser.getId());
 %>
 
+<div class="chat_warp">
 
 <!-- 채팅Default -->
 <div class="chat_de_section js_chatter_list">
@@ -57,21 +58,23 @@
 	</div>
 	<!-- 상단 //-->
 
+<!--온라인ㅌ 일때는 class="chat_online", 오프라인 일때는 chat_offline -->
 	<div class="js_chatter_search_area" style="display: none">
 		<!-- Body -->
 		<div class="chat_de_list js_chatter_list" id="available_chatter_list">
 			<ul>
 				<%
 					for (UserInfo chatter : chatters) {
-				%><li><a href="" userId="<%=chatter.getId()%>"><span><img
-						src="<%=chatter.getMinPicture()%>"
+				%><li><a href="" userId="<%=chatter.getId()%>"><img
+						src="<%=chatter.getMinPicture()%>" class="padding_r5"
 						title="<%=chatter.getLongName()%>" /><%=chatter.getLongName()%>
-				</span></a></li>
+				<span class="chat_online"> </span></a></li>
 				<%
 					}
 				%>
 			</ul>
 		</div>
+		
 		<!-- Body //-->
 
 		<!-- 검색영역 -->
@@ -88,5 +91,7 @@
 </div>
 <!-- 채팅Default //-->
 
-<div class="js_chatting_box_list"></div>
+<div class="js_chatting_box_list chat_space"></div>
+
+</div>
 

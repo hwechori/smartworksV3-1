@@ -417,8 +417,9 @@ body, #nav {background: url("../images/bg_body.jpg");}
 	
 
 	
-/* 사람지정 */
-.user_select {background: none repeat scroll 0 0 #E5F3FF; border: 1px solid #CBE6FF; color: #333333; height: 14px; padding: 3px 3px 0 3px;}
+/* 사람지정  */
+.user_select {background: none repeat scroll 0 0 #E5F3FF; border: 1px solid #CBE6FF; color: #333333; height: 14px; padding: 3px 3px 0 3px; margin: 0 2px 2px 0;}
+
 
 /* Text style */
 .t_red {color:#e54b4b;}
