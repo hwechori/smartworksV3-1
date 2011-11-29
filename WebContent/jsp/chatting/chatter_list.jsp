@@ -34,6 +34,7 @@
 	UserInfo[] chatters = smartWorks.getAvailableChatter(cUser.getCompanyId(), cUser.getId());
 %>
 
+<div class="chat_warp">
 
 <!-- 채팅Default -->
 <div class="chat_de_section js_chatter_list">
@@ -64,7 +65,7 @@
 				<%
 					for (UserInfo chatter : chatters) {
 				%><li><a href="" userId="<%=chatter.getId()%>"><span><img
-						src="<%=chatter.getMinPicture()%>"
+						src="<%=chatter.getMinPicture()%>" class="padding_r5"
 						title="<%=chatter.getLongName()%>" /><%=chatter.getLongName()%>
 				</span></a></li>
 				<%
@@ -88,5 +89,7 @@
 </div>
 <!-- 채팅Default //-->
 
-<div class="js_chatting_box_list"></div>
+<div class="js_chatting_box_list chat_space"></div>
+
+</div>
 

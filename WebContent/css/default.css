@@ -116,6 +116,8 @@ mark, rp, rt, ruby, summary, time {
 
 .padding_l20 {padding-left:20px;}
 .padding_l10 {padding-left:10px;}
+
+.padding_r5 { padding-right:5px;}
 .padding_r10 { padding-right:10px;}
 .padding_r30 { padding-right:30px;}
 .padding_t5 {padding-top:5px;}
