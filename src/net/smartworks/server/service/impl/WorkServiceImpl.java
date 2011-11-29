@@ -265,7 +265,7 @@ public class WorkServiceImpl implements IWorkService {
 		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_LITE);
 
 		//상세필터
-		resultwork.setSearchFilters(ModelConverter.getSearchFilterArrayByPkgPackage(userId, pkg));
+		resultwork.setSearchFilters(ModelConverter.getSearchFilterInfoByPkgPackage(userId, pkg));
 		
 		String name = pkg.getName();
 		String typeStr = pkg.getType();
