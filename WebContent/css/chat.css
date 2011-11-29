@@ -2,7 +2,8 @@
 .chat_warp {position: fixed; bottom:0; right:0;}
 .chat_space {z-index:101; float: right; position: relative; z-index: 101;}
 .chat_section {border:1px solid #232323; background-color:#454645; max-width: 273px; min-width: 110px; float:right; margin-left:10px;}
-.chat_section .top_group, .chat_close_section .top_group, .chat_de_section .top_group {background: url("../images/bg_chat.jpg") repeat-x 0 0 transparent; font-weight:bold; color:#FFF; padding:5px 5px 0; height:21px;}
+.chat_section .top_group, .chat_close_section .top_group, .chat_de_section .top_group, .chat_num_section .top_group
+{background: url("../images/bg_chat.jpg") repeat-x 0 0 transparent; font-weight:bold; color:#FFF; padding:5px 5px 0; height:21px;}
 .chat_section .top_area { position:absolute;}
 
 .chat_section .btn_min a, .chat_de_section .btn_min a
@@ -60,3 +61,9 @@
 
 /* 채팅Default */
 .chat_de_section .chat_de_list {background-color:#FFF; margin: 0 2px; max-height:300px; width:190px; color:#454545; overflow-y:auto;}
+
+/* 이동 화살표 */
+.chat_num_section {border:1px solid #232323; background-color:#454645; float: right; margin-left:10px; z-index:102; color:#FFF; position: relative;}
+.cha_next {background: url("../images/chat_img.png") no-repeat scroll 0 -137px transparent; display:inline-block; width:12px; height:15px; color:#FFF;}
+.cha_num {padding:0 5px 2px 0}
+
