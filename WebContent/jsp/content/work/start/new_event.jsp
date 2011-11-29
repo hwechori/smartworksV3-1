@@ -203,7 +203,7 @@
 			</div>
 			<input type="hidden" name="hdnRelatedUsers" />
 			<div class="input_1line fieldline js_community_names">
-				<div class="js_selected_communities float_left"></div>
+				<div class="js_selected_communities user_sel_area"></div>
 				<input class="js_auto_complete" href='community_name.sw' type="text"
 					title=""
 					placeholder="<fmt:message key='common.upload.event.related_users'/>">

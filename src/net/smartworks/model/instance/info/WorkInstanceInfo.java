@@ -5,14 +5,6 @@ import net.smartworks.util.LocalDate;
 
 public class WorkInstanceInfo extends InstanceInfo {
 
-	private TaskInstanceInfo[] runningTasks;
-	
-	public TaskInstanceInfo[] getRunningTasks() {
-		return runningTasks;
-	}
-	public void setRunningTasks(TaskInstanceInfo[] runningTasks) {
-		this.runningTasks = runningTasks;
-	}
 	public WorkInstanceInfo(){
 		super();
 	}	

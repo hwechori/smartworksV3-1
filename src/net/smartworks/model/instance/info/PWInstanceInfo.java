@@ -8,6 +8,16 @@ import net.smartworks.util.LocalDate;
 public class PWInstanceInfo extends WorkInstanceInfo {
 
 	private TaskInstanceInfo lastTask;
+	private int lastTaskCount = -1;
+
+	public PWInstanceInfo() {
+		super();
+	}
+	public PWInstanceInfo(String id, String subject, WorkInfo work, UserInfo owner, UserInfo lastModifier, LocalDate lastModifiedDate, TaskInstanceInfo lastTask) {
+		super(id, subject, Instance.TYPE_WORK, owner, lastModifier, lastModifiedDate);
+		super.setWork(work);
+		this.lastTask = lastTask;
+	}
 	
 	public TaskInstanceInfo getLastTask() {
 		return lastTask;
@@ -15,15 +25,11 @@ public class PWInstanceInfo extends WorkInstanceInfo {
 	public void setLastTask(TaskInstanceInfo lastTask) {
 		this.lastTask = lastTask;
 	}
-
-	public PWInstanceInfo() {
-		super();
+	public int getLastTaskCount() {
+		return lastTaskCount;
 	}
-
-	public PWInstanceInfo(String id, String subject, WorkInfo work, UserInfo owner, UserInfo lastModifier, LocalDate lastModifiedDate, TaskInstanceInfo lastTask) {
-		super(id, subject, Instance.TYPE_WORK, owner, lastModifier, lastModifiedDate);
-		super.setWork(work);
-		this.lastTask = lastTask;
+	public void setLastTaskCount(int lastTaskCount) {
+		this.lastTaskCount = lastTaskCount;
 	}
 
 }
