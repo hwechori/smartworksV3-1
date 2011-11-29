@@ -194,8 +194,7 @@
 									for (Report report : reports) {
 
 										String reportName = null;
-										if (report.getOwner().getId()
-												.equals(SmartUtil.getSystemUser().getId())) {
+										if (report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())) {
 							%>
 							<option value="<%=report.getName()%>">
 								<fmt:message key="<%=report.getName()%>" />
@@ -227,7 +226,7 @@
 								<fmt:message key="common.title.instance_list" />
 							</div>
 							<div class="po_left">
-								<div class="srch">
+								<div class="srch srch_wsize">
 									<input id="" class="input" type="text"
 										placeholder="<fmt:message key='search.search_work' />">
 									<button onclick=""
@@ -290,37 +289,15 @@
 
 					<!-- 목록 테이블 -->
 					<div class="list_contents">
-						<table>
-							<tbody>
-								<tr class="tit_bg">
-									<th></th>
-									<%
-										FormField[] fields = work.getDisplayFields();
-										if (fields != null) {
-											for (FormField field : fields) {
-									%>
-									<th class="r_line"><%=field.getName()%> <img
-										class="bu_arr_b">
-									</th>
-									<%
-											}
-										}
-									%>
-									<
-									<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-											key='common.title.last_modified_date' /></th>
-								</tr>
-								<div id='iwork_list_page'>
-									<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
-								</div>
-							</tbody>
-						</table>
+						<div id='iwork_list_page'>
+							<jsp:include
+								page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
+						</div>
+
+						<!-- 목록 테이블 //-->
+
 					</div>
-
-					<!-- 목록 테이블 //-->
-
-				</div>
-				<!-- 목록영역 // -->
+					<!-- 목록영역 // -->
 		</ul>
 	</div>
 	<div class="portlet_b" style="display: block;"></div>

@@ -43,6 +43,6 @@
 <div class="navi_tit_mail">
 	<jsp:include page="nav/mail.jsp" />
 </div>
-<div class="navi_tit_chat">
+<div class="navi_tit_chat" style="display:none">
 	<jsp:include page="nav/chatting.jsp" />
 </div>

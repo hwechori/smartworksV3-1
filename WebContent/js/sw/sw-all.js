@@ -94,11 +94,14 @@ $(function() {
 	$('input.js_auto_complete').live('keyup', function(e) {
 		var input = $(e.target);
 		var start_work = input.parents('div.js_start_work');
+		var chatter_name = input.parents('div.js_chatter_names');
 		var target;
 		if (input[0].value.length > 0)
 			input.next('div').removeClass('srch_ico').addClass('btn_im_x');
 		if (start_work.length > 0)
 			target = start_work.find('#upload_work_list');
+		else if(chatter_name.length>0)
+			target = chatter_name.siblings('div.js_chatter_list');
 		else
 			target = input.parent().next('div');
 		var url = input.attr('href');
@@ -130,11 +133,14 @@ $(function() {
 		var input = $(e.target);
 		var start_work = input.parents('div.js_start_work');
 		var user_name = input.parents('div.js_community_names');
+		var chatter_name = input.parents('div.js_chatter_names');
 		var target;
 		if (start_work.length)
 			target = start_work.find('#upload_work_list');
 		else if (user_name.length)
 			target = user_name.next('div');
+		else if(chatter_name.length)
+			target = chatter_name.siblings('div.js_chatter_list');
 		else
 			target = input.parent().siblings('div');
 		setTimeout(function() {
@@ -281,38 +287,38 @@ $(function() {
 			});
 
 	$('.js_select_community')
-			.live(
-					'click',
-					function(e) {
-						var input = $(e.target);
-						var comName = input.attr('comName');
-						var comId = input.attr('comId');
-						var target = input.parents('div.js_community_list').prev()
-								.find('div.js_selected_communities');
-						var oldHTML = target.html();
-						if (oldHTML == null)
-							oldHTML = "";
-						var communityItems = $(target).find('span.js_community_item');
-						var isSameId = false;
-						for(var i=0; i<communityItems.length; i++){
-							var oldComId = $(communityItems[i]).attr('comId');
-							if(oldComId !=null && oldComId === comId){
-								isSameId = true;
-								break;
-							}
-						}
-						if(!isSameId){
-							var newHTML = oldHTML
-								+ "<span class='js_community_item user_select' comId='"
-								+ comId
-								+ "'>"
-								+ comName
-								+ "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
-							target.html(newHTML);
-						}
-						target.next().focus();
-						return false;
-					});
+	.live(
+			'click',
+			function(e) {
+				var input = $(e.target);
+				var comName = input.attr('comName');
+				var comId = input.attr('comId');
+				var target = input.parents('div.js_community_list').prev()
+						.find('div.js_selected_communities');
+				var oldHTML = target.html();
+				if (oldHTML == null)
+					oldHTML = "";
+				var communityItems = $(target).find('span.js_community_item');
+				var isSameId = false;
+				for(var i=0; i<communityItems.length; i++){
+					var oldComId = $(communityItems[i]).attr('comId');
+					if(oldComId !=null && oldComId === comId){
+						isSameId = true;
+						break;
+					}
+				}
+				if(!isSameId){
+					var newHTML = oldHTML
+						+ "<span class='js_community_item user_select' comId='"
+						+ comId
+						+ "'>"
+						+ comName
+						+ "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
+					target.html(newHTML);
+				}
+				target.next().focus();
+				return false;
+			});
 
 	$('.js_remove_community').live('click', function(e) {
 		var input = $(e.target);
@@ -321,6 +327,7 @@ $(function() {
 		selected_users.next().focus();
 		return false;
 	});
+
 
 	$('input.js_whole_day').live('click', function(e){
 		var input = $(e.target);
@@ -397,7 +404,6 @@ $(function() {
 		
 		input.parent().add( newInput);
 //		e.target.style.display = 'none';
-		alert('1');
 		var target = input.parent().next('div.js_selected_files');
 		var oldHTML = target.html();
 		if (oldHTML == null)
@@ -408,10 +414,5 @@ $(function() {
 		+ "<span class='btn_x_gr'><a class='js_remove_file' href=''> x</a></span></span>";
 		target.html(newHTML);
 		$(target).find('span.js_file_item').add(e.target);
-		alert('added');
-	});
-	
-	$('#available_chatter_list').live('click', function(e){
-		
-	});
+	});	
 });

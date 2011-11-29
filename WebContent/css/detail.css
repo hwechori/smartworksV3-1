@@ -20,7 +20,7 @@
 /* 본문 컨텐츠 */
 .define_space {padding: 0 25px; overflow: hidden;} /* 상하 여백이 필요 없을떄*/
 .contents_space {padding: 0 25px 10px;}
-.contents_space .det_title {padding:3px 0; overflow:hidden;} /* 타이틀 */
+.contents_space .det_title, .replay .det_title {padding:3px 0; overflow:hidden;} /* 타이틀 */
 .contents_space .area {padding:10px;}
 .contents_space .border {border:1px solid #c7c7c7; background-color:#FFF; padding:10px;}
 
@@ -50,7 +50,7 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 
 
 /* 목록보기 부분 타이틀 */
-.list_title_space {background-color:#ededed; padding:7px 5px 0; overflow:hidden;}
+.list_title_space {background-color:#ededed; padding:7px 5px; overflow:hidden;}
 .list_title_space .title, .list_title {background: url("../images/body_icon.png") no-repeat scroll 0 -288px transparent; height:27px; font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
 .list_title_space .title_stat {background: url("../images/body_icon.png") no-repeat scroll -46px -288px transparent; height:27px; font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0;}

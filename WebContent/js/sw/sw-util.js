@@ -1,4 +1,9 @@
- var Request = {	
+
+var console = console ||{
+	log : function() {}
+};
+
+var Request = {	
  	parameter: function(name) {
 		return this.parameters()[name];
  	},
@@ -16,9 +21,3 @@
  	}
  };
  
- var Session = {
- 	companyId :'${sessionScope.companyId}',
- 	userId : '${sessionScope.userId}',
- 	cid : '${sessionScope.cid}',
- 	wid : '${sessionScope.wid}'
- };
