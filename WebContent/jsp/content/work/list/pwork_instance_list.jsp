@@ -27,7 +27,7 @@
 	String wid = request.getParameter("wid");
 
 	RequestParams params = new RequestParams();
-	params.setCountInPage(20);
+	params.setCountInPage(50);
 	params.setPageNumber(0);
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser(request, response);

@@ -5,6 +5,7 @@ import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInst;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
+import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstRel;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstRelCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstVariable;
@@ -19,6 +20,8 @@ public interface IPrcManager {
 	public void removeProcessInst(String user, String id) throws PrcException;
 	public long getProcessInstSize(String user, PrcProcessInstCond cond) throws PrcException;
 	public PrcProcessInst[] getProcessInsts(String user, PrcProcessInstCond cond, String level) throws PrcException;
+	public long getProcessInstExtendsSize(String user, String packageId) throws PrcException;
+	public PrcProcessInstExtend[] getProcessInstExtends(String user, int pageSize, int pageNo, String packageId) throws PrcException;
 
 	public PrcProcess getProcess(String user, String id, String level) throws PrcException;
 	public void setProcess(String user, PrcProcess obj, String level) throws PrcException;
