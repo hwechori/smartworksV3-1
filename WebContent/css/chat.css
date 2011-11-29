@@ -1,6 +1,6 @@
 
 
-.chat_section {border:1px solid #232323; background-color:#454645; width:273px; position:fixed; right:0; bottom:0; z-index:101;}
+.chat_section {border:1px solid #232323; background-color:#454645; max-width: 273px; min-width: 110px; position:fixed; right:110px; bottom:0; z-index:101;}
 .chat_section .top_group, .chat_close_section .top_group, .chat_de_section .top_group {background: url("../images/bg_chat.jpg") repeat-x 0 0 transparent; font-weight:bold; color:#FFF; padding:5px 5px 0; height:21px;}
 .chat_section .top_area { position:absolute;}
 
