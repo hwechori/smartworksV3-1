@@ -45,7 +45,7 @@
 .chat_input_section {margin: 0 2px 2px 2px; background-color:#FFF;}
 .chatter_list_area {padding: 5px; border:1px solid #c7c7c7; background-color: #FFF; margin: 0 5px 5px; width: 194px; z-index: 200; position: absolute;}
 .chatter_list_area li a, .chat_de_list li a { padding: 4px 5px; vertical-align: top; color: #454545; font-size:11px; display:block;}
-.chatter_list_area li a, .chat_de_list li a:hover { display:block; background-color:#fffadf;}
+.chatter_list_area li a, .chat_de_list li a:hover { display:block; background-color:#fffccd;}
 .chat_online {background: url("../images/chat_img.png") no-repeat scroll 0 -99px transparent; display:inline-block; height: 10px; margin-top: 7px; position: absolute; right: 7px; width: 10px;}
 .chat_offline {background: url("../images/chat_img.png") no-repeat scroll 0 -117px transparent; display:inline-block; height: 10px; margin-top: 7px; position: absolute; right: 7px; width: 10px;}
 .chatter_list_area li.chat_off_user, .chat_de_list li.chat_off_user {color:#b6b6b6;}
