@@ -466,11 +466,11 @@ public class ModelConverter {
 		String fieldName = "creationDate";
 		tskCond.setStatus(TskTask.TASKSTATUS_ASSIGN);
 		
-		TskTask[] runningTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+		//TskTask[] runningTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
 		
-		TaskInstanceInfo[] runningTasks = getTaskInstanceInfoArrayByTskTaskArray(workInstanceInfo, runningTask);
+		//TaskInstanceInfo[] runningTasks = getTaskInstanceInfoArrayByTskTaskArray(workInstanceInfo, runningTask);
 		
-		workInstanceInfo.setRunningTasks(runningTasks);
+		//workInstanceInfo.setRunningTasks(runningTasks);
 		
 		return workInstanceInfo;
 	}

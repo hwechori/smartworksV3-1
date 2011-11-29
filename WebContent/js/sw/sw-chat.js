@@ -87,7 +87,7 @@ function updateChatterStatus(chatId, chatterInfo, status) {
 }
 
 $('#available_chatter_list a').live('click', function(e) {
-	var input = $(e.target).parent('a');
+	var input = $(e.target).parents('a');
 	var userId = input.attr('userId');
 	var img = input.find('img');
 	var longName = img.attr('title');
