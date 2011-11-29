@@ -1,6 +1,8 @@
 package net.smartworks.server.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +19,6 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
-import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -34,6 +35,7 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
+import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
@@ -87,8 +89,8 @@ public class InstanceServiceImpl implements IInstanceService {
 	 */
 	@Override
 	public InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception {
-	 return SmartTest.getMyRecentInstances();	
-/*		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+	 //return SmartTest.getMyRecentInstances();	
+		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 			return null;
 
 		TskTaskCond taskCond = new TskTaskCond();
@@ -127,7 +129,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		InstanceInfo[] instInfo = ModelConverter.getInstanceInfoArrayByPrcInstArray(prcInsts);
 		
 		return instInfo;
-*/		
+		
 	}
 
 	@Override
@@ -137,6 +139,31 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	@Override
 	public InstanceInfo[] getMyRunningInstances(String companyId, String userId) throws Exception {
+		
+		//정보관리업무에서 파생된 업무는 IWInstanceInfo
+		//프로세스 태스크및 프로세스에서 파생된 업무는 PWInstanceInfo
+		
+		TskTaskCond tskCond = new TskTaskCond();
+		
+		getTskManager().getTasks(userId, tskCond, IManager.LEVEL_ALL);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		return SmartTest.getRunningInstances();
 	}
 
@@ -288,6 +315,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				lastTaskInfo.setSubject(subject);
 				lastTaskInfo.setType(type);
 				lastTaskInfo.setWork(workInfo);
+				lastTaskInfo.setWorkInstance(pwInstInfo);
 				lastTaskInfo.setWorkSpace(workSpace);
 				lastTaskInfo.setName(name);
 				lastTaskInfo.setTaskType(type);
