@@ -526,7 +526,18 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		}
 	}
 
-	private Query appendQuery(StringBuffer queryBuffer,String packageId) throws PrcException {
+	private Query appendExtendQuery(StringBuffer queryBuffer, PrcProcessInstCond cond) throws PrcException {
+		
+		
+		String packageId = cond.getPackageId();
+		String[] objIdIns = cond.getObjIdIns();
+		String createUser = cond.getCreationUser();
+		String prcStatus = cond.getStatus();
+		Date creationDateFrom = cond.getCreationDateFrom();
+		Date creationDateTo = cond.getCreationDateTo();
+		
+		int pageNo = cond.getPageNo();
+		int pageSize = cond.getPageSize();
 		
 		queryBuffer.append("from  ");
 		queryBuffer.append("	prcprcinst prcInst,  ");
@@ -567,19 +578,57 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		queryBuffer.append("where  ");
 		queryBuffer.append("	prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid ");
 		queryBuffer.append("	and prcInst.prcobjid = ctginfo.prcinstid ");
-		queryBuffer.append("	and prcInst.prcDid = :prcDid ");
+		if (!CommonUtil.isEmpty(prcStatus))
+			queryBuffer.append("	and prcInst.prcStatus = :prcStatus ");
+		if (!CommonUtil.isEmpty(packageId))
+			queryBuffer.append("	and prcInst.prcDid = :prcDid ");
+		if (!CommonUtil.isEmpty(createUser))
+			queryBuffer.append("	and prcInst.prcCreateUser = :createUser ");
+		if (creationDateFrom != null)
+			queryBuffer.append(" 	and prcInst.prcCreateDate > :creationDateFrom");
+		if (creationDateTo != null)
+			queryBuffer.append(" 	and prcInst.prcCreateDate < :creationDateTo");
+		if (objIdIns != null && objIdIns.length != 0) {
+			queryBuffer.append(" 	and prcInst.prcObjId in (");
+			for (int i=0; i<objIdIns.length; i++) {
+				if (i != 0)
+					queryBuffer.append(", ");
+				queryBuffer.append(":objIdIn").append(i);
+			}
+			queryBuffer.append(")");
+		}
 		
 		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
-		query.setString("prcDid", packageId);
+		
+		if (pageSize > 0|| pageNo >= 0) {
+			query.setFirstResult(pageNo * pageSize);
+			query.setMaxResults(pageSize);
+		}
+		
+		if (!CommonUtil.isEmpty(prcStatus))
+			query.setString("prcStatus", prcStatus);
+		if (!CommonUtil.isEmpty(packageId))
+			query.setString("prcDid", packageId);
+		if (!CommonUtil.isEmpty(createUser))
+			query.setString("createUser", createUser);	
+		if (creationDateFrom != null)
+			query.setTimestamp("creationDateFrom", creationDateFrom);
+		if (creationDateTo != null)
+			query.setTimestamp("creationDateTo", creationDateTo);	
+		if (objIdIns != null && objIdIns.length != 0) {
+			for (int i=0; i<objIdIns.length; i++) {
+				query.setString("objIdIn"+i, objIdIns[i]);
+			}
+		}
 		
 		return query;
 	}
-	public long getProcessInstExtendsSize(String user, String packageId) throws PrcException {
+	public long getProcessInstExtendsSize(String user, PrcProcessInstCond cond) throws PrcException {
 		try {
 			StringBuffer buf = new StringBuffer();
 			buf.append("select");
 			buf.append(" count(*) ");
-			Query query = this.appendQuery(buf, packageId);
+			Query query = this.appendExtendQuery(buf, cond);
 			List list = query.list();
 			
 			long count =((Integer)list.get(0)).longValue();
@@ -590,7 +639,7 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			throw new PrcException(e);
 		}
 	}
-	public PrcProcessInstExtend[] getProcessInstExtends(String user, int pageSize, int pageNo, String packageId) throws PrcException {
+	public PrcProcessInstExtend[] getProcessInstExtends(String user, PrcProcessInstCond cond) throws PrcException {
 		StringBuffer queryBuffer = new StringBuffer();
 		queryBuffer.append("select ctgInfo.parentCtgId ");
 		queryBuffer.append("	, ctgInfo.parentCtg ");
@@ -619,13 +668,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		queryBuffer.append("	, prcInstInfo.lastTask_tskform ");
 		queryBuffer.append("	, (select count(*) from tsktask where tskstatus='11' and tsktype='common' and tskprcInstId = prcInst.prcObjid) as lastTaskCount ");
 	    
-		Query query = this.appendQuery(queryBuffer, packageId);
+		Query query = this.appendExtendQuery(queryBuffer, cond);
 	
-		if (pageSize < 1 || pageNo < 0)
-			return null;
-		query.setFirstResult(pageNo * pageSize);
-		query.setMaxResults(pageSize);
-		
 		List list = query.list();
 		if (list == null || list.isEmpty())
 			return null;
