@@ -132,7 +132,9 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .ico_pe01 {background: url("../images/ico_pe01.gif") no-repeat 10px top transparent; height:28px; padding:3px 0 0 38px;}
 
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:205px; height:39px; padding:7px 10px 10px;}
-.navi_list {border:2px solid #363636; border-top:none; width:197px; padding:0 12px;}
+.navi_list {border:2px solid #363636; border-top:none; width:221px;}
+.navi_list li {padding:1px 12px;}
+.navi_list li a:hover {background-color:#4e4e4e;} /* 오버 반전 */
 .navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:205px; padding:5px 10px 0;}
 .navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
 
@@ -293,7 +295,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 	
 .tab_portlet {
     background: url("../images/bg_portlet.jpg") no-repeat scroll 100% -77px transparent;
-    clear:both; width:100%; height:45px; overflow:hidden; position:relative;}
+    width:100%; height:45px; overflow:hidden; position:relative;}
 .tab_portlet .tab_portlet_l {
     background: url("../images/bg_portlet.jpg") no-repeat scroll 0 -77px transparent;
     display:inline-block; width:10px; height:45px; left:0; position:absolute;}
