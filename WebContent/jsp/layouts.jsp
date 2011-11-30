@@ -1,8 +1,10 @@
-<%@page import="org.springframework.security.web.context.HttpSessionSecurityContextRepository"%>
+<%@page
+	import="org.springframework.security.web.context.HttpSessionSecurityContextRepository"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="net.smartworks.server.engine.security.model.Login"%>
 <%@page import="org.springframework.security.core.Authentication"%>
-<%@page	import="org.springframework.security.core.context.SecurityContext"%>
+<%@page
+	import="org.springframework.security.core.context.SecurityContext"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.service.ISmartWorks"%>
@@ -11,21 +13,34 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <!-- For Development Purpose -->
 <%
-	SecurityContext context = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+	SecurityContext context = (SecurityContext) request
+			.getSession()
+			.getAttribute(
+					HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
 	if (context != null) {
 		Authentication auth = context.getAuthentication();
 		if (auth != null) {
-			if(request.getSession().getAttribute("loginId") == null) {
-				System.out.println("-------------------------------------------");
-				System.out.println(((Login) auth.getPrincipal()).getPosition() + " " + ((Login) auth.getPrincipal()).getName() + " 님이 접속하였습니다.");
-				System.out.println("ID : "+ ((Login) auth.getPrincipal()).getId());
-				System.out.println("DEPT : "+ ((Login) auth.getPrincipal()).getDepartment());
+			if (request.getSession().getAttribute("loginId") == null) {
+				System.out
+						.println("-------------------------------------------");
+				System.out.println(((Login) auth.getPrincipal())
+						.getPosition()
+						+ " "
+						+ ((Login) auth.getPrincipal()).getName()
+						+ " 님이 접속하였습니다.");
+				System.out.println("ID : "
+						+ ((Login) auth.getPrincipal()).getId());
+				System.out
+						.println("DEPT : "
+								+ ((Login) auth.getPrincipal())
+										.getDepartment());
 				Calendar rightNow = Calendar.getInstance();
 				int year = rightNow.get(Calendar.YEAR) % 100;
 				int month = rightNow.get(Calendar.MONTH);
@@ -34,11 +49,15 @@
 				int minute = rightNow.get(Calendar.MINUTE);
 				int second = rightNow.get(Calendar.SECOND);
 
-				System.out.println("ConnectTime : " + year + "년 " + month + "월 " + date + "일 " + hour + "시 " + minute + "분 " + second + "초");
+				System.out.println("ConnectTime : " + year + "년 "
+						+ month + "월 " + date + "일 " + hour + "시 "
+						+ minute + "분 " + second + "초");
 
-				request.getSession().setAttribute("loginId", ((Login) auth.getPrincipal()).getId());
+				request.getSession().setAttribute("loginId",
+						((Login) auth.getPrincipal()).getId());
 
-				System.out.println("-------------------------------------------");
+				System.out
+						.println("-------------------------------------------");
 			}
 		}
 	}
@@ -48,17 +67,29 @@
 	if (cid == null) {
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
 	}
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request
+			.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser(request, response);
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <head>
+<script type="">
+currentUser = {
+	userId : "<%=currentUser.getId()%>",
+	name : "<%=currentUser.getName()%>",
+	longName : "<%=currentUser.getLongName()%>",
+	companyId : "<%=currentUser.getCompanyId()%>",
+	minPicture : "<%=currentUser.getMinPicture()%>",
+	midPicture : "<%=currentUser.getMidPicture()%>"
+};
+</script>
 
 <link href="css/default.css" type="text/css" rel="stylesheet" />
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
+<link href="css/chat.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet"
 	href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css"
 	title="ui-theme" />
@@ -68,7 +99,8 @@
 	</fmt:message> <sec:authentication property="principal.name" /> <sec:authorize
 		access="hasRole('ADMINISTRATOR')"> 
 		(ADMIN)
-	</sec:authorize></title>
+	</sec:authorize>
+</title>
 
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
@@ -88,56 +120,63 @@
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
-<script type="text/javascript" src="http://localhost:8000/faye.js"></script>
-<script type="text/javascript" src="js/sw/sw-messaging.js"></script>
+<script type="text/javascript" src="http://192.168.0.8:8000/faye.js"></script>
+<script type="text/javascript" src="js/sw/sw-faye.js"></script>
+<script type="text/javascript" src="js/sw/sw-chat.js"></script>
 
 <script type="text/javascript">
 	smartTalk.init();
- 	var repeat1 = function() {
-		clearInterval(timer);
-		smartTalk.publishBcast(new Array(
-				" Hello, this is SmartWorks!! Welcome~~",
-				"오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
-	};
-	smartTalk.publishNoticeCount({
-		type : 0,
-		count : 0
-	});
-	smartTalk.publishNoticeCount({
-		type : 1,
-		count : 1
-	});
-	smartTalk.publishNoticeCount({
-		type : 2,
-		count : 2
-	});
-	smartTalk.publishNoticeCount({
-		type : 3,
-		count : 3
-	});
-	smartTalk.publishNoticeCount({
-		type : 4,
-		count : 4
-	});
-	smartTalk.publishNoticeCount({
-		type : 5,
-		count : 5
-	});
+	/* 	var repeat1 = function() {
+	 clearInterval(timer);
+	 smartTalk.publishBcast(new Array(
+	 " Hello, this is SmartWorks!! Welcome~~",
+	 "오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
+	 };
+	 smartTalk.publishNoticeCount({
+	 type : 0,
+	 count : 0
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 1,
+	 count : 1
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 2,
+	 count : 2
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 3,
+	 count : 3
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 4,
+	 count : 4
+	 });
+	 smartTalk.publishNoticeCount({
+	 type : 5,
+	 count : 5
+	 });
 
-	var sendChatterList = function(){
-		clearInterval(timer);
+	 */setTimeout(function() {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
-			+ swSubject.BROADCASTING, {
+				+ swSubject.BROADCASTING, {
 			msgType : msgType.AVAILABLE_CHATTERS,
 			sender : "smartworks.net",
-			userInfos : new Array({userId : "ysjung@maninsoft.co.kr", longName : "대표이사 정윤식",  minPicture : "images/ysjung@maninsoft.co.kr_min.jpg"},
-				{userId : "jskim@maninsoft.co.kr", longName : "과장 김지숙",  minPicture : "images/jskim@maninsoft.co.kr_min.jpg"},
-				{userId : "hsshin@maninsoft.co.kr", longName : "선임연구원 신현성",  minPicture : "images/hsshin@maninsoft.co.kr_min.jpg"})
-			});
-	};
-	var timer = setInterval(sendChatterList, 5000);
-
-	
+			userInfos : new Array({
+				userId : "ysjung@maninsoft.co.kr",
+				longName : "대표이사 정윤식",
+				minPicture : "images/ysjung@maninsoft.co.kr_min.jpg"
+			}, {
+				userId : "jskim@maninsoft.co.kr",
+				longName : "과장 김지숙",
+				minPicture : "images/jskim@maninsoft.co.kr_min.jpg"
+			}, {
+				userId : "hsshin@maninsoft.co.kr",
+				longName : "선임연구원 신현성",
+				minPicture : "images/hsshin@maninsoft.co.kr_min.jpg"
+			})
+		});
+	}, 5000);
 </script>
 
 </head>
@@ -174,6 +213,8 @@
 			<tiles:insertAttribute name="footer" />
 		</div>
 		<!-- Footer //-->
+
 	</div>
+ 	<jsp:include page="/jsp/chatting/chatter_list.jsp" />
 </body>
 </html>

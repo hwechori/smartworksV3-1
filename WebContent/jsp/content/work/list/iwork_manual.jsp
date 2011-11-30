@@ -61,7 +61,7 @@
    
         <div class="list_replay">
             <ul>
-            <li class="repl_tinfo"><a href=""><strong>7</strong>개의 댓글 모두 보기</a></li>
+            <li><img class="repl_tinfo"><a href=""><strong>7</strong>개의 댓글 모두 보기</a></li>
 			<%
 				if (comments != null) {
 					for (CommentInstance comment : comments) {

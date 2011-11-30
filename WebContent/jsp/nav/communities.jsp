@@ -7,7 +7,7 @@
 			key="nav.communities.my_communities" />
 	</li>
 	<li class="nav_srch">
-		<div class="srch">
+		<div class="srch srch_wsize">
 			<input id="" class="input js_auto_complete" type="text"
 				title="<fmt:message key='search.search_people_depart_group'/>"
 				placeholder="<fmt:message key='search.search_people_depart_group'/>"

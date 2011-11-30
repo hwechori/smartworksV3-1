@@ -98,13 +98,13 @@ body, #nav {background: url("../images/bg_body.jpg");}
     border-color: #c7c7c7;
     border-style: solid;
     border-width: 1px;
-	width:203px;
+	/* width:203px; */
 	height:16px;
 	}
 .srch .input {width:170px;}
 .srch button, .srch .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
-	
+.srch_wsize {width:203px;}
 	
 /*Left Navigation*/	
 #nav {background-color:#6b6b6b;float:left;width:226px;height:100%; z-index:30;}
@@ -214,6 +214,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .txt_btn {font-family:'돋움',Dotum; font-size: 11px; height: 17px; font-weight:normal;}
 .txt_btn .po_right {float:right; margin-left:10px;}
 .txt_btn .po_left {float:left; margin-right:10px;}
+.txt_btn .ch_right {float:right; margin-left:4px;}
+
 .txt_btn .current { font-weight:bold;}
 .txt_btn .image_posi {position: relative; bottom:4px;} /* 우측 메뉴중 이미지가 올때 위치 조정 */
 .txt_btn a:hover, .txt_btn a:focus, .txt_btn a:active, .txt_btn a:link, .txt_btn a:visited {color:#8f8f8f; text-decoration:underline; }
@@ -339,9 +341,12 @@ body, #nav {background: url("../images/bg_body.jpg");}
 /* Noice */
 #notice {clear:both; margin:0 30px 5px 5px; padding-top:10px;}
 #notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; padding:3px 0; clear:both;}
-.noti_pic {float:left; margin-right:5px; padding:5px 0;}
-.noti_in {word-wrap: break-word; text-align:left; padding:2px 0 0 33px;}
+.noti_pic {float:left; padding:5px 0;}
+.noti_in {word-wrap: break-word; text-align:left; padding:2px 0 0 38px;}
 .noti_in_bodytitle {word-wrap: break-word; padding-top:9px;} /* Body Title로 들어갈 때 */
+
+.noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
+
 .noti_tit {background: url("../images/ico_notice_s.gif") no-repeat scroll 8px 2px transparent;
 		    padding:0 0 0 23px; display:block; font-weight:bold;}
 			
@@ -413,7 +418,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 	
 /* 사람지정 */
-    
+.user_select {background: none repeat scroll 0 0 #E5F3FF; border: 1px solid #CBE6FF; color: #333333; height: 14px; padding: 3px 3px 0 3px;}
 
 /* Text style */
 .t_red {color:#e54b4b;}
@@ -425,6 +430,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .t_woname {color:#23579e; font-weight:bold;}
 .t_date {font-size:11px; color:#999897; line-height:16px;}
 .t_location {font-size:11px; color:#999897; padding:}
+.t_white {font-size:12px; font-weight:normal;}
 .arr {font-size:10px; margin-right:2px;}
 
 /* Line Style */

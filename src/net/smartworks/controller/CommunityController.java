@@ -48,6 +48,12 @@ public class CommunityController {
 		return SmartUtil.returnMnv(request, "jsp/content/user_space.jsp", "user_space.tiles");
 	}
 
+	@RequestMapping("/chatting_box")
+	public ModelAndView chattingBox(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/chatting/chatting_box.jsp", "");
+	}
+
 	@RequestMapping("/group_creation")
 	public ModelAndView groupCreation(HttpServletRequest request, HttpServletResponse response) {
 		Group group = new Group();
