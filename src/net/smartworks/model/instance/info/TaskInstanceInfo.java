@@ -5,7 +5,6 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.util.LocalDate;
 
 public class TaskInstanceInfo extends InstanceInfo {
-
 	
 	private String name;
 	private int taskType=-1;
