@@ -16,8 +16,10 @@
 .chat_section .btn_admin a:hover, .chat_de_section .btn_admin a:hover
  {background: url("../images/chat_img.png") no-repeat scroll -18px -25px transparent;}
 
-.chat_section .btn_x a, .chat_de_section .btn_x a {background: url("../images/chat_img.png") no-repeat scroll -36px 0 transparent; display:block; height:18px; width:14px;}
-.chat_section .btn_x a:hover, .chat_de_section .btn_x a:hover {background: url("../images/chat_img.png") no-repeat scroll -36px -25px transparent;}
+.chat_section .btn_x a, .chat_de_section .btn_x a, .pop_top .btn_x a
+{background: url("../images/chat_img.png") no-repeat scroll -36px 0 transparent; display:block; height:18px; width:14px;}
+.chat_section .btn_x a:hover, .chat_de_section .btn_x a:hover, .pop_top .btn_x a:hover
+{background: url("../images/chat_img.png") no-repeat scroll -36px -25px transparent;}
  
 .chat_section .btn_addf a, chat_de_section .btn_addf a
  {background: url("../images/chat_img.png") no-repeat scroll -53px 0 transparent; display:block; height:18px; width:14px;}
@@ -64,6 +66,7 @@
 
 /* 이동 화살표 */
 .chat_num_section {border:1px solid #232323; background-color:#454645; float: right; margin-left:10px; z-index:102; color:#FFF; position: relative;}
+.cha_prev {background: url("../images/chat_img.png") no-repeat scroll 0 -162px transparent; display:inline-block; width:12px; height:15px; color:#FFF;}
 .cha_next {background: url("../images/chat_img.png") no-repeat scroll 0 -137px transparent; display:inline-block; width:12px; height:15px; color:#FFF;}
 .cha_num {padding:0 5px 2px 0}
 
