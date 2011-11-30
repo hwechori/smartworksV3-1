@@ -216,8 +216,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 		swdRecordCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
 
-		swdRecordCond.setPageNo(currentPage);
-		swdRecordCond.setPageSize(pageCount);
+		//swdRecordCond.setPageNo(currentPage);
+		//swdRecordCond.setPageSize(pageCount);
 
 		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
 

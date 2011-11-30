@@ -9,12 +9,20 @@
 package net.smartworks.server.engine.docfile.manager.impl;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
@@ -25,8 +33,10 @@ import net.smartworks.server.engine.docfile.model.HbDocumentModel;
 import net.smartworks.server.engine.docfile.model.HbFileModel;
 import net.smartworks.server.engine.docfile.model.IDocumentModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
+import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartConfUtil;
 
+import org.apache.commons.io.IOUtils;
 import org.hibernate.Query;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,103 +48,6 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		if (logger.isInfoEnabled())
 			logger.info(this.getClass().getName() + " created");
 	}
-
-	/*
-	 * public DocFile getDocFile(String user, String id, String level) throws
-	 * DocFileException { try { if (level == null) level = LEVEL_ALL; if
-	 * (level.equals(LEVEL_ALL)) { DocFile obj =
-	 * (DocFile)this.get(DocFile.class, id); return obj; } else { DocFileCond
-	 * cond = new DocFileCond(); cond.setId(id); DocFile[] objs =
-	 * this.getDocFiles(user, cond, level); if (objs == null || objs.length ==
-	 * 0) return null; return objs[0]; } } catch (Exception e) { logger.error(e,
-	 * e); throw new DocFileException(e); } }
-	 * 
-	 * public DocFile getDocFile(String user, DocFileCond cond, String level)
-	 * throws DocFileException { if (level == null) level = LEVEL_ALL;
-	 * cond.setPageSize(2); DocFile[] DocFiles = getDocFiles(user, cond, level);
-	 * if (CommonUtil.isEmpty(DocFiles)) return null; try { if (DocFiles.length
-	 * != 1) throw new DocFileException("More than 1 Object"); } catch
-	 * (DocFileException e) { logger.error(e, e); throw e; } return DocFiles[0];
-	 * } public void setDocFile(String user, DocFile obj, String level) throws
-	 * DocFileException { if (level == null) level = LEVEL_ALL; try { if
-	 * (level.equals(LEVEL_ALL)) { set(obj); } else { StringBuffer buf = new
-	 * StringBuffer(); buf.append("update DocFile set"); buf.append(
-	 * " companyId=:companyId, type=:type, fileName=:fileName, filePath=:filePath, fileSize=:fileSize, writtenTime=:writtenTime"
-	 * ); buf.append(" where id=:id"); Query query =
-	 * this.getSession().createQuery(buf.toString());
-	 * query.setString(DocFile.A_COMPANYID, obj.getCompanyId());
-	 * query.setString(DocFile.A_TYPE, obj.getType());
-	 * query.setString(DocFile.A_FILENAME, obj.getFileName());
-	 * query.setString(DocFile.A_FILEPATH, obj.getFilePath());
-	 * query.setLong(DocFile.A_FILESIZE, obj.getFileSize());
-	 * query.setTimestamp(DocFile.A_WRITTENTIME,obj.getWrittenTime());
-	 * query.setString(DocFile.A_ID, obj.getId());
-	 * 
-	 * } } catch (Exception e) { logger.error(e, e); throw new
-	 * DocFileException(e); } } public void createDocFile(String user, DocFile
-	 * obj) throws DocFileException { try {
-	 * 
-	 * create(obj); } catch (Exception e) { logger.error(e,e); throw new
-	 * DocFileException(e); } } public void removeDocFile(String user, String
-	 * id) throws DocFileException { try { remove(DocFile.class, id); } catch
-	 * (Exception e) { logger.error(e, e); throw new DocFileException(e); } }
-	 * public void removeDocFile(String user, DocFileCond cond) throws
-	 * DocFileException { DocFile obj = getDocFile(user, cond, null); if (obj ==
-	 * null) return; removeDocFile(user, obj.getId()); } private Query
-	 * appendQuery(StringBuffer buf, DocFileCond cond) throws Exception { String
-	 * id = null; String companyId = null; String type = null; String fileName =
-	 * null; String filePath = null; long fileSize = 0; Date writtenTime = null;
-	 * 
-	 * if (cond != null) { id = cond.getId(); companyId = cond.getCompanyId();
-	 * type = cond.getType(); fileName = cond.getFileName(); filePath =
-	 * cond.getFilePath(); fileSize = cond.getFileSize(); writtenTime =
-	 * cond.getWrittenTime();
-	 * 
-	 * } buf.append(" from DocFile obj");
-	 * buf.append(" where obj.id is not null"); //TODO 시간 검색에 대한 확인 필요 if (cond
-	 * != null) { if (id != null) buf.append(" and obj.id = :id"); if (companyId
-	 * != null) buf.append(" and obj.companyId = :companyId"); if (type != null)
-	 * buf.append(" and obj.type = :type"); if (fileName != null)
-	 * buf.append(" and obj.fileName = :fileName"); if (filePath != null)
-	 * buf.append(" and obj.filePath = :filePath"); if (fileSize != 0)
-	 * buf.append(" and obj.fileSize = :fileSize"); if (writtenTime != null)
-	 * buf.append(" and obj.writtenTime = :writtenTime"); }
-	 * this.appendOrderQuery(buf, "obj", cond);
-	 * 
-	 * Query query = this.createQuery(buf.toString(), cond); if (cond != null) {
-	 * if (id != null) query.setString("id", id); if (companyId != null)
-	 * query.setString("companyId", companyId); if (type != null)
-	 * query.setString("type", type); if (fileName != null)
-	 * query.setString("fileName", fileName); if (filePath != null)
-	 * query.setString("filePath", filePath); if (fileSize != 0)
-	 * query.setLong("fileSize", fileSize); if (writtenTime != null)
-	 * query.setTimestamp("writtenTime", writtenTime); } return query; } public
-	 * long getDocFileSize(String user, DocFileCond cond) throws
-	 * DocFileException { try { StringBuffer buf = new StringBuffer();
-	 * buf.append("select"); buf.append(" count(obj)"); Query query =
-	 * this.appendQuery(buf,cond); List list = query.list(); long count =
-	 * ((Long)list.get(0)).longValue(); return count; } catch (Exception e) {
-	 * logger.error(e, e); throw new DocFileException(e); } } public DocFile[]
-	 * getDocFiles(String user, DocFileCond cond, String level) throws
-	 * DocFileException { // TODO Auto-generated method stub try { if (level ==
-	 * null) level = LEVEL_LITE; StringBuffer buf = new StringBuffer();
-	 * buf.append("select"); if (level.equals(LEVEL_ALL)) { buf.append(" obj");
-	 * } else { buf.append(
-	 * " obj.Id, obj.CompanyId, obj.Type, obj.FileName, obj.FilePath, obj.WrtittenTime"
-	 * ); } Query query = this.appendQuery(buf, cond); List list = query.list();
-	 * if (list == null || list.isEmpty()) return null; if
-	 * (!level.equals(LEVEL_ALL)) { List objList = new ArrayList(); for
-	 * (Iterator itr = list.iterator(); itr.hasNext();) { Object[] fields =
-	 * (Object[]) itr.next(); DocFile obj = new DocFile(); int j = 0;
-	 * obj.setId((String)fields[j++]); obj.setCompanyId((String)fields[j++]);
-	 * obj.setType((String)fields[j++]); obj.setFileName((String)fields[j++]);
-	 * obj.setFilePath((String)fields[j++]);
-	 * obj.setFileSize(CommonUtil.toLong(fields[j++]));
-	 * obj.setWrittenTime((Date)fields[j++]); objList.add(obj); } list =
-	 * objList; } DocFile[] objs = new DocFile[list.size()]; list.toArray(objs);
-	 * return objs; } catch (Exception e) { logger.error(e,e); throw new
-	 * DocFileException(e); } }
-	 */
 
 	/**
 	 * 파일 저장 위치
@@ -231,7 +144,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 
 		String fileId = IDCreator.createId(SmartServerConstant.FILE_ABBR);
 		file.setId(fileId);
-		file.setWrittenTime(new Date());
+		file.setWrittenTime(new Date(new LocalDate().getGMTDate()));
 		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
 		File repository = this.getFileRepository();
 		MultipartFile multipartFile = file.getMultipartFile();
@@ -512,6 +425,103 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		Query query = this.getSession().createQuery("from HbDocumentModel where refType = " + refType + " and refId = '" + refId + "'");
 		IDocumentModel doc = (IDocumentModel) query.uniqueResult();
 		return doc;
+	}
+
+	private void writeAjaxFile(HttpServletRequest request, HttpServletResponse response, IFileModel formFile) throws DocFileException {
+
+		PrintWriter writer = null;
+        InputStream is = null;
+        FileOutputStream fos = null;
+
+        try {
+            writer = response.getWriter();
+        } catch (IOException ex) {
+            throw new DocFileException(ex.getMessage());
+        }
+
+        try {
+            is = request.getInputStream();
+            fos = new FileOutputStream(new File(formFile.getFilePath()));
+            IOUtils.copy(is, fos);
+            //IOUtils.write(buf, fos);
+    		/*byte[] buf = new byte[1024];
+
+    		int len;
+
+    		while ((len = is.read(buf)) > 0) {
+    			fos.write(buf, 0, len);
+    		}*/
+            response.setStatus(HttpServletResponse.SC_OK);
+            writer.print("{success: true}");
+        } catch (FileNotFoundException ex) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            writer.print("{success: false}");
+            throw new DocFileException(ex.getMessage());
+        } catch (IOException ex) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            writer.print("{success: false}");
+            throw new DocFileException(ex.getMessage());
+        } finally {
+            try {
+                fos.close();
+                is.close();
+            } catch (IOException ignored) {
+                throw new DocFileException(ignored.getMessage());
+            }
+        }
+
+        writer.flush();
+        writer.close();
+    }
+
+	@Override
+	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
+
+		IFileModel formFile = new HbFileModel();
+		String fileId = IDCreator.createId(SmartServerConstant.FILE_ABBR);
+		
+		formFile.setId(fileId);
+		formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
+		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		File repository = this.getFileRepository();
+		String filePath = null;
+		if (formFile != null) {
+			String fileName = "";
+			try {
+				fileName = URLDecoder.decode(request.getHeader("X-File-Name"), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			if (fileName.indexOf(File.separator) > 1)
+				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+
+			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+			filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
+
+			if (extension != null) {
+				filePath = filePath + "." + extension;
+				formFile.setType(extension);
+			}
+
+			formFile.setFilePath(filePath);
+			formFile.setFileSize(Long.parseLong(request.getHeader("Content-Length")));
+			formFile.setFileName(fileName);
+
+		}
+
+		this.getHibernateTemplate().save(formFile);
+		this.writeAjaxFile(request, response, formFile);
+		// String path = file.getFilePath();
+
+		String groupId = request.getParameter("groupId");
+		// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
+		if (groupId == null)
+			// 그룹아이디를 생성하여 문서 아이디와 매핑
+			groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
+
+		// 그룹아이디, 문서 아이디 쌍 저장
+		Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
+		query.executeUpdate();
 	}
 
 }

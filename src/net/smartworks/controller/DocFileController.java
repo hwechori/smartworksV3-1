@@ -53,6 +53,12 @@ public class DocFileController {
 		return groupId;
 	}
 
+	@RequestMapping(value = "/ajax_upload_file", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.ajaxUploadFile(request, response);
+	}
+
 	@RequestMapping(value = "/find_file_group", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody List<IFileModel> findFileGroup(HttpServletRequest request, HttpServletResponse response) throws Exception {

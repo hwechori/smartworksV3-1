@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
@@ -72,6 +73,11 @@ public class DocFileServiceImpl implements IDocFileService {
 
 		return groupId;
 
+	}
+
+	@Override
+	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		getDocManager().ajaxUploadFile(request, response);
 	}
 
 	public List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception {

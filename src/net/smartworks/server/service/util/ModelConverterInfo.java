@@ -10,11 +10,9 @@ package net.smartworks.server.service.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
@@ -22,7 +20,6 @@ import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.IWInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
-import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.instance.info.WorkInstanceInfo;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.SmartWork;
@@ -192,14 +189,30 @@ public class ModelConverterInfo extends ModelConverter {
 
 		FieldData[] fieldDatas = ModelConverterInfo.getFieldDataArrayBySwdDataFieldArray(swdDataFields);
 
+/*		SwdFieldCond swdFieldCond = new SwdFieldCond();
+		swdFieldCond.setDomainObjId(swdRecord.getDomainId());
+		SwdField[] swdFields = getSwdManager().getFields("", swdFieldCond, IManager.LEVEL_LITE);
+
+		List<SwfFormFieldDef> formFieldDefList = getSwfManager().findFormFieldByForm(swdDomain.getFormId(), true);
+		List<SwdField>
+		for(SwfFormFieldDef formFieldDef : formFieldDefList) {
+			String formFieldId = formFieldDef.getId();
+			String viewingType = formFieldDef.getViewingType();
+			for(SwdField swdField : swdFields) {
+				if(swdField.getFormFieldId().contains(formFieldId) && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
+					
+				}
+			}
+		}*/
+
 		List<SwdDomainFieldView> fieldViewList = getSwdManager().findDomainFieldViewList(swdDomain.getFormId());
 		List<SwfFormFieldDef> formFieldDefList = getSwfManager().findFormFieldByForm(swdDomain.getFormId(), true);
-		
-		Set<String> fieldIdSet = new HashSet<String>();
+
+		List<String> fieldIdList = new ArrayList<String>();
 		for (int i = 0; i < fieldViewList.size(); i++) {
 			SwdDomainFieldView dfv = fieldViewList.get(i);
 			if (dfv.getDispOrder() > -1)
-				fieldIdSet.add(dfv.getFormFieldId());
+				fieldIdList.add(dfv.getFormFieldId());
 		}
 		List<FormField> resultList = new ArrayList<FormField>();
 		for (int i = 0; i < formFieldDefList.size(); i++) {
@@ -207,7 +220,7 @@ public class ModelConverterInfo extends ModelConverter {
 			String formFieldId = sfd.getId();
 			String viewingType = sfd.getViewingType();
 
-			if (fieldIdSet.contains(formFieldId) && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
+			if (fieldIdList.contains(formFieldId) && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
 				FormField formField = new FormField();
 				formField.setId(formFieldId);
 				formField.setName(sfd.getName());
@@ -228,6 +241,7 @@ public class ModelConverterInfo extends ModelConverter {
 				}
 			}
 		}
+
 		FieldData[] resultFieldDatas = new FieldData[fieldDataList.size()];
 		fieldDataList.toArray(resultFieldDatas);
 
@@ -254,7 +268,7 @@ public class ModelConverterInfo extends ModelConverter {
 			fieldData = new FieldData();
 
 		fieldData.setFieldId(swdDataField.getId());
-		fieldData.setValue(swdDataField.getValue());
+		fieldData.setValue(CommonUtil.toDefault(swdDataField.getValue(), "-"));
 		fieldData.setFieldType(swdDataField.getType());
 
 		return fieldData;
@@ -267,10 +281,6 @@ public class ModelConverterInfo extends ModelConverter {
 			workInstanceInfo = new WorkInstanceInfo();
 		
 		getInstanceInfoBySwdRecord(workInstanceInfo, swdRecord);
-		
-		TaskInstanceInfo[] runningTasks = null; //TODO 실행중 태스크?
-
-		workInstanceInfo.setRunningTasks(runningTasks);
 
 		return workInstanceInfo;
 	}
@@ -280,7 +290,7 @@ public class ModelConverterInfo extends ModelConverter {
 			return null;
 
 		IWInstanceInfo[] iWInstanceInfos = new IWInstanceInfo[swdRecords.length];
-		for (int i =0; i < swdRecords.length; i ++) {
+		for (int i =0; i < swdRecords.length; i++) {
 			SwdRecord swdRecord = swdRecords[i];
 			IWInstanceInfo iWInstanceInfo = (IWInstanceInfo)getIWInstanceInfoBySwdRecord(null, swdRecord);
 			iWInstanceInfos[i] = iWInstanceInfo; 

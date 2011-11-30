@@ -630,8 +630,7 @@ public class ModelConverter {
 		user.setUserLevel(-1);//userExtend.getUserLevel();
 		return user;
 	}
-	
-	
+
 	public static Work getWorkByCtgCategory(Work work, CtgCategory ctg) throws Exception {
 		if (ctg == null)
 			return null;

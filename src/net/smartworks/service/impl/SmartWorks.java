@@ -3,9 +3,8 @@ package net.smartworks.service.impl;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpServletResponse;
 import net.smartworks.model.calendar.CompanyCalendar;
-import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
@@ -15,9 +14,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
-import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.CommentInstance;
-import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
@@ -28,7 +25,6 @@ import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.report.Report;
-import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -382,6 +378,10 @@ public class SmartWorks implements ISmartWorks {
 
 	public String uploadFile(HttpServletRequest request) throws Exception {
 		return docFileService.uploadFile(request);
+	}
+
+	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		docFileService.ajaxUploadFile(request, response);
 	}
 
 	public List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception {
