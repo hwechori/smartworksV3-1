@@ -48,7 +48,6 @@
 		for (PWInstanceInfo instanceInfo : instanceInfos) {
 			UserInfo owner = instanceInfo.getOwner();
 			UserInfo lastModifier = instanceInfo.getLastModifier();
-			TaskInstanceInfo[] runningTasks = instanceInfo.getRunningTasks();
 			TaskInstanceInfo lastTask = instanceInfo.getLastTask();
 			cid = SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceInfo.getId();
 			wid = instanceInfo.getWorkSpace().getId();
@@ -60,17 +59,7 @@
 		title="<%=owner.getLongName()%>" /></a>
 	</td>
 	<td><a href="<%=target%>"><%=instanceInfo.getSubject()%></a></td>
-	<%
-	if(runningTasks!=null){
-		int runningCount = runningTasks.length;	
-	%>
-	<td><a href="<%=target%>"><%=runningTasks[0].getName()%></a></td>
-	<%
-	}else if(lastTask!=null){
-	%>
 	<td><a href="<%=target%>"><%=lastTask.getName()%></a></td>
-	<%
-	}%>
 	<td><a href="<%=target%>">
 		<div class="noti_pic">
 			<img src="<%=lastModifier.getMinPicture()%>"
