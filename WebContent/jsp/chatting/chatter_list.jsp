@@ -19,7 +19,7 @@
 			var length = userInfos.length;
 			for ( var i = 0; i < length; i++) {
 				data = data
-						+ "<li><a href='' userId='" + userInfos[i].userId + "'><span><img src='" + userInfos[i].minPicture + "' title='" + userInfos[i].longName + "' />"
+						+ "<li><a href='' userId='" + userInfos[i].userId + "'><span><img src='" + userInfos[i].minPicture + "' title='" + userInfos[i].longName + "' class='online'/>"
 						+ userInfos[i].longName + "</span></a></li>";
 			}
 			$("#available_chatter_list").html(data).parents(
@@ -36,62 +36,85 @@
 
 <div class="chat_warp">
 
-<!-- 채팅Default -->
-<div class="chat_de_section js_chatter_list">
-	<!-- 상단 -->
-	<div class="top_group">
-		<a href="" class="js_toggle_chatter_list">
-			<div class="chatic_titl posi_ab">
-				채 팅 <span class="t_white js_chatters_number">(<%=chatters.length%>)</span>
+	<!-- 채팅Default -->
+	<div class="chat_de_section js_chatter_list">
+		<!-- 상단 -->
+		<div class="top_group">
+			<a href="" class="js_toggle_chatter_list">
+				<div class="chatic_titl posi_ab">
+					채 팅 <span class="t_white js_chatters_number">(<%=chatters.length%>)</span>
+				</div> </a>
+
+			<!-- 상단우측 아이콘-->
+			<div class="txt_btn">
+
+				<div class="ch_right btn_admin">
+					<a href=""> <span> </span> </a>
+				</div>
+
+			</div>
+			<!-- 상단 우측 아이콘//-->
+
+		</div>
+		<!-- 상단 //-->
+
+		<!--온라인ㅌ 일때는 class="chat_online", 오프라인 일때는 chat_offline -->
+		<div class="js_chatter_search_area" style="display: none">
+
+			<!-- Body -->
+			<div class="chat_de_list js_chatter_list" id="available_chatter_list">
+				<ul>
+					<%
+						for (UserInfo chatter : chatters) {
+					%><li><a href="" userId="<%=chatter.getId()%>"><img
+							src="<%=chatter.getMinPicture()%>"
+							title="<%=chatter.getLongName()%>" /><%=chatter.getLongName()%>
+							<span class="chat_offline"> </span>
+					</a>
+					</li>
+					<%
+						}
+					%>
+				</ul>
+			</div>
+
+			<!-- Body //-->
+
+			<!-- 검색영역 -->
+			<div class="chat_input_section js_chatter_names">
+				<div class="srch">
+					<input id="" class="input js_auto_complete" type="text"
+						href="chatter_name.sw" placeholder="사람,부서,그룹 찾기"
+						title="사람,부서,그룹 찾기">
+					<div class="srch_ico js_srch_x"></div>
+				</div>
+			</div>
+		</div>
+		<!-- 검색영역//-->
+	</div>
+	<!-- 채팅Default //-->
+
+	<!-- 이동 화살표-->
+	<div class="chat_num_section">
+		<!-- 상단 -->
+		<a href="">
+			<div class="top_group">
+				<span class="cha_prev"></span><span class="cha_num">3</span>
 			</div> </a>
-
-		<!-- 상단우측 아이콘-->
-		<div class="txt_btn">
-
-			<div class="ch_right btn_admin">
-				<a href=""> <span> </span> </a>
-			</div>
-
-		</div>
-		<!-- 상단 우측 아이콘//-->
-
 	</div>
-	<!-- 상단 //-->
+	<!-- 이동 화살표 //-->
 
-<!--온라인ㅌ 일때는 class="chat_online", 오프라인 일때는 chat_offline -->
-	<div class="js_chatter_search_area" style="display: none">
-		<!-- Body -->
-		<div class="chat_de_list js_chatter_list" id="available_chatter_list">
-			<ul>
-				<%
-					for (UserInfo chatter : chatters) {
-				%><li><a href="" userId="<%=chatter.getId()%>"><img
-						src="<%=chatter.getMinPicture()%>" class="padding_r5"
-						title="<%=chatter.getLongName()%>" /><%=chatter.getLongName()%>
-				<span class="chat_online"> </span></a></li>
-				<%
-					}
-				%>
-			</ul>
-		</div>
-		
-		<!-- Body //-->
+	<div class="js_chatting_box_list chat_space"></div>
 
-		<!-- 검색영역 -->
-		<div class="chat_input_section js_chatter_names">
-			<div class="srch">
-				<input id="" class="input js_auto_complete" type="text"
-					href="chatter_name.sw" placeholder="사람,부서,그룹 찾기"
-					title="사람,부서,그룹 찾기">
-				<div class="srch_ico js_srch_x"></div>
-			</div>
-		</div>
+	<!-- 이동 화살표-->
+	<div class="chat_num_section">
+		<!-- 상단 -->
+		<a href="">
+			<div class="top_group">
+				<span class="cha_num">3</span><span class="cha_next"></span>
+			</div> </a>
 	</div>
-	<!-- 검색영역//-->
-</div>
-<!-- 채팅Default //-->
-
-<div class="js_chatting_box_list chat_space"></div>
+	<!-- 이동 화살표 //-->
 
 </div>
 

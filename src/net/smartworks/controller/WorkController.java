@@ -107,4 +107,11 @@ public class WorkController {
 		return SmartUtil.returnMnv(request,
 				"jsp/content/work/report/work_report.jsp", "");
 	}
+
+	@RequestMapping("/search_filter")
+	public ModelAndView searchFilter(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/search_filter.jsp", "");
+	}
+
 }
