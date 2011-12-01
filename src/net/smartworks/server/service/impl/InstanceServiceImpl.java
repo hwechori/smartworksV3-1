@@ -233,14 +233,14 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
 
-		InstanceInfoList instanceList = new InstanceInfoList();
-		instanceList.setInstanceDatas(ModelConverterInfo.getIWInstanceInfoArrayBySwdRecordArray(swdRecords));
-		instanceList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-		instanceList.setCountInPage(pageCount);
-		instanceList.setTotalPages((int)totalCount);
-		instanceList.setCurrentPage(currentPage);
+		InstanceInfoList instanceInfoList = new InstanceInfoList();
+		instanceInfoList.setInstanceDatas(ModelConverterInfo.getIWInstanceInfoArrayBySwdRecordArray(swdRecords));
+		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+		instanceInfoList.setCountInPage(pageCount);
+		instanceInfoList.setTotalPages((int)totalCount);
+		instanceInfoList.setCurrentPage(currentPage);
 
-		return instanceList;
+		return instanceInfoList;
 	}
 
 	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {

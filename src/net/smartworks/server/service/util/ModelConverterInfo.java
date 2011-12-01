@@ -189,22 +189,6 @@ public class ModelConverterInfo extends ModelConverter {
 
 		FieldData[] fieldDatas = ModelConverterInfo.getFieldDataArrayBySwdDataFieldArray(swdDataFields);
 
-/*		SwdFieldCond swdFieldCond = new SwdFieldCond();
-		swdFieldCond.setDomainObjId(swdRecord.getDomainId());
-		SwdField[] swdFields = getSwdManager().getFields("", swdFieldCond, IManager.LEVEL_LITE);
-
-		List<SwfFormFieldDef> formFieldDefList = getSwfManager().findFormFieldByForm(swdDomain.getFormId(), true);
-		List<SwdField>
-		for(SwfFormFieldDef formFieldDef : formFieldDefList) {
-			String formFieldId = formFieldDef.getId();
-			String viewingType = formFieldDef.getViewingType();
-			for(SwdField swdField : swdFields) {
-				if(swdField.getFormFieldId().contains(formFieldId) && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
-					
-				}
-			}
-		}*/
-
 		List<SwdDomainFieldView> fieldViewList = getSwdManager().findDomainFieldViewList(swdDomain.getFormId());
 		List<SwfFormFieldDef> formFieldDefList = getSwfManager().findFormFieldByForm(swdDomain.getFormId(), true);
 
