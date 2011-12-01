@@ -452,7 +452,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
     			fos.write(buf, 0, len);
     		}*/
             response.setStatus(HttpServletResponse.SC_OK);
-            writer.print("{success: true}");
+            writer.print("{success: true, fileId: \"" + formFile.getId() + "\"}");
         } catch (FileNotFoundException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             writer.print("{success: false}");

@@ -56,16 +56,17 @@ public class DocFileController {
 	@RequestMapping(value = "/ajax_upload_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println(request.getParameter("groupId"));
 		smartworks.ajaxUploadFile(request, response);
 	}
 
-	@RequestMapping(value = "/find_file_group", method = RequestMethod.POST)
+	@RequestMapping(value = "/find_file_group", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody List<IFileModel> findFileGroup(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		List<IFileModel> list = new ArrayList<IFileModel>();
 		list = smartworks.findFileGroup(request);
-		// TO DO : Exception handler
+		System.out.println();
 
 		return list;
 	}
@@ -73,7 +74,6 @@ public class DocFileController {
 	@RequestMapping(value = "/delete_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void deleteFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		smartworks.deleteFile(request);
 		// TO DO : Exception handler
 	}

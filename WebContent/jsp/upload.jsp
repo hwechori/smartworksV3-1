@@ -34,8 +34,6 @@
 </head>
 <body>
 <form name="uploadForm">
-<input type="hidden" id="groupId" name="groupId" value="<%=IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR)%>">
-    <p><a href="http://github.com/valums/file-uploader">Back to project page</a></p>
     <p>This is Smartworks.net File Uploader!!</p>
 	<p>To upload a file, click on the button below. Drag-and-drop is supported in FF, Chrome.</p>
 	<p>Progress-bar is supported in FF3.6+, Chrome6+, Safari4+</p>
@@ -49,25 +47,93 @@
 
 <script type="text/javascript" src="../js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="../js/jquery/jquery.ui.core.js"></script>
+<script type="text/javascript" src="../js/sw/sw-all.js"></script>
+<script type="text/javascript" src="../js/sw/sw-nav.js"></script>
 <script src="../js/jquery/fileuploader/fileuploader.js" type="text/javascript"></script>
 <script>
-	function createUploader(){            
-	    var uploader = new qq.FileUploader({
+	var fileTemplate = '<li>' +
+    '<span class="qq-upload-file"></span>' +
+    '<span class="qq-upload-spinner"></span>' +
+    '<span class="qq-upload-size"></span>' +
+    '<a class="qq-upload-cancel" href="#">Cancel</a>' +
+    '<span class="qq-upload-failed-text">Failed</span>' +
+    '<span class="qq-delete-text" style="display:none">X</span>' +
+	'</li>';
+	
+	function fileUploader(groupId) {
+		return new qq.FileUploader({
 	        element: $('#file-uploader-demo1')[0],
+	
 	        params : {
-	        	groupId : $('#groupId').val()
+	        	groupId : groupId
 	        },
 	        action: '../ajax_upload_file.sw',
 	        onSubmit : function(id, fileName) {
+	        	var files = $(this.element).find('.qq-upload-list li');
+	        	for(var i = 0;i < files.length;i++) {
+	        		var file = $(files[i]);
+	        		var name = file.find('.qq-upload-file').text();
+	        		if(fileName === name) {
+	        			return false;
+	        		}
+	        	}
+	        	return true;
 	        },
 	        onComplete : function(id, fileName, responseJSON){
+	        	var files = $(this.element).find('.qq-upload-list li');
+	        	for(var i = 0;i < files.length;i++) {
+	        		var file = $(files[i]);
+	        		file.attr('fileId', responseJSON.fileId);
+	        		var name = file.find('.qq-upload-file').text();
+	        		if(fileName === name) {
+	        			var del = file.find('.qq-delete-text');
+	        			del.show();
+	        			return;
+	        		}
+	        	}
 	        },
+	        fileTemplate : fileTemplate, 
 	        debug: true
-	    });           
+	    });
+	}
+	
+	function createUploader(groupId){
+		if(!groupId) {
+			groupId = '<%=IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR)%>';
+		} else {
+			$.ajax({				
+				url : "../find_file_group.sw",
+				data : {
+					groupId : groupId
+				},
+				type : "GET",
+				context : this,
+				success : function(data, status, jqXHR) {
+					var uploader = fileUploader(groupId);
+					// var uploader_div = $(uploader.element);
+					var uploader_div = $('#file-uploader-demo1');
+					var files = uploader_div.find('.qq-upload-list');
+					for(var i in data) {
+						var file = $(fileTemplate).appendTo(files);
+						file.attr('fileId', data[i].id);
+						file.find('.qq-upload-file').text(data[i].fileName);
+						file.find('.qq-upload-size').text(data[i].fileSize);
+						file.find('.qq-upload-cancel').remove();
+						file.find('.qq-upload-spinner').remove();
+						file.find('.qq-delete-text').show();
+					}
+				},
+				failure : function(e) {
+					alert(e);
+				}
+			});
+		}
 	}
 // in your app create uploader as soon as the DOM is ready
 // don't wait for the window to load  
-	window.onload = createUploader;
+	window.onload = function(){
+		createUploader('fg_fe6e2de9854c46b2ac6536b378156354');
+	};
 </script>
 </form>
 </body>
