@@ -395,14 +395,12 @@ public class SmartWorks implements ISmartWorks {
 
 	@Override
 	public Report getReportById(String companyId, String userId, String reportId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return workService.getReportById(companyId, userId, reportId);
 	}
 
 	@Override
 	public SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return workService.getSearchFilterById(companyId, userId, filterId);
 	}
 
 }

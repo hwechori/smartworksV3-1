@@ -48,12 +48,12 @@
 	SmartWork work = null;
 	Report report = null;
 	ChartReport chart = null;
-	if(workId!=null)
+	if (workId != null)
 		work = (SmartWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
-	if(reportId!=null)
+	if (reportId != null)
 		report = smartWorks.getReportById(cUser.getCompanyId(), cUser.getId(), reportId);
-	if(report!=null && report.getType() == Report.TYPE_CHART)
-		chart = (ChartReport)report;
+	if (report != null && report.getType() == Report.TYPE_CHART)
+		chart = (ChartReport) report;
 
 	FormField[] fields = null;
 	if ((work != null) && (work.getType() == SmartWork.TYPE_INFORMATION)) {
@@ -64,7 +64,6 @@
 	} else {
 		fields = new FormField[] {};
 	}
-	
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -84,99 +83,146 @@
 				<table class="margin_t10">
 					<tbody>
 						<tr>
-							<td width="11%"><div class="essen_r">제 목</div></td>
+							<td width="11%"><div class="essen_r">제 목</div>
+							</td>
 							<td width="89%" colspan="3"><div class="fieldline">
 									<input id="" type="text" name="txtWorkReportName"
 										value="<%if (report != null) {%><fmt:message key='<%=report.getName() %>'/><%}%>">
-								</div></td>
+								</div>
+							</td>
 						</tr>
 						<tr class="js_work_report_type">
 							<td>보고서 종류</td>
 							<td colspan="3" class=""><input name="rdoWorkReportType"
-								type="radio" value="<%=Report.TYPE_CHART %>"
+								type="radio" value="<%=Report.TYPE_CHART%>"
 								<%if ((report != null) && (report.getType() == Report.TYPE_CHART)) {%>
 								checked <%}%>>차트 <input name="rdoReportType"
-								type="radio" value="<%=Report.TYPE_MATRIX %>"
+								type="radio" value="<%=Report.TYPE_MATRIX%>"
 								<%if ((report != null) && (report.getType() == Report.TYPE_MATRIX)) {%>
 								checked <%}%>>매트릭스 <input name="rdoReportType"
-								type="radio" value="<%=Report.TYPE_TABLE %>"
+								type="radio" value="<%=Report.TYPE_TABLE%>"
 								<%if ((report != null) && (report.getType() == Report.TYPE_TABLE)) {%>
 								checked <%}%>>테이블</td>
 						</tr>
 
 						<tr class="js_report_chart_type"
-							<%if(report==null || report.getType()!=Report.TYPE_CHART){ %>
-							style="display: none" <%} %>>
-							<td><div class="essen_r">차트 종류</div></td>
+							<%if (report == null || report.getType() != Report.TYPE_CHART) {%>
+							style="display: none" <%}%>>
+							<td><div class="essen_r">차트 종류</div>
+							</td>
 							<td colspan="3" class=""><select name="selReportChartType">
 									<option value="<%=ChartReport.CHART_TYPE_COLUMN%>"
-										<%if(chart!=null && chart.getChartType() == ChartReport.CHART_TYPE_COLUMN ){ %>selected<%} %>>컬럼 차트</option>
+										<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_COLUMN) {%>
+										selected <%}%>>컬럼 차트</option>
 									<option value="<%=ChartReport.CHART_TYPE_BAR%>"
-										<%if(chart!=null && chart.getChartType() == ChartReport.CHART_TYPE_BAR ){ %>selected<%} %>>바 차트</option>
+										<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_BAR) {%>
+										selected <%}%>>바 차트</option>
 									<option value="<%=ChartReport.CHART_TYPE_LINE%>"
-										<%if(chart!=null && chart.getChartType() == ChartReport.CHART_TYPE_LINE ){ %>selected<%} %>>라인 차트</option>
+										<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_LINE) {%>
+										selected <%}%>>라인 차트</option>
 									<option value="<%=ChartReport.CHART_TYPE_PIE%>"
-										<%if(chart!=null && chart.getChartType() == ChartReport.CHART_TYPE_PIE ){ %>selected<%} %>>파이 차트</option>
+										<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_PIE) {%>
+										selected <%}%>>파이 차트</option>
 									<option value="<%=ChartReport.CHART_TYPE_AREA%>"
-										<%if(chart!=null && chart.getChartType() == ChartReport.CHART_TYPE_AREA ){ %>selected<%} %>>구역 차트</option>
+										<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_AREA) {%>
+										selected <%}%>>구역 차트</option>
 									<option value="<%=ChartReport.CHART_TYPE_PLOT%>"
-										<%if(chart!=null && chart.getChartType() == ChartReport.CHART_TYPE_PLOT ){ %>selected<%} %>>플롯 차트</option>
+										<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_PLOT) {%>
+										selected <%}%>>플롯 차트</option>
 									<option value="<%=ChartReport.CHART_TYPE_BUBBLE%>"
-										<%if(chart!=null && chart.getChartType() == ChartReport.CHART_TYPE_BUBBLE ){ %>selected<%} %>>버블
-										차트</option>
-							</select>
-							</td>
+										<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_BUBBLE) {%>
+										selected <%}%>>버블 차트</option>
+							</select></td>
 						</tr>
 						<tr>
-							<td><div class="essen_r">X축</div></td>
-							<td colspan="3" class=""><select name="selReportXAxis">
-	<%
-	if (fields != null) {
-		for (FormField field : fields) {
-						%>
-						<option type="<%=field.getPageName()%>" value="<%=field.getId()%>"><%=field.getName()%></option>
-	<%	}
-	}%>
-						<jsp:include page="/jsp/content/work/field/default_fields.jsp">
-							<jsp:param name="type" value="<%=work.getType() %>" /></jsp:include>
+							<td><div class="essen_r">X축</div>
+							</td>
+							<td colspan="3" class=""><select name="selReportXAxis" class="js_select_chart_xaxis">
+									<%
+										if (fields != null) {
+											for (FormField field : fields) {
+									%>
+									<option type="<%=field.getPageName()%>"
+										value="<%=field.getId()%>"><%=field.getName()%></option>
+									<%
+										}
+										}
+									%>
+									<jsp:include page="/jsp/content/work/field/default_fields.jsp">
+										<jsp:param name="type" value="<%=work.getType() %>" /></jsp:include>
 							</select>
-							</td>
-							<td><select name="selReportXAxisSelector">
-								<%for(KeyMap selector : Report.AXIS_SELECTORS_DATE){%>
-								<option value="<%=selector.getId()%>"><fmt:message key="<%=selector.getKey() %>"/></option>
-								<%} %>
-								</select>
-							</td>
+							<%
+							if(chart!=null){
+								String fieldType = chart.getXAxis().getType();
+								if (fieldType.equals(FormField.TYPE_DATE) || fieldType.equals(FormField.TYPE_DATETIME)) {
+							%>
+							<select name="selReportXAxisSelectorDate" class="js_xaxis_selector_date">
+									<%
+										for (KeyMap selector : Report.AXIS_SELECTORS_DATE) {
+									%>
+									<option value="<%=selector.getId()%>">
+										<fmt:message key="<%=selector.getKey() %>" />
+									</option>
+									<%
+										}
+									%>
+							</select><
+							<%
+								} else if (fieldType.equals(FormField.TYPE_USER)) {
+							%>
+							<select name="selReportXAxisSelectorUser" class="js_xaxis_selector_user">
+									<%
+										for (KeyMap selector : Report.AXIS_SELECTORS_USER) {
+									%>
+									<option value="<%=selector.getId()%>">
+										<fmt:message key="<%=selector.getKey() %>" />
+									</option>
+									<%
+										}
+									%>
+							</select></td>
+							<%
+								}
+							}
+							%>
 						</tr>
 						<tr>
-							<td><div class="essen_r">Y축</div></td>
+							<td><div class="essen_r">Y축</div>
+							</td>
 							<td colspan="3" class=""><select name="selReportYAxis">
-	<%
-	if (fields != null) {
-		for (FormField field : fields) {
-						%>
-						<option type="<%=field.getPageName()%>" value="<%=field.getId()%>"><%=field.getName()%></option>
-	<%	}
-	}%>
-						<jsp:include page="/jsp/content/work/field/default_fields.jsp">
-							<jsp:param name="type" value="<%=work.getType() %>" /></jsp:include>
-							</select>
-							</td>
+									<%
+										if (fields != null) {
+											for (FormField field : fields) {
+									%>
+									<option type="<%=field.getPageName()%>"
+										value="<%=field.getId()%>"><%=field.getName()%></option>
+									<%
+										}
+										}
+									%>
+									<jsp:include page="/jsp/content/work/field/default_fields.jsp">
+										<jsp:param name="type" value="<%=work.getType() %>" /></jsp:include>
+							</select></td>
 							<td><select name="selReportYAxisValue">
-								<%for(KeyMap valueType : report.VALUE_TYPES){%>
-								<option value="<%=valueType.getId()%>"><fmt:message key="<%=valueType.getKey() %>"/></option>
-								<%} %>
-								</select>
-							</td>
+									<%
+										for (KeyMap valueType : report.VALUE_TYPES) {
+									%>
+									<option value="<%=valueType.getId()%>">
+										<fmt:message key="<%=valueType.getKey() %>" />
+									</option>
+									<%
+										}
+									%>
+							</select></td>
 						</tr>
 						<tr>
-							<td><div class="essen_r">Z축</div></td>
+							<td><div class="essen_r">Z축</div>
+							</td>
 							<td colspan="3" class=""><select name="jumpMenu"
 								id="jumpMenu">
 									<option>업무처리기간</option>
 									<option></option>
-							</select>
-							</td>
+							</select></td>
 						</tr>
 						<tr>
 							<td>상세필터</td>
