@@ -8,12 +8,13 @@
 
 package net.smartworks.server.engine.docfile.model;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 
 import net.smartworks.server.engine.common.util.XmlUtil;
 
-import org.apache.commons.fileupload.FileItem;
+import org.springframework.web.multipart.MultipartFile;
 
 public class HbFileModel implements IFileModel, Serializable {
 
@@ -45,7 +46,23 @@ public class HbFileModel implements IFileModel, Serializable {
   	/**
   	 * 파일 아이템
   	 */
-  	private FileItem fileItem;
+  	private MultipartFile multipartFile;
+
+  	/**
+	 * @return the multipartFile
+	 */
+	public MultipartFile getMultipartFile() {
+		return multipartFile;
+	}
+
+	/**
+	 * @param multipartFile the multipartFile to set
+	 */
+	public void setMultipartFile(MultipartFile multipartFile) {
+		this.multipartFile = multipartFile;
+	}
+
+	private InputStream inputStream;
 
 	/**
 	 * @return the id
@@ -130,21 +147,7 @@ public class HbFileModel implements IFileModel, Serializable {
 	public void setWrittenTime(Date writtenTime) {
 		this.writtenTime = writtenTime;
 	}
-	
-	/**
-	 * @return the fileItem
-	 */
-	public FileItem getFileItem() {
-		return fileItem;
-	}
 
-	/**
-	 * @param fileItem the fileItem to set
-	 */
-	public void setFileItem(FileItem fileItem) {
-		this.fileItem = fileItem;
-	}
-  	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -173,6 +176,16 @@ public class HbFileModel implements IFileModel, Serializable {
 		} catch (Exception e) {
 			return "";
 		}
+	}
+
+	@Override
+	public void setMultiPartInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
+	}
+
+	@Override
+	public InputStream getMultiPartInputStream() {
+		return inputStream;
 	}
 
 }
