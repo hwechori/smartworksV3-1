@@ -153,12 +153,24 @@ public class InstanceServiceImpl implements IInstanceService {
 		TskTaskCond assignedTaskCond = new TskTaskCond();
 		assignedTaskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
 		assignedTaskCond.setAssignee(userId);
-		assignedTaskCond.setStatus(TskTask.TASKSTATUS_ASSIGN);
 		assignedTaskCond.setAssignmentDateTo(limitDate);
 		assignedTaskCond.setPageNo(0);
 		assignedTaskCond.setPageSize(resultSize);
 		
+		
+		
+		
+		assignedTaskCond.setStatus(TskTask.TASKSTATUS_ASSIGN);
+		
+		
 		TskTask[] assignTasks = getTskManager().getTasks(userId, assignedTaskCond, IManager.LEVEL_LITE);
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
