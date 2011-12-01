@@ -336,6 +336,14 @@ $(function() {
 		return false;
 	});
 
+	$('tr.js_select_chart_xaxis td').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.parents('tr.js_work_report_type').next('tr.js_report_chart_type');
+		if(input.attr('value') != 1) target.hide();
+		else target.show();
+		return false;
+	});
+
 	$('.js_select_community')
 	.live(
 			'click',

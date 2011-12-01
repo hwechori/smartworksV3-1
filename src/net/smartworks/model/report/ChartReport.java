@@ -53,43 +53,43 @@ public class ChartReport extends Report {
 		this.chartType = chartType;
 	}
 
-	public FormField getxAxis() {
+	public FormField getXAxis() {
 		return xAxis;
 	}
 
-	public void setxAxis(FormField xAxis) {
+	public void setXAxis(FormField xAxis) {
 		this.xAxis = xAxis;
 	}
 
-	public String getxAxisSeletor() {
+	public String getXAxisSeletor() {
 		return xAxisSeletor;
 	}
 
-	public void setxAxisSeletor(String xAxisSeletor) {
+	public void setXAxisSeletor(String xAxisSeletor) {
 		this.xAxisSeletor = xAxisSeletor;
 	}
 
-	public String getxAxisSort() {
+	public String getXAxisSort() {
 		return xAxisSort;
 	}
 
-	public void setxAxisSort(String xAxisSort) {
+	public void setXAxisSort(String xAxisSort) {
 		this.xAxisSort = xAxisSort;
 	}
 
-	public FormField getyAxis() {
+	public FormField getYAxis() {
 		return yAxis;
 	}
 
-	public void setyAxis(FormField yAxis) {
+	public void setYAxis(FormField yAxis) {
 		this.yAxis = yAxis;
 	}
 
-	public String getyAxisSelector() {
+	public String getYAxisSelector() {
 		return yAxisSelector;
 	}
 
-	public void setyAxisSelector(String yAxisSelector) {
+	public void setYAxisSelector(String yAxisSelector) {
 		this.yAxisSelector = yAxisSelector;
 	}
 
@@ -101,19 +101,19 @@ public class ChartReport extends Report {
 		this.valueType = valueType;
 	}
 
-	public FormField getzAxis() {
+	public FormField getZAxis() {
 		return zAxis;
 	}
 
-	public void setzAxis(FormField zAxis) {
+	public void setZAxis(FormField zAxis) {
 		this.zAxis = zAxis;
 	}
 
-	public String getzAxisSelector() {
+	public String getZAxisSelector() {
 		return zAxisSelector;
 	}
 
-	public void setzAxisSelector(String zAxisSelector) {
+	public void setZAxisSelector(String zAxisSelector) {
 		this.zAxisSelector = zAxisSelector;
 	}
 
