@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.smartworks.model.community.User;
+import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.filter.info.SearchFilterInfo;
+import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
@@ -45,6 +49,7 @@ import net.smartworks.server.engine.pkg.model.PkgPackageCond;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
+import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 
@@ -255,7 +260,7 @@ public class WorkServiceImpl implements IWorkService {
 		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_LITE);
 
 		//상세필터
-		resultwork.setSearchFilters(ModelConverter.getSearchFilterArrayByPkgPackage(userId, pkg));
+		resultwork.setSearchFilters(ModelConverter.getSearchFilterInfoByPkgPackage(userId, pkg));
 		
 		String name = pkg.getName();
 		String typeStr = pkg.getType();
@@ -306,8 +311,29 @@ public class WorkServiceImpl implements IWorkService {
 
 		return resultwork;
 	}	
+
 	@Override
-	public Report[] getReportsByWorkId(String companyId, String userId, String workId) throws Exception {
-		return SmartTest.getReportsByWorkId();
+	public Report getReportById(String companyId, String userId, String reportId) throws Exception {
+		// TODO Auto-generated method stub
+		ChartReport[] defaultInformationCharts = ChartReport.DEFAULT_CHARTS_INFORMATION;
+		for(ChartReport report : defaultInformationCharts){
+			if(report.getId().equals(reportId)) return report;
+		}
+		ChartReport[] defaultProcessCharts = ChartReport.DEFAULT_CHARTS_PROCESS;
+		for(ChartReport report : defaultProcessCharts){
+			if(report.getId().equals(reportId)) return report;
+		}		
+		return SmartTest.getReportById();
+	}
+
+	@Override
+	public SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception {
+		if(filterId.equals(SearchFilter.FILTER_ALL_INSTANCES)) return null;
+		if(filterId.equals(SearchFilter.FILTER_MY_INSTANCES)) return SearchFilter.getMyInstancesFilter(ModelConverter.getUserByUserId(userId));
+		if(filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES)) return SearchFilter.getRecentInstancesFilter();
+		if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) return SearchFilter.getMyRecentInstancesFilter(ModelConverter.getUserByUserId(userId));
+		if(filterId.equals(SearchFilter.FILTER_MY_RUNNING_INSTANCES)) return SearchFilter.getMyRunningInstancesFilter(ModelConverter.getUserByUserId(userId));
+
+		return SmartTest.getSearchFilterById();
 	}
 }

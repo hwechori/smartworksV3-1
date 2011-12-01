@@ -20,6 +20,7 @@ import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.filter.info.SearchFilterInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.WorkInstance;
@@ -691,7 +692,7 @@ public class ModelConverter {
 		smartWork.setLastModifier(getUserByUserId(pkg.getModificationUser()));
 		smartWork.setLastModifiedDate(new LocalDate(pkg.getModificationDate().getTime()));
 		
-		smartWork.setSearchFilters(getSearchFilterArrayByPkgPackage(userId, pkg));
+		smartWork.setSearchFilters(getSearchFilterInfoByPkgPackage(userId, pkg));
 		
 		Map<String, WorkCategory> pkgCtgPathMap = getPkgCtgMapByPackage(pkg);
 		smartWork.setMyCategory(pkgCtgPathMap.get("category"));
@@ -715,6 +716,11 @@ public class ModelConverter {
 		processWork.setManualFilePath("MANUAL FILE PATH");
 		
 		return processWork;
+	}
+	
+	public static SearchFilterInfo[] getSearchFilterInfoByPkgPackage(String userId, PkgPackage pkg) throws Exception {
+		
+		return new SearchFilterInfo[]{new SearchFilterInfo("","")};
 	}
 	
 	public static SearchFilter[] getSearchFilterArrayByPkgPackage(String userId, PkgPackage pkg) throws Exception {

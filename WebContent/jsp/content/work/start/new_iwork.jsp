@@ -39,10 +39,7 @@ function submitForms(e) {
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser(request, response);
 
-	Work work = smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
-	SmartWork cWork = null;
-	if (work.getClass().equals(SmartWork.class))
-		cWork = (SmartWork) work;
+	SmartWork work = (SmartWork)smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -50,7 +47,7 @@ function submitForms(e) {
 <!-- 폼- 확장 -->
 <div class="form_wrap up up_padding">
 	<div class="form_title">
-		<div class="ico_iworks title"><%=cWork.getFullpathName()%></div>
+		<div class="ico_iworks title"><%=work.getFullpathName()%></div>
 		<div class="txt_btn">
 			<div>
 				<a href=""><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
@@ -67,12 +64,12 @@ function submitForms(e) {
 		<div class="txt_btn">
 			<div>
 				<a class="js_toggle_form_detail"
-					href="load_detail_form.sw?key=<%=cWork.getId()%>"><fmt:message
+					href="load_detail_form.sw?key=<%=work.getId()%>"><fmt:message
 						key="common.upload.button.detail" /> </a>
 			</div>
 			<div style="display: none">
 				<a class="js_toggle_form_detail"
-					href="load_brief_form.sw?key=<%=cWork.getId()%>"><fmt:message
+					href="load_brief_form.sw?key=<%=work.getId()%>"><fmt:message
 						key="common.upload.button.brief" /> </a>
 			</div>
 		</div>

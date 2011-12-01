@@ -1163,4 +1163,11 @@ public class SmartTest {
 		return ChartReport.DEFAULT_CHARTS_INFORMATION;
 	}
 
+	public static Report getReportById() throws Exception{
+		return ChartReport.getChartPCntMonthly();
+	}
+	
+	public static SearchFilter getSearchFilterById() throws Exception{
+		return SearchFilter.getMyRecentInstancesFilter(getUser1());
+	}
 }

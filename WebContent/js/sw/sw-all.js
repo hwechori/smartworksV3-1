@@ -286,6 +286,48 @@ $(function() {
 				}
 			});
 
+	$('a.js_create_new_work').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('div.js_work_list_title:first').siblings('div.js_new_work_form');
+		var url = input.attr('href');
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}
+		});
+		return false;
+	});
+
+	$('a.js_new_work_report').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
+		var url = input.attr('href');
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}
+		});
+		return false;
+	});
+
+	$('select.js_select_work_report').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
+		var url = input.attr('href') + "&reportId=" + input.children('option:selected').attr('value');;
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}
+		});
+		return false;
+	});
+
 	$('.js_select_community')
 	.live(
 			'click',

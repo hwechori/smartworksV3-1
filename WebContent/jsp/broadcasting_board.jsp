@@ -39,14 +39,14 @@
 <!-- Broadcasting Board -->
 
 <b>[<fmt:message key="broadcasting.board.title" />] </b>
-<div id="divBroadcastingBoard"></div>
+<span id="divBroadcastingBoard"></span>
 
 <script type="text/javascript">
 var messageArray = new Array();
 <%if (messages != null) {
 	for (int i = 0; i < messages.length; i++) {
 		String message = messages[i];%>
-		messageArray[<%=i%>] = "<%=message%>";
+		messageArray[<%=i%>] = "<%=i+1%>/<%=messages.length%> <%=message%>";
 	<%
 	}
 }
