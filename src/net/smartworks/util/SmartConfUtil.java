@@ -12,6 +12,8 @@ public class SmartConfUtil {
 
 	private static SmartConfUtil util;
 
+	private String smartWorksHome;
+
 	private String fileDirectory;
 
 	public static SmartConfUtil getInstance() {
@@ -27,12 +29,23 @@ public class SmartConfUtil {
 	}
 
 	/**
+	 * @return the smartWorksHome
+	 */
+	public String getSmartWorksHome() {
+		return smartWorksHome;
+	}
+	/**
+	 * @param smartWorksHome the smartWorksHome to set
+	 */
+	public void setSmartWorksHome(String smartWorksHome) {
+		this.smartWorksHome = smartWorksHome;
+	}
+	/**
 	 * @return the fileDirectory
 	 */
 	public String getFileDirectory() {
 		return fileDirectory;
 	}
-
 	/**
 	 * @param fileDirectory the fileDirectory to set
 	 */

@@ -46,7 +46,14 @@ public class FormField extends BaseObject{
 	public static final FormField FIELD_LAST_MODIFIED_DATE = new FormField(ID_LAST_MODIFIED_DATE, "", TYPE_DATETIME);
 
 	private String type;
+	private int displayOrder;
 	
+	public int getDisplayOrder() {
+		return displayOrder;
+	}
+	public void setDisplayOrder(int displayOrder) {
+		this.displayOrder = displayOrder;
+	}
 	public String getType() {
 		return type;
 	}
