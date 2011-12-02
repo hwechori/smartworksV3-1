@@ -108,6 +108,30 @@ public class WorkController {
 				"jsp/content/work/report/work_report.jsp", "");
 	}
 
+	@RequestMapping("/work_report_chart")
+	public ModelAndView workReportChart(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/report/work_report_chart.jsp", "");
+	}
+
+	@RequestMapping("/work_report_table")
+	public ModelAndView workReportTable(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/report/work_report_table.jsp", "");
+	}
+
+	@RequestMapping("/work_report_matrix")
+	public ModelAndView workReportMatrix(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/report/work_report_matrix.jsp", "");
+	}
+
 	@RequestMapping("/search_filter")
 	public ModelAndView searchFilter(HttpServletRequest request, HttpServletResponse response) {
 

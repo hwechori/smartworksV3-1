@@ -7,7 +7,7 @@ public class FormField extends BaseObject{
 	public static final String ID_STATUS = "status";
 	public static final String ID_SUBJECT = "subject";
 	public static final String ID_TASK_NAME = "taskName";
-	public static final String ID_RUNNING_TASK = "runningTask";
+	public static final String ID_LAST_TASK = "lastTask";
 	public static final String ID_PROCESS_TIME = "processTime";
 	public static final String ID_PROCESS_TYPE = "processType";
 
@@ -30,13 +30,13 @@ public class FormField extends BaseObject{
 	public static final String TYPE_EMAIL = "emailIDInput"; // string
 	public static final String TYPE_DATE = "dateChooser"; //date
 	public static final String TYPE_TIME = "timeChooser"; //time
-	public static final String TYPE_DATETIME = "date"; //datetime
+	public static final String TYPE_DATETIME = "dateTimeChooser"; //datetime
 	
 
 	public static final FormField FIELD_STATUS = new FormField(ID_STATUS, "", TYPE_COMBO);
 	public static final FormField FIELD_SUBJECT = new FormField(ID_SUBJECT, "", TYPE_TEXT);
 	public static final FormField FIELD_TASK_NAME = new FormField(ID_TASK_NAME, "", TYPE_TEXT);
-	public static final FormField FIELD_RUNNING_TASK = new FormField(ID_RUNNING_TASK, "", TYPE_TEXT);
+	public static final FormField FIELD_LAST_TASK = new FormField(ID_LAST_TASK, "", TYPE_TEXT);
 	public static final FormField FIELD_PROCESS_TIME = new FormField(ID_PROCESS_TIME, "", TYPE_TIME);
 	public static final FormField FIELD_PROCESS_TYPE = new FormField(ID_PROCESS_TYPE, "", TYPE_COMBO);
 

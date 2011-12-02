@@ -27,25 +27,29 @@
 <%
 if(type != null && Integer.parseInt(type) == SmartWork.TYPE_INFORMATION){
 %>
-<option type="<%=FormField.FIELD_OWNER.getPageName()%>"
+<option page="<%=FormField.FIELD_OWNER.getPageName()%>"
+	type="<%=FormField.FIELD_OWNER.getType() %>" 
 	value="<%=FormField.ID_OWNER%>"
 	<%if (leftOperandId.equals(FormField.ID_OWNER)) {%> selected
 	<%}%>>
 	<fmt:message key='common.title.owner' />
 </option>
-<option type="<%=FormField.FIELD_CREATED_DATE.getPageName()%>"
+<option page="<%=FormField.FIELD_CREATED_DATE.getPageName()%>"
+	type="<%=FormField.FIELD_CREATED_DATE.getType() %>" 
 	value="<%=FormField.ID_CREATED_DATE%>"
 	<%if (leftOperandId.equals(FormField.ID_CREATED_DATE)) {%>
 	selected <%}%>>
 	<fmt:message key='common.title.created_date' />
 </option>
-<option type="<%=FormField.FIELD_LAST_MODIFIER.getPageName()%>"
+<option page="<%=FormField.FIELD_LAST_MODIFIER.getPageName()%>"
+	type="<%=FormField.FIELD_LAST_MODIFIER.getType() %>" 
 	value="<%=FormField.ID_LAST_MODIFIER%>"
 	<%if (leftOperandId.equals(FormField.ID_LAST_MODIFIER)) {%>
 	selected <%}%>>
 	<fmt:message key='common.title.last_modifier' />
 </option>
-<option type="<%=FormField.FIELD_LAST_MODIFIED_DATE.getPageName()%>"
+<option page="<%=FormField.FIELD_LAST_MODIFIED_DATE.getPageName()%>"
+	type="<%=FormField.FIELD_LAST_MODIFIED_DATE.getType() %>" 
 	value="<%=FormField.ID_LAST_MODIFIED_DATE%>"
 	<%if (leftOperandId.equals(FormField.ID_LAST_MODIFIED_DATE)) {%>
 	selected <%}%>>
@@ -54,37 +58,43 @@ if(type != null && Integer.parseInt(type) == SmartWork.TYPE_INFORMATION){
 <%
 }else if(type != null && Integer.parseInt(type) == SmartWork.TYPE_PROCESS){
 %>
-<option type="<%=FormField.FIELD_STATUS.getPageName()%>"
+<option page="<%=FormField.FIELD_STATUS.getPageName()%>"
+	type="<%=FormField.FIELD_STATUS.getType() %>" 
 	value="<%=FormField.ID_STATUS%>"
 	<%if (leftOperandId.equals(FormField.ID_STATUS)) {%> selected
 	<%}%>>
 	<fmt:message key='common.title.status' />
 </option>
-<option type="<%=FormField.FIELD_SUBJECT.getPageName()%>"
+<option page="<%=FormField.FIELD_SUBJECT.getPageName()%>"
+	type="<%=FormField.FIELD_SUBJECT.getType() %>" 
 	value="<%=FormField.ID_SUBJECT%>"
 	<%if (leftOperandId.equals(FormField.ID_SUBJECT)) {%>
 	selected <%}%>>
 	<fmt:message key='common.title.subject' />
 </option>
-<option type="<%=FormField.FIELD_RUNNING_TASK.getPageName()%>"
-	value="<%=FormField.ID_RUNNING_TASK%>"
-	<%if (leftOperandId.equals(FormField.ID_RUNNING_TASK)) {%>
+<option page="<%=FormField.FIELD_LAST_TASK.getPageName()%>"
+	type="<%=FormField.FIELD_LAST_TASK.getType() %>" 
+	value="<%=FormField.ID_LAST_TASK%>"
+	<%if (leftOperandId.equals(FormField.ID_LAST_TASK)) {%>
 	selected <%}%>>
-	<fmt:message key='common.title.running_task' />
+	<fmt:message key='common.title.last_task' />
 </option>
-<option type="<%=FormField.FIELD_OWNER.getPageName()%>"
+<option page="<%=FormField.FIELD_OWNER.getPageName()%>"
+	type="<%=FormField.FIELD_OWNER.getType() %>" 
 	value="<%=FormField.ID_OWNER%>"
 	<%if (leftOperandId.equals(FormField.ID_OWNER)) {%>
 	selected <%}%>>
 	<fmt:message key='common.title.starter' />
 </option>
-<option type="<%=FormField.FIELD_LAST_MODIFIER.getPageName()%>"
+<option page="<%=FormField.FIELD_LAST_MODIFIER.getPageName()%>"
+	type="<%=FormField.FIELD_LAST_MODIFIER.getType() %>" 
 	value="<%=FormField.ID_LAST_MODIFIER%>"
 	<%if (leftOperandId.equals(FormField.ID_LAST_MODIFIER)) {%>
 	selected <%}%>>
 	<fmt:message key='common.title.performer' />
 </option>
-<option type="<%=FormField.FIELD_LAST_MODIFIED_DATE.getPageName()%>"
+<option page="<%=FormField.FIELD_LAST_MODIFIED_DATE.getPageName()%>"
+	type="<%=FormField.FIELD_LAST_MODIFIED_DATE.getType() %>" 
 	value="<%=FormField.ID_LAST_MODIFIED_DATE%>"
 	<%if (leftOperandId.equals(FormField.ID_LAST_MODIFIED_DATE)) {%>
 	selected <%}%>>
