@@ -128,13 +128,14 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .ico_sworks {background: url("../images/ico_swoks.gif") no-repeat left top transparent; hieght:20px; padding:1px 0 2px 19px; line-hieght:18px;}
 .ico_gworks {background: url("../images/ico_category.gif") no-repeat left top transparent; hieght:20px; padding:1px 0 2px 19px; line-hieght:18px;}
 .ico_iworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; padding:1px 0 2px 19px; line-height:18px;}
-.ico_depart {background: url("../images/ico_group.gif") no-repeat left top transparent; height:28px; padding:3px 0 0 28px;}
+.ico_depart {background: url("../images/ico_depart.gif") no-repeat left top transparent; height:24px; padding:0 0 0 30px; display: inline-block; float:left;}
+.ico_group {background: url("../images/ico_group.gif") no-repeat left top transparent; height:24px; padding:0 0 0 30px; display: inline-block; float:left;}
 .ico_pe01 {background: url("../images/ico_pe01.gif") no-repeat 10px top transparent; height:28px; padding:3px 0 0 38px;}
 
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:205px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; width:221px;}
-.navi_list li {padding:1px 12px;}
-.navi_list li a:hover {background-color:#4e4e4e;} /* 오버 반전 */
+/* .navi_list li {padding:3px 12px; display:block; overflow: hidden;} */
+/*.navi_list li a:hover {display:block; background-color:#4e4e4e;}  오버 반전 */
 .navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:205px; padding:5px 10px 0;}
 .navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
 
@@ -142,9 +143,21 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 4px transparent; height:9px; padding:0 0 10px 13px;}
 
 .ico_chatpe {padding:10px 2px 2px 0;}
+.nav_subtitl_area {display: inline; line-height: 16px;}
+
+/* 나의 커뮤니티 */
+#my_communities li {position:relative;}
+#my_communities li a {padding:4px 12px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#my_communities li a:hover {display:block; background-color:#4e4e4e;}
+
+/* 나의 업무 */
+#my_works li {position:relative;}
+#my_works li a {padding:4px 12px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#my_works li a:hover {display:block; background-color:#4e4e4e;}
+
 
 /*category link */
-.categ_link {position:relative; margin-bottom:8px; text-align:right; top:5px; font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
+.categ_link {position:relative; margin:0 5px 8px 0; text-align:right; top:5px; font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
 
 
 /* Contents*/
@@ -239,11 +252,13 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 /* 입력폼 */
 .form_wrap {background: none repeat scroll 0 0 #FFFFFF; height:100%; }
+.form_wrap .input_check {float:left; margin-left:5px;}
 
 .form_title {padding:10px;}
 .form_title .title {float:left; font-weight:bold; font-size:14px; position:absolute;} /* 타이틀 우측으로 아이콘이 있을때 */
 .form_title .title_noico  {font-weight:bold; font-size:14px; position:absolute;} /* 타이틀 우측으로 아이콘이 없을때 */
 .form_contents {padding:0 30px 10px; text-align: center;}
+.form_contents table tr {height:32px;}
 .form_contents .title_2dep {text-align:left;} 
 .form_contents .item {width:80px;}
 .form_contents .tcontents {width:100%;}
@@ -262,8 +277,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_space { padding-right:72px; position:relative;}
 .space_data {text-align:center; margin-right:5px; width:65px;}
 .nomal {padding: 0 0 0 14px;}
-.pos_day input {margin: 0 0 0 9px;}
-.pos_day label {margin: 0 0 0 5px;}
+
+
 
 .ico_posi {position:absolute; right:0; top:0;}
 
@@ -279,11 +294,12 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 /* 테이블 */
 .table_nomal {}
-.table_nomal tr { height:32px}
+.table_nomal table tr { height:32px}
 .essen {border-left:2px solid #ef972b; border-top:1px solid #c7c7c7; border-right:1px solid #c7c7c7; border-bottom:1px solid #c7c7c7;}
 .essen_r {border-right:2px solid #ef972b; margin-right: 5px;}
 .essen_n {background: url("../images/body_icon.png") no-repeat scroll 0 -446px transparent; padding: 0 0 0 14px;}
 .essen_gn {background: url("../images/body_icon.png") no-repeat scroll 0 -453px transparent; padding: 0 0 0 12px;}
+.space_tit {padding: 0 0 0 14px;}
 
 
 
@@ -353,7 +369,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 #notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; padding:3px 0; clear:both;}
 .noti_pic {float:left; padding:5px 0;}
 .noti_in {word-wrap: break-word; text-align:left; padding:2px 0 0 38px;}
-.noti_in_bodytitle {word-wrap: break-word; padding-top:9px;} /* Body Title로 들어갈 때 */
+.noti_in_bodytitle {word-wrap: break-word; text-align:left; padding:9px 0 0 58px;} /* Body Title로 들어갈 때 */
 
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
 

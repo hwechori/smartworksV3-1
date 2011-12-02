@@ -27,8 +27,8 @@
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_com">
 		<a href="my_departments.sw" class="current"><fmt:message
-				key="nav.communities.my_departments" /> </a> <a href="my_groups.sw"><fmt:message
-				key="nav.communities.my_groups" /> </a>
+				key="nav.communities.my_departments" /></a> <a href="my_groups.sw"><fmt:message
+				key="nav.communities.my_groups" /></a>
 	</div>
 	<div id='my_communities'>
 		<jsp:include page='/jsp/nav/my_departments.jsp' />
