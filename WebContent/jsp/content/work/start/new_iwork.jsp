@@ -45,21 +45,21 @@ function submitForms(e) {
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 폼- 확장 -->
-<div class="form_wrap up up_padding">
+<div class="form_wrap up up_padding margin_b2">
 	<div class="form_title">
 		<div class="ico_iworks title"><%=work.getFullpathName()%></div>
 		<div class="txt_btn">
-			<div>
+			<div class="po_right image_posi">
 				<a href=""><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
 			</div>
-			<div>
+			<div class="po_right image_posi">
 				<a href=""><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
 			</div>
 		</div>
 		<div class="solid_line"></div>
 	</div>
 
-	<form name='frmNewIWork' class="form_contents js_validation_required">
+	<div name='frmNewIWork' class="form_contents js_validation_required">
 
 		<div class="txt_btn">
 			<div>
@@ -76,7 +76,7 @@ function submitForms(e) {
 		<div id="form_import">
 			<jsp:include page="/jsp/content/work/form/load_brief_form.jsp"></jsp:include>
 		</div>
-	</form>
+	</div>
 	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
 	<!-- 폼- 확장 //-->
 	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>

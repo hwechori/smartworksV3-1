@@ -68,31 +68,29 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<div class="up_wrap">
+
 	<div class="form_wrap up up_padding">
 
 
 		<!-- 컨텐츠 -->
-		<div class="contents_space">
-			<div class="border">
+		<div class="form_title">
+			<div class="ico_iworks title_noico">새 통계분석 만들기</div>
+			<div class="solid_line"></div>
+		</div>
 
-				<div class="list_title_space">
-					<div class="title_stat">새 통계분석 만들기</div>
-				</div>
-
-				<table class="margin_t10">
+		<div class="form_contents">
+				<table class="table_nomal">
 					<tbody>
 						<tr>
-							<td width="11%"><div class="essen_r">제 목</div>
-							</td>
-							<td width="89%" colspan="3"><div class="fieldline">
-									<input id="" type="text" name="txtWorkReportName"
+							<th width="20%" class="essen_n">제 목
+							</th>
+							<td width="80%" colspan="3">
+									<input id="" type="text" class="fieldline" name="txtWorkReportName"
 										value="<%if (report != null) {%><fmt:message key='<%=report.getName() %>'/><%}%>">
-								</div>
 							</td>
 						</tr>
 						<tr class="js_work_report_type">
-							<td>보고서 종류</td>
+							<th class="essen_n">보고서 종류</th>
 							<td colspan="3" class=""><input name="rdoWorkReportType"
 								type="radio" value="<%=Report.TYPE_CHART%>"
 								<%if ((report != null) && (report.getType() == Report.TYPE_CHART)) {%>
@@ -108,7 +106,7 @@
 						<tr class="js_report_chart_type"
 							<%if (report == null || report.getType() != Report.TYPE_CHART) {%>
 							style="display: none" <%}%>>
-							<td><div class="essen_r">차트 종류</div>
+							<td class="essen_n">차트 종류
 							</td>
 							<td colspan="3" class=""><select name="selReportChartType">
 									<option value="<%=ChartReport.CHART_TYPE_COLUMN%>"
@@ -135,7 +133,7 @@
 							</select></td>
 						</tr>
 						<tr>
-							<td><div class="essen_r">X축</div>
+							<th class="essen_n">X축
 							</td>
 							<td colspan="3" class=""><select name="selReportXAxis" class="js_select_chart_xaxis">
 									<%
@@ -187,9 +185,9 @@
 							%>
 						</tr>
 						<tr>
-							<td><div class="essen_r">Y축</div>
-							</td>
-							<td colspan="3" class=""><select name="selReportYAxis">
+							<th class="essen_n">Y축
+							</th>
+							<td colspan="2" class=""><select name="selReportYAxis">
 									<%
 										if (fields != null) {
 											for (FormField field : fields) {
@@ -216,7 +214,7 @@
 							</select></td>
 						</tr>
 						<tr>
-							<td><div class="essen_r">Z축</div>
+							<th class="essen_n">Z축
 							</td>
 							<td colspan="3" class=""><select name="jumpMenu"
 								id="jumpMenu">
@@ -229,8 +227,8 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>
-		</div>
+				</div>
+
 
 
 		<!-- 등록 취소 버튼 -->
@@ -256,5 +254,5 @@
 		</div>
 		<!-- 등록 취소 버튼//-->
 	</div>
-</div>
+
 <!-- 전체 레이아웃//-->

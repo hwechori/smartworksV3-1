@@ -37,14 +37,16 @@
 				}
 				if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
-	<li class="<%=iconType%>"><a
-		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>"><%=work.getName()%></a>
+	<li><a
+		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
+		<span class="<%=iconType%>"></span>
+		<%=work.getName()%></a>
 	</li>
 	<%
 		} else {
 	%>
-	<li class="js_drill_down <%=iconType%>"><a
-		href="worklist_by_group.sw" groupId="<%=work.getId()%>">
+	<li class="js_drill_down"><a
+		href="worklist_by_group.sw" groupId="<%=work.getId()%>"><span class="<%=iconType%>"></span>
 			<%=work.getName()%></a>
 		<div style="display: none"></div></li>
 	<%

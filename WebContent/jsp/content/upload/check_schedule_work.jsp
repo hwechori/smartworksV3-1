@@ -22,7 +22,7 @@
 %>
 
 <!-- 업무계획하기 -->
-<div class="form_add_a">
+<div class="form_contents">
 	<div class="dash_line"></div>
 	<form name='frmScheduleWork' class="input_1line js_validation_required">
 		<div class="float_left padding_r10">

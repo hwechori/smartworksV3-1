@@ -1,32 +1,25 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <!-- 폼- 업무 입력 후 -->
 <table>
-	<colgroup>
-		<col class="item">
-		<col class="field">
-		<col class="item">
-		<col class="field">
-	</colgroup>
-	<tbody>
 		<tr>
-			<td>제 목</td>
-			<td colspan="3" class=""><div class="fieldline essen">
-					<input id="" type="text" title="" value="">
-				</div></td>
+			<th class="essen_n">제 목</th>
+			<td colspan="3">
+					<input class="fieldline" id="" type="text" title="" value="" >
+				</td>
 		</tr>
 		<tr>
-			<td>과제명</td>
-			<td>
+			<th class="essen_n">과제명</th>
+			<td class="before_icon">
 				<div class="ico_space">
-					<div class="fieldline">
-						<input id="" type="text" title="" value="">
-					</div>
+
+						<input class="fieldline" id="" type="text" title="" value="">
+
 					<div class="ico_posi">
-						<img src="images/btn_s_search.jpg" />
+						<img src="images/btn_s_search.png" />
 					</div>
 				</div>
 			</td>
-			<td class="padding_l20">진행단계</td>
+			<th class="space_tit">진행단계</th>
 			<td>
 				<div>
 					<form name="form" id="form">
@@ -42,23 +35,19 @@
 			</td>
 		</tr>
 		<tr>
-			<td>작성자</td>
-			<td>
+			<th class="essen_n">작성자</th>
+			<td class="before_icon">
 				<div class="ico_space">
-					<div class="fieldline essen">
-						<input id="" type="text" title="" value="">
-					</div>
+						<input class="fieldline" id="" type="text" title="" value="">
 					<div class="ico_posi">
 						<img src="images/btn_s_person.png" />
 					</div>
 				</div>
 			</td>
-			<td class="padding_l20">작성일자</td>
+			<th class="essen_n">작성일자</th>
 			<td>
 				<div class="ico_space">
-					<div class="fieldline essen">
-						<input id="" type="text" title="" value="">
-					</div>
+						<input class="fieldline" id="" type="text" title="" value="">
 					<div class="ico_posi">
 						<img src="images/btn_s_calendar.png" />
 					</div>
@@ -66,22 +55,17 @@
 			</td>
 		</tr>
 		<tr>
-			<td>내 용</td>
-			<td colspan="3" class="">
-				<div class="textarea_size">
-					<textarea class="up_textarea essen" name="내용" cols="" rows="5"
+			<th class="essen_n">내 용</th>
+			<td colspan="3">
+					<textarea class="up_textarea" name="내용" cols="" rows="5"
 						value="내용"></textarea>
-				</div>
 			</td>
 		</tr>
 		<tr>
-			<td>첨부파일</td>
+			<th class="space_tit">첨부파일</th>
 			<td colspan="3" class="">
 				<div class="btn_space">
-					<div class="fieldline">
-						<input id="" type="text" title="" value="">
-					</div>
-
+						<input class="fieldline" id="" type="text" title="" value="">
 					<div class="btn_wh btn_posi">
 						<a href=""> <span class="Btn01Start"></span> <span
 							class="Btn01Center">첨부파일</span> <span class="Btn01End"></span> </a>

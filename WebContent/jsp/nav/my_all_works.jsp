@@ -20,7 +20,7 @@
 	<li class="js_drill_down"><a
 		href="worklist_by_category.sw"
 		categoryId="<%=workCategory.getId()%>"><span class="ico_cworks"></span><%=workCategory.getName()%></a>
-		<div style="display: none"></div></li>
+		<div class="menu_2dep" style="display: none"></div></li>
 	<%
 			}
 		}

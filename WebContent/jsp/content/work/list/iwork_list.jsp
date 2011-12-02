@@ -41,7 +41,7 @@
 				<div class="body_titl_iworks title"><%=work.getName()%></div>
 
 				<!-- 우측 버튼 -->
-				<div class="txt_btn padding_b6">
+				<div class="txt_btn">
 
 					<!-- 수정하기 -->
 					<div class="float_right space_l5">
@@ -59,8 +59,8 @@
 					<!-- 수정하기 //-->
 
 					<!-- 최종수정자 -->
-					<div class="float_right padding_t5">
-						<img clss="margin_b2"
+					<div class="float_right">
+						<img class="pho_user"
 							title="<fmt:message key="common.title.last_modifier" />"
 							src="<%=work.getLastModifier().getMinPicture()%>"> <span
 							class="t_name"><%=work.getLastModifier().getLongName()%></span> <span
@@ -219,7 +219,7 @@
 
 				<!--통계메뉴 영역//-->
 				
-				<div class="js_work_report_form">
+				<div class="js_work_report_form margin_b5">
 				</div>
 
 				<!-- 목록보기 -->

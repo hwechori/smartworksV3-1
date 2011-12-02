@@ -33,8 +33,8 @@
 				}
 				if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
-	<li class="<%=iconType%>"><a
-		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>"><%=work.getName()%></a>
+	<li><a
+		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>"><span class="<%=iconType%>"></span><%=work.getName()%></a>
 	</li>
 	<%
 		}
