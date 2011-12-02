@@ -104,6 +104,10 @@ public class TskManagerDefaultAdvisorImpl extends AbstractTskManagerAdvisor {
 		String superTaskId = obj.getExtendedPropertyValue("superTaskId");
 		String parentPrcInstId = obj.getExtendedPropertyValue("parentPrcInstId");
 		String parentTskDefId = obj.getExtendedPropertyValue("parentTskDefId");
+		
+		String pType = obj.getExtendedPropertyValue("processInstType");
+		
+		//TODO 패키지 정보에서 이름을 가져온다(정보관리 업무, 프로세스업무)
 		String pName = this.getProcessName(dId, dVer, pId);
 		
 		PrcProcessInst prcInst = new PrcProcessInst();
@@ -112,10 +116,11 @@ public class TskManagerDefaultAdvisorImpl extends AbstractTskManagerAdvisor {
 		prcInst.setStatus(CommonUtil.toDefault((String)MisUtil.processInstStatusMap().get("started"), "started"));
 		prcInst.setTitle(title);
 		prcInst.setPriority(priority);
-		prcInst.setDiagramId(dId);
+		prcInst.setDiagramId(dId);//packageId
 		prcInst.setDiagramVersion(dVer);
 		prcInst.setProcessId(pId);
 		prcInst.setName(pName);
+		prcInst.setType(pType);
 		prcInst.setExtendedPropertyValue("superTaskId", superTaskId);
 		if (!CommonUtil.isEmpty(parentPrcInstId)) {
 			prcInst.setIsSubInstance("TRUE");

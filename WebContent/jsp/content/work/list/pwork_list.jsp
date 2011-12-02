@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.filter.info.SearchFilterInfo"%>
 <%@page import="net.smartworks.model.work.ProcessWork"%>
 <%@page import="net.smartworks.model.work.FormField"%>
 <%@page import="net.smartworks.model.work.SmartForm"%>
@@ -224,9 +225,9 @@
 										<fmt:message key='filter.name.my_running_instances' />
 									</option>
 									<%
-										SearchFilter[] filters = work.getSearchFilters();
+										SearchFilterInfo[] filters = work.getSearchFilters();
 										if (filters != null) {
-											for (SearchFilter filter : filters) {
+											for (SearchFilterInfo filter : filters) {
 									%>
 									<option value="<%=filter.getId()%>">
 										<%=filter.getName()%>

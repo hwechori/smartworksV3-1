@@ -8,9 +8,10 @@
 
 package net.smartworks.server.engine.docfile.model;
 
+import java.io.InputStream;
 import java.util.Date;
 
-import org.apache.commons.fileupload.FileItem;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface IFileModel {
 
@@ -26,7 +27,9 @@ public interface IFileModel {
 	public void setFileSize(long fileSize);
 	public Date getWrittenTime();
 	public void setWrittenTime(Date writtenTime);
-	public FileItem getFileItem();
-	public void setFileItem(FileItem fileItem);
-
+	public MultipartFile getMultipartFile();
+	public void setMultipartFile(MultipartFile multipartFile);
+	public void setMultiPartInputStream(InputStream inputStream);
+	public InputStream getMultiPartInputStream();
+	
 }

@@ -1,6 +1,8 @@
 package net.smartworks.server.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,15 +19,22 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
-import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
+import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
+import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
+import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
@@ -34,8 +43,10 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
+import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
+import net.smartworks.server.service.util.ModelConverterInfo;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 
@@ -52,6 +63,9 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	private ISwdManager getSwdManager() {
 		return SwManagerFactory.getInstance().getSwdManager();
+	}
+	private ISwfManager getSwfManager() {
+		return SwManagerFactory.getInstance().getSwfManager();
 	}
 	/*
 	 * (non-Javadoc)
@@ -88,46 +102,46 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception {
 	 return SmartTest.getMyRecentInstances();	
-/*		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
-			return null;
-
-		TskTaskCond taskCond = new TskTaskCond();
-		taskCond.setAssignee(userId);
-		taskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
-		taskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
-		taskCond.setOrders(new Order[]{new Order("executionDate" , false)});
-		taskCond.setPageNo(0);
-		taskCond.setPageSize(50);
-		
-		TskTask[] tasks = getTskManager().getTasks(userId, taskCond, IManager.LEVEL_LITE);
-		if (CommonUtil.isEmpty(tasks))
-			return null;
-	
-		List<String> prcInstIdList = new ArrayList<String>();
-		for (int i = 0; i < tasks.length; i++) {
-			TskTask task = tasks[i];
-			if (prcInstIdList.size() == 10)
-				break;
-			if (prcInstIdList.contains(task.getProcessInstId()))
-				continue;
-			prcInstIdList.add(task.getProcessInstId());
-		}
-		
-		String[] prcInstIdArray = new String[prcInstIdList.size()];
-		
-		prcInstIdList.toArray(prcInstIdArray);
-		
-		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
-		
-		prcInstCond.setCompanyId(companyId);
-		prcInstCond.setObjIdIns(prcInstIdArray);
-		
-		PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(userId, prcInstCond, IManager.LEVEL_LITE);
-		
-		InstanceInfo[] instInfo = ModelConverter.getInstanceInfoArrayByPrcInstArray(prcInsts);
-		
-		return instInfo;
-*/		
+//		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+//			return null;
+//
+//		TskTaskCond taskCond = new TskTaskCond();
+//		taskCond.setAssignee(userId);
+//		taskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
+//		taskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+//		taskCond.setOrders(new Order[]{new Order("executionDate" , false)});
+//		taskCond.setPageNo(0);
+//		taskCond.setPageSize(50);
+//		
+//		TskTask[] tasks = getTskManager().getTasks(userId, taskCond, IManager.LEVEL_LITE);
+//		if (CommonUtil.isEmpty(tasks))
+//			return null;
+//	
+//		List<String> prcInstIdList = new ArrayList<String>();
+//		for (int i = 0; i < tasks.length; i++) {
+//			TskTask task = tasks[i];
+//			if (prcInstIdList.size() == 10)
+//				break;
+//			if (prcInstIdList.contains(task.getProcessInstId()))
+//				continue;
+//			prcInstIdList.add(task.getProcessInstId());
+//		}
+//		
+//		String[] prcInstIdArray = new String[prcInstIdList.size()];
+//		
+//		prcInstIdList.toArray(prcInstIdArray);
+//		
+//		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
+//		
+//		prcInstCond.setCompanyId(companyId);
+//		prcInstCond.setObjIdIns(prcInstIdArray);
+//		
+//		PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(userId, prcInstCond, IManager.LEVEL_LITE);
+//		
+//		InstanceInfo[] instInfo = ModelConverter.getInstanceInfoArrayByPrcInstArray(prcInsts);
+//		
+//		return instInfo;
+//		
 	}
 
 	@Override
@@ -135,8 +149,63 @@ public class InstanceServiceImpl implements IInstanceService {
 		return SmartTest.getInstanceById(instanceId);
 	}
 
-	@Override
 	public InstanceInfo[] getMyRunningInstances(String companyId, String userId) throws Exception {
+		Date limitDate = new Date();
+		int resultSize = 10;
+		return getMyRunningInstances(companyId, userId, limitDate, resultSize);
+	}
+	
+	public InstanceInfo[] getMyRunningInstances(String companyId, String userId, Date limitDate, int resultSize) throws Exception {
+		
+		//정보관리업무에서 파생된 업무는 IWInstanceInfo
+		//프로세스 태스크및 프로세스에서 파생된 업무는 PWInstanceInfo
+		
+		TskTaskCond assignedTaskCond = new TskTaskCond();
+		assignedTaskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+		assignedTaskCond.setAssignee(userId);
+		assignedTaskCond.setAssignmentDateTo(limitDate);
+		assignedTaskCond.setPageNo(0);
+		assignedTaskCond.setPageSize(resultSize);
+		
+		
+		
+		
+		assignedTaskCond.setStatus(TskTask.TASKSTATUS_ASSIGN);
+		
+		
+		TskTask[] assignTasks = getTskManager().getTasks(userId, assignedTaskCond, IManager.LEVEL_LITE);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
+		prcInstCond.setStatus(PrcProcessInst.PROCESSINSTSTATUS_RUNNING);
+		prcInstCond.setCreationUser(userId);	
+		prcInstCond.setCreationDateTo(limitDate);
+		prcInstCond.setPageNo(0);
+		prcInstCond.setPageSize(resultSize);
+		
+		PrcProcessInstExtend[] prcInst = getPrcManager().getProcessInstExtends(userId, prcInstCond);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		return SmartTest.getRunningInstances();
 	}
 
@@ -183,41 +252,72 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	@Override
 	public InstanceInfoList getIWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
-		return SmartTest.getWorkInstanceList1(params);
-//		InstanceInfoList instanceList = new InstanceInfoList();
-//		instanceList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-//		instanceList.setCountInPage(params.getCountInPage());
-//		instanceList.setTotalPages(31);
-//		instanceList.setCurrentPage(params.getPageNumber());
-//
-//		SwdRecordCond swdRecordCond = new SwdRecordCond();
-//		swdRecordCond.setCompanyId(companyId);
-//		swdRecordCond.setFormId(workId);
-//
-//		long totalSize = getSwdManager().getRecordSize(userId, swdRecordCond);
-//		System.out.println("totalSize : " + totalSize);
-////		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
-////
-////		for(SwdRecord swdRecord : swdRecords) {
-////			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + swdRecord.getFormId());
-////		}
-//		return instanceList;
-//		//return SmartTest.getWorkInstanceList1(params);
-	}	
+
+		SwdDomainCond swdDomainCond = new SwdDomainCond();
+		swdDomainCond.setCompanyId(companyId);
+
+		SwfFormCond swfFormCond = new SwfFormCond();
+		swfFormCond.setCompanyId(companyId);
+		swfFormCond.setPackageId(workId);
+
+		swdDomainCond.setFormId(getSwfManager().getForms(userId, swfFormCond, IManager.LEVEL_LITE)[0].getId());
+
+		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdDomainCond, IManager.LEVEL_LITE);
+
+		SwdRecordCond swdRecordCond = new SwdRecordCond();
+		swdRecordCond.setCompanyId(companyId);
+		swdRecordCond.setFormId(swdDomain.getFormId());
+		swdRecordCond.setDomainId(swdDomain.getObjId());
+
+		long totalCount = getSwdManager().getRecordSize(userId, swdRecordCond);
+
+		int currentPage = params.getPageNumber();
+		int pageCount = params.getCountInPage();
+		SortingField sf = params.getSortingField();
+
+		String fieldName = "";
+		boolean isAsc;
+
+		if (sf != null) {
+			fieldName  = CommonUtil.toDefault("createdTime" , sf.getFiieldId());
+			isAsc =  sf.isAscending();
+		} else {
+			fieldName = "createdTime";
+			isAsc = false;
+		}
+		swdRecordCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
+
+		//swdRecordCond.setPageNo(currentPage);
+		//swdRecordCond.setPageSize(pageCount);
+
+		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
+
+		InstanceInfoList instanceInfoList = new InstanceInfoList();
+		instanceInfoList.setInstanceDatas(ModelConverterInfo.getIWInstanceInfoArrayBySwdRecordArray(swdRecords));
+		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+		instanceInfoList.setCountInPage(pageCount);
+		instanceInfoList.setTotalPages((int)totalCount);
+		instanceInfoList.setCurrentPage(currentPage);
+
+		return instanceInfoList;
+	}
 
 	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
 		
 		//TODO workId = category 프로세스 인스턴스정보에는 패키지 컬럼이 없고 다이어 그램 컬럼에 정보가 들어가 있다
 		//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다
-		
-		long totalCount = getPrcManager().getProcessInstExtendsSize(userId, workId);
+		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
+		prcInstCond.setPackageId(workId);
+		long totalCount = getPrcManager().getProcessInstExtendsSize(userId, prcInstCond);
 		
 		int pageCount = params.getCountInPage();
 		int currentPage = params.getPageNumber();
 		
 		SortingField sf = params.getSortingField();
 		
-		PrcProcessInstExtend[] prcInsts = getPrcManager().getProcessInstExtends(userId, pageCount, currentPage, workId);
+		prcInstCond.setPageNo(currentPage);
+		prcInstCond.setPageSize(pageCount);
+		PrcProcessInstExtend[] prcInsts = getPrcManager().getProcessInstExtends(userId, prcInstCond);
 		
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
 		
@@ -288,6 +388,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				lastTaskInfo.setSubject(subject);
 				lastTaskInfo.setType(type);
 				lastTaskInfo.setWork(workInfo);
+				lastTaskInfo.setWorkInstance(pwInstInfo);
 				lastTaskInfo.setWorkSpace(workSpace);
 				lastTaskInfo.setName(name);
 				lastTaskInfo.setTaskType(type);

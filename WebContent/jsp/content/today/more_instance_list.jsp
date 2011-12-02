@@ -30,19 +30,16 @@
 			boolean isAssignedTask = false;
 			if (instance.getType() == Instance.TYPE_WORK) {
 				workInstance = (WorkInstanceInfo) instance;
-				TaskInstanceInfo[] runningTasks = workInstance.getRunningTasks();
-				if(runningTasks!=null){
-					List<TaskInstanceInfo> assignedList = new ArrayList<TaskInstanceInfo>();
-					List<TaskInstanceInfo> forwardedList = new ArrayList<TaskInstanceInfo>();
-					for (TaskInstanceInfo task : workInstance.getRunningTasks()) {
-						if ((task.getTaskType() % 10) == 1)
-							assignedList.add(task);
-						else if ((task.getTaskType() % 10) == 2)
-							forwardedList.add(task);
-					}
-					assignedTasks = (TaskInstanceInfo[]) assignedList.toArray(new TaskInstanceInfo[0]);
-					forwardedTasks = (TaskInstanceInfo[]) forwardedList.toArray(new TaskInstanceInfo[0]);
-				}
+				TaskInstanceInfo lastTask = workInstance.getLastTask();
+				int lastTaskCount = workInstance.getLastTaskCount();
+				List<TaskInstanceInfo> assignedList = new ArrayList<TaskInstanceInfo>();
+				List<TaskInstanceInfo> forwardedList = new ArrayList<TaskInstanceInfo>();
+				if ((lastTask.getTaskType() % 10) == 1)
+							assignedList.add(lastTask);
+				else if ((lastTask.getTaskType() % 10) == 2)
+							forwardedList.add(lastTask);
+				assignedTasks = (TaskInstanceInfo[]) assignedList.toArray(new TaskInstanceInfo[0]);
+				forwardedTasks = (TaskInstanceInfo[]) forwardedList.toArray(new TaskInstanceInfo[0]);
 			} else if (instance.getType() == Instance.TYPE_TASK) {
 				isAssignedTask = true;
 				workInstance = (WorkInstanceInfo)((TaskInstanceInfo) instance).getWorkInstance();

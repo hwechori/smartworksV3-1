@@ -11,6 +11,7 @@ package net.smartworks.server.service;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.server.engine.docfile.model.IFileModel;
 
@@ -48,6 +49,8 @@ public interface IDocFileService {
 	public abstract IDocumentModel retrieveDocumentByRef(int refType, String refId) throws Exception;*/
 
 	public abstract String uploadFile(HttpServletRequest request) throws Exception;
+
+	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 

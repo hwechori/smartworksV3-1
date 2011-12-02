@@ -10,8 +10,6 @@ package net.smartworks.server.engine.docfile.model;
 
 import java.util.Date;
 
-import org.apache.commons.fileupload.FileItem;
-
 public interface IDocumentModel {
 
 	/**
@@ -113,15 +111,5 @@ public interface IDocumentModel {
 	 * @param createdTime the createdTime to set
 	 */
 	public void setCreatedTime(Date createdTime);
-
-	/**
-	 * @return the fileItem
-	 */
-	public FileItem getFileItem();
-
-	/**
-	 * @param fileItem the fileItem to set
-	 */
-	public void setFileItem(FileItem fileItem);
 
 }

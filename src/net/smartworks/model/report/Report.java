@@ -19,6 +19,7 @@ public class Report extends BaseObject {
 	public static final	KeyMap VALUE_TYPE_MEAN = new KeyMap("mean", "report.value.type.mean");
 	public static final KeyMap VALUE_TYPE_MIN = new KeyMap("min", "report.value.type.min");
 	public static final KeyMap VALUE_TYPE_MAX = new KeyMap("max", "report.value.type.max");
+	public static final KeyMap[] VALUE_TYPES = new KeyMap[] {VALUE_TYPE_COUNT, VALUE_TYPE_SUM, VALUE_TYPE_MEAN, VALUE_TYPE_MIN, VALUE_TYPE_MAX};
 
 	public static final KeyMap AXIS_SELECTOR_BY_HOUR = new KeyMap("byHour", "report.axis.date.by_hour");
 	public static final KeyMap AXIS_SELECTOR_BY_DAY = new KeyMap("byDay", "report.axis.date.by_day");
@@ -27,12 +28,16 @@ public class Report extends BaseObject {
 	public static final KeyMap AXIS_SELECTOR_BY_QUARTER = new KeyMap("byQuarter", "report.axis.date.by_quarter");
 	public static final KeyMap AXIS_SELECTOR_BY_HALF_YEAR = new KeyMap("byHalfYear", "report.axis.date.by_half_year");
 	public static final KeyMap AXIS_SELECTOR_BY_YEAR = new KeyMap("byYear", "report.axis.date.by_year");
-
+	public static final KeyMap[] AXIS_SELECTORS_DATE = new KeyMap[] {AXIS_SELECTOR_BY_HOUR, AXIS_SELECTOR_BY_DAY, AXIS_SELECTOR_BY_WEEK,
+																	AXIS_SELECTOR_BY_MONTH, AXIS_SELECTOR_BY_QUARTER, AXIS_SELECTOR_BY_HALF_YEAR, AXIS_SELECTOR_BY_YEAR};
+	
 	public static final KeyMap AXIS_SELECTOR_USER_NAME = new KeyMap("userName", "report.axis.user.name");
 	public static final KeyMap AXIS_SELECTOR_USER_DEPARTMENT = new KeyMap("userDepartment", "report.axis.user.department");
 	public static final KeyMap AXIS_SELECTOR_USER_POSITION = new KeyMap("userPosition", "report.axis.user.position");
 	public static final KeyMap AXIS_SELECTOR__LEVEL = new KeyMap("userLevel", "report.axis.user.level");
 	public static final KeyMap AXIS_SELECTOR_USER_LOCALE = new KeyMap("userLocale", "report.axis.user.locale");
+	public static final KeyMap[] AXIS_SELECTORS_USER = new KeyMap[] {AXIS_SELECTOR_USER_NAME, AXIS_SELECTOR_USER_DEPARTMENT, AXIS_SELECTOR_USER_POSITION,
+																	AXIS_SELECTOR__LEVEL, AXIS_SELECTOR_USER_LOCALE};
 
 	public static final KeyMap AXIS_SORT_ASCEND = new KeyMap("ascend", "report.axis.sort.ascend");
 	public static final KeyMap AXIS_SORT_DESCEND = new KeyMap("descend", "report.axis.sort.descend");

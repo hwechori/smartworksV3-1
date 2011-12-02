@@ -18,4 +18,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<context:component-scan base-package="net.smartworks" />
 
+	<beans:bean id="fileDirectory" class="net.smartworks.util.SmartConfUtil" factory-method="createInstance">
+		<beans:property name="fileDirectory"><beans:value>${fileDirectory}</beans:value></beans:property>
+	</beans:bean>
+
 </beans:beans>

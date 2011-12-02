@@ -51,4 +51,58 @@ public class FormController {
 		return SmartUtil.returnMnv(request, "jsp/content/work/form/file_detail_form.jsp",
 				"");
 	}
+	
+	@RequestMapping("/date_field")
+	public ModelAndView dateField(HttpServletRequest request, HttpServletResponse response) {
+	
+		return SmartUtil.returnMnv(request, "jsp/content/work/field/date_field.jsp", "");
+	}
+	
+	@RequestMapping("/boolean_field")
+	public ModelAndView booleanField(HttpServletRequest request, HttpServletResponse response) {
+	
+		return SmartUtil.returnMnv(request, "jsp/content/work/field/boolean_field.jsp", "");
+	}
+	
+	@RequestMapping("/datetime_field")
+	public ModelAndView datetimeField(HttpServletRequest request, HttpServletResponse response) {
+	
+		return SmartUtil.returnMnv(request, "jsp/content/work/field/datetime_field.jsp", "");
+	}
+	
+	@RequestMapping("/file_field")
+	public ModelAndView fileField(HttpServletRequest request, HttpServletResponse response) {
+	
+		return SmartUtil.returnMnv(request, "jsp/content/work/field/file_field.jsp", "");
+	}
+	
+	@RequestMapping("/number_field")
+	public ModelAndView numberField(HttpServletRequest request, HttpServletResponse response) {
+	
+		return SmartUtil.returnMnv(request, "jsp/content/work/field/number_field.jsp", "");
+	}
+	
+	@RequestMapping("/string_field")
+	public ModelAndView stringField(HttpServletRequest request, HttpServletResponse response) {
+	
+		return SmartUtil.returnMnv(request, "jsp/content/work/field/string_field.jsp", "");
+	}
+	
+	@RequestMapping("/time_field")
+	public ModelAndView timeField(HttpServletRequest request, HttpServletResponse response) {
+	
+		return SmartUtil.returnMnv(request, "jsp/content/work/field/time_field.jsp", "");
+	}
+	
+	@RequestMapping("/user_field")
+	public ModelAndView userField(HttpServletRequest request, HttpServletResponse response) {
+	
+		return SmartUtil.returnMnv(request, "jsp/content/work/field/user_field.jsp", "");
+	}
+	
+	@RequestMapping("/work_field")
+	public ModelAndView workField(HttpServletRequest request, HttpServletResponse response) {
+	
+		return SmartUtil.returnMnv(request, "jsp/content/work/field/work_field.jsp", "");
+	}
 }

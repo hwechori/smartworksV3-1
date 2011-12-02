@@ -1,7 +1,6 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +11,8 @@ import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.filter.info.SearchFilterInfo;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Report;
-import net.smartworks.model.security.AccessPolicy;
-import net.smartworks.model.security.EditPolicy;
-import net.smartworks.model.security.WritePolicy;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
-import net.smartworks.model.work.ProcessWork;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
@@ -26,8 +21,6 @@ import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.authority.manager.ISwaManager;
-import net.smartworks.server.engine.authority.model.SwaResource;
-import net.smartworks.server.engine.authority.model.SwaResourceCond;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.category.model.CtgCategoryCond;
@@ -36,17 +29,20 @@ import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemList;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
+import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainFieldView;
+import net.smartworks.server.engine.infowork.domain.model.SwdField;
+import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
-import net.smartworks.server.engine.organization.model.SwoUser;
-import net.smartworks.server.engine.organization.model.SwoUserCond;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
@@ -250,14 +246,13 @@ public class WorkServiceImpl implements IWorkService {
 		}
 		FormField[] formFields = new FormField[resultList.size()];
 		resultList.toArray(formFields);
-		
+
 		InformationWork resultwork = new InformationWork();
 		resultwork.setDisplayFields(formFields);
 
 		//권한설정
 		ModelConverter.setPolicyToWork(resultwork, formId);
-		
-		
+
 		PkgPackageCond pkgCond = new PkgPackageCond();
 		pkgCond.setCompanyId(companyId);
 		pkgCond.setPackageId(workId);
@@ -271,7 +266,7 @@ public class WorkServiceImpl implements IWorkService {
 		String typeStr = pkg.getType();
 		int type = typeStr.equals("PROCESS") ? SmartWork.TYPE_PROCESS : typeStr.equals("SINGLE") ? SmartWork.TYPE_INFORMATION : SmartWork.TYPE_SCHEDULE;
 		String description = pkg.getDescription();
-		
+
 		resultwork.setId(workId);
 		resultwork.setName(name);
 		resultwork.setType(type);
@@ -283,13 +278,37 @@ public class WorkServiceImpl implements IWorkService {
 
 		resultwork.setMyCategory(pkgCtgInfoMap.get("category"));
 		resultwork.setMyGroup(pkgCtgInfoMap.get("group"));
-		
-		//set form
+
+		SwdDomainCond swdDomainCond = new SwdDomainCond();
+		swdDomainCond.setFormId(formId);
+		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdDomainCond, IManager.LEVEL_LITE); 
+
+		SwdFieldCond swdFieldCond = new SwdFieldCond();
+		swdFieldCond.setDomainObjId(swdDomain.getObjId());
+		Order[] order = new Order[1];
+		order[0] = new Order();
+		order[0].setField("displayOrder");
+		order[0].setAsc(true);
+		swdFieldCond.setOrders(order);
+		SwdField[] swdFields = getSwdManager().getFields("", swdFieldCond, IManager.LEVEL_LITE);
+
+		List<FormField> formFieldList = new ArrayList<FormField>();
+		for(SwdField swdField : swdFields) {
+			FormField formField = new FormField();
+			formField.setId(swdField.getFormFieldId());
+			formField.setName(swdField.getFormFieldName());
+			formField.setType(swdField.getFormFieldType());
+			formField.setDisplayOrder(swdField.getDisplayOrder());
+			formFieldList.add(formField);
+		}
+
+		FormField[] resultFormFields = new FormField[formFieldList.size()];
+		formFieldList.toArray(resultFormFields);
+
 		SmartForm smFrom = ModelConverter.getSmartFormBySwfFrom(null, swfForms[0]);
+		smFrom.setFields(resultFormFields);
 		resultwork.setForm(smFrom);
-		
-		pkg.getModificationUser();
-		
+
 		return resultwork;
 	}	
 

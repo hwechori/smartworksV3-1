@@ -13,8 +13,6 @@ import java.util.Date;
 
 import net.smartworks.server.engine.common.util.XmlUtil;
 
-import org.apache.commons.fileupload.FileItem;
-
 public class HbDocumentModel implements IDocumentModel, Serializable {
 
 	/**
@@ -61,10 +59,6 @@ public class HbDocumentModel implements IDocumentModel, Serializable {
 	 * 작성시간
 	 */
 	private Date createdTime;
-	/**
-	 * 파일 아이템
-	 */
-	private FileItem fileItem;
 
 	/**
 	 * @return the id
@@ -204,20 +198,6 @@ public class HbDocumentModel implements IDocumentModel, Serializable {
 	 */
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
-	}
-
-	/**
-	 * @return the fileItem
-	 */
-	public FileItem getFileItem() {
-		return fileItem;
-	}
-
-	/**
-	 * @param fileItem the fileItem to set
-	 */
-	public void setFileItem(FileItem fileItem) {
-		this.fileItem = fileItem;
 	}
 	
 	/* (non-Javadoc)

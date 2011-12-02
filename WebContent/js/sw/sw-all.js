@@ -328,6 +328,22 @@ $(function() {
 		return false;
 	});
 
+	$('tr.js_work_report_type td').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.parents('tr.js_work_report_type').next('tr.js_report_chart_type');
+		if(input.attr('value') != 1) target.hide();
+		else target.show();
+		return false;
+	});
+
+	$('tr.js_select_chart_xaxis td').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.parents('tr.js_work_report_type').next('tr.js_report_chart_type');
+		if(input.attr('value') != 1) target.hide();
+		else target.show();
+		return false;
+	});
+
 	$('.js_select_community')
 	.live(
 			'click',
@@ -456,5 +472,32 @@ $(function() {
 		+ "<span class='btn_x_gr'><a class='js_remove_file' href=''> x</a></span></span>";
 		target.html(newHTML);
 		$(target).find('span.js_file_item').add(e.target);
-	});	
+	});
+
+	$('.qq-delete-text').live('click', function(e) {
+		$.ajax({
+			url : "../delete_file.sw",
+			data : {
+				fileId : $(e.target).parent('li').attr('fileId')
+			},
+			type : "POST",
+			context : this,
+			success : function(data, status, jqXHR) {
+				$(e.target).parent().remove();
+			}
+		});
+	});
+
+	$('.qq-upload-file').live('click', function(e) {
+		$.ajax({
+			url : "../download_file.sw",
+			data : {
+				fileId : $(e.target).parent('li').attr('fileId')
+			},
+			type : "GET",
+			context : this,
+			success : function(data, status, jqXHR) {
+			}
+		});
+	});
 });

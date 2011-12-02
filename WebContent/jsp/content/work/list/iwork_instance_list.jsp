@@ -26,7 +26,7 @@
 
 	RequestParams params = new RequestParams();
 	params.setCountInPage(20);
-	params.setPageNumber(2);
+	params.setPageNumber(1);
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser(request, response);
 	InformationWork work = (InformationWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
