@@ -330,6 +330,7 @@ $(function() {
 
 	$('tr.js_work_report_type td').live('change', function(e) {
 		var input = $(e.target);
+		request.getSession().setAttribute("reportType", input.children('option:selected').attr('value'));
 		var target = input.parents('tr.js_work_report_type').next('div.js_form_by_report_type');
 		var url = input.attr('url');
 		$.ajax({
@@ -361,6 +362,18 @@ $(function() {
 	$('tr.js_toggle_chart_zaxis td').live('click', function(e) {
 		var input = $(e.target).hide().parent();
 		input.sibling('tr.js_toggle_chart_zaxis').show().sibling('tr.js_chart_zaxis').slideToggle(500);
+		return false;
+	});
+
+	$('tr.js_toggle_chart_xsecondaxis td').live('click', function(e) {
+		var input = $(e.target).hide().parent();
+		input.sibling('tr.js_toggle_chart_xsecondaxis').show().sibling('tr.js_chart_xsecondaxis').slideToggle(500);
+		return false;
+	});
+
+	$('tr.js_toggle_chart_zsecondaxis td').live('click', function(e) {
+		var input = $(e.target).hide().parent();
+		input.sibling('tr.js_toggle_chart_zsecondaxis').show().sibling('tr.js_chart_zsecondaxis').slideToggle(500);
 		return false;
 	});
 

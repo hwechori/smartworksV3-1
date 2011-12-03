@@ -166,6 +166,8 @@ public interface ISmartWorks {
 
 	public abstract String setBoardInstance(HttpServletRequest request) throws Exception;
 
+	public abstract String setMyProfile(HttpServletRequest request) throws Exception;
+
 	public abstract String uploadFile(HttpServletRequest request) throws Exception;
 
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;

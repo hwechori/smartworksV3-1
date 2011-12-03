@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.spi.TimeZoneNameProvider;
 
+import net.smartworks.model.KeyMap;
 import net.smartworks.model.community.User;
 
 public class LocalDate extends Date{
@@ -18,7 +20,7 @@ public class LocalDate extends Date{
 	
 	public final static String TIMEZONE_SEOUL = "Asia/Seoul";
 	public final static String TIMEZONE_LOS_ANGELES = "America/Los_Angeles";
-	
+
 	private static final long serialVersionUID = 1L;
 	private TimeZone timeZone = TimeZone.getDefault();
 	private TimeZone hostTimeZone = TimeZone.getDefault();
@@ -169,6 +171,15 @@ public class LocalDate extends Date{
 	public static long convertTimeStringToTime(String HHmm) throws Exception{
 		DateFormat df = new SimpleDateFormat("HH:mm");
 		return df.parse(HHmm).getTime();					
+	}
+	
+	public static KeyMap[] getAvailableTimeZoneNames(String locale) throws Exception{
+		String[] timeZoneIds = TimeZone.getAvailableIDs();
+		KeyMap[] timeZoneNames = new KeyMap[timeZoneIds.length];
+		for(int i=0; i<timeZoneIds.length; i++){
+			timeZoneNames[i] = new KeyMap(timeZoneIds[i], TimeZone.getTimeZone(timeZoneIds[i]).getDisplayName(new Locale(locale)));
+		}
+		return timeZoneNames;
 	}
 	
 	private boolean isToday(){

@@ -107,20 +107,15 @@
 						</tr>
 						<div class="js_form_by_report_type">
 							<%
-								if ((report == null) || (report != null && reportType == Report.TYPE_CHART)) {
+								if ((report == null) || (report != null && (reportType == Report.TYPE_CHART || reportType == Report.TYPE_MATRIX))) {
 							%>
 							<jsp:include
 								page="/jsp/content/work/report/work_report_chart.jsp">
 							<%
-								} else if (report != null && reportType == Report.TYPE_CHART) {
+								} else if (report != null && reportType == Report.TYPE_TABLE) {
 							%>
 							<jsp:include
 								page="/jsp/content/work/report/work_report_table.jsp">
-							<%
-								} else if (report != null && reportType == Report.TYPE_MATRIX) {
-							%>
-							<jsp:include
-								page="/jsp/content/work/report/work_report_matrix.jsp">
 							<%
 								}
 							%>
