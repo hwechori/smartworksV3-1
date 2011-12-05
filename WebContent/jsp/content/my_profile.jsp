@@ -38,140 +38,142 @@
 </script>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-<div class="pop_section">
 
-	<div class="pop_top">
-		<div class="pop_portlet_l"></div>
-		<div class="pop_portlet">
-			<div class="pop_title">
-				<fmt:message key="content.title.my_profile"></fmt:message>
-			</div>
-
-			<!-- 닫기 버튼 -->
-			<div class="txt_btn">
-				<div class="pop_btn_posi btn_x">
-					<a href=""> <span> </span> </a>
-				</div>
-			</div>
-			<!-- 닫기 버튼 //-->
-
-		</div>
+<!-- 컨텐츠 레이아웃-->
+<div class="section_portlet">
+	<div class="portlet_t">
+		<div class="portlet_tl"></div>
 	</div>
+	<div class="portlet_l" style="display: block;">
+		<ul class="portlet_r" style="display: block;">
 
-	<!-- 컨텐츠 레이아웃 -->
-	<div class="pop_l">
-		<div class="pop_r">
+			<!-- 타이틀 -->
+			<div class="body_titl">
+				<div class="body_titl_iworks title"><fmt:message key="content.title.my_profile"></fmt:message></div>
 
-			<!-- 컨텐츠 -->
-			<div class="pop_contents">
-				<form name="frmMyProfileSetting" class="js_validation_required">
-				<div class="margin_t10 txt_btn">
-					<div class="po_right essen_gn">
-						<fmt:message key="profile.title.required_field" />
-					</div>
+				<!-- 우측 버튼 -->
+				<div class="txt_btn">
+					<div class="po_right essen_gn"><fmt:message key="profile.title.required_field" /></div>
 				</div>
-				<div class="table_line"></div>
-
-				<div class="photo_section">
-					<img src="<%=cUser.getOrgPicture() %>" /> <input name="filUserProfilePicture" type="file"
-						onchange="" style="width: 90px; border: 0;" size="1" >
-				</div>
-
-				<div class="table_section">
-					<table class="table_nomal">
+				<!-- 우측 버튼 //-->
+				<div class="solid_line"></div>
+			</div>
+			<!-- 타이틀 -->
+			
+	<!-- 컨텐츠 -->
+	<form name="frmMyProfileSetting" class="js_validation_required">
+	<div class="contents_space">
+			<form name="frmMyProfileSetting" class="js_validation_required">
+			<span class="photo_section">
+				<img src="<%=cUser.getOrgPicture() %>" />
+				<input class="filetype_area" name="filUserProfilePicture" type="file" size="1"
+					onchange="">
+			</span>
+			
+			<span class="table_nomal">
+					<table>
 						<tr>
-							<th><fmt:message key="profile.title.company" />
-							</th>
-							<td colspan="3">
-								<div>
+							<td>
+							<fmt:message key="profile.title.company" />
+							</td>
+							<td>
+
 									<input name="txtUserProfileCompany" type="text" class="required"
 										readonly="readonly" value="<%=CommonUtil.toNotNull(cUser.getCompany())%>" title="">
-								</div>
+
 							</td>
 						</tr>
 						<tr>
-							<th width="25%"><fmt:message
+							<td>
+							<fmt:message
 									key="profile.title.user_id" />
-							</th>
-							<td width="65%" colspan="3"><input
+							</td>
+							<td>
+							<input
 								name="txtUserProfileUserId" type="text" readonly="readonly"
 								value="<%=CommonUtil.toNotNull(cUser.getId())%>">
 							</td>
 						</tr>
 
 						<tr>
-							<th class="essen_n"><fmt:message
+							<td>
+							<fmt:message
 									key="profile.title.user_name" />
-							</th>
-							<td colspan="3">
-								<div class="fieldline">
-									<input name="txtUserProfileUserName" type="text" class="required"
+							</td>
+							<td>
+
+									<input name="txtUserProfileUserName" class="fieldline" type="text" class="required"
 										value="<%=CommonUtil.toNotNull(cUser.getName())%>">
-								</div>
+
 							</td>
 						</tr>
 
 						<tr>
-							<th><fmt:message
+							<td>
+							<fmt:message
 									key="profile.title.employee_id" />
-							</th>
-							<td colspan="3">
-								<div class="fieldline">
-									<input name="txtUserProfileEmpId" type="text"
+							</td>
+							<td>
+
+									<input name="txtUserProfileEmpId" class="fieldline" type="text"
 										value="<%=CommonUtil.toNotNull(cUser.getEmployeeId())%>" title="">
-								</div>
+
 							</td>
 						</tr>
 
 						<tr>
-							<th class="essen_n"><fmt:message
-									key="profile.title.password" />
-							</th>
-							<td colspan="3">
-								<div class="fieldline">
-									<input name="pwUserProfilePW" type="password" class="required"
+							<td><fmt:message
+									key="profile.title.password" /><span class="essen_n"></span>
+							</td>
+							<td>
+
+									<input name="pwUserProfilePW" class="fieldline" type="password" class="required"
 										value="<%=CommonUtil.toNotNull(cUser.getPassword())%>" title="">
-								</div>
+
 							</td>
 						</tr>
 						<tr>
-							<th class="essen_n"><fmt:message
-									key="profile.title.password_confirm" />
-							</th>
-							<td colspan="3">
-								<div class="fieldline">
-									<input name="pwUserProfilePWCfm" type="password" class="required"
+							<td><fmt:message
+									key="profile.title.password_confirm" /><span class="essen_n"></span>
+							</td>
+							<td>
+
+									<input name="pwUserProfilePWCfm" type="password" class="required fieldline"
 										value="<%=CommonUtil.toNotNull(cUser.getPassword())%>" title="">
-								</div>
+
 							</td>
 						</tr>
 						<tr>
-							<th class="essen_n"><fmt:message
-									key="profile.title.department" />
-							</th>
-							<td colspan="3">
-								<div class="fieldline">
-									<input name="txtUserProfileDepartment" type="text" class="required"
+							<td>
+							<fmt:message
+									key="profile.title.department" /><span class="essen_n"></span>
+							</td>
+							<td>
+
+									<input name="txtUserProfileDepartment" type="text" class="required fieldline"
 										companyId="<%=cUser.getCompanyId()%>"
 										value="<%=CommonUtil.toNotNull(cUser.getDepartment())%>" title="">
-								</div>
+
 							</td>
 						</tr>
 						<tr>
-							<th class="essen_n"><fmt:message
-									key="profile.title.position" />
-							</th>
-							<td colspan="3">
-								<div class="fieldline">
-									<input name="txtUserProfilePosition" type="text" class="required"
+							<td>
+							<fmt:message
+									key="profile.title.position" /><span class="essen_n"></span>
+							</td>
+							<td>
+
+									<input name="txtUserProfilePosition" type="text" class="required fieldline"
 										value="<%=CommonUtil.toNotNull(cUser.getPosition())%>" title="">
-								</div>
+
 							</td>
 						</tr>
 						<tr>
-							<th class="essen_n"><fmt:message key="profile.title.locale" />
-							</th>
-							<td colspan="3"><select name="selUserProfileLocale">
+							<td>
+							<fmt:message key="profile.title.locale" /><span class="essen_n"></span>
+							</td>
+							<td>
+							<select name="selUserProfileLocale">
 									<%
 										for (String locale : LocaleInfo.supportingLocales) {
 											String strKey = "common.title.locale." + locale;
@@ -187,10 +189,10 @@
 							</td>
 						</tr>
 						<tr>
-							<th class="essen_n"><fmt:message
-									key="profile.title.timezone" />
-							</th>
-							<td colspan="3"><select name="selUserProfileTimeZone">
+							<td><fmt:message
+									key="profile.title.timezone" /><span class="essen_n"></span>
+							</td>
+							<td><select name="selUserProfileTimeZone">
 									<%
 										for (KeyMap timeZoneName : timeZoneNames) {
 									%>
@@ -204,35 +206,35 @@
 							</td>
 						</tr>
 						<tr>
-							<th><fmt:message
+							<td><fmt:message
 									key="profile.title.phone_no" />
-							</th>
-							<td colspan="3">
-								<div class="fieldline">
-									<input name="txtUserProfilePhoneNo" type="text"
+							</td>
+							<td>
+
+									<input name="txtUserProfilePhoneNo" class="fieldline" type="text"
 										value="<%=CommonUtil.toNotNull(cUser.getPhoneNo())%>" title="">
-								</div>
+
 							</td>
 						</tr>
 						<tr>
-							<th><fmt:message
+							<td><fmt:message
 									key="profile.title.cell_phone_no" />
-							</th>
-							<td colspan="3">
-								<div class="fieldline">
-									<input name="txtUserProfileCellNo" type="text"
+							</td>
+							<td>
+
+									<input name="txtUserProfileCellNo" class="fieldline" type="text"
 										value="<%=CommonUtil.toNotNull(cUser.getCellPhoneNo())%>" title="">
-								</div>
+
 							</td>
 						</tr>
 					</table>
-				</div>
-				</form>
-			</div>
-			<!-- 컨텐츠 //-->
-
+				</span>
+			</form>
+	</div>
+	<!-- 컨텐츠 //-->
+			
 			<!-- 버튼 영역 -->
-			<div class="pop_btn_space">
+			<div class="glo_btn_space">
 				<div class="float_right padding_r10">
 					<a href="" onclick='submitForms(); return false;'> <span
 						class="btn_gray"><span class="Btn01Start"></span> <span
@@ -244,20 +246,17 @@
 				</div>
 			</div>
 			<!-- 버튼 영역 //-->
-
-
-		</div>
+			
+			
+		</ul>
 	</div>
-	<!-- 컨텐츠 레이아웃 //-->
-
-	<div class="pop_bottom">
-		<div class="pop_b_l"></div>
-		<div class="pop_b_r"></div>
-	</div>
-
-
-
-
+	<div class="portlet_b" style="display: block;"></div>
 </div>
+<!-- 컨텐츠 레이아웃//-->		
 
-<!-- 전체 레이아웃//-->
+
+
+			
+			
+
+
