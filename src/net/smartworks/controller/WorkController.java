@@ -100,14 +100,6 @@ public class WorkController {
 				"jsp/content/work/list/saved_list.jsp", "saved_list.tiles");
 	}
 
-	@RequestMapping("/work_report")
-	public ModelAndView workReport(HttpServletRequest request,
-			HttpServletResponse response) {
-
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/report/work_report.jsp", "");
-	}
-
 	@RequestMapping("/search_filter")
 	public ModelAndView searchFilter(HttpServletRequest request, HttpServletResponse response) {
 

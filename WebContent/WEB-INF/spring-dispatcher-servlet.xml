@@ -19,12 +19,12 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<resources location="/**" mapping="/" />
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
 		<beans:property name="maxUploadSize" value="10000000" /> 
-		<beans:property name="uploadTempDir" ref="uploadDirResource" />
+		<!-- <beans:property name="uploadTempDir" ref="uploadDirResource" /> -->
 		<beans:property name="defaultEncoding"><beans:value>UTF-8</beans:value></beans:property>
 	</beans:bean>
-	<beans:bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
+	<!-- <beans:bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
 		<beans:constructor-arg><beans:value>D:/apache-tomcat-7.0.22-windows-x64/apache-tomcat-7.0.22/uploadFiles/temp</beans:value></beans:constructor-arg>
-	</beans:bean>
+	</beans:bean> -->
 
 	<!--<beans:bean id="multipartResolver" class="org.springframework.web.multipart.cos.CosMultipartResolver"> 
 		one of the properties available; the maximum file size in bytes <beans:property 

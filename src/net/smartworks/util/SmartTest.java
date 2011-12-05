@@ -1,5 +1,10 @@
 package net.smartworks.util;
 
+import java.sql.Array;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
@@ -35,6 +40,7 @@ import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.notice.NoticeMessage;
 import net.smartworks.model.report.ChartReport;
+import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
@@ -1169,5 +1175,34 @@ public class SmartTest {
 	
 	public static SearchFilter getSearchFilterById() throws Exception{
 		return SearchFilter.getMyRecentInstancesFilter(getUser1());
+	}
+
+	public static Data getReportData() throws Exception{
+		Data reportData = new Data();
+	    Map<String,Object> value1 = new HashMap<String, Object>();
+	    Map<String,Object> value2 = new HashMap<String, Object>();
+	    Map<String,Object> value3 = new HashMap<String, Object>();
+	    List<Map<String , Object>> values  = new java.util.ArrayList<Map<String,Object>>();
+	    value1.put("name", "ysjung");
+	    value1.put("yesterday", 10);
+	    value1.put("today", 9);
+	    value1.put("tomorrow", 11);
+	    value2.put("name", "kmyu");
+	    value2.put("yesterday", 5);
+	    value2.put("today", 3);
+	    value2.put("tomorrow", 7);
+	    value3.put("name", "hsshin");
+	    value3.put("yesterday", 8);
+	    value3.put("today", 13);
+	    value3.put("tomorrow", 1);
+	    values.add(value1);
+	    values.add(value2);
+	    values.add(value3);
+	    reportData.setValues(values);
+	    reportData.setGroupNames(new String[]{"yesterday", "today", "tomorrow"});
+	    reportData.setxFieldName("name");
+	    reportData.setyValueName("count");
+	    
+	    return reportData;
 	}
 }

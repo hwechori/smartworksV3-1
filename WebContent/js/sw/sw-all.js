@@ -188,7 +188,7 @@ $(function() {
 			'change',
 			function(e) {
 				var input = $(e.target);
-				var pageName = input.children('option:selected').attr('type');
+				var pageName = input.children('option:selected').attr('page');
 				var url = pageName + ".sw";
 				var target = input.next('span.js_filter_operator');
 				$.ajax({
@@ -315,9 +315,28 @@ $(function() {
 	});
 
 	$('select.js_select_work_report').live('change', function(e) {
+//		var input = $(e.target);
+//		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
+//		var url = input.attr('href') + "&reportId=" + input.children('option:selected').attr('value');;
+//		$.ajax({
+//			url : url,
+//			data : {},
+//			success : function(data, status, jqXHR) {
+//				target.html(data).slideDown(500);
+//			}
+//		});
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
-		var url = input.attr('href') + "&reportId=" + input.children('option:selected').attr('value');;
+		smartChart.load("", swChartType.LINE, false, target);
+		target.slideDown(500);
+		return false;
+	});
+
+	$('tr.js_work_report_type td').live('change', function(e) {
+		var input = $(e.target);
+		request.getSession().setAttribute("reportType", input.children('option:selected').attr('value'));
+		var target = input.parents('tr.js_work_report_type').next('div.js_form_by_report_type');
+		var url = input.attr('url');
 		$.ajax({
 			url : url,
 			data : {},
@@ -328,11 +347,52 @@ $(function() {
 		return false;
 	});
 
-	$('tr.js_work_report_type td').live('change', function(e) {
+	$('td.js_select_chart_axis select').live('change', function(e) {
+		alert('in');
 		var input = $(e.target);
-		var target = input.parents('tr.js_work_report_type').next('tr.js_report_chart_type');
-		if(input.attr('value') != 1) target.hide();
-		else target.show();
+		var type = input.children('option:selected').attr('type');
+		console.log(input.parent().siblings('td.js_axis_selector_date select'));
+		alert(type);
+		if(type === "dateChooser" || type ==="dateTimeChooser"){
+			input.parent().siblings('td.js_axis_selector_date select').show();
+			input.parent().siblings('td.js_axis_selector_user select').hide();
+		}else if(type === "userField"){
+			input.parent.siblings('td.js_axis_selector_date select').hide();
+			input.parent.siblings('td.js_axis_selector_user select').show();
+		}
+		return false;
+	});
+
+	$('tr.js_toggle_chart_zaxis td').live('click', function(e) {
+		var input = $(e.target).hide().parent();
+		input.sibling('tr.js_toggle_chart_zaxis').show().sibling('tr.js_chart_zaxis').slideToggle(500);
+		return false;
+	});
+
+	$('tr.js_toggle_chart_xsecondaxis td').live('click', function(e) {
+		var input = $(e.target).hide().parent();
+		input.sibling('tr.js_toggle_chart_xsecondaxis').show().sibling('tr.js_chart_xsecondaxis').slideToggle(500);
+		return false;
+	});
+
+	$('tr.js_toggle_chart_zsecondaxis td').live('click', function(e) {
+		var input = $(e.target).hide().parent();
+		input.sibling('tr.js_toggle_chart_zsecondaxis').show().sibling('tr.js_chart_zsecondaxis').slideToggle(500);
+		return false;
+	});
+
+	$('tr.js_toggle_chart_search_filter td').live('click', function(e) {
+		var input = $(e.target).hide().parent();
+		input.sibling('tr.js_toggle_chart_search_filter').show();
+		var target = input.sibling('tr.js_chart_search_filter');
+		var url = input.attr('url');
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}
+		});
 		return false;
 	});
 

@@ -56,6 +56,8 @@ public class TskTask extends MisObject {
 	public static final String A_STEP = "step";
 	public static final String A_INSTVARIABLE = "instVariable";
 	public static final String A_ISSTARTACTIVITY = "isStartActivity";
+	public static final String A_FROMREFTYPE = "fromRefType";
+	public static final String A_FROMREFID = "fromRefId";
 	
 	private String correlation;
 	
@@ -80,6 +82,8 @@ public class TskTask extends MisObject {
 	private Integer stepInteger;
 	private String instVariable;
 	private String isStartActivity;
+	private String fromRefType;
+	private String fromRefId;
 	
 	public TskTask() {
 		super();
@@ -108,6 +112,8 @@ public class TskTask extends MisObject {
 		appendAttributeString(A_MULTIINSTFLOWCONDITION, multiInstFlowCondition, buf);
 		appendAttributeString(A_LOOPCOUNTER, getLoopCounter(), buf);
 		appendAttributeString(A_ISSTARTACTIVITY, isStartActivity, buf);
+		appendAttributeString(A_FROMREFTYPE, fromRefType, buf);
+		appendAttributeString(A_FROMREFID, fromRefId, buf);
 		appendAttributeString(A_STEP, getStep(), buf);
 		return buf.toString();
 	}
@@ -151,6 +157,8 @@ public class TskTask extends MisObject {
 			Node multiInstFlowCondition = attrMap.getNamedItem(A_MULTIINSTFLOWCONDITION);
 			Node loopCounter = attrMap.getNamedItem(A_LOOPCOUNTER);
 			Node isStartActivity = attrMap.getNamedItem(A_ISSTARTACTIVITY);
+			Node fromRefType = attrMap.getNamedItem(A_FROMREFTYPE);
+			Node fromRefId = attrMap.getNamedItem(A_FROMREFID);
 			Node step = attrMap.getNamedItem(A_STEP);
 			if (correlation != null)
 				obj.setCorrelation(correlation.getNodeValue());
@@ -184,6 +192,10 @@ public class TskTask extends MisObject {
 				obj.setLoopCounter(Integer.parseInt(loopCounter.getNodeValue()));
 			if (isStartActivity != null)
 				obj.setIsStartActivity(isStartActivity.getNodeValue());
+			if (fromRefType != null)
+				obj.setFromRefType(fromRefType.getNodeValue());
+			if (fromRefId != null)
+				obj.setFromRefId(fromRefId.getNodeValue());
 			if (step != null)
 				obj.setStep(Integer.parseInt(step.getNodeValue()));
 		}
@@ -479,5 +491,17 @@ public class TskTask extends MisObject {
 	}
 	public void setIsStartActivity(String isStartActivity) {
 		this.isStartActivity = isStartActivity;
+	}
+	public String getFromRefType() {
+		return fromRefType;
+	}
+	public void setFromRefType(String fromRefType) {
+		this.fromRefType = fromRefType;
+	}
+	public String getFromRefId() {
+		return fromRefId;
+	}
+	public void setFromRefId(String fromRefId) {
+		this.fromRefId = fromRefId;
 	}
 }

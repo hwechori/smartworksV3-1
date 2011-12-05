@@ -2,7 +2,10 @@ package net.smartworks.server.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
@@ -23,7 +26,9 @@ public interface IWorkService {
 	public Report getReportById(String companyId, String userId, String reportId) throws Exception;
 
 	public SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception;
-	
+
 	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException, Exception;
+
+	public Data getReportData(HttpServletRequest request) throws Exception;
 
 }

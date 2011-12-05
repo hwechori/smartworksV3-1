@@ -178,4 +178,10 @@ public class CommunityServiceImpl implements ICommunityService {
 		return SmartTest.getMyCommunities();
 	}
 
+	@Override
+	public String setMyProfile(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

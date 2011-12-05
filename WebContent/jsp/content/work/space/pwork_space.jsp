@@ -319,8 +319,8 @@
     <ul>
     <li class="dash_line">
         <div class="det_title">
-            <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
-            <div class="noti_in">
+            <div class="noti_pic"><img src="images/pic_size_48.jpg"></div>
+            <div class="noti_in_m">
                 <span class="t_name">Minashin</span><span class="arr">▶</span><span class="ico_division_s">마케팅/디자인팀</span><span class="t_date"> 2011.10.13</span>
                 <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^ (메모는 타이틀 성격이 아니기 때문에 볼드가 안들어갑니다.)</div>
             </div>
@@ -328,15 +328,15 @@
     </li>
     <li>
         <div class="det_title">
-            <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
-            <div class="noti_in">
+            <div class="noti_pic"><img src="images/pic_size_48.jpg" ></div>
+            <div class="noti_in_m">
                 <span class="t_name">Minashin</span><span class="arr">▶</span><span class="ico_division_s">마케팅/디자인팀</span><span class="t_date"> 2011.10.13</span>
                 <div>
                 <strong>워크샵 사진입니다...즐감하세요~ (타이틀은 볼드가 들어가는 것으로 통일입니다~)</strong>
                 <div>이미지 파일에 대한 설명 내용이 있다면 이 곳에 들어갑니다.. 즐거웠던 웍샵사진~~ 어질어질했던 메스꺼움의 기억이 되살아나요~~--;</div>
                 	<div><img src="images/up_image.jpg" /></div>
                     
-   <!-- 댓글 -->
+   <!-- 대댓글 -->
    <div class="replay_point posit_replay"></div>
    <div class="replay_section">
    
@@ -344,14 +344,14 @@
             <ul>
             <li><img class="repl_tinfo" /><a href=""><strong>7</strong>개의 댓글 모두 보기</a></li>
             <li>
-                    <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
+                    <div class="noti_pic"><img src="images/pic_size_29.jpg"></div>
                     <div class="noti_in">
                         <span class="t_name">Minashin</span><span class="t_date"> 2011.10.13</span>
                         <div>와우~ 멋져요~</div>
                 </div>
             </li>
             <li>
-                    <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
+                    <div class="noti_pic"><img src="images/pic_size_29.jpg" ></div>
                     <div class="noti_in">
                         <span class="t_name">Minashin</span><span class="t_date"> 2011.10.13</span>
                         <div>재미있었겠네요~</div>
@@ -359,7 +359,7 @@
             </li>
             <li>
                 <div class="det_title">
-                    <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
+                    <div class="noti_pic"><img src="images/pic_size_29.jpg"></div>
                     <div class="noti_in">
                         <span class="t_name">Minashin</span><span class="t_date"> 2011.10.13</span>
                         <div>가을이 다 지나가부렀네요~~--;</div>
@@ -374,7 +374,7 @@
         </div>
     
     </div>
-    <!-- 댓글 //-->
+    <!-- 대댓글 //-->
                     
                 </div>
             </div>
@@ -382,8 +382,8 @@
     </li>
     <li class="end">
         <div class="det_title">
-            <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
-            <div class="noti_in">
+            <div class="noti_pic"><img src="images/pic_size_48.jpg"></div>
+            <div class="noti_in_m">
                 <span class="t_name">Minashin</span><span class="arr">▶</span><span class="ico_division_s">마케팅/디자인팀</span><span class="t_date"> 2011.10.13</span>
                 <div><img class="bu_file" /> <a href="">BT-case.ppt [678kb]</a> <strong>하반기 마케팅 기획 및 B2B 마케팅 자료입니다</strong></div>
                 <div>관련 설명이 들어갑니다... 없으면 안나오구요~^^ 내용이 많으면 줄바꿈됩니다...줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~</div>

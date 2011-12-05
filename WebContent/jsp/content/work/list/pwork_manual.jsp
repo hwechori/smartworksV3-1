@@ -102,10 +102,6 @@
 			<!-- 업무설명 -->
 			<div class="det_contents">
 				<table>
-					<colgroup>
-						<col width="50%">
-						<col width="50%">
-					</colgroup>
 					<tbody>
 						<tr>
 							<td><img src="<%=form.getOrgImage() %>" width="349"

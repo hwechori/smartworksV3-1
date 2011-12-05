@@ -1,22 +1,15 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <!-- 폼- 업무 입력 후 -->
 <table>
-	<colgroup>
-		<col class="item">
-		<col class="field">
-		<col class="item">
-		<col class="field">
-	</colgroup>
-	<tbody>
 		<tr>
-			<td>제 목</td>
+			<th class="essen_n">제 목</th>
 			<td colspan="3" class=""><div class="fieldline essen">
 					<input id="" type="text" title="" value="">
 				</div></td>
 		</tr>
 		<tr>
-			<td>관리부서</td>
-			<td>
+			<th width="13%" class="space_tit">관리부서</th>
+			<td width="37%">
 				<div class="ico_space">
 					<div class="fieldline">
 						<input id="" type="text" title="" value="">
@@ -26,10 +19,10 @@
 					</div>
 				</div>
 			</td>
-			<td>관리담당자</td>
-			<td>
+			<th class="essen_n" width="13%">관리담당자</th>
+			<td width="37%">
 				<div class="ico_space">
-					<div class="fieldline essen">
+					<div class="fieldline">
 						<input id="" type="text" title="" value="">
 					</div>
 					<div class="ico_posi">
@@ -39,7 +32,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td>내 용</td>
+			<th class="essen_n">내 용</th>
 			<td colspan="3" class="">
 				<div class="textarea_size">
 					<textarea class="up_textarea essen" name="내용" cols="" rows="5"
@@ -48,7 +41,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td>첨부파일</td>
+			<th class="space_tit">첨부파일</th>
 			<td colspan="3" class="">
 				<div class="btn_space">
 					<div class="fieldline">
@@ -62,5 +55,4 @@
 				</div>
 			</td>
 		</tr>
-	</tbody>
 </table>

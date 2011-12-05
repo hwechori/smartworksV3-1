@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.report.ChartReport;
+import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
@@ -31,10 +34,8 @@ import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
-import net.smartworks.server.engine.infowork.domain.model.SwdDomainFieldView;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
-import net.smartworks.server.engine.infowork.form.exception.SwfException;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
@@ -351,4 +352,8 @@ public class WorkServiceImpl implements IWorkService {
 		return getSwfManager().findFormFieldByForm(formId, deployedCondition);
 	}
 
+	@Override
+	public Data getReportData(HttpServletRequest request) throws Exception {
+		return SmartTest.getReportData();
+	}
 }

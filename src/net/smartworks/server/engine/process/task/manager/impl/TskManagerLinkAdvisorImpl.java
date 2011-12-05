@@ -298,6 +298,15 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 			apprTask.setAssigner(assigner);
 			apprTask.setAssignee(approver);
 			apprTask.setForm(preApprTask != null ? preApprTask.getForm() : obj.getForm());
+			
+			if (CommonUtil.isEmpty(obj.getFromRefId())) {
+				apprTask.setFromRefType(obj.getType());
+				apprTask.setFromRefId(obj.getObjId());
+			} else {
+				apprTask.setFromRefType(obj.getFromRefType());
+				apprTask.setFromRefId(obj.getFromRefId());
+			}
+			
 			apprTask.setExtendedPropertyValue("taskRef", taskRef);
 			apprTask.setExtendedPropertyValue("approvalLine", apprLine.getObjId());
 			apprTask.setExtendedPropertyValue("approval", appr.getObjId());
@@ -348,6 +357,10 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		recTask.setAssignmentDate(new Date());
 		recTask.setForm(recForm);
 		//recTask.setDueDate(DateUtil.toDate(recDueDate));
+		
+		recTask.setFromRefType(obj.getType());
+		recTask.setFromRefId(obj.getObjId());
+		
 		recTask.setExtendedAttributeValue("projectName", projectName);
 		recTask.setExtendedAttributeValue("isPublic", isPublic);
 		
@@ -427,11 +440,14 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 			refTask.setAssigner(obj.getAssigner());
 			refTask.setAssignee(refUser);
 			refTask.setForm(obj.getForm());
+			refTask.setFromRefId(obj.getObjId());
+			refTask.setFromRefType(obj.getType());
 			refTask.setExtendedPropertyValue("subject", subject);
 			refTask.setExtendedPropertyValue("taskRef", obj.getObjId());
 			refTask.setExtendedPropertyValue("workContents", workContents);
 			refTask.setExtendedPropertyValue("projectName", projectName);
 			refTask.setExtendedPropertyValue("isPublic", isPublic);
+			
 			this.getTskManager().setTask(user, refTask, null);
 			if (logger.isInfoEnabled()) {
 				logger.info("Assigned Reference Task [ " + subject + " ( Process Instance Id : " + refTask.getProcessInstId() + " , To User : " + refTask.getAssignee() + ")]");
