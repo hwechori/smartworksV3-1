@@ -54,7 +54,8 @@
 	if (reportId != null) {
 		report = smartWorks.getReportById(cUser.getCompanyId(), cUser.getId(), reportId);
 		reportType = report.getType();
-		if(report.getSearchFilter()!=null) filterId = report.getSearchFilter().getId();
+		if (report.getSearchFilter() != null)
+			filterId = report.getSearchFilter().getId();
 	}
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -66,76 +67,73 @@
 
 		<!-- 컨텐츠 -->
 		<div class="contents_space">
-			<div class="border">
-
-				<div class="list_title_space">
-					<div class="title_stat">
-						<fmt:message key="report.title.new_report" />
-					</div>
+			<div class="list_title_space">
+				<div class="title_stat">
+					<fmt:message key="report.title.new_report" />
 				</div>
-
-				<table class="margin_t10">
-					<tbody>
-						<tr>
-							<td width="11%"><div class="essen_r">
-									<fmt:message key="report.title.report_name" />
-								</div>
-							</td>
-							<td width="89%" colspan="3"><div class="fieldline">
-									<input id="" type="text" name="txtWorkReportName"
-										value="<%if (report != null) {%><fmt:message key='<%=report.getName() %>'/><%}%>">
-								</div>
-							</td>
-						</tr>
-						
-						<tr class="js_work_report_type">
-							<td><fmt:message key="report.title.report_type" /></td>
-							<td colspan="3" class=""><input name="rdoWorkReportType"
-								type="radio" value="<%=Report.TYPE_CHART%>"
-								url="work_report_chart.sw?workId=<%=workId%>&reportId=<%=reportId%>"
-								<%if ((report != null) && (reportType == Report.TYPE_CHART)) {%>
-								checked <%}%>> <fmt:message key="report.type.chart" /><input
-								name="rdoReportType" type="radio"
-								value="<%=Report.TYPE_MATRIX%>"
-								url="work_report_matrix.sw?workId=<%=workId%>&reportId=<%=reportId%>"
-								<%if ((report != null) && (reportType == Report.TYPE_MATRIX)) {%>
-								checked <%}%>> <fmt:message key="report.type.matrix" /><input
-								name="rdoReportType" type="radio" value="<%=Report.TYPE_TABLE%>"
-								url="work_report_table.sw?workId=<%=workId%>&reportId=<%=reportId%>"
-								<%if ((report != null) && (reportType == Report.TYPE_TABLE)) {%>
-								checked <%}%>> <fmt:message key="report.type.table" />
-							</td>
-						</tr>
-						<div class="js_form_by_report_type">
-							<%
-								if ((report == null) || (report != null && (reportType == Report.TYPE_CHART || reportType == Report.TYPE_MATRIX))) {
-							%>
-							<jsp:include
-								page="/jsp/content/work/report/work_report_chart.jsp">
-							<%
-								} else if (report != null && reportType == Report.TYPE_TABLE) {
-							%>
-							<jsp:include
-								page="/jsp/content/work/report/work_report_table.jsp">
-							<%
-								}
-							%>
-								<jsp:param name="workId" value="<%=workId %>" />
-								<jsp:param name="reportId" value="<%=reportId %>" /></jsp:include></div>
-
-						<tr class="js_toggle_chart_search_filter" url="search_filter.sw?workId=<%=workId%>&filterId=<%=filterId%>">
-							<td><fmt:message key="report.button.add_search_filter" />
-							</td>
-						</tr>
-						<tr class="js_toggle_chart_search_filter" style="display: none" url="search_filter.sw?workId=<%=workId%>&filterId=<%=filterId%>">
-							<td><fmt:message key="report.button.remove_search_filter" />
-							</td>
-						</tr>
-						<tr class="js_chart_search_filter">
-						</tr>
-					</tbody>
-				</table>
 			</div>
+
+			<table class="margin_t10">
+				<tbody>
+					<tr>
+						<td width="11%"><div class="essen_r">
+								<fmt:message key="report.title.report_name" />
+							</div></td>
+						<td width="89%" colspan="3"><div class="fieldline">
+								<input id="" type="text" name="txtWorkReportName"
+									value="<%if (report != null) {%><fmt:message key='<%=report.getName() %>'/><%}%>">
+							</div></td>
+					</tr>
+
+					<tr class="js_work_report_type">
+						<td><fmt:message key="report.title.report_type" />
+						</td>
+						<td colspan="3" class=""><input name="rdoWorkReportType"
+							type="radio" value="<%=Report.TYPE_CHART%>"
+							url="work_report_chart.sw?workId=<%=workId%>&reportId=<%=reportId%>"
+							<%if ((report != null) && (reportType == Report.TYPE_CHART)) {%>
+							checked <%}%>> <fmt:message key="report.type.chart" /><input
+							name="rdoWorkReportType" type="radio"
+							value="<%=Report.TYPE_MATRIX%>"
+							url="work_report_matrix.sw?workId=<%=workId%>&reportId=<%=reportId%>"
+							<%if ((report != null) && (reportType == Report.TYPE_MATRIX)) {%>
+							checked <%}%>> <fmt:message key="report.type.matrix" /><input
+							name="rdoWorkReportType" type="radio"
+							value="<%=Report.TYPE_TABLE%>"
+							url="work_report_table.sw?workId=<%=workId%>&reportId=<%=reportId%>"
+							<%if ((report != null) && (reportType == Report.TYPE_TABLE)) {%>
+							checked <%}%>> <fmt:message key="report.type.table" /></td>
+					</tr>
+					<div class="js_form_by_report_type">
+						<%
+							if ((report == null) || (report != null && (reportType == Report.TYPE_CHART || reportType == Report.TYPE_MATRIX))) {
+						%>
+						<jsp:include page="/jsp/content/work/report/work_report_chart.jsp">
+							<jsp:param name="workId" value="<%=workId %>" />
+							<jsp:param name="reportId" value="<%=reportId %>" /></jsp:include>
+						<%
+							} else if (report != null && reportType == Report.TYPE_TABLE) {
+						%>
+						<jsp:include page="/jsp/content/work/report/work_report_table.jsp">
+							<jsp:param name="workId" value="<%=workId %>" />
+							<jsp:param name="reportId" value="<%=reportId %>" /></jsp:include>
+						<%
+							}
+						%>
+					</div>
+					<tr class="js_toggle_chart_search_filter"
+						url="search_filter.sw?workId=<%=workId%>&filterId=<%=filterId%>">
+						<td><fmt:message key="report.button.add_search_filter" /></td>
+					</tr>
+					<tr class="js_toggle_chart_search_filter" style="display: none"
+						url="search_filter.sw?workId=<%=workId%>&filterId=<%=filterId%>">
+						<td><fmt:message key="report.button.remove_search_filter" />
+						</td>
+					</tr>
+					<tr class="js_chart_search_filter">
+					</tr>
+				</tbody>
+			</table>
 		</div>
 
 

@@ -72,9 +72,8 @@
 				<div class="table_line"></div>
 
 				<div class="photo_section">
-					<img src="../images/pic_size_110.jpg" /> <input type="file"
-						onchange="imgSave();" style="width: 90px; border: 0;" size="1"
-						name="picture">
+					<img src="<%=cUser.getOrgPicture() %>" /> <input name="filUserProfilePicture" type="file"
+						onchange="" style="width: 90px; border: 0;" size="1" >
 				</div>
 
 				<div class="table_section">

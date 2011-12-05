@@ -174,7 +174,7 @@
 		<%if (xAxisSort != null && xAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
 		checked <%}%>> <fmt:message
 			key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> <input type="radio"
-		name="rdoRportXAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
+		name="rdoReportXAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
 		<%if (xAxisSort != null && xAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
 		checked <%}%>> <fmt:message
 			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></td>
@@ -222,7 +222,7 @@
 	</td>
 </tr>
 <%
-	String zAxisId, zAxisSelector, zAxisSort, xSecondAxisId, xSecondAxisSelector, xSecondAxisSort, zSecondAxisId, zSecondAxisSelector, zSecondAxisSort;
+	String zAxisId=null, zAxisSelector=null, zAxisSort=null, xSecondAxisId=null, xSecondAxisSelector=null, xSecondAxisSort=null, zSecondAxisId=null, zSecondAxisSelector=null, zSecondAxisSort=null;
 	if (chart != null) {
 		if (chart.getZAxis() != null)
 			zAxisId = chart.getZAxis().getId();
@@ -318,7 +318,7 @@
 		<%if (zAxisSort != null && zAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
 		checked <%}%>> <fmt:message
 			key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> <input type="radio"
-		name="rdoRportZAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
+		name="rdoReportZAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
 		<%if (zAxisSort != null && zAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
 		checked <%}%>> <fmt:message
 			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></td>
@@ -398,7 +398,7 @@
 		<%if (xSecondAxisSort != null && xSecondAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
 		checked <%}%>> <fmt:message
 			key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> <input type="radio"
-		name="rdoRportXSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
+		name="rdoReportXSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
 		<%if (xSecondAxisSort != null && xSecondAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
 		checked <%}%>> <fmt:message
 			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></td>
@@ -475,7 +475,7 @@
 		<%if (zSecondAxisSort != null && zSecondAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
 		checked <%}%>> <fmt:message
 			key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> <input type="radio"
-		name="rdoRportZSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
+		name="rdoReportZSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
 		<%if (zSecondAxisSort != null && zSecondAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
 		checked <%}%>> <fmt:message
 			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></td>
