@@ -481,9 +481,9 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .t_up_num {color:#e54b4b; font-weight:bold;}
 .t_bold {font-weight:bold;}
 .t_gbold {color:#656565; font-weight:bold;}
-.t_name {color:#23579e;}
+.t_name {color:#23579e; position: relative;}
 .t_woname {color:#23579e; font-weight:bold;}
-.t_date {font-size:11px; color:#999897; line-height:16px;}
+.t_date {font-size:11px; color:#999897;}
 .t_location {font-size:11px; color:#999897; padding:}
 .t_white {font-size:12px; font-weight:normal;}
 .arr {font-size:10px; margin-right:2px;}

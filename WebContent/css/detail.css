@@ -7,7 +7,7 @@
 .body_titl .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
 .body_titl .title_noico {font-size: 14px; font-weight: bold;}  /* 타이틀 우측으로 아이콘이 없을때 */
 .body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding: 28px 0 6px 0;} /* 타이틀 우측으로 버튼 */
-.body_titl .txt_btn .pho_user {margin-top: -7px;}
+.body_titl .txt_btn .pho_user {width:22px;}
 
 .body_titl_pic { padding:5px 15px 10px;} /* 본문 페이지 타이틀 - 사람사진이 들어갈 경우 */
 .body_titl_pic .txt_btn {font-family:'돋움',Dotum; font-size: 11px; font-weight:normal;}
@@ -16,6 +16,9 @@
 .body_titl_pic .title_section {position:absolute;}
 .body_titl_pworks {background: url("../images/body_title_proces.png") no-repeat 0 -2px transparent; padding:22px 0 0 68px; line-height:18px;}
 .body_titl_iworks {background: url("../images/body_title_inform.png") no-repeat 0 -2px transparent; padding:22px 0 0 68px; line-height:18px;}
+.body_titl .t_name {color:#23579e; line-height:12px; position: relative; vertical-align: bottom;}
+.body_titl .t_date {font-size:11px; color:#999897; line-height:12px; position: relative; vertical-align: bottom;}
+
 
 
 /* 본문 컨텐츠 */
