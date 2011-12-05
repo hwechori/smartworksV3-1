@@ -40,4 +40,7 @@ public interface ICommunityService {
 	public abstract UserInfo[] searchUser(String companyId, String key) throws Exception;
 
 	public abstract CommunityInfo[] getMyCommunities(String companyId, String userId) throws Exception;	
+
+	public abstract String setMyProfile(HttpServletRequest request) throws Exception;
+	
 }

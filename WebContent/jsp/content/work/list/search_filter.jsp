@@ -63,7 +63,7 @@
 	}
 		%>
 						<jsp:include page="/jsp/content/work/field/default_fields.jsp">
-							<jsp:param name="type" value="<%=work.getType() %>" />
+							<jsp:param name="reportType" value="<%=work.getType() %>" />
 						</jsp:include>
 					</select> <span class="js_filter_operator"> <%
  	if (fields.length > 0) {
@@ -131,8 +131,8 @@
 				}
 						%>
 						<jsp:include page="/jsp/content/work/field/default_fields.jsp">
-							<jsp:param name="type" value="<%=work.getType() %>" />
-							<jsp:param name="leftOperandId" value="<%=leftOperand.getId() %>" />
+							<jsp:param name="reportType" value="<%=work.getType() %>" />
+							<jsp:param name="fieldId" value="<%=leftOperand.getId() %>" />
 						</jsp:include>
 					</select> <span class="js_filter_operator"> <%
  				String fieldType = leftOperand.getType();

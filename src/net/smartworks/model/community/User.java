@@ -15,9 +15,37 @@ public class User extends WorkSpace {
 	private String 	locale;
 	private String 	timeZone;
 	private String 	department;
+	private String  employeeId;
+	private String  password;
+	private String  phoneNo;
+	private String	cellPhoneNo;
 	private String 	company;
 	private String 	companyId;
 
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+	public String getCellPhoneNo() {
+		return cellPhoneNo;
+	}
+	public void setCellPhoneNo(String cellPhoneNo) {
+		this.cellPhoneNo = cellPhoneNo;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
 	public String getCompanyId() {
 		return companyId;
 	}
