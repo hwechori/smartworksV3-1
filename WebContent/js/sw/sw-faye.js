@@ -1,4 +1,4 @@
-var serverUrl = "http://localhost:8000";
+var serverUrl = "http://192.168.0.8:8000";
 var swContext = "/faye";
 var currentUserId = currentUser.userId;
 var userStatus = {

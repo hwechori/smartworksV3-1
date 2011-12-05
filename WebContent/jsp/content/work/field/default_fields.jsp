@@ -13,7 +13,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String strReportType = request.getParameter("reportType");
-	int reportType = SmartWork.TYPE_INFORMATION;
+	int reportType = -1;
 	if(strReportType != null && !strReportType.equals("")) reportType = Integer.parseInt(strReportType);
 
 	String fieldId = request.getParameter("fieldId");
