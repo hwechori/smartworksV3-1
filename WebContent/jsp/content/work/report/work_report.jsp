@@ -87,6 +87,7 @@
 								</div>
 							</td>
 						</tr>
+						
 						<tr class="js_work_report_type">
 							<td><fmt:message key="report.title.report_type" /></td>
 							<td colspan="3" class=""><input name="rdoWorkReportType"
