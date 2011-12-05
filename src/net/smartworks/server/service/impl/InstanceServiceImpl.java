@@ -1,17 +1,21 @@
 package net.smartworks.server.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.instance.CommentInstance;
+import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.IWInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.PWInstanceInfo;
@@ -25,10 +29,13 @@ import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
+import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
@@ -39,13 +46,10 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
-import net.smartworks.server.engine.process.task.model.TskTaskCond;
-import net.smartworks.server.engine.process.task.model.TskTaskExtend;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
-import net.smartworks.server.service.util.ModelConverterInfo;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 
@@ -215,7 +219,10 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public InstanceInfoList getIWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
 
-		/*SwdDomainCond swdDomainCond = new SwdDomainCond();
+		Date start = new Date();
+		System.out.println("############################"+new Date()+"############################");
+
+		SwdDomainCond swdDomainCond = new SwdDomainCond();
 		swdDomainCond.setCompanyId(companyId);
 
 		SwfFormCond swfFormCond = new SwfFormCond();
@@ -249,19 +256,74 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 		swdRecordCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
 
-		//swdRecordCond.setPageNo(currentPage);
-		//swdRecordCond.setPageSize(pageCount);
+		swdRecordCond.setPageNo(currentPage);
+		swdRecordCond.setPageSize(pageCount);
 
 		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
 
+		if (swdRecords == null)
+			return null;
+			
+		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
+
+		SwdField[] swdFields = getSwdManager().getViewFieldList(workId, swdDomain.getFormId());
+
+		IWInstanceInfo[] iWInstanceInfos = new IWInstanceInfo[swdRecords.length];
+
+		for(int i = 0; i < swdRecords.length; i++) {
+			IWInstanceInfo iWInstanceInfo = new IWInstanceInfo();
+			SwdRecord swdRecord = swdRecords[i];
+			iWInstanceInfo.setId(swdRecord.getRecordId());
+			iWInstanceInfo.setOwner(ModelConverter.getUserInfoByUserId(swdRecord.getCreationUser()));
+			iWInstanceInfo.setSubject(""); //TODO
+			int type = WorkInstance.TYPE_INFORMATION;
+			iWInstanceInfo.setType(type);
+			iWInstanceInfo.setStatus(WorkInstance.STATUS_COMPLETED);
+			iWInstanceInfo.setWorkSpace(null);
+
+			WorkCategoryInfo groupInfo = null;
+			if (!CommonUtil.isEmpty(swdRecordExtends[0].getSubCtgId()))
+				groupInfo = new WorkCategoryInfo(swdRecordExtends[0].getSubCtgId(), swdRecordExtends[0].getSubCtg());
+
+			WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
+
+			WorkInfo workInfo = new SmartWorkInfo(swdRecord.getFormId(), swdRecord.getFormName(), type, groupInfo, categoryInfo);
+
+			iWInstanceInfo.setWork(workInfo);
+			iWInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
+			iWInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
+
+			SwdDataField[] swdDataFields = swdRecord.getDataFields();
+			List<FieldData> fieldDataList = new ArrayList<FieldData>();
+			for(SwdDataField swdDataField : swdDataFields) {
+				for(SwdField swdField : swdFields) {
+					if(swdField.getDisplayOrder() > -1) {
+						if(swdDataField.getId().equals(swdField.getFormFieldId())) {
+							FieldData fieldData = new FieldData();
+							fieldData.setFieldId(swdDataField.getId());
+							fieldData.setFieldType(swdDataField.getType());
+							fieldData.setValue(swdDataField.getValue());
+							fieldDataList.add(fieldData);
+						}
+					}
+				}
+			}
+			FieldData[] fieldDatas = new FieldData[fieldDataList.size()];
+			fieldDataList.toArray(fieldDatas);
+			iWInstanceInfo.setDisplayDatas(fieldDatas);
+			iWInstanceInfos[i] = iWInstanceInfo;
+		}
+
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
-		instanceInfoList.setInstanceDatas(ModelConverterInfo.getIWInstanceInfoArrayBySwdRecordArray(swdRecords));
+		instanceInfoList.setInstanceDatas(iWInstanceInfos);
+		long termTime = start.getTime() - new Date().getTime();
+		System.out.println("******************************"+termTime+"******************************");
 		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 		instanceInfoList.setCountInPage(pageCount);
 		instanceInfoList.setTotalPages((int)totalCount);
-		instanceInfoList.setCurrentPage(currentPage);*/
+		instanceInfoList.setCurrentPage(currentPage);
 
-		return SmartTest.getWorkInstanceList1(params);
+		return instanceInfoList;
 	}
 
 	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
@@ -280,6 +342,9 @@ public class InstanceServiceImpl implements IInstanceService {
 		prcInstCond.setPageNo(currentPage);
 		prcInstCond.setPageSize(pageCount);
 		PrcProcessInstExtend[] prcInsts = getPrcManager().getProcessInstExtends(userId, prcInstCond);
+		
+		if (prcInsts == null)
+			return null;
 		
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
 		

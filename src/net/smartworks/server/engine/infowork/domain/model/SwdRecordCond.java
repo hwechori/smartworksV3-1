@@ -48,6 +48,7 @@ public class SwdRecordCond extends ClassObjectCond {
 	private String recordId;
 	private String domainId;
 	private String formId;
+	private String packageId;
 	private String creationUser;
 	private Date creationDateFrom;
 	private Date creationDateTo;
@@ -324,6 +325,12 @@ public class SwdRecordCond extends ClassObjectCond {
 	}
 	public void setReferencedRecordId(String referencedRecordId) {
 		this.referencedRecordId = referencedRecordId;
+	}
+	public String getPackageId() {
+		return packageId;
+	}
+	public void setPackageId(String packageId) {
+		this.packageId = packageId;
 	}
 
 }
