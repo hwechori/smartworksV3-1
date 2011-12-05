@@ -129,9 +129,9 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .ico_gworks {background: url("../images/ico_category.gif") no-repeat left top transparent; hieght:20px; padding:3px 0 0 19px; line-hieght:18px;}
 .ico_iworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; padding:3px 0 0 19px; line-height:18px;}
 
-.ico_depart {background: url("../images/ico_depart.gif") no-repeat left top transparent; height:24px; padding:0 0 0 30px; display: inline-block; float:left;}
-.ico_group {background: url("../images/ico_group.gif") no-repeat left top transparent; height:24px; padding:0 0 0 30px; display: inline-block; float:left;}
-.ico_pe01 {background: url("../images/ico_pe01.gif") no-repeat 10px top transparent; height:28px; padding:3px 0 0 38px;}
+.ico_depart {background: url("../images/ico_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
+.ico_group {background: url("../images/ico_group.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
+.ico_pe01 {background: url("../images/ico_pe01.gif") no-repeat 10px top transparent; height:20px; padding:0 0 0 25px;}
 
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:205px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; width:221px;}
@@ -144,7 +144,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 4px transparent; height:9px; padding:0 0 10px 13px;}
 
 .ico_chatpe {padding:10px 2px 2px 0;}
-.nav_subtitl_area {display: inline; line-height: 16px;}
+.nav_subtitl_area {display: inline;}
 
 /* 나의 커뮤니티 */
 #my_communities li {position:relative;}
@@ -261,7 +261,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .form_wrap .input_check {float:left; margin-left:5px;}
 
 .form_title {padding:10px;}
-.form_title .title {font-weight:bold; font-size:14px; position:absolute;} /* 타이틀 우측으로 아이콘이 있을때 */
+.form_title .title {font-weight:bold; font-size:14px; padding:0 0 0 19px; position:absolute;} /* 타이틀 우측으로 아이콘이 있을때 */
 .form_title .title_noico  {font-weight:bold; font-size:14px; padding-bottom: 0;} /* 타이틀 우측으로 아이콘이 없을때 */
 .form_contents {padding:0 20px 10px; text-align: center;}
 .form_contents table tr {height:30px;}

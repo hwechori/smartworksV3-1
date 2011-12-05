@@ -59,7 +59,7 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 .list_contents table tr .end, .list_contents table td .end {border-bottom: 0 none}
 .list_contents table .r_line {border-right:1px solid #DCDFE0;}
 .list_contents table .tit_bg {border-top:1px solid #DCDFE0; background-color:#f7f7f7;}
-.list_contents table th {text-align:center; padding:0 15px;}
+.list_contents table th {text-align:center; padding:0 5px;}
 .list_contents table td {padding-left:10px; }
 
 /* 새로 만들기 부분 타이틀 */
