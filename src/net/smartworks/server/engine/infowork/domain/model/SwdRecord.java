@@ -45,6 +45,7 @@ public class SwdRecord extends BaseObject {
 	private String domainId;
 	private String recordId;
 	private String formId;
+	private String formName;
 	private int formVersion = 1;
 	private String creationUser;
 	private Date creationDate;
@@ -357,6 +358,12 @@ public class SwdRecord extends BaseObject {
 	}
 	public void setDomainId(String domainId) {
 		this.domainId = domainId;
+	}
+	public String getFormName() {
+		return formName;
+	}
+	public void setFormName(String formName) {
+		this.formName = formName;
 	}
 
 }

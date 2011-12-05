@@ -49,12 +49,15 @@ import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
+import net.smartworks.server.engine.infowork.form.exception.SwfException;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfCondition;
 import net.smartworks.server.engine.infowork.form.model.SwfConditions;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfFieldRef;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
+import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfFormRef;
 import net.smartworks.server.engine.infowork.form.model.SwfFormat;
@@ -734,6 +737,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				obj.setRecordId((String)fields[j++]);
 				j++;
 				obj.setDomainId(domain.getObjId());
+				obj.setFormId((String)fields[j++]);
+				obj.setFormName((String)fields[j++]);
 				obj.setCreationUser((String)fields[j++]);
 				obj.setCreationDate((Timestamp)fields[j++]);
 				obj.setModificationUser((String)fields[j++]);
@@ -864,7 +869,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		// 쿼리 생성
 		StringBuffer buf = new StringBuffer();
 		// select
-		buf.append("select obj.id, obj.domainId, obj.creator, obj.createdTime");
+		buf.append("select obj.id, obj.domainId, domain.formId, domain.formName, obj.creator, obj.createdTime");
 		buf.append(", obj.modifier, obj.modifiedTime");
 		String columnName;
 		if (!CommonUtil.isEmpty(fields)) {
@@ -885,6 +890,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		}
 		// from
 		buf.append(" from ").append(tableName).append(" obj");
+		buf.append(", swdomain domain");
 		if (refFormId != null || refRecordId != null) {
 			buf.append(", swdataref");
 		}
@@ -897,6 +903,9 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				buf.append(" and swdataref.refformid = :refFormId");
 			if (refRecordId != null)
 				buf.append(" and swdataref.refrecordid = :refRecordId");
+			buf.append(" and obj.domainId = domain.id");
+		} else {
+			buf.append(" where obj.domainId = domain.id");
 		}
 		String recordId = cond.getRecordId();
 		String creationUser = cond.getCreationUser();
@@ -2017,6 +2026,87 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		Query query = this.getSession().createQuery(hql);
 		List<SwdDomainFieldView> fieldViewList = query.list();
 		return fieldViewList;
+	}
+
+	public SwdField[] getViewFieldList(String packageId, String formId) throws SwdException {
+		List<SwfFormFieldDef> formFieldDefList = null;
+		try {
+			formFieldDefList = getSwfManager().findFormFieldByForm(formId, true);
+		} catch (SwfException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String hql = "select domainfield.formFieldId, domainfield.formFieldName, domainfield.formFieldType, domainfield.tableColumnName, domainfield.displayOrder" +
+					 "  from PkgPackage pkg, SwfForm form, SwdDomain domain, SwdField domainfield" +
+					 " where pkg.packageId = form.packageId" +
+					 "   and form.id = domain.formId" +
+					 "   and domain.objId = domainfield.domain" +
+					 "   and pkg.packageId = '" + packageId + "' " +
+					 " order by domainfield.displayOrder asc";
+
+		Query query = this.getSession().createQuery(hql);
+
+		List<SwdField> list = query.list();
+
+		if (list == null || list.isEmpty())
+			return null;
+		List<SwdField> objList = new ArrayList<SwdField>();
+
+		for (Iterator itr = list.iterator(); itr.hasNext();) {
+			Object[] fields = (Object[]) itr.next();
+			SwdField obj = new SwdField();
+			int j = 0;
+			obj.setFormFieldId((String)fields[j++]);
+			obj.setFormFieldName((String)fields[j++]);
+			obj.setFormFieldType((String)fields[j++]);
+			obj.setTableColumnName((String)fields[j++]);
+			obj.setDisplayOrder((Integer)fields[j++]);
+			for(int i=0; i<formFieldDefList.size(); i++) {
+				SwfFormFieldDef swfFormFieldDef = formFieldDefList.get(i);
+				String formFieldId = swfFormFieldDef.getId();
+				String viewingType = swfFormFieldDef.getViewingType();
+				if(formFieldId.equals(obj.getFormFieldId()) && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
+					objList.add(obj);
+				}
+			}
+		}
+		SwdField[] swdFields = new SwdField[objList.size()];
+		objList.toArray(swdFields);
+
+		return swdFields;
+	}
+
+	public SwdRecordExtend[] getCtgPkg(String packageId) throws SwdException {
+		String hql = "select ctg.objId as subCtgId, ctg.name as subCtgName, parentCtg.objId as parentCtgId, parentCtg.name as parentCtgName" +
+					 "  from SwfForm form, SwdDomain domain, PkgPackage pkg, CtgCategory ctg, CtgCategory parentCtg" +
+					 " where form.packageId = pkg.packageId" +
+					 "   and domain.formId = form.id" +
+					 "   and pkg.categoryId = ctg.objId" +
+					 "   and ctg.parentId = parentCtg.objId" +
+					 "   and pkg.packageId = '" + packageId + "' ";
+
+		Query query = this.getSession().createQuery(hql);
+
+		List<SwdField> list = query.list();
+
+		if (list == null || list.isEmpty())
+			return null;
+		List<SwdRecordExtend> objList = new ArrayList<SwdRecordExtend>();
+		for (Iterator itr = list.iterator(); itr.hasNext();) {
+			Object[] fields = (Object[]) itr.next();
+			SwdRecordExtend obj = new SwdRecordExtend();
+			int j = 0;
+			obj.setSubCtgId((String)fields[j++]);
+			obj.setSubCtg((String)fields[j++]);
+			obj.setParentCtgId((String)fields[j++]);
+			obj.setParentCtg((String)fields[j++]);
+			objList.add(obj);
+		}
+		SwdRecordExtend[] swdRecordExtends = new SwdRecordExtend[objList.size()];
+		objList.toArray(swdRecordExtends);
+
+		return swdRecordExtends;
 	}
 
 }

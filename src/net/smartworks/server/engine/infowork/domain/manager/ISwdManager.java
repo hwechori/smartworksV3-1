@@ -24,6 +24,7 @@ import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 
@@ -93,4 +94,7 @@ public interface ISwdManager extends IManager {
 
 	public List<SwdDomainFieldView> findDomainFieldViewList(String formId) throws SwdException;
 
+	public SwdField[] getViewFieldList(String packageId, String formId) throws SwdException;
+
+	public SwdRecordExtend[] getCtgPkg(String packageId) throws SwdException;
 }
