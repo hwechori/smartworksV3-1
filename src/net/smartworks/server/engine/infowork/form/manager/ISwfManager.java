@@ -24,6 +24,6 @@ public interface ISwfManager extends IManager {
 
 	public SwfForm[] getForms(String user, SwfFormCond cond, String level) throws SwfException;
 
-	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException, Exception;
+	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException;
 
 }

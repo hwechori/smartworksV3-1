@@ -1,10 +1,14 @@
 package net.smartworks.server.service;
 
+import java.util.List;
+
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
+import net.smartworks.server.engine.infowork.form.exception.SwfException;
+import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 
 public interface IWorkService {
 
@@ -20,5 +24,6 @@ public interface IWorkService {
 
 	public SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception;
 	
+	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException, Exception;
 
 }

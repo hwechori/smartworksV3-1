@@ -170,7 +170,7 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 		}
 	}
 
-	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException, Exception {
+	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException {
 
 		// 폼 아이디로 가장 최근 버전의
 		Session session = this.getSession();
@@ -189,7 +189,12 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 
 		List<SwfFormFieldDef> result = new ArrayList<SwfFormFieldDef>();
 		SwfFormDef formDef = new SwfFormDef();
-		formDef = XmlUtil.xmlToForm(formContent.getContent());
+		try {
+			formDef = XmlUtil.xmlToForm(formContent.getContent());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for (Iterator<SwfFormFieldDef> fieldDefIt = formDef.getFormFieldMap().values().iterator(); fieldDefIt.hasNext();)
 			result.add(fieldDefIt.next());
 		return result;

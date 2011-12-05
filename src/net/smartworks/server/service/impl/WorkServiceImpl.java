@@ -1,14 +1,10 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import net.smartworks.model.community.User;
 import net.smartworks.model.filter.SearchFilter;
-import net.smartworks.model.filter.info.SearchFilterInfo;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.FormField;
@@ -38,6 +34,7 @@ import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainFieldView;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
+import net.smartworks.server.engine.infowork.form.exception.SwfException;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
@@ -49,7 +46,6 @@ import net.smartworks.server.engine.pkg.model.PkgPackageCond;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
-import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 
@@ -221,14 +217,14 @@ public class WorkServiceImpl implements IWorkService {
 		
 		String formId = swfForms[0].getId();
 
-		List<SwdDomainFieldView> fieldViewList = getSwdManager().findDomainFieldViewList(formId);
+/*		List<SwdDomainFieldView> fieldViewList = getSwdManager().findDomainFieldViewList(formId);
 		List<SwfFormFieldDef> formFieldDefList = getSwfManager().findFormFieldByForm(formId, true);
 		
-		Set<String> fieldIdSet = new HashSet<String>();
+		List<String> fieldIdList = new ArrayList<String>();
 		for (int i = 0; i < fieldViewList.size(); i++) {
 			SwdDomainFieldView dfv = fieldViewList.get(i);
 			if (dfv.getDispOrder() > -1)
-				fieldIdSet.add(dfv.getFormFieldId());
+				fieldIdList.add(dfv.getFormFieldId());
 		}
 		List<FormField> resultList = new ArrayList<FormField>();
 		for (int i = 0; i < formFieldDefList.size(); i++) {
@@ -236,14 +232,28 @@ public class WorkServiceImpl implements IWorkService {
 			String formFieldId = sfd.getId();
 			String viewingType = sfd.getViewingType();
 			
-			if (fieldIdSet.contains(formFieldId) && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
+			if (fieldIdList.contains(formFieldId) && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
 				FormField formField = new FormField();
 				formField.setId(formFieldId);
 				formField.setName(sfd.getName());
 				formField.setType(sfd.getType());
 				resultList.add(formField);
 			}
+		}*/
+
+		List<FormField> resultList = new ArrayList<FormField>();
+		SwdField[] swdViewFields = getSwdManager().getViewFieldList(workId, formId);
+		for(SwdField swdViewField : swdViewFields) {
+			if(swdViewField.getDisplayOrder() > -1) {
+				FormField formField = new FormField();
+				formField.setId(swdViewField.getFormFieldId());
+				formField.setName(swdViewField.getFormFieldName());
+				formField.setType(swdViewField.getFormFieldType());
+				formField.setDisplayOrder(swdViewField.getDisplayOrder());
+				resultList.add(formField);
+			}
 		}
+
 		FormField[] formFields = new FormField[resultList.size()];
 		resultList.toArray(formFields);
 
@@ -336,4 +346,9 @@ public class WorkServiceImpl implements IWorkService {
 
 		return SmartTest.getSearchFilterById();
 	}
+
+	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws Exception {
+		return getSwfManager().findFormFieldByForm(formId, deployedCondition);
+	}
+
 }

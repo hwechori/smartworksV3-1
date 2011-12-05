@@ -443,14 +443,6 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
             is = request.getInputStream();
             fos = new FileOutputStream(new File(formFile.getFilePath()));
             IOUtils.copy(is, fos);
-            //IOUtils.write(buf, fos);
-    		/*byte[] buf = new byte[1024];
-
-    		int len;
-
-    		while ((len = is.read(buf)) > 0) {
-    			fos.write(buf, 0, len);
-    		}*/
             response.setStatus(HttpServletResponse.SC_OK);
             writer.print("{success: true, fileId: \"" + formFile.getId() + "\"}");
         } catch (FileNotFoundException ex) {
