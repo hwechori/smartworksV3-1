@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.report.Report"%>
 <%@page import="net.smartworks.model.instance.Instance"%>
 <%@page import="net.smartworks.model.work.FormField"%>
 <%@page import="java.net.URLDecoder"%>
@@ -12,8 +13,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String strReportType = request.getParameter("reportType");
-	int reportType = -1;
-	if(strReportType != null || !strReportType.equals("")) reportType = Integer.parseInt(strReportType);
+	int reportType = SmartWork.TYPE_INFORMATION;
+	if(strReportType != null && !strReportType.equals("")) reportType = Integer.parseInt(strReportType);
 
 	String fieldId = request.getParameter("fieldId");
 	if(fieldId==null){
