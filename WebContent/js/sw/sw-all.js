@@ -315,16 +315,20 @@ $(function() {
 	});
 
 	$('select.js_select_work_report').live('change', function(e) {
+//		var input = $(e.target);
+//		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
+//		var url = input.attr('href') + "&reportId=" + input.children('option:selected').attr('value');;
+//		$.ajax({
+//			url : url,
+//			data : {},
+//			success : function(data, status, jqXHR) {
+//				target.html(data).slideDown(500);
+//			}
+//		});
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
-		var url = input.attr('href') + "&reportId=" + input.children('option:selected').attr('value');;
-		$.ajax({
-			url : url,
-			data : {},
-			success : function(data, status, jqXHR) {
-				target.html(data).slideDown(500);
-			}
-		});
+		smartChart.load("", swChartType.LINE, false, target);
+		target.slideDown(500);
 		return false;
 	});
 

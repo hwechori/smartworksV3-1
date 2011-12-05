@@ -219,7 +219,7 @@
 
 				<!--통계메뉴 영역//-->
 				
-				<div class="js_work_report_form margin_b5">
+				<div id="chart_target" class="js_work_report_form margin_b5">
 				</div>
 
 				<!-- 목록보기 -->

@@ -1,6 +1,8 @@
 package net.smartworks.util;
 
+import java.sql.Array;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.smartworks.model.calendar.CompanyCalendar;
@@ -1177,6 +1179,30 @@ public class SmartTest {
 
 	public static Data getReportData() throws Exception{
 		Data reportData = new Data();
-		return reportData;
+	    Map<String,Object> value1 = new HashMap<String, Object>();
+	    Map<String,Object> value2 = new HashMap<String, Object>();
+	    Map<String,Object> value3 = new HashMap<String, Object>();
+	    List<Map<String , Object>> values  = new java.util.ArrayList<Map<String,Object>>();
+	    value1.put("name", "ysjung");
+	    value1.put("yesterday", 10);
+	    value1.put("today", 9);
+	    value1.put("tomorrow", 11);
+	    value2.put("name", "kmyu");
+	    value2.put("yesterday", 5);
+	    value2.put("today", 3);
+	    value2.put("tomorrow", 7);
+	    value3.put("name", "hsshin");
+	    value3.put("yesterday", 8);
+	    value3.put("today", 13);
+	    value3.put("tomorrow", 1);
+	    values.add(value1);
+	    values.add(value2);
+	    values.add(value3);
+	    reportData.setValues(values);
+	    reportData.setGroupNames(new String[]{"yesterday", "today", "tomorrow"});
+	    reportData.setxFieldName("name");
+	    reportData.setyValueName("count");
+	    
+	    return reportData;
 	}
 }
