@@ -261,6 +261,9 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
 
+		if (swdRecords == null)
+			return null;
+			
 		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
 
 		SwdField[] swdFields = getSwdManager().getViewFieldList(workId, swdDomain.getFormId());
