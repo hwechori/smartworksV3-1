@@ -26,6 +26,7 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
+import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
@@ -153,6 +154,8 @@ public interface ISmartWorks {
 	public abstract Report getReportById(String companyId, String userId, String reportId) throws Exception;
 
 	public abstract SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception;
+	
+	public abstract Data getReportData(HttpServletRequest request) throws Exception;
 	
 	public abstract String setInformationWorkInstance(HttpServletRequest request) throws Exception;
 

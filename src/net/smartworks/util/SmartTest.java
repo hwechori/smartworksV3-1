@@ -1,5 +1,8 @@
 package net.smartworks.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
@@ -35,6 +38,7 @@ import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.notice.NoticeMessage;
 import net.smartworks.model.report.ChartReport;
+import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
@@ -1169,5 +1173,10 @@ public class SmartTest {
 	
 	public static SearchFilter getSearchFilterById() throws Exception{
 		return SearchFilter.getMyRecentInstancesFilter(getUser1());
+	}
+
+	public static Data getReportData() throws Exception{
+		Data reportData = new Data();
+		return reportData;
 	}
 }
