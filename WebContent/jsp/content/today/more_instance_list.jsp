@@ -276,7 +276,7 @@
 		<fmt:message key="content.sentence.task_is_running" />
 		<%
 			}
-						if (forwardedTasks != null) {
+						if (forwardedTasks != null && forwardedTasks.length != 0) {
 							UserInfo forwardee = forwardedTasks[0].getAssignee();
 							String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + forwardee.getId();
 							String forwardedContextId = taskContextId + forwardee.getId();

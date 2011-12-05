@@ -23,6 +23,7 @@ import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.filter.info.SearchFilterInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
+import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.IWInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
@@ -163,14 +164,25 @@ public class ModelConverter {
 					TaskInstanceInfo lastTask = new TaskInstanceInfo();
 					lastTask.setId(task.getLastTskObjId());
 					lastTask.setName(task.getLastTskName());
-					lastTask.setTaskType(Instance.TYPE_TASK);
+					
+					if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_APPROVAL)) {
+						lastTask.setTaskType(TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED);
+					} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON)) {
+						lastTask.setTaskType(TaskInstance.TYPE_PROCESS_TASK_ASSIGNED);
+					} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_REFERENCE)) {
+						lastTask.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_FORWARDED);
+					} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE)) {
+						lastTask.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED);
+					}
+					
+					
 					lastTask.setWorkInstance(instInfo);
 					lastTask.setAssignee(getUserInfoByUserId(task.getLastTskAssignee()));
 					lastTask.setPerformer(getUserInfoByUserId(task.getLastTskAssignee()));
 					lastTask.setSubject(task.getPrcTitle());
 					lastTask.setWork(workInfo);
 					lastTask.setWorkSpace(null);
-					lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+					lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
 					lastTask.setOwner(getUserInfoByUserId(task.getLastTskAssignee()));
 					lastTask.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
 					lastTask.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
@@ -208,14 +220,24 @@ public class ModelConverter {
 					TaskInstanceInfo lastTask = new TaskInstanceInfo();
 					lastTask.setId(task.getLastTskObjId());
 					lastTask.setName(task.getLastTskName());
-					lastTask.setTaskType(Instance.TYPE_TASK);
+
+					if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_APPROVAL)) {
+						lastTask.setTaskType(TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED);
+					} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON)) {
+						lastTask.setTaskType(TaskInstance.TYPE_PROCESS_TASK_ASSIGNED);
+					} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_REFERENCE)) {
+						lastTask.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_FORWARDED);
+					} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE)) {
+						lastTask.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED);
+					}
+					
 					lastTask.setWorkInstance(instInfo);
 					lastTask.setAssignee(getUserInfoByUserId(task.getLastTskAssignee()));
 					lastTask.setPerformer(getUserInfoByUserId(task.getLastTskAssignee()));
 					lastTask.setSubject(task.getPrcTitle());
 					lastTask.setWork(workInfo);
 					lastTask.setWorkSpace(null);
-					lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+					lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
 					lastTask.setOwner(getUserInfoByUserId(task.getLastTskAssignee()));
 					lastTask.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
 					lastTask.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
@@ -229,14 +251,24 @@ public class ModelConverter {
 					TaskInstanceInfo tskInfo = new TaskInstanceInfo();
 					tskInfo.setId(task.getTskObjId());
 					tskInfo.setName(task.getTskName());
-					tskInfo.setType(Instance.TYPE_TASK);
+
+					if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_APPROVAL)) {
+						tskInfo.setTaskType(TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED);
+					} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON)) {
+						tskInfo.setTaskType(TaskInstance.TYPE_PROCESS_TASK_ASSIGNED);
+					} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_REFERENCE)) {
+						tskInfo.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_FORWARDED);
+					} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE)) {
+						tskInfo.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED);
+					}
+					
 					tskInfo.setWorkInstance(instInfo);
 					tskInfo.setAssignee(getUserInfoByUserId(task.getTskAssignee()));
 					tskInfo.setPerformer(getUserInfoByUserId(task.getTskAssignee()));
 					tskInfo.setSubject(task.getPrcTitle());
 					tskInfo.setWork(workInfo);
 					tskInfo.setWorkSpace(null);
-					tskInfo.setStatus(task.getPrcStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+					tskInfo.setStatus(task.getPrcStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
 					tskInfo.setOwner(getUserInfoByUserId(task.getPrcCreateUser()));
 					tskInfo.setLastModifiedDate(new LocalDate(task.getTaskLastModifyDate().getTime()));
 					tskInfo.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
@@ -270,14 +302,24 @@ public class ModelConverter {
 				TaskInstanceInfo lastTask = new TaskInstanceInfo();
 				lastTask.setId(task.getLastTskObjId());
 				lastTask.setName(task.getLastTskName());
-				lastTask.setTaskType(Instance.TYPE_TASK);
+
+				if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_APPROVAL)) {
+					lastTask.setTaskType(TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED);
+				} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON)) {
+					lastTask.setTaskType(TaskInstance.TYPE_PROCESS_TASK_ASSIGNED);
+				} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_REFERENCE)) {
+					lastTask.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_FORWARDED);
+				} else if (task.getLastTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE)) {
+					lastTask.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED);
+				}
+				
 				lastTask.setWorkInstance(instInfo);
 				lastTask.setAssignee(getUserInfoByUserId(task.getLastTskAssignee()));
 				lastTask.setPerformer(getUserInfoByUserId(task.getLastTskAssignee()));
 				lastTask.setSubject(task.getPrcTitle());
 				lastTask.setWork(workInfo);
 				lastTask.setWorkSpace(null);
-				lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+				lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
 				lastTask.setOwner(getUserInfoByUserId(task.getLastTskAssignee()));
 				lastTask.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
 				lastTask.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));

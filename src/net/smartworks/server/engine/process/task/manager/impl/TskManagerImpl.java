@@ -79,7 +79,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				buf.append(", def=:def, form=:form");
 				buf.append(", multiInstId=:multiInstId, multiInstOrdering=:multiInstOrdering");
 				buf.append(", multiInstFlowCondition=:multiInstFlowCondition, loopCounterInteger=:loopCounterInteger");
-				buf.append(", stepInteger=:stepInteger, instVariable=:instVariable, isStartActivity=:isStartActivity where objId=:objId");
+				buf.append(", stepInteger=:stepInteger, instVariable=:instVariable, isStartActivity=:isStartActivity, fromRefType, fromRefId where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
 				query.setString(MisObject.A_NAME, obj.getName());
 				query.setString(MisObject.A_CREATIONUSER, obj.getCreationUser());
@@ -114,6 +114,8 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				query.setInteger("stepInteger", CommonUtil.toInt(obj.getStepInteger()));
 				query.setString("instVariable", obj.getInstVariable());
 				query.setString("isStartActivity", obj.getIsStartActivity());
+				query.setString("fromRefType", obj.getFromRefType());
+				query.setString("fromRefId", obj.getFromRefId());
 				query.setString(ClassObject.A_OBJID, obj.getObjId());
 			}
 			return obj;
@@ -167,6 +169,8 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		String multiInstOrdering = null;
 		String multiInstFlowCondition = null;
 		String isStartActivity = null;
+		String fromRefType = null;
+		String fromRefId = null;
 		int loopCounter = -1;
 		int step = -1;
 		Property[] extProps = null;
@@ -219,6 +223,8 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			multiInstOrdering = cond.getMultiInstOrdering();
 			multiInstFlowCondition = cond.getMultiInstFlowCondition();
 			isStartActivity = cond.getIsStartActivity();
+			fromRefType = cond.getFromRefType();
+			fromRefId = cond.getFromRefId();
 			loopCounter = cond.getLoopCounter();
 			step = cond.getStep();
 			filters = cond.getFilter();
@@ -296,6 +302,10 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				buf.append(" and obj.multiInstFlowCondition = :multiInstFlowCondition");
 			if (isStartActivity != null)
 				buf.append(" and obj.isStartActivity = :isStartActivity");
+			if (fromRefType != null)
+				buf.append(" and obj.fromRefType = :fromRefType");
+			if (fromRefId != null)
+				buf.append(" and obj.fromRefId = :fromRefId");
 			if (loopCounter > 0)
 				buf.append(" and obj.loopCounter = :loopCounter");
 			if (step > 0)
@@ -488,6 +498,10 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				query.setString("multiInstFlowCondition", multiInstFlowCondition);
 			if (isStartActivity != null)
 				query.setString("isStartActivity", isStartActivity);
+			if (fromRefType != null)
+				query.setString("fromRefType", fromRefType);
+			if (fromRefId != null)
+				query.setString("fromRefId", fromRefId);
 			if (loopCounter > 0)
 				query.setInteger("loopCounter", loopCounter);
 			if (step > 0)
@@ -611,7 +625,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				buf.append(", obj.description, obj.priority, obj.document, obj.assigner, obj.assignee, obj.performer");
 				buf.append(", obj.startDate, obj.assignmentDate, obj.executionDate, obj.dueDate, obj.def, obj.form");
 				buf.append(", obj.expectStartDate, obj.expectEndDate, obj.realStartDate, obj.realEndDate");
-				buf.append(", obj.multiInstId, obj.multiInstOrdering, obj.multiInstFlowCondition, obj.isStartActivity, obj.loopCounterInteger, obj.stepInteger");
+				buf.append(", obj.multiInstId, obj.multiInstOrdering, obj.multiInstFlowCondition, obj.isStartActivity, obj.fromRefType, obj.fromRefId, obj.loopCounterInteger, obj.stepInteger");
 				buf.append(", obj.instVariable");
 			}
 			Query query = this.appendQuery(buf, cond);
@@ -655,6 +669,8 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 					obj.setMultiInstOrdering(((String)fields[j++]));
 					obj.setMultiInstFlowCondition(((String)fields[j++]));
 					obj.setIsStartActivity(((String)fields[j++]));
+					obj.setFromRefType(((String)fields[j++]));
+					obj.setFromRefId(((String)fields[j++]));
 					obj.setLoopCounterInteger(((Integer)fields[j++]));
 					obj.setStepInteger(((Integer)fields[j++]));
 					obj.setInstVariable(((String)fields[j++]));
