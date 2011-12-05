@@ -128,8 +128,8 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
 
 <script type="text/javascript">
-/* 	smartTalk.init();
- */	/* 	var repeat1 = function() {
+ 	smartTalk.init();
+	/* 	var repeat1 = function() {
 	 clearInterval(timer);
 	 smartTalk.publishBcast(new Array(
 	 " Hello, this is SmartWorks!! Welcome~~",
