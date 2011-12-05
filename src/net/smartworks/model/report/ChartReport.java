@@ -37,84 +37,74 @@ public class ChartReport extends Report {
 
 	private int chartType = -1;
 	private FormField xAxis;
-	private String xAxisSeletor;
+	private String xAxisSelector;
 	private String xAxisSort = Report.AXIS_SORT_ASCEND.getId();
 	private FormField yAxis;
 	private String yAxisSelector;
 	private String valueType;
 	private FormField zAxis;
 	private String zAxisSelector;
+	private String zAxisSort = Report.AXIS_SORT_ASCEND.getId();
 
 	public int getChartType() {
 		return chartType;
 	}
-
 	public void setChartType(int chartType) {
 		this.chartType = chartType;
 	}
-
-	public FormField getxAxis() {
+	public FormField getXAxis() {
 		return xAxis;
 	}
-
-	public void setxAxis(FormField xAxis) {
+	public void setXAxis(FormField xAxis) {
 		this.xAxis = xAxis;
 	}
-
-	public String getxAxisSeletor() {
-		return xAxisSeletor;
+	public String getXAxisSelector() {
+		return xAxisSelector;
 	}
-
-	public void setxAxisSeletor(String xAxisSeletor) {
-		this.xAxisSeletor = xAxisSeletor;
+	public void setXAxisSelector(String xAxisSelector) {
+		this.xAxisSelector = xAxisSelector;
 	}
-
-	public String getxAxisSort() {
+	public String getXAxisSort() {
 		return xAxisSort;
 	}
-
-	public void setxAxisSort(String xAxisSort) {
+	public void setXAxisSort(String xAxisSort) {
 		this.xAxisSort = xAxisSort;
 	}
-
-	public FormField getyAxis() {
+	public FormField getYAxis() {
 		return yAxis;
 	}
-
-	public void setyAxis(FormField yAxis) {
+	public void setYAxis(FormField yAxis) {
 		this.yAxis = yAxis;
 	}
-
-	public String getyAxisSelector() {
+	public String getYAxisSelector() {
 		return yAxisSelector;
 	}
-
-	public void setyAxisSelector(String yAxisSelector) {
+	public void setYAxisSelector(String yAxisSelector) {
 		this.yAxisSelector = yAxisSelector;
 	}
-
 	public String getValueType() {
 		return valueType;
 	}
-
 	public void setValueType(String valueType) {
 		this.valueType = valueType;
 	}
-
-	public FormField getzAxis() {
+	public FormField getZAxis() {
 		return zAxis;
 	}
-
-	public void setzAxis(FormField zAxis) {
+	public void setZAxis(FormField zAxis) {
 		this.zAxis = zAxis;
 	}
-
-	public String getzAxisSelector() {
+	public String getZAxisSelector() {
 		return zAxisSelector;
 	}
-
-	public void setzAxisSelector(String zAxisSelector) {
+	public void setZAxisSelector(String zAxisSelector) {
 		this.zAxisSelector = zAxisSelector;
+	}
+	public String getZAxisSort() {
+		return zAxisSort;
+	}
+	public void setZAxisSort(String zAxisSort) {
+		this.zAxisSort = zAxisSort;
 	}
 
 	public ChartReport() {
@@ -134,7 +124,7 @@ public class ChartReport extends Report {
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_LAST_MODIFIED_DATE;
 		chart.valueType = Report.VALUE_TYPE_COUNT.getId();
 		return chart;
@@ -145,7 +135,7 @@ public class ChartReport extends Report {
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_LAST_MODIFIED_DATE;
 		chart.valueType = Report.VALUE_TYPE_COUNT.getId();
 		chart.zAxis = FormField.FIELD_LAST_MODIFIER;
@@ -158,7 +148,7 @@ public class ChartReport extends Report {
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_PROCESS_TIME;
 		chart.valueType = Report.VALUE_TYPE_MEAN.getId();
 		return chart;
@@ -169,7 +159,7 @@ public class ChartReport extends Report {
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_PROCESS_TIME;
 		chart.valueType = Report.VALUE_TYPE_MEAN.getId();
 		chart.zAxis = FormField.FIELD_LAST_MODIFIER;
@@ -182,7 +172,7 @@ public class ChartReport extends Report {
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_PROCESS_TIME;
 		chart.valueType = Report.VALUE_TYPE_SUM.getId();
 		return chart;
@@ -193,7 +183,7 @@ public class ChartReport extends Report {
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_PROCESS_TIME;
 		chart.valueType = Report.VALUE_TYPE_SUM.getId();
 		chart.zAxis = FormField.FIELD_LAST_MODIFIER;
@@ -206,7 +196,7 @@ public class ChartReport extends Report {
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_PROCESS_TIME;
 		chart.valueType = Report.VALUE_TYPE_MAX.getId();
 		return chart;
@@ -217,7 +207,7 @@ public class ChartReport extends Report {
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_PROCESS_TIME;
 		chart.valueType = Report.VALUE_TYPE_MAX.getId();
 		chart.zAxis = FormField.FIELD_LAST_MODIFIER;
@@ -230,7 +220,7 @@ public class ChartReport extends Report {
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_PROCESS_TIME;
 		chart.valueType = Report.VALUE_TYPE_MIN.getId();
 		return chart;
@@ -241,7 +231,7 @@ public class ChartReport extends Report {
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
-		chart.xAxisSeletor = Report.AXIS_SELECTOR_BY_MONTH.getId();
+		chart.xAxisSelector = Report.AXIS_SELECTOR_BY_MONTH.getId();
 		chart.yAxis = FormField.FIELD_PROCESS_TIME;
 		chart.valueType = Report.VALUE_TYPE_MIN.getId();
 		chart.zAxis = FormField.FIELD_LAST_MODIFIER;

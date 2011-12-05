@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.smartworks.model.community.User;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.filter.info.SearchFilterInfo;
 import net.smartworks.model.report.ChartReport;
+import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
@@ -335,5 +338,9 @@ public class WorkServiceImpl implements IWorkService {
 		if(filterId.equals(SearchFilter.FILTER_MY_RUNNING_INSTANCES)) return SearchFilter.getMyRunningInstancesFilter(ModelConverter.getUserByUserId(userId));
 
 		return SmartTest.getSearchFilterById();
+	}
+	@Override
+	public Data getReportData(HttpServletRequest request) throws Exception {
+		return SmartTest.getReportData();
 	}
 }

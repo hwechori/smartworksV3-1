@@ -34,6 +34,7 @@
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
+
 <!-- 목록 테이블 -->
 <table>
 	<tr class="tit_bg">
@@ -108,8 +109,9 @@
 		}
 	%>
 </table>
-<!-- 페이징 -->
+<!-- 목록 테이블 //-->
 
+<!-- 페이징 -->
 <div class="paginate">
 	<%
 		if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {

@@ -17,10 +17,10 @@
 		if(workCategories != null){
 			for (WorkInfo workCategory : workCategories) {
 	%>
-	<li class="js_drill_down ico_cworks"><a
+	<li class="js_drill_down"><a
 		href="worklist_by_category.sw"
-		categoryId="<%=workCategory.getId()%>"> <%=workCategory.getName()%></a>
-		<div style="display: none"></div></li>
+		categoryId="<%=workCategory.getId()%>"><span class="ico_cworks"></span><%=workCategory.getName()%></a>
+		<div class="menu_2dep" style="display: none"></div></li>
 	<%
 			}
 		}

@@ -6,63 +6,51 @@ import net.smartworks.util.LocalDate;
 
 public class MatrixReport extends ChartReport {
 
-	private String yAxisSort;
-	private String zAxisSort;
-	private FormField x1Axis;
-	private String x1AxisSelector;
-	private String x1AxisSort;
-	private FormField x2Axis;
-	private String x2AxisSelector;
-	private String x2AxisSort;
+	private FormField xSecondAxis;
+	private String xSecondAxisSelector;
+	private String xSecondAxisSort;
+	private FormField zSecondAxis;
+	private String zSecondAxisSelector;
+	private String zSecondAxisSort;
 	
-	public String getyAxisSort() {
-		return yAxisSort;
+	
+	public FormField getXSecondAxis() {
+		return xSecondAxis;
 	}
-	public void setyAxisSort(String yAxisSort) {
-		this.yAxisSort = yAxisSort;
+	public void setXSecondAxis(FormField xSecondAxis) {
+		this.xSecondAxis = xSecondAxis;
 	}
-	public String getzAxisSort() {
-		return zAxisSort;
+	public String getXSecondAxisSelector() {
+		return xSecondAxisSelector;
 	}
-	public void setzAxisSort(String zAxisSort) {
-		this.zAxisSort = zAxisSort;
+	public void setXSecondAxisSelector(String xSecondAxisSelector) {
+		this.xSecondAxisSelector = xSecondAxisSelector;
 	}
-	public FormField getX1Axis() {
-		return x1Axis;
+	public String getXSecondAxisSort() {
+		return xSecondAxisSort;
 	}
-	public void setX1Axis(FormField x1Axis) {
-		this.x1Axis = x1Axis;
+	public void setXSecondAxisSort(String xSecondAxisSort) {
+		this.xSecondAxisSort = xSecondAxisSort;
 	}
-	public String getX1AxisSelector() {
-		return x1AxisSelector;
+	public FormField getZSecondAxis() {
+		return zSecondAxis;
 	}
-	public void setX1AxisSelector(String x1AxisSelector) {
-		this.x1AxisSelector = x1AxisSelector;
+	public void setZSecondAxis(FormField zSecondAxis) {
+		this.zSecondAxis = zSecondAxis;
 	}
-	public String getX1AxisSort() {
-		return x1AxisSort;
+	public String getZSecondAxisSelector() {
+		return zSecondAxisSelector;
 	}
-	public void setX1AxisSort(String x1AxisSort) {
-		this.x1AxisSort = x1AxisSort;
+	public void setZSecondAxisSelector(String zSecondAxisSelector) {
+		this.zSecondAxisSelector = zSecondAxisSelector;
 	}
-	public FormField getX2Axis() {
-		return x2Axis;
+	public String getZSecondAxisSort() {
+		return zSecondAxisSort;
 	}
-	public void setX2Axis(FormField x2Axis) {
-		this.x2Axis = x2Axis;
+	public void setZSecondAxisSort(String zSecondAxisSort) {
+		this.zSecondAxisSort = zSecondAxisSort;
 	}
-	public String getX2AxisSelector() {
-		return x2AxisSelector;
-	}
-	public void setX2AxisSelector(String x2AxisSelector) {
-		this.x2AxisSelector = x2AxisSelector;
-	}
-	public String getX2AxisSort() {
-		return x2AxisSort;
-	}
-	public void setX2AxisSort(String x2AxisSort) {
-		this.x2AxisSort = x2AxisSort;
-	}
+
 	public MatrixReport() {
 		super();
 	}	

@@ -16,8 +16,8 @@
 			for (GroupInfo group : groups) {
 				String groupContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + group.getId();
 	%>
-	<li class="ico_depart"><a
-		href="group_space.sw?cid=<%=groupContext%>"><%=group.getName()%></a>
+	<li><a
+		href="group_space.sw?cid=<%=groupContext%>"><span class="ico_group"></span><span class="nav_subtitl_area"><%=group.getName()%></span></a>
 	</li>
 	<%
 		}

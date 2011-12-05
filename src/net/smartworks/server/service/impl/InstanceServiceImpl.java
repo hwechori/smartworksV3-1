@@ -215,7 +215,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public InstanceInfoList getIWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
 
-		SwdDomainCond swdDomainCond = new SwdDomainCond();
+		/*SwdDomainCond swdDomainCond = new SwdDomainCond();
 		swdDomainCond.setCompanyId(companyId);
 
 		SwfFormCond swfFormCond = new SwfFormCond();
@@ -259,9 +259,9 @@ public class InstanceServiceImpl implements IInstanceService {
 		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 		instanceInfoList.setCountInPage(pageCount);
 		instanceInfoList.setTotalPages((int)totalCount);
-		instanceInfoList.setCurrentPage(currentPage);
+		instanceInfoList.setCurrentPage(currentPage);*/
 
-		return instanceInfoList;
+		return SmartTest.getWorkInstanceList1(params);
 	}
 
 	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {

@@ -7,7 +7,7 @@ public class LocaleInfo {
 	public final static String LOCALE_DEFAULT = "ko";
 	public final static String LOCALE_GENERAL = "en";
 	
-	private final static String[] supportingLocales = new String[] { "ko", "en"};
+	public final static String[] supportingLocales = new String[] { "ko", "en"};
 	
 	public static boolean isSupportingLocale(String locale){
 		for(String str : supportingLocales)

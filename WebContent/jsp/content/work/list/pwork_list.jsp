@@ -38,75 +38,38 @@
 			<div class="body_titl">
 				<div class="body_titl_pworks title"><%=work.getName()%>
 				</div>
-
-				<!-- 우측 버튼-->
-				<div class="txt_btn">
-					<%
-						switch (work.getAccessPolicy().getLevel()) {
-						case AccessPolicy.LEVEL_PUBLIC:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.access.public" />
-					</div>
-					<%
-						break;
-						case AccessPolicy.LEVEL_PRIVATE:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.access.private" />
-					</div>
-					<%
-						break;
-						case AccessPolicy.LEVEL_CUSTOM:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.access.custom" />
-					</div>
-					<%
-						break;
-						}
-					%>
-					<div class="po_right">읽기권한(아이콘) :</div>
-					<%
-						switch (work.getWritePolicy().getLevel()) {
-						case WritePolicy.LEVEL_PUBLIC:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.write.public" />
-					</div>
-					<%
-						break;
-						case WritePolicy.LEVEL_CUSTOM:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.write.custom" />
-					</div>
-					<%
-						break;
-						}
-					%>
-					<div class="po_right">등록권한(아이콘) :</div>
-					<%
-						switch (work.getEditPolicy().getLevel()) {
-						case EditPolicy.LEVEL_WIKI:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.edit.wiki" />
-					</div>
-					<%
-						break;
-						case EditPolicy.LEVEL_BLOG:
-					%>
-					<div class="po_right">
-						<fmt:message key="common.security.edit.blog" />
-					</div>
-					<%
-						break;
-						}
-					%>
-					<div class="po_right">수정권한(아이콘) :</div>
-				</div>
+				
 				<!-- 우측 버튼 -->
+				<div class="txt_btn">
+
+					<!-- 수정하기 -->
+					<div class="float_right space_l5">
+						<%
+							if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
+						%>
+						<span class="btn_gray"> <span class="Btn01Start"></span> <span
+							class="Btn01Center"><fmt:message
+									key='common.button.modify' /> </span> <span class="Btn01End"></span>
+						</span>
+						<%
+							}
+						%>
+					</div>
+					<!-- 수정하기 //-->
+
+					<!-- 최종수정자 -->
+					<div class="float_right">
+						<img class="pho_user"
+							title="<fmt:message key="common.title.last_modifier" />"
+							src="<%=work.getLastModifier().getMinPicture()%>"> <span
+							class="t_name"><%=work.getLastModifier().getLongName()%></span> <span
+							class="t_date"><%=work.getLastModifiedDate().toLocalString()%>
+						</span>
+					</div>
+					<!-- 최종수정자 //-->
+
+				</div>
+				<!-- 우측 버튼 //-->
 
 				<div class="solid_line"></div>
 			</div>
@@ -123,19 +86,96 @@
 				<!-- 업무 정의 //-->
 
 				<!-- 버튼 영역-->
-				<div class="txt_btn posi_ab">
-					<div class="po_left">
+				<div class="txt_btn solid_line_sb margin_t15">
+					<span class="po_left bu_work_explan">
 						<a class="js_view_work_manual" href=""><fmt:message
 								key="common.button.view.work_manual" />▼</a> <a
 							style="display: none" class="js_view_work_manual" href=""><fmt:message
 								key="common.button.close.work_manual" />▼</a>
-					</div>
-					<div class="po_left">
+					</span>
+					<span class="po_left">
 						<a href="">프로세스 다이어그램보기▼</a>
-					</div>
+					</span>
+
+				<!-- 우측 권한 아이콘 -->
+				<span>
+					<%
+						switch (work.getAccessPolicy().getLevel()) {
+						case AccessPolicy.LEVEL_PUBLIC:
+					%>
+					<span class="po_right">
+						<fmt:message key="common.security.access.public" />
+					</span>
+					<%
+						break;
+						case AccessPolicy.LEVEL_PRIVATE:
+					%>
+					<span class="po_right">
+						<fmt:message key="common.security.access.private" />
+					</span>
+					<%
+						break;
+						case AccessPolicy.LEVEL_CUSTOM:
+					%>
+					<span class="po_right">
+						<fmt:message key="common.security.access.custom" />
+					</span>
+					<%
+						break;
+						}
+					%>
+					<span class="po_right">
+						<span class="bu_read"></span>
+					</span>
+					<%
+						switch (work.getWritePolicy().getLevel()) {
+						case WritePolicy.LEVEL_PUBLIC:
+					%>
+					<span class="po_right">
+						<fmt:message key="common.security.write.public" />
+					</span>
+					<%
+						break;
+						case WritePolicy.LEVEL_CUSTOM:
+					%>
+					<span class="po_right">
+						<fmt:message key="common.security.write.custom" />
+					</span>
+					<%
+						break;
+						}
+					%>
+					<span class="po_right">
+						<span class="bu_regit"></span>
+					</span>
+					<%
+						switch (work.getEditPolicy().getLevel()) {
+						case EditPolicy.LEVEL_WIKI:
+					%>
+					<span class="po_right">
+						<fmt:message key="common.security.edit.wiki" />
+					</span>
+					<%
+						break;
+						case EditPolicy.LEVEL_BLOG:
+					%>
+					<span class="po_right">
+						<fmt:message key="common.security.edit.blog" />
+					</span>
+					<%
+						break;
+						}
+					%>
+					<span class="po_right">
+						<span class="bu_modfy"></span>
+					</span>
+				</span>
+				<!-- 우측 권한 아이콘//-->
+				
 				</div>
 
-				<div class="txt_btn">
+
+				<%-- <div class="txt_btn">
 
 					<%
 						if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
@@ -167,9 +207,7 @@
 						%>
 					</div>
 
-				</div>
-				<!-- 라인 -->
-				<div class="solid_line_s"></div>
+				</div> --%>
 				<!-- 버튼 영역 //-->
 
 			</div>
@@ -178,19 +216,10 @@
 			<div id="work_manual" style="display: none">
 				<jsp:include page="/jsp/content/work/list/pwork_manual.jsp"></jsp:include>
 			</div>
-			<div>
-				<div class="po_right"><%=work.getLastModifier().getLongName()%>
-					<%=work.getLastModifiedDate().toLocalString()%></div>
-				<img class="po_right"
-					src="<%=work.getLastModifier().getMinPicture()%>" />
-				<div class="po_right">
-					<fmt:message key="common.title.last_modifier" />
-					:
-				</div>
-			</div>
-
+			
+			
+			<!-- 목록보기 -->
 			<div class=" contents_space">
-				<!-- 목록보기 -->
 				<!-- 목록보기 타이틀-->
 				<div class="list_title_space">
 
@@ -263,23 +292,10 @@
 
 				<!-- 목록 테이블 -->
 				<div class="list_contents">
-					<table>
-						<tbody>
-							<tr>
-								<th class="r_line"><fmt:message key='common.title.status'/></th>
-								<th></th>
-								<th class="r_line"><fmt:message key='common.title.instance_subject'/></th>
-								<th class="r_line"><fmt:message key='common.title.running_task'/></th>
-								<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-										key='common.title.last_modified_date' />
-								</th>
-							</tr>
 							<div id='pwork_list_page'>
 								<jsp:include
 									page="/jsp/content/work/list/pwork_instance_list.jsp"></jsp:include>
 							</div>
-						</tbody>
-					</table>
 				</div>
 				<!-- 목록 테이블 //-->
 

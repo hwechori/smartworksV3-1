@@ -140,19 +140,19 @@
 							key="common.upload.button.delete_eventend" /> </a>
 				</div>
 
-				<div class="pos_day float_left">
+				<span class="input_check">
 					<input name="chkEventWholeDay" class="js_whole_day" type="checkbox"><label><fmt:message
-							key="common.upload.event.whole_day" /> </label>
-				</div>
+							key="common.upload.event.whole_day" /></label>
+				</span>
 
-				<div class="float_left txt_btn">
-					<input class="space_l10" name="chkEventAlarm" type="checkbox"
+				<span class="input_check">
+					<input name="chkEventAlarm" type="checkbox"
 						value=""
 						onclick="$(this).parent().next('div').toggle();return true;" />
-					<fmt:message key="common.upload.button.set_alarm" />
-				</div>
+					<label><fmt:message key="common.upload.button.set_alarm" /></label>
+				</span>
 				<!-- 알림 설정 내용 -->
-				<div class="float_left" style="display: none;">
+				<div class="float_left space_l5" style="display: none;">
 					<select name="selEventAlarmTime">
 						<option>
 							<fmt:message key="event.alarm.on_time" />

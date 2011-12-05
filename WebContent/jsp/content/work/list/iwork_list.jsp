@@ -41,7 +41,7 @@
 				<div class="body_titl_iworks title"><%=work.getName()%></div>
 
 				<!-- 우측 버튼 -->
-				<div class="txt_btn padding_b6">
+				<div class="txt_btn">
 
 					<!-- 수정하기 -->
 					<div class="float_right space_l5">
@@ -59,8 +59,8 @@
 					<!-- 수정하기 //-->
 
 					<!-- 최종수정자 -->
-					<div class="float_right padding_t5">
-						<img clss="margin_b2"
+					<div class="float_right">
+						<img class="pho_user"
 							title="<fmt:message key="common.title.last_modifier" />"
 							src="<%=work.getLastModifier().getMinPicture()%>"> <span
 							class="t_name"><%=work.getLastModifier().getLongName()%></span> <span
@@ -111,62 +111,62 @@
  	switch (work.getAccessPolicy().getLevel()) {
  	case AccessPolicy.LEVEL_PUBLIC:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.access.public" />
 						</div> <%
  	break;
  	case AccessPolicy.LEVEL_PRIVATE:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.access.private" />
 						</div> <%
  	break;
  	case AccessPolicy.LEVEL_CUSTOM:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.access.custom" />
 						</div> <%
  	break;
  	}
  %>
 						<div class="po_right">
-							<img class="bu_read">
+							<span class="bu_read"></span>
 						</div> <%
  	switch (work.getWritePolicy().getLevel()) {
  	case WritePolicy.LEVEL_PUBLIC:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.write.public" />
 						</div> <%
  	break;
  	case WritePolicy.LEVEL_CUSTOM:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.write.custom" />
 						</div> <%
  	break;
  	}
  %>
 						<div class="po_right">
-							<img class="bu_regit">
+							<span class="bu_regit"></span>
 						</div> <%
  	switch (work.getEditPolicy().getLevel()) {
  	case EditPolicy.LEVEL_WIKI:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.edit.wiki" />
 						</div> <%
  	break;
  	case EditPolicy.LEVEL_BLOG:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.edit.blog" />
 						</div> <%
  	break;
  	}
  %>
 						<div class="po_right">
-							<img class="bu_modfy">
+							<span class="bu_modfy"></span>
 						</div> </span>
 					<!-- 우측 권한 아이콘-->
 
@@ -219,7 +219,7 @@
 
 				<!--통계메뉴 영역//-->
 				
-				<div class="js_work_report_form">
+				<div id="chart_target" class="js_work_report_form margin_b5">
 				</div>
 
 				<!-- 목록보기 -->

@@ -3,9 +3,9 @@ package net.smartworks.service;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
@@ -16,7 +16,9 @@ import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.CommentInstance;
+import net.smartworks.model.instance.EventInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
@@ -26,9 +28,10 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
-import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
+import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
+import net.smartworks.model.work.WorkCategory;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
@@ -155,8 +158,6 @@ public interface ISmartWorks {
 
 	public abstract SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception;
 	
-	public abstract Data getReportData(HttpServletRequest request) throws Exception;
-	
 	public abstract String setInformationWorkInstance(HttpServletRequest request) throws Exception;
 
 	public abstract String startProcessWorkInstance(HttpServletRequest request) throws Exception;
@@ -169,11 +170,7 @@ public interface ISmartWorks {
 
 	public abstract String setBoardInstance(HttpServletRequest request) throws Exception;
 
-	public abstract String setMyProfile(HttpServletRequest request) throws Exception;
-
 	public abstract String uploadFile(HttpServletRequest request) throws Exception;
-
-	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 
