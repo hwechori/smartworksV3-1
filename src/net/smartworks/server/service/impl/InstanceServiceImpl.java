@@ -340,6 +340,9 @@ public class InstanceServiceImpl implements IInstanceService {
 		prcInstCond.setPageSize(pageCount);
 		PrcProcessInstExtend[] prcInsts = getPrcManager().getProcessInstExtends(userId, prcInstCond);
 		
+		if (prcInsts == null)
+			return null;
+		
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
 		
 		PWInstanceInfo[] pWInstanceInfos = new PWInstanceInfo[prcInsts.length];
