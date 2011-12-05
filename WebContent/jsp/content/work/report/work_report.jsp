@@ -89,6 +89,7 @@
 										value="<%if (report != null) {%><fmt:message key='<%=report.getName() %>'/><%}%>">
 							</td>
 						</tr>
+						
 						<tr class="js_work_report_type">
 							<th class="essen_n">보고서 종류</th>
 							<td colspan="3" class=""><input name="rdoWorkReportType"
