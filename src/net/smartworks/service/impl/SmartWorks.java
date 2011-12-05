@@ -26,6 +26,7 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
+import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
@@ -410,6 +411,12 @@ public class SmartWorks implements ISmartWorks {
 	public String setMyProfile(HttpServletRequest request) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Data getReportData(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		return workService.getReportData(request);
 	}
 
 }

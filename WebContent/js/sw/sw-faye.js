@@ -55,7 +55,7 @@ var chatManager = {
 				return chatManager.chatList[i];
 		return null;
 	},
-	removeChat : function(chatId){http://localhost:8080/smartworksV3/home.sw
+	removeChat : function(chatId){
 		for(var i=0; i<chatManager.chatList.length; i++){
 			if(chatManager.chatList[i].chatId === chatId){
 				chatManager.chatList.splice(i,1);

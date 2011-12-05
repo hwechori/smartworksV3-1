@@ -115,6 +115,7 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <!-- <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
  -->
+<script type="text/javascript" src="js/dojo/dojo.js"></script>
 <script type="text/javascript" src="js/sw/sw-util.js"></script>
 <script type="text/javascript" src="js/sw/sw-all.js"></script>
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
