@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.server.engine.process.process.model.PrcProcessInstExtend"%>
+<%@page import="net.smartworks.server.engine.process.process.model.PrcProcessInstCond"%>
+<%@page import="java.io.File"%>
+<%@page import="net.smartworks.server.engine.process.task.model.TskTaskCond"%>
 <%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.server.service.impl.InstanceServiceImpl"%>
 <%@page import="net.smartworks.server.service.impl.WorkServiceImpl"%>
@@ -41,13 +45,23 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-		InstanceServiceImpl smartworks = (InstanceServiceImpl)SmartUtil.getBean("instanceServiceImpl", request);
-		WorkInstance work = smartworks.getWorkInstanceById("semiteq", "kmyu@maninsoft.co.kr", "5ef4e5632c779b42012d59a1d7413022");
-		System.out.println(work.getSubject());
 			
+	PrcProcessInstCond cond = new PrcProcessInstCond();
+
+	cond.setPackageId("pkg_cf3b0087995f4f99a41c93e2fe95b22d");
+
+	PrcProcessInstExtend[] ppe =  SwManagerFactory.getInstance().getPrcManager().getProcessInstExtends("kmyu@maninsoft.co.kr", cond);
+
+
+	
+
+
+
+
+
 %>
 <textarea style="width:800px;height:400px;">
-<%= work.getSubject() %>
+<%= ppe[0].getLastTask_count()%>
 </textarea>
 </body>
 </html>

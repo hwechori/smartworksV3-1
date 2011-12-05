@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.model.report.ChartReport"%>
+<%@page import="net.smartworks.model.report.info.ReportInfo"%>
+<%@page import="net.smartworks.model.filter.info.SearchFilterInfo"%>
 <%@page import="net.smartworks.model.report.Report"%>
 <%@page import="net.smartworks.model.work.FormField"%>
 <%@page import="net.smartworks.model.work.SmartForm"%>
@@ -21,8 +24,6 @@
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser(request, response);
 	InformationWork work = (InformationWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
-
-	Report[] reports = smartWorks.getReportsByWorkId(cUser.getCompanyId(), cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -191,21 +192,24 @@
 						<select name="selMyReportList" class="js_select_work_report"
 										href="work_report.sw?workId=<%=workId%>">
 							<%
-								if (reports != null) {
-									for (Report report : reports) {
-
-										String reportName = null;
-										if (report.getOwner().getId().equals(SmartUtil.getSystemUser().getId())) {
+								Report[] infoReports = ChartReport.DEFAULT_CHARTS_INFORMATION;
+								if (infoReports != null) {
+									for (Report report : infoReports) {
 							%>
 							<option value="<%=report.getId()%>">
 								<fmt:message key="<%=report.getName()%>" />
 							</option>
 							<%
-								} else {
+									}
+								}
+							%>
+							<%
+								ReportInfo[] reports = work.getReports();
+								if (reports != null) {
+									for (ReportInfo report : reports) {
 							%>
 							<option value="<%=report.getId()%>"><%=report.getName()%></option>
 							<%
-								}
 									}
 								}
 							%>
@@ -256,9 +260,9 @@
 											<fmt:message key='filter.name.my_recent_instances' />
 										</option>
 										<%
-											SearchFilter[] filters = work.getSearchFilters();
+											SearchFilterInfo[] filters = work.getSearchFilters();
 											if (filters != null) {
-												for (SearchFilter filter : filters) {
+												for (SearchFilterInfo filter : filters) {
 										%>
 										<option value="<%=filter.getId()%>">
 											<%=filter.getName()%>

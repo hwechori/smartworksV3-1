@@ -66,6 +66,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="docManager" ref="docManager"/>
 		<beans:property name="itmManager" ref="itmManager"/>
 		<beans:property name="swaManager" ref="swaManager"/>
+		<beans:property name="workListManager" ref="workListManager"/>
+		
+		
 		<!-- beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="lcsManager" ref="lcsManager"/>
 		<beans:property name="updManager" ref="updManager"/-->
@@ -75,4 +78,5 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<beans:bean id="ctgManager" class="net.smartworks.server.engine.category.manager.impl.CtgManagerImpl"/>
 	<beans:bean id="pkgManager" class="net.smartworks.server.engine.pkg.manager.impl.PkgManagerImpl"/>
 	<beans:bean id="itmManager" class="net.smartworks.server.engine.common.menuitem.manager.impl.ItmManagerImpl"/>
+	<beans:bean id="workListManager" class="net.smartworks.server.engine.worklist.manager.impl.WorkListManagerImpl"/>
 </beans:beans>

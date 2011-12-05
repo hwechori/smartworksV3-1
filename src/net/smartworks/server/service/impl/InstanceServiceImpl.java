@@ -1,8 +1,6 @@
 package net.smartworks.server.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,6 +45,9 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
+import net.smartworks.server.engine.process.task.model.TskTaskExtend;
+import net.smartworks.server.engine.worklist.model.TaskWork;
+import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
@@ -93,7 +94,6 @@ public class InstanceServiceImpl implements IInstanceService {
 		return null;
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -103,47 +103,47 @@ public class InstanceServiceImpl implements IInstanceService {
 	 */
 	@Override
 	public InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception {
-	 return SmartTest.getMyRecentInstances();	
-//		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
-//			return null;
-//
-//		TskTaskCond taskCond = new TskTaskCond();
-//		taskCond.setAssignee(userId);
-//		taskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
-//		taskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
-//		taskCond.setOrders(new Order[]{new Order("executionDate" , false)});
-//		taskCond.setPageNo(0);
-//		taskCond.setPageSize(50);
-//		
-//		TskTask[] tasks = getTskManager().getTasks(userId, taskCond, IManager.LEVEL_LITE);
-//		if (CommonUtil.isEmpty(tasks))
-//			return null;
-//	
-//		List<String> prcInstIdList = new ArrayList<String>();
-//		for (int i = 0; i < tasks.length; i++) {
-//			TskTask task = tasks[i];
-//			if (prcInstIdList.size() == 10)
-//				break;
-//			if (prcInstIdList.contains(task.getProcessInstId()))
-//				continue;
-//			prcInstIdList.add(task.getProcessInstId());
-//		}
-//		
-//		String[] prcInstIdArray = new String[prcInstIdList.size()];
-//		
-//		prcInstIdList.toArray(prcInstIdArray);
-//		
-//		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
-//		
-//		prcInstCond.setCompanyId(companyId);
-//		prcInstCond.setObjIdIns(prcInstIdArray);
-//		
-//		PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(userId, prcInstCond, IManager.LEVEL_LITE);
-//		
-//		InstanceInfo[] instInfo = ModelConverter.getInstanceInfoArrayByPrcInstArray(prcInsts);
-//		
-//		return instInfo;
-//		
+		 return SmartTest.getMyRecentInstances();	
+//			if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+//				return null;
+	//
+//			TskTaskCond taskCond = new TskTaskCond();
+//			taskCond.setAssignee(userId);
+//			taskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
+//			taskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+//			taskCond.setOrders(new Order[]{new Order("executionDate" , false)});
+//			taskCond.setPageNo(0);
+//			taskCond.setPageSize(50);
+//			
+//			TskTask[] tasks = getTskManager().getTasks(userId, taskCond, IManager.LEVEL_LITE);
+//			if (CommonUtil.isEmpty(tasks))
+//				return null;
+	//	
+//			List<String> prcInstIdList = new ArrayList<String>();
+//			for (int i = 0; i < tasks.length; i++) {
+//				TskTask task = tasks[i];
+//				if (prcInstIdList.size() == 10)
+//					break;
+//				if (prcInstIdList.contains(task.getProcessInstId()))
+//					continue;
+//				prcInstIdList.add(task.getProcessInstId());
+//			}
+//			
+//			String[] prcInstIdArray = new String[prcInstIdList.size()];
+//			
+//			prcInstIdList.toArray(prcInstIdArray);
+//			
+//			PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
+//			
+//			prcInstCond.setCompanyId(companyId);
+//			prcInstCond.setObjIdIns(prcInstIdArray);
+//			
+//			PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(userId, prcInstCond, IManager.LEVEL_LITE);
+//			
+//			InstanceInfo[] instInfo = ModelConverter.getInstanceInfoArrayByPrcInstArray(prcInsts);
+//			
+//			return instInfo;
+//			
 	}
 
 	@Override
@@ -158,45 +158,21 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	
 	public InstanceInfo[] getMyRunningInstances(String companyId, String userId, Date limitDate, int resultSize) throws Exception {
-		
+//		return SmartTest.getRunningInstances();
 		//정보관리업무에서 파생된 업무는 IWInstanceInfo
 		//프로세스 태스크및 프로세스에서 파생된 업무는 PWInstanceInfo
 		
-		TskTaskCond assignedTaskCond = new TskTaskCond();
-		assignedTaskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
-		assignedTaskCond.setAssignee(userId);
-		assignedTaskCond.setStatus(TskTask.TASKSTATUS_ASSIGN);
-		assignedTaskCond.setAssignmentDateTo(limitDate);
-		assignedTaskCond.setPageNo(0);
-		assignedTaskCond.setPageSize(resultSize);
+		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+			return null;
+
+		TaskWorkCond taskCond = new TaskWorkCond();
+		taskCond.setTskAssignee(userId);
+		taskCond.setPageNo(0);
+		taskCond.setPageSize(100);
 		
-		TskTask[] assignTasks = getTskManager().getTasks(userId, assignedTaskCond, IManager.LEVEL_LITE);
+		TaskWork[] tasks = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkList(userId, taskCond);
 		
-		
-		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
-		prcInstCond.setStatus(PrcProcessInst.PROCESSINSTSTATUS_RUNNING);
-		prcInstCond.setCreationUser(userId);	
-		prcInstCond.setCreationDateTo(limitDate);
-		prcInstCond.setPageNo(0);
-		prcInstCond.setPageSize(resultSize);
-		
-		PrcProcessInstExtend[] prcInst = getPrcManager().getProcessInstExtends(userId, prcInstCond);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		return SmartTest.getRunningInstances();
+		return ModelConverter.getInstanceInfoArrayByTaskWorkArray(userId, tasks);
 	}
 
 	@Override
@@ -367,7 +343,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
 		
 		PWInstanceInfo[] pWInstanceInfos = new PWInstanceInfo[prcInsts.length];
-
+		
 		for (int i = 0; i < prcInsts.length; i++) {
 			PWInstanceInfo pwInstInfo = new PWInstanceInfo();
 			PrcProcessInstExtend prcInst = prcInsts[i];
@@ -429,20 +405,20 @@ public class InstanceServiceImpl implements IInstanceService {
 				lastTaskInfo.setLastModifiedDate(lastModifiedDate);
 				lastTaskInfo.setLastModifier(lastModifier);
 				lastTaskInfo.setOwner(owner);
-				lastTaskInfo.setStatus(status);
+				lastTaskInfo.setStatus(tskStatus);
 				lastTaskInfo.setSubject(subject);
-				lastTaskInfo.setType(type);
+				lastTaskInfo.setType(tskType);
 				lastTaskInfo.setWork(workInfo);
 				lastTaskInfo.setWorkInstance(pwInstInfo);
 				lastTaskInfo.setWorkSpace(workSpace);
 				lastTaskInfo.setName(name);
-				lastTaskInfo.setTaskType(type);
+				lastTaskInfo.setTaskType(tskType);
 				lastTaskInfo.setAssignee(ModelConverter.getUserInfoByUserId(assignee));
 				lastTaskInfo.setPerformer(ModelConverter.getUserInfoByUserId(performer));
 				//WorkInstanceInfo workInstanceInfo = paretProcessInstObj;
 				pwInstInfo.setLastTask(lastTaskInfo);//마지막 태스크
 			}
-			pwInstInfo.setLastTaskCount(prcInst.getLastTask_count());
+			pwInstInfo.setLastTaskCount(prcInst.getLastTask_tskCount());
 			pwInstInfo.setWorkSpace(null);
 			pWInstanceInfos[i] = pwInstInfo;
 		}

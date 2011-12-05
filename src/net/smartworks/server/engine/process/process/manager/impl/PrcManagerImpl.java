@@ -528,7 +528,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 
 	private Query appendExtendQuery(StringBuffer queryBuffer, PrcProcessInstCond cond) throws PrcException {
 		
-		
 		String packageId = cond.getPackageId();
 		String[] objIdIns = cond.getObjIdIns();
 		String createUser = cond.getCreationUser();
@@ -539,57 +538,69 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		int pageNo = cond.getPageNo();
 		int pageSize = cond.getPageSize();
 		
-		queryBuffer.append("from  ");
-		queryBuffer.append("	prcprcinst prcInst,  ");
-		queryBuffer.append("	( ");
-		queryBuffer.append("		select a.tskprcinstid as lastTask_tskprcinstid ");
-		queryBuffer.append("				, task.tskobjid as lastTask_tskobjid ");
-		queryBuffer.append("				, task.tskname as lastTask_tskname ");
-		queryBuffer.append("				, task.tskcreateuser as lastTask_tskcreateuser ");
-		queryBuffer.append("				, task.tskcreateDate as lastTask_tskcreateDate ");
-		queryBuffer.append("				, task.tskstatus as lastTask_tskstatus ");
-		queryBuffer.append("				, task.tsktype as lastTask_tsktype ");
-		queryBuffer.append("				, task.tsktitle as lastTask_tsktitle ");
-		queryBuffer.append("				, task.tskassignee as lastTask_tskassignee ");
-		queryBuffer.append("				, task.tskexecuteDate as lastTask_tskexecuteDate ");
-		queryBuffer.append("				, task.tskduedate as lastTask_tskduedate ");
-		queryBuffer.append("				, task.tskform as lastTask_tskform ");
-		queryBuffer.append("		from ( ");
-		queryBuffer.append("				select tskprcinstId , max(tskCreatedate) as createDate  ");
-		queryBuffer.append("				from tsktask  ");
-		queryBuffer.append("				where tsktype='common'  ");
-		queryBuffer.append("				group by tskprcinstid ");
-		queryBuffer.append("			  ) a,	 ");
-		queryBuffer.append("			  TskTask task		 ");
-		queryBuffer.append("		where  ");
-		queryBuffer.append("			a.createDate = task.tskcreatedate ");
-		queryBuffer.append("	) prcInstInfo, ");
- 		queryBuffer.append("	( ");
-		queryBuffer.append("		select prcinst.prcobjid as prcinstid ");
-		queryBuffer.append("				, parentCtg.id as parentCtgId ");
-		queryBuffer.append("				, parentCtg.name as parentCtg ");
-		queryBuffer.append("				, ctg.id as subCtgId ");
-		queryBuffer.append("				, ctg.name as subCtg ");
-		queryBuffer.append("		from prcprcinst prcinst, swpackage pkg , swcategory ctg, swcategory parentCtg ");
-		queryBuffer.append("		where prcinst.prcdid = pkg.packageid ");
-		queryBuffer.append("			and pkg.categoryid = ctg.id ");
-		queryBuffer.append("			and ctg.parentid = parentCtg.id ");
-		queryBuffer.append("	) ctgInfo	 ");
-		queryBuffer.append("where  ");
-		queryBuffer.append("	prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid ");
-		queryBuffer.append("	and prcInst.prcobjid = ctginfo.prcinstid ");
+		queryBuffer.append(" from ( ");
+		queryBuffer.append(" 		select ");
+		queryBuffer.append(" 			 prcInst.prcObjId ");
+		queryBuffer.append(" 			, prcInst.prcName ");
+		queryBuffer.append(" 			, prcInst.prcCreateUser ");
+		queryBuffer.append(" 			, prcInst.prcCreateDate ");
+		queryBuffer.append(" 			, prcInst.prcModifyUser ");
+		queryBuffer.append(" 			, prcInst.prcModifyDate ");
+		queryBuffer.append(" 			, prcInst.prcStatus ");
+		queryBuffer.append(" 			, prcInst.prcTitle ");
+		queryBuffer.append(" 			, prcInst.prcDid ");
+		queryBuffer.append(" 			, prcInst.prcPrcId ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskobjid ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskname ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskcreateuser ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskcreateDate ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskstatus ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tsktype ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tsktitle ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskassignee ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskexecuteDate ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskduedate ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskform ");
+		queryBuffer.append(" 			, (select count(*) from tsktask where tskstatus='11' and tsktype='common' and tskprcInstId = prcInst.prcObjid) as lastTaskCount ");
+		queryBuffer.append(" 		from  ");
+		queryBuffer.append(" 			prcprcinst prcInst,  ");
+		queryBuffer.append(" 			( ");
+		queryBuffer.append(" 				select a.tskprcinstid as lastTask_tskprcinstid ");
+		queryBuffer.append(" 						, task.tskobjid as lastTask_tskobjid ");
+		queryBuffer.append(" 						, task.tskname as lastTask_tskname ");
+		queryBuffer.append(" 						, task.tskcreateuser as lastTask_tskcreateuser ");
+		queryBuffer.append(" 						, task.tskcreateDate as lastTask_tskcreateDate ");
+		queryBuffer.append(" 						, task.tskstatus as lastTask_tskstatus ");
+		queryBuffer.append(" 						, task.tsktype as lastTask_tsktype ");
+		queryBuffer.append(" 						, task.tsktitle as lastTask_tsktitle ");
+		queryBuffer.append(" 						, task.tskassignee as lastTask_tskassignee ");
+		queryBuffer.append(" 						, task.tskexecuteDate as lastTask_tskexecuteDate ");
+		queryBuffer.append(" 						, task.tskduedate as lastTask_tskduedate ");
+		queryBuffer.append(" 						, task.tskform as lastTask_tskform ");
+		queryBuffer.append(" 				from ( ");
+		queryBuffer.append(" 						select tskprcinstId , max(tskCreatedate) as createDate  ");
+		queryBuffer.append(" 						from tsktask  ");
+		queryBuffer.append(" 						where tsktype='common'  ");
+		queryBuffer.append(" 						group by tskprcinstid ");
+		queryBuffer.append(" 					  ) a,	 ");
+		queryBuffer.append(" 					  TskTask task		 ");
+		queryBuffer.append(" 				where  ");
+		queryBuffer.append(" 					a.createDate = task.tskcreatedate ");
+		queryBuffer.append(" 			) prcInstInfo	 ");
+		queryBuffer.append(" 		where ");
+		queryBuffer.append(" 			prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid ");
 		if (!CommonUtil.isEmpty(prcStatus))
-			queryBuffer.append("	and prcInst.prcStatus = :prcStatus ");
+			queryBuffer.append(" 			and prcInst.prcStatus = :prcStatus ");
 		if (!CommonUtil.isEmpty(packageId))
-			queryBuffer.append("	and prcInst.prcDid = :prcDid ");
+			queryBuffer.append(" 			and prcInst.prcDid = :prcDid ");
 		if (!CommonUtil.isEmpty(createUser))
-			queryBuffer.append("	and prcInst.prcCreateUser = :createUser ");
+			queryBuffer.append(" 			and prcInst.prcCreateUser = :createUser ");
 		if (creationDateFrom != null)
-			queryBuffer.append(" 	and prcInst.prcCreateDate > :creationDateFrom");
+			queryBuffer.append(" 			and prcInst.prcCreateDate > :creationDateFrom");
 		if (creationDateTo != null)
-			queryBuffer.append(" 	and prcInst.prcCreateDate < :creationDateTo");
+			queryBuffer.append(" 			and prcInst.prcCreateDate < :creationDateTo");
 		if (objIdIns != null && objIdIns.length != 0) {
-			queryBuffer.append(" 	and prcInst.prcObjId in (");
+			queryBuffer.append(" 			and prcInst.prcObjId in (");
 			for (int i=0; i<objIdIns.length; i++) {
 				if (i != 0)
 					queryBuffer.append(", ");
@@ -597,6 +608,20 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			}
 			queryBuffer.append(")");
 		}
+		queryBuffer.append(" 	)info ");
+		queryBuffer.append(" 	left outer join ");
+		queryBuffer.append(" 	( ");
+		queryBuffer.append(" 		select prcinst.prcobjid as prcinstid ");
+		queryBuffer.append(" 				, parentCtg.id as parentCtgId ");
+		queryBuffer.append(" 				, parentCtg.name as parentCtg ");
+		queryBuffer.append(" 				, ctg.id as subCtgId ");
+		queryBuffer.append(" 				, ctg.name as subCtg ");
+		queryBuffer.append(" 		from prcprcinst prcinst, swpackage pkg , swcategory ctg, swcategory parentCtg ");
+		queryBuffer.append(" 		where prcinst.prcdid = pkg.packageid ");
+		queryBuffer.append(" 			and pkg.categoryid = ctg.id ");
+		queryBuffer.append(" 			and ctg.parentid = parentCtg.id ");
+		queryBuffer.append(" 	) ctgInfo ");
+		queryBuffer.append(" 	on info.prcobjid = ctginfo.prcinstid ");
 		
 		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
 		
@@ -604,7 +629,6 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			query.setFirstResult(pageNo * pageSize);
 			query.setMaxResults(pageSize);
 		}
-		
 		if (!CommonUtil.isEmpty(prcStatus))
 			query.setString("prcStatus", prcStatus);
 		if (!CommonUtil.isEmpty(packageId))
@@ -620,9 +644,9 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				query.setString("objIdIn"+i, objIdIns[i]);
 			}
 		}
-		
 		return query;
 	}
+
 	public long getProcessInstExtendsSize(String user, PrcProcessInstCond cond) throws PrcException {
 		try {
 			StringBuffer buf = new StringBuffer();
@@ -641,33 +665,12 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 	}
 	public PrcProcessInstExtend[] getProcessInstExtends(String user, PrcProcessInstCond cond) throws PrcException {
 		StringBuffer queryBuffer = new StringBuffer();
-		queryBuffer.append("select ctgInfo.parentCtgId ");
-		queryBuffer.append("	, ctgInfo.parentCtg ");
-		queryBuffer.append("	, ctgInfo.subCtgId ");
-		queryBuffer.append("	, ctgInfo.subCtg ");
-		queryBuffer.append("	, prcInst.prcObjId ");
-		queryBuffer.append("	, prcInst.prcName ");
-		queryBuffer.append("	, prcInst.prcCreateUser ");
-		queryBuffer.append("	, prcInst.prcCreateDate ");
-		queryBuffer.append("	, prcInst.prcModifyUser ");
-		queryBuffer.append("	, prcInst.prcModifyDate ");
-		queryBuffer.append("	, prcInst.prcStatus ");
-		queryBuffer.append("	, prcInst.prcTitle ");
-		queryBuffer.append("	, prcInst.prcDid ");
-		queryBuffer.append("	, prcInst.prcPrcId ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tskobjid ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tskname ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tskcreateuser ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tskcreateDate ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tskstatus ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tsktype ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tsktitle ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tskassignee ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tskexecuteDate ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tskduedate ");
-		queryBuffer.append("	, prcInstInfo.lastTask_tskform ");
-		queryBuffer.append("	, (select count(*) from tsktask where tskstatus='11' and tsktype='common' and tskprcInstId = prcInst.prcObjid) as lastTaskCount ");
-	    
+		queryBuffer.append(" select  ctgInfo.parentCtgId ");
+		queryBuffer.append(" 			, ctgInfo.parentCtg ");
+		queryBuffer.append(" 			, ctgInfo.subCtgId ");
+		queryBuffer.append(" 			, ctgInfo.subCtg  ");
+		queryBuffer.append(" 			, info.* ");
+		
 		Query query = this.appendExtendQuery(queryBuffer, cond);
 	
 		List list = query.list();
@@ -692,7 +695,7 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			obj.setPrcStatus((String)fields[j++]);
 			obj.setPrcTitle((String)fields[j++]);
 			obj.setPrcDid((String)fields[j++]);
-			obj.setPrcPrcid((String)fields[j++]);
+			obj.setPrcPrcId((String)fields[j++]);
 			obj.setLastTask_tskObjId((String)fields[j++]);
 			obj.setLastTask_tskName((String)fields[j++]);
 			obj.setLastTask_tskCreateUser((String)fields[j++]);
@@ -705,7 +708,7 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			obj.setLastTask_tskDueDate((Timestamp)fields[j++]);
 			obj.setLastTask_tskForm((String)fields[j++]);
 			int lastTaskCount = (Integer)fields[j++];
-			obj.setLastTask_count(lastTaskCount == 0 ? 1 : lastTaskCount);
+			obj.setLastTask_tskCount(lastTaskCount == 0 ? 1 : lastTaskCount);
 			objList.add(obj);
 		}
 		list = objList;

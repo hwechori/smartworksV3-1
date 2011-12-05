@@ -27,6 +27,11 @@ public class TskTask extends MisObject {
 	public static final String TASKSTATUS_COMPLETE = "21";
 	public static final String TASKSTATUS_CREATE = "1";
 	
+	public static final String TASKTYPE_COMMON = "COMMON";
+	public static final String TASKTYPE_REFERENCE = "REFERENCE";
+	public static final String TASKTYPE_APPROVAL = "APPROVAL";
+	public static final String TASKTYPE_SINGLE = "SINGLE";
+	
 	public static final String[] NOTUSERTASKTYPES = new String[]{"route", "and", "xor", "SUBFLOW", "SERVICE"};
 	
 	public static final String A_CORRELATION = "correlation";
@@ -50,6 +55,7 @@ public class TskTask extends MisObject {
 	public static final String A_LOOPCOUNTER = "loopCounter";
 	public static final String A_STEP = "step";
 	public static final String A_INSTVARIABLE = "instVariable";
+	public static final String A_ISSTARTACTIVITY = "isStartActivity";
 	
 	private String correlation;
 	
@@ -73,6 +79,7 @@ public class TskTask extends MisObject {
 	private Integer loopCounterInteger;
 	private Integer stepInteger;
 	private String instVariable;
+	private String isStartActivity;
 	
 	public TskTask() {
 		super();
@@ -100,6 +107,7 @@ public class TskTask extends MisObject {
 		appendAttributeString(A_MULTIINSTORDERING, multiInstOrdering, buf);
 		appendAttributeString(A_MULTIINSTFLOWCONDITION, multiInstFlowCondition, buf);
 		appendAttributeString(A_LOOPCOUNTER, getLoopCounter(), buf);
+		appendAttributeString(A_ISSTARTACTIVITY, isStartActivity, buf);
 		appendAttributeString(A_STEP, getStep(), buf);
 		return buf.toString();
 	}
@@ -142,6 +150,7 @@ public class TskTask extends MisObject {
 			Node multiInstOrdering = attrMap.getNamedItem(A_MULTIINSTORDERING);
 			Node multiInstFlowCondition = attrMap.getNamedItem(A_MULTIINSTFLOWCONDITION);
 			Node loopCounter = attrMap.getNamedItem(A_LOOPCOUNTER);
+			Node isStartActivity = attrMap.getNamedItem(A_ISSTARTACTIVITY);
 			Node step = attrMap.getNamedItem(A_STEP);
 			if (correlation != null)
 				obj.setCorrelation(correlation.getNodeValue());
@@ -173,6 +182,8 @@ public class TskTask extends MisObject {
 				obj.setMultiInstFlowCondition(multiInstFlowCondition.getNodeValue());
 			if (loopCounter != null)
 				obj.setLoopCounter(Integer.parseInt(loopCounter.getNodeValue()));
+			if (isStartActivity != null)
+				obj.setIsStartActivity(isStartActivity.getNodeValue());
 			if (step != null)
 				obj.setStep(Integer.parseInt(step.getNodeValue()));
 		}
@@ -462,5 +473,11 @@ public class TskTask extends MisObject {
 	}
 	public void setInstVariable(String instVariable) {
 		this.instVariable = instVariable;
+	}
+	public String getIsStartActivity() {
+		return isStartActivity;
+	}
+	public void setIsStartActivity(String isStartActivity) {
+		this.isStartActivity = isStartActivity;
 	}
 }

@@ -6,6 +6,7 @@ import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
+import net.smartworks.server.engine.process.task.model.TskTaskExtend;
 
 public interface ITskManager extends IManager {
 
@@ -16,6 +17,8 @@ public interface ITskManager extends IManager {
 	public TskTask[] getTasks(String user, TskTaskCond cond, String level) throws TskException;
 	public TskTask startTask(String user, String id) throws TskException;
 	public TskTask executeTask(String user, TskTask obj, String action) throws TskException;
+	public long getTskTaskExtendsSize(String userId, TskTaskCond cond) throws TskException;
+	public TskTaskExtend[] getTaskExtend(String userId, TskTaskCond cond) throws Exception;
 	
 	public TskTaskDef getTaskDef(String user, String id, String level) throws TskException;
 	public TskTaskDef setTaskDef(String user, TskTaskDef obj, String level) throws TskException;
