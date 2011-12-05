@@ -130,7 +130,7 @@
  	}
  %>
 						<div class="po_right">
-							<img class="bu_read">
+							<span class="bu_read"></span>
 						</div> <%
  	switch (work.getWritePolicy().getLevel()) {
  	case WritePolicy.LEVEL_PUBLIC:
@@ -148,7 +148,7 @@
  	}
  %>
 						<div class="po_right">
-							<img class="bu_regit">
+							<span class="bu_regit"></span>
 						</div> <%
  	switch (work.getEditPolicy().getLevel()) {
  	case EditPolicy.LEVEL_WIKI:
@@ -166,7 +166,7 @@
  	}
  %>
 						<div class="po_right">
-							<img class="bu_modfy">
+							<span class="bu_modfy"></span>
 						</div> </span>
 					<!-- 우측 권한 아이콘-->
 

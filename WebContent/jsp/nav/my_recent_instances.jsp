@@ -46,7 +46,7 @@
 				}
 	%>
 	<li><a href="user_space.sw?cid=<%=userContext%>"><img
-			src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>"
+			src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" width="22" height="22"
 			border="0">
 	</a><a
 		href="<%=targetContent%>?cid=<%=instanceContext%>&wid=<%=workSpaceId%>"

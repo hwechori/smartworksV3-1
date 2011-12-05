@@ -38,6 +38,34 @@
 			<div class="body_titl">
 				<div class="body_titl_pworks title"><%=work.getName()%>
 				</div>
+				
+
+				<div class="solid_line"></div>
+			</div>
+			<!-- 타이틀 -->
+
+
+
+
+			<!-- 정의 영역-->
+			<div class="contents_space">
+
+				<!-- 업무 정의 -->
+				<div class=""><%=work.getDesc()%></div>
+				<!-- 업무 정의 //-->
+
+				<!-- 버튼 영역-->
+				<div class="txt_btn posi_ab">
+					<div class="po_left">
+						<a class="js_view_work_manual" href=""><fmt:message
+								key="common.button.view.work_manual" />▼</a> <a
+							style="display: none" class="js_view_work_manual" href=""><fmt:message
+								key="common.button.close.work_manual" />▼</a>
+					</div>
+					<div class="po_left">
+						<a href="">프로세스 다이어그램보기▼</a>
+					</div>
+				</div>
 
 				<!-- 우측 버튼-->
 				<div class="txt_btn">
@@ -66,7 +94,9 @@
 						break;
 						}
 					%>
-					<div class="po_right">읽기권한(아이콘) :</div>
+					<div class="po_right">
+						<span class="bu_read"></span>
+					</div>
 					<%
 						switch (work.getWritePolicy().getLevel()) {
 						case WritePolicy.LEVEL_PUBLIC:
@@ -85,7 +115,9 @@
 						break;
 						}
 					%>
-					<div class="po_right">등록권한(아이콘) :</div>
+					<div class="po_right">
+						<span class="bu_regit"></span>
+					</div>
 					<%
 						switch (work.getEditPolicy().getLevel()) {
 						case EditPolicy.LEVEL_WIKI:
@@ -104,36 +136,12 @@
 						break;
 						}
 					%>
-					<div class="po_right">수정권한(아이콘) :</div>
+					<div class="po_right">
+						<span class="bu_modfy"></span>
+					</div>
 				</div>
 				<!-- 우측 버튼 -->
 
-				<div class="solid_line"></div>
-			</div>
-			<!-- 타이틀 -->
-
-
-
-
-			<!-- 정의 영역-->
-			<div class="contents_space">
-
-				<!-- 업무 정의 -->
-				<div class=""><%=work.getDesc()%></div>
-				<!-- 업무 정의 //-->
-
-				<!-- 버튼 영역-->
-				<div class="txt_btn posi_ab">
-					<div class="po_left">
-						<a class="js_view_work_manual" href=""><fmt:message
-								key="common.button.view.work_manual" />▼</a> <a
-							style="display: none" class="js_view_work_manual" href=""><fmt:message
-								key="common.button.close.work_manual" />▼</a>
-					</div>
-					<div class="po_left">
-						<a href="">프로세스 다이어그램보기▼</a>
-					</div>
-				</div>
 
 				<div class="txt_btn">
 
@@ -168,6 +176,7 @@
 					</div>
 
 				</div>
+				
 				<!-- 라인 -->
 				<div class="solid_line_s"></div>
 				<!-- 버튼 영역 //-->
