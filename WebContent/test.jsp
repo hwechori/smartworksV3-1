@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.server.engine.process.process.model.PrcProcessInstExtend"%>
+<%@page import="net.smartworks.server.engine.process.process.model.PrcProcessInstCond"%>
+<%@page import="java.io.File"%>
 <%@page import="net.smartworks.server.engine.process.task.model.TskTaskCond"%>
 <%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.server.service.impl.InstanceServiceImpl"%>
@@ -43,19 +46,14 @@
 }%>
 <%
 			
-	TskTaskCond cond = new TskTaskCond();
+	PrcProcessInstCond cond = new PrcProcessInstCond();
+
+	cond.setPackageId("pkg_cf3b0087995f4f99a41c93e2fe95b22d");
+
+	PrcProcessInstExtend[] ppe =  SwManagerFactory.getInstance().getPrcManager().getProcessInstExtends("kmyu@maninsoft.co.kr", cond);
+
+
 	
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -63,7 +61,7 @@
 
 %>
 <textarea style="width:800px;height:400px;">
-<%= work.getSubject() %>
+<%= ppe[0].getLastTask_count()%>
 </textarea>
 </body>
 </html>

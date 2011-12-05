@@ -36,6 +36,7 @@
 		<property name="multiInstId" column="tskMultiInstId" type="string" length="100" index="IxTskTask17"/>
 		<property name="multiInstOrdering" column="tskMultiInstOrder" type="string" length="10"/>
 		<property name="multiInstFlowCondition" column="tskMultiInstFlowCond" type="string" length="10"/>
+		<property name="isStartActivity" column="isStartActivity" type="string" length="10"/>
 		<property name="stepInteger" column="tskStep" type="int"/>
 		<property name="instVariable" column="tskInstVariable" type="text"/>
 		<property name="loopCounterInteger" column="tskLoopCnt" type="int"/>

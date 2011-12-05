@@ -15,12 +15,16 @@ import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.DateUtil;
+import net.smartworks.server.engine.process.process.exception.PrcException;
+import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
+import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.process.task.exception.TskException;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
+import net.smartworks.server.engine.process.task.model.TskTaskExtend;
 
 import org.hibernate.Query;
 
@@ -75,7 +79,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				buf.append(", def=:def, form=:form");
 				buf.append(", multiInstId=:multiInstId, multiInstOrdering=:multiInstOrdering");
 				buf.append(", multiInstFlowCondition=:multiInstFlowCondition, loopCounterInteger=:loopCounterInteger");
-				buf.append(", stepInteger=:stepInteger, instVariable=:instVariable where objId=:objId");
+				buf.append(", stepInteger=:stepInteger, instVariable=:instVariable, isStartActivity=:isStartActivity where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
 				query.setString(MisObject.A_NAME, obj.getName());
 				query.setString(MisObject.A_CREATIONUSER, obj.getCreationUser());
@@ -109,6 +113,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				query.setInteger("loopCounterInteger", CommonUtil.toInt(obj.getLoopCounterInteger()));
 				query.setInteger("stepInteger", CommonUtil.toInt(obj.getStepInteger()));
 				query.setString("instVariable", obj.getInstVariable());
+				query.setString("isStartActivity", obj.getIsStartActivity());
 				query.setString(ClassObject.A_OBJID, obj.getObjId());
 			}
 			return obj;
@@ -161,6 +166,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		String multiInstId = null;
 		String multiInstOrdering = null;
 		String multiInstFlowCondition = null;
+		String isStartActivity = null;
 		int loopCounter = -1;
 		int step = -1;
 		Property[] extProps = null;
@@ -212,6 +218,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			multiInstId = cond.getMultiInstId();
 			multiInstOrdering = cond.getMultiInstOrdering();
 			multiInstFlowCondition = cond.getMultiInstFlowCondition();
+			isStartActivity = cond.getIsStartActivity();
 			loopCounter = cond.getLoopCounter();
 			step = cond.getStep();
 			filters = cond.getFilter();
@@ -287,6 +294,8 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				buf.append(" and obj.multiInstOrdering = :multiInstOrdering");
 			if (multiInstFlowCondition != null)
 				buf.append(" and obj.multiInstFlowCondition = :multiInstFlowCondition");
+			if (isStartActivity != null)
+				buf.append(" and obj.isStartActivity = :isStartActivity");
 			if (loopCounter > 0)
 				buf.append(" and obj.loopCounter = :loopCounter");
 			if (step > 0)
@@ -477,6 +486,8 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				query.setString("multiInstOrdering", multiInstOrdering);
 			if (multiInstFlowCondition != null)
 				query.setString("multiInstFlowCondition", multiInstFlowCondition);
+			if (isStartActivity != null)
+				query.setString("isStartActivity", isStartActivity);
 			if (loopCounter > 0)
 				query.setInteger("loopCounter", loopCounter);
 			if (step > 0)
@@ -600,7 +611,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				buf.append(", obj.description, obj.priority, obj.document, obj.assigner, obj.assignee, obj.performer");
 				buf.append(", obj.startDate, obj.assignmentDate, obj.executionDate, obj.dueDate, obj.def, obj.form");
 				buf.append(", obj.expectStartDate, obj.expectEndDate, obj.realStartDate, obj.realEndDate");
-				buf.append(", obj.multiInstId, obj.multiInstOrdering, obj.multiInstFlowCondition, obj.loopCounterInteger, obj.stepInteger");
+				buf.append(", obj.multiInstId, obj.multiInstOrdering, obj.multiInstFlowCondition, obj.isStartActivity, obj.loopCounterInteger, obj.stepInteger");
 				buf.append(", obj.instVariable");
 			}
 			Query query = this.appendQuery(buf, cond);
@@ -643,6 +654,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 					obj.setMultiInstId(((String)fields[j++]));
 					obj.setMultiInstOrdering(((String)fields[j++]));
 					obj.setMultiInstFlowCondition(((String)fields[j++]));
+					obj.setIsStartActivity(((String)fields[j++]));
 					obj.setLoopCounterInteger(((Integer)fields[j++]));
 					obj.setStepInteger(((Integer)fields[j++]));
 					obj.setInstVariable(((String)fields[j++]));
@@ -678,7 +690,193 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		this.setTask(user, obj, LEVEL_ALL);
 		return obj;
 	}
-
+	private Query appendExtendQuery (StringBuffer queryBuffer, TskTaskCond cond) throws TskException {
+		
+		String tskAssignee = cond.getAssignee();
+		Date creationDateFrom = cond.getCreationDateFrom();
+		Date creationDateTo = cond.getCreationDateTo();
+		
+		int pageNo = cond.getPageNo();
+		int pageSize = cond.getPageSize();
+		
+		queryBuffer.append(" from ( ");
+		queryBuffer.append(" 	select tskobjid, tsktitle, tsktype, tskname, tskassignee, tskcreateDate, tskstatus , tskprcinstid, isStartActivity  ");
+		queryBuffer.append(" 	from tsktask ");
+		queryBuffer.append(" 	where (tsktask.tskstatus='11'  ");
+		queryBuffer.append(" 	and tsktask.tskassignee= :tskAssignee) ");
+		queryBuffer.append(" 	or  ");
+		queryBuffer.append(" 	( ");
+		queryBuffer.append(" 		tskTask.tskassignee= :tskAssignee ");
+		queryBuffer.append(" 		and tskTask.isStartActivity = 'true' ");
+		queryBuffer.append(" 	)	 ");
+		queryBuffer.append(" ) myTask ");
+		queryBuffer.append(" left outer join ");
+		queryBuffer.append(" (select  ctgInfo.parentCtgId ");
+		queryBuffer.append(" 			, ctgInfo.parentCtg ");
+		queryBuffer.append(" 			, ctgInfo.subCtgId ");
+		queryBuffer.append(" 			, ctgInfo.subCtg  ");
+		queryBuffer.append(" 			, info.* ");
+		queryBuffer.append(" from ( ");
+		queryBuffer.append(" 		select ");
+		queryBuffer.append(" 			 prcInst.prcObjId ");
+		queryBuffer.append(" 			, prcInst.prcName ");
+		queryBuffer.append(" 			, prcInst.prcCreateUser ");
+		queryBuffer.append(" 			, prcInst.prcCreateDate ");
+		queryBuffer.append(" 			, prcInst.prcModifyUser ");
+		queryBuffer.append(" 			, prcInst.prcModifyDate ");
+		queryBuffer.append(" 			, prcInst.prcStatus ");
+		queryBuffer.append(" 			, prcInst.prcTitle ");
+		queryBuffer.append(" 			, prcInst.prcDid ");
+		queryBuffer.append(" 			, prcInst.prcPrcId ");
+		//queryBuffer.append(" 			, prcInstInfo.lastTask_tskprcinstid ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskobjid ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskname ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskcreateuser ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskcreateDate ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskstatus ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tsktype ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tsktitle ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskassignee ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskexecuteDate ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskduedate ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskform ");
+		queryBuffer.append(" 			, (select count(*) from tsktask where tskstatus='11' and tsktype='common' and tskprcInstId = prcInst.prcObjid) as lastTaskCount ");
+		queryBuffer.append(" 		from  ");
+		queryBuffer.append(" 			prcprcinst prcInst,  ");
+		queryBuffer.append(" 			( ");
+		queryBuffer.append(" 				select a.tskprcinstid as lastTask_tskprcinstid ");
+		queryBuffer.append(" 						, task.tskobjid as lastTask_tskobjid ");
+		queryBuffer.append(" 						, task.tskname as lastTask_tskname ");
+		queryBuffer.append(" 						, task.tskcreateuser as lastTask_tskcreateuser ");
+		queryBuffer.append(" 						, task.tskcreateDate as lastTask_tskcreateDate ");
+		queryBuffer.append(" 						, task.tskstatus as lastTask_tskstatus ");
+		queryBuffer.append(" 						, task.tsktype as lastTask_tsktype ");
+		queryBuffer.append(" 						, task.tsktitle as lastTask_tsktitle ");
+		queryBuffer.append(" 						, task.tskassignee as lastTask_tskassignee ");
+		queryBuffer.append(" 						, task.tskexecuteDate as lastTask_tskexecuteDate ");
+		queryBuffer.append(" 						, task.tskduedate as lastTask_tskduedate ");
+		queryBuffer.append(" 						, task.tskform as lastTask_tskform ");
+		queryBuffer.append(" 				from ( ");
+		queryBuffer.append(" 						select tskprcinstId , max(tskCreatedate) as createDate  ");
+		queryBuffer.append(" 						from tsktask  ");
+		queryBuffer.append(" 						where tsktype='common'  ");
+		queryBuffer.append(" 						group by tskprcinstid ");
+		queryBuffer.append(" 					  ) a,	 ");
+		queryBuffer.append(" 					  TskTask task		 ");
+		queryBuffer.append(" 				where  ");
+		queryBuffer.append(" 					a.createDate = task.tskcreatedate ");
+		queryBuffer.append(" 			) prcInstInfo	 ");
+		queryBuffer.append(" 		where ");
+		queryBuffer.append(" 			prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid ");
+		queryBuffer.append("  ");
+		queryBuffer.append(" 	) info ");
+		queryBuffer.append(" 	left outer join ");
+		queryBuffer.append(" 	( ");
+		queryBuffer.append(" 		select prcinst.prcobjid as prcinstid ");
+		queryBuffer.append(" 				, parentCtg.id as parentCtgId ");
+		queryBuffer.append(" 				, parentCtg.name as parentCtg ");
+		queryBuffer.append(" 				, ctg.id as subCtgId ");
+		queryBuffer.append(" 				, ctg.name as subCtg ");
+		queryBuffer.append(" 		from prcprcinst prcinst, swpackage pkg , swcategory ctg, swcategory parentCtg ");
+		queryBuffer.append(" 		where prcinst.prcdid = pkg.packageid ");
+		queryBuffer.append(" 			and pkg.categoryid = ctg.id ");
+		queryBuffer.append(" 			and ctg.parentid = parentCtg.id ");
+		queryBuffer.append(" 	) ctgInfo ");
+		queryBuffer.append(" 	on info.prcobjid = ctginfo.prcinstid ");
+		queryBuffer.append(" ) prcInstInfo ");
+		queryBuffer.append(" on mytask.tskprcinstid = prcInstInfo.prcObjId ");
+		
+		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
+		
+		if (pageSize > 0|| pageNo >= 0) {
+			query.setFirstResult(pageNo * pageSize);
+			query.setMaxResults(pageSize);
+		}
+		if (!CommonUtil.isEmpty(tskAssignee))
+			query.setString("tskAssignee", tskAssignee);
+		
+		return query;	
+		
+	}
+	public long getTskTaskExtendsSize(String userId, TskTaskCond cond) throws TskException {
+		try {
+			StringBuffer buf = new StringBuffer();
+			buf.append("select");
+			buf.append(" count(*) ");
+			Query query = this.appendExtendQuery(buf, cond);
+			List list = query.list();
+			
+			long count =((Integer)list.get(0)).longValue();
+			return count;
+		} catch (TskException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new TskException(e);
+		}
+	}
+	public TskTaskExtend[] getTaskExtend(String userId, TskTaskCond cond) throws Exception {
+		
+		StringBuffer queryBuffer = new StringBuffer();
+		queryBuffer.append(" select myTask.*, prcInstInfo.*  ");
+		
+		Query query = this.appendExtendQuery(queryBuffer, cond);
+	
+		List list = query.list();
+		if (list == null || list.isEmpty())
+			return null;
+		List objList = new ArrayList();
+		for (Iterator itr = list.iterator(); itr.hasNext();) {
+			Object[] fields = (Object[]) itr.next();
+			TskTaskExtend obj = new TskTaskExtend();
+			int j = 0;
+	
+			obj.setTskObjId((String)fields[j++]);
+			obj.setTskTitle((String)fields[j++]);
+			obj.setTskType((String)fields[j++]);
+			obj.setTskName((String)fields[j++]);
+			obj.setTskAssignee((String)fields[j++]);
+			obj.setTskCreateDate((Timestamp)fields[j++]);
+			obj.setTskStatus((String)fields[j++]);
+			obj.setTskprcInstId((String)fields[j++]);
+			obj.setIsStartActivity((String)fields[j++]);
+			obj.setParentCtgId((String)fields[j++]); 
+			obj.setParentCtg((String)fields[j++]);
+			obj.setSubCtgId((String)fields[j++]);
+			obj.setSubCtg((String)fields[j++]);
+			obj.setPrcObjId((String)fields[j++]);
+			obj.setPrcName((String)fields[j++]);
+			obj.setPrcCreateUser((String)fields[j++]);
+			obj.setPrcCreateDate((Timestamp)fields[j++]);
+			obj.setPrcModifyUser((String)fields[j++]);
+			obj.setPrcModifyDate((Timestamp)fields[j++]);
+			obj.setPrcStatus((String)fields[j++]);
+			obj.setPrcTitle((String)fields[j++]);
+			obj.setPrcDid((String)fields[j++]);
+			obj.setPrcPrcId((String)fields[j++]);
+			obj.setLastTask_tskObjId((String)fields[j++]);
+			obj.setLastTask_tskName((String)fields[j++]);
+			obj.setLastTask_tskCreateUser((String)fields[j++]);
+			obj.setLastTask_tskCreateDate((Timestamp)fields[j++]);
+			obj.setLastTask_tskStatus((String)fields[j++]);
+			obj.setLastTask_tskType((String)fields[j++]);
+			obj.setLastTask_tskTitle((String)fields[j++]);
+			obj.setLastTask_tskAssignee((String)fields[j++]);
+			obj.setLastTask_tskExecuteDate((Timestamp)fields[j++]);
+			obj.setLastTask_tskDueDate((Timestamp)fields[j++]);
+			obj.setLastTask_tskForm((String)fields[j++]);
+			int lastTaskCount = (Integer)fields[j] ==  null ? -1 : (Integer)fields[j];
+			obj.setLastTask_tskCount(lastTaskCount == 0 ? 1 : lastTaskCount);
+			objList.add(obj);
+		}
+		list = objList;
+		TskTaskExtend[] objs = new TskTaskExtend[list.size()];
+		list.toArray(objs);
+		return objs;
+		
+	}
+	
+	
+	
 	public TskTaskDef getTaskDef(String user, String id, String level) throws TskException {
 		try {
 			if (CommonUtil.isEmpty(id))

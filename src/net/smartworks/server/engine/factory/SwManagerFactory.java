@@ -24,6 +24,7 @@ import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.monitoring.manager.IMonManager;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
+import net.smartworks.server.engine.worklist.manager.impl.WorkListManagerImpl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,6 +49,17 @@ public class SwManagerFactory {
 	private IDocFileManager docManager;
 	private ISwaManager swaManager;
 	private IItmManager itmManager;
+	
+	private WorkListManagerImpl workListManager;
+	
+
+	public WorkListManagerImpl getWorkListManager() {
+		return workListManager;
+	}
+	public void setWorkListManager(WorkListManagerImpl workListManager) {
+		this.workListManager = workListManager;
+	}
+	
 //	private IChtManager chtManager;
 //	private IMdlManager mdlManager;
 //	private ILcsManager lcsManager;

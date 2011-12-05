@@ -24,6 +24,7 @@ import net.smartworks.model.filter.info.SearchFilterInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.WorkInstance;
+import net.smartworks.model.instance.info.IWInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
@@ -73,6 +74,7 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
+import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.util.LocalDate;
 
 public class ModelConverter {
@@ -121,6 +123,171 @@ public class ModelConverter {
 	}
 	
 	// #########################################  INFO  ########################################################################
+	
+	
+	public static InstanceInfo[] getInstanceInfoArrayByTaskWorkArray(String userId, TaskWork[] tasks) throws  Exception {
+		
+		InstanceInfo[] resultInfo = new InstanceInfo[tasks.length];
+		
+		for (int i = 0; i < tasks.length; i++) {
+			TaskWork task = tasks[i];
+			if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON)) {
+				if (task.getIsStartActivity() != null && task.getIsStartActivity().equalsIgnoreCase("true")) {
+					PWInstanceInfo instInfo = new PWInstanceInfo();
+					
+					instInfo.setId(task.getPrcObjId());
+					instInfo.setSubject(task.getPrcTitle());
+					instInfo.setType(Instance.TYPE_WORK);
+					
+					SmartWorkInfo workInfo = new SmartWorkInfo();
+					workInfo.setId(task.getPackageId());
+					workInfo.setName(task.getPackageName());
+					if (task.getParentCtgId() != null) {
+						workInfo.setMyCategory(new WorkCategoryInfo(task.getParentCtgId(), task.getParentCtgName()));
+						workInfo.setMyGroup(new WorkCategoryInfo(task.getChildCtgId(), task.getChildCtgName()));
+					} else {
+						workInfo.setMyCategory(new WorkCategoryInfo(task.getChildCtgId(), task.getChildCtgName()));
+					}
+					
+					instInfo.setWork(workInfo);
+					instInfo.setWorkSpace(null);
+					instInfo.setStatus(task.getPrcStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+					instInfo.setOwner(getUserInfoByUserId(task.getPrcCreateUser()));
+					instInfo.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
+					instInfo.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
+					
+					
+					TaskInstanceInfo lastTask = new TaskInstanceInfo();
+					lastTask.setId(task.getLastTskObjId());
+					lastTask.setName(task.getLastTskName());
+					lastTask.setTaskType(Instance.TYPE_TASK);
+					lastTask.setWorkInstance(instInfo);
+					lastTask.setAssignee(getUserInfoByUserId(task.getLastTskAssignee()));
+					lastTask.setPerformer(getUserInfoByUserId(task.getLastTskAssignee()));
+					lastTask.setSubject(task.getPrcTitle());
+					lastTask.setWork(workInfo);
+					lastTask.setWorkSpace(null);
+					lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+					lastTask.setOwner(getUserInfoByUserId(task.getLastTskAssignee()));
+					lastTask.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
+					lastTask.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
+
+					
+					instInfo.setLastTask(lastTask);
+					instInfo.setLastTaskCount(task.getLastTskCount());
+					
+					resultInfo[i] = instInfo;
+					
+				} else {
+					////////////////////////////////////////////
+					PWInstanceInfo instInfo = new PWInstanceInfo();
+					instInfo.setId(task.getPrcObjId());
+					instInfo.setSubject(task.getPrcTitle());
+					instInfo.setType(Instance.TYPE_TASK);
+					
+					SmartWorkInfo workInfo = new SmartWorkInfo();
+					workInfo.setId(task.getPackageId());
+					workInfo.setName(task.getPackageName());
+					if (task.getParentCtgId() != null) {
+						workInfo.setMyCategory(new WorkCategoryInfo(task.getParentCtgId(), task.getParentCtgName()));
+						workInfo.setMyGroup(new WorkCategoryInfo(task.getChildCtgId(), task.getChildCtgName()));
+					} else {
+						workInfo.setMyCategory(new WorkCategoryInfo(task.getChildCtgId(), task.getChildCtgName()));
+					}
+					
+					instInfo.setWork(workInfo);
+					instInfo.setWorkSpace(null);
+					instInfo.setStatus(task.getPrcStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+					instInfo.setOwner(getUserInfoByUserId(task.getPrcCreateUser()));
+					instInfo.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
+					instInfo.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
+					
+					TaskInstanceInfo lastTask = new TaskInstanceInfo();
+					lastTask.setId(task.getLastTskObjId());
+					lastTask.setName(task.getLastTskName());
+					lastTask.setTaskType(Instance.TYPE_TASK);
+					lastTask.setWorkInstance(instInfo);
+					lastTask.setAssignee(getUserInfoByUserId(task.getLastTskAssignee()));
+					lastTask.setPerformer(getUserInfoByUserId(task.getLastTskAssignee()));
+					lastTask.setSubject(task.getPrcTitle());
+					lastTask.setWork(workInfo);
+					lastTask.setWorkSpace(null);
+					lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+					lastTask.setOwner(getUserInfoByUserId(task.getLastTskAssignee()));
+					lastTask.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
+					lastTask.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
+
+					
+					instInfo.setLastTask(lastTask);
+					instInfo.setLastTaskCount(task.getLastTskCount());
+					
+					/////////////////////////////////////////
+					
+					TaskInstanceInfo tskInfo = new TaskInstanceInfo();
+					tskInfo.setId(task.getTskObjId());
+					tskInfo.setName(task.getTskName());
+					tskInfo.setType(Instance.TYPE_TASK);
+					tskInfo.setWorkInstance(instInfo);
+					tskInfo.setAssignee(getUserInfoByUserId(task.getTskAssignee()));
+					tskInfo.setPerformer(getUserInfoByUserId(task.getTskAssignee()));
+					tskInfo.setSubject(task.getPrcTitle());
+					tskInfo.setWork(workInfo);
+					tskInfo.setWorkSpace(null);
+					tskInfo.setStatus(task.getPrcStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+					tskInfo.setOwner(getUserInfoByUserId(task.getPrcCreateUser()));
+					tskInfo.setLastModifiedDate(new LocalDate(task.getTaskLastModifyDate().getTime()));
+					tskInfo.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
+					
+					resultInfo[i] = tskInfo;
+				}
+			} else {
+				////////////////////////////////////////////
+				IWInstanceInfo instInfo = new IWInstanceInfo();
+				instInfo.setId(task.getPrcObjId());
+				instInfo.setSubject(task.getPrcTitle());
+				instInfo.setType(Instance.TYPE_WORK);
+				
+				SmartWorkInfo workInfo = new SmartWorkInfo();
+				workInfo.setId(task.getPackageId());
+				workInfo.setName(task.getPackageName());
+				if (task.getParentCtgId() != null) {
+				workInfo.setMyCategory(new WorkCategoryInfo(task.getParentCtgId(), task.getParentCtgName()));
+				workInfo.setMyGroup(new WorkCategoryInfo(task.getChildCtgId(), task.getChildCtgName()));
+				} else {
+				workInfo.setMyCategory(new WorkCategoryInfo(task.getChildCtgId(), task.getChildCtgName()));
+				}
+				
+				instInfo.setWork(workInfo);
+				instInfo.setWorkSpace(null);
+				instInfo.setStatus(task.getPrcStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+				instInfo.setOwner(getUserInfoByUserId(task.getPrcCreateUser()));
+				instInfo.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
+				instInfo.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
+				
+				TaskInstanceInfo lastTask = new TaskInstanceInfo();
+				lastTask.setId(task.getLastTskObjId());
+				lastTask.setName(task.getLastTskName());
+				lastTask.setTaskType(Instance.TYPE_TASK);
+				lastTask.setWorkInstance(instInfo);
+				lastTask.setAssignee(getUserInfoByUserId(task.getLastTskAssignee()));
+				lastTask.setPerformer(getUserInfoByUserId(task.getLastTskAssignee()));
+				lastTask.setSubject(task.getPrcTitle());
+				lastTask.setWork(workInfo);
+				lastTask.setWorkSpace(null);
+				lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? Instance.STATUS_RUNNING : Instance.STATUS_COMPLETED);
+				lastTask.setOwner(getUserInfoByUserId(task.getLastTskAssignee()));
+				lastTask.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
+				lastTask.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
+
+				
+				instInfo.setLastTask(lastTask);
+				instInfo.setLastTaskCount(task.getLastTskCount());
+				
+				resultInfo[i] = instInfo;
+			}
+		}
+		return resultInfo;
+	}
 	
 	public static InstanceInfo getInstanceInfoByProcessInstId(String processInstId) throws Exception {
 		PrcProcessInst prcInst = getPrcProcessInstByProcessInst(processInstId);
