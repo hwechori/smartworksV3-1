@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.model.KeyMap"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.util.LocaleInfo"%>
@@ -79,12 +80,22 @@
 				<div class="table_section">
 					<table class="table_nomal">
 						<tr>
+							<th><fmt:message key="profile.title.company" />
+							</th>
+							<td colspan="3">
+								<div>
+									<input name="txtUserProfileCompany" type="text" class="required"
+										readonly="readonly" value="<%=CommonUtil.toNotNull(cUser.getCompany())%>" title="">
+								</div>
+							</td>
+						</tr>
+						<tr>
 							<th width="25%"><fmt:message
 									key="profile.title.user_id" />
 							</th>
 							<td width="65%" colspan="3"><input
 								name="txtUserProfileUserId" type="text" readonly="readonly"
-								value="<%=cUser.getId()%>">
+								value="<%=CommonUtil.toNotNull(cUser.getId())%>">
 							</td>
 						</tr>
 
@@ -95,19 +106,19 @@
 							<td colspan="3">
 								<div class="fieldline">
 									<input name="txtUserProfileUserName" type="text" class="required"
-										value="<%=cUser.getName()%>">
+										value="<%=CommonUtil.toNotNull(cUser.getName())%>">
 								</div>
 							</td>
 						</tr>
 
 						<tr>
-							<th class="essen_n"><fmt:message
+							<th><fmt:message
 									key="profile.title.employee_id" />
 							</th>
 							<td colspan="3">
 								<div class="fieldline">
 									<input name="txtUserProfileEmpId" type="text"
-										value="<%=cUser.getEmployeeId()%>" title="">
+										value="<%=CommonUtil.toNotNull(cUser.getEmployeeId())%>" title="">
 								</div>
 							</td>
 						</tr>
@@ -119,7 +130,7 @@
 							<td colspan="3">
 								<div class="fieldline">
 									<input name="pwUserProfilePW" type="password" class="required"
-										value="<%=cUser.getPassword()%>" title="">
+										value="<%=CommonUtil.toNotNull(cUser.getPassword())%>" title="">
 								</div>
 							</td>
 						</tr>
@@ -130,17 +141,7 @@
 							<td colspan="3">
 								<div class="fieldline">
 									<input name="pwUserProfilePWCfm" type="password" class="required"
-										value="<%=cUser.getPassword()%>" title="">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<th class="essen_n"><fmt:message key="profile.title.company" />
-							</th>
-							<td colspan="3">
-								<div class="fieldline">
-									<input name="txtUserProfileCompany" type="text" class="required"
-										readonly="readonly" value="<%=cUser.getCompany()%>" title="">
+										value="<%=CommonUtil.toNotNull(cUser.getPassword())%>" title="">
 								</div>
 							</td>
 						</tr>
@@ -152,7 +153,7 @@
 								<div class="fieldline">
 									<input name="txtUserProfileDepartment" type="text" class="required"
 										companyId="<%=cUser.getCompanyId()%>"
-										value="<%=cUser.getDepartment()%>" title="">
+										value="<%=CommonUtil.toNotNull(cUser.getDepartment())%>" title="">
 								</div>
 							</td>
 						</tr>
@@ -163,7 +164,7 @@
 							<td colspan="3">
 								<div class="fieldline">
 									<input name="txtUserProfilePosition" type="text" class="required"
-										value="<%=cUser.getPosition()%>" title="">
+										value="<%=CommonUtil.toNotNull(cUser.getPosition())%>" title="">
 								</div>
 							</td>
 						</tr>
@@ -173,10 +174,11 @@
 							<td colspan="3"><select name="selUserProfileLocale">
 									<%
 										for (String locale : LocaleInfo.supportingLocales) {
+											String strKey = "common.title.locale." + locale;
 									%>
 									<option <%if (cUser.getLocale().equals(locale)) {%> selected
 										<%}%>>
-										<fmt:message key="common.title.locale.<%=locale%>" />
+										<fmt:message key="<%=strKey%>" />
 									</option>
 									<%
 										}
@@ -208,7 +210,7 @@
 							<td colspan="3">
 								<div class="fieldline">
 									<input name="txtUserProfilePhoneNo" type="text"
-										value="<%=cUser.getPhoneNo()%>" title="">
+										value="<%=CommonUtil.toNotNull(cUser.getPhoneNo())%>" title="">
 								</div>
 							</td>
 						</tr>
@@ -219,7 +221,7 @@
 							<td colspan="3">
 								<div class="fieldline">
 									<input name="txtUserProfileCellNo" type="text"
-										value="<%=cUser.getCellPhoneNo()%>" title="">
+										value="<%=CommonUtil.toNotNull(cUser.getCellPhoneNo())%>" title="">
 								</div>
 							</td>
 						</tr>
@@ -236,7 +238,7 @@
 						class="btn_gray"><span class="Btn01Start"></span> <span
 							class="Btn01Center"><fmt:message key="popup.button.modify_my_profile"/></span> <span class="Btn01End"></span>
 					</a> </span> <span class="btn_gray space_l5"> <a href=""
-						onclick=''> <span
+						onclick="return true;"> <span
 							class="Btn01Start"></span> <span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> <span
 							class="Btn01End"></span> </a> </span>
 				</div>
