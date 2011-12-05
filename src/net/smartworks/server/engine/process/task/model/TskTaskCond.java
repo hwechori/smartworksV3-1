@@ -47,6 +47,9 @@ public class TskTaskCond extends MisObjectCond{
 	public static final String A_MULTIINSTORDERING = "multiInstOrdering";
 	public static final String A_MULTIINSTFLOWCONDITION = "multiInstFlowCondition";
 	public static final String A_LOOPCOUNTER = "loopCounter";
+	public static final String A_ISSTARTACTIVITY = "isStartActivity";
+	public static final String A_FROMREFTYPE = "fromRefType";
+	public static final String A_FROMREFID = "fromRefId";
 	public static final String A_STEP = "step";
 	public static final String A_TYPEIN = "typeIn";
 	public static final String A_TYPEINS = "typeIns";
@@ -87,6 +90,9 @@ public class TskTaskCond extends MisObjectCond{
 	private String multiInstId;
 	private String multiInstOrdering;
 	private String multiInstFlowCondition;
+	private String isStartActivity;
+	private String fromRefType;
+	private String fromRefId;
 	private int loopCounter = -1;
 	private int step = -1;
 	
@@ -130,6 +136,9 @@ public class TskTaskCond extends MisObjectCond{
 		appendAttributeString(A_MULTIINSTORDERING, multiInstOrdering, buf);
 		appendAttributeString(A_MULTIINSTFLOWCONDITION, multiInstFlowCondition, buf);
 		appendAttributeString(A_LOOPCOUNTER, loopCounter, buf);
+		appendAttributeString(A_ISSTARTACTIVITY, isStartActivity, buf);
+		appendAttributeString(A_FROMREFTYPE, fromRefType, buf);
+		appendAttributeString(A_FROMREFID, fromRefId, buf);
 		appendAttributeString(A_STEP, step, buf);
 		return buf.toString();
 	}
@@ -182,6 +191,9 @@ public class TskTaskCond extends MisObjectCond{
 			Node multiInstId = attrMap.getNamedItem(A_MULTIINSTID);
 			Node multiInstOrdering = attrMap.getNamedItem(A_MULTIINSTORDERING);
 			Node multiInstFlowCondition = attrMap.getNamedItem(A_MULTIINSTFLOWCONDITION);
+			Node isStartActivity = attrMap.getNamedItem(A_ISSTARTACTIVITY);
+			Node fromRefType = attrMap.getNamedItem(A_FROMREFTYPE);
+			Node fromRefId = attrMap.getNamedItem(A_FROMREFID);
 			Node loopCounter = attrMap.getNamedItem(A_LOOPCOUNTER);
 			Node step = attrMap.getNamedItem(A_STEP);
 			if (correlation != null)
@@ -226,6 +238,12 @@ public class TskTaskCond extends MisObjectCond{
 				obj.setMultiInstFlowCondition(multiInstFlowCondition.getNodeValue());
 			if (loopCounter != null)
 				obj.setLoopCounter(Integer.parseInt(loopCounter.getNodeValue()));
+			if (isStartActivity != null)
+				obj.setIsStartActivity(isStartActivity.getNodeValue());
+			if (fromRefType != null)
+				obj.setFromRefType(fromRefType.getNodeValue());
+			if (fromRefId != null)
+				obj.setFromRefId(fromRefId.getNodeValue());
 			if (step != null)
 				obj.setStep(Integer.parseInt(step.getNodeValue()));
 		}
@@ -598,5 +616,23 @@ public class TskTaskCond extends MisObjectCond{
 	}
 	public void setExecutionDateTo(Date executionDateTo) {
 		this.executionDateTo = executionDateTo;
+	}
+	public String getIsStartActivity() {
+		return isStartActivity;
+	}
+	public void setIsStartActivity(String isStartActivity) {
+		this.isStartActivity = isStartActivity;
+	}
+	public String getFromRefType() {
+		return fromRefType;
+	}
+	public void setFromRefType(String fromRefType) {
+		this.fromRefType = fromRefType;
+	}
+	public String getFromRefId() {
+		return fromRefId;
+	}
+	public void setFromRefId(String fromRefId) {
+		this.fromRefId = fromRefId;
 	}
 }

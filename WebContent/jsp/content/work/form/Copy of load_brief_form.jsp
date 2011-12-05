@@ -4,29 +4,56 @@
 <%@page import="net.smartworks.server.engine.infowork.form.model.SwfFormCond"%>
 <%@page import="net.smartworks.server.engine.factory.SwManagerFactory"%>
 <%@ page contentType="text/html; charset=utf-8"%>
+<%
 
+	String key = request.getParameter("key");
+	
+	String packageId = "pkg_7078af4990b84cc284850186c3ed807a";
+
+	SwfFormCond cond = new SwfFormCond();
+	cond.setPackageId(packageId);
+	
+	
+	SwfForm[] froms = SwManagerFactory.getInstance().getSwfManager().getForms("kmyu@maninsoft.co.kr", cond, "all");
+
+		
+	
+	out.print("####################################");
+	out.print(froms[0].getObjString());
+	out.print("####################################");
+	
+	
+	
+%>
 <!-- 폼- 업무 입력 후 -->
 <table>
+	<colgroup>
+		<col class="item">
+		<col class="field">
+		<col class="item">
+		<col class="field">
+	</colgroup>
+	<tbody>
 		<tr>
-			<td>제 목 <span class="essen_n"></span></td>
-			<td colspan="3">
-					<input class="fieldline" id="" type="text" title="" value="" >
-				</td>
+			<td>제 목</td>
+			<td colspan="3" class=""><div class="fieldline essen">
+					<input id="" type="text" title="" value="">
+				</div></td>
 		</tr>
 		<tr>
-			<td width="12%">과제명<span class="essen_n"></span></td>
-			<td width="38%" class="before_icon">
+			<td>과제명</td>
+			<td>
 				<div class="ico_space">
-
-						<input class="fieldline" id="" type="text" title="" value="">
-
+					<div class="fieldline">
+						<input id="" type="text" title="" value="">
+					</div>
 					<div class="ico_posi">
-						<img src="images/btn_s_search.png" />
+						<img src="images/btn_s_search.jpg" />
 					</div>
 				</div>
 			</td>
-			<td width="12%">진행단계</td>
-			<td width="38%">
+			<td class="padding_l20">진행단계</td>
+			<td>
 				<div>
 					<form name="form" id="form">
 						<select name="jumpMenu" id="jumpMenu"
@@ -41,19 +68,23 @@
 			</td>
 		</tr>
 		<tr>
-			<td>작성자<span class="essen_n"></span></td>
-			<td class="before_icon">
+			<td>작성자</td>
+			<td>
 				<div class="ico_space">
-						<input class="fieldline" id="" type="text" title="" value="">
+					<div class="fieldline essen">
+						<input id="" type="text" title="" value="">
+					</div>
 					<div class="ico_posi">
 						<img src="images/btn_s_person.png" />
 					</div>
 				</div>
 			</td>
-			<td>작성일자<span class="essen_n"></span></td>
+			<td class="padding_l20">작성일자</td>
 			<td>
 				<div class="ico_space">
-						<input class="fieldline" id="" type="text" title="" value="">
+					<div class="fieldline essen">
+						<input id="" type="text" title="" value="">
+					</div>
 					<div class="ico_posi">
 						<img src="images/btn_s_calendar.png" />
 					</div>
@@ -61,17 +92,22 @@
 			</td>
 		</tr>
 		<tr>
-			<td>내 용<span class="essen_n"></span></td>
-			<td colspan="3">
-					<textarea class="up_textarea" name="내용" cols="" rows="5"
+			<td>내 용</td>
+			<td colspan="3" class="">
+				<div class="textarea_size">
+					<textarea class="up_textarea essen" name="내용" cols="" rows="5"
 						value="내용"></textarea>
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td>첨부파일</td>
 			<td colspan="3" class="">
 				<div class="btn_space">
-						<input class="fieldline" id="" type="text" title="" value="">
+					<div class="fieldline">
+						<input id="" type="text" title="" value="">
+					</div>
+
 					<div class="btn_wh btn_posi">
 						<a href=""> <span class="Btn01Start"></span> <span
 							class="Btn01Center">첨부파일</span> <span class="Btn01End"></span> </a>

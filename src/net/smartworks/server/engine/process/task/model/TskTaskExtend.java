@@ -1,17 +1,26 @@
 /* 
  * $Id$
  * created by    : yukm
- * creation-date : 2011. 11. 28.
+ * creation-date : 2011. 12. 1.
  * =========================================================
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
  */
 
-package net.smartworks.server.engine.process.process.model;
+package net.smartworks.server.engine.process.task.model;
 
 import java.util.Date;
 
-public class PrcProcessInstExtend {
+public class TskTaskExtend {
 
+	private String tskObjId;
+	private String tskTitle;
+	private String tskType;
+	private String tskName;
+	private String tskAssignee;
+	private Date tskCreateDate;
+	private String tskStatus;
+	private String tskprcInstId;
+	private String isStartActivity;
 	private String parentCtgId;
 	private String parentCtg;
 	private String subCtgId;
@@ -26,6 +35,7 @@ public class PrcProcessInstExtend {
 	private String prcTitle;
 	private String prcDid;
 	private String prcPrcId;
+	private String lastTask_tskPrcInstId;
 	private String lastTask_tskObjId;
 	private String lastTask_tskName;
 	private String lastTask_tskCreateUser;
@@ -37,9 +47,63 @@ public class PrcProcessInstExtend {
 	private Date lastTask_tskExecuteDate;
 	private Date lastTask_tskDueDate;
 	private String lastTask_tskForm;
-	
 	private int lastTask_tskCount;
 	
+	
+	public String getTskObjId() {
+		return tskObjId;
+	}
+	public void setTskObjId(String tskObjId) {
+		this.tskObjId = tskObjId;
+	}
+	public String getTskTitle() {
+		return tskTitle;
+	}
+	public void setTskTitle(String tskTitle) {
+		this.tskTitle = tskTitle;
+	}
+	public String getTskType() {
+		return tskType;
+	}
+	public void setTskType(String tskType) {
+		this.tskType = tskType;
+	}
+	public String getTskName() {
+		return tskName;
+	}
+	public void setTskName(String tskName) {
+		this.tskName = tskName;
+	}
+	public String getTskAssignee() {
+		return tskAssignee;
+	}
+	public void setTskAssignee(String tskAssignee) {
+		this.tskAssignee = tskAssignee;
+	}
+	public Date getTskCreateDate() {
+		return tskCreateDate;
+	}
+	public void setTskCreateDate(Date tskCreateDate) {
+		this.tskCreateDate = tskCreateDate;
+	}
+	public String getTskStatus() {
+		return tskStatus;
+	}
+	public void setTskStatus(String tskStatus) {
+		this.tskStatus = tskStatus;
+	}
+	public String getTskprcInstId() {
+		return tskprcInstId;
+	}
+	public void setTskprcInstId(String tskprcInstId) {
+		this.tskprcInstId = tskprcInstId;
+	}
+	public String getIsStartActivity() {
+		return isStartActivity;
+	}
+	public void setIsStartActivity(String isStartActivity) {
+		this.isStartActivity = isStartActivity;
+	}
 	public String getParentCtgId() {
 		return parentCtgId;
 	}
@@ -124,6 +188,12 @@ public class PrcProcessInstExtend {
 	public void setPrcPrcId(String prcPrcId) {
 		this.prcPrcId = prcPrcId;
 	}
+	public String getLastTask_tskPrcInstId() {
+		return lastTask_tskPrcInstId;
+	}
+	public void setLastTask_tskPrcInstId(String lastTask_tskPrcInstId) {
+		this.lastTask_tskPrcInstId = lastTask_tskPrcInstId;
+	}
 	public String getLastTask_tskObjId() {
 		return lastTask_tskObjId;
 	}
@@ -196,4 +266,5 @@ public class PrcProcessInstExtend {
 	public void setLastTask_tskCount(int lastTask_tskCount) {
 		this.lastTask_tskCount = lastTask_tskCount;
 	}
+	
 }

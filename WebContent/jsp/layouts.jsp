@@ -93,8 +93,6 @@ currentUser = {
 <link rel="stylesheet"
 	href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css"
 	title="ui-theme" />
-<link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
-
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
