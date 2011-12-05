@@ -77,6 +77,7 @@ public class ReportController {
 		// TO DO : Exception handler
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("xFieldName", reportData.getxFieldName());
+		map.put("yValueName", reportData.getyValueName());
 		map.put("groupNames", reportData.getGroupNames());
 		map.put("values", reportData.getValues());
 		return map;

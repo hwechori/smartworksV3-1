@@ -93,6 +93,9 @@ currentUser = {
 <link rel="stylesheet"
 	href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css"
 	title="ui-theme" />
+<link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
 		<fmt:param value="<%=currentUser.getCompany() %>" />
@@ -115,7 +118,8 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <!-- <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
  -->
-<script type="text/javascript" src="js/dojo/dojo.js"></script>
+<script type="text/javascript" src="js/ext/bootstrap.js"></script>
+<script type="text/javascript" src="js/ext/ext-all.js"></script>
 <script type="text/javascript" src="js/sw/sw-util.js"></script>
 <script type="text/javascript" src="js/sw/sw-all.js"></script>
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
@@ -124,6 +128,7 @@ currentUser = {
 <!-- <script type="text/javascript" src="http://localhost:8000/faye.js"></script>
  --><script type="text/javascript" src="js/sw/sw-faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
+<script type="text/javascript" src="js/sw/sw-report.js"></script>
 
 <script type="text/javascript">
 /* 	smartTalk.init();

@@ -1,20 +1,20 @@
 package net.smartworks.model.report;
 
+import java.util.List;
 import java.util.Map;
 
 public class Data{
 
 	private String xFieldName;
-	private String yFieldName;
+	private String yValueName;
 	private String[] groupNames;
-	private Map<String, Object>[] values; 
-	
-	
-	public String getyFieldName() {
-		return yFieldName;
+	private List<Map<String, Object>> values; 
+		
+	public String getyValueName() {
+		return yValueName;
 	}
-	public void setyFieldName(String yFieldName) {
-		this.yFieldName = yFieldName;
+	public void setyValueName(String yValueName) {
+		this.yValueName = yValueName;
 	}
 	public String getxFieldName() {
 		return xFieldName;
@@ -27,14 +27,13 @@ public class Data{
 	}
 	public void setGroupNames(String[] groupNames) {
 		this.groupNames = groupNames;
-	}
-	public Map<String, Object>[] getValues() {
+	}	
+	public List<Map<String, Object>> getValues() {
 		return values;
 	}
-	public void setValues(Map<String, Object>[] values) {
+	public void setValues(List<Map<String, Object>> values) {
 		this.values = values;
 	}
-	
 	public Data() {
 		super();
 	}	
