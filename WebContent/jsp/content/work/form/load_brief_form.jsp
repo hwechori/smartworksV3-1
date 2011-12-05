@@ -2,14 +2,14 @@
 <!-- 폼- 업무 입력 후 -->
 <table>
 		<tr>
-			<th class="essen_n">제 목</th>
+			<td>제 목 <span class="essen_n"></span></td>
 			<td colspan="3">
 					<input class="fieldline" id="" type="text" title="" value="" >
 				</td>
 		</tr>
 		<tr>
-			<th class="essen_n">과제명</th>
-			<td class="before_icon">
+			<td width="12%">과제명<span class="essen_n"></span></td>
+			<td width="38%" class="before_icon">
 				<div class="ico_space">
 
 						<input class="fieldline" id="" type="text" title="" value="">
@@ -19,8 +19,8 @@
 					</div>
 				</div>
 			</td>
-			<th class="space_tit">진행단계</th>
-			<td>
+			<td width="12%">진행단계</td>
+			<td width="38%">
 				<div>
 					<form name="form" id="form">
 						<select name="jumpMenu" id="jumpMenu"
@@ -35,7 +35,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="essen_n">작성자</th>
+			<td>작성자<span class="essen_n"></span></td>
 			<td class="before_icon">
 				<div class="ico_space">
 						<input class="fieldline" id="" type="text" title="" value="">
@@ -44,7 +44,7 @@
 					</div>
 				</div>
 			</td>
-			<th class="essen_n">작성일자</th>
+			<td>작성일자<span class="essen_n"></span></td>
 			<td>
 				<div class="ico_space">
 						<input class="fieldline" id="" type="text" title="" value="">
@@ -55,14 +55,14 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="essen_n">내 용</th>
+			<td>내 용<span class="essen_n"></span></td>
 			<td colspan="3">
 					<textarea class="up_textarea" name="내용" cols="" rows="5"
 						value="내용"></textarea>
 			</td>
 		</tr>
 		<tr>
-			<th class="space_tit">첨부파일</th>
+			<td>첨부파일</td>
 			<td colspan="3" class="">
 				<div class="btn_space">
 						<input class="fieldline" id="" type="text" title="" value="">

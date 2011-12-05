@@ -61,34 +61,33 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<div class="up_wrap">
 	<div class="form_wrap up up_padding">
 
 
 		<!-- 컨텐츠 -->
-		<div class="contents_space">
-			<div class="list_title_space">
-				<div class="title_stat">
-					<fmt:message key="report.title.new_report" />
-				</div>
+		<div class="form_title">
+			<div class="ico_stworks title_noico">
+			<fmt:message key="report.title.new_report" />
 			</div>
+			<div class="solid_line"></div>
+		</div>
 
-			<table class="margin_t10">
-				<tbody>
+			<div class="form_contents">
+			<table class="table_nomal">
 					<tr>
-						<td width="11%"><div class="essen_r">
-								<fmt:message key="report.title.report_name" />
-							</div></td>
-						<td width="89%" colspan="3"><div class="fieldline">
-								<input id="" type="text" name="txtWorkReportName"
+						<td width="17%">
+								<fmt:message key="report.title.report_name" /><span class="essen_n"></span>
+							</td>
+						<td width="83%" colspan="4">
+								<input id="" type="text" class="fieldline" name="txtWorkReportName"
 									value="<%if (report != null) {%><fmt:message key='<%=report.getName() %>'/><%}%>">
-							</div></td>
+							</td>
 					</tr>
 
 					<tr class="js_work_report_type">
-						<td><fmt:message key="report.title.report_type" />
+						<td><fmt:message key="report.title.report_type" /><span class="essen_n"></span>
 						</td>
-						<td colspan="3" class=""><input name="rdoWorkReportType"
+						<td colspan="4" class=""><input name="rdoWorkReportType"
 							type="radio" value="<%=Report.TYPE_CHART%>"
 							url="work_report_chart.sw?workId=<%=workId%>&reportId=<%=reportId%>"
 							<%if ((report != null) && (reportType == Report.TYPE_CHART)) {%>
@@ -123,20 +122,18 @@
 					</div>
 					<tr class="js_toggle_chart_search_filter"
 						url="search_filter.sw?workId=<%=workId%>&filterId=<%=filterId%>">
-						<td><fmt:message key="report.button.add_search_filter" /></td>
+						<td><fmt:message key="report.button.add_search_filter" /></span></td>
+						<td colspan="4"> </td>
 					</tr>
 					<tr class="js_toggle_chart_search_filter" style="display: none"
 						url="search_filter.sw?workId=<%=workId%>&filterId=<%=filterId%>">
-						<td><fmt:message key="report.button.remove_search_filter" />
+						<td colspan="5"><fmt:message key="report.button.remove_search_filter" />
 						</td>
 					</tr>
-					<tr class="js_chart_search_filter">
-					</tr>
-				</tbody>
+
 			</table>
 		</div>
-
-
+		
 		<!-- 등록 취소 버튼 -->
 		<div class="glo_btn_space">
 
@@ -159,6 +156,6 @@
 			</div>
 		</div>
 		<!-- 등록 취소 버튼//-->
-	</div>
-</div>
+		
+		</div>
 <!-- 전체 레이아웃//-->

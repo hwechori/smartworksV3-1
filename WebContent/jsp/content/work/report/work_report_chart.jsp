@@ -60,10 +60,10 @@
 
 <tr class="js_report_chart_type"
 	<%if (reportType != Report.TYPE_CHART) {%> style="display: none" <%}%>>
-	<td><div class="essen_r">
-			<fmt:message key="report.chart.type" />
-		</div></td>
-	<td colspan="3" class=""><select name="selReportChartType">
+	<td>
+			<fmt:message key="report.chart.type" /><span class="essen_n"></span>
+</td>
+	<td colspan="4" class=""><select name="selReportChartType">
 			<option value="<%=ChartReport.CHART_TYPE_COLUMN%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_COLUMN) {%>
 				selected <%}%>>
@@ -103,11 +103,11 @@
 	</td>
 </tr>
 <tr>
-	<td><div class="essen_r">
-			<fmt:message key="report.title.xaxis" />
-		</div>
+	<td>
+			<fmt:message key="report.title.xaxis" /><span class="essen_n"></span>
+
 	</td>
-	<td colspan="3" class="js_select_chart_axis"><select
+	<td class="js_select_chart_axis"><select
 		name="selReportXAxis">
 			<%
 				String xAxisId = null;
@@ -180,9 +180,9 @@
 			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></td>
 </tr>
 <tr>
-	<td><div class="essen_r">
-			<fmt:message key="report.title.yaxis" />
-		</div>
+	<td>
+			<fmt:message key="report.title.yaxis" /><span class="essen_n"></span>
+
 	</td>
 	<td colspan="3" class=""><select name="selReportYAxis">
 			<%
@@ -248,21 +248,21 @@
 %>
 <tr class="js_toggle_chart_zaxis" <%if (zAxisId != null) {%>
 	style="display: none" <%}%>>
-	<td><fmt:message key="report.button.add_zaxis" />
+	<td colspan="5"><fmt:message key="report.button.add_zaxis" />
 	</td>
 </tr>
 <tr class="js_toggle_chart_zaxis" <%if (zAxisId == null) {%>
 	style="display: none" <%}%>>
-	<td><fmt:message key="report.button.remove_zaxis" />
+	<td colspan="5"><fmt:message key="report.button.remove_zaxis" />
 	</td>
 </tr>
 <tr class="js_chart_zaxis" <%if (zAxisId == null) {%>
 	style="display: none" <%}%>>
-	<td><div class="essen_r">
-			<fmt:message key="report.title.zaxis" />
-		</div>
+	<td>
+			<fmt:message key="report.title.zaxis" /><span class="essen_n"></span>
+
 	</td>
-	<td colspan="3" class="js_select_chart_axis"><select
+	<td class="js_select_chart_axis"><select
 		name="selReportZAxis">
 			<%
 				if (fields != null) {
@@ -328,21 +328,21 @@
 %>
 <tr class="js_toggle_chart_xsecondaxis" <%if (xSecondAxisId != null) {%>
 	style="display: none" <%}%>>
-	<td><fmt:message key="report.button.add_xsecondaxis" />
+	<td colspan="5"><fmt:message key="report.button.add_xsecondaxis" />
 	</td>
 </tr>
 <tr class="js_toggle_chart_xsecondaxis" <%if (xSecondAxisId == null) {%>
 	style="display: none" <%}%>>
-	<td><fmt:message key="report.button.remove_xsecondaxis" />
+	<td colspan="5"><fmt:message key="report.button.remove_xsecondaxis" />
 	</td>
 </tr>
 <tr class="js_chart_xsecondaxis" <%if (xSecondAxisId == null) {%>
 	style="display: none" <%}%>>
-	<td><div class="essen_r">
-			<fmt:message key="report.title.xsecondaxis" />
-		</div>
+	<td>
+			<fmt:message key="report.title.xsecondaxis" /><span class="essen_n"></span>
+
 	</td>
-	<td colspan="3" class="js_select_chart_axis"><select
+	<td class="js_select_chart_axis"><select
 		name="selReportXSecondAxis">
 			<%
 				if (fields != null) {
@@ -405,12 +405,12 @@
 </tr>
 <tr class="js_toggle_chart_zsecondaxis" <%if (zSecondAxisId != null) {%>
 	style="display: none" <%}%>>
-	<td><fmt:message key="report.button.add_zsecondaxis" />
+	<td colspan="5"><fmt:message key="report.button.add_zsecondaxis" />
 	</td>
 </tr>
 <tr class="js_toggle_chart_zsecondaxis" <%if (zSecondAxisId == null) {%>
 	style="display: none" <%}%>>
-	<td><fmt:message key="report.button.remove_zsecondaxis" />
+	<td colspan="5"><fmt:message key="report.button.remove_zsecondaxis" />
 	</td>
 </tr>
 <tr class="js_chart_zsecondaxis" <%if (zSecondAxisId == null) {%>
@@ -419,7 +419,7 @@
 			<fmt:message key="report.title.zsecondaxis" />
 		</div>
 	</td>
-	<td colspan="3" class="js_select_chart_axis"><select
+	<td class="js_select_chart_axis"><select
 		name="selReportZSecondAxis">
 			<%
 				if (fields != null) {

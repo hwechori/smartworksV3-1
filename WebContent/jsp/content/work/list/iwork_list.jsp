@@ -111,19 +111,19 @@
  	switch (work.getAccessPolicy().getLevel()) {
  	case AccessPolicy.LEVEL_PUBLIC:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.access.public" />
 						</div> <%
  	break;
  	case AccessPolicy.LEVEL_PRIVATE:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.access.private" />
 						</div> <%
  	break;
  	case AccessPolicy.LEVEL_CUSTOM:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.access.custom" />
 						</div> <%
  	break;
@@ -135,13 +135,13 @@
  	switch (work.getWritePolicy().getLevel()) {
  	case WritePolicy.LEVEL_PUBLIC:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.write.public" />
 						</div> <%
  	break;
  	case WritePolicy.LEVEL_CUSTOM:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.write.custom" />
 						</div> <%
  	break;
@@ -153,13 +153,13 @@
  	switch (work.getEditPolicy().getLevel()) {
  	case EditPolicy.LEVEL_WIKI:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.edit.wiki" />
 						</div> <%
  	break;
  	case EditPolicy.LEVEL_BLOG:
  %>
-						<div class="po_right">
+						<div class="ch_right">
 							<fmt:message key="common.security.edit.blog" />
 						</div> <%
  	break;

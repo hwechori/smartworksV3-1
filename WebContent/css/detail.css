@@ -6,7 +6,7 @@
 .body_titl { padding:0 15px 10px;} /* 본문 페이지 타이틀*/
 .body_titl .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
 .body_titl .title_noico {font-size: 14px; font-weight: bold;}  /* 타이틀 우측으로 아이콘이 없을때 */
-.body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding: 28px 0 6px 0;} /* 타이틀 우측으로 버튼 */
+.body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding: 28px 0 4px 0;} /* 타이틀 우측으로 버튼 */
 .body_titl .txt_btn .pho_user {width:22px;}
 
 .body_titl_pic { padding:5px 15px 10px;} /* 본문 페이지 타이틀 - 사람사진이 들어갈 경우 */
