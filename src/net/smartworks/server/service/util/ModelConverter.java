@@ -127,10 +127,13 @@ public class ModelConverter {
 	
 	public static InstanceInfo[] getInstanceInfoArrayByTaskWorkArray(String userId, TaskWork[] tasks) throws  Exception {
 		
-		InstanceInfo[] resultInfo = new InstanceInfo[tasks.length];
+		List<InstanceInfo> resultInfoList = new ArrayList<InstanceInfo>();
 		
 		for (int i = 0; i < tasks.length; i++) {
 			TaskWork task = tasks[i];
+			if (task.getPrcObjId() == null)
+				continue;
+			
 			if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON)) {
 				if (task.getIsStartActivity() != null && task.getIsStartActivity().equalsIgnoreCase("true")) {
 					PWInstanceInfo instInfo = new PWInstanceInfo();
@@ -175,15 +178,15 @@ public class ModelConverter {
 					
 					instInfo.setLastTask(lastTask);
 					instInfo.setLastTaskCount(task.getLastTskCount());
-					
-					resultInfo[i] = instInfo;
+
+					resultInfoList.add(instInfo);
 					
 				} else {
 					////////////////////////////////////////////
 					PWInstanceInfo instInfo = new PWInstanceInfo();
 					instInfo.setId(task.getPrcObjId());
 					instInfo.setSubject(task.getPrcTitle());
-					instInfo.setType(Instance.TYPE_TASK);
+					instInfo.setType(Instance.TYPE_WORK);
 					
 					SmartWorkInfo workInfo = new SmartWorkInfo();
 					workInfo.setId(task.getPackageId());
@@ -237,8 +240,8 @@ public class ModelConverter {
 					tskInfo.setOwner(getUserInfoByUserId(task.getPrcCreateUser()));
 					tskInfo.setLastModifiedDate(new LocalDate(task.getTaskLastModifyDate().getTime()));
 					tskInfo.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
-					
-					resultInfo[i] = tskInfo;
+
+					resultInfoList.add(instInfo);
 				}
 			} else {
 				////////////////////////////////////////////
@@ -283,9 +286,12 @@ public class ModelConverter {
 				instInfo.setLastTask(lastTask);
 				instInfo.setLastTaskCount(task.getLastTskCount());
 				
-				resultInfo[i] = instInfo;
+				resultInfoList.add(instInfo);
 			}
 		}
+
+		InstanceInfo[] resultInfo = new InstanceInfo[resultInfoList.size()];
+		resultInfoList.toArray(resultInfo);
 		return resultInfo;
 	}
 	

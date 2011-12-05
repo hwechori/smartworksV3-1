@@ -164,7 +164,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		TaskWorkCond taskCond = new TaskWorkCond();
 		taskCond.setTskAssignee(userId);
 		taskCond.setPageNo(0);
-		taskCond.setPageSize(10);
+		taskCond.setPageSize(100);
 		
 		TaskWork[] tasks = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkList(userId, taskCond);
 		
