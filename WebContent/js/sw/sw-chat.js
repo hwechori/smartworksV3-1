@@ -32,15 +32,26 @@ function startChattingWindow(message) {
 		data : {},
 		success : function(data, status, jqXHR) {
 			var target = $('div.js_chatting_box_list');
-			var chattingBox = $(data);
-			chattingBox.attr("id", chatId);
-			target.append(chattingBox);
-			updateChattingBoxTitle(chatId, chatterInfos);
-			for ( var i = 0; i < chatterInfos.length; i++){
-				updateChatterStatus(chatId, chatterInfos[i],
-						chatterInfos[i].status);
-			}
-			chattingBox.slideDown(1000);
+			var workOnNext = function(target){
+				var chattingBox = $(data);
+				chattingBox.attr("id", chatId);
+				target.append(chattingBox);
+				updateChattingBoxTitle(chatId, chatterInfos);
+				for ( var i = 0; i < chatterInfos.length; i++){
+					updateChatterStatus(chatId, chatterInfos[i],
+							chatterInfos[i].status);
+				}
+				chattingBox.slideDown(1000);
+			};
+			
+			if(target.length==0){
+				setTimeout(function(){
+					target = $('div.js_chatting_box_list');
+					workOnNext(target);					
+				}, 2000);
+			}else{
+				workOnNext(target);
+			}			
 		}
 	});
 }

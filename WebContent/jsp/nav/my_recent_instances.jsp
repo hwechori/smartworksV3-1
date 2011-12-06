@@ -53,11 +53,13 @@
 					classType = "js_content";
 				}
 	%>
-	<li><a
+	<li>
+	<a
 		href="<%=targetContent%>?cid=<%=instanceContext%>&wid=<%=workSpaceId%>"
-		class="<%=classType%>" title="<%=work.getFullpathName()%>"><img
-			src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>"
-			width="22" height="22" border="0"> <%=workInstance.getSubject()%></a>
+		class="<%=classType%>" title="<%=work.getFullpathName()%>">
+			<span class="ico_pe"><img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>"
+			width="20" height="20" border="0"></span> 
+			<span class="nav_subtitl_area"><%=workInstance.getSubject()%></span></a>
 	</li>
 	<%
 		}

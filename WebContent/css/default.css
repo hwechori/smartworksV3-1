@@ -4,6 +4,7 @@ html {
 
 body {
      font-size: 0.75em;
+     font-family: '돋움',dotum,Helvetica,sans-serif;
 	 scrollbar-face-color:#FFFFFF;/*스크롤바 표면 색상*/
 	 scrollbar-highlight-color:#C7C7C7;/*표면 왼쪽 부분 겉색상*/
 	 scrollbar-shadow-color:#C7C7C7;/*표면 오른쪽 부분 그림자 겉색상*/

@@ -120,6 +120,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid ");
 		queryBuffer.append(") prcInstInfo ");
 		queryBuffer.append("on taskInfo.tskPrcInstId = prcInstInfo.prcObjId ");
+		//queryBuffer.append("order by taskInfo.tskCreatedate desc ");
 
 		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
 

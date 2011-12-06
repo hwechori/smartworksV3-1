@@ -1424,7 +1424,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 		
 		if (userMap.containsKey(id)) {
-			System.out.println("***************** UserMapSize = " + userMap.size() + "***********************");
 			return (SwoUserExtend)userMap.get(id);
 		}
 		StringBuffer buff = new StringBuffer();

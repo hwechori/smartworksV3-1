@@ -17,6 +17,8 @@
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 %>
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!-- 채팅 -->
 <div class="chat_section js_chatting_box" style="display: none">
 	<!-- 상단 -->
@@ -27,15 +29,15 @@
 		<!-- 상단우측 아이콘-->
 		<div class="txt_btn js_chatting_title_icons">
 			<div class="ch_right btn_x">
-				<a class="js_close_chatting_box" href=""><span> </span> </a>
+				<a class="js_close_chatting_box" href="" title="<fmt:message key='common.button.close_screen'/>"><span> </span> </a>
 			</div>
 
 			<div class="ch_right btn_addf">
-				<a class="js_admin_chatting_box" href=""><span> </span> </a>
+				<a class="js_admin_chatting_box" href="" title="<fmt:message key='chat.button.invite_users'/>"><span> </span> </a>
 			</div>
 
 			<div class="ch_right btn_min">
-				<a class="js_min_chatting_box" href=""><span> </span> </a>
+				<a class="js_min_chatting_box" href="" title="<fmt:message key='common.button.minimize_screen'/>"><span> </span> </a>
 			</div>
 		</div>
 		<!-- 상단 우측 아이콘//-->
@@ -52,11 +54,11 @@
 					<div class="js_selected_chatters user_sel_area"></div>
 					<input class="js_auto_complete" href='chatter_name.sw' type="text"
 						title=""
-						placeholder="<fmt:message key='common.upload.event.related_users'/>">
+						placeholder="<fmt:message key='chat.title.search_users'/>">
 					<div class='js_srch_x'></div>
 				</div>
 				<a href="" class="js_add_chatters"><span class="btn_wh">
-						<span class="Btn01Start"></span> <span class="Btn01Center">추가</span>
+						<span class="Btn01Start"></span> <span class="Btn01Center"><fmt:message key="chat.button.invite_users"/></span>
 						<span class="Btn01End"></span> </span> </a>
 			</div>
 
