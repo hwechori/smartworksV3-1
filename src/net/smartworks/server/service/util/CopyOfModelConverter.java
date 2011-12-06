@@ -79,7 +79,7 @@ import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.util.LocalDate;
 
-public class ModelConverter {
+public class CopyOfModelConverter {
 	
 	private static ISwoManager getSwoManager() {
 		return SwManagerFactory.getInstance().getSwoManager();
@@ -263,9 +263,6 @@ public class ModelConverter {
 						tskInfo.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED);
 					}
 					
-
-					tskInfo.setType(Instance.TYPE_TASK);
-					
 					tskInfo.setWorkInstance(instInfo);
 					tskInfo.setAssignee(getUserInfoByUserId(task.getTskAssignee()));
 					tskInfo.setPerformer(getUserInfoByUserId(task.getTskAssignee()));
@@ -277,7 +274,7 @@ public class ModelConverter {
 					tskInfo.setLastModifiedDate(new LocalDate(task.getTaskLastModifyDate().getTime()));
 					tskInfo.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
 
-					resultInfoList.add(tskInfo);
+					resultInfoList.add(instInfo);
 				}
 			} else {
 				////////////////////////////////////////////
@@ -348,8 +345,6 @@ public class ModelConverter {
 					tskInfo.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED);
 				}
 				
-				tskInfo.setType(Instance.TYPE_TASK);
-				
 				tskInfo.setWorkInstance(instInfo);
 				tskInfo.setAssignee(getUserInfoByUserId(task.getTskAssignee()));
 				tskInfo.setPerformer(getUserInfoByUserId(task.getTskAssignee()));
@@ -358,14 +353,11 @@ public class ModelConverter {
 				tskInfo.setWorkSpace(null);
 				tskInfo.setStatus(task.getPrcStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
 				tskInfo.setOwner(getUserInfoByUserId(task.getPrcCreateUser()));
-				tskInfo.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
+				tskInfo.setLastModifiedDate(new LocalDate(task.getTaskLastModifyDate().getTime()));
 				tskInfo.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
 				
 				resultInfoList.add(tskInfo);
 				// KM 할당 업무 (프로세스 업무제외, 참조 태스크, 승인태스크) 도 TaskInstanceInfo 로 객체를 생성해서 넘겨야 한다
-				
-				
-				//resultInfoList.add(instInfo);
 			}
 		}
 
@@ -679,7 +671,7 @@ public class ModelConverter {
 		} else if (prcInst.getStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_COMPLETE)) {
 			status = Instance.STATUS_COMPLETED;
 		}
-		UserInfo owner = ModelConverter.getUserInfoByUserId(prcInst.getCreationUser());
+		UserInfo owner = CopyOfModelConverter.getUserInfoByUserId(prcInst.getCreationUser());
 		
 		TskTask lastTask = getLastExecutedTskTaskByPrcInstId(prcInst.getObjId());
 		if (lastTask == null) {
@@ -782,8 +774,8 @@ public class ModelConverter {
 		} else if (task.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_COMPLETE)) {
 			status = Instance.STATUS_COMPLETED;
 		}
-		UserInfo owner = ModelConverter.getUserInfoByUserId(task.getCreationUser());
-		UserInfo lastModifier = ModelConverter.getUserInfoByUserId(task.getModificationUser()); 
+		UserInfo owner = CopyOfModelConverter.getUserInfoByUserId(task.getCreationUser());
+		UserInfo lastModifier = CopyOfModelConverter.getUserInfoByUserId(task.getModificationUser()); 
 		LocalDate lastModifiedDate = new LocalDate(task.getModificationDate().getTime());
 		
 		instanceInfo.setId(id);

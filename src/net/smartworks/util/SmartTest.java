@@ -951,7 +951,7 @@ public class SmartTest {
 			if (departments[i].getId().equals(departId))
 				return departments[i];
 		}
-		return null;
+		return departments[0];
 	}
 
 	public static GroupInfo[] getMyGroups() throws Exception {
