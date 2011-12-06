@@ -33,6 +33,80 @@ var msgType = {
 
 var smartMsgClient = null;
 
+var chatHistory = {
+
+	chatInfos : new Array(),
+	
+	chatInfoById : function(chatId){
+		for(var i=0; i<chatListStatus.length; i++)
+			if(chatHistory.chatInfos.chatId === chatId)
+				return chatHistory.chatInfos[i];
+		return null;
+	},
+	
+	restore : function(){
+		var chatInfos = $.jStorage.get(currentUserId);
+		if(chatInfos) chatHistory.chatInfos = chatInfos;
+		var index = $.jStorage.index();
+		console.log(index);
+	},
+	
+	updateChatList : function(chatList){
+		if(!chatList) return;
+		var newChatInfos = new Array();
+		for(var i=0; i<chatList.length; i++){
+			var thisChat = chatList[i];
+			var newChat = {sender: currentUserId, chatId : thisChat.chatId, chatterInfos : new Array()};
+			for(var j=0; j<thisChat.users.length; j++){
+				var thisUser = thisChat.users[j];
+				newChat.chatterInfos.push({userId : thisUser.userId, longName : thisUser.longName, minPicture : thisUser.minPicture});
+			}
+			newChatInfos.push(newChat);
+		}
+		chatHistory.chatInfos = newChatInfos;
+		$.jStorage.set(currentUserId, chatHistory.chatInfos);
+		console.log(chatHistory.chatInfos);
+	},
+
+	existInHistory : function(chatId){
+		for(var i=0; i<chatHistory.chatInfos.length; i++)
+			if(chatHistory.chatInfos[i].chatId === chatId)
+				return true;
+		return false;
+	},
+
+	getHistories : function(chatId){
+		var histories = null;
+		if(chatHistory.existInHistory(chatId)){
+			histories = $.jStorage.get(currentUserId + chatId);
+			if(!histories) histories = new Array();
+		}
+		return histories;
+	},
+		
+	setHistory : function(chatId, history){
+		var histories = chatHistory.getHistories(chatId);
+		if(histories){
+			histories.push(history);
+			$.jStorage.set(currentUserId+chatId, histories);
+			console.log(histories);
+		}
+	},
+		
+	removeHistories : function(chatId){
+		$.jStorage.deleteKey(currentUserId+chatId);
+	},
+		
+	flushHistory : function(){
+		chatHistory.chatInfos = null;
+		var chatInfos = $.jStorage(currentUserId);
+		if(chatInfos)
+			for(var i=0; i<chatInfos.length; i++)
+				$.jStorage.deleteKey(currentUserId+chatInfos[i].chatId);
+		$.jStorage.deleteKey(currentUserId);
+	}		
+};
+
 var chatManager = {
 	//
 	// chatList[] : {
@@ -49,6 +123,10 @@ var chatManager = {
 	//		}
 	//
 	chatList : new Array(),
+	updateHistory : function(){
+		chatHistory.updateChatList(chatManager.chatList);
+	},
+	
 	chatById : function(chatId) {
 		for ( var i = 0; i < chatManager.chatList.length; i++)
 			if (chatManager.chatList[i].chatId === chatId)
@@ -62,6 +140,9 @@ var chatManager = {
 				break;
 			}
 		}
+		chatManager.updateHistory();
+		
+		chatHistory.removeHistories(chatId);
 		return chatManager.chatList;
 	},	
 	removeChatter : function(chatId, chatter){
@@ -74,6 +155,7 @@ var chatManager = {
 				break;
 			}
 		}
+		chatManager.updateHistory();
 		return users;
 	},	
 	updateChatStatus : function(userId, status) {
@@ -87,6 +169,7 @@ var chatManager = {
 				}
 			}
 		}
+		chatManager.updateHistory();
 		return chatListFound;
 	},
 	chatterInfosOnline : function(chatId) {
@@ -157,7 +240,8 @@ var chatManager = {
 			}
 		}
 		return false;
-	}
+	},
+	
 };
 
 var smartTalk = {
@@ -165,6 +249,41 @@ var smartTalk = {
 		return swSubject.SMARTWORKS + swSubject.COMPANYID + subject;
 	},
 	
+	restoreChatting : function(chatInfo, histories){
+		
+		smartTalk.startSubOnChatId(chatInfo);
+		startChattingWindow(chatInfo);
+		var waitForChattingBox = function(){
+			console.log("retries");
+			var target = $("#"+chatInfo.chatId);
+			if(target.length>0){
+				console.log('found');
+				for(var i=0; i<histories.length; i++){
+					receivedMessageOnChatId(histories[i]);			
+				}
+			}else if(1){
+				setTimeout(function(){
+					waitForChattingBox();
+				}, 2000);
+			}else{
+				console.log('retries timeout');
+			}
+		};
+		setTimeout(function(){
+			waitForChattingBox();
+		}, 1000);
+	},
+	
+	restoreHistories : function(){
+		chatHistory.restore();
+		var chatInfos =	chatHistory.chatInfos;
+		if(chatInfos){
+			for(var i=0; i<chatInfos.length; i++){
+				smartTalk.restoreChatting(chatInfos[i], $.jStorage.get(currentUserId + chatInfos[i].chatId));
+			}
+		}
+	},
+
 	init : function() {
 		var fayeContext = serverUrl + swContext;
 		var reconnect = function() {
@@ -178,10 +297,17 @@ var smartTalk = {
 
 			smartMsgClient.bind('transport:down', function() {console.log("connection down!!"); return;});
 			smartMsgClient.bind('transport:up', function() {console.log("connection up!!");});
+			
+			smartTalk.restoreHistories();
+			
 		};
 		reconnect();
 	},
 
+	clearHistory : function(){
+		chatHistory.flushHistory();
+	},
+	
 	subscribe : function(channel, callback) {
 		if (smartMsgClient == null)
 			return;
@@ -266,6 +392,7 @@ var smartTalk = {
 
 		} else if (type === msgType.CHAT_MESSAGE) {
 				receivedMessageOnChatId(message);
+				chatHistory.setHistory(chatId, message);
 		} else if( type === msgType.CHATTERS_INVITED){
 			if(sender !== currentUser.userId){
 				var chatterInfos = message.chatterInfos;

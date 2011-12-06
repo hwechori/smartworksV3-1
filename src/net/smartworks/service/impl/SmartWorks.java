@@ -40,6 +40,7 @@ import net.smartworks.server.service.INoticeService;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -409,14 +410,18 @@ public class SmartWorks implements ISmartWorks {
 
 	@Override
 	public String setMyProfile(HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return workService.setMyProfile(request);
 	}
 
 	@Override
 	public Data getReportData(HttpServletRequest request) throws Exception {
 		// TODO Auto-generated method stub
 		return workService.getReportData(request);
+	}
+
+	@Override
+	public String getFormXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return workService.getFormXml(SmartUtil.getCurrentUser(request, response).getCompanyId(), SmartUtil.getCurrentUser(request, response).getId(), request.getParameter("workId"));
 	}
 
 }

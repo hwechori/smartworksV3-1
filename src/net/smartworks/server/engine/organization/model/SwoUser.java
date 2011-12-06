@@ -35,11 +35,13 @@ public class SwoUser extends SwoObject {
 	public static final String A_POSITION = "position";
 	public static final String A_EMAIL = "email";
 	public static final String A_LANG = "lang";
+	public static final String A_LOCALE = "locale";
+	public static final String A_TIMEZONE = "timeZone";
 	public static final String A_STDTIME = "stdTime";
 	public static final String A_PICTURE = "picture";
 	public static final String A_RETIREE = "retiree";
 	public static final String A_MOBILENO = "mobileNo";
-	public static final String A_INTERNALNO = "internalNo";
+	public static final String A_EXTENSIONNO = "extensionNo";
 
 	private String password;
 	private String companyId;
@@ -51,12 +53,14 @@ public class SwoUser extends SwoObject {
 	private String position;
 	private String email;	
 	private String lang;
+	private String locale;
+	private String timeZone;
 	private String stdTime;
 	private String picture;
 	private String retiree;
 	private String mobileNo;
-	private String internalNo;
-	
+	private String extensionNo;
+
 	public SwoUser() {
 		super();
 	}
@@ -74,9 +78,6 @@ public class SwoUser extends SwoObject {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_PASSWORD, password, true, buf);
-		appendAttributeString(A_EMAIL, email, buf);
-		appendAttributeString(A_LANG, lang, buf);
-		appendAttributeString(A_STDTIME, stdTime, buf);
 		appendAttributeString(A_COMPANYID, companyId, buf);
 		appendAttributeString(A_DEPTID, deptId, buf);
 		appendAttributeString(A_ROLEID, roleId, buf);
@@ -84,10 +85,15 @@ public class SwoUser extends SwoObject {
 		appendAttributeString(A_EMPNO, empNo, buf);
 		appendAttributeString(A_TYPE, type, buf);
 		appendAttributeString(A_POSITION, position, buf);
+		appendAttributeString(A_EMAIL, email, buf);
+		appendAttributeString(A_LANG, lang, buf);
+		appendAttributeString(A_LOCALE, locale, buf);
+		appendAttributeString(A_TIMEZONE, timeZone, buf);
+		appendAttributeString(A_STDTIME, stdTime, buf);
 		appendAttributeString(A_PICTURE, picture, true, buf);
 		appendAttributeString(A_RETIREE, retiree, true, buf);
 		appendAttributeString(A_MOBILENO, mobileNo, true, buf);
-		appendAttributeString(A_INTERNALNO, internalNo, true, buf);
+		appendAttributeString(A_EXTENSIONNO, extensionNo, true, buf);
 		return buf.toString();
 	}
 	public String toElementsString(String tab, boolean lite) {
@@ -111,9 +117,6 @@ public class SwoUser extends SwoObject {
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
 			Node password = attrMap.getNamedItem(A_PASSWORD);
-			Node email = attrMap.getNamedItem(A_EMAIL);
-			Node lang = attrMap.getNamedItem(A_LANG);
-			Node stdTime = attrMap.getNamedItem(A_STDTIME);
 			Node companyId = attrMap.getNamedItem(A_COMPANYID);
 			Node deptId = attrMap.getNamedItem(A_DEPTID);
 			Node roleId = attrMap.getNamedItem(A_ROLEID);
@@ -121,19 +124,18 @@ public class SwoUser extends SwoObject {
 			Node empNo = attrMap.getNamedItem(A_EMPNO);
 			Node type = attrMap.getNamedItem(A_TYPE);
 			Node position = attrMap.getNamedItem(A_POSITION);
+			Node email = attrMap.getNamedItem(A_EMAIL);
+			Node lang = attrMap.getNamedItem(A_LANG);
+			Node locale = attrMap.getNamedItem(A_LOCALE);
+			Node timeZone = attrMap.getNamedItem(A_TIMEZONE);
+			Node stdTime = attrMap.getNamedItem(A_STDTIME);
 			Node picture = attrMap.getNamedItem(A_PICTURE);
 			Node retiree = attrMap.getNamedItem(A_RETIREE);
 			Node mobileNo = attrMap.getNamedItem("A_MOBILENO");
-			Node internalNo = attrMap.getNamedItem("A_INTERNALNO");
+			Node extensionNo = attrMap.getNamedItem("A_EXTENSIONNO");
 			
 			if (password != null)
 				obj.setPassword(password.getNodeValue());
-			if (email != null)
-				obj.setEmail(email.getNodeValue());
-			if (lang != null)
-				obj.setLang(lang.getNodeValue());
-			if (stdTime != null)
-				obj.setStdTime(stdTime.getNodeValue());
 			if (companyId != null)
 				obj.setCompanyId(companyId.getNodeValue());
 			if (deptId != null)
@@ -148,16 +150,26 @@ public class SwoUser extends SwoObject {
 				obj.setType(type.getNodeValue());
 			if (position != null)
 				obj.setPosition(position.getNodeValue());
+			if (email != null)
+				obj.setEmail(email.getNodeValue());
+			if (lang != null)
+				obj.setLang(lang.getNodeValue());
+			if (locale != null)
+				obj.setLocale(locale.getNodeValue());
+			if (timeZone != null)
+				obj.setTimeZone(timeZone.getNodeValue());
+			if (stdTime != null)
+				obj.setStdTime(stdTime.getNodeValue());
 			if (picture != null)
 				obj.setPicture(picture.getNodeValue());
 			if (retiree != null)
 				obj.setRetiree(retiree.getNodeValue());
 			if (mobileNo != null)
 				obj.setMobileNo(mobileNo.getNodeValue());
-			if (internalNo != null)
-				obj.setInternalNo(internalNo.getNodeValue());
+			if (extensionNo != null)
+				obj.setExtensionNo(extensionNo.getNodeValue());
 		}
-		
+
 		// elements 값 설정
 		
 		return obj;
@@ -344,11 +356,23 @@ public class SwoUser extends SwoObject {
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	public String getInternalNo() {
-		return internalNo;
+	public String getExtensionNo() {
+		return extensionNo;
 	}
-	public void setInternalNo(String internalNo) {
-		this.internalNo = internalNo;
+	public void setExtensionNo(String extensionNo) {
+		this.extensionNo = extensionNo;
+	}
+	public String getLocale() {
+		return locale;
+	}
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+	public String getTimeZone() {
+		return timeZone;
+	}
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
 	}
 
 }

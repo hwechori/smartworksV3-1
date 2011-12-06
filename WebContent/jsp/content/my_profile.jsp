@@ -23,6 +23,7 @@
 				data : params,
 				success : function(data, status, jqXHR) {
 					document.location.href = data.href;
+					alert(data);
 				},
 				error : function(jqXHR, status, error) {
 					console.log(status);
@@ -178,7 +179,7 @@
 										for (String locale : LocaleInfo.supportingLocales) {
 											String strKey = "common.title.locale." + locale;
 									%>
-									<option <%if (cUser.getLocale().equals(locale)) {%> selected
+									<option value="<%=locale%>" <%if (cUser.getLocale().equals(locale)) {%> selected
 										<%}%>>
 										<fmt:message key="<%=strKey%>" />
 									</option>
@@ -196,7 +197,7 @@
 									<%
 										for (KeyMap timeZoneName : timeZoneNames) {
 									%>
-									<option
+									<option value="<%=timeZoneName.getId()%>"
 										<%if (cUser.getTimeZone().equals(timeZoneName.getId())) {%>
 										selected <%}%>><%=timeZoneName.getKey()%></option>
 									<%
