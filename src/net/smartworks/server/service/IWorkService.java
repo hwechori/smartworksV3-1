@@ -31,4 +31,8 @@ public interface IWorkService {
 
 	public Data getReportData(HttpServletRequest request) throws Exception;
 
+	public String getFormXml(String companyId, String userId, String workId) throws Exception;
+
+	public String setMyProfile(HttpServletRequest request) throws Exception;
+
 }

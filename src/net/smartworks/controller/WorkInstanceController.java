@@ -178,10 +178,14 @@ public class WorkInstanceController extends ExceptionInterceptor {
 
 	@RequestMapping(value = "/update_my_profile", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody Map<String, Object> updateMyProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String returnValue = smartworks.setMyProfile(request);
-		// TO DO : Exception handler
-		return null;
+	public @ResponseBody String updateMyProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String returnValue = "";
+		try {
+			returnValue = smartworks.setMyProfile(request);
+		} catch (Exception e) {
+			returnValue = "fail";
+		}
+		return returnValue;
 	}
 
 }

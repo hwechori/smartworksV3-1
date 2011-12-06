@@ -31,7 +31,9 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 
 	private static String RETRIVE_USER = "	select 	orguser.id, orguser.name, orguser.companyId, orgcompany.name as companyName, orguser.deptId, orgdept.name as deptName, 		" +
-										 "		   	orguser.empNo, orguser.type, orguser.lang, orguser.pos, orguser.stdtime, orguser.authId, orguser.email,	orguser.passwd		" +
+										 "		   	orguser.empNo, orguser.mobileNo, orguser.internalNo, orguser.locale, orguser.timeZone,										" +
+										 "          orguser.type, orguser.lang, orguser.pos, orguser.stdtime, orguser.authId,													" +
+										 "	        orguser.email,	orguser.passwd																								" +
 										 "    from 	sworguser orguser, sworgdept orgdept, sworgcompany orgcompany																" +
 										 "	 where 	orguser.deptid = orgdept.id																									" +
 										 "	   and 	orguser.companyid = orgcompany.id																							" +
@@ -91,14 +93,16 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			login.setDeptId(rs.getString("deptId"));
 			login.setDepartment(rs.getString("deptName"));
 			login.setEmpNo(rs.getString("empNo"));
+			login.setCellPhoneNo(rs.getString("mobileNo"));
+			login.setPhoneNo(rs.getString("internalNo"));
 			login.setType(rs.getString("type"));
 			login.setLocale(rs.getString("lang"));
 			login.setPosition(rs.getString("pos"));
 			login.setAuthId(rs.getString("authId"));
 			login.setEmail(rs.getString("email"));
 			login.setPassword(rs.getString("passwd"));
-			login.setLocale(rs.getString("lang").equals("KOR") ? "ko" : rs.getString("lang").equals("ENG") ? "en" : new LocalDate().getLocale());
-			login.setTimeZone(new LocalDate().getTimeZone()); //Asia/Seoul, America/Los_Angeles
+			login.setLocale(rs.getString("locale") == null || rs.getString("locale").equals("") ? new LocalDate().getLocale() : rs.getString("locale"));
+			login.setTimeZone(rs.getString("timeZone") == null || rs.getString("timeZone").equals("") ? new LocalDate().getTimeZone() : rs.getString("timeZone"));
 			login.setOrgPictureName(login.getId() + ".jpg");
 			login.setMinPictureName(login.getId() + "_min.gif");
 			login.setMidPictureName(login.getId() + "_mid.gif");

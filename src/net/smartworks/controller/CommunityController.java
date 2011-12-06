@@ -11,7 +11,6 @@ package net.smartworks.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.smartworks.model.community.Group;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 

@@ -106,6 +106,11 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
+<script type="text/javascript" src='js/sw/smartworks.js'></script>
+<script type="text/javascript" src='js/sw/sw-form-layout.js'></script>
+<script type="text/javascript" src='js/sw/sw-form-field-builder.js'></script>
+<script type="text/javascript" src='js/sw/field/currency_input.js'></script>
+<script type="text/javascript" src='js/sw/field/radio_button.js'></script>
 
 <script type="text/javascript">
  	smartTalk.init();

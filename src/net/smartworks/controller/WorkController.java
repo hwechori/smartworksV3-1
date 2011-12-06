@@ -11,14 +11,27 @@ package net.smartworks.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class WorkController {
+public class WorkController extends ExceptionInterceptor {
+
+	ISmartWorks smartworks;
+
+	@Autowired
+	public void setSmartworks(ISmartWorks smartworks) {
+		this.smartworks = smartworks;
+	}
 
 	@RequestMapping("/iwork_list")
 	public ModelAndView iworkList(HttpServletRequest request,
@@ -104,6 +117,18 @@ public class WorkController {
 	public ModelAndView searchFilter(HttpServletRequest request, HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request, "jsp/content/work/list/search_filter.jsp", "");
+	}
+
+	@RequestMapping(value = "/get_form_xml", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody String getFormXml(HttpServletRequest request, HttpServletResponse response) {
+		String formXml = "";
+		try {
+			formXml = smartworks.getFormXml(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return formXml;
 	}
 
 }

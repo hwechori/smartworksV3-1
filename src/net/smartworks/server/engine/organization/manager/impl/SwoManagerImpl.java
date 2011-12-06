@@ -1065,10 +1065,10 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				buf.append(" companyId=:companyId, deptId=:deptId, roleId=:roleId, authId=:authId, empNo=:empNo,");
 				buf.append(" name=:name, type=:type, position=:position, email=:email, password=:password,");
 				buf.append(" lang=:lang, stdTime=:stdTime, picture=:picture,");
-				buf.append(" domainId=:domainId,");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser,");
-				buf.append(" modificationUser=:modificationUser, modificationDate=:modificationDate, retiree=:retiree");
-				buf.append(" mobileNo=:mobileNo, internalNo=:internalNo");
+				buf.append(" modificationUser=:modificationUser, modificationDate=:modificationDate, retiree=:retiree,");
+				buf.append(" mobileNo=:mobileNo, extensionNo=:extensionNo,");
+				buf.append(" locale=:locale, timeZone=:timeZone");
 				buf.append(" where id=:id");
 				Query query = this.getSession().createQuery(buf.toString());
 				query.setString(SwoUser.A_COMPANYID, obj.getCompanyId());
@@ -1084,14 +1084,15 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				query.setString(SwoUser.A_LANG, obj.getLang());
 				query.setString(SwoUser.A_STDTIME, obj.getStdTime());
 				query.setString(SwoUser.A_PICTURE, obj.getPicture());
-				query.setString(SwoUser.A_DOMAINID, obj.getDomainId());
 				query.setTimestamp(SwoUser.A_CREATIONDATE, obj.getCreationDate());
 				query.setString(SwoUser.A_CREATIONUSER, obj.getCreationUser());
 				query.setTimestamp(SwoUser.A_MODIFICATIONUSER, obj.getModificationDate());
 				query.setTimestamp(SwoUser.A_MODIFICATIONDATE, obj.getModificationDate());
 				query.setString(SwoUser.A_RETIREE, obj.getRetiree());
 				query.setString(SwoUser.A_MOBILENO, obj.getMobileNo());
-				query.setString(SwoUser.A_MOBILENO, obj.getInternalNo());
+				query.setString(SwoUser.A_EXTENSIONNO, obj.getExtensionNo());
+				query.setString(SwoUser.A_LOCALE, obj.getLocale());
+				query.setString(SwoUser.A_TIMEZONE, obj.getTimeZone());
 				query.setString(SwoUser.A_ID, obj.getId());
 			}
 		} catch (Exception e) {
@@ -1141,7 +1142,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		String lang = null;
 		String stdTime = null;
 		String picture = null;
-		String domainId = null;
 		String creationUser = null;
 		String retiree = null;
 		String mobileNo = null;
@@ -1167,7 +1167,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			lang = cond.getLang();
 			stdTime = cond.getStdTime();
 			picture = cond.getPicture();
-			domainId = cond.getDomainId();
 			creationUser = cond.getCreationUser();
 			creationDate = cond.getCreationDate();
 			modificationUser = cond.getModificationUser();
@@ -1211,8 +1210,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				buf.append(" and obj.stdTime = :stdTime");
 			if (picture != null)
 				buf.append(" and obj.picture = :picture");
-			if (domainId != null)
-				buf.append(" and obj.domainId = :domainId");
 			if (creationUser != null)
 				buf.append(" and obj.creationUser = :creationUser");
 			if (creationDate != null)
@@ -1271,8 +1268,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				query.setString("stdTime", stdTime);
 			if (picture != null)
 				query.setString("picture", picture);
-			if (domainId != null)
-				query.setString("domainId", domainId);
 			if (creationUser != null)
 				query.setString("creationUser", creationUser);
 			if (creationDate != null)
@@ -1362,7 +1357,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				buf.append(" obj.id, obj.companyId, obj.deptId, obj.roleId, obj.authId, obj.empNo,");
 				buf.append(" obj.name, obj.type, obj.position, obj.email, obj.password,");
 				buf.append(" obj.lang, obj.stdTime, obj.picture,");
-				buf.append(" obj.domainId,");
 				buf.append(" obj.creationUser, obj.creationDate,");
 				buf.append(" obj.modificationUser, obj.modificationDate, obj.retiree, obj.mobileNo, obj.internalNo");
 			}

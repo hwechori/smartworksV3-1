@@ -41,6 +41,7 @@ import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
+import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
@@ -50,6 +51,15 @@ import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -79,6 +89,13 @@ public class WorkServiceImpl implements IWorkService {
 	private ISwoManager getSwokManager() {
 		return SwManagerFactory.getInstance().getSwoManager();
 	}
+
+	private AuthenticationManager authenticationManager;
+
+    @Autowired
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
 	/*
 	 * (non-Javadoc)
@@ -367,4 +384,53 @@ public class WorkServiceImpl implements IWorkService {
 	public Data getReportData(HttpServletRequest request) throws Exception {
 		return SmartTest.getReportData();
 	}
+
+	@Override
+	public String getFormXml(String companyId, String userId, String workId) throws Exception {
+		SwfFormCond swfFormCond = new SwfFormCond();
+		swfFormCond.setCompanyId(companyId);
+		swfFormCond.setPackageId(workId);
+		SwfForm[] swfForms = getSwfManager().getForms(userId, swfFormCond, IManager.LEVEL_ALL);
+		if(swfForms != null)
+			return swfForms[0].getObjString();
+		else
+			return null;
+	}
+	@Override
+	public String setMyProfile(HttpServletRequest request) throws Exception {
+		String txtUserProfileUserId = CommonUtil.toNotNull(request.getParameter("txtUserProfileUserId"));
+		String pwUserProfilePW = CommonUtil.toNotNull(request.getParameter("pwUserProfilePW"));
+		String selUserProfileLocale = CommonUtil.toNotNull(request.getParameter("selUserProfileLocale"));
+		String selUserProfileTimeZone = CommonUtil.toNotNull(request.getParameter("selUserProfileTimeZone"));
+		String txtUserProfileEmail = CommonUtil.toNotNull(request.getParameter("txtUserProfileEmail"));
+		String txtUserProfilePhoneNo = CommonUtil.toNotNull(request.getParameter("txtUserProfilePhoneNo"));
+		String txtUserProfileCellNo = CommonUtil.toNotNull(request.getParameter("txtUserProfileCellNo"));
+
+		//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW); -- md5 password 암호화
+		SwoUser user = getSwokManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
+		user.setPassword(pwUserProfilePW);
+		user.setLocale(selUserProfileLocale);
+		user.setTimeZone(selUserProfileTimeZone);
+		user.setEmail(txtUserProfileEmail);
+		user.setExtensionNo(txtUserProfilePhoneNo);
+		user.setMobileNo(txtUserProfileCellNo);
+
+		String returnValue = "";
+		try {
+			getSwokManager().setUser(txtUserProfileUserId, user, null);
+			returnValue = "Success~!!";
+			UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
+	        Authentication authentication = authenticationManager.authenticate(authRequest);
+	        SecurityContext securityContext = new SecurityContextImpl();
+	        securityContext.setAuthentication(authentication);
+	        SecurityContextHolder.setContext(securityContext);
+	        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return returnValue;
+
+	}
+
 }

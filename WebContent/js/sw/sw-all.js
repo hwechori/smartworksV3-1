@@ -295,6 +295,20 @@ $(function() {
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
+				var formContent = target.find('div.js_form_content');
+				var workId = formContent.attr('workId');
+				$.ajax({
+					url : "get_form_xml.sw",
+					data : {
+						workId : workId
+					},
+					success : function(formXml, status, jqXHR) {
+						new SmartWorks.GridLayout({
+							target : formContent,
+							formXml : formXml
+						});
+					}
+				});			
 			}
 		});
 		return false;
