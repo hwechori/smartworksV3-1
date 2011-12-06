@@ -75,20 +75,21 @@
 		<property name="type" type="string" length="50"/>
 		<property name="position" column="pos" type="string" length="50"/>
 		<property name="email" type="string" length="50"/>
-		<property name="password" column="passwd" type="string" length="20"/>
+		<property name="password" column="passwd" type="string" length="50"/>
 		<property name="lang" type="string" length="20"/>
+		<property name="locale" type="string" length="20"/>
+		<property name="timeZone" type="string" length="20"/>
 		<property name="stdTime" type="string" length="20"/>
 		<property name="picture" type="string" length="50"/>
-		<property name="domainId" type="string" length="50"/>
 		<property name="retiree" type="string" length="50"/>
 		<property name="mobileNo" type="string" length="50"/>
-		<property name="internalNo" type="string" length="50"/>
+		<property name="extensionNo" column="internalNo" type="string" length="50"/>
 		<property name="creationUser" column="creator" type="string" length="50"/>
 		<property name="creationDate" column="createdTime" type="timestamp"/>
 		<property name="modificationUser" column="modifier" type="string" length="50"/>
 		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
 	</class>
-	
+
 	<class name="SwoConfig" table="SWOrgConfig">
 		<id name="id" type="string" length="50" unsaved-value="undefined">
 			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>

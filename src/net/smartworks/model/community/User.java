@@ -11,16 +11,16 @@ public class User extends WorkSpace {
 	private static final String NO_USER_PRICTURE_NAME = "pic_no_userpicture";
 	
 	private int	userLevel = USER_LEVEL_DEFAULT;
-	private String 	position;
-	private String 	locale;
-	private String 	timeZone;
-	private String 	department;
-	private String  employeeId;
-	private String  password;
-	private String  phoneNo;
-	private String	cellPhoneNo;
-	private String 	company;
-	private String 	companyId;
+	private String position;
+	private String locale;
+	private String timeZone;
+	private String department;
+	private String employeeId;
+	private String password;
+	private String phoneNo;
+	private String cellPhoneNo;
+	private String company;
+	private String companyId;
 
 	public String getPhoneNo() {
 		return phoneNo;

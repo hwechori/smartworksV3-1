@@ -179,4 +179,6 @@ public interface ISmartWorks {
 
 	public abstract void deleteFile(HttpServletRequest request) throws Exception;
 
+	public abstract String getFormXml(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 }
