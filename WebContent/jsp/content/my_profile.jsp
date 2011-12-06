@@ -16,7 +16,7 @@
 	function submitForms(e) {
 		if ($('form.js_validation_required').validate().form()) {
 			var params = $('form').serialize();
-			var url = "modify_my_profile.sw";
+			var url = "update_my_profile.sw";
 			$.ajax({
 				url : url,
 				type : 'POST',
