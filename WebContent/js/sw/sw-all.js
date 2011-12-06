@@ -477,7 +477,7 @@ $(function() {
 	});
 
 	$('.js_drill_down').live('click', function(e) {
-		var input = $(e.target);
+		var input = $(e.target).parents('a');
 		var target = input.siblings('div');
 		var url = input.attr('href');
 		var categoryId = input[0].getAttribute("categoryId");

@@ -19,6 +19,7 @@ import java.util.Map;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.SizeMap;
 import net.smartworks.server.engine.common.util.id.IDCreator;
 import net.smartworks.server.engine.organization.exception.SwoException;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
@@ -753,12 +754,20 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	private static SizeMap deptMap = new SizeMap(100);
 	public SwoDepartment getDepartment(String userId, String id, String level) throws SwoException {
 		try {
+			
+			if (deptMap.containsKey(id))
+				return (SwoDepartment)deptMap.get(id);
+			
 			if (level == null)
 				level = LEVEL_ALL;
 			if (level.equals(LEVEL_ALL)) {
 				SwoDepartment obj = (SwoDepartment)this.get(SwoDepartment.class, id);
+				if (obj == null)
+					return null;
+				deptMap.put(obj.getId(), obj);
 				return obj;
 			} else {
 				SwoDepartmentCond cond = new SwoDepartmentCond();
@@ -766,6 +775,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				SwoDepartment[] objs = this.getDepartments(userId, cond, level);
 				if (objs == null || objs.length == 0)
 					return null;
+				deptMap.put(objs[0].getId(), objs[0]);
 				return objs[0];
 			}
 		} catch (Exception e) {
@@ -1399,43 +1409,49 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
-	
+	private static SizeMap userMap = new SizeMap(100);
 	
 	public SwoUserExtend getUserExtend(String userId, String id) throws SwoException {
 
 		//user cache 를 사용하여 메모리에서 조회한후 없으면 데이터베이스에서 조회한다.
 		//유저 정보를 가져오는 횟수가 너무 많아서 부하를 줄여야 한다
-		SwoUserExtend userExtend = null;
-		
-		boolean isExistUserCache = true;
-		
-		if (isExistUserCache) {
-			userExtend = new SwoUserExtend();
+		if ( id.equalsIgnoreCase("admin")) {
+			SwoUserExtend userExtend = new SwoUserExtend();
 			
-			userExtend.setId("kmyu@maninsoft.co.kr");
-			userExtend.setName("유광민");
+			userExtend.setId("admin@maninsoft.co.kr");
+			userExtend.setName("관리자");
 			userExtend.setCompanyId("맨인소프트");
 			userExtend.setCompanyId("맨인소프트");
-			userExtend.setDepartmentId("rnd");
+			userExtend.setDepartmentId("RND");
 			userExtend.setDepartmentName("연구소");
-			userExtend.setPosition("선임");
+			userExtend.setPosition("ADMIN");
 			
-		} else {
-			StringBuffer buff = new StringBuffer();
-			buff.append("select new net.smartworks.server.engine.organization.model.SwoUserExtend( ");
-			buff.append(" user.id,  user.name, user.companyId,  company.name, ");
-			buff.append(" user.deptId, dept.name,  user.lang, ");
-			buff.append(" user.picture,  user.picture, user.position, ");
-			buff.append(" user.stdTime,  user.authId");
-			buff.append(" )");
-			buff.append(" from SwoUser user, SwoDepartment dept, SwoCompany company ");
-			buff.append(" where user.deptId = dept.id");
-			buff.append(" and user.companyId = company.id");
-			buff.append(" and user.id = :id");
-			Query query = this.getSession().createQuery(buff.toString());
-			query.setString("id", id);
-			userExtend = (SwoUserExtend)query.uniqueResult();
+			return userExtend;
 		}
+		
+		if (userMap.containsKey(id)) {
+			System.out.println("***************** UserMapSize = " + userMap.size() + "***********************");
+			return (SwoUserExtend)userMap.get(id);
+		}
+		StringBuffer buff = new StringBuffer();
+		buff.append("select new net.smartworks.server.engine.organization.model.SwoUserExtend( ");
+		buff.append(" user.id,  user.name, user.companyId,  company.name, ");
+		buff.append(" user.deptId, dept.name,  user.lang, ");
+		buff.append(" user.picture,  user.picture, user.position, ");
+		buff.append(" user.stdTime,  user.authId");
+		buff.append(" )");
+		buff.append(" from SwoUser user, SwoDepartment dept, SwoCompany company ");
+		buff.append(" where user.deptId = dept.id");
+		buff.append(" and user.companyId = company.id");
+		buff.append(" and user.id = :id");
+		Query query = this.getSession().createQuery(buff.toString());
+		query.setString("id", id);
+		
+		SwoUserExtend userExtend = (SwoUserExtend)query.uniqueResult();
+
+		if (userExtend != null)
+			userMap.put(id, userExtend);
+		
 		return userExtend;
 	}
 	public SwoUserExtend[] getUsersExtend(String userId, String[] ids) throws SwoException {
