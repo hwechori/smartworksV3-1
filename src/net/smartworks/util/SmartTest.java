@@ -1151,7 +1151,7 @@ public class SmartTest {
 	}
 
 	public static String[] getBroadcastingMessages() throws Exception {
-		return new String[] { "오늘 시스템 작업예정으로 오후 5시부터 한시간 동안 시스템을 사용할 수 없으니, 업무진행에 착오없으시길 바랍니다. -- 기술연구소 ---",
+		return new String[] { "오늘 시스템 작업예정으로 오후 5시부터 한시간 동안 시스템을 사용할 수 없으니, 업무진행에 착오없으시길...",
 				"금일 전체회식에 전원참석하여 좋은 친목의 시간이 되기를 바랍니다. --- 경영 기획팀 ----" };
 	}
 
@@ -1183,15 +1183,15 @@ public class SmartTest {
 	    Map<String,Object> value2 = new HashMap<String, Object>();
 	    Map<String,Object> value3 = new HashMap<String, Object>();
 	    List<Map<String , Object>> values  = new java.util.ArrayList<Map<String,Object>>();
-	    value1.put("name", "ysjung");
+	    value1.put("name", "정 윤식");
 	    value1.put("yesterday", 10);
 	    value1.put("today", 9);
 	    value1.put("tomorrow", 11);
-	    value2.put("name", "kmyu");
+	    value2.put("name", "유 광민");
 	    value2.put("yesterday", 5);
 	    value2.put("today", 3);
 	    value2.put("tomorrow", 7);
-	    value3.put("name", "hsshin");
+	    value3.put("name", "신 현성");
 	    value3.put("yesterday", 8);
 	    value3.put("today", 13);
 	    value3.put("tomorrow", 1);

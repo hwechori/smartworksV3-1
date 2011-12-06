@@ -33,6 +33,8 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	UserInfo[] chatters = smartWorks.getAvailableChatter(cUser.getCompanyId(), cUser.getId());
 %>
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <div class="chat_warp">
 
@@ -95,24 +97,22 @@
 	<!-- 채팅Default //-->
 
 	<!-- 이동 화살표-->
-	<div class="chat_num_section">
-		<!-- 상단 -->
+<!-- 	<div class="chat_num_section">
 		<a href="">
 			<div class="top_group">
 				<span class="cha_num">3</span><span class="cha_next"></span>
 			</div> </a>
 	</div>
-	<!-- 이동 화살표 //-->
+ -->	<!-- 이동 화살표 //-->
 
 	<!-- 이동 화살표-->
-	<div class="chat_num_section">
-		<!-- 상단 -->
+<!-- 	<div class="chat_num_section">
 		<a href="">
 			<div class="top_group">
 				<span class="cha_prev"></span><span class="cha_num">3</span>
 			</div> </a>
 	</div>
-	<!-- 이동 화살표 //-->
+ -->	<!-- 이동 화살표 //-->
 
 	<div class="js_chatting_box_list chat_space"></div>
 
