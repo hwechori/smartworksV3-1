@@ -34,9 +34,12 @@
 					break;
 				}
 	%>
-	<li class="<%=iconType%>"><a
-		href="<%=targetContent%>?workId=<%=work.getId()%>"
-		class="js_select_work"><%=work.getFullpathName()%></a></li>
+	<li>
+	<a href="<%=targetContent%>?workId=<%=work.getId()%>" class="js_select_work">
+		<span class="<%=iconType%>"></span>
+		<span class="nav_subtitl_area"><%=work.getFullpathName()%></span>
+	</a>
+	</li>
 	<%
 		}
 		}

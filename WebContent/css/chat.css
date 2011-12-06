@@ -1,7 +1,7 @@
 
 .chat_warp {position: fixed; bottom:0; right:0;}
-.chat_space {z-index:101; float: right; position: relative; z-index: 101;}
-.chat_section {border:1px solid #232323; background-color:#454645; max-width: 273px; min-width: 110px; float:right; margin-left:10px;}
+.chat_space { direction: ltr; height: 25px; position: fixed; right: 0; z-index: 300; bottom: 0;}
+.chat_section {border:1px solid #232323; background-color:#454645; max-width: 273px; min-width: 110px; float:right; margin-left:10px; bottom:0; position:fixed; z-index: 300;}
 .chat_section .top_group, .chat_close_section .top_group, .chat_de_section .top_group, .chat_num_section .top_group
 {background: url("../images/bg_chat.jpg") repeat-x 0 0 transparent; font-weight:bold; color:#FFF; padding:5px 5px 0; height:21px;}
 .chat_section .top_area { position:absolute;}
@@ -55,18 +55,24 @@
 
 
 
-/* Ã¤ÆÃÃ¢ ´ÝÈû */
-.chat_close_section, .chat_de_section {border:1px solid #232323; background-color:#454645; float: right; min-width: 105px; margin-left:10px; z-index:102; color:#FFF; position: relative;}
+/* Ã¤ÆÃÃ¢ ´ÝÈû, Default */
+.chat_close_section, .chat_de_section {border:1px solid #232323; background-color:#454645; min-width: 105px; margin-left:10px; z-index:102; color:#FFF; bottom: 0; position: fixed; right: 0;}
 .chatic_titl {background: url("../images/chat_img.png") no-repeat scroll 0 -74px transparent; display:inline-block; padding: 0 0 1px 24px; height:20px; color:#FFF;}
 .chat_close_section  a .top_group:hover { background:none; background-color:#454545;}
-
-
-/* Ã¤ÆÃDefault */
 .chat_de_section .chat_de_list {background-color:#FFF; margin: 0 2px; max-height:300px; width:190px; color:#454545; overflow-y:auto;}
 
+
 /* ÀÌµ¿ È­»ìÇ¥ */
-.chat_num_section {border:1px solid #232323; background-color:#454645; float: right; margin-left:10px; z-index:102; color:#FFF; position: relative;}
+.chat_num_section {border:1px solid #232323; background-color:#454645; float: right; margin-left:10px; z-index:102; color:#FFF; position: fixed; bottom: 0;}
 .cha_prev {background: url("../images/chat_img.png") no-repeat scroll 0 -162px transparent; display:inline-block; width:12px; height:15px; color:#FFF;}
 .cha_next {background: url("../images/chat_img.png") no-repeat scroll 0 -137px transparent; display:inline-block; width:12px; height:15px; color:#FFF;}
 .cha_num {padding:0 5px 2px 0}
 
+
+
+/* Ã¤ÆÃ Ã¢ Á¤·Ä */
+.clearfix:after { clear: both;  content: "."; display: block; font-size: 0; height: 0; line-height: 0; visibility: hidden;}
+.chat_group {float: left; position: relative;}
+.chat_container {float: right;}
+.chat_duck {margin: 0 15px;}
+.chat_duck_right {left: auto;}

@@ -23,7 +23,7 @@
 </ul>
 
 
-<div class='navi_list js_collapsible'>
+<div class='navi_list coummi js_collapsible'>
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_com">
 		<a href="my_departments.sw" class="current"><fmt:message

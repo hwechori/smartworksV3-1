@@ -77,10 +77,7 @@ currentUser = {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
 		<fmt:param value="<%=currentUser.getCompany() %>" />
-	</fmt:message> <sec:authentication property="principal.name" /> <sec:authorize
-		access="hasRole('ADMINISTRATOR')"> 
-		(ADMIN)
-	</sec:authorize>
+	</fmt:message>
 </title>
 
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
@@ -94,6 +91,8 @@ currentUser = {
 <script type="text/javascript"
 	src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.json-2.3.min.js"></script>
+<script type="text/javascript" src="js/jstorage/jstorage.js"></script>
 <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
 <script type="text/javascript" src="js/ext/bootstrap.js"></script>
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
@@ -114,7 +113,7 @@ currentUser = {
 
 <script type="text/javascript">
  	smartTalk.init();
-	/* 	var repeat1 = function() {
+ 	var repeat1 = function() {
 	 clearInterval(timer);
 	 smartTalk.publishBcast(new Array(
 	 " Hello, this is SmartWorks!! Welcome~~",
@@ -145,7 +144,7 @@ currentUser = {
 	 count : 5
 	 });
 
-	 */setTimeout(function() {
+	 setTimeout(function() {
 		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
 				+ swSubject.BROADCASTING, {
 			msgType : msgType.AVAILABLE_CHATTERS,
