@@ -34,9 +34,11 @@
 	UserInfo[] chatters = smartWorks.getAvailableChatter(cUser.getCompanyId(), cUser.getId());
 %>
 
-<div class="chat_warp">
+
 
 	<!-- 채팅Default -->
+	 
+	 
 	<div class="chat_de_section js_chatter_list">
 		<!-- 상단 -->
 		<div class="top_group">
@@ -114,7 +116,11 @@
 	</div>
 	<!-- 이동 화살표 //-->
 
-	<div class="js_chatting_box_list chat_space"></div>
 
-</div>
+	<!-- 채팅창 생성 -->
+	<div class="js_chatting_box_list"></div>
+
+
+ 
+
 
