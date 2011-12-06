@@ -94,8 +94,7 @@ currentUser = {
 <script type="text/javascript"
 	src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
-<!-- <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
- -->
+<script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
 <script type="text/javascript" src="js/ext/bootstrap.js"></script>
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
 <script type="text/javascript" src="js/sw/sw-util.js"></script>
@@ -103,8 +102,8 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
-<!-- <script type="text/javascript" src="http://localhost:8000/faye.js"></script>
- --><script type="text/javascript" src="js/sw/sw-faye.js"></script>
+<script type="text/javascript" src="http://192.168.0.8:8000/faye.js"></script>
+<script type="text/javascript" src="js/sw/sw-faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
 <script type="text/javascript" src='js/sw/smartworks.js'></script>
@@ -114,8 +113,8 @@ currentUser = {
 <script type="text/javascript" src='js/sw/field/radio_button.js'></script>
 
 <script type="text/javascript">
-/* 	smartTalk.init();
- */	/* 	var repeat1 = function() {
+ 	smartTalk.init();
+	/* 	var repeat1 = function() {
 	 clearInterval(timer);
 	 smartTalk.publishBcast(new Array(
 	 " Hello, this is SmartWorks!! Welcome~~",

@@ -168,7 +168,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		TaskWorkCond taskCond = new TaskWorkCond();
 		taskCond.setTskAssignee(userId);
 		taskCond.setPageNo(0);
-		taskCond.setPageSize(100);
+		taskCond.setPageSize(10);
 		
 		TaskWork[] tasks = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkList(userId, taskCond);
 		
@@ -261,6 +261,9 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
 
+		if (swdRecords == null)
+			return null;
+			
 		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
 
 		SwdField[] swdFields = getSwdManager().getViewFieldList(workId, swdDomain.getFormId());
@@ -339,6 +342,9 @@ public class InstanceServiceImpl implements IInstanceService {
 		prcInstCond.setPageNo(currentPage);
 		prcInstCond.setPageSize(pageCount);
 		PrcProcessInstExtend[] prcInsts = getPrcManager().getProcessInstExtends(userId, prcInstCond);
+		
+		if (prcInsts == null)
+			return null;
 		
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
 		

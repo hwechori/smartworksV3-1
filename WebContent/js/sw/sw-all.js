@@ -341,19 +341,21 @@ $(function() {
 //		});
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
-		smartChart.load("", swChartType.LINE, false, target);
+		var reportId = input.children('option:selected').attr('value');
+		smartChart.load(reportId, swChartType.LINE, false, target);
 		target.slideDown(500);
 		return false;
 	});
 
 	$('tr.js_work_report_type td').live('change', function(e) {
 		var input = $(e.target);
-		request.getSession().setAttribute("reportType", input.children('option:selected').attr('value'));
+//		request.getSession().setAttribute("reportType", input.children('option:selected').attr('value'));
+		var reportType = input.children('option:selected').attr('value');
 		var target = input.parents('tr.js_work_report_type').next('div.js_form_by_report_type');
 		var url = input.attr('url');
 		$.ajax({
 			url : url,
-			data : {},
+			data : {reportType : reportType },
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
 			}

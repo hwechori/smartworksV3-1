@@ -191,7 +191,18 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	public SmartWorkInfo[] searchWork(String companyId, String userId, String key) throws Exception {
 
-		return getMyFavoriteWorks(companyId, userId);
+		if (CommonUtil.isEmpty(key))
+			return null;
+		
+		PkgPackageCond pkgCond = new PkgPackageCond();
+		pkgCond.setCompanyId(companyId);
+		pkgCond.setNameLike(key);
+		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
+		if (pkgs == null)
+			return null;
+		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
+		
+		return workPkgs;
 	}
 
 	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
