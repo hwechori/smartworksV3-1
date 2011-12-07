@@ -97,12 +97,14 @@ body, #nav {background: url("../images/bg_body.jpg");}
     border-color: #919191;
     border-style: solid;
     border-width: 1px;
-	/* width:203px; */
 	height:16px;
 	}
-.srch .input {width:155px; background-color: #919191; color: #E4E4E4;}
-.srch input::-webkit-input-placeholder {color:#E4E4E4;}
-.srch input:-moz-placeholder {color:#E4E4E4;}
+	
+.srch .nav_input {width:155px; background-color: #919191; color: #E4E4E4;}
+.nav_srch .srch input::-webkit-input-placeholder {color:#E4E4E4;}
+.nav_srch .srch input:-moz-placeholder {color:#E4E4E4;}
+.global_srch .srch input::-webkit-input-placeholder {color:#E4E4E4;}
+.global_srch .srch input:-moz-placeholder {color:#E4E4E4;}
 
 .srch button, .srch .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
@@ -145,7 +147,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .ico_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
 
 
-.navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:205px; height:39px; padding:7px 10px 10px;}
+.navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; min-height: 300px;}
 .navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:5px 10px 0;}
 .navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
@@ -199,35 +201,30 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 
 /* upload Icon */
-.up_works a {background: url("../images/header_nico.png") no-repeat -4px -155px; width:39px; height:22px; padding:4px 0 3px 26px; display:block;}
+.up_works a {background: url("../images/header_nico.png") no-repeat -4px -155px; height:22px; padding:4px 0 3px 26px; display:block;}
 .up_works a:hover,
 .up_works .current, 
-.up_works a.current:hover 
-{background: url("../images/header_nico.png") no-repeat -4px -190px; height:22px; padding:4px 0 3px 26px; display:block; font-weight:bold;}
+.up_works a.current:hover {background: url("../images/header_nico.png") no-repeat -4px -190px; font-weight:bold;}
 
-.up_file a {background: url("../images/header_nico.png") no-repeat -78px -155px; width:26px; height:22px; padding:4px 0 3px 28px; display:block;}
+.up_file a {background: url("../images/header_nico.png") no-repeat -146px -155px; height:22px; padding:4px 0 3px 28px; display:block;}
 .up_file a:hover,
 .up_file .current, 
-.up_file a.current:hover 
-{background: url("../images/header_nico.png") no-repeat -78px -190px; height:22px; padding:4px 0 3px 28px; display:block; font-weight:bold;}
+.up_file a.current:hover {background: url("../images/header_nico.png") no-repeat -146px -190px; font-weight:bold;}
 
-.up_event a {background: url("../images/header_nico.png") no-repeat -156px -155px; width:39px; height:22px; padding:4px 0 3px 22px; display:block;}
+.up_event a {background: url("../images/header_nico.png") no-repeat -279px -155px; height:22px; padding:4px 0 3px 22px; display:block;}
 .up_event a:hover,
 .up_event .current, 
-.up_event a.current:hover
-{background: url("../images/header_nico.png") no-repeat -156px -190px; height:22px; padding:4px 0 3px 22px; display:block; font-weight:bold;}
+.up_event a.current:hover {background: url("../images/header_nico.png") no-repeat -279px -190px; font-weight:bold;}
 
-.up_memo a {background: url("../images/header_nico.png") no-repeat -238px -155px; width:26px; height:22px; padding:4px 0 3px 23px; display:block;}
+.up_memo a {background: url("../images/header_nico.png") no-repeat -425px -155px; height:22px; padding:4px 0 3px 23px; display:block;}
 .up_memo a:hover,
 .up_memo .current, 
-.up_memo a.current:hover
-{background: url("../images/header_nico.png") no-repeat -238px -190px; height:22px; padding:4px 0 3px 23px; display:block; font-weight:bold;}
+.up_memo a.current:hover {background: url("../images/header_nico.png") no-repeat -425px -190px; font-weight:bold;}
 
-.up_board a {background: url("../images/header_nico.png") no-repeat -322px -155px; height:22px; padding:4px 0 3px 28px; display:block;}
+.up_board a {background: url("../images/header_nico.png") no-repeat -563px -155px; height:22px; padding:4px 0 3px 28px; display:block;}
 .up_board a:hover,
 .up_board .current, 
-.up_board a.current:hover 
-{background: url("../images/header_nico.png") no-repeat -322px -190px; height:22px; padding:4px 0 3px 28px; display:block; font-weight:bold;}
+.up_board a.current:hover {background: url("../images/header_nico.png") no-repeat -563px -190px; font-weight:bold;}
 
 .up {border:1px solid #c7c7c7; padding:3px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */

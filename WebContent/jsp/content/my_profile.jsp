@@ -71,7 +71,7 @@
 					onchange="">
 			</span>
 			
-			<span class="table_nomal">
+			<span class="table_nomal600">
 					<table>
 						<tr>
 							<td>
