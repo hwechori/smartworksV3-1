@@ -194,7 +194,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 /* UpLoad Search */
 .start_worksinput {position:relative; height:21px;}
 .start_worksinput .input_size {width:447px; padding: 2px 0 1px; position:absolute;}
-.start_worksinput .srch input {width:422px;}
+.start_worksinput .srch input {width:422px; color:#999897;}
 .start_worksinput .srch {background: none repeat scroll 0 0 #FFF; border: 1px solid #c7c7c7; height: 16px;}
 .start_worksinput .srch .srch_ico_w {background-color:#FFFFFF; background:url("../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
