@@ -340,10 +340,18 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .tab_portlet .tab_portlet_l {
     background: url("../images/bg_portlet.jpg") no-repeat scroll 0 -77px transparent;
     display:inline-block; width:10px; height:45px; left:0; position:absolute;}
-	
+
+
+/* 상단 날짜 */	
 .tab_portletx {color:#ffffff; text-align:center; vertical-align:middle; padding-top:10px;}
 .date {font-size:14px; font-weight:bold;}
 .eventd {font-size:12px; color:#f8c8c8;}
+
+.date_section {text-align:center; vertical-align:middle; padding: 7px 0 18px;}
+.date_section .date_start {background: url("../images/top_date_bg_l.gif") repeat scroll 0 0 transparent; height:28px; width:14px; height: 28px; position: absolute;}
+.date_section .date_center { background-color:#f3f3f3; height:23px; padding: 5px 20px 0 30px; text-align:center; margin: 0 -5px 0 0; text-align:center; display: inline-block;}	
+.date_section .date_end {background: url("../images/top_date_bg_r.gif") repeat scroll 0 0 transparent; height:28px; width:14px; position: absolute;}
+			
 
 .portlet_l {
     background: url("../images/bg_portlet_l.jpg") repeat-y scroll 0 0 #ffffff;
