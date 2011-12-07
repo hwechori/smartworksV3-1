@@ -8,7 +8,7 @@
 	</li>
 	<li class="nav_srch">
 		<div class="srch srch_wsize">
-			<input id="" class="input js_auto_complete" type="text"
+			<input id="" class="nav_input js_auto_complete" type="text"
 				title="<fmt:message key='search.search_people_depart_group'/>"
 				placeholder="<fmt:message key='search.search_people_depart_group'/>"
 				href="community.sw">
