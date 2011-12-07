@@ -25,14 +25,18 @@
 				String boardContext = ISmartWorks.CONTEXT_PREFIX_BOARD_SPACE + board.getId();
 		%>
 		<li>
-			<div class="noti_pic">
+			<div class="float_left">
 				<a href="user_space.sw?cid=<%=owner.getId()%>"><img
-					src="<%=owner.getMinPicture()%>" alt="<%=owner.getLongName()%>"
-					align="bottom" /> </a>
+					src="<%=owner.getMinPicture()%>" width="20" height="20" alt="<%=owner.getLongName()%>"
+					/> </a>
 			</div>
-			<div class="noti_in">
-				<a href="user_space.sw?cid=<%=userContext%>"><span
-					class="t_name"><%=owner.getLongName()%></span> </a>
+			<div class="">
+			<a href="board_space.sw?cid=<%=boardContext%>&wid=<%=owner.getId()%>">
+				<span class="noti_tit_snew"><%=board.getSubject()%></span> 
+			</a>
+					
+			<a href="user_space.sw?cid=<%=userContext%>"><span
+				class="t_name"><%=owner.getLongName()%></span> </a>
 				<%
 					if (!board.getWorkSpace().getId().equals(owner.getId())) {
 							WorkSpaceInfo workSpace = board.getWorkSpace();
@@ -53,9 +57,7 @@
 					}
 				%>
 				<span class="t_date"> <%=board.getLastModifiedDate().toLocalString()%></span>
-				<a
-					href="board_space.sw?cid=<%=boardContext%>&wid=<%=owner.getId()%>"><span
-					class="noti_tit"><%=board.getSubject()%></span> </a>
+				
 			</div>
 		</li>
 		<%

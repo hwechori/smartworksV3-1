@@ -44,7 +44,7 @@
         <span class="date_start"></span>
         <span class="date_center">
             <span class="date"><%=today.toLocalDateString()%></span>
-            <span class="eventd">
+            <span class="t_red">
 			 <%
 			 	if (threeDaysCC[0].getCompanyEvents().length > 0) {
 			 %> ( <%

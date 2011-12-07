@@ -399,15 +399,17 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 /* Noice */
 #notice {clear:both; margin:0 30px 5px 5px; padding-top:10px;}
-#notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; padding:3px 0; clear:both;}
+#notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; padding:5px 0; clear:both;}
 .noti_pic {float:left; padding:5px 0;}
-.noti_in {word-wrap: break-word; text-align:left; padding:2px 0 0 38px;}
 .noti_in_bodytitle {word-wrap: break-word; text-align:left; padding:9px 0 0 58px;} /* Body Title로 들어갈 때 */
 
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
 
 .noti_tit {background: url("../images/ico_notice_s.gif") no-repeat scroll 8px 2px transparent;
 		    padding:0 0 0 23px; display:block; font-weight:bold;}
+
+.noti_tit_snew {background: url("../images/ico_notice_s.gif") no-repeat scroll 8px 0 transparent;
+		    padding:0 0 0 23px; font-weight:bold;}
 			
 /* Work ING */
 #work_ing {margin:0 15px;}
