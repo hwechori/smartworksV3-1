@@ -10,11 +10,11 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+/* 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	InstanceInfo[] instances = smartWorks.getMyRunningInstances(cUser.getCompanyId(), cUser.getId());
-%>
+ */%>
 
 <!-- 나의 진행중인 업무 -->
 <div class="section_portlet">
