@@ -241,7 +241,7 @@
 							</div>
 							<div class="po_left">
 								<div class="srch_wh srch_wsize">
-									<input id="" class="input" type="text"
+									<input id="" class="nav_input" type="text"
 										placeholder="<fmt:message key='search.search_work' />">
 									<button onclick=""
 										title="<fmt:message key='search.search_work'/>"></button>

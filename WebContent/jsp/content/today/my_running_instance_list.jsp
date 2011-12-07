@@ -37,8 +37,8 @@
 				
 				<!-- 검색 -->
 				<div class="nav_srch padding_b2">
-				<div class="srch srch_wsize">
-						<input id="" class="input js_auto_complete" type="text"
+				<div class="srch_wh srch_wsize">
+						<input id="" class="nav_input js_auto_complete" type="text"
 							title="<fmt:message key="search.search_running_instance"/>"
 							placeholder="<fmt:message key="search.search_running_instance"/>"
 							href="my_running_instance.sw">

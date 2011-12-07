@@ -173,7 +173,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		TaskWork[] tasks = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkList(userId, taskCond);
 		
-		return ModelConverter.getInstanceInfoArrayByTaskWorkArray(userId, tasks);
+		if(tasks != null) return ModelConverter.getInstanceInfoArrayByTaskWorkArray(userId, tasks);
+		return null;
 	}
 
 	@Override

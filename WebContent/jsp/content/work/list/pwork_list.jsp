@@ -176,40 +176,6 @@
 				
 				</div>
 
-
-				<%-- <div class="txt_btn">
-
-					<%
-						if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
-					%>
-					<div class="float_right padding_l10">
-						<a href=""></a><span class="btn_gray"> <span
-							class="Btn01Start"></span> <span class="Btn01Center"><fmt:message
-									key='common.button.modify' /> </span> <span class="Btn01End"></span>
-						</span></a>
-					</div>
-					<%
-						}
-					%>
-
-					<div class="float_right">
-						<%
-							if (work.getManualFileName() != null) {
-						%>
-						<a href="" title="<fmt:message key='work.title.manual_file'/>">사용설명서(아이콘)</a>
-						<%
-							}
-							if (work.getHelpUrl() != null) {
-						%>
-						<a href="<%=work.getHelpUrl()%>"
-							title="<fmt:message key='work.title.help_url'/>" target="_blank">웹설명서
-							보기(아이콘)</a>
-						<%
-							}
-						%>
-					</div>
-
-				</div> --%>
 				<!-- 버튼 영역 //-->
 
 			</div>
@@ -229,8 +195,8 @@
 						<div class="po_left title"><fmt:message key='common.title.instance_list' /></div>
 
 						<div class="po_left">
-							<div class="srch">
-								<input id="" type="text"
+							<div class="srch_wh">
+								<input id="" class="nav_input" type="text"
 									placeholder="<fmt:message key='search.search_work' />">
 								<button onclick=""
 									title="<fmt:message key='search.search_work' />"></button>
