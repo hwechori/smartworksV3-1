@@ -3,7 +3,7 @@
 #wrap {background: url("../images/top_bg.jpg") repeat-x scroll 0 0 transparent; height:100%; min-width:1000px; margin:0; z-index:1; position:relative;}
 html, body {color:#fff; font-family:'돋움',Dotum; height:100%; line-height:1.5em;}
 body, #nav {background: url("../images/bg_body.jpg");}
-#nav a:link, #nav a:visited, #header a:link, #header a:visited {color:#ededed;}
+#nav a:link, #nav a:visited, #header a:link, #header a:visited {color:#FFF;}
 #nav a:hover, #nav a:focus, #nav a:active, #header a:hover, #header a:focus, #header a:active {color:#FFF; text-decoration:none;}
 #nav .current {color:#FFF; text-decoration:underline; font-weight:bold;}
 
@@ -101,18 +101,15 @@ body, #nav {background: url("../images/bg_body.jpg");}
 	height:16px;
 	}
 .srch .input {width:155px; background-color: #919191; color: #E4E4E4;}
+.srch input::-webkit-input-placeholder {color:#E4E4E4;}
+.srch input:-moz-placeholder {color:#E4E4E4;}
+
 .srch button, .srch .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
 .srch_wsize {width:180px; margin: 0 10px;}
 
 /*Search-white */
-.srch_wh {
-    background: none repeat scroll 0 0 #FFF;
-    border-color: #c7c7c7;
-    border-style: solid;
-    border-width: 1px;
-	height:16px;
-	}
+.srch_wh {background: none repeat scroll 0 0 #FFF; border-color: #c7c7c7; border-style: solid; border-width: 1px; height:16px;}
 .srch_wh .input {width:155px; background-color: #FFF; color: #c7c7c7;}
 .srch_wh button, .srch_wh .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
@@ -128,7 +125,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .global_menu .pop {border:1px solid #acacac; border-top:none; background-color:#414041; position:absolute; top:23px; right:0; padding:8px; z-index:39;}
 
 /*Personal Info*/
-.personal_info {background: url("../images/personal_info_bg.jpg")repeat-x scroll 0 0; padding:11px 22px; height:79px; width:181px;}
+.personal_info {background: url("../images/personal_info_bg.jpg")repeat-x scroll 0 0; padding:11px 22px; height:79px; width:182px;}
 .personal_info ul {position:absolute;}
 .personal_info li {float:left; vertical-align:bottom; margin-right:6px; color:#dddddd; line-height: 1.3em; } 
 .personal_info .pic {background: url("../images/pic_personal_info.jpg"); display:inline; width:66px; height:66px; position:relative;}
@@ -136,12 +133,12 @@ body, #nav {background: url("../images/bg_body.jpg");}
 /* nav_list*/
 .nav_list {width:226px;}
 .nav_current {color:#fcab4c; text-decoration:underline;}
-.ico_pworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:16px;}
-.ico_cworks {background: url("../images/ico_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:16px;}
-.ico_sworks {background: url("../images/ico_swoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:16px;}
-.ico_gworks {background: url("../images/ico_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:16px;}
-.ico_iworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:16px;}
-.ico_stworks {background: url("../images/ico_stwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:16px;}
+.ico_pworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.ico_cworks {background: url("../images/ico_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
+.ico_sworks {background: url("../images/ico_swoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
+.ico_gworks {background: url("../images/ico_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
+.ico_iworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.ico_stworks {background: url("../images/ico_stwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; height:17px;}
 
 .ico_depart {background: url("../images/ico_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
 .ico_group {background: url("../images/ico_group.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
@@ -150,7 +147,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:205px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; min-height: 300px;}
-.navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:205px; padding:5px 10px 0;}
+.navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:5px 10px 0;}
 .navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
 .navi_list.coummi {min-height: 200px;}
 
@@ -320,7 +317,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 
 /* 테이블 */
-.table_nomal {position: relative; float: left; padding: 0 0 0 30px; width: 600px;}
+.table_nomal {position: relative;}
 .table_nomal table tr {height:32px}
 .essen {border-left:2px solid #ef972b; border-top:1px solid #c7c7c7; border-right:1px solid #c7c7c7; border-bottom:1px solid #c7c7c7;}
 .essen_r {border-right:2px solid #ef972b; margin-right: 5px;}
@@ -329,6 +326,9 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .space_tit {padding: 0 0 0 14px;}
 
 
+/* 테이블 - 고정 사이즈 */
+.table_nomal600 {position: relative;  float: left; padding: 0 0 0 30px; width: 600px;}
+.table_nomal600 table tr {height:32px}
 
 /*라운드 포틀릿*/
 .section_portlet {
