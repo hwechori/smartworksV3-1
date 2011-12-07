@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <ul class="navi_tit">
-	<li class='js_collapse_parent_siblings arr_on'><fmt:message
-			key="nav.works.my_works" />
+	<li> <a href="" class='js_collapse_parent_siblings arr_on'><fmt:message
+			key="nav.works.my_works" /></a>
 	</li>
 	<li class="nav_srch">
 		<div class="srch srch_wsize">

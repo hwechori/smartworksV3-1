@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.service.impl.SmartWorks"%>
 <%@page import="net.smartworks.model.instance.info.IWInstanceInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
@@ -38,7 +39,6 @@
 <!-- 목록 테이블 -->
 <table>
 	<tr class="tit_bg">
-		<th></th>
 		<%
 			FormField[] fields = work.getDisplayFields();
 			if (fields != null) {
@@ -80,16 +80,12 @@
 
 
 	<tr>
-		<td><a href="<%=target%>"><img
-				src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" />
-		</a>
-		</td>
 		<%
 			if ((fieldDatas != null)
 							&& (fieldDatas.length == displayFields.length)) {
 						for (FieldData data : fieldDatas) {
 		%>
-		<td><a href="<%=target%>"><%=data.getValue()%></a></td>
+		<td><a href="<%=target%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
 		<%
 			}
 					}
@@ -102,7 +98,7 @@
 					<span class="t_name"><%=lastModifier.getLongName()%></span>
 					<div class="t_date"><%=instanceInfo.getLastModifiedDate()
 							.toLocalString()%></div>
-				</div> </a></td>
+				</div></a></td>
 	</tr>
 	<%
 		}

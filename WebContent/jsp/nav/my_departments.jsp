@@ -17,8 +17,11 @@
 			for (DepartmentInfo department : departments) {
 				String departmentContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + department.getId();
 	%>
-	<li><a
-		href="department_space.sw?cid=<%=departmentContext%>"><span class="ico_depart"></span><span class="nav_subtitl_area"><%=department.getName()%></span></a>
+	<li>
+	<a
+		href="department_space.sw?cid=<%=departmentContext%>" title="<%=department.getDesc()%>">
+			<span class="ico_pe"><img src="<%=department.getMinPicture()%>" width="20" height="20" border="0"></span> 
+			<span class="nav_subtitl_area"><%=department.getName()%></span></a>
 	</li>
 	<%
 		}

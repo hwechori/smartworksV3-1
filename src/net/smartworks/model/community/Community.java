@@ -8,26 +8,25 @@ public class Community extends BaseObject {
 	private String 	orgPictureName = null;
 	private String 	midPictureName = null;
 	private String 	minPictureName = null;
-
+	
 	public String getOrgPictureName() {
-		return 		super.getId() + ".jpg";
+		return orgPictureName;
 	}
 	public void setOrgPictureName(String orgPictureName) {
 		this.orgPictureName = orgPictureName;
 	}
 	public String getMidPictureName() {
-		return super.getId() + "_mid.jpg";
+		return midPictureName;
 	}
 	public void setMidPictureName(String midPictureName) {
 		this.midPictureName = midPictureName;
 	}
 	public String getMinPictureName() {
-		return super.getId() + "_min.jpg";
+		return minPictureName;
 	}
 	public void setMinPictureName(String minPictureName) {
 		this.minPictureName = minPictureName;
 	}
-	
 	public String getOrgPicture(){
 		return PICTURE_PATH + getOrgPictureName();
 	}

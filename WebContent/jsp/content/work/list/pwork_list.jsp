@@ -75,14 +75,16 @@
 			</div>
 			<!-- 타이틀 -->
 
-
-
-
 			<!-- 정의 영역-->
 			<div class="contents_space">
 
 				<!-- 업무 정의 -->
-				<div class=""><%=work.getDesc()%></div>
+				<div class="">
+					<%if(work.getDesc()!= null && !work.getDesc().equals("")) {%>
+					<%=work.getDesc()%>
+					<%}else{ %><fmt:message key="common.message.no_work_desc" />
+					<%} %>
+				</div>
 				<!-- 업무 정의 //-->
 
 				<!-- 버튼 영역-->

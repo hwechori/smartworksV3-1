@@ -2,6 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <ul>
-	<li class="arr_off"><fmt:message key="nav.mail" />
+	<li><a href="" class="arr_off"><fmt:message key="nav.mail" /></a>
 	</li>
 </ul>

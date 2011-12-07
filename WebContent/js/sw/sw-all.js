@@ -75,7 +75,8 @@ $(function() {
 	 * js_collapsible class를 찾아서, 위로 닫고 아래로 여는것을 한번씩 실행해준다.
 	 */
 	$('.js_collapse_parent_siblings').live('click', function(e) {
-		$(e.target).parent().siblings('.js_collapsible').slideToggle(500);
+		$(e.target).parent().parent().siblings('.js_collapsible').toggle();
+		return false;
 	});
 
 	/*
@@ -83,7 +84,8 @@ $(function() {
 	 * js_collapsible class를 찾아서, 위로 닫고 아래로 여는것을 한번씩 실행해준다.
 	 */
 	$('.js_collapse_siblings').live('click', function(e) {
-		$(e.target).siblings('.js_collapsible').slideToggle(500);
+		$(e.target).siblings('.js_collapsible').toggle();
+		return false;
 	});
 
 	/*
@@ -491,7 +493,7 @@ $(function() {
 	});
 
 	$('.js_drill_down').live('click', function(e) {
-		var input = $(e.target).parents('a');
+		var input = $(e.target).parents('li.js_drill_down:first').children('a');
 		var target = input.siblings('div');
 		var url = input.attr('href');
 		var categoryId = input[0].getAttribute("categoryId");

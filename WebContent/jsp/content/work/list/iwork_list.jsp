@@ -84,7 +84,12 @@
 			<div class="contents_space js_content_div">
 
 				<!-- 업무 정의 영역 -->
-				<div class=""><%=work.getDesc()%></div>
+				<div class="">
+					<%if(work.getDesc()!= null && !work.getDesc().equals("")) {%>
+					<%=work.getDesc()%>
+					<%}else{ %><fmt:message key="common.message.no_work_desc" />
+					<%} %>
+				</div>
 				<!-- 업무 정의 영역 //-->
 
 				<!-- 버튼 영역-->
@@ -186,11 +191,12 @@
 				<div class="txt_btn margin_b5 margin_t10 js_work_report">
 
 					<div class="po_right">
-						<a href="work_report.sw?workId=<%=work.getId()%>" class="js_new_work_report">새 통계분석 만들기</a>
+						<a href="work_report.sw?workId=<%=work.getId()%>"
+							class="js_new_work_report">새 통계분석 만들기</a>
 					</div>
 					<div class="po_right bu_stat">
 						<select name="selMyReportList" class="js_select_work_report"
-										href="work_report.sw?workId=<%=workId%>">
+							href="work_report.sw?workId=<%=workId%>">
 							<%
 								Report[] infoReports = ChartReport.DEFAULT_CHARTS_INFORMATION;
 								if (infoReports != null) {
@@ -218,7 +224,7 @@
 				</div>
 
 				<!--통계메뉴 영역//-->
-				
+
 				<div id="chart_target" class="js_work_report_form margin_b5">
 				</div>
 
@@ -285,7 +291,8 @@
 								<a href="">엑셀로 등록하기</a>
 							</div>
 							<div class="po_right">
-								<a href="new_iwork.sw?workId=<%=workId%>" class="js_create_new_work">새항목 등록하기</a>
+								<a href="new_iwork.sw?workId=<%=workId%>"
+									class="js_create_new_work">새항목 등록하기</a>
 							</div>
 						</div>
 					</div>
