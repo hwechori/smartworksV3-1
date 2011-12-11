@@ -29,34 +29,47 @@
 	LocalDate tomorrow = threeDaysCC[1].getDate();
 	EventInstanceInfo[] events = smartWorks.getEventInstances(cUser.getCompanyId(), cUser.getId(), new LocalDate(), 10);
 %>
-<!-- 이벤트,공지 포틀릿 -->
-<div class="section_portlet">
-	<div class="tab_portlet">
-		<div class="tab_portlet_l"></div>
-		<div class="tab_portletx">
-			<span class="date"><%=today.toLocalDateString()%></span> <span
-				class="eventd"> <%
- 	if (threeDaysCC[0].getCompanyEvents().length > 0) {
- %> ( <%
- 	}
- 	CompanyEvent[] cesToday = threeDaysCC[0].getCompanyEvents();
- 	CompanyEvent[] cesTomorrow = threeDaysCC[1].getCompanyEvents();
- 	for (int i = 0; i < cesToday.length; i++) {
- 		if (i != 0) {
- %>, <%
- 	}
- %><%=cesToday[i].getName()%> <%
- 	}
- %> <%
- 	if (threeDaysCC[0].getCompanyEvents().length > 0) {
- %>)<%
- 	}
- %> </span>
-			<%=today.toLocalTimeString()%>
-		</div>
-	</div>
-	<div class="portlet_l" style="display: block;">
-		<ul class="portlet_r" style="display: block;">
+
+<!-- 이벤트,공지 포틀릿 -->	
+	 <div class="section_portlet">
+	 <div class="portlet_t">
+      <div class="portlet_tl"></div>
+    </div>
+        
+    <div class="portlet_l" style="display: block;">
+    <ul class="portlet_r" style="display: block;">
+	
+	<!-- Date -->
+    <div class="date_section">
+        <span class="date_start"></span>
+        <span class="date_center">
+            <span class="date"><%=today.toLocalDateString()%></span>
+            <span class="t_red">
+			 <%
+			 	if (threeDaysCC[0].getCompanyEvents().length > 0) {
+			 %> ( <%
+			 	}
+			 	CompanyEvent[] cesToday = threeDaysCC[0].getCompanyEvents();
+			 	CompanyEvent[] cesTomorrow = threeDaysCC[1].getCompanyEvents();
+			 	for (int i = 0; i < cesToday.length; i++) {
+			 		if (i != 0) {
+			 %>, <%
+			 	}
+			 %><%=cesToday[i].getName()%> <%
+			 	}
+			 %> <%
+			 	if (threeDaysCC[0].getCompanyEvents().length > 0) {
+			 %>)<%
+			 	}
+			 %>
+			 </span> 
+			 <%=today.toLocalTimeString()%>
+        </span>
+        <span class="date_end"></span>
+    </div>
+    <!-- Date //-->
+	
+	
 			<!-- 이벤트 목록 영역 -->
 			<div class="event_space">
 				<ul>
