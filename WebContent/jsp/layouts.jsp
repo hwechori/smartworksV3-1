@@ -71,7 +71,9 @@ currentUser = {
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
+<!-- <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
+<link href="css/ext/example.css" type="text/css" rel="stylesheet" />
+ --><link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
 <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -101,7 +103,7 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
-<script type="text/javascript" src="http://192.168.0.8:8000/faye.js"></script>
+<script type="text/javascript" src="http://localhost:8000/faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
@@ -112,58 +114,68 @@ currentUser = {
 <script type="text/javascript" src='js/sw/field/radio_button.js'></script>
 
 <script type="text/javascript">
- 	smartTalk.init();
- 	var repeat1 = function() {
-	 clearInterval(timer);
-	 smartTalk.publishBcast(new Array(
-	 " Hello, this is SmartWorks!! Welcome~~",
-	 "오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
-	 };
-	 smartTalk.publishNoticeCount({
-	 type : 0,
-	 count : 0
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 1,
-	 count : 1
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 2,
-	 count : 2
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 3,
-	 count : 3
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 4,
-	 count : 4
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 5,
-	 count : 5
-	 });
-
-	 setTimeout(function() {
-		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
-				+ swSubject.BROADCASTING, {
-			msgType : msgType.AVAILABLE_CHATTERS,
-			sender : "smartworks.net",
-			userInfos : new Array({
-				userId : "ysjung@maninsoft.co.kr",
-				longName : "대표이사 정윤식",
-				minPicture : "images/ysjung@maninsoft.co.kr_min.jpg"
-			}, {
-				userId : "jskim@maninsoft.co.kr",
-				longName : "과장 김지숙",
-				minPicture : "images/jskim@maninsoft.co.kr_min.jpg"
-			}, {
-				userId : "hsshin@maninsoft.co.kr",
-				longName : "선임연구원 신현성",
-				minPicture : "images/hsshin@maninsoft.co.kr_min.jpg"
-			})
-		});
-	}, 5000);
+	$(document).ready(function(){
+ 		smartTalk.init();
+	 	var repeat1 = function() {
+		 clearInterval(timer);
+		 smartTalk.publishBcast(new Array(
+		 " Hello, this is SmartWorks!! Welcome~~",
+		 "오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
+		 };
+		 smartTalk.publishNoticeCount({
+		 type : 0,
+		 count : 0
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 1,
+		 count : 1
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 2,
+		 count : 2
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 3,
+		 count : 3
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 4,
+		 count : 4
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 5,
+		 count : 5
+		 });
+	
+		 setTimeout(function() {
+			smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
+					+ swSubject.BROADCASTING, {
+				msgType : msgType.AVAILABLE_CHATTERS,
+				sender : "smartworks.net",
+				userInfos : new Array({
+					userId : "ysjung@maninsoft.co.kr",
+					longName : "대표이사 정윤식",
+					minPicture : "images/no_user_picture_min.jpg"
+				}, {
+					userId : "jskim@maninsoft.co.kr",
+					longName : "과장 김지숙",
+					minPicture : "images/no_user_picture_min.jpg"
+				}, {
+					userId : "hsshin@maninsoft.co.kr",
+					longName : "선임연구원 신현성",
+					minPicture : "images/no_user_picture_min.jpg"
+				}, {
+					userId : "kmyu@maninsoft.co.kr",
+					longName : "선임연구원 유광민",
+					minPicture : "images/no_user_picture_min.jpg"
+				}, {
+					userId : "hjlee@maninsoft.co.kr",
+					longName : "대리 이현정",
+					minPicture : "images/no_user_picture_min.jpg"
+				})
+			});
+		}, 5000);
+	});
 </script>
 
 </head>

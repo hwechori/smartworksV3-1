@@ -16,13 +16,17 @@ public class SmartFormInfo extends BaseObject{
 		this.description = description;
 	}
 	public String getMinImageName() {
-		return 		super.getId() + "_min.jpg";
+		if(this.minImageName != null && !this.minImageName.equals(""))
+			return this.minImageName;
+		return SmartForm.NO_FORM_IMAGE + "_min.jpg";
 	}
 	public void setMinImageName(String minImageName) {
 		this.minImageName = minImageName;
 	}
 	public String getOrgImageName() {
-		return 		super.getId() + ".jpg";
+		if(this.orgImageName != null && !this.orgImageName.equals(""))
+			return this.orgImageName;
+		return SmartForm.NO_FORM_IMAGE + ".jpg";
 	}
 	public void setOrgImageName(String orgImageName) {
 		this.orgImageName = orgImageName;

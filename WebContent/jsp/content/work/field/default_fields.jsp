@@ -12,9 +12,9 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	String strReportType = request.getParameter("reportType");
-	int reportType = -1;
-	if(strReportType != null && !strReportType.equals("")) reportType = Integer.parseInt(strReportType);
+	String strWorkType = request.getParameter("workType");
+	int workType = SmartWork.TYPE_INFORMATION;
+	if(strWorkType != null && !strWorkType.equals("")) workType = Integer.parseInt(strWorkType);
 
 	String fieldId = request.getParameter("fieldId");
 	if(fieldId==null){
@@ -29,7 +29,7 @@
 
 
 <%
-if(reportType == SmartWork.TYPE_INFORMATION){
+if(workType == SmartWork.TYPE_INFORMATION){
 %>
 <option page="<%=FormField.FIELD_OWNER.getPageName()%>"
 	type="<%=FormField.FIELD_OWNER.getType() %>" 
@@ -60,7 +60,7 @@ if(reportType == SmartWork.TYPE_INFORMATION){
 	<fmt:message key='common.title.last_modified_date' />
 </option>
 <%
-}else if(reportType == SmartWork.TYPE_PROCESS){
+}else if(workType == SmartWork.TYPE_PROCESS){
 %>
 <option page="<%=FormField.FIELD_STATUS.getPageName()%>"
 	type="<%=FormField.FIELD_STATUS.getType() %>" 

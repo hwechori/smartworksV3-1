@@ -14,6 +14,7 @@ public class InstanceInfo{
 	private WorkSpaceInfo workSpace;
 	private int status=-1;
 	private UserInfo owner;
+	private LocalDate createdDate;
 	private UserInfo lastModifier;
 	private LocalDate lastModifiedDate;
 	
@@ -54,6 +55,12 @@ public class InstanceInfo{
 	}
 	public void setWorkSpace(WorkSpaceInfo workSpace) {
 		this.workSpace = workSpace;
+	}
+	public LocalDate getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(LocalDate createdDate) {
+		this.createdDate = createdDate;
 	}
 	public UserInfo getOwner() {
 		return owner;

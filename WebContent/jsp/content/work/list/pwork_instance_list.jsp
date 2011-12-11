@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.service.impl.SmartWorks"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.PWInstanceInfo"%>
@@ -41,9 +42,9 @@
 <table>
 <tr>
 	<th class="r_line"><fmt:message key='common.title.status'/></th>
-	<th></th>
+	<th class="r_line"><fmt:message key='common.title.owner'/>/<fmt:message key='common.title.created_date'/></th>
 	<th class="r_line"><fmt:message key='common.title.instance_subject'/></th>
-	<th class="r_line"><fmt:message key='common.title.running_task'/></th>
+	<th class="r_line"><fmt:message key='common.title.last_task'/></th>
 	<th><fmt:message key='common.title.last_modifier' />/<fmt:message
 			key='common.title.last_modified_date' />
 	</th>
@@ -69,9 +70,15 @@
 
 <tr>
 	<td></td>
-	<td><a href="<%=target%>"><img src="<%=owner.getMinPicture()%>"
-		title="<%=owner.getLongName()%>" /></a>
-	</td>
+	<td><a href="<%=target%>">
+		<div class="noti_pic">
+			<img src="<%=owner.getMinPicture()%>"
+				title="<%=owner.getLongName()%>" align="bottom" />
+		</div>
+		<div class="noti_in">
+			<span class="t_name"><%=owner.getLongName()%></span>
+			<div class="t_date"><%if(instanceInfo.getCreatedDate()!=null){%><%=instanceInfo.getCreatedDate().toLocalString()%><%} %></div>
+		</div></a></td>
 	<td><a href="<%=target%>"><%=instanceInfo.getSubject()%></a></td>
 	<td><a href="<%=target%>"><%=lastTask.getName()%></a></td>
 	<td><a href="<%=target%>">
@@ -142,6 +149,3 @@
 		<option <%if (countInPage == 50) {%> selected <%}%>>50</option>
 	</select>
 </div>
-<!-- 페이징 //-->
-
-

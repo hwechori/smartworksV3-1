@@ -17,7 +17,7 @@ public class Department extends WorkSpace {
 	public String getOrgPictureName() {
 		if(super.getOrgPictureName()!=null && !super.getOrgPictureName().equals(""))
 			return super.getOrgPictureName();
-		else  return (DEFAULT_DEPART_PICTURE + ".jpg");
+		else  return (DEFAULT_DEPART_PICTURE + ".gif");
 	}
 	public String getMidPictureName() {
 		if(super.getMidPictureName()!=null && !super.getMidPictureName().equals(""))
