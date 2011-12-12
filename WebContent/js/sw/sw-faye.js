@@ -48,7 +48,6 @@ var chatHistory = {
 		var chatInfos = $.jStorage.get(currentUserId);
 		if(chatInfos) chatHistory.chatInfos = chatInfos;
 		var index = $.jStorage.index();
-		console.log(index);
 	},
 	
 	updateChatList : function(chatList){

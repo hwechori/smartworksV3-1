@@ -24,10 +24,13 @@
 	else
 		session.setAttribute("wid", wid);
 
-	CompanyCalendar[] threeDaysCC = smartWorks.getCompanyCalendars(cUser.getCompanyId(), new LocalDate(), 3);
+	LocalDate localDate = new LocalDate();
+	localDate.setLocale(cUser.getLocale());
+	localDate.setTimeZone(cUser.getTimeZone());
+	CompanyCalendar[] threeDaysCC = smartWorks.getCompanyCalendars(cUser.getCompanyId(), localDate, 3);
 	LocalDate today = threeDaysCC[0].getDate();
 	LocalDate tomorrow = threeDaysCC[1].getDate();
-	EventInstanceInfo[] events = smartWorks.getEventInstances(cUser.getCompanyId(), cUser.getId(), new LocalDate(), 10);
+	EventInstanceInfo[] events = smartWorks.getEventInstances(cUser.getCompanyId(), cUser.getId(), localDate, 10);
 %>
 
 <!-- 이벤트,공지 포틀릿 -->	

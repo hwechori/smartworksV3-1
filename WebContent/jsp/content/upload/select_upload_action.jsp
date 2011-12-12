@@ -12,7 +12,6 @@
 		wid = SmartUtil.getCurrentUser(request, response).getId();
 %>
 
-
 <div id="upload" class="js_select_action">
 	<div class="up_works up_icon_list">
 		<a class="current" href="start_work.sw"><fmt:message key='common.upload.work' />
@@ -21,17 +20,21 @@
 	<div class="up_file up_icon_list">
 		<a href="new_file.sw"><fmt:message key='common.upload.file' /> </a>
 	</div>
+	<% if(!SmartUtil.isWorkSpaceContextType(cid) && !SmartUtil.isTaskSpaceContextType(cid)) {%>
 	<div class="up_event up_icon_list">
 		<a href="new_event.sw"><fmt:message key='common.upload.event' />
 		</a>
 	</div>
+	<%} %>
 	<div class="up_memo up_icon_list">
 		<a href="new_memo.sw"><fmt:message key='common.upload.memo' /> </a>
 	</div>
+	<% if(!SmartUtil.isWorkSpaceContextType(cid) && !SmartUtil.isTaskSpaceContextType(cid)) {%>
 	<div class="up_board up_icon_list">
 		<a href="new_board.sw"><fmt:message key='common.upload.board' />
 		</a>
 	</div>
+	<%} %>
 </div>
 
 
