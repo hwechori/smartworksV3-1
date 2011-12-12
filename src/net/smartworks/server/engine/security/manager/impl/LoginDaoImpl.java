@@ -101,11 +101,8 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			login.setAuthId(rs.getString("authId"));
 			login.setEmail(rs.getString("email"));
 			login.setPassword(rs.getString("passwd"));
-			login.setLocale(rs.getString("locale") == null || rs.getString("locale").equals("") ? new LocalDate().getLocale() : rs.getString("locale"));
-			login.setTimeZone(rs.getString("timeZone") == null || rs.getString("timeZone").equals("") ? new LocalDate().getTimeZone() : rs.getString("timeZone"));
-			login.setOrgPictureName(login.getId() + ".jpg");
-			login.setMinPictureName(login.getId() + "_min.gif");
-			login.setMidPictureName(login.getId() + "_mid.gif");
+			login.setLocale(rs.getString("locale"));
+			login.setTimeZone(rs.getString("timeZone"));
 			login.setUserLevel(login.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
 
 			return login;

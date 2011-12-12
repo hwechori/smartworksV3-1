@@ -120,6 +120,7 @@ $(function() {
 					context : input,
 					success : function(data, status, jqXHR) {
 						target.show();
+						console.log(data);
 						target.html(data);
 					}
 				});
@@ -305,6 +306,9 @@ $(function() {
 						workId : workId
 					},
 					success : function(formXml, status, jqXHR) {
+						console.log(formXml);
+						console.log(status);
+						console.log(jqXHR);
 						new SmartWorks.GridLayout({
 							target : formContent,
 							formXml : formXml
@@ -573,7 +577,7 @@ $(function() {
 
 	$('.qq-delete-text').live('click', function(e) {
 		$.ajax({
-			url : "../delete_file.sw",
+			url : "delete_file.sw",
 			data : {
 				fileId : $(e.target).parent('li').attr('fileId')
 			},
@@ -587,7 +591,7 @@ $(function() {
 
 	$('.qq-upload-file').live('click', function(e) {
 		$.ajax({
-			url : "../download_file.sw",
+			url : "download_file.sw",
 			data : {
 				fileId : $(e.target).parent('li').attr('fileId')
 			},
