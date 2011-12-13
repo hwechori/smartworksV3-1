@@ -60,7 +60,8 @@ public class MatrixReport extends ChartReport {
 	}
 	public MatrixReport(String id, String name, User owner, User lastModifier,
 			LocalDate lastModifiedDate) {
-		super(id, name, Report.TYPE_MATRIX, owner, lastModifier, lastModifiedDate);
+		super(id, name, owner, lastModifier, lastModifiedDate);
+		super.setType(Report.TYPE_MATRIX);
 	}
 
 }

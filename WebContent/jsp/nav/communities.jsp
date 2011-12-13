@@ -3,8 +3,8 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <ul class="navi_tit">
-	<li class="js_collapse_parent_siblings arr_on"><fmt:message
-			key="nav.communities.my_communities" />
+	<li><a href="" class="js_collapse_parent_siblings arr_on"><fmt:message
+			key="nav.communities.my_communities" /></a>
 	</li>
 	<li class="nav_srch">
 		<div class="srch srch_wsize">

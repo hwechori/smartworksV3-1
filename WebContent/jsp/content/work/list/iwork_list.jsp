@@ -84,7 +84,12 @@
 			<div class="contents_space js_content_div">
 
 				<!-- 업무 정의 영역 -->
-				<div class=""><%=work.getDesc()%></div>
+				<div class="">
+					<%if(work.getDesc()!= null && !work.getDesc().equals("")) {%>
+					<%=work.getDesc()%>
+					<%}else{ %><fmt:message key="common.message.no_work_desc" />
+					<%} %>
+				</div>
 				<!-- 업무 정의 영역 //-->
 
 				<!-- 버튼 영역-->
@@ -111,63 +116,43 @@
  	switch (work.getAccessPolicy().getLevel()) {
  	case AccessPolicy.LEVEL_PUBLIC:
  %>
-						<div class="ch_right">
-							<fmt:message key="common.security.access.public" />
-						</div> <%
+						<div class="ch_right"><fmt:message key="common.security.access.public" /></div> <%
  	break;
  	case AccessPolicy.LEVEL_PRIVATE:
  %>
-						<div class="ch_right">
-							<fmt:message key="common.security.access.private" />
-						</div> <%
+						<div class="ch_right"><fmt:message key="common.security.access.private" /></div> <%
  	break;
  	case AccessPolicy.LEVEL_CUSTOM:
  %>
-						<div class="ch_right">
-							<fmt:message key="common.security.access.custom" />
-						</div> <%
+						<div class="ch_right"><fmt:message key="common.security.access.custom" /></div> <%
  	break;
  	}
  %>
-						<div class="po_right">
-							<span class="bu_read"></span>
-						</div> <%
+						<div class="po_right"><span class="bu_read" title="<fmt:message key='common.security.title.access'/>"></span></div> <%
  	switch (work.getWritePolicy().getLevel()) {
  	case WritePolicy.LEVEL_PUBLIC:
  %>
-						<div class="ch_right">
-							<fmt:message key="common.security.write.public" />
-						</div> <%
+						<div class="ch_right"><fmt:message key="common.security.write.public" /></div> <%
  	break;
  	case WritePolicy.LEVEL_CUSTOM:
  %>
-						<div class="ch_right">
-							<fmt:message key="common.security.write.custom" />
-						</div> <%
+						<div class="ch_right"><fmt:message key="common.security.write.custom" /></div> <%
  	break;
  	}
  %>
-						<div class="po_right">
-							<span class="bu_regit"></span>
-						</div> <%
+						<div class="po_right"><span class="bu_regit"  title="<fmt:message key='common.security.title.write'/>"></span></div> <%
  	switch (work.getEditPolicy().getLevel()) {
  	case EditPolicy.LEVEL_WIKI:
  %>
-						<div class="ch_right">
-							<fmt:message key="common.security.edit.wiki" />
-						</div> <%
+						<div class="ch_right"><fmt:message key="common.security.edit.wiki" /></div> <%
  	break;
  	case EditPolicy.LEVEL_BLOG:
  %>
-						<div class="ch_right">
-							<fmt:message key="common.security.edit.blog" />
-						</div> <%
+						<div class="ch_right"><fmt:message key="common.security.edit.blog" /></div> <%
  	break;
  	}
  %>
-						<div class="po_right">
-							<span class="bu_modfy"></span>
-						</div> </span>
+						<div class="po_right"><span class="bu_modfy"  title="<fmt:message key='common.security.title.edit'/>"></span></div> </span>
 					<!-- 우측 권한 아이콘-->
 
 				</div>
@@ -186,17 +171,20 @@
 				<div class="txt_btn margin_b5 margin_t10 js_work_report">
 
 					<div class="po_right">
-						<a href="work_report.sw?workId=<%=work.getId()%>" class="js_new_work_report">새 통계분석 만들기</a>
+						<a href="work_report.sw?workId=<%=work.getId()%>"
+							class="js_new_work_report"><fmt:message key="report.button.new_work_report"/></a>
 					</div>
 					<div class="po_right bu_stat">
 						<select name="selMyReportList" class="js_select_work_report"
-										href="work_report.sw?workId=<%=workId%>">
+							href="work_report_view.sw?workId=<%=workId%>&workType=<%=work.getType()%>">
 							<%
 								Report[] infoReports = ChartReport.DEFAULT_CHARTS_INFORMATION;
 								if (infoReports != null) {
 									for (Report report : infoReports) {
+										String chartType = null;
+										if(report.getType() == Report.TYPE_CHART) chartType = ((ChartReport)report).getChartTypeInString();
 							%>
-							<option value="<%=report.getId()%>">
+							<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>>
 								<fmt:message key="<%=report.getName()%>" />
 							</option>
 							<%
@@ -207,8 +195,9 @@
 								ReportInfo[] reports = work.getReports();
 								if (reports != null) {
 									for (ReportInfo report : reports) {
+										String chartType = report.getChartTypeInString();
 							%>
-							<option value="<%=report.getId()%>"><%=report.getName()%></option>
+							<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>><%=report.getName()%></option>
 							<%
 									}
 								}
@@ -218,8 +207,8 @@
 				</div>
 
 				<!--통계메뉴 영역//-->
-				
-				<div id="chart_target" class="js_work_report_form margin_b5">
+
+				<div class="js_work_report_form margin_b5">
 				</div>
 
 				<!-- 목록보기 -->
@@ -227,9 +216,7 @@
 
 					<!-- 목록보기 타이틀-->
 					<div class="list_title_space js_work_list_title">
-
 						<div class="txt_btn posi_ab">
-
 							<div class="title">
 								<fmt:message key="common.title.instance_list" />
 							</div>
@@ -285,7 +272,8 @@
 								<a href="">엑셀로 등록하기</a>
 							</div>
 							<div class="po_right">
-								<a href="new_iwork.sw?workId=<%=workId%>" class="js_create_new_work">새항목 등록하기</a>
+								<a href="new_iwork.sw?workId=<%=workId%>"
+									class="js_create_new_work">새항목 등록하기</a>
 							</div>
 						</div>
 					</div>

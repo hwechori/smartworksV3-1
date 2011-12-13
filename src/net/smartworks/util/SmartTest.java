@@ -71,10 +71,6 @@ public class SmartTest {
 		user.setLocale("ko_KR"); // ko_KR, en_US
 		user.setTimeZone("SEOUL");
 		user.setCompany("(주)맨인소프트");
-		user.setOrgPictureName(user.getId() + ".jpg");
-		user.setMinPictureName(user.getId() + "_min.gif");
-		user.setMidPictureName(user.getId() + "_mid.gif");
-
 		return user;
 	}
 
@@ -87,10 +83,6 @@ public class SmartTest {
 		user.setLocale("ko_KR"); // ko_KR, en_US
 		user.setTimeZone("SEOUL");
 		user.setCompany("(주)맨인소프트");
-		user.setOrgPictureName(user.getId() + ".jpg");
-		user.setMinPictureName(user.getId() + "_min.gif");
-		user.setMidPictureName(user.getId() + "_mid.gif");
-
 		return user;
 	}
 
@@ -103,10 +95,6 @@ public class SmartTest {
 		user.setLocale("ko_KR"); // ko_KR, en_US
 		user.setTimeZone("SEOUL");
 		user.setCompany("(주)맨인소프트");
-		user.setOrgPictureName(user.getId() + ".jpg");
-		user.setMinPictureName(user.getId() + "_min.gif");
-		user.setMidPictureName(user.getId() + "_mid.gif");
-
 		return user;
 	}
 	public static UserInfo getUserInfo1() throws Exception {
@@ -114,8 +102,6 @@ public class SmartTest {
 		user.setId("kmyu@maninsoft.co.kr");
 		user.setName("유광민");
 		user.setPosition("기술연구소장");
-		user.setMinPictureName(user.getId() + "_min.gif");
-
 		return user;
 	}
 
@@ -124,8 +110,6 @@ public class SmartTest {
 		user.setId("hsshin@maninsoft.co.kr");
 		user.setName("신현성");
 		user.setPosition("개발팀");
-		user.setMinPictureName(user.getId() + "_min.gif");
-
 		return user;
 	}
 
@@ -134,8 +118,6 @@ public class SmartTest {
 		user.setId("hjlee@maninsoft.co.kr");
 		user.setName("이현정");
 		user.setPosition("대리");
-		user.setMinPictureName(user.getId() + "_min.gif");
-
 		return user;
 	}
 	

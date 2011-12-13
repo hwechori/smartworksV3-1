@@ -62,12 +62,12 @@ public class ReportController {
 				"jsp/content/work/report/work_report_table.jsp", "");
 	}
 
-	@RequestMapping("/work_report_matrix")
-	public ModelAndView workReportMatrix(HttpServletRequest request,
+	@RequestMapping("/work_report_view")
+	public ModelAndView workReportView(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/content/work/report/work_report_matrix.jsp", "");
+				"jsp/content/work/report/work_report_view.jsp", "");
 	}
 
 	@RequestMapping(value = "/get_report_data", method = RequestMethod.GET)

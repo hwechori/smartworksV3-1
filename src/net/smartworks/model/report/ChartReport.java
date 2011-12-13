@@ -7,14 +7,17 @@ import net.smartworks.util.SmartUtil;
 
 public class ChartReport extends Report {
 
-	public static final int CHART_TYPE_COLUMN = 1;
-	public static final int CHART_TYPE_BAR = 2;
-	public static final int CHART_TYPE_LINE = 3;
-	public static final int CHART_TYPE_AREA = 4;
+	public static final int CHART_TYPE_LINE = 1;
+	public static final int CHART_TYPE_AREA = 2;
+	public static final int CHART_TYPE_BAR = 3;
+	public static final int CHART_TYPE_COLUMN = 4;
 	public static final int CHART_TYPE_PIE = 5;
-	public static final int CHART_TYPE_BUBBLE = 6;
-	public static final int CHART_TYPE_PLOT = 7;
-	public static final int DEFAULT_CHART_TYPE = CHART_TYPE_COLUMN;
+	public static final int CHART_TYPE_GAUGE = 6;
+	public static final int CHART_TYPE_RADAR = 7;
+	public static final int CHART_TYPE_SCATTER = 8;
+	public static final int DEFAULT_CHART_TYPE = CHART_TYPE_BAR;
+	
+	public static String[] CHART_TYPES_STRING = new String[]{"", "line", "area", "bar", "column", "pie", "gauge", "radar", "scatter"};
 
 	public static final String CHART_PCNT_MONTHLY = "chart.pcnt.monthly";
 	public static final String CHART_PCNT_MONTHLY_DEPARTMENT = "chart.pcnt.monthly.by_department";
@@ -48,6 +51,10 @@ public class ChartReport extends Report {
 
 	public int getChartType() {
 		return chartType;
+	}
+	public String getChartTypeInString() {
+		if(chartType<1 || chartType>=ChartReport.CHART_TYPES_STRING.length) return null;
+		return ChartReport.CHART_TYPES_STRING[chartType];
 	}
 	public void setChartType(int chartType) {
 		this.chartType = chartType;
@@ -115,12 +122,12 @@ public class ChartReport extends Report {
 		super(id, name);
 	}
 
-	public ChartReport(String id, String name, int type, User owner, User lastModifier, LocalDate lastModifiedDate) {
-		super(id, name, type, owner, lastModifier, lastModifiedDate);
+	public ChartReport(String id, String name, User owner, User lastModifier, LocalDate lastModifiedDate) {
+		super(id, name, Report.TYPE_CHART, owner, lastModifier, lastModifiedDate);
 	}
 
 	public static ChartReport getChartPCntMonthly() {
-		ChartReport chart = new ChartReport(CHART_PCNT_MONTHLY, CHART_PCNT_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PCNT_MONTHLY, CHART_PCNT_MONTHLY, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
@@ -131,7 +138,7 @@ public class ChartReport extends Report {
 	}
 
 	public static ChartReport getChartPCntMonthlyByDepartment() {
-		ChartReport chart = new ChartReport(CHART_PCNT_MONTHLY_DEPARTMENT, CHART_PCNT_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PCNT_MONTHLY_DEPARTMENT, CHART_PCNT_MONTHLY_DEPARTMENT, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
@@ -144,7 +151,7 @@ public class ChartReport extends Report {
 	}
 
 	public static ChartReport getChartPMeanMonthly() {
-		ChartReport chart = new ChartReport(CHART_PMEAN_MONTHLY, CHART_PMEAN_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PMEAN_MONTHLY, CHART_PMEAN_MONTHLY, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
@@ -155,7 +162,7 @@ public class ChartReport extends Report {
 	}
 
 	public static ChartReport getChartPMeanMonthlyByDepartment() {
-		ChartReport chart = new ChartReport(CHART_PMEAN_MONTHLY_DEPARTMENT, CHART_PMEAN_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PMEAN_MONTHLY_DEPARTMENT, CHART_PMEAN_MONTHLY_DEPARTMENT, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
@@ -168,7 +175,7 @@ public class ChartReport extends Report {
 	}
 
 	public static ChartReport getChartPSumMonthly() {
-		ChartReport chart = new ChartReport(CHART_PSUM_MONTHLY, CHART_PSUM_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PSUM_MONTHLY, CHART_PSUM_MONTHLY, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
@@ -179,7 +186,7 @@ public class ChartReport extends Report {
 	}
 
 	public static ChartReport getChartPSumMonthlyByDepartment() {
-		ChartReport chart = new ChartReport(CHART_PSUM_MONTHLY_DEPARTMENT, CHART_PSUM_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PSUM_MONTHLY_DEPARTMENT, CHART_PSUM_MONTHLY_DEPARTMENT, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
@@ -192,7 +199,7 @@ public class ChartReport extends Report {
 	}
 
 	public static ChartReport getChartPMaxMonthly() {
-		ChartReport chart = new ChartReport(CHART_PMAX_MONTHLY, CHART_PMAX_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PMAX_MONTHLY, CHART_PMAX_MONTHLY, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
@@ -203,7 +210,7 @@ public class ChartReport extends Report {
 	}
 
 	public static ChartReport getChartPMaxMonthlyByDepartment() {
-		ChartReport chart = new ChartReport(CHART_PMAX_MONTHLY_DEPARTMENT, CHART_PMAX_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PMAX_MONTHLY_DEPARTMENT, CHART_PMAX_MONTHLY_DEPARTMENT, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
@@ -216,7 +223,7 @@ public class ChartReport extends Report {
 	}
 
 	public static ChartReport getChartPMinMonthly() {
-		ChartReport chart = new ChartReport(CHART_PMIN_MONTHLY, CHART_PMIN_MONTHLY, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PMIN_MONTHLY, CHART_PMIN_MONTHLY, SmartUtil.getSystemUser(), SmartUtil.getSystemUser(),
 				new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;
@@ -227,7 +234,7 @@ public class ChartReport extends Report {
 	}
 
 	public static ChartReport getChartPMinMonthlyByDepartment() {
-		ChartReport chart = new ChartReport(CHART_PMIN_MONTHLY_DEPARTMENT, CHART_PMIN_MONTHLY_DEPARTMENT, DEFAULT_CHART_TYPE, SmartUtil.getSystemUser(),
+		ChartReport chart = new ChartReport(CHART_PMIN_MONTHLY_DEPARTMENT, CHART_PMIN_MONTHLY_DEPARTMENT, SmartUtil.getSystemUser(),
 				SmartUtil.getSystemUser(), new LocalDate());
 		chart.chartType = DEFAULT_CHART_TYPE;
 		chart.xAxis = FormField.FIELD_LAST_MODIFIED_DATE;

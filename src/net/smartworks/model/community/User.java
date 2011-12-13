@@ -7,9 +7,9 @@ public class User extends WorkSpace {
 	public static final int USER_LEVEL_AMINISTRATOR = 2;
 	public static final int USER_LEVEL_SYSMANAGER = 3;
 	public static final int USER_LEVEL_DEFAULT = USER_LEVEL_INTERNAL_USER;
-	
-	private static final String NO_USER_PRICTURE_NAME = "pic_no_userpicture";
-	
+
+	public static final String  NO_USER_PICTURE  = "no_user_picture";
+
 	private int	userLevel = USER_LEVEL_DEFAULT;
 	private String position;
 	private String locale;
@@ -22,6 +22,21 @@ public class User extends WorkSpace {
 	private String company;
 	private String companyId;
 
+	public String getOrgPictureName() {
+		if(super.getOrgPictureName()!=null && !super.getOrgPictureName().equals(""))
+			return super.getOrgPictureName();
+		else  return (NO_USER_PICTURE + ".jpg");
+	}
+	public String getMidPictureName() {
+		if(super.getMidPictureName()!=null && !super.getMidPictureName().equals(""))
+			return super.getMidPictureName();
+		else  return (NO_USER_PICTURE + "_mid.jpg");
+	}
+	public String getMinPictureName() {
+		if(super.getMinPictureName()!=null && !super.getMinPictureName().equals(""))
+			return super.getMinPictureName();
+		else  return (NO_USER_PICTURE + "_min.jpg");
+	}
 	public String getPhoneNo() {
 		return phoneNo;
 	}
@@ -96,15 +111,5 @@ public class User extends WorkSpace {
 	}
 	public User(String id, String name){
 		super(id, name);
-	}
-
-	public static String getOrgNoPicture(){
-		return Community.PICTURE_PATH + NO_USER_PRICTURE_NAME + ".jpg";
-	}
-	public static String getMidNoPicture(){
-		return Community.PICTURE_PATH + NO_USER_PRICTURE_NAME + "_mid.jpg";
-	}
-	public static String getMinNoPicture(){
-		return Community.PICTURE_PATH + NO_USER_PRICTURE_NAME + "_min.jpg";		
 	}
 }

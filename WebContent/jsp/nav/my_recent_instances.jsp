@@ -25,7 +25,6 @@
 		if (workInstances != null) {
 			for (InstanceInfo workInstance : workInstances) {
 				SmartWorkInfo work = (SmartWorkInfo) workInstance.getWork();
-				String workSpaceId = workInstance.getWorkSpace().getId();
 				UserInfo owner = workInstance.getOwner();
 				String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE
 						+ owner.getId();
@@ -45,18 +44,11 @@
 							+ workInstance.getId();
 					targetContent = "swork_space.sw";
 				}
-				if (workSpaceId != null
-						&& !workSpaceId.equals(SmartUtil.getCurrentUser(
-								request, response).getId())) {
-					classType = "";
-				} else {
-					classType = "js_content";
-				}
 	%>
 	<li>
 	<a
-		href="<%=targetContent%>?cid=<%=instanceContext%>&wid=<%=workSpaceId%>"
-		class="<%=classType%>" title="<%=work.getFullpathName()%>">
+		href="<%=targetContent%>?cid=<%=instanceContext%>"
+		class="js_content" title="<%=work.getFullpathName()%>">
 			<span class="ico_pe"><img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>"
 			width="20" height="20" border="0"></span> 
 			<span class="nav_subtitl_area"><%=workInstance.getSubject()%></span></a>
