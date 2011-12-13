@@ -71,9 +71,9 @@ currentUser = {
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
-<!-- <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
-<link href="css/ext/example.css" type="text/css" rel="stylesheet" />
- -->
+<link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
+<!-- <link href="css/ext/example.css" type="text/css" rel="stylesheet" />
+-->
 <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
 
 <link rel="stylesheet" href="css/fileuploader/fileuploader.css" type="text/css"/>	
