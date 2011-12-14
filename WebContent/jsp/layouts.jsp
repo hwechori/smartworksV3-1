@@ -123,6 +123,8 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
+<script type="text/javascript" src="js/sw/sw-file.js"></script>
+
 <script type="text/javascript" src='js/smartform/smartworks.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-layout.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-field-builder.js'></script>

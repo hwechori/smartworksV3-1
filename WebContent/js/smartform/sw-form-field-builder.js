@@ -1,6 +1,7 @@
 SmartWorks.FormFieldBuilder = {};
 SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity) {
 	var type = $entity.find('format').attr('type');
+	mode = 'edit';
 	switch(type) {
 	case 'checkBox' :
 		SmartWorks.FormRuntime.CheckBoxBuilder.build({

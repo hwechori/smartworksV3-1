@@ -181,4 +181,6 @@ public interface ISmartWorks {
 
 	public abstract String getFormXml(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
+	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 }
