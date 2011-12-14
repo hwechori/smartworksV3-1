@@ -87,8 +87,8 @@ public class DocFileController {
 		}
 	}
 
-	@RequestMapping(value = "/download_file", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "/download_file", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
 			smartworks.downloadFile(request, response);
