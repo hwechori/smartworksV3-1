@@ -73,8 +73,9 @@ currentUser = {
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
 <!-- <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
 <link href="css/ext/example.css" type="text/css" rel="stylesheet" />
- --><link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
-<link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
+ -->
+<link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
+<link rel="stylesheet" href="css/showLoading.css" type="text/css"/>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
@@ -82,7 +83,7 @@ currentUser = {
 	</fmt:message>
 </title>
 
-<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
@@ -91,10 +92,15 @@ currentUser = {
 <script type="text/javascript"
 	src="js/jquery/jquery.ui.datepicker-ko.js"></script>
 <script type="text/javascript"
-	src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
+	src="js/jquery/jquery-ui-1.8.16.custom.min.js"></script>
+
+<script type="text/javascript" src="js/jquery/jquery.ui.mouser.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.slider.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.json-2.3.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.showLoading.min.js"></script>
 <script type="text/javascript" src="js/jstorage/jstorage.js"></script>
 <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
 <script type="text/javascript" src="js/ext/bootstrap.js"></script>

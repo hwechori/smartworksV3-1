@@ -59,7 +59,7 @@
                     
             <!-- 우측 버튼-->
              <div class="txt_btn">
-                <div class="po_right"><a href=""><fmt:message key="common.button.copy_url"/></a></div>
+                <div class="po_right"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
             </div>
             
             <div class="txt_btn">

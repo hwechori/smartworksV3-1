@@ -52,9 +52,13 @@
 					before.apply(this, [event]);
 				}
 				if(target == target_) {
+					$('#'+target).showLoading();
 					$.history.load(this.getAttribute('href'));
+					$('#'+target).hideLoading();
 				} else {
+					$('#'+target).showLoading();
 					$('#' + target).load(this.getAttribute('href'));
+					$('#'+target).hideLoading();
 				}
 				if(after) {
 					after.apply(this, [event]);
@@ -62,7 +66,6 @@
 			} catch(err) {
 				console.log(err);
 			}
-			
 			return false;
 		}
 	};

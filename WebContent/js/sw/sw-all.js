@@ -215,6 +215,7 @@ $(function() {
 	$('a.js_search_filter').live(
 			'click',
 			function(e) {
+				$('#content').showLoading();
 				var input = $(e.target).parent();
 				var target = $('#search_filter');
 				var url = input.attr('href');
@@ -227,6 +228,10 @@ $(function() {
 						var newCondition = condition.clone().removeClass("js_new_condition");
 						condition.parent().append(newCondition.show());
 						target.slideDown(500);
+						$('#content').hideLoading();
+					},
+					error : function(){
+						$('#content').hideLoading();						
 					}
 				});
 				return false;
@@ -235,6 +240,7 @@ $(function() {
 	$('select.js_select_filter').live(
 			'change',
 			function(e) {
+				$('#content').showLoading();
 				var input = $(e.target);
 				var target = $('#search_filter');
 				var url = input.attr('href') + "&filterId=" + input.children('option:selected').attr('value');
@@ -243,7 +249,12 @@ $(function() {
 					data : {},
 					success : function(data, status, jqXHR) {
 						target.html(data).slideDown(500);
+						$('#content').hideLoading();
+					},
+					error : function(){
+						$('#content').hideLoading();						
 					}
+
 				});
 				return false;
 			});
@@ -317,6 +328,7 @@ $(function() {
 	});
 
 	$('a.js_new_work_report').live('click', function(e) {
+		$('#content').showLoading();						
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
 		var url = input.attr('href');
@@ -325,12 +337,17 @@ $(function() {
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
+				$('#content').hideLoading();						
+			},
+			error : function(){
+				$('#content').hideLoading();						
 			}
 		});
 		return false;
 	});
 
 	$('select.js_select_work_report').live('change', function(e) {
+		$('#content').showLoading();						
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
 		var url = input.attr('href')
@@ -346,7 +363,12 @@ $(function() {
 				var chartTarget = target.html(data).find('div.js_work_report_view');
 				smartChart.load(reportId, chartType, false, "chart_target");
 				target.slideDown(500);
+				$('#content').hideLoading();						
+			},
+			error : function(){
+				$('#content').hideLoading();						
 			}
+
 		});
 		
 		return false;
@@ -428,6 +450,7 @@ $(function() {
 			target.hide();
 			input.hide().siblings().show();
 		}else{
+			$('#content').showLoading();						
 			var url = input.parent().attr('url');
 			$.ajax({
 				url : url,
@@ -435,6 +458,10 @@ $(function() {
 				success : function(data, status, jqXHR) {
 					target.html(data).show();
 					input.hide().siblings().show();
+					$('#content').hideLoading();						
+				},
+				error : function(){
+					$('#content').hideLoading();											
 				}
 			});
 		}
@@ -529,6 +556,7 @@ $(function() {
 			return false;
 		}
 		if($(target).children().length == 0){
+			$('div.js_nav_my_works').showLoading();						
 			$.ajax({
 				url : url,
 				data : {
@@ -541,6 +569,10 @@ $(function() {
 					target.html(data);
 					target.siblings('li.js_drill_down').find('div').hide();
 					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
+					$('div.js_nav_my_works').hideLoading();											
+				},
+				error : function(){
+					$('div.js_nav_my_works').hideLoading();											
 				}
 			});
 		}else{
@@ -597,4 +629,14 @@ $(function() {
 			}
 		});
 	});
+	
+    $('a.js_copy_address').zclip({
+        path:'js/jquery/ZeroClipboard.swf',
+        copy: function(){
+        	return $(location).attr('href');
+        	},
+        beforeCopy: null,
+        afterCopy:null
+    });
+
 });
