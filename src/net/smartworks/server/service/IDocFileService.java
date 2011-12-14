@@ -56,4 +56,8 @@ public interface IDocFileService {
 
 	public abstract void deleteFile(HttpServletRequest request) throws Exception;
 
+	public abstract void setUserPicture(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 }

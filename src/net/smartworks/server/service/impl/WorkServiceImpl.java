@@ -36,6 +36,8 @@ import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
@@ -85,7 +87,7 @@ public class WorkServiceImpl implements IWorkService {
 	private ITskManager getTskManager() {
 		return SwManagerFactory.getInstance().getTskManager();
 	}
-	private ISwoManager getSwokManager() {
+	private ISwoManager getSwoManager() {
 		return SwManagerFactory.getInstance().getSwoManager();
 	}
 
@@ -406,7 +408,7 @@ public class WorkServiceImpl implements IWorkService {
 		String txtUserProfileCellNo = CommonUtil.toNotNull(request.getParameter("txtUserProfileCellNo"));
 
 		//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW); -- md5 password 암호화
-		SwoUser user = getSwokManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
+		SwoUser user = getSwoManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
 		user.setPassword(pwUserProfilePW);
 		user.setLocale(selUserProfileLocale);
 		user.setTimeZone(selUserProfileTimeZone);
@@ -416,7 +418,7 @@ public class WorkServiceImpl implements IWorkService {
 
 		String returnValue = "";
 		try {
-			getSwokManager().setUser(txtUserProfileUserId, user, null);
+			getSwoManager().setUser(txtUserProfileUserId, user, null);
 			returnValue = "Success~!!";
 			UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
 	        Authentication authentication = authenticationManager.authenticate(authRequest);
@@ -430,6 +432,20 @@ public class WorkServiceImpl implements IWorkService {
 
 		return returnValue;
 
+	}
+	@Override
+	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
+		SwfFormCond swfFormCond = new SwfFormCond();
+		swfFormCond.setPackageId(request.getParameter("workId"));
+
+		SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_LITE);
+
+		SwdRecordCond swdRecordCond = new SwdRecordCond();
+		swdRecordCond.setFormId(swfForms[0].getId());
+		swdRecordCond.setRecordId(request.getParameter("recordId"));
+		SwdRecord swdRecord = getSwdManager().getRecord("", swdRecordCond, null);
+
+		return swdRecord;
 	}
 
 }

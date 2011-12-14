@@ -10,6 +10,7 @@ import net.smartworks.model.report.Report;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.form.exception.SwfException;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 
@@ -32,6 +33,8 @@ public interface IWorkService {
 	public Data getReportData(HttpServletRequest request) throws Exception;
 
 	public String getFormXml(String companyId, String userId, String workId) throws Exception;
+
+	public SwdRecord getRecord(HttpServletRequest request) throws Exception;
 
 	public String setMyProfile(HttpServletRequest request) throws Exception;
 

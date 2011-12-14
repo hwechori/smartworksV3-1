@@ -22,8 +22,8 @@
 				type : 'POST',
 				data : params,
 				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-					alert(data);
+					alert("update success!!");
+					document.location.href = "home.sw";
 				},
 				error : function(jqXHR, status, error) {
 					console.log(status);
@@ -67,8 +67,7 @@
 			<form name="frmMyProfileSetting" class="js_validation_required">
 			<span class="photo_section">
 				<img src="<%=cUser.getOrgPicture() %>" />
-				<input class="filetype_area" name="filUserProfilePicture" type="file" size="1"
-					onchange="">
+				<input class="filetype_area" name="filUserProfilePicture" type="file" size="1" onchange="upload_user_picture.sw">
 			</span>
 			
 			<span class="table_nomal600">

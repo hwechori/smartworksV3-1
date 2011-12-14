@@ -319,13 +319,25 @@ $(function() {
 						console.log(formXml);
 						console.log(status);
 						console.log(jqXHR);
-						new SmartWorks.GridLayout({
-							target : formContent,
-							formXml : formXml
+						$.ajax({
+							url : "get_record.sw",
+							data : {
+								workId : workId,
+								recordId : "5ef4e5632e37b267012e552308700196"
+							},
+							success : function(data, status, jqXHR) {
+								console.log(data);
+								new SmartWorks.GridLayout({
+									target : formContent,
+									formXml : formXml,
+									formValues : data.record
+								});
+							}
 						});
 					}
 				});			
 			}
+			
 		});
 		return false;
 	});
@@ -634,19 +646,6 @@ $(function() {
 			context : this,
 			success : function(data, status, jqXHR) {
 				$(e.target).parent().remove();
-			}
-		});
-	});
-
-	$('.qq-upload-file').live('click', function(e) {
-		$.ajax({
-			url : "download_file.sw",
-			data : {
-				fileId : $(e.target).parent('li').attr('fileId')
-			},
-			type : "GET",
-			context : this,
-			success : function(data, status, jqXHR) {
 			}
 		});
 	});

@@ -32,6 +32,7 @@ import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.util.LocalDate;
 
 public interface ISmartWorks {
@@ -171,6 +172,8 @@ public interface ISmartWorks {
 
 	public abstract String setMyProfile(HttpServletRequest request) throws Exception;
 
+	public abstract void setUserPicture(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 	public abstract String uploadFile(HttpServletRequest request) throws Exception;
 
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
@@ -180,5 +183,9 @@ public interface ISmartWorks {
 	public abstract void deleteFile(HttpServletRequest request) throws Exception;
 
 	public abstract String getFormXml(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public abstract SwdRecord getRecord(HttpServletRequest request) throws Exception;
+
+	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }

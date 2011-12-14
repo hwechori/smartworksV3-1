@@ -61,7 +61,7 @@
 					<!-- task 정보 -->
 					<div class="float_left">
 						<img align="bottom"
-							src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%} else {%><%=User.getMidNoPicture()%><%}%>">
+							src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>">
 					</div>
 					<div class="noti_in">
 						<span><%=task.getName()%></span>

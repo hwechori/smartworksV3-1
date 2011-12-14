@@ -8,9 +8,13 @@
 
 package net.smartworks.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
@@ -129,6 +133,15 @@ public class WorkController extends ExceptionInterceptor {
 			e.printStackTrace();
 		}
 		return formXml;
+	}
+
+	@RequestMapping(value = "/get_record", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody Map<String, Object> getRecord(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SwdRecord swdRecord = smartworks.getRecord(request);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("record", swdRecord);
+		return map;
 	}
 
 }
