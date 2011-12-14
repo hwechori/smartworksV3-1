@@ -150,7 +150,7 @@ public class DocFileServiceImpl extends HttpServlet implements IDocFileService {
     		User user = SmartUtil.getCurrentUser(request, response);
 
     		// 문서 다운로드 사용자 사번: userId
-    		String userId = request.getParameter("userId").equals("") ? user.getId() : request.getParameter("userId");
+    		String userId = user.getId();
     		IFileModel doc = getDocManager().retrieveFile(fileId);
     		
     		//파일명, UniqValue
@@ -159,8 +159,8 @@ public class DocFileServiceImpl extends HttpServlet implements IDocFileService {
     		
     		String file = "";//사본파일경로
     		String sourceFile = doc.getFilePath();
-    		
-    		int ins = sourceFile.indexOf("swDocument");
+
+    		int ins = sourceFile.indexOf("uploadFiles");
     		file = sourceFile.substring(0, ins);
     		
     		file = file + "temp\\";
@@ -309,8 +309,6 @@ public class DocFileServiceImpl extends HttpServlet implements IDocFileService {
     		File                f        = new File(file);
     		int                 length   = 0;
     							op       = response.getOutputStream();
-    		ServletContext      context  = getServletConfig().getServletContext();
-    		String              mimetype = context.getMimeType(file);
     		
     		response.setContentType("application/octet-stream" );
     		response.setContentLength( (int)f.length() );
@@ -344,6 +342,7 @@ public class DocFileServiceImpl extends HttpServlet implements IDocFileService {
                 inChannel.close();
             if (outChannel != null)
                 outChannel.close();
+			op.flush();
         }
     }
 
