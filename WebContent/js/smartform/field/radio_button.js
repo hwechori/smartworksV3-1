@@ -7,11 +7,13 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		value : '',
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
 
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 	var $format = $entity.children('format');
@@ -29,7 +31,7 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	for ( var i = 0; i < $staticItems.length; i++) {
 		var $staticItem = $staticItems.eq(i);
 		var text = $staticItem.text();
-		var checked = (options.value === text ) ? 'checked' : '' ;
+		var checked = (value === text ) ? 'checked' : '' ;
 
 		console.dir(checked);
 		
