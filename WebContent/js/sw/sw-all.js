@@ -120,7 +120,6 @@ $(function() {
 					context : input,
 					success : function(data, status, jqXHR) {
 						target.show();
-						console.log(data);
 						target.html(data);
 					}
 				});
@@ -450,10 +449,21 @@ $(function() {
 			'click',
 			function(e) {
 				var input = $(e.target);
+				
 				var comName = input.attr('comName');
 				var comId = input.attr('comId');
 				var target = input.parents('div.js_community_list').prev()
 						.find('div.js_selected_communities');
+				
+				console.log(target.siblings('input.js_auto_complete'));
+				target.siblings('input.js_auto_complete').value = '';
+				
+				var inputTarget = target.siblings('input.js_form_user_field');
+				console.log(inputTarget);
+				if(inputTarget.length == 1) {
+					inputTarget.hide();
+					inputTarget.next('div.js_srch_x').hide();
+				}
 				var oldHTML = target.html();
 				if (oldHTML == null)
 					oldHTML = "";
@@ -481,6 +491,13 @@ $(function() {
 
 	$('.js_remove_community').live('click', function(e) {
 		var input = $(e.target);
+		
+		var inputTarget = input.parents('div.js_selected_communities').siblings('input.js_form_user_field');
+		
+		if (inputTarget.length == 1) {
+			inputTarget.show();
+			inputTarget.next('div.js_srch_x').show();
+		}
 		var selected_users = input.parents('div.js_selected_communities');
 		input.parents('span.js_community_item').remove();
 		selected_users.next().focus();
@@ -601,4 +618,18 @@ $(function() {
 			}
 		});
 	});
+	
+	$('a.js_pop_user_info').live('click', function(e) {
+		var input = $(e.target);
+		var left = input.parents('td:first').position().left;
+		var top = input.parents('td:first').position().top;
+		input.popupWindow({ 
+			width:600,
+			height:600,
+			top:top, 
+			left:left
+		}); 
+		return false;
+	});
+	
 });
