@@ -43,7 +43,7 @@ nhn.husky.EZCreator = new (function(){
 			return;
 		}
 
-		if(typeof(elPlaceHolder) != "object")
+		if(typeof(elPlaceHolder) != "object") 
 			elPlaceHolder = document.getElementById(elPlaceHolder);
 
 		var elIFrame;
@@ -57,6 +57,7 @@ nhn.husky.EZCreator = new (function(){
 		elIFrame.style.width = "1px";
 		elIFrame.style.height = "1px";
 
+		
 		elPlaceHolder.parentNode.insertBefore(elIFrame, elPlaceHolder.nextSibling);
 
 		attachEvent(elIFrame, "load", function(){

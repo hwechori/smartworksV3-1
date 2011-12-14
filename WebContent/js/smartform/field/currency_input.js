@@ -20,7 +20,7 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	var name = $entity.attr('name');
 	
 	var currency = $entity.children('format').children('currency').text();
-	
+	currency = '$';
 	var $label = $('<label>' + name + '</label>');
 	$label.appendTo(options.container);
 	

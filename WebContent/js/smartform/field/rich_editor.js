@@ -23,11 +23,10 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	$label.appendTo(options.container);
 	
 	var $textarea = null;
-	console.log(readOnly);
 	if(readOnly){
-		$textarea = $('<span fieldId="' + id + '"></span>').html(options.value);
+		$textarea = $('<span fieldId="' + id + '" id="'+id+'"></span>').html(options.value);
 	}else{	
-		$textarea = $('<textarea style="width:725px; height:300px;display:none" fieldId="' + id + '" name="' + id + '" id="' + id + '" >'+options.value+'</textarea>');
+		$textarea = $('<textarea style="width:100%; height:100%;display:none" fieldId="' + id + '" name="' + id + '" id="' + id + '" >'+options.value+'</textarea>');
 	}
 	$textarea.appendTo(options.container);
 
