@@ -1,8 +1,8 @@
 SmartWorks.FormRuntime = SmartWorks.FormRuntime || {};
 
-SmartWorks.FormRuntime.DateChooserBuilder = {};
+SmartWorks.FormRuntime.DateTimeChooserBuilder = {};
 
-SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
+SmartWorks.FormRuntime.DateTimeChooserBuilder.build = function(config) {
 	var options = {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
@@ -26,14 +26,18 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 	if(readOnly){
 		$text = $('<span fieldId="' + id + '"></span>').text(options.value);
 	}else{	
-		$text = $('<input class="fieldline js_todaypicker" readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '">').attr('value', options.value);
+		$text = $('<input class="fieldline js_todaytimepicker" readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '">').attr('value', options.value);
 	}
 	$text.appendTo(options.container);
-	
+
 	$.datepicker.setDefaults($.datepicker.regional[currentUser.locale]);
-	$('input.js_todaypicker').datepicker({
+	$.timepicker.setDefaults($.timepicker.regional[currentUser.locale]);
+	$('input.js_todaytimepicker').datetimepicker({
 		defaultDate : new Date(),
-		dateFormat : 'yy.mm.dd'
+		dateFormat : 'yy.mm.dd',
+		timeFormat: 'hh:mm',
+		hourGrid: 4,
+		minuteGrid: 10,
 	});
 	
 	return options.container;

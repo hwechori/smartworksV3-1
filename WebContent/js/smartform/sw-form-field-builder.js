@@ -1,7 +1,6 @@
 SmartWorks.FormFieldBuilder = {};
 SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity) {
 	var type = $entity.find('format').attr('type');
-
 	switch(type) {
 	case 'checkBox' :
 		SmartWorks.FormRuntime.CheckBoxBuilder.build({
@@ -87,7 +86,24 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity) {
 			entity : $entity
 		});
 		return;
-		
+	case 'userField' :
+		SmartWorks.FormRuntime.UserFieldBuilder.build({
+			mode : mode, // view or edit
+			container : $target,
+			entity : $entity,
+			value : {
+				userId: 'kmyu@maninsoft.co.kr',
+				longName: 'manager kwangminyu'	
+				}
+		});
+		return;	
+	case 'dateTimeField' :
+		SmartWorks.FormRuntime.DateTimeChooserBuilder.build({
+			mode : mode, // view or edit
+			container : $target,
+			entity : $entity
+		});
+		return;	
 	default :
 		SmartWorks.FormRuntime.TextInputBuilder.build({
 			mode : mode, // view or edit

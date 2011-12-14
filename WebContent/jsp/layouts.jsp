@@ -63,7 +63,9 @@ currentUser = {
 	longName : "<%=currentUser.getLongName()%>",
 	companyId : "<%=currentUser.getCompanyId()%>",
 	minPicture : "<%=currentUser.getMinPicture()%>",
-	midPicture : "<%=currentUser.getMidPicture()%>"
+	midPicture : "<%=currentUser.getMidPicture()%>",
+	locale : "<%=currentUser.getLocale()%>",
+ 	timeZone : "<%=currentUser.getTimeZone()%>"
 };
 </script>
 
@@ -73,8 +75,8 @@ currentUser = {
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
 <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
 <!-- <link href="css/ext/example.css" type="text/css" rel="stylesheet" />
- --><link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
-
+-->
+<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
 <link rel="stylesheet" href="css/fileuploader/fileuploader.css" type="text/css"/>	
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
@@ -87,13 +89,17 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.explode.js"></script>
-<script type="text/javascript" src="js/jquery/jquery.effects.slide.js"></script>
-<script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
-<script type="text/javascript" src="js/jquery/jquery.ui.mouse.js"></script>
-<script type="text/javascript" src="js/jquery/jquery.ui.slider.js"></script>
-<script type="text/javascript" src="js/jquery/jquery.ui.datepicker.js"></script>
-<script type="text/javascript" src="js/jquery/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.widget.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.mouse.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.slider.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.datepicker.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-timepicker-ko.js"></script>
+
+<script type="text/javascript" src="js/jquery/jquery.popupWindow.js"></script>
+
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.json-2.3.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.zclip.min.js"></script>
@@ -130,6 +136,8 @@ currentUser = {
 <script type="text/javascript" src='js/smartform/field/rich_editor.js'></script>
 <script type="text/javascript" src='js/smartform/field/text_input.js'></script>
 <script type="text/javascript" src='js/smartform/field/time_chooser.js'></script>
+<script type="text/javascript" src='js/smartform/field/datetime_chooser.js'></script>
+<script type="text/javascript" src='js/smartform/field/user_field.js'></script>
 
 
 <link href="smarteditor/css/default_kor.css" rel="stylesheet" type="text/css" />

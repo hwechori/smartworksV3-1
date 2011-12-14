@@ -26,12 +26,20 @@ SmartWorks.FormRuntime.TimeChooserBuilder.build = function(config) {
 	if(readOnly){
 		$text = $('<span fieldId="' + id + '"></span>').text(options.value);
 	}else{	
-		$text = $('<input class="fieldline js_todaypicker" readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '">').attr('value', options.value);
+		$text = $('<input class="fieldline js_timepicker" readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '">').attr('value', options.value);
 	}
 	$text.appendTo(options.container);
 
+	$.timepicker.setDefaults($.timepicker.regional[currentUser.locale]);
+	$('input.js_timepicker').timepicker({
+		timeFormat: 'hh:mm',
+		hourGrid: 4,
+		minuteGrid: 10,
+	});
+	
 	return options.container;
 };
+
 
 
 
