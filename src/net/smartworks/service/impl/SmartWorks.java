@@ -32,6 +32,7 @@ import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IDocFileService;
@@ -433,6 +434,11 @@ public class SmartWorks implements ISmartWorks {
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		docFileService.downloadFile(request, response);
 		
+	}
+
+	@Override
+	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
+		return workService.getRecord(request);
 	}
 
 }
