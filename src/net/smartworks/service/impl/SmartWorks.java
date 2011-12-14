@@ -252,7 +252,7 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public CommentInstance[] getRecentCommentsInWorkManual(String companyId, String workId, int length) throws Exception{
+	public CommentInstance[] getRecentCommentsInWorkManual(String companyId, String workId, int length) throws Exception {
 		return instanceService.getRecentCommentsInWorkManual(companyId, workId, length);
 	}
 
@@ -301,85 +301,66 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception{
+	public WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception {
 		return instanceService.getWorkInstanceById(companyId, userId, instanceId);
 	}
 
-/*	@Override
->>>>>>> branch 'master' of git@github.com:maninsoft/smartworksV3.git
-	public String createFile(String userId, String groupId, IFileModel file) throws Exception {
-		return docFileService.createFile(userId, groupId, file);
-	}
-
-	@Override
-	public String createFileList(String userId, String groupId, List<IFileModel> fileList) throws Exception {
-		return docFileService.createFileList(userId, groupId, fileList);
-	}
-
-	@Override
-	public IFileModel retrieveFile(String fileId) throws Exception {
-		return docFileService.retrieveFile(fileId);
-	}
-
-	@Override
-	public void updateFile(String userId, IFileModel file) throws Exception {
-		docFileService.updateFile(userId, file);
-	}
-
-	@Override
-	public void deleteFile(String fileId) throws Exception {
-		docFileService.deleteFile(fileId);
-	}
-
-	@Override
-	public void deleteFileGroup(String groupId) throws Exception {
-		docFileService.deleteFileGroup(groupId);
-	}
-
-	@Override
-	public List<IFileModel> findFileGroup(String groupId) throws Exception {
-		return docFileService.findFileGroup(groupId);
-	}
-
-	@Override
-	public List<String> findFileIdListByGroup(String groupId) throws Exception {
-		return docFileService.findFileIdListByGroup(groupId);
-	}
-
-	@Override
-	public String createDocument(String userId, String groupId, IDocumentModel document, List<FileItem> fileList) throws Exception {
-		return docFileService.createDocument(userId, groupId, document, fileList);
-	}
-
-	@Override
-	public void updateDocument(String userId, IDocumentModel document) throws Exception {
-		docFileService.updateDocument(userId, document);
-	}
-
-	@Override
-	public IDocumentModel retrieveDocument(String documentId) throws Exception {
-		return docFileService.retrieveDocument(documentId);
-	}
-
-	@Override
-	public IDocumentModel retrieveDocumentByGroupId(String fileGroupId) throws Exception {
-		return docFileService.retrieveDocumentByGroupId(fileGroupId);
-	}
-
-	@Override
-	public List<String> findDocIdByGroupId(String fileGroupId) throws Exception {
-		return docFileService.findDocIdByGroupId(fileGroupId);
-	}
-
-	@Override
-	public void deleteDocument(String documentId) throws Exception {
-		docFileService.deleteDocument(documentId);
-	}
-
-	@Override
-	public IDocumentModel retrieveDocumentByRef(int refType, String refId) throws Exception {
-		return docFileService.retrieveDocumentByRef(refType, refId);
-	}*/
+	/*
+	 * @Override >>>>>>> branch 'master' of
+	 * git@github.com:maninsoft/smartworksV3.git public String createFile(String
+	 * userId, String groupId, IFileModel file) throws Exception { return
+	 * docFileService.createFile(userId, groupId, file); }
+	 * 
+	 * @Override public String createFileList(String userId, String groupId,
+	 * List<IFileModel> fileList) throws Exception { return
+	 * docFileService.createFileList(userId, groupId, fileList); }
+	 * 
+	 * @Override public IFileModel retrieveFile(String fileId) throws Exception
+	 * { return docFileService.retrieveFile(fileId); }
+	 * 
+	 * @Override public void updateFile(String userId, IFileModel file) throws
+	 * Exception { docFileService.updateFile(userId, file); }
+	 * 
+	 * @Override public void deleteFile(String fileId) throws Exception {
+	 * docFileService.deleteFile(fileId); }
+	 * 
+	 * @Override public void deleteFileGroup(String groupId) throws Exception {
+	 * docFileService.deleteFileGroup(groupId); }
+	 * 
+	 * @Override public List<IFileModel> findFileGroup(String groupId) throws
+	 * Exception { return docFileService.findFileGroup(groupId); }
+	 * 
+	 * @Override public List<String> findFileIdListByGroup(String groupId)
+	 * throws Exception { return docFileService.findFileIdListByGroup(groupId);
+	 * }
+	 * 
+	 * @Override public String createDocument(String userId, String groupId,
+	 * IDocumentModel document, List<FileItem> fileList) throws Exception {
+	 * return docFileService.createDocument(userId, groupId, document,
+	 * fileList); }
+	 * 
+	 * @Override public void updateDocument(String userId, IDocumentModel
+	 * document) throws Exception { docFileService.updateDocument(userId,
+	 * document); }
+	 * 
+	 * @Override public IDocumentModel retrieveDocument(String documentId)
+	 * throws Exception { return docFileService.retrieveDocument(documentId); }
+	 * 
+	 * @Override public IDocumentModel retrieveDocumentByGroupId(String
+	 * fileGroupId) throws Exception { return
+	 * docFileService.retrieveDocumentByGroupId(fileGroupId); }
+	 * 
+	 * @Override public List<String> findDocIdByGroupId(String fileGroupId)
+	 * throws Exception { return docFileService.findDocIdByGroupId(fileGroupId);
+	 * }
+	 * 
+	 * @Override public void deleteDocument(String documentId) throws Exception
+	 * { docFileService.deleteDocument(documentId); }
+	 * 
+	 * @Override public IDocumentModel retrieveDocumentByRef(int refType, String
+	 * refId) throws Exception { return
+	 * docFileService.retrieveDocumentByRef(refType, refId); }
+	 */
 
 	public String uploadFile(HttpServletRequest request) throws Exception {
 		return docFileService.uploadFile(request);
@@ -422,7 +403,8 @@ public class SmartWorks implements ISmartWorks {
 
 	@Override
 	public String getFormXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return workService.getFormXml(SmartUtil.getCurrentUser(request, response).getCompanyId(), SmartUtil.getCurrentUser(request, response).getId(), request.getParameter("workId"));
+		return workService.getFormXml(SmartUtil.getCurrentUser(request, response).getCompanyId(), SmartUtil.getCurrentUser(request, response).getId(),
+				request.getParameter("workId"));
 	}
 
 	@Override
@@ -431,14 +413,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		docFileService.downloadFile(request, response);
-		
-	}
-
-	@Override
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
 		return workService.getRecord(request);
+	}
+
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		docFileService.downloadFile(request, response);
+
 	}
 
 }

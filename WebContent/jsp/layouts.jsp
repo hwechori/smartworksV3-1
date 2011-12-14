@@ -73,15 +73,10 @@ currentUser = {
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
-<<<<<<< HEAD
 <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
-=======
 <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
 <!-- <link href="css/ext/example.css" type="text/css" rel="stylesheet" />
 -->
-<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
->>>>>>> branch 'serverpart' of git@github.com:maninsoft/smartworksV3.git
-
 <link rel="stylesheet" href="css/fileuploader/fileuploader.css" type="text/css"/>	
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
@@ -94,12 +89,9 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.explode.js"></script>
-<<<<<<< HEAD
 <script type="text/javascript" src="js/jquery/jquery.ui.datepicker.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
-=======
-
 <script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.widget.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.mouse.min.js"></script>
@@ -111,7 +103,6 @@ currentUser = {
 
 <script type="text/javascript" src="js/jquery/jquery.popupWindow.js"></script>
 
->>>>>>> branch 'serverpart' of git@github.com:maninsoft/smartworksV3.git
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.json-2.3.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.zclip.min.js"></script>
@@ -133,6 +124,8 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
+<script type="text/javascript" src="js/sw/sw-file.js"></script>
+
 <script type="text/javascript" src='js/smartform/smartworks.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-layout.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-field-builder.js'></script>

@@ -174,8 +174,6 @@ public interface ISmartWorks {
 
 	public abstract void setUserPicture(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
-
 	public abstract String uploadFile(HttpServletRequest request) throws Exception;
 
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
@@ -187,5 +185,7 @@ public interface ISmartWorks {
 	public abstract String getFormXml(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract SwdRecord getRecord(HttpServletRequest request) throws Exception;
+
+	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }

@@ -32,6 +32,7 @@ import net.smartworks.server.engine.docfile.model.HbFileModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.service.IDocFileService;
+import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Service
-public class DocFileServiceImpl extends HttpServlet implements IDocFileService {
-
-	private static final long serialVersionUID = 1L;
+public class DocFileServiceImpl implements IDocFileService {
 
 	private IDocFileManager getDocManager() {
 		return SwManagerFactory.getInstance().getDocManager();

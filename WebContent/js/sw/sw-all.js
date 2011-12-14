@@ -606,19 +606,6 @@ $(function() {
 		});
 	});
 
-	$('.qq-upload-file').live('click', function(e) {
-		$.ajax({
-			url : "download_file.sw",
-			data : {
-				fileId : $(e.target).parent('li').attr('fileId')
-			},
-			type : "GET",
-			context : this,
-			success : function(data, status, jqXHR) {
-			}
-		});
-	});
-	
 	$('a.js_pop_user_info').live('click', function(e) {
 		var input = $(e.target);
 		var left = input.parents('td:first').position().left;
