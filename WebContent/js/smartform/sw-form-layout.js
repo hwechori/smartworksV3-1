@@ -52,6 +52,9 @@ SmartWorks.GridLayout = function(config) {
 			}
 			
 			var $html_cell = $('<td fieldId="'+id+'" colspan="'+colspan+'" width="'+width+'" style="border:1px solid"></td>');
+			
+			$html_cell.appendTo($html_row);
+			
 			if(rowspan)
 				$html_cell.attr('rowspan', rowspan);
 			if(id) {
@@ -59,7 +62,6 @@ SmartWorks.GridLayout = function(config) {
 				SmartWorks.FormFieldBuilder.build(this.options.mode, $html_cell, $entity);				
 			}
 
-			$html_cell.appendTo($html_row);
 		}
 	}
 

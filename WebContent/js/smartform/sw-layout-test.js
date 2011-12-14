@@ -15,9 +15,6 @@ test('columnsize', function() {
 			equal(layout.getColumnSize(), 2, 'Column Size Calculation');
 			equal(layout.getTable().find('tr').length, 4, 'Row Size Calculation');
 			
-			console.log(layout.getTable());
-
-
 			start();
 		}
 	});

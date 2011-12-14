@@ -39,11 +39,11 @@
 		}
 		return;
 	}
-	$('input.js_todaypicker').datetimepicker({
+	$('input.js_today_datepicker').datepicker({
 		defaultDate : new Date(),
 		dateFormat : 'yy.mm.dd'
 	});
-	$('input.js_nowpicker').timepicker({
+	$('input.js_current_timepicker').timepicker({
 	});
 </script>
 
@@ -69,7 +69,7 @@
 
 			<div class="input_1line">
 				<div class="float_left">
-					<input class="fieldline space_data date js_todaypicker" type="text"
+					<input class="fieldline space_data date js_today_datepicker" type="text"
 						name="txtEventStartDate" readonly="readonly" value="<%=today%>">
 				</div>
 
@@ -103,12 +103,12 @@
 					style='display: none'>
 					<div class="float_left">
 						- <input name="txtEventEndDate"
-							class="fieldline space_data date js_todaypicker" type="text"
+							class="fieldline space_data date js_today_datepicker" type="text"
 							value="<%=today%>">
 					</div>
 					<div class="float_left js_end_time">
 						<input name="txtEventEndTime"
-							class="fieldline space_data js_nowpicker" type="text" value="<%=curTime%>">
+							class="fieldline space_data js_current_timepicker" type="text" value="<%=curTime%>">
 <%-- 						<select name="selEventEndTime">
 							<%
 								{

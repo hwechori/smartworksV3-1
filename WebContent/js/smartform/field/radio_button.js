@@ -4,7 +4,7 @@ SmartWorks.FormRuntime.RadioButtonBuilder = {};
 
 SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	var options = {
-		mode : 'view', // view or edit
+		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
 		value : ''
@@ -24,12 +24,17 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	$label.appendTo(options.container);
 	
 	var $staticItems = $format.find('list staticItems staticItem');
-	var $input_container = $('<div></div>');
+	var $input_container = $('<span></span>');
 	
 	for ( var i = 0; i < $staticItems.length; i++) {
 		var $staticItem = $staticItems.eq(i);
 		var text = $staticItem.text();
-		var $input = $('<input type="radio" name="' + id + '" value="' + text + '">' + text + '</input>');
+		var checked = (options.value === text ) ? 'checked' : '' ;
+
+		console.dir(checked);
+		
+		var $input = $('<input type="radio" ' + checked + ' name="' + id + '" value="' + text + '">' + text + '</input>');
+		
 		$input.attr('fieldId', id);
 		if (readOnly) {
 			$input.attr('disabled', 'disabled');
