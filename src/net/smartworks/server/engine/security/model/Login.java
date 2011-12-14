@@ -23,6 +23,21 @@ public class Login extends User implements UserDetails {
 	private String email;
 	private String password;
 	private String authId;
+	private String deptId;
+
+	/**
+	 * @return the deptId
+	 */
+	public String getDeptId() {
+		return deptId;
+	}
+
+	/**
+	 * @param deptId the deptId to set
+	 */
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
 
 	/**
 	 * @return the empNo
