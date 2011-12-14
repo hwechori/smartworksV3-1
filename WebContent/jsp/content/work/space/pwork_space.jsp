@@ -287,8 +287,8 @@
         <div class="start_worksinput">
         <div class="input_size srch">
             <input class="js_auto_complete" type="text" href="work_name.sw"
-                placeholder="<fmt:message key='common.upload.message.work'/>">
-            <div class="srch_ico js_srch_x"></div>
+                placeholder="<fmt:message key='common.upload.message.work'/>"fdsafdsafsfdsaf>
+            <div class="srch_ico_w js_srch_x"></div>
     
         </div>
     

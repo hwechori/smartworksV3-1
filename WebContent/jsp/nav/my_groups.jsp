@@ -17,7 +17,9 @@
 				String groupContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + group.getId();
 	%>
 	<li><a
-		href="group_space.sw?cid=<%=groupContext%>"><span class="ico_group"></span><span class="nav_subtitl_area"><%=group.getName()%></span></a>
+		href="group_space.sw?cid=<%=groupContext%>" title="<%=group.getDesc()%>">
+			<span class="ico_pe"><img src="<%=group.getMinPicture()%>" width="20" height="20" border="0"></span> 
+			<span class="nav_subtitl_area"><%=group.getName()%></span></a>
 	</li>
 	<%
 		}

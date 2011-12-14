@@ -47,7 +47,7 @@
 	%>
 	<li class="js_drill_down"><a
 		href="worklist_by_group.sw" groupId="<%=work.getId()%>"><span class="<%=iconType%>"></span>
-			<%=work.getName()%></a>
+			<span><%=work.getName()%></span></a>
 		<div style="display: none"></div></li>
 	<%
 		}

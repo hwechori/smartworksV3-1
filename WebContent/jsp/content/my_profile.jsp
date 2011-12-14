@@ -70,7 +70,7 @@
 				<input class="filetype_area" name="filUserProfilePicture" type="file" size="1" onchange="upload_user_picture.sw">
 			</span>
 			
-			<span class="table_nomal">
+			<span class="table_nomal600">
 					<table>
 						<tr>
 							<td>

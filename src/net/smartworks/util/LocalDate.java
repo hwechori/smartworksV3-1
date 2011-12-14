@@ -24,7 +24,7 @@ public class LocalDate extends Date{
 	private static final long serialVersionUID = 1L;
 	private TimeZone timeZone = TimeZone.getDefault();
 	private TimeZone hostTimeZone = TimeZone.getDefault();
-	private Locale locale = new Locale(LocaleInfo.LOCALE_GENERAL);
+	private Locale locale = new Locale(LocaleInfo.LOCALE_DEFAULT);
 	private long localNow = System.currentTimeMillis();
 	public LocalDate(){
 		super();

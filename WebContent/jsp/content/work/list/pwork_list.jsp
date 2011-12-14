@@ -75,14 +75,16 @@
 			</div>
 			<!-- 타이틀 -->
 
-
-
-
 			<!-- 정의 영역-->
 			<div class="contents_space">
 
 				<!-- 업무 정의 -->
-				<div class=""><%=work.getDesc()%></div>
+				<div class="">
+					<%if(work.getDesc()!= null && !work.getDesc().equals("")) {%>
+					<%=work.getDesc()%>
+					<%}else{ %><fmt:message key="common.message.no_work_desc" />
+					<%} %>
+				</div>
 				<!-- 업무 정의 //-->
 
 				<!-- 버튼 영역-->
@@ -103,111 +105,61 @@
 						switch (work.getAccessPolicy().getLevel()) {
 						case AccessPolicy.LEVEL_PUBLIC:
 					%>
-					<span class="po_right">
-						<fmt:message key="common.security.access.public" />
-					</span>
+					<span class="po_right"><fmt:message key="common.security.access.public" /></span>
 					<%
 						break;
 						case AccessPolicy.LEVEL_PRIVATE:
 					%>
-					<span class="po_right">
-						<fmt:message key="common.security.access.private" />
-					</span>
+					<span class="po_right"><fmt:message key="common.security.access.private" /></span>
 					<%
 						break;
 						case AccessPolicy.LEVEL_CUSTOM:
 					%>
-					<span class="po_right">
-						<fmt:message key="common.security.access.custom" />
-					</span>
+					<span class="po_right"><fmt:message key="common.security.access.custom" /></span>
 					<%
 						break;
 						}
 					%>
 					<span class="po_right">
-						<span class="bu_read"></span>
+						<span class="bu_read"  title="<fmt:message key='common.security.title.access'/>"></span>
 					</span>
 					<%
 						switch (work.getWritePolicy().getLevel()) {
 						case WritePolicy.LEVEL_PUBLIC:
 					%>
-					<span class="po_right">
-						<fmt:message key="common.security.write.public" />
-					</span>
+					<span class="po_right"><fmt:message key="common.security.write.public" /></span>
 					<%
 						break;
 						case WritePolicy.LEVEL_CUSTOM:
 					%>
-					<span class="po_right">
-						<fmt:message key="common.security.write.custom" />
-					</span>
+					<span class="po_right"><fmt:message key="common.security.write.custom" /></span>
 					<%
 						break;
 						}
 					%>
 					<span class="po_right">
-						<span class="bu_regit"></span>
+						<span class="bu_regit" title="<fmt:message key='common.security.title.write'/>"></span>
 					</span>
 					<%
 						switch (work.getEditPolicy().getLevel()) {
 						case EditPolicy.LEVEL_WIKI:
 					%>
-					<span class="po_right">
-						<fmt:message key="common.security.edit.wiki" />
-					</span>
+					<span class="po_right"><fmt:message key="common.security.edit.wiki" /></span>
 					<%
 						break;
 						case EditPolicy.LEVEL_BLOG:
 					%>
-					<span class="po_right">
-						<fmt:message key="common.security.edit.blog" />
-					</span>
+					<span class="po_right"><fmt:message key="common.security.edit.blog" /></span>
 					<%
 						break;
 						}
 					%>
-					<span class="po_right">
-						<span class="bu_modfy"></span>
-					</span>
+					<span class="po_right"><span class="bu_modfy" title="<fmt:message key='common.security.title.edit'/>"></span></span>
 				</span>
 				<!-- 우측 권한 아이콘//-->
 				
 				</div>
 
-
-				<%-- <div class="txt_btn">
-
-					<%
-						if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
-					%>
-					<div class="float_right padding_l10">
-						<a href=""></a><span class="btn_gray"> <span
-							class="Btn01Start"></span> <span class="Btn01Center"><fmt:message
-									key='common.button.modify' /> </span> <span class="Btn01End"></span>
-						</span></a>
-					</div>
-					<%
-						}
-					%>
-
-					<div class="float_right">
-						<%
-							if (work.getManualFileName() != null) {
-						%>
-						<a href="" title="<fmt:message key='work.title.manual_file'/>">사용설명서(아이콘)</a>
-						<%
-							}
-							if (work.getHelpUrl() != null) {
-						%>
-						<a href="<%=work.getHelpUrl()%>"
-							title="<fmt:message key='work.title.help_url'/>" target="_blank">웹설명서
-							보기(아이콘)</a>
-						<%
-							}
-						%>
-					</div>
-
-				</div> --%>
 				<!-- 버튼 영역 //-->
 
 			</div>
@@ -227,8 +179,8 @@
 						<div class="po_left title"><fmt:message key='common.title.instance_list' /></div>
 
 						<div class="po_left">
-							<div class="srch">
-								<input id="" type="text"
+							<div class="srch_wh">
+								<input id="" class="nav_input" type="text"
 									placeholder="<fmt:message key='search.search_work' />">
 								<button onclick=""
 									title="<fmt:message key='search.search_work' />"></button>

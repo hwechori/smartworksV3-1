@@ -37,7 +37,7 @@
 	} else {
 		fields = new FormField[] {};
 	}
-	if (work != null && filterId != null)
+	if (work != null && filterId != null && !filterId.equals(""))
 		filter = smartWorks.getSearchFilterById(cUser.getCompanyId(), cUser.getId(), filterId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -63,7 +63,7 @@
 	}
 		%>
 						<jsp:include page="/jsp/content/work/field/default_fields.jsp">
-							<jsp:param name="reportType" value="<%=work.getType() %>" />
+							<jsp:param name="workType" value="<%=work.getType() %>" />
 						</jsp:include>
 					</select> <span class="js_filter_operator"> <%
  	if (fields.length > 0) {
@@ -131,7 +131,7 @@
 				}
 						%>
 						<jsp:include page="/jsp/content/work/field/default_fields.jsp">
-							<jsp:param name="reportType" value="<%=work.getType() %>" />
+							<jsp:param name="workType" value="<%=work.getType() %>" />
 							<jsp:param name="fieldId" value="<%=leftOperand.getId() %>" />
 						</jsp:include>
 					</select> <span class="js_filter_operator"> <%

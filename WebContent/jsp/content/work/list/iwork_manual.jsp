@@ -38,11 +38,12 @@
 				<tr>
 					<%
 					if(work.getForm() != null){
+						String desc = work.getForm().getDescription();
 					%>
 					<td><img src="<%=work.getForm().getOrgImage()%>" width="349"
 						height="289" />
 					</td>
-					<td><%=work.getForm().getDescription()%></td>
+					<td><%if(desc!=null && desc.equals("")){%><%=desc%><%}else{ %><fmt:message key="common.message.no_form_desc"/><%} %></td>
 					<%
 					}
 					%>
@@ -85,9 +86,7 @@
         
         <div class="replay_input">
 		<textarea class="up_textarea" rows="5" cols="" name="txtaEventContent"
-			placeholder="<fmt:message key='work.message.leave_question'/>">
-			<fmt:message key='work.message.leave_question' />
-		</textarea>
+			placeholder="<fmt:message key='work.message.leave_question'/>"><fmt:message key='work.message.leave_question' /></textarea>
         </div>
     
     </div>

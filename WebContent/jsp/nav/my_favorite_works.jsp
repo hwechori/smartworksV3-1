@@ -33,8 +33,12 @@
 					targetContent = "swork_list.sw";//"schedule_work_list.sw";
 				}
 	%>
-	<li><a href="<%=targetContent%>?cid=<%=workContext%>" class="<%=iconType%> <%=classType%>"
-		title="<%=work.getFullpathName()%>"><%=work.getName()%></a>
+	<li>
+	<a href="<%=targetContent%>?cid=<%=workContext%>" 
+		title="<%=work.getFullpathName()%>">
+		<span class="<%=iconType%> <%=classType%>"></span>
+		<span><%=work.getName()%></span>
+		</a>
 	</li>
 	<%
 		}

@@ -4,6 +4,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.work.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	User cUser = SmartUtil.getCurrentUser(request, response);
 
@@ -11,6 +12,8 @@
 	String key = request.getParameter("key");
 	SmartWorkInfo[] works = smartWorks.searchWork(cUser.getCompanyId(), cUser.getId(), key);
 %>
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <ul>
 	<%
@@ -42,6 +45,9 @@
 	</li>
 	<%
 		}
-		}
-	%>
+		}else{
+			%>
+			<li><span><fmt:message key="search.message.no_searched_data"/></span></li>
+			<%} %>
+
 </ul>

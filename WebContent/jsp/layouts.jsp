@@ -73,8 +73,16 @@ currentUser = {
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
+<<<<<<< HEAD
 <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
+=======
+<link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
+<!-- <link href="css/ext/example.css" type="text/css" rel="stylesheet" />
+-->
+<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
+>>>>>>> branch 'serverpart' of git@github.com:maninsoft/smartworksV3.git
 
+<link rel="stylesheet" href="css/fileuploader/fileuploader.css" type="text/css"/>	
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><fmt:message key="head.title">
 		<fmt:param value="<%=currentUser.getCompany() %>" />
@@ -86,11 +94,32 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.explode.js"></script>
+<<<<<<< HEAD
 <script type="text/javascript" src="js/jquery/jquery.ui.datepicker.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
+=======
+
+<script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.widget.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.mouse.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.slider.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.datepicker.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-timepicker-ko.js"></script>
+
+<script type="text/javascript" src="js/jquery/jquery.popupWindow.js"></script>
+
+>>>>>>> branch 'serverpart' of git@github.com:maninsoft/smartworksV3.git
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.json-2.3.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.zclip.min.js"></script>
+
+<script type="text/javascript" src="js/jquery/jshashtable-2.1.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.numberformatter-1.2.2.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.formatCurrency-1.4.0.min.js"></script>
+
 <script type="text/javascript" src="js/jstorage/jstorage.js"></script>
 <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
 <script type="text/javascript" src="js/ext/bootstrap.js"></script>
@@ -100,69 +129,98 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
-<script type="text/javascript" src="http://192.168.0.8:8000/faye.js"></script>
+<script type="text/javascript" src="http://localhost:8000/faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
-<script type="text/javascript" src='js/sw/smartworks.js'></script>
-<script type="text/javascript" src='js/sw/sw-form-layout.js'></script>
-<script type="text/javascript" src='js/sw/sw-form-field-builder.js'></script>
-<script type="text/javascript" src='js/sw/field/currency_input.js'></script>
-<script type="text/javascript" src='js/sw/field/radio_button.js'></script>
+<script type="text/javascript" src='js/smartform/smartworks.js'></script>
+<script type="text/javascript" src='js/smartform/sw-form-layout.js'></script>
+<script type="text/javascript" src='js/smartform/sw-form-field-builder.js'></script>
+
+<script type="text/javascript" src='js/smartform/field/currency_input.js'></script>
+<script type="text/javascript" src='js/smartform/field/radio_button.js'></script>
+<script type="text/javascript" src='js/smartform/field/check_box.js'></script>
+<script type="text/javascript" src='js/smartform/field/combo_box.js'></script>
+<script type="text/javascript" src='js/smartform/field/date_chooser.js'></script>
+<script type="text/javascript" src='js/smartform/field/email_input.js'></script>
+<script type="text/javascript" src='js/smartform/field/file_field.js'></script>
+<script type="text/javascript" src='js/smartform/field/number_input.js'></script>
+<script type="text/javascript" src='js/smartform/field/percent_input.js'></script>
+<script type="text/javascript" src='js/smartform/field/rich_editor.js'></script>
+<script type="text/javascript" src='js/smartform/field/text_input.js'></script>
+<script type="text/javascript" src='js/smartform/field/time_chooser.js'></script>
+<script type="text/javascript" src='js/smartform/field/datetime_chooser.js'></script>
+<script type="text/javascript" src='js/smartform/field/user_field.js'></script>
+
+
+<link href="smarteditor/css/default_kor.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="js/jquery/fileuploader/fileuploader.js" ></script>
 
 <script type="text/javascript">
- 	smartTalk.init();
- 	var repeat1 = function() {
-	 clearInterval(timer);
-	 smartTalk.publishBcast(new Array(
-	 " Hello, this is SmartWorks!! Welcome~~",
-	 "오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
-	 };
-	 smartTalk.publishNoticeCount({
-	 type : 0,
-	 count : 0
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 1,
-	 count : 1
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 2,
-	 count : 2
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 3,
-	 count : 3
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 4,
-	 count : 4
-	 });
-	 smartTalk.publishNoticeCount({
-	 type : 5,
-	 count : 5
-	 });
-
-	 setTimeout(function() {
-		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
-				+ swSubject.BROADCASTING, {
-			msgType : msgType.AVAILABLE_CHATTERS,
-			sender : "smartworks.net",
-			userInfos : new Array({
-				userId : "ysjung@maninsoft.co.kr",
-				longName : "대표이사 정윤식",
-				minPicture : "images/ysjung@maninsoft.co.kr_min.jpg"
-			}, {
-				userId : "jskim@maninsoft.co.kr",
-				longName : "과장 김지숙",
-				minPicture : "images/jskim@maninsoft.co.kr_min.jpg"
-			}, {
-				userId : "hsshin@maninsoft.co.kr",
-				longName : "선임연구원 신현성",
-				minPicture : "images/hsshin@maninsoft.co.kr_min.jpg"
-			})
-		});
-	}, 5000);
+	$(document).ready(function(){
+ 		smartTalk.init();
+	 	var repeat1 = function() {
+		 clearInterval(timer);
+		 smartTalk.publishBcast(new Array(
+		 " Hello, this is SmartWorks!! Welcome~~",
+		 "오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
+		 };
+		 smartTalk.publishNoticeCount({
+		 type : 0,
+		 count : 0
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 1,
+		 count : 1
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 2,
+		 count : 2
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 3,
+		 count : 3
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 4,
+		 count : 4
+		 });
+		 smartTalk.publishNoticeCount({
+		 type : 5,
+		 count : 5
+		 });
+	
+		 setTimeout(function() {
+			smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
+					+ swSubject.BROADCASTING, {
+				msgType : msgType.AVAILABLE_CHATTERS,
+				sender : "smartworks.net",
+				userInfos : new Array({
+					userId : "ysjung@maninsoft.co.kr",
+					longName : "대표이사 정윤식",
+					minPicture : "images/no_user_picture_min.jpg"
+				}, {
+					userId : "jskim@maninsoft.co.kr",
+					longName : "과장 김지숙",
+					minPicture : "images/no_user_picture_min.jpg"
+				}, {
+					userId : "hsshin@maninsoft.co.kr",
+					longName : "선임연구원 신현성",
+					minPicture : "images/no_user_picture_min.jpg"
+				}, {
+					userId : "kmyu@maninsoft.co.kr",
+					longName : "선임연구원 유광민",
+					minPicture : "images/no_user_picture_min.jpg"
+				}, {
+					userId : "hjlee@maninsoft.co.kr",
+					longName : "대리 이현정",
+					minPicture : "images/no_user_picture_min.jpg"
+				})
+			});
+		}, 5000);
+	});
 </script>
 
 </head>

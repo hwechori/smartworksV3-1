@@ -10,11 +10,11 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+/* 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser(request, response);
 
 	InstanceInfo[] instances = smartWorks.getMyRunningInstances(cUser.getCompanyId(), cUser.getId());
-%>
+ */%>
 
 <!-- 나의 진행중인 업무 -->
 <div class="section_portlet">
@@ -37,8 +37,8 @@
 				
 				<!-- 검색 -->
 				<div class="nav_srch padding_b2">
-				<div class="srch srch_wsize">
-						<input id="" class="input js_auto_complete" type="text"
+				<div class="srch_wh srch_wsize">
+						<input id="" class="nav_input js_auto_complete" type="text"
 							title="<fmt:message key="search.search_running_instance"/>"
 							placeholder="<fmt:message key="search.search_running_instance"/>"
 							href="my_running_instance.sw">

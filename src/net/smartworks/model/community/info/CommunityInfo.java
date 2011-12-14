@@ -9,13 +9,13 @@ public class CommunityInfo extends BaseObject {
 	private String midPictureName;
 
 	public String getMinPictureName() {
-		return super.getId() + "_min.jpg";
+		return minPictureName;
 	}
 	public void setMinPictureName(String minPictureName) {
 		this.minPictureName = minPictureName;
 	}
 	public String getMidPictureName() {
-		return super.getId() + "_mid.jpg";
+		return midPictureName;
 	}
 	public void setMidPictureName(String midPictureName) {
 		this.midPictureName = midPictureName;
