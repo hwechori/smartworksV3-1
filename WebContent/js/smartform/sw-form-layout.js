@@ -2,6 +2,7 @@ SmartWorks.GridLayout = function(config) {
 	this.options = {
 		target : $('<div></div>'),
 		formXml : '',
+		formValues : '',
 		mode : 'edit'
 	};
 
@@ -27,7 +28,10 @@ SmartWorks.GridLayout = function(config) {
 
 	var $rows = $layout.find('gridRow');
 	var $columns = $layout.find('columns gridColumn');
-	
+
+	var dataFields = this.options.formValues.dataFields;
+	console.log(dataFields);
+
 	for ( var i = 0; i < $rows.length; i++) {
 		var $row = $rows.eq(i);
 		
@@ -42,7 +46,14 @@ SmartWorks.GridLayout = function(config) {
 			var colspan = parseInt($cell.attr('span'));
 			var rowspan = parseInt($cell.attr('rowspan'));			
 			var width = 0;
-
+			var dataField = null;
+			for(var k in dataFields) {
+				if(dataFields[k].id === id) {
+					dataField = dataFields[k];
+					break;
+				}
+			}
+			console.log(dataField);
 			if ($columns.length == 0) {
 				width = $column.attr('size');
 			} else {
@@ -59,7 +70,7 @@ SmartWorks.GridLayout = function(config) {
 				$html_cell.attr('rowspan', rowspan);
 			if(id) {
 				var $entity = $form.find('#' + id);
-				SmartWorks.FormFieldBuilder.build(this.options.mode, $html_cell, $entity);				
+				SmartWorks.FormFieldBuilder.build(this.options.mode, $html_cell, $entity, dataField);				
 			}
 
 		}
