@@ -45,4 +45,6 @@ public interface IDocFileManager extends IManager {
 	public void deleteDocument(String documentId) throws DocFileException;
 	public IDocumentModel retrieveDocumentByRef(int refType, String refId) throws DocFileException;
 
+	public void setUserPicture(HttpServletRequest request, HttpServletResponse response) throws DocFileException;
+
 }

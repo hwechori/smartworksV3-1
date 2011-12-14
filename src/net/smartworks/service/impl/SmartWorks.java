@@ -424,4 +424,15 @@ public class SmartWorks implements ISmartWorks {
 		return workService.getFormXml(SmartUtil.getCurrentUser(request, response).getCompanyId(), SmartUtil.getCurrentUser(request, response).getId(), request.getParameter("workId"));
 	}
 
+	@Override
+	public void setUserPicture(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		docFileService.setUserPicture(request, response);
+	}
+
+	@Override
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		docFileService.downloadFile(request, response);
+		
+	}
+
 }

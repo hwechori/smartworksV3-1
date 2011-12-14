@@ -19,11 +19,14 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.work.SmartWork;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.id.IDCreator;
@@ -33,13 +36,19 @@ import net.smartworks.server.engine.docfile.model.HbDocumentModel;
 import net.smartworks.server.engine.docfile.model.HbFileModel;
 import net.smartworks.server.engine.docfile.model.IDocumentModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
+import net.smartworks.service.impl.SmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartConfUtil;
+import net.smartworks.util.SmartUtil;
+import net.smartworks.util.Thumbnail;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.Query;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class DocFileManagerImpl extends AbstractManager implements IDocFileManager {
 
@@ -74,10 +83,17 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 	 * 
 	 * @return
 	 */
-	private File getFileRepository() throws DocFileException {
+	private File getFileRepository(String companyId, String fileDivision) throws DocFileException {
 
 		if (this.fileDirectory == null)
 			throw new DocFileException("Attachment directory is not specified!");
+
+		// 사용자의 회사아이디의 디렉토리 선택
+		String storageDir = this.fileDirectory + File.separator + companyId;
+		File storage = new File(storageDir);
+
+		if (!storage.exists())
+			storage.mkdir();
 
 		// 현재 년, 월 정보를 얻는다.
 		Calendar currentDate = Calendar.getInstance();
@@ -85,8 +101,8 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		int month = currentDate.get(Calendar.MONTH) + 1;
 
 		// 기본 파일 저장 디렉토리와 현재 년 정보로 파일 디렉토리를 설정한다.
-		String storageDir = this.fileDirectory + File.separator + "Y" + year;
-		File storage = new File(storageDir);
+		storageDir = this.fileDirectory + File.separator + "Y" + year;
+		storage = new File(storageDir);
 
 		// 없다면 생성한다.
 		if (!storage.exists())
@@ -146,7 +162,8 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		file.setId(fileId);
 		file.setWrittenTime(new Date(new LocalDate().getGMTDate()));
 		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
-		File repository = this.getFileRepository();
+
+		//File repository = this.getFileRepository();
 		MultipartFile multipartFile = file.getMultipartFile();
 		String filePath = null;
 		if (file != null) {
@@ -155,7 +172,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
 
 			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-			filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
+			//filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
 
 			if (extension != null) {
 				filePath = filePath + "." + extension;
@@ -475,7 +492,17 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		formFile.setId(fileId);
 		formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
 		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
-		File repository = this.getFileRepository();
+
+		String companyId = "";
+		try {
+			companyId = SmartUtil.getCurrentUser(request, response).getCompanyId();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String fileDivision = "Files";
+
+		File repository = this.getFileRepository(companyId, fileDivision);
 		String filePath = null;
 		if (formFile != null) {
 			String fileName = "";
@@ -514,6 +541,73 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		// 그룹아이디, 문서 아이디 쌍 저장
 		Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
 		query.executeUpdate();
+	}
+
+	@Override
+	public void setUserPicture(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
+
+		//웹 어플리케이션상의 절대 경로
+		String realFolder = "";
+
+		//엔코딩타입
+		String encType = "euc-kr"; 
+
+		//최대 업로될 파일크기 5Mb
+		int maxSize = 5*1024*1024; 
+
+		String userId = "";
+		String companyId = "";
+		try {
+			userId = SmartUtil.getCurrentUser(request, response).getId();
+			companyId = SmartUtil.getCurrentUser(request, response).getCompanyId();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String fileDivision = "Pictures";
+
+		//현재 jsp페이지의 웹 어플리케이션상의 절대 경로를 구한다
+		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		File repository = this.getFileRepository(companyId, fileDivision);
+
+		realFolder = repository.getAbsolutePath();
+
+		try {
+		   MultipartRequest multi = null;
+
+		   //전송을 담당할 콤포넌트를 생성하고 파일을 전송한다.
+		   //전송할 파일명을 가지고 있는 객체, 서버상의 절대경로,최대 업로드될 파일크기, 문자코드, 기본 보안 적용
+		   multi = new MultipartRequest(request, realFolder, maxSize, encType, new DefaultFileRenamePolicy());
+
+		   Enumeration files = multi.getFileNames();
+
+		   int zoom = 5;
+
+		   //파일 정보가 있다면
+		   while(files.hasMoreElements()) {
+
+		    //input 태그의 속성이 file인 태그의 name 속성값 :파라미터이름
+		      String name = (String)files.nextElement();
+
+		   //서버에 저장된 파일 이름
+		      String fileName = multi.getFilesystemName(name);
+		      String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+		      String fileNameWithoutExtension = fileName.substring(0, fileName.length() - extension.length());
+
+		      String orgFileName = realFolder + File.separator + fileNameWithoutExtension + "_origin" + extension;
+		      String thumbFileName = realFolder + File.separator + fileNameWithoutExtension + "_thumb" + extension;
+			  Thumbnail.createImage(orgFileName, thumbFileName, zoom);
+
+			  Query query = this.getSession().createSQLQuery("update SwOrgUser set picture = '" + fileName + "' where id = '" + userId + "')");
+			  query.executeUpdate();
+		   }
+		} catch(IOException ioe){
+			ioe.printStackTrace();
+		} catch(Exception ex){
+		 ex.printStackTrace();
+		}
+
 	}
 
 }

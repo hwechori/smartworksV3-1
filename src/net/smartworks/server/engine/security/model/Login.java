@@ -19,25 +19,10 @@ public class Login extends User implements UserDetails {
 
 	private static final long serialVersionUID = 109756771178872916L;
 	private String type;
-	private String deptId;
 	private String empNo;
 	private String email;
 	private String password;
 	private String authId;
-
-	/**
-	 * @return the deptId
-	 */
-	public String getDeptId() {
-		return deptId;
-	}
-
-	/**
-	 * @param deptId the deptId to set
-	 */
-	public void setDeptId(String deptId) {
-		this.deptId = deptId;
-	}
 
 	/**
 	 * @return the empNo

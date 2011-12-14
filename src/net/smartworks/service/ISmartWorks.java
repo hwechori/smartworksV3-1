@@ -171,6 +171,10 @@ public interface ISmartWorks {
 
 	public abstract String setMyProfile(HttpServletRequest request) throws Exception;
 
+	public abstract void setUserPicture(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 	public abstract String uploadFile(HttpServletRequest request) throws Exception;
 
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;

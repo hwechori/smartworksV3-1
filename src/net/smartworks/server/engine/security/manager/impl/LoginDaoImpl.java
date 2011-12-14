@@ -16,7 +16,6 @@ import javax.sql.DataSource;
 import net.smartworks.model.community.User;
 import net.smartworks.server.engine.security.manager.LoginDao;
 import net.smartworks.server.engine.security.model.Login;
-import net.smartworks.util.LocalDate;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.SqlParameter;
@@ -33,7 +32,7 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 	private static String RETRIVE_USER = "	select 	orguser.id, orguser.name, orguser.companyId, orgcompany.name as companyName, orguser.deptId, orgdept.name as deptName, 		" +
 										 "		   	orguser.empNo, orguser.mobileNo, orguser.internalNo, orguser.locale, orguser.timeZone,										" +
 										 "          orguser.type, orguser.lang, orguser.pos, orguser.stdtime, orguser.authId,													" +
-										 "	        orguser.email,	orguser.passwd																								" +
+										 "	        orguser.email,	orguser.passwd, orguser.picture																				" +
 										 "    from 	sworguser orguser, sworgdept orgdept, sworgcompany orgcompany																" +
 										 "	 where 	orguser.deptid = orgdept.id																									" +
 										 "	   and 	orguser.companyid = orgcompany.id																							" +
@@ -101,11 +100,11 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			login.setAuthId(rs.getString("authId"));
 			login.setEmail(rs.getString("email"));
 			login.setPassword(rs.getString("passwd"));
-			login.setLocale(rs.getString("locale") == null || rs.getString("locale").equals("") ? new LocalDate().getLocale() : rs.getString("locale"));
-			login.setTimeZone(rs.getString("timeZone") == null || rs.getString("timeZone").equals("") ? new LocalDate().getTimeZone() : rs.getString("timeZone"));
-			login.setOrgPictureName(login.getId() + ".jpg");
-			login.setMinPictureName(login.getId() + "_min.gif");
-			login.setMidPictureName(login.getId() + "_mid.gif");
+			login.setLocale(rs.getString("locale"));
+			login.setTimeZone(rs.getString("timeZone"));
+			login.setOrgPictureName(rs.getString("picture"));
+			login.setMinPictureName(rs.getString("picture"));
+			login.setMidPictureName(rs.getString("picture"));
 			login.setUserLevel(login.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
 
 			return login;

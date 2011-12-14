@@ -48,7 +48,6 @@ public class DocFileController {
 
 		String groupId = "";
 		groupId = smartworks.uploadFile(request);
-		// TO DO : Exception handler
 
 		return groupId;
 	}
@@ -76,6 +75,26 @@ public class DocFileController {
 	public @ResponseBody void deleteFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		smartworks.deleteFile(request);
 		// TO DO : Exception handler
+	}
+
+	@RequestMapping(value = "/upload_user_picture", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void uploadUserPicture(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+			smartworks.setUserPicture(request, response);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+	}
+
+	@RequestMapping(value = "/download_file", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+			smartworks.downloadFile(request, response);
+		} catch (Exception e) {
+			e.getMessage();
+		}
 	}
 
 }

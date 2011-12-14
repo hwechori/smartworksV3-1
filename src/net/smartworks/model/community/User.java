@@ -14,6 +14,7 @@ public class User extends WorkSpace {
 	private String position;
 	private String locale;
 	private String timeZone;
+	private String deptId;
 	private String department;
 	private String employeeId;
 	private String password;
@@ -22,6 +23,12 @@ public class User extends WorkSpace {
 	private String company;
 	private String companyId;
 
+	public String getDeptId() {
+		return deptId;
+	}
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
 	public String getPhoneNo() {
 		return phoneNo;
 	}
