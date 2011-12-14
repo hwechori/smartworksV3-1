@@ -435,10 +435,15 @@ public class WorkServiceImpl implements IWorkService {
 	}
 	@Override
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
+		SwfFormCond swfFormCond = new SwfFormCond();
+		swfFormCond.setPackageId(request.getParameter("workId"));
+
+		SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_LITE);
+
 		SwdRecordCond swdRecordCond = new SwdRecordCond();
-		swdRecordCond.setPackageId(request.getParameter("workId"));
+		swdRecordCond.setFormId(swfForms[0].getId());
 		swdRecordCond.setRecordId(request.getParameter("recordId"));
-		SwdRecord swdRecord = getSwdManager().getRecord("", swdRecordCond, IManager.LEVEL_LITE);
+		SwdRecord swdRecord = getSwdManager().getRecord("", swdRecordCond, null);
 
 		return swdRecord;
 	}

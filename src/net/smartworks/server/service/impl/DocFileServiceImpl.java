@@ -185,7 +185,7 @@ public class DocFileServiceImpl extends HttpServlet implements IDocFileService {
     		//직급코드:position , 문서소유자, 문서다운로드 사용자 이름 : userName
 			String position = user.getPosition();
 			String userName = user.getName();
-			String deptId = user.getDeptId();
+			String deptId = user.getDepartment();
 			String empNo = user.getEmployeeId();
 			
 			//부서코드:dept, 회사:company

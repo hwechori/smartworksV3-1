@@ -906,6 +906,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			buf.append(" and obj.domainId = domain.id");
 		} else {
 			buf.append(" where obj.domainId = domain.id");
+			first = false;
 		}
 		String recordId = cond.getRecordId();
 		String creationUser = cond.getCreationUser();
