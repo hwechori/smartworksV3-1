@@ -77,48 +77,10 @@
 <!-- 상세보기 컨텐츠 -->
 <div class="contents_space">
             
-            <!-- 업무 내용 --> 
-            <div class="list_contents">      
-                <table>
-                <colgroup>
-                        <col width="12%">
-                        <col width="13%">
-                        <col width="12%">
-                        <col width="12%">
-                        <col width="12%">
-                        <col width="12%">
-                        <col width="12%">
-                        <col width="12%">
-                    </colgroup>
-                <tbody>
-                    <tr>
-                        <th style=" text-align:right">작성자</th>
-                        <td class="r_line">선임 신현성</td>
-                        <th>회의일자</th>
-                        <td class="r_line">2011.11.15</td>
-                        <th>회의시간</th>
-                        <td class="r_line">13:00</td>
-                        <th>회의장소</th>
-                        <td>회의실</td>
-                    </tr>
-                    <tr>
-                        <th style=" text-align:right">참석자</th>
-                        <td colspan="7">정보관리업무 제목 목록입니다</td>
-                    </tr>
-                    
-                    <tr>
-                        <th style=" text-align:right">회의안건</th>
-                        <td colspan="7">정보관리업무 제목 목록입니다</td>
-                    </tr>
-                    
-                    <tr>
-                        <th style=" text-align:right">회의내용</th>
-                        <td colspan="7">정보관리업무 제목 목록입니다</td>
-                    </tr>
-                </tbody>
-                </table> 
-        </div>
-          <!-- 업무 내용 //--> 
+       <!-- 업무 내용 --> 
+       <div class="list_contents js_form_content">      
+       </div>
+       <!-- 업무 내용 //--> 
 </div>
 
 <!-- 버튼 영역 -->

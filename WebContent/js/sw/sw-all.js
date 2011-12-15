@@ -36,6 +36,39 @@ $(function() {
 		target : 'content'
 	});
 
+	$('a.js_content_iwork_space').swnavi({
+		target : 'content',
+		after : function(e){
+			var input = $(e.target);
+			var workId = input.attr("workId");
+			var instId = input.attr("instId");
+			var formContent = $('div.js_form_content');
+			$.ajax({
+				url : "get_form_xml.sw",
+				data : {
+					workId : workId
+				},
+				success : function(formXml, status, jqXHR) {
+					$.ajax({
+						url : "get_record.sw",
+						data : {
+							workId : workId,
+							recordId : instId
+						},
+						success : function(formData, status, jqXHR) {
+							new SmartWorks.GridLayout({
+								target : formContent,
+								formXml : formXml,
+								formValues : formData.record,
+								mode : "view"
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+
 	/*
 	 * 좌측상단에 있는 알림아이콘들에 설정된 class속성값들이 js_notice_count이고, 이를 클릭하면 그곳의 href값으로
 	 * ajax를 호출하여 가져온 값을 id="notice_message_box"로 지정된 div영역에 보여준다. 실행전에는,
@@ -110,8 +143,8 @@ $(function() {
 		var lastValue = input[0].value;
 		setTimeout(function() {
 			var currentValue = input[0].value;
-
 			if (lastValue === currentValue) {
+				console.log('start ajax!!!!!!! TO : ' + url);
 				$.ajax({
 					url : url,
 					data : {
@@ -291,11 +324,32 @@ $(function() {
 	 */
 	$('.js_select_work').swnavi(
 			{
-				target : 'form_works',
 				before : function(event) {
 					$('#form_works').slideUp().slideDown(500);
 					$(event.target).parents('#upload_work_list').hide()
 							.parents(".js_start_work").slideUp();
+				},
+				target : 'form_works',
+				after : function(event) {
+					var input = $(event.target).parents('li:first').children('a');
+					var formContent = $('#form_works').find('div.js_form_content');
+					var workId = input.attr('workId');
+					console.log(input);
+					alert(workId);
+					$.ajax({
+						url : "get_form_xml.sw",
+						data : {
+							workId : workId
+						},
+						success : function(formXml, status, jqXHR) {
+							console.log(formXml);
+							new SmartWorks.GridLayout({
+								target : formContent,
+								formXml : formXml,
+								mode : "edit"
+							});
+						}
+					});			
 				}
 			});
 
@@ -316,23 +370,10 @@ $(function() {
 						workId : workId
 					},
 					success : function(formXml, status, jqXHR) {
-						console.log(formXml);
-						console.log(status);
-						console.log(jqXHR);
-						$.ajax({
-							url : "get_record.sw",
-							data : {
-								workId : workId,
-								recordId : "5ef4e5632e37b267012e552308700196"
-							},
-							success : function(data, status, jqXHR) {
-								console.log(data);
-								new SmartWorks.GridLayout({
-									target : formContent,
-									formXml : formXml,
-									formValues : data.record
-								});
-							}
+						new SmartWorks.GridLayout({
+							target : formContent,
+							formXml : formXml,
+							mode : "edit"
 						});
 					}
 				});			

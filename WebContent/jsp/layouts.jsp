@@ -73,7 +73,7 @@ currentUser = {
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
+<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.16.custom.css" type="text/css" title="ui-theme" />
 <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
 <!-- <link href="css/ext/example.css" type="text/css" rel="stylesheet" />
 -->
@@ -85,13 +85,10 @@ currentUser = {
 </title>
 
 <script type="text/javascript" src="js/jquery/jquery-1.6.2.min.js"></script>
-<script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.explode.js"></script>
-<script type="text/javascript" src="js/jquery/jquery.ui.datepicker.js"></script>
-<script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
-<script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.widget.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.mouse.min.js"></script>

@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 		mode : 'view', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : 'fg_f8da7a2ad8df438bb7d79da3f3ba2499'
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 
@@ -27,9 +27,9 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	$file = $('<span id="' + id + '"></span>');
 	$file.appendTo(options.container);
 	if (readOnly) {
-		viewFiles(options.value, id);
+		viewFiles(value, id);
 	} else {
-		createUploader(options.value, id);
+		createUploader(value, id);
 	}
 //	if(true){
 //		console.log($(options.container).find('div.qq-upload-button'));

@@ -7,11 +7,12 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var longName = (options.dataField && options.dataField.value) || '';
+	var userId = (options.dataField && options.dataField.refRecordId) || '';
 	var $entity = options.entity;
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
@@ -26,8 +27,8 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	
 	var userHtml = '';
 	
-	if (options.value.userId) {
-		userHtml = "<span class='js_community_item user_select' comId='" + options.value.userId + "'>" + options.value.longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
+	if (userId !== "") {
+		userHtml = "<span class='js_community_item user_select' comId='" + userId + "'>" + longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
 	}
 
 	var $html = $('<input type="hidden" name="hdnRelatedUsers" />\
@@ -41,9 +42,8 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	$html.find('.js_selected_communities').html(userHtml);
 	
 	if(readOnly){
-		$user = $('<a class="js_pop_user_info" href="pop_user_info.sw?userId=' + options.value.userId + '"><span fieldId="' + id + '"></span></a>').text(options.value.longName);
+		$user = $('<a class="js_pop_user_info" href="pop_user_info.sw?userId=' + userId + '"><span fieldId="' + id + '"></span></a>').text(longName);
 	}else{	
-		//$user = $('<a href="pop_user_info.sw?userId=' + options.value.userId + '" target="_blank"><input type="text" fieldId="' + id + '" name="' + id + '"></a>').attr('value', options.value.longName);
 		$user = $html;
 	}
 	$user.appendTo(options.container);

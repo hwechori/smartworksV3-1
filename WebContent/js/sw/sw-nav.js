@@ -47,21 +47,23 @@
 			var target = options.target;
 			var before = options.before;
 			var after = options.after;
+			var _this = this;
 			try {
 				if(before) {
 					before.apply(this, [event]);
 				}
 				if(target == target_) {
 					$('#'+target).showLoading();
-					$.history.load(this.getAttribute('href'));
-					$('#'+target).hideLoading();
+					$.history.load(this.getAttribute('href'), function(){
+						$('#'+target).hideLoading();
+						if(after) after.apply(_this, [event]);
+					} );
 				} else {
 					$('#'+target).showLoading();
-					$('#' + target).load(this.getAttribute('href'));
-					$('#'+target).hideLoading();
-				}
-				if(after) {
-					after.apply(this, [event]);
+					$('#' + target).load(this.getAttribute('href'), function(){
+						$('#'+target).hideLoading();
+						if(after) after.apply(_this, [event]);						
+					});
 				}
 			} catch(err) {
 				console.log(err);

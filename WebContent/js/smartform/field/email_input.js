@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
@@ -24,9 +24,9 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	
 	var $email = null;
 	if(readOnly){
-		$email = $('<span fieldId="' + id + '"></span>').text(options.value);
+		$email = $('<span fieldId="' + id + '"></span>').text(value);
 	}else{	
-		$email = $('<input type="text" class="email js_email_input" fieldId="' + id + '" name="' + id + '">').attr('value', options.value);
+		$email = $('<input type="text" class="email js_email_input" fieldId="' + id + '" name="' + id + '">').attr('value', value);
 	}
 	$email.appendTo(options.container);
 
