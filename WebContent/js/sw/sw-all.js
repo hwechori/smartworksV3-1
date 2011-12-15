@@ -305,9 +305,7 @@ $(function() {
 						workId : workId
 					},
 					success : function(formXml, status, jqXHR) {
-						console.log(formXml);
-						console.log(status);
-						console.log(jqXHR);
+						alert(formXml);
 						$.ajax({
 							url : "get_record.sw",
 							data : {

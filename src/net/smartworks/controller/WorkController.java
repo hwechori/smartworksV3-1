@@ -11,6 +11,7 @@ package net.smartworks.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +20,9 @@ import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -124,16 +127,29 @@ public class WorkController extends ExceptionInterceptor {
 	}
 
 	@RequestMapping(value = "/get_form_xml", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody String getFormXml(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<String> getFormXml(HttpServletRequest request, HttpServletResponse response) {
 		String formXml = "";
 		try {
 			formXml = smartworks.getFormXml(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return formXml;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=UTF-8"); 
+		return new ResponseEntity<String>(formXml, responseHeaders, HttpStatus.CREATED);
 	}
+	
+//	@RequestMapping(value = "/get_form_xml", method = RequestMethod.GET)
+//	@ResponseStatus(HttpStatus.CREATED)
+//	public @ResponseBody String getFormXml(HttpServletRequest request, HttpServletResponse response) {
+//		String formXml = "";
+//		try {
+//			formXml = smartworks.getFormXml(request, response);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return formXml;
+//	}
 
 	@RequestMapping(value = "/get_record", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.CREATED)
