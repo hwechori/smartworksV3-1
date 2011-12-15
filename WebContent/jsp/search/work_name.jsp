@@ -38,7 +38,7 @@
 				}
 	%>
 	<li>
-	<a href="<%=targetContent%>?workId=<%=work.getId()%>" class="js_select_work">
+	<a href="<%=targetContent%>?workId=<%=work.getId()%>" workId="<%=work.getId() %>" class="js_select_work">
 		<span class="<%=iconType%>"></span>
 		<span class="nav_subtitl_area"><%=work.getFullpathName()%></span>
 	</a>

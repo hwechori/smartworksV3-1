@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
@@ -24,9 +24,9 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	
 	var $textarea = null;
 	if(readOnly){
-		$textarea = $('<span fieldId="' + id + '" id="'+id+'"></span>').html(options.value);
+		$textarea = $('<span fieldId="' + id + '" id="'+id+'"></span>').html(value);
 	}else{	
-		$textarea = $('<textarea style="width:100%; height:100%;display:none" fieldId="' + id + '" name="' + id + '" id="' + id + '" >'+options.value+'</textarea>');
+		$textarea = $('<textarea style="width:100%; height:100%;display:none" fieldId="' + id + '" name="' + id + '" id="' + id + '" >'+value+'</textarea>');
 	}
 	$textarea.appendTo(options.container);
 

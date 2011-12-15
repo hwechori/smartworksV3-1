@@ -36,6 +36,39 @@ $(function() {
 		target : 'content'
 	});
 
+	$('a.js_content_iwork_space').swnavi({
+		target : 'content',
+		after : function(e){
+			var input = $(e.target);
+			var workId = input.attr("workId");
+			var instId = input.attr("instId");
+			var formContent = $('div.js_form_content');
+			$.ajax({
+				url : "get_form_xml.sw",
+				data : {
+					workId : workId
+				},
+				success : function(formXml, status, jqXHR) {
+					$.ajax({
+						url : "get_record.sw",
+						data : {
+							workId : workId,
+							recordId : instId
+						},
+						success : function(formData, status, jqXHR) {
+							new SmartWorks.GridLayout({
+								target : formContent,
+								formXml : formXml,
+								formValues : formData.record,
+								mode : "view"
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+
 	/*
 	 * 좌측상단에 있는 알림아이콘들에 설정된 class속성값들이 js_notice_count이고, 이를 클릭하면 그곳의 href값으로
 	 * ajax를 호출하여 가져온 값을 id="notice_message_box"로 지정된 div영역에 보여준다. 실행전에는,
@@ -110,8 +143,8 @@ $(function() {
 		var lastValue = input[0].value;
 		setTimeout(function() {
 			var currentValue = input[0].value;
-
 			if (lastValue === currentValue) {
+				console.log('start ajax!!!!!!! TO : ' + url);
 				$.ajax({
 					url : url,
 					data : {
@@ -215,6 +248,7 @@ $(function() {
 	$('a.js_search_filter').live(
 			'click',
 			function(e) {
+				$('#content').showLoading();
 				var input = $(e.target).parent();
 				var target = $('#search_filter');
 				var url = input.attr('href');
@@ -227,6 +261,10 @@ $(function() {
 						var newCondition = condition.clone().removeClass("js_new_condition");
 						condition.parent().append(newCondition.show());
 						target.slideDown(500);
+						$('#content').hideLoading();
+					},
+					error : function(){
+						$('#content').hideLoading();						
 					}
 				});
 				return false;
@@ -235,6 +273,7 @@ $(function() {
 	$('select.js_select_filter').live(
 			'change',
 			function(e) {
+				$('#content').showLoading();
 				var input = $(e.target);
 				var target = $('#search_filter');
 				var url = input.attr('href') + "&filterId=" + input.children('option:selected').attr('value');
@@ -243,7 +282,12 @@ $(function() {
 					data : {},
 					success : function(data, status, jqXHR) {
 						target.html(data).slideDown(500);
+						$('#content').hideLoading();
+					},
+					error : function(){
+						$('#content').hideLoading();						
 					}
+
 				});
 				return false;
 			});
@@ -280,11 +324,32 @@ $(function() {
 	 */
 	$('.js_select_work').swnavi(
 			{
-				target : 'form_works',
 				before : function(event) {
 					$('#form_works').slideUp().slideDown(500);
 					$(event.target).parents('#upload_work_list').hide()
 							.parents(".js_start_work").slideUp();
+				},
+				target : 'form_works',
+				after : function(event) {
+					var input = $(event.target).parents('li:first').children('a');
+					var formContent = $('#form_works').find('div.js_form_content');
+					var workId = input.attr('workId');
+					console.log(input);
+					alert(workId);
+					$.ajax({
+						url : "get_form_xml.sw",
+						data : {
+							workId : workId
+						},
+						success : function(formXml, status, jqXHR) {
+							console.log(formXml);
+							new SmartWorks.GridLayout({
+								target : formContent,
+								formXml : formXml,
+								mode : "edit"
+							});
+						}
+					});			
 				}
 			});
 
@@ -305,21 +370,10 @@ $(function() {
 						workId : workId
 					},
 					success : function(formXml, status, jqXHR) {
-						alert(formXml);
-						$.ajax({
-							url : "get_record.sw",
-							data : {
-								workId : workId,
-								recordId : "5ef4e5632e37b267012e552308700196"
-							},
-							success : function(data, status, jqXHR) {
-								console.log(data);
-								new SmartWorks.GridLayout({
-									target : formContent,
-									formXml : formXml,
-									formValues : data.record
-								});
-							}
+						new SmartWorks.GridLayout({
+							target : formContent,
+							formXml : formXml,
+							mode : "edit"
 						});
 					}
 				});			
@@ -330,6 +384,7 @@ $(function() {
 	});
 
 	$('a.js_new_work_report').live('click', function(e) {
+		$('#content').showLoading();						
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
 		var url = input.attr('href');
@@ -338,12 +393,17 @@ $(function() {
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
+				$('#content').hideLoading();						
+			},
+			error : function(){
+				$('#content').hideLoading();						
 			}
 		});
 		return false;
 	});
 
 	$('select.js_select_work_report').live('change', function(e) {
+		$('#content').showLoading();						
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
 		var url = input.attr('href')
@@ -359,7 +419,12 @@ $(function() {
 				var chartTarget = target.html(data).find('div.js_work_report_view');
 				smartChart.load(reportId, chartType, false, "chart_target");
 				target.slideDown(500);
+				$('#content').hideLoading();						
+			},
+			error : function(){
+				$('#content').hideLoading();						
 			}
+
 		});
 		
 		return false;
@@ -441,6 +506,7 @@ $(function() {
 			target.hide();
 			input.hide().siblings().show();
 		}else{
+			$('#content').showLoading();						
 			var url = input.parent().attr('url');
 			$.ajax({
 				url : url,
@@ -448,6 +514,10 @@ $(function() {
 				success : function(data, status, jqXHR) {
 					target.html(data).show();
 					input.hide().siblings().show();
+					$('#content').hideLoading();						
+				},
+				error : function(){
+					$('#content').hideLoading();											
 				}
 			});
 		}
@@ -560,6 +630,7 @@ $(function() {
 			return false;
 		}
 		if($(target).children().length == 0){
+			$('div.js_nav_my_works').showLoading();						
 			$.ajax({
 				url : url,
 				data : {
@@ -572,6 +643,10 @@ $(function() {
 					target.html(data);
 					target.siblings('li.js_drill_down').find('div').hide();
 					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
+					$('div.js_nav_my_works').hideLoading();											
+				},
+				error : function(){
+					$('div.js_nav_my_works').hideLoading();											
 				}
 			});
 		}else{
@@ -616,6 +691,15 @@ $(function() {
 		});
 	});
 
+	$('a.js_copy_address').zclip({
+        path:'js/jquery/ZeroClipboard.swf',
+        copy: function(){
+        	return $(location).attr('href');
+        	},
+        beforeCopy: null,
+        afterCopy:null
+    });
+
 	$('a.js_pop_user_info').live('click', function(e) {
 		var input = $(e.target);
 		var left = input.parents('td:first').position().left;
@@ -628,5 +712,4 @@ $(function() {
 		}); 
 		return false;
 	});
-	
 });

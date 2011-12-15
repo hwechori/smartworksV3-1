@@ -39,9 +39,11 @@
 		}
 		return;
 	}
-	$('input.js_todaypicker').datepicker({
+	$('input.js_today_datepicker').datepicker({
 		defaultDate : new Date(),
 		dateFormat : 'yy.mm.dd'
+	});
+	$('input.js_current_timepicker').timepicker({
 	});
 </script>
 
@@ -67,7 +69,7 @@
 
 			<div class="input_1line">
 				<div class="float_left">
-					<input class="fieldline space_data date js_todaypicker" type="text"
+					<input class="fieldline space_data date js_today_datepicker" type="text"
 						name="txtEventStartDate" readonly="readonly" value="<%=today%>">
 				</div>
 
@@ -101,11 +103,13 @@
 					style='display: none'>
 					<div class="float_left">
 						- <input name="txtEventEndDate"
-							class="fieldline space_data date js_todaypicker" type="text"
+							class="fieldline space_data date js_today_datepicker" type="text"
 							value="<%=today%>">
 					</div>
 					<div class="float_left js_end_time">
-						<select name="selEventEndTime">
+						<input name="txtEventEndTime"
+							class="fieldline space_data js_current_timepicker" type="text" value="<%=curTime%>">
+<%-- 						<select name="selEventEndTime">
 							<%
 								{
 									boolean isNow = false, isPassed = false;
@@ -128,7 +132,7 @@
 								}
 							%>
 						</select>
-					</div>
+ --%>					</div>
 				</div>
 				<!-- 종료 날짜 추가 내용 //-->
 				<div class="float_left txt_btn">
