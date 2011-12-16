@@ -14,12 +14,15 @@ function submitForms(e) {
 		if(scheduleWork[0].chkScheduleWork.value === 'on'){
 			scheduleWork[0].hdnSchedulePerformer.value = $(scheduleWork[0].txtSchedulePerformer).attr('uid');
 		}
-		var params = $('form').serialize();
+		var paramsJson = JSON.stringify($('form').serializeObject());
+		console.log(paramsJson);
+		console.log(paramsJson.txtUserProfileUserId);
+		alert('wait');
 		var url = "create_new_iwork.sw";
 		$.ajax({
 			url : url,
 			type : 'POST',
-			data : params,
+			data : paramsJson,
 			success : function(data, status, jqXHR) {
 				document.location.href = data.href;
 			},
@@ -38,9 +41,6 @@ function submitForms(e) {
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser(request, response);
-	//String formXml = smartWorks.getFormXml(cUser.getCompanyId(), cUser.getId(), workId);
-
-	//System.out.println("######################formXml start###########################"+formXml+"######################formXml end###########################");
 	SmartWork work = (SmartWork)smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

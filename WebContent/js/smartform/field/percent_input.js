@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : '',
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	$entity = options.entity;
 	$graphic = $entity.children('graphic');
 	$format = $entity.children('format');
@@ -19,7 +19,7 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	var readOnly = $graphic.attr('readOnly') == 'true' || options.mode == 'view';
 	var id = $entity.attr('id');
 
-	var percentValue = (options.value * 100) + '%';
+	var percentValue = (value * 100) + '%';
 	
 	
 	$html = $('<div class="percent" id="' + id + '_container"></div>');

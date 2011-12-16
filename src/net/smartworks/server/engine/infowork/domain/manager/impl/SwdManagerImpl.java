@@ -399,7 +399,14 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		SwdRecordCond cond = new SwdRecordCond();
 		cond.setDomainId(domainId);
 		cond.setRecordId(recordId);
-		return getRecord(user, cond, level);
+		
+		SwdRecord obj = getRecord(user, cond, level);
+		try {
+			populateRecord(user, obj);
+		} catch (Exception e) {
+			throw new SwdException(e);
+		}
+		return obj;
 	}
 	public SwdRecord getRecord(String user, SwdRecordCond cond, String level) throws SwdException {
 		if (cond == null)
@@ -420,6 +427,12 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				buf.append(" domainId: ").append(domainId);
 			buf.append(" recordIds: ").append(objs[0].getRecordId()).append(", ").append(objs[1].getRecordId());
 			throw new SwdException(buf.toString());
+		}
+		
+		try {
+			populateRecord(user, objs[0]);
+		} catch (Exception e) {
+			throw new SwdException(e);
 		}
 		return objs[0];
 	}
@@ -1703,40 +1716,69 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			}
 		}
 	}
-	private void populateRecord(String user, SwdRecord record) throws Exception {
-		String formId = record.getFormId();
-		if (CommonUtil.isEmpty(formId))
+	private void populateRecord(String user, SwdRecord obj) throws Exception {
+		if (obj == null)
 			return;
-		SwfForm form = getSwfManager().getForm(user, formId);
-		if (form == null)
+		
+		String formId = obj.getFormId();
+		String recordId = obj.getRecordId();
+		if (recordId == null)
 			return;
-		SwfField[] fields = form.getFields();
-		if (CommonUtil.isEmpty(fields))
+		
+		SwdDataRefCond cond = new SwdDataRefCond();
+		cond.setMyFormId(formId);
+		cond.setMyRecordId(recordId);
+		SwdDataRef[] dataRefs = this.getDataRefs(user, cond, null);
+		if (CommonUtil.isEmpty(dataRefs))
 			return;
+		
 		String fieldId;
 		SwdDataField dataField;
-		SwfFormat format;
-		String formatType;
-		for (SwfField field : fields) {
-			fieldId = field.getId();
-			dataField = record.getDataField(fieldId);
+		for (SwdDataRef dataRef : dataRefs) {
+			fieldId = dataRef.getMyFormFieldId();
+			dataField = obj.getDataField(fieldId);
 			if (dataField == null)
 				continue;
-			if (!CommonUtil.isEmpty(dataField.getRefForm()) && 
-					!CommonUtil.isEmpty(dataField.getRefFormField()))
-				continue;
-			format = field.getFormat();
-			if (format == null)
-				continue;
-			formatType = format.getType();
-			if (CommonUtil.isEmpty(formatType))
-				continue;
-			if (formatType.equalsIgnoreCase("userField")) {
-				dataField.setRefForm("frm_user_SYSTEM");
-				dataField.setRefFormField("4");
-			}
+			dataField.setRefForm(dataRef.getRefFormId());
+			dataField.setRefFormField(dataRef.getRefFormFieldId());
+			dataField.setRefRecordId(dataRef.getRefRecordId());
 		}
 	}
+	
+//	private void populateRecord(String user, SwdRecord record) throws Exception {
+//		String formId = record.getFormId();
+//		if (CommonUtil.isEmpty(formId))
+//			return;
+//		SwfForm form = getSwfManager().getForm(user, formId);
+//		if (form == null)
+//			return;
+//		SwfField[] fields = form.getFields();
+//		if (CommonUtil.isEmpty(fields))
+//			return;
+//		String fieldId;
+//		SwdDataField dataField;
+//		SwfFormat format;
+//		String formatType;
+//		for (SwfField field : fields) {
+//			fieldId = field.getId();
+//			dataField = record.getDataField(fieldId);
+//			if (dataField == null)
+//				continue;
+//			if (!CommonUtil.isEmpty(dataField.getRefForm()) && 
+//					!CommonUtil.isEmpty(dataField.getRefFormField()))
+//				continue;
+//			format = field.getFormat();
+//			if (format == null)
+//				continue;
+//			formatType = format.getType();
+//			if (CommonUtil.isEmpty(formatType))
+//				continue;
+//			if (formatType.equalsIgnoreCase("userField")) {
+//				dataField.setRefForm("frm_user_SYSTEM");
+//				dataField.setRefFormField("4");
+//			}
+//		}
+//	}
 	private SwdRecord getMappingRecord(String user, SwfMapping map, Map context) throws Exception {
 		String formType = map.getMappingFormType();
 		if (formType != null && !formType.equalsIgnoreCase("info_form"))

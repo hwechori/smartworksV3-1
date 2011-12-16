@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 
@@ -24,12 +24,11 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	var $label = $('<label>' + name + '</label>');
 	$label.appendTo(options.container);
 	
-//	var value = $(options.value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	var $currency = null;
 	if(readOnly){
-		$currency = $('<span fieldId="' + id + '"></span>').text(options.value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<span fieldId="' + id + '"></span>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$currency = $('<input type="text" symbol="' + currency +'" class="js_currency_input" fieldId="' + id + '" name="' + id + '">').attr('value',options.value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<input type="text" symbol="' + currency +'" class="js_currency_input" fieldId="' + id + '" name="' + id + '">').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		//if save mode = $currency.toNumber().attr('value');
 	}
 	$currency.appendTo(options.container);

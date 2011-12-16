@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
@@ -22,11 +22,11 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	var $label = $('<label>' + name + '</label>');
 	$label.appendTo(options.container);
 
-	var checked = (options.value) ? 'checked' : '' ;
+	var checked = (value) ? 'checked' : '' ;
 	
 	var $check = null;
 	if(readOnly){
-		$check = $('<span></span>').text(options.value);
+		$check = $('<span></span>').text(value);
 	}else{	
 		$check = $('<input type="checkbox" '+ checked +' fieldId="' + id + '" name="' + id + '">');
 	}

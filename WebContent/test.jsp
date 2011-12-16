@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.server.engine.infowork.domain.model.SwdRecord"%>
+<%@page import="net.smartworks.server.engine.common.manager.IManager"%>
 <%@page import="net.smartworks.server.engine.process.process.model.PrcProcessInstExtend"%>
 <%@page import="net.smartworks.server.engine.process.process.model.PrcProcessInstCond"%>
 <%@page import="java.io.File"%>
@@ -46,22 +48,18 @@
 }%>
 <%
 			
-	PrcProcessInstCond cond = new PrcProcessInstCond();
-
-	cond.setPackageId("pkg_cf3b0087995f4f99a41c93e2fe95b22d");
-
-	PrcProcessInstExtend[] ppe =  SwManagerFactory.getInstance().getPrcManager().getProcessInstExtends("kmyu@maninsoft.co.kr", cond);
-
-
+	String user = "kmyu@maninsoft.co.kr";
+	String domainId = "md_38713a9cf8354ed3aef4fccd521d88df";
+	String recordId = "402880eb344102f201344102f26e0000";
+	SwdRecord rec = SwManagerFactory.getInstance().getSwdManager().getRecord(user, domainId, recordId, IManager.LEVEL_ALL);
 	
 
-
+	System.out.println(rec);
 
 
 
 %>
 <textarea style="width:800px;height:400px;">
-<%= ppe[0].getLastTask_count()%>
 </textarea>
 </body>
 </html>

@@ -189,7 +189,32 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	@Override
 	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
-		return "testId";		
+		if (true) 
+			return "testId";	
+		
+		String userId = request.getParameter("userId");
+		
+		SwdRecord obj = new SwdRecord();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
+		
+		return null;
 	}
 
 	@Override
