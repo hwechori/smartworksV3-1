@@ -1,4 +1,8 @@
 $(function() {
+	
+	// JavaScript에서 사용할 다국어 Bundle의 Locale을 현재사용자의 로케일로 설정한다.
+	language.setLocale(currentUser.locale);
+	
 	/*
 	 * 좌측 "나의 업무" 박스의 좌측상단에 있는 탭(즐겨찾기, 최근처리, 전체업무)탭들이 class="js_nav_tab_work"로
 	 * 지정되어 있으며, 이를 선택하면, 밑에 있는 id="my_works"인 div영역에 탭에서 지정한 href의 값을 ajax로
@@ -531,16 +535,13 @@ $(function() {
 				var comName = input.attr('comName');
 				var comId = input.attr('comId');
 				var target = input.parents('div.js_community_list').prev()
-						.find('div.js_selected_communities');
-				
-				console.log(target.siblings('input.js_auto_complete'));
+						.find('div.js_selected_communities');				
 				target.siblings('input.js_auto_complete').value = '';
-				
 				var inputTarget = target.siblings('input.js_form_user_field');
-				console.log(inputTarget);
 				if(inputTarget.length == 1) {
 					inputTarget.hide();
 					inputTarget.next('div.js_srch_x').hide();
+					inputTarget.parent().parent().siblings('js_form_user_id').value = comId;
 				}
 				var oldHTML = target.html();
 				if (oldHTML == null)
@@ -575,6 +576,7 @@ $(function() {
 		if (inputTarget.length == 1) {
 			inputTarget.show();
 			inputTarget.next('div.js_srch_x').show();
+			inputTarget.parent.siblings('js_form_user_id').value = '';
 		}
 		var selected_users = input.parents('div.js_selected_communities');
 		input.parents('span.js_community_item').remove();

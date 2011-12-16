@@ -14,15 +14,18 @@ function submitForms(e) {
 		if(scheduleWork[0].chkScheduleWork.value === 'on'){
 			scheduleWork[0].hdnSchedulePerformer.value = $(scheduleWork[0].txtSchedulePerformer).attr('uid');
 		}
-		var paramsJson = JSON.stringify($('form').serializeObject());
-		console.log(paramsJson);
-		console.log(paramsJson.txtUserProfileUserId);
-		alert('wait');
+		var forms = $('form');
+		var paramsJson = {};
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			paramsJson[form.attr('name')] = form.serializeObject();
+		}
+		console.log(JSON.stringify(paramsJson));
 		var url = "create_new_iwork.sw";
 		$.ajax({
 			url : url,
 			type : 'POST',
-			data : paramsJson,
+			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				document.location.href = data.href;
 			},

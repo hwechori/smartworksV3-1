@@ -21,8 +21,12 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	var name = $entity.attr('name');
 
 	var $label = $('<td>' + name + '</td>');
-	if($entity[0].getAttribute('required') === 'true'){
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='fieldline required' ";
+	}else{
+		required = " class='fieldline' ";
 	}
 	$label.appendTo(options.container);
 	
@@ -36,7 +40,7 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	if (readOnly) {
 		$percent = $('<td id="' + id + '_input"></td>').text(percentValue);
 	} else {
-		$percent = $('<td><input id="' + id + '_input" class="fieldline" type="text" fieldId="' + SmartWorks.generateFormFieldId(options.workspaceId, id) + '"/></td>')
+		$percent = $('<td><input id="' + id + '" type="text" fieldId="' + SmartWorks.generateFormFieldId(options.workspaceId, id) + '"' + required + '/></td>')
 				.attr('value', percentValue);
 	}
 	

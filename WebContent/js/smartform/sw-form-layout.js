@@ -8,8 +8,9 @@ SmartWorks.GridLayout = function(config) {
 
 	SmartWorks.extend(this.options, config);
 
-	var $table = $('<table></table>');
-	$table.appendTo(this.options.target);
+	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required"><table></table></form>');
+	var $table = $htmlForm.find('table');
+	$htmlForm.appendTo(this.options.target);
 
 	var $form = $(this.options.formXml);
 	var $layout = $form.find('layout');

@@ -21,8 +21,12 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	var name = $entity.attr('name');
 	
 	var $label = $('<td>' + name + '</td>');
-	if($entity[0].getAttribute('required') === 'true'){
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='required' ";
+	}else{
+		required = "";
 	}
 	$label.appendTo(options.container);
 	
@@ -36,7 +40,7 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 
 		console.dir(checked);
 		
-		var $input = $('<td><input type="radio" ' + checked + ' name="' + id + '" value="' + text + '">' + text + '</input><td>');
+		var $input = $('<td><input type="radio" ' + checked + ' name="' + id + '" value="' + text + '"' + required + '>' + text + '</input><td>');
 		
 		$input.attr('fieldId', id);
 		if (readOnly) {

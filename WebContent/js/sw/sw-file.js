@@ -2,6 +2,7 @@
 var template = '<div class="qq-uploader">' + 
                 '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
                 '<div class="qq-upload-button">Upload a file</div>' +
+                '<input type="hidden" class="qq-upload-groupid"/>' +
                 '<ul class="qq-upload-list"></ul>' + 
              '</div>';
 
@@ -19,9 +20,9 @@ var viewFileTemplate = '<li>' +
 			'<span class="qq-upload-size"></span>' +
 			'</li>';
 
-function fileUploader(groupId, targetId) {
+function fileUploader(groupId, target) {
 	return new qq.FileUploader({
-        element: $('#'+ targetId)[0],
+        element: $(target)[0],
 
         params : {
         	groupId : groupId
@@ -59,11 +60,11 @@ function fileUploader(groupId, targetId) {
     });
 }
 
-function createUploader(groupId, targetId){
+function createUploader(groupId, target){
 	if(!groupId) {
 		groupId = '<%=IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR)%>';
-		var uploader = fileUploader(groupId, targetId);
-		var uploader_div = $('#'+targetId);
+		var uploader = fileUploader(groupId, target);
+		var uploader_div = $(target);
 		uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
 		uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
 	} else {
@@ -75,8 +76,10 @@ function createUploader(groupId, targetId){
 			type : "GET",
 			context : this,
 			success : function(data, status, jqXHR) {
-				var uploader = fileUploader(groupId, targetId);
-				var uploader_div = $('#'+targetId);
+				var uploader = fileUploader(groupId, target);
+				var uploader_div = $(target);
+				uploader_div.find('.qq-upload-groupid').value(groupId);				
+				uploader_div.find('.qq-upload-groupid').attr("name", uploader_div.attr('id'));				
 				uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));				
 				uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
 				
@@ -113,7 +116,7 @@ function createUploader(groupId, targetId){
 	}
 }
 
-function viewFiles(groupId, targetId){
+function viewFiles(groupId, target){
 	if(!groupId) {
 		return;
 	} else {
@@ -125,7 +128,7 @@ function viewFiles(groupId, targetId){
 			type : "GET",
 			context : this,
 			success : function(data, status, jqXHR) {
-				var files = $('#'+targetId);
+				var files = $(target);
 				for(var i in data) {
 					
 					var fileName = data[i].fileName;

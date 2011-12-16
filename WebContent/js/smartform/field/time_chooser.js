@@ -20,8 +20,12 @@ SmartWorks.FormRuntime.TimeChooserBuilder.build = function(config) {
 	var name = $entity.attr('name');
 	
 	var $label = $('<td>' + name + '</td>');
-	if($entity[0].getAttribute('required') === 'true'){
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='fieldline js_timepicker required' ";
+	}else{
+		required = " class='fieldline js_timepicker' ";
 	}
 	$label.appendTo(options.container);
 	
@@ -29,7 +33,7 @@ SmartWorks.FormRuntime.TimeChooserBuilder.build = function(config) {
 	if(readOnly){
 		$text = $('<td fieldId="' + id + '"></td>').text(value);
 	}else{	
-		$text = $('<td><input class="fieldline js_timepicker" readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '"></td>').attr('value', value);
+		$text = $('<td><input readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value', value);
 	}
 	$text.appendTo(options.container);
 
