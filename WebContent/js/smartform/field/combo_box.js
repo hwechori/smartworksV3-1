@@ -20,13 +20,16 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<label>' + name + '</label>');
+	var $label = $('<td>' + name + '</td>');
+	if($entity[0].getAttribute('required') === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+	}
 	$label.appendTo(options.container);
 	
 	var $staticItems = $format.find('list staticItems staticItem');
 	
 
-	var $input = $('<select name="' + id + '"></select>');
+	var $input = $('<td><select name="' + id + '"></select><td>');
 
 	$input.attr('fieldId', id);
 	if (readOnly) {
