@@ -1,7 +1,7 @@
 var serverUrl = "http://localhost:8000";
 var swContext = "/faye";
 var fayeServer = "fayeServer";
-
+ 
 var swSubject = {
 	SMARTWORKS : "/smartworks",
 	COMPANYID : "/Semiteq",
