@@ -9,15 +9,14 @@ function updateChattingBoxTitle(chatId, chatterInfos) {
 		if (chatterList.length > 0) {
 			title = chatterList[0].longName;
 			if (chatterList.length > 2) {
-				title = title + "외 " + (chatterList.length - 1) + "명";
+				title = title + language.message('chatUserAnd') + (chatterList.length - 1) + language.message('chatUserMore');
 			} else {
 				for ( var i = 1; i < chatterList.length; i++) {
 					title = title + "," + chatterList[i].longName;
 				}
-				title = title + "님";
 			}
 		} else {
-			title = "No Chatter!!!";
+			title = language.message('chatNoChatters');
 		}
 	}
 	$('#' + chatId).find('div.js_chatting_title').html(title);
@@ -240,7 +239,7 @@ function updateChatterStatus(chatId, chatterInfo, status) {
 	} else if (status === userStatus.OFFLINE) {
 		var data = "<div class='msg_section' userId='" + userId
 				+ "'><span class='t_name'>" + longName
-				+ "</span>님은 오프라인이므로 쪽지로 보내집니다</div>";
+				+ "</span>" + language.message('chatUserOfflineMessage') + "</div>";
 		target.append(data);
 	}else if(status === userStatus.LEAVED){
 		

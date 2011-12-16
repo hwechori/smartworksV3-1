@@ -2,7 +2,12 @@ package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +39,7 @@ import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
+import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
@@ -190,16 +196,71 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
-		if (true) 
-			return "testId";	
+	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception {
 
-		User user = SmartUtil.getCurrentUser();
-
-		SwdRecord obj = new SwdRecord();
-
-		getSwdManager().setRecord(user.getId(), obj, IManager.LEVEL_ALL);
+		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
+		String formId = "frm_7fd91682175145858dd42049dca9a8aa";
+		String formName = "영업본부 회의록";
+		int formVersion = 1;
+		String userId = "";
 		
+		/*
+		Key Set : frmSmartForm
+		Key Set : frmScheduleWork
+		Key Set : frmAccessSpace
+		*/
+		
+		Map<String, Object> SmartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+		
+		SwdFieldCond swdFieldCond = new SwdFieldCond();
+		swdFieldCond.setDomainObjId(domainId);
+		SwdField[] fields = getSwdManager().getFields(userId, swdFieldCond, IManager.LEVEL_LITE);
+		if (CommonUtil.isEmpty(fields))
+			return null;//TODO return null? throw new Exception??
+		
+		Map<String, SwdField> fieldInfoMap = new HashMap<String, SwdField>();
+		for (SwdField field : fields) {
+			fieldInfoMap.put(field.getFormFieldId(), field);
+		}
+		
+		Set<String> keySet = SmartFormInfoMap.keySet();
+		Iterator<String> itr = keySet.iterator();
+		
+//		SwdField[] fieldDatas = new SwdField[keySet.size()];
+		List fieldDataList = new ArrayList();
+		while (itr.hasNext()) {
+			String fieldId = (String)itr.next();
+			String value = null;
+			String refForm = null;
+			String refFormField = null;
+			String refRecordId = null;
+			if (SmartFormInfoMap.get(fieldId) instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)SmartFormInfoMap.get(fieldId);
+				//TODO
+			} else {
+				value = (String)SmartFormInfoMap.get(fieldId);
+			}
+			SwdDataField fieldData = new SwdDataField();
+			fieldData.setId(fieldId);
+			fieldData.setName(fieldInfoMap.get(fieldId).getFormFieldName());
+			fieldData.setRefForm(refForm);
+			fieldData.setRefFormField(refFormField);
+			fieldData.setRefRecordId(refRecordId);
+			fieldData.setValue(value);
+			
+			fieldDataList.add(fieldData);
+			
+		}
+		SwdDataField[] fieldDatas = new SwdDataField[fieldDataList.size()];
+		fieldDataList.toArray(fieldDatas);
+		SwdRecord obj = new SwdRecord();
+		obj.setDomainId(domainId);
+		obj.setFormId(formId);
+		obj.setFormName(formName);
+		obj.setFormVersion(formVersion);
+		obj.setDataFields(fieldDatas);
+		
+		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);		
 		return null;
 	}
 
@@ -255,7 +316,7 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		long totalCount = getSwdManager().getRecordSize(user.getId(), swdRecordCond);
 
-		int currentPage = params.getPageNumber();
+		int currentPage = params.getPageNumber() -1;
 		int pageCount = params.getCountInPage();
 		SortingField sf = params.getSortingField();
 

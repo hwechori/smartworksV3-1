@@ -211,6 +211,7 @@ currentUser = {
 				})
 			});
 		}, 5000);
+		repeat1();
 	});
 </script>
 

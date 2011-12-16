@@ -20,8 +20,12 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	var name = $entity.attr('name');
 	
 	var $label = $('<td>' + name + '</td>');
-	if($entity[0].getAttribute('required') === 'true'){
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='required' ";
+	}else{
+		required = "";
 	}
 	$label.appendTo(options.container);
 	
@@ -29,7 +33,7 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	if(readOnly){
 		$textarea = $('<td fieldId="' + id + '" id="'+id+'"></td>').html(value);
 	}else{	
-		$textarea = $('<textarea style="width:100%; height:100%;display:none" fieldId="' + id + '" name="' + id + '" id="' + id + '" >'+value+'</textarea>');
+		$textarea = $('<textarea style="width:100%; height:100%;display:none" fieldId="' + id + '" name="' + id + '" id="' + id + '"' + required + '>'+value+'</textarea>');
 	}
 	$textarea.appendTo(options.container);
 

@@ -20,8 +20,12 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	var name = $entity.attr('name');
 	
 	var $label = $('<td>' + name + '</td>');
-	if($entity[0].getAttribute('required') === 'true'){
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='fieldline required email' ";
+	}else{
+		required = " class='fieldline email' ";
 	}
 	$label.appendTo(options.container);
 	
@@ -29,7 +33,7 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	if(readOnly){
 		$email = $('<td fieldId="' + id + '"></td>').text(value);
 	}else{	
-		$email = $('<td><input type="text" class="email js_email_input fieldline" fieldId="' + id + '" name="' + id + '"></td>').attr('value', value);
+		$email = $('<td><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value', value);
 	}
 	$email.appendTo(options.container);
 

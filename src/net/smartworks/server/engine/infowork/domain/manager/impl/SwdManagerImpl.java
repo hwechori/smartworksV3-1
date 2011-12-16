@@ -401,11 +401,6 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		cond.setRecordId(recordId);
 		
 		SwdRecord obj = getRecord(user, cond, level);
-		try {
-			populateRecord(user, obj);
-		} catch (Exception e) {
-			throw new SwdException(e);
-		}
 		return obj;
 	}
 	public SwdRecord getRecord(String user, SwdRecordCond cond, String level) throws SwdException {
@@ -427,12 +422,6 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				buf.append(" domainId: ").append(domainId);
 			buf.append(" recordIds: ").append(objs[0].getRecordId()).append(", ").append(objs[1].getRecordId());
 			throw new SwdException(buf.toString());
-		}
-		
-		try {
-			populateRecord(user, objs[0]);
-		} catch (Exception e) {
-			throw new SwdException(e);
 		}
 		return objs[0];
 	}

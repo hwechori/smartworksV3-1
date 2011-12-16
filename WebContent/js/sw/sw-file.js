@@ -2,6 +2,7 @@
 var template = '<div class="qq-uploader">' + 
                 '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
                 '<div class="qq-upload-button">Upload a file</div>' +
+                '<input type="hidden" class="qq-upload-groupid"/>' +
                 '<ul class="qq-upload-list"></ul>' + 
              '</div>';
 
@@ -60,12 +61,11 @@ function fileUploader(groupId, target) {
 
 function createUploader(groupId, target){
 	if(!groupId) {
-		//groupId = '<%=IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR)%>';
 		groupId = randomUUID('fg_');
 		console.log('###'+groupId+'###');
 		var uploader = fileUploader(groupId, target);
 		var uploader_div = $(target);
-		uploader_div.find('.qq-upload-button');
+		uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
 		uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
 	} else {
 		$.ajax({				
@@ -78,9 +78,11 @@ function createUploader(groupId, target){
 			success : function(data, status, jqXHR) {
 				var uploader = fileUploader(groupId, target);
 				var uploader_div = $(target);
-				uploader_div.find('.qq-upload-button');				
+				uploader_div.find('.qq-upload-groupid').value(groupId);				
+				uploader_div.find('.qq-upload-groupid').attr("name", uploader_div.attr('id'));				
+				uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
 				uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
-				
+
 				var files = uploader_div.find('.qq-upload-list');
 				for(var i in data) {
 					
