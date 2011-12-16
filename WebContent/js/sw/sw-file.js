@@ -62,7 +62,6 @@ function fileUploader(groupId, target) {
 function createUploader(groupId, target){
 	if(!groupId) {
 		groupId = randomUUID('fg_');
-		console.log('###'+groupId+'###');
 		var uploader = fileUploader(groupId, target);
 		var uploader_div = $(target);
 		uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
