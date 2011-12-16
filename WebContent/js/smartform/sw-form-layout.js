@@ -10,9 +10,12 @@ SmartWorks.GridLayout = function(config) {
 
 	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required"><table></table></form>');
 	var $table = $htmlForm.find('table');
-	$htmlForm.appendTo(this.options.target);
 
 	var $form = $(this.options.formXml);
+	$htmlForm.attr("formId", $form.attr('id'))
+	$htmlForm.attr("formName", $form.attr('name'))
+	$htmlForm.appendTo(this.options.target);
+	
 	var $layout = $form.find('layout');
 
 	this.getColumnSize = function() {
