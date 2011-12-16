@@ -5,9 +5,8 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.work.*"%>
 <%
-	User cUser = SmartUtil.getCurrentUser(request, response);
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkInfo[] works = smartWorks.getMyAllWorksByCategoryId(cUser.getCompanyId(), cUser.getId(), request.getParameter("groupId"));
+	WorkInfo[] works = smartWorks.getMyAllWorksByCategoryId(request.getParameter("groupId"));
 	String iconType = null;
 	String classType = "js_content";
 	String workContext = null;

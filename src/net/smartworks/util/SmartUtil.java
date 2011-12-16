@@ -19,6 +19,7 @@ import net.smartworks.service.impl.SmartWorks;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -239,6 +240,16 @@ public class SmartUtil {
 		}
 
 		return user;
+	}
+
+	public static User getCurrentUser() {
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		Authentication authentication = securityContext.getAuthentication();
+		if(authentication != null) {
+			Object principal = authentication.getPrincipal();
+			return (User)(principal instanceof Login ? principal : null);
+		}
+		return null;
 	}
 
 	public static User getSystemUser(){

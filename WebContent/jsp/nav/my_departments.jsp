@@ -3,12 +3,9 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
-
 <%
-	User cUser = SmartUtil.getCurrentUser(request, response);
-
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	DepartmentInfo[] departments = smartWorks.getMyDepartments(cUser.getCompanyId(), cUser.getId());
+	DepartmentInfo[] departments = smartWorks.getMyDepartments();
 %>
 
 <ul>

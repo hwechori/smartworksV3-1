@@ -49,7 +49,7 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 	LocalDate date = new LocalDate();
 	String today = date.toLocalDateSimpleString();
 	String curTime = date.toLocalTimeShortString();

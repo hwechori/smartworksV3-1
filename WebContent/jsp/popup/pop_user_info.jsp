@@ -10,9 +10,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	
-	User user = smartWorks.getUserById(cUser.getCompanyId(), request.getParameter("userId"));
+	User cUser = SmartUtil.getCurrentUser();
+
+	User user = smartWorks.getUserById(request.getParameter("userId"));
 	
 %>
 <script type="text/javascript">

@@ -22,7 +22,7 @@
 	String reportName = request.getParameter("reportName");
 	String strReportType = request.getParameter("reportType");
 	String chartType = request.getParameter("chartType");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 
 	int workType = SmartWork.TYPE_INFORMATION, reportType = Report.TYPE_CHART;
 	if (strWorkType != null && !strWorkType.equals(""))

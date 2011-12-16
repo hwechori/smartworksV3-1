@@ -6,11 +6,11 @@
 <%@ page import="net.smartworks.model.work.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	SmartWorkInfo[] works = smartWorks.searchWork(cUser.getCompanyId(), cUser.getId(), key);
+	SmartWorkInfo[] works = smartWorks.searchWork(key);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

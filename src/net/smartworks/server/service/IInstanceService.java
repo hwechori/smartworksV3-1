@@ -14,25 +14,25 @@ import net.smartworks.util.LocalDate;
 
 public interface IInstanceService {
 
-	public BoardInstanceInfo[] getBoardInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception;
+	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception;
+	public InstanceInfo[] getMyRecentInstances() throws Exception;
 
-	public BoardInstanceInfo[] getBoardInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception;
+	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception;
 
-	public Instance getInstanceById(String companyId, String instanceId) throws Exception;
+	public Instance getInstanceById(String instanceId) throws Exception;
 
-	public InstanceInfo[] getMyRunningInstances(String companyId, String userId) throws Exception;
+	public InstanceInfo[] getMyRunningInstances() throws Exception;
 
-	public InstanceInfo[] searchMyRunningInstance(String companyId, String userId, String key) throws Exception;
+	public InstanceInfo[] searchMyRunningInstance(String key) throws Exception;
 
-	public CommentInstance[] getRecentCommentsInWorkManual(String companyId, String workId, int length) throws Exception;
+	public CommentInstance[] getRecentCommentsInWorkManual(String workId, int length) throws Exception;
 
-	public InstanceInfoList getIWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception;
+	public InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception;
 
-	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception;
+	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 
-	public WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception;
+	public WorkInstance getWorkInstanceById(String instanceId) throws Exception;
 
 	public String setInformationWorkInstance(HttpServletRequest request) throws Exception;
 

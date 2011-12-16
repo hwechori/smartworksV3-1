@@ -17,9 +17,9 @@
 	String wid = request.getParameter("wid");
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	InformationWork work = (InformationWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
-	CommentInstance[] comments = smartWorks.getRecentCommentsInWorkManual(cUser.getCompanyId(), workId, 3);
+	User cUser = SmartUtil.getCurrentUser();
+	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
+	CommentInstance[] comments = smartWorks.getRecentCommentsInWorkManual(workId, 3);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

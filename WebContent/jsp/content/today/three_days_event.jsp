@@ -12,7 +12,7 @@
 <%@ page import="net.smartworks.model.community.*"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 	String cid = request.getParameter("cid");
 	if (cid == null)
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
@@ -24,10 +24,10 @@
 	else
 		session.setAttribute("wid", wid);
 
-	CompanyCalendar[] threeDaysCC = smartWorks.getCompanyCalendars(cUser.getCompanyId(), new LocalDate(), 3);
+	CompanyCalendar[] threeDaysCC = smartWorks.getCompanyCalendars(new LocalDate(), 3);
 	LocalDate today = threeDaysCC[0].getDate();
 	LocalDate tomorrow = threeDaysCC[1].getDate();
-	EventInstanceInfo[] events = smartWorks.getEventInstances(cUser.getCompanyId(), cUser.getId(), new LocalDate(), 10);
+	EventInstanceInfo[] events = smartWorks.getEventInstances(new LocalDate(), 10);
 %>
 
 <!-- 이벤트,공지 포틀릿 -->	

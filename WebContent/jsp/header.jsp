@@ -30,15 +30,15 @@ function updateNoticeCount(message){
 </script>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	Notice[] notices = smartWorks.getNoticesForMe(cUser.getCompanyId(), cUser.getId());
+	User cUser = SmartUtil.getCurrentUser();
+	Notice[] notices = smartWorks.getNoticesForMe();
 	String cid = request.getParameter("cid");
 	if (cid == null)
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
 	if (wid == null)
 
-		wid = SmartUtil.getCurrentUser(request, response).getId();
+		wid = cUser.getId();
 %>
 
 <div>

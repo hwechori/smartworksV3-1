@@ -14,9 +14,9 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
 	String instanceId = request.getParameter("instanceId");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 
-	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(cUser.getCompanyId(), cUser.getId(), instanceId);
+	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(instanceId);
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
 	InformationWork work = (InformationWork)instance.getWork();

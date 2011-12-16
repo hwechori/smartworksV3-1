@@ -48,15 +48,13 @@ public interface IDocFileService {
 
 	public abstract IDocumentModel retrieveDocumentByRef(int refType, String refId) throws Exception;*/
 
-	public abstract String uploadFile(HttpServletRequest request) throws Exception;
+	//public abstract String uploadFile(HttpServletRequest request) throws Exception;
 
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 
-	public abstract void deleteFile(HttpServletRequest request) throws Exception;
-
-	public abstract void setUserPicture(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public abstract void deleteFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 

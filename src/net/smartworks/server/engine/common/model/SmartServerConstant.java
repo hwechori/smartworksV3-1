@@ -63,6 +63,10 @@ public class SmartServerConstant {
 	 */
 	public static final String FILE_ABBR = "file";
 	/**
+	 * 임시첨부파일 축약어 - temp
+	 */
+	public static final String TEMP_ABBR = "temp";
+	/**
 	 * 첨부파일 그룹 축약어 - dg
 	 */
 	public static final String DOCUMENT_GROUP_ABBR = "fg";

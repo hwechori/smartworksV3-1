@@ -20,8 +20,8 @@
 	String wid = request.getParameter("wid");
 
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	ProcessWork work = (ProcessWork) smartWorks.getWorkById(cUser.getName(), cUser.getId(), workId);
+	User cUser = SmartUtil.getCurrentUser();
+	ProcessWork work = (ProcessWork) smartWorks.getWorkById(workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

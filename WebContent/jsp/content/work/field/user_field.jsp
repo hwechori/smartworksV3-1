@@ -10,12 +10,12 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	String operator = request.getParameter("operator");
+	String operator = request.getParameter("operator"); 
 	String operandValue = request.getParameter("operandValue");
 	if(operandValue != null) operandValue = URLDecoder.decode(operandValue, "UTF-8");
 	String operandId = request.getParameter("operandId");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 	KeyMap[] stringOpers = ConditionOperator.stringOperators;
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

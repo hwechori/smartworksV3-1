@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 	KeyMap[] timeZoneNames = LocalDate.getAvailableTimeZoneNames(cUser.getLocale());
 %>
 <script type="text/javascript">
@@ -66,10 +66,9 @@
 	<div class="contents_space">
 			<form name="frmMyProfileSetting" class="js_validation_required">
 			<span class="photo_section">
-				<img src="<%=cUser.getOrgPicture() %>" />
-				<input class="filetype_area" name="filUserProfilePicture" type="file" size="1" onchange="upload_user_picture.sw">
+				<img class="js_auto_picture" src="<%=cUser.getOrgPicture() %>" />
 			</span>
-			
+
 			<span class="table_nomal600">
 					<table>
 						<tr>

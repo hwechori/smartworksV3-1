@@ -13,7 +13,7 @@
 	String operandValue = request.getParameter("operandValue");
 	if(operandValue != null) operandValue = URLDecoder.decode(operandValue, "UTF-8");
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 	KeyMap[] stringOpers = ConditionOperator.stringOperators;
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

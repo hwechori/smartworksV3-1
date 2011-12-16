@@ -35,9 +35,9 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 
-	Work work = smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
+	Work work = smartWorks.getWorkById(workId);
 	SmartWork cWork = null;
 	if (work.getClass().equals(SmartWork.class))
 		cWork = (SmartWork) work;

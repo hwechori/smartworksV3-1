@@ -48,9 +48,8 @@
 	if (cid == null) {
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
 	}
-	ISmartWorks smartWorks = (ISmartWorks) request
-			.getAttribute("smartWorks");
-	User currentUser = SmartUtil.getCurrentUser(request, response);
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	User currentUser = SmartUtil.getCurrentUser();
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

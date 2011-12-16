@@ -13,7 +13,7 @@
 <%@ page import="net.smartworks.model.work.*"%>
 <%@ page import="net.smartworks.util.LocalDate"%>
 <%
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 %>

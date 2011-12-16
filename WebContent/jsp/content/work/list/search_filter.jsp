@@ -24,8 +24,8 @@
 	String workId = request.getParameter("workId");
 	String filterId = request.getParameter("filterId");
 
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	InformationWork work = (InformationWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
+	User cUser = SmartUtil.getCurrentUser();
+	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
 
 	FormField[] fields = null;
 	SearchFilter filter = null;
@@ -38,7 +38,7 @@
 		fields = new FormField[] {};
 	}
 	if (work != null && filterId != null && !filterId.equals(""))
-		filter = smartWorks.getSearchFilterById(cUser.getCompanyId(), cUser.getId(), filterId);
+		filter = smartWorks.getSearchFilterById(filterId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

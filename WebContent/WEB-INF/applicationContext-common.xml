@@ -24,6 +24,12 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			<beans:value>${fileDirectory}</beans:value>
 		</beans:property>
 	</beans:bean>
+	<beans:bean id="dbDirectoryPath" class="net.smartworks.util.SmartConfUtil"
+		factory-method="createInstance">
+		<beans:property name="dbDirectoryPath">
+			<beans:value>${dbDirectoryPath}</beans:value>
+		</beans:property>
+	</beans:bean>
 
 
 

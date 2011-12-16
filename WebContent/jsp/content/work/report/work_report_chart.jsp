@@ -19,7 +19,7 @@
 	String workId = request.getParameter("workId");
 	String strReportType = request.getParameter("reportType");
 	String reportId = request.getParameter("reportId");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 
 	int reportType = Report.TYPE_CHART;
 	if (strReportType != null && !strReportType.equals(""))
@@ -29,9 +29,9 @@
 	ChartReport chart = null;
 	MatrixReport matrix = null;
 	if (workId != null && !workId.equals(""))
-		work = (SmartWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
+		work = (SmartWork) smartWorks.getWorkById(workId);
 	if (reportId != null && !reportId.equals(""))
-		report = smartWorks.getReportById(cUser.getCompanyId(), cUser.getId(), reportId);
+		report = smartWorks.getReportById(reportId);
 	if (report != null && report.getType() == Report.TYPE_CHART) {
 		chart = (ChartReport) report;
 	}

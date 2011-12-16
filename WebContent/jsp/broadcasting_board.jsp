@@ -30,10 +30,8 @@
 </script>
 
 <%
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String[] messages = smartWorks.getBroadcastingMessages(cUser.getCompanyId());
+	String[] messages = smartWorks.getBroadcastingMessages();
 %>
 
 <!-- Broadcasting Board -->

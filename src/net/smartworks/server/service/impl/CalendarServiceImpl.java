@@ -18,7 +18,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, int)
 	 */
 	@Override
-	public CompanyCalendar[] getCompanyCalendars(String companyId, LocalDate fromDate, int days) throws Exception {
+	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, int days) throws Exception {
 		return SmartTest.getCompanyCalendars();
 	}
 
@@ -30,7 +30,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, net.smartworks.util.LocalDate)
 	 */
 	@Override
-	public CompanyCalendar[] getCompanyCalendars(String companyId, LocalDate fromDate, LocalDate toDate) throws Exception {
+	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception {
 		return null;
 	}
 
@@ -42,7 +42,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, int)
 	 */
 	@Override
-	public EventInstanceInfo[] getEventInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
+	public EventInstanceInfo[] getEventInstances(LocalDate fromDate, int days) throws Exception {
 		return SmartTest.getEventInstances();
 	}
 
@@ -54,7 +54,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, net.smartworks.util.LocalDate)
 	 */
 	@Override
-	public EventInstanceInfo[] getEventInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
+	public EventInstanceInfo[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
 		return null;
 	}
 
@@ -66,7 +66,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate)
 	 */
 	@Override
-	public CompanyCalendar getCompanyEventBox(String companyId, LocalDate date) throws Exception {
+	public CompanyCalendar getCompanyEventBox(LocalDate date) throws Exception {
 		return SmartTest.getCompanyEventBox(date);
 	}
 
@@ -78,7 +78,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, int)
 	 */
 	@Override
-	public EventInstanceInfo[] getCompanyEventsByDate(String companyId, LocalDate date, int maxEvents) throws Exception {
+	public EventInstanceInfo[] getCompanyEventsByDate(LocalDate date, int maxEvents) throws Exception {
 		return null;
 	}
 
@@ -90,7 +90,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * , net.smartworks.util.LocalDate, int)
 	 */
 	@Override
-	public EventInstanceInfo[] getMyEventsByDate(String companyId, String userId, LocalDate date, int maxEvents) throws Exception {
+	public EventInstanceInfo[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception {
 		return null;
 	}
 }

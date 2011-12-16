@@ -31,11 +31,10 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	$file.appendTo(options.container);
 
 	if (readOnly) {
-		viewFiles(value, id);
+		viewFiles(value, $('#'+id));
 	} else {
-		createUploader(value, id);
+		createUploader(value, $('#'+id));
 	}
 	return options.container;
+
 };
-
-

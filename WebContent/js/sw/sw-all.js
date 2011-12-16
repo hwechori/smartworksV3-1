@@ -676,10 +676,12 @@ $(function() {
 	});
 
 	$('.qq-delete-text').live('click', function(e) {
+		console.log($(e.target).siblings('a').attr('filename'));
 		$.ajax({
 			url : "delete_file.sw",
 			data : {
-				fileId : $(e.target).parent('li').attr('fileId')
+				fileId : $(e.target).parent('li').attr('fileId'),
+				fileName : $(e.target).siblings('a').attr('filename')
 			},
 			type : "POST",
 			context : this,
@@ -710,4 +712,28 @@ $(function() {
 		}); 
 		return false;
 	});
+
+//	$('img.js_auto_picture').live('click', function(e) {
+//		$.ajax({
+//			url : "delete_file.sw",
+//			data : {
+//				fileId : $(e.target).parent('li').attr('fileId')
+//			},
+//			type : "POST",
+//			context : this,
+//			success : function(data, status, jqXHR) {
+//				$(e.target).parent().remove();
+//			}
+//		});
+//	});
+
 });
+
+//$(function() {
+//	if($('img.js_auto_picture').length > 0) {		
+//		var autoPictures = $('img.js_auto_picture');
+//		for(var i=0; i<autoPictures.length; i++) {
+//			createUploader(autoPictures[i])
+//		}		
+//	}
+//});

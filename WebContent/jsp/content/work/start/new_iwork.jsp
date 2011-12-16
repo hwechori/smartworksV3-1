@@ -40,8 +40,8 @@ function submitForms(e) {
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	SmartWork work = (SmartWork)smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
+	User cUser = SmartUtil.getCurrentUser();
+	SmartWork work = (SmartWork)smartWorks.getWorkById(workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

@@ -43,22 +43,21 @@ public class DocFileController {
 		this.smartworks = smartworks;
 	}
 
-	@RequestMapping(value = "/upload_file", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody
-	String uploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String groupId = "";
-		groupId = smartworks.uploadFile(request);
-
-		return groupId;
-	}
+//	@RequestMapping(value = "/upload_file", method = RequestMethod.POST)
+//	@ResponseStatus(HttpStatus.CREATED)
+//	public @ResponseBody
+//	String uploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//
+//		String groupId = "";
+//		groupId = smartworks.uploadFile(request);
+//
+//		return groupId;
+//	}
 
 	@RequestMapping(value = "/ajax_upload_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody
 	void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println(request.getParameter("groupId"));
 		smartworks.ajaxUploadFile(request, response);
 	}
 
@@ -78,18 +77,8 @@ public class DocFileController {
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody
 	void deleteFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		smartworks.deleteFile(request);
+		smartworks.deleteFile(request, response);
 		// TO DO : Exception handler
-	}
-
-	@RequestMapping(value = "/upload_user_picture", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody void uploadUserPicture(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		try {
-			smartworks.setUserPicture(request, response);
-		} catch (Exception e) {
-			e.getMessage();
-		}
 	}
 
 	@RequestMapping(value = "/download_file", method = RequestMethod.GET)

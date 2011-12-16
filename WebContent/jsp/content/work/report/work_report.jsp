@@ -44,16 +44,16 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
 	String reportId = request.getParameter("reportId");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 
 	SmartWork work = null;
 	Report report = null;
 	String filterId = "";
 	int reportType = Report.TYPE_CHART;
 	if (workId != null)
-		work = (SmartWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
+		work = (SmartWork) smartWorks.getWorkById(workId);
 	if (reportId != null) {
-		report = smartWorks.getReportById(cUser.getCompanyId(), cUser.getId(), reportId);
+		report = smartWorks.getReportById(reportId);
 		reportType = report.getType();
 		if (report.getSearchFilter() != null)
 			filterId = report.getSearchFilter().getId();

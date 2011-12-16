@@ -31,9 +31,9 @@
 	params.setCountInPage(50);
 	params.setPageNumber(0);
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	ProcessWork work = (ProcessWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
-	InstanceInfoList instanceList = smartWorks.getPWorkInstanceList(cUser.getCompanyId(), cUser.getId(), workId, params);
+	User cUser = SmartUtil.getCurrentUser();
+	ProcessWork work = (ProcessWork) smartWorks.getWorkById(workId);
+	InstanceInfoList instanceList = smartWorks.getPWorkInstanceList(workId, params);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
