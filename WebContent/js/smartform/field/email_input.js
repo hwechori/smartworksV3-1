@@ -19,14 +19,17 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<label>' + name + '</label>');
+	var $label = $('<td>' + name + '</td>');
+	if($entity[0].getAttribute('required') === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+	}
 	$label.appendTo(options.container);
 	
 	var $email = null;
 	if(readOnly){
-		$email = $('<span fieldId="' + id + '"></span>').text(value);
+		$email = $('<td fieldId="' + id + '"></td>').text(value);
 	}else{	
-		$email = $('<input type="text" class="email js_email_input" fieldId="' + id + '" name="' + id + '">').attr('value', value);
+		$email = $('<td><input type="text" class="email js_email_input fieldline" fieldId="' + id + '" name="' + id + '"></td>').attr('value', value);
 	}
 	$email.appendTo(options.container);
 
