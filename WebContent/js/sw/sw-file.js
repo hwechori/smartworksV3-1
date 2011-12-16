@@ -1,16 +1,23 @@
+
+var template = '<div class="qq-uploader">' + 
+                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+                '<div class="qq-upload-button">Upload a file</div>' +
+                '<ul class="qq-upload-list"></ul>' + 
+             '</div>';
+
 var uploadFileTemplate = '<li>' +
-'<a class="qq-upload-file"></a>' +
-'<span class="qq-upload-spinner"></span>' +
-'<span class="qq-upload-size"></span>' +
-'<a class="qq-upload-cancel" href="#">Cancel</a>' +
-'<span class="qq-upload-failed-text">Failed</span>' +
-'<span class="qq-delete-text" style="display:none">X</span>' +
-'</li>';
+			'<a class="qq-upload-file"></a>' +
+			'<span class="qq-upload-spinner"></span>' +
+			'<span class="qq-upload-size"></span>' +
+			'<a class="qq-upload-cancel" href="#">Cancel</a>' +
+			'<span class="qq-upload-failed-text">Failed</span>' +
+			'<span class="qq-delete-text" style="display:none">X</span>' +
+			'</li>';
 
 var viewFileTemplate = '<li>' +
-'<a class="qq-upload-file"></a>' +
-'<span class="qq-upload-size"></span>' +
-'</li>';
+			'<a class="qq-upload-file"></a>' +
+			'<span class="qq-upload-size"></span>' +
+			'</li>';
 
 function fileUploader(groupId, targetId) {
 	return new qq.FileUploader({
@@ -43,6 +50,8 @@ function fileUploader(groupId, targetId) {
         	
         	file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + responseJSON.fileId).addClass('js_file_type_'+ ext );
         	file.find('.qq-delete-text').show();
+    		file.find('.qq-upload-cancel').text(language.message('cancelUpload'));
+    		file.find('.qq-upload-failed-text').text(language.message('uploadFailed'));
         	
         },
         fileTemplate : uploadFileTemplate, 
@@ -53,6 +62,10 @@ function fileUploader(groupId, targetId) {
 function createUploader(groupId, targetId){
 	if(!groupId) {
 		groupId = '<%=IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR)%>';
+		var uploader = fileUploader(groupId, targetId);
+		var uploader_div = $('#'+targetId);
+		uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
+		uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
 	} else {
 		$.ajax({				
 			url : "find_file_group.sw",
@@ -63,8 +76,9 @@ function createUploader(groupId, targetId){
 			context : this,
 			success : function(data, status, jqXHR) {
 				var uploader = fileUploader(groupId, targetId);
-				// var uploader_div = $(uploader.element);
 				var uploader_div = $('#'+targetId);
+				uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));				
+				uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
 				
 				var files = uploader_div.find('.qq-upload-list');
 				for(var i in data) {
@@ -89,6 +103,7 @@ function createUploader(groupId, targetId){
 					file.find('.qq-upload-cancel').remove();
 					file.find('.qq-upload-spinner').remove();
 					file.find('.qq-delete-text').show();
+					file.find('.qq-upload-failed-text').text(language.message('uploadFailed'));
 				}
 			},
 			error : function(e) {
@@ -129,7 +144,7 @@ function viewFiles(groupId, targetId){
 					file.attr('fileId', data[i].id);
 					file.find('.qq-upload-file').text(displayFileName);
 		        	file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + data[i].id).addClass('js_file_type_'+ ext );
-					file.find('.qq-upload-size').text(data[i].fileSize);
+					file.find('.qq-upload-size').text(getBytesWithUnit(data[i].fileSize));
 				}
 			},
 			error : function(e) {

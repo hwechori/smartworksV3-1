@@ -20,11 +20,14 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<label>' + name + '</label>');
+	var $label = $('<td>' + name + '</td>');
+	if($entity[0].getAttribute('required') === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+	}
 	$label.appendTo(options.container);
 	
 	var $staticItems = $format.find('list staticItems staticItem');
-	var $input_container = $('<span></span>');
+	var $input_container = $('<td></td>');
 	
 	for ( var i = 0; i < $staticItems.length; i++) {
 		var $staticItem = $staticItems.eq(i);
@@ -33,7 +36,7 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 
 		console.dir(checked);
 		
-		var $input = $('<input type="radio" ' + checked + ' name="' + id + '" value="' + text + '">' + text + '</input>');
+		var $input = $('<td><input type="radio" ' + checked + ' name="' + id + '" value="' + text + '">' + text + '</input><td>');
 		
 		$input.attr('fieldId', id);
 		if (readOnly) {

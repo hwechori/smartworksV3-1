@@ -21,14 +21,17 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	
 	var currency = $entity.children('format').children('currency').text();
 	currency = '$';//TODO ? 로 깨짐
-	var $label = $('<label>' + name + '</label>');
+	var $label = $('<td>' + name + '</td>');
+	if($entity[0].getAttribute('required') === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+	}
 	$label.appendTo(options.container);
 	
 	var $currency = null;
 	if(readOnly){
-		$currency = $('<span fieldId="' + id + '"></span>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<td fieldId="' + id + '"></td>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$currency = $('<input type="text" symbol="' + currency +'" class="js_currency_input" fieldId="' + id + '" name="' + id + '">').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<td><input type="text" symbol="' + currency +'" class="js_currency_input fieldline" fieldId="' + id + '" name="' + id + '"></td>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		//if save mode = $currency.toNumber().attr('value');
 	}
 	$currency.appendTo(options.container);

@@ -334,8 +334,6 @@ $(function() {
 					var input = $(event.target).parents('li:first').children('a');
 					var formContent = $('#form_works').find('div.js_form_content');
 					var workId = input.attr('workId');
-					console.log(input);
-					alert(workId);
 					$.ajax({
 						url : "get_form_xml.sw",
 						data : {

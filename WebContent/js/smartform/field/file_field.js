@@ -19,22 +19,22 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<label>' + name + '</label>');
+	var $label = $('<td>' + name + '</td>');
+	if($entity[0].getAttribute('required') === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+	}
 	$label.appendTo(options.container);
 	
 	var $file = null;
 		
-	$file = $('<span id="' + id + '"></span>');
+	$file = $('<td id="' + id + '"></td>');
 	$file.appendTo(options.container);
+
 	if (readOnly) {
 		viewFiles(value, id);
 	} else {
 		createUploader(value, id);
 	}
-//	if(true){
-//		console.log($(options.container).find('div.qq-upload-button'));
-//		$(options.container).find('div.qq-upload-button').hide();
-//	}
 	return options.container;
 };
 

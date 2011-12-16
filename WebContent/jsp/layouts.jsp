@@ -121,6 +121,9 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
 <script type="text/javascript" src="js/sw/sw-file.js"></script>
+<script type="text/javascript" src="js/sw/sw-language.js"></script>
+<script type="text/javascript" src="js/sw/sw-language-ko.js"></script>
+<script type="text/javascript" src="js/sw/sw-language-en.js"></script>
 
 <script type="text/javascript" src='js/smartform/smartworks.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-layout.js'></script>
