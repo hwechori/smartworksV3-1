@@ -24,6 +24,7 @@ function submitForms(e) {
 		var url = "create_new_iwork.sw";
 		$.ajax({
 			url : url,
+			contentType : 'application/json',
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {

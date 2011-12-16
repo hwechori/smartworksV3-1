@@ -2,8 +2,12 @@ package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,7 +32,6 @@ import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
-import net.smartworks.server.engine.common.util.JsonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
@@ -190,74 +193,72 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
-		if (true) 
-			return "testId";	
-		
-		String extendData = request.getParameter("extendData"); // 참조 , 결재 , 연결업무에 대한 정보
-		String extendData2 = request.getParameter("extendData2"); // ????
-		String formDataJsonString = request.getParameter("formData"); // 사용자가 입력한 폼데이터
-		
-		Map<String, Object> formDataMap = JsonUtil.getMapByJsonString(formDataJsonString);
-		
-		String domainId = "";
+	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception {
+
+		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
+		String formId = "frm_7fd91682175145858dd42049dca9a8aa";
+		String formName = "영업본부 회의록";
+		int formVersion = 1;
 		String userId = "";
 		
-//		SwdFieldCond swdFieldCond = new SwdFieldCond();
-//		swdFieldCond.setDomainObjId(domainId);
-//		
-//		SwdField[] fields = getSwdManager().getFields(userId, swdFieldCond, IManager.LEVEL_LITE);
-//		
-//		if (CommonUtil.isEmpty(fields))
-//			return null;//TODO return null? throw new Exception??
-//-------------------------------------------------------------------------------------------		
-//		for (SwdField field : fields) {
-//			
-//			SwdDataField dataField = new SwdDataField();
-//			dataField.setId(id);
-//			dataField.setName(name);
-//			dataField.setType(type);
-//			dataField.setRefForm(refFormField);
-//			dataField.setRefFormField(refFormField);
-//			dataField.setRefRecordId(refRecordId);
-//			dataField.setValue(value);
-//			
-//		}
-//		
-//		String formId = "";
-//		int formVersion = 1;
-//		String formName = "";
-//		SwdRecord obj = new SwdRecord();
-//		obj.setDomainId(domainId);
-//		obj.setFormId(formId);
-//		obj.setFormName(formName);
-//		obj.setFormVersion(formVersion);
-//		obj.setDataFields(dataFields);
+		/*
+		Key Set : frmSmartForm
+		Key Set : frmScheduleWork
+		Key Set : frmAccessSpace
+		*/
 		
+		Map<String, Object> SmartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
 		
+		SwdFieldCond swdFieldCond = new SwdFieldCond();
+		swdFieldCond.setDomainObjId(domainId);
+		SwdField[] fields = getSwdManager().getFields(userId, swdFieldCond, IManager.LEVEL_LITE);
+		if (CommonUtil.isEmpty(fields))
+			return null;//TODO return null? throw new Exception??
 		
+		Map<String, SwdField> fieldInfoMap = new HashMap<String, SwdField>();
+		for (SwdField field : fields) {
+			fieldInfoMap.put(field.getFormFieldId(), field);
+		}
 		
-		StringBuffer strBuff = new StringBuffer();
-		strBuff.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		strBuff.append("<DataRecord domainId=\"md_38713a9cf8354ed3aef4fccd521d88df\" formId=\"frm_b5d88ed991dd4677a9f0d482f412fb55\" formVersion=\"1\">");
-		strBuff.append("	<DataField id=\"0\" name=\"text\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[text1111]]></DataField>");
-		strBuff.append("	<DataField id=\"1\" name=\"number\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[1231111]]></DataField>");
-		strBuff.append("	<DataField id=\"2\" name=\"currency\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[100111]]></DataField>");
-		strBuff.append("	<DataField id=\"3\" name=\"percent\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[50]]></DataField>");
-		strBuff.append("	<DataField id=\"4\" name=\"combo\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[list 1]]></DataField>");
-		strBuff.append("	<DataField id=\"5\" name=\"check\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[true]]></DataField>");
-		strBuff.append("	<DataField id=\"6\" name=\"radio\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[radio 2]]></DataField>");
-		strBuff.append("	<DataField id=\"7\" name=\"date\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[2011-12-11]]></DataField>");
-		strBuff.append("	<DataField id=\"8\" name=\"time\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[17:30]]></DataField>");
-		strBuff.append("	<DataField id=\"9\" name=\"email\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[email@maninsoft.co.kr]]></DataField>");
-		strBuff.append("	<DataField id=\"10\" name=\"image\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"/>");
-		strBuff.append("	<DataField id=\"11\" name=\"user\" row=\"0\" refForm=\"frm_user_SYSTEM\" refFormField=\"4\" refRecordId=\"hsshin@maninsoft.co.kr\"><![CDATA[선임연구원 신현성]]></DataField>");
-		strBuff.append("	<DataField id=\"12\" name=\"referencework\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"/>");
-		strBuff.append("	<DataField id=\"14\" name=\"file\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"/>");
-		strBuff.append("	<DataField id=\"13\" name=\"richtext\" row=\"0\" refForm=\"\" refFormField=\"\" refRecordId=\"\"><![CDATA[rich]]></DataField>");
-		strBuff.append("</DataRecord>");
+		Set<String> keySet = SmartFormInfoMap.keySet();
+		Iterator<String> itr = keySet.iterator();
 		
-		getSwdManager().setRecord(userId, (SwdRecord)SwdRecord.toObject(strBuff.toString()), IManager.LEVEL_ALL);
+//		SwdField[] fieldDatas = new SwdField[keySet.size()];
+		List fieldDataList = new ArrayList();
+		while (itr.hasNext()) {
+			String fieldId = (String)itr.next();
+			String value = null;
+			String refForm = null;
+			String refFormField = null;
+			String refRecordId = null;
+			if (SmartFormInfoMap.get(fieldId) instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)SmartFormInfoMap.get(fieldId);
+				//TODO
+			} else {
+				value = (String)SmartFormInfoMap.get(fieldId);
+			}
+			SwdDataField fieldData = new SwdDataField();
+			fieldData.setId(fieldId);
+			fieldData.setName(fieldInfoMap.get(fieldId).getFormFieldName());
+			fieldData.setRefForm(refForm);
+			fieldData.setRefFormField(refFormField);
+			fieldData.setRefRecordId(refRecordId);
+			fieldData.setValue(value);
+			
+			fieldDataList.add(fieldData);
+			
+		}
+		SwdDataField[] fieldDatas = new SwdDataField[fieldDataList.size()];
+		fieldDataList.toArray(fieldDatas);
+		
+		SwdRecord obj = new SwdRecord();
+		obj.setDomainId(domainId);
+		obj.setFormId(formId);
+		obj.setFormName(formName);
+		obj.setFormVersion(formVersion);
+		obj.setDataFields(fieldDatas);
+		
+		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
 		
 		return null;
 	}

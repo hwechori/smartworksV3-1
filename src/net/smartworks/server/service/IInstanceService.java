@@ -1,5 +1,8 @@
 package net.smartworks.server.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.instance.BoardInstance;
@@ -34,7 +37,7 @@ public interface IInstanceService {
 
 	public WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception;
 
-	public String setInformationWorkInstance(HttpServletRequest request) throws Exception;
+	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception;
 
 	public String startProcessWorkInstance(HttpServletRequest request) throws Exception;
 

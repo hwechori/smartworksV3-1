@@ -1,6 +1,7 @@
 package net.smartworks.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -158,7 +159,7 @@ public interface ISmartWorks {
 	
 	public abstract Data getReportData(HttpServletRequest request) throws Exception;
 	
-	public abstract String setInformationWorkInstance(HttpServletRequest request) throws Exception;
+	public abstract String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception;
 
 	public abstract String startProcessWorkInstance(HttpServletRequest request) throws Exception;
 

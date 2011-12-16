@@ -1,6 +1,7 @@
 package net.smartworks.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -256,8 +257,8 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getRecentCommentsInWorkManual(companyId, workId, length);
 	}
 
-	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
-		return instanceService.setInformationWorkInstance(request);
+	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception {
+		return instanceService.setInformationWorkInstance(requestBody);
 
 	}
 
