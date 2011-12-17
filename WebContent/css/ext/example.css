@@ -4,14 +4,16 @@
  * licensing@sencha.com
  * http://www.sencha.com/license
  */
-body {
+/* body {
     padding:20px;
     padding-top:32px;
 }
+
 .x-body {
     font-family:helvetica,tahoma,verdana,sans-serif;
     font-size:13px;
-}
+} */
+
 p {
     margin-bottom:15px;
 }
