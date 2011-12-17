@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -18,7 +19,7 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
-	
+
 	var $label = $('<td>' + name + '</td>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true'){

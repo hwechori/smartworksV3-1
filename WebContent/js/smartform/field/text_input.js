@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -19,8 +20,10 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
-	
-	var $label = $('<span class="form_label">' + name + '</span>');
+
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<span class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -32,9 +35,9 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	
 	var $text = null;
 	if(readOnly){
-		$text = $('<span class="form_value" fieldId="' + id + '"></span>').text(value);
+		$text = $('<span class="form_value" fieldId="' + id + '" style="width:' + valueWidth + '%"></span>').text(value);
 	}else{	
-		$text = $('<span class="form_value"><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></span>').attr('value', value);
+		$text = $('<span class="form_value" style="width:' + valueWidth + '%"><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></span>').attr('value', value);
 	}
 	$text.appendTo(options.container);
 

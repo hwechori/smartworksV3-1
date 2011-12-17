@@ -16,6 +16,7 @@
 	function submitForms(e) {
 		if ($('form.js_validation_required').validate().form()) {
 			var params = $('form').serialize();
+			
 			var url = "update_my_profile.sw";
 			$.ajax({
 				url : url,
@@ -65,9 +66,10 @@
 	<form name="frmMyProfileSetting" class="js_validation_required">
 	<div class="contents_space">
 			<form name="frmMyProfileSetting" class="js_validation_required">
-			<span class="photo_section">
+			<div class="photo_section">
 				<img class="js_auto_picture" src="<%=cUser.getOrgPicture() %>" />
-			</span>
+			</div>
+			<div class="js_file_uploader"></div>
 
 			<span class="table_nomal600">
 					<table>

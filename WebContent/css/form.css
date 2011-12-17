@@ -4,8 +4,8 @@
 .form_layout {padding:0 10px;}
 .form_col { padding:3px 10px;}
 .form_row {}
-.form_label {float:left; width:20%;}
-.form_value {display:inline-block; width:80%;}
+.form_label {float:left;}
+.form_value {display:inline-block;}
 
 .form_text_input {max-width:}
 .form_date_input

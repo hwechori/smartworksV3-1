@@ -1,5 +1,5 @@
 SmartWorks.FormFieldBuilder = {};
-SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) {
+SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, layoutInstance) {
 	var type = $entity.find('format').attr('type');
 	switch(type) {
 	case 'checkBox' :
@@ -7,7 +7,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;		
 	case 'comboBox' :
@@ -15,7 +16,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;		
 	case 'currencyInput' :
@@ -23,7 +25,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;		
 	case 'dateChooser' :
@@ -31,7 +34,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	case 'emailIDInput' :
@@ -39,7 +43,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	case 'fileField' :
@@ -47,7 +52,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	case 'numberInput' :
@@ -55,7 +61,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	case 'percentInput' :
@@ -63,7 +70,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	case 'radioButton' :
@@ -71,7 +79,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	case 'richEditor' :
@@ -79,7 +88,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	case 'textInput' :
@@ -87,7 +97,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	case 'timeField' :
@@ -95,7 +106,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	case 'userField' :
@@ -103,7 +115,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;	
 	case 'dateTimeField' :
@@ -111,7 +124,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;	
 	default :
@@ -119,7 +133,8 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField) 
 			mode : mode, // view or edit
 			container : $target,
 			entity : $entity,
-			dataField : dataField
+			dataField : dataField,
+			layoutInstance : layoutInstance
 		});
 		return;
 	};

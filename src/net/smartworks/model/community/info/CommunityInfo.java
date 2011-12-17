@@ -28,7 +28,7 @@ public class CommunityInfo extends BaseObject {
 	}
 
 	public String getMidPicture() {
-		if(this.getMidPictureName() == null) {
+		if(this.getMidPictureName() == null || this.getMidPictureName().equals("")) {
 			if(this.getClass().equals(UserInfo.class))
 				return Community.NO_PICTURE_PATH + User.NO_USER_PICTURE + "_mid.jpg";
 			else if(this.getClass().equals(DepartmentInfo.class))
@@ -39,7 +39,7 @@ public class CommunityInfo extends BaseObject {
 		return getPath() + this.getMidPictureName();
 	}
 	public String getMinPicture() {
-		if(this.getMinPictureName() == null) {
+		if(this.getMinPictureName() == null || this.getMidPictureName().equals("")) {
 			if(this.getClass().equals(UserInfo.class))
 				return Community.NO_PICTURE_PATH + User.NO_USER_PICTURE + "_min.jpg";
 			else if(this.getClass().equals(DepartmentInfo.class))
