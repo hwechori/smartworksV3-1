@@ -1,4 +1,4 @@
-$(function() {
+
 	language.bundle['en'] = {
 			uploadFile : 'File Upload',
 			cancelUpload : 'Cancel',
@@ -9,4 +9,3 @@ $(function() {
 			chatUserMore : 'Users More',
 			chatUserOfflineMessage : 'is offline, so messages will leave'
 	};
-});

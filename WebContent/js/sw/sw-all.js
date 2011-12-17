@@ -1,8 +1,15 @@
 $(function() {
 	
-	// JavaScript에서 사용할 다국어 Bundle의 Locale을 현재사용자의 로케일로 설정한다.
-	language.setLocale(currentUser.locale);
-	
+
+	var autoPictures = $('img.js_auto_picture');
+	console.log(autoPictures);
+	if(autoPictures.length > 0) {
+		for(var i=0; i<autoPictures.length; i++) {
+			
+			createUploader(null, $(autoPictures[i]).parent('div'));
+		}		
+	}
+
 	/*
 	 * 좌측 "나의 업무" 박스의 좌측상단에 있는 탭(즐겨찾기, 최근처리, 전체업무)탭들이 class="js_nav_tab_work"로
 	 * 지정되어 있으며, 이를 선택하면, 밑에 있는 id="my_works"인 div영역에 탭에서 지정한 href의 값을 ajax로
@@ -715,27 +722,19 @@ $(function() {
 		return false;
 	});
 
-//	$('img.js_auto_picture').live('click', function(e) {
-//		$.ajax({
-//			url : "delete_file.sw",
-//			data : {
-//				fileId : $(e.target).parent('li').attr('fileId')
-//			},
-//			type : "POST",
-//			context : this,
-//			success : function(data, status, jqXHR) {
-//				$(e.target).parent().remove();
-//			}
-//		});
-//	});
+	$('a.js_auto_picture').live('click', function(e) {
+		alert("in");
+		$.ajax({
+			url : "delete_file.sw",
+			data : {
+				fileId : $(e.target).parent('li').attr('fileId')
+			},
+			type : "POST",
+			context : this,
+			success : function(data, status, jqXHR) {
+				$(e.target).parent().remove();
+			}
+		});
+	});
 
 });
-
-//$(function() {
-//	if($('img.js_auto_picture').length > 0) {		
-//		var autoPictures = $('img.js_auto_picture');
-//		for(var i=0; i<autoPictures.length; i++) {
-//			createUploader(autoPictures[i])
-//		}		
-//	}
-//});

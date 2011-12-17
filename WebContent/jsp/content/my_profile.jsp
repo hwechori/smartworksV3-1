@@ -65,9 +65,9 @@
 	<form name="frmMyProfileSetting" class="js_validation_required">
 	<div class="contents_space">
 			<form name="frmMyProfileSetting" class="js_validation_required">
-			<span class="photo_section">
+			<div class="photo_section">
 				<img class="js_auto_picture" src="<%=cUser.getOrgPicture() %>" />
-			</span>
+			</div>
 
 			<span class="table_nomal600">
 					<table>
