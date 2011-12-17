@@ -20,7 +20,7 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<td>' + name + '</td>');
+	var $label = $('<span class="form_label">' + name + '</span>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -32,9 +32,9 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	
 	var $text = null;
 	if(readOnly){
-		$text = $('<td fieldId="' + id + '"></td>').text(value);
+		$text = $('<span class="form_value" fieldId="' + id + '"></span>').text(value);
 	}else{	
-		$text = $('<td><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value', value);
+		$text = $('<span class="form_value"><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></span>').attr('value', value);
 	}
 	$text.appendTo(options.container);
 

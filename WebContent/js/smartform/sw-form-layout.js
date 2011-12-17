@@ -8,7 +8,7 @@ SmartWorks.GridLayout = function(config) {
 
 	SmartWorks.extend(this.options, config);
 
-	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required"><table></table></form>');
+	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required form_layout"><table></table></form>');
 	var $table = $htmlForm.find('table');
 
 	var $form = $(this.options.formXml);
@@ -66,7 +66,7 @@ SmartWorks.GridLayout = function(config) {
 				}
 			}
 			
-			var $html_cell = $('<td fieldId="'+id+'" colspan="'+colspan+'" width="'+width+'" style="border:1px solid"></td>');
+			var $html_cell = $('<td class="form_col" fieldId="'+id+'" colspan="'+colspan+'" width="'+width+'" ></td>');
 			
 			$html_cell.appendTo($html_row);
 			
