@@ -4,7 +4,7 @@ function fileUploader(groupId, target) {
 	var template = '<div class="qq-uploader">' + 
     '<div class="qq-upload-drop-area"><span>' + language.message("uploadDropArea") + '</span></div>' +
     '<div class="qq-upload-button">' + language.message("uploadFile") + '</div>' +
-    '<input type="hidden" class="qq-upload-groupid"/>' +
+    '<input name="txtGroupId" type="hidden" class="qq-upload-groupid"/>' +
     '<ul class="qq-upload-list"></ul>' + 
     '</div>';
 
@@ -23,7 +23,7 @@ function fileUploader(groupId, target) {
         params : {
         	groupId : groupId
         },
-        action: 'ajax_upload_file.sw',
+        action: 'upload_temp_file.sw',
         onSubmit : function(id, fileName) {
         	var files = $(this.element).find('.qq-upload-list li');
         	for(var i = 0;i < files.length;i++) {

@@ -32,7 +32,7 @@ public class Community extends BaseObject {
 	}
 
 	public String getOrgPicture() {
-		if(this.getOrgPictureName() == null) {
+		if(this.getOrgPictureName() == null || this.getOrgPictureName().equals("")) {
 			if(this.getClass().equals(Login.class) || this.getClass().equals(User.class))
 				return NO_PICTURE_PATH + User.NO_USER_PICTURE + ".jpg";
 			else if(this.getClass().equals(Department.class))
@@ -44,7 +44,7 @@ public class Community extends BaseObject {
 	}
 
 	public String getMidPicture() {
-		if(this.getMidPictureName() == null) {
+		if(this.getMidPictureName() == null || this.getMidPictureName().equals("")) {
 			if(this.getClass().equals(Login.class) || this.getClass().equals(User.class))
 				return NO_PICTURE_PATH + User.NO_USER_PICTURE + "_mid.jpg";
 			else if(this.getClass().equals(Department.class))
@@ -56,8 +56,8 @@ public class Community extends BaseObject {
 	}
 
 	public String getMinPicture() {
-		if(this.getMinPictureName() == null) {
-			if(this.getClass().equals(Login.class))
+		if(this.getMinPictureName() == null || this.getMinPictureName().equals("")) {
+			if(this.getClass().equals(Login.class) || this.getClass().equals(User.class))
 				return NO_PICTURE_PATH + User.NO_USER_PICTURE + "_min.jpg";
 			else if(this.getClass().equals(Department.class))
 				return NO_PICTURE_PATH + Department.DEFAULT_DEPART_PICTURE + "_min.gif";
