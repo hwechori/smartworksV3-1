@@ -8,6 +8,11 @@
 
 package net.smartworks.util;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,8 +22,14 @@ import net.smartworks.server.engine.security.model.Login;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
 
+import org.cometd.bayeux.client.ClientSession;
+import org.cometd.client.BayeuxClient;
+import org.cometd.client.transport.ClientTransport;
+import org.cometd.client.transport.LongPollingTransport;
+import org.eclipse.jetty.client.HttpClient;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -241,6 +252,16 @@ public class SmartUtil {
 		return user;
 	}
 
+	public static User getCurrentUser() {
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		Authentication authentication = securityContext.getAuthentication();
+		if(authentication != null) {
+			Object principal = authentication.getPrincipal();
+			return (User)(principal instanceof Login ? principal : null);
+		}
+		return null;
+	}
+
 	public static User getSystemUser(){
 
 		User user = new User();
@@ -256,4 +277,130 @@ public class SmartUtil {
 	public static String getSubjectString(String userId){
 		return userId.replaceAll(".", "_");
 	}
+	
+	static Thread messageAgent = null;
+	static List<MessageModel> messageQueue = new LinkedList<MessageModel>();
+	
+	public synchronized static void publishMessage(String channel, String msgType, Object  message){
+		if(messageAgent == null) {
+			messageAgent = new Thread(new Runnable() {
+				public void run() {
+					try{
+						HttpClient httpClient = new HttpClient();
+						httpClient.start();
+						Map<String, Object> options = new HashMap<String, Object>();
+						ClientTransport transport = LongPollingTransport.create(options, httpClient);
+						ClientSession client = new BayeuxClient("http://localhost:8000/faye", transport);
+						client.handshake();
+				
+						MessageModel message = null;
+						
+						while(true) {
+							try {
+								message = null;
+								while(message == null) {
+									try {
+										message = messageQueue.remove(0);
+									} catch(Exception e) {
+										Thread.sleep(1000);
+									}
+								}
+								
+								String pubChannel = "/smartworks/Semiteq/" + message.channel; 
+								Map<String, Object> data = new HashMap<String, Object>();
+								data.put("msgType", message.msgType);
+								data.put("sender", "smartServer");
+								data.put("body", message.message);
+								
+								client.getChannel(pubChannel).publish(data);
+							} catch(Exception e){
+								e.printStackTrace();
+							}
+						}
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			});
+			messageAgent.start();
+		}
+
+		messageQueue.add(new MessageModel(channel, msgType, message));
+	}
+	
+
+// 	var repeat1 = function() {
+//	 clearInterval(timer);
+//	 smartTalk.publishBcast(new Array(
+//	 " Hello, this is SmartWorks!! Welcome~~",
+//	 "오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
+//	 };
+//	 smartTalk.publishNoticeCount({
+//	 type : 0,
+//	 count : 0
+//	 });
+//	 smartTalk.publishNoticeCount({
+//	 type : 1,
+//	 count : 1
+//	 });
+//	 smartTalk.publishNoticeCount({
+//	 type : 2,
+//	 count : 2
+//	 });
+//	 smartTalk.publishNoticeCount({
+//	 type : 3,
+//	 count : 3
+//	 });
+//	 smartTalk.publishNoticeCount({
+//	 type : 4,
+//	 count : 4
+//	 });
+//	 smartTalk.publishNoticeCount({
+//	 type : 5,
+//	 count : 5
+//	 });
+//
+//	 setTimeout(function() {
+//		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
+//				+ swSubject.BROADCASTING, {
+//			msgType : msgType.AVAILABLE_CHATTERS,
+//			sender : "smartworks.net",
+//			userInfos : new Array({
+//				userId : "ysjung@maninsoft.co.kr",
+//				longName : "대표이사 정윤식",
+//				minPicture : "images/no_user_picture_min.jpg"
+//			}, {
+//				userId : "jskim@maninsoft.co.kr",
+//				longName : "과장 김지숙",
+//				minPicture : "images/no_user_picture_min.jpg"
+//			}, {
+//				userId : "hsshin@maninsoft.co.kr",
+//				longName : "선임연구원 신현성",
+//				minPicture : "images/no_user_picture_min.jpg"
+//			}, {
+//				userId : "kmyu@maninsoft.co.kr",
+//				longName : "선임연구원 유광민",
+//				minPicture : "images/no_user_picture_min.jpg"
+//			}, {
+//				userId : "hjlee@maninsoft.co.kr",
+//				longName : "대리 이현정",
+//				minPicture : "images/no_user_picture_min.jpg"
+//			})
+//		});
+//	}, 5000);
+//	
+	
 }
+
+class MessageModel {
+	MessageModel(String channel, String msgType, Object message) {
+		this.channel = channel;
+		this.msgType = msgType;
+		this.message = message;
+	}
+	
+	protected String channel;
+	protected String msgType;
+	protected Object message;
+}
+

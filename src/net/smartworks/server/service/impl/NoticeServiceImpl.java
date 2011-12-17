@@ -25,7 +25,7 @@ public class NoticeServiceImpl implements INoticeService {
 	 * net.smartworks.service.impl.ISmartWorks#getNoticesForMe(java.lang.String)
 	 */
 	@Override
-	public Notice[] getNoticesForMe(String companyId, String userId) throws Exception {
+	public Notice[] getNoticesForMe() throws Exception {
 		return SmartTest.getNoticesForMe();
 	}
 
@@ -36,7 +36,7 @@ public class NoticeServiceImpl implements INoticeService {
 	 * net.smartworks.util.LocalDate)
 	 */
 	@Override
-	public NoticeBox getNoticeBoxForMe10(String companyId, String userId, int noticeType, LocalDate lastNotice) throws Exception {
+	public NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception {
 		return SmartTest.getNoticeBoxForMe10(noticeType);
 	}
 
@@ -46,7 +46,7 @@ public class NoticeServiceImpl implements INoticeService {
 	 * @see net.smartworks.service.impl.ISmartWorks#getBroadcastingMessages()
 	 */
 	@Override
-	public String[] getBroadcastingMessages(String companyId) throws Exception {
+	public String[] getBroadcastingMessages() throws Exception {
 		return SmartTest.getBroadcastingMessages();
 	}
 }

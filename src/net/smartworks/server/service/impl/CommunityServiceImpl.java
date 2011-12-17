@@ -22,6 +22,7 @@ import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.util.SmartTest;
+import net.smartworks.util.SmartUtil;
 
 import org.springframework.stereotype.Service;
 
@@ -35,11 +36,11 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * )
 	 */
 	@Override
-	public DepartmentInfo[] getMyDepartments(String companyId, String userId) throws Exception {
-//		if (true)
-//			return SmartTest.getMyDepartments();
-		
-		SwoUserExtend userExtend = SwManagerFactory.getInstance().getSwoManager().getUserExtend(userId, userId);
+	public DepartmentInfo[] getMyDepartments() throws Exception {
+
+		User user = SmartUtil.getCurrentUser();
+
+		SwoUserExtend userExtend = SwManagerFactory.getInstance().getSwoManager().getUserExtend(user.getId(), user.getId());
 		String myDeptId = userExtend.getDepartmentId();
 		List<SwoDepartment> deptList = new ArrayList<SwoDepartment>();
 		getDeptTreeByDeptId(deptList, myDeptId);
@@ -75,7 +76,7 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * )
 	 */
 	@Override
-	public Department getDepartmentById(String companyId, String departId) throws Exception {
+	public Department getDepartmentById(String departId) throws Exception {
 		return SmartTest.getDepartmentById(departId);
 	}
 
@@ -86,7 +87,7 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * net.smartworks.service.impl.ISmartWorks#getMyGroups(java.lang.String)
 	 */
 	@Override
-	public GroupInfo[] getMyGroups(String companyId, String userId) throws Exception {
+	public GroupInfo[] getMyGroups() throws Exception {
 		return SmartTest.getMyGroups();
 	}
 
@@ -97,7 +98,7 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * net.smartworks.service.impl.ISmartWorks#getGroupById(java.lang.String)
 	 */
 	@Override
-	public Group getGroupById(String companyId, String groupId) throws Exception {
+	public Group getGroupById(String groupId) throws Exception {
 		return SmartTest.getGroupById(groupId);
 	}
 
@@ -137,7 +138,7 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * net.smartworks.service.impl.ISmartWorks#getUserById(java.lang.String)
 	 */
 	@Override
-	public User getUserById(String companyId, String userId) throws Exception {
+	public User getUserById(String userId) throws Exception {
 		return SmartTest.getUserById(userId);
 	}
 
@@ -149,12 +150,14 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * .String, java.lang.String)
 	 */
 	@Override
-	public WorkSpaceInfo[] searchCommunity(String companyId, String userId, String key) throws Exception {
+	public WorkSpaceInfo[] searchCommunity(String key) throws Exception {
 		
 		if (CommonUtil.isEmpty(key))
 			return null;
-		
-		SchWorkspace[] workSpaceInfos = SwManagerFactory.getInstance().getSchManager().getSchWorkspace(companyId, userId, key);
+
+		User cUser = SmartUtil.getCurrentUser();
+
+		SchWorkspace[] workSpaceInfos = SwManagerFactory.getInstance().getSchManager().getSchWorkspace(cUser.getCompanyId(), cUser.getId(), key);
 		
 		if (CommonUtil.isEmpty(workSpaceInfos))
 			return null;
@@ -232,7 +235,7 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * .lang.String, java.lang.String)
 	 */
 	@Override
-	public UserInfo[] searchCommunityMember(String companyId, String communityId, String key) throws Exception {
+	public UserInfo[] searchCommunityMember(String communityId, String key) throws Exception {
 		return SmartTest.searchCommunityMember();
 	}
 
@@ -244,10 +247,9 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * )
 	 */
 	@Override
-	public WorkSpace getWorkSpaceById(String companyId, String workSpaceId) throws Exception {
+	public WorkSpace getWorkSpaceById(String workSpaceId) throws Exception {
 		return SmartTest.getWorkSpaceById(workSpaceId);
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -255,7 +257,7 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * @see net.smartworks.service.impl.ISmartWorks#getAvailableChatter()
 	 */
 	@Override
-	public UserInfo[] getAvailableChatter(String companyId, String userId) throws Exception {
+	public UserInfo[] getAvailableChatter() throws Exception {
 		return SmartTest.getAvailableChatter();
 	}
 
@@ -267,17 +269,17 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * .lang.String)
 	 */
 	@Override
-	public UserInfo[] searchAvailableChatter(String companyId, String userId, String key) throws Exception {
+	public UserInfo[] searchAvailableChatter(String key) throws Exception {
 		return SmartTest.getAvailableChatter();
 	}
 
 	@Override
-	public UserInfo[] searchUser(String companyId, String key) throws Exception {
+	public UserInfo[] searchUser(String key) throws Exception {
 		return SmartTest.getAvailableChatter();
 	}
 
 	@Override
-	public CommunityInfo[] getMyCommunities(String companyId, String userId) throws Exception {
+	public CommunityInfo[] getMyCommunities() throws Exception {
 		return SmartTest.getMyCommunities();
 	}
 

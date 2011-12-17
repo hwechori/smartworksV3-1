@@ -1,4 +1,8 @@
 $(function() {
+	
+	// JavaScript에서 사용할 다국어 Bundle의 Locale을 현재사용자의 로케일로 설정한다.
+	language.setLocale(currentUser.locale);
+	
 	/*
 	 * 좌측 "나의 업무" 박스의 좌측상단에 있는 탭(즐겨찾기, 최근처리, 전체업무)탭들이 class="js_nav_tab_work"로
 	 * 지정되어 있으며, 이를 선택하면, 밑에 있는 id="my_works"인 div영역에 탭에서 지정한 href의 값을 ajax로
@@ -34,6 +38,39 @@ $(function() {
 	 */
 	$('a.js_content').swnavi({
 		target : 'content'
+	});
+
+	$('a.js_content_iwork_space').swnavi({
+		target : 'content',
+		after : function(e){
+			var input = $(e.target);
+			var workId = input.attr("workId");
+			var instId = input.attr("instId");
+			var formContent = $('div.js_form_content');
+			$.ajax({
+				url : "get_form_xml.sw",
+				data : {
+					workId : workId
+				},
+				success : function(formXml, status, jqXHR) {
+					$.ajax({
+						url : "get_record.sw",
+						data : {
+							workId : workId,
+							recordId : instId
+						},
+						success : function(formData, status, jqXHR) {
+							new SmartWorks.GridLayout({
+								target : formContent,
+								formXml : formXml,
+								formValues : formData.record,
+								mode : "view"
+							});
+						}
+					});
+				}
+			});
+		}
 	});
 
 	/*
@@ -110,8 +147,8 @@ $(function() {
 		var lastValue = input[0].value;
 		setTimeout(function() {
 			var currentValue = input[0].value;
-
 			if (lastValue === currentValue) {
+				console.log('start ajax!!!!!!! TO : ' + url);
 				$.ajax({
 					url : url,
 					data : {
@@ -120,7 +157,6 @@ $(function() {
 					context : input,
 					success : function(data, status, jqXHR) {
 						target.show();
-						console.log(data);
 						target.html(data);
 					}
 				});
@@ -216,6 +252,7 @@ $(function() {
 	$('a.js_search_filter').live(
 			'click',
 			function(e) {
+				$('#content').showLoading();
 				var input = $(e.target).parent();
 				var target = $('#search_filter');
 				var url = input.attr('href');
@@ -228,6 +265,10 @@ $(function() {
 						var newCondition = condition.clone().removeClass("js_new_condition");
 						condition.parent().append(newCondition.show());
 						target.slideDown(500);
+						$('#content').hideLoading();
+					},
+					error : function(){
+						$('#content').hideLoading();						
 					}
 				});
 				return false;
@@ -236,6 +277,7 @@ $(function() {
 	$('select.js_select_filter').live(
 			'change',
 			function(e) {
+				$('#content').showLoading();
 				var input = $(e.target);
 				var target = $('#search_filter');
 				var url = input.attr('href') + "&filterId=" + input.children('option:selected').attr('value');
@@ -244,7 +286,12 @@ $(function() {
 					data : {},
 					success : function(data, status, jqXHR) {
 						target.html(data).slideDown(500);
+						$('#content').hideLoading();
+					},
+					error : function(){
+						$('#content').hideLoading();						
 					}
+
 				});
 				return false;
 			});
@@ -281,11 +328,30 @@ $(function() {
 	 */
 	$('.js_select_work').swnavi(
 			{
-				target : 'form_works',
 				before : function(event) {
 					$('#form_works').slideUp().slideDown(500);
 					$(event.target).parents('#upload_work_list').hide()
 							.parents(".js_start_work").slideUp();
+				},
+				target : 'form_works',
+				after : function(event) {
+					var input = $(event.target).parents('li:first').children('a');
+					var formContent = $('#form_works').find('div.js_form_content');
+					var workId = input.attr('workId');
+					$.ajax({
+						url : "get_form_xml.sw",
+						data : {
+							workId : workId
+						},
+						success : function(formXml, status, jqXHR) {
+							console.log(formXml);
+							new SmartWorks.GridLayout({
+								target : formContent,
+								formXml : formXml,
+								mode : "edit"
+							});
+						}
+					});			
 				}
 			});
 
@@ -306,21 +372,21 @@ $(function() {
 						workId : workId
 					},
 					success : function(formXml, status, jqXHR) {
-						console.log(formXml);
-						console.log(status);
-						console.log(jqXHR);
 						new SmartWorks.GridLayout({
 							target : formContent,
-							formXml : formXml
+							formXml : formXml,
+							mode : "edit"
 						});
 					}
 				});			
 			}
+			
 		});
 		return false;
 	});
 
 	$('a.js_new_work_report').live('click', function(e) {
+		$('#content').showLoading();						
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
 		var url = input.attr('href');
@@ -329,12 +395,17 @@ $(function() {
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
+				$('#content').hideLoading();						
+			},
+			error : function(){
+				$('#content').hideLoading();						
 			}
 		});
 		return false;
 	});
 
 	$('select.js_select_work_report').live('change', function(e) {
+		$('#content').showLoading();						
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
 		var url = input.attr('href')
@@ -350,7 +421,12 @@ $(function() {
 				var chartTarget = target.html(data).find('div.js_work_report_view');
 				smartChart.load(reportId, chartType, false, "chart_target");
 				target.slideDown(500);
+				$('#content').hideLoading();						
+			},
+			error : function(){
+				$('#content').hideLoading();						
 			}
+
 		});
 		
 		return false;
@@ -432,6 +508,7 @@ $(function() {
 			target.hide();
 			input.hide().siblings().show();
 		}else{
+			$('#content').showLoading();						
 			var url = input.parent().attr('url');
 			$.ajax({
 				url : url,
@@ -439,6 +516,10 @@ $(function() {
 				success : function(data, status, jqXHR) {
 					target.html(data).show();
 					input.hide().siblings().show();
+					$('#content').hideLoading();						
+				},
+				error : function(){
+					$('#content').hideLoading();											
 				}
 			});
 		}
@@ -450,10 +531,18 @@ $(function() {
 			'click',
 			function(e) {
 				var input = $(e.target);
+				
 				var comName = input.attr('comName');
 				var comId = input.attr('comId');
 				var target = input.parents('div.js_community_list').prev()
-						.find('div.js_selected_communities');
+						.find('div.js_selected_communities');				
+				target.siblings('input.js_auto_complete').value = '';
+				var inputTarget = target.siblings('input.js_form_user_field');
+				if(inputTarget.length == 1) {
+					inputTarget.hide();
+					inputTarget.next('div.js_srch_x').hide();
+					inputTarget.parent().parent().siblings('js_form_user_id').value = comId;
+				}
 				var oldHTML = target.html();
 				if (oldHTML == null)
 					oldHTML = "";
@@ -481,6 +570,14 @@ $(function() {
 
 	$('.js_remove_community').live('click', function(e) {
 		var input = $(e.target);
+		
+		var inputTarget = input.parents('div.js_selected_communities').siblings('input.js_form_user_field');
+		
+		if (inputTarget.length == 1) {
+			inputTarget.show();
+			inputTarget.next('div.js_srch_x').show();
+			inputTarget.parent.siblings('js_form_user_id').value = '';
+		}
 		var selected_users = input.parents('div.js_selected_communities');
 		input.parents('span.js_community_item').remove();
 		selected_users.next().focus();
@@ -533,6 +630,7 @@ $(function() {
 			return false;
 		}
 		if($(target).children().length == 0){
+			$('div.js_nav_my_works').showLoading();						
 			$.ajax({
 				url : url,
 				data : {
@@ -545,6 +643,10 @@ $(function() {
 					target.html(data);
 					target.siblings('li.js_drill_down').find('div').hide();
 					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
+					$('div.js_nav_my_works').hideLoading();											
+				},
+				error : function(){
+					$('div.js_nav_my_works').hideLoading();											
 				}
 			});
 		}else{
@@ -576,10 +678,12 @@ $(function() {
 	});
 
 	$('.qq-delete-text').live('click', function(e) {
+		console.log($(e.target).siblings('a').attr('filename'));
 		$.ajax({
 			url : "delete_file.sw",
 			data : {
-				fileId : $(e.target).parent('li').attr('fileId')
+				fileId : $(e.target).parent('li').attr('fileId'),
+				fileName : $(e.target).siblings('a').attr('filename')
 			},
 			type : "POST",
 			context : this,
@@ -589,16 +693,49 @@ $(function() {
 		});
 	});
 
-	$('.qq-upload-file').live('click', function(e) {
-		$.ajax({
-			url : "download_file.sw",
-			data : {
-				fileId : $(e.target).parent('li').attr('fileId')
-			},
-			type : "GET",
-			context : this,
-			success : function(data, status, jqXHR) {
-			}
-		});
+	$('a.js_copy_address').zclip({
+        path:'js/jquery/ZeroClipboard.swf',
+        copy: function(){
+        	return $(location).attr('href');
+        	},
+        beforeCopy: null,
+        afterCopy:null
+    });
+
+	$('a.js_pop_user_info').live('click', function(e) {
+		var input = $(e.target);
+		var left = input.parents('td:first').position().left;
+		var top = input.parents('td:first').position().top;
+		input.popupWindow({ 
+			width:600,
+			height:600,
+			top:top, 
+			left:left
+		}); 
+		return false;
 	});
+
+//	$('img.js_auto_picture').live('click', function(e) {
+//		$.ajax({
+//			url : "delete_file.sw",
+//			data : {
+//				fileId : $(e.target).parent('li').attr('fileId')
+//			},
+//			type : "POST",
+//			context : this,
+//			success : function(data, status, jqXHR) {
+//				$(e.target).parent().remove();
+//			}
+//		});
+//	});
+
 });
+
+//$(function() {
+//	if($('img.js_auto_picture').length > 0) {		
+//		var autoPictures = $('img.js_auto_picture');
+//		for(var i=0; i<autoPictures.length; i++) {
+//			createUploader(autoPictures[i])
+//		}		
+//	}
+//});

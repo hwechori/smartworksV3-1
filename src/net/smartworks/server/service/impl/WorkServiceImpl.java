@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.smartworks.model.community.User;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Data;
@@ -36,6 +37,8 @@ import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
@@ -50,6 +53,7 @@ import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
+import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -85,7 +89,7 @@ public class WorkServiceImpl implements IWorkService {
 	private ITskManager getTskManager() {
 		return SwManagerFactory.getInstance().getTskManager();
 	}
-	private ISwoManager getSwokManager() {
+	private ISwoManager getSwoManager() {
 		return SwManagerFactory.getInstance().getSwoManager();
 	}
 
@@ -102,14 +106,15 @@ public class WorkServiceImpl implements IWorkService {
 	 * 사용자가 등록한 즐겨 찾기 업무를 리턴한다
 	 */
 	@Override
-	public SmartWorkInfo[] getMyFavoriteWorks(String companyId, String userId) throws Exception {
-		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+	public SmartWorkInfo[] getMyFavoriteWorks() throws Exception {
+		User user = SmartUtil.getCurrentUser();
+		if (CommonUtil.isEmpty(user.getCompanyId()) || CommonUtil.isEmpty(user.getId()))
 			return null;
 		
 		ItmMenuItemListCond itemListCond = new ItmMenuItemListCond();
-		itemListCond.setCompanyId(companyId);
-		itemListCond.setUserId(userId);
-		ItmMenuItemList itmList = getItmManager().getMenuItemList(userId, itemListCond, IManager.LEVEL_ALL);
+		itemListCond.setCompanyId(user.getCompanyId());
+		itemListCond.setUserId(user.getId());
+		ItmMenuItemList itmList = getItmManager().getMenuItemList(user.getId(), itemListCond, IManager.LEVEL_ALL);
 		if (itmList == null)
 			return null;
 
@@ -126,9 +131,9 @@ public class WorkServiceImpl implements IWorkService {
 		}
 		
 		PkgPackageCond pkgCond = new PkgPackageCond();
-		pkgCond.setCompanyId(companyId);
+		pkgCond.setCompanyId(user.getCompanyId());
 		pkgCond.setPackageIdIns(packageIdArray);
-		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
+		PkgPackage[] pkgs = getPkgManager().getPackages(user.getId(), pkgCond, IManager.LEVEL_ALL);
 		
 		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
 		
@@ -136,32 +141,33 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public WorkInfo[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception {
+	public WorkInfo[] getMyAllWorksByCategoryId(String categoryId) throws Exception {
 
 		//categoryId 가 null 이라면 root 카테고리 밑의 1 level 의 카테고리를 리턴한다
 		//categoryId 가 넘어오면 카테고리안에 속한 2 level 카테고리(group) 와 work(package)를 리턴한다
 
+		User user = SmartUtil.getCurrentUser();
 		CtgCategoryCond ctgCond = new CtgCategoryCond();
-		ctgCond.setCompanyId(companyId);
+		ctgCond.setCompanyId(user.getCompanyId());
 		
 		if (CommonUtil.isEmpty(categoryId)) {
 			//1 level category
 			ctgCond.setParentId(CtgCategory.ROOTCTGID);
-			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_LITE);
+			CtgCategory[] ctgs = getCtgManager().getCategorys(user.getId(), ctgCond, IManager.LEVEL_LITE);
 			return (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgCategoryArray(ctgs);
 		
 		} else {
 			ctgCond.setParentId(categoryId);
 			
 			PkgPackageCond pkgCond = new PkgPackageCond();
-			pkgCond.setCompanyId(companyId);
+			pkgCond.setCompanyId(user.getCompanyId());
 			pkgCond.setCategoryId(categoryId);
 			pkgCond.setStatus("DEPLOYED");
 
-			CtgCategory[] ctgs = getCtgManager().getCategorys(userId, ctgCond, IManager.LEVEL_LITE);
+			CtgCategory[] ctgs = getCtgManager().getCategorys(user.getId(), ctgCond, IManager.LEVEL_LITE);
 			WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgCategoryArray(ctgs);
 			
-			PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_LITE);
+			PkgPackage[] pkgs = getPkgManager().getPackages(user.getId(), pkgCond, IManager.LEVEL_LITE);
 			WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
 
 			int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
@@ -188,15 +194,16 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public SmartWorkInfo[] searchWork(String companyId, String userId, String key) throws Exception {
+	public SmartWorkInfo[] searchWork(String key) throws Exception {
 
 		if (CommonUtil.isEmpty(key))
 			return null;
-		
+
+		User user = SmartUtil.getCurrentUser();
 		PkgPackageCond pkgCond = new PkgPackageCond();
-		pkgCond.setCompanyId(companyId);
+		pkgCond.setCompanyId(user.getCompanyId());
 		pkgCond.setNameLike(key);
-		PkgPackage[] pkgs = getPkgManager().getPackages(userId, pkgCond, IManager.LEVEL_ALL);
+		PkgPackage[] pkgs = getPkgManager().getPackages(user.getId(), pkgCond, IManager.LEVEL_ALL);
 		if (pkgs == null)
 			return null;
 		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
@@ -204,20 +211,21 @@ public class WorkServiceImpl implements IWorkService {
 		return workPkgs;
 	}
 
-	public Work getWorkById(String companyId, String userId, String workId) throws Exception {
+	public Work getWorkById(String workId) throws Exception {
 		if (CommonUtil.isEmpty(workId))
 			return null;
 
+		User user = SmartUtil.getCurrentUser();
 		PkgPackageCond pkgCond = new PkgPackageCond();
-		pkgCond.setCompanyId(companyId);
+		pkgCond.setCompanyId(user.getCompanyId());
 		pkgCond.setPackageId(workId);
 
-		PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_LITE);
+		PkgPackage pkg = getPkgManager().getPackage(user.getId(), pkgCond, IManager.LEVEL_LITE);
 		
 		if (pkg.getType().equalsIgnoreCase("PROCESS") || pkg.getType().equalsIgnoreCase("GANTT")) {
-			return getProcessWorkById(companyId, userId, workId);
+			return getProcessWorkById(user.getCompanyId(), user.getId(), workId);
 		} else {
-			return getInfortmationWorkById(companyId, userId, workId);
+			return getInfortmationWorkById(user.getCompanyId(), user.getId(), workId);
 		}
 	}
 	
@@ -351,7 +359,7 @@ public class WorkServiceImpl implements IWorkService {
 	}	
 
 	@Override
-	public Report getReportById(String companyId, String userId, String reportId) throws Exception {
+	public Report getReportById(String reportId) throws Exception {
 		// TODO Auto-generated method stub
 		ChartReport[] defaultInformationCharts = ChartReport.DEFAULT_CHARTS_INFORMATION;
 		for(ChartReport report : defaultInformationCharts){
@@ -365,12 +373,14 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception {
+	public SearchFilter getSearchFilterById(String filterId) throws Exception {
+
+		User user = SmartUtil.getCurrentUser();
 		if(filterId.equals(SearchFilter.FILTER_ALL_INSTANCES)) return null;
-		if(filterId.equals(SearchFilter.FILTER_MY_INSTANCES)) return SearchFilter.getMyInstancesFilter(ModelConverter.getUserByUserId(userId));
+		if(filterId.equals(SearchFilter.FILTER_MY_INSTANCES)) return SearchFilter.getMyInstancesFilter(ModelConverter.getUserByUserId(user.getId()));
 		if(filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES)) return SearchFilter.getRecentInstancesFilter();
-		if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) return SearchFilter.getMyRecentInstancesFilter(ModelConverter.getUserByUserId(userId));
-		if(filterId.equals(SearchFilter.FILTER_MY_RUNNING_INSTANCES)) return SearchFilter.getMyRunningInstancesFilter(ModelConverter.getUserByUserId(userId));
+		if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) return SearchFilter.getMyRecentInstancesFilter(ModelConverter.getUserByUserId(user.getId()));
+		if(filterId.equals(SearchFilter.FILTER_MY_RUNNING_INSTANCES)) return SearchFilter.getMyRunningInstancesFilter(ModelConverter.getUserByUserId(user.getId()));
 
 		return SmartTest.getSearchFilterById();
 	}
@@ -385,16 +395,19 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public String getFormXml(String companyId, String userId, String workId) throws Exception {
+	public String getFormXml(String workId) throws Exception {
+
+		User user = SmartUtil.getCurrentUser();
 		SwfFormCond swfFormCond = new SwfFormCond();
-		swfFormCond.setCompanyId(companyId);
+		swfFormCond.setCompanyId(user.getCompanyId());
 		swfFormCond.setPackageId(workId);
-		SwfForm[] swfForms = getSwfManager().getForms(userId, swfFormCond, IManager.LEVEL_ALL);
+		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
 		if(swfForms != null)
 			return swfForms[0].getObjString();
 		else
 			return null;
 	}
+
 	@Override
 	public String setMyProfile(HttpServletRequest request) throws Exception {
 		String txtUserProfileUserId = CommonUtil.toNotNull(request.getParameter("txtUserProfileUserId"));
@@ -406,7 +419,7 @@ public class WorkServiceImpl implements IWorkService {
 		String txtUserProfileCellNo = CommonUtil.toNotNull(request.getParameter("txtUserProfileCellNo"));
 
 		//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW); -- md5 password 암호화
-		SwoUser user = getSwokManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
+		SwoUser user = getSwoManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
 		user.setPassword(pwUserProfilePW);
 		user.setLocale(selUserProfileLocale);
 		user.setTimeZone(selUserProfileTimeZone);
@@ -416,7 +429,7 @@ public class WorkServiceImpl implements IWorkService {
 
 		String returnValue = "";
 		try {
-			getSwokManager().setUser(txtUserProfileUserId, user, null);
+			getSwoManager().setUser(txtUserProfileUserId, user, null);
 			returnValue = "Success~!!";
 			UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
 	        Authentication authentication = authenticationManager.authenticate(authRequest);
@@ -430,6 +443,20 @@ public class WorkServiceImpl implements IWorkService {
 
 		return returnValue;
 
+	}
+	@Override
+	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
+		SwfFormCond swfFormCond = new SwfFormCond();
+		swfFormCond.setPackageId(request.getParameter("workId"));
+
+		SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_LITE);
+
+		SwdRecordCond swdRecordCond = new SwdRecordCond();
+		swdRecordCond.setFormId(swfForms[0].getId());
+		swdRecordCond.setRecordId(request.getParameter("recordId"));
+		SwdRecord swdRecord = getSwdManager().getRecord("", swdRecordCond, null);
+
+		return swdRecord;
 	}
 
 }

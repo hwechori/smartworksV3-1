@@ -2,10 +2,16 @@ package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.instance.CommentInstance;
@@ -33,6 +39,7 @@ import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
+import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
@@ -46,13 +53,13 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
-import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
+import net.smartworks.util.SmartUtil;
 
 import org.springframework.stereotype.Service;
 
@@ -79,7 +86,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	 * .util.LocalDate, int)
 	 */
 	@Override
-	public BoardInstanceInfo[] getBoardInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception {
+	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception {
 		return SmartTest.getBoardInstances();
 	}
 
@@ -91,7 +98,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	 * .util.LocalDate, net.smartworks.util.LocalDate)
 	 */
 	@Override
-	public BoardInstanceInfo[] getBoardInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception {
+	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
 		return null;
 	}
 
@@ -103,7 +110,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	 * .String)
 	 */
 	@Override
-	public InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception {
+	public InstanceInfo[] getMyRecentInstances() throws Exception {
 		 return SmartTest.getMyRecentInstances();	
 //			if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
 //				return null;
@@ -148,37 +155,38 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public Instance getInstanceById(String companyId, String instanceId) throws Exception {
+	public Instance getInstanceById(String instanceId) throws Exception {
 		return SmartTest.getInstanceById(instanceId);
 	}
 
-	public InstanceInfo[] getMyRunningInstances(String companyId, String userId) throws Exception {
+	public InstanceInfo[] getMyRunningInstances() throws Exception {
 		Date limitDate = new Date();
 		int resultSize = 10;
-		return getMyRunningInstances(companyId, userId, limitDate, resultSize);
+		return getMyRunningInstances( limitDate, resultSize);
 	}
 	
-	public InstanceInfo[] getMyRunningInstances(String companyId, String userId, Date limitDate, int resultSize) throws Exception {
+	public InstanceInfo[] getMyRunningInstances(Date limitDate, int resultSize) throws Exception {
 //		return SmartTest.getRunningInstances();
 		//정보관리업무에서 파생된 업무는 IWInstanceInfo
 		//프로세스 태스크및 프로세스에서 파생된 업무는 PWInstanceInfo
-		
-		if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
+
+		User user = SmartUtil.getCurrentUser();
+		if (CommonUtil.isEmpty(user.getCompanyId()) || CommonUtil.isEmpty(user.getId()))
 			return null;
 
 		TaskWorkCond taskCond = new TaskWorkCond();
-		taskCond.setTskAssignee(userId);
+		taskCond.setTskAssignee(user.getId());
 		taskCond.setPageNo(0);
 		taskCond.setPageSize(10);
 		
-		TaskWork[] tasks = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkList(userId, taskCond);
+		TaskWork[] tasks = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkList(user.getId(), taskCond);
 		
-		if(tasks != null) return ModelConverter.getInstanceInfoArrayByTaskWorkArray(userId, tasks);
+		if(tasks != null) return ModelConverter.getInstanceInfoArrayByTaskWorkArray(user.getId(), tasks);
 		return null;
 	}
 
 	@Override
-	public InstanceInfo[] searchMyRunningInstance(String companyId, String userId, String key) throws Exception {
+	public InstanceInfo[] searchMyRunningInstance(String key) throws Exception {
 		return SmartTest.getRunningInstances();
 	}
 
@@ -188,13 +196,83 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public String setInformationWorkInstance(HttpServletRequest request) throws Exception {
-		return "testId";		
+	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception {
+		
+		/*
+		Key Set : frmSmartForm
+		Key Set : frmScheduleWork
+		Key Set : frmAccessSpace
+		key Set : formId
+		key Set : formName
+		*/
+		Map<String, Object> SmartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+		
+		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
+		String formId = (String)requestBody.get("formId");
+		String formName = (String)requestBody.get("formName");
+		int formVersion = 1;
+		User user = SmartUtil.getCurrentUser();
+		String userId = null;
+		if (user != null)
+			userId = user.getId();
+		
+		SwdFieldCond swdFieldCond = new SwdFieldCond();
+		swdFieldCond.setDomainObjId(domainId);
+		SwdField[] fields = getSwdManager().getFields(userId, swdFieldCond, IManager.LEVEL_LITE);
+		if (CommonUtil.isEmpty(fields))
+			return null;//TODO return null? throw new Exception??
+		
+		Map<String, SwdField> fieldInfoMap = new HashMap<String, SwdField>();
+		for (SwdField field : fields) {
+			fieldInfoMap.put(field.getFormFieldId(), field);
+		}
+		
+		Set<String> keySet = SmartFormInfoMap.keySet();
+		Iterator<String> itr = keySet.iterator();
+		
+//		SwdField[] fieldDatas = new SwdField[keySet.size()];
+		List fieldDataList = new ArrayList();
+		while (itr.hasNext()) {
+			String fieldId = (String)itr.next();
+			String value = null;
+			String refForm = null;
+			String refFormField = null;
+			String refRecordId = null;
+			if (SmartFormInfoMap.get(fieldId) instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)SmartFormInfoMap.get(fieldId);
+				//TODO
+			} else {
+				value = (String)SmartFormInfoMap.get(fieldId);
+			}
+			if (CommonUtil.isEmpty(value))
+				continue;
+			SwdDataField fieldData = new SwdDataField();
+			fieldData.setId(fieldId);
+			fieldData.setName(fieldInfoMap.get(fieldId).getFormFieldName());
+			fieldData.setRefForm(refForm);
+			fieldData.setRefFormField(refFormField);
+			fieldData.setRefRecordId(refRecordId);
+			fieldData.setValue(value);
+			
+			fieldDataList.add(fieldData);
+			
+		}
+		SwdDataField[] fieldDatas = new SwdDataField[fieldDataList.size()];
+		fieldDataList.toArray(fieldDatas);
+		SwdRecord obj = new SwdRecord();
+		obj.setDomainId(domainId);
+		obj.setFormId(formId);
+		obj.setFormName(formName);
+		obj.setFormVersion(formVersion);
+		obj.setDataFields(fieldDatas);
+		
+		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);		
+		return null;
 	}
 
 	@Override
 	public String startProcessWorkInstance(HttpServletRequest request) throws Exception {
-		return "testId";		
+		return "testId";
 	}
 
 	@Override
@@ -213,36 +291,37 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public CommentInstance[] getRecentCommentsInWorkManual(String companyId, String workId, int length) throws Exception {
+	public CommentInstance[] getRecentCommentsInWorkManual(String workId, int length) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getCommentInstances();
 	}
 
 	@Override
-	public InstanceInfoList getIWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
+	public InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception {
 
 		Date start = new Date();
-		System.out.println("############################"+new Date()+"############################");
+
+		User user = SmartUtil.getCurrentUser();
 
 		SwdDomainCond swdDomainCond = new SwdDomainCond();
-		swdDomainCond.setCompanyId(companyId);
+		swdDomainCond.setCompanyId(user.getCompanyId());
 
 		SwfFormCond swfFormCond = new SwfFormCond();
-		swfFormCond.setCompanyId(companyId);
+		swfFormCond.setCompanyId(user.getCompanyId());
 		swfFormCond.setPackageId(workId);
 
-		swdDomainCond.setFormId(getSwfManager().getForms(userId, swfFormCond, IManager.LEVEL_LITE)[0].getId());
+		swdDomainCond.setFormId(getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE)[0].getId());
 
-		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdDomainCond, IManager.LEVEL_LITE);
+		SwdDomain swdDomain = getSwdManager().getDomain(user.getId(), swdDomainCond, IManager.LEVEL_LITE);
 
 		SwdRecordCond swdRecordCond = new SwdRecordCond();
-		swdRecordCond.setCompanyId(companyId);
+		swdRecordCond.setCompanyId(user.getCompanyId());
 		swdRecordCond.setFormId(swdDomain.getFormId());
 		swdRecordCond.setDomainId(swdDomain.getObjId());
 
-		long totalCount = getSwdManager().getRecordSize(userId, swdRecordCond);
+		long totalCount = getSwdManager().getRecordSize(user.getId(), swdRecordCond);
 
-		int currentPage = params.getPageNumber();
+		int currentPage = params.getPageNumber() -1;
 		int pageCount = params.getCountInPage();
 		SortingField sf = params.getSortingField();
 
@@ -261,7 +340,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		swdRecordCond.setPageNo(currentPage);
 		swdRecordCond.setPageSize(pageCount);
 
-		SwdRecord[] swdRecords = getSwdManager().getRecords(userId, swdRecordCond, IManager.LEVEL_LITE);
+		SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
 
 		if (swdRecords == null)
 			return null;
@@ -319,7 +398,6 @@ public class InstanceServiceImpl implements IInstanceService {
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
 		instanceInfoList.setInstanceDatas(iWInstanceInfos);
 		long termTime = start.getTime() - new Date().getTime();
-		System.out.println("******************************"+termTime+"******************************");
 		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 		instanceInfoList.setCountInPage(pageCount);
 		instanceInfoList.setTotalPages((int)totalCount);
@@ -328,13 +406,14 @@ public class InstanceServiceImpl implements IInstanceService {
 		return instanceInfoList;
 	}
 
-	public InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception {
-		
+	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception {
+
+		User user = SmartUtil.getCurrentUser();
 		//TODO workId = category 프로세스 인스턴스정보에는 패키지 컬럼이 없고 다이어 그램 컬럼에 정보가 들어가 있다
 		//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다
 		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
 		prcInstCond.setPackageId(workId);
-		long totalCount = getPrcManager().getProcessInstExtendsSize(userId, prcInstCond);
+		long totalCount = getPrcManager().getProcessInstExtendsSize(user.getId(), prcInstCond);
 		
 		int pageCount = params.getCountInPage();
 		int currentPage = params.getPageNumber();
@@ -343,7 +422,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		prcInstCond.setPageNo(currentPage);
 		prcInstCond.setPageSize(pageCount);
-		PrcProcessInstExtend[] prcInsts = getPrcManager().getProcessInstExtends(userId, prcInstCond);
+		PrcProcessInstExtend[] prcInsts = getPrcManager().getProcessInstExtends(user.getId(), prcInstCond);
 		
 		if (prcInsts == null)
 			return null;
@@ -439,26 +518,26 @@ public class InstanceServiceImpl implements IInstanceService {
 		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
 		return instanceInfoList;
 	}
-	public InstanceInfoList getPWorkInstanceList_bak(String companyId, String userId, String workId, RequestParams params) throws Exception {
+	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {
 
 		Date startTime = new Date();
 		Long start = startTime.getTime();
-		System.out.println(" ####### 시작 ######### " + start);
 		//TODO workId = category 프로세스 인스턴스정보에는 패키지 컬럼이 없고 다이어 그램 컬럼에 정보가 들어가 있다
 		//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다
-		
+
+		User user = SmartUtil.getCurrentUser();
 		PrcProcessCond prcCond = new PrcProcessCond();
 		prcCond.setDiagramId(workId);
-		prcCond.setCompanyId(companyId);
-		PrcProcess[] prc = getPrcManager().getProcesses(userId, prcCond, IManager.LEVEL_LITE);
+		prcCond.setCompanyId(user.getCompanyId());
+		PrcProcess[] prc = getPrcManager().getProcesses(user.getId(), prcCond, IManager.LEVEL_LITE);
 		if (prc == null)
 			return null;
 		
 		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
-		prcInstCond.setCompanyId(companyId);
+		prcInstCond.setCompanyId(user.getCompanyId());
 		prcInstCond.setProcessId(prc[0].getProcessId());
 		
-		long totalCount = getPrcManager().getProcessInstSize(userId, prcInstCond);
+		long totalCount = getPrcManager().getProcessInstSize(user.getId(), prcInstCond);
 		
 		int currentPage = params.getPageNumber();
 		int pageCount = params.getCountInPage();
@@ -475,7 +554,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		prcInstCond.setPageNo(currentPage);
 		prcInstCond.setPageSize(pageCount);
 		
-		PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(userId, prcInstCond, IManager.LEVEL_LITE);
+		PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(user.getId(), prcInstCond, IManager.LEVEL_LITE);
 		
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
 		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));
@@ -484,13 +563,11 @@ public class InstanceServiceImpl implements IInstanceService {
 		instanceInfoList.setCurrentPage(currentPage);
 		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
 
-		System.out.println(" ####### 끝 ######### " + (new Date().getTime() - start));
 		return instanceInfoList;
 	}
 	public InstanceInfoList getPWorkInstanceList_bak2(String companyId, String userId, String workId, RequestParams params) throws Exception {
 		Date startTime = new Date();
 		Long start = startTime.getTime();
-		System.out.println(" ####### 시작 ######### " + start);
 		//TODO workId = category 프로세스 인스턴스정보에는 패키지 컬럼이 없고 다이어 그램 컬럼에 정보가 들어가 있다
 		//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다
 		PrcProcessCond prcCond = new PrcProcessCond();
@@ -622,26 +699,26 @@ public class InstanceServiceImpl implements IInstanceService {
 		instanceInfoList.setCurrentPage(currentPage);
 		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
 
-		System.out.println(" ####### 끝 ######### " + (new Date().getTime() - start));
 		return instanceInfoList;
 	}
 
 	@Override
-	public WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception {
+	public WorkInstance getWorkInstanceById(String instanceId) throws Exception {
 		//TODO 인스턴스로 패키지 타입을 알수가 없다 테이블에 컬럼을 생성하기는 했지만 초기 테스트시에는 데이터가 없기 때문에
 		//인스턴스에 diagramId = pkgId 가 있으면 프로세스 업무 없으면 정보관리 업무로 판단한다
 
-		PrcProcessInst prcInst = getPrcManager().getProcessInst(userId, instanceId, IManager.LEVEL_LITE);
+		User user = SmartUtil.getCurrentUser();
+		PrcProcessInst prcInst = getPrcManager().getProcessInst(user.getId(), instanceId, IManager.LEVEL_LITE);
 		if (prcInst == null)
 			return null;
 		String packageId = prcInst.getDiagramId();
 		
 		if (!CommonUtil.isEmpty(packageId)) {
-			return getProcessWorkInstanceById(companyId, userId, prcInst);
+			return getProcessWorkInstanceById(user.getCompanyId(), user.getId(), prcInst);
 		} else {
 			return SmartTest.getWorkInstanceById(instanceId);
 		}
-	}	
+	}
 	
 	public ProcessWorkInstance getProcessWorkInstanceById(String companyId, String userId, PrcProcessInst prcInst) throws Exception {
 		

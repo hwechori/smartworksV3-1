@@ -7,28 +7,40 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : '',
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	$entity = options.entity;
 	$graphic = $entity.children('graphic');
 	$format = $entity.children('format');
 
 	var readOnly = $graphic.attr('readOnly') == 'true' || options.mode == 'view';
 	var id = $entity.attr('id');
+	var name = $entity.attr('name');
 
-	var percentValue = (options.value * 100) + '%';
+	var $label = $('<td>' + name + '</td>');
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='fieldline required' ";
+	}else{
+		required = " class='fieldline' ";
+	}
+	$label.appendTo(options.container);
+	
+
+	var percentValue = (value * 100) + '%';
 	
 	
-	$html = $('<div class="percent" id="' + id + '_container"></div>');
+	$html = $('<td class="percent" id="' + id + '_container"></td>');
 	var $percent = null;
 	
 	if (readOnly) {
-		$percent = $('<p id="' + id + '_input"></p>').text(percentValue);
+		$percent = $('<td id="' + id + '_input"></td>').text(percentValue);
 	} else {
-		$percent = $('<input id="' + id + '_input" type="text" fieldId="' + SmartWorks.generateFormFieldId(options.workspaceId, id) + '"/>')
+		$percent = $('<td><input id="' + id + '" type="text" fieldId="' + SmartWorks.generateFormFieldId(options.workspaceId, id) + '"' + required + '/></td>')
 				.attr('value', percentValue);
 	}
 	

@@ -4,29 +4,29 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	if (cid == null)
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
 	if (wid == null)
-		wid = SmartUtil.getCurrentUser(request, response).getId();
+		wid = cUser.getId();
 
 	Group thisGroup = null;
 	Department thisDepartment = null;
 	User thisUser = null;
 	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
 	if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, cid)) {
-		thisGroup = (Group) smartWorks.getWorkSpaceById(cUser.getCompanyId(), spaceId);
+		thisGroup = (Group) smartWorks.getWorkSpaceById(spaceId);
 	} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE, cid)) {
-		thisDepartment = (Department) smartWorks.getWorkSpaceById(cUser.getCompanyId(), spaceId);
+		thisDepartment = (Department) smartWorks.getWorkSpaceById(spaceId);
 	} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_USER_SPACE, cid)) {
-		thisUser = (User) smartWorks.getWorkSpaceById(cUser.getCompanyId(), spaceId);
-	} else if (!wid.equals(SmartUtil.getCurrentUser(request, response).getId())) {
-		WorkSpace workSpace = smartWorks.getWorkSpaceById(cUser.getCompanyId(), wid);
+		thisUser = (User) smartWorks.getWorkSpaceById(spaceId);
+	} else if (!wid.equals(cUser.getId())) {
+		WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
 		if (workSpace == null) {
-			thisUser = SmartUtil.getCurrentUser(request, response);
+			thisUser = SmartUtil.getCurrentUser();
 		} else if (workSpace.getClass() == User.class) {
 			thisUser = (User) workSpace;
 		} else if (workSpace.getClass() == Group.class) {
@@ -35,7 +35,7 @@
 			thisDepartment = (Department) workSpace;
 		}
 	} else {
-		thisUser = SmartUtil.getCurrentUser(request, response);
+		thisUser = SmartUtil.getCurrentUser();
 	}
 %>
 

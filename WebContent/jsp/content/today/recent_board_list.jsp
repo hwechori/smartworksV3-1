@@ -10,9 +10,8 @@
 <%@ page import="net.smartworks.model.community.*"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
 
-	BoardInstanceInfo[] boards = smartWorks.getBoardInstances(cUser.getCompanyId(), cUser.getId(), new LocalDate(), 5);
+	BoardInstanceInfo[] boards = smartWorks.getBoardInstances(new LocalDate(), 5);
 %>
 <!-- 공지사항 -->
 <div id="notice">

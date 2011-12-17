@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
@@ -19,16 +19,23 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<label>' + name + '</label>');
+	var $label = $('<td>' + name + '</td>');
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='required' ";
+	}else{
+		required = "";
+	}
 	$label.appendTo(options.container);
 
-	var checked = (options.value) ? 'checked' : '' ;
+	var checked = (value) ? 'checked' : '' ;
 	
 	var $check = null;
 	if(readOnly){
-		$check = $('<span></span>').text(options.value);
+		$check = $('<td></td>').text(value);
 	}else{	
-		$check = $('<input type="checkbox" '+ checked +' fieldId="' + id + '" name="' + id + '">');
+		$check = $('<td><input type="checkbox" '+ checked + ' fieldId="' + id + '" name="' + id + '"' + required +  '><td>');
 	}
 	$check.appendTo(options.container);
 

@@ -11,9 +11,9 @@
 <%@ page import="net.smartworks.model.community.*"%>
 <%
 /* 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 
-	InstanceInfo[] instances = smartWorks.getMyRunningInstances(cUser.getCompanyId(), cUser.getId());
+	InstanceInfo[] instances = smartWorks.getMyRunningInstances();
  */%>
 
 <!-- 나의 진행중인 업무 -->

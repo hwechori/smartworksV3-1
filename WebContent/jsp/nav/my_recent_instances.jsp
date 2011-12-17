@@ -8,12 +8,8 @@
 <%@ page import="net.smartworks.model.work.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
-	User cUser = SmartUtil.getCurrentUser(request, response);
-
-	ISmartWorks smartWorks = (ISmartWorks) request
-			.getAttribute("smartWorks");
-	InstanceInfo[] workInstances = smartWorks.getMyRecentInstances(
-			cUser.getCompanyId(), cUser.getId());
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	InstanceInfo[] workInstances = smartWorks.getMyRecentInstances();
 	String iconType = null;
 	String classType = null;
 	String instanceContext = null;

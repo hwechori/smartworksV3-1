@@ -18,8 +18,35 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<context:component-scan base-package="net.smartworks" />
 
-	<beans:bean id="fileDirectory" class="net.smartworks.util.SmartConfUtil" factory-method="createInstance">
-		<beans:property name="fileDirectory"><beans:value>${fileDirectory}</beans:value></beans:property>
+	<beans:bean id="fileDirectory" class="net.smartworks.util.SmartConfUtil"
+		factory-method="createInstance">
+		<beans:property name="fileDirectory">
+			<beans:value>${fileDirectory}</beans:value>
+		</beans:property>
 	</beans:bean>
+	<beans:bean id="dbDirectoryPath" class="net.smartworks.util.SmartConfUtil"
+		factory-method="createInstance">
+		<beans:property name="dbDirectoryPath">
+			<beans:value>${dbDirectoryPath}</beans:value>
+		</beans:property>
+	</beans:bean>
+
+
+
+	<!-- StringHttpMessageConverter UTF-8 -->
+	<beans:bean	class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:bean class="org.springframework.http.converter.StringHttpMessageConverter">
+					<beans:property name="supportedMediaTypes">
+						<beans:value>text/plain;charset=UTF-8</beans:value>
+					</beans:property>
+				</beans:bean>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+
+
 
 </beans:beans>

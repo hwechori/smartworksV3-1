@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.work.SmartForm"%>
+<%@page import="net.smartworks.model.work.InformationWork"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
 <%@page import="net.smartworks.model.work.Work"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
@@ -14,12 +16,23 @@ function submitForms(e) {
 		if(scheduleWork[0].chkScheduleWork.value === 'on'){
 			scheduleWork[0].hdnSchedulePerformer.value = $(scheduleWork[0].txtSchedulePerformer).attr('uid');
 		}
-		var params = $('form').serialize();
+		var forms = $('form');
+		var paramsJson = {};
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			if(form.attr('name') === 'frmSmartForm'){
+				paramsJson['formId'] = form.attr('formId');
+				paramsJson['formName'] = form.attr('formName');
+			}
+			paramsJson[form.attr('name')] = form.serializeObject();
+		}
+		console.log(JSON.stringify(paramsJson));
 		var url = "create_new_iwork.sw";
 		$.ajax({
 			url : url,
+			contentType : 'application/json',
 			type : 'POST',
-			data : params,
+			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				document.location.href = data.href;
 			},
@@ -37,11 +50,9 @@ function submitForms(e) {
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	//String formXml = smartWorks.getFormXml(cUser.getCompanyId(), cUser.getId(), workId);
-
-	//System.out.println("######################formXml start###########################"+formXml+"######################formXml end###########################");
-	SmartWork work = (SmartWork)smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
+	User cUser = SmartUtil.getCurrentUser();
+	SmartWork work = (SmartWork)smartWorks.getWorkById(workId);
+	
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

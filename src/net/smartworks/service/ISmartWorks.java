@@ -1,6 +1,7 @@
 package net.smartworks.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +33,7 @@ import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.util.LocalDate;
 
 public interface ISmartWorks {
@@ -77,87 +79,87 @@ public interface ISmartWorks {
 	public final static String CONTEXT_PREFIX_PWORK_TASK = "pw.ts.";
 	public final static String CONTEXT_PREFIX_SWORK_TASK = "sw.ts.";
 
-	public abstract InstanceInfo[] getMyRunningInstances(String companyId, String userId) throws Exception;
+	public abstract InstanceInfo[] getMyRunningInstances() throws Exception;
 	
-	public abstract String[] getBroadcastingMessages(String companyId) throws Exception;
+	public abstract String[] getBroadcastingMessages() throws Exception;
 
-	public abstract CompanyCalendar[] getCompanyCalendars(String companyId, LocalDate fromDate, int days) throws Exception;
+	public abstract CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, int days) throws Exception;
 
-	public abstract WorkSpace getWorkSpaceById(String companyId, String workSpaceId) throws Exception;
+	public abstract WorkSpace getWorkSpaceById(String workSpaceId) throws Exception;
 
-	public abstract CompanyCalendar[] getCompanyCalendars(String companyId, LocalDate fromDate, LocalDate toDate) throws Exception;
+	public abstract CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public abstract EventInstanceInfo[] getEventInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception;
+	public abstract EventInstanceInfo[] getEventInstances(LocalDate fromDate, int days) throws Exception;
 
-	public abstract EventInstanceInfo[] getEventInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception;
+	public abstract EventInstanceInfo[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public abstract BoardInstanceInfo[] getBoardInstances(String companyId, String userId, LocalDate fromDate, int days) throws Exception;
+	public abstract BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception;
 
-	public abstract BoardInstanceInfo[] getBoardInstances(String companyId, String userId, LocalDate fromDate, LocalDate toDate) throws Exception;
+	public abstract BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public abstract CompanyCalendar getCompanyEventBox(String companyId, LocalDate date) throws Exception;
+	public abstract CompanyCalendar getCompanyEventBox(LocalDate date) throws Exception;
 
-	public abstract SmartWorkInfo[] getMyFavoriteWorks(String companyId, String userId) throws Exception;
+	public abstract SmartWorkInfo[] getMyFavoriteWorks() throws Exception;
 
-	public abstract WorkInfo[] getMyAllWorksByCategoryId(String companyId, String userId, String categoryId) throws Exception;
+	public abstract WorkInfo[] getMyAllWorksByCategoryId(String categoryId) throws Exception;
 
-	public abstract InstanceInfo[] getMyRecentInstances(String companyId, String userId) throws Exception;
+	public abstract InstanceInfo[] getMyRecentInstances() throws Exception;
 
-	public abstract DepartmentInfo[] getMyDepartments(String companyId, String userId) throws Exception;
+	public abstract DepartmentInfo[] getMyDepartments() throws Exception;
 
-	public abstract Department getDepartmentById(String companyId, String departId) throws Exception;
+	public abstract Department getDepartmentById(String departId) throws Exception;
 
-	public abstract GroupInfo[] getMyGroups(String companyId, String userId) throws Exception;
+	public abstract GroupInfo[] getMyGroups() throws Exception;
 
-	public abstract Group getGroupById(String companyId, String groupId) throws Exception;
+	public abstract Group getGroupById(String groupId) throws Exception;
 
 	public abstract Group setGroup(HttpServletRequest request) throws Exception;
 
-	public abstract User getUserById(String companyId, String userId) throws Exception;
+	public abstract User getUserById(String userId) throws Exception;
 
-	public abstract SmartWorkInfo[] searchWork(String companyId, String userId, String key) throws Exception;
+	public abstract SmartWorkInfo[] searchWork(String key) throws Exception;
 
-	public abstract WorkSpaceInfo[] searchCommunity(String companyId, String userId, String key) throws Exception;
+	public abstract WorkSpaceInfo[] searchCommunity(String key) throws Exception;
 
-	public abstract UserInfo[] searchCommunityMember(String companyId, String communityId, String key) throws Exception;
+	public abstract UserInfo[] searchCommunityMember(String communityId, String key) throws Exception;
 
-	public abstract UserInfo[] getAvailableChatter(String companyId, String userId) throws Exception;
+	public abstract UserInfo[] getAvailableChatter() throws Exception;
 
-	public abstract UserInfo[] searchAvailableChatter(String companyId, String userId ,String key) throws Exception;
+	public abstract UserInfo[] searchAvailableChatter(String key) throws Exception;
 
-	public abstract UserInfo[] searchUser(String companyId, String key) throws Exception;
+	public abstract UserInfo[] searchUser(String key) throws Exception;
 
-	public abstract EventInstanceInfo[] getCompanyEventsByDate(String companyId, LocalDate date, int maxEvents) throws Exception;
+	public abstract EventInstanceInfo[] getCompanyEventsByDate(LocalDate date, int maxEvents) throws Exception;
 
-	public abstract EventInstanceInfo[] getMyEventsByDate(String companyId, String userId, LocalDate date, int maxEvents) throws Exception;
+	public abstract EventInstanceInfo[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception;
 
-	public abstract Notice[] getNoticesForMe(String companyId, String userId) throws Exception;
+	public abstract Notice[] getNoticesForMe() throws Exception;
 
-	public abstract NoticeBox getNoticeBoxForMe10(String companyId, String userId, int noticeType, LocalDate lastNotice) throws Exception;
+	public abstract NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception;
 	
-	public abstract Work getWorkById(String companyId, String userId, String workId) throws Exception;
+	public abstract Work getWorkById(String workId) throws Exception;
 	
-	public abstract Instance getInstanceById(String companyId, String instanceId) throws Exception;
+	public abstract Instance getInstanceById(String instanceId) throws Exception;
 	
-	public abstract InstanceInfo[] searchMyRunningInstance(String companyId, String userId, String key) throws Exception;
+	public abstract InstanceInfo[] searchMyRunningInstance(String key) throws Exception;
 
-	public abstract CommunityInfo[] getMyCommunities(String companyId, String userId) throws Exception;
+	public abstract CommunityInfo[] getMyCommunities() throws Exception;
 
-	public abstract CommentInstance[] getRecentCommentsInWorkManual(String companyId, String workId, int length) throws Exception;
+	public abstract CommentInstance[] getRecentCommentsInWorkManual(String workId, int length) throws Exception;
 	
-	public abstract InstanceInfoList getIWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception;
+	public abstract InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception;
 	
-	public abstract InstanceInfoList getPWorkInstanceList(String companyId, String userId, String workId, RequestParams params) throws Exception;
+	public abstract InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 	
-	public abstract WorkInstance getWorkInstanceById(String companyId, String userId, String instanceId) throws Exception;
+	public abstract WorkInstance getWorkInstanceById(String instanceId) throws Exception;
 
-	public abstract Report getReportById(String companyId, String userId, String reportId) throws Exception;
+	public abstract Report getReportById(String reportId) throws Exception;
 
-	public abstract SearchFilter getSearchFilterById(String companyId, String userId, String filterId) throws Exception;
+	public abstract SearchFilter getSearchFilterById(String filterId) throws Exception;
 	
 	public abstract Data getReportData(HttpServletRequest request) throws Exception;
 	
-	public abstract String setInformationWorkInstance(HttpServletRequest request) throws Exception;
+	public abstract String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception;
 
 	public abstract String startProcessWorkInstance(HttpServletRequest request) throws Exception;
 
@@ -171,14 +173,16 @@ public interface ISmartWorks {
 
 	public abstract String setMyProfile(HttpServletRequest request) throws Exception;
 
-	public abstract String uploadFile(HttpServletRequest request) throws Exception;
-
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 
-	public abstract void deleteFile(HttpServletRequest request) throws Exception;
+	public abstract void deleteFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract String getFormXml(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public abstract SwdRecord getRecord(HttpServletRequest request) throws Exception;
+
+	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }

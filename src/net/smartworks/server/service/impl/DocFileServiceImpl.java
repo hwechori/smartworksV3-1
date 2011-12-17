@@ -8,20 +8,28 @@
 
 package net.smartworks.server.service.impl;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.community.User;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.docfile.model.HbFileModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.service.IDocFileService;
+import net.smartworks.util.SmartConfUtil;
+import net.smartworks.util.SmartUtil;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,18 +42,10 @@ public class DocFileServiceImpl implements IDocFileService {
 		return SwManagerFactory.getInstance().getDocManager();
 	}
 
-	public String uploadFile(HttpServletRequest request) throws Exception {
+	public void uploadFile(HttpServletRequest request) throws Exception {
 
 		String userId = CommonUtil.toNotNull(request.getParameter("userId"));
 		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));	
-		//String fileSaveTempPath = request.getSession().getServletContext().getRealPath("/uploadDataTemp/");
-
-/*		DiskFileItemFactory factory = new DiskFileItemFactory();
-		factory.setSizeThreshold(1024 * 10);*/
-		//factory.setRepository(new File(fileSaveTempPath));
-		//ServletFileUpload upload = new ServletFileUpload(factory);
-		//List items = upload.parseRequest(request);
-	 	//upload.setSizeMax(1024 * 1024 * 1000);
 
 		List<IFileModel> docList = new ArrayList<IFileModel>();
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -57,27 +57,14 @@ public class DocFileServiceImpl implements IDocFileService {
         	doc.setMultipartFile(mf);
         	docList.add(doc);
         }
- 		// 첨부 파일인 경우에는 첨부 파일 하나당 문서 모델 하나를 생성한다.
-/* 		while(itemIter.hasNext()) {
-			FileItem item = itemIter.next();
 
-			if(item.isFormField())
-				continue;
-
-			IFileModel doc = new HbFileModel();
-	    	doc.setFileItem(item);
-			docList.add(doc);
- 		}*/
-
-		groupId = getDocManager().createFileList(userId, (groupId.equals("") ? null : groupId), docList);
-
-		return groupId;
+		getDocManager().createFileList(userId, (groupId.equals("") ? null : groupId), docList, request);
 
 	}
 
 	@Override
 	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		getDocManager().ajaxUploadFile(request, response);
+		getDocManager().ajaxUploadTempFile(request, response);
 	}
 
 	public List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception {
@@ -92,17 +79,94 @@ public class DocFileServiceImpl implements IDocFileService {
 
 	}
 
-	public void deleteFile(HttpServletRequest request) throws Exception {
+	public void deleteFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String fileId = CommonUtil.toNotNull(request.getParameter("fileId"));
-		IFileModel doc = getDocManager().retrieveFile(fileId);
-		String filePath = doc.getFilePath();
-		getDocManager().deleteFile(fileId);
+		String fileName = CommonUtil.toNotNull(request.getParameter("fileName"));
+		String filePath = "";
+		User user = SmartUtil.getCurrentUser();
 
+		if(fileId.startsWith("temp_")) {
+			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+			filePath = SmartConfUtil.getInstance().getDbDirectoryPath() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+		} else {
+			IFileModel doc = getDocManager().retrieveFile(fileId);
+			filePath = doc.getFilePath();
+			getDocManager().deleteFile(fileId);
+		}
 		File f = new File(filePath);
 		f.delete();
 
 	}
+
+	@Override
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		DataInputStream in = null;
+    	ServletOutputStream op = null;
+        FileChannel inChannel = null;
+        FileChannel outChannel = null;
+
+    	try{
+
+    		Date date = new Date();
+    		long mill = date.getTime();
+    		String fileId = request.getParameter("fileId");
+    		String fileName = request.getParameter("fileName");
+
+    		User user = SmartUtil.getCurrentUser();
+
+    		String sourceFile = "";
+    		String file_name = "";
+
+    		int count = fileId.indexOf("temp_");
+    		System.out.println(count);
+    		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+    		if(fileId.startsWith("temp_")) {
+    			file_name = fileName;
+    			sourceFile = SmartConfUtil.getInstance().getDbDirectoryPath() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+    		} else {
+    			IFileModel doc = getDocManager().retrieveFile(fileId);
+	    		//파일명, UniqValue
+	    		file_name = doc.getFileName(); 
+    			sourceFile = doc.getFilePath();
+    		}
+
+    		File file = new File(sourceFile);
+    		int length = 0;
+    		op = response.getOutputStream();
+
+    		response.setContentType("application/octet-stream" );
+    		response.setContentLength((int)file.length());
+    		file_name = new String(file_name.getBytes(), response.getCharacterEncoding());
+    		response.setHeader( "Content-Disposition", "attachment; filename=\"" + file_name + "\"" );
+
+    		byte[] bbuf = new byte[4096];
+    		in = new DataInputStream(new FileInputStream(file));
+    		
+    		while ((in != null) && ((length = in.read(bbuf)) != -1))
+    		{
+    			op.write(bbuf,0,length);
+    		}
+    		
+    	}catch(Throwable t){
+    		t.printStackTrace();
+    		try{
+    			if(in != null & op != null){
+    				in.close();
+    				op.flush();
+    				op.close();
+    			}			
+    		}catch(Throwable th){
+    		}
+        } finally {
+            if (inChannel != null)
+                inChannel.close();
+            if (outChannel != null)
+                outChannel.close();
+			op.flush();
+        }
+    }
 
 /*	@Override
 	public String createFile(String userId, String groupId, IFileModel file) throws Exception {

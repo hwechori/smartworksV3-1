@@ -15,6 +15,21 @@ public class SmartConfUtil {
 	private String smartWorksHome;
 
 	private String fileDirectory;
+	private String dbDirectoryPath;
+
+	/**
+	 * @return the dbDirectoryPath
+	 */
+	public String getDbDirectoryPath() {
+		return dbDirectoryPath;
+	}
+
+	/**
+	 * @param dbDirectoryPath the dbDirectoryPath to set
+	 */
+	public void setDbDirectoryPath(String dbDirectoryPath) {
+		this.dbDirectoryPath = dbDirectoryPath;
+	}
 
 	public static SmartConfUtil getInstance() {
 		if(util == null)

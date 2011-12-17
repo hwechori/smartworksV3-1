@@ -19,6 +19,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,11 +36,16 @@ import net.smartworks.server.engine.docfile.model.IDocumentModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartConfUtil;
+import net.smartworks.util.SmartUtil;
+import net.smartworks.util.Thumbnail;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.Query;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class DocFileManagerImpl extends AbstractManager implements IDocFileManager {
 
@@ -74,32 +80,49 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 	 * 
 	 * @return
 	 */
-	private File getFileRepository() throws DocFileException {
+	private File getFileRepository(String companyId, String fileDivision) throws DocFileException {
 
 		if (this.fileDirectory == null)
 			throw new DocFileException("Attachment directory is not specified!");
 
-		// 현재 년, 월 정보를 얻는다.
-		Calendar currentDate = Calendar.getInstance();
-		int year = currentDate.get(Calendar.YEAR);
-		int month = currentDate.get(Calendar.MONTH) + 1;
-
-		// 기본 파일 저장 디렉토리와 현재 년 정보로 파일 디렉토리를 설정한다.
-		String storageDir = this.fileDirectory + File.separator + "Y" + year;
+		// 사용자의 회사아이디의 디렉토리 선택
+		String storageDir = this.fileDirectory + File.separator + companyId;
 		File storage = new File(storageDir);
+
+		if (!storage.exists())
+			storage.mkdir();
+
+		// 파일 형태 구분에 따른 디렉토리 선택
+		storageDir = storageDir + File.separator + fileDivision;
+		storage = new File(storageDir);
 
 		// 없다면 생성한다.
 		if (!storage.exists())
 			storage.mkdir();
 
-		// 기본 파일 저장 디렉토리와 현재 월 정보로 파일 디렉토리를 설정한다.
-		storageDir = storageDir + File.separator + "M" + month;
+		if(!fileDivision.equals("Temps")) {
+			// 현재 년, 월 정보를 얻는다.
+			Calendar currentDate = Calendar.getInstance();
+			int year = currentDate.get(Calendar.YEAR);
+			int month = currentDate.get(Calendar.MONTH) + 1;
+	
+			// 기본 파일 저장 디렉토리와 현재 년 정보로 파일 디렉토리를 설정한다.
+			storageDir = storageDir + File.separator + "Y" + year;
+			storage = new File(storageDir);
+	
+			// 없다면 생성한다.
+			if (!storage.exists())
+				storage.mkdir();
 
-		// 만일 디렉토리가 없다면 생성한다.
-		storage = new File(storageDir);
-
-		if (!storage.exists())
-			storage.mkdir();
+			// 기본 파일 저장 디렉토리와 현재 월 정보로 파일 디렉토리를 설정한다.
+			storageDir = storageDir + File.separator + "M" + month;
+	
+			// 만일 디렉토리가 없다면 생성한다.
+			storage = new File(storageDir);
+	
+			if (!storage.exists())
+				storage.mkdir();
+		}
 
 		return storage;
 	}
@@ -140,22 +163,23 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 	 * com.maninsoft.smart.server.dao.IDocumentDao#createFile(java.lang.String,
 	 * java.lang.String, com.maninsoft.smart.server.model.IFileModel)
 	 */
-	public String createFile(String userId, String groupId, IFileModel file) throws DocFileException {
+	public String createFile(String userId, String groupId, IFileModel file, HttpServletRequest request) throws DocFileException {
 
-		String fileId = IDCreator.createId(SmartServerConstant.FILE_ABBR);
+		String fileId = request.getParameter("fileId");
 		file.setId(fileId);
 		file.setWrittenTime(new Date(new LocalDate().getGMTDate()));
 		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
-		File repository = this.getFileRepository();
+
+		//File repository = this.getFileRepository();
 		MultipartFile multipartFile = file.getMultipartFile();
 		String filePath = null;
 		if (file != null) {
-			String fileName = multipartFile.getOriginalFilename();
+			String fileName = request.getParameter("fileName");
 			if (fileName.indexOf(File.separator) > 1)
 				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
 
 			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-			filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
+			//filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
 
 			if (extension != null) {
 				filePath = filePath + "." + extension;
@@ -183,14 +207,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		return groupId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.maninsoft.smart.server.dao.IDocumentDao#createFileList(java.lang.
-	 * String, java.lang.String, java.util.List)
-	 */
-	public String createFileList(String userId, String groupId, List<IFileModel> fileList) throws DocFileException {
+	public String createFileList(String userId, String groupId, List<IFileModel> fileList, HttpServletRequest request) throws DocFileException {
 
 		if (fileList == null)
 			return null;
@@ -199,8 +216,10 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
 
 		for (IFileModel file : fileList) {
-			if(!(file.getMultipartFile().getOriginalFilename().equals("")))
-				this.createFile(userId, groupId, file);
+			if(!(file.getMultipartFile().getOriginalFilename().equals(""))) {
+				if(request.getParameter("fileId").startsWith("temp_"))
+					this.createFile(userId, groupId, file, request);
+			}
 		}
 		return groupId;
 	}
@@ -466,6 +485,54 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
         writer.close();
     }
 
+	public void ajaxUploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
+
+		IFileModel formFile = new HbFileModel();
+		String fileId = IDCreator.createId(SmartServerConstant.TEMP_ABBR);
+		formFile.setId(fileId);
+		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+
+		String companyId = "";
+		try {
+			companyId = SmartUtil.getCurrentUser().getCompanyId();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String fileDivision = "Temps";
+
+		File repository = this.getFileRepository(companyId, fileDivision);
+		String filePath = null;
+		if (formFile != null) {
+			String fileName = "";
+			try {
+				fileName = URLDecoder.decode(request.getHeader("X-File-Name"), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			if (fileName.indexOf(File.separator) > 1)
+				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+
+			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+			filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
+
+			if (extension != null) {
+				filePath = filePath + "." + extension;
+			}
+
+			formFile.setFilePath(filePath);
+
+		}
+		String groupId = request.getParameter("groupId");
+		// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
+		if (groupId == null)
+			// 그룹아이디를 생성하여 문서 아이디와 매핑
+			groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
+
+		this.writeAjaxFile(request, response, formFile);
+
+	}
+
 	@Override
 	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
 
@@ -475,7 +542,17 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		formFile.setId(fileId);
 		formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
 		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
-		File repository = this.getFileRepository();
+
+		String companyId = "";
+		try {
+			companyId = SmartUtil.getCurrentUser().getCompanyId();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String fileDivision = "Files";
+
+		File repository = this.getFileRepository(companyId, fileDivision);
 		String filePath = null;
 		if (formFile != null) {
 			String fileName = "";

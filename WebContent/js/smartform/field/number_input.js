@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 
@@ -19,14 +19,21 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<label>' + name + '</label>');
+	var $label = $('<td>' + name + '</td>');
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='js_number_input fieldline required' ";
+	}else{
+		required = " class='js_number_input fieldline' ";
+	}
 	$label.appendTo(options.container);
 	
 	var $number = null;
 	if(readOnly){
-		$number = $('<span fieldId="' + id + '"></span>').text(options.value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$number = $('<td fieldId="' + id + '"></td>').text(value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$number = $('<input type="text" class="js_number_input" fieldId="' + id + '" name="' + id + '">').attr('value',options.value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$number = $('<td><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value',value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		//if save mode = $currency.toNumber().attr('value');
 	}
 	$number.appendTo(options.container);

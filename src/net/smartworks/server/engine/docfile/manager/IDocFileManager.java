@@ -28,9 +28,10 @@ public interface IDocFileManager extends IManager {
 	public long getDocFileSize(String user, DocFileCond cond) throws DocFileException;
 	public DocFile[] getDocFiles(String user, DocFileCond cond, String level) throws DocFileException;*/
 
-	public String createFile(String userId, String groupId, IFileModel file) throws DocFileException;
-	public String createFileList(String userId, String groupId, List<IFileModel> fileList) throws DocFileException;
+//	public String createFile(String userId, String groupId, IFileModel file) throws DocFileException;
+	public String createFileList(String userId, String groupId, List<IFileModel> fileList, HttpServletRequest request) throws DocFileException;
 	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException;
+	public void ajaxUploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException;
 	public IFileModel retrieveFile(String fileId) throws DocFileException;
 	public void updateFile(String userId, IFileModel file) throws DocFileException;
 	public void deleteFile(String fileId) throws DocFileException;

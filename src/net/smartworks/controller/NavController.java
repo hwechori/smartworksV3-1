@@ -8,6 +8,9 @@
 
 package net.smartworks.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,7 +43,8 @@ public class NavController {
 	@RequestMapping("/my_all_works")
 	public ModelAndView myAllWorks(HttpServletRequest request,
 			HttpServletResponse response) {
-
+		
+		SmartUtil.publishMessage("broadcasting", "BCAST", new String[]{"좋은하루입니다. ㅎㅎㅎ", "내일은 일요일입니다. 절대 토요일이 아닙니다. ㅋㅋ"} );
 		return SmartUtil.returnMnv(request, "jsp/nav/my_all_works.jsp",
 				"");
 	}

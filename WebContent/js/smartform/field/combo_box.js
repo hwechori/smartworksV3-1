@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 	var $format = $entity.children('format');
@@ -20,23 +20,30 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<label>' + name + '</label>');
+	var $label = $('<td>' + name + '</td>');
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='required' ";
+	}
 	$label.appendTo(options.container);
 	
 	var $staticItems = $format.find('list staticItems staticItem');
 	
 
-	var $input = $('<select name="' + id + '"></select>');
+	var $input = $('<td><select name="' + id + '"' + required + '></select><td>');
 
 	$input.attr('fieldId', id);
 	if (readOnly) {
 		$input.attr('disabled', 'disabled');
+	}else{
+		required = "";
 	}
 	
 	for ( var i = 0; i < $staticItems.length; i++) {
 		var $staticItem = $staticItems.eq(i);
 		var text = $staticItem.text();
-		var selected = (options.value === text ) ? 'selected' : '' ;
+		var selected = (value === text ) ? 'selected' : '' ;
 
 		$option = $('<option value="' + text + '" ' + selected + '>'+text+'</option>');
 		

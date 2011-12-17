@@ -7,11 +7,11 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		value : ''
+		dataField : ''
 	};
 
 	SmartWorks.extend(options, config);
-
+	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
@@ -19,17 +19,30 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<label>' + name + '</label>');
+	var $label = $('<td>' + name + '</td>');
+	var required = $entity[0].getAttribute('required');
+	if(required === 'true'){
+		$('<span class="essen_n"></span>').appendTo($label);
+		required = " class='fieldline js_todaypicker required' ";
+	}else{
+		required = " class='fieldline js_todaypicker' ";
+	}
 	$label.appendTo(options.container);
 	
 	var $text = null;
 	if(readOnly){
-		$text = $('<span fieldId="' + id + '"></span>').text(options.value);
+		$text = $('<td fieldId="' + id + '"></td>').text(value);
 	}else{	
-		$text = $('<input class="fieldline js_todaypicker" readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '">').attr('value', options.value);
+		$text = $('<td><input readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value', value);
 	}
 	$text.appendTo(options.container);
-
+	
+	$.datepicker.setDefaults($.datepicker.regional[currentUser.locale]);
+	$('input.js_todaypicker').datepicker({
+		defaultDate : new Date(),
+		dateFormat : 'yy.mm.dd'
+	});
+	
 	return options.container;
 };
 

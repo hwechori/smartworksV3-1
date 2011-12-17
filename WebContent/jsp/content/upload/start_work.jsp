@@ -5,7 +5,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

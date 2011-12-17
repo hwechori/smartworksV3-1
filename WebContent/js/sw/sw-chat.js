@@ -9,15 +9,14 @@ function updateChattingBoxTitle(chatId, chatterInfos) {
 		if (chatterList.length > 0) {
 			title = chatterList[0].longName;
 			if (chatterList.length > 2) {
-				title = title + "외 " + (chatterList.length - 1) + "명";
+				title = title + language.message('chatUserAnd') + (chatterList.length - 1) + language.message('chatUserMore');
 			} else {
 				for ( var i = 1; i < chatterList.length; i++) {
 					title = title + "," + chatterList[i].longName;
 				}
-				title = title + "님";
 			}
 		} else {
-			title = "No Chatter!!!";
+			title = language.message('chatNoChatters');
 		}
 	}
 	$('#' + chatId).find('div.js_chatting_title').html(title);
@@ -240,220 +239,221 @@ function updateChatterStatus(chatId, chatterInfo, status) {
 	} else if (status === userStatus.OFFLINE) {
 		var data = "<div class='msg_section' userId='" + userId
 				+ "'><span class='t_name'>" + longName
-				+ "</span>님은 오프라인이므로 쪽지로 보내집니다</div>";
+				+ "</span>" + language.message('chatUserOfflineMessage') + "</div>";
 		target.append(data);
 	}else if(status === userStatus.LEAVED){
 		
 	}
 }
-
-$('#available_chatter_list a').live('click', function(e) {
-	var input = $(e.target).parents('a');
-	if(input.length==0) input = $(e.target);
-	var userId = input.attr('userId');
-	var img = input.find('img');
-	var longName = img.attr('title');
-	var minPicture = img.attr('src');
-	smartTalk.chattingRequest(new Array({
-		userId : currentUserId,
-		longName : currentUser.longName,
-		minPicture : currentUser.minPicture
-	}, {
-		userId : userId,
-		longName : longName,
-		minPicture : minPicture
-	}));
-	input.parents('div.js_chatter_list').find('div.js_chatter_search_area').slideUp(500);
-	setTimeout(function(){
-		setRightPosition("resize", null);
-	}, 600);
-	return false;
-});
-
-$('a.js_close_chatting_box').live('click', function(e) {
-	var input = $(e.target);
-	var target = input.parents('div.js_chatting_box:first');
-	var chatId = target.attr('id');
-	setRightPosition("remove", target);
-	target.remove();
-	smartTalk.stopSubOnChatId(chatId);
-	return false;
-});
-
-$('a.js_min_chatting_box').live(
-		'click',
-		function(e) {
-			var input = $(e.target);
-			input.parents('div.js_chatting_title_icons:first').hide().parents(
-					'div.js_chatting_header').siblings('div.js_chatting_body').slideUp(500);
-			var target = input.parents('div.js_chatting_box');
-			setTimeout(function(){
-				setRightPosition("resize", target);
-			}, 600);
-			return false;
-		});
-
-$('div.js_chatting_header')
-		.live(
-				'click',
-				function(e) {
-					var input = $(e.target).parents('div.js_chatting_box:first').children('div.js_chatting_header');
-					if (input.children('div.js_chatting_title_icons').css(
-							"display") === "none") {
-						input.children('div.js_chatting_title_icons:first')
-								.show().parents('div.js_chatting_header')
-								.siblings('div.js_chatting_body').slideDown(500);
-						var target = input.parents('div.js_chatting_box');
-						setRightPosition("resize", target);
-
-					}
-					removeBlinkingOn(input.parents('div.js_chatting_box').attr('id'));
-					return false;
-				});
-
-$('a.js_admin_chatting_box').live(
-		'click',
-		function(e) {
-			var input = $(e.target);
-			input.parents('div.js_chatting_header:first')
-					.siblings('div.js_chatting_body').children(
-							'div.js_chatters_search_box').slideDown(500);
-			return false;
-		});
-
-$('a.js_toggle_chatter_list').live(
-		'click',
-		function(e) {
-			var input = $(e.target);
-			var target = input.parents('div.js_chatter_list').find('div.js_chatter_search_area');
-			var display = target.css('display');
-			target.slideToggle(500);
-			if (display !== "none") {
-				setTimeout(function(){					
-					setRightPosition("resize", null);
+$(function() {
+	$('#available_chatter_list a').live('click', function(e) {
+		var input = $(e.target).parents('a');
+		if(input.length==0) input = $(e.target);
+		var userId = input.attr('userId');
+		var img = input.find('img');
+		var longName = img.attr('title');
+		var minPicture = img.attr('src');
+		smartTalk.chattingRequest(new Array({
+			userId : currentUserId,
+			longName : currentUser.longName,
+			minPicture : currentUser.minPicture
+		}, {
+			userId : userId,
+			longName : longName,
+			minPicture : minPicture
+		}));
+		input.parents('div.js_chatter_list').find('div.js_chatter_search_area').slideUp(500);
+		setTimeout(function(){
+			setRightPosition("resize", null);
+		}, 600);
+		return false;
+	});
+	
+	$('a.js_close_chatting_box').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('div.js_chatting_box:first');
+		var chatId = target.attr('id');
+		setRightPosition("remove", target);
+		target.remove();
+		smartTalk.stopSubOnChatId(chatId);
+		return false;
+	});
+	
+	$('a.js_min_chatting_box').live(
+			'click',
+			function(e) {
+				var input = $(e.target);
+				input.parents('div.js_chatting_title_icons:first').hide().parents(
+						'div.js_chatting_header').siblings('div.js_chatting_body').slideUp(500);
+				var target = input.parents('div.js_chatting_box');
+				setTimeout(function(){
+					setRightPosition("resize", target);
 				}, 600);
-			}else{
-				setRightPosition("resize", null);				
-			}
-			return false;
-		});
-
-$('div.js_chatting_group_prev a').live(
-		'click',
-		function(e) {
-			var input = $(e.target).parents('div.js_chatting_group_prev');
-			var lastChattingBox = input.children('div.js_chatting_box:last');
-			if(lastChattingBox.length==0) return false;
-			var chattingBoxs = $('div.js_chatting_box_list').children('div.js_chatting_box');
-			if(chattingBoxs.length==3){
-				shiftBoxToGroup("next", $(chattingBoxs[2]));
-			}
-			shiftBoxFromGroup("prev", lastChattingBox);
-			setRightPosition("groupPrev", input);				
-			return false;
-		});
-
-$('div.js_chatting_group_next a').live(
-		'click',
-		function(e) {
-			var input = $(e.target).parents('div.js_chatting_group_next');
-			var firstChattingBox = input.children('div.js_chatting_box:first');
-			if(firstChattingBox.length==0) return false;
-			var chattingBoxs = $('div.js_chatting_box_list').children('div.js_chatting_box');
-			if(chattingBoxs.length==3){
-				shiftBoxToGroup("prev", $(chattingBoxs[0]));
-			}
-			shiftBoxFromGroup("next", firstChattingBox);
-			setRightPosition("groupNext", input);				
-			return false;
-		});
-
-$('a.js_add_chatters').live(
-		'click',
-		function(e) {
+				return false;
+			});
+	
+	$('div.js_chatting_header')
+			.live(
+					'click',
+					function(e) {
+						var input = $(e.target).parents('div.js_chatting_box:first').children('div.js_chatting_header');
+						if (input.children('div.js_chatting_title_icons').css(
+								"display") === "none") {
+							input.children('div.js_chatting_title_icons:first')
+									.show().parents('div.js_chatting_header')
+									.siblings('div.js_chatting_body').slideDown(500);
+							var target = input.parents('div.js_chatting_box');
+							setRightPosition("resize", target);
+	
+						}
+						removeBlinkingOn(input.parents('div.js_chatting_box').attr('id'));
+						return false;
+					});
+	
+	$('a.js_admin_chatting_box').live(
+			'click',
+			function(e) {
+				var input = $(e.target);
+				input.parents('div.js_chatting_header:first')
+						.siblings('div.js_chatting_body').children(
+								'div.js_chatters_search_box').slideDown(500);
+				return false;
+			});
+	
+	$('a.js_toggle_chatter_list').live(
+			'click',
+			function(e) {
+				var input = $(e.target);
+				var target = input.parents('div.js_chatter_list').find('div.js_chatter_search_area');
+				var display = target.css('display');
+				target.slideToggle(500);
+				if (display !== "none") {
+					setTimeout(function(){					
+						setRightPosition("resize", null);
+					}, 600);
+				}else{
+					setRightPosition("resize", null);				
+				}
+				return false;
+			});
+	
+	$('div.js_chatting_group_prev a').live(
+			'click',
+			function(e) {
+				var input = $(e.target).parents('div.js_chatting_group_prev');
+				var lastChattingBox = input.children('div.js_chatting_box:last');
+				if(lastChattingBox.length==0) return false;
+				var chattingBoxs = $('div.js_chatting_box_list').children('div.js_chatting_box');
+				if(chattingBoxs.length==3){
+					shiftBoxToGroup("next", $(chattingBoxs[2]));
+				}
+				shiftBoxFromGroup("prev", lastChattingBox);
+				setRightPosition("groupPrev", input);				
+				return false;
+			});
+	
+	$('div.js_chatting_group_next a').live(
+			'click',
+			function(e) {
+				var input = $(e.target).parents('div.js_chatting_group_next');
+				var firstChattingBox = input.children('div.js_chatting_box:first');
+				if(firstChattingBox.length==0) return false;
+				var chattingBoxs = $('div.js_chatting_box_list').children('div.js_chatting_box');
+				if(chattingBoxs.length==3){
+					shiftBoxToGroup("prev", $(chattingBoxs[0]));
+				}
+				shiftBoxFromGroup("next", firstChattingBox);
+				setRightPosition("groupNext", input);				
+				return false;
+			});
+	
+	$('a.js_add_chatters').live(
+			'click',
+			function(e) {
+				var input = $(e.target);
+				var chatId = input.parents('div.js_chatting_box:first').attr('id');
+				var target = input.parents('div.js_chatter_names').find(
+						'div.js_selected_chatters');
+				var chatterList = target.children('span.js_chatter_item');
+				var chatterInfos = new Array();
+				for ( var i = 0; i < chatterList.length; i++) {
+					var chatter = $(chatterList[i]);
+					chatterInfos.push({
+						userId : chatter.attr('comId'),
+						longName : chatter.attr('comName'),
+						minPicture : chatter.attr('minPicture')
+					});
+				}
+				chatterList.remove();
+				smartTalk.addJoinChatters(chatId, chatterInfos);
+				input.parents('div.js_chatters_search_box').slideUp(500);
+				return false;
+			});
+	
+	$('div.js_chat_input textarea').live('keypress', function(e) {
+		if (e.keyCode == 13) {
 			var input = $(e.target);
 			var chatId = input.parents('div.js_chatting_box:first').attr('id');
-			var target = input.parents('div.js_chatter_names').find(
-					'div.js_selected_chatters');
-			var chatterList = target.children('span.js_chatter_item');
-			var chatterInfos = new Array();
-			for ( var i = 0; i < chatterList.length; i++) {
-				var chatter = $(chatterList[i]);
-				chatterInfos.push({
-					userId : chatter.attr('comId'),
-					longName : chatter.attr('comName'),
-					minPicture : chatter.attr('minPicture')
-				});
+			var message = input.attr('value');
+			if (message != null && message !== "" && message !== " ") {
+				smartTalk.publishChatMessage(chatId, message);
 			}
-			chatterList.remove();
-			smartTalk.addJoinChatters(chatId, chatterInfos);
-			input.parents('div.js_chatters_search_box').slideUp(500);
+			input.removeAttr('value');
 			return false;
-		});
-
-$('div.js_chat_input textarea').live('keypress', function(e) {
-	if (e.keyCode == 13) {
+		}
+	});
+	
+	$('div.js_chat_input textarea').live('focusin', function(e) {
 		var input = $(e.target);
 		var chatId = input.parents('div.js_chatting_box:first').attr('id');
-		var message = input.attr('value');
-		if (message != null && message !== "" && message !== " ") {
-			smartTalk.publishChatMessage(chatId, message);
-		}
-		input.removeAttr('value');
-		return false;
-	}
-});
-
-$('div.js_chat_input textarea').live('focusin', function(e) {
-	var input = $(e.target);
-	var chatId = input.parents('div.js_chatting_box:first').attr('id');
-	smartTalk.publishWritingStatus(chatId);
-});
-
-$('.js_select_chatter')
-		.live(
-				'click',
-				function(e) {
-					var input = $(e.target);
-					var comName = input.attr('comName');
-					var comId = input.attr('comId');
-					var minPicture = input.children('img').attr('src');
-					var target = input.parents('div.js_chatter_list').siblings(
-							'div.js_chatter_names').find(
-							'div.js_selected_chatters');
-					var oldHTML = target.html();
-					if (oldHTML == null)
-						oldHTML = "";
-					var chatterItems = $(target).find('span.js_chatter_item');
-					var isSameId = false;
-					for ( var i = 0; i < chatterItems.length; i++) {
-						var oldComId = $(chatterItems[i]).attr('comId');
-						if (oldComId != null && oldComId === comId) {
-							isSameId = true;
-							break;
+		smartTalk.publishWritingStatus(chatId);
+	});
+	
+	$('.js_select_chatter')
+			.live(
+					'click',
+					function(e) {
+						var input = $(e.target);
+						var comName = input.attr('comName');
+						var comId = input.attr('comId');
+						var minPicture = input.children('img').attr('src');
+						var target = input.parents('div.js_chatter_list').siblings(
+								'div.js_chatter_names').find(
+								'div.js_selected_chatters');
+						var oldHTML = target.html();
+						if (oldHTML == null)
+							oldHTML = "";
+						var chatterItems = $(target).find('span.js_chatter_item');
+						var isSameId = false;
+						for ( var i = 0; i < chatterItems.length; i++) {
+							var oldComId = $(chatterItems[i]).attr('comId');
+							if (oldComId != null && oldComId === comId) {
+								isSameId = true;
+								break;
+							}
 						}
-					}
-					if (!isSameId) {
-						var newHTML = oldHTML
-								+ "<span class='js_chatter_item user_select' comId='"
-								+ comId
-								+ "' comName='"
-								+ comName
-								+ "' minPicture='"
-								+ minPicture
-								+ "'>"
-								+ comName
-								+ "<span class='btn_x_gr'><a class='js_remove_chatter' href=''> x</a></span></span>";
-						target.html(newHTML);
-					}
-					target.next().focus();
-					return false;
-				});
-
-$('.js_remove_chatter').live('click', function(e) {
-	var input = $(e.target);
-	var selected_users = input.parents('div.js_selected_chatters');
-	input.parents('span.js_chatter_item').remove();
-	selected_users.next().focus();
-	return false;
+						if (!isSameId) {
+							var newHTML = oldHTML
+									+ "<span class='js_chatter_item user_select' comId='"
+									+ comId
+									+ "' comName='"
+									+ comName
+									+ "' minPicture='"
+									+ minPicture
+									+ "'>"
+									+ comName
+									+ "<span class='btn_x_gr'><a class='js_remove_chatter' href=''> x</a></span></span>";
+							target.html(newHTML);
+						}
+						target.next().focus();
+						return false;
+					});
+	
+	$('.js_remove_chatter').live('click', function(e) {
+		var input = $(e.target);
+		var selected_users = input.parents('div.js_selected_chatters');
+		input.parents('span.js_chatter_item').remove();
+		selected_users.next().focus();
+		return false;
+	});
 });

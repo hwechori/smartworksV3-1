@@ -5,11 +5,11 @@
 <%@ page import="net.smartworks.model.community.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	User cUser = SmartUtil.getCurrentUser(request, response);
+	User cUser = SmartUtil.getCurrentUser();
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String key = request.getParameter("key");
-	UserInfo[] chatters = smartWorks.searchAvailableChatter(cUser.getCompanyId(), cUser.getId(), key);
+	UserInfo[] chatters = smartWorks.searchAvailableChatter(key);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

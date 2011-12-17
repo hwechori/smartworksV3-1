@@ -56,4 +56,12 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 		</aop:aspect>
 	</aop:config>
 
+	<!-- domain Advisor -->
+	<beans:bean id="swdManagerAdvisor" class="net.smartworks.server.engine.infowork.domain.manager.impl.SwdManagerAdvisorImpl"/>
+	<aop:config>
+		<aop:aspect id="swdAdvisor" ref="swdManagerAdvisor">
+			<aop:pointcut id="swdMethod" expression="target(net.smartworks.server.engine.infowork.domain.manager.impl.SwdManagerImpl)"/>
+			<aop:around pointcut-ref="swdMethod" method="invoke"/>
+		</aop:aspect>
+	</aop:config>
 </beans:beans>

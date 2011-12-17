@@ -29,9 +29,9 @@
 	params.setCountInPage(20);
 	params.setPageNumber(1);
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
-	User cUser = SmartUtil.getCurrentUser(request, response);
-	InformationWork work = (InformationWork) smartWorks.getWorkById(cUser.getCompanyId(), cUser.getId(), workId);
-	InstanceInfoList instanceList = smartWorks.getIWorkInstanceList(cUser.getCompanyId(), cUser.getId(), workId, params);
+	User cUser = SmartUtil.getCurrentUser();
+	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
+	InstanceInfoList instanceList = smartWorks.getIWorkInstanceList(workId, params);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -71,8 +71,7 @@
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
-				cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE
-						+ instanceInfo.getId();
+				cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
 				wid = instanceInfo.getWorkSpace().getId();
 				String target = "iwork_space.sw?cid=" + cid + "&wid=" + wid;
 	%>
@@ -85,12 +84,12 @@
 							&& (fieldDatas.length == displayFields.length)) {
 						for (FieldData data : fieldDatas) {
 		%>
-		<td><a href="<%=target%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
+		<td><a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
 		<%
 			}
 					}
 		%>
-		<td><a href="<%=target%>"><div class="noti_pic">
+		<td><a href="<%=target%>"><div class="noti_pic js_content_iwork_space">
 					<img src="<%=lastModifier.getMinPicture()%>"
 						title="<%=lastModifier.getLongName()%>" align="bottom" />
 				</div>

@@ -4,12 +4,9 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
-	User cUser = SmartUtil.getCurrentUser(request, response);
-
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	GroupInfo[] groups = smartWorks.getMyGroups(cUser.getCompanyId(), cUser.getId());
+	GroupInfo[] groups = smartWorks.getMyGroups();
 %>
-
 <ul>
 	<%
 		if (groups != null) {

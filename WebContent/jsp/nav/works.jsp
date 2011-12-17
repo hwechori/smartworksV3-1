@@ -21,7 +21,7 @@
 	</li>
 </ul>
 
-<div class="navi_list js_collapsible">
+<div class="navi_list js_collapsible  js_nav_my_works">
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_work">
 		<a href="my_recent_instances.sw" class="current"><fmt:message
