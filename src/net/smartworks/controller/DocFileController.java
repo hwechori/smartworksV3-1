@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.service.ISmartWorks;
-import net.smartworks.service.impl.SmartWorks;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
