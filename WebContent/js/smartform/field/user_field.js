@@ -24,7 +24,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
-		required = " class='js_form_user_id required' ";
+		required = " class='js_form_user_id' ";
 	}else{
 		required = " class='js_form_user_id' ";
 	}
@@ -38,7 +38,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		userHtml = "<td><span class='js_community_item user_select' comId='" + userId + "'>" + longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></td>";
 	}
 
-	var $html = $('<td><input type="hidden" name="' + id + '"' + '' + ' >' + userId + ' </input>\
+	var $html = $('<td><input type="hidden" name="' + id + '"' + required + ' >' + userId + ' </input>\
 					<div class="input_1line fieldline js_community_names">\
 						<div class="js_selected_communities user_sel_area"></div>\
 						<input class="js_auto_complete js_form_user_field" href="community_name.sw" type="text">\

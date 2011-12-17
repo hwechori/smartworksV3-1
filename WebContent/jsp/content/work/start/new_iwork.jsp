@@ -27,6 +27,7 @@ function submitForms(e) {
 			paramsJson[form.attr('name')] = form.serializeObject();
 		}
 		console.log(JSON.stringify(paramsJson));
+		alert('wait');
 		var url = "create_new_iwork.sw";
 		$.ajax({
 			url : url,
