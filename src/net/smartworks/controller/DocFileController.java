@@ -9,7 +9,9 @@
 package net.smartworks.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,9 +58,17 @@ public class DocFileController {
 
 	@RequestMapping(value = "/ajax_upload_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody
-	void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		smartworks.ajaxUploadFile(request, response);
+	}
+
+	@RequestMapping(value = "/upload_temp_file", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody Map<String, Object> uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String tempSrc = smartworks.uploadTempFile(request, response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tempSrc", tempSrc);
+		return map;
 	}
 
 	@RequestMapping(value = "/find_file_group", method = RequestMethod.GET)

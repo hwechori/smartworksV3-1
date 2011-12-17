@@ -36,6 +36,6 @@ public interface IWorkService {
 
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception;
 
-	public String setMyProfile(HttpServletRequest request) throws Exception;
+	public void setMyProfile(HttpServletRequest request) throws Exception;
 
 }

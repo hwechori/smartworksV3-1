@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class DocFileServiceImpl implements IDocFileService {
 	public void uploadFile(HttpServletRequest request) throws Exception {
 
 		String userId = CommonUtil.toNotNull(request.getParameter("userId"));
-		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));	
+		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));
 
 		List<IFileModel> docList = new ArrayList<IFileModel>();
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -59,6 +60,22 @@ public class DocFileServiceImpl implements IDocFileService {
         }
 
 		getDocManager().createFileList(userId, (groupId.equals("") ? null : groupId), docList, request);
+
+	}
+
+	public void uploadFiles(HttpServletRequest request) throws Exception {
+
+		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));
+
+		List<IFileModel> docList = new ArrayList<IFileModel>();
+		Map<String, String> files = new HashMap<String, String>();
+		for(String fileId : files.keySet()) {
+			String fileName = files.get(fileId);
+			IFileModel doc = new HbFileModel();
+			doc.setId(fileId);
+			doc.setFileName(fileName);
+			docList.add(doc);
+		}
 
 	}
 
@@ -167,6 +184,11 @@ public class DocFileServiceImpl implements IDocFileService {
 			op.flush();
         }
     }
+
+	@Override
+	public String uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return getDocManager().uploadTempFile(request, response);
+	}
 
 /*	@Override
 	public String createFile(String userId, String groupId, IFileModel file) throws Exception {

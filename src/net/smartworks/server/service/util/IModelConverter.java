@@ -3,8 +3,6 @@ package net.smartworks.server.service.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.smartworks.model.BaseObject;
-import net.smartworks.model.community.Department;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
@@ -22,7 +20,6 @@ import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
-import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormat;
@@ -152,8 +149,7 @@ public class IModelConverter {
 		userInfo.setId(userExtend.getId());
 		userInfo.setName(userExtend.getName());
 		userInfo.setDepartment(new DepartmentInfo(userExtend.getDepartmentId(), userExtend.getDepartmentName()));
-		userInfo.setMidPictureName(userExtend.getPictureName());
-		userInfo.setMinPictureName(userExtend.getPictureName());
+		userInfo.setSmallPictureName(userExtend.getPictureName());
 		// userInfo.setPicturePath(picturePath);
 		userInfo.setPosition(userExtend.getPosition());
 		return userInfo;
@@ -220,8 +216,8 @@ public class IModelConverter {
 		user.setId(userExtend.getId());
 		user.setName(userExtend.getName());
 		user.setDepartment(userExtend.getDepartmentName());
-		user.setMidPictureName(userExtend.getPictureName());
-		user.setMinPictureName(userExtend.getPictureName());
+		user.setBigPictureName(userExtend.getPictureName());
+		user.setSmallPictureName(userExtend.getPictureName());
 		user.setPosition(userExtend.getPosition());
 		String locale = userExtend.getLocale();
 		if (locale == null)
@@ -231,7 +227,6 @@ public class IModelConverter {
 		if (locale.equalsIgnoreCase("eng"))
 			locale = "en";
 		user.setLocale(locale);
-		user.setOrgPictureName(userExtend.getPictureName());
 		user.setCompany(userExtend.getCompanyName());
 		user.setTimeZone(userExtend.getTimeZone());
 		user.setUserLevel(-1);// userExtend.getUserLevel();

@@ -22,8 +22,8 @@
 				type : 'POST',
 				data : params,
 				success : function(data, status, jqXHR) {
-					alert("update success!!");
-					document.location.href = "home.sw";
+					alert("update success~!!");
+					document.location.href = data.href;
 				},
 				error : function(jqXHR, status, error) {
 					console.log(status);

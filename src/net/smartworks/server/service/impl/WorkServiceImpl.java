@@ -64,6 +64,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Service
 public class WorkServiceImpl implements IWorkService {
@@ -409,7 +410,7 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public String setMyProfile(HttpServletRequest request) throws Exception {
+	public void setMyProfile(HttpServletRequest request) throws Exception {
 		String txtUserProfileUserId = CommonUtil.toNotNull(request.getParameter("txtUserProfileUserId"));
 		String pwUserProfilePW = CommonUtil.toNotNull(request.getParameter("pwUserProfilePW"));
 		String selUserProfileLocale = CommonUtil.toNotNull(request.getParameter("selUserProfileLocale"));
@@ -427,10 +428,8 @@ public class WorkServiceImpl implements IWorkService {
 		user.setExtensionNo(txtUserProfilePhoneNo);
 		user.setMobileNo(txtUserProfileCellNo);
 
-		String returnValue = "";
 		try {
 			getSwoManager().setUser(txtUserProfileUserId, user, null);
-			returnValue = "Success~!!";
 			UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
 	        Authentication authentication = authenticationManager.authenticate(authRequest);
 	        SecurityContext securityContext = new SecurityContextImpl();
@@ -441,9 +440,8 @@ public class WorkServiceImpl implements IWorkService {
 			e.printStackTrace();
 		}
 
-		return returnValue;
-
 	}
+
 	@Override
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
 		SwfFormCond swfFormCond = new SwfFormCond();
