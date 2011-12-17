@@ -28,6 +28,31 @@ SmartWorks.GridLayout = function(config) {
 		return columnSize;
 	};
 
+	this.spanWidths = null;
+	this.getLabelWidth = function(fieldId){
+		if(this.spanWidths == null){			
+			var $gridColumns = $layout.find('gridColumn');
+			var totalSize = 0;
+			for(var i=0; i<$gridColumns.length; i++){
+				totalSize = totalSize + parseFloat($($gridColumns[i]).attr('size'));
+			}
+			var spanWidths = new Array();
+			for(var i=0; i<$gridColumns.length; i++){
+				spanWidths.push(parseFloat($($gridColumns[i]).attr('size'))/totalSize * 100);
+			}
+			this.spanWidths = spanWidths;
+		}
+		$column = $layout.find('gridCell[fieldId="'+ fieldId + '"]');
+		var index = parseInt($column.attr('gridColumnIndex'));
+		var span = parseInt($column.attr('span'));
+		var columnWidth = 0;
+		for(var i=index; i<this.spanWidths.length && i<index+span; i++){
+			columnWidth = columnWidth + this.spanWidths[i];
+		}
+		return 10/columnWidth*100;
+	};
+	
+
 	var columnSize = this.getColumnSize();
 
 	var $rows = $layout.find('gridRow');
@@ -74,7 +99,7 @@ SmartWorks.GridLayout = function(config) {
 				$html_cell.attr('rowspan', rowspan);
 			if(id) {
 				var $entity = $form.find('#' + id);
-				SmartWorks.FormFieldBuilder.build(this.options.mode, $html_cell, $entity, dataField);				
+				SmartWorks.FormFieldBuilder.build(this.options.mode, $html_cell, $entity, dataField, this);				
 			}
 
 		}
@@ -82,23 +107,6 @@ SmartWorks.GridLayout = function(config) {
 
 	this.getTable = function() {
 		return $table;
-	};
-	
-	this.spanWidths = null;
-	this.getSpanWidths = function(){
-		if(spanWidths != null) return this.spanWidths;
-		
-		var $gridColumns = $layout.find('gridColumn');
-		var totalSize = 0;
-		for(var i=0; i<$gridColumns.length; i++){
-			totalSize = totalSize + $(gridColumns[i]).attr('size');
-		}
-		var spanWidths = new Array();
-		for(var i=0; i<$gridColumns.length; i++){
-			spanWidths.put($(gridColumns[i]).attr('size')/totalSize * 100);
-		}
-		this.spanWidths = spanWidths;
-		return spanWidths;		
 	};
 	
 	return this;
