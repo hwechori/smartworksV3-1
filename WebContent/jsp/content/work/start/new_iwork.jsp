@@ -22,7 +22,9 @@ function submitForms(e) {
 			var form = $(forms[i]);
 			if(form.attr('name') === 'frmSmartForm'){
 				paramsJson['formId'] = form.attr('formId');
+				console.log(form.attr('formId'));
 				paramsJson['formName'] = form.attr('formName');
+				console.log(form.attr('formName'));
 			}
 			paramsJson[form.attr('name')] = form.serializeObject();
 		}
