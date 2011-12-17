@@ -25,6 +25,36 @@ public class Login extends User implements UserDetails {
 	private String authId;
 	private String deptId;
 
+	public String getId() {
+		return super.getId();
+	}
+	public String getName() {
+		return super.getName();
+	}
+	public String getCompanyId() {
+		return super.getCompanyId();
+	}
+	public String getCompany() {
+		return super.getCompany();
+	}
+	public String getDepartment() {
+		return super.getDepartment();
+	}
+
+//	login.setCellPhoneNo(rs.getString("mobileNo"));
+//	login.setPhoneNo(rs.getString("internalNo"));
+//
+//	login.setLocale(rs.getString("lang"));
+//	login.setPosition(rs.getString("pos"));
+//
+//
+//	
+//	login.setLocale(rs.getString("locale"));
+//	login.setTimeZone(rs.getString("timeZone"));
+//	login.setBigPictureName(rs.getString("picture"));
+//	login.setSmallPictureName(rs.getString("picture"));
+//	login.setUserLevel(login.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
+
 	/**
 	 * @return the deptId
 	 */

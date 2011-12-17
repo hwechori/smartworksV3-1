@@ -541,7 +541,8 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		IFileModel formFile = new HbFileModel();
 		String fileId = IDCreator.createId(SmartServerConstant.TEMP_ABBR);
 		formFile.setId(fileId);
-		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		//this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME")+File.separator);
 
 		String companyId = SmartUtil.getCurrentUser().getCompanyId();
 

@@ -31,6 +31,9 @@ import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemList;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.docfile.manager.IDocFileManager;
+import net.smartworks.server.engine.docfile.model.HbFileModel;
+import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
@@ -64,6 +67,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Service
@@ -93,7 +97,9 @@ public class WorkServiceImpl implements IWorkService {
 	private ISwoManager getSwoManager() {
 		return SwManagerFactory.getInstance().getSwoManager();
 	}
-
+	private IDocFileManager getDocManager() {
+		return SwManagerFactory.getInstance().getDocManager();
+	}
 	private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -418,6 +424,23 @@ public class WorkServiceImpl implements IWorkService {
 		String txtUserProfileEmail = CommonUtil.toNotNull(request.getParameter("txtUserProfileEmail"));
 		String txtUserProfilePhoneNo = CommonUtil.toNotNull(request.getParameter("txtUserProfilePhoneNo"));
 		String txtUserProfileCellNo = CommonUtil.toNotNull(request.getParameter("txtUserProfileCellNo"));
+		String txtUploadGroupId = CommonUtil.toNotNull(request.getParameter("txtUploadGroupId"));
+
+		List<IFileModel> docList = new ArrayList<IFileModel>();
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        Map<String, MultipartFile> files = multipartRequest.getFileMap();
+
+        for(String fileName : files.keySet()) {
+        	MultipartFile mf = files.get(fileName);
+        	IFileModel doc = new HbFileModel();
+        	doc.setMultipartFile(mf);
+        	docList.add(doc);
+        }
+        getDocManager().createFileList(txtUserProfileUserId, (txtUploadGroupId.equals("") ? null : txtUploadGroupId), docList, request);
+
+		//txtUploadGroupId
+		//txtUploadFileId
+		//txtUploadFileName
 
 		//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW); -- md5 password 암호화
 		SwoUser user = getSwoManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
