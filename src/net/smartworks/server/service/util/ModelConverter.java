@@ -54,7 +54,6 @@ import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
-import net.smartworks.server.engine.common.util.SizeMap;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
@@ -623,8 +622,7 @@ public class ModelConverter {
 		userInfo.setId(userExtend.getId());
 		userInfo.setName(userExtend.getName());
 		userInfo.setDepartment(new DepartmentInfo(userExtend.getDepartmentId(), userExtend.getDepartmentName()));
-		userInfo.setMidPictureName(userExtend.getPictureName());
-		userInfo.setMinPictureName(userExtend.getPictureName());
+		userInfo.setSmallPictureName(userExtend.getPictureName());
 		//userInfo.setPicturePath(picturePath);
 		userInfo.setPosition(userExtend.getPosition());
 		return userInfo;
@@ -866,8 +864,8 @@ public class ModelConverter {
 		user.setId(userExtend.getId());
 		user.setName(userExtend.getName());
 		user.setDepartment(userExtend.getDepartmentName());
-		user.setMidPictureName(userExtend.getPictureName());
-		user.setMinPictureName(userExtend.getPictureName());
+		user.setBigPictureName(userExtend.getPictureName());
+		user.setSmallPictureName(userExtend.getPictureName());
 		user.setPosition(userExtend.getPosition());
 		String locale = userExtend.getLocale();
 		if (locale == null)
@@ -877,7 +875,6 @@ public class ModelConverter {
 		if (locale.equalsIgnoreCase("eng"))
 			locale = "en";
 		user.setLocale(locale);
-		user.setOrgPictureName(userExtend.getPictureName());
 		user.setCompany(userExtend.getCompanyName());
 		user.setTimeZone(userExtend.getTimeZone());
 		user.setUserLevel(-1);//userExtend.getUserLevel();

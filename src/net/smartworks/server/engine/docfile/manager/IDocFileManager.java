@@ -32,6 +32,7 @@ public interface IDocFileManager extends IManager {
 	public String createFileList(String userId, String groupId, List<IFileModel> fileList, HttpServletRequest request) throws DocFileException;
 	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException;
 	public void ajaxUploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException;
+	public String uploadProfileTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException;
 	public IFileModel retrieveFile(String fileId) throws DocFileException;
 	public void updateFile(String userId, IFileModel file) throws DocFileException;
 	public void deleteFile(String fileId) throws DocFileException;

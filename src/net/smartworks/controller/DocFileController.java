@@ -9,13 +9,16 @@
 package net.smartworks.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.service.ISmartWorks;
+import net.smartworks.service.impl.SmartWorks;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,9 +59,17 @@ public class DocFileController {
 
 	@RequestMapping(value = "/ajax_upload_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody
-	void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		smartworks.ajaxUploadFile(request, response);
+	}
+
+	@RequestMapping(value = "/upload_profile_temp_file", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody Map<String, Object> uploadProfileTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String tempSrc = smartworks.uploadProfileTempFile(request, response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tempSrc", tempSrc);
+		return map;
 	}
 
 	@RequestMapping(value = "/find_file_group", method = RequestMethod.GET)

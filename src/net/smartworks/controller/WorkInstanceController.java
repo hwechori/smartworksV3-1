@@ -9,7 +9,6 @@
 package net.smartworks.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import net.smartworks.util.SmartUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -180,14 +178,11 @@ public class WorkInstanceController extends ExceptionInterceptor {
 
 	@RequestMapping(value = "/update_my_profile", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody String updateMyProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String returnValue = "";
-		try {
-			returnValue = smartworks.setMyProfile(request);
-		} catch (Exception e) {
-			returnValue = "fail";
-		}
-		return returnValue;
+	public @ResponseBody Map<String, Object> updateMyProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setMyProfile(request);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("href", "my_profile.sw");
+		return map;
 	}
 
 }

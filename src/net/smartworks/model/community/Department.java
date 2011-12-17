@@ -14,21 +14,6 @@ public class Department extends WorkSpace {
 	private UserInfo[]	members = null;
 	private DepartmentInfo[] children = null;
 
-	public String getOrgPictureName() {
-		if(super.getOrgPictureName()!=null && !super.getOrgPictureName().equals(""))
-			return super.getOrgPictureName();
-		else  return (DEFAULT_DEPART_PICTURE + ".gif");
-	}
-	public String getMidPictureName() {
-		if(super.getMidPictureName()!=null && !super.getMidPictureName().equals(""))
-			return super.getMidPictureName();
-		else  return (DEFAULT_DEPART_PICTURE + "_mid.gif");
-	}
-	public String getMinPictureName() {
-		if(super.getMinPictureName()!=null && !super.getMinPictureName().equals(""))
-			return super.getMinPictureName();
-		else  return (DEFAULT_DEPART_PICTURE + "_min.gif");
-	}
 	public String getDesc() {
 		return desc;
 	}

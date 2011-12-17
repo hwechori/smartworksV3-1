@@ -13,21 +13,6 @@ public class Group extends WorkSpace{
 	private UserInfo[] 	members = null;
 	private User	owner = null;
 
-	public String getOrgPictureName() {
-		if(super.getOrgPictureName()!=null && !super.getOrgPictureName().equals(""))
-			return super.getOrgPictureName();
-		else  return (DEFAULT_GROUP_PICTURE + ".jpg");
-	}
-	public String getMidPictureName() {
-		if(super.getMidPictureName()!=null && !super.getMidPictureName().equals(""))
-			return super.getMidPictureName();
-		else  return (DEFAULT_GROUP_PICTURE + "_mid.gif");
-	}
-	public String getMinPictureName() {
-		if(super.getMinPictureName()!=null && !super.getMinPictureName().equals(""))
-			return super.getMinPictureName();
-		else  return (DEFAULT_GROUP_PICTURE + "_min.gif");
-	}
 	public String getDesc() {
 		return desc;
 	}

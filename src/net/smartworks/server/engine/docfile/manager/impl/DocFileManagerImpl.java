@@ -25,8 +25,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.community.User;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.id.IDCreator;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
@@ -499,6 +501,8 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		String fileType = CommonUtil.toNotNull(request.getParameter("fileType"));
+
 		String fileDivision = "Temps";
 
 		File repository = this.getFileRepository(companyId, fileDivision);
@@ -523,11 +527,6 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			formFile.setFilePath(filePath);
 
 		}
-		String groupId = request.getParameter("groupId");
-		// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
-		if (groupId == null)
-			// 그룹아이디를 생성하여 문서 아이디와 매핑
-			groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
 
 		this.writeAjaxFile(request, response, formFile);
 
@@ -591,6 +590,12 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		// 그룹아이디, 문서 아이디 쌍 저장
 		Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
 		query.executeUpdate();
+	}
+
+	@Override
+	public String uploadProfileTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
