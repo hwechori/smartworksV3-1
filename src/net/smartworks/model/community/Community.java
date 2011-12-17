@@ -3,6 +3,7 @@ package net.smartworks.model.community;
 import java.io.File;
 
 import net.smartworks.model.BaseObject;
+import net.smartworks.server.engine.security.model.Login;
 import net.smartworks.util.SmartUtil;
 
 public class Community extends BaseObject {
@@ -32,8 +33,8 @@ public class Community extends BaseObject {
 
 	public String getOrgPicture() {
 		if(this.getOrgPictureName() == null) {
-			if(this.getClass().equals(User.class))
-				return NO_PICTURE_PATH + User.NO_USER_PICTURE + ".gif";
+			if(this.getClass().equals(Login.class) || this.getClass().equals(User.class))
+				return NO_PICTURE_PATH + User.NO_USER_PICTURE + ".jpg";
 			else if(this.getClass().equals(Department.class))
 				return NO_PICTURE_PATH + Department.DEFAULT_DEPART_PICTURE + ".gif";
 			else if(this.getClass().equals(Group.class))
@@ -44,8 +45,8 @@ public class Community extends BaseObject {
 
 	public String getMidPicture() {
 		if(this.getMidPictureName() == null) {
-			if(this.getClass().equals(User.class))
-				return NO_PICTURE_PATH + User.NO_USER_PICTURE + "_mid.gif";
+			if(this.getClass().equals(Login.class) || this.getClass().equals(User.class))
+				return NO_PICTURE_PATH + User.NO_USER_PICTURE + "_mid.jpg";
 			else if(this.getClass().equals(Department.class))
 				return NO_PICTURE_PATH + Department.DEFAULT_DEPART_PICTURE + "_mid.gif";
 			else if(this.getClass().equals(Group.class))
@@ -56,8 +57,8 @@ public class Community extends BaseObject {
 
 	public String getMinPicture() {
 		if(this.getMinPictureName() == null) {
-			if(this.getClass().equals(User.class))
-				return NO_PICTURE_PATH + User.NO_USER_PICTURE + "_min.gif";
+			if(this.getClass().equals(Login.class))
+				return NO_PICTURE_PATH + User.NO_USER_PICTURE + "_min.jpg";
 			else if(this.getClass().equals(Department.class))
 				return NO_PICTURE_PATH + Department.DEFAULT_DEPART_PICTURE + "_min.gif";
 			else if(this.getClass().equals(Group.class))
