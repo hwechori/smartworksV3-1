@@ -68,6 +68,7 @@
 			<div class="photo_section">
 				<img class="js_auto_picture" src="<%=cUser.getOrgPicture() %>" />
 			</div>
+			<div class="js_file_uploader"></div>
 
 			<span class="table_nomal600">
 					<table>

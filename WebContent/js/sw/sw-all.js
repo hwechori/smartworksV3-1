@@ -4,9 +4,8 @@ $(function() {
 	var autoPictures = $('img.js_auto_picture');
 	console.log(autoPictures);
 	if(autoPictures.length > 0) {
-		for(var i=0; i<autoPictures.length; i++) {
-			
-			createUploader(null, $(autoPictures[i]).parent('div'));
+		for(var i=0; i<autoPictures.length; i++) {			
+			createUploader(null, $(autoPictures[i]).parent().next('div.js_file_uploader'));
 		}		
 	}
 

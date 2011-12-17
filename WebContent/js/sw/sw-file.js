@@ -54,7 +54,7 @@ function fileUploader(groupId, target) {
     });
 }
 
-function createUploader(groupId, target){
+function createUploader(groupId, target, isSingle){
 	var uploadFileTemplate = '<li>' +
 	'<a class="qq-upload-file"></a>' +
 	'<span class="qq-upload-spinner"></span>' +
