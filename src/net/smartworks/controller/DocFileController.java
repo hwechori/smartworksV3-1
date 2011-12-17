@@ -63,10 +63,10 @@ public class DocFileController {
 		smartworks.ajaxUploadFile(request, response);
 	}
 
-	@RequestMapping(value = "/upload_profile_temp_file", method = RequestMethod.POST)
+	@RequestMapping(value = "/upload_temp_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody Map<String, Object> uploadProfileTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String tempSrc = smartworks.uploadProfileTempFile(request, response);
+	public @ResponseBody Map<String, Object> uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String tempSrc = smartworks.uploadTempFile(request, response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tempSrc", tempSrc);
 		return map;
