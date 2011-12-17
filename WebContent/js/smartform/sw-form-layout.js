@@ -66,7 +66,7 @@ SmartWorks.GridLayout = function(config) {
 				}
 			}
 			
-			var $html_cell = $('<td fieldId="'+id+'" colspan="'+colspan+'" width="'+width+'" style="border:1px solid"></td>');
+			var $html_cell = $('<td fieldId="'+id+'" colspan="'+colspan+'" width="'+width+'" ></td>');
 			
 			$html_cell.appendTo($html_row);
 			
@@ -82,6 +82,23 @@ SmartWorks.GridLayout = function(config) {
 
 	this.getTable = function() {
 		return $table;
+	};
+	
+	this.spanWidths = null;
+	this.getSpanWidths = function(){
+		if(spanWidths != null) return this.spanWidths;
+		
+		var $gridColumns = $layout.find('gridColumn');
+		var totalSize = 0;
+		for(var i=0; i<$gridColumns.length; i++){
+			totalSize = totalSize + $(gridColumns[i]).attr('size');
+		}
+		var spanWidths = new Array();
+		for(var i=0; i<$gridColumns.length; i++){
+			spanWidths.put($(gridColumns[i]).attr('size')/totalSize * 100);
+		}
+		this.spanWidths = spanWidths;
+		return spanWidths;		
 	};
 	
 	return this;
