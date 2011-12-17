@@ -197,20 +197,24 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	@Override
 	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception {
-
-		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
-		String formId = "frm_7fd91682175145858dd42049dca9a8aa";
-		String formName = "영업본부 회의록";
-		int formVersion = 1;
-		String userId = "";
 		
 		/*
 		Key Set : frmSmartForm
 		Key Set : frmScheduleWork
 		Key Set : frmAccessSpace
+		key Set : formId
+		key Set : formName
 		*/
-		
 		Map<String, Object> SmartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+		
+		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
+		String formId = (String)requestBody.get("formId");
+		String formName = (String)requestBody.get("formName");
+		int formVersion = 1;
+		User user = SmartUtil.getCurrentUser();
+		String userId = null;
+		if (user != null)
+			userId = user.getId();
 		
 		SwdFieldCond swdFieldCond = new SwdFieldCond();
 		swdFieldCond.setDomainObjId(domainId);
@@ -240,6 +244,8 @@ public class InstanceServiceImpl implements IInstanceService {
 			} else {
 				value = (String)SmartFormInfoMap.get(fieldId);
 			}
+			if (CommonUtil.isEmpty(value))
+				continue;
 			SwdDataField fieldData = new SwdDataField();
 			fieldData.setId(fieldId);
 			fieldData.setName(fieldInfoMap.get(fieldId).getFormFieldName());
@@ -294,7 +300,6 @@ public class InstanceServiceImpl implements IInstanceService {
 	public InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception {
 
 		Date start = new Date();
-		System.out.println("############################"+new Date()+"############################");
 
 		User user = SmartUtil.getCurrentUser();
 
@@ -393,7 +398,6 @@ public class InstanceServiceImpl implements IInstanceService {
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
 		instanceInfoList.setInstanceDatas(iWInstanceInfos);
 		long termTime = start.getTime() - new Date().getTime();
-		System.out.println("******************************"+termTime+"******************************");
 		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 		instanceInfoList.setCountInPage(pageCount);
 		instanceInfoList.setTotalPages((int)totalCount);
@@ -518,7 +522,6 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		Date startTime = new Date();
 		Long start = startTime.getTime();
-		System.out.println(" ####### 시작 ######### " + start);
 		//TODO workId = category 프로세스 인스턴스정보에는 패키지 컬럼이 없고 다이어 그램 컬럼에 정보가 들어가 있다
 		//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다
 
@@ -560,13 +563,11 @@ public class InstanceServiceImpl implements IInstanceService {
 		instanceInfoList.setCurrentPage(currentPage);
 		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
 
-		System.out.println(" ####### 끝 ######### " + (new Date().getTime() - start));
 		return instanceInfoList;
 	}
 	public InstanceInfoList getPWorkInstanceList_bak2(String companyId, String userId, String workId, RequestParams params) throws Exception {
 		Date startTime = new Date();
 		Long start = startTime.getTime();
-		System.out.println(" ####### 시작 ######### " + start);
 		//TODO workId = category 프로세스 인스턴스정보에는 패키지 컬럼이 없고 다이어 그램 컬럼에 정보가 들어가 있다
 		//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다
 		PrcProcessCond prcCond = new PrcProcessCond();
@@ -698,7 +699,6 @@ public class InstanceServiceImpl implements IInstanceService {
 		instanceInfoList.setCurrentPage(currentPage);
 		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
 
-		System.out.println(" ####### 끝 ######### " + (new Date().getTime() - start));
 		return instanceInfoList;
 	}
 

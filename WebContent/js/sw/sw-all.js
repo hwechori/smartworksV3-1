@@ -541,7 +541,7 @@ $(function() {
 				if(inputTarget.length == 1) {
 					inputTarget.hide();
 					inputTarget.next('div.js_srch_x').hide();
-					inputTarget.parent().parent().siblings('js_form_user_id').value = comId;
+					inputTarget.parent().prev('.js_form_user_id').attr('value', comId);
 				}
 				var oldHTML = target.html();
 				if (oldHTML == null)

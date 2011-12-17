@@ -8,11 +8,14 @@ SmartWorks.GridLayout = function(config) {
 
 	SmartWorks.extend(this.options, config);
 
-	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required"><table></table></form>');
+	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required form_layout"><table></table></form>');
 	var $table = $htmlForm.find('table');
-	$htmlForm.appendTo(this.options.target);
 
 	var $form = $(this.options.formXml);
+	$htmlForm.attr("formId", $form.attr('id'))
+	$htmlForm.attr("formName", $form.attr('name'))
+	$htmlForm.appendTo(this.options.target);
+	
 	var $layout = $form.find('layout');
 
 	this.getColumnSize = function() {
@@ -63,7 +66,7 @@ SmartWorks.GridLayout = function(config) {
 				}
 			}
 			
-			var $html_cell = $('<td fieldId="'+id+'" colspan="'+colspan+'" width="'+width+'" style="border:1px solid"></td>');
+			var $html_cell = $('<td class="form_col" fieldId="'+id+'" colspan="'+colspan+'" width="'+width+'" ></td>');
 			
 			$html_cell.appendTo($html_row);
 			
@@ -79,6 +82,23 @@ SmartWorks.GridLayout = function(config) {
 
 	this.getTable = function() {
 		return $table;
+	};
+	
+	this.spanWidths = null;
+	this.getSpanWidths = function(){
+		if(spanWidths != null) return this.spanWidths;
+		
+		var $gridColumns = $layout.find('gridColumn');
+		var totalSize = 0;
+		for(var i=0; i<$gridColumns.length; i++){
+			totalSize = totalSize + $(gridColumns[i]).attr('size');
+		}
+		var spanWidths = new Array();
+		for(var i=0; i<$gridColumns.length; i++){
+			spanWidths.put($(gridColumns[i]).attr('size')/totalSize * 100);
+		}
+		this.spanWidths = spanWidths;
+		return spanWidths;		
 	};
 	
 	return this;

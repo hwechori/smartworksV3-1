@@ -1,26 +1,22 @@
 
-var template = '<div class="qq-uploader">' + 
-                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-                '<div class="qq-upload-button">Upload a file</div>' +
-                '<input type="hidden" class="qq-upload-groupid"/>' +
-                '<ul class="qq-upload-list"></ul>' + 
-             '</div>';
-
-var uploadFileTemplate = '<li>' +
-			'<a class="qq-upload-file"></a>' +
-			'<span class="qq-upload-spinner"></span>' +
-			'<span class="qq-upload-size"></span>' +
-			'<a class="qq-upload-cancel" href="#">Cancel</a>' +
-			'<span class="qq-upload-failed-text">Failed</span>' +
-			'<span class="qq-delete-text" style="display:none">X</span>' +
-			'</li>';
-
-var viewFileTemplate = '<li>' +
-			'<a class="qq-upload-file"></a>' +
-			'<span class="qq-upload-size"></span>' +
-			'</li>';
-
 function fileUploader(groupId, target) {
+	
+	var template = '<div class="qq-uploader">' + 
+    '<div class="qq-upload-drop-area"><span>' + language.message("uploadDropArea") + '</span></div>' +
+    '<div class="qq-upload-button">' + language.message("uploadFile") + '</div>' +
+    '<input type="hidden" class="qq-upload-groupid"/>' +
+    '<ul class="qq-upload-list"></ul>' + 
+    '</div>';
+
+	var uploadFileTemplate = '<li>' +
+	'<a class="qq-upload-file"></a>' +
+	'<span class="qq-upload-spinner"></span>' +
+	'<span class="qq-upload-size"></span>' +
+	'<a class="qq-upload-cancel" href="#">' + language.message("cancelUpload") + '</a>' +
+	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
+	'<span class="qq-delete-text" style="display:none">X</span>' +
+	'</li>';
+	
 	return new qq.FileUploader({
         element: $(target)[0],
 
@@ -50,23 +46,32 @@ function fileUploader(groupId, target) {
         	
         	file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + responseJSON.fileId + "&fileName=" + fileName).addClass('js_file_type_'+ ext );
         	file.find('.qq-delete-text').show();
-    		file.find('.qq-upload-cancel').text(language.message('cancelUpload'));
-    		file.find('.qq-upload-failed-text').text(language.message('uploadFailed'));
+    		//file.find('.qq-upload-cancel').text(language.message('cancelUpload'));
+    		//file.find('.qq-upload-failed-text').text(language.message('uploadFailed'));
         	
         },
-        fileTemplate : uploadFileTemplate, 
+        fileTemplate : uploadFileTemplate,
+        template : template,
         debug: true
     });
 }
 
 function createUploader(groupId, target){
+	var uploadFileTemplate = '<li>' +
+	'<a class="qq-upload-file"></a>' +
+	'<span class="qq-upload-spinner"></span>' +
+	'<span class="qq-upload-size"></span>' +
+	'<a class="qq-upload-cancel" href="#">' + language.message("cancelUpload") + '</a>' +
+	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
+	'<span class="qq-delete-text" style="display:none">X</span>' +
+	'</li>';
+	
 	if(!groupId) {
 		groupId = randomUUID('fg_');
-		console.log('###'+groupId+'###');
 		var uploader = fileUploader(groupId, target);
 		var uploader_div = $(target);
-		uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
-		uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
+		//uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
+		//uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
 	} else {
 		$.ajax({				
 			url : "find_file_group.sw",
@@ -80,8 +85,8 @@ function createUploader(groupId, target){
 				var uploader_div = $(target);
 				uploader_div.find('.qq-upload-groupid').value(groupId);				
 				uploader_div.find('.qq-upload-groupid').attr("name", uploader_div.attr('id'));				
-				uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
-				uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
+				//uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
+				//uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
 
 				var files = uploader_div.find('.qq-upload-list');
 				for(var i in data) {
@@ -106,7 +111,7 @@ function createUploader(groupId, target){
 					file.find('.qq-upload-cancel').remove();
 					file.find('.qq-upload-spinner').remove();
 					file.find('.qq-delete-text').show();
-					file.find('.qq-upload-failed-text').text(language.message('uploadFailed'));
+					//file.find('.qq-upload-failed-text').text(language.message('uploadFailed'));
 				}
 			},
 			error : function(e) {
@@ -117,6 +122,12 @@ function createUploader(groupId, target){
 }
 
 function viewFiles(groupId, target){
+	
+	var viewFileTemplate = '<li>' +
+	'<a class="qq-upload-file"></a>' +
+	'<span class="qq-upload-size"></span>' +
+	'</li>';
+	
 	if(!groupId) {
 		return;
 	} else {

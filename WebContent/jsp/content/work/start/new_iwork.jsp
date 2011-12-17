@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.work.SmartForm"%>
+<%@page import="net.smartworks.model.work.InformationWork"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
 <%@page import="net.smartworks.model.work.Work"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
@@ -18,9 +20,16 @@ function submitForms(e) {
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
+			if(form.attr('name') === 'frmSmartForm'){
+				paramsJson['formId'] = form.attr('formId');
+				console.log(form.attr('formId'));
+				paramsJson['formName'] = form.attr('formName');
+				console.log(form.attr('formName'));
+			}
 			paramsJson[form.attr('name')] = form.serializeObject();
 		}
 		console.log(JSON.stringify(paramsJson));
+		alert('wait');
 		var url = "create_new_iwork.sw";
 		$.ajax({
 			url : url,
@@ -46,6 +55,7 @@ function submitForms(e) {
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 	SmartWork work = (SmartWork)smartWorks.getWorkById(workId);
+	
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

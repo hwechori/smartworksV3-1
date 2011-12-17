@@ -30,22 +30,22 @@ public class LocalDate extends Date{
 		super();
 		super.setTime(super.getTime()-hostTimeZone.getRawOffset());
 		try {
-/*			User user = SmartUtil.getCurrentUser();
+			User user = SmartUtil.getCurrentUser();
 			if(user.getTimeZone()!=null && isValidTimeZone(user.getTimeZone()))
 				this.timeZone = TimeZone.getTimeZone(user.getTimeZone());
 			if(user.getLocale()!=null && LocaleInfo.isSupportingLocale(user.getLocale()))
 				this.locale = new Locale(user.getLocale());
-*/		} catch (Exception e) {}
+		} catch (Exception e) {}
 	}
 	public LocalDate(long GMTDate){
 		super(GMTDate);
 		try {
-/*			User user = SmartUtil.getCurrentUser();
+			User user = SmartUtil.getCurrentUser();
 			if(user.getTimeZone()!=null && isValidTimeZone(user.getTimeZone()))
 				this.timeZone = TimeZone.getTimeZone(user.getTimeZone());
 			if(user.getLocale()!=null && LocaleInfo.isSupportingLocale(user.getLocale()))
 				this.locale = new Locale(user.getLocale());
-*/		} catch (Exception e) {}
+		} catch (Exception e) {}
 	}
 	
 	public LocalDate(long GMTDate, String timeZone, String locale){
