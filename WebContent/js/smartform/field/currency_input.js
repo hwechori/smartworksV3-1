@@ -38,7 +38,7 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	if(readOnly){
 		$currency = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$currency = $('<div class="form_value" style="width:' + valueWidth + '%"><input class="text_align_r" symbol="' + currency +'" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<div class="form_value" style="width:' + valueWidth + '%"><input class="text_align_r" type="text" symbol="' + currency +'" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		//if save mode = $currency.toNumber().attr('value');
 	}
 	if ($graphic.attr('hidden') == 'true'){

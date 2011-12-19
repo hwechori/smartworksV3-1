@@ -51,6 +51,14 @@ input.error {
 	border: 1px solid red;
 }
 
+input.sw_error {
+	border: 1px solid red;
+}
+
+div.sw_error {
+	border: 1px solid red;
+}
+
 span.sw_error {
 	border: 1px solid red;
 	width: 100%;
