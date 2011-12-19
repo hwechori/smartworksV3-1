@@ -21,16 +21,15 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<div class="form_label">' + name + '</div>');
 	var labelWidth = options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
 	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
-		required = " class='ico_user_space sw_required'";
+		required = " class='fieldline js_community_names sw_required'";
 	}else{
-		required = " class='ico_user_space";
+		required = " class='fieldline js_community_names'";
 	}
 	$label.appendTo(options.container);
 	
@@ -42,8 +41,8 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		userHtml = "<span><span class='js_community_item user_select' comId='" + userId + "'>" + longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
 	}
 
-		var $html = $('<div class="form_value" style="width:' + valueWidth + '%"> <div' + required +'>\
-					<div class="fieldline js_community_names">\
+		var $html = $('<div class="form_value" style="width:' + valueWidth + '%"> <div class="ico_user_space">\
+					<div ' + required + '">\
 						<div class="js_selected_communities user_sel_area"></div>\
 						<input class="js_auto_complete js_form_user_field" href="community_name.sw" type="text">\
 						<div class="js_srch_x"></div>\
@@ -81,7 +80,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.validate = function(userFields){
 		var userField = $(userFields[i]);
 		var userId = userField.find('.js_community_item:first').attr('comId');
 		if(userId == null || userId === ""){
-			userField.find('span.sw_required').addClass("sw_error");
+			userField.find('div.sw_required').addClass("sw_error");
 			usersValid = false;
 		}
 	}

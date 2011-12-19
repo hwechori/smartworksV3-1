@@ -30,17 +30,17 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
-		required = " class='sw_required' ";
+		required = " class='fieldline sw_required' ";
 	}else{
-		required = "";
+		required = "class='fieldline' ";
 	}
 	$label.appendTo(options.container);
 	
 	var $refForm = null;
 	if(readOnly){
-		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"></span>').text(value);
+		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"><span' + required + '>' + value + '</span></span>');
+		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"><input readonly="readonly" type="text"' + required + '>' + value + '</input></div>');
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();
@@ -63,7 +63,7 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject = function(refFormFie
 SmartWorks.FormRuntime.RefFormFieldBuilder.validate = function(refFormFields){
 	var refFormsValid = true;
 	for(var i=0; i<refFormFields.length; i++){
-		var refFormField = $(refFormFields[i]).find('span.sw_required');
+		var refFormField = $(refFormFields[i]).find('input.sw_required');
 		var text = refFormField.text();
 		if(text == null || text === ""){
 			refFormField.addClass("sw_error");
