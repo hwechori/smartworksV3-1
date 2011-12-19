@@ -38,9 +38,9 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	
 	var $refForm = null;
 	if(readOnly){
-		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value);
+		$refForm = $('<div class="form_value form_work_input" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"><input readonly="readonly" type="text"' + required + '>' + value + '</input></div>');
+		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"><div class="ico_work_space form_work_input"><input readonly="readonly" type="text" name="' + id + '"' + required + '><span class="ico_work"></span></div></div>');
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();
