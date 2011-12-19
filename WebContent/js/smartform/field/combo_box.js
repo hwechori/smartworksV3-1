@@ -27,8 +27,11 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
-		required = " class='required' ";
+		required = " class='form_select_box required' ";
+	}else{
+		required = " class='form_select_box' ";		
 	}
+		
 	$label.appendTo(options.container);
 	
 	var $staticItems = $format.find('list staticItems staticItem');
