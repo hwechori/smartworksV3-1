@@ -60,8 +60,11 @@ function fileUploader(groupId, target) {
         		$('form.js_validation_required').find('.sw_required').removeClass('sw_error');
 				$('form.js_validation_required').validate({ showErrors: showErrors}).form();
         	}
-        	var target = file.parents('div.js_file_uploader:first').prev().find('img.js_auto_picture');
-        	target.attr("src", responseJSON.pullPathName);        	
+        	var target = file.parents('div.js_file_uploader:first').prev('img.js_auto_picture');
+        	console.log("ddd",target);
+        	console.log("fff"+responseJSON.pullPathName);
+        	target.attr("src", responseJSON.pullPathName);
+        	
         },
         fileTemplate : uploadFileTemplate,
         template : template,

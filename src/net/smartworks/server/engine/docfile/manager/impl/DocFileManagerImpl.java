@@ -622,32 +622,29 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 
 	}
 
-	public void insertFile(HttpServletRequest request) throws DocFileException {
+	public String insertProfilesFile(String fileId, String fileName, String communityId) throws DocFileException {
 
-//		String profileFileId = request.getParameter("profileFileId");
-//		String profileFileName = request.getParameter("profileFileName");
-//		String profileGroupId = request.getParameter("profileGroupId");
-		String profileFileId = "temp_678522b149734500acddaf2e40096940";
-		String profileFileName = "Koala.jpg";
-		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME"));
-		this.setFileDirectory(SmartConfUtil.getInstance().getImageServerDirectory());
-
-		String fileName = profileFileName;
-
+		//this.setFileDirectory(SmartConfUtil.getInstance().getImageServerDirectory());
+		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
+		
 		if (fileName.indexOf(File.separator) > 1)
 			fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
 
 		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
 
 		User user = SmartUtil.getCurrentUser();
-		String userPicId = user.getId() + "." + extension;
-		String bigId = user.getId() + "_big";
-		String smallId = user.getId() + "_small";
-		String originId = user.getId() + "_origin";
-		String tempFile = this.getFileDirectory() + File.separator + user.getCompanyId() + File.separator + "Temps" + File.separator + profileFileId + "." + extension;
-		String realFile1 = getFileRepository(user.getCompanyId(), "Profiles").getAbsolutePath() + File.separator + bigId + "." + extension;
-		String realFile2 = getFileRepository(user.getCompanyId(), "Profiles").getAbsolutePath() + File.separator + smallId + "." + extension;
-		String realFile = getFileRepository(user.getCompanyId(), "Profiles").getAbsolutePath() + File.separator + originId + "." + extension;
+
+		File repository = this.getFileRepository(user.getCompanyId(), "Profiles");
+
+		String communityPictureId = communityId + "." + extension;
+		String bigId = communityId + "_big";
+		String smallId = communityId + "_small";
+		String originId = communityId + "_origin";
+
+		String tempFile = this.getFileDirectory() + "/" + user.getCompanyId() + "/" + "Temps" + "/" + fileId + "." + extension;
+		String realFile1 = repository.getAbsolutePath() + "/" + bigId + "." + extension;
+		String realFile2 = repository.getAbsolutePath() + "/" + smallId + "." + extension;
+		String realFile = repository.getAbsolutePath() + "/" + originId + "." + extension;
 
 		try {
 			FileInputStream is = new FileInputStream(new File(tempFile));
@@ -661,8 +658,9 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			throw new DocFileException("Failed to copy file [" + tempFile + "]!");
 		}
 
-		Query query = this.getSession().createSQLQuery(" update SwOrgUser set picture = '" + userPicId + "' where id = '" + user.getId() + "'");
-		query.executeUpdate();
+		//Query query = this.getSession().createSQLQuery(" update SwOrgUser set picture = '" + userPicId + "' where id = '" + user.getId() + "'");
+		//query.executeUpdate();
+		return communityPictureId;
 	}
 
 }

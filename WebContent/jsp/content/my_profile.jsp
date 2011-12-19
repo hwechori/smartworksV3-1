@@ -27,7 +27,6 @@
 				params = params + "&profileGroupId=" + groupId + "&profileFileId=" + file.attr('fileId') + "&profileFileName=" + file.attr('fileName'); 
 			}
 			console.log(params);
-			alert('wait');
 			var url = "update_my_profile.sw";
 			$.ajax({
 				url : url,

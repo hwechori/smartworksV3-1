@@ -1,7 +1,5 @@
 package net.smartworks.model.community;
 
-import java.io.File;
-
 import net.smartworks.model.BaseObject;
 import net.smartworks.server.engine.security.model.Login;
 import net.smartworks.util.SmartConfUtil;
@@ -12,6 +10,9 @@ public class Community extends BaseObject {
 	public static final String PICTURE_PATH = SmartConfUtil.getInstance().getImageServer();
 	public static final String NO_PICTURE_PATH = "images/";
 	public static final String PROFILES_DIR = "Profiles";
+	public static final String COMMUNITY_USER = "User";
+	public static final String COMMUNITY_DEPARTMENT = "Department";
+	public static final String COMMUNITY_GROUP = "Group";
 	private String  bigPictureName = null;
 	private String  smallPictureName = null;
 
@@ -64,7 +65,7 @@ public class Community extends BaseObject {
 	public String getPath(){
 		if(SmartUtil.getCurrentUser() == null)
 			return null;
-		return PICTURE_PATH + File.separator + SmartUtil.getCurrentUser().getCompanyId() + File.separator + PROFILES_DIR + File.separator;
+		return PICTURE_PATH + SmartUtil.getCurrentUser().getCompanyId() + "/" + PROFILES_DIR + "/";
 	}
 	public void setBigPictureName(String bigPictureName) {
 		this.bigPictureName = bigPictureName;

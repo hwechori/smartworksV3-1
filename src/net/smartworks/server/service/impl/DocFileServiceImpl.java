@@ -65,8 +65,6 @@ public class DocFileServiceImpl implements IDocFileService {
 
 	public void uploadFiles(HttpServletRequest request) throws Exception {
 
-		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));
-
 		List<IFileModel> docList = new ArrayList<IFileModel>();
 		Map<String, String> files = new HashMap<String, String>();
 		for(String fileId : files.keySet()) {
@@ -126,8 +124,6 @@ public class DocFileServiceImpl implements IDocFileService {
 
     	try{
 
-    		Date date = new Date();
-    		long mill = date.getTime();
     		String fileId = request.getParameter("fileId");
     		String fileName = request.getParameter("fileName");
 
@@ -141,7 +137,7 @@ public class DocFileServiceImpl implements IDocFileService {
     		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
     		if(fileId.startsWith("temp_")) {
     			file_name = fileName;
-    			sourceFile = SmartConfUtil.getInstance().getImageServerDirectory() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+    			sourceFile = System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY") + "/" + user.getCompanyId() + "/"+ "Temps" + "/" + fileId + "." + extension;
     			//sourceFile = System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME") + File.separator + user.getCompanyId() + File.separator + "Temps" + File.separator + fileId + "." + extension;
     		} else {
     			IFileModel doc = getDocManager().retrieveFile(fileId);
