@@ -329,7 +329,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 
 /* 테이블 - 고정 사이즈 */
-.table_nomal600 {position: relative;  float: left; padding: 0 0 0 30px; width: 600px;}
+.table_nomal600 {position: relative;}
+.table_nomal600 table {width: 600px;}
 .table_nomal600 table tr {height:32px}
 
 /*라운드 포틀릿*/
