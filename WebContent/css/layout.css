@@ -273,8 +273,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .commu_list li {position:relative; color:#454545;}
 .commu_list li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#454545;}
 .commu_list li a:hover {display:block; background-color:#fffccd; color:#454545;}
-.commu_list {display: inline; float: left; position: relative; width: 410px;}
-
+.commu_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 410px;}
 
 /* 입력폼 */
 .form_wrap {background: none repeat scroll 0 0 #FFFFFF; height:100%; }
