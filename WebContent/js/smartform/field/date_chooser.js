@@ -36,7 +36,7 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 	if(readOnly){
 		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><div class="ico_user_space form_date_input"><input readonly="readonly" type="text" name="' + id + '"' + required + '><span class="ico_fb_date"></span></div></div>').attr('value', value);
+		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><div class="ico_fb_space form_date_input"><input readonly="readonly" type="text" name="' + id + '"' + required + '><span class="ico_fb_date"></span></div></div>').attr('value', value);
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();
