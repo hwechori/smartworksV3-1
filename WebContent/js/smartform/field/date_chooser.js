@@ -34,9 +34,9 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 	
 	var $text = null;
 	if(readOnly){
-		$text = $('<div class="form_value form_date_input" style="width:' + valueWidth + '%"></div>').text(value);
+		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$text = $('<div class="form_value" style="width:' + valueWidth + '%"><div class="ico_user_space form_date_input"><input readonly="readonly" type="text" name="' + id + '"' + required + '><a href="#" class=" js_todaypicker_button"><span class="ico_date"></span></a></div></div>').attr('value', value);
+		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><div class="ico_user_space form_date_input"><input readonly="readonly" type="text" name="' + id + '"' + required + '><a href="#" class="js_todaypicker_button"><span class="ico_fb_date"></span></a></div></div>').attr('value', value);
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();

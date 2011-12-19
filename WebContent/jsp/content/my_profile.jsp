@@ -79,8 +79,8 @@
 			<form name="frmMyProfileSetting" class="js_validation_required">
 			<div class="photo_section">
 				<img class="js_auto_picture profile_size_b" src="<%=cUser.getOrgPicture() %>" />
-				<div class="js_file_uploader"></div>
-				<div>사진업로드 시 사이즈 110px를 권장합니다</div>
+				<div class="js_file_uploader file_uploader_area"></div>
+				<div class="t_text_s11">사진업로드 시 사이즈 110px를 권장합니다</div>
 			</div>
 			
 
