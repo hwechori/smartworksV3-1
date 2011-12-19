@@ -64,11 +64,8 @@ public class DocFileController {
 
 	@RequestMapping(value = "/upload_temp_file", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody Map<String, Object> uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String tempSrc = smartworks.uploadTempFile(request, response);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("tempSrc", tempSrc);
-		return map;
+	public @ResponseBody void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.uploadTempFile(request, response);
 	}
 
 	@RequestMapping(value = "/find_file_group", method = RequestMethod.GET)

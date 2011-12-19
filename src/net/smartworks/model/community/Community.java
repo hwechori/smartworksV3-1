@@ -13,14 +13,7 @@ public class Community extends BaseObject {
 	public static final String PROFILES_DIR = "Profiles";
 	private String  bigPictureName = null;
 	private String  smallPictureName = null;
-	private String  companyId = null;
-	
-	public String getCompanyId() {
-		return companyId;
-	}
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
-	}
+
 	public String getOrgPictureName() {
 		return this.bigPictureName;
 	}
