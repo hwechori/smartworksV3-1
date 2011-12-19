@@ -41,7 +41,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		userHtml = "<span><span class='js_community_item user_select' comId='" + userId + "'>" + longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
 	}
 
-		var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="ico_user_space">\
+		var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
 					<div ' + required + '">\
 						<div class="js_selected_communities user_sel_area"></div>\
 						<input class="js_auto_complete js_form_user_field" href="community_name.sw" type="text">\

@@ -8,7 +8,7 @@
 .form_value {display:inline-block;}
 
 /* input 사이즈, form, 상세필터 공용 */
-.form_value_max_width {max-width:300px;}
+.form_value_max_width {max-width:500px;}
 
 
 .form_date_input {width:80px;} /*date input 사이즈, 상세필터 공용*/
@@ -23,14 +23,12 @@
 .form_work_input {max-width:100px;}*/
 
 .form_number_input {text-align:right; max-width:300px;}
-
 .form_radio_btn
 .form_check_box
-
 .form_select_box {min-width:100px;}
 
 
-.ico_user_space, .ico_work_space, .ico_time_space {padding-right: 28px; position: relative;}
+.ico_fb_space {padding-right: 28px; position: relative;} /* 아이콘이 들어가 있는 영역 */
 .ico_fb_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
 .ico_fb_date {background: url("../images/btn_s_calendar.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
 .ico_fb_time {background: url("../images/btn_s_time.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
