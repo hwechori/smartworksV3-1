@@ -19,7 +19,7 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<td>' + name + '</td>');
+	var $label = $('<div class="form_label">' + name + '</div>');
 	if($entity[0].getAttribute('required') === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
 	}
@@ -27,7 +27,7 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	
 	var $file = null;
 		
-	$file = $('<td id="' + id + '"></td>');
+	$file = $('<div class="form_value" id="' + id + '"></div>');
 	$file.appendTo(options.container);
 
 	if (readOnly) {

@@ -19,7 +19,7 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<td>' + name + '</td>');
+	var $label = $('<div class="form_label">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -31,9 +31,9 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	
 	var $number = null;
 	if(readOnly){
-		$number = $('<td fieldId="' + id + '"></td>').text(value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$number = $('<div class="form_value" fieldId="' + id + '"></div>').text(value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$number = $('<td><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value',value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$number = $('<div class="form_value"><input class="text_align_r" type="text" fieldId="' + id + '" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		//if save mode = $currency.toNumber().attr('value');
 	}
 	$number.appendTo(options.container);

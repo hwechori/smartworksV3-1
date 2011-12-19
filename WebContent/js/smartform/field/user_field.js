@@ -20,7 +20,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<span class="form_label">' + name + '</span>');
+	var $label = $('<div class="form_label">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -38,13 +38,13 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		userHtml = "<span><span class='js_community_item user_select' comId='" + userId + "'>" + longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
 	}
 
-	var $html = $('<span class="form_value"> <span class="ico_user_space"><input type="hidden" name="' + id + '"' + '' + ' >' + userId + ' </input>\
+	var $html = $('<div class="form_value"> <div class="ico_user_space"><input type="hidden" name="' + id + '"' + '' + ' >' + userId + ' </input>\
 					<div class="fieldline js_community_names">\
 						<div class="js_selected_communities user_sel_area"></div>\
 						<input class="js_auto_complete js_form_user_field" href="community_name.sw" type="text">\
 						<div class="js_srch_x"></div>\
 					</div>\
-					<div class="js_community_list" style="display: none"></div></span> <span class="ico_user"></span></span>');
+					<div class="js_community_list" style="display: none"></div> <span class="ico_user"></span></div></div>');
 
 	$html.find('.js_selected_communities').html(userHtml);
 	

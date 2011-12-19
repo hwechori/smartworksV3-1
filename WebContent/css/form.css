@@ -26,8 +26,11 @@
 
 .form_text_area {}
 
-.ico_user {background: url("../images/btn_s_person.png") no-repeat 0 0; height:20px; width:21px; float: right;}
-.ico_user_space {float: left; width:90%;}
+.ico_user_space {padding-right: 28px; position: relative;}
+.ico_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_date {background: url("../images/btn_s_calendar.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_time {background: url("../images/btn_s_time.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+
 
 
 

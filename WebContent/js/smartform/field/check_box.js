@@ -20,7 +20,7 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 
-	var $label = $('<td>' + name + '</td>');
+	var $label = $('<div class="form_label">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true'){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -34,9 +34,9 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	
 	var $check = null;
 	if(readOnly){
-		$check = $('<td></td>').text(value);
+		$check = $('<div class="form_value"></div>').text(value);
 	}else{	
-		$check = $('<td><input type="checkbox" '+ checked + ' fieldId="' + id + '" name="' + id + '"' + required +  '><td>');
+		$check = $('<div class="form_value"><input type="checkbox" '+ checked + ' fieldId="' + id + '" name="' + id + '"' + required +  '><div>');
 	}
 	$check.appendTo(options.container);
 
