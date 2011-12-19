@@ -47,7 +47,12 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 	$.datepicker.setDefaults($.datepicker.regional[currentUser.locale]);
 	$('input.js_todaypicker').datepicker({
 		defaultDate : new Date(),
-		dateFormat : 'yy.mm.dd'
+		dateFormat : 'yy.mm.dd',
+		onSelect: function(date) {
+			if($('form.js_validation_required').find('.error').length>0){
+				$('form.js_validation_required').validate({ showErrors: showErrors}).form();
+			}
+        }
 	});
 	
 	return options.container;

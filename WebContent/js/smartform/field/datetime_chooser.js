@@ -52,6 +52,11 @@ SmartWorks.FormRuntime.DateTimeChooserBuilder.build = function(config) {
 		timeFormat: 'hh:mm',
 		hourGrid: 4,
 		minuteGrid: 10,
+		onSelect: function(date) {
+			if($('form.js_validation_required').find('.error').length>0){
+				$('form.js_validation_required').validate({ showErrors: showErrors}).form();
+			}
+        }
 	});
 	
 	return options.container;
