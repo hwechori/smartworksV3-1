@@ -56,8 +56,8 @@ function fileUploader(groupId, target) {
 
         	file.find('.qq-upload-file').attr('href', 'download_file.sw?fileId=' + responseJSON.fileId + "&fileName=" + fileName).addClass('js_file_type_'+ ext );
         	file.find('.qq-delete-text').show();
-        	if(file.hasClass('.qq-upload-success') && file.parents('.sw_required').hasClass('sw_error')){
-        		file.parents('.sw_required').removeClass('sw_error');
+        	if(file.hasClass('qq-upload-success') && $('form.js_validation_required').find('.sw_required').hasClass('sw_error')){
+        		$('form.js_validation_required').find('.sw_required').removeClass('sw_error');
 				$('form.js_validation_required').validate({ showErrors: showErrors}).form();
         	}
         	var target = file.parents('div.js_file_uploader:first').prev().find('img.js_auto_picture');
