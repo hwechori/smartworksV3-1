@@ -56,7 +56,7 @@ function fileUploader(groupId, target) {
 
         	file.find('.qq-upload-file').attr('href', 'download_file.sw?fileId=' + responseJSON.fileId + "&fileName=" + fileName).addClass('js_file_type_'+ ext );
         	file.find('.qq-delete-text').show();
-        	if(file.hasClass('.qq-upload-success')){
+        	if(file.hasClass('.qq-upload-success') && file.parents('.sw_required').hasClass('sw_error')){
         		file.parents('.sw_required').removeClass('sw_error');
 				$('form.js_validation_required').validate({ showErrors: showErrors}).form();
         	}

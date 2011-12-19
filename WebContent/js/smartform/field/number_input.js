@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -19,7 +20,9 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<div class="form_label">' + name + '</div>');
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -31,10 +34,14 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	
 	var $number = null;
 	if(readOnly){
-		$number = $('<div class="form_value" fieldId="' + id + '"></div>').text(value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$number = $('<div class="form_value text_align_r" style="width:' + valueWidth + '%"></div>').text(value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$number = $('<div class="form_value"><input class="text_align_r" type="text" fieldId="' + id + '" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$number = $('<div class="form_value" style="width:' + valueWidth + '%"><input class="text_align_r" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		//if save mode = $currency.toNumber().attr('value');
+	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$number.hide();		
 	}
 	$number.appendTo(options.container);
 

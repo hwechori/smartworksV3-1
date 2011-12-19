@@ -8,7 +8,8 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		value : '',
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -22,7 +23,9 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<div class="form_label">' + name + '</div>');
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -33,7 +36,7 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	$label.appendTo(options.container);
 	
 	var $staticItems = $format.find('list staticItems staticItem');
-	var $input_container = $('<td></td>');
+	var $input_container = $('<div class="form_value" style="width:' + valueWidth + '%"></div>');
 	
 	for ( var i = 0; i < $staticItems.length; i++) {
 		var $staticItem = $staticItems.eq(i);
@@ -42,11 +45,15 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 
 		console.dir(checked);
 		
-		var $input = $('<div class="form_value"><input type="radio" ' + checked + ' name="' + id + '" value="' + text + '"' + required + '>' + text + '</input><div>');
+		var $input = $('<input type="radio" ' + checked + ' name="' + id + '" value="' + text + '"' + required + '>' + text + '</input>');
 		
 		$input.attr('fieldId', id);
 		if (readOnly) {
 			$input.attr('disabled', 'disabled');
+		}
+		if ($graphic.attr('hidden') == 'true'){
+			$label.hide();
+			$input.hide();		
 		}
 		$input.appendTo($input_container);
 	}

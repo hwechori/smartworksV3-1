@@ -33,6 +33,10 @@ SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 	var $image = null;
 		
 	$image = $('<span class="form_value" style="width:' + valueWidth + '%"><img src=""/>' + '<span id="' + id + '"' + required + '></span></span>');
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$image.hide();		
+	}
 	$image.appendTo(options.container);
 
 	if (!readOnly) {
