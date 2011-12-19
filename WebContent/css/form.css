@@ -8,7 +8,7 @@
 .form_value {display:inline-block;}
 
 /* input 사이즈, form, 상세필터 공용 */
-.form_value_max_width {max-width:300px;}
+.form_value_max_width {max-width:500px;}
 
 
 .form_date_input {width:80px;} /*date input 사이즈, 상세필터 공용*/
