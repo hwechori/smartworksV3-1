@@ -8,8 +8,8 @@
 .form_value {display:inline-block;}
 
 .form_text_input {max-width:}
-.form_date_input
-.form_time_input
+.form_date_input, .date_input {width:68px; padding:0 2px; float:left;} /* date input 사이즈, 상세필터 공용 */
+.form_time_input, .time_input {width:40px; padding:0 2px; float:left;} /* time input 사이즈, 상세필터 공용 */
 .form_datetime_input
 
 .form_cumm_input
@@ -33,7 +33,5 @@
 
 
 
-
+/* 상세필터 */
 .inputline {border:1px solid #c7c7c7; left:0px; margin-right:2px; width:170px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left;} /* 상세필터 input line*/
-.date_input {width:68px; padding:0 2px; float:left;} /* date input 사이즈/
-.time_input {width:40px; padding:0 2px; float:left;} /* time input 사이즈/

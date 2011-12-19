@@ -57,7 +57,7 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 /* 목록보기 부분 타이틀 */
 .list_title_space {background-color:#ededed; padding:7px 5px; overflow:hidden;}
 .list_title_space .title, .list_title {background: url("../images/body_icon.png") no-repeat scroll 0 -288px transparent; height:27px; font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
-.list_contents table {min-width:720px;}
+.list_contents table {min-width:700px;}
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0;}
 .list_contents table tr .end, .list_contents table td .end {border-bottom: 0 none}
 .list_contents table .r_line {border-right:1px solid #DCDFE0;}
