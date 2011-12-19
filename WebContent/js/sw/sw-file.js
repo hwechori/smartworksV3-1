@@ -8,12 +8,12 @@ function fileUploader(groupId, target) {
     '</div>';
 
 	var uploadFileTemplate = '<li>' +
-	'<a class="qq-upload-file"></a>' +
+	'<a href="#" class="qq-upload-file"></a>' +
 	'<span class="qq-upload-spinner"></span>' +
 	'<span class="qq-upload-size"></span>' +
 	'<a class="qq-upload-cancel" href="#">' + language.message("cancelUpload") + '</a>' +
 	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
-	'<span class="qq-delete-text" style="display:none">X</span>' +
+	'<a href="#" class="qq-delete-text" style="display:none">X</a>' +
 	'</li>';
 	
 	return new qq.FileUploader({
@@ -71,12 +71,12 @@ function fileUploader(groupId, target) {
 
 function createUploader(groupId, target, isMultiple, isProfile){
 	var uploadFileTemplate = '<li>' +
-	'<a class="qq-upload-file"></a>' +
+	'<a href="#" class="qq-upload-file"></a>' +
 	'<span class="qq-upload-spinner"></span>' +
 	'<span class="qq-upload-size"></span>' +
 	'<a class="qq-upload-cancel" href="#">' + language.message("cancelUpload") + '</a>' +
 	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
-	'<span class="qq-delete-text" style="display:none">X</span>' +
+	'<a href="#" class="qq-delete-text" style="display:none">X</a>' +
 	'</li>';
 	
 	if(!groupId) {
@@ -131,7 +131,7 @@ function createUploader(groupId, target, isMultiple, isProfile){
 function viewFiles(groupId, target){
 	
 	var viewFileTemplate = '<li>' +
-	'<a class="qq-upload-file"></a>' +
+	'<a href="#" class="qq-upload-file"></a>' +
 	'<span class="qq-upload-size"></span>' +
 	'</li>';
 	
