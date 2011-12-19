@@ -8,18 +8,19 @@
 .form_value {display:inline-block;}
 
 /* input 사이즈, form, 상세필터 공용 */
-.form_max_width {max-width:300px;}
+.form_value_max_width {max-width:300px;}
+
+
+.form_date_input {width:73px;} /*date input 사이즈, 상세필터 공용*/
+.form_time_input {width:50px;} /*time input 사이즈, 상세필터 공용*/
+.form_datetime_input {width:110px;}
 
 /* .form_text_input {max-width:300px;}
-.form_date_input {width:68px;} date input 사이즈, 상세필터 공용
-.form_time_input {width:40px;} time input 사이즈, 상세필터 공용, padding:0 2px;확인 요~
-
 .form_datetime_input {width:300px;}
 .form_user_input {max-width:300px;}
 .form_users_input {max-width:300px;}
-.form_text_area {max-width:300px;} */
-
-.form_work_input {max-width:100px;}
+.form_text_area {max-width:300px;} 
+.form_work_input {max-width:100px;}*/
 
 .form_number_input {text-align:right; max-width:300px;}
 
@@ -30,9 +31,12 @@
 
 
 .ico_user_space, .ico_work_space, .ico_time_space {padding-right: 28px; position: relative;}
-.ico_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
-.ico_date {background: url("../images/btn_s_calendar.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
-.ico_time {background: url("../images/btn_s_time.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_date {background: url("../images/btn_s_calendar.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_time {background: url("../images/btn_s_time.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_work {background: url("../images/btn_s_work.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_depart {background: url("../images/btn_s_depart.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_group {background: url("../images/btn_s_group.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
 
 
 
