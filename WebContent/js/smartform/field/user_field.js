@@ -21,9 +21,10 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
+	var $label = $('<div class="form_label">' + name + '</div>');
 	var labelWidth = options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
-	var $label = $('<span class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -41,18 +42,18 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		userHtml = "<span><span class='js_community_item user_select' comId='" + userId + "'>" + longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
 	}
 
-	var $html = $('<span class="form_value" style="width:' + valueWidth + '%"> <span' + required +'>\
+		var $html = $('<div class="form_value" style="width:' + valueWidth + '%"> <span' + required +'>\
 					<div class="fieldline js_community_names">\
 						<div class="js_selected_communities user_sel_area"></div>\
 						<input class="js_auto_complete js_form_user_field" href="community_name.sw" type="text">\
 						<div class="js_srch_x"></div>\
 					</div>\
-					<div class="js_community_list" style="display: none"></div></span> <span class="ico_user"></span></span>');
+					<div class="js_community_list" style="display: none"></div> <span class="ico_user"></span></div></div>');
 
 	$html.find('.js_selected_communities').html(userHtml);
 	
 	if(readOnly){
-		$user = $('<span class="form_value" style="width:' + valueWidth + '%"><a class="js_pop_user_info" href="pop_user_info.sw?userId=' + userId + '"><span></span></a></span>').text(longName);
+		$user = $('<div class="form_value" style="width:' + valueWidth + '%"><a class="js_pop_user_info" href="pop_user_info.sw?userId=' + userId + '"><span></span></a></div>').text(longName);
 	}else{	
 		$user = $html;
 	}

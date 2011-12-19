@@ -19,7 +19,7 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<td>' + name + '</td>');
+	var $label = $('<div class="form_label">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -31,9 +31,9 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	
 	var $email = null;
 	if(readOnly){
-		$email = $('<td fieldId="' + id + '"></td>').text(value);
+		$email = $('<div class="form_value" fieldId="' + id + '"></div>').text(value);
 	}else{	
-		$email = $('<td><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value', value);
+		$email = $('<div class="form_value"><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></div>').attr('value', value);
 	}
 	$email.appendTo(options.container);
 

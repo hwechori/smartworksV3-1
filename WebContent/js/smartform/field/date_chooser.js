@@ -19,7 +19,7 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<td>' + name + '</td>');
+	var $label = $('<div class="form_label">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -31,9 +31,9 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 	
 	var $text = null;
 	if(readOnly){
-		$text = $('<td fieldId="' + id + '"></td>').text(value);
+		$text = $('<div class="form_value" fieldId="' + id + '"></div>').text(value);
 	}else{	
-		$text = $('<td><input readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value', value);
+		$text = $('<div class="form_value"><div class="ico_user_space"><input readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '"' + required + '><span class="ico_date"></span></div></div>').attr('value', value);
 	}
 	$text.appendTo(options.container);
 	

@@ -21,7 +21,7 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	
 	var currency = $entity.children('format').children('currency').text();
 	currency = '$';//TODO ? 로 깨짐
-	var $label = $('<td>' + name + '</td>');
+	var $label = $('<div class="form_label">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -33,9 +33,9 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	
 	var $currency = null;
 	if(readOnly){
-		$currency = $('<td fieldId="' + id + '"></td>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<div class="form_value" fieldId="' + id + '"></div>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$currency = $('<td><input type="text" symbol="' + currency +'" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<div class="form_value"><input class="text_align_r" type="text" symbol="' + currency +'" fieldId="' + id + '" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		//if save mode = $currency.toNumber().attr('value');
 	}
 	$currency.appendTo(options.container);
