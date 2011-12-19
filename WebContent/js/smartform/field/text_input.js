@@ -37,7 +37,11 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	if(readOnly){
 		$text = $('<div class="form_value" fieldId="' + id + '" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$text = $('<div class="form_value" style="width:' + valueWidth + '%"><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></div>').attr('value', value);
+		$text = $('<div class="form_value" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>').attr('value', value);
+	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$text.hide();		
 	}
 	$text.appendTo(options.container);
 

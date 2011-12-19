@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 	
 	SmartWorks.extend(options, config);
@@ -40,6 +41,10 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"></span>').text(value);
 	}else{	
 		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"><span' + required + '>' + value + '</span></span>');
+	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$refForm.hide();		
 	}
 	$refForm.appendTo(options.container);
 

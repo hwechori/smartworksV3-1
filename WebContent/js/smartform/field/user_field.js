@@ -57,6 +57,10 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	}else{	
 		$user = $html;
 	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$user.hide();		
+	}
 	$user.appendTo(options.container);
 
 	return options.container;

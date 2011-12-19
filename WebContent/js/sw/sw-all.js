@@ -546,8 +546,10 @@ $(function() {
 				if(inputTarget.length == 1) {
 					inputTarget.hide();
 					inputTarget.next('.js_srch_x').hide();
-					inputTarget.parents('.sw_required').removeClass('sw_error');
-					$('form.js_validation_required').validate({ showErrors: showErrors}).form();
+					if(inputTarget.parents('.sw_required').hasClass('sw_error')){
+						inputTarget.parents('.sw_required').removeClass('sw_error');
+						$('form.js_validation_required').validate({ showErrors: showErrors}).form();
+					}
 				}
 				var oldHTML = target.html();
 				if (oldHTML == null)

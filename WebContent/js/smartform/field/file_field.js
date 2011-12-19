@@ -20,8 +20,6 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<div class="form_label">' + name + '</div>');
-	if($entity[0].getAttribute('required') === 'true'){
 	var labelWidth = options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
 	var $label = $('<span class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
@@ -37,6 +35,11 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	var $file = null;
 		
 	$file = $('<div class="form_value" style="width:' + valueWidth + '%"><span id="' + id + '"' + required + '></span></div>');
+
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$file.hide();		
+	}
 	$file.appendTo(options.container);
 
 	if (readOnly) {

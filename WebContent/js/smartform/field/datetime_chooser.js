@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.DateTimeChooserBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -19,7 +20,9 @@ SmartWorks.FormRuntime.DateTimeChooserBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<div class="form_label">' + name + '</div>');
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -31,9 +34,13 @@ SmartWorks.FormRuntime.DateTimeChooserBuilder.build = function(config) {
 	
 	var $text = null;
 	if(readOnly){
-		$text = $('<div class="form_value" fieldId="' + id + '"></div>').text(value);
+		$text = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$text = $('<div class="form_value"><input readonly="readonly" type="text" fieldId="' + id + '" name="' + id + '"' + required + '></div>').attr('value', value);
+		$text = $('<div class="form_value" style="width:' + valueWidth + '%"><input readonly="readonly" name="' + id + '"' + required + '></div>').attr('value', value);
+	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$text.hide();		
 	}
 	$text.appendTo(options.container);
 

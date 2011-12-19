@@ -20,7 +20,6 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<div class="form_label">' + name + '</div>');
 	var labelWidth = options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
 	var $label = $('<span class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
@@ -38,6 +37,10 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 				$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').html(value);
 	}else{	
 		$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"><span' + required + '><textarea style="width:100%; height:100%;display:none" id="' + id + '">'+value+'</textarea></span></div>');
+	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$textarea.hide();		
 	}
 	$textarea.appendTo(options.container);
 
