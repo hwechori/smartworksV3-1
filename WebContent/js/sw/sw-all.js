@@ -735,4 +735,28 @@ $(function() {
 		});
 	});
 
+	$('a.js_todaypicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		input.prev('.js_todaypicker').datepicker("show");
+		return false;
+	});
+
+	$('a.js_todaypicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		input.prev('.js_todaypicker').datepicker("show");
+		return false;
+	});
+
+	$('a.js_timepicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		input.prev('.js_timepicker').timepicker("show");
+		return false;
+	});
+	
+	$('a.js_datetimepicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		input.prev('.js_datetimepicker').datetimepicker("show");
+		return false;
+	});
+
 });
