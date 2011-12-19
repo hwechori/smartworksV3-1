@@ -141,7 +141,8 @@ public class DocFileServiceImpl implements IDocFileService {
     		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
     		if(fileId.startsWith("temp_")) {
     			file_name = fileName;
-    			sourceFile = SmartConfUtil.getInstance().getDbDirectoryPath() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+    			//sourceFile = SmartConfUtil.getInstance().getDbDirectoryPath() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+    			sourceFile = System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME") + File.separator + user.getCompanyId() + File.separator + "Temps" + File.separator + fileId + "." + extension;
     		} else {
     			IFileModel doc = getDocManager().retrieveFile(fileId);
 	    		//파일명, UniqValue
@@ -186,8 +187,8 @@ public class DocFileServiceImpl implements IDocFileService {
     }
 
 	@Override
-	public String uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return getDocManager().uploadTempFile(request, response);
+	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		getDocManager().uploadTempFile(request, response);
 	}
 
 /*	@Override

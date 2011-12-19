@@ -25,7 +25,7 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	var valueWidth = 100 - labelWidth;
 	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='fieldline required' ";
 	}else{

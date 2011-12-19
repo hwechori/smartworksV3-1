@@ -52,7 +52,7 @@ public interface IDocFileService {
 
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	public abstract String uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public abstract void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 

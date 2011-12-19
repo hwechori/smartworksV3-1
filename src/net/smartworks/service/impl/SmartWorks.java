@@ -417,8 +417,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public String uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return docFileService.uploadTempFile(request, response);
+	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		docFileService.uploadTempFile(request, response);
 	}
 
 }

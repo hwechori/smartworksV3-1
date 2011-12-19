@@ -109,30 +109,7 @@
 					<div class="float_left js_end_time">
 						<input name="txtEventEndTime"
 							class="fieldline space_data js_current_timepicker" type="text" value="<%=curTime%>">
-<%-- 						<select name="selEventEndTime">
-							<%
-								{
-									boolean isNow = false, isPassed = false;
-									DecimalFormat df = new DecimalFormat("00");
-									int iCurHour = df.parse(curTime.substring(0, 2)).intValue();
-									for (int i = 0; i < 24; i++) {
-										String hourString = df.format(i) + ":00";
-										String thirtyMinuteString = df.format(i) + ":30";
-										if (iCurHour < i && !isPassed)
-											isNow = true;
-							%>
-							<option
-								<%if (isNow) {
-						isNow = false;
-						isPassed = true;%>
-								selected <%}%> value="<%=hourString%>"><%=hourString%></option>
-							<option><%=thirtyMinuteString%></option>
-							<%
-								}
-								}
-							%>
-						</select>
- --%>					</div>
+					</div>
 				</div>
 				<!-- 종료 날짜 추가 내용 //-->
 				<div class="float_left txt_btn">

@@ -1,8 +1,8 @@
 SmartWorks.FormRuntime = SmartWorks.FormRuntime || {};
 
-SmartWorks.FormRuntime.FileFieldBuilder = {};
+SmartWorks.FormRuntime.ImageBoxBuilder = {};
 
-SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
+SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 	var options = {
 		mode : 'view', // view or edit
 		container : $('<div></div>'),
@@ -20,36 +20,30 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<div class="form_label">' + name + '</div>');
-	if($entity[0].getAttribute('required') === 'true'){
-	var labelWidth = options.layoutInstance.getLabelWidth(id);
-	var valueWidth = 100 - labelWidth;
-	var $label = $('<span class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
+	var $label = $('<span class="form_label">' + name + '</span>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = ' class="sw_required"';
 	}else{
-		required = '';		
+		required = '';
 	}
 	$label.appendTo(options.container);
 	
-	var $file = null;
+	var $image = null;
 		
-	$file = $('<div class="form_value" style="width:' + valueWidth + '%"><span id="' + id + '"' + required + '></span></div>');
-	$file.appendTo(options.container);
+	$image = $('<span class="form_value" style="width:' + valueWidth + '%"><img src=""/>' + '<span id="' + id + '"' + required + '></span></span>');
+	$image.appendTo(options.container);
 
-	if (readOnly) {
-		viewFiles(value, $('#'+id));
-	} else {
-		createUploader(value, $('#'+id), true, false);
+	if (!readOnly) {
+		createUploader(value, $('#'+id), false, true);
 	}
 	return options.container;
 
 };
 
-SmartWorks.FormRuntime.FileFieldBuilder.serializeObject = function(fileFields){
-	var fileUploaders = fileFields.find('.qq-uploader');
+SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject = function(imageBoxs){
+	var fileUploaders = imageBoxs.find('.qq-uploader');
 	var filesJson = {};
 	for(var i=0; i<fileUploaders.length; i++){
 		var fileUploader = $(fileUploaders[i]);
@@ -67,16 +61,16 @@ SmartWorks.FormRuntime.FileFieldBuilder.serializeObject = function(fileFields){
 	return filesJson;
 };
 
-SmartWorks.FormRuntime.FileFieldBuilder.validate = function(fileFields){
-	var fileUploaders = fileFields.find('.sw_required').find('.qq-uploader');
-	var filesValid = true;
+SmartWorks.FormRuntime.ImageBoxBuilder.validate = function(imageBoxs){
+	var fileUploaders = imageBoxs.find('.sw_required').find('.qq-uploader');
+	var imagesValid = true;
 	for(var i=0; i<fileUploaders.length; i++){
 		var fileUploader = $(fileUploaders[i]);
 		var files = fileUploader.find('.qq-upload-success');
 		if(files.length == 0){
-			fileUploader.parents('.js_type_fileField:first').find('span.sw_required').addClass("sw_error");
-			filesValid = false;
+			fileUploader.parents('.js_type_imageBox:first').find('span.sw_required').addClass("sw_error");
+			imagesValid = false;
 		}
 	}
-	return filesValid;
+	return imagesValid;
 };

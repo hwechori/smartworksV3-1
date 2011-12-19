@@ -16,7 +16,18 @@
 	function submitForms(e) {
 		if ($('form.js_validation_required').validate().form()) {
 			var params = $('form').serialize();
-			
+			var form = document.getElementsByName('frmMyProfileSetting');
+			console.log("form", form);
+			var fileUploader = $(form).find('.js_form_file_field');
+			console.log('fileUploader', fileUploader);
+			if(fileUploader.length>0){
+				var groupId = $(fileUploader[0]).attr('groupId');
+				var files = fileUploader.find('li.qq-upload-success');
+				var file = $(files[0]);
+				params = params + "&profileGroupId=" + groupId + "&profileFileId=" + file.attr('fileId') + "&profileFileName=" + file.attr('fileName'); 
+			}
+			console.log(params);
+			alert('wait');
 			var url = "update_my_profile.sw";
 			$.ajax({
 				url : url,

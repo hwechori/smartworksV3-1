@@ -21,7 +21,7 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	
 	var $label = $('<div class="form_label">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='js_number_input fieldline required' ";
 	}else{
