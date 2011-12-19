@@ -40,7 +40,7 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	if(readOnly){
 		$refForm = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$refForm = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><div class="ico_fb_space"><input readonly="readonly" type="text" name="' + id + '"' + required + '><span class="ico_fb_work"></span></div></div>');
+		$refForm = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><div class="ico_work_space"><input readonly="readonly" type="text" name="' + id + '"' + required + '><a href="#" class="js_workitmepicker_button"><span class="ico_fb_work"></span></a></div></div>');
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();

@@ -27,4 +27,28 @@ public class PopupController {
 		return SmartUtil.returnMnv(request, "jsp/popup/pop_user_info.jsp",
 				"jsp/popup/pop_user_info.jsp");
 	}
+
+	@RequestMapping("/pop_select_user")
+	public ModelAndView popSelectUser(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_select_user.jsp",
+				"jsp/popup/pop_select_user.jsp");
+	}
+
+	@RequestMapping("/pop_select_work")
+	public ModelAndView popSelectWork(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_select_work.jsp",
+				"jsp/popup/pop_select_work.jsp");
+	}
+
+	@RequestMapping("/pop_select_work_item")
+	public ModelAndView popSelectWorkItem(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_select_work_item.jsp",
+				"jsp/popup/pop_select_work_item.jsp");
+	}
 }

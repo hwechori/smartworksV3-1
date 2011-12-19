@@ -53,7 +53,7 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 
 		$option = $('<option value="' + text + '" ' + selected + '>'+text+'</option>');
 		
-		$option.appendTo($input);
+		$option.appendTo($input.find('select'));
 	}
 	$input.appendTo(options.container);
 
