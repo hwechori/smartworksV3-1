@@ -458,7 +458,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
             fos = new FileOutputStream(new File(formFile.getFilePath()));
             IOUtils.copy(is, fos);
             response.setStatus(HttpServletResponse.SC_OK);
-            writer.print("{success: true, fileId: \"" + formFile.getId() + "\"}");
+            writer.print("{success: true, fileId: \"" + formFile.getId() + "\", pullPathName: \"" + formFile.getFilePath() + "\"}");
         } catch (FileNotFoundException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             writer.print("{success: false}");
@@ -542,7 +542,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		String fileId = IDCreator.createId(SmartServerConstant.TEMP_ABBR);
 		formFile.setId(fileId);
 		//this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
-		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME")+File.separator);
+		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME"));
 
 		String companyId = SmartUtil.getCurrentUser().getCompanyId();
 
@@ -577,12 +577,12 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 	}
 
 	@Override
-	public String uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
+	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
 		IFileModel formFile = new HbFileModel();
 		String fileId = IDCreator.createId(SmartServerConstant.TEMP_ABBR);
 		formFile.setId(fileId);
-		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
-
+		//this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME"));
 		String companyId = SmartUtil.getCurrentUser().getCompanyId();
 
 		String fileDivision = "Temps";
@@ -612,8 +612,6 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		}
 
 		this.writeAjaxFile(request, response, formFile);
-
-		return filePath;
 
 	}
 

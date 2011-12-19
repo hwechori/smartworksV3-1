@@ -186,8 +186,8 @@ public class DocFileServiceImpl implements IDocFileService {
     }
 
 	@Override
-	public String uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return getDocManager().uploadTempFile(request, response);
+	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		getDocManager().uploadTempFile(request, response);
 	}
 
 /*	@Override

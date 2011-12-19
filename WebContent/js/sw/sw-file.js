@@ -36,6 +36,7 @@ function fileUploader(groupId, target) {
         	return true;
         },
         onComplete : function(id, fileName, responseJSON){
+        	console.log("###########################################################"+responseJSON.pullPathName);
         	var file = $(this.element).find('.qq-upload-list li[qqFileId=' + id + ']');
         	file.attr('fileId', responseJSON.fileId);
         	
@@ -46,6 +47,9 @@ function fileUploader(groupId, target) {
         	
         	file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + responseJSON.fileId + "&fileName=" + fileName).addClass('js_file_type_'+ ext );
         	file.find('.qq-delete-text').show();
+        	var target = file.parents('div.js_file_uploader:first').prev().find('img.js_auto_picture');
+        	//target.attr("src", responseJSON.pullPathName);
+        	target.attr("src", responseJSON.pullPathName);
         	
         },
         fileTemplate : uploadFileTemplate,
