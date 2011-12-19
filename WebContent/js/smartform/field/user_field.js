@@ -47,7 +47,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 						<input class="js_auto_complete js_form_user_field" href="community_name.sw" type="text">\
 						<div class="js_srch_x"></div>\
 					</div>\
-					<div class="js_community_list commu_list" style="display: none"></div> <span class="ico_fb_user"></span></div></div>');
+					<div class="js_community_list commu_list" style="display: none"></div><a href="#" class="js_userpicker_button"><span class="ico_fb_user"></span></a></div></div>');
 
 	$html.find('.js_selected_communities').html(userHtml);
 	
