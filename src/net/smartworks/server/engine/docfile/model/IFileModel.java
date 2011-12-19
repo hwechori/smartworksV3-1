@@ -21,6 +21,8 @@ public interface IFileModel {
 	public void setFileName(String fileName);
 	public String getFilePath();
 	public void setFilePath(String filePath);
+	public String getImageServerPath();
+	public void setImageServerPath(String imageServerPath);
 	public String getType();
 	public void setType(String type);
 	public long getFileSize();

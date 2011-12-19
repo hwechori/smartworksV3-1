@@ -6,10 +6,8 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<beans:bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<beans:property name="location"
-			value="conf/spring/smart.conf.properties" />
+	<beans:bean	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="location" value="conf/spring/smart.conf.properties" />
 	</beans:bean>
 
 	<!-- <beans:bean id="swfManager" class="net.smartworks.server.engine.infowork.form.manager.impl.SwfManagerImpl"/> -->
@@ -18,20 +16,16 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<context:component-scan base-package="net.smartworks" />
 
-	<beans:bean id="fileDirectory" class="net.smartworks.util.SmartConfUtil"
-		factory-method="createInstance">
-		<beans:property name="fileDirectory">
-			<beans:value>${fileDirectory}</beans:value>
+	<beans:bean id="imageServer" class="net.smartworks.util.SmartConfUtil" factory-method="createInstance">
+		<beans:property name="imageServer">
+			<beans:value>${imageServer}</beans:value>
 		</beans:property>
 	</beans:bean>
-	<beans:bean id="dbDirectoryPath" class="net.smartworks.util.SmartConfUtil"
-		factory-method="createInstance">
-		<beans:property name="dbDirectoryPath">
-			<beans:value>${dbDirectoryPath}</beans:value>
+	<beans:bean id="imageServerDirectory" class="net.smartworks.util.SmartConfUtil" factory-method="createInstance">
+		<beans:property name="imageServerDirectory">
+			<beans:value>${imageServerDirectory}</beans:value>
 		</beans:property>
 	</beans:bean>
-
-
 
 	<!-- StringHttpMessageConverter UTF-8 -->
 	<beans:bean	class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">

@@ -105,7 +105,7 @@ public class DocFileServiceImpl implements IDocFileService {
 
 		if(fileId.startsWith("temp_")) {
 			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-			filePath = SmartConfUtil.getInstance().getDbDirectoryPath() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+			filePath = SmartConfUtil.getInstance().getImageServer() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
 		} else {
 			IFileModel doc = getDocManager().retrieveFile(fileId);
 			filePath = doc.getFilePath();
@@ -141,8 +141,8 @@ public class DocFileServiceImpl implements IDocFileService {
     		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
     		if(fileId.startsWith("temp_")) {
     			file_name = fileName;
-    			//sourceFile = SmartConfUtil.getInstance().getDbDirectoryPath() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
-    			sourceFile = System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME") + File.separator + user.getCompanyId() + File.separator + "Temps" + File.separator + fileId + "." + extension;
+    			sourceFile = SmartConfUtil.getInstance().getImageServerDirectory() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+    			//sourceFile = System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME") + File.separator + user.getCompanyId() + File.separator + "Temps" + File.separator + fileId + "." + extension;
     		} else {
     			IFileModel doc = getDocManager().retrieveFile(fileId);
 	    		//파일명, UniqValue

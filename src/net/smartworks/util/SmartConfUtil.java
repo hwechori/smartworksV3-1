@@ -12,23 +12,15 @@ public class SmartConfUtil {
 
 	private static SmartConfUtil util;
 
-	private String smartWorksHome;
+	private String imageServer;
+	private String imageServerDirectory;
 
-	private String fileDirectory;
-	private String dbDirectoryPath;
-
-	/**
-	 * @return the dbDirectoryPath
-	 */
-	public String getDbDirectoryPath() {
-		return dbDirectoryPath;
+	public String getImageServerDirectory() {
+		return imageServerDirectory;
 	}
 
-	/**
-	 * @param dbDirectoryPath the dbDirectoryPath to set
-	 */
-	public void setDbDirectoryPath(String dbDirectoryPath) {
-		this.dbDirectoryPath = dbDirectoryPath;
+	public void setImageServerDirectory(String imageServerDirectory) {
+		this.imageServerDirectory = imageServerDirectory;
 	}
 
 	public static SmartConfUtil getInstance() {
@@ -43,29 +35,12 @@ public class SmartConfUtil {
 		return util;
 	}
 
-	/**
-	 * @return the smartWorksHome
-	 */
-	public String getSmartWorksHome() {
-		return smartWorksHome;
+	public String getImageServer() {
+		return imageServer;
 	}
-	/**
-	 * @param smartWorksHome the smartWorksHome to set
-	 */
-	public void setSmartWorksHome(String smartWorksHome) {
-		this.smartWorksHome = smartWorksHome;
-	}
-	/**
-	 * @return the fileDirectory
-	 */
-	public String getFileDirectory() {
-		return fileDirectory;
-	}
-	/**
-	 * @param fileDirectory the fileDirectory to set
-	 */
-	public void setFileDirectory(String fileDirectory) {
-		this.fileDirectory = fileDirectory;
+
+	public void setImageServer(String imageServer) {
+		this.imageServer = imageServer;
 	}
 
 }

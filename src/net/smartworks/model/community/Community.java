@@ -4,11 +4,12 @@ import java.io.File;
 
 import net.smartworks.model.BaseObject;
 import net.smartworks.server.engine.security.model.Login;
+import net.smartworks.util.SmartConfUtil;
 import net.smartworks.util.SmartUtil;
 
 public class Community extends BaseObject {
 
-	public static final String PICTURE_PATH = System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME");
+	public static final String PICTURE_PATH = SmartConfUtil.getInstance().getImageServer();
 	public static final String NO_PICTURE_PATH = "images/";
 	public static final String PROFILES_DIR = "Profiles";
 	private String  bigPictureName = null;

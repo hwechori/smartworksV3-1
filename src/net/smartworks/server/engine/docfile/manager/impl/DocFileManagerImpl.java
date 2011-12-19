@@ -9,6 +9,7 @@
 package net.smartworks.server.engine.docfile.manager.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.community.User;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.id.IDCreator;
@@ -36,6 +38,7 @@ import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartConfUtil;
 import net.smartworks.util.SmartUtil;
+import net.smartworks.util.Thumbnail;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.Query;
@@ -95,7 +98,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		if (!storage.exists())
 			storage.mkdir();
 
-		if(!fileDivision.equals("Temps")) {
+		if(!fileDivision.equals("Temps") && !fileDivision.equals("Profiles") && !fileDivision.equals("WorkImages")) {
 			// 현재 년, 월 정보를 얻는다.
 			Calendar currentDate = Calendar.getInstance();
 			int year = currentDate.get(Calendar.YEAR);
@@ -163,7 +166,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		String fileId = request.getParameter("fileId");
 		file.setId(fileId);
 		file.setWrittenTime(new Date(new LocalDate().getGMTDate()));
-		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		this.setFileDirectory(SmartConfUtil.getInstance().getImageServer());
 
 		//File repository = this.getFileRepository();
 		MultipartFile multipartFile = file.getMultipartFile();
@@ -458,7 +461,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
             fos = new FileOutputStream(new File(formFile.getFilePath()));
             IOUtils.copy(is, fos);
             response.setStatus(HttpServletResponse.SC_OK);
-            writer.print("{success: true, fileId: \"" + formFile.getId() + "\", pullPathName: \"" + formFile.getFilePath() + "\"}");
+            writer.print("{success: true, fileId: \"" + formFile.getId() + "\", pullPathName: \"" + formFile.getImageServerPath() + "\"}");
         } catch (FileNotFoundException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             writer.print("{success: false}");
@@ -488,7 +491,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		
 		formFile.setId(fileId);
 		formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
-		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		this.setFileDirectory(SmartConfUtil.getInstance().getImageServer());
 
 		String companyId = SmartUtil.getCurrentUser().getCompanyId();
 
@@ -581,14 +584,15 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		IFileModel formFile = new HbFileModel();
 		String fileId = IDCreator.createId(SmartServerConstant.TEMP_ABBR);
 		formFile.setId(fileId);
-		//this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
-		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME"));
+		this.setFileDirectory(SmartConfUtil.getInstance().getImageServerDirectory());
+		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME"));
 		String companyId = SmartUtil.getCurrentUser().getCompanyId();
 
 		String fileDivision = "Temps";
 
 		File repository = this.getFileRepository(companyId, fileDivision);
 		String filePath = "";
+		String imagerServerPath = "";
 		String extension = "";
 		if (formFile != null) {
 			String fileName = "";
@@ -603,6 +607,9 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
 			filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
 
+			imagerServerPath = SmartConfUtil.getInstance().getImageServer() + companyId + "/" + "Temps" + "/" + fileId + "." + extension;
+			formFile.setImageServerPath(imagerServerPath);
+
 			if (extension != null) {
 				filePath = filePath + "." + extension;
 			}
@@ -613,6 +620,49 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 
 		this.writeAjaxFile(request, response, formFile);
 
+	}
+
+	public void insertFile(HttpServletRequest request) throws DocFileException {
+
+//		String profileFileId = request.getParameter("profileFileId");
+//		String profileFileName = request.getParameter("profileFileName");
+//		String profileGroupId = request.getParameter("profileGroupId");
+		String profileFileId = "temp_678522b149734500acddaf2e40096940";
+		String profileFileName = "Koala.jpg";
+		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME"));
+		this.setFileDirectory(SmartConfUtil.getInstance().getImageServerDirectory());
+
+		String fileName = profileFileName;
+
+		if (fileName.indexOf(File.separator) > 1)
+			fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+
+		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+
+		User user = SmartUtil.getCurrentUser();
+		String userPicId = user.getId() + "." + extension;
+		String bigId = user.getId() + "_big";
+		String smallId = user.getId() + "_small";
+		String originId = user.getId() + "_origin";
+		String tempFile = this.getFileDirectory() + File.separator + user.getCompanyId() + File.separator + "Temps" + File.separator + profileFileId + "." + extension;
+		String realFile1 = getFileRepository(user.getCompanyId(), "Profiles").getAbsolutePath() + File.separator + bigId + "." + extension;
+		String realFile2 = getFileRepository(user.getCompanyId(), "Profiles").getAbsolutePath() + File.separator + smallId + "." + extension;
+		String realFile = getFileRepository(user.getCompanyId(), "Profiles").getAbsolutePath() + File.separator + originId + "." + extension;
+
+		try {
+			FileInputStream is = new FileInputStream(new File(tempFile));
+			Thumbnail.createImage(tempFile, realFile1, "big", extension);
+			Thumbnail.createImage(tempFile, realFile2, "small", extension);
+			FileOutputStream os = new FileOutputStream(new File(realFile));
+			IOUtils.copy(is, os);
+			is.close();
+			os.close();
+		} catch (Exception e) {
+			throw new DocFileException("Failed to copy file [" + tempFile + "]!");
+		}
+
+		Query query = this.getSession().createSQLQuery(" update SwOrgUser set picture = '" + userPicId + "' where id = '" + user.getId() + "'");
+		query.executeUpdate();
 	}
 
 }

@@ -7,12 +7,14 @@
  */
 package net.smartworks.server.engine.security.manager.impl;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
 import javax.sql.DataSource;
 
+import net.smartworks.model.community.Community;
 import net.smartworks.model.community.User;
 import net.smartworks.server.engine.security.manager.LoginDao;
 import net.smartworks.server.engine.security.model.Login;
@@ -102,8 +104,11 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			login.setPassword(rs.getString("passwd"));
 			login.setLocale(rs.getString("locale"));
 			login.setTimeZone(rs.getString("timeZone"));
-			login.setBigPictureName(rs.getString("picture"));
-			login.setSmallPictureName(rs.getString("picture"));
+			String picture = rs.getString("picture");
+			String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+			String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+			login.setBigPictureName(pictureId + "_big" + extension);
+			login.setSmallPictureName(pictureId + "_small" + extension);
 			login.setUserLevel(login.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
 
 			return login;

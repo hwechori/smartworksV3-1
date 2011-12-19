@@ -21,25 +21,24 @@ public class Thumbnail {
 
 	public Thumbnail() {}
 	
-	public static void createImage(String loadFile, String saveFile, int zoom) throws IOException {	
+	public static void createImage(String loadFile, String saveFile, String sizeType, String extension) throws IOException {	
 
 		File save = new File(saveFile);
 		RenderedOp rOp = JAI.create("fileload", loadFile);
 		BufferedImage im = rOp.getAsBufferedImage();
-		if(zoom <= 0) zoom = 1;
-		int width = im.getWidth();
-		int height = im.getHeight();
-		if (width <= 500 || height <= 500){
-			width = im.getWidth();
-		 	height = im.getHeight();
+		int width;
+		int height;
+		if(sizeType.equals("big")) {
+			width = 110;
+			height = 110;
 		} else {
-			width = 500;
-			height = 500;
+			width = 48;
+			height = 48;
 		}
 		BufferedImage thumb = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2 = thumb.createGraphics();						
 		g2.drawImage(im, 0, 0, width, height, null);						
-		ImageIO.write(thumb, "jpg", save);
+		ImageIO.write(thumb, extension, save);
 
 	}
 
