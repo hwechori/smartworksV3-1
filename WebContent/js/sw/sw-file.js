@@ -45,7 +45,6 @@ function fileUploader(groupId, target) {
         	return true;
         },
         onComplete : function(id, fileName, responseJSON){
-        	alert(id);
         	var file = $(this.element).find('.qq-upload-list li[qqFileId=' + id + ']');
         	file.attr('fileId', responseJSON.fileId);
         	file.attr('fileName', fileName);
