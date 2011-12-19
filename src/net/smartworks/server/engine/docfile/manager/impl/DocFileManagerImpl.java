@@ -658,9 +658,57 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			throw new DocFileException("Failed to copy file [" + tempFile + "]!");
 		}
 
-		//Query query = this.getSession().createSQLQuery(" update SwOrgUser set picture = '" + userPicId + "' where id = '" + user.getId() + "'");
-		//query.executeUpdate();
 		return communityPictureId;
+	}
+
+	public void insertFiles(String groupId, String tempFileId, String fileName) throws DocFileException {
+
+		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
+		
+		if (fileName.indexOf(File.separator) > 1)
+			fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+
+		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+
+		User user = SmartUtil.getCurrentUser();
+
+		File repository = this.getFileRepository(user.getCompanyId(), "Files");
+		String fileId = tempFileId.split("temp_")[tempFileId.split("temp_").length-1];
+		fileId = "file_" + fileId;
+
+		String tempFile = this.getFileDirectory() + "/" + user.getCompanyId() + "/" + "Temps" + "/" + tempFileId + "." + extension;
+		String realFile = repository.getAbsolutePath() + "/" + fileId + "." + extension;
+
+		IFileModel formFile = new HbFileModel();
+		formFile.setId(fileId);
+		formFile.setFileName(fileName);
+		formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
+		formFile.setFilePath(realFile);
+		File file = new File(tempFile);
+		long fileSize = file.getTotalSpace();
+		formFile.setFileSize(fileSize);
+		formFile.setType(extension);
+		this.getHibernateTemplate().save(formFile);
+
+		try {
+			FileInputStream is = new FileInputStream(new File(tempFile));
+			FileOutputStream os = new FileOutputStream(new File(realFile));
+			IOUtils.copy(is, os);
+			is.close();
+			os.close();
+		} catch (Exception e) {
+			throw new DocFileException("Failed to copy file [" + tempFile + "]!");
+		}
+
+		// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
+		if (groupId == null)
+			// 그룹아이디를 생성하여 문서 아이디와 매핑
+			groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
+
+		// 그룹아이디, 문서 아이디 쌍 저장
+		Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
+		query.executeUpdate();
+
 	}
 
 }
