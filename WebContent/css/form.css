@@ -11,9 +11,9 @@
 .form_value_max_width {max-width:300px;}
 
 
-.form_date_input {width:73px;} /*date input 사이즈, 상세필터 공용*/
-.form_time_input {width:50px;} /*time input 사이즈, 상세필터 공용*/
-.form_datetime_input {width:110px;}
+.form_date_input {width:80px;} /*date input 사이즈, 상세필터 공용*/
+.form_time_input {width:60px;} /*time input 사이즈, 상세필터 공용*/
+.form_datetime_input {width:120px;}
 
 /* .form_text_input {max-width:300px;}
 .form_datetime_input {width:300px;}
