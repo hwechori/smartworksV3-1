@@ -268,6 +268,14 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .nav_srch_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 140px; font-size:11px;}
 
 
+/* 검색- community name 리스트 */
+.commu_list {z-index:100; position:absolute; width:250px; top: 20px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;}
+.commu_list li {position:relative; color:#454545;}
+.commu_list li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#454545;}
+.commu_list li a:hover {display:block; background-color:#fffccd; color:#454545;}
+.commu_list {display: inline; float: left; position: relative; width: 410px;}
+
+
 /* 입력폼 */
 .form_wrap {background: none repeat scroll 0 0 #FFFFFF; height:100%; }
 .form_wrap .input_check {float:left; margin-left:5px;}
