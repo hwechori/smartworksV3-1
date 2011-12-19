@@ -693,6 +693,7 @@ $(function() {
 				$(e.target).parent().remove();
 			}
 		});
+		return false;
 	});
 
 	$('a.js_copy_address').zclip({

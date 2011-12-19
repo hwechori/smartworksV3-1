@@ -11,12 +11,12 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	};
 	
 	SmartWorks.extend(options, config);
-	var value = (options.dataField && options.dataField.value) || '';
-	var refForm = (options.dataField && options.dataField.refForm) || '';
-	var refFormField = (options.dataField && options.dataField.refFormField) || '';
-	var refRecordId = (options.dataField && options.dataField.refRecordId) || '';
-	options.container.attr('refForm', refForm).attr('refFormField', refFormField).attr('refRecordId', refRecordId);
 	var $entity = options.entity;
+	var $refForm = $entity.find('refForm');	
+	var $refFormField = $refForm.find('field');	
+	var refRecordId = (options.dataField && options.dataField.refRecordId) || '';
+	var value = (options.dataField && options.dataField.value) || '';
+	options.container.attr('refForm', $refForm.attr('id')).attr('refFormField', $refFormField.attr('id')).attr('refRecordId', refRecordId);
 
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
