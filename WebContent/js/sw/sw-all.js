@@ -5,7 +5,7 @@ $(function() {
 	console.log(autoPictures);
 	if(autoPictures.length > 0) {
 		for(var i=0; i<autoPictures.length; i++) {			
-			createUploader(null, $(autoPictures[i]).parent().next('div.js_file_uploader'), false, true);
+			createUploader(null, $(autoPictures[i]).next('div.js_file_uploader'), false, true);
 		}		
 	}
 

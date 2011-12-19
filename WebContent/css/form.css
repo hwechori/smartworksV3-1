@@ -7,10 +7,13 @@
 .form_label {float:left;}
 .form_value {display:inline-block;}
 
+/* input 사이즈, form, 상세필터 공용 */
 .form_text_input {max-width:}
-.form_date_input, .date_input {width:68px; padding:0 2px; float:left;} /* date input 사이즈, 상세필터 공용 */
-.form_time_input, .time_input {width:40px; padding:0 2px; float:left;} /* time input 사이즈, 상세필터 공용 */
-.form_datetime_input
+.form_date_input {width:68px;} /* date input 사이즈, 상세필터 공용 */
+.form_time_input {width:40px;} /* time input 사이즈, 상세필터 공용, padding:0 2px;확인 요~ */
+.form_datetime_input {}
+.form_user_input {max-width:227px;}
+.form_users_input {max-width:227px;}
 
 .form_cumm_input
 .form_cumms_input

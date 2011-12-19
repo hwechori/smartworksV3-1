@@ -73,10 +73,10 @@
 <span class="str_field js_operand_date js_right_operand"
 	<%if (!selectedOperType.equals("js_operand_date")) {%> style="display: none"
 	<%}%>> <input
-	class="inputline date_input space_r2 js_todaypicker" type="text"
+	class="inputline form_date_input space_r2 js_todaypicker" type="text"
 	name="txtFilterDateOperand" readonly="readonly"
 	value="<%if (operandValue != null && !operandValue.equals("null")) {%><%=operandValue%><%} else {%><%=today%><%}%>">
-	<input class="inputline time_input" name="txtFilterTimeOperand"
+	<input class="inputline form_time_input" name="txtFilterTimeOperand"
 	type="text"
 	value="<%if (operandValueSecond != null && !operandValue.equals("null")) {%><%=operandValueSecond%><%} else {%><%=curTime%><%}%>">
 </span>
