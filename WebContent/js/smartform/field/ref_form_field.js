@@ -25,7 +25,7 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	
 	var labelWidth = options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
-	var $label = $('<span class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
@@ -37,9 +37,9 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	
 	var $refForm = null;
 	if(readOnly){
-		$refForm = $('<span class="form_value" style="width:' + valueWidth + '%"></span>').text(value);
+		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"></span>').text(value);
 	}else{	
-		$refForm = $('<span class="form_value" style="width:' + valueWidth + '%"><span' + required + '>' + value + '</span></span>');
+		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"><span' + required + '>' + value + '</span></span>');
 	}
 	$refForm.appendTo(options.container);
 
