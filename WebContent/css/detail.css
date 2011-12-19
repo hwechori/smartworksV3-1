@@ -244,6 +244,11 @@ display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
 .profile_size_s {width:20px; height:20px;}
 
 
+/* file_uploader */
+.file_uploader_area {margin-top:2px; text-align:center;}
+
+
+
 /* Body Icon */
 .bu_modfy {background: url("../images/body_icon.png") no-repeat scroll 0 -7px transparent; height:16px; width:16px; display:inline-block;}
 .bu_regit {background: url("../images/body_icon.png") no-repeat scroll -74px -7px transparent; height:16px; width:16px; display:inline-block;}

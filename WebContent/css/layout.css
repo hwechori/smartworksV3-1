@@ -330,7 +330,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 /* 테이블 - 고정 사이즈 */
 .table_nomal600 {position: relative;}
-.table_nomal600 table {width: 600px;}
+.table_nomal600 table {width: 555px;}
 .table_nomal600 table tr {height:32px}
 
 /*라운드 포틀릿*/
@@ -501,7 +501,7 @@ padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
 .pop_b_r { background: url("../images/pop_img.png") repeat-y scroll 100% 100% transparent; height: 10px; float:right; width: 590px; position: relative;}
 
 .pop_contents { overflow: hidden; background-color:#FFF; margin: 0 15px 0 0; overflow: hidden; padding: 10px;}
-.photo_section {float: left; width:110px;}
+.photo_section {float: left; width:110px; padding-right: 30px;}
 .pop_btn_space { background-color: #FFF; border-top: 1px solid #C7C7C7; height: 22px; margin: 0 15px 0 5px; padding: 8px 0;}
 .filetype_area {border: 0; display:block; font-size: 11px; height: 20px; width: 65px;}
 
@@ -519,8 +519,7 @@ padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
 .t_gbold {color:#656565; font-weight:bold;}
 .t_name {color:#23579e; position: relative;}
 .t_woname {color:#23579e; font-weight:bold;}
-.t_date {font-size:11px; color:#999897;}
-.t_location {font-size:11px; color:#999897; padding:}
+.t_date, .t_text_s11 {font-size:11px; color:#999897;}
 .t_white {font-size:12px; font-weight:normal;}
 .arr {font-size:10px; margin-right:2px;}
 
