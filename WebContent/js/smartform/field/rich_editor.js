@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -19,11 +20,13 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<td>' + name + '</td>');
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<span class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
-		required = " class='required' ";
+		required = " class='sw_required' ";
 	}else{
 		required = "";
 	}
@@ -31,9 +34,13 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	
 	var $textarea = null;
 	if(readOnly){
-		$textarea = $('<td fieldId="' + id + '" id="'+id+'"></td>').html(value);
+				$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').html(value);
 	}else{	
-		$textarea = $('<textarea style="width:100%; height:100%;display:none" fieldId="' + id + '" name="' + id + '" id="' + id + '"' + required + '>'+value+'</textarea>');
+		$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"><span' + required + '><textarea style="width:100%; height:100%;display:none" id="' + id + '">'+value+'</textarea></span></div>');
+	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$textarea.hide();		
 	}
 	$textarea.appendTo(options.container);
 
@@ -50,5 +57,25 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	return options.container;
 };
 
+SmartWorks.FormRuntime.RichEditorBuilder.serializeObject = function(richEditors){
+	var richEditorsJson = {};
+	for(var i=0; i<richEditors.length; i++){
+		var richEditor = $(richEditors[i]);
+		console.log(richEditor.find('smartOutput'));
+		richEditorsJson[richEditor.attr('fieldId')] = "richEditor";
+	}
+	return richEditorsJson;
+};
 
-
+SmartWorks.FormRuntime.RichEditorBuilder.validate = function(richEditors){
+	var richEditorsValid = true;
+	for(var i=0; i<richEditors.length; i++){
+		var richEditor = $(richEditors[i]);
+		var value = "richEditor";
+		if(value == null || value === ""){
+			richEditor.find('span.sw_required').addClass("sw_error");
+			richEditorsValid = false;
+		}
+	}
+	return richEditorsValid;
+};

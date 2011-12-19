@@ -4,14 +4,14 @@ html {
 
 body {
      font-size: 0.75em;
-     font-family: 'µ¸¿ò',dotum,Helvetica,sans-serif;
-	 scrollbar-face-color:#FFFFFF;/*½ºÅ©·Ñ¹Ù Ç¥¸é »ö»ó*/
-	 scrollbar-highlight-color:#C7C7C7;/*Ç¥¸é ¿ÞÂÊ ºÎºÐ °Ñ»ö»ó*/
-	 scrollbar-shadow-color:#C7C7C7;/*Ç¥¸é ¿À¸¥ÂÊ ºÎºÐ ±×¸²ÀÚ °Ñ»ö»ó*/
-	 scrollbar-3dlight-color:#FFFFFF;/*Ç¥¸é ¿ÞÂÊ ºÎºÐ ÀÔÃ¼°¨ »ö»ó*/
-	 scrollbar-arrow-color:#C7C7C7;/*½ºÅ©·Ñ¹Ù Á¶±×¸¸ »ï°¢Çü »ö»ó*/
-	 scrollbar-track-color:#FFFFFF;/*½ºÅ©·Ñ¹Ù ¹Ø¿¡ ·¹ÀÏ Æ®·º »ö»ó*/
-	 scrollbar-darkshadow-color:#FFFFFF;/*Ç¥¸é ¹Ø ºÎºÐ ±×¸²ÀÚ »ö»ó*/
+     font-family: 'ï¿½ï¿½ï¿½ï¿½',dotum,Helvetica,sans-serif;
+	 scrollbar-face-color:#FFFFFF;/*ï¿½ï¿½Å©ï¿½Ñ¹ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
+	 scrollbar-highlight-color:#C7C7C7;/*Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ ï¿½Ñ»ï¿½ï¿½ï¿½*/
+	 scrollbar-shadow-color:#C7C7C7;/*Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½Ñ»ï¿½ï¿½ï¿½*/
+	 scrollbar-3dlight-color:#FFFFFF;/*Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
+	 scrollbar-arrow-color:#C7C7C7;/*ï¿½ï¿½Å©ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½×¸ï¿½ ï¿½ï°¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
+	 scrollbar-track-color:#FFFFFF;/*ï¿½ï¿½Å©ï¿½Ñ¹ï¿½ ï¿½Ø¿ï¿½ ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
+	 scrollbar-darkshadow-color:#FFFFFF;/*Ç¥ï¿½ï¿½ ï¿½ï¿½ ï¿½Îºï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
 }
 
 label {
@@ -39,12 +39,31 @@ h1, h2, h3, h4, h5, h6, th, td, table, button, textarea, sub {
 }
 
 body, button, select, input, textarea, sub {
-     font-family:'µ¸¿ò', dotum,  sans-serif;
+     font-family:'ï¿½ï¿½ï¿½ï¿½', dotum,  sans-serif;
 	 font-size:12px;
 }
 
 input {
 	height:14px;
+}
+
+input.error {
+	border: 1px solid red;
+}
+
+input.sw_error {
+	border: 1px solid red;
+}
+
+div.sw_error {
+	border: 1px solid red;
+}
+
+span.sw_error {
+	border: 1px solid red;
+	width: 100%;
+	height: 100%;
+	display: block;
 }
 
 em, cite, address, optgroup {
@@ -63,6 +82,10 @@ input[type="image"], input[type="text"], input[type="submit"], input[type="passw
 input {border:0 none; outline:medium none; vertical-align: middle;}
 
 select { border:1px solid #C7C7C7; }
+
+select.error {
+	border: 1px solid red;
+}
 
 ul, ol, li {
      list-style: none outside none;

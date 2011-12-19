@@ -16,7 +16,18 @@
 	function submitForms(e) {
 		if ($('form.js_validation_required').validate().form()) {
 			var params = $('form').serialize();
-			
+			var form = document.getElementsByName('frmMyProfileSetting');
+			console.log("form", form);
+			var fileUploader = $(form).find('.js_form_file_field');
+			console.log('fileUploader', fileUploader);
+			if(fileUploader.length>0){
+				var groupId = $(fileUploader[0]).attr('groupId');
+				var files = fileUploader.find('li.qq-upload-success');
+				var file = $(files[0]);
+				params = params + "&profileGroupId=" + groupId + "&profileFileId=" + file.attr('fileId') + "&profileFileName=" + file.attr('fileName'); 
+			}
+			console.log(params);
+			alert('wait');
 			var url = "update_my_profile.sw";
 			$.ajax({
 				url : url,
@@ -67,11 +78,13 @@
 	<div class="contents_space">
 			<form name="frmMyProfileSetting" class="js_validation_required">
 			<div class="photo_section">
-				<img class="js_auto_picture" src="<%=cUser.getOrgPicture() %>" />
+				<img class="js_auto_picture profile_size_b" src="<%=cUser.getOrgPicture() %>" />
+				<div class="js_file_uploader"></div>
+				<div>사진업로드 시 사이즈 110px를 권장합니다</div>
 			</div>
-			<div class="js_file_uploader"></div>
+			
 
-			<span class="table_nomal600">
+			<span class="table_nomal600 ">
 					<table>
 						<tr>
 							<td>

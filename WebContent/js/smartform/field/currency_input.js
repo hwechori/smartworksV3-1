@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -20,10 +21,12 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	var name = $entity.attr('name');
 	
 	var currency = $entity.children('format').children('currency').text();
-	currency = '$';//TODO ? 로 깨짐
-	var $label = $('<td>' + name + '</td>');
+
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='js_currency_input fieldline required' ";
 	}else{
@@ -33,13 +36,16 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	
 	var $currency = null;
 	if(readOnly){
-		$currency = $('<td fieldId="' + id + '"></td>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$currency = $('<td><input type="text" symbol="' + currency +'" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<div class="form_value" style="width:' + valueWidth + '%"><input class="text_align_r" type="text" symbol="' + currency +'" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		//if save mode = $currency.toNumber().attr('value');
 	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$currency.hide();		
+	}
 	$currency.appendTo(options.container);
-
 	return options.container;
 };
 

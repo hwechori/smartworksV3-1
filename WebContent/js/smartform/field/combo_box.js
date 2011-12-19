@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -20,9 +21,11 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<td>' + name + '</td>');
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='required' ";
 	}
@@ -31,7 +34,7 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 	var $staticItems = $format.find('list staticItems staticItem');
 	
 
-	var $input = $('<td><select name="' + id + '"' + required + '></select><td>');
+	var $input = $('<div class="form_value" style="width:' + valueWidth + '%"><select name="' + id + '"' + required + '></select><div>');
 
 	$input.attr('fieldId', id);
 	if (readOnly) {
@@ -53,8 +56,7 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 
 	if ($graphic.attr('hidden') == 'true') {
 		$label.hide();
-		$input_container.hide();
+		$input.hide();
 	}
-
 	return options.container;
 };

@@ -268,6 +268,13 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .nav_srch_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 140px; font-size:11px;}
 
 
+/* 검색- community name 리스트 */
+.commu_list {z-index:100; position:absolute; width:250px; top: 20px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;}
+.commu_list li {position:relative; color:#454545;}
+.commu_list li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#454545;}
+.commu_list li a:hover {display:block; background-color:#fffccd; color:#454545;}
+.commu_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 410px;}
+
 /* 입력폼 */
 .form_wrap {background: none repeat scroll 0 0 #FFFFFF; height:100%; }
 .form_wrap .input_check {float:left; margin-left:5px;}
@@ -322,7 +329,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 
 /* 테이블 - 고정 사이즈 */
-.table_nomal600 {position: relative;  float: left; padding: 0 0 0 30px; width: 600px;}
+.table_nomal600 {position: relative;}
+.table_nomal600 table {width: 600px;}
 .table_nomal600 table tr {height:32px}
 
 /*라운드 포틀릿*/
@@ -493,7 +501,7 @@ padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
 .pop_b_r { background: url("../images/pop_img.png") repeat-y scroll 100% 100% transparent; height: 10px; float:right; width: 590px; position: relative;}
 
 .pop_contents { overflow: hidden; background-color:#FFF; margin: 0 15px 0 0; overflow: hidden; padding: 10px;}
-.photo_section {float: left;}
+.photo_section {float: left; width:110px;}
 .pop_btn_space { background-color: #FFF; border-top: 1px solid #C7C7C7; height: 22px; margin: 0 15px 0 5px; padding: 8px 0;}
 .filetype_area {border: 0; display:block; font-size: 11px; height: 20px; width: 65px;}
 

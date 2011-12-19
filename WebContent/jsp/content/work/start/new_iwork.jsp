@@ -11,7 +11,8 @@
 
 <script type="text/javascript">
 function submitForms(e) {
-	if ($('form.js_validation_required').validate().form()) {
+	var sw_validate = SmartWorks.GridLayout.validate($('form[name="frmSmartForm"]'));
+	if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
 		var scheduleWork = document.getElementsByName('frmScheduleWork');
 		if(scheduleWork[0].chkScheduleWork.value === 'on'){
 			scheduleWork[0].hdnSchedulePerformer.value = $(scheduleWork[0].txtSchedulePerformer).attr('uid');
@@ -22,11 +23,12 @@ function submitForms(e) {
 			var form = $(forms[i]);
 			if(form.attr('name') === 'frmSmartForm'){
 				paramsJson['formId'] = form.attr('formId');
-				console.log(form.attr('formId'));
 				paramsJson['formName'] = form.attr('formName');
-				console.log(form.attr('formName'));
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+
+			}else{
+				paramsJson[form.attr('name')] = form.serializeObject();				
 			}
-			paramsJson[form.attr('name')] = form.serializeObject();
 		}
 		console.log(JSON.stringify(paramsJson));
 		alert('wait');

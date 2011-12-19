@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -19,9 +20,11 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var $label = $('<td>' + name + '</td>');
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='fieldline required email' ";
 	}else{
@@ -31,9 +34,13 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	
 	var $email = null;
 	if(readOnly){
-		$email = $('<td fieldId="' + id + '"></td>').text(value);
+		$email = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$email = $('<td><input type="text" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value', value);
+		$email = $('<div class="form_value" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>').attr('value', value);
+	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$email.hide();		
 	}
 	$email.appendTo(options.container);
 

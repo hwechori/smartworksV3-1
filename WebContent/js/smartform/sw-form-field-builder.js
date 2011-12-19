@@ -1,6 +1,7 @@
 SmartWorks.FormFieldBuilder = {};
 SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, layoutInstance) {
 	var type = $entity.find('format').attr('type');
+	$target.addClass('js_type_'+ type);
 	switch(type) {
 	case 'checkBox' :
 		SmartWorks.FormRuntime.CheckBoxBuilder.build({
@@ -128,6 +129,19 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			layoutInstance : layoutInstance
 		});
 		return;	
+	case 'refFormField' :
+		SmartWorks.FormRuntime.RefFormFieldBuilder.build({
+			mode : mode, // view or edit
+			container : $target,
+			entity : $entity,
+			dataField : dataField,
+			layoutInstance : layoutInstance
+		});
+		return;	
+	case "imageBox":
+	case "dataGrid":
+	case "numericStepper":
+	case "textArea":
 	default :
 		SmartWorks.FormRuntime.TextInputBuilder.build({
 			mode : mode, // view or edit

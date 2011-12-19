@@ -20,9 +20,11 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 
-	var $label = $('<td>' + name + '</td>');
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='required' ";
 	}else{
@@ -34,9 +36,14 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	
 	var $check = null;
 	if(readOnly){
-		$check = $('<td></td>').text(value);
+		$check = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$check = $('<td><input type="checkbox" '+ checked + ' fieldId="' + id + '" name="' + id + '"' + required +  '><td>');
+		$check = $('<div class="form_value" style="width:' + valueWidth + '%"><input type="checkbox" '+ checked + ' name="' + id + '"' + required +  '><div>');
+	}
+
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$check.hide();		
 	}
 	$check.appendTo(options.container);
 

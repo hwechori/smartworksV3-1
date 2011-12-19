@@ -43,21 +43,21 @@
 	<%
 		if (thisGroup != null) {
 	%>
-	<li><img src="<%=thisGroup.getOrgPicture()%>"></li>
+	<li><img class="profile_size_66" src="<%=thisGroup.getOrgPicture()%>"></li>
 	<li><%=thisGroup.getName()%><br /> <b><%=thisGroup.getDesc()%></b><br />
 		<fmt:message key="group.text.leader" /> : <%=thisGroup.getLeader().getLongName()%><br />
 	</li>
 	<%
 		} else if (thisDepartment != null) {
 	%>
-	<li><img src="<%=thisDepartment.getOrgPicture()%>"></li>
+	<li><img class="profile_size_66" src="<%=thisDepartment.getOrgPicture()%>"></li>
 	<li><%=thisDepartment.getName()%><br /> <b><%=thisDepartment.getDesc()%></b><br />
 		<fmt:message key="department.text.head" /> : <%=thisDepartment.getHead().getLongName()%><br />
 	</li>
 	<%
 		} else if (thisUser != null) {
 	%>
-	<li><img src="<%=thisUser.getOrgPicture()%>"></li>
+	<li><img class="profile_size_66" src="<%=thisUser.getOrgPicture()%>"></li>
 	<li><%=thisUser.getPosition()%><br /> <b><%=thisUser.getName()%></b><br />
 		<%=thisUser.getDepartment()%><br /></li>
 	<%

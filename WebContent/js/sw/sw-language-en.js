@@ -7,5 +7,7 @@
 			chatNoChatters : 'No Chatters',
 			chatUserAnd : ', and',
 			chatUserMore : 'Users More',
-			chatUserOfflineMessage : 'is offline, so messages will leave'
+			chatUserOfflineMessage : 'is offline, so messages will leave',
+			validateErrorPre : "Your form contains ",
+			validateErrorPost : " errors, see details above highlighted fields."
 	};

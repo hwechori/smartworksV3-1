@@ -7,7 +7,8 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : '',
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
@@ -20,9 +21,11 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 
-	var $label = $('<td>' + name + '</td>');
+	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='fieldline required' ";
 	}else{
@@ -30,27 +33,22 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	}
 	$label.appendTo(options.container);
 	
-
 	var percentValue = (value * 100) + '%';
-	
-	
-	$html = $('<td class="percent" id="' + id + '_container"></td>');
+		
 	var $percent = null;
 	
 	if (readOnly) {
-		$percent = $('<td id="' + id + '_input"></td>').text(percentValue);
+		$percent = $('<div class="form_value text_align_r" style="width:' + valueWidth + '%"></div>').text(percentValue);
 	} else {
-		$percent = $('<td><input id="' + id + '" type="text" fieldId="' + SmartWorks.generateFormFieldId(options.workspaceId, id) + '"' + required + '/></td>')
+		$percent = $('<div class="form_value" style="width:' + valueWidth + '%"><input class="text_align_r" type="text" name="' + id + '"'  + required + '/></div>')
 				.attr('value', percentValue);
 	}
-	
-	$percent.appendTo($html);
 
-	if ($graphic.attr('hidden') == 'true')
-		$html.hide();
-
-	$html.appendTo(options.container);
-
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$percent.hide();		
+	}
+	$percent.appendTo(options.container);
 	return options.container;
 };
 
