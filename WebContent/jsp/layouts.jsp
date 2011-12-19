@@ -86,7 +86,7 @@ currentUser = {
 	</fmt:message>
 </title>
 
-<script type="text/javascript" src="js/jquery/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
@@ -113,6 +113,10 @@ currentUser = {
 <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
 <script type="text/javascript" src="js/ext/bootstrap.js"></script>
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
+
+<script type="text/javascript" src="js/sw/sw-language.js"></script>
+<script type="text/javascript" src="js/sw/sw-language-ko.js"></script>
+<script type="text/javascript" src="js/sw/sw-language-en.js"></script>
 <script type="text/javascript" src="js/sw/sw-util.js"></script>
 <script type="text/javascript" src="js/sw/sw-all.js"></script>
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
@@ -123,9 +127,6 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
 <script type="text/javascript" src="js/sw/sw-file.js"></script>
-<script type="text/javascript" src="js/sw/sw-language.js"></script>
-<script type="text/javascript" src="js/sw/sw-language-ko.js"></script>
-<script type="text/javascript" src="js/sw/sw-language-en.js"></script>
 
 <script type="text/javascript" src='js/smartform/smartworks.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-layout.js'></script>
@@ -145,78 +146,13 @@ currentUser = {
 <script type="text/javascript" src='js/smartform/field/time_chooser.js'></script>
 <script type="text/javascript" src='js/smartform/field/datetime_chooser.js'></script>
 <script type="text/javascript" src='js/smartform/field/user_field.js'></script>
-
+<script type="text/javascript" src='js/smartform/field/ref_form_field.js'></script>
+<script type="text/javascript" src='js/smartform/field/image_box.js'></script>
 
 <link href="smarteditor/css/default_kor.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 <script type="text/javascript" src="js/jquery/fileuploader/fileuploader.js" ></script>
-
-<script type="text/javascript">
-	$(document).ready(function(){
- 		smartTalk.init();
-	 	var repeat1 = function() {
-		 clearInterval(timer);
-		 smartTalk.publishBcast(new Array(
-		 " Hello, this is SmartWorks!! Welcome~~",
-		 "오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
-		 };
-		 smartTalk.publishNoticeCount({
-		 type : 0,
-		 count : 0
-		 });
-		 smartTalk.publishNoticeCount({
-		 type : 1,
-		 count : 1
-		 });
-		 smartTalk.publishNoticeCount({
-		 type : 2,
-		 count : 2
-		 });
-		 smartTalk.publishNoticeCount({
-		 type : 3,
-		 count : 3
-		 });
-		 smartTalk.publishNoticeCount({
-		 type : 4,
-		 count : 4
-		 });
-		 smartTalk.publishNoticeCount({
-		 type : 5,
-		 count : 5
-		 });
-	
-		 setTimeout(function() {
-			smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
-					+ swSubject.BROADCASTING, {
-				msgType : msgType.AVAILABLE_CHATTERS,
-				sender : "smartworks.net",
-				userInfos : new Array({
-					userId : "ysjung@maninsoft.co.kr",
-					longName : "대표이사 정윤식",
-					minPicture : "images/no_user_picture_min.jpg"
-				}, {
-					userId : "jskim@maninsoft.co.kr",
-					longName : "과장 김지숙",
-					minPicture : "images/no_user_picture_min.jpg"
-				}, {
-					userId : "hsshin@maninsoft.co.kr",
-					longName : "선임연구원 신현성",
-					minPicture : "images/no_user_picture_min.jpg"
-				}, {
-					userId : "kmyu@maninsoft.co.kr",
-					longName : "선임연구원 유광민",
-					minPicture : "images/no_user_picture_min.jpg"
-				}, {
-					userId : "hjlee@maninsoft.co.kr",
-					longName : "대리 이현정",
-					minPicture : "images/no_user_picture_min.jpg"
-				})
-			});
-		}, 5000);
-		repeat1();
-	});
-</script>
 
 </head>
 

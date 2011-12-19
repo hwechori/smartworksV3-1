@@ -1,3 +1,8 @@
+
+$(document).ready(function(){
+ 	smartTalk.init();
+});
+
 var serverUrl = "http://localhost:8000";
 var swContext = "/faye";
 var currentUserId = currentUser.userId;

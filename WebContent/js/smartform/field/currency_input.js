@@ -23,7 +23,7 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	currency = '$';//TODO ? 로 깨짐
 	var $label = $('<td>' + name + '</td>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='js_currency_input fieldline required' ";
 	}else{

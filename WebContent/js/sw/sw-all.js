@@ -5,7 +5,7 @@ $(function() {
 	console.log(autoPictures);
 	if(autoPictures.length > 0) {
 		for(var i=0; i<autoPictures.length; i++) {			
-			createUploader(null, $(autoPictures[i]).parent().next('div.js_file_uploader'));
+			createUploader(null, $(autoPictures[i]).parent().next('div.js_file_uploader'), false, true);
 		}		
 	}
 
@@ -154,7 +154,6 @@ $(function() {
 		setTimeout(function() {
 			var currentValue = input[0].value;
 			if (lastValue === currentValue) {
-				console.log('start ajax!!!!!!! TO : ' + url);
 				$.ajax({
 					url : url,
 					data : {
@@ -168,7 +167,7 @@ $(function() {
 				});
 			} else {
 			}
-		}, 500);
+		}, 100);
 	});
 
 	/*
@@ -540,14 +539,15 @@ $(function() {
 				
 				var comName = input.attr('comName');
 				var comId = input.attr('comId');
-				var target = input.parents('div.js_community_list').prev()
-						.find('div.js_selected_communities');				
+				var target = input.parents('.js_community_list').prev()
+						.find('.js_selected_communities');				
 				target.siblings('input.js_auto_complete').value = '';
 				var inputTarget = target.siblings('input.js_form_user_field');
 				if(inputTarget.length == 1) {
 					inputTarget.hide();
-					inputTarget.next('div.js_srch_x').hide();
-					inputTarget.parent().prev('.js_form_user_id').attr('value', comId);
+					inputTarget.next('.js_srch_x').hide();
+					inputTarget.parents('.sw_required').removeClass('sw_error');
+					$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 				}
 				var oldHTML = target.html();
 				if (oldHTML == null)
@@ -563,9 +563,7 @@ $(function() {
 				}
 				if(!isSameId){
 					var newHTML = oldHTML
-						+ "<span class='js_community_item user_select' comId='"
-						+ comId
-						+ "'>"
+						+ "<span class='js_community_item user_select' comId='" + comId+ "'>"
 						+ comName
 						+ "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
 					target.html(newHTML);
@@ -577,14 +575,13 @@ $(function() {
 	$('.js_remove_community').live('click', function(e) {
 		var input = $(e.target);
 		
-		var inputTarget = input.parents('div.js_selected_communities').siblings('input.js_form_user_field');
+		var inputTarget = input.parents('.js_selected_communities').siblings('input.js_form_user_field');
 		
 		if (inputTarget.length == 1) {
 			inputTarget.show();
-			inputTarget.next('div.js_srch_x').show();
-			inputTarget.parent.siblings('js_form_user_id').value = '';
+			inputTarget.next('.js_srch_x').show();
 		}
-		var selected_users = input.parents('div.js_selected_communities');
+		var selected_users = input.parents('.js_selected_communities');
 		input.parents('span.js_community_item').remove();
 		selected_users.next().focus();
 		return false;
@@ -684,7 +681,6 @@ $(function() {
 	});
 
 	$('.qq-delete-text').live('click', function(e) {
-		console.log($(e.target).siblings('a').attr('filename'));
 		$.ajax({
 			url : "delete_file.sw",
 			data : {

@@ -3,7 +3,7 @@
 	width: 80px;
 	background: url( '../images/loading.gif' );
 	background-repeat: no-repeat;
-	background-position: center center;
+	background-position: top center;
 }
 
 .loading-indicator-overlay {
