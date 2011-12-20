@@ -63,8 +63,6 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
 <div class="form_wrap up up_padding">
-
-
 	<!-- 컨텐츠 -->
 	<div class="form_title">
 		<div class="ico_stworks title_noico">
@@ -158,6 +156,5 @@
 		</div>
 	</div>
 	<!-- 등록 취소 버튼//-->
-
 </div>
 <!-- 전체 레이아웃//-->

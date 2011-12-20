@@ -195,11 +195,9 @@ $(function() {
 	});
 
 	$('input.js_auto_complete').live('keydown', function(e) {
-		if(e.keyCode == 40){
-			var nextDivLis = $(e.target).parent().next('div').find('li');
-			if(nextDivLis.length > 0){
-				$(nextDivLis[0]).select().focus();
-			}
+		if(e.which == $.ui.keyCode.UP || e.which == $.ui.keyCode.DOWN  ){
+			var list = $(e.target).parent().next('.nav_srch_list');
+			return false;
 		}
 	});
 
