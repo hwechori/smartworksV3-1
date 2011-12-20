@@ -260,7 +260,7 @@ qq.FileUploaderBasic = function(o){
         // validation        
         allowedExtensions: [],               
         sizeLimit: 0,   
-        minSizeLimit: 0,                             
+        minSizeLimit: 0,
         // events
         // return false to cancel submit
         onSubmit: function(id, fileName){},

@@ -62,7 +62,7 @@ SmartWorks.FormRuntime.FileFieldBuilder.serializeObject = function(fileFields){
 		var fileInfos = new Array();
 		for(var j=0; j<files.length; j++){
 			var file = $(files[j]);
-			fileInfos.push({fileId : file.attr('fileId')}, {fileName : file.attr('fileName')});
+			fileInfos.push({fileId : file.attr('fileId'), fileName : file.attr('fileName'), fileSize : file.attr('fileSize')});
 		}
 		fileJson['files'] = fileInfos;
 		filesJson[fieldId] =  fileJson;

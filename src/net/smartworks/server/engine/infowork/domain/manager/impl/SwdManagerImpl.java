@@ -462,11 +462,9 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			if (getRecord(user, domainId, recordId, LEVEL_LITE) != null) {
 				exist = true;
 			}
-				System.out.println("exist1>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+exist);
 		} else {
 			recordId = "dr_" + CommonUtil.newId();
 			obj.setRecordId(recordId);
-			System.out.println("exist2>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+exist);
 		}
 
 		try {
@@ -477,7 +475,6 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			SwdField field;
 			Map<String, SwdDataField> paramMap = new HashMap<String, SwdDataField>();
 			if (exist) {
-				System.out.println("exist3>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+exist);
 				buf.append("update ").append(tableName).append(" set modifier = :modifier, modifiedTime = :modifiedTime");
 				if (!CommonUtil.isEmpty(dataFields)) {
 					int i = 0;
@@ -500,7 +497,6 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				this.setQueryParameters(query, paramMap);
 				query.setString("id", obj.getRecordId());
 			} else {
-				System.out.println("exist4>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+exist);
 				buf.append("insert into ").append(tableName).append(" (");
 				buf.append("id, domainId, creator, createdTime, modifier, modifiedTime");
 				if (!CommonUtil.isEmpty(dataFields)) {

@@ -33,6 +33,8 @@ import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.docfile.exception.DocFileException;
+import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
@@ -65,7 +67,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InstanceServiceImpl implements IInstanceService {
-	
+
 	private ITskManager getTskManager() {
 		return SwManagerFactory.getInstance().getTskManager();
 	}
@@ -78,6 +80,10 @@ public class InstanceServiceImpl implements IInstanceService {
 	private ISwfManager getSwfManager() {
 		return SwManagerFactory.getInstance().getSwfManager();
 	}
+	private IDocFileManager getDocManager() {
+		return SwManagerFactory.getInstance().getDocManager();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -232,16 +238,26 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 //		SwdField[] fieldDatas = new SwdField[keySet.size()];
 		List fieldDataList = new ArrayList();
+		List<Map<String, String>> files = null;
+		String groupId = null;
 		while (itr.hasNext()) {
 			String fieldId = (String)itr.next();
 			String value = null;
 			String refForm = null;
 			String refFormField = null;
 			String refRecordId = null;
-			if (SmartFormInfoMap.get(fieldId) instanceof LinkedHashMap) {
-				Map<String, Object> valueMap = (Map<String, Object>)SmartFormInfoMap.get(fieldId);
-				//TODO
-			} else {
+			Object filedValue = SmartFormInfoMap.get(fieldId);
+			if (filedValue instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)filedValue;
+				groupId = (String)valueMap.get("groupId");
+				refForm = (String)valueMap.get("refForm");
+				if(!groupId.isEmpty()) {
+					files = (ArrayList<Map<String,String>>)valueMap.get("files");
+					value = groupId;
+				} else if(!refForm.isEmpty()) {
+
+				}
+			} else if(filedValue instanceof String) {
 				value = (String)SmartFormInfoMap.get(fieldId);
 			}
 			if (CommonUtil.isEmpty(value))
@@ -253,7 +269,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			fieldData.setRefFormField(refFormField);
 			fieldData.setRefRecordId(refRecordId);
 			fieldData.setValue(value);
-			
+
 			fieldDataList.add(fieldData);
 			
 		}
@@ -265,8 +281,20 @@ public class InstanceServiceImpl implements IInstanceService {
 		obj.setFormName(formName);
 		obj.setFormVersion(formVersion);
 		obj.setDataFields(fieldDatas);
-		
-		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);		
+
+		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
+
+		try {
+			for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+				Map<String, String> file = files.get(i);
+				String fileId = file.get("fileId");
+				String fileName = file.get("fileName");
+				String fileSize = file.get("fileSize");
+				getDocManager().insertFiles(groupId, fileId, fileName, fileSize);
+			}
+		} catch (Exception e) {
+			throw new DocFileException("file upload fail...");
+		}
 		return null;
 	}
 

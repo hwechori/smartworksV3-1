@@ -238,7 +238,8 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		IFileModel fileModel = this.retrieveFile(fileId);
 		String filePath = fileModel.getFilePath();
 		File file = new File(filePath);
-		file.delete();
+		if(file.exists())
+			file.delete();
 		this.getHibernateTemplate().delete(fileModel);
 	}
 
@@ -461,7 +462,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
             fos = new FileOutputStream(new File(formFile.getFilePath()));
             IOUtils.copy(is, fos);
             response.setStatus(HttpServletResponse.SC_OK);
-            writer.print("{success: true, fileId: \"" + formFile.getId() + "\", pullPathName: \"" + formFile.getImageServerPath() + "\"}");
+            writer.print("{success: true, fileId: \"" + formFile.getId() + "\", pullPathName: \"" + formFile.getImageServerPath() + "\", fileSize: \"" + formFile.getFileSize() + "\"}");
         } catch (FileNotFoundException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             writer.print("{success: false}");
@@ -613,6 +614,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			if (extension != null) {
 				filePath = filePath + "." + extension;
 			}
+			formFile.setFileSize(Long.parseLong(request.getHeader("Content-Length")));
 
 			formFile.setFilePath(filePath);
 
@@ -661,7 +663,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		return communityPictureId;
 	}
 
-	public void insertFiles(String groupId, String tempFileId, String fileName) throws DocFileException {
+	public void insertFiles(String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException {
 
 		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
 		
@@ -677,16 +679,14 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		fileId = "file_" + fileId;
 
 		String tempFile = this.getFileDirectory() + "/" + user.getCompanyId() + "/" + "Temps" + "/" + tempFileId + "." + extension;
-		String realFile = repository.getAbsolutePath() + "/" + fileId + "." + extension;
+		String realFile = repository.getAbsolutePath() + File.separator + fileId + "." + extension;
 
 		IFileModel formFile = new HbFileModel();
 		formFile.setId(fileId);
 		formFile.setFileName(fileName);
 		formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
 		formFile.setFilePath(realFile);
-		File file = new File(tempFile);
-		long fileSize = file.getTotalSpace();
-		formFile.setFileSize(fileSize);
+		formFile.setFileSize(Long.parseLong(fileSize, 16));
 		formFile.setType(extension);
 		this.getHibernateTemplate().save(formFile);
 
@@ -709,6 +709,40 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
 		query.executeUpdate();
 
+		File deleteFile = new File(tempFile);
+		if(deleteFile.exists())
+			deleteFile.delete();
+
+	}
+
+	@Override
+	public String deleteTempFile() throws DocFileException {
+
+		String returnValue = "";
+		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
+
+		User user = SmartUtil.getCurrentUser();
+		String tempFilePath = this.getFileDirectory() + "/" + user.getCompanyId() + "/" + "Temps" + "/";
+
+		try {
+			File tempFileDir = new File(tempFilePath);
+			String[] tempFiles = tempFileDir.list();
+			for(int i=0; i<tempFiles.length; i++) {
+				File tempFile = new File(tempFiles[i]);
+				if(tempFile.exists()) {
+					returnValue += tempFile.getName();
+					tempFile.delete();
+				} else {
+					returnValue = "tempFile not exists...";
+				}
+			}
+			returnValue += " : delete tempFile success...";
+		} catch (Exception e) {
+			returnValue = "delete tempFile fail... : " + e.getMessage();
+			return returnValue;
+		}
+
+		return returnValue;
 	}
 
 }

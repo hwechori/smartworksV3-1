@@ -33,6 +33,7 @@ public interface IDocFileManager extends IManager {
 	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException;
 	public void ajaxUploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException;
 	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException;
+	public String deleteTempFile() throws DocFileException;
 	public IFileModel retrieveFile(String fileId) throws DocFileException;
 	public void updateFile(String userId, IFileModel file) throws DocFileException;
 	public void deleteFile(String fileId) throws DocFileException;
@@ -40,7 +41,7 @@ public interface IDocFileManager extends IManager {
 	public List<IFileModel> findFileGroup(String groupId) throws DocFileException;
 	public List<String> findFileIdListByGroup(String groupId) throws DocFileException;
 	public String insertProfilesFile(String fileId, String fileName, String communityId) throws DocFileException;
-	public void insertFiles(String groupId, String tempFileId, String fileName) throws DocFileException;
+	public void insertFiles(String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException;
 	public void updateDocument(String userId, IDocumentModel document) throws DocFileException;
 	public IDocumentModel retrieveDocument(String documentId) throws DocFileException;
 	public IDocumentModel retrieveDocumentByGroupId(String fileGroupId) throws DocFileException;
