@@ -94,7 +94,7 @@ function fileUploader(groupId, target) {
     });
 }
 
-function createUploader(groupId, target, isMultiple, isProfile){
+function createUploader(groupId, target, isMultiple, isProfile, isTempFile){
 	var uploadFileTemplate = '<li>' +
 	'<span></span>' +
 	'<a href="#" class="qq-upload-file"></a>' +
@@ -104,13 +104,15 @@ function createUploader(groupId, target, isMultiple, isProfile){
 	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
 	'<a href="#" class="qq-delete-text" style="display:none">X</a>' +
 	'</li>';
-	
+
 	if(!groupId) {
 		groupId = randomUUID('fg_');
 		fileUploader(groupId, target);
 		var uploader = $(target).find('.qq-uploader');
 		uploader.attr('isMultiple', isMultiple).attr('groupId', groupId);
 		if(isProfile) uploader.find('.qq-upload-list').hide();
+	} else if(isTempFile) {
+		
 	} else if(!isProfile){
 		$.ajax({				
 			url : "find_file_group.sw",
@@ -197,4 +199,53 @@ function viewFiles(groupId, target){
 			}
 		});
 	}
+
+}
+
+function setTempFiles(groupId, target){
+
+	var viewFileTemplate = '<li>' +
+	'<span></span>' +
+	'<a href="#" class="qq-upload-file"></a>' +
+	'<span class="qq-upload-size"></span>' +
+	'</li>';
+
+	if(!groupId) {
+		return;
+	} else {
+		$.ajax({				
+			url : "find_file_group.sw",
+			data : {
+				groupId : groupId
+			},
+			type : "GET",
+			context : this,
+			success : function(data, status, jqXHR) {
+				var files = $(target);
+				for(var i in data) {
+					
+					var fileName = data[i].fileName;
+					
+					var displayFileName = fileName;
+					if (fileName.length > 33) {
+						displayFileName = fileName.slice(0, 19) + '...' + fileName.slice(-13);
+					}
+					
+					var ext = getExt(fileName);
+					
+					var file = $(viewFileTemplate).appendTo(files);
+					file.attr('fileId', data[i].id);
+					file.find('.qq-upload-file').prev('span').addClass('ico_file_' + ext);
+					file.find('.qq-upload-file').text(displayFileName);
+					file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + data[i].id + "&fileName=" + fileName);
+					file.find('.qq-upload-size').text(getBytesWithUnit(data[i].fileSize));
+				}
+			},
+			error : function(e) {
+				alert(e);
+			}
+		});
+	}
+	
+	
 }

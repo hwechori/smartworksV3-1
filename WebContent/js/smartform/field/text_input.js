@@ -13,7 +13,9 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 
 	SmartWorks.extend(options, config);
 
+	console.log("options.dataField", options.dataField);
 	var value = (options.dataField && options.dataField.value) || '';
+	console.log("value", value);
 	var $entity = options.entity;
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
@@ -37,7 +39,8 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	if(readOnly){
 		$text = $('<div class="form_value form_value_max_width" fieldId="' + id + '" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>').attr('value', value);
+		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>');
+		$text.find('input').attr('value', value);
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();

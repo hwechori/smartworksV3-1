@@ -47,6 +47,7 @@ function submitForms(e) {
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	String workId = SmartWork.WORK_ID_FILE_MANAGEMENT;
 	User cUser = SmartUtil.getCurrentUser();
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -59,10 +60,7 @@ function submitForms(e) {
 		<form name="frmNewFile" class="form_wrap js_validation_required">
 			<div class="form_title" class="js_file_brief_form">
 
-				<textarea class="up_textarea" name='txtaFileDesc' rows="5"
-					placeholder="<fmt:message
-						key="common.upload.message.file_desc" />">
-				</textarea>
+				<textarea class="up_textarea" name='txtaFileDesc' rows="5" placeholder="<fmt:message key="common.upload.message.file_desc" />"></textarea>
 
 				<div class="btn_gray padding_t5 js_file_uploader">
  				</div>

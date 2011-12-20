@@ -8,6 +8,7 @@ SmartWorks.GridLayout = function(config) {
 
 	SmartWorks.extend(this.options, config);
 
+	
 	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required form_layout"><table></table></form>');
 	var $table = $htmlForm.find('table');
 
@@ -43,7 +44,12 @@ SmartWorks.GridLayout = function(config) {
 			this.spanWidths = spanWidths;
 		}
 		$column = $layout.find('gridCell[fieldId="'+ fieldId + '"]');
+
 		var index = parseInt($column.attr('gridColumnIndex'));
+		if(isNaN(index)) {
+			index = $column.prevAll().length;
+		}
+
 		var span = parseInt($column.attr('span'));
 		var columnWidth = 0;
 		for(var i=index; i<this.spanWidths.length && i<index+span; i++){
@@ -59,7 +65,6 @@ SmartWorks.GridLayout = function(config) {
 	var $columns = $layout.find('columns gridColumn');
 
 	var dataFields = this.options.formValues.dataFields;
-	console.log(dataFields);
 
 	for ( var i = 0; i < $rows.length; i++) {
 		var $row = $rows.eq(i);
@@ -67,8 +72,7 @@ SmartWorks.GridLayout = function(config) {
 		var $html_row = $('<tr></tr>');
 		var $cells = $row.children('gridCell');
 		$table.append($html_row);
-		
-		
+
 		for ( var j = 0; j < $cells.length; j++) {
 			var $cell = $cells.eq(j);
 			var id = $cell.attr('fieldId');
@@ -82,7 +86,7 @@ SmartWorks.GridLayout = function(config) {
 					break;
 				}
 			}
-			console.log(dataField);
+			console.log("dataField", dataField);
 			if ($columns.length == 0) {
 				width = $column.attr('size');
 			} else {

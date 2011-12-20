@@ -1,7 +1,6 @@
 package net.smartworks.model.work;
 
 import net.smartworks.model.community.User;
-import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.filter.info.SearchFilterInfo;
 import net.smartworks.model.report.info.ReportInfo;
 import net.smartworks.model.security.AccessPolicy;
@@ -14,6 +13,11 @@ public class SmartWork extends Work {
 	public final static int TYPE_INFORMATION = 21;
 	public final static int TYPE_PROCESS = 22;
 	public final static int TYPE_SCHEDULE = 23;
+	public final static String WORK_ID_BOARD_MANAGEMENT = "pkg_af2c5abbdc694feab78b2706c31f3bde";
+	public final static String WORK_ID_FILE_MANAGEMENT = "pkg_309666dd2bb5493c9d7e618b3a0aad96";
+	public final static String WORK_ID_MEMO_MANAGEMENT = "pkg_d391d4cd01864b2cada59ab5a9b12cd5";
+	public final static String WORK_ID_CONTACTS_MANAGEMENT = "pkg_dde3f719c50143cd821e6c46e8df8655";
+	
 
 	private WorkCategory myGroup = null;
 	private WorkCategory myCategory = null;

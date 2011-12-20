@@ -65,7 +65,7 @@ $(function() {
 							workId : workId,
 							recordId : instId
 						},
-						success : function(formData, status, jqXHR) {
+						success : function(formData, status, jqXHR) {							
 							new SmartWorks.GridLayout({
 								target : formContent,
 								formXml : formXml,
@@ -597,15 +597,48 @@ $(function() {
 		else endtime.show();
 	});
 	$('a.js_toggle_form_detail').swnavi(
-			{
-				target : 'form_import',
-				after : function(event) {
-					var input = $(event.target);
-					input.parents('div.js_file_detail_form').parent().prev()
-							.slideToggle(500);
-					input.parent().toggle().siblings().toggle();
+		{
+			target : 'form_import',
+			after : function(event) {
+				var input = $(event.target);
+				input.parents('div.js_file_detail_form').parent().prev().slideToggle(500);
+				input.parent().toggle().siblings().toggle();
+				var form = input.parents('form[name="frmNewFile"]');
+				var uploader = form.find('.qq-uploader');
+				var comments = form.find('textarea[name="txtaFileDesc"]').text();
+				console.log("comments", comments);
+				var groupId = uploader.attr('groupId');
+				var fileName = uploader.find('.qq-upload-success').attr('fileName');
+				var formContent = $('#form_import').find('div.js_form_content');
+				if(formContent.length == 1) {
+					var workId = formContent.attr('workId');
+					$.ajax({
+						url : "get_form_xml.sw",
+						data : {
+							workId : workId
+						},
+						success : function(formXml, status, jqXHR) {
+							console.log(formXml);
+							var formXml = $(formXml);
+							var dataFields = new Array();
+							dataFields.push({id : formXml.find('formEntity[name="제목"]').attr('id'), value : fileName});
+							dataFields.push({id : formXml.find('formEntity[name="검색어"]').attr('id'), value : fileName + " " + currentUser.name});
+							dataFields.push({id : formXml.find('formEntity[name="내용"]').attr('id'), value : comments});
+							dataFields.push({id : formXml.find('formEntity[name="첨부파일"]').attr('id'), value : groupId});
+
+							var record = {dataFields: dataFields};
+							console.log("record", record);
+							new SmartWorks.GridLayout({
+								target : formContent,
+								formXml : formXml,
+								formValues : record,
+								mode : "edit"
+							});
+						}
+					});
 				}
-			});
+			}
+		});
 
 	$('a.js_view_work_manual').live('click', function(e){
 		var input = $(e.target);
