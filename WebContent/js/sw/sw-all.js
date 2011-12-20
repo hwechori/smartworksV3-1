@@ -195,11 +195,9 @@ $(function() {
 	});
 
 	$('input.js_auto_complete').live('keydown', function(e) {
-		if(e.keyCode == 40){
-			var nextDivLis = $(e.target).parent().next('div').find('li');
-			if(nextDivLis.length > 0){
-				$(nextDivLis[0]).select().focus();
-			}
+		if(e.which == $.ui.keyCode.UP || e.which == $.ui.keyCode.DOWN  ){
+			var list = $(e.target).parent().next('.nav_srch_list');
+			return false;
 		}
 	});
 
@@ -210,13 +208,10 @@ $(function() {
 		return false;
 	});
 
-	$('.js_select_action a').live(
-			'click',
-			function(e) {
+	$('.js_select_action a').live('click',function(e) {
 				var input = $(e.target);
 				$('.js_select_action').find('a').removeClass('current');
-				input.parents('.up_icon_list').find('a').addClass('current')
-						.attr('id');
+				input.parents('.up_icon_list').find('a').addClass('current').attr('id');
 				var target = $('#upload_form_box');
 				var url = input.attr('href');
 				$.ajax({
@@ -224,6 +219,10 @@ $(function() {
 					data : {},
 					success : function(data, status, jqXHR) {
 						target.html(data).slideDown(500);
+						if(input.parent().hasClass('up_file')){
+							createUploader(null, target.find('.js_file_uploader'), false, false);
+						}
+
 					}
 				});
 				return false;
@@ -720,19 +719,73 @@ $(function() {
 		return false;
 	});
 
-	$('a.js_auto_picture').live('click', function(e) {
-		alert("in");
+	$('a.js_todaypicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		input.prev('.js_todaypicker').datepicker("show");
+		return false;
+	});
+
+	$('a.js_todaypicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		input.prev('.js_todaypicker').datepicker("show");
+		return false;
+	});
+
+	$('a.js_timepicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		input.prev('.js_timepicker').timepicker("show");
+		return false;
+	});
+	
+	$('a.js_datetimepicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		input.prev('.js_datetimepicker').datetimepicker("show");
+		return false;
+	});
+
+	$('a.js_userpicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		var target = input.prev('.js_community_list');
 		$.ajax({
-			url : "delete_file.sw",
-			data : {
-				fileId : $(e.target).parent('li').attr('fileId')
-			},
-			type : "POST",
-			context : this,
+			url : "pop_select_user.sw",
+			context : input,
 			success : function(data, status, jqXHR) {
-				$(e.target).parent().remove();
+				target.html(data);
+				target.slideDown(500);
+				target.focus();
 			}
 		});
+		return false;
+	});
+
+	$('a.js_workpicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		var target = input.prev('.js_community_list');
+		$.ajax({
+			url : "pop_select_work.sw",
+			context : input,
+			success : function(data, status, jqXHR) {
+				target.html(data);
+				target.slideDown(500);
+				target.focus();
+			}
+		});
+		return false;
+	});
+
+	$('a.js_workitempicker_button').live('click', function(e) {
+		var input = $(e.target).parent();
+		var target = input.prev('.js_community_list');
+		$.ajax({
+			url : "pop_select_work_item.sw",
+			context : input,
+			success : function(data, status, jqXHR) {
+				target.html(data);
+				target.slideDown(500);
+				target.focus();
+			}
+		});
+		return false;
 	});
 
 });

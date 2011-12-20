@@ -7,28 +7,42 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <script type="text/javascript">
-	function submitForms(e) {
-		if ($('form.js_validation_required').validate().form()) {
-			var params = $('form').serialize();
-			var url = "upload_new_file.sw";
-			$.ajax({
-				url : url,
-				type : 'POST',
-				data : params,
-				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-				},
-				error : function(jqXHR, status, error) {
-					console.log(status);
-					console.log(error);
-					alert(error);
-				}
-			});
-		} else {
-			return;
+function submitForms(e) {
+	var sw_validate = SmartWorks.GridLayout.validate($('form[name="frmSmartForm"]'));
+	if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
+		var forms = $('form');
+		var paramsJson = {};
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			if(form.attr('name') === 'frmSmartForm'){
+				paramsJson['formId'] = form.attr('formId');
+				paramsJson['formName'] = form.attr('formName');
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+
+			}else{
+				paramsJson[form.attr('name')] = form.serializeObject();				
+			}
 		}
+		console.log(JSON.stringify(paramsJson));
+		alert('wait');
+		var url = "upload_new_file.sw";
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				document.location.href = data.href;
+			},
+			error : function(e) {
+				alert(e);
+			}
+		});
+	} else {
 		return;
 	}
+	return;
+}
 </script>
 
 <%
@@ -50,8 +64,7 @@
 						key="common.upload.message.file_desc" />">
 				</textarea>
 
-				<div class="btn_gray padding_t5">
- 					<input class='required' name="fileAttachment" type="file">
+				<div class="btn_gray padding_t5 js_file_uploader">
  				</div>
 			</div>
 			<div class="form_contents">

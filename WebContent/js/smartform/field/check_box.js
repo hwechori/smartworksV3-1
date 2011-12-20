@@ -36,9 +36,9 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	
 	var $check = null;
 	if(readOnly){
-		$check = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value);
+		$check = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$check = $('<div class="form_value" style="width:' + valueWidth + '%"><input type="checkbox" '+ checked + ' name="' + id + '"' + required +  '><div>');
+		$check = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><input type="checkbox" '+ checked + ' name="' + id + '"' + required +  '><div>');
 	}
 
 	if ($graphic.attr('hidden') == 'true'){

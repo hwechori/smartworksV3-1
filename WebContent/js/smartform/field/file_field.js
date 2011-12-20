@@ -34,7 +34,7 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	
 	var $file = null;
 		
-	$file = $('<div class="form_value" style="width:' + valueWidth + '%"><span id="' + id + '"' + required + '></span></div>');
+	$file = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><span id="' + id + '"' + required + '></span></div>');
 
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();

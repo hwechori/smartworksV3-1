@@ -12,8 +12,8 @@ SmartWorks.GridLayout = function(config) {
 	var $table = $htmlForm.find('table');
 
 	var $form = $(this.options.formXml);
-	$htmlForm.attr("formId", $form.attr('id'))
-	$htmlForm.attr("formName", $form.attr('name'))
+	$htmlForm.attr("formId", $form.attr('id'));
+	$htmlForm.attr("formName", $form.attr('name'));
 	$htmlForm.appendTo(this.options.target);
 	
 	var $layout = $form.find('layout');
@@ -38,9 +38,7 @@ SmartWorks.GridLayout = function(config) {
 			}
 			var spanWidths = new Array();
 			for(var i=0; i<$gridColumns.length; i++){
-				var spanWidth =  (parseFloat($($gridColumns[i]).attr('size'))/parseFloat(totalSize)).toFixed(10);
-				var spanWidthP =  parseFloat(spanWidth) * parseFloat(100);
-				spanWidths.push(spanWidthP);
+				spanWidths.push(parseFloat($($gridColumns[i]).attr('size'))/totalSize*100.0);
 			}
 			this.spanWidths = spanWidths;
 		}
@@ -49,9 +47,9 @@ SmartWorks.GridLayout = function(config) {
 		var span = parseInt($column.attr('span'));
 		var columnWidth = 0;
 		for(var i=index; i<this.spanWidths.length && i<index+span; i++){
-			columnWidth = parseFloat(columnWidth) + parseFloat(this.spanWidths[i]);
+			columnWidth = columnWidth + this.spanWidths[i];
 		}
-		return parseFloat(10)/parseFloat(columnWidth)*parseFloat(100);
+		return 10.0/columnWidth*100.0;
 	};
 	
 

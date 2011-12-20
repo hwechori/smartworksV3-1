@@ -35,9 +35,9 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	
 	var $text = null;
 	if(readOnly){
-		$text = $('<div class="form_value" fieldId="' + id + '" style="width:' + valueWidth + '%"></div>').text(value);
+		$text = $('<div class="form_value form_value_max_width" fieldId="' + id + '" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$text = $('<div class="form_value" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>').attr('value', value);
+		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>').attr('value', value);
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();
