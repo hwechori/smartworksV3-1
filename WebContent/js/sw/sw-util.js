@@ -94,5 +94,5 @@ function isBlank(str) {
 }
 
 function isZeroLength(array){
-	return (!array || arrya.length == 0);
+	return (!array || array.length == 0);
 }
