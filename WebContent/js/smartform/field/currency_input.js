@@ -71,3 +71,24 @@ $('input.js_currency_input').live('keyup', function(e) {
 		}
 	}
 });
+
+
+SmartWorks.FormRuntime.CurrencyInputBuilder.dataField = function(config){
+	var options = {
+			fieldName: '',
+			formXml: '',
+			value: ''
+	};
+
+	SmartWorks.extend(options, config);
+	$formXml = $(options.formXml);
+	var dataField = {};
+	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	
+	dataField = {
+			id: fieldId,
+			value: options.value
+	};
+	return dataField;
+};

@@ -13,6 +13,7 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 
 	SmartWorks.extend(options, config);
 	var value = (options.dataField && options.dataField.value) || '';
+	var isTempfile = (options.dataField && options.dataField.isTempfile) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 
@@ -44,6 +45,13 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 
 	if (readOnly) {
 		viewFiles(value, $('#'+id));
+	} else if(isTempfile==='true'){
+		loadTempFiles(value, $('#'+id), {
+			fileId : (options.dataField && options.dataField.fileId) || '',
+			fileName : (options.dataField && options.dataField.fileName) || '',
+			fileText : (options.dataField && options.dataField.fileText) || '',
+			fileSize : (options.dataField && options.dataField.fileSize) || 0		
+		});
 	} else {
 		createUploader(value, $('#'+id), true, false);
 	}
@@ -82,4 +90,38 @@ SmartWorks.FormRuntime.FileFieldBuilder.validate = function(fileFields){
 		}
 	}
 	return filesValid;
+};
+
+SmartWorks.FormRuntime.FileFieldBuilder.dataField = function(config){
+	var options = {
+			fieldName: '',
+			formXml: '',
+			groupId: '',
+			isTempfile: false,
+			fileId: '',
+			fileName: '',
+			fileText: '',
+			fileSize: 0,
+			isMultiple: false,
+			isProfile:false
+	};
+
+	SmartWorks.extend(options, config);
+	$formXml = $(options.formXml);
+	var dataField = {};
+	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	
+	dataField = {
+			id: fieldId,
+			value: options.groupId,
+			isTempfile: options.isTempfile,
+			fileId: options.fileId,
+			fileName: options.fileName,
+			fileText: options.fileText,
+			fileSize: options.fileSize,
+			isMultiple: options.isMultiple,
+			isProfile: options.isProfiel
+	};
+	return dataField;
 };

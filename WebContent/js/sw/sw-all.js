@@ -605,10 +605,15 @@ $(function() {
 				input.parent().toggle().siblings().toggle();
 				var form = input.parents('form[name="frmNewFile"]');
 				var uploader = form.find('.qq-uploader');
+				var file = $(uploader.find('.qq-upload-success')[0]);
+
 				var comments = form.find('textarea[name="txtaFileDesc"]').text();
-				console.log("comments", comments);
 				var groupId = uploader.attr('groupId');
-				var fileName = uploader.find('.qq-upload-success').attr('fileName');
+				var fileId = file.attr('fileId');
+				var fileSize = file.attr('fileSize');
+				var fileName = file.attr('.qq-upload-file').text();
+				var fileText = file.find('.qq-upload-file-text').text();
+
 				var formContent = $('#form_import').find('div.js_form_content');
 				if(formContent.length == 1) {
 					var workId = formContent.attr('workId');
@@ -618,13 +623,45 @@ $(function() {
 							workId : workId
 						},
 						success : function(formXml, status, jqXHR) {
-							console.log(formXml);
 							var formXml = $(formXml);
 							var dataFields = new Array();
-							dataFields.push({id : formXml.find('formEntity[name="제목"]').attr('id'), value : fileName});
-							dataFields.push({id : formXml.find('formEntity[name="검색어"]').attr('id'), value : fileName + " " + currentUser.name});
-							dataFields.push({id : formXml.find('formEntity[name="내용"]').attr('id'), value : comments});
-							dataFields.push({id : formXml.find('formEntity[name="첨부파일"]').attr('id'), value : groupId});
+							dataFields.push(SmartWorks.FormRuntime.TextFieldBuilder.dataField({
+								fieldName: '제목',
+								formXml: formXml,
+								value: fileName								
+							}));
+							dataFields.push(SmartWorks.FormRuntime.TextFieldBuilder.dataField({
+								fieldName: '검색어',
+								formXml: formXml,
+								value : fileName + " " + currentUser.name
+							}));
+							dataFields.push(SmartWorks.FormRuntime.RefFormFieldBuilder.dataField({
+								fieldName: '관리부서',
+								formXml: formXml,
+								refRecordId: '', // currentUser.departmentId,
+								value: currentUser.department
+							}));
+							dataFields.push(SmartWorks.FormRuntime.UserFieldBuilder.dataField({
+								fieldName: '관리담당자',
+								formXml: formXml,
+								userId: currentUser.id,
+								longName: currentUser.longName
+							}));
+							dataFields.push(SmartWorks.FormRuntime.RichEditorFieldBuilder.dataField({
+								fieldName: '내용',
+								formXml: formXml,
+								value : comments
+							}));
+							dataFields.push(SmartWorks.FormRuntime.FileFieldBuilder.dataField({
+									fieldName: '첨부파일',
+									formXml: formXml,
+									value: groupId,
+									isTempfile: true,
+									fileId: fileId,
+									fileName: fileName,
+									fileText: fileText,
+									fileSize: fileSize,
+							}));
 
 							var record = {dataFields: dataFields};
 							console.log("record", record);

@@ -73,3 +73,24 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.validate = function(refFormFields){
 	return refFormsValid;
 };
 
+SmartWorks.FormRuntime.RefFormFieldBuilder.dataField = function(config){
+	var options = {
+			fieldName: '',
+			formXml: '',
+			refRecordId: '',
+			value: ''
+	};
+
+	SmartWorks.extend(options, config);
+	$formXml = $(options.formXml);
+	var dataField = {};
+	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	
+	dataField = {
+			id: fieldId,
+			refRecordId: options.refRecordId,
+			value: options.value
+	};
+	return dataField;
+};

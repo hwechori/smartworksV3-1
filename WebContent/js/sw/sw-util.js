@@ -84,3 +84,15 @@ var mergeObjects = function(obj1, obj2) {
 var merge3Objects = function(obj1, obj2, obj3){
 	return mergeObjects(obj1, mergeObjects(obj2, obj3));
 };
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
+function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+}
+
+function isZeroLength(array){
+	return (!array || arrya.length == 0);
+}

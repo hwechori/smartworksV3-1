@@ -80,8 +80,6 @@ $('.percent input').live('focusin', function(e) {
 	$input.attr('value', value);
 });
 
-
-
 $('.percent input').live('keyup', function(e) {
 	var e = window.event || e;
 	var keyUnicode = e.charCode || e.keyCode;
@@ -100,8 +98,22 @@ $('.percent input').live('keyup', function(e) {
 	}
 });
 
+SmartWorks.FormRuntime.PercentInputBuilder.dataField = function(config){
+	var options = {
+			fieldName: '',
+			formXml: '',
+			value: ''
+	};
 
-
-
-
-
+	SmartWorks.extend(options, config);
+	$formXml = $(options.formXml);
+	var dataField = {};
+	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	
+	dataField = {
+			id: fieldId,
+			value: options.value
+	};
+	return dataField;
+};

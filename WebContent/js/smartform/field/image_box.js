@@ -78,3 +78,37 @@ SmartWorks.FormRuntime.ImageBoxBuilder.validate = function(imageBoxs){
 	}
 	return imagesValid;
 };
+
+SmartWorks.FormRuntime.ImageBoxBuilder.dataField = function(config){
+	var options = {
+			fieldName: '',
+			formXml: '',
+			groupId: '',
+			isTempfile: false,
+			fileId: '',
+			fileName: '',
+			fileText: '',
+			fileSize: 0,
+			isMultiple: false,
+			isProfile:false
+	};
+
+	SmartWorks.extend(options, config);
+	$formXml = $(options.formXml);
+	var dataField = {};
+	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	
+	dataField = {
+			id: fieldId,
+			value: options.groupId,
+			isTempfile: options.isTempfile,
+			fileId: options.fileId,
+			fileName: options.fileName,
+			fileText: options.fileText,
+			fileSize: options.fileSize,
+			isMultiple: options.isMultiple,
+			isProfile: options.isProfiel
+	};
+	return dataField;
+};

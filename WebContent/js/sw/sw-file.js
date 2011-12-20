@@ -202,7 +202,7 @@ function viewFiles(groupId, target){
 
 }
 
-function setTempFiles(groupId, target){
+function loadTempFiles(groupId, target, options){
 
 	var viewFileTemplate = '<li>' +
 	'<span></span>' +
@@ -213,39 +213,15 @@ function setTempFiles(groupId, target){
 	if(!groupId) {
 		return;
 	} else {
-		$.ajax({				
-			url : "find_file_group.sw",
-			data : {
-				groupId : groupId
-			},
-			type : "GET",
-			context : this,
-			success : function(data, status, jqXHR) {
-				var files = $(target);
-				for(var i in data) {
-					
-					var fileName = data[i].fileName;
-					
-					var displayFileName = fileName;
-					if (fileName.length > 33) {
-						displayFileName = fileName.slice(0, 19) + '...' + fileName.slice(-13);
-					}
-					
-					var ext = getExt(fileName);
-					
-					var file = $(viewFileTemplate).appendTo(files);
-					file.attr('fileId', data[i].id);
-					file.find('.qq-upload-file').prev('span').addClass('ico_file_' + ext);
-					file.find('.qq-upload-file').text(displayFileName);
-					file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + data[i].id + "&fileName=" + fileName);
-					file.find('.qq-upload-size').text(getBytesWithUnit(data[i].fileSize));
-				}
-			},
-			error : function(e) {
-				alert(e);
-			}
-		});
-	}
-	
-	
+		var files = $(target);
+		var fileName = options.fileName;		
+		var displayFileName = options.fileText;
+		var ext = getExt(fileName);
+		var file = $(viewFileTemplate).appendTo(files);
+		file.attr('fileId', options.fileId);
+		file.find('.qq-upload-file').prev('span').addClass('ico_file_' + ext);
+		file.find('.qq-upload-file').text(displayFileName);
+		file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + options.fileId + "&fileName=" + fileName);
+		file.find('.qq-upload-size').text(getBytesWithUnit(options.fileSize));
+	}	
 }
