@@ -116,6 +116,9 @@ SmartWorks.GridLayout = function(config) {
 	return this;
 };
 
+SmartWorks.GridLayout.create = function(form){
+};
+
 SmartWorks.GridLayout.serializeObject = function(form){
 	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.serializeObject(form.find('.js_type_fileField'));
 	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.serializeObject(form.find('.js_type_userField'));

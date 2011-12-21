@@ -259,6 +259,7 @@ Ext.onReady(function () {
 		        flex: 0.60,
 		        border: false,
 		        height: 200,
+		        resizable: true,
 		        store:  Ext.create('Ext.data.JsonStore', {
 					fields : smartChart.getFields(),
 					data : smartChart.values
@@ -347,6 +348,7 @@ Ext.onReady(function () {
 					width: 600,
 					height: 400,
 					animate: true,
+					resizable: true,
 					renderTo : Ext.get(smartChart.target),
 					store : Ext.create('Ext.data.JsonStore', {
 						fields : smartChart.getFields(),
