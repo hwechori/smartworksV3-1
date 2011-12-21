@@ -45,15 +45,17 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 
 	if (readOnly) {
 		viewFiles(value, $('#'+id));
-	} else if(isTempfile==='true'){
-		loadTempFiles(value, $('#'+id), {
-			fileId : (options.dataField && options.dataField.fileId) || '',
-			fileName : (options.dataField && options.dataField.fileName) || '',
-			fileText : (options.dataField && options.dataField.fileText) || '',
-			fileSize : (options.dataField && options.dataField.fileSize) || 0		
-		});
 	} else {
-		createUploader(value, $('#'+id), true, false);
+		var options ={};
+		if(isTempfile==='true'){
+			options = {
+				fileId : (options.dataField && options.dataField.fileId) || '',
+				fileName : (options.dataField && options.dataField.fileName) || '',
+				fileText : (options.dataField && options.dataField.fileText) || '',
+				fileSize : (options.dataField && options.dataField.fileSize) || 0		
+			};
+		}
+		createUploader(value, $('#'+id), true, false, isTempfile, options);
 	}
 	return options.container;
 
@@ -98,12 +100,9 @@ SmartWorks.FormRuntime.FileFieldBuilder.dataField = function(config){
 			formXml: '',
 			groupId: '',
 			isTempfile: false,
-			fileId: '',
-			fileName: '',
-			fileText: '',
-			fileSize: 0,
 			isMultiple: false,
-			isProfile:false
+			isProfile:false,
+			fileList: null
 	};
 
 	SmartWorks.extend(options, config);
@@ -116,12 +115,9 @@ SmartWorks.FormRuntime.FileFieldBuilder.dataField = function(config){
 			id: fieldId,
 			value: options.groupId,
 			isTempfile: options.isTempfile,
-			fileId: options.fileId,
-			fileName: options.fileName,
-			fileText: options.fileText,
-			fileSize: options.fileSize,
 			isMultiple: options.isMultiple,
-			isProfile: options.isProfiel
+			isProfile: options.isProfiel,
+			fileList: options.fileList
 	};
 	return dataField;
 };

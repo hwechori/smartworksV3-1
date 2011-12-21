@@ -61,20 +61,18 @@ function fileUploader(groupId, target) {
                 	// need to code for removing temp file request to server 
         		}else{
 	    			var name = file.find('.qq-upload-file').attr('fileName');
-	    			if(fileName === name) {
+	    			if(fileName === name) 
 	    				return false;
-	    			}
         		}
         	}
         	return true;
         },
         onComplete : function(id, fileName, responseJSON){
         	var file = $(this.element).find('.qq-upload-list li[qqFileId=' + id + ']');
-        	console.log(file);
-        	file.attr('fileId', responseJSON.fileId).attr('fileName', fileName).attr('fileSize', responseJSON.fileSize);
+        	if(isZeroLength(file)) return;
         	
+        	file.attr('fileId', responseJSON.fileId).attr('fileName', fileName).attr('fileSize', responseJSON.fileSize);
         	var ext = getExt(fileName);
-
     		file.find('.qq-upload-file').prev('span').addClass('ico_file_' + ext);
         	file.find('.qq-upload-file').attr('href', 'download_file.sw?fileId=' + responseJSON.fileId + "&fileName=" + fileName);
         	file.find('.qq-delete-text').show();
@@ -93,7 +91,7 @@ function fileUploader(groupId, target) {
     });
 }
 
-function createUploader(groupId, target, isMultiple, isProfile, isTempFile){
+function createUploader(groupId, target, isMultiple, isProfile, isTempFile, fileList){
 	var uploadFileTemplate = '<li>' +
 	'<span></span>' +
 	'<a href="#" class="qq-upload-file"></a>' +
@@ -110,8 +108,12 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile){
 		var uploader = $(target).find('.qq-uploader');
 		uploader.attr('isMultiple', isMultiple).attr('groupId', groupId);
 		if(isProfile) uploader.find('.qq-upload-list').hide();
-	} else if(isTempFile) {
-		
+	} else if(isTempFile==="true") {
+		fileUploader(groupId, target);
+		var uploader = $(target).find('.qq-uploader');
+		uploader.attr('isMultiple', isMultiple).attr('groupId', groupId);
+		if(isProfile) uploader.find('.qq-upload-list').hide();
+		if(!isZeroLength(fileList)) $(fileList).appennTo(uploader.fild('.qq-upload-list'));
 	} else if(!isProfile){
 		$.ajax({				
 			url : "find_file_group.sw",
@@ -155,7 +157,6 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile){
 }
 
 function viewFiles(groupId, target){
-	
 	var viewFileTemplate = '<li>' +
 	'<span></span>' +
 	'<a href="#" class="qq-upload-file"></a>' +
@@ -199,28 +200,4 @@ function viewFiles(groupId, target){
 		});
 	}
 
-}
-
-function loadTempFiles(groupId, target, options){
-
-	var viewFileTemplate = '<li>' +
-	'<span></span>' +
-	'<a href="#" class="qq-upload-file"></a>' +
-	'<span class="qq-upload-size"></span>' +
-	'</li>';
-
-	if(!groupId) {
-		return;
-	} else {
-		var files = $(target);
-		var fileName = options.fileName;		
-		var displayFileName = options.fileText;
-		var ext = getExt(fileName);
-		var file = $(viewFileTemplate).appendTo(files);
-		file.attr('fileId', options.fileId);
-		file.find('.qq-upload-file').prev('span').addClass('ico_file_' + ext);
-		file.find('.qq-upload-file').text(displayFileName);
-		file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + options.fileId + "&fileName=" + fileName);
-		file.find('.qq-upload-size').text(getBytesWithUnit(options.fileSize));
-	}	
 }

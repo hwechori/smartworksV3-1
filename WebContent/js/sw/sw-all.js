@@ -605,20 +605,9 @@ $(function() {
 				input.parent().toggle().siblings().toggle();
 				var form = input.parents('form[name="frmNewFile"]');
 				var uploader = form.find('.qq-uploader');
-				var file = $(uploader.find('.qq-upload-success')[0]);
 				var comments = form.find('textarea[name="txtaFileDesc"]').text();
-				var groupId = '';
-				var fileId = '';
-				var fileSize = 0;
-				var fileName = '';
-				var fileText = '';
-				if(!isZeroLength(file)){
-					groupId = uploader.attr('groupId');
-					fileId = file.attr('fileId');
-					fileSize = file.attr('fileSize');
-					fileName = file.attr('.qq-upload-file').text();
-					fileText = file.find('.qq-upload-file-text').text();
-				}
+				var groupId = uploader.attr('groupId');
+				var fileList = uploader.find('.qq-upload-list li');
 
 				var formContent = $('#form_import').find('div.js_form_content');
 				if(formContent.length == 1) {
@@ -663,10 +652,7 @@ $(function() {
 									formXml: formXml,
 									value: groupId,
 									isTempfile: true,
-									fileId: fileId,
-									fileName: fileName,
-									fileText: fileText,
-									fileSize: fileSize,
+									fileList: fileList
 							}));
 
 							var record = {dataFields: dataFields};
