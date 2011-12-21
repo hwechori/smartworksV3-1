@@ -314,7 +314,7 @@ public class SmartUtil {
 								
 								client.getChannel(pubChannel).publish(data);
 							} catch(Exception e){
-								e.printStackTrace();
+//								e.printStackTrace();
 							}
 						}
 					}catch(Exception e){

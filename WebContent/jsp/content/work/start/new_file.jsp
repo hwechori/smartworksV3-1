@@ -10,78 +10,64 @@
 function submitForms(e) {
 	var $frmSmartForm = $('form[name="frmSmartForm"]');
 	if(isEmpty($frmSmartForm)) {
-		var target = $('#form_import');
 		$.ajax({
 			url : "file_detail_form.sw",
 			success : function(data, status, jqXHR) {
-				target.html(data).show();
-				var form = $('form[name="frmNewFile"]');
-				var uploader = form.find('.qq-uploader');
-				var comments = form.find('textarea[name="txtaFileDesc"]').text();
+				var target = $(data);
+				var fileForm = $('form[name="frmNewFile"]');
+				var uploader = fileForm.find('.qq-uploader');
+				var comments = fileForm.find('textarea[name="txtaFileDesc"]').text();
 				var groupId = uploader.attr('groupId');
 				var fileList = uploader.find('.qq-upload-list li');
 				var fileName = $(fileList[0]).attr('fileName');
-				if(isEmpty(fileName))
-					fileName = "";
-
-				var formContent = $('#form_import').find('div.js_form_content');
-				if(formContent.length == 1) {
-					var workId = formContent.attr('workId');
-					$.ajax({
-						url : "get_form_xml.sw",
-						data : {
-							workId : workId
-						},
-						success : function(formXml, status, jqXHR) {
-							var formXml = $(formXml);
-							var dataFields = new Array();
-							dataFields.push(SmartWorks.FormRuntime.TextInputBuilder.dataField({
-								fieldName: '제목',
-								formXml: formXml,
-								value: fileName								
-							}));
-							dataFields.push(SmartWorks.FormRuntime.TextInputBuilder.dataField({
-								fieldName: '검색어',
-								formXml: formXml,
-								value : fileName == "" ? currentUser.name : fileName + " " + currentUser.name
-							}));
-							dataFields.push(SmartWorks.FormRuntime.RefFormFieldBuilder.dataField({
-								fieldName: '관리부서',
-								formXml: formXml,
-								refRecordId: currentUser.departmentId,
-								value: currentUser.department
-							}));
-							dataFields.push(SmartWorks.FormRuntime.UserFieldBuilder.dataField({
-								fieldName: '관리담당자',
-								formXml: formXml,
-								userId: currentUser.userId,
-								longName: currentUser.longName
-							}));
-							dataFields.push(SmartWorks.FormRuntime.RichEditorBuilder.dataField({
-								fieldName: '내용',
-								formXml: formXml,
-								value : comments
-							}));
-							dataFields.push(SmartWorks.FormRuntime.FileFieldBuilder.dataField({
-									fieldName: '첨부파일',
-									formXml: formXml,
-									groupId: groupId,
-									isTempfile: true,
-									fileList: fileList
-							}));
-
-							var record = {dataFields: dataFields};
-							console.log("record", record);
-							new SmartWorks.GridLayout({
-								target : formContent,
+				if(isEmpty(fileName)) fileName = "";
+				var workId = formContent.attr('workId');
+				$.ajax({
+					url : "get_form_xml.sw",
+					data : {
+						workId : workId
+					},
+					success : function(formXml, status, jqXHR) {
+						new SmartWorks.GridLayout({
+							target : formContent,
+							formXml : formXml,
+							formValues : {dataFields: createFileDataFields({
 								formXml : formXml,
-								formValues : record,
-								mode : "edit"
-							});
-							$frmSmartForm = $('form[name="frmSmartForm"]');
+								groupId : groupId,
+								fileName : fileName,
+								fileList : fileList,
+								comments : comments								
+							})},
+							mode : "edit"
+						});
+
+						var forms = $('form');
+						var paramsJson = {};
+						for(var i=0; i<forms.length; i++){
+							var form = $(forms[i]);
+							paramsJson[form.attr('name')] = form.serializeObject();
 						}
-					});
-				}
+						$frmSmartForm = $('form[name="frmSmartForm"]');
+						paramsJson['formId'] = $frmSmartForm.attr('formId');
+						paramsJson['formName'] = $frmSmartForm.attr('formName');
+						paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject($frmSmartForm));
+						console.log("JSON", JSON.stringify(paramsJson));
+						alert('wait');
+						var url = "create_new_iwork.sw";
+						$.ajax({
+							url : url,
+							contentType : 'application/json',
+							type : 'POST',
+							data : JSON.stringify(paramsJson),
+							success : function(data, status, jqXHR) {
+								document.location.href = data.href;
+							},
+							error : function(e) {
+								alert(e);
+							}
+						});
+					}
+				});
 			}
 		});
 	} else {
@@ -105,20 +91,6 @@ function submitForms(e) {
 			return;
 		}
 	}
-	alert('wait');
-	var url = "create_new_iwork.sw";
-	$.ajax({
-		url : url,
-		contentType : 'application/json',
-		type : 'POST',
-		data : JSON.stringify(paramsJson),
-		success : function(data, status, jqXHR) {
-			document.location.href = data.href;
-		},
-		error : function(e) {
-			alert(e);
-		}
-	});
 	return;
 }
 </script>
