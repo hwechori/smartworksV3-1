@@ -47,6 +47,8 @@ import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
+import net.smartworks.server.engine.organization.manager.ISwoManager;
+import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
@@ -82,6 +84,9 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	private IDocFileManager getDocManager() {
 		return SwManagerFactory.getInstance().getDocManager();
+	}
+	private ISwoManager getSwoManager() {
+		return SwManagerFactory.getInstance().getSwoManager();
 	}
 
 	/*
@@ -221,7 +226,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		String userId = null;
 		if (user != null)
 			userId = user.getId();
-		
+
+		SwdDomainCond swdDomainCond = new SwdDomainCond();
+		swdDomainCond.setFormId(formId);
+		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdDomainCond, IManager.LEVEL_LITE);
+
+		domainId = swdDomain.getObjId();
+
 		SwdFieldCond swdFieldCond = new SwdFieldCond();
 		swdFieldCond.setDomainObjId(domainId);
 		SwdField[] fields = getSwdManager().getFields(userId, swdFieldCond, IManager.LEVEL_LITE);
@@ -251,11 +262,17 @@ public class InstanceServiceImpl implements IInstanceService {
 				Map<String, Object> valueMap = (Map<String, Object>)filedValue;
 				groupId = (String)valueMap.get("groupId");
 				refForm = (String)valueMap.get("refForm");
-				if(!groupId.isEmpty()) {
+
+				if(!CommonUtil.isEmpty(groupId)) {
 					files = (ArrayList<Map<String,String>>)valueMap.get("files");
 					value = groupId;
-				} else if(!refForm.isEmpty()) {
-
+				} else if(!CommonUtil.isEmpty(refForm)) {
+					refFormField = (String)valueMap.get("refFormField");
+					refRecordId = (String)valueMap.get("refRecordId");
+					SwoDepartmentCond swoDepartmentCond = new SwoDepartmentCond();
+					swoDepartmentCond.setId(refRecordId);
+					String deptName = getSwoManager().getDepartment(userId, swoDepartmentCond, IManager.LEVEL_LITE).getName();
+					value = deptName;
 				}
 			} else if(filedValue instanceof String) {
 				value = (String)SmartFormInfoMap.get(fieldId);

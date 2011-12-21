@@ -13,7 +13,8 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 
 	SmartWorks.extend(options, config);
 	var value = (options.dataField && options.dataField.value) || '';
-	var isTempfile = (options.dataField && options.dataField.isTempfile) || '';
+	var isTempfile = (options.dataField && options.dataField.isTempfile) || false;
+	console.log("isTempfile", isTempfile);
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 
@@ -46,16 +47,11 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	if (readOnly) {
 		viewFiles(value, $('#'+id));
 	} else {
-		var options ={};
-		if(isTempfile==='true'){
-			options = {
-				fileId : (options.dataField && options.dataField.fileId) || '',
-				fileName : (options.dataField && options.dataField.fileName) || '',
-				fileText : (options.dataField && options.dataField.fileText) || '',
-				fileSize : (options.dataField && options.dataField.fileSize) || 0		
-			};
+		var fileList = '';
+		if(isTempfile){
+			fileList = 	(options.dataField && options.dataField.fileList) || '';
 		}
-		createUploader(value, $('#'+id), true, false, isTempfile, options);
+		createUploader(value, $('#'+id), true, false, isTempfile, fileList);
 	}
 	return options.container;
 
@@ -110,7 +106,6 @@ SmartWorks.FormRuntime.FileFieldBuilder.dataField = function(config){
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
 	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
-	
 	dataField = {
 			id: fieldId,
 			value: options.groupId,

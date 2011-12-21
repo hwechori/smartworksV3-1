@@ -14,6 +14,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	SmartWorks.extend(options, config);
 	var longName = (options.dataField && options.dataField.value) || '';
 	var userId = (options.dataField && options.dataField.refRecordId) || '';
+
 	var $entity = options.entity;
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');

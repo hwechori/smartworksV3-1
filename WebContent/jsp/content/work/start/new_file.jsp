@@ -8,46 +8,123 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <script type="text/javascript">
 function submitForms(e) {
-	var sw_validate = SmartWorks.GridLayout.validate($('form[name="frmSmartForm"]'));
-	if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
-		var forms = $('form');
-		var paramsJson = {};
-		for(var i=0; i<forms.length; i++){
-			var form = $(forms[i]);
-			if(form.attr('name') === 'frmSmartForm'){
-				paramsJson['formId'] = form.attr('formId');
-				paramsJson['formName'] = form.attr('formName');
-				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-
-			}else{
-				paramsJson[form.attr('name')] = form.serializeObject();				
-			}
-		}
-		console.log(JSON.stringify(paramsJson));
-		alert('wait');
-		var url = "upload_new_file.sw";
+	var $frmSmartForm = $('form[name="frmSmartForm"]');
+	if(isEmpty($frmSmartForm)) {
+		var target = $('#form_import');
 		$.ajax({
-			url : url,
-			contentType : 'application/json',
-			type : 'POST',
-			data : JSON.stringify(paramsJson),
+			url : "file_detail_form.sw",
 			success : function(data, status, jqXHR) {
-				document.location.href = data.href;
-			},
-			error : function(e) {
-				alert(e);
+				target.html(data).show();
+				var form = $('form[name="frmNewFile"]');
+				var uploader = form.find('.qq-uploader');
+				var comments = form.find('textarea[name="txtaFileDesc"]').text();
+				var groupId = uploader.attr('groupId');
+				var fileList = uploader.find('.qq-upload-list li');
+				var fileName = $(fileList[0]).attr('fileName');
+				if(isEmpty(fileName))
+					fileName = "";
+
+				var formContent = $('#form_import').find('div.js_form_content');
+				if(formContent.length == 1) {
+					var workId = formContent.attr('workId');
+					$.ajax({
+						url : "get_form_xml.sw",
+						data : {
+							workId : workId
+						},
+						success : function(formXml, status, jqXHR) {
+							var formXml = $(formXml);
+							var dataFields = new Array();
+							dataFields.push(SmartWorks.FormRuntime.TextInputBuilder.dataField({
+								fieldName: '제목',
+								formXml: formXml,
+								value: fileName								
+							}));
+							dataFields.push(SmartWorks.FormRuntime.TextInputBuilder.dataField({
+								fieldName: '검색어',
+								formXml: formXml,
+								value : fileName == "" ? currentUser.name : fileName + " " + currentUser.name
+							}));
+							dataFields.push(SmartWorks.FormRuntime.RefFormFieldBuilder.dataField({
+								fieldName: '관리부서',
+								formXml: formXml,
+								refRecordId: currentUser.departmentId,
+								value: currentUser.department
+							}));
+							dataFields.push(SmartWorks.FormRuntime.UserFieldBuilder.dataField({
+								fieldName: '관리담당자',
+								formXml: formXml,
+								userId: currentUser.userId,
+								longName: currentUser.longName
+							}));
+							dataFields.push(SmartWorks.FormRuntime.RichEditorBuilder.dataField({
+								fieldName: '내용',
+								formXml: formXml,
+								value : comments
+							}));
+							dataFields.push(SmartWorks.FormRuntime.FileFieldBuilder.dataField({
+									fieldName: '첨부파일',
+									formXml: formXml,
+									groupId: groupId,
+									isTempfile: true,
+									fileList: fileList
+							}));
+
+							var record = {dataFields: dataFields};
+							console.log("record", record);
+							new SmartWorks.GridLayout({
+								target : formContent,
+								formXml : formXml,
+								formValues : record,
+								mode : "edit"
+							});
+							$frmSmartForm = $('form[name="frmSmartForm"]');
+						}
+					});
+				}
 			}
 		});
 	} else {
-		return;
+		var sw_validate = SmartWorks.GridLayout.validate($frmSmartForm);
+		if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
+			var forms = $('form');
+			var paramsJson = {};
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				if(form.attr('name') === 'frmSmartForm'){
+					paramsJson['formId'] = form.attr('formId');
+					paramsJson['formName'] = form.attr('formName');
+					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+				}else{
+					paramsJson[form.attr('name')] = form.serializeObject();
+				}
+			}
+			console.log("JSON", JSON.stringify(paramsJson));
+			
+		} else {
+			return;
+		}
 	}
+	alert('wait');
+	var url = "create_new_iwork.sw";
+	$.ajax({
+		url : url,
+		contentType : 'application/json',
+		type : 'POST',
+		data : JSON.stringify(paramsJson),
+		success : function(data, status, jqXHR) {
+			document.location.href = data.href;
+		},
+		error : function(e) {
+			alert(e);
+		}
+	});
 	return;
 }
 </script>
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String workId = SmartWork.WORK_ID_FILE_MANAGEMENT;
 	User cUser = SmartUtil.getCurrentUser();
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

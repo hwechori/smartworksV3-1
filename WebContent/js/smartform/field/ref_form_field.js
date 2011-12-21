@@ -41,6 +41,7 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 		$refForm = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
 		$refForm = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><div class="ico_fb_space"><input readonly="readonly" type="text" name="' + id + '"' + required + '><a href="#" class="js_workitmepicker_button"><span class="ico_fb_work"></span></a></div></div>');
+		$refForm.find('input').attr('value', value);
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();
@@ -55,7 +56,7 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject = function(refFormFie
 	var refFormsJson = {};
 	for(var i=0; i<refFormFields.length; i++){
 		var refFormField = $(refFormFields[i]);
-		refFormsJson[refFormField.attr('fieldId')] =  {refForm: refFormField.attr('refForm'), refFormField: refFormField.attr('refFormField'), refRecordId: refFormField.attr('refRecordId'), value: refFormField.find('.form_value').text() };
+		refFormsJson[refFormField.attr('fieldId')] =  {refForm: refFormField.attr('refForm'), refFormField: refFormField.attr('refFormField'), refRecordId: refFormField.attr('refRecordId'), value: refFormField.find('input').attr('value')};
 	}
 	return refFormsJson;
 };
@@ -64,8 +65,9 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.validate = function(refFormFields){
 	var refFormsValid = true;
 	for(var i=0; i<refFormFields.length; i++){
 		var refFormField = $(refFormFields[i]).find('input.sw_required');
-		var text = refFormField.text();
-		if(text == null || text === ""){
+		var value = refFormField.attr('value');
+		var refRecordId = $(refFormFields[i]).attr('refRecordId');
+		if(isEmpty(value) || isEmpty(refRecordId)){
 			refFormField.addClass("sw_error");
 			refFormsValid = false;
 		}
