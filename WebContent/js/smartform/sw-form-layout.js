@@ -8,7 +8,6 @@ SmartWorks.GridLayout = function(config) {
 
 	SmartWorks.extend(this.options, config);
 
-	
 	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required form_layout"><table></table></form>');
 	var $table = $htmlForm.find('table');
 

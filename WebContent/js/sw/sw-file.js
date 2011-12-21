@@ -108,12 +108,12 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile, file
 		var uploader = $(target).find('.qq-uploader');
 		uploader.attr('isMultiple', isMultiple).attr('groupId', groupId);
 		if(isProfile) uploader.find('.qq-upload-list').hide();
-	} else if(isTempFile==="true") {
+	} else if(isTempFile) {
 		fileUploader(groupId, target);
 		var uploader = $(target).find('.qq-uploader');
 		uploader.attr('isMultiple', isMultiple).attr('groupId', groupId);
 		if(isProfile) uploader.find('.qq-upload-list').hide();
-		if(!isZeroLength(fileList)) $(fileList).appennTo(uploader.fild('.qq-upload-list'));
+		if(!isZeroLength(fileList)) $(fileList).appendTo(uploader.find('.qq-upload-list'));
 	} else if(!isProfile){
 		$.ajax({				
 			url : "find_file_group.sw",

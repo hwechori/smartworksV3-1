@@ -2,7 +2,7 @@ $(function() {
 	
 
 	var autoPictures = $('img.js_auto_picture');
-	console.log(autoPictures);
+	console.log("autoPictures", autoPictures);
 	if(autoPictures.length > 0) {
 		for(var i=0; i<autoPictures.length; i++) {			
 			createUploader(null, $(autoPictures[i]).next('div.js_file_uploader'), false, true);
@@ -220,7 +220,7 @@ $(function() {
 					success : function(data, status, jqXHR) {
 						target.html(data).slideDown(500);
 						if(input.parent().hasClass('up_file')){
-							createUploader(null, target.find('.js_file_uploader'), false, false);
+							createUploader(null, target.find('.js_file_uploader'), true, false);
 						}
 
 					}
@@ -608,6 +608,9 @@ $(function() {
 				var comments = form.find('textarea[name="txtaFileDesc"]').text();
 				var groupId = uploader.attr('groupId');
 				var fileList = uploader.find('.qq-upload-list li');
+				var fileName = $(fileList[0]).attr('fileName');
+				if(isEmpty(fileName))
+					fileName = "";
 
 				var formContent = $('#form_import').find('div.js_form_content');
 				if(formContent.length == 1) {
@@ -628,18 +631,18 @@ $(function() {
 							dataFields.push(SmartWorks.FormRuntime.TextInputBuilder.dataField({
 								fieldName: '검색어',
 								formXml: formXml,
-								value : fileName + " " + currentUser.name
+								value : fileName == "" ? currentUser.name : fileName + " " + currentUser.name
 							}));
 							dataFields.push(SmartWorks.FormRuntime.RefFormFieldBuilder.dataField({
 								fieldName: '관리부서',
 								formXml: formXml,
-								refRecordId: '', // currentUser.departmentId,
+								refRecordId: currentUser.departmentId,
 								value: currentUser.department
 							}));
 							dataFields.push(SmartWorks.FormRuntime.UserFieldBuilder.dataField({
 								fieldName: '관리담당자',
 								formXml: formXml,
-								userId: currentUser.id,
+								userId: currentUser.userId,
 								longName: currentUser.longName
 							}));
 							dataFields.push(SmartWorks.FormRuntime.RichEditorBuilder.dataField({
@@ -650,7 +653,7 @@ $(function() {
 							dataFields.push(SmartWorks.FormRuntime.FileFieldBuilder.dataField({
 									fieldName: '첨부파일',
 									formXml: formXml,
-									value: groupId,
+									groupId: groupId,
 									isTempfile: true,
 									fileList: fileList
 							}));
