@@ -14,7 +14,7 @@ function submitForms(e) {
 		$.ajax({
 			url : "file_detail_form.sw",
 			success : function(data, status, jqXHR) {
-				target.html(data).show();
+				target.html(data).hide();
 				var form = $('form[name="frmNewFile"]');
 				var uploader = form.find('.qq-uploader');
 				var comments = form.find('textarea[name="txtaFileDesc"]').text();
@@ -77,48 +77,49 @@ function submitForms(e) {
 								formXml : formXml,
 								formValues : record,
 								mode : "edit"
-							});
-							$frmSmartForm = $('form[name="frmSmartForm"]');
+							});	
 						}
 					});
 				}
+				var aa = $('form[name="frmSmartForm"]');
+				console.log("aa", aa);
+			}
+		});
+	}
+
+	var sw_validate = SmartWorks.GridLayout.validate($frmSmartForm);
+	if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
+		var forms = $('form');
+		var paramsJson = {};
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			if(form.attr('name') === 'frmSmartForm'){
+				paramsJson['formId'] = form.attr('formId');
+				paramsJson['formName'] = form.attr('formName');
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+
+			}else{
+				paramsJson[form.attr('name')] = form.serializeObject();				
+			}
+		}
+		console.log("JSON", JSON.stringify(paramsJson));
+		alert('wait');
+		var url = "create_new_iwork.sw";
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				document.location.href = data.href;
+			},
+			error : function(e) {
+				alert(e);
 			}
 		});
 	} else {
-		var sw_validate = SmartWorks.GridLayout.validate($frmSmartForm);
-		if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
-			var forms = $('form');
-			var paramsJson = {};
-			for(var i=0; i<forms.length; i++){
-				var form = $(forms[i]);
-				if(form.attr('name') === 'frmSmartForm'){
-					paramsJson['formId'] = form.attr('formId');
-					paramsJson['formName'] = form.attr('formName');
-					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-				}else{
-					paramsJson[form.attr('name')] = form.serializeObject();
-				}
-			}
-			console.log("JSON", JSON.stringify(paramsJson));
-			
-		} else {
-			return;
-		}
+		return;
 	}
-	alert('wait');
-	var url = "create_new_iwork.sw";
-	$.ajax({
-		url : url,
-		contentType : 'application/json',
-		type : 'POST',
-		data : JSON.stringify(paramsJson),
-		success : function(data, status, jqXHR) {
-			document.location.href = data.href;
-		},
-		error : function(e) {
-			alert(e);
-		}
-	});
 	return;
 }
 </script>
