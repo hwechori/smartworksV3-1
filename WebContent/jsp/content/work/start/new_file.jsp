@@ -68,30 +68,10 @@ function submitForms(e) {
 						});
 					}
 				});
+
 			}
 		});
-	} else {
-		var sw_validate = SmartWorks.GridLayout.validate($frmSmartForm);
-		if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
-			var forms = $('form');
-			var paramsJson = {};
-			for(var i=0; i<forms.length; i++){
-				var form = $(forms[i]);
-				if(form.attr('name') === 'frmSmartForm'){
-					paramsJson['formId'] = form.attr('formId');
-					paramsJson['formName'] = form.attr('formName');
-					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-				}else{
-					paramsJson[form.attr('name')] = form.serializeObject();
-				}
-			}
-			console.log("JSON", JSON.stringify(paramsJson));
-			
-		} else {
-			return;
-		}
 	}
-	return;
 }
 </script>
 
