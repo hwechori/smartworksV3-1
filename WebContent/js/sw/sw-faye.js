@@ -295,7 +295,6 @@ var smartTalk = {
 			smartMsgClient = new Faye.Client(fayeContext, {
 				timeout : 5
 			});
-//			smartMsgClient.disable('autodisconnect');
 			smartTalk.startBcastSub();
 			smartTalk.startSubOnMe();
 

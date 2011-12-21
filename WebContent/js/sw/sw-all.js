@@ -621,44 +621,14 @@ $(function() {
 							workId : workId
 						},
 						success : function(formXml, status, jqXHR) {
-							var formXml = $(formXml);
-							var dataFields = new Array();
-							dataFields.push(SmartWorks.FormRuntime.TextInputBuilder.dataField({
-								fieldName: '제목',
-								formXml: formXml,
-								value: fileName								
-							}));
-							dataFields.push(SmartWorks.FormRuntime.TextInputBuilder.dataField({
-								fieldName: '검색어',
-								formXml: formXml,
-								value : fileName == "" ? currentUser.name : fileName + " " + currentUser.name
-							}));
-							dataFields.push(SmartWorks.FormRuntime.RefFormFieldBuilder.dataField({
-								fieldName: '관리부서',
-								formXml: formXml,
-								refRecordId: currentUser.departmentId,
-								value: currentUser.department
-							}));
-							dataFields.push(SmartWorks.FormRuntime.UserFieldBuilder.dataField({
-								fieldName: '관리담당자',
-								formXml: formXml,
-								userId: currentUser.userId,
-								longName: currentUser.longName
-							}));
-							dataFields.push(SmartWorks.FormRuntime.RichEditorBuilder.dataField({
-								fieldName: '내용',
-								formXml: formXml,
-								value : comments
-							}));
-							dataFields.push(SmartWorks.FormRuntime.FileFieldBuilder.dataField({
-									fieldName: '첨부파일',
-									formXml: formXml,
-									groupId: groupId,
-									isTempfile: true,
-									fileList: fileList
-							}));
-
-							var record = {dataFields: dataFields};
+							var record = {dataFields: createFileDataFields({
+									formXml : formXml,
+									groupId : groupId,
+									fileName : fileName,
+									fileList : fileList,
+									comments : comments								
+								})
+							};
 							console.log("record", record);
 							new SmartWorks.GridLayout({
 								target : formContent,
