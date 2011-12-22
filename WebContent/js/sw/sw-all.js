@@ -621,14 +621,13 @@ $(function() {
 							workId : workId
 						},
 						success : function(formXml, status, jqXHR) {
-							var record = {dataFields: createFileDataFields({
+							var record = createFileDataFields({
 									formXml : formXml,
 									groupId : groupId,
 									fileName : fileName,
 									fileList : fileList,
 									comments : comments								
-								})
-							};
+							});
 							console.log("record", record);
 							new SmartWorks.GridLayout({
 								target : formContent,

@@ -18,9 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tuscany.sdo.api.SDOUtil;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-
 import net.smartworks.server.engine.process.xpdl.Constants;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Activities;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Activity;
@@ -60,6 +57,10 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.Version;
 import net.smartworks.server.engine.process.xpdl.xpdl2.WorkflowProcesses;
 import net.smartworks.server.engine.process.xpdl.xpdl2.XPDLVersion;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Xpdl2Factory;
+
+import org.apache.tuscany.sdo.api.SDOUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLDocument;

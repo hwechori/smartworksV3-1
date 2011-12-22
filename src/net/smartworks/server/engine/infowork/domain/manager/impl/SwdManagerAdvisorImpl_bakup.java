@@ -28,14 +28,10 @@ import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
-import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
-import net.smartworks.server.service.util.SmartCommonConstants;
-
-import org.springframework.util.StringUtils;
 
 public class SwdManagerAdvisorImpl_bakup extends AbstractSwdManagerAdvisor {
 	public SwdManagerAdvisorImpl_bakup() {

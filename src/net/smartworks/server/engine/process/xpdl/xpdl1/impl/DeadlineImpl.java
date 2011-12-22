@@ -9,10 +9,10 @@ package net.smartworks.server.engine.process.xpdl.xpdl1.impl;
 import net.smartworks.server.engine.process.xpdl.xpdl1.Deadline;
 import net.smartworks.server.engine.process.xpdl.xpdl1.Xpdl1Factory;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
-
-import org.apache.tuscany.sdo.impl.DataObjectBase;
 
 /**
  * <!-- begin-user-doc -->

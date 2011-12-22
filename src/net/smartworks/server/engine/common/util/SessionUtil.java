@@ -8,8 +8,13 @@
 
 package net.smartworks.server.engine.common.util;
 
-import java.util.*;
-import javax.servlet.http.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class SessionUtil {
 	protected HttpServletRequest req;

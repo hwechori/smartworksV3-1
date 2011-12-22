@@ -3,7 +3,6 @@ package net.smartworks.server.engine.process.task.manager.impl;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.MisUtil;
-import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.process.task.manager.AbstractTskManagerAdvisor;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;

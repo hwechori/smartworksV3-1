@@ -1,11 +1,7 @@
 package net.smartworks.model.notice;
 
-import net.smartworks.model.community.Group;
-import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
-import net.smartworks.model.instance.EventInstance;
-import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.util.LocalDate;

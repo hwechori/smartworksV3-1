@@ -23,7 +23,7 @@ function submitForms(e) {
 				var fileName = $(fileList[0]).attr('fileName');
 				if(isEmpty(fileName))
 					fileName = "";
-
+				console.log("fileList", fileList);
 				var formContent = $('#form_import').find('div.js_form_content');
 				if(formContent.length == 1) {
 					var workId = formContent.attr('workId');
@@ -37,49 +37,44 @@ function submitForms(e) {
 							new SmartWorks.GridLayout({
 								target : formContent,
 								formXml : formXml,
-								formValues : {dataFields: createFileDataFields({
+								formValues : createFileDataFields({
 									formXml : formXml,
 									groupId : groupId,
 									fileName : fileName,
 									fileList : fileList,
 									comments : comments								
-								})},
+								}),
 								mode : "edit"
 							});
 							$frmSmartForm = formContent.children('form');
-							var sw_validate = SmartWorks.GridLayout.validate($frmSmartForm);
-							if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
-								var forms = $('form');
-								var paramsJson = {};
-								for(var i=0; i<forms.length; i++){
-									var form = $(forms[i]);
-									if(form.attr('name') === 'frmSmartForm'){
-										paramsJson['formId'] = form.attr('formId');
-										paramsJson['formName'] = form.attr('formName');
-										paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+							var forms = $('form');
+							var paramsJson = {};
+							for(var i=0; i<forms.length; i++){
+								var form = $(forms[i]);
+								if(form.attr('name') === 'frmSmartForm'){
+									paramsJson['formId'] = form.attr('formId');
+									paramsJson['formName'] = form.attr('formName');
+									paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 
-									}else{
-										paramsJson[form.attr('name')] = form.serializeObject();				
-									}
+								}else{
+									paramsJson[form.attr('name')] = form.serializeObject();				
 								}
-								console.log("JSON", JSON.stringify(paramsJson));
-								alert('wait');
-								var url = "create_new_iwork.sw";
-								$.ajax({
-									url : url,
-									contentType : 'application/json',
-									type : 'POST',
-									data : JSON.stringify(paramsJson),
-									success : function(data, status, jqXHR) {
-										document.location.href = data.href;
-									},
-									error : function(e) {
-										alert(e);
-									}
-								});
-							} else {
-								return;
 							}
+							console.log("JSON", JSON.stringify(paramsJson));
+							alert('wait');
+							var url = "create_new_iwork.sw";
+							$.ajax({
+								url : url,
+								contentType : 'application/json',
+								type : 'POST',
+								data : JSON.stringify(paramsJson),
+								success : function(data, status, jqXHR) {
+									document.location.href = data.href;
+								},
+								error : function(e) {
+									alert(e);
+								}
+							});
 						}
 					});
 				}
@@ -122,170 +117,6 @@ function submitForms(e) {
 	}
 	return;
 	
-}
-</script>
-
-<%
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	User cUser = SmartUtil.getCurrentUser();
-%>
-<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
-<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-
-<div class="up_wrap">
-	<div class="up_point posit_file"></div>
-	<div class="up up_padding">
-		<!-- 폼- 확장 -->
-		<form name="frmNewFile" class="form_wrap js_validation_required">
-			<div class="form_title" class="js_file_brief_form">
-
-				<textarea class="up_textarea" name='txtaFileDesc' rows="5" placeholder="<fmt:message key="common.upload.message.file_desc" />"></textarea>
-
-				<div class="btn_gray padding_t5 js_file_uploader">
- 				</div>
-			</div>
-			<div class="form_contents">
-				<div class="txt_btn txt_btn_height js_file_detail_form">
-					<div>
-						<a class="js_toggle_form_detail" href="file_detail_form.sw"><fmt:message
-								key="common.upload.button.view_file_detail" /> </a>
-					</div>
-					<div style="display: none">
-						<a class="js_toggle_form_detail" href="empty_content.sw"><fmt:message
-								key="common.upload.button.close_file_detail" /> </a>
-					</div>
-				</div>
-
-				<!-- 상세 정보 추가시 화면 -->
-				<div id="form_import"></div>
-				<!-- 상세 정보 추가시 화면 //-->
-			</div>
-			<!-- 하단 등록,취소 버튼 -->
-			<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
-			<!-- 하단 등록,취소 버튼 -->
-	</form>
-</div>
-</div>
-
-
-<%@page import="net.smartworks.model.work.SmartWork"%>
-<%@page import="net.smartworks.model.work.Work"%>
-<%@page import="net.smartworks.util.SmartUtil"%>
-<%@page import="net.smartworks.util.SmartTest"%>
-<%@page import="net.smartworks.model.community.User"%>
-<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ page import="net.smartworks.service.ISmartWorks"%>
-<script type="text/javascript">
-function submitForms(e) {
-	var $frmSmartForm = $('form[name="frmSmartForm"]');
-	if(isEmpty($frmSmartForm)) {
-		$.ajax({
-			url : "file_detail_form.sw",
-			success : function(data, status, jqXHR) {
-				var target = $(data);
-				var fileForm = $('form[name="frmNewFile"]');
-				var uploader = fileForm.find('.qq-uploader');
-				var comments = fileForm.find('textarea[name="txtaFileDesc"]').text();
-				var groupId = uploader.attr('groupId');
-				var fileList = uploader.find('.qq-upload-list li');
-				var fileName = $(fileList[0]).attr('fileName');
-				if(isEmpty(fileName)) fileName = "";
-				var workId = formContent.attr('workId');
-				$.ajax({
-					url : "get_form_xml.sw",
-					data : {
-						workId : workId
-					},
-					success : function(formXml, status, jqXHR) {
-						new SmartWorks.GridLayout({
-							target : formContent,
-							formXml : formXml,
-							formValues : {dataFields: createFileDataFields({
-								formXml : formXml,
-								groupId : groupId,
-								fileName : fileName,
-								fileList : fileList,
-								comments : comments								
-							})},
-							mode : "edit"
-						});
-
-						var forms = $('form');
-						var paramsJson = {};
-						for(var i=0; i<forms.length; i++){
-							var form = $(forms[i]);
-							paramsJson[form.attr('name')] = form.serializeObject();
-						}
-					}
-					});
-				}
-			}
-		});
-	} else {
-		var sw_validate = SmartWorks.GridLayout.validate($frmSmartForm);
-		if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
-			var forms = $('form');
-			var paramsJson = {};
-			for(var i=0; i<forms.length; i++){
-				var form = $(forms[i]);
-				if(form.attr('name') === 'frmSmartForm'){
-					paramsJson['formId'] = form.attr('formId');
-					paramsJson['formName'] = form.attr('formName');
-					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-
-				}else{
-					paramsJson[form.attr('name')] = form.serializeObject();				
-				}
-			}
-			console.log("JSON", JSON.stringify(paramsJson));
-			alert('wait');
-			var url = "create_new_iwork.sw";
-			$.ajax({
-				url : url,
-				contentType : 'application/json',
-				type : 'POST',
-				data : JSON.stringify(paramsJson),
-				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-				},
-				error : function(e) {
-					alert(e);
-				}
-			});
-		} else {
-			return;
-		}
-	}
-	return;
-	
-=======
-						$frmSmartForm = $('form[name="frmSmartForm"]');
-						paramsJson['formId'] = $frmSmartForm.attr('formId');
-						paramsJson['formName'] = $frmSmartForm.attr('formName');
-						paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject($frmSmartForm));
-						console.log("JSON", JSON.stringify(paramsJson));
-						alert('wait');
-						var url = "create_new_iwork.sw";
-						$.ajax({
-							url : url,
-							contentType : 'application/json',
-							type : 'POST',
-							data : JSON.stringify(paramsJson),
-							success : function(data, status, jqXHR) {
-								document.location.href = data.href;
-							},
-							error : function(e) {
-								alert(e);
-							}
-						});
-					}
-				});
-
-			}
-		});
-	}
->>>>>>> refs/heads/master
 }
 </script>
 

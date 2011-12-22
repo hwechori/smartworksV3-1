@@ -6,13 +6,14 @@
  */
 package net.smartworks.server.engine.process.xpdl.xpdl2.impl;
 
-import org.apache.tuscany.sdo.impl.DataObjectBase;
-
 import net.smartworks.server.engine.process.xpdl.xpdl2.ActualParameters;
 import net.smartworks.server.engine.process.xpdl.xpdl2.DataMappings;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Description;
 import net.smartworks.server.engine.process.xpdl.xpdl2.TaskApplication;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Xpdl2Factory;
+
+import org.apache.tuscany.sdo.impl.DataObjectBase;
+
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;

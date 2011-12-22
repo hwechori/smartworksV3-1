@@ -6,9 +6,9 @@
  */
 package net.smartworks.server.engine.process.xpdl.xpdl1;
 
-import commonj.sdo.DataObject;
-
 import java.io.Serializable;
+
+import commonj.sdo.DataObject;
 
 /**
  * <!-- begin-user-doc -->

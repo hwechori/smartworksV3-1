@@ -7,7 +7,6 @@ import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
-import net.smartworks.server.engine.security.model.Login;
 import net.smartworks.util.SmartUtil;
 
 public class CommunityInfo extends BaseObject {

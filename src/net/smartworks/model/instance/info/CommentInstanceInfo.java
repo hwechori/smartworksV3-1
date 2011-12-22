@@ -1,11 +1,7 @@
 package net.smartworks.model.instance.info;
 
-import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.Instance;
-import net.smartworks.model.instance.TaskInstance;
-import net.smartworks.model.instance.WorkInstance;
-import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.util.LocalDate;
 

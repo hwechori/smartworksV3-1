@@ -6,12 +6,11 @@
  */
 package net.smartworks.server.engine.process.xpdl.xpdl2;
 
+import java.io.Serializable;
+import java.util.List;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Sequence;
-
-import java.io.Serializable;
-
-import java.util.List;
 
 /**
  * <!-- begin-user-doc -->

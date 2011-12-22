@@ -11,6 +11,7 @@ function createFileDataFields(config){
 	SmartWorks.extend(options, config);
 	
 	var formXml = $(options.formXml);
+	console.log("formXml", formXml);
 	var dataFields = new Array();
 	dataFields.push(SmartWorks.FormRuntime.TextInputBuilder.dataField({
 		fieldName: '제목',

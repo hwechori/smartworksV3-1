@@ -6,9 +6,6 @@
  */
 package net.smartworks.server.engine.process.xpdl.xpdl1.impl;
 
-import commonj.sdo.helper.HelperContext;
-import org.apache.tuscany.sdo.helper.TypeHelperImpl;
-
 import net.smartworks.server.engine.process.xpdl.xpdl1.Activities;
 import net.smartworks.server.engine.process.xpdl.xpdl1.Activity;
 import net.smartworks.server.engine.process.xpdl.xpdl1.ActivitySet;
@@ -74,15 +71,15 @@ import net.smartworks.server.engine.process.xpdl.xpdl1.WorkflowProcesses;
 import net.smartworks.server.engine.process.xpdl.xpdl1.Xpdl1Factory;
 import net.smartworks.server.engine.process.xpdl.xpdl1.Xpression;
 
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
+import org.apache.tuscany.sdo.impl.FactoryBase;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
-
-import org.apache.tuscany.sdo.impl.FactoryBase;
-
-import org.apache.tuscany.sdo.model.ModelFactory;
-
-import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+import commonj.sdo.helper.HelperContext;
 
 /**
  * <!-- begin-user-doc -->

@@ -6,18 +6,16 @@
  */
 package net.smartworks.server.engine.process.xpdl.xpdl2.impl;
 
+import java.util.Collection;
+import java.util.List;
+
 import net.smartworks.server.engine.process.xpdl.xpdl2.ExtendedAttribute;
 import net.smartworks.server.engine.process.xpdl.xpdl2.ExtendedAttributes;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Xpdl2Factory;
 
-import commonj.sdo.Type;
-
-import java.lang.Object;
-
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.tuscany.sdo.impl.DataObjectBase;
+
+import commonj.sdo.Type;
 
 /**
  * <!-- begin-user-doc -->

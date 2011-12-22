@@ -21,9 +21,24 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			<beans:value>${imageServer}</beans:value>
 		</beans:property>
 	</beans:bean>
-	<beans:bean id="imageServerDirectory" class="net.smartworks.util.SmartConfUtil" factory-method="createInstance">
-		<beans:property name="imageServerDirectory">
-			<beans:value>${imageServerDirectory}</beans:value>
+	<beans:bean id="windowsImageDirectory" class="net.smartworks.util.SmartConfUtil" factory-method="createInstance">
+		<beans:property name="windowsImageDirectory">
+			<beans:value>${windowsImageDirectory}</beans:value>
+		</beans:property>
+	</beans:bean>
+	<beans:bean id="macImageDirectory" class="net.smartworks.util.SmartConfUtil" factory-method="createInstance">
+		<beans:property name="macImageDirectory">
+			<beans:value>${macImageDirectory}</beans:value>
+		</beans:property>
+	</beans:bean>
+	<beans:bean id="unixImageDirectory" class="net.smartworks.util.SmartConfUtil" factory-method="createInstance">
+		<beans:property name="unixImageDirectory">
+			<beans:value>${unixImageDirectory}</beans:value>
+		</beans:property>
+	</beans:bean>
+	<beans:bean id="solarisImageDirectory" class="net.smartworks.util.SmartConfUtil" factory-method="createInstance">
+		<beans:property name="solarisImageDirectory">
+			<beans:value>${solarisImageDirectory}</beans:value>
 		</beans:property>
 	</beans:bean>
 

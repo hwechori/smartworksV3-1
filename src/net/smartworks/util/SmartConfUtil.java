@@ -13,14 +13,41 @@ public class SmartConfUtil {
 	private static SmartConfUtil util;
 
 	private String imageServer;
-	private String imageServerDirectory;
+	private String windowsImageDirectory;
+	private String macImageDirectory;
+	private String unixImageDirectory;
+	private String solarisImageDirectory;
 
-	public String getImageServerDirectory() {
-		return imageServerDirectory;
+	public String getWindowsImageDirectory() {
+		return windowsImageDirectory;
 	}
 
-	public void setImageServerDirectory(String imageServerDirectory) {
-		this.imageServerDirectory = imageServerDirectory;
+	public void setWindowsImageDirectory(String windowsImageDirectory) {
+		this.windowsImageDirectory = windowsImageDirectory;
+	}
+
+	public String getMacImageDirectory() {
+		return macImageDirectory;
+	}
+
+	public void setMacImageDirectory(String macImageDirectory) {
+		this.macImageDirectory = macImageDirectory;
+	}
+
+	public String getUnixImageDirectory() {
+		return unixImageDirectory;
+	}
+
+	public void setUnixImageDirectory(String unixImageDirectory) {
+		this.unixImageDirectory = unixImageDirectory;
+	}
+
+	public String getSolarisImageDirectory() {
+		return solarisImageDirectory;
+	}
+
+	public void setSolarisImageDirectory(String solarisImageDirectory) {
+		this.solarisImageDirectory = solarisImageDirectory;
 	}
 
 	public static SmartConfUtil getInstance() {

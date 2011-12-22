@@ -6,11 +6,14 @@
  */
 package net.smartworks.server.engine.process.xpdl.xpdl2.impl;
 
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.List;
+
 import net.smartworks.server.engine.process.xpdl.xpdl1.BlockActivity;
 import net.smartworks.server.engine.process.xpdl.xpdl1.Deadline;
 import net.smartworks.server.engine.process.xpdl.xpdl1.FinishMode;
 import net.smartworks.server.engine.process.xpdl.xpdl1.StartMode;
-
 import net.smartworks.server.engine.process.xpdl.xpdl2.Activity;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Assignments;
 import net.smartworks.server.engine.process.xpdl.xpdl2.DataFields;
@@ -35,18 +38,11 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.Transaction;
 import net.smartworks.server.engine.process.xpdl.xpdl2.TransitionRestrictions;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Xpdl2Factory;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
-
-import java.lang.Object;
-
-import java.math.BigInteger;
-
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.tuscany.sdo.impl.DataObjectBase;
 
 /**
  * <!-- begin-user-doc -->

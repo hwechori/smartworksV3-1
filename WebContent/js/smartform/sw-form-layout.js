@@ -11,6 +11,7 @@ SmartWorks.GridLayout = function(config) {
 	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required form_layout"><table></table></form>');
 	var $table = $htmlForm.find('table');
 
+	console.log();
 	var $form = $(this.options.formXml);
 	$htmlForm.attr("formId", $form.attr('id'));
 	$htmlForm.attr("formName", $form.attr('name'));
