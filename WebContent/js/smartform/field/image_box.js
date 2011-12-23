@@ -12,6 +12,8 @@ SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 	};
 
 	SmartWorks.extend(options, config);
+	options.container.html('');
+
 	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
@@ -45,6 +47,38 @@ SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 	return options.container;
 
 };
+SmartWorks.FormRuntime.ImageBoxBuilder.buildEx = function(config){
+	var options = {
+			container : $('<tr></tr>'),
+			fieldId: '',
+			fieldName: '',
+			groupId: '',
+			columns: 1,
+			required: false,
+			readOnly: false		
+	};
+	SmartWorks.extend(options, config);
+
+	var labelWidth = 10;
+	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
+						'<format type="imageBox" viewingType="imageBox"/>' +
+					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '"/>' +
+					'</formEntity>');
+	var $formCol = $('<td class="form_col js_type_imageBox" fieldid="' + options.fieldId+ '" colspan="1" width="500.61775800946384" rowspan="1">');
+	$formCol.appendTo(options.container);
+	SmartWorks.FormRuntime.ImageBoxBuilder.build({
+			mode : options.readOnly, // view or edit
+			container : $formCol,
+			entity : $formEntity,
+			dataField : SmartWorks.FormRuntime.ImageBoxBuilder.dataField({
+				fieldName: options.fieldName,
+				formXml: $formEntity,
+				groupId: options.groupId
+			})
+	});
+	
+};
 
 SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject = function(imageBoxs){
 	var fileUploaders = imageBoxs.find('.qq-uploader');
@@ -71,7 +105,7 @@ SmartWorks.FormRuntime.ImageBoxBuilder.validate = function(imageBoxs){
 	for(var i=0; i<fileUploaders.length; i++){
 		var fileUploader = $(fileUploaders[i]);
 		var files = fileUploader.find('.qq-upload-success');
-		if(files.length == 0){
+		if(!isEmpty(files)){
 			fileUploader.parents('.js_type_imageBox:first').find('span.sw_required').addClass("sw_error");
 			imagesValid = false;
 		}
@@ -97,7 +131,7 @@ SmartWorks.FormRuntime.ImageBoxBuilder.dataField = function(config){
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
-	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	
 	dataField = {
 			id: fieldId,

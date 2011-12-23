@@ -12,9 +12,10 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	};
 
 	SmartWorks.extend(options, config);
+	options.container.html('');
+
 	var value = (options.dataField && options.dataField.value) || '';
 	var isTempfile = (options.dataField && options.dataField.isTempfile) || false;
-	console.log("isTempfile", isTempfile);
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 
@@ -22,7 +23,7 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
 	var $label = $('<span class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
 	var required = $entity[0].getAttribute('required');
@@ -57,6 +58,39 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 
 };
 
+SmartWorks.FormRuntime.FileFieldBuilder.buildEx = function(config){
+	var options = {
+			container : $('<tr></tr>'),
+			fieldId: '',
+			fieldName: '',
+			groupId: '',
+			columns: 1,
+			required: false,
+			readOnly: false		
+	};
+	SmartWorks.extend(options, config);
+
+	var labelWidth = 10;
+	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
+						'<format type="fileField" viewingType="fileField"/>' +
+					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '"/>' +
+					'</formEntity>');
+	var $formCol = $('<td class="form_col js_type_fileField" fieldid="' + options.fieldId+ '" colspan="1" width="500.61775800946384" rowspan="1">');
+	$formCol.appendTo(options.container);
+	SmartWorks.FormRuntime.FileFieldBuilder.build({
+			mode : options.readOnly, // view or edit
+			container : $formCol,
+			entity : $formEntity,
+			dataField : SmartWorks.FormRuntime.FileFieldBuilder.dataField({
+				fieldName: options.fieldName,
+				formXml: $formEntity,
+				groupId: options.groupId
+			})
+	});
+	
+};
+
 SmartWorks.FormRuntime.FileFieldBuilder.serializeObject = function(fileFields){
 	var fileUploaders = fileFields.find('.qq-uploader');
 	var filesJson = {};
@@ -82,7 +116,7 @@ SmartWorks.FormRuntime.FileFieldBuilder.validate = function(fileFields){
 	for(var i=0; i<fileUploaders.length; i++){
 		var fileUploader = $(fileUploaders[i]);
 		var files = fileUploader.find('.qq-upload-success');
-		if(files.length == 0){
+		if(isEmpty(files)){
 			fileUploader.parents('.js_type_fileField:first').find('span.sw_required').addClass("sw_error");
 			filesValid = false;
 		}
@@ -105,7 +139,7 @@ SmartWorks.FormRuntime.FileFieldBuilder.dataField = function(config){
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
-	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	dataField = {
 			id: fieldId,
 			value: options.groupId,

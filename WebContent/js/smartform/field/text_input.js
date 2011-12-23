@@ -12,18 +12,19 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	};
 
 	SmartWorks.extend(options, config);
+	options.container.html('');
 
 	console.log("options.dataField", options.dataField);
 	var value = (options.dataField && options.dataField.value) || '';
 	console.log("value", value);
 	var $entity = options.entity;
-	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
+	var multiLines = parseInt($graphic.attr('multipleLines'));
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 
-	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
 	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
@@ -38,9 +39,12 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	var $text = null;
 	if(readOnly){
 		$text = $('<div class="form_value form_value_max_width" fieldId="' + id + '" style="width:' + valueWidth + '%"></div>').text(value);
-	}else{	
+	}else if(multiLines > 1){	
+		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><textarea rows="' + multiLines + '" name="' + id + '"' + required + '></textarea></div>');
+		$text.find('textarea').attr('value', value);
+	}else{
 		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>');
-		$text.find('input').attr('value', value);
+		$text.find('input').attr('value', value);		
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();
@@ -49,6 +53,36 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	$text.appendTo(options.container);
 
 	return options.container;
+};
+
+SmartWorks.FormRuntime.TextInputBuilder.buildEx = function(config){
+	var options = {
+			container : $('<tr></tr>'),
+			fieldId: '',
+			fieldName: '',
+			value: '',
+			columns: 1,
+			multiLines: 1,
+			required: false,
+			readOnly: false		
+	};
+	SmartWorks.extend(options, config);
+
+	var labelWidth = 10;
+	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
+						'<format type="textInput" viewingType="textInput"/>' +
+					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '" multipleLines="' + options.multiLines + '"/>' +
+					'</formEntity>');
+	var $formCol = $('<td class="form_col js_type_textInput" fieldid="' + options.fieldId+ '" colspan="1" width="500.61775800946384" rowspan="1">');
+	$formCol.appendTo(options.container);
+	SmartWorks.FormRuntime.TextInputBuilder.build({
+			mode : options.readOnly, // view or edit
+			container : $formCol,
+			entity : $formEntity,
+			dataField : options.value			
+	});
+	
 };
 
 SmartWorks.FormRuntime.TextInputBuilder.dataField = function(config){
@@ -62,7 +96,7 @@ SmartWorks.FormRuntime.TextInputBuilder.dataField = function(config){
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
-	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	
 	dataField = {
 			id: fieldId,

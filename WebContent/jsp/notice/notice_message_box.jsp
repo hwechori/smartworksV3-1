@@ -18,7 +18,7 @@
 
 <%
 	String strNoticeType = request.getParameter("noticeType");
-	int noticeType = (strNoticeType == null) ? Notice.TYPE_INVALID : Integer.parseInt(strNoticeType);
+	int noticeType = (SmartUtil.isBlankObject(strNoticeType)) ? Notice.TYPE_INVALID : Integer.parseInt(strNoticeType);
 %>
 <ul>
 	<%

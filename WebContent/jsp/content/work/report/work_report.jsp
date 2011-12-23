@@ -126,8 +126,8 @@
 		<table class="table_nomal">
 			<tr class="js_toggle_chart_search_filter"
 				url="search_filter.sw?workId=<%=workId%>&filterId=<%=CommonUtil.toNotNull(filterId)%>">
-				<td <%if(filterId!=null && !filterId.equals("")){ %>style="display:none"<%} %>><a href=""><fmt:message key="report.button.add_search_filter" /></a></td>
-				<td actionType="remove" <%if(filterId==null || filterId.equals("")){ %>style="display:none"<%} %>><a href=""><fmt:message key="report.button.remove_search_filter" /></a></td>
+				<td <%if(!SmartUtil.isBlankObject(filterId)){ %>style="display:none"<%} %>><a href=""><fmt:message key="report.button.add_search_filter" /></a></td>
+				<td actionType="remove" <%if(SmartUtil.isBlankObject(filterId)){ %>style="display:none"<%} %>><a href=""><fmt:message key="report.button.remove_search_filter" /></a></td>
 			</tr>
 			<tr class="js_chart_search_filter" style="display: none">
 			</tr>

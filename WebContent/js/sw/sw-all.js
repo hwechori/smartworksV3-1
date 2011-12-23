@@ -1,9 +1,8 @@
 $(function() {
 	
-
 	var autoPictures = $('img.js_auto_picture');
 	console.log("autoPictures", autoPictures);
-	if(autoPictures.length > 0) {
+	if(!isEmpty(autoPictures)) {
 		for(var i=0; i<autoPictures.length; i++) {			
 			createUploader(null, $(autoPictures[i]).next('div.js_file_uploader'), false, true);
 		}		
@@ -141,11 +140,11 @@ $(function() {
 		var start_work = input.parents('div.js_start_work');
 		var chatter_name = input.parents('div.js_chatter_names');
 		var target;
-		if (input[0].value.length > 0)
+		if (!isEmpty(input[0].value))
 			input.next('div').removeClass('srch_ico').addClass('btn_im_x');
-		if (start_work.length > 0)
+		if (!isEmpty(start_work))
 			target = start_work.find('#upload_work_list');
-		else if(chatter_name.length>0)
+		else if(!isEmpty(chatter_name))
 			target = chatter_name.siblings('div.js_chatter_list');
 		else
 			target = input.parent().next('div');
@@ -179,11 +178,11 @@ $(function() {
 		var user_name = input.parents('div.js_community_names');
 		var chatter_name = input.parents('div.js_chatter_names');
 		var target;
-		if (start_work.length)
+		if (!isEmpty(start_work))
 			target = start_work.find('#upload_work_list');
-		else if (user_name.length)
+		else if (!isEmpty(user_name))
 			target = user_name.next('div');
-		else if(chatter_name.length)
+		else if(!isEmpty(chatter_name))
 			target = chatter_name.siblings('div.js_chatter_list');
 		else
 			target = input.parent().siblings('div');
@@ -219,10 +218,13 @@ $(function() {
 					data : {},
 					success : function(data, status, jqXHR) {
 						target.html(data).slideDown(500);
-						if(input.parent().hasClass('up_file')){
+						if(!isEmpty(target.find('form[name="frmNewFile"]'))){
 							createUploader(null, target.find('.js_file_uploader'), true, false);
+						}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
+							createUploader(null, target.find('div.js_file_uploader'), false, true);							
+						}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
+							loadNewEventFields();
 						}
-
 					}
 				});
 				return false;
@@ -542,7 +544,7 @@ $(function() {
 						.find('.js_selected_communities');				
 				target.siblings('input.js_auto_complete').value = '';
 				var inputTarget = target.siblings('input.js_form_user_field');
-				if(inputTarget.length == 1) {
+				if(!isEmpty(inputTarget)) {
 					inputTarget.hide();
 					inputTarget.next('.js_srch_x').hide();
 					if(inputTarget.parents('.sw_required').hasClass('sw_error')){
@@ -578,7 +580,7 @@ $(function() {
 		
 		var inputTarget = input.parents('.js_selected_communities').siblings('input.js_form_user_field');
 		
-		if (inputTarget.length == 1) {
+		if (!isEmpty(inputTarget)) {
 			inputTarget.show();
 			inputTarget.next('.js_srch_x').show();
 		}
@@ -613,7 +615,7 @@ $(function() {
 					fileName = "";
 
 				var formContent = $('#form_import').find('div.js_form_content');
-				if(formContent.length == 1) {
+				if(!isEmpty(formContent)) {
 					var workId = formContent.attr('workId');
 					$.ajax({
 						url : "get_form_xml.sw",
@@ -664,10 +666,10 @@ $(function() {
 		var url = input.attr('href');
 		var categoryId = input[0].getAttribute("categoryId");
 		var groupId = input[0].getAttribute("groupId");
-		if (url == 'undefined' || (categoryId == null && groupId == null)) {
+		if (url == 'undefined' || (isEmpty(categoryId) && isEmpty(groupId))) {
 			return false;
 		}
-		if($(target).children().length == 0){
+		if(isEmpty($(target).children())){
 			$('div.js_nav_my_works').showLoading();						
 			$.ajax({
 				url : url,
@@ -771,9 +773,9 @@ $(function() {
 		return false;
 	});
 	
-	$('a.js_datetimepicker_button').live('click', function(e) {
+	$('a.js_todaytimepicker_button').live('click', function(e) {
 		var input = $(e.target).parent();
-		input.prev('.js_datetimepicker').datetimepicker("show");
+		input.prev('.js_todaytimepicker').datetimepicker("show");
 		return false;
 	});
 
@@ -821,5 +823,4 @@ $(function() {
 		});
 		return false;
 	});
-
 });

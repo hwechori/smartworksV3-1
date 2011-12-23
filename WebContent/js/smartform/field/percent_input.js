@@ -12,6 +12,8 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	};
 
 	SmartWorks.extend(options, config);
+	options.container.html('');
+
 	var value = (options.dataField && options.dataField.value) || '';
 	$entity = options.entity;
 	$graphic = $entity.children('graphic');
@@ -21,7 +23,7 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 
-	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
 	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
@@ -98,6 +100,35 @@ $('.percent input').live('keyup', function(e) {
 	}
 });
 
+SmartWorks.FormRuntime.PercentInputBuilder.buildEx = function(config){
+	var options = {
+			container : $('<tr></tr>'),
+			fieldId: '',
+			fieldName: '',
+			value: '',
+			columns: 1,
+			required: false,
+			readOnly: false		
+	};
+	SmartWorks.extend(options, config);
+
+	var labelWidth = 10;
+	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
+						'<format type="percentInput" viewingType="percentInput"/>' +
+					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '"/>' +
+					'</formEntity>');
+	var $formCol = $('<td class="form_col js_type_percentInput" fieldid="' + options.fieldId+ '" colspan="1" width="500.61775800946384" rowspan="1">');
+	$formCol.appendTo(options.container);
+	SmartWorks.FormRuntime.PercentInputBuilder.build({
+			mode : options.readOnly, // view or edit
+			container : $formCol,
+			entity : $formEntity,
+			dataField : options.value			
+	});
+	
+};
+
 SmartWorks.FormRuntime.PercentInputBuilder.dataField = function(config){
 	var options = {
 			fieldName: '',
@@ -109,7 +140,7 @@ SmartWorks.FormRuntime.PercentInputBuilder.dataField = function(config){
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
-	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	
 	dataField = {
 			id: fieldId,

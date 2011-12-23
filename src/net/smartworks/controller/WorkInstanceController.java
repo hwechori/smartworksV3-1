@@ -98,6 +98,12 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		return SmartUtil.returnMnv(request, "jsp/content/work/start/new_file.jsp", "");
 	}
 
+	@RequestMapping("/new_picture")
+	public ModelAndView newPicture(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/start/new_picture.jsp", "");
+	}
+
 	@RequestMapping("/new_event")
 	public ModelAndView newEvent(HttpServletRequest request, HttpServletResponse response) {
 
@@ -119,6 +125,16 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	@RequestMapping(value = "/create_new_iwork", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody Map<String, Object> createNewIwork(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String instanceId = smartworks.setInformationWorkInstance(requestBody);
+		// TO DO : Exception handler
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		return map;
+	}
+
+	@RequestMapping(value = "/upload_new_picture", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody Map<String, Object> uploadNewPicture(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody);
 		// TO DO : Exception handler
 		Map<String, Object> map = new HashMap<String, Object>();

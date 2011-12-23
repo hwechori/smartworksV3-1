@@ -8,7 +8,7 @@
 	UserInfo[] members = null;
 	{
 		String cid = request.getParameter("cid");
-		if (cid == null)
+		if (SmartUtil.isBlankObject(cid))
 			cid = ISmartWorks.CONTEXT_HOME;
 
 		if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, cid)) {

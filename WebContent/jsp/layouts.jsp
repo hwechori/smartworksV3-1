@@ -23,7 +23,7 @@
 	if (context != null) {
 		Authentication auth = context.getAuthentication();
 		if (auth != null) {
-			if (request.getSession().getAttribute("loginId") == null) {
+			if (SmartUtil.isBlankObject(request.getSession().getAttribute("loginId"))) {
 				System.out.println("-------------------------------------------");
 				System.out.println(((Login) auth.getPrincipal()).getPosition() + " " + ((Login) auth.getPrincipal()).getName() + " 님이 접속하였습니다.");
 				System.out.println("ID : " + ((Login) auth.getPrincipal()).getId());
@@ -47,7 +47,7 @@
 
 	String cid = (String) session.getAttribute("cid");
 	String wid = (String) session.getAttribute("wid");
-	if (cid == null) {
+	if (SmartUtil.isBlankObject(cid)) {
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
 	}
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
@@ -132,12 +132,12 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
 <script type="text/javascript" src="js/sw/sw-file.js"></script>
+<script type="text/javascript" src='js/sw/sw-formFields.js'></script>
 
 <script type="text/javascript" src='js/smartform/smartworks.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-layout.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-field-builder.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-dataFields.js'></script>
-
 <script type="text/javascript" src='js/smartform/field/currency_input.js'></script>
 <script type="text/javascript" src='js/smartform/field/radio_button.js'></script>
 <script type="text/javascript" src='js/smartform/field/check_box.js'></script>

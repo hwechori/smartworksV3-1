@@ -260,7 +260,7 @@ var smartTalk = {
 		var waitForChattingBox = function(){
 			console.log("retries");
 			var target = $("#"+chatInfo.chatId);
-			if(target.length>0){
+			if(!isEmpty(target)){
 				console.log('found');
 				for(var i=0; i<histories.length; i++){
 					receivedMessageOnChatId(histories[i]);			
@@ -312,14 +312,14 @@ var smartTalk = {
 	},
 	
 	subscribe : function(channel, callback) {
-		if (smartMsgClient == null)
+		if (isEmpty(smartMsgClient))
 			return;
 		var subscription = smartMsgClient.subscribe(channel, callback);
 		return subscription;
 	},
 
 	publish : function(channel, message) {
-		if (smartMsgClient == null)
+		if (isEmpty(smartMsgClient))
 			return;
 		smartMsgClient.publish(channel, message);
 	},

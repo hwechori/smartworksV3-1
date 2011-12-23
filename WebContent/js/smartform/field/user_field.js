@@ -5,24 +5,26 @@ SmartWorks.FormRuntime.UserFieldBuilder = {};
 SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	var options = {
 		mode : 'edit', // view or edit
-		container : $('<div></div>'),
+		container : $('<td></td>'),
 		entity : null,
 		dataField : '',
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	var longName = (options.dataField && options.dataField.value) || '';
-	var userId = (options.dataField && options.dataField.refRecordId) || '';
+	options.container.html('');
+
+	var users = (options.dataField && options.dataField.users) || new Array();
 
 	var $entity = options.entity;
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
+	var multiUsers = $graphic.attr('multipleUsers');
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
 	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
@@ -36,24 +38,33 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	
 	var $user = null;
 	
-	var userHtml = '';
-	
-	if (userId !== "") {
-		userHtml = "<span><span class='js_community_item user_select' comId='" + userId + "'>" + longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
+	var usersHtml = '';
+	var hideStyle = '';
+
+	if(multiUsers === 'true'){
+		for(var i=0; i<users.length; i++)
+			usersHtml = usersHtml +  "<span><span class='js_community_item user_select' comId='" + users[i].userId + "'>" + users[i].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";		
+	}else if (!isEmpty(users)) {
+		usersHtml = "<span><span class='js_community_item user_select' comId='" + users[0].userId + "'>" + users[0].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
+		hideStyle = ' style="display:none" ';
 	}
 
-		var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
+	var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
 					<div ' + required + '">\
 						<div class="js_selected_communities user_sel_area"></div>\
-						<input class="js_auto_complete js_form_user_field" href="community_name.sw" type="text">\
-						<div class="js_srch_x"></div>\
+						<input class="js_auto_complete js_form_user_field" href="community_name.sw" type="text"' + hideStyle + '>\
+						<div class="js_srch_x"' + hideStyle + '></div>\
 					</div>\
 					<div class="js_community_list commu_list" style="display: none"></div><a href="#" class="js_userpicker_button"><span class="ico_fb_user"></span></a></div></div>');
 
-	$html.find('.js_selected_communities').html(userHtml);
+	$html.find('.js_selected_communities').html(usersHtml);
 	
 	if(readOnly){
-		$user = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><a class="js_pop_user_info" href="pop_user_info.sw?userId=' + userId + '"><span></span></a></div>').text(longName);
+		$user = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>');
+		usersHtml = '';
+		for(var i=0; i<users.length; i++)
+			usersHtml = usersHtml + '<a class="js_pop_user_info" href="pop_user_info.sw?userId=' + users[i].userId + '"><span>' + users[i].longName + '</span></a>';
+		$user.html(usersHtml);
 	}else{	
 		$user = $html;
 	}
@@ -66,11 +77,50 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	return options.container;
 };
 
+SmartWorks.FormRuntime.UserFieldBuilder.buildEx = function(config){
+	var options = {
+			container : $('<tr></tr>'),
+			fieldId: '',
+			fieldName: '',
+			users: new Array(), //{userId: '',longName: '}
+			columns: 1,
+			multiUsers: false,
+			required: false,
+			readOnly: false		
+	};
+	SmartWorks.extend(options, config);
+
+	var labelWidth = 10;
+	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
+						'<format type="userField" viewingType="userField"/>' +
+					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '" multipleUsers="' + options.multiUsers+ '"/>' +
+					'</formEntity>');
+	var $formCol = $('<td class="form_col js_type_userField" fieldid="' + options.fieldId+ '" colspan="1" width="500.61775800946384" rowspan="1">');
+	$formCol.appendTo(options.container);
+	SmartWorks.FormRuntime.UserFieldBuilder.build({
+			mode : options.readOnly, // view or edit
+			container : $formCol,
+			entity : $formEntity,
+			dataField : SmartWorks.FormRuntime.UserFieldBuilder.dataField({
+				fieldName: options.fieldName,
+				formXml: $formEntity,
+				users : options.users
+			})
+	});
+	
+};
+
 SmartWorks.FormRuntime.UserFieldBuilder.serializeObject = function(userFields){
 	var usersJson = {};
 	for(var i=0; i<userFields.length; i++){
 		var userField = $(userFields[i]);
-		usersJson[userField.attr('fieldId')] =  userField.find('.js_community_item:first').attr('comId');
+		var fieldId = userField.attr('fieldId');
+		var userList = userField.find('.js_community_item');
+		var users = new Array();
+		for(var j=0; j<userList.length; j++)
+			users.push(userList.attr('comId'));
+		usersJson[fieldId] =  {users: users};
 	}
 	return usersJson;
 };
@@ -80,7 +130,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.validate = function(userFields){
 	for(var i=0; i<userFields.length; i++){
 		var userField = $(userFields[i]);
 		var userId = userField.find('.js_community_item:first').attr('comId');
-		if(userId == null || userId === ""){
+		if(isBlank(userId)){
 			userField.find('div.sw_required').addClass("sw_error");
 			usersValid = false;
 		}
@@ -92,20 +142,19 @@ SmartWorks.FormRuntime.UserFieldBuilder.dataField = function(config){
 	var options = {
 			fieldName: '',
 			formXml: '',
-			userId: '',
-			longName: ''
+			users: new Array() //{userId: '',longName: ''}
 	};
 
 	SmartWorks.extend(options, config);
 	$formXml = $(options.formXml);
 	var dataField = {};
-	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
-	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
 	
+	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isEmpty(fieldId)) fieldId = $formXml.attr('id');
+	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	dataField = {
 			id: fieldId,
-			value: options.longName,
-			refRecordId: options.userId			
+			users : options.users
 	};
 	return dataField;
 };

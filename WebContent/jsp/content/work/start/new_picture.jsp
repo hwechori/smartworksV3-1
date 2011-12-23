@@ -8,14 +8,14 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <script type="text/javascript">
 function submitForms(e) {
-	var $frmSmartForm = $('form[name="frmSmartForm"]');
-	if(isEmpty($frmSmartForm)) {
+	var sw_validate = SmartWorks.FormRuntime.FileFieldBuilder.validate($('.js_upload_picture'));
+	if($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate){
 		var target = $('#form_import');
 		$.ajax({
 			url : "file_detail_form.sw",
 			success : function(data, status, jqXHR) {
 				target.html(data).hide();
-				var form = $('form[name="frmNewFile"]');
+				var form = $('form[name="frmNewPicture"]');
 				var uploader = form.find('.qq-uploader');
 				var comments = form.find('textarea[name="txtaFileDesc"]').text();
 				var groupId = uploader.attr('groupId');
@@ -23,7 +23,6 @@ function submitForms(e) {
 				var fileName = $(fileList[0]).attr('fileName');
 				if(isEmpty(fileName))
 					fileName = "";
-				console.log("fileList", fileList);
 				var formContent = $('#form_import').find('div.js_form_content');
 				if(!isEmpty(formContent)) {
 					var workId = formContent.attr('workId');
@@ -55,14 +54,14 @@ function submitForms(e) {
 									paramsJson['formId'] = form.attr('formId');
 									paramsJson['formName'] = form.attr('formName');
 									paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-
+	
 								}else{
 									paramsJson[form.attr('name')] = form.serializeObject();				
 								}
 							}
 							console.log("JSON", JSON.stringify(paramsJson));
 							alert('wait');
-							var url = "create_new_iwork.sw";
+							var url = "upload_new_picture.sw";
 							$.ajax({
 								url : url,
 								contentType : 'application/json',
@@ -80,43 +79,8 @@ function submitForms(e) {
 				}
 			}
 		});
-	} else {
-		var sw_validate = SmartWorks.GridLayout.validate($frmSmartForm);
-		if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
-			var forms = $('form');
-			var paramsJson = {};
-			for(var i=0; i<forms.length; i++){
-				var form = $(forms[i]);
-				if(form.attr('name') === 'frmSmartForm'){
-					paramsJson['formId'] = form.attr('formId');
-					paramsJson['formName'] = form.attr('formName');
-					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-
-				}else{
-					paramsJson[form.attr('name')] = form.serializeObject();				
-				}
-			}
-			console.log("JSON", JSON.stringify(paramsJson));
-			alert('wait');
-			var url = "create_new_iwork.sw";
-			$.ajax({
-				url : url,
-				contentType : 'application/json',
-				type : 'POST',
-				data : JSON.stringify(paramsJson),
-				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-				},
-				error : function(e) {
-					alert(e);
-				}
-			});
-		} else {
-			return;
-		}
 	}
-	return;
-	
+	return;	
 }
 </script>
 
@@ -131,26 +95,17 @@ function submitForms(e) {
 	<div class="up_point posit_file"></div>
 	<div class="up up_padding">
 		<!-- 폼- 확장 -->
-		<form name="frmNewFile" class="form_wrap js_validation_required">
-			<div class="form_title" class="js_file_brief_form">
+		<form name="frmNewPicture" class="form_wrap js_validation_required">
+			<div class="form_title">
 
-				<textarea class="up_textarea" name='txtaFileDesc' rows="5" placeholder="<fmt:message key="common.upload.message.file_desc" />"></textarea>
+				<textarea class="up_textarea" name='txtaPictureDesc' rows="5" placeholder="<fmt:message key="common.upload.message.picture_desc" />"></textarea>
 
-				<div class="btn_gray padding_t5 js_file_uploader">
+				<div class="btn_gray padding_t5 js_upload_picture">
+					<img style="width:300px;" src="" class="js_auto_picture"></img>
+					<div class="js_file_uploader sw_required"></div>
  				</div>
 			</div>
 			<div class="form_contents">
-				<div class="txt_btn txt_btn_height js_file_detail_form">
-					<div>
-						<a class="js_toggle_form_detail" href="file_detail_form.sw"><fmt:message
-								key="common.upload.button.view_file_detail" /> </a>
-					</div>
-					<div style="display: none">
-						<a class="js_toggle_form_detail" href="empty_content.sw"><fmt:message
-								key="common.upload.button.close_file_detail" /> </a>
-					</div>
-				</div>
-
 				<!-- 상세 정보 추가시 화면 -->
 				<div id="form_import"></div>
 				<!-- 상세 정보 추가시 화면 //-->

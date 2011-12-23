@@ -19,7 +19,7 @@ $(window).scroll(
 			var more_anchor = $('#work_ing .js_more_list a');
 			if ($(window).scrollTop() == $(document).height()
 					- $(window).height()
-					&& (more_anchor.length > 0 && !more_anchor.isWaiting)) {
+					&& (!isEmpty(more_anchor) && !more_anchor.isWaiting)) {
 				more_anchor.isWaiting = true;
 				setTimeout(function() {
 					if ($(window).scrollTop() == $(document).height()

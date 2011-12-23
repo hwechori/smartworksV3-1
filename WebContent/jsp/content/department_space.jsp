@@ -5,12 +5,12 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 
 	String cid = request.getParameter("cid");
-	if (cid == null)
+	if (SmartUtil.isBlankObject(cid))
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
 	else
 		session.setAttribute("cid", cid);
 	String wid = request.getParameter("wid");
-	if (wid == null)
+	if (SmartUtil.isBlankObject(wid))
 		session.setAttribute("wid", SmartUtil.getCurrentUser().getId());
 	else
 		session.setAttribute("wid", wid);

@@ -7,6 +7,7 @@ SmartWorks.GridLayout = function(config) {
 	};
 
 	SmartWorks.extend(this.options, config);
+	this.options.target.html('');
 
 	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required form_layout"><table></table></form>');
 	var $table = $htmlForm.find('table');
@@ -87,7 +88,7 @@ SmartWorks.GridLayout = function(config) {
 				}
 			}
 			console.log("dataField", dataField);
-			if ($columns.length == 0) {
+			if (isEmpty($columns)) {
 				width = $column.attr('size');
 			} else {
 				for(var k = 0 ; k < colspan && (j+k) < $columns.length ; k++){
@@ -116,8 +117,14 @@ SmartWorks.GridLayout = function(config) {
 	return this;
 };
 
-SmartWorks.GridLayout.create = function(form){
+SmartWorks.GridLayout.newGridTable = function(){
+	return $('<table><tbody></tbody></table>');
 };
+
+SmartWorks.GridLayout.newGridRow = function(){
+	return $('<tr></tr>');
+};
+
 
 SmartWorks.GridLayout.serializeObject = function(form){
 	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.serializeObject(form.find('.js_type_fileField'));

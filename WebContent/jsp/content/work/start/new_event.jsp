@@ -62,12 +62,10 @@
 	<div class="form_wrap up up_padding">
 		<!-- 폼- 확장 -->
 		<form name="frmNewEvent" class="form_title js_validation_required">
-			<div class="input_1line_first">
-				<input class="fieldline required" type="text" name="txtEventName"
-					placeholder="<fmt:message key='common.upload.message.event'/>">
+			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" startDateTitle="<fmt:message key='common.upload.event.start_date'/>" endDateTitle="<fmt:message key='common.upload.event.end_date'/>" placeTitle="<fmt:message key='common.upload.event.place'/>" relatedUsersTitle="<fmt:message key='common.upload.event.related_users'/>" contentTitle="<fmt:message key='common.upload.event.content' />">
 			</div>
 
-			<div class="input_1line">
+<%-- 			<div class="input_1line">
 				<div class="float_left">
 					<input class="fieldline space_data date js_today_datepicker" type="text"
 						name="txtEventStartDate" readonly="readonly" value="<%=today%>">
@@ -199,7 +197,7 @@
 					<fmt:message key='common.upload.event.content' />
 				</textarea>
 			</div>
-		</form>
+ --%>		</form>
 		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 	</div>
 </div>

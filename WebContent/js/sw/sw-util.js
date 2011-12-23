@@ -92,7 +92,3 @@ function isEmpty(str) {
 function isBlank(str) {
     return (!str || /^\s*$/.test(str));
 }
-
-function isZeroLength(array){
-	return (!array || array.length == 0);
-}

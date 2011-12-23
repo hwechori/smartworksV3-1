@@ -12,11 +12,14 @@
 <script type="text/javascript">
 function submitForms(e) {
 	var sw_validate = SmartWorks.GridLayout.validate($('form[name="frmSmartForm"]'));
+	var scheduleWork = $('form[name="frmScheduleWork"]');
+	if(scheduleWork.find($('input[name="chkScheduleWork"]')).is(':checked')){
+		sw_validate = SmartWorks.GridLayout.validate(scheduleWork) && sw_validate;
+		scheduleWork.addClass('js_validation_required');
+	}else{
+		scheduleWork.removeClass('js_validation_required');	
+	}
 	if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
-		var scheduleWork = document.getElementsByName('frmScheduleWork');
-		if(scheduleWork[0].chkScheduleWork.value === 'on'){
-			scheduleWork[0].hdnSchedulePerformer.value = $(scheduleWork[0].txtSchedulePerformer).attr('uid');
-		}
 		var forms = $('form');
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){
@@ -26,6 +29,8 @@ function submitForms(e) {
 				paramsJson['formName'] = form.attr('formName');
 				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 
+			}else if(form.attr('name') === 'frmScheduleWork'){
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 			}else{
 				paramsJson[form.attr('name')] = form.serializeObject();				
 			}

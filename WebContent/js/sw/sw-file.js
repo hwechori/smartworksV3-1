@@ -69,7 +69,7 @@ function fileUploader(groupId, target) {
         },
         onComplete : function(id, fileName, responseJSON){
         	var file = $(this.element).find('.qq-upload-list li[qqFileId=' + id + ']');
-        	if(isZeroLength(file)) return;
+        	if(isEmpty(file)) return;
         	
         	file.attr('fileId', responseJSON.fileId).attr('fileName', fileName).attr('fileSize', responseJSON.fileSize);
         	var ext = getExt(fileName);
@@ -113,7 +113,7 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile, file
 		var uploader = $(target).find('.qq-uploader');
 		uploader.attr('isMultiple', isMultiple).attr('groupId', groupId);
 		if(isProfile) uploader.find('.qq-upload-list').hide();
-		if(!isZeroLength(fileList)) $(fileList).appendTo(uploader.find('.qq-upload-list'));
+		if(!isEmpty(fileList)) $(fileList).appendTo(uploader.find('.qq-upload-list'));
 	} else if(!isProfile){
 		$.ajax({				
 			url : "find_file_group.sw",
