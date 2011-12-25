@@ -256,7 +256,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .srch_list {z-index:100; position:absolute; width:447px; top: 22px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;}
 .srch_list li {position:relative; color:#454545;}
 .srch_list li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#454545;}
-.srch_list li a:hover {display:block; background-color:#fffccd; color:#454545;}
+/*.srch_list li a:hover {display:block; background-color:#fffccd; color:#454545;}*/
+.srch_list li.sw_hover {display:block; background-color:#fffccd; color:#454545;}
 .srch_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 410px;}
 
 
@@ -264,7 +265,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .nav_srch_list {z-index:100; position:absolute; width:180px; margin: 2px 0 0 10px; -webkit-box-shadow: 0px 2px 10px #505050; background-color:#525252; border: 1px solid #c7c7c7;}
 .nav_srch_list li {position:relative; margin-top: 2px;}
 .nav_srch_list li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#ededed;}
-.nav_srch_list li a:hover {display:block; background-color:#484848;}
+/*.nav_srch_list li a:hover {display:block; background-color:#484848;}*/
+.nav_srch_list li.sw_hover {display:block; background-color:#484848;}
 .nav_srch_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 140px; font-size:11px;}
 
 
@@ -272,7 +274,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .commu_list {z-index:100; position:absolute; width:250px; top: 20px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;}
 .commu_list li {position:relative; color:#454545;}
 .commu_list li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#454545;}
-.commu_list li a:hover {display:block; background-color:#fffccd; color:#454545;}
+/*.commu_list li a:hover {display:block; background-color:#fffccd; color:#454545;}*/
+.commu_list li.sw_hover {display:block; background-color:#fffccd; color:#454545;}
 .commu_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 410px;}
 
 /* 입력폼 */

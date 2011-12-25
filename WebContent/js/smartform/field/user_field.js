@@ -21,6 +21,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
 	var multiUsers = $graphic.attr('multipleUsers');
+	options.container.attr('multiUsers', multiUsers);
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
@@ -52,7 +53,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
 					<div ' + required + '">\
 						<div class="js_selected_communities user_sel_area"></div>\
-						<input class="js_auto_complete js_form_user_field" href="community_name.sw" type="text"' + hideStyle + '>\
+						<input class="js_auto_complete" href="community_name.sw" type="text"' + hideStyle + '>\
 						<div class="js_srch_x"' + hideStyle + '></div>\
 					</div>\
 					<div class="js_community_list commu_list" style="display: none"></div><a href="#" class="js_userpicker_button"><span class="ico_fb_user"></span></a></div></div>');

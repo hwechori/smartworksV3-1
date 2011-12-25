@@ -80,9 +80,8 @@ function fileUploader(groupId, target) {
         		$('form.js_validation_required').find('.sw_required').removeClass('sw_error');
 				$('form.js_validation_required').validate({ showErrors: showErrors}).form();
         	}
-        	if(file.hasClass('qq-upload-success')){
-	        	var target = file.parents('div.js_file_uploader:first').prev('img.js_auto_picture');
-	        	target.attr("src", responseJSON.pullPathName);
+        	if(file.hasClass('qq-upload-success') && !isEmpty(file.parents('td.js_type_imageBox'))){
+	        	file.parents('td.js_type_imageBox:first').find('img.js_auto_picture').attr("src", responseJSON.pullPathName);
         	}
         },
         fileTemplate : uploadFileTemplate,
@@ -101,7 +100,6 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile, file
 	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
 	'<a href="#" class="qq-delete-text" style="display:none">X</a>' +
 	'</li>';
-
 	if(!groupId) {
 		groupId = randomUUID('fg_');
 		fileUploader(groupId, target);

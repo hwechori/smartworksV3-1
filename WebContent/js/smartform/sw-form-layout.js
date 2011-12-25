@@ -12,7 +12,6 @@ SmartWorks.GridLayout = function(config) {
 	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required form_layout"><table></table></form>');
 	var $table = $htmlForm.find('table');
 
-	console.log();
 	var $form = $(this.options.formXml);
 	$htmlForm.attr("formId", $form.attr('id'));
 	$htmlForm.attr("formName", $form.attr('name'));
@@ -87,7 +86,6 @@ SmartWorks.GridLayout = function(config) {
 					break;
 				}
 			}
-			console.log("dataField", dataField);
 			if (isEmpty($columns)) {
 				width = $column.attr('size');
 			} else {
@@ -144,6 +142,14 @@ SmartWorks.GridLayout.validate = function(form){
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.validate(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.validate(form.find('.js_type_imageBox'));
 	var dataGrids = true;
-	
-	return (fileFields && userFields && richEditors && refFormFields && imageBoxs && dataGrids);
+	var jq_validate = true;
+	form.each(function(){
+		jq_validate = $(this).validate({ showErrors: showErrors}).form() && jq_validate;
+	});
+
+	var sw_validate = (fileFields && userFields && richEditors && refFormFields && imageBoxs && dataGrids && jq_validate);
+	if(!sw_validate && jq_validate){
+		showErrors();
+	}
+	return sw_validate;
 };

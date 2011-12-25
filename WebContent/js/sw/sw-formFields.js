@@ -43,6 +43,74 @@ function loadCheckScheduleFields() {
 	}
 };
 
+function loadNewPictureFields() {
+	var newPictureFields = $('div.js_new_picture_fields');
+	if(!isEmpty(newPictureFields)) {
+		for(var i=0; i<newPictureFields.length; i++) {
+			var newPictureField = $(newPictureFields[i]);
+			
+			var gridRow = SmartWorks.GridLayout.newGridRow();
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			newPictureField.html(gridTable.html(gridRow));
+			
+			var pictureDescTitle = newPictureField.attr("pictureDescTitle");
+
+			SmartWorks.FormRuntime.ImageBoxBuilder.buildEx({
+				container: gridRow,
+				fieldId: "imgPictureFile",
+				fieldName: "picture profile",
+				columns: 1,
+				pictureWidth: 512,
+				required: true
+			});
+
+			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtPictureDesc",
+				fieldName: pictureDescTitle,
+				columns: 1,
+				multiLines: 2,
+				required: false
+			});
+		}		
+	}
+};
+
+function loadNewFileFields() {
+	var newFileFields = $('div.js_new_file_fields');
+	if(!isEmpty(newFileFields)) {
+		for(var i=0; i<newFileFields.length; i++) {
+			var newFileField = $(newFileFields[i]);
+			
+			var gridRow = SmartWorks.GridLayout.newGridRow();
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			newFileField.html(gridTable.html(gridRow));
+			
+			var fileNameTitle = newFileField.attr("fileNameTitle");
+			var fileDescTitle = newFileField.attr("fileDescTitle");
+
+			SmartWorks.FormRuntime.FileFieldBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtFileField",
+				fieldName: fileNameTitle,
+				columns: 1,
+				required: true
+			});
+
+			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtFileDesc",
+				fieldName: fileDescTitle,
+				columns: 1,
+				multiLines: 2,
+				required: false
+			});
+		}		
+	}
+};
+
 function loadNewEventFields() {
 	var newEventFields = $('div.js_new_event_fields');
 	if(!isEmpty(newEventFields)) {
@@ -64,7 +132,6 @@ function loadNewEventFields() {
 				fieldId: "txtEventName",
 				fieldName: eventNameTitle,
 				columns: 1,
-				multiLines: 2,
 				required: true
 			});
 		  	
@@ -104,10 +171,78 @@ function loadNewEventFields() {
 			});
 
 			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
-			SmartWorks.FormRuntime.RichEditorBuilder.buildEx({
+			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtEventContent",
 				fieldName: contentTitle,
+				columns: 1,
+				multiLines: 3,
+				required: false
+			});
+		}		
+	}
+};
+
+function loadNewMemoFields() {
+	var newMemoFields = $('div.js_new_memo_fields');
+	if(!isEmpty(newMemoFields)) {
+		for(var i=0; i<newMemoFields.length; i++) {
+			var newMemoField = $(newMemoFields[i]);
+			
+			var gridRow = SmartWorks.GridLayout.newGridRow();
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			newMemoField.html(gridTable.html(gridRow));
+			
+			var memoNameTitle = newMemoField.attr("memoNameTitle");
+			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtMemo",
+				fieldName: memoNameTitle,
+				columns: 1,
+				multiLines: 2,
+				required: true
+			});
+		}		
+	}
+};
+
+function loadNewBoardFields() {
+	var newBoardFields = $('div.js_new_board_fields');
+	if(!isEmpty(newBoardFields)) {
+		for(var i=0; i<newBoardFields.length; i++) {
+			var newBoardField = $(newBoardFields[i]);
+			
+			var gridRow = SmartWorks.GridLayout.newGridRow();
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			newBoardField.html(gridTable.html(gridRow));
+			
+			var boardNameTitle = newBoardField.attr("boardNameTitle");
+			var boardDetailsTitle = newBoardField.attr("boardDetailsTitle");
+			var boardFilesTitle = newBoardField.attr("boardFilesTitle");
+
+			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtBoardName",
+				fieldName: boardNameTitle,
+				columns: 1,
+				required: true
+			});
+			
+			var gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtBoardDetails",
+				fieldName: boardDetailsTitle,
+				columns: 1,
+				multiLines: 4,
+				required: true
+			});
+			
+			var gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			SmartWorks.FormRuntime.FileFieldBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtBoardFiles",
+				fieldName: boardFilesTitle,
 				columns: 1,
 				required: false
 			});

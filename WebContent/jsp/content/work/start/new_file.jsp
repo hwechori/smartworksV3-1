@@ -8,6 +8,9 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <script type="text/javascript">
 function submitForms(e) {
+
+	if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
+
 	var $frmSmartForm = $('form[name="frmSmartForm"]');
 	if(isEmpty($frmSmartForm)) {
 		var target = $('#form_import');
@@ -23,7 +26,6 @@ function submitForms(e) {
 				var fileName = $(fileList[0]).attr('fileName');
 				if(isEmpty(fileName))
 					fileName = "";
-				console.log("fileList", fileList);
 				var formContent = $('#form_import').find('div.js_form_content');
 				if(!isEmpty(formContent)) {
 					var workId = formContent.attr('workId');
@@ -46,77 +48,39 @@ function submitForms(e) {
 								}),
 								mode : "edit"
 							});
-							$frmSmartForm = formContent.children('form');
-							var forms = $('form');
-							var paramsJson = {};
-							for(var i=0; i<forms.length; i++){
-								var form = $(forms[i]);
-								if(form.attr('name') === 'frmSmartForm'){
-									paramsJson['formId'] = form.attr('formId');
-									paramsJson['formName'] = form.attr('formName');
-									paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-
-								}else{
-									paramsJson[form.attr('name')] = form.serializeObject();				
-								}
-							}
-							console.log("JSON", JSON.stringify(paramsJson));
-							alert('wait');
-							var url = "create_new_iwork.sw";
-							$.ajax({
-								url : url,
-								contentType : 'application/json',
-								type : 'POST',
-								data : JSON.stringify(paramsJson),
-								success : function(data, status, jqXHR) {
-									document.location.href = data.href;
-								},
-								error : function(e) {
-									alert(e);
-								}
-							});
+							submitForms(e);
 						}
 					});
 				}
 			}
 		});
 	} else {
-		var sw_validate = SmartWorks.GridLayout.validate($frmSmartForm);
-		if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
-			var forms = $('form');
-			var paramsJson = {};
-			for(var i=0; i<forms.length; i++){
-				var form = $(forms[i]);
-				if(form.attr('name') === 'frmSmartForm'){
-					paramsJson['formId'] = form.attr('formId');
-					paramsJson['formName'] = form.attr('formName');
-					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-
-				}else{
-					paramsJson[form.attr('name')] = form.serializeObject();				
-				}
+		var forms = $('form');
+		var paramsJson = {};
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			if(form.attr('name') === 'frmSmartForm'){
+				paramsJson['formId'] = form.attr('formId');
+				paramsJson['formName'] = form.attr('formName');
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 			}
-			console.log("JSON", JSON.stringify(paramsJson));
-			alert('wait');
-			var url = "create_new_iwork.sw";
-			$.ajax({
-				url : url,
-				contentType : 'application/json',
-				type : 'POST',
-				data : JSON.stringify(paramsJson),
-				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-				},
-				error : function(e) {
-					alert(e);
-				}
-			});
-		} else {
-			return;
 		}
+		console.log("JSON", JSON.stringify(paramsJson));
+		alert('wait');
+		var url = "upload_new_file.sw";
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				document.location.href = data.href;
+			},
+			error : function(e) {
+				alert(e);
+			}
+		});
 	}
-	return;
-	
 }
 </script>
 
@@ -133,11 +97,7 @@ function submitForms(e) {
 		<!-- 폼- 확장 -->
 		<form name="frmNewFile" class="form_wrap js_validation_required">
 			<div class="form_title" class="js_file_brief_form">
-
-				<textarea class="up_textarea" name='txtaFileDesc' rows="5" placeholder="<fmt:message key="common.upload.message.file_desc" />"></textarea>
-
-				<div class="btn_gray padding_t5 js_file_uploader">
- 				</div>
+				<div class="js_new_file_fields" fileNameTitle="<fmt:message key='common.upload.file.name'/>" fileDescTitle="<fmt:message key='common.upload.file.desc'/>">
 			</div>
 			<div class="form_contents">
 				<div class="txt_btn txt_btn_height js_file_detail_form">

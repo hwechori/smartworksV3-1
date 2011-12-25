@@ -14,9 +14,7 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 	SmartWorks.extend(options, config);
 	options.container.html('');
 
-	console.log("options.dataField", options.dataField);
 	var value = (options.dataField && options.dataField.value) || '';
-	console.log("value", value);
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 	var multiLines = parseInt($graphic.attr('multipleLines'));
