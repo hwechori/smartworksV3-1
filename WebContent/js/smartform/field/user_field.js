@@ -40,23 +40,25 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	var $user = null;
 	
 	var usersHtml = '';
-	var hideStyle = '';
+	var href = "user_name.sw";
+	var icoClass = ' class="ico_fb_user"';
 
 	if(multiUsers === 'true'){
 		for(var i=0; i<users.length; i++)
 			usersHtml = usersHtml +  "<span><span class='js_community_item user_select' comId='" + users[i].userId + "'>" + users[i].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";		
+		href = "community_name.sw";
+		icoClass = ' class="ico_fb_users"';
 	}else if (!isEmpty(users)) {
 		usersHtml = "<span><span class='js_community_item user_select' comId='" + users[0].userId + "'>" + users[0].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
-		hideStyle = ' style="display:none" ';
 	}
 
 	var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
 					<div ' + required + '">\
 						<div class="js_selected_communities user_sel_area"></div>\
-						<input class="js_auto_complete" href="community_name.sw" type="text"' + hideStyle + '>\
-						<div class="js_srch_x"' + hideStyle + '></div>\
+						<input class="js_auto_complete" href="' + href + '" type="text">\
+						<div class="js_srch_x"></div>\
 					</div>\
-					<div class="js_community_list commu_list" style="display: none"></div><a href="#" class="js_userpicker_button"><span class="ico_fb_user"></span></a></div></div>');
+					<div class="js_community_list commu_list" style="display: none"></div><a href="#" class="js_userpicker_button"><span ' + icoClass + '></span></a></div></div>');
 
 	$html.find('.js_selected_communities').html(usersHtml);
 	
@@ -120,7 +122,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.serializeObject = function(userFields){
 		var userList = userField.find('.js_community_item');
 		var users = new Array();
 		for(var j=0; j<userList.length; j++)
-			users.push(userList.attr('comId'));
+			users.push($(userList[j]).attr('comId'));
 		usersJson[fieldId] =  {users: users};
 	}
 	return usersJson;

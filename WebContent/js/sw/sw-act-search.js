@@ -45,6 +45,7 @@ $(function() {
 	 */
 	$('input.js_auto_complete').live('focusout', function(e) {
 		var input = $(e.target);
+		input[0].value = '';
 		var start_work = input.parents('div.js_start_work');
 		var user_name = input.parents('div.js_community_names');
 		var chatter_name = input.parents('div.js_chatter_names');
@@ -58,7 +59,6 @@ $(function() {
 		else
 			target = input.parent().siblings('div');
 		setTimeout(function() {
-			input[0].value = '';
 			input.next('div').removeClass('btn_im_x').addClass('srch_ico');
 			target.html('').hide();
 		}, 500);
@@ -128,19 +128,14 @@ $(function() {
 		var comName = input.attr('comName');
 		var comId = input.attr('comId');
 		var target = input.parents('.js_community_list').prev().find('.js_selected_communities');				
-		target.siblings('input.js_auto_complete').value = '';
 		var userField = target.parents('td.js_type_userField');
-		if(!isEmpty(userField) && userField.attr('multiUsers') !== 'true') {
-			var inputTarget = userField.find('input.js_auto_complete');
-			inputTarget.hide();
-			inputTarget.next('.js_srch_x').hide();
-			if(inputTarget.parents('.sw_required').hasClass('sw_error')){
-				inputTarget.parents('.sw_required').removeClass('sw_error');
-				$('form.js_validation_required').validate({ showErrors: showErrors}).form();
-			}
+		var inputTarget = userField.find('input.js_auto_complete');
+		if(inputTarget.parents('.sw_required').hasClass('sw_error')){
+			inputTarget.parents('.sw_required').removeClass('sw_error');
+			$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 		}
 		var oldHTML = target.html();
-		if (oldHTML == null)
+		if (oldHTML == null || (userField.attr('multiUsers') !== 'true'))
 			oldHTML = "";
 		var communityItems = $(target).find('span.js_community_item');
 		var isSameId = false;

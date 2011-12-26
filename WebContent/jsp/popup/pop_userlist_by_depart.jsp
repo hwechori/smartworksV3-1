@@ -29,8 +29,7 @@
 					}
 					%>
 					<li><a href="" class="js_pop_select_user" userId="<%=user.getId()%>">
-						<span class="<%=iconType%>"></span>
-						<%=user.getLongName()%></a>
+						<span class="<%=iconType%>"></span><%=user.getLongName()%></a>
 					</li>
 				<%
 				} else if (community.getClass().equals(DepartmentInfo.class)) {

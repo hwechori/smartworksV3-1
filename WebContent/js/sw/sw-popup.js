@@ -145,10 +145,21 @@ popSelectUser = function(target){
 				// TO DO
 			},
 			onShow: function(dialog){
-				$('a.js_pop_select_user', dialog.data[0]).live('click', function(e){
+				$('a.js_pop_select_user').live('click', function(e){
 					var input = $(e.target);
 					var comId = input.attr('userId');
-					var comName = input.attr('value');
+					var comName = input.text();
+
+					var userField = target.parents('td.js_type_userField');
+					var inputTarget = userField.find('input.js_auto_complete');
+					if(inputTarget.parents('.sw_required').hasClass('sw_error')){
+						inputTarget.parents('.sw_required').removeClass('sw_error');
+						$('form.js_validation_required').validate({ showErrors: showErrors}).form();
+					}
+
+					var oldHTML = target.html();
+					if (oldHTML == null  || (userField.attr('multiUsers') !== 'true'))
+						oldHTML = "";
 					var communityItems = $(target).find('span.js_community_item');
 					var isSameId = false;
 					for(var i=0; i<communityItems.length; i++){
@@ -159,8 +170,7 @@ popSelectUser = function(target){
 						}
 					}
 					if(!isSameId){
-						var newHTML = oldHTML
-							+ "<span class='js_community_item user_select' comId='" + comId+ "'>"
+						var newHTML = oldHTML + "<span class='js_community_item user_select' comId='" + comId+ "'>"
 							+ comName
 							+ "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
 						target.html(newHTML);
@@ -258,7 +268,19 @@ popSelectWorkItem = function(formId, target){
 			},
 			onShow: function(dialog){
 				$('.js_pop_select_work_item').live( 'click', function(e){
-					var input = $(e.target).parents('li:first').children('a');
+					var input = $(e.target);
+					var recordId = input.attr('instId');
+					var fieldId = target.attr('refFormField');
+					var keyField = input.parents('tbody').find('tr.js_instance_list_header').find('th[fieldId="'+fieldId+'"]');
+					var keyPos = keyField.prevAll('th').length;
+					var value = $(input.parents('tr').find('td')[keyPos]).find('a').text();
+					target.attr('refRecordId', recordId);
+					var inputTarget = target.find('input');
+					inputTarget[0].value = value;
+					if(inputTarget.hasClass('sw_required') && inputTarget.hasClass('sw_error')){
+						inputTarget.removeClass('sw_error');
+						$('form.js_validation_required').validate({ showErrors: showErrors}).form();
+					}
 					$.modal.close();
 					return false;
 				});

@@ -5,7 +5,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.work.*"%>
 <%
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks)request.getAttribute("smartWorks");
 %>
 <!--  전체 레이아웃 -->
 <div class="pop_corner_all pop_section_400">

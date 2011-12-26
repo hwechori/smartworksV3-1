@@ -20,11 +20,11 @@
 			for (UserInfo user : users) {
 				String picName = user.getMinPicture();
 				String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
-				String comName = user.getName();
+				String comName = user.getLongName();
 				String comId = user.getId();
 	%>
-	<li><a href="" uname="<%=user.getLongName()%>" uid="<%=comId%>"
-		class="js_select_user"><img src="<%=picName%>"><%=comName%></a>
+	<li><a href="" comName="<%=user.getLongName()%>" comId="<%=comId%>"
+		class="js_select_community"><img src="<%=picName%>"><%=comName%></a>
 	</li>
 	<%
 		}

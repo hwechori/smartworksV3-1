@@ -38,13 +38,13 @@
 
 <!-- 목록 테이블 -->
 <table>
-	<tr class="tit_bg">
+	<tr class="tit_bg js_instance_list_header">
 		<%
 			FormField[] fields = work.getDisplayFields();
 			if (fields != null) {
 				for (FormField field : fields) {
 		%>
-		<th class="r_line"><%=field.getName()%> <img class="bu_arr_b">
+		<th class="r_line" fieldId="<%=field.getId()%>"><%=field.getName()%> <img class="bu_arr_b">
 		</th>
 		<%
 			}
@@ -65,8 +65,6 @@
 			IWInstanceInfo[] instanceInfos = (IWInstanceInfo[]) instanceList
 					.getInstanceDatas();
 			for (IWInstanceInfo instanceInfo : instanceInfos) {
-				UserInfo owner = instanceInfo.getOwner();
-				UserInfo lastModifier = instanceInfo.getLastModifier();
 				FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
 	%>
 
@@ -78,7 +76,7 @@
 							&& (fieldDatas.length == displayFields.length)) {
 						for (FieldData data : fieldDatas) {
 		%>
-		<td><a href="" class="js_pop_select_work_item" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
+		<td><a href="" class="js_pop_select_work_item" instId="<%=instanceInfo.getId()%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
 		<%
 			}
 					}
