@@ -466,32 +466,33 @@ public class WorkServiceImpl implements IWorkService {
 	public CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception {
 
 		User cUser = SmartUtil.getCurrentUser();
-		if(departmentId == null) {
+		if(CommonUtil.isEmpty(departmentId)) {
 			departmentId = cUser.getCompanyId();
 		}
 
 		SwoUserExtend[] swoUserExtends = getSwoManager().getAllComsByDepartmentId(departmentId, departmentOnly);
 
-		DepartmentInfo departmentInfo = new DepartmentInfo();
-		UserInfo userInfo = new UserInfo();
-
 		List<CommunityInfo> resultList = new ArrayList<CommunityInfo>();
 		for(SwoUserExtend swoUserExtend : swoUserExtends) {
 			String type = swoUserExtend.getType();
-			if(!CommonUtil.isEmpty(type)) {
+			if(!departmentOnly) {
 				if(type.equals("u")) {
+					UserInfo userInfo = new UserInfo();
 					userInfo.setId(swoUserExtend.getId());
 					userInfo.setName(swoUserExtend.getName());
 					userInfo.setPosition(swoUserExtend.getPosition());
+					userInfo.setRole(swoUserExtend.getRoleId().equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
 					userInfo.setSmallPictureName(swoUserExtend.getPictureName());
 					resultList.add(userInfo);
 				} else {
+					DepartmentInfo departmentInfo = new DepartmentInfo();
 					departmentInfo.setId(swoUserExtend.getId());
 					departmentInfo.setName(swoUserExtend.getName());
 					departmentInfo.setDesc(swoUserExtend.getDescription());
 					resultList.add(departmentInfo);
 				}
 			} else {
+				DepartmentInfo departmentInfo = new DepartmentInfo();
 				departmentInfo.setId(swoUserExtend.getId());
 				departmentInfo.setName(swoUserExtend.getName());
 				departmentInfo.setDesc(swoUserExtend.getDescription());
