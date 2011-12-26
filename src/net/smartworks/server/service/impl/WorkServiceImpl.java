@@ -482,6 +482,7 @@ public class WorkServiceImpl implements IWorkService {
 					userInfo.setId(swoUserExtend.getId());
 					userInfo.setName(swoUserExtend.getName());
 					userInfo.setPosition(swoUserExtend.getPosition());
+					userInfo.setRole(swoUserExtend.getRoleId().equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
 					userInfo.setSmallPictureName(swoUserExtend.getPictureName());
 					resultList.add(userInfo);
 				} else {
