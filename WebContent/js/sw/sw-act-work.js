@@ -224,6 +224,19 @@ $(function() {
         afterCopy:null
     });
 
+	$('a.js_pop_all_works').live('click', function(e) {
+		var input = $(e.target).parent();
+		$.ajax({
+			url : "pop_select_work.sw",
+			context : input,
+			success : function(data, status, jqXHR) {
+				$(data).attr("eventTarget", "a.js_pop_all_works");
+				$.modal(data, selectWorkOptions);
+			}
+		});
+		return false;
+	});
+
 	$('a.js_pop_user_info').live('click', function(e) {
 		var input = $(e.target);
 		var left = input.parents('td:first').position().left;
@@ -257,14 +270,11 @@ $(function() {
 
 	$('a.js_userpicker_button').live('click', function(e) {
 		var input = $(e.target).parent();
-		var target = input.prev('.js_community_list');
 		$.ajax({
 			url : "pop_select_user.sw",
 			context : input,
 			success : function(data, status, jqXHR) {
-				target.html(data);
-				target.slideDown(500);
-				target.focus();
+				$.modal(data, selectUserOptions);
 			}
 		});
 		return false;
@@ -272,29 +282,25 @@ $(function() {
 
 	$('a.js_workpicker_button').live('click', function(e) {
 		var input = $(e.target).parent();
-		var target = input.prev('.js_community_list');
 		$.ajax({
 			url : "pop_select_work.sw",
 			context : input,
 			success : function(data, status, jqXHR) {
-				target.html(data);
-				target.slideDown(500);
-				target.focus();
+				$.modal(data, selectWorkOptions);
 			}
 		});
 		return false;
 	});
 
 	$('a.js_workitempicker_button').live('click', function(e) {
-		var input = $(e.target).parent();
-		var target = input.prev('.js_community_list');
+		var input = $(e.target).parents('td.js_type_refFormField');
+		var workId = input.attr("refForm");
 		$.ajax({
 			url : "pop_select_work_item.sw",
+			data : {workId: workId},
 			context : input,
 			success : function(data, status, jqXHR) {
-				target.html(data);
-				target.slideDown(500);
-				target.focus();
+				$.modal(data, selectWorkItemOptions);
 			}
 		});
 		return false;

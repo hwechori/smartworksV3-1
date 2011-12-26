@@ -92,9 +92,6 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui-timepicker-ko.js"></script>
-
-<script type="text/javascript" src="js/jquery/jquery.popupWindow.js"></script>
-
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.json-2.3.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.zclip.min.js"></script>
@@ -102,6 +99,8 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/jshashtable-2.1.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.numberformatter-1.2.2.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.formatCurrency-1.4.0.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.simplemodal.1.4.2.min.js"></script>
+
 <script type="text/javascript" src="js/jstorage/jstorage.js"></script>
 <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
 <script type="text/javascript" src="js/ext/bootstrap.js"></script>
@@ -122,6 +121,7 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
 <script type="text/javascript" src="js/sw/sw-file.js"></script>
 <script type="text/javascript" src='js/sw/sw-formFields.js'></script>
+<script type="text/javascript" src='js/sw/sw-popup.js'></script>
 
 <script type="text/javascript" src="js/sw/sw-act-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-report.js"></script>

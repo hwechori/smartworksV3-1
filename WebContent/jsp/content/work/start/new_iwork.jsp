@@ -37,7 +37,8 @@ function submitForms(e) {
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				document.location.href = data.href;
+				popConfirm(null, "성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??");
+				//document.location.href = data.href;
 			},
 			error : function(e) {
 				alert(e);

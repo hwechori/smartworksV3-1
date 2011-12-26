@@ -30,6 +30,7 @@ $(function() {
 					},
 					context : input,
 					success : function(data, status, jqXHR) {
+						console.log("e.which=" + e.which);
 						target.html(data);
 						target.show();
 					}

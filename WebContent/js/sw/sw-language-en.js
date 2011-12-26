@@ -13,5 +13,11 @@ language.bundle['en'] = {
 	chatUserMore : 'Users More',
 	chatUserOfflineMessage : 'is offline, so messages will leave',
 	validateErrorPre : "Your form contains ",
-	validateErrorPost : " errors, see details above highlighted fields."
+	validateErrorPost : " errors, see details above highlighted fields.",
+	popTypeInfo : "Information",
+	popTypeWarn : "Warning",
+	popTypeError : "Error",
+	buttonClose : "Close",
+	buttonCancel : "Cancel",
+	buttonConfirm : "Confirm"
 };

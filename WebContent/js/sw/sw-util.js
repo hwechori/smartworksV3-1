@@ -87,8 +87,8 @@ var merge3Objects = function(obj1, obj2, obj3){
 
 function isEmpty(str) {
     return (!str || 0 === str.length);
-}
+};
 
 function isBlank(str) {
     return (!str || /^\s*$/.test(str));
-}
+};
