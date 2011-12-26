@@ -44,7 +44,12 @@ import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
+import net.smartworks.server.engine.infowork.form.model.SwfField;
+import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
+import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
+import net.smartworks.server.engine.infowork.form.model.SwfMapping;
+import net.smartworks.server.engine.infowork.form.model.SwfMappings;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
@@ -195,6 +200,76 @@ public class InstanceServiceImpl implements IInstanceService {
 		return "testId";
 	}
 
+	private SwdRecord getSwdRecordByJsonFormData(Map<String, Object> jsonFormDataMap) throws Exception {
+		
+		//TODO
+		
+		return null;
+	}
+	public SwdRecord refreshDataFields(Map<String, Object> requestBody) throws Exception {
+		
+		String formId = (String)requestBody.get("formId");
+		String formName = (String)requestBody.get("formName");// 사용?
+		SwdRecord record = this.getSwdRecordByJsonFormData((Map<String, Object>)requestBody.get("frmSmartForm"));
+		boolean isFirstSetMode = true; //초기 데이터 입력인지 수정인지를 판단한다
+		
+		//레코드 폼정보를 가져온다
+		if (CommonUtil.isEmpty(formId))
+			return null;
+		SwfForm form = SwManagerFactory.getInstance().getSwfManager().getForm(null, formId);
+		if (form == null)
+			return null;
+		SwfField[] fields = form.getFields();
+		if (CommonUtil.isEmpty(fields))
+			return null;
+		
+		//폼에 연결된 연결업무 링크 정보를 가져온다
+		/*<formLink id="8" name="test" targetFormId="frm_b5d88ed991dd4677a9f0d482f412fb55">
+			<conds operator="and">
+				<cond operator="=">
+					<first type="other" fieldId="0"/>
+					<second type="self" fieldId="0"/>
+				</cond>
+			</conds>
+		</formLink>*/
+		SwfFormLink[] formLinks = form.getMappingForms();
+		Map<String, SwfFormLink> formLinkMap = new HashMap<String, SwfFormLink>();
+		if (!CommonUtil.isEmpty(formLinks)) {
+			for (SwfFormLink formLink:formLinks)
+				formLinkMap.put(formLink.getId(), formLink);
+		}
+		
+
+		// 업무연결아이디와 해당 업무 맵 ??????//
+		Map<String, SwdRecord[]> formLinkIdRecordMap = new HashMap<String, SwdRecord[]>();
+
+		// 각 필드들 마다 가져오기 맵핑을 확인하여 값을 셋팅한다
+		// 
+		for (SwfField field : fields) {
+			// 가져오기 매핑정의가 있는지 확인 시작
+			SwfMappings mappings = field.getMappings();
+			if (mappings == null)
+				continue;
+			SwfMapping[] preMappings = mappings.getPreMappings();
+			if (CommonUtil.isEmpty(preMappings))
+				continue;
+			// 가져오기 매핑정의가 있는지 확인 끝
+
+			String fieldId = field.getId();
+			String fieldType = field.getSystemType();
+
+			//가져오기 셋팅이 여러개 일수 있다
+			for (SwfMapping preMapping : preMappings) {
+				
+				
+				
+			}
+		}
+		
+		return null;  
+	}
+	
+	
 	@Override
 	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception {
 		
@@ -240,6 +315,52 @@ public class InstanceServiceImpl implements IInstanceService {
 			String refRecordId = null;
 			if (SmartFormInfoMap.get(fieldId) instanceof LinkedHashMap) {
 				Map<String, Object> valueMap = (Map<String, Object>)SmartFormInfoMap.get(fieldId);
+				SwdField swdField = fieldInfoMap.get(fieldId);
+				String type = swdField.getFormFieldType();
+				
+				//type = file <- 실질적으로 데이터베이스에는 데이터베이스 타입만 들어가있음
+				//스마트웍스에서 사용하는 필드 타입은 없음(예: file 필드가 database 에 타입인 String 으로 되어 있음
+				//타입이 파일인지를 구별할수 있는 데이터가 필요
+				if (type.equalsIgnoreCase("")) {
+					Map fileGroupInfoMap = (Map)SmartFormInfoMap.get(fieldId);
+					if (fileGroupInfoMap == null)
+						continue;
+					
+					String groupId = (String)fileGroupInfoMap.get("groupId");
+					List filesList = (List)fileGroupInfoMap.get("files");
+					
+					for (int i = 0; i < filesList.size(); i++) {
+						
+						
+						
+					}
+						
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				//TODO
 			} else {
 				value = (String)SmartFormInfoMap.get(fieldId);
