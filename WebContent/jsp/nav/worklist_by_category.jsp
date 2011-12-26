@@ -31,7 +31,7 @@
 					targetContent = "swork_list.sw";
 				} else if (work.getType() == WorkCategory.TYPE_CATEGORY) {
 					iconType = "ico_gworks";
-					targetContent = "worklist_by_group.sw";
+					targetContent = "worklist_by_category.sw";
 				}
 				if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
@@ -44,7 +44,7 @@
 		} else {
 	%>
 	<li class="js_drill_down"><a
-		href="worklist_by_group.sw" groupId="<%=work.getId()%>"><span class="<%=iconType%>"></span>
+		href="<%=targetContent%>" categoryId="<%=work.getId()%>"><span class="<%=iconType%>"></span>
 			<span><%=work.getName()%></span></a>
 		<div style="display: none"></div></li>
 	<%

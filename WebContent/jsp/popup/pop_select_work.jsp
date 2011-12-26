@@ -6,14 +6,13 @@
 <%@ page import="net.smartworks.model.work.*"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	WorkInfo[] workCategories = smartWorks.getMyAllWorksByCategoryId("");
 %>
 <!--  전체 레이아웃 -->
 <div class="pop_corner_all pop_section_400">
 
 	<!-- 팝업 타이틀 -->
 	<div class="form_title">
-		<div class="pop_title">사용자 선택</div>
+		<div class="pop_title">새업무 선택</div>
 
 		<div class="txt_btn">
 			<div class="btn_x">
@@ -28,21 +27,7 @@
 	<!-- 팝업 컨텐츠 -->
 	<div class="form_contents">
 		<div class="user_list_area">
-			<ul>
-				<%
-					if(workCategories != null){
-						for (WorkInfo workCategory : workCategories) {
-				%>
-				<li class="js_drill_down"><a href="worklist_by_category.sw"
-					categoryId="<%=workCategory.getId()%>"> <span class="ico_cworks"></span>
-						<span class="nav_subtitl_area"><%=workCategory.getName()%></span> </a>
-					<div class="menu_2dep" style="display: none"></div>
-				</li>
-				<%
-						}
-					}
-				%>
-			</ul>
+			<jsp:include page="/jsp/popup/pop_worklist_by_category.jsp"></jsp:include>
 		</div>
 	</div>
 	<!-- 팝업 컨텐츠 //-->

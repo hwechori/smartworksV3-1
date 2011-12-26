@@ -128,16 +128,19 @@ $(function() {
 		var url = input.attr('href');
 		var categoryId = input[0].getAttribute("categoryId");
 		var groupId = input[0].getAttribute("groupId");
-		if (url == 'undefined' || (isEmpty(categoryId) && isEmpty(groupId))) {
+		var departmentId = input[0].getAttribute("departmentId");
+		if (url == 'undefined' || (isEmpty(categoryId) && isEmpty(groupId) && isEmpty(departmentId))) {
 			return false;
 		}
 		if(isEmpty($(target).children())){
-			$('div.js_nav_my_works').showLoading();						
+			if(isEmpty(departmentId))
+				$('div.js_nav_my_works').showLoading();						
 			$.ajax({
 				url : url,
 				data : {
 					categoryId : categoryId,
 					groupId : groupId,
+					departmentId : departmentId,
 				},
 				context : input,
 				success : function(data, status, jqXHR) {
@@ -145,10 +148,12 @@ $(function() {
 					target.html(data);
 					target.siblings('li.js_drill_down').find('div').hide();
 					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
-					$('div.js_nav_my_works').hideLoading();											
+					if(isEmpty(departmentId))
+						$('div.js_nav_my_works').hideLoading();											
 				},
 				error : function(){
-					$('div.js_nav_my_works').hideLoading();											
+					if(isEmpty(departmentId))
+						$('div.js_nav_my_works').hideLoading();											
 				}
 			});
 		}else{

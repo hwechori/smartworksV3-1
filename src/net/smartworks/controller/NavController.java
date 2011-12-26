@@ -86,11 +86,4 @@ public class NavController {
 				"");
 	}
 
-	@RequestMapping("/worklist_by_group")
-	public ModelAndView worklistByGroup(HttpServletRequest request,
-			HttpServletResponse response) {
-
-		return SmartUtil.returnMnv(request, "jsp/nav/worklist_by_group.jsp",
-				"");
-	}
 }

@@ -1,10 +1,19 @@
 package net.smartworks.model.community.info;
 
+import net.smartworks.model.community.User;
+
 public class UserInfo extends WorkSpaceInfo {
 
+	private int role = User.USER_ROLE_MEMBER;
 	private String position;
 	private DepartmentInfo department;
 
+	public int getRole() {
+		return role;
+	}
+	public void setRole(int role) {
+		this.role = role;
+	}
 	public String getPosition() {
 		return position;
 	}

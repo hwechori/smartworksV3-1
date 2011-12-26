@@ -17,80 +17,6 @@ onCloseEffect = function(dialog){
 	});
 };
 
-selectWorkItemOptions = {
-		opacity: 20,
-		overlayCss: {backgroundColor:"#fff"},
-		containerCss:{
-			backgroundColor:"#fff",
-			borderColor:"#000",
-			color: "#000",
-			height:600,
-			padding:1,
-			width:800
-		},
-		overlayClose: true,
-		onOpen: function(dialog){
-			onOpenEffect(dialog);
-			// TO DO
-		},
-		onShow: function(dialog){	
-		},
-		onClose: function(dialog){
-			// TO DO
-			onCloseEffect(dialog);
-		}
-	};
-
-selectWorkOptions = {
-		opacity: 20,
-		overlayCss: {backgroundColor:"#fff"},
-		containerCss:{
-			backgroundColor:"#fff",
-			borderColor:"#000",
-			color: "#000",
-			height:500,
-			padding:1,
-			width:360
-		},
-		overlayClose: true,
-		onOpen: function(dialog){
-			onOpenEffect(dialog);
-			// TO DO
-		},
-		onShow: function(dialog){	
-		},
-		onClose: function(dialog){
-			// TO DO
-			console.log(dialog);
-			alert('wait');
-			onCloseEffect(dialog);
-		}
-	};
-
-selectUserOptions = {
-		opacity: 20,
-		overlayCss: {backgroundColor:"#fff"},
-		containerCss:{
-			backgroundColor:"#fff",
-			borderColor:"#000",
-			color: '#000',
-			height:500,
-			padding:1,
-			width:360
-		},
-		overlayClose: true,
-		onOpen: function(dialog){
-			onOpenEffect(dialog);
-			// TO DO
-		},
-		onShow: function(dialog){	
-		},
-		onClose: function(dialog){
-			// TO DO
-			onCloseEffect(dialog);
-		}
-	};
-
 showInfoOptions = {
 		opacity: 20,
 		overlayCss: {backgroundColor:"#fff"},
@@ -172,14 +98,14 @@ popConfirm = function(message, onOk, onCancel){
 				},
 				overlayClose: false,
 				onShow: function(dialog){
-					$(dialog.data[0]).find('.js_btn_ok').live('click', function(){
+					$('.js_btn_ok', dialog.data[0]).live('click', function(){
 						if ($.isFunction(onOk)) {
 							onOk.apply();
 						}
 						$.modal.close();
 						return false;
 					});
-					$(dialog.data[0]).find('.js_btn_cancel').live('click', function(){
+					$('.js_btn_cancel', dialog.data[0]).live('click', function(){
 						if ($.isFunction(onCancel)) {
 							onCancel.apply();
 						}
@@ -198,3 +124,176 @@ popProgress = function(message){
 		  '</div>', progressOptions);
 	
 };
+
+popSelectUser = function(target){
+
+	if(isEmpty(target)) return;
+	$.get("pop_select_user.sw", function(data){
+		$(data).modal({
+			opacity: 20,
+			overlayCss: {backgroundColor:"#fff"},
+			containerCss:{
+				backgroundColor:"#fff",
+				borderColor:"#000",
+				color: '#000',
+				height:500,
+				padding:1,
+				width:360
+			},
+			overlayClose: true,
+			onOpen: function(dialog){
+				onOpenEffect(dialog);
+				// TO DO
+			},
+			onShow: function(dialog){
+				$('a.js_pop_select_user', dialog.data[0]).live('click', function(e){
+					var input = $(e.target);
+					var comId = input.attr('userId');
+					var comName = input.attr('value');
+					var communityItems = $(target).find('span.js_community_item');
+					var isSameId = false;
+					for(var i=0; i<communityItems.length; i++){
+						var oldComId = $(communityItems[i]).attr('comId');
+						if(oldComId !=null && oldComId === comId){
+							isSameId = true;
+							break;
+						}
+					}
+					if(!isSameId){
+						var newHTML = oldHTML
+							+ "<span class='js_community_item user_select' comId='" + comId+ "'>"
+							+ comName
+							+ "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
+						target.html(newHTML);
+					}
+					
+					$.modal.close();
+					return false;
+				});
+			},
+			onClose: function(dialog){
+				// TO DO
+				onCloseEffect(dialog);
+			}
+		});
+	});
+};
+
+popSelectWork = function(target){
+	$.get("pop_select_work.sw", function(data){
+		$(data).modal({
+			opacity: 20,
+			overlayCss: {backgroundColor:"#fff"},
+			containerCss:{
+				backgroundColor:"#fff",
+				borderColor:"#000",
+				color: '#000',
+				height:500,
+				padding:1,
+				width:360
+			},
+			overlayClose: true,
+			onOpen: function(dialog){
+				onOpenEffect(dialog);
+				// TO DO
+			},
+			onShow: function(dialog){
+				$('.js_pop_select_work').live( 'click', function(e){
+					var input = $(e.target).parents('li:first').children('a');
+					$('#form_works').slideUp().slideDown(500);
+					$('#upload_work_list').hide().parents(".js_start_work").slideUp();
+					if(isEmpty(target)){
+						var href = input.attr('href');
+						$.get(href,  function(data){
+							$('#form_works').html(data);
+							var formContent = $('#form_works').find('div.js_form_content');
+							var workId = input.attr('workId');
+							$.ajax({
+								url : "get_form_xml.sw",
+								data : {
+									workId : workId
+								},
+								success : function(formXml, status, jqXHR) {
+									console.log(formXml);
+									new SmartWorks.GridLayout({
+										target : formContent,
+										formXml : formXml,
+										mode : "edit"
+									});
+								}
+							});			
+						});
+					}else{
+					
+					}
+					$.modal.close();
+					return false;
+				});
+			},
+			onClose: function(dialog){
+				// TO DO
+				onCloseEffect(dialog);
+			}
+		});
+	});
+};
+
+popSelectWorkItem = function(target){
+	$.get("pop_select_work_item.sw", function(data){
+		$(data).modal({
+			opacity: 20,
+			overlayCss: {backgroundColor:"#fff"},
+			containerCss:{
+				backgroundColor:"#fff",
+				borderColor:"#000",
+				color: "#000",
+				height:600,
+				padding:1,
+				width:800
+			},
+			overlayClose: true,
+			onOpen: function(dialog){
+				onOpenEffect(dialog);
+				// TO DO
+			},
+			onShow: function(dialog){
+				$('.js_pop_select_work').live( 'click', function(e){
+					var input = $(e.target).parents('li:first').children('a');
+					$('#form_works').slideUp().slideDown(500);
+					$('#upload_work_list').hide().parents(".js_start_work").slideUp();
+					if(isEmpty(target)){
+						var href = input.attr('href');
+						$.get(href,  function(data){
+							$('#form_works').html(data);
+							var formContent = $('#form_works').find('div.js_form_content');
+							var workId = input.attr('workId');
+							$.ajax({
+								url : "get_form_xml.sw",
+								data : {
+									workId : workId
+								},
+								success : function(formXml, status, jqXHR) {
+									console.log(formXml);
+									new SmartWorks.GridLayout({
+										target : formContent,
+										formXml : formXml,
+										mode : "edit"
+									});
+								}
+							});			
+						});
+					}else{
+					
+					}
+					$.modal.close();
+					return false;
+				});
+			},
+			onClose: function(dialog){
+				// TO DO
+				onCloseEffect(dialog);
+			}
+		});
+	});
+};
+

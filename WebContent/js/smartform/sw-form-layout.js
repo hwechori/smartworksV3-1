@@ -127,17 +127,19 @@ SmartWorks.GridLayout.newGridRow = function(){
 SmartWorks.GridLayout.serializeObject = function(form){
 	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.serializeObject(form.find('.js_type_fileField'));
 	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.serializeObject(form.find('.js_type_userField'));
+	var departmentFields = SmartWorks.FormRuntime.DepartmentFieldBuilder.serializeObject(form.find('.js_type_departmentField'));
 	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.serializeObject(form.find('.js_type_richEditor'));
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject(form.find('.js_type_imageBox'));
 	var dataGrids = {};
-	console.log(fileFields, userFields, richEditors, refFormFields, imageBoxs, dataGrids);
-	return mergeObjects(merge3Objects(fileFields, userFields, richEditors), merge3Objects(refFormFields, imageBoxs, dataGrids));
+	console.log(fileFields, userFields, departmentFields, richEditors, refFormFields, imageBoxs, departmentFields);
+	return mergeObjects(merge3Objects(fileFields, userFields, richEditors), merge3Objects(refFormFields, imageBoxs, departmentFields));
 };
 
 SmartWorks.GridLayout.validate = function(form){
 	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.validate(form.find('.js_type_fileField'));
 	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.validate(form.find('.js_type_userField'));
+	var departmentFields = SmartWorks.FormRuntime.DepartmentFieldBuilder.validate(form.find('.js_type_departmentField'));
 	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.validate(form.find('.js_type_richEditor'));
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.validate(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.validate(form.find('.js_type_imageBox'));
@@ -147,7 +149,7 @@ SmartWorks.GridLayout.validate = function(form){
 		jq_validate = $(this).validate({ showErrors: showErrors}).form() && jq_validate;
 	});
 
-	var sw_validate = (fileFields && userFields && richEditors && refFormFields && imageBoxs && dataGrids && jq_validate);
+	var sw_validate = (fileFields && userFields && departmentFields && richEditors && refFormFields && imageBoxs && dataGrids && jq_validate);
 	if(!sw_validate && jq_validate){
 		showErrors();
 	}

@@ -38,45 +38,41 @@ $(function() {
 	/*
 	 * 새업무시작하기에서, 처음나오는 입력창을 클릭하면 실행되는 이벤트로, 우측에 전체업무찾기 버튼을 보여준다.
 	 */
-	$('.js_start_work').live(
-			'click',
-			function(e) {
-				$(e.target).parents('div.js_start_work:first').find(
+	$('.js_start_work').live( 'click', function(e) {
+		$(e.target).parents('div.js_start_work:first').find(
 						'#all_work_btn').show();
-			});
+	});
 
 	/*
 	 * 세업무시작하기에서, 입력창에 값을 입력하여 나오는 검색결과를 선택하면 실행되는 이벤트로, 검색결과항목의 href값으로 ajax를
 	 * 실행하여 가져온 값으로 id가 start_work_form인 곳 화면을 그려서, 아래로 펼쳐준다.
 	 */
-	$('.js_select_work').swnavi(
-			{
-				before : function(event) {
-					$('#form_works').slideUp().slideDown(500);
-					$(event.target).parents('#upload_work_list').hide()
-							.parents(".js_start_work").slideUp();
+	$('.js_select_work').swnavi({
+		before : function(event) {
+			$('#form_works').slideUp().slideDown(500);
+			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work").slideUp();
+		},
+		target : 'form_works',
+		after : function(event) {
+			var input = $(event.target).parents('li:first').children('a');
+			var formContent = $('#form_works').find('div.js_form_content');
+			var workId = input.attr('workId');
+			$.ajax({
+				url : "get_form_xml.sw",
+				data : {
+					workId : workId
 				},
-				target : 'form_works',
-				after : function(event) {
-					var input = $(event.target).parents('li:first').children('a');
-					var formContent = $('#form_works').find('div.js_form_content');
-					var workId = input.attr('workId');
-					$.ajax({
-						url : "get_form_xml.sw",
-						data : {
-							workId : workId
-						},
-						success : function(formXml, status, jqXHR) {
-							console.log(formXml);
-							new SmartWorks.GridLayout({
-								target : formContent,
-								formXml : formXml,
-								mode : "edit"
-							});
-						}
-					});			
+				success : function(formXml, status, jqXHR) {
+					console.log(formXml);
+					new SmartWorks.GridLayout({
+						target : formContent,
+						formXml : formXml,
+						mode : "edit"
+					});
 				}
-			});
+			});			
+		}
+	});
 
 	$('a.js_create_new_work').live('click', function(e) {
 		var input = $(e.target);
@@ -225,15 +221,7 @@ $(function() {
     });
 
 	$('a.js_pop_all_works').live('click', function(e) {
-		var input = $(e.target).parent();
-		$.ajax({
-			url : "pop_select_work.sw",
-			context : input,
-			success : function(data, status, jqXHR) {
-				$(data).attr("eventTarget", "a.js_pop_all_works");
-				$.modal(data, selectWorkOptions);
-			}
-		});
+		popSelectWork();
 		return false;
 	});
 
@@ -270,13 +258,8 @@ $(function() {
 
 	$('a.js_userpicker_button').live('click', function(e) {
 		var input = $(e.target).parent();
-		$.ajax({
-			url : "pop_select_user.sw",
-			context : input,
-			success : function(data, status, jqXHR) {
-				$.modal(data, selectUserOptions);
-			}
-		});
+		var target = input.parents('.js_community_list').prev().find('.js_selected_communities');						
+		popSelectUser(target);
 		return false;
 	});
 

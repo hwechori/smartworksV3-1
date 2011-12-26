@@ -8,9 +8,12 @@ public class User extends WorkSpace {
 	public static final int USER_LEVEL_SYSMANAGER = 3;
 	public static final int USER_LEVEL_DEFAULT = USER_LEVEL_INTERNAL_USER;
 
+	public static final int USER_ROLE_LEADER = 1;
+	public static final int USER_ROLE_MEMBER = 2;
 	public static final String  NO_USER_PICTURE  = "no_user_picture";
 
 	private int	userLevel = USER_LEVEL_DEFAULT;
+	private int role = USER_ROLE_MEMBER;
 	private String position;
 	private String locale;
 	private String timeZone;
@@ -23,6 +26,12 @@ public class User extends WorkSpace {
 	private String company;
 	private String companyId;
 
+	public int getRole() {
+		return role;
+	}
+	public void setRole(int role) {
+		this.role = role;
+	}
 	public String getPhoneNo() {
 		return phoneNo;
 	}
