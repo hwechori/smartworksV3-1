@@ -14,8 +14,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String workId = request.getParameter("workId");
-	
+	String formId = request.getParameter("formId");
+
+	String workId = smartWorks.getWorkIdByFormId(formId);
+
 	RequestParams params = new RequestParams();
 	params.setCountInPage(20);
 	params.setPageNumber(1);

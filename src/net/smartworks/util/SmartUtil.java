@@ -257,6 +257,7 @@ public class SmartUtil {
 	public static User getCurrentUser() {
 		SecurityContext securityContext = SecurityContextHolder.getContext();
 		Authentication authentication = securityContext.getAuthentication();
+		System.out.println(authentication);
 		if(authentication != null) {
 			Object principal = authentication.getPrincipal();
 			return (User)(principal instanceof Login ? principal : null);

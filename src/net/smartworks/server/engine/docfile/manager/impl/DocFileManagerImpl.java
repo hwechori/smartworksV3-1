@@ -672,7 +672,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		return communityPictureId;
 	}
 
-	public void insertFiles(String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException {
+	public void insertFiles(String workType, String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException {
 
 		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
 		this.setFileDirectory(OSValidator.getImageDirectory());
@@ -684,9 +684,12 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 
 		User user = SmartUtil.getCurrentUser();
 
-		File repository = this.getFileRepository(user.getCompanyId(), "Files");
+		File repository = this.getFileRepository(user.getCompanyId(), workType);
 		String fileId = tempFileId.split("temp_")[tempFileId.split("temp_").length-1];
-		fileId = "file_" + fileId;
+		if(workType.equals("Pictures"))
+			fileId = "pic_" + fileId;
+		else
+			fileId = "file_" + fileId;
 
 		String tempFile = this.getFileDirectory() + "/SmartFiles/" + user.getCompanyId() + "/" + "Temps" + "/" + tempFileId + "." + extension;
 		String realFile = repository.getAbsolutePath() + File.separator + fileId + "." + extension;

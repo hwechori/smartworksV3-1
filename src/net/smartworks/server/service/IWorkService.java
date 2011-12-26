@@ -21,7 +21,9 @@ public interface IWorkService {
 	public SmartWorkInfo[] getMyFavoriteWorks() throws Exception;
 
 	public SmartWorkInfo[] searchWork(String key) throws Exception;
-	
+
+	public String getWorkIdByFormId(String formId) throws Exception;
+
 	public Work getWorkById(String workId) throws Exception;
 
 	public Report getReportById(String reportId) throws Exception;
