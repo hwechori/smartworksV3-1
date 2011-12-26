@@ -31,8 +31,8 @@
 	<%
 	String operType = "";
 	String selectedOperType = "js_operand_date";
-	if (dateOpers.length > 0) {
-		if(operator == null) operator = dateOpers[0].getId();
+	if (!SmartUtil.isBlankObject(dateOpers)) {
+		if(SmartUtil.isBlankObject(operator)) operator = dateOpers[0].getId();
 		if (operator.equals(ConditionOperator.RECENT_DAYS.getId()) || operator.equals(ConditionOperator.TODAY.getId())
 				|| operator.equals(ConditionOperator.THIS_WEEK.getId()) || operator.equals(ConditionOperator.THIS_MONTH.getId())
 				|| operator.equals(ConditionOperator.THIS_QUARTER.getId()) || operator.equals(ConditionOperator.THIS_HALF_YEAR.getId())

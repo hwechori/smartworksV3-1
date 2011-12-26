@@ -12,6 +12,8 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	};
 	
 	SmartWorks.extend(options, config);
+	options.container.html('');
+
 	var $entity = options.entity;
 	var $refForm = $entity.find('refForm');	
 	var $refFormField = $refForm.find('field');	
@@ -24,7 +26,7 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
-	var labelWidth = options.layoutInstance.getLabelWidth(id);
+	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
 	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
 	var required = $entity[0].getAttribute('required');
@@ -50,6 +52,50 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	$refForm.appendTo(options.container);
 
 	return options.container;
+};
+
+SmartWorks.FormRuntime.RefFormFieldBuilder.buildEx = function(config){
+	var options = {
+			container : $('<tr></tr>'),
+			fieldId: '',
+			fieldName: '',
+			refFormId: '',
+			refFormFieldId: '',
+			refRecordId: '',
+			value: '',
+			columns: 1,
+			required: false,
+			readOnly: false		
+	};
+	SmartWorks.extend(options, config);
+
+	var labelWidth = 10;
+	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
+						'<format type="refFormField" viewingType="refFormField"/>' +
+				        	'<refForm id="'+ options.refFormId +'" ver="0">' +
+								'<name>null</name><category id="null">null</category><field id="' + refFormFieldId + '"></field>' +
+							'</refForm>' +
+					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '"/>' +
+					'</formEntity>');
+	var $formCol = $('<td class="form_col js_type_refFormField" fieldid="' + options.fieldId+ '" colspan="1" width="500.61775800946384" rowspan="1">');
+	$formCol.appendTo(options.container);
+	SmartWorks.FormRuntime.RefFormFieldBuilder.build({
+			mode : options.readOnly, // view or edit
+			container : $formCol,
+			entity : $formEntity,
+			dataField : SmartWorks.FormRuntime.RefFormFieldBuilder.dataField({
+				fieldName: options.fieldName,
+				formXml: $formEntity,
+				dataField: SmartWorks.FormRuntime.RefFormFieldBuilder.dataField({
+					fieldName: options.fieldName,
+					formXml: $formEntity,
+					refRecordId: options.refRecordId,
+					value: options.value					
+				})				
+			})
+	});
+	
 };
 
 SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject = function(refFormFields){
@@ -87,7 +133,7 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.dataField = function(config){
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
-	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	
 	dataField = {
 			id: fieldId,

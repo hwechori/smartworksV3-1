@@ -12,38 +12,79 @@ SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 	};
 
 	SmartWorks.extend(options, config);
+	options.container.html('');
+
 	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
+	var picWidth = parseFloat($graphic.attr('pictureWidth'));
+	var picHeight = parseFloat($graphic.attr('pictureHeight'));
 
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
-	
-	var $label = $('<span class="form_label">' + name + '</span>');
+
+	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
-		$('<span class="essen_n"></span>').appendTo($label);
-		required = ' class="sw_required"';
+		$required = $('<span class="essen_n"></span>');
+		required = ' class="form_value form_value_max_width sw_required" ';
 	}else{
-		required = '';
+		required = ' class="form_value form_value_max_width" ';
 	}
-	$label.appendTo(options.container);
-	
-	var $image = null;
+
+	var picSize = 'style="min-height:20px;width:' + ((picWidth) ? picWidth : 300) + 'px;' + ((picHeight) ? ('height="' + picHeight + 'px;"') : '"' ); 
+	var $image = $('<div ' + required + ' style="width:' + valueWidth + '%"><img class="form_value js_auto_picture" ' + picSize + '></img><div>');
+	var $label = null;
 		
-	$image = $('<span class="form_value form_value_max_width" style="width:' + valueWidth + '%"><img src=""/>' + '<span id="' + id + '"' + required + '></span></span>');
+	$label = $('<div class="form_label" style="width:' + labelWidth + '%"><span id="' + id + '"></span></div>').append($required);
+	$label.appendTo(options.container);
+	$image.appendTo(options.container);	
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();
 		$image.hide();		
 	}
-	$image.appendTo(options.container);
 
 	if (!readOnly) {
 		createUploader(value, $('#'+id), false, true);
 	}
 	return options.container;
 
+};
+SmartWorks.FormRuntime.ImageBoxBuilder.buildEx = function(config){
+	var options = {
+			container : $('<tr></tr>'),
+			fieldId: '',
+			fieldName: '',
+			groupId: '',
+			pictureWidth: 300,
+			pictureHeight: 0,
+			required: false,
+			readOnly: false		
+	};
+	SmartWorks.extend(options, config);
+
+	var labelWidth = 10;
+	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
+						'<format type="imageBox" viewingType="imageBox"/>' +
+					    '<graphic hidden="false" readOnly="'+ options.readOnly + '" labelWidth="'+ labelWidth + '" pictureWidth="'+ options.pictureWidth + '" pictureHeight="' + options.pictureHeight + '"/>' +
+					'</formEntity>');
+	var $formCol = $('<td class="form_col js_type_imageBox" fieldid="' + options.fieldId + '"  colspan="1" width="500.61775800946384" rowspan="1">');
+	$formCol.appendTo(options.container);
+	SmartWorks.FormRuntime.ImageBoxBuilder.build({
+			mode : options.readOnly, // view or edit
+			container : $formCol,
+			entity : $formEntity,
+			dataField : SmartWorks.FormRuntime.ImageBoxBuilder.dataField({
+				fieldName: options.fieldName,
+				formXml: $formEntity,
+				groupId: options.groupId
+			})
+	});
+	
 };
 
 SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject = function(imageBoxs){
@@ -66,13 +107,14 @@ SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject = function(imageBoxs){
 };
 
 SmartWorks.FormRuntime.ImageBoxBuilder.validate = function(imageBoxs){
-	var fileUploaders = imageBoxs.find('.sw_required').find('.qq-uploader');
+	if(isEmpty(imageBoxs.find('.sw_required'))) return true;
+	var fileUploaders = imageBoxs.find('.qq-uploader');
 	var imagesValid = true;
 	for(var i=0; i<fileUploaders.length; i++){
 		var fileUploader = $(fileUploaders[i]);
 		var files = fileUploader.find('.qq-upload-success');
-		if(files.length == 0){
-			fileUploader.parents('.js_type_imageBox:first').find('span.sw_required').addClass("sw_error");
+		if(isEmpty(files)){
+			fileUploader.parents('.js_type_imageBox:first').find('div.sw_required').addClass("sw_error");
 			imagesValid = false;
 		}
 	}
@@ -97,7 +139,7 @@ SmartWorks.FormRuntime.ImageBoxBuilder.dataField = function(config){
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
-	if(isZeroLength($formXml) || isEmpty(fieldId)) return dataField;
+	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	
 	dataField = {
 			id: fieldId,

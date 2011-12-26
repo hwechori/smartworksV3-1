@@ -7,10 +7,10 @@
 	User cUser = SmartUtil.getCurrentUser();
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
-	if (cid == null)
+	if (SmartUtil.isBlankObject(cid))
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
-	if (wid == null)
+	if (SmartUtil.isBlankObject(wid))
 		wid = cUser.getId();
 
 	Group thisGroup = null;
@@ -25,7 +25,7 @@
 		thisUser = (User) smartWorks.getWorkSpaceById(spaceId);
 	} else if (!wid.equals(cUser.getId())) {
 		WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
-		if (workSpace == null) {
+		if (SmartUtil.isBlankObject(workSpace)) {
 			thisUser = SmartUtil.getCurrentUser();
 		} else if (workSpace.getClass() == User.class) {
 			thisUser = (User) workSpace;

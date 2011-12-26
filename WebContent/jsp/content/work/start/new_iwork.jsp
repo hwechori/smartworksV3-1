@@ -11,12 +11,13 @@
 
 <script type="text/javascript">
 function submitForms(e) {
-	var sw_validate = SmartWorks.GridLayout.validate($('form[name="frmSmartForm"]'));
-	if ($('form.js_validation_required').validate({ showErrors: showErrors}).form() && sw_validate) {
-		var scheduleWork = document.getElementsByName('frmScheduleWork');
-		if(scheduleWork[0].chkScheduleWork.value === 'on'){
-			scheduleWork[0].hdnSchedulePerformer.value = $(scheduleWork[0].txtSchedulePerformer).attr('uid');
-		}
+	var scheduleWork = $('form[name="frmScheduleWork"]');
+	if(scheduleWork.find($('input[name="chkScheduleWork"]')).is(':checked')){
+		scheduleWork.addClass('js_validation_required');
+	}else{
+		scheduleWork.removeClass('js_validation_required');	
+	}
+	if (SmartWorks.GridLayout.validate($('form.js_validation_required'))) {
 		var forms = $('form');
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){
@@ -24,11 +25,8 @@ function submitForms(e) {
 			if(form.attr('name') === 'frmSmartForm'){
 				paramsJson['formId'] = form.attr('formId');
 				paramsJson['formName'] = form.attr('formName');
-				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-
-			}else{
-				paramsJson[form.attr('name')] = form.serializeObject();				
 			}
+			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 		}
 		console.log(JSON.stringify(paramsJson));
 		alert('wait');
@@ -45,8 +43,6 @@ function submitForms(e) {
 				alert(e);
 			}
 		});
-	} else {
-		return;
 	}
 	return;
 }

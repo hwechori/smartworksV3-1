@@ -9,25 +9,29 @@
 
 <script type="text/javascript">
 function submitForms() {
-	if($('form.js_validation_required').validate().form()){
-		var params = $('form').serialize();
-		var url = "create_new_board.sw";
-		$.ajax({
-			url : url,
-			type : 'POST',
-			data : params,
-			success : function(data, status, jqXHR) {
-				document.location.href = data.href;
-			},
-			error : function(e){
-				alert(e);
-			}
-		});
-	}else{
-		alert('validation failure!!');
-		return;
+	if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
+
+	var forms = $('form');
+	var paramsJson = {};
+	for(var i=0; i<forms.length; i++){
+		var form = $(forms[i]);
+		paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 	}
-	return;
+	console.log(JSON.stringify(paramsJson));
+	alert('wait');
+	var url = "create_new_board.sw";
+	$.ajax({
+		url : url,
+		contentType : 'application/json',
+		type : 'POST',
+		data : JSON.stringify(paramsJson),
+		success : function(data, status, jqXHR) {
+			document.location.href = data.href;
+		},
+		error : function(e) {
+			alert(e);
+		}
+	});
 }
 </script>
 
@@ -43,13 +47,8 @@ function submitForms() {
 
 
 		<!-- 폼- 확장 -->
-		<form name="frmBoard" class="form_title js_validation_required">
-			<div class="input_1line_first">
-				<input class="fieldline required" name="txtBoardName" type="text" title=""
-					placeholder='<fmt:message key='common.upload.message.board'/>'>
-			</div>
-			<div>
-				<textarea class="up_textarea required" name="txtaBoardContent" cols="" rows="5"></textarea>
+		<form name="frmNewBoard" class="form_title js_validation_required">
+			<div class="js_new_board_fields" boardNameTitle="<fmt:message key='common.upload.board.name'/>" boardDetailsTitle="<fmt:message key='common.upload.board.details'/>" boardFilesTitle="<fmt:message key='common.upload.board.files'/>">
 			</div>
 		</form>
 		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>

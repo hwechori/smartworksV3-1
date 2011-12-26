@@ -20,7 +20,7 @@
 			console.log("form", form);
 			var fileUploader = $(form).find('.js_form_file_field');
 			console.log('fileUploader', fileUploader);
-			if(fileUploader.length>0){
+			if(!SmartUtil.isBlankObject(fileUploader)){
 				var groupId = $(fileUploader[0]).attr('groupId');
 				var files = fileUploader.find('li.qq-upload-success');
 				var file = $(files[0]);

@@ -8,10 +8,10 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	String cid = request.getParameter("cid");
-	if (cid == null)
+	if (SmartUtil.isBlankObject(cid))
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
-	if (wid == null)
+	if (SmartUtil.isBlankObject(wid))
 		wid = cUser.getId();
 %>
 
@@ -28,7 +28,7 @@
 </div>
 <%
 	}
-	} else if (wid == null || wid.equals(cUser.getId())) {
+	} else if (SmartUtil.isBlankObject(wid) || wid.equals(cUser.getId())) {
 %>
 <div class="nav_list">
 	<jsp:include page="/jsp/nav/works.jsp" />

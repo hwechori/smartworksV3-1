@@ -10,41 +10,39 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <script type="text/javascript">
-	function submitForms(e) {
-		if ($('form.js_validation_required').validate().form()) {
-			var newEvent = $(document.getElementsByName('frmNewEvent'));
-			var selectedCom = newEvent
-					.find('div.js_selected_communities span.js_community_item');
-			var selectedIds = "";
-			for ( var i = 0; i < selectedCom.length; i++)
-				selectedIds = selectedIds + $(selectedCom[i]).attr('comId')
-						+ ";";
-			$(document.getElementsByName('hdnRelatedUsers')).attr('value',
-					selectedIds);
-			var params = $('form').serialize();
-			var url = "create_new_event.sw";
-			$.ajax({
-				url : url,
-				type : 'POST',
-				data : params,
-				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-				},
-				error : function(e) {
-					alert(e);
-				}
-			});
-		} else {
-			return;
-		}
-		return;
+function submitForms(e) {
+	if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
+
+	var forms = $('form');
+	var paramsJson = {};
+	for(var i=0; i<forms.length; i++){
+		var form = $(forms[i]);
+		paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 	}
-	$('input.js_today_datepicker').datepicker({
-		defaultDate : new Date(),
-		dateFormat : 'yy.mm.dd'
+	console.log(JSON.stringify(paramsJson));
+	alert('wait');
+	var url = "create_new_event.sw";
+	$.ajax({
+		url : url,
+		contentType : 'application/json',
+		type : 'POST',
+		data : JSON.stringify(paramsJson),
+		success : function(data, status, jqXHR) {
+			document.location.href = data.href;
+		},
+		error : function(e) {
+			alert(e);
+		}
 	});
-	$('input.js_current_timepicker').timepicker({
-	});
+}
+$('input.js_today_datepicker').datepicker({
+	defaultDate : new Date(),
+	dateFormat : 'yy.mm.dd'
+});
+
+$('input.js_current_timepicker').timepicker({
+});
+
 </script>
 
 <%
@@ -62,12 +60,10 @@
 	<div class="form_wrap up up_padding">
 		<!-- 폼- 확장 -->
 		<form name="frmNewEvent" class="form_title js_validation_required">
-			<div class="input_1line_first">
-				<input class="fieldline required" type="text" name="txtEventName"
-					placeholder="<fmt:message key='common.upload.message.event'/>">
+			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" startDateTitle="<fmt:message key='common.upload.event.start_date'/>" endDateTitle="<fmt:message key='common.upload.event.end_date'/>" placeTitle="<fmt:message key='common.upload.event.place'/>" relatedUsersTitle="<fmt:message key='common.upload.event.related_users'/>" contentTitle="<fmt:message key='common.upload.event.content' />">
 			</div>
 
-			<div class="input_1line">
+<%-- 			<div class="input_1line">
 				<div class="float_left">
 					<input class="fieldline space_data date js_today_datepicker" type="text"
 						name="txtEventStartDate" readonly="readonly" value="<%=today%>">
@@ -199,7 +195,7 @@
 					<fmt:message key='common.upload.event.content' />
 				</textarea>
 			</div>
-		</form>
+ --%>		</form>
 		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 	</div>
 </div>

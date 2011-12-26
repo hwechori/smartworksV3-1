@@ -1,12 +1,12 @@
 function updateChattingBoxTitle(chatId, chatterInfos) {
 	var title = "";
 	var chatterList = new Array();
-	if (chatterInfos != null && chatterInfos.length > 0) {
+	if (!isEmpty(chatterInfos)) {
 		for ( var i = 0, j = 0; i < chatterInfos.length; i++) {
 			if (chatterInfos[i].userId !== currentUser.userId)
 				chatterList[j++] = chatterInfos[i];
 		}
-		if (chatterList.length > 0) {
+		if (!isEmpty(chatterList)) {
 			title = chatterList[0].longName;
 			if (chatterList.length > 2) {
 				title = title + language.message('chatUserAnd') + (chatterList.length - 1) + language.message('chatUserMore');
@@ -38,7 +38,7 @@ function setRightPosition(type, chattingBox){
 	if(type==="new" && chattingBox!=null){
 		var prevElements = chattingBox.prevAll('div.js_chatting_box');
 		var prevElementsWidth = $('div.js_chatter_list').width() + chattingBoxPadding;
-		if(prevElements.length==0){
+		if(isEmpty(prevElements)){
 			chattingBox.css({"right" : + prevElementsWidth + "px"});
 		}else{
 			prevElementsWidth = prevElementsWidth + getGroupPrevWidth();
@@ -248,7 +248,7 @@ function updateChatterStatus(chatId, chatterInfo, status) {
 $(function() {
 	$('#available_chatter_list a').live('click', function(e) {
 		var input = $(e.target).parents('a');
-		if(input.length==0) input = $(e.target);
+		if(isEmpty(input)) input = $(e.target);
 		var userId = input.attr('userId');
 		var img = input.find('img');
 		var longName = img.attr('title');
@@ -342,7 +342,7 @@ $(function() {
 			function(e) {
 				var input = $(e.target).parents('div.js_chatting_group_prev');
 				var lastChattingBox = input.children('div.js_chatting_box:last');
-				if(lastChattingBox.length==0) return false;
+				if(isEmpty(lastChattingBox)) return false;
 				var chattingBoxs = $('div.js_chatting_box_list').children('div.js_chatting_box');
 				if(chattingBoxs.length==3){
 					shiftBoxToGroup("next", $(chattingBoxs[2]));
@@ -357,7 +357,7 @@ $(function() {
 			function(e) {
 				var input = $(e.target).parents('div.js_chatting_group_next');
 				var firstChattingBox = input.children('div.js_chatting_box:first');
-				if(firstChattingBox.length==0) return false;
+				if(isEmpty(firstChattingBox)) return false;
 				var chattingBoxs = $('div.js_chatting_box_list').children('div.js_chatting_box');
 				if(chattingBoxs.length==3){
 					shiftBoxToGroup("prev", $(chattingBoxs[0]));
@@ -395,7 +395,7 @@ $(function() {
 			var input = $(e.target);
 			var chatId = input.parents('div.js_chatting_box:first').attr('id');
 			var message = input.attr('value');
-			if (message != null && message !== "" && message !== " ") {
+			if (!isEmpty(message)) {
 				smartTalk.publishChatMessage(chatId, message);
 			}
 			input.removeAttr('value');

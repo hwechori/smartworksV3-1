@@ -7,11 +7,11 @@ SmartWorks.GridLayout = function(config) {
 	};
 
 	SmartWorks.extend(this.options, config);
+	this.options.target.html('');
 
 	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required form_layout"><table></table></form>');
 	var $table = $htmlForm.find('table');
 
-	console.log();
 	var $form = $(this.options.formXml);
 	$htmlForm.attr("formId", $form.attr('id'));
 	$htmlForm.attr("formName", $form.attr('name'));
@@ -86,8 +86,7 @@ SmartWorks.GridLayout = function(config) {
 					break;
 				}
 			}
-			console.log("dataField", dataField);
-			if ($columns.length == 0) {
+			if (isEmpty($columns)) {
 				width = $column.attr('size');
 			} else {
 				for(var k = 0 ; k < colspan && (j+k) < $columns.length ; k++){
@@ -116,8 +115,14 @@ SmartWorks.GridLayout = function(config) {
 	return this;
 };
 
-SmartWorks.GridLayout.create = function(form){
+SmartWorks.GridLayout.newGridTable = function(){
+	return $('<table><tbody></tbody></table>');
 };
+
+SmartWorks.GridLayout.newGridRow = function(){
+	return $('<tr></tr>');
+};
+
 
 SmartWorks.GridLayout.serializeObject = function(form){
 	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.serializeObject(form.find('.js_type_fileField'));
@@ -137,6 +142,14 @@ SmartWorks.GridLayout.validate = function(form){
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.validate(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.validate(form.find('.js_type_imageBox'));
 	var dataGrids = true;
-	
-	return (fileFields && userFields && richEditors && refFormFields && imageBoxs && dataGrids);
+	var jq_validate = true;
+	form.each(function(){
+		jq_validate = $(this).validate({ showErrors: showErrors}).form() && jq_validate;
+	});
+
+	var sw_validate = (fileFields && userFields && richEditors && refFormFields && imageBoxs && dataGrids && jq_validate);
+	if(!sw_validate && jq_validate){
+		showErrors();
+	}
+	return sw_validate;
 };

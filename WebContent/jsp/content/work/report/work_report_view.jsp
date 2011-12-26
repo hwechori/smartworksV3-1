@@ -25,9 +25,9 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	int workType = SmartWork.TYPE_INFORMATION, reportType = Report.TYPE_CHART;
-	if (strWorkType != null && !strWorkType.equals(""))
+	if (!SmartUtil.isBlankObject(strWorkType))
 		workType = Integer.parseInt(strWorkType);
-	if (strReportType != null && !strReportType.equals(""))
+	if (!SmartUtil.isBlankObject(strReportType))
 		reportType = Integer.parseInt(strReportType);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

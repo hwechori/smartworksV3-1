@@ -12,7 +12,7 @@
 	function updateBcastBoard(messages) {
 		if (bcastRepeat != null)
 			clearInterval(bcastRepeat);
-		if (messages.length > 0) {
+		if (!isEmpty(messages)) {
 			var count = 0;
 			var changeBcastMessage = function() {
 				var target = $('#divBroadcastingBoard');
