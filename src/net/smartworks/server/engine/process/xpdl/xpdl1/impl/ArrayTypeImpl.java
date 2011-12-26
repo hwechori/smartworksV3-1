@@ -17,9 +17,9 @@ import net.smartworks.server.engine.process.xpdl.xpdl1.SchemaType;
 import net.smartworks.server.engine.process.xpdl.xpdl1.UnionType;
 import net.smartworks.server.engine.process.xpdl.xpdl1.Xpdl1Factory;
 
-import commonj.sdo.Type;
-
 import org.apache.tuscany.sdo.impl.DataObjectBase;
+
+import commonj.sdo.Type;
 
 /**
  * <!-- begin-user-doc -->

@@ -13,7 +13,7 @@
 <%
 	User cUser = SmartUtil.getCurrentUser();
 	String wid = request.getParameter("wid");
-	if (wid == null)
+	if (SmartUtil.isBlankObject(wid))
 		wid = cUser.getId();
 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
@@ -21,7 +21,7 @@
 	String workId = request.getParameter("workId");
 
 	SmartWork work = (SmartWork)smartWorks.getWorkById(workId);
-	if (work == null)
+	if (SmartUtil.isBlankObject(work))
 		work = new SmartWork();
 	CommunityInfo[] communities = smartWorks.getMyCommunities();
 %>
@@ -112,6 +112,7 @@
 			</select>
 		</div>
 	</form>
+	<div class="fload_right"><span class="fload_right" style="text-align:right; color: red" id="error_message_span"></span></div>
 
 </div>
 <!-- 등록 취소 버튼//-->

@@ -14,6 +14,7 @@ public class User extends WorkSpace {
 	private String position;
 	private String locale;
 	private String timeZone;
+	private String departmentId;
 	private String department;
 	private String employeeId;
 	private String password;
@@ -22,21 +23,6 @@ public class User extends WorkSpace {
 	private String company;
 	private String companyId;
 
-	public String getOrgPictureName() {
-		if(super.getOrgPictureName()!=null && !super.getOrgPictureName().equals(""))
-			return super.getOrgPictureName();
-		else  return (NO_USER_PICTURE + ".jpg");
-	}
-	public String getMidPictureName() {
-		if(super.getMidPictureName()!=null && !super.getMidPictureName().equals(""))
-			return super.getMidPictureName();
-		else  return (NO_USER_PICTURE + "_mid.jpg");
-	}
-	public String getMinPictureName() {
-		if(super.getMinPictureName()!=null && !super.getMinPictureName().equals(""))
-			return super.getMinPictureName();
-		else  return (NO_USER_PICTURE + "_min.jpg");
-	}
 	public String getPhoneNo() {
 		return phoneNo;
 	}
@@ -93,6 +79,12 @@ public class User extends WorkSpace {
 	}
 	public void setTimeZone(String timeZone) {
 		this.timeZone = timeZone;
+	}
+	public String getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 	public String getDepartment() {
 		return department;

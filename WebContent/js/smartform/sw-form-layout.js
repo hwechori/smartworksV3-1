@@ -7,13 +7,14 @@ SmartWorks.GridLayout = function(config) {
 	};
 
 	SmartWorks.extend(this.options, config);
+	this.options.target.html('');
 
 	var $htmlForm = $('<form name="frmSmartForm" class="js_validation_required form_layout"><table></table></form>');
 	var $table = $htmlForm.find('table');
 
 	var $form = $(this.options.formXml);
-	$htmlForm.attr("formId", $form.attr('id'))
-	$htmlForm.attr("formName", $form.attr('name'))
+	$htmlForm.attr("formId", $form.attr('id'));
+	$htmlForm.attr("formName", $form.attr('name'));
 	$htmlForm.appendTo(this.options.target);
 	
 	var $layout = $form.find('layout');
@@ -28,13 +29,42 @@ SmartWorks.GridLayout = function(config) {
 		return columnSize;
 	};
 
+	this.spanWidths = null;
+	this.getLabelWidth = function(fieldId){
+		if(this.spanWidths == null){			
+			var $gridColumns = $layout.find('gridColumn');
+			var totalSize = 0.0;
+			for(var i=0; i<$gridColumns.length; i++){
+				totalSize = totalSize + parseFloat($($gridColumns[i]).attr('size'));
+			}
+			var spanWidths = new Array();
+			for(var i=0; i<$gridColumns.length; i++){
+				spanWidths.push(parseFloat($($gridColumns[i]).attr('size'))/totalSize*100.0);
+			}
+			this.spanWidths = spanWidths;
+		}
+		$column = $layout.find('gridCell[fieldId="'+ fieldId + '"]');
+
+		var index = parseInt($column.attr('gridColumnIndex'));
+		if(isNaN(index)) {
+			index = $column.prevAll().length;
+		}
+
+		var span = parseInt($column.attr('span'));
+		var columnWidth = 0;
+		for(var i=index; i<this.spanWidths.length && i<index+span; i++){
+			columnWidth = columnWidth + this.spanWidths[i];
+		}
+		return 10.0/columnWidth*100.0;
+	};
+	
+
 	var columnSize = this.getColumnSize();
 
 	var $rows = $layout.find('gridRow');
 	var $columns = $layout.find('columns gridColumn');
 
 	var dataFields = this.options.formValues.dataFields;
-	console.log(dataFields);
 
 	for ( var i = 0; i < $rows.length; i++) {
 		var $row = $rows.eq(i);
@@ -42,8 +72,7 @@ SmartWorks.GridLayout = function(config) {
 		var $html_row = $('<tr></tr>');
 		var $cells = $row.children('gridCell');
 		$table.append($html_row);
-		
-		
+
 		for ( var j = 0; j < $cells.length; j++) {
 			var $cell = $cells.eq(j);
 			var id = $cell.attr('fieldId');
@@ -57,8 +86,7 @@ SmartWorks.GridLayout = function(config) {
 					break;
 				}
 			}
-			console.log(dataField);
-			if ($columns.length == 0) {
+			if (isEmpty($columns)) {
 				width = $column.attr('size');
 			} else {
 				for(var k = 0 ; k < colspan && (j+k) < $columns.length ; k++){
@@ -74,7 +102,7 @@ SmartWorks.GridLayout = function(config) {
 				$html_cell.attr('rowspan', rowspan);
 			if(id) {
 				var $entity = $form.find('#' + id);
-				SmartWorks.FormFieldBuilder.build(this.options.mode, $html_cell, $entity, dataField);				
+				SmartWorks.FormFieldBuilder.build(this.options.mode, $html_cell, $entity, dataField, this);				
 			}
 
 		}
@@ -84,22 +112,44 @@ SmartWorks.GridLayout = function(config) {
 		return $table;
 	};
 	
-	this.spanWidths = null;
-	this.getSpanWidths = function(){
-		if(spanWidths != null) return this.spanWidths;
-		
-		var $gridColumns = $layout.find('gridColumn');
-		var totalSize = 0;
-		for(var i=0; i<$gridColumns.length; i++){
-			totalSize = totalSize + $(gridColumns[i]).attr('size');
-		}
-		var spanWidths = new Array();
-		for(var i=0; i<$gridColumns.length; i++){
-			spanWidths.put($(gridColumns[i]).attr('size')/totalSize * 100);
-		}
-		this.spanWidths = spanWidths;
-		return spanWidths;		
-	};
-	
 	return this;
+};
+
+SmartWorks.GridLayout.newGridTable = function(){
+	return $('<table><tbody></tbody></table>');
+};
+
+SmartWorks.GridLayout.newGridRow = function(){
+	return $('<tr></tr>');
+};
+
+
+SmartWorks.GridLayout.serializeObject = function(form){
+	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.serializeObject(form.find('.js_type_fileField'));
+	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.serializeObject(form.find('.js_type_userField'));
+	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.serializeObject(form.find('.js_type_richEditor'));
+	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject(form.find('.js_type_refFormField'));
+	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject(form.find('.js_type_imageBox'));
+	var dataGrids = {};
+	console.log(fileFields, userFields, richEditors, refFormFields, imageBoxs, dataGrids);
+	return mergeObjects(merge3Objects(fileFields, userFields, richEditors), merge3Objects(refFormFields, imageBoxs, dataGrids));
+};
+
+SmartWorks.GridLayout.validate = function(form){
+	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.validate(form.find('.js_type_fileField'));
+	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.validate(form.find('.js_type_userField'));
+	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.validate(form.find('.js_type_richEditor'));
+	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.validate(form.find('.js_type_refFormField'));
+	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.validate(form.find('.js_type_imageBox'));
+	var dataGrids = true;
+	var jq_validate = true;
+	form.each(function(){
+		jq_validate = $(this).validate({ showErrors: showErrors}).form() && jq_validate;
+	});
+
+	var sw_validate = (fileFields && userFields && richEditors && refFormFields && imageBoxs && dataGrids && jq_validate);
+	if(!sw_validate && jq_validate){
+		showErrors();
+	}
+	return sw_validate;
 };

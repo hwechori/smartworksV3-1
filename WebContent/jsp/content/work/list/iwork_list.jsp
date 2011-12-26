@@ -85,7 +85,7 @@
 
 				<!-- 업무 정의 영역 -->
 				<div class="">
-					<%if(work.getDesc()!= null && !work.getDesc().equals("")) {%>
+					<%if(!SmartUtil.isBlankObject(work.getDesc())) {%>
 					<%=work.getDesc()%>
 					<%}else{ %><fmt:message key="common.message.no_work_desc" />
 					<%} %>

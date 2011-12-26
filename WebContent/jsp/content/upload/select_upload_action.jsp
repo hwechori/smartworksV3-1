@@ -7,10 +7,10 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	String cid = request.getParameter("cid");
-	if (cid == null)
+	if (SmartUtil.isBlankObject(cid))
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
-	if (wid == null)
+	if (SmartUtil.isBlankObject(wid))
 		wid = cUser.getId();
 %>
 
@@ -18,6 +18,9 @@
 	<div class="up_works up_icon_list">
 		<a class="current" href="start_work.sw"><fmt:message key='common.upload.work' />
 		</a>
+	</div>
+	<div class="up_file up_icon_list">
+		<a href="new_picture.sw"><fmt:message key='common.upload.picture' /> </a>
 	</div>
 	<div class="up_file up_icon_list">
 		<a href="new_file.sw"><fmt:message key='common.upload.file' /> </a>

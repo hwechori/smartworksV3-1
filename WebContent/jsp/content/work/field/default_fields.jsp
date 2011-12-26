@@ -14,7 +14,7 @@
 <%
 	String strWorkType = request.getParameter("workType");
 	int workType = SmartWork.TYPE_INFORMATION;
-	if(strWorkType != null && !strWorkType.equals("")) workType = Integer.parseInt(strWorkType);
+	if(!SmartUtil.isBlankObject(strWorkType)) workType = Integer.parseInt(strWorkType);
 
 	String fieldId = request.getParameter("fieldId");
 	if(fieldId==null){

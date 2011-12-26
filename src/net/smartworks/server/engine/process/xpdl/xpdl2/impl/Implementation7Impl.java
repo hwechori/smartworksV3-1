@@ -6,8 +6,10 @@
  */
 package net.smartworks.server.engine.process.xpdl.xpdl2.impl;
 
-import net.smartworks.server.engine.process.xpdl.xpdl1.Tool;
+import java.util.Collection;
+import java.util.List;
 
+import net.smartworks.server.engine.process.xpdl.xpdl1.Tool;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Implementation7;
 import net.smartworks.server.engine.process.xpdl.xpdl2.No;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Reference;
@@ -15,15 +17,10 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.SubFlow;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Task;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Xpdl2Factory;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
+
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
-
-import java.lang.Object;
-
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.tuscany.sdo.impl.DataObjectBase;
 
 /**
  * <!-- begin-user-doc -->

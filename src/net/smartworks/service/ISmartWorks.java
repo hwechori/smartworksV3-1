@@ -171,9 +171,11 @@ public interface ISmartWorks {
 
 	public abstract String setBoardInstance(HttpServletRequest request) throws Exception;
 
-	public abstract String setMyProfile(HttpServletRequest request) throws Exception;
+	public abstract void setMyProfile(HttpServletRequest request) throws Exception;
 
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public abstract void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception;
 

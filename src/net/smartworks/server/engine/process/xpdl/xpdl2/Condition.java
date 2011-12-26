@@ -6,11 +6,11 @@
  */
 package net.smartworks.server.engine.process.xpdl.xpdl2;
 
+import java.io.Serializable;
+
 import net.smartworks.server.engine.process.xpdl.xpdl1.Xpression;
 
 import commonj.sdo.Sequence;
-
-import java.io.Serializable;
 
 /**
  * <!-- begin-user-doc -->

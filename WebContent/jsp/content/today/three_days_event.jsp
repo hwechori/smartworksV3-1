@@ -14,12 +14,12 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 	String cid = request.getParameter("cid");
-	if (cid == null)
+	if (SmartUtil.isBlankObject(cid))
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
 	else
 		session.setAttribute("cid", cid);
 	String wid = request.getParameter("wid");
-	if (wid == null)
+	if (SmartUtil.isBlankObject(wid))
 		session.setAttribute("wid", cUser.getId());
 	else
 		session.setAttribute("wid", wid);
@@ -46,7 +46,7 @@
             <span class="date"><%=today.toLocalDateString()%></span>
             <span class="t_red">
 			 <%
-			 	if (threeDaysCC[0].getCompanyEvents().length > 0) {
+			 	if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
 			 %> ( <%
 			 	}
 			 	CompanyEvent[] cesToday = threeDaysCC[0].getCompanyEvents();
@@ -58,7 +58,7 @@
 			 %><%=cesToday[i].getName()%> <%
 			 	}
 			 %> <%
-			 	if (threeDaysCC[0].getCompanyEvents().length > 0) {
+			 	if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
 			 %>)<%
 			 	}
 			 %>

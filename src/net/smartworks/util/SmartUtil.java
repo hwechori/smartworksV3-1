@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.lang.reflect.Array;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import net.smartworks.server.engine.security.model.Login;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
 
+import org.apache.axis.utils.StringUtils;
 import org.cometd.bayeux.client.ClientSession;
 import org.cometd.client.BayeuxClient;
 import org.cometd.client.transport.ClientTransport;
@@ -277,6 +279,17 @@ public class SmartUtil {
 	public static String getSubjectString(String userId){
 		return userId.replaceAll(".", "_");
 	}
+
+	public static boolean isBlankObject(Object obj){
+		if(obj==null) return true;
+		if(obj.getClass().equals(String.class)) return StringUtils.isEmpty((String)obj);
+		if(obj.getClass().isArray()) return (obj==null || Array.getLength(obj)==0) ? true : false;
+		return true;
+	}
+	
+	public static boolean isEmpty(String str){
+		return (str == null || str.length()==0) ? true : false;
+	}
 	
 	static Thread messageAgent = null;
 	static List<MessageModel> messageQueue = new LinkedList<MessageModel>();
@@ -314,11 +327,11 @@ public class SmartUtil {
 								
 								client.getChannel(pubChannel).publish(data);
 							} catch(Exception e){
-								e.printStackTrace();
+//								e.printStackTrace();
 							}
 						}
 					}catch(Exception e){
-						e.printStackTrace();
+//						e.printStackTrace();
 					}
 				}
 			});

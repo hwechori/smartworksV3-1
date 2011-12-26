@@ -74,3 +74,21 @@ var randomUUID = function(prefix) {
 
 	  return prefix + s.join('');
 };
+
+var mergeObjects = function(obj1, obj2) {
+    for( var p in obj2 )
+    	obj1[p] = obj2[p];    
+    return obj1;
+};
+
+var merge3Objects = function(obj1, obj2, obj3){
+	return mergeObjects(obj1, mergeObjects(obj2, obj3));
+};
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
+function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+}

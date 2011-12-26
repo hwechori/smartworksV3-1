@@ -16,14 +16,25 @@
 	function submitForms(e) {
 		if ($('form.js_validation_required').validate().form()) {
 			var params = $('form').serialize();
+			var form = document.getElementsByName('frmMyProfileSetting');
+			console.log("form", form);
+			var fileUploader = $(form).find('.js_form_file_field');
+			console.log('fileUploader', fileUploader);
+			if(!SmartUtil.isBlankObject(fileUploader)){
+				var groupId = $(fileUploader[0]).attr('groupId');
+				var files = fileUploader.find('li.qq-upload-success');
+				var file = $(files[0]);
+				params = params + "&profileGroupId=" + groupId + "&profileFileId=" + file.attr('fileId') + "&profileFileName=" + file.attr('fileName'); 
+			}
+			console.log(params);
 			var url = "update_my_profile.sw";
 			$.ajax({
 				url : url,
 				type : 'POST',
 				data : params,
 				success : function(data, status, jqXHR) {
-					alert("update success!!");
-					document.location.href = "home.sw";
+					alert("update success~!!");
+					document.location.href = data.href;
 				},
 				error : function(jqXHR, status, error) {
 					console.log(status);
@@ -65,11 +76,14 @@
 	<form name="frmMyProfileSetting" class="js_validation_required">
 	<div class="contents_space">
 			<form name="frmMyProfileSetting" class="js_validation_required">
-			<span class="photo_section">
-				<img class="js_auto_picture" src="<%=cUser.getOrgPicture() %>" />
-			</span>
+			<div class="photo_section">
+				<img class="js_auto_picture profile_size_b" src="<%=cUser.getOrgPicture() %>" />
+				<div class="js_file_uploader file_uploader_area"></div>
+				<div class="t_text_s11">사진업로드 시 사이즈 110px를 권장합니다</div>
+			</div>
+			
 
-			<span class="table_nomal600">
+			<span class="table_nomal600 ">
 					<table>
 						<tr>
 							<td>

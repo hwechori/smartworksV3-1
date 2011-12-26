@@ -2,16 +2,12 @@ package net.smartworks.server.engine.process.task.manager.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import net.smartworks.server.engine.common.manager.IManager;
-import net.smartworks.server.engine.common.model.InstanceVariable;
-import net.smartworks.server.engine.common.model.InstanceVariables;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;

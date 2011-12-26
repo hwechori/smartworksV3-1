@@ -32,6 +32,10 @@ public class HbFileModel implements IFileModel, Serializable {
   	 */
   	private String filePath;
   	/**
+  	 * 이미지 서버 경로
+  	 */
+  	private String imageServerPath;
+	/**
   	 * 파일 확장자 타입
   	 */
   	private String type;
@@ -104,6 +108,20 @@ public class HbFileModel implements IFileModel, Serializable {
 	 */
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+
+  	/**
+	 * @return the imageServerPath
+	 */
+	public String getImageServerPath() {
+		return imageServerPath;
+	}
+
+	/**
+	 * @param imageServerPath the imageServerPath to set
+	 */
+	public void setImageServerPath(String imageServerPath) {
+		this.imageServerPath = imageServerPath;
 	}
 
 	/**

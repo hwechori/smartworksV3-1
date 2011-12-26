@@ -19,9 +19,9 @@ import net.smartworks.server.engine.process.xpdl.xpdl1.TypeDeclarations;
 import net.smartworks.server.engine.process.xpdl.xpdl1.WorkflowProcesses;
 import net.smartworks.server.engine.process.xpdl.xpdl1.Xpdl1Factory;
 
-import commonj.sdo.Type;
-
 import org.apache.tuscany.sdo.impl.DataObjectBase;
+
+import commonj.sdo.Type;
 
 /**
  * <!-- begin-user-doc -->

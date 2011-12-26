@@ -37,7 +37,7 @@
 	} else {
 		fields = new FormField[] {};
 	}
-	if (work != null && filterId != null && !filterId.equals(""))
+	if (work != null && !SmartUtil.isBlankObject(filterId))
 		filter = smartWorks.getSearchFilterById(filterId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -66,7 +66,7 @@
 							<jsp:param name="workType" value="<%=work.getType() %>" />
 						</jsp:include>
 					</select> <span class="js_filter_operator"> <%
- 	if (fields.length > 0) {
+ 	if (!SmartUtil.isBlankObject(fields)) {
  		String fieldType = fields[0].getType();
  		if (fieldType.equals(FormField.TYPE_TEXT) || fieldType.equals(FormField.TYPE_RICHTEXT_EDITOR) || fieldType.equals(FormField.TYPE_IMAGE)
  					|| fieldType.equals(FormField.TYPE_EMAIL)) {

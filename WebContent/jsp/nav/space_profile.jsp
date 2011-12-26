@@ -7,10 +7,10 @@
 	User cUser = SmartUtil.getCurrentUser();
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
-	if (cid == null)
+	if (SmartUtil.isBlankObject(cid))
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
-	if (wid == null)
+	if (SmartUtil.isBlankObject(wid))
 		wid = cUser.getId();
 
 	Group thisGroup = null;
@@ -25,7 +25,7 @@
 		thisUser = (User) smartWorks.getWorkSpaceById(spaceId);
 	} else if (!wid.equals(cUser.getId())) {
 		WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
-		if (workSpace == null) {
+		if (SmartUtil.isBlankObject(workSpace)) {
 			thisUser = SmartUtil.getCurrentUser();
 		} else if (workSpace.getClass() == User.class) {
 			thisUser = (User) workSpace;
@@ -43,21 +43,21 @@
 	<%
 		if (thisGroup != null) {
 	%>
-	<li><img src="<%=thisGroup.getOrgPicture()%>"></li>
+	<li><img class="profile_size_66" src="<%=thisGroup.getOrgPicture()%>"></li>
 	<li><%=thisGroup.getName()%><br /> <b><%=thisGroup.getDesc()%></b><br />
 		<fmt:message key="group.text.leader" /> : <%=thisGroup.getLeader().getLongName()%><br />
 	</li>
 	<%
 		} else if (thisDepartment != null) {
 	%>
-	<li><img src="<%=thisDepartment.getOrgPicture()%>"></li>
+	<li><img class="profile_size_66" src="<%=thisDepartment.getOrgPicture()%>"></li>
 	<li><%=thisDepartment.getName()%><br /> <b><%=thisDepartment.getDesc()%></b><br />
 		<fmt:message key="department.text.head" /> : <%=thisDepartment.getHead().getLongName()%><br />
 	</li>
 	<%
 		} else if (thisUser != null) {
 	%>
-	<li><img src="<%=thisUser.getOrgPicture()%>"></li>
+	<li><img class="profile_size_66" src="<%=thisUser.getOrgPicture()%>"></li>
 	<li><%=thisUser.getPosition()%><br /> <b><%=thisUser.getName()%></b><br />
 		<%=thisUser.getDepartment()%><br /></li>
 	<%

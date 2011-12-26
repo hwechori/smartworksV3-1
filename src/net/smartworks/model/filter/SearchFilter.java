@@ -4,7 +4,6 @@ import net.smartworks.model.BaseObject;
 import net.smartworks.model.community.User;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.work.FormField;
-import net.smartworks.util.LocalDate;
 
 public class SearchFilter extends BaseObject{
 	

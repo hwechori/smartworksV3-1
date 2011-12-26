@@ -1,12 +1,7 @@
 package net.smartworks.model.instance.info;
 
-import java.util.Date;
-
-import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.Instance;
-import net.smartworks.model.instance.WorkInstance;
-import net.smartworks.model.work.Work;
 import net.smartworks.util.LocalDate;
 
 public class EventInstanceInfo extends InstanceInfo {

@@ -20,7 +20,6 @@ import net.smartworks.model.work.WorkCategory;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
-import net.smartworks.server.engine.authority.manager.ISwaManager;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.category.model.CtgCategoryCond;
@@ -31,6 +30,7 @@ import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemList;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
@@ -48,7 +48,6 @@ import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
-import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
@@ -74,9 +73,6 @@ public class WorkServiceImpl implements IWorkService {
 	private IPkgManager getPkgManager() {
 		return SwManagerFactory.getInstance().getPkgManager();
 	}
-	private ISwaManager getSwaManager() {
-		return SwManagerFactory.getInstance().getSwaManager();
-	}
 	private ISwdManager getSwdManager() {
 		return SwManagerFactory.getInstance().getSwdManager();
 	}
@@ -86,13 +82,12 @@ public class WorkServiceImpl implements IWorkService {
 	private IItmManager getItmManager() {
 		return SwManagerFactory.getInstance().getItmManager();
 	}
-	private ITskManager getTskManager() {
-		return SwManagerFactory.getInstance().getTskManager();
-	}
 	private ISwoManager getSwoManager() {
 		return SwManagerFactory.getInstance().getSwoManager();
 	}
-
+	private IDocFileManager getDocManager() {
+		return SwManagerFactory.getInstance().getDocManager();
+	}
 	private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -409,7 +404,7 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public String setMyProfile(HttpServletRequest request) throws Exception {
+	public void setMyProfile(HttpServletRequest request) throws Exception {
 		String txtUserProfileUserId = CommonUtil.toNotNull(request.getParameter("txtUserProfileUserId"));
 		String pwUserProfilePW = CommonUtil.toNotNull(request.getParameter("pwUserProfilePW"));
 		String selUserProfileLocale = CommonUtil.toNotNull(request.getParameter("selUserProfileLocale"));
@@ -417,6 +412,11 @@ public class WorkServiceImpl implements IWorkService {
 		String txtUserProfileEmail = CommonUtil.toNotNull(request.getParameter("txtUserProfileEmail"));
 		String txtUserProfilePhoneNo = CommonUtil.toNotNull(request.getParameter("txtUserProfilePhoneNo"));
 		String txtUserProfileCellNo = CommonUtil.toNotNull(request.getParameter("txtUserProfileCellNo"));
+
+		String profileFileId = request.getParameter("profileFileId");
+		String profileFileName = request.getParameter("profileFileName");
+
+		String txtUserProfilePicture = getDocManager().insertProfilesFile(profileFileId, profileFileName, txtUserProfileUserId);
 
 		//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW); -- md5 password 암호화
 		SwoUser user = getSwoManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
@@ -426,11 +426,9 @@ public class WorkServiceImpl implements IWorkService {
 		user.setEmail(txtUserProfileEmail);
 		user.setExtensionNo(txtUserProfilePhoneNo);
 		user.setMobileNo(txtUserProfileCellNo);
-
-		String returnValue = "";
+		user.setPicture(txtUserProfilePicture);
 		try {
 			getSwoManager().setUser(txtUserProfileUserId, user, null);
-			returnValue = "Success~!!";
 			UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
 	        Authentication authentication = authenticationManager.authenticate(authRequest);
 	        SecurityContext securityContext = new SecurityContextImpl();
@@ -441,9 +439,8 @@ public class WorkServiceImpl implements IWorkService {
 			e.printStackTrace();
 		}
 
-		return returnValue;
-
 	}
+
 	@Override
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
 		SwfFormCond swfFormCond = new SwfFormCond();

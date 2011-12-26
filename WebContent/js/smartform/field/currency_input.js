@@ -7,10 +7,13 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : null,
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
+	options.container.html('');
+
 	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
@@ -20,10 +23,12 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	var name = $entity.attr('name');
 	
 	var currency = $entity.children('format').children('currency').text();
-	currency = '$';//TODO ? 로 깨짐
-	var $label = $('<td>' + name + '</td>');
+
+	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='js_currency_input fieldline required' ";
 	}else{
@@ -33,14 +38,46 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	
 	var $currency = null;
 	if(readOnly){
-		$currency = $('<td fieldId="' + id + '"></td>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"></div>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$currency = $('<td><input type="text" symbol="' + currency +'" fieldId="' + id + '" name="' + id + '"' + required + '></td>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+		$currency = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"><input class="text_align_r" type="text" symbol="' + currency +'" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		//if save mode = $currency.toNumber().attr('value');
 	}
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$currency.hide();		
+	}
 	$currency.appendTo(options.container);
-
 	return options.container;
+};
+
+SmartWorks.FormRuntime.CurrencyInputBuilder.buildEx = function(config){
+	var options = {
+			container : $('<tr></tr>'),
+			fieldId: '',
+			fieldName: '',
+			value: '',
+			columns: 1,
+			required: false,
+			readOnly: false		
+	};
+	SmartWorks.extend(options, config);
+
+	var labelWidth = 10;
+	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
+						'<format type="currencyInput" viewingType="currencyInput"/>' +
+					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '"/>' +
+					'</formEntity>');
+	var $formCol = $('<td class="form_col js_type_currenyInput" fieldid="' + options.fieldId+ '" colspan="1" width="500.61775800946384" rowspan="1">');
+	$formCol.appendTo(options.container);
+	SmartWorks.FormRuntime.CurrencyInputBuilder.build({
+			mode : options.readOnly, // view or edit
+			container : $formCol,
+			entity : $formEntity,
+			dataField : options.value			
+	});
+	
 };
 
 $('input.js_currency_input').live('keyup', function(e) {
@@ -65,3 +102,24 @@ $('input.js_currency_input').live('keyup', function(e) {
 		}
 	}
 });
+
+
+SmartWorks.FormRuntime.CurrencyInputBuilder.dataField = function(config){
+	var options = {
+			fieldName: '',
+			formXml: '',
+			value: ''
+	};
+
+	SmartWorks.extend(options, config);
+	$formXml = $(options.formXml);
+	var dataField = {};
+	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
+	
+	dataField = {
+			id: fieldId,
+			value: options.value
+	};
+	return dataField;
+};

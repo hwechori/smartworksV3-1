@@ -7,10 +7,13 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 		mode : 'edit', // view or edit
 		container : $('<div></div>'),
 		entity : '',
-		dataField : ''
+		dataField : '',
+		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
+	options.container.html('');
+
 	var value = (options.dataField && options.dataField.value) || '';
 	$entity = options.entity;
 	$graphic = $entity.children('graphic');
@@ -20,9 +23,11 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 
-	var $label = $('<td>' + name + '</td>');
+	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
+	var valueWidth = 100 - labelWidth;
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
-	if(required === 'true'){
+	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
 		required = " class='fieldline required' ";
 	}else{
@@ -30,27 +35,22 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	}
 	$label.appendTo(options.container);
 	
-
 	var percentValue = (value * 100) + '%';
-	
-	
-	$html = $('<td class="percent" id="' + id + '_container"></td>');
+		
 	var $percent = null;
 	
 	if (readOnly) {
-		$percent = $('<td id="' + id + '_input"></td>').text(percentValue);
+		$percent = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"></div>').text(percentValue);
 	} else {
-		$percent = $('<td><input id="' + id + '" type="text" fieldId="' + SmartWorks.generateFormFieldId(options.workspaceId, id) + '"' + required + '/></td>')
+		$percent = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"'  + required + '/></div>')
 				.attr('value', percentValue);
 	}
-	
-	$percent.appendTo($html);
 
-	if ($graphic.attr('hidden') == 'true')
-		$html.hide();
-
-	$html.appendTo(options.container);
-
+	if ($graphic.attr('hidden') == 'true'){
+		$label.hide();
+		$percent.hide();		
+	}
+	$percent.appendTo(options.container);
 	return options.container;
 };
 
@@ -82,8 +82,6 @@ $('.percent input').live('focusin', function(e) {
 	$input.attr('value', value);
 });
 
-
-
 $('.percent input').live('keyup', function(e) {
 	var e = window.event || e;
 	var keyUnicode = e.charCode || e.keyCode;
@@ -102,8 +100,51 @@ $('.percent input').live('keyup', function(e) {
 	}
 });
 
+SmartWorks.FormRuntime.PercentInputBuilder.buildEx = function(config){
+	var options = {
+			container : $('<tr></tr>'),
+			fieldId: '',
+			fieldName: '',
+			value: '',
+			columns: 1,
+			required: false,
+			readOnly: false		
+	};
+	SmartWorks.extend(options, config);
 
+	var labelWidth = 10;
+	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
+						'<format type="percentInput" viewingType="percentInput"/>' +
+					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '"/>' +
+					'</formEntity>');
+	var $formCol = $('<td class="form_col js_type_percentInput" fieldid="' + options.fieldId+ '" colspan="1" width="500.61775800946384" rowspan="1">');
+	$formCol.appendTo(options.container);
+	SmartWorks.FormRuntime.PercentInputBuilder.build({
+			mode : options.readOnly, // view or edit
+			container : $formCol,
+			entity : $formEntity,
+			dataField : options.value			
+	});
+	
+};
 
+SmartWorks.FormRuntime.PercentInputBuilder.dataField = function(config){
+	var options = {
+			fieldName: '',
+			formXml: '',
+			value: ''
+	};
 
-
-
+	SmartWorks.extend(options, config);
+	$formXml = $(options.formXml);
+	var dataField = {};
+	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
+	
+	dataField = {
+			id: fieldId,
+			value: options.value
+	};
+	return dataField;
+};

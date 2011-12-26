@@ -9,6 +9,7 @@
 package net.smartworks.server.engine.docfile.manager.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,12 +20,12 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.community.User;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.id.IDCreator;
@@ -35,6 +36,7 @@ import net.smartworks.server.engine.docfile.model.HbFileModel;
 import net.smartworks.server.engine.docfile.model.IDocumentModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.OSValidator;
 import net.smartworks.util.SmartConfUtil;
 import net.smartworks.util.SmartUtil;
 import net.smartworks.util.Thumbnail;
@@ -43,9 +45,6 @@ import org.apache.commons.io.IOUtils;
 import org.hibernate.Query;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class DocFileManagerImpl extends AbstractManager implements IDocFileManager {
 
@@ -84,10 +83,17 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 
 		if (this.fileDirectory == null)
 			throw new DocFileException("Attachment directory is not specified!");
+		// 파일 홈 디렉토리 선택
+		String storageDir = this.fileDirectory + File.separator + "SmartFiles";
+		File storage = new File(storageDir);
+
+		// 없다면 생성한다.
+		if (!storage.exists())
+			storage.mkdir();
 
 		// 사용자의 회사아이디의 디렉토리 선택
-		String storageDir = this.fileDirectory + File.separator + companyId;
-		File storage = new File(storageDir);
+		storageDir =  storageDir + File.separator + companyId;
+		storage = new File(storageDir);
 
 		if (!storage.exists())
 			storage.mkdir();
@@ -100,7 +106,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		if (!storage.exists())
 			storage.mkdir();
 
-		if(!fileDivision.equals("Temps")) {
+		if(!fileDivision.equals("Temps") && !fileDivision.equals("Profiles") && !fileDivision.equals("WorkImages")) {
 			// 현재 년, 월 정보를 얻는다.
 			Calendar currentDate = Calendar.getInstance();
 			int year = currentDate.get(Calendar.YEAR);
@@ -168,7 +174,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		String fileId = request.getParameter("fileId");
 		file.setId(fileId);
 		file.setWrittenTime(new Date(new LocalDate().getGMTDate()));
-		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		this.setFileDirectory(SmartConfUtil.getInstance().getImageServer());
 
 		//File repository = this.getFileRepository();
 		MultipartFile multipartFile = file.getMultipartFile();
@@ -240,7 +246,8 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		IFileModel fileModel = this.retrieveFile(fileId);
 		String filePath = fileModel.getFilePath();
 		File file = new File(filePath);
-		file.delete();
+		if(file.exists())
+			file.delete();
 		this.getHibernateTemplate().delete(fileModel);
 	}
 
@@ -463,7 +470,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
             fos = new FileOutputStream(new File(formFile.getFilePath()));
             IOUtils.copy(is, fos);
             response.setStatus(HttpServletResponse.SC_OK);
-            writer.print("{success: true, fileId: \"" + formFile.getId() + "\"}");
+            writer.print("{success: true, fileId: \"" + formFile.getId() + "\", pullPathName: \"" + formFile.getImageServerPath() + "\", fileSize: \"" + formFile.getFileSize() + "\"}");
         } catch (FileNotFoundException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             writer.print("{success: false}");
@@ -485,54 +492,6 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
         writer.close();
     }
 
-	public void ajaxUploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
-
-		IFileModel formFile = new HbFileModel();
-		String fileId = IDCreator.createId(SmartServerConstant.TEMP_ABBR);
-		formFile.setId(fileId);
-		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
-
-		String companyId = "";
-		try {
-			companyId = SmartUtil.getCurrentUser().getCompanyId();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		String fileDivision = "Temps";
-
-		File repository = this.getFileRepository(companyId, fileDivision);
-		String filePath = null;
-		if (formFile != null) {
-			String fileName = "";
-			try {
-				fileName = URLDecoder.decode(request.getHeader("X-File-Name"), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			if (fileName.indexOf(File.separator) > 1)
-				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
-
-			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-			filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
-
-			if (extension != null) {
-				filePath = filePath + "." + extension;
-			}
-
-			formFile.setFilePath(filePath);
-
-		}
-		String groupId = request.getParameter("groupId");
-		// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
-		if (groupId == null)
-			// 그룹아이디를 생성하여 문서 아이디와 매핑
-			groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
-
-		this.writeAjaxFile(request, response, formFile);
-
-	}
-
 	@Override
 	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
 
@@ -541,19 +500,14 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		
 		formFile.setId(fileId);
 		formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
-		this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		this.setFileDirectory(SmartConfUtil.getInstance().getImageServer());
 
-		String companyId = "";
-		try {
-			companyId = SmartUtil.getCurrentUser().getCompanyId();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		String companyId = SmartUtil.getCurrentUser().getCompanyId();
+
 		String fileDivision = "Files";
 
 		File repository = this.getFileRepository(companyId, fileDivision);
-		String filePath = null;
+		String filePath = "";
 		if (formFile != null) {
 			String fileName = "";
 			try {
@@ -591,6 +545,215 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		// 그룹아이디, 문서 아이디 쌍 저장
 		Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
 		query.executeUpdate();
+	}
+
+
+	public void ajaxUploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
+
+		IFileModel formFile = new HbFileModel();
+		String fileId = IDCreator.createId(SmartServerConstant.TEMP_ABBR);
+		formFile.setId(fileId);
+		//this.setFileDirectory(SmartConfUtil.getInstance().getFileDirectory());
+		this.setFileDirectory(System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME"));
+
+		String companyId = SmartUtil.getCurrentUser().getCompanyId();
+
+		String fileDivision = "Temps";
+
+		File repository = this.getFileRepository(companyId, fileDivision);
+		String filePath = "";
+		String extension = "";
+		if (formFile != null) {
+			String fileName = "";
+			try {
+				fileName = URLDecoder.decode(request.getHeader("X-File-Name"), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			if (fileName.indexOf(File.separator) > 1)
+				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+
+			extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+			filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
+
+			if (extension != null) {
+				filePath = filePath + "." + extension;
+			}
+
+			formFile.setFilePath(filePath);
+
+		}
+
+		this.writeAjaxFile(request, response, formFile);
+
+	}
+
+	@Override
+	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws DocFileException {
+		IFileModel formFile = new HbFileModel();
+		String fileId = IDCreator.createId(SmartServerConstant.TEMP_ABBR);
+		formFile.setId(fileId);
+
+		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
+		this.setFileDirectory(OSValidator.getImageDirectory());
+		String companyId = SmartUtil.getCurrentUser().getCompanyId();
+
+		String fileDivision = "Temps";
+		File repository = this.getFileRepository(companyId, fileDivision);
+		String filePath = "";
+		String imagerServerPath = "";
+		String extension = "";
+		if (formFile != null) {
+			String fileName = "";
+			try {
+				fileName = URLDecoder.decode(request.getHeader("X-File-Name"), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			if (fileName.indexOf(File.separator) > 1)
+				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+
+			extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+			filePath = repository.getAbsolutePath() + File.separator + (String) fileId;
+
+			imagerServerPath = SmartConfUtil.getInstance().getImageServer() + companyId + "/" + "Temps" + "/" + fileId + "." + extension;
+			formFile.setImageServerPath(imagerServerPath);
+
+			if (extension != null) {
+				filePath = filePath + "." + extension;
+			}
+			formFile.setFileSize(Long.parseLong(request.getHeader("Content-Length")));
+
+			formFile.setFilePath(filePath);
+
+		}
+
+		this.writeAjaxFile(request, response, formFile);
+
+	}
+
+	public String insertProfilesFile(String fileId, String fileName, String communityId) throws DocFileException {
+
+		//this.setFileDirectory(SmartConfUtil.getInstance().getImageServerDirectory());
+		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
+		this.setFileDirectory(OSValidator.getImageDirectory());
+		
+		if (fileName.indexOf(File.separator) > 1)
+			fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+
+		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+
+		User user = SmartUtil.getCurrentUser();
+
+		File repository = this.getFileRepository(user.getCompanyId(), "Profiles");
+
+		String communityPictureId = communityId + "." + extension;
+		String bigId = communityId + "_big";
+		String smallId = communityId + "_small";
+		String originId = communityId + "_origin";
+
+		String tempFile = this.getFileDirectory() + "/SmartFiles/" + user.getCompanyId() + "/" + "Temps" + "/" + fileId + "." + extension;
+		String realFile1 = repository.getAbsolutePath() + "/" + bigId + "." + extension;
+		String realFile2 = repository.getAbsolutePath() + "/" + smallId + "." + extension;
+		String realFile = repository.getAbsolutePath() + "/" + originId + "." + extension;
+
+		try {
+			FileInputStream is = new FileInputStream(new File(tempFile));
+			Thumbnail.createImage(tempFile, realFile1, "big", extension);
+			Thumbnail.createImage(tempFile, realFile2, "small", extension);
+			FileOutputStream os = new FileOutputStream(new File(realFile));
+			IOUtils.copy(is, os);
+			is.close();
+			os.close();
+		} catch (Exception e) {
+			throw new DocFileException("Failed to copy file [" + tempFile + "]!");
+		}
+
+		return communityPictureId;
+	}
+
+	public void insertFiles(String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException {
+
+		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
+		this.setFileDirectory(OSValidator.getImageDirectory());
+		
+		if (fileName.indexOf(File.separator) > 1)
+			fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+
+		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+
+		User user = SmartUtil.getCurrentUser();
+
+		File repository = this.getFileRepository(user.getCompanyId(), "Files");
+		String fileId = tempFileId.split("temp_")[tempFileId.split("temp_").length-1];
+		fileId = "file_" + fileId;
+
+		String tempFile = this.getFileDirectory() + "/SmartFiles/" + user.getCompanyId() + "/" + "Temps" + "/" + tempFileId + "." + extension;
+		String realFile = repository.getAbsolutePath() + File.separator + fileId + "." + extension;
+
+		IFileModel formFile = new HbFileModel();
+		formFile.setId(fileId);
+		formFile.setFileName(fileName);
+		formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
+		formFile.setFilePath(realFile);
+		formFile.setFileSize(Long.parseLong(fileSize, 16));
+		formFile.setType(extension);
+		this.getHibernateTemplate().save(formFile);
+
+		try {
+			FileInputStream is = new FileInputStream(new File(tempFile));
+			FileOutputStream os = new FileOutputStream(new File(realFile));
+			IOUtils.copy(is, os);
+			is.close();
+			os.close();
+		} catch (Exception e) {
+			throw new DocFileException("Failed to copy file [" + tempFile + "]!");
+		}
+
+		// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
+		if (groupId == null)
+			// 그룹아이디를 생성하여 문서 아이디와 매핑
+			groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
+
+		// 그룹아이디, 문서 아이디 쌍 저장
+		Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
+		query.executeUpdate();
+
+		File deleteFile = new File(tempFile);
+		if(deleteFile.exists())
+			deleteFile.delete();
+
+	}
+
+	@Override
+	public String deleteTempFile() throws DocFileException {
+
+		String returnValue = "";
+		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
+		this.setFileDirectory(OSValidator.getImageDirectory());
+
+		User user = SmartUtil.getCurrentUser();
+		String tempFilePath = this.getFileDirectory() + "/SmartFiles/" + user.getCompanyId() + "/" + "Temps" + "/";
+
+		try {
+			File tempFileDir = new File(tempFilePath);
+			String[] tempFiles = tempFileDir.list();
+			for(int i=0; i<tempFiles.length; i++) {
+				File tempFile = new File(tempFiles[i]);
+				if(tempFile.exists()) {
+					returnValue += tempFile.getName();
+					tempFile.delete();
+				} else {
+					returnValue = "tempFile not exists...";
+				}
+			}
+			returnValue += " : delete tempFile success...";
+		} catch (Exception e) {
+			returnValue = "delete tempFile fail... : " + e.getMessage();
+			return returnValue;
+		}
+
+		return returnValue;
 	}
 
 }

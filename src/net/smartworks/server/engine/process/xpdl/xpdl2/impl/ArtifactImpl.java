@@ -11,12 +11,10 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.DataObject;
 import net.smartworks.server.engine.process.xpdl.xpdl2.NodeGraphicsInfos;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Xpdl2Factory;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
+
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
-
-import java.lang.Object;
-
-import org.apache.tuscany.sdo.impl.DataObjectBase;
 
 /**
  * <!-- begin-user-doc -->

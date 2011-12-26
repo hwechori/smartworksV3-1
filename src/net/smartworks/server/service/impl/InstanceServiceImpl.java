@@ -33,6 +33,8 @@ import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.docfile.exception.DocFileException;
+import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
@@ -50,6 +52,8 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
+import net.smartworks.server.engine.organization.manager.ISwoManager;
+import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
@@ -70,7 +74,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InstanceServiceImpl implements IInstanceService {
-	
+
 	private ITskManager getTskManager() {
 		return SwManagerFactory.getInstance().getTskManager();
 	}
@@ -83,6 +87,13 @@ public class InstanceServiceImpl implements IInstanceService {
 	private ISwfManager getSwfManager() {
 		return SwManagerFactory.getInstance().getSwfManager();
 	}
+	private IDocFileManager getDocManager() {
+		return SwManagerFactory.getInstance().getDocManager();
+	}
+	private ISwoManager getSwoManager() {
+		return SwManagerFactory.getInstance().getSwoManager();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -290,7 +301,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		String userId = null;
 		if (user != null)
 			userId = user.getId();
-		
+
+		SwdDomainCond swdDomainCond = new SwdDomainCond();
+		swdDomainCond.setFormId(formId);
+		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdDomainCond, IManager.LEVEL_LITE);
+
+		domainId = swdDomain.getObjId();
+
 		SwdFieldCond swdFieldCond = new SwdFieldCond();
 		swdFieldCond.setDomainObjId(domainId);
 		SwdField[] fields = getSwdManager().getFields(userId, swdFieldCond, IManager.LEVEL_LITE);
@@ -307,62 +324,32 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 //		SwdField[] fieldDatas = new SwdField[keySet.size()];
 		List fieldDataList = new ArrayList();
+		List<Map<String, String>> files = null;
+		String groupId = null;
 		while (itr.hasNext()) {
 			String fieldId = (String)itr.next();
 			String value = null;
 			String refForm = null;
 			String refFormField = null;
 			String refRecordId = null;
-			if (SmartFormInfoMap.get(fieldId) instanceof LinkedHashMap) {
-				Map<String, Object> valueMap = (Map<String, Object>)SmartFormInfoMap.get(fieldId);
-				SwdField swdField = fieldInfoMap.get(fieldId);
-				String type = swdField.getFormFieldType();
-				
-				//type = file <- 실질적으로 데이터베이스에는 데이터베이스 타입만 들어가있음
-				//스마트웍스에서 사용하는 필드 타입은 없음(예: file 필드가 database 에 타입인 String 으로 되어 있음
-				//타입이 파일인지를 구별할수 있는 데이터가 필요
-				if (type.equalsIgnoreCase("")) {
-					Map fileGroupInfoMap = (Map)SmartFormInfoMap.get(fieldId);
-					if (fileGroupInfoMap == null)
-						continue;
-					
-					String groupId = (String)fileGroupInfoMap.get("groupId");
-					List filesList = (List)fileGroupInfoMap.get("files");
-					
-					for (int i = 0; i < filesList.size(); i++) {
-						
-						
-						
-					}
-						
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+			Object filedValue = SmartFormInfoMap.get(fieldId);
+			if (filedValue instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)filedValue;
+				groupId = (String)valueMap.get("groupId");
+				refForm = (String)valueMap.get("refForm");
+
+				if(!CommonUtil.isEmpty(groupId)) {
+					files = (ArrayList<Map<String,String>>)valueMap.get("files");
+					value = groupId;
+				} else if(!CommonUtil.isEmpty(refForm)) {
+					refFormField = (String)valueMap.get("refFormField");
+					refRecordId = (String)valueMap.get("refRecordId");
+					SwoDepartmentCond swoDepartmentCond = new SwoDepartmentCond();
+					swoDepartmentCond.setId(refRecordId);
+					String deptName = getSwoManager().getDepartment(userId, swoDepartmentCond, IManager.LEVEL_LITE).getName();
+					value = deptName;
 				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				//TODO
-			} else {
+			} else if(filedValue instanceof String) {
 				value = (String)SmartFormInfoMap.get(fieldId);
 			}
 			if (CommonUtil.isEmpty(value))
@@ -374,7 +361,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			fieldData.setRefFormField(refFormField);
 			fieldData.setRefRecordId(refRecordId);
 			fieldData.setValue(value);
-			
+
 			fieldDataList.add(fieldData);
 			
 		}
@@ -386,8 +373,20 @@ public class InstanceServiceImpl implements IInstanceService {
 		obj.setFormName(formName);
 		obj.setFormVersion(formVersion);
 		obj.setDataFields(fieldDatas);
-		
-		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);		
+
+		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
+
+		try {
+			for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+				Map<String, String> file = files.get(i);
+				String fileId = file.get("fileId");
+				String fileName = file.get("fileName");
+				String fileSize = file.get("fileSize");
+				getDocManager().insertFiles(groupId, fileId, fileName, fileSize);
+			}
+		} catch (Exception e) {
+			throw new DocFileException("file upload fail...");
+		}
 		return null;
 	}
 

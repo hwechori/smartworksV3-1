@@ -9,7 +9,6 @@
 package net.smartworks.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import net.smartworks.util.SmartUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -100,6 +98,12 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		return SmartUtil.returnMnv(request, "jsp/content/work/start/new_file.jsp", "");
 	}
 
+	@RequestMapping("/new_picture")
+	public ModelAndView newPicture(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/start/new_picture.jsp", "");
+	}
+
 	@RequestMapping("/new_event")
 	public ModelAndView newEvent(HttpServletRequest request, HttpServletResponse response) {
 
@@ -131,6 +135,16 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	@RequestMapping(value = "/create_new_iwork", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody Map<String, Object> createNewIwork(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String instanceId = smartworks.setInformationWorkInstance(requestBody);
+		// TO DO : Exception handler
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		return map;
+	}
+
+	@RequestMapping(value = "/upload_new_picture", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody Map<String, Object> uploadNewPicture(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody);
 		// TO DO : Exception handler
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -190,14 +204,11 @@ public class WorkInstanceController extends ExceptionInterceptor {
 
 	@RequestMapping(value = "/update_my_profile", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody String updateMyProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String returnValue = "";
-		try {
-			returnValue = smartworks.setMyProfile(request);
-		} catch (Exception e) {
-			returnValue = "fail";
-		}
-		return returnValue;
+	public @ResponseBody Map<String, Object> updateMyProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setMyProfile(request);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("href", "my_profile.sw");
+		return map;
 	}
 
 }

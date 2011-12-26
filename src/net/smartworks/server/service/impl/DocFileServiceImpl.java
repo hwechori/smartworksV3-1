@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +45,7 @@ public class DocFileServiceImpl implements IDocFileService {
 	public void uploadFile(HttpServletRequest request) throws Exception {
 
 		String userId = CommonUtil.toNotNull(request.getParameter("userId"));
-		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));	
+		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));
 
 		List<IFileModel> docList = new ArrayList<IFileModel>();
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -59,6 +59,20 @@ public class DocFileServiceImpl implements IDocFileService {
         }
 
 		getDocManager().createFileList(userId, (groupId.equals("") ? null : groupId), docList, request);
+
+	}
+
+	public void uploadFiles(HttpServletRequest request) throws Exception {
+
+		List<IFileModel> docList = new ArrayList<IFileModel>();
+		Map<String, String> files = new HashMap<String, String>();
+		for(String fileId : files.keySet()) {
+			String fileName = files.get(fileId);
+			IFileModel doc = new HbFileModel();
+			doc.setId(fileId);
+			doc.setFileName(fileName);
+			docList.add(doc);
+		}
 
 	}
 
@@ -88,7 +102,7 @@ public class DocFileServiceImpl implements IDocFileService {
 
 		if(fileId.startsWith("temp_")) {
 			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-			filePath = SmartConfUtil.getInstance().getDbDirectoryPath() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+			filePath = SmartConfUtil.getInstance().getImageServer() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
 		} else {
 			IFileModel doc = getDocManager().retrieveFile(fileId);
 			filePath = doc.getFilePath();
@@ -109,8 +123,6 @@ public class DocFileServiceImpl implements IDocFileService {
 
     	try{
 
-    		Date date = new Date();
-    		long mill = date.getTime();
     		String fileId = request.getParameter("fileId");
     		String fileName = request.getParameter("fileName");
 
@@ -124,7 +136,8 @@ public class DocFileServiceImpl implements IDocFileService {
     		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
     		if(fileId.startsWith("temp_")) {
     			file_name = fileName;
-    			sourceFile = SmartConfUtil.getInstance().getDbDirectoryPath() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+    			sourceFile = System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY") + "/" + user.getCompanyId() + "/"+ "Temps" + "/" + fileId + "." + extension;
+    			//sourceFile = System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME") + File.separator + user.getCompanyId() + File.separator + "Temps" + File.separator + fileId + "." + extension;
     		} else {
     			IFileModel doc = getDocManager().retrieveFile(fileId);
 	    		//파일명, UniqValue
@@ -167,6 +180,11 @@ public class DocFileServiceImpl implements IDocFileService {
 			op.flush();
         }
     }
+
+	@Override
+	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		getDocManager().uploadTempFile(request, response);
+	}
 
 /*	@Override
 	public String createFile(String userId, String groupId, IFileModel file) throws Exception {

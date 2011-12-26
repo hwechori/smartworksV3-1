@@ -8,11 +8,7 @@
 
 package net.smartworks.server.engine.common.advisor;
 
-import org.aopalliance.intercept.MethodInvocation;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint;
 
 public class CommonAdvisor {
 

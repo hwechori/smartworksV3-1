@@ -43,7 +43,7 @@
 					<td><img src="<%=work.getForm().getOrgImage()%>" width="349"
 						height="289" />
 					</td>
-					<td><%if(desc!=null && desc.equals("")){%><%=desc%><%}else{ %><fmt:message key="common.message.no_form_desc"/><%} %></td>
+					<td><%if(!SmartUtil.isBlankObject(desc)){%><%=desc%><%}else{ %><fmt:message key="common.message.no_form_desc"/><%} %></td>
 					<%
 					}
 					%>

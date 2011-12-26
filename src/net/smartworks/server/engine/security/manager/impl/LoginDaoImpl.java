@@ -89,7 +89,7 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			login.setName(rs.getString("name"));
 			login.setCompanyId(rs.getString("companyId"));
 			login.setCompany(rs.getString("companyName"));
-			login.setDeptId(rs.getString("deptId"));
+			login.setDepartmentId(rs.getString("deptId"));
 			login.setDepartment(rs.getString("deptName"));
 			login.setEmpNo(rs.getString("empNo"));
 			login.setCellPhoneNo(rs.getString("mobileNo"));
@@ -102,9 +102,16 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			login.setPassword(rs.getString("passwd"));
 			login.setLocale(rs.getString("locale"));
 			login.setTimeZone(rs.getString("timeZone"));
-			login.setOrgPictureName(rs.getString("picture"));
-			login.setMinPictureName(rs.getString("picture"));
-			login.setMidPictureName(rs.getString("picture"));
+			String picture = rs.getString("picture");
+			if(picture != null && !picture.equals("")) {
+				String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+				String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+				login.setBigPictureName(pictureId + "_big" + "." + extension);
+				login.setSmallPictureName(pictureId + "_small" + "." + extension);
+			} else {
+				login.setBigPictureName(rs.getString("picture"));
+				login.setSmallPictureName(rs.getString("picture"));
+			}
 			login.setUserLevel(login.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
 
 			return login;

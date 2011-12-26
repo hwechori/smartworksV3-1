@@ -34,7 +34,7 @@
 		}
 	%>
 </select>
-<span class="str_field"><input name="selFilterTimeOperand" class="inputline time_input"
+<span class="str_field"><input name="selFilterTimeOperand" class="inputline form_time_input"
 	type="text"
 	value="<%if (operandValue != null) {%><%=operandValue%><%} else {%><%=curTime%><%}%>">
 </span>

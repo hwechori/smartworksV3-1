@@ -34,8 +34,8 @@
 	<%
 		String operType = "";
 		String selectedOperType = "js_operand_date";
-		if (dateOpers.length > 0) {
-			if(operator == null) operator = dateOpers[0].getId();
+		if (!SmartUtil.isBlankObject(dateOpers)) {
+			if(SmartUtil.isBlankObject(operator)) operator = dateOpers[0].getId();
 			if (operator.equals(ConditionOperator.RECENT_DAYS.getId()) || operator.equals(ConditionOperator.TODAY.getId())
 					|| operator.equals(ConditionOperator.THIS_WEEK.getId()) || operator.equals(ConditionOperator.THIS_MONTH.getId())
 					|| operator.equals(ConditionOperator.THIS_QUARTER.getId()) || operator.equals(ConditionOperator.THIS_HALF_YEAR.getId())
@@ -73,12 +73,12 @@
 <span class="str_field js_operand_date js_right_operand"
 	<%if (!selectedOperType.equals("js_operand_date")) {%> style="display: none"
 	<%}%>> <input
-	class="inputline date_input space_r2 js_todaypicker" type="text"
+	class="inputline form_date_input space_r2 js_todaypicker" type="text"
 	name="txtFilterDateOperand" readonly="readonly"
-	value="<%if (operandValue != null && !operandValue.equals("null")) {%><%=operandValue%><%} else {%><%=today%><%}%>">
-	<input class="inputline time_input" name="txtFilterTimeOperand"
+	value="<%if (!SmartUtil.isBlankObject(operandValue) && !operandValue.equals("null")) {%><%=operandValue%><%} else {%><%=today%><%}%>">
+	<input class="inputline form_time_input" name="txtFilterTimeOperand"
 	type="text"
-	value="<%if (operandValueSecond != null && !operandValue.equals("null")) {%><%=operandValueSecond%><%} else {%><%=curTime%><%}%>">
+	value="<%if (!SmartUtil.isBlankObject(operandValueSecond) && !operandValue.equals("null")) {%><%=operandValueSecond%><%} else {%><%=curTime%><%}%>">
 </span>
 <span class="str_field js_operand_none js_right_operand"
 	<%if (!selectedOperType.equals("js_operand_none")) {%> style="display: none"

@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.report.Data;
 import net.smartworks.service.ISmartWorks;
-import net.smartworks.service.impl.SmartWorks;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;

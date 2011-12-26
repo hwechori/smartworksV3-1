@@ -7,28 +7,81 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <script type="text/javascript">
-	function submitForms(e) {
-		if ($('form.js_validation_required').validate().form()) {
-			var params = $('form').serialize();
-			var url = "upload_new_file.sw";
-			$.ajax({
-				url : url,
-				type : 'POST',
-				data : params,
-				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-				},
-				error : function(jqXHR, status, error) {
-					console.log(status);
-					console.log(error);
-					alert(error);
+function submitForms(e) {
+
+	if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
+
+	var $frmSmartForm = $('form[name="frmSmartForm"]');
+	if(isEmpty($frmSmartForm)) {
+		var target = $('#form_import');
+		$.ajax({
+			url : "file_detail_form.sw",
+			success : function(data, status, jqXHR) {
+				target.html(data).hide();
+				var form = $('form[name="frmNewFile"]');
+				var uploader = form.find('.qq-uploader');
+				var comments = form.find('textarea[name="txtaFileDesc"]').text();
+				var groupId = uploader.attr('groupId');
+				var fileList = uploader.find('.qq-upload-list li');
+				var fileName = $(fileList[0]).attr('fileName');
+				if(isEmpty(fileName))
+					fileName = "";
+				var formContent = $('#form_import').find('div.js_form_content');
+				if(!isEmpty(formContent)) {
+					var workId = formContent.attr('workId');
+					$.ajax({
+						url : "get_form_xml.sw",
+						data : {
+							workId : workId
+						},
+						success : function(formXml, status, jqXHR) {
+							var formXml = $(formXml);
+							new SmartWorks.GridLayout({
+								target : formContent,
+								formXml : formXml,
+								formValues : createFileDataFields({
+									formXml : formXml,
+									groupId : groupId,
+									fileName : fileName,
+									fileList : fileList,
+									comments : comments								
+								}),
+								mode : "edit"
+							});
+							submitForms(e);
+						}
+					});
 				}
-			});
-		} else {
-			return;
+			}
+		});
+	} else {
+		var forms = $('form');
+		var paramsJson = {};
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			if(form.attr('name') === 'frmSmartForm'){
+				paramsJson['formId'] = form.attr('formId');
+				paramsJson['formName'] = form.attr('formName');
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+			}
 		}
-		return;
+		console.log("JSON", JSON.stringify(paramsJson));
+		alert('wait');
+		var url = "upload_new_file.sw";
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				document.location.href = data.href;
+			},
+			error : function(e) {
+				alert(e);
+			}
+		});
 	}
+}
 </script>
 
 <%
@@ -44,15 +97,7 @@
 		<!-- 폼- 확장 -->
 		<form name="frmNewFile" class="form_wrap js_validation_required">
 			<div class="form_title" class="js_file_brief_form">
-
-				<textarea class="up_textarea" name='txtaFileDesc' rows="5"
-					placeholder="<fmt:message
-						key="common.upload.message.file_desc" />">
-				</textarea>
-
-				<div class="btn_gray padding_t5">
- 					<input class='required' name="fileAttachment" type="file">
- 				</div>
+				<div class="js_new_file_fields" fileNameTitle="<fmt:message key='common.upload.file.name'/>" fileDescTitle="<fmt:message key='common.upload.file.desc'/>">
 			</div>
 			<div class="form_contents">
 				<div class="txt_btn txt_btn_height js_file_detail_form">

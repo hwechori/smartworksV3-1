@@ -33,10 +33,10 @@ function updateNoticeCount(message){
 	User cUser = SmartUtil.getCurrentUser();
 	Notice[] notices = smartWorks.getNoticesForMe();
 	String cid = request.getParameter("cid");
-	if (cid == null)
+	if (SmartUtil.isBlankObject(cid))
 		cid = ISmartWorks.CONTEXT_HOME;
 	String wid = request.getParameter("wid");
-	if (wid == null)
+	if (SmartUtil.isBlankObject(wid))
 
 		wid = cUser.getId();
 %>

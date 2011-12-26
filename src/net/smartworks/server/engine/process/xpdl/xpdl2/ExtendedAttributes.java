@@ -7,7 +7,6 @@
 package net.smartworks.server.engine.process.xpdl.xpdl2;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**

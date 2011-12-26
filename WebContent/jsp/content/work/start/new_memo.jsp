@@ -8,26 +8,31 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <script type="text/javascript">
-	function submitForms() {
-		if ($('form.js_validation_required').validate().form()) {
-			var params = $('form').serialize();
-			var url = "create_new_memo.sw";
-			$.ajax({
-				url : url,
-				type : 'POST',
-				data : params,
-				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-				},
-				error : function(e) {
-					alert(e);
-				}
-			});
-		} else {
-			return;
-		}
-		return;
+function submitForms() {
+	if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
+
+	var forms = $('form');
+	var paramsJson = {};
+	for(var i=0; i<forms.length; i++){
+		var form = $(forms[i]);
+		paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 	}
+	console.log(JSON.stringify(paramsJson));
+	alert('wait');
+	var url = "create_new_memo.sw";
+	$.ajax({
+		url : url,
+		contentType : 'application/json',
+		type : 'POST',
+		data : JSON.stringify(paramsJson),
+		success : function(data, status, jqXHR) {
+			document.location.href = data.href;
+		},
+		error : function(e) {
+			alert(e);
+		}
+	});
+}
 </script>
 
 <%
@@ -43,10 +48,8 @@
 
 
 		<!-- 폼- 확장 -->
-		<form name='frmMemo' class="form_title js_validation_required">
-			<div>
-				<textarea class="up_textarea required" name="txtMemoDesc" cols=""
-					rows="5"></textarea>
+		<form name='frmNewMemo' class="form_title js_validation_required">
+			<div class="js_new_memo_fields" memoNameTitle="<fmt:message key='common.upload.memo.name'/>">
 			</div>
 		</form>
 		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>

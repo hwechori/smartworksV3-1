@@ -1,11 +1,9 @@
 package net.smartworks.server.service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.smartworks.model.instance.BoardInstance;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;

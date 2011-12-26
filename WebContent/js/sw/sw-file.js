@@ -1,54 +1,88 @@
+function getExt(fileName) {
+	var pos = fileName.lastIndexOf('.');
+	var ext = 'none';
+	var extTypes = new Array("asf", "avi", "bmp", "doc", "exe", "gif", "hwp", "jpg", "mid", "mp3",
+			"mpeg", "mpg", "pdf", "pds", "ppt", "rar", "txt", "wav", "wma", "wmv", "word", "xls", "zip");
+	if (pos != -1) {
+		var extTemp = fileName.substring( pos + 1, fileName.length);
+		for(var i=0; i<extTypes.length; i++) {
+			if(extTemp === extTypes[i])
+				ext = extTemp;
+		}
+	}
+	return ext;
+}
+
 
 function fileUploader(groupId, target) {
 	
-	var template = '<div class="qq-uploader">' + 
+	var template = '<div class="qq-uploader js_form_file_field">' + 
     '<div class="qq-upload-drop-area"><span>' + language.message("uploadDropArea") + '</span></div>' +
     '<div class="qq-upload-button">' + language.message("uploadFile") + '</div>' +
-    '<input type="hidden" class="qq-upload-groupid"/>' +
     '<ul class="qq-upload-list"></ul>' + 
     '</div>';
 
 	var uploadFileTemplate = '<li>' +
-	'<a class="qq-upload-file"></a>' +
+	'<span></span>' +
+	'<a href="#" class="qq-upload-file"></a>' +
 	'<span class="qq-upload-spinner"></span>' +
 	'<span class="qq-upload-size"></span>' +
 	'<a class="qq-upload-cancel" href="#">' + language.message("cancelUpload") + '</a>' +
 	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
-	'<span class="qq-delete-text" style="display:none">X</span>' +
+	'<a href="#" class="qq-delete-text" style="display:none">X</a>' +
 	'</li>';
-	
+
 	return new qq.FileUploader({
         element: $(target)[0],
 
-        params : {
+        params: {
         	groupId : groupId
         },
-        action: 'ajax_upload_file.sw',
-        onSubmit : function(id, fileName) {
+        sizeLimit: 67108864,
+        messages: {
+            typeError: language.message('uploadTypeError'),
+            sizeError: language.message('uploadSizeError'),
+            minSizeError: language.message('uploadMinSizeError'),
+            emptyError: language.message('uploadEmptyError'),
+            onLeave: language.message('uploadOnLeave')            
+        },
+        action: 'upload_temp_file.sw',
+        onSubmit: function(id, fileName) {
+        	var uploader = $(this.element).find('.qq-uploader');
+        	var isMultiple = uploader.attr('isMultiple');
         	var files = $(this.element).find('.qq-upload-list li');
         	for(var i = 0;i < files.length;i++) {
-        		var file = $(files[i]);
-        		var name = file.find('.qq-upload-file').attr('fileName');
-        		if(fileName === name) {
-        			return false;
+    			var file = $(files[i]);
+                if(isMultiple!=='true'){
+                	file.remove();
+                	// need to code for removing temp file request to server 
+                	// need to code for removing temp file request to server 
+                	// need to code for removing temp file request to server 
+                	// need to code for removing temp file request to server 
+        		}else{
+	    			var name = file.find('.qq-upload-file').attr('fileName');
+	    			if(fileName === name) 
+	    				return false;
         		}
         	}
         	return true;
         },
         onComplete : function(id, fileName, responseJSON){
         	var file = $(this.element).find('.qq-upload-list li[qqFileId=' + id + ']');
-        	file.attr('fileId', responseJSON.fileId);
+        	if(isEmpty(file)) return;
         	
-    		var pos = fileName.lastIndexOf('.');
-    		var ext = '';
-    		if (pos != -1)
-    			ext = fileName.substring( pos + 1, fileName.length);
-        	
-        	file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + responseJSON.fileId + "&fileName=" + fileName).addClass('js_file_type_'+ ext );
+        	file.attr('fileId', responseJSON.fileId).attr('fileName', fileName).attr('fileSize', responseJSON.fileSize);
+        	var ext = getExt(fileName);
+    		file.find('.qq-upload-file').prev('span').addClass('ico_file_' + ext);
+        	file.find('.qq-upload-file').attr('href', 'download_file.sw?fileId=' + responseJSON.fileId + "&fileName=" + fileName);
         	file.find('.qq-delete-text').show();
-    		//file.find('.qq-upload-cancel').text(language.message('cancelUpload'));
-    		//file.find('.qq-upload-failed-text').text(language.message('uploadFailed'));
-        	
+        	if(file.hasClass('qq-upload-success') && $('form.js_validation_required').find('.sw_required').hasClass('sw_error')){
+        		$('form.js_validation_required').find('.sw_required').removeClass('sw_error');
+				$('form.js_validation_required').validate({ showErrors: showErrors}).form();
+        	}
+        	if(file.hasClass('qq-upload-success') && !isEmpty(file.parents('td.js_type_imageBox'))){
+	        	file.parents('td.js_type_imageBox:first').find('img.js_auto_picture').attr("src", responseJSON.pullPathName);
+        	}
         },
         fileTemplate : uploadFileTemplate,
         template : template,
@@ -56,23 +90,29 @@ function fileUploader(groupId, target) {
     });
 }
 
-function createUploader(groupId, target){
+function createUploader(groupId, target, isMultiple, isProfile, isTempFile, fileList){
 	var uploadFileTemplate = '<li>' +
-	'<a class="qq-upload-file"></a>' +
+	'<span></span>' +
+	'<a href="#" class="qq-upload-file"></a>' +
 	'<span class="qq-upload-spinner"></span>' +
 	'<span class="qq-upload-size"></span>' +
 	'<a class="qq-upload-cancel" href="#">' + language.message("cancelUpload") + '</a>' +
 	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
-	'<span class="qq-delete-text" style="display:none">X</span>' +
+	'<a href="#" class="qq-delete-text" style="display:none">X</a>' +
 	'</li>';
-	
 	if(!groupId) {
 		groupId = randomUUID('fg_');
-		var uploader = fileUploader(groupId, target);
-		var uploader_div = $(target);
-		//uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
-		//uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
-	} else {
+		fileUploader(groupId, target);
+		var uploader = $(target).find('.qq-uploader');
+		uploader.attr('isMultiple', isMultiple).attr('groupId', groupId);
+		if(isProfile) uploader.find('.qq-upload-list').hide();
+	} else if(isTempFile) {
+		fileUploader(groupId, target);
+		var uploader = $(target).find('.qq-uploader');
+		uploader.attr('isMultiple', isMultiple).attr('groupId', groupId);
+		if(isProfile) uploader.find('.qq-upload-list').hide();
+		if(!isEmpty(fileList)) $(fileList).appendTo(uploader.find('.qq-upload-list'));
+	} else if(!isProfile){
 		$.ajax({				
 			url : "find_file_group.sw",
 			data : {
@@ -81,37 +121,30 @@ function createUploader(groupId, target){
 			type : "GET",
 			context : this,
 			success : function(data, status, jqXHR) {
-				var uploader = fileUploader(groupId, target);
+				console.log(data);
+				fileUploader(groupId, target);
 				var uploader_div = $(target);
-				uploader_div.find('.qq-upload-groupid').value(groupId);				
-				uploader_div.find('.qq-upload-groupid').attr("name", uploader_div.attr('id'));				
-				//uploader_div.find('.qq-upload-button').text(language.message('uploadFile'));
-				//uploader_div.find('.qq-upload-drop-area').text(language.message('uploadDropArea'));
+				uploader_div.find('.qq-uploader').attr('isMultiple', isMultiple).attr('isProfile', isProfile).attr('groupId', groupId);
 
 				var files = uploader_div.find('.qq-upload-list');
 				for(var i in data) {
-					
 					var fileName = data[i].fileName;
-						
 					var displayFileName = fileName;
 					if (fileName.length > 33) {
 						displayFileName = fileName.slice(0, 19) + '...' + fileName.slice(-13);
 					}
 					
-					var pos = fileName.lastIndexOf('.');
-		    		var ext = '';
-		    		if (pos != -1)
-		    			ext = fileName.substring( pos + 1, fileName.length);
-					
+					var ext = getExt(fileName);
+
 					var file = $(uploadFileTemplate).appendTo(files);
-					file.attr('fileId', data[i].id);
+					file.attr('fileId', data[i].id).attr('fileName', fileName).attr('fileSize', data[i].fileSize);
+					file.find('.qq-upload-file').prev('span').addClass('ico_file_' + ext);
 					file.find('.qq-upload-file').text(displayFileName);
-		        	file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + data[i].id).addClass('js_file_type_'+ ext );
+		        	file.find('.qq-upload-file').attr('href', 'download_file.sw?fileId=' + data[i].id + "&fileName=" + fileName);
 					file.find('.qq-upload-size').text(data[i].fileSize);
 					file.find('.qq-upload-cancel').remove();
 					file.find('.qq-upload-spinner').remove();
 					file.find('.qq-delete-text').show();
-					//file.find('.qq-upload-failed-text').text(language.message('uploadFailed'));
 				}
 			},
 			error : function(e) {
@@ -122,9 +155,9 @@ function createUploader(groupId, target){
 }
 
 function viewFiles(groupId, target){
-	
 	var viewFileTemplate = '<li>' +
-	'<a class="qq-upload-file"></a>' +
+	'<span></span>' +
+	'<a href="#" class="qq-upload-file"></a>' +
 	'<span class="qq-upload-size"></span>' +
 	'</li>';
 	
@@ -141,23 +174,21 @@ function viewFiles(groupId, target){
 			success : function(data, status, jqXHR) {
 				var files = $(target);
 				for(var i in data) {
-					
+
 					var fileName = data[i].fileName;
-						
+
 					var displayFileName = fileName;
 					if (fileName.length > 33) {
 						displayFileName = fileName.slice(0, 19) + '...' + fileName.slice(-13);
 					}
 					
-					var pos = fileName.lastIndexOf('.');
-		    		var ext = '';
-		    		if (pos != -1)
-		    			ext = fileName.substring( pos + 1, fileName.length);
+					var ext = getExt(fileName);
 					
 					var file = $(viewFileTemplate).appendTo(files);
 					file.attr('fileId', data[i].id);
+					file.find('.qq-upload-file').prev('span').addClass('ico_file_' + ext);
 					file.find('.qq-upload-file').text(displayFileName);
-		        	file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + data[i].id).addClass('js_file_type_'+ ext );
+		        	file.find('.qq-upload-file').attr('fileName', fileName).attr('href', 'download_file.sw?fileId=' + data[i].id + "&fileName=" + fileName);
 					file.find('.qq-upload-size').text(getBytesWithUnit(data[i].fileSize));
 				}
 			},
@@ -166,5 +197,5 @@ function viewFiles(groupId, target){
 			}
 		});
 	}
-}
 
+}

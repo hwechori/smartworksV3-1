@@ -22,15 +22,15 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	int reportType = Report.TYPE_CHART;
-	if (strReportType != null && !strReportType.equals(""))
+	if (!SmartUtil.isBlankObject(strReportType))
 		reportType = Integer.parseInt(strReportType);
 	SmartWork work = null;
 	Report report = null;
 	ChartReport chart = null;
 	MatrixReport matrix = null;
-	if (workId != null && !workId.equals(""))
+	if (!SmartUtil.isBlankObject(workId))
 		work = (SmartWork) smartWorks.getWorkById(workId);
-	if (reportId != null && !reportId.equals(""))
+	if (!SmartUtil.isBlankObject(reportId))
 		report = smartWorks.getReportById(reportId);
 	if (report != null && report.getType() == Report.TYPE_CHART) {
 		chart = (ChartReport) report;
@@ -265,7 +265,7 @@
 	<td colspan="5"><a href=""><fmt:message key="report.button.add_zaxis" /></a>
 	</td>
 </tr>
-<tr class="js_chart_zaxis" <%if (zAxisId == null) {%>
+<tr class="js_chart_zaxis" <%if (SmartUtil.isBlankObject(zAxisId)) {%>
 	style="display: none" <%}%>>
 	<td>
 			<fmt:message key="report.title.zaxis" /><span class="essen_n"></span>
@@ -343,7 +343,7 @@
 	<td colspan="5"><a href=""><fmt:message key="report.button.add_xsecondaxis" /></a>
 	</td>
 </tr>
-<tr class="js_chart_xsecondaxis" <%if (xSecondAxisId == null) {%>
+<tr class="js_chart_xsecondaxis" <%if (SmartUtil.isBlankObject(xSecondAxisId)) {%>
 	style="display: none" <%}%>>
 	<td>
 			<fmt:message key="report.title.xsecondaxis" /><span class="essen_n"></span>
@@ -419,7 +419,7 @@
 	<td colspan="5"><a href=""><fmt:message key="report.button.add_zsecondaxis" /></a>
 	</td>
 </tr>
-<tr class="js_chart_zsecondaxis" <%if (zSecondAxisId == null) {%>
+<tr class="js_chart_zsecondaxis" <%if (SmartUtil.isBlankObject(zSecondAxisId)) {%>
 	style="display: none" <%}%>>
 	<td>
 			<fmt:message key="report.title.zsecondaxis" /><span class="essen_n"></span>

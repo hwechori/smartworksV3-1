@@ -391,8 +391,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public String setMyProfile(HttpServletRequest request) throws Exception {
-		return workService.setMyProfile(request);
+	public void setMyProfile(HttpServletRequest request) throws Exception {
+		workService.setMyProfile(request);
 	}
 
 	@Override
@@ -414,6 +414,11 @@ public class SmartWorks implements ISmartWorks {
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		docFileService.downloadFile(request, response);
 
+	}
+
+	@Override
+	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		docFileService.uploadTempFile(request, response);
 	}
 
 }

@@ -4,33 +4,63 @@
 .form_layout {padding:0 10px;}
 .form_col { padding:3px 10px;}
 .form_row {}
-.form_label {float:left; width:20%;}
-.form_value {display:inline-block; width:80%;}
+.form_label {float:left;}
+.form_value {display:inline-block;}
 
-.form_text_input {max-width:}
-.form_date_input
-.form_time_input
-.form_datetime_input
+/* input 사이즈, form, 상세필터 공용 */
+.form_value_max_width {max-width:500px;}
 
-.form_cumm_input
-.form_cumms_input
 
-.form_work_input, .form_work_input
+.form_date_input {width:80px;} /*date input 사이즈, 상세필터 공용*/
+.form_time_input {width:60px;} /*time input 사이즈, 상세필터 공용*/
+.form_datetime_input {width:120px;}
 
-.form_number_input {text-align:right}
+/* .form_text_input {max-width:300px;}
+.form_datetime_input {width:300px;}
+.form_user_input {max-width:300px;}
+.form_users_input {max-width:300px;}
+.form_text_area {max-width:300px;} 
+.form_work_input {max-width:100px;}*/
 
+.form_number_input {text-align:right; max-width:300px;}
 .form_radio_btn
 .form_check_box
-
-.form_select_box {min-width:}
-
-.form_text_area {}
-
-.ico_user {background: url("../images/btn_s_person.png") no-repeat 0 0; height:20px; width:21px; float: right;}
-.ico_user_space {float: left; width:90%;}
+.form_select_box {min-width:100px;}
 
 
+.ico_fb_space {padding-right: 28px; position: relative;} /* 아이콘이 들어가 있는 영역 */
+.ico_fb_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_date {background: url("../images/btn_s_calendar.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_time {background: url("../images/btn_s_time.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_work {background: url("../images/btn_s_work.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_depart {background: url("../images/btn_s_depart.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+.ico_fb_group {background: url("../images/btn_s_group.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
 
+/* 상세필터 */
 .inputline {border:1px solid #c7c7c7; left:0px; margin-right:2px; width:170px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left;} /* 상세필터 input line*/
-.date_input {width:68px; padding:0 2px; float:left;} /* date input 사이즈/
-.time_input {width:40px; padding:0 2px; float:left;} /* time input 사이즈/
+
+/* 파일별 이미지 */
+.ico_file_asf {background: url("../images/file/icon_asf.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_avi {background: url("../images/file/icon_avi.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_bmp {background: url("../images/file/icon_bmp.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_doc {background: url("../images/file/icon_doc.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_exe {background: url("../images/file/icon_exe.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_gif {background: url("../images/file/icon_gif.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_hwp {background: url("../images/file/icon_hwp.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_jpg {background: url("../images/file/icon_jpg.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_mid {background: url("../images/file/icon_mid.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_mp3 {background: url("../images/file/icon_mp3.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_mpeg {background: url("../images/file/icon_mpeg.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_mpg {background: url("../images/file/icon_mpg.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_none {background: url("../images/file/icon_none.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_pdf {background: url("../images/file/icon_pdf.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_pds {background: url("../images/file/icon_pds.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_ppt {background: url("../images/file/icon_ppt.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_rar {background: url("../images/file/icon_rar.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_txt {background: url("../images/file/icon_txt.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_wav {background: url("../images/file/icon_wav.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_wma {background: url("../images/file/icon_wma.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_wmv {background: url("../images/file/icon_wmv.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_word {background: url("../images/file/icon_word.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_xls {background: url("../images/file/icon_xls.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}
+.ico_file_zip {background: url("../images/file/icon_zip.gif") no-repeat 0 0; height:18px; width:19px; position: relative; display: inline-block;}

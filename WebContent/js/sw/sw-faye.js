@@ -1,3 +1,8 @@
+
+$(document).ready(function(){
+ 	smartTalk.init();
+});
+
 var serverUrl = "http://localhost:8000";
 var swContext = "/faye";
 var currentUserId = currentUser.userId;
@@ -255,7 +260,7 @@ var smartTalk = {
 		var waitForChattingBox = function(){
 			console.log("retries");
 			var target = $("#"+chatInfo.chatId);
-			if(target.length>0){
+			if(!isEmpty(target)){
 				console.log('found');
 				for(var i=0; i<histories.length; i++){
 					receivedMessageOnChatId(histories[i]);			
@@ -290,7 +295,6 @@ var smartTalk = {
 			smartMsgClient = new Faye.Client(fayeContext, {
 				timeout : 5
 			});
-//			smartMsgClient.disable('autodisconnect');
 			smartTalk.startBcastSub();
 			smartTalk.startSubOnMe();
 
@@ -308,14 +312,14 @@ var smartTalk = {
 	},
 	
 	subscribe : function(channel, callback) {
-		if (smartMsgClient == null)
+		if (isEmpty(smartMsgClient))
 			return;
 		var subscription = smartMsgClient.subscribe(channel, callback);
 		return subscription;
 	},
 
 	publish : function(channel, message) {
-		if (smartMsgClient == null)
+		if (isEmpty(smartMsgClient))
 			return;
 		smartMsgClient.publish(channel, message);
 	},

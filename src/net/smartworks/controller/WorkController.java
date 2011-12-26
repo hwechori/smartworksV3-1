@@ -11,7 +11,6 @@ package net.smartworks.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
