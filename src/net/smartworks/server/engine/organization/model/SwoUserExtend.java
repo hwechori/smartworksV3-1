@@ -37,10 +37,25 @@ public class SwoUserExtend {
 	private String locale = null;
 	private String pictureName = null;
 	private String picturePath = null;
+	private String roleId = null;
 	private String position = null;
 	private String timeZone = null;
 	private String userLevel = null;
-	
+	private String type = null;
+	private String description = null;
+
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getId() {
 		return id;
 	}
@@ -82,6 +97,12 @@ public class SwoUserExtend {
 	}
 	public void setPicturePath(String picturePath) {
 		this.picturePath = picturePath;
+	}
+	public String getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 	public String getPosition() {
 		return position;

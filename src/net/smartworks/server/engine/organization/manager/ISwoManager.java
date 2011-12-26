@@ -160,4 +160,10 @@ public interface ISwoManager {
 
 	public String getUserDispName(String userId) throws SwoException;
 
+	public SwoUserExtend[] getDepartments(String departmentId) throws SwoException;
+
+	public SwoUserExtend[] getDepartmentsAndUsers(String departmentId) throws SwoException;
+
+	public SwoUserExtend[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws SwoException;
+
 }

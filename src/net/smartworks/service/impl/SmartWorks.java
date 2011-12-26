@@ -401,6 +401,11 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
+	public CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception {
+		return workService.getAllComsByDepartmentId(departmentId, departmentOnly);
+	}
+
+	@Override
 	public Data getReportData(HttpServletRequest request) throws Exception {
 		// TODO Auto-generated method stub
 		return workService.getReportData(request);
