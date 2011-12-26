@@ -122,6 +122,16 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		return SmartUtil.returnMnv(request, "jsp/content/work/start/new_board.jsp", "");
 	}
 
+//	@RequestMapping(value = "/refresh_data_fields", method = RequestMethod.POST)
+//	@ResponseStatus(HttpStatus.CREATED)
+//	public @ResponseBody Map<String, Object> refreshDataFields(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String instanceId = smartworks.refreshDataFields(requestBody);
+//		// TO DO : Exception handler
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+//		return map;
+//	}
+	
 	@RequestMapping(value = "/create_new_iwork", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody Map<String, Object> createNewIwork(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
