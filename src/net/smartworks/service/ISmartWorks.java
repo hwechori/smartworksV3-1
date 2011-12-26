@@ -175,6 +175,8 @@ public interface ISmartWorks {
 
 	public abstract void setMyProfile(HttpServletRequest request) throws Exception;
 
+	public abstract CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception;
+
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception;

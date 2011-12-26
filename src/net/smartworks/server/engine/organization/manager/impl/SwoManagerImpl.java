@@ -2046,6 +2046,124 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		return list;
 	}
 
+	public SwoUserExtend[] getDepartments(String departmentId) throws SwoException {
+		try {
+			StringBuffer sqlBuf = new StringBuffer();
+			sqlBuf.append(" select id, name, parentId as deptId from sworgdept where parentId = '" + departmentId + "' ");
+
+			Query query = getSession().createSQLQuery(sqlBuf.toString());
+			List list = query.list();
+			List objList = new ArrayList();
+			if (list.size() != 0) {
+				for (Iterator itr = list.iterator(); itr.hasNext();) {
+					Object[] fields = (Object[]) itr.next();
+					SwoUserExtend obj = new SwoUserExtend();
+					int j = 0;
+					obj.setId((String)fields[j++]);
+					obj.setName((String)fields[j++]);
+					obj.setDepartmentId((String)fields[j++]);
+					objList.add(obj);
+				}
+				list = objList;
+			}
+			SwoUserExtend[] objs = new SwoUserExtend[list.size()];
+			list.toArray(objs);
+			return objs;
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwoException(e);
+		}
+	}
+
+	public SwoUserExtend[] getDepartmentsAndUsers(String departmentId) throws SwoException {
+		try {
+			StringBuffer sqlBuf = new StringBuffer();
+			sqlBuf.append(" select id, name, deptId, 'u' as type from sworguser where deptId = '" + departmentId + "' ");
+			sqlBuf.append(" union ");
+			sqlBuf.append(" select id, name, parentId as deptId, 'd' as type from sworgDept where parentId = '" + departmentId + "'");
+
+			Query query = getSession().createSQLQuery(sqlBuf.toString());
+			List list = query.list();
+			List objList = new ArrayList();
+			if (list.size() != 0) {
+				for (Iterator itr = list.iterator(); itr.hasNext();) {
+					Object[] fields = (Object[]) itr.next();
+					SwoUserExtend obj = new SwoUserExtend();
+					int j = 0;
+					obj.setId((String)fields[j++]);
+					obj.setName((String)fields[j++]);
+					obj.setDepartmentId((String)fields[j++]);
+					obj.setType((String)fields[j++].toString());
+					objList.add(obj);
+				}
+				list = objList;
+			}
+			SwoUserExtend[] objs = new SwoUserExtend[list.size()];
+			list.toArray(objs);
+			return objs;
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwoException(e);
+		}
+	}
+
+	public SwoUserExtend[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws SwoException {
+		try {
+			StringBuffer sqlBuf = new StringBuffer();
+			List list = null;
+			List objList = new ArrayList();
+			if(departmentOnly) {
+				sqlBuf.append(" select id, name, description from sworgdept where parentId = '" + departmentId + "' ");
+
+				Query query = getSession().createSQLQuery(sqlBuf.toString());
+				list = query.list();
+				if (list.size() != 0) {
+					for (Iterator itr = list.iterator(); itr.hasNext();) {
+						Object[] fields = (Object[]) itr.next();
+						SwoUserExtend obj = new SwoUserExtend();
+						int j = 0;
+						obj.setId((String)fields[j++]);
+						obj.setName((String)fields[j++]);
+						obj.setDescription((String)fields[j++]);
+						objList.add(obj);
+					}
+					list = objList;
+				}
+			} else {
+				sqlBuf.append(" select id, name, deptId, pos, roleId, picture, '' as description, 'u' as type from sworguser where deptId = '" + departmentId + "' ");
+				sqlBuf.append(" union ");
+				sqlBuf.append(" select id, name, '' as deptId, '' as pos, '' as roleId, '' as picture, description, 'd' as type from sworgDept where parentId = '" + departmentId + "'");
+				sqlBuf.append(" order by roleId asc, name asc ");
+
+				Query query = getSession().createSQLQuery(sqlBuf.toString());
+				list = query.list();
+				if (list.size() != 0) {
+					for (Iterator itr = list.iterator(); itr.hasNext();) {
+						Object[] fields = (Object[]) itr.next();
+						SwoUserExtend obj = new SwoUserExtend();
+						int j = 0;
+						obj.setId((String)fields[j++]);
+						obj.setName((String)fields[j++]);
+						obj.setDepartmentId((String)fields[j++]);
+						obj.setPosition((String)fields[j++]);
+						obj.setRoleId((String)fields[j++]);
+						obj.setPictureName((String)fields[j++]);
+						obj.setDescription((String)fields[j++]);
+						obj.setType((String)fields[j++].toString());
+						objList.add(obj);
+					}
+					list = objList;
+				}
+			}
+			SwoUserExtend[] objs = new SwoUserExtend[list.size()];
+			list.toArray(objs);
+			return objs;
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwoException(e);
+		}
+	}
+
 	public SwoUser retrieveUser(String userId, String id) throws SwoException {
 		
 		if(this.userCache.containsKey(id)) {

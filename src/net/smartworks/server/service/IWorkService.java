@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
@@ -39,5 +40,7 @@ public interface IWorkService {
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception;
 
 	public void setMyProfile(HttpServletRequest request) throws Exception;
+
+	public CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception;
 
 }

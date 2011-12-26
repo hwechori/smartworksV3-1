@@ -7,6 +7,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.community.info.CommunityInfo;
+import net.smartworks.model.community.info.DepartmentInfo;
+import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Data;
@@ -45,6 +48,7 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoUser;
+import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
@@ -455,6 +459,49 @@ public class WorkServiceImpl implements IWorkService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	@Override
+	public CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception {
+
+		User cUser = SmartUtil.getCurrentUser();
+		if(departmentId == null) {
+			departmentId = cUser.getCompanyId();
+		}
+
+		SwoUserExtend[] swoUserExtends = getSwoManager().getAllComsByDepartmentId(departmentId, departmentOnly);
+
+		DepartmentInfo departmentInfo = new DepartmentInfo();
+		UserInfo userInfo = new UserInfo();
+
+		List<CommunityInfo> resultList = new ArrayList<CommunityInfo>();
+		for(SwoUserExtend swoUserExtend : swoUserExtends) {
+			String type = swoUserExtend.getType();
+			if(!CommonUtil.isEmpty(type)) {
+				if(type.equals("u")) {
+					userInfo.setId(swoUserExtend.getId());
+					userInfo.setName(swoUserExtend.getName());
+					userInfo.setPosition(swoUserExtend.getPosition());
+					userInfo.setSmallPictureName(swoUserExtend.getPictureName());
+					resultList.add(userInfo);
+				} else {
+					departmentInfo.setId(swoUserExtend.getId());
+					departmentInfo.setName(swoUserExtend.getName());
+					departmentInfo.setDesc(swoUserExtend.getDescription());
+					resultList.add(departmentInfo);
+				}
+			} else {
+				departmentInfo.setId(swoUserExtend.getId());
+				departmentInfo.setName(swoUserExtend.getName());
+				departmentInfo.setDesc(swoUserExtend.getDescription());
+				resultList.add(departmentInfo);
+			}
+		}
+		CommunityInfo[] communityInfos = new CommunityInfo[resultList.size()];
+		resultList.toArray(communityInfos);
+
+		return communityInfos;
 
 	}
 
