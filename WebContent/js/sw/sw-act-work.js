@@ -294,10 +294,10 @@ $(function() {
 
 	$('a.js_workitempicker_button').live('click', function(e) {
 		var input = $(e.target).parents('td.js_type_refFormField');
-		var workId = input.attr("refForm");
+		var formId = input.attr("refForm");
 		$.ajax({
 			url : "pop_select_work_item.sw",
-			data : {workId: workId},
+			data : {formId: formId},
 			context : input,
 			success : function(data, status, jqXHR) {
 				$.modal(data, selectWorkItemOptions);

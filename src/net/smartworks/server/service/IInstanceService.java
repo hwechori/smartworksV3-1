@@ -31,11 +31,13 @@ public interface IInstanceService {
 
 	public InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception;
 
+	public InstanceInfoList getIWorkInstanceListByFormId(String formId, RequestParams params) throws Exception;
+
 	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 
 	public WorkInstance getWorkInstanceById(String instanceId) throws Exception;
 
-	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception;
+	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public String startProcessWorkInstance(HttpServletRequest request) throws Exception;
 

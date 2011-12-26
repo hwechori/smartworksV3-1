@@ -136,9 +136,11 @@ public interface ISmartWorks {
 	public abstract Notice[] getNoticesForMe() throws Exception;
 
 	public abstract NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception;
-	
+
+	public String getWorkIdByFormId(String formId) throws Exception;
+
 	public abstract Work getWorkById(String workId) throws Exception;
-	
+
 	public abstract Instance getInstanceById(String instanceId) throws Exception;
 	
 	public abstract InstanceInfo[] searchMyRunningInstance(String key) throws Exception;
@@ -159,7 +161,7 @@ public interface ISmartWorks {
 	
 	public abstract Data getReportData(HttpServletRequest request) throws Exception;
 	
-	public abstract String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception;
+	public abstract String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract String startProcessWorkInstance(HttpServletRequest request) throws Exception;
 

@@ -282,7 +282,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	
 	
 	@Override
-	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception {
+	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
 		/*
 		Key Set : frmSmartForm
@@ -297,10 +297,10 @@ public class InstanceServiceImpl implements IInstanceService {
 		String formId = (String)requestBody.get("formId");
 		String formName = (String)requestBody.get("formName");
 		int formVersion = 1;
-		User user = SmartUtil.getCurrentUser();
+		User cuser = SmartUtil.getCurrentUser();
 		String userId = null;
-		if (user != null)
-			userId = user.getId();
+		if (cuser != null)
+			userId = cuser.getId();
 
 		SwdDomainCond swdDomainCond = new SwdDomainCond();
 		swdDomainCond.setFormId(formId);
@@ -325,6 +325,7 @@ public class InstanceServiceImpl implements IInstanceService {
 //		SwdField[] fieldDatas = new SwdField[keySet.size()];
 		List fieldDataList = new ArrayList();
 		List<Map<String, String>> files = null;
+		List users = null;
 		String groupId = null;
 		while (itr.hasNext()) {
 			String fieldId = (String)itr.next();
@@ -337,6 +338,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				Map<String, Object> valueMap = (Map<String, Object>)filedValue;
 				groupId = (String)valueMap.get("groupId");
 				refForm = (String)valueMap.get("refForm");
+				users = (ArrayList)valueMap.get("users");
 
 				if(!CommonUtil.isEmpty(groupId)) {
 					files = (ArrayList<Map<String,String>>)valueMap.get("files");
@@ -348,6 +350,21 @@ public class InstanceServiceImpl implements IInstanceService {
 					swoDepartmentCond.setId(refRecordId);
 					String deptName = getSwoManager().getDepartment(userId, swoDepartmentCond, IManager.LEVEL_LITE).getName();
 					value = deptName;
+				} else if(!CommonUtil.isEmpty(users)) {
+					String user = "";
+					String symbol = ";";
+					if(users.size() == 1) {
+						user = (String)users.get(0);
+					} else {
+						for(int i=0; i < users.size(); i++) {
+							user += (String)users.get(i) + symbol;
+						}
+//						int sapaEmptyInt = 2;
+//						int userSapaEmpty = user.length() - sapaEmptyInt;
+//						user = user.substring(0, userSapaEmpty);
+						System.out.println("user : " + user);
+					}
+					value = user;
 				}
 			} else if(filedValue instanceof String) {
 				value = (String)SmartFormInfoMap.get(fieldId);
@@ -365,6 +382,13 @@ public class InstanceServiceImpl implements IInstanceService {
 			fieldDataList.add(fieldData);
 			
 		}
+		String workType = "";
+		String servletPath = request.getServletPath();
+		if(servletPath.equals("/upload_new_picture.sw"))
+			workType = "Pictures";
+		else
+			workType = "Files";
+
 		SwdDataField[] fieldDatas = new SwdDataField[fieldDataList.size()];
 		fieldDataList.toArray(fieldDatas);
 		SwdRecord obj = new SwdRecord();
@@ -382,7 +406,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				String fileId = file.get("fileId");
 				String fileName = file.get("fileName");
 				String fileSize = file.get("fileSize");
-				getDocManager().insertFiles(groupId, fileId, fileName, fileSize);
+				getDocManager().insertFiles(workType, groupId, fileId, fileName, fileSize);
 			}
 		} catch (Exception e) {
 			throw new DocFileException("file upload fail...");
@@ -397,7 +421,7 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	@Override
 	public String setFileInstance(HttpServletRequest request) throws Exception {
-		return "testId";		
+		return "testId";
 	}
 
 	@Override
@@ -522,6 +546,24 @@ public class InstanceServiceImpl implements IInstanceService {
 		instanceInfoList.setCountInPage(pageCount);
 		instanceInfoList.setTotalPages((int)totalCount);
 		instanceInfoList.setCurrentPage(currentPage);
+
+		return instanceInfoList;
+	}
+
+	@Override
+	public InstanceInfoList getIWorkInstanceListByFormId(String formId, RequestParams params) throws Exception {
+
+		User user = SmartUtil.getCurrentUser();
+
+		SwfFormCond swfCond = new SwfFormCond();
+		swfCond.setCompanyId(user.getCompanyId());
+		swfCond.setId(formId);
+
+		SwfForm swfForm = getSwfManager().getForms(user.getId(), swfCond, IManager.LEVEL_LITE)[0];
+
+		String workId = swfForm.getPackageId();
+
+		InstanceInfoList instanceInfoList = getIWorkInstanceList(workId, params);
 
 		return instanceInfoList;
 	}
@@ -845,4 +887,5 @@ public class InstanceServiceImpl implements IInstanceService {
 		return ModelConverter.getProcessWorkInstanceByPrcProcessInst(userId, null, prcInst);
 		
 	}
+
 }

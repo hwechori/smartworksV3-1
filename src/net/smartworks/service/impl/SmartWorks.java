@@ -237,6 +237,11 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
+	public String getWorkIdByFormId(String formId) throws Exception {
+		return workService.getWorkIdByFormId(formId);
+	}
+
+	@Override
 	public Work getWorkById(String workId) throws Exception {
 		return workService.getWorkById(workId);
 	}
@@ -256,8 +261,8 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getRecentCommentsInWorkManual(workId, length);
 	}
 
-	public String setInformationWorkInstance(Map<String, Object> requestBody) throws Exception {
-		return instanceService.setInformationWorkInstance(requestBody);
+	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return instanceService.setInformationWorkInstance(requestBody, request);
 
 	}
 

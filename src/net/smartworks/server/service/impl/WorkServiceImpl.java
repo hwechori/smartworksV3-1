@@ -206,6 +206,23 @@ public class WorkServiceImpl implements IWorkService {
 		return workPkgs;
 	}
 
+	public String getWorkIdByFormId(String formId) throws Exception {
+
+		String workId = "";
+		User user = SmartUtil.getCurrentUser();
+
+		SwfFormCond swfCond = new SwfFormCond();
+		swfCond.setCompanyId(user.getCompanyId());
+		swfCond.setId(formId);
+
+		SwfForm swfForm = getSwfManager().getForms(user.getId(), swfCond, IManager.LEVEL_LITE)[0];
+
+		workId = swfForm.getPackageId();
+
+		return workId;
+
+	}
+
 	public Work getWorkById(String workId) throws Exception {
 		if (CommonUtil.isEmpty(workId))
 			return null;
@@ -223,7 +240,7 @@ public class WorkServiceImpl implements IWorkService {
 			return getInfortmationWorkById(user.getCompanyId(), user.getId(), workId);
 		}
 	}
-	
+
 	public Work getProcessWorkById(String companyId, String userId, String workId) throws Exception {
 		
 		if (CommonUtil.isEmpty(workId))
