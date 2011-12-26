@@ -69,7 +69,7 @@ function fileUploader(groupId, target) {
         },
         onComplete : function(id, fileName, responseJSON){
         	var file = $(this.element).find('.qq-upload-list li[qqFileId=' + id + ']');
-        	if(isZeroLength(file)) return;
+        	if(isEmpty(file)) return;
         	
         	file.attr('fileId', responseJSON.fileId).attr('fileName', fileName).attr('fileSize', responseJSON.fileSize);
         	var ext = getExt(fileName);
@@ -80,9 +80,8 @@ function fileUploader(groupId, target) {
         		$('form.js_validation_required').find('.sw_required').removeClass('sw_error');
 				$('form.js_validation_required').validate({ showErrors: showErrors}).form();
         	}
-        	if(file.hasClass('qq-upload-success')){
-	        	var target = file.parents('div.js_file_uploader:first').prev('img.js_auto_picture');
-	        	target.attr("src", responseJSON.pullPathName);
+        	if(file.hasClass('qq-upload-success') && !isEmpty(file.parents('td.js_type_imageBox'))){
+	        	file.parents('td.js_type_imageBox:first').find('img.js_auto_picture').attr("src", responseJSON.pullPathName);
         	}
         },
         fileTemplate : uploadFileTemplate,
@@ -101,7 +100,6 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile, file
 	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
 	'<a href="#" class="qq-delete-text" style="display:none">X</a>' +
 	'</li>';
-
 	if(!groupId) {
 		groupId = randomUUID('fg_');
 		fileUploader(groupId, target);
@@ -113,7 +111,7 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile, file
 		var uploader = $(target).find('.qq-uploader');
 		uploader.attr('isMultiple', isMultiple).attr('groupId', groupId);
 		if(isProfile) uploader.find('.qq-upload-list').hide();
-		if(!isZeroLength(fileList)) $(fileList).appendTo(uploader.find('.qq-upload-list'));
+		if(!isEmpty(fileList)) $(fileList).appendTo(uploader.find('.qq-upload-list'));
 	} else if(!isProfile){
 		$.ajax({				
 			url : "find_file_group.sw",

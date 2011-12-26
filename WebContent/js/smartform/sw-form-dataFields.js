@@ -32,8 +32,10 @@ function createFileDataFields(config){
 	dataFields.push(SmartWorks.FormRuntime.UserFieldBuilder.dataField({
 		fieldName: '관리담당자',
 		formXml: formXml,
-		userId: currentUser.userId,
-		longName: currentUser.longName
+		users: new Array({
+			userId: currentUser.userId,
+			longName: currentUser.longName
+		})
 	}));
 	dataFields.push(SmartWorks.FormRuntime.RichEditorBuilder.dataField({
 		fieldName: '내용',
