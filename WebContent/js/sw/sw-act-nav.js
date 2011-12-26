@@ -140,7 +140,7 @@ $(function() {
 				data : {
 					categoryId : categoryId,
 					groupId : groupId,
-					departmentId : departmentId,
+					departmentId : departmentId
 				},
 				context : input,
 				success : function(data, status, jqXHR) {

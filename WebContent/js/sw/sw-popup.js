@@ -126,7 +126,6 @@ popProgress = function(message){
 };
 
 popSelectUser = function(target){
-
 	if(isEmpty(target)) return;
 	$.get("pop_select_user.sw", function(data){
 		$(data).modal({

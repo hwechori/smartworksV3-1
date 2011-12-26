@@ -257,8 +257,8 @@ $(function() {
 	});
 
 	$('a.js_userpicker_button').live('click', function(e) {
-		var input = $(e.target).parent();
-		var target = input.parents('.js_community_list').prev().find('.js_selected_communities');						
+		var input = $(e.target);
+		var target = input.parents('.js_type_userField:first').find('.js_selected_communities');
 		popSelectUser(target);
 		return false;
 	});
