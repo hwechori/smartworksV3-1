@@ -3,7 +3,6 @@
 <html lang='en'>
 <head>
 <title>SmartWorks.net</title>
-<link rel="stylesheet" href="css/menu.css"></link>
 </head>
 <body class="welcome">
 	<div class="welcomeMent">

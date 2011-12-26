@@ -68,15 +68,14 @@ currentUser = {
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
 <link href="css/form.css" type="text/css" rel="stylesheet" />
+
 <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" title="ui-theme" />
 <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
 <link href="css/ext/example.css" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" href="css/fileuploader/fileuploader.css" type="text/css"/>
+<link href="css/fileuploader/fileuploader.css" type="text/css" rel="stylesheet"/>
 <link href="smarteditor/css/default_kor.css" rel="stylesheet" type="text/css" />
 	
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<title><fmt:message key="head.title"><fmt:param value="<%=currentUser.getCompany() %>" /></fmt:message></title>
 
 <script type="text/javascript" src="js/jquery/jquery-1.6.2.min.js"></script>
 <!-- <script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
@@ -151,6 +150,8 @@ currentUser = {
 
 <script type="text/javascript" src="smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/jquery/fileuploader/fileuploader.js" ></script>
+
+<title><fmt:message key="head.title"><fmt:param value="<%=currentUser.getCompany() %>" /></fmt:message></title>
 
 </head>
 

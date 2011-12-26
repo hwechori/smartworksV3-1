@@ -29,19 +29,26 @@ function submitForms(e) {
 			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 		}
 		console.log(JSON.stringify(paramsJson));
-		alert('wait');
 		var url = "create_new_iwork.sw";
+		popProgress("새로운 업무를 생성 중입니다.");
 		$.ajax({
 			url : url,
 			contentType : 'application/json',
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				popConfirm(null, "성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??");
-				//document.location.href = data.href;
+				$.modal.close();
+				popConfirm("성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??", 
+						function(){
+							document.location.href = data.href;					
+						},
+						function(){
+							document.location.href = document.location.href;
+						});
 			},
 			error : function(e) {
-				alert(e);
+				$.modal.close();
+				popShowInfo(swInfoType.ERROR, "새로운 업무를 생성중에 이상이 발생하였습니다.");
 			}
 		});
 	}

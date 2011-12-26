@@ -9,10 +9,9 @@
 <script type="text/javascript">
 function submitForms(e) {
 
-	if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
-
 	var $frmSmartForm = $('form[name="frmSmartForm"]');
 	if(isEmpty($frmSmartForm)) {
+		if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
 		var target = $('#form_import');
 		$.ajax({
 			url : "file_detail_form.sw",
@@ -55,6 +54,7 @@ function submitForms(e) {
 			}
 		});
 	} else {
+		if(!SmartWorks.GridLayout.validate($frmSmartForm)) return
 		var forms = $('form');
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){
