@@ -473,10 +473,9 @@ public class WorkServiceImpl implements IWorkService {
 		SwoUserExtend[] swoUserExtends = getSwoManager().getAllComsByDepartmentId(departmentId, departmentOnly);
 
 		List<CommunityInfo> resultList = new ArrayList<CommunityInfo>();
-		//for(int i=0; i<swoUserExtends.length; i++) {
 		for(SwoUserExtend swoUserExtend : swoUserExtends) {
 			String type = swoUserExtend.getType();
-			if(!CommonUtil.isEmpty(type)) {
+			if(!departmentOnly) {
 				if(type.equals("u")) {
 					UserInfo userInfo = new UserInfo();
 					userInfo.setId(swoUserExtend.getId());
