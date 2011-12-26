@@ -238,8 +238,9 @@ popSelectWork = function(target){
 	});
 };
 
-popSelectWorkItem = function(target){
-	$.get("pop_select_work_item.sw", function(data){
+popSelectWorkItem = function(formId, target){
+	if(isEmpty(formId) || isEmpty(target)) return;
+	$.get("pop_select_work_item.sw", {formId: formId}, function(data){
 		$(data).modal({
 			opacity: 20,
 			overlayCss: {backgroundColor:"#fff"},
@@ -257,34 +258,8 @@ popSelectWorkItem = function(target){
 				// TO DO
 			},
 			onShow: function(dialog){
-				$('.js_pop_select_work').live( 'click', function(e){
+				$('.js_pop_select_work_item').live( 'click', function(e){
 					var input = $(e.target).parents('li:first').children('a');
-					$('#form_works').slideUp().slideDown(500);
-					$('#upload_work_list').hide().parents(".js_start_work").slideUp();
-					if(isEmpty(target)){
-						var href = input.attr('href');
-						$.get(href,  function(data){
-							$('#form_works').html(data);
-							var formContent = $('#form_works').find('div.js_form_content');
-							var workId = input.attr('workId');
-							$.ajax({
-								url : "get_form_xml.sw",
-								data : {
-									workId : workId
-								},
-								success : function(formXml, status, jqXHR) {
-									console.log(formXml);
-									new SmartWorks.GridLayout({
-										target : formContent,
-										formXml : formXml,
-										mode : "edit"
-									});
-								}
-							});			
-						});
-					}else{
-					
-					}
 					$.modal.close();
 					return false;
 				});

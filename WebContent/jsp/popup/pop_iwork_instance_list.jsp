@@ -22,13 +22,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String cid = request.getParameter("cid");
-	String wid = request.getParameter("wid");
-
+	String formId = request.getParameter("formId");
+	
+	String workId = smartWorks.getWorkIdByFormId(formId);
+	
 	RequestParams params = new RequestParams();
 	params.setCountInPage(20);
 	params.setPageNumber(1);
-	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
 	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
 	InstanceInfoList instanceList = smartWorks.getIWorkInstanceList(workId, params);
@@ -50,10 +50,7 @@
 			}
 			}
 		%>
-		<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-				key='common.title.last_modified_date' /></th>
 	</tr>
-
 
 	<%
 		int countInPage = 0, totalPages = 0, currentPage = 0;
@@ -71,9 +68,6 @@
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
-				cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
-				wid = instanceInfo.getWorkSpace().getId();
-				String target = "iwork_space.sw?cid=" + cid + "&wid=" + wid;
 	%>
 
 
@@ -84,20 +78,11 @@
 							&& (fieldDatas.length == displayFields.length)) {
 						for (FieldData data : fieldDatas) {
 		%>
-		<td><a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
+		<td><a href="" class="js_pop_select_work_item" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
 		<%
 			}
 					}
 		%>
-		<td><a href="<%=target%>"><div class="noti_pic js_content_iwork_space">
-					<img src="<%=lastModifier.getMinPicture()%>"
-						title="<%=lastModifier.getLongName()%>" align="bottom" />
-				</div>
-				<div class="noti_in">
-					<span class="t_name"><%=lastModifier.getLongName()%></span>
-					<div class="t_date"><%=instanceInfo.getLastModifiedDate()
-							.toLocalString()%></div>
-				</div></a></td>
 	</tr>
 	<%
 		}

@@ -263,29 +263,10 @@ $(function() {
 		return false;
 	});
 
-	$('a.js_workpicker_button').live('click', function(e) {
-		var input = $(e.target).parent();
-		$.ajax({
-			url : "pop_select_work.sw",
-			context : input,
-			success : function(data, status, jqXHR) {
-				$.modal(data, selectWorkOptions);
-			}
-		});
-		return false;
-	});
-
 	$('a.js_workitempicker_button').live('click', function(e) {
-		var input = $(e.target).parents('td.js_type_refFormField');
-		var formId = input.attr("refForm");
-		$.ajax({
-			url : "pop_select_work_item.sw",
-			data : {formId: formId},
-			context : input,
-			success : function(data, status, jqXHR) {
-				$.modal(data, selectWorkItemOptions);
-			}
-		});
+		var target = $(e.target).parents('td.js_type_refFormField:first');
+		var formId = target.attr('refForm');
+		popSelectWorkItem(formId, target);
 		return false;
 	});
 });
