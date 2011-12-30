@@ -13,40 +13,42 @@
 	KeyMap[] timeZoneNames = LocalDate.getAvailableTimeZoneNames(cUser.getLocale());
 %>
 <script type="text/javascript">
-	function submitForms(e) {
-		if ($('form.js_validation_required').validate().form()) {
-			var params = $('form').serialize();
-			var form = document.getElementsByName('frmMyProfileSetting');
-			console.log("form", form);
-			var fileUploader = $(form).find('.js_form_file_field');
-			console.log('fileUploader', fileUploader);
-			if(!SmartUtil.isBlankObject(fileUploader)){
-				var groupId = $(fileUploader[0]).attr('groupId');
-				var files = fileUploader.find('li.qq-upload-success');
-				var file = $(files[0]);
-				params = params + "&profileGroupId=" + groupId + "&profileFileId=" + file.attr('fileId') + "&profileFileName=" + file.attr('fileName'); 
+function submitForms(e) {
+	if (SmartWorks.GridLayout.validate($('form.js_validation_required'))) {
+		var forms = $('form');
+		var paramsJson = {};
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			if(form.attr('name') === 'frmSmartForm'){
+				paramsJson['formId'] = form.attr('formId');
+				paramsJson['formName'] = form.attr('formName');
 			}
-			console.log(params);
-			var url = "update_my_profile.sw";
-			$.ajax({
-				url : url,
-				type : 'POST',
-				data : params,
-				success : function(data, status, jqXHR) {
-					alert("update success~!!");
-					document.location.href = data.href;
-				},
-				error : function(jqXHR, status, error) {
-					console.log(status);
-					console.log(error);
-					alert(error);
-				}
-			});
-		} else {
-			return;
+			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 		}
-		return;
+		console.log(JSON.stringify(paramsJson));
+		var url = "update_my_profile.sw";
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				$.modal.close();
+				popConfirm("성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??", 
+						function(){
+							document.location.href = data.href;					
+						},
+						function(){
+							document.location.href = document.location.href;
+						});
+			},
+			error : function(e) {
+				$.modal.close();
+				popShowInfo(swInfoType.ERROR, "새로운 업무를 생성중에 이상이 발생하였습니다.");
+			}
+		});
 	}
+}
 </script>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -77,12 +79,10 @@
 	<div class="contents_space">
 			<form name="frmMyProfileSetting" class="js_validation_required">
 			<div class="photo_section">
-				<img class="js_auto_picture profile_size_b" src="<%=cUser.getOrgPicture() %>" />
-				<div class="js_file_uploader file_uploader_area"></div>
-				<div class="t_text_s11">사진업로드 시 사이즈 110px를 권장합니다</div>
+				<div class="js_my_profile_field js_auto_load_profile"></div>
+				<div class="t_text_s11"><fmt:message key="profile.title.size_desc"/></div>
 			</div>
 			
-
 			<span class="table_nomal600 ">
 					<table>
 						<tr>

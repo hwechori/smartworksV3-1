@@ -19,7 +19,7 @@ function submitForms(e) {
 				target.html(data).hide();
 				var form = $('form[name="frmNewFile"]');
 				var uploader = form.find('.qq-uploader');
-				var comments = form.find('textarea[name="txtaFileDesc"]').text();
+				var comments = form.find('textarea[name="txtFileDesc"]').attr("value");
 				var groupId = uploader.attr('groupId');
 				var fileList = uploader.find('.qq-upload-list li');
 				var fileName = $(fileList[0]).attr('fileName');

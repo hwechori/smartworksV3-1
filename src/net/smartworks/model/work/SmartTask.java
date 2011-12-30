@@ -6,9 +6,16 @@ import net.smartworks.model.community.User;
 public class SmartTask extends BaseObject{
 
 	private SmartForm form;
+	private boolean startTask;
 	private User assignedUser;
 	private String assigningName;
 
+	public boolean isStartTask() {
+		return startTask;
+	}
+	public void setStartTask(boolean startTask) {
+		this.startTask = startTask;
+	}
 	public SmartForm getForm() {
 		return form;
 	}

@@ -2,6 +2,7 @@ SmartWorks.FormRuntime = SmartWorks.FormRuntime || {};
 
 SmartWorks.FormRuntime.RichEditorBuilder = {};
 
+var oEditors = [];
 SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	var options = {
 		mode : 'edit', // view or edit
@@ -28,7 +29,7 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
-		required = " class='sw_required' ";
+		required = " class='sw_required js_rich_editor_event' ";
 	}else{
 		required = "";
 	}
@@ -47,7 +48,6 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	$textarea.appendTo(options.container);
 
 	if (!readOnly) {
-		var oEditors = [];
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef: oEditors,
 			elPlaceHolder: id,
@@ -55,7 +55,6 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 			fCreator: "createSEditorInIFrame"
 		});
 	}
-	
 	return options.container;
 };
 
@@ -92,8 +91,9 @@ SmartWorks.FormRuntime.RichEditorBuilder.serializeObject = function(richEditors)
 	var richEditorsJson = {};
 	for(var i=0; i<richEditors.length; i++){
 		var richEditor = $(richEditors[i]);
-		console.log(richEditor.find('smartOutput'));
-		richEditorsJson[richEditor.attr('fieldId')] = "richEditor";
+		var id = richEditor.attr('fieldId');
+		if(!isEmpty(oEditors)) oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
+		richEditorsJson[richEditor.attr('fieldId')] = richEditor.find('textarea')[0].value;
 	}
 	return richEditorsJson;
 };
@@ -102,10 +102,14 @@ SmartWorks.FormRuntime.RichEditorBuilder.validate = function(richEditors){
 	var richEditorsValid = true;
 	for(var i=0; i<richEditors.length; i++){
 		var richEditor = $(richEditors[i]);
-		var value = "richEditor";
-		if(isEmpty(value)){
+		var id = richEditor.attr('fieldId');
+		if(!isEmpty(oEditors)) oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
+		var value = richEditor.find('textarea')[0].value;
+		if(isEmpty(value) || value === "<br>"){
 			richEditor.find('span.sw_required').addClass("sw_error");
 			richEditorsValid = false;
+		}else{
+			richEditor.find('span.sw_required').removeClass("sw_error");
 		}
 	}
 	return richEditorsValid;
@@ -122,6 +126,7 @@ SmartWorks.FormRuntime.RichEditorBuilder.dataField = function(config){
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isEmpty(fieldId)) fieldId = ($formXml.attr("name") === options.fieldName) ? $formXml.attr('id') : "";
 	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	
 	dataField = {

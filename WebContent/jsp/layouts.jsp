@@ -58,6 +58,7 @@ currentUser = {
 	departmentId : "<%=currentUser.getDepartmentId()%>",
 	minPicture : "<%=currentUser.getMinPicture()%>",
 	midPicture : "<%=currentUser.getMidPicture()%>",
+	orgPicture : "<%=currentUser.getOrgPicture()%>",
 	locale : "<%=currentUser.getLocale()%>",
 	timeZone : "<%=currentUser.getTimeZone()%>"
 };

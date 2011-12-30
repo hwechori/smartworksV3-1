@@ -18,7 +18,7 @@ function submitForms(e) {
 			target.html(data).hide();
 			var form = $('form[name="frmNewPicture"]');
 			var uploader = form.find('.qq-uploader');
-			var comments = form.find('textarea[name="txtPictureDesc"]').text();
+			var comments = form.find('textarea[name="txtPictureDesc"]').attr("value");
 			var groupId = uploader.attr('groupId');
 			var fileList = uploader.find('.qq-upload-list li');
 			var fileName = $(fileList[0]).attr('fileName');

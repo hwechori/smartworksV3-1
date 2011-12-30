@@ -143,13 +143,14 @@ SmartWorks.GridLayout.validate = function(form){
 	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.validate(form.find('.js_type_richEditor'));
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.validate(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.validate(form.find('.js_type_imageBox'));
+	var radioButtons = SmartWorks.FormRuntime.RadioButtonBuilder.validate(form.find('.js_type_radioButton'));
 	var dataGrids = true;
 	var jq_validate = true;
 	form.each(function(){
 		jq_validate = $(this).validate({ showErrors: showErrors}).form() && jq_validate;
 	});
 
-	var sw_validate = (fileFields && userFields && departmentFields && richEditors && refFormFields && imageBoxs && dataGrids && jq_validate);
+	var sw_validate = (fileFields && userFields && departmentFields && richEditors && refFormFields && imageBoxs && dataGrids && radioButtons && jq_validate);
 	if(!sw_validate && jq_validate){
 		showErrors();
 	}

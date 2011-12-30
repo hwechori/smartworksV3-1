@@ -7,12 +7,13 @@ import net.smartworks.model.work.FormField;
 
 public class SearchFilter extends BaseObject{
 	
+	public static final String SYSTEM_FILTER_PREFIX = "system.";
 	public static final String FILTER_ALL_INSTANCES = "allInstances";
-	public static final String FILTER_MY_INSTANCES = "myInstances";
-	public static final String FILTER_RECENT_INSTANCES = "recentInstances";
-	public static final String FILTER_MY_RECENT_INSTANCES = "myRecentInstances";
-	public static final String FILTER_MY_RUNNING_INSTANCES = "myRunningInstances";
-	public static final String FILTER_MY_ASSIGEND_INSTANCES = "myAssignedInstances";
+	public static final String FILTER_MY_INSTANCES = SYSTEM_FILTER_PREFIX + "myInstances";
+	public static final String FILTER_RECENT_INSTANCES = SYSTEM_FILTER_PREFIX + "recentInstances";
+	public static final String FILTER_MY_RECENT_INSTANCES = SYSTEM_FILTER_PREFIX + "myRecentInstances";
+	public static final String FILTER_MY_RUNNING_INSTANCES = SYSTEM_FILTER_PREFIX + "myRunningInstances";
+	public static final String FILTER_MY_ASSIGEND_INSTANCES = SYSTEM_FILTER_PREFIX + "myAssignedInstances";
 
 	private Condition[] conditions;
 
@@ -23,6 +24,11 @@ public class SearchFilter extends BaseObject{
 		this.conditions = conditions;
 	}
 
+	public boolean isSystemFilter(){
+		if(super.getId().contains(SYSTEM_FILTER_PREFIX)) return true;
+		return false;
+	}
+	
 	public SearchFilter(){
 	}
 	

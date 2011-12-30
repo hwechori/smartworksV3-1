@@ -4,6 +4,7 @@ $(function() {
 	 * 값을, js_start_work class(새업무시작하기에서 업무검색하는 입력창)는 id가 upload_work_list인 곳에
 	 * 보여주고, 그렇지 않으면 내부모와 같은 수준에 있는 div 영역에 보여준다.
 	 */
+	var requestedValue = "";
 	$('input.js_auto_complete').live('keyup', function(e) {
 		if(e.which>=9 && e.which<=45) return;
 		var input = $(e.target);
@@ -22,7 +23,8 @@ $(function() {
 		var lastValue = input[0].value;
 		setTimeout(function() {
 			var currentValue = input[0].value;
-			if (lastValue === currentValue) {
+			if (lastValue === currentValue && currentValue !== requestedValue) {
+				requestedValue = currentValue;
 				$.ajax({
 					url : url,
 					data : {
@@ -30,14 +32,13 @@ $(function() {
 					},
 					context : input,
 					success : function(data, status, jqXHR) {
-						console.log("e.which=" + e.which);
 						target.html(data);
 						target.show();
 					}
 				});
 			} else {
 			}
-		}, 300);
+		}, 500);
 	});
 
 	/*
@@ -46,6 +47,7 @@ $(function() {
 	$('input.js_auto_complete').live('focusout', function(e) {
 		var input = $(e.target);
 		input[0].value = '';
+		requestedValue = "";
 		var start_work = input.parents('div.js_start_work');
 		var user_name = input.parents('div.js_community_names');
 		var chatter_name = input.parents('div.js_chatter_names');

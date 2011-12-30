@@ -15,6 +15,7 @@ SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 	options.container.html('');
 
 	var value = (options.dataField && options.dataField.value) || '';
+	var imgSource = (options.dataField && options.dataField.imgSource) || '';
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 	var picWidth = parseFloat($graphic.attr('pictureWidth'));
@@ -27,19 +28,21 @@ SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
 
+	var spanRequired = "";
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
-		$required = $('<span class="essen_n"></span>');
+		spanRequired = '<span class="essen_n"></span>';
 		required = ' class="form_value form_value_max_width sw_required" ';
 	}else{
 		required = ' class="form_value form_value_max_width" ';
 	}
-
-	var picSize = 'style="min-height:20px;width:' + ((picWidth) ? picWidth : 300) + 'px;' + ((picHeight) ? ('height="' + picHeight + 'px;"') : '"' ); 
-	var $image = $('<div ' + required + ' style="width:' + valueWidth + '%"><img class="form_value js_auto_picture" ' + picSize + '></img><div>');
+	
+	var picSize = 'style="min-height:20px;width:' + ((picWidth) ? picWidth : 300) + 'px;' + ((picHeight) ? ('height="' + picHeight + 'px;"') : '"' );
+	var src = (isBlank(imgSource)) ? '' : ' src="' + imgSource + '" ';
+	var $image = $('<div ' + required + ' style="width:' + valueWidth + '%"><img class="form_value js_auto_picture" ' + picSize + src + '></img><div>');
 	var $label = null;
 		
-	$label = $('<div class="form_label" style="width:' + labelWidth + '%"><span id="' + id + '"></span></div>').append($required);
+	$label = $('<div class="form_label" style="width:' + labelWidth + '%"><span id="' + id + '"></span></div>').append(spanRequired);
 	$label.appendTo(options.container);
 	$image.appendTo(options.container);	
 	if ($graphic.attr('hidden') == 'true'){
@@ -58,14 +61,14 @@ SmartWorks.FormRuntime.ImageBoxBuilder.buildEx = function(config){
 			container : $('<tr></tr>'),
 			fieldId: '',
 			fieldName: '',
-			groupId: '',
+			groupId: '', 	//데이터 값으로 이미지 groupId 또는 img src를 입력하면 사진을 가져와 보여 준다.
+			imgSource: '',	//데이터 값으로 이미지 groupId 또는 img src를 입력하면 사진을 가져와 보여 준다.
 			pictureWidth: 300,
 			pictureHeight: 0,
 			required: false,
 			readOnly: false		
 	};
 	SmartWorks.extend(options, config);
-
 	var labelWidth = 10;
 	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
 	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
@@ -81,7 +84,8 @@ SmartWorks.FormRuntime.ImageBoxBuilder.buildEx = function(config){
 			dataField : SmartWorks.FormRuntime.ImageBoxBuilder.dataField({
 				fieldName: options.fieldName,
 				formXml: $formEntity,
-				groupId: options.groupId
+				groupId: options.groupId,
+				imgSource: options.imgSource
 			})
 	});
 	
@@ -126,29 +130,25 @@ SmartWorks.FormRuntime.ImageBoxBuilder.dataField = function(config){
 			fieldName: '',
 			formXml: '',
 			groupId: '',
+			imgSource: '',
 			isTempfile: false,
-			fileId: '',
-			fileName: '',
-			fileText: '',
-			fileSize: 0,
 			isMultiple: false,
 			isProfile:false
 	};
 
 	SmartWorks.extend(options, config);
+
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isEmpty(fieldId)) fieldId = ($formXml.attr("name") === options.fieldName) ? $formXml.attr('id') : "";
 	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	
 	dataField = {
 			id: fieldId,
 			value: options.groupId,
+			imgSource : options.imgSource,
 			isTempfile: options.isTempfile,
-			fileId: options.fileId,
-			fileName: options.fileName,
-			fileText: options.fileText,
-			fileSize: options.fileSize,
 			isMultiple: options.isMultiple,
 			isProfile: options.isProfiel
 	};

@@ -1,5 +1,8 @@
 package net.smartworks.model.instance.info;
 
+import net.smartworks.model.instance.SortingField;
+import net.smartworks.model.work.FormField;
+
 
 public class InstanceInfoList {
 	
@@ -9,6 +12,7 @@ public class InstanceInfoList {
 	
 	private int type;
 	private InstanceInfo[]	instanceDatas;
+	private SortingField sortedField;
 	private int countInPage;
 	private int	totalPages;
 	private int currentPage;
@@ -24,6 +28,12 @@ public class InstanceInfoList {
 	}
 	public void setInstanceDatas(InstanceInfo[] instanceDatas) {
 		this.instanceDatas = instanceDatas;
+	}
+	public SortingField getSortedField() {
+		return sortedField;
+	}
+	public void setSortedField(SortingField sortedField) {
+		this.sortedField = sortedField;
 	}
 	public int getCountInPage() {
 		return countInPage;

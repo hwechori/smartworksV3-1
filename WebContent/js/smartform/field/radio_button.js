@@ -30,7 +30,7 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$('<span class="essen_n"></span>').appendTo($label);
-		required = " class='required' ";
+		required = " class='sw_required'";
 	}else{
 		required = "";
 	}
@@ -39,14 +39,13 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	var $staticItems = $format.find('list staticItems staticItem');
 	var $input_container = $('<div class="form_value" style="width:' + valueWidth + '%"></div>');
 	
+	var $fieldset = $('<fieldset' + required + '></fieldset>');
 	for ( var i = 0; i < $staticItems.length; i++) {
 		var $staticItem = $staticItems.eq(i);
 		var text = $staticItem.text();
 		var checked = (value === text ) ? 'checked' : '' ;
 
-		console.dir(checked);
-		
-		var $input = $('<input type="radio" ' + checked + ' name="' + id + '" value="' + text + '"' + required + '>' + text + '</input>');
+		var $input = $('<input type="radio" ' + checked + ' name="' + id + '" value="' + text + '">' + text + '</input>');
 		
 		$input.attr('fieldId', id);
 		if (readOnly) {
@@ -56,8 +55,9 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 			$label.hide();
 			$input.hide();		
 		}
-		$input.appendTo($input_container);
+		$input.appendTo($fieldset);
 	}
+	$fieldset.appendTo($input_container);
 
 	$input_container.appendTo(options.container);
 
@@ -109,6 +109,7 @@ SmartWorks.FormRuntime.RadioButtonBuilder.dataField = function(config){
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isEmpty(fieldId)) fieldId = ($formXml.attr("name") === options.fieldName) ? $formXml.attr('id') : "";
 	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	
 	dataField = {
@@ -117,3 +118,18 @@ SmartWorks.FormRuntime.RadioButtonBuilder.dataField = function(config){
 	};
 	return dataField;
 };
+
+SmartWorks.FormRuntime.RadioButtonBuilder.validate = function(radioButtons){
+	var radioButtonsValid = true;
+	for(var i=0; i<radioButtons.length; i++){
+		var radioButton = $(radioButtons[i]);
+		var fieldset = radioButton.find('fieldset.sw_required');
+		if(isEmpty(fieldset)) continue;
+		if(isEmpty(fieldset.find('input:checked'))){
+			fieldset.addClass("sw_error");
+			radioButtonsValid = false;
+		}
+	}
+	return radioButtonsValid;
+};
+

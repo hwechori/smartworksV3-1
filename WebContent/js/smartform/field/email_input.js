@@ -89,6 +89,7 @@ SmartWorks.FormRuntime.EmailInputBuilder.dataField = function(config){
 	$formXml = $(options.formXml);
 	var dataField = {};
 	var fieldId = $formXml.find('formEntity[name="'+options.fieldName+'"]').attr('id');
+	if(isEmpty(fieldId)) fieldId = ($formXml.attr("name") === options.fieldName) ? $formXml.attr('id') : "";
 	if(isEmpty($formXml) || isEmpty(fieldId)) return dataField;
 	
 	dataField = {

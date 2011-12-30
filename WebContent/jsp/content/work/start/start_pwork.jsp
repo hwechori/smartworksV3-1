@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.model.work.ProcessWork"%>
+<%@page import="net.smartworks.model.work.SmartForm"%>
+<%@page import="net.smartworks.model.work.InformationWork"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
 <%@page import="net.smartworks.model.work.Work"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
@@ -8,109 +11,79 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <script type="text/javascript">
-	function submitForms() {
-		if ($('form.js_validation_required').validate().form()) {
-			var params = $('form').serialize();
-			var url = "start_new_pwork.sw";
-			$.ajax({
-				url : url,
-				type : 'POST',
-				data : params,
-				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-				},
-				error : function(jqXHR, status, error) {
-					console.log(jqXHR);
-					console.log(status);
-					console.log(error);
-				}
-			});
-		} else {
-			return;
-		}
-		return;
+function submitForms(e) {
+	var scheduleWork = $('form[name="frmScheduleWork"]');
+	if(scheduleWork.find($('input[name="chkScheduleWork"]')).is(':checked')){
+		scheduleWork.addClass('js_validation_required');
+	}else{
+		scheduleWork.removeClass('js_validation_required');	
 	}
-</script>
+	if (SmartWorks.GridLayout.validate($('form.js_validation_required'))) {
+		var forms = $('form');
+		var paramsJson = {};
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			if(form.attr('name') === 'frmSmartForm'){
+				paramsJson['formId'] = form.attr('formId');
+				paramsJson['formName'] = form.attr('formName');
+			}
+			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+		}
+		console.log(JSON.stringify(paramsJson));
+		var url = "start_new_pwork.sw";
+		popProgress("새로운 프로세스업무를 시작하는 중입니다.");
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				$.modal.close();
+				popConfirm("성공적으로 완료하였습니다. 시작된 업무 페이지로 이동하시겠습니까??", 
+						function(){
+							document.location.href = data.href;					
+						},
+						function(){
+							document.location.href = document.location.href;
+						});
+			},
+			error : function(e) {
+				$.modal.close();
+				popShowInfo(swInfoType.ERROR, "새로운 프로세스업무 시작중에 이상이 발생하였습니다.");
+			}
+		});
+	}
+	return;
+}
 
+</script>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
-
-	Work work = smartWorks.getWorkById(workId);
-	SmartWork cWork = null;
-	if (work.getClass().equals(SmartWork.class))
-		cWork = (SmartWork) work;
+	ProcessWork work = (ProcessWork)smartWorks.getWorkById(workId);
+	
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<!-- 폼- 확장 -->
-<div class="form_wrap up up_padding">
-	<div class="form_title">
-		<div class="ico_pworks title"><%=cWork.getFullpathName()%>
-
-			<span class="txt_btn padding_l10"> <a href=""><fmt:message
-						key="common.upload.button.view_process" />▼</a> </span>
-
-		</div>
-
+<div class="form_wrap up up_padding margin_b2 js_form_wrap">
+	<div class="form_title js_form_header">
+		<div class="ico_pworks title"><%=work.getFullpathName() %></div>
 		<div class="txt_btn">
-			<div>
-				<a href=""><img src="images/btn_referw.gif"
-					title="<fmt:message key='common.button.approval'/>" /> </a>
+			<div class="po_right image_posi">
+				<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
+			</div>
+			<div class="po_right image_posi">
+				<a href="" class="js_toggle_forward_btn"><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
 			</div>
 		</div>
 		<div class="solid_line"></div>
 	</div>
-
-	<div class="form_contents">
-
-		<div class="txt_btn">
-			<div>
-				<a class="js_toggle_form_detail"
-					href="load_detail_form.sw?key=<%=cWork.getId()%>"><fmt:message
-						key="common.upload.button.detail" /> </a>
-			</div>
-			<div style="display: none">
-				<a class="js_toggle_form_detail"
-					href="load_brief_form.sw?key=<%=cWork.getId()%>"><fmt:message
-						key="common.upload.button.brief" /> </a>
-			</div>
-		</div>
-
-
-		<form name='frmInstanceSubject' class="js_validation_required">
-			<table>
-				<colgroup>
-					<col class="item">
-					<col class="field">
-					<col class="item">
-					<col class="field">
-				</colgroup>
-				<tbody>
-					<tr>
-						<td><fmt:message key='common.upload.field.subject' />
-						</td>
-						<td colspan="3"><input name="hdnProcessWorkId" type="hidden"
-							value="<%=workId%>"><input
-							class="fieldline essen required" name="txtInstanceSubject"
-							type="text"></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-
-		<div class="dash_line"></div>
-
-
-
-		<div id="form_import">
-			<jsp:include page="/jsp/content/work/form/load_brief_form.jsp"></jsp:include>
-		</div>
-	</div>
-
+	<div class="js_form_task_approval" style="display:none"></div>
+	<div class="js_form_task_forward" style="display:none"></div>
+	<div class="js_form_content" workType="pwork"></div>
+	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
+	<!-- 폼- 확장 //-->
 	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 </div>
-<!-- 폼- 확장 //-->
-

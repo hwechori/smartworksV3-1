@@ -1,92 +1,67 @@
 $(function() {
-	$('select.js_select_filter_operand').live(
-			'change',
-			function(e) {
-				var input = $(e.target);
-				var pageName = input.children('option:selected').attr('page');
-				var url = pageName + ".sw";
-				var target = input.next('span.js_filter_operator');
-				$.ajax({
-					url : url,
-					data : {},
-					success : function(data, status, jqXHR) {
-						target.html(data).show();
-					}
-				});
-				return false;
-			});
+	$('select.js_select_filter_operand').live('change', function(e) {
+		var input = $(e.target);
+		var pageName = input.children('option:selected').attr('page');
+		var url = pageName + ".sw";
+		var target = input.next('span.js_filter_operator');
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).show();
+			}
+		});
+		return false;
+	});
 
-	$('select.js_select_filter_operator').live(
-			'change',
-			function(e) {
-				var input = $(e.target);
-				var target = input.children('option:selected').attr('type');
-				input.siblings('span.' + target).show().siblings('span.js_right_operand').hide();
-				return false;
-			});
+	$('select.js_select_filter_operator').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.children('option:selected').attr('type');
+		input.siblings('span.' + target).show().siblings('span.js_right_operand').hide();
+		return false;
+	});
 
-	$('a.js_search_filter').live(
-			'click',
-			function(e) {
-				$('#content').showLoading();
-				var input = $(e.target).parent();
-				var target = $('#search_filter');
-				var url = input.attr('href');
-				$.ajax({
-					url : url,
-					data : {},
-					success : function(data, status, jqXHR) {
-						target.html(data);
-						var condition = $(target).find('form.js_new_condition');
-						var newCondition = condition.clone().removeClass("js_new_condition");
-						condition.parent().append(newCondition.show());
-						target.slideDown(500);
-						$('#content').hideLoading();
-					},
-					error : function(){
-						$('#content').hideLoading();						
-					}
-				});
-				return false;
-			});
+	$('a.js_search_filter').live('click', function(e) {
+		$('#content').showLoading();
+		var input = $(e.target).parent();
+		var target = $('#search_filter');
+		var url = input.attr('href') + "&filterId=" + $('form[name="frmIworkFilterName"]').children('select').attr('value');
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data);
+//				var condition = $(target).find('form.js_new_condition');
+//				var newCondition = condition.clone().removeClass("js_new_condition");
+//				condition.parent().append(newCondition.show());
+				target.slideDown(500);
+				input.hide();
+				$('#content').hideLoading();
+			},
+			error : function(){
+				$('#content').hideLoading();						
+			}
+		});
+		return false;
+	});
 
-	$('select.js_select_filter').live(
-			'change',
-			function(e) {
-				$('#content').showLoading();
-				var input = $(e.target);
-				var target = $('#search_filter');
-				var url = input.attr('href') + "&filterId=" + input.children('option:selected').attr('value');
-				$.ajax({
-					url : url,
-					data : {},
-					success : function(data, status, jqXHR) {
-						target.html(data).slideDown(500);
-						$('#content').hideLoading();
-					},
-					error : function(){
-						$('#content').hideLoading();						
-					}
+	$('a.js_search_filter_close').live('click', function(e) {
+		$('#search_filter').slideUp(500).html('');
+		$('a.js_search_filter').show();
+		return false;
+	});
 
-				});
-				return false;
-			});
+	$('button.js_remove_condition').live('click', function(e) {
+		$(e.target).parents('form.js_filter_condition:first').remove();
+		return false;
+	});
 
-	$('button.js_remove_condition').live(
-			'click',
-			function(e) {
-				$(e.target).parents('form.js_filter_condition:first').remove();
-				return false;
-			});
-
-	$('img.js_add_condition').live(
-			'click',
-			function(e) {
-				var target = $(e.target).parents('div.js_search_filter').find('form.js_filter_condition').parent();
-				var newCondition = target.find('form.js_new_condition:first').clone().show().removeClass('js_new_condition');
-				target.append(newCondition.show());
-				return false;
-			});
+	$('img.js_add_condition').live('click', function(e) {
+		var target = $(e.target).parents('div.js_search_filter').find('form.js_filter_condition').parent();
+		var newCondition = target.find('form.js_new_condition:first').clone().show().removeClass('js_new_condition');
+		target.append(newCondition.show());
+		return false;
+	});
 
 	$('a.js_new_work_report').live('click', function(e) {
 		$('#content').showLoading();						

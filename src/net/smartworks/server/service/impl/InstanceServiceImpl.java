@@ -473,7 +473,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		boolean isAsc;
 
 		if (sf != null) {
-			fieldName  = CommonUtil.toDefault("createdTime" , sf.getFiieldId());
+			fieldName  = CommonUtil.toDefault("createdTime" , sf.getFieldId());
 			isAsc =  sf.isAscending();
 		} else {
 			fieldName = "createdTime";

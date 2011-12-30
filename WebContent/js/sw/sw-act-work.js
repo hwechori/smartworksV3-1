@@ -8,6 +8,13 @@ $(function() {
 		}		
 	}
 
+	var autoLoadProfiles = $('div.js_auto_load_profile');
+	if(!isEmpty(autoLoadProfiles)) {
+		for(var i=0; i<autoLoadProfiles.length; i++) {			
+			loadMyProfileField();
+		}		
+	}
+
 	$('.js_select_action a').live('click',function(e) {
 				var input = $(e.target);
 				$('.js_select_action').find('a').removeClass('current');
@@ -57,6 +64,7 @@ $(function() {
 			var input = $(event.target).parents('li:first').children('a');
 			var formContent = $('#form_works').find('div.js_form_content');
 			var workId = input.attr('workId');
+			var workType = formContent.attr("workType");
 			$.ajax({
 				url : "get_form_xml.sw",
 				data : {
@@ -84,7 +92,7 @@ $(function() {
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
 				var formContent = target.find('div.js_form_content');
-				var workId = formContent.attr('workId');
+				var workId = input.attr('workId');
 				$.ajax({
 					url : "get_form_xml.sw",
 					data : {
@@ -120,7 +128,7 @@ $(function() {
 				input.parent().toggle().siblings().toggle();
 				var form = input.parents('form[name="frmNewFile"]');
 				var uploader = form.find('.qq-uploader');
-				var comments = form.find('textarea[name="txtaFileDesc"]').text();
+				var comments = form.find('textarea[name="txtFileDesc"]').attr("value");
 				var groupId = uploader.attr('groupId');
 				var fileList = uploader.find('.qq-upload-list li');
 				var fileName = $(fileList[0]).attr('fileName');
@@ -269,4 +277,27 @@ $(function() {
 		popSelectWorkItem(formId, target);
 		return false;
 	});
+	
+	$('.js_type_radioButton input').live('click', function(e){
+		var target = $(e.target).parents('.js_type_radioButton').find('.sw_required');
+		if(target.hasClass('sw_error')){
+			target.removeClass('sw_error');
+			$('form.js_validation_required').validate({ showErrors: showErrors}).form();
+		}
+	});
+
+	$('a.js_toggle_forward_btn').live('click',function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_form_header').siblings('.js_form_task_forward');
+		$.ajax({
+			url : 'append_task_forward.sw',
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideToggle(500);
+				loadTaskForwardFields();
+			}
+		});
+		return false;
+	});
+
 });

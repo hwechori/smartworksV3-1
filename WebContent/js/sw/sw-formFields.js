@@ -1,3 +1,25 @@
+function loadMyProfileField() {
+	var myProfileFields = $('div.js_my_profile_field');
+	if(!isEmpty(myProfileFields)) {
+		for(var i=0; i<myProfileFields.length; i++) {
+			var myProfileField = $(myProfileFields[i]);
+			
+			var gridRow = SmartWorks.GridLayout.newGridRow();
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			myProfileField.html(gridTable.html(gridRow));
+
+			SmartWorks.FormRuntime.ImageBoxBuilder.buildEx({
+				container: gridRow,
+				fieldId: "imgMyProfile",
+				fieldName: "picture profile",
+				imgSource: currentUser.orgPicture,
+				pictureWidth: 110,
+				pictureHeight: 110,
+				required: false
+			});
+		}		
+	}
+};
 
 function loadCheckScheduleFields() {
 	var checkScheduleFields = $('div.js_check_schedule_fields');
@@ -244,6 +266,51 @@ function loadNewBoardFields() {
 				fieldId: "txtBoardFiles",
 				fieldName: boardFilesTitle,
 				columns: 1,
+				required: false
+			});
+		}		
+	}
+};
+
+function loadTaskForwardFields() {
+	var taskForwardFields = $('div.js_task_forward_fields');
+	if(!isEmpty(taskForwardFields)) {
+		for(var i=0; i<taskForwardFields.length; i++) {
+			var taskForwardField = $(taskForwardFields[i]);
+			
+			var gridRow = SmartWorks.GridLayout.newGridRow();
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			taskForwardField.html(gridTable.html(gridRow));
+			
+			var subjectTitle = taskForwardField.attr("subjectTitle");
+			var forwardeeTitle = taskForwardField.attr("forwardeeTitle");
+			var commentsTitle = taskForwardField.attr("commentsTitle");
+
+			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtForwardSubject",
+				fieldName: subjectTitle,
+				columns: 1,
+				required: true
+			});
+			
+			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			SmartWorks.FormRuntime.UserFieldBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtForwardForwardee",
+				fieldName: forwardeeTitle,
+				columns: 1,
+				multiUsers: true,
+				required: true
+			});
+
+			var gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtForwardComments",
+				fieldName: commentsTitle,
+				columns: 1,
+				multiLines: 4,
 				required: false
 			});
 		}		

@@ -68,4 +68,20 @@ public class TaskInstanceController {
 				"jsp/content/work/start/plan_swork.jsp", "");
 	}
 
+	@RequestMapping("/append_task_forward")
+	public ModelAndView appendTaskForward(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/upload/append_task_forward.jsp", "");
+	}
+
+	@RequestMapping("/append_task_approval")
+	public ModelAndView appendTaskApproval(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/upload/append_task_approval.jsp", "");
+	}
+
 }

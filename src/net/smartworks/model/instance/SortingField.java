@@ -1,16 +1,18 @@
 package net.smartworks.model.instance;
 
+import net.smartworks.model.work.FormField;
+
 public class SortingField {
 	
-	private String fiieldId;
-	private boolean isAscending;
+	private String fieldId = FormField.ID_LAST_MODIFIED_DATE;
+	private boolean isAscending = false;
 	
-	public String getFiieldId() {
-		return fiieldId;
+	public String getFieldId() {
+		return fieldId;
 	}
 
-	public void setFiieldId(String fiieldId) {
-		this.fiieldId = fiieldId;
+	public void setFieldId(String fieldId) {
+		this.fieldId = fieldId;
 	}
 
 	public boolean isAscending() {

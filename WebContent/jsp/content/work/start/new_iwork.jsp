@@ -30,7 +30,7 @@ function submitForms(e) {
 		}
 		console.log(JSON.stringify(paramsJson));
 		var url = "create_new_iwork.sw";
-		popProgress("새로운 업무를 생성 중입니다.");
+		popProgress("새로운 항목을 생성 중입니다.");
 		$.ajax({
 			url : url,
 			contentType : 'application/json',
@@ -48,7 +48,7 @@ function submitForms(e) {
 			},
 			error : function(e) {
 				$.modal.close();
-				popShowInfo(swInfoType.ERROR, "새로운 업무를 생성중에 이상이 발생하였습니다.");
+				popShowInfo(swInfoType.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
 			}
 		});
 	}
@@ -59,28 +59,29 @@ function submitForms(e) {
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
+	String workName = request.getParameter("workName");
 	User cUser = SmartUtil.getCurrentUser();
-	SmartWork work = (SmartWork)smartWorks.getWorkById(workId);
-	
+	InformationWork work = (InformationWork)smartWorks.getWorkById(workId);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <div class="form_wrap up up_padding margin_b2 js_form_wrap">
-	<div class="form_title">
+	<div class="form_title js_form_header">
 		<div class="ico_iworks title"><%=work.getFullpathName()%></div>
 		<div class="txt_btn">
 			<div class="po_right image_posi">
-				<a href=""><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
+				<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
 			</div>
 			<div class="po_right image_posi">
-				<a href=""><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
+				<a href="" class="js_toggle_forward_btn"><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
 			</div>
 		</div>
 		<div class="solid_line"></div>
 	</div>
-
-	<div class="js_form_content" workId="<%=workId%>"></div>
+	<div class="js_form_task_approval" style="display:none"></div>
+	<div class="js_form_task_forward" style="display:none"></div>
+	<div class="js_form_content" workType="iwork"></div>
 	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
 	<!-- 폼- 확장 //-->
 	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>

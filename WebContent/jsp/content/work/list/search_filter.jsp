@@ -23,7 +23,6 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
 	String filterId = request.getParameter("filterId");
-
 	User cUser = SmartUtil.getCurrentUser();
 	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
 
@@ -49,193 +48,255 @@
 	<table>
 		<tr>
 			<td>
-				<form name="frmNewSearchFilter" style="display: none"
+				<form name="frmSearchFilter" style="display: none"
 					class="filter_area js_filter_condition js_new_condition">
 					<select name="selFilterLeftOperand"
 						class="selb_size_fir js_select_filter_operand">
 						<%
-	if (fields != null) {
-		for (FormField field : fields) {
+						if (fields != null) {
+							for (FormField field : fields) {
 						%>
-						<option type="<%=field.getPageName()%>" value="<%=field.getId()%>"><%=field.getName()%></option>
+							<option type="<%=field.getPageName()%>" value="<%=field.getId()%>"><%=field.getName()%></option>
 						<%
-		}
-	}
-		%>
-						<jsp:include page="/jsp/content/work/field/default_fields.jsp">
-							<jsp:param name="workType" value="<%=work.getType() %>" />
-						</jsp:include>
-					</select> <span class="js_filter_operator"> <%
- 	if (!SmartUtil.isBlankObject(fields)) {
- 		String fieldType = fields[0].getType();
- 		if (fieldType.equals(FormField.TYPE_TEXT) || fieldType.equals(FormField.TYPE_RICHTEXT_EDITOR) || fieldType.equals(FormField.TYPE_IMAGE)
- 					|| fieldType.equals(FormField.TYPE_EMAIL)) {
- %> <jsp:include page="/jsp/content/work/field/string_field.jsp"></jsp:include>
-						<%
-		} else if (fieldType.equals(FormField.TYPE_NUMBER) || fieldType.equals(FormField.TYPE_CURRENCY) || fieldType.equals(FormField.TYPE_PERCENT)) {
-						%> <jsp:include page="/jsp/content/work/field/number_field.jsp"></jsp:include>
-						<%
-		} else if (fieldType.equals(FormField.TYPE_USER)) {
-						%> <jsp:include page="/jsp/content/work/field/user_field.jsp"></jsp:include>
-						<%
-		} else if (fieldType.equals(FormField.TYPE_FILE)) {
-						%> <jsp:include page="/jsp/content/work/field/file_field.jsp"></jsp:include>
-						<%
-		} else if (fieldType.equals(FormField.TYPE_OTHER_WORK)) {
-						%> <jsp:include page="/jsp/content/work/field/work_field.jsp"></jsp:include>
-						<%
-		} else if (fieldType.equals(FormField.TYPE_CHECK_BOX)) {
-						%> <jsp:include page="/jsp/content/work/field/boolean_field.jsp"></jsp:include>
-						<%
-		} else if (fieldType.equals(FormField.TYPE_DATE)) {
-						%> <jsp:include page="/jsp/content/work/field/date_field.jsp"></jsp:include>
-						<%
-		} else if (fieldType.equals(FormField.TYPE_TIME)) {
-						%> <jsp:include page="/jsp/content/work/field/time_field.jsp"></jsp:include>
-						<%
-		} else if (fieldType.equals(FormField.TYPE_DATETIME)) {
-						%> <jsp:include page="/jsp/content/work/field/datetime_field.jsp"></jsp:include>
-						<%
-		} else if (fieldType.equals(FormField.TYPE_COMBO)) {
-						%> <jsp:include page="/jsp/content/work/field/combo_field.jsp"></jsp:include>
-						<%
-		} else {
-						%> <jsp:include page="/jsp/content/work/field/string_field.jsp"></jsp:include>
-						<%
-		}
-	} else {
-						%><jsp:include page="/jsp/content/work/field/string_field.jsp"></jsp:include>
-						<%
-	}
-						%> </span>
-				</form> <%
- 	if (fields != null && filter != null) {
- 		Condition[] conditions = filter.getConditions();
- 		if (conditions != null) {
- 			for (Condition condition : conditions) {
- 				FormField leftOperand = condition.getLeftOperand();
- 				String operator = condition.getOperator();
- 				Object rightOperand = condition.getRightOperand();
- %>
-				<form name="frmExistingSearchFilter"
-					class="filter_area js_filter_condition">
-					<select name="selFilterLeftOperand"
-						class="selb_size_fir js_select_filter_operand">
-						<%
-				for (FormField field : fields) {
-						%>
-						<option type="<%=field.getPageName()%>" value="<%=field.getId()%>"
-							<%if (leftOperand.getId().equals(field.getId())) {%> selected
-							<%}%>><%=field.getName()%></option>
-						<%
-				}
+							}
+						}
 						%>
 						<jsp:include page="/jsp/content/work/field/default_fields.jsp">
 							<jsp:param name="workType" value="<%=work.getType() %>" />
-							<jsp:param name="fieldId" value="<%=leftOperand.getId() %>" />
 						</jsp:include>
-					</select> <span class="js_filter_operator"> <%
- 				String fieldType = leftOperand.getType();
- 				if (fieldType.equals(FormField.TYPE_TEXT) || fieldType.equals(FormField.TYPE_RICHTEXT_EDITOR) || fieldType.equals(FormField.TYPE_IMAGE)
- 						|| fieldType.equals(FormField.TYPE_EMAIL)) {
- 					String operandValue = URLEncoder.encode((String) rightOperand, "UTF-8");
- %> <jsp:include page="/jsp/content/work/field/string_field.jsp">
-							<jsp:param name="operator" value="<%=operator%>" />
-							<jsp:param name="operandValue" value="<%=operandValue%>" />
-						</jsp:include> <%
- 				} else if (fieldType.equals(FormField.TYPE_NUMBER) || fieldType.equals(FormField.TYPE_CURRENCY)
- 						|| fieldType.equals(FormField.TYPE_PERCENT)) {
- %> <jsp:include page="/jsp/content/work/field/number_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" /><jsp:param
-								name="operandValue" value="<%=rightOperand %>" /></jsp:include> <%
- 				} else if (fieldType.equals(FormField.TYPE_USER)) {
- 					String operandValue = URLEncoder.encode(((User) rightOperand).getLongName(), "UTF-8");
- %> <jsp:include page="/jsp/content/work/field/user_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" /><jsp:param
-								name="operandValue" value="<%=operandValue %>" /><jsp:param
-								name="operandId" value="<%=((User)rightOperand).getId()%>" /></jsp:include> <%
- 				} else if (fieldType.equals(FormField.TYPE_FILE)) {
- 					String operandValue = URLEncoder.encode((String) rightOperand, "UTF-8");
- %> <jsp:include page="/jsp/content/work/field/file_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" /><jsp:param
-								name="operandValue" value="<%=operandValue %>" /></jsp:include> <%
- 				} else if (fieldType.equals(FormField.TYPE_OTHER_WORK)) {
- 					String operandValue = URLEncoder.encode(((Work) rightOperand).getName(), "UTF-8");
- %> <jsp:include page="/jsp/content/work/field/work_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" /><jsp:param
-								name="operandValue" value="<%=operandValue %>" /><jsp:param
-								name="operandId" value="<%=rightOperand%>" /></jsp:include> <%
- 				} else if (fieldType.equals(FormField.TYPE_CHECK_BOX)) {
- %> <jsp:include page="/jsp/content/work/field/boolean_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" /><jsp:param
-								name="operandValue" value="<%=rightOperand %>" /></jsp:include> <%
- 				} else if (fieldType.equals(FormField.TYPE_DATE)) {
- 					String dateValue=null;
- 					if (rightOperand != null) {
- 						dateValue = ((LocalDate) rightOperand).toLocalDateSimpleString();
- 					}
- %> <jsp:include page="/jsp/content/work/field/date_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" />
-							<jsp:param name="operandValue" value="<%=dateValue %>" />
-						</jsp:include> <%
- 				} else if (fieldType.equals(FormField.TYPE_TIME)) {
- 					String timeValue=null;
- 					if (rightOperand != null) {
- 						timeValue = ((LocalDate) rightOperand).toLocalTimeShortString();
- 					}
- %> <jsp:include page="/jsp/content/work/field/time_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" />
-							<jsp:param name="operandValue" value="<%=timeValue %>" />
-						</jsp:include> <%
- 				} else if (fieldType.equals(FormField.TYPE_DATETIME)) {
- 					String dateValue=null;
- 					String timeValue=null;
- 					if (rightOperand != null) {
- 						dateValue = ((LocalDate) rightOperand).toLocalDateSimpleString();
- 						timeValue = ((LocalDate) rightOperand).toLocalTimeShortString();
- 					}
- %> <jsp:include page="/jsp/content/work/field/datetime_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" />
-							<jsp:param name="operandValue" value="<%=dateValue%>" />
-							<jsp:param name="operandValueSecond" value="<%=timeValue %>" />
-						</jsp:include> <%
- 				} else if (fieldType.equals(FormField.TYPE_COMBO)) {
- %> <jsp:include page="/jsp/content/work/field/combo_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" /><jsp:param
-								name="operandValue" value="<%=rightOperand %>" /></jsp:include> <%
- 				} else {
- 					String operandValue = URLEncoder.encode((String) rightOperand, "UTF-8");
- %> <jsp:include page="/jsp/content/work/field/string_field.jsp"><jsp:param
-								name="operator" value="<%=operator%>" /><jsp:param
-								name="operandValue" value="<%=operandValue%>" /></jsp:include> <%
- 				}
- %> </span>
-				</form> <%
- 			}
-
- 		}
- 	}
- %>
+					</select> 
+					<span class="js_filter_operator">
+					<%
+				 	if (!SmartUtil.isBlankObject(fields)) {
+				 		String fieldType = fields[0].getType();
+				 		if (fieldType.equals(FormField.TYPE_TEXT) || fieldType.equals(FormField.TYPE_RICHTEXT_EDITOR) || fieldType.equals(FormField.TYPE_IMAGE)
+				 					|| fieldType.equals(FormField.TYPE_EMAIL)) {
+ 					%> 
+ 							<jsp:include page="/jsp/content/work/field/string_field.jsp"></jsp:include>
+						<%
+						} else if (fieldType.equals(FormField.TYPE_NUMBER) || fieldType.equals(FormField.TYPE_CURRENCY) || fieldType.equals(FormField.TYPE_PERCENT)) {
+						%> 
+							<jsp:include page="/jsp/content/work/field/number_field.jsp"></jsp:include>
+						<%
+						} else if (fieldType.equals(FormField.TYPE_USER)) {
+						%> 
+							<jsp:include page="/jsp/content/work/field/user_field.jsp"></jsp:include>
+						<%
+						} else if (fieldType.equals(FormField.TYPE_FILE)) {
+						%> 
+							<jsp:include page="/jsp/content/work/field/file_field.jsp"></jsp:include>
+						<%
+						} else if (fieldType.equals(FormField.TYPE_OTHER_WORK)) {
+						%> 
+							<jsp:include page="/jsp/content/work/field/work_field.jsp"></jsp:include>
+						<%
+						} else if (fieldType.equals(FormField.TYPE_CHECK_BOX)) {
+						%> 
+							<jsp:include page="/jsp/content/work/field/boolean_field.jsp"></jsp:include>
+						<%
+						} else if (fieldType.equals(FormField.TYPE_DATE)) {
+						%> 
+							<jsp:include page="/jsp/content/work/field/date_field.jsp"></jsp:include>
+						<%
+						} else if (fieldType.equals(FormField.TYPE_TIME)) {
+						%> 
+							<jsp:include page="/jsp/content/work/field/time_field.jsp"></jsp:include>
+						<%
+						} else if (fieldType.equals(FormField.TYPE_DATETIME)) {
+						%> 
+							<jsp:include page="/jsp/content/work/field/datetime_field.jsp"></jsp:include>
+						<%
+						} else if (fieldType.equals(FormField.TYPE_COMBO)) {
+						%> 
+							<jsp:include page="/jsp/content/work/field/combo_field.jsp"></jsp:include>
+						<%
+						} else {
+						%> 
+							<jsp:include page="/jsp/content/work/field/string_field.jsp"></jsp:include>
+					<%
+						}
+					} else {
+					%>
+						<jsp:include page="/jsp/content/work/field/string_field.jsp"></jsp:include>
+					<%
+					}
+					%> 
+					</span>
+				</form> 
+				<%
+			 	if (fields != null && filter != null) {
+			 		Condition[] conditions = filter.getConditions();
+			 		if (conditions != null) {
+			 			for (Condition condition : conditions) {
+			 				FormField leftOperand = condition.getLeftOperand();
+			 				String operator = condition.getOperator();
+			 				Object rightOperand = condition.getRightOperand();
+				 %>
+							<form name="frmSearchFilter" class="filter_area js_filter_condition">
+								<select name="selFilterLeftOperand" class="selb_size_fir js_select_filter_operand">
+									<%
+									for (FormField field : fields) {
+									%>
+										<option type="<%=field.getPageName()%>" value="<%=field.getId()%>"
+									<%if (leftOperand.getId().equals(field.getId())) {%> selected <%}%>><%=field.getName()%></option>
+									<%
+									}
+									%>
+									<jsp:include page="/jsp/content/work/field/default_fields.jsp">
+										<jsp:param name="workType" value="<%=work.getType() %>" />
+										<jsp:param name="fieldId" value="<%=leftOperand.getId() %>" />
+									</jsp:include>
+								</select> 
+								<span class="js_filter_operator"> 
+									<%
+					 				String fieldType = leftOperand.getType();
+					 				if (fieldType.equals(FormField.TYPE_TEXT) || fieldType.equals(FormField.TYPE_RICHTEXT_EDITOR) || fieldType.equals(FormField.TYPE_IMAGE)
+					 						|| fieldType.equals(FormField.TYPE_EMAIL)) {
+					 					String operandValue = URLEncoder.encode((String) rightOperand, "UTF-8");
+	 								%> 
+	 									<jsp:include page="/jsp/content/work/field/string_field.jsp">
+											<jsp:param name="operator" value="<%=operator%>" />
+											<jsp:param name="operandValue" value="<%=operandValue%>" />
+										</jsp:include> 
+									<%
+					 				} else if (fieldType.equals(FormField.TYPE_NUMBER) || fieldType.equals(FormField.TYPE_CURRENCY)
+					 						|| fieldType.equals(FormField.TYPE_PERCENT)) {
+	 								%> 
+	 									<jsp:include page="/jsp/content/work/field/number_field.jsp">
+	 										<jsp:param name="operator" value="<%=operator%>" />
+	 										<jsp:param name="operandValue" value="<%=rightOperand %>" />
+	 									</jsp:include> 
+	 								<%
+					 				} else if (fieldType.equals(FormField.TYPE_USER)) {
+					 					String operandValue = URLEncoder.encode(((User) rightOperand).getLongName(), "UTF-8");
+	 								%> 
+	 									<jsp:include page="/jsp/content/work/field/user_field.jsp">
+	 										<jsp:param name="operator" value="<%=operator%>" />
+	 										<jsp:param name="operandValue" value="<%=operandValue %>" />
+	 										<jsp:param name="operandId" value="<%=((User)rightOperand).getId()%>" />
+	 									</jsp:include> 
+	 								<%
+					 				} else if (fieldType.equals(FormField.TYPE_FILE)) {
+					 					String operandValue = URLEncoder.encode((String) rightOperand, "UTF-8");
+	 								%> 
+	 									<jsp:include page="/jsp/content/work/field/file_field.jsp">
+	 										<jsp:param name="operator" value="<%=operator%>" />
+	 										<jsp:param name="operandValue" value="<%=operandValue %>" />
+	 									</jsp:include> 
+	 								<%
+					 				} else if (fieldType.equals(FormField.TYPE_OTHER_WORK)) {
+					 					String operandValue = URLEncoder.encode(((Work) rightOperand).getName(), "UTF-8");
+									 %> 
+									 	<jsp:include page="/jsp/content/work/field/work_field.jsp">
+									 		<jsp:param name="operator" value="<%=operator%>" />
+									 		<jsp:param name="operandValue" value="<%=operandValue %>" />
+									 		<jsp:param name="operandId" value="<%=rightOperand%>" />
+									 	</jsp:include>
+									<%
+					 				} else if (fieldType.equals(FormField.TYPE_CHECK_BOX)) {
+									%>
+										<jsp:include page="/jsp/content/work/field/boolean_field.jsp">
+											<jsp:param name="operator" value="<%=operator%>" />
+											<jsp:param name="operandValue" value="<%=rightOperand %>" />
+										</jsp:include> 
+									<%
+					 				} else if (fieldType.equals(FormField.TYPE_DATE)) {
+					 					String dateValue=null;
+					 					if (rightOperand != null) {
+					 						dateValue = ((LocalDate) rightOperand).toLocalDateSimpleString();
+					 					}
+	 								%> 
+	 									<jsp:include page="/jsp/content/work/field/date_field.jsp">
+	 										<jsp:param name="operator" value="<%=operator%>" />
+											<jsp:param name="operandValue" value="<%=dateValue %>" />
+										</jsp:include> 
+									<%
+					 				} else if (fieldType.equals(FormField.TYPE_TIME)) {
+					 					String timeValue=null;
+					 					if (rightOperand != null) {
+					 						timeValue = ((LocalDate) rightOperand).toLocalTimeShortString();
+					 					}
+	 								%> 
+	 									<jsp:include page="/jsp/content/work/field/time_field.jsp">
+	 										<jsp:param name="operator" value="<%=operator%>" />
+											<jsp:param name="operandValue" value="<%=timeValue %>" />
+										</jsp:include> 
+									<%
+					 				} else if (fieldType.equals(FormField.TYPE_DATETIME)) {
+					 					String dateValue=null;
+					 					String timeValue=null;
+					 					if (rightOperand != null) {
+					 						dateValue = ((LocalDate) rightOperand).toLocalDateSimpleString();
+					 						timeValue = ((LocalDate) rightOperand).toLocalTimeShortString();
+					 					}
+	 								%> 
+	 									<jsp:include page="/jsp/content/work/field/datetime_field.jsp">
+	 										<jsp:param name="operator" value="<%=operator%>" />
+											<jsp:param name="operandValue" value="<%=dateValue%>" />
+											<jsp:param name="operandValueSecond" value="<%=timeValue %>" />
+										</jsp:include> 
+									<%
+					 				} else if (fieldType.equals(FormField.TYPE_COMBO)) {
+	 								%> 
+	 									<jsp:include page="/jsp/content/work/field/combo_field.jsp">
+	 										<jsp:param name="operator" value="<%=operator%>" />
+	 										<jsp:param name="operandValue" value="<%=rightOperand %>" />
+	 									</jsp:include> 
+	 								<%
+					 				} else {
+					 					String operandValue = URLEncoder.encode((String) rightOperand, "UTF-8");
+	 								%> 
+	 									<jsp:include page="/jsp/content/work/field/string_field.jsp">
+	 										<jsp:param name="operator" value="<%=operator%>" />
+	 										<jsp:param name="operandValue" value="<%=operandValue%>" />
+	 									</jsp:include> 
+	 								<%
+	 								}
+	 								%> 
+	 							</span>
+							</form> 
+				<%
+			 			}
+			 		}
+			 	}
+			 	%>
 			</td>
-
 			<td valign="bottom" class="btn_plus"><img
 				src="images/btn_plus.gif" class="js_add_condition" />
 			</td>
-
 		</tr>
 	</table>
 	<div class="filter_btn_space">
-
 		<div class="float_right">
-			<span class="btn_wh" id="Image1"
-				onmouseover="MM_swapImage('Image1','','btn_wh_ov',1)"
-				onmouseout="MM_swapImgRestore()"> <a href=""> <span
-					class="Btn01Start"></span> <span class="Btn01Center">필터저장</span> <span
-					class="Btn01End"></span> </a> </span> <span class="btn_wh"> <span
-				class="Btn01Start"></span> <span class="Btn01Center">편집실행</span> <span
-				class="Btn01End"></span> </span> <span class="btn_wh"> <span
-				class="Btn01Start"></span> <span class="Btn01Center">닫기</span> <span
-				class="Btn01End"></span> </span>
+			<span class="btn_wh">
+				<a href="" class="js_search_filter_saveas"><span class="Btn01Start"></span>
+					<span class="Btn01Center"><fmt:message key="common.button.save_as"/></span><span class="Btn01End"></span> 
+				</a> 
+			</span> 
+ 			<%
+ 			if(!(!SmartUtil.isBlankObject(filter) && filter.isSystemFilter())){
+ 	 			System.out.println(SmartUtil.isBlankObject(filter));
+ 				if(!SmartUtil.isBlankObject(filter))
+ 	 				System.out.println(filter.isSystemFilter());
+ 			%>
+				<span class="btn_wh"> 
+					<a href="" class="js_search_filter_save"><span class="Btn01Start"></span>
+						<span class="Btn01Center"><fmt:message key="common.button.save"/></span><span class="Btn01End"></span> 
+					</a>
+				</span> 
+			<%
+			}
+			%>
+			<span class="btn_wh"> 
+				<a href="" class="js_search_filter_execute"><span class="Btn01Start"></span>
+					<span class="Btn01Center"><fmt:message key="common.button.execute"/></span><span class="Btn01End"></span>
+				</a>
+			</span> 
+			<span class="btn_wh">
+				<a href="" class="js_search_filter_close"><span class="Btn01Start"></span>
+					<span class="Btn01Center"><fmt:message key="common.button.close"/></span> <span class="Btn01End"></span>
+				</a>
+			</span>
 		</div>
 	</div>
 </div>
