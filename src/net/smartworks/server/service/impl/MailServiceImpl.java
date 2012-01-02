@@ -112,15 +112,19 @@ public class MailServiceImpl extends BaseService implements IMailService {
 						} else {
 						}
 					} catch (LoginInvalidException e) {
+						return null;
 					} catch (ServerDownException e) {
+						return null;
 					}
 				} else {
 				}
 			} else {
-				throw new SystemException();
+				return null;
 			}
 		} catch (SystemException e) {
+			return null;
 		} catch (Throwable e) {
+			return null;
 		}
 	    	    
 	    ConnectionMetaHandler handler = (ConnectionMetaHandler)request.getSession().getAttribute("handler");
