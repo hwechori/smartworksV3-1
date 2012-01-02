@@ -21,7 +21,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--  전체 레이아웃 -->
-<div class="pop_corner_all pop_section_500">
+<div class="pop_corner_all">
 
 	<!-- 팝업 타이틀 -->
 	<div class="form_title">

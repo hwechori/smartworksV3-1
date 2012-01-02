@@ -132,12 +132,8 @@ popSelectUser = function(target){
 			opacity: 20,
 			overlayCss: {backgroundColor:"#fff"},
 			containerCss:{
-				backgroundColor:"#fff",
-				borderColor:"#000",
-				color: '#000',
 				height:500,
-				padding:1,
-				width:360
+				width:400
 			},
 			overlayClose: true,
 			onOpen: function(dialog){
@@ -194,12 +190,8 @@ popSelectWork = function(target){
 			opacity: 20,
 			overlayCss: {backgroundColor:"#fff"},
 			containerCss:{
-				backgroundColor:"#fff",
-				borderColor:"#000",
-				color: '#000',
 				height:500,
-				padding:1,
-				width:360
+				width:400
 			},
 			overlayClose: true,
 			onOpen: function(dialog){
@@ -254,11 +246,7 @@ popSelectWorkItem = function(formId, target){
 			opacity: 20,
 			overlayCss: {backgroundColor:"#fff"},
 			containerCss:{
-				backgroundColor:"#fff",
-				borderColor:"#000",
-				color: "#000",
-				height:600,
-				padding:1,
+				height:500,
 				width:800
 			},
 			overlayClose: true,

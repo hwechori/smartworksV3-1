@@ -1,14 +1,13 @@
 @charset "utf-8";
 
 #wrap {background: url("../images/top_bg.jpg") repeat-x scroll 0 0 transparent; height:100%; min-width:1000px; margin:0; z-index:1; position:relative;}
-html, body {color:#fff; font-family:'돋움',Dotum, Arial, sans-serif, tahoma, verdana,; height:100%; line-height:1.5em;}
+html, body {color:#454545; font-family:'돋움',Dotum, Arial, sans-serif, tahoma, verdana,; height:100%; line-height:1.5em;}
 body, #nav {background: url("../images/bg_body.jpg");}
 #nav a:link, #nav a:visited, #header a:link, #header a:visited {color:#FFF;}
 #nav a:hover, #nav a:focus, #nav a:active, #header a:hover, #header a:focus, #header a:active {color:#FFF; text-decoration:none;}
 #nav .current {color:#FFF; text-decoration:underline; font-weight:bold;}
 
-#content a:focus, #content a:active, #content a:link, #content a:visited {color: #333333; text-decoration:none;}
-#content a:hover {}
+
 
 /*Header*/
 #header {background: url("../images/header_bg.jpg") repeat scroll left top transparent; height:34px; width:100%; z-index:40; position:relative; }
@@ -162,10 +161,17 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 
 /* 나의 커뮤니티, 나의 업무 Hover */
-#my_works li, #my_communities li {position:relative;}
-#my_works li a, #my_communities li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-#my_works li a:hover, #my_communities li a:hover {display:block; background-color:#4e4e4e;}
-#my_works .nav_subtitl_area, #my_communities .nav_subtitl_area {display: inline; float: left; position: relative; width: 180px;}
+#my_works li, 
+#my_communities li {position:relative;}
+
+#my_works li a, 
+#my_communities li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+
+#my_works li a:hover, 
+#my_communities li a:hover {display:block; background-color:#4e4e4e;}
+
+#my_works .nav_subtitl_area, 
+#my_communities .nav_subtitl_area {display: inline; float: left; position: relative; width: 180px;}
 
 #my_works li .menu_2dep li a {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 #my_works li .menu_2dep li a:hover {display:block; background-color:#4e4e4e;}
@@ -248,7 +254,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 .txt_btn .current { font-weight:bold;}
 .txt_btn .image_posi {position: relative; bottom:2px;} /* 우측 메뉴중 이미지가 올때 위치 조정 */
-.txt_btn a:hover, .txt_btn a:focus, .txt_btn a:active, .txt_btn a:link, .txt_btn a:visited {color:#8f8f8f; text-decoration:underline; }
+.txt_btn a, .txt_btn a:focus, .txt_btn a:active, .txt_btn a:link, .txt_btn a:visited {text-decoration:none;}
+.txt_btn a:hover {text-decoration:underline; }
 .txt_btn_height {height:16px;}
 
 
@@ -291,7 +298,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .form_contents .title_2dep {text-align:left;} 
 .form_contents .item {width:80px;}
 .form_contents .tcontents {width:100%;}
-.form_contents * {vertical-align: middle;}
+.form_contents * {}
 
 
 .form_add_a {margin:0 20px;}
@@ -477,7 +484,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .btn_right {left: 452px; position:relative;}
 			
 
-.btn_x, .btn_x a {float:right; color:#9b9b9b; font-size:12px; display: block; width:16px; height:15px; text-align:center;}
+.btn_x, .btn_x a {float:right; color:#9b9b9b; font-size:12px; display: block; width:16px; height:15px; text-align:center; text-decoration:none;}
 .btn_x a:hover {background-color:#f2f2f2; width:16px; height:15px; text-decoration:none;}
 
 .btn_x_gr {color:#c7c7c7; font-size:12px;}

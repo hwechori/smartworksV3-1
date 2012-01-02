@@ -78,6 +78,7 @@ currentUser = {
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
 <link href="css/form.css" type="text/css" rel="stylesheet" />
+<link href="css/pop.css" type="text/css" rel="stylesheet" />
 
 <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" title="ui-theme" />
 <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
