@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
@@ -34,8 +35,6 @@ public interface IInstanceService {
 	public InstanceInfoList getIWorkInstanceListByFormId(String formId, RequestParams params) throws Exception;
 
 	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
-
-	public InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
 
 	public WorkInstance getWorkInstanceById(String instanceId) throws Exception;
 

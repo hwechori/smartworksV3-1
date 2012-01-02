@@ -1,10 +1,8 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,7 +11,6 @@ import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.filter.SearchFilter;
-import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
@@ -61,20 +58,6 @@ import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
-import org.claros.commons.auth.MailAuth;
-import org.claros.commons.auth.exception.LoginInvalidException;
-import org.claros.commons.auth.models.AuthProfile;
-import org.claros.commons.exception.SystemException;
-import org.claros.commons.mail.exception.ServerDownException;
-import org.claros.commons.mail.models.ConnectionMetaHandler;
-import org.claros.commons.mail.models.ConnectionProfile;
-import org.claros.commons.mail.models.ConnectionProfileList;
-import org.claros.commons.mail.utility.Constants;
-import org.claros.intouch.common.services.BaseService;
-import org.claros.intouch.webmail.controllers.FolderController;
-import org.claros.intouch.webmail.factory.FolderControllerFactory;
-import org.claros.intouch.webmail.models.FolderDbObject;
-import org.claros.intouch.webmail.models.FolderDbObjectWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -84,11 +67,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
-public class WorkServiceImpl extends BaseService implements IWorkService {
+public class WorkServiceImpl implements IWorkService {
 
 	private ICtgManager getCtgManager() {
 		return SwManagerFactory.getInstance().getCtgManager();
@@ -539,97 +520,4 @@ public class WorkServiceImpl extends BaseService implements IWorkService {
 
 		return swdRecord;
 	}
-
-	@Override
-	public MailFolder[] getMailFoldersById(String folderId) throws Exception {
-		MailFolder[] mailFolders = null;
-
-	    ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-	    HttpServletRequest request = attr.getRequest();
-
-		try {
-			HashMap map = ConnectionProfileList.getConList();
-			if (map != null) {
-				Set set = map.keySet();
-				if (set == null) {
-					throw new SystemException();
-				}
-				Object arr[] = set.toArray();
-				if (arr == null || arr.length <= 0) {
-					throw new SystemException();
-				}
-				ConnectionProfile profile = ConnectionProfileList.getProfileByShortName((String)arr[0]);
-				if (profile == null) {
-					throw new SystemException();
-				}
-				String username = "ysjung@maninsoft.co.kr";//request.getParameter("username");
-				String password = "jys8804";//request.getParameter("password");
-
-				if (username != null && password != null) {
-					AuthProfile auth = new AuthProfile();
-					auth.setUsername(username);
-					auth.setPassword(password);
-					ConnectionMetaHandler handler = (ConnectionMetaHandler)request.getSession().getAttribute("handler");
-
-					try {
-						handler = MailAuth.authenticate(profile, auth, handler);
-						if (handler != null) {
-							
-							request.getSession().setAttribute("handler", handler);
-							request.getSession().setAttribute("auth", auth);
-							request.getSession().setAttribute("profile", profile);
-
-							// create default mailboxes if not exists
-							try {
-
-								FolderControllerFactory factory = new FolderControllerFactory(auth, profile, handler);
-								FolderController foldCont = factory.getFolderController();
-								foldCont.createDefaultFolders();
-							} catch (Exception e) {
-							}
-
-						} else {
-						}
-					} catch (LoginInvalidException e) {
-					} catch (ServerDownException e) {
-					}
-				} else {
-				}
-			} else {
-				throw new SystemException();
-			}
-		} catch (SystemException e) {
-		} catch (Throwable e) {
-		}
-	    	    
-	    ConnectionMetaHandler handler = (ConnectionMetaHandler)request.getSession().getAttribute("handler");
-		ConnectionProfile profile = getConnectionProfile(request);
-		
-		String sFolder = null;
-		if (sFolder == null || sFolder.equals("")) {
-			sFolder = org.claros.commons.mail.utility.Constants.FOLDER_INBOX(profile);
-		}
-
-		FolderControllerFactory foldFact = new FolderControllerFactory(getAuthProfile(request), profile, handler);
-		FolderController folderCont = foldFact.getFolderController();
-		if (profile.getProtocol().equals(Constants.POP3)) {
-			if (sFolder == null || sFolder.equals("INBOX")) {
-				FolderDbObject foldObj = folderCont.getInboxFolder();
-				sFolder = foldObj.getId().toString();
-			}
-		}
-		
-		List folders = folderCont.getFolders();
-		if (folders != null) {
-			FolderDbObjectWrapper tmp = null;
-			mailFolders = new MailFolder[folders.size()];
-			for(int i=0; i<mailFolders.length; i++){
-				tmp = (FolderDbObjectWrapper)folders.get(i);
-				mailFolders[i] = new MailFolder(tmp.getId().toString(), tmp.getFolderName(), tmp.getFolderType());
-				mailFolders[i].setUnreadItemCount(tmp.getUnreadItemCount().intValue());
-			}
-		}
-		return mailFolders;
-	}
-
 }

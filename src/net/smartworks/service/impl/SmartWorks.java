@@ -19,6 +19,7 @@ import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -82,6 +83,11 @@ public class SmartWorks implements ISmartWorks {
 	@Autowired
 	public void setWorkService(IWorkService workService) {
 		this.workService = workService;
+	}
+
+	@Autowired
+	public void setMailService(IMailService mailService) {
+		this.mailService = mailService;
 	}
 
 	@Autowired
@@ -436,12 +442,17 @@ public class SmartWorks implements ISmartWorks {
 
 	@Override
 	public MailFolder[] getMailFoldersById(String folderId) throws Exception {
-		return workService.getMailFoldersById(folderId);
+		return mailService.getMailFoldersById(folderId);
 	}
 
 	@Override
 	public InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception {
-		return instanceService.getMailInstanceList(folderId, params);
+		return mailService.getMailInstanceList(folderId, params);
+	}
+
+	@Override
+	public MailInstance getMailInstanceById(String folderId, String msgId) throws Exception {
+		return mailService.getMailInstanceById(folderId, msgId);
 	}
 
 }
