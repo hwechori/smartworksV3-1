@@ -1,8 +1,11 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -425,19 +428,62 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public void setMyProfile(HttpServletRequest request) throws Exception {
-		String txtUserProfileUserId = CommonUtil.toNotNull(request.getParameter("txtUserProfileUserId"));
-		String pwUserProfilePW = CommonUtil.toNotNull(request.getParameter("pwUserProfilePW"));
-		String selUserProfileLocale = CommonUtil.toNotNull(request.getParameter("selUserProfileLocale"));
-		String selUserProfileTimeZone = CommonUtil.toNotNull(request.getParameter("selUserProfileTimeZone"));
-		String txtUserProfileEmail = CommonUtil.toNotNull(request.getParameter("txtUserProfileEmail"));
-		String txtUserProfilePhoneNo = CommonUtil.toNotNull(request.getParameter("txtUserProfilePhoneNo"));
-		String txtUserProfileCellNo = CommonUtil.toNotNull(request.getParameter("txtUserProfileCellNo"));
+	public void setMyProfile(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		
+		Map<String, Object> frmMyProfileSetting = (Map<String, Object>)requestBody.get("frmMyProfileSetting");
 
-		String profileFileId = request.getParameter("profileFileId");
-		String profileFileName = request.getParameter("profileFileName");
+		Set<String> keySet = frmMyProfileSetting.keySet();
+		Iterator<String> itr = keySet.iterator();
 
-		String txtUserProfilePicture = getDocManager().insertProfilesFile(profileFileId, profileFileName, txtUserProfileUserId);
+		List<Map<String, String>> files = null;
+		String groupId = null;
+		String txtUserProfileUserId = null;
+		String pwUserProfilePW = null;
+		String selUserProfileLocale = null;
+		String selUserProfileTimeZone = null;
+		String txtUserProfileEmail = null;
+		String txtUserProfilePhoneNo = null;
+		String txtUserProfileCellNo = null;
+		String profileFileId = null;
+		String profileFileName = null;
+		String txtUserProfilePicture = null;
+		
+		while (itr.hasNext()) {
+			String fieldId = (String)itr.next();
+			Object fieldValue = frmMyProfileSetting.get(fieldId);
+			if (fieldValue instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+				groupId = (String)valueMap.get("groupId");
+				if(!CommonUtil.isEmpty(groupId)) {
+					files = (ArrayList<Map<String,String>>)valueMap.get("files");
+				}
+			} else if(fieldValue instanceof String) {
+				if(fieldId.equals("txtUserProfileUserId"))
+					txtUserProfileUserId = (String)frmMyProfileSetting.get("txtUserProfileUserId");
+				else if(fieldId.equals("pwUserProfilePW"))
+					pwUserProfilePW = (String)frmMyProfileSetting.get("pwUserProfilePW");
+					//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW);
+				else if(fieldId.equals("selUserProfileLocale"))
+					selUserProfileLocale = (String)frmMyProfileSetting.get("selUserProfileLocale");
+				else if(fieldId.equals("selUserProfileTimeZone"))
+					selUserProfileTimeZone = (String)frmMyProfileSetting.get("selUserProfileTimeZone");
+				else if(fieldId.equals("txtUserProfileEmail"))
+					txtUserProfileEmail = (String)frmMyProfileSetting.get("txtUserProfileEmail");
+				else if(fieldId.equals("txtUserProfilePhoneNo"))
+					txtUserProfilePhoneNo = (String)frmMyProfileSetting.get("txtUserProfilePhoneNo");
+				else if(fieldId.equals("txtUserProfileCellNo"))
+					txtUserProfileCellNo = (String)frmMyProfileSetting.get("txtUserProfileCellNo");
+			}
+		}
+
+		if(!files.isEmpty()) {
+			for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+				Map<String, String> file = files.get(i);
+				profileFileId = file.get("fileId");
+				profileFileName = file.get("fileName");
+				txtUserProfilePicture = getDocManager().insertProfilesFile(profileFileId, profileFileName, txtUserProfileUserId);
+			}
+		}
 
 		//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW); -- md5 password 암호화
 		SwoUser user = getSwoManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
