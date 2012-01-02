@@ -1,19 +1,14 @@
 package net.smartworks.server.service.impl;
 
-import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.community.User;
@@ -22,7 +17,6 @@ import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.Instance;
-import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
@@ -30,15 +24,14 @@ import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.IWInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
-import net.smartworks.model.instance.info.MailInstanceInfo;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
-import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
@@ -78,35 +71,7 @@ import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
-import org.claros.commons.auth.models.AuthProfile;
-import org.claros.commons.configuration.PropertyFile;
-import org.claros.commons.mail.comparator.ComparatorDate;
-import org.claros.commons.mail.comparator.ComparatorFrom;
-import org.claros.commons.mail.comparator.ComparatorSize;
-import org.claros.commons.mail.comparator.ComparatorSubject;
-import org.claros.commons.mail.comparator.ComparatorTo;
-import org.claros.commons.mail.exception.ProtocolNotAvailableException;
-import org.claros.commons.mail.models.ConnectionMetaHandler;
-import org.claros.commons.mail.models.ConnectionProfile;
-import org.claros.commons.mail.models.Email;
-import org.claros.commons.mail.models.EmailHeader;
-import org.claros.commons.mail.models.EmailPart;
-import org.claros.commons.mail.protocols.Protocol;
-import org.claros.commons.mail.protocols.ProtocolFactory;
-import org.claros.commons.mail.utility.Constants;
-import org.claros.commons.mail.utility.Utility;
-import org.claros.intouch.common.services.BaseService;
-import org.claros.intouch.webmail.controllers.FolderController;
-import org.claros.intouch.webmail.controllers.IconController;
-import org.claros.intouch.webmail.controllers.InboxController;
-import org.claros.intouch.webmail.controllers.MailController;
-import org.claros.intouch.webmail.factory.FolderControllerFactory;
-import org.claros.intouch.webmail.factory.InboxControllerFactory;
-import org.claros.intouch.webmail.factory.MailControllerFactory;
-import org.claros.intouch.webmail.models.FolderDbObject;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 public class InstanceServiceImpl implements IInstanceService {
@@ -501,8 +466,8 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		long totalCount = getSwdManager().getRecordSize(user.getId(), swdRecordCond);
 
-		int currentPage = params.getPageNumber() -1;
 		int pageCount = params.getCountInPage();
+		int currentPage = params.getPageNumber();
 		SortingField sf = params.getSortingField();
 
 		String fieldName = "";
@@ -528,6 +493,9 @@ public class InstanceServiceImpl implements IInstanceService {
 		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
 
 		SwdField[] swdFields = getSwdManager().getViewFieldList(workId, swdDomain.getFormId());
+
+		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
+		System.out.println("swfForms[0].getFields() : " + swfForms[0].getFields());
 
 		IWInstanceInfo[] iWInstanceInfos = new IWInstanceInfo[swdRecords.length];
 
