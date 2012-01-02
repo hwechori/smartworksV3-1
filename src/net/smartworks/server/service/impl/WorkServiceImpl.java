@@ -14,6 +14,7 @@ import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
@@ -567,4 +568,43 @@ public class WorkServiceImpl implements IWorkService {
 
 		return swdRecord;
 	}
+	@Override
+	public RequestParams setInstanceListParams(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		RequestParams requestParams = new RequestParams();
+
+		Map<String, Object> frmMyProfileSetting = (Map<String, Object>)requestBody.get("frmIworkFilterName");
+		String selFilterName = (String)frmMyProfileSetting.get("selFilterName");
+		Map<String, Object> frmSortingField = (Map<String, Object>)requestBody.get("frmSortingField");
+		String hdnSortingFieldId = (String)frmSortingField.get("hdnSortingFieldId");
+		String hdnSortingIsAscending = (String)frmSortingField.get("hdnSortingIsAscending");
+		Map<String, Object> frmInstanceListPaging = (Map<String, Object>)requestBody.get("frmInstanceListPaging");
+		String hdnCurrentPage = (String)frmSortingField.get("hdnCurrentPage");
+		String hdnNext10 = (String)frmSortingField.get("hdnNext10");
+		String hdnNextEnd = (String)frmSortingField.get("hdnNextEnd");
+		String selPageSize = (String)frmSortingField.get("selPageSize");
+		String hdnPrev10 = (String)frmSortingField.get("hdnPrev10");
+		String hdnPrevEnd = (String)frmSortingField.get("hdnPrevEnd");
+		Map<String, Object> frmSearchFilters = (Map<String, Object>)requestBody.get("frmSearchFilters");
+		Set<String> keySet = frmSearchFilters.keySet();
+		Iterator<String> itr = keySet.iterator();
+
+		String selFilterLeftOperand = null;
+		String selFilterStringOperator = null;
+		String txtFilterStringOperand = null;
+
+		while (itr.hasNext()) {
+			String fieldId = (String)itr.next();
+			Object fieldValue = frmSearchFilters.get(fieldId);
+			if (fieldValue instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+				selFilterLeftOperand = (String)valueMap.get("selFilterLeftOperand");
+				selFilterStringOperator = (String)valueMap.get("selFilterStringOperator");
+				txtFilterStringOperand = (String)valueMap.get("txtFilterStringOperand");
+			}
+		}
+
+		return null;
+	}		
+
 }

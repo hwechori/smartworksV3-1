@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
+import net.smartworks.model.filter.Condition;
+import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.Instance;
@@ -27,6 +29,7 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
+import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -469,6 +472,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		int pageCount = params.getCountInPage();
 		int currentPage = params.getPageNumber();
 		SortingField sf = params.getSortingField();
+//		SearchFilter searchFilter = params.getSearchFilter();
+//		Condition[] conditions = searchFilter.getConditions();
+//		for(Condition condition : conditions) {
+//			FormField leftOperand = condition.getLeftOperand();
+//			String operator = condition.getOperator();
+//			Object rightOperand = condition.getRightOperand();
+//		}
 
 		String fieldName = "";
 		boolean isAsc;
@@ -492,28 +502,10 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
 
-		SwdField[] swdFields = getSwdManager().getViewFieldList(workId, swdDomain.getFormId());
+		//SwdField[] swdFields = getSwdManager().getViewFieldList(workId, swdDomain.getFormId());
 
 		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
 		SwfField[] swfFields = swfForms[0].getFields();
-
-		/*List<SwdField> swdFieldList = new ArrayList<SwdField>();
-
-		for(SwdField swdField : swdFields) {
-			for(SwfField swfField : swfFields) {
-				if(swdField.getFormFieldId().equals(swfField.getId())) {
-					SwdField swdField2 = new SwdField();
-					swdField2.setFormFieldId(swdField.getFormFieldId());
-					swdField2.setFormFieldName(swdField.getFormFieldName());
-					swdField2.setFormFieldType(swfField.getFormat().getViewingType());
-					swdField2.setDisplayOrder(swdField.getDisplayOrder());
-					swdFieldList.add(swdField2);
-				}
-			}
-		}
-
-		SwdField[] finalSwdFields = new SwdField[swdFieldList.size()];
-		swdFieldList.toArray(finalSwdFields);*/
 
 		IWInstanceInfo[] iWInstanceInfos = new IWInstanceInfo[swdRecords.length];
 
@@ -542,19 +534,7 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			SwdDataField[] swdDataFields = swdRecord.getDataFields();
 			List<FieldData> fieldDataList = new ArrayList<FieldData>();
-/*			for(SwdDataField swdDataField : swdDataFields) {
-				for(SwdField swdField : finalSwdFields) {
-					if(swdField.getDisplayOrder() > -1) {
-						if(swdDataField.getId().equals(swdField.getFormFieldId())) {
-							FieldData fieldData = new FieldData();
-							fieldData.setFieldId(swdDataField.getId());
-							fieldData.setFieldType(swdField.getFormFieldType());
-							fieldData.setValue(swdDataField.getValue());
-							fieldDataList.add(fieldData);
-						}
-					}
-				}
-			}*/
+
 			for(SwdDataField swdDataField : swdDataFields) {
 				for(SwfField swfField : swfFields) {
 					if(swdDataField.getDisplayOrder() > -1) {

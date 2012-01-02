@@ -455,4 +455,9 @@ public class SmartWorks implements ISmartWorks {
 		return mailService.getMailInstanceById(folderId, msgId);
 	}
 
+	@Override
+	public RequestParams setInstanceListParams(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return workService.setInstanceListParams(requestBody, request);
+	}
+
 }
