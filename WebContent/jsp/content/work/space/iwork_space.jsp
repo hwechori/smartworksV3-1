@@ -12,6 +12,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	String cid = request.getParameter("cid");
+	String wid = request.getParameter("wid");
 	String workId = request.getParameter("workId");
 	String instanceId = request.getParameter("instanceId");
 	User cUser = SmartUtil.getCurrentUser();

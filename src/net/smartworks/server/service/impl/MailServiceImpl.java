@@ -413,6 +413,7 @@ public class MailServiceImpl extends BaseService implements IMailService {
 
 		MailInstance instance = null;
 		
+		
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	    HttpServletRequest request = attr.getRequest();
 
@@ -467,17 +468,27 @@ public class MailServiceImpl extends BaseService implements IMailService {
 			InternetAddress[] addrCc = (InternetAddress[])email.getBaseHeader().getCc();
 			InternetAddress[] addrBcc = (InternetAddress[])email.getBaseHeader().getBcc();
 			User sender = new User(addrFrom.getAddress(), addrFrom.getPersonal());
-			User[] receivers = new User[addrTo.length];
-			for(int k=0; i<addrTo.length; k++)
-				receivers[k] = new User(addrTo[k].getAddress(), addrTo[k].getPersonal());
-			User[] ccReceivers = new User[addrCc.length];
-			for(int k=0; i<addrCc.length; k++)
-				ccReceivers[k] = new User(addrCc[k].getAddress(), addrCc[k].getPersonal());
-			User[] bccReceivers = new User[addrBcc.length];
-			for(int k=0; i<addrBcc.length; k++)
-				bccReceivers[k] = new User(addrBcc[k].getAddress(), addrBcc[k].getPersonal());
+			User[] receivers = null;
+			if(addrTo != null){
+				receivers = new User[addrTo.length];
+				for(int k=0; k<addrTo.length; k++)
+					receivers[k] = new User(addrTo[k].getAddress(), addrTo[k].getPersonal());
+			}
+			User[] ccReceivers = null;
+			if(addrCc != null){
+				ccReceivers = new User[addrCc.length];
+				for(int k=0; k<addrCc.length; k++)
+					ccReceivers[k] = new User(addrCc[k].getAddress(), addrCc[k].getPersonal());
+			}
+			User[] bccReceivers = null;
+			if(addrBcc != null){
+				bccReceivers = new User[addrBcc.length];
+				for(int k=0; addrBcc!=null && k<addrBcc.length; k++)
+					bccReceivers[k] = new User(addrBcc[k].getAddress(), addrBcc[k].getPersonal());
+			}
 			
 			instance = new MailInstance(msgId, subject, sender, new LocalDate(email.getBaseHeader().getDate().getTime()));
+			instance.setCreatedDate(new LocalDate(email.getBaseHeader().getDate().getTime()));
 			instance.setReceivers(receivers);
 			instance.setCcReceivers(ccReceivers);
 			instance.setBcccReceivers(bccReceivers);

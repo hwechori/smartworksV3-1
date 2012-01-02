@@ -23,13 +23,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String cid = request.getParameter("cid");
-	String wid = request.getParameter("wid");
-
-	RequestParams params = new RequestParams();
-	params.setCountInPage(20);
-	params.setPageNumber(1);
-	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
+	String workId = request.getParameter("workId");
+	RequestParams params = (RequestParams)request.getAttribute("requestParams");
+	if(SmartUtil.isBlankObject(params)){
+		params = new RequestParams();
+		params.setPageSize(20);
+		params.setCurrentPage(1);		
+	}
 	User cUser = SmartUtil.getCurrentUser();
 	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
 	InstanceInfoList instanceList = smartWorks.getIWorkInstanceList(workId, params);
@@ -84,8 +84,8 @@
 			UserInfo owner = instanceInfo.getOwner();
 			UserInfo lastModifier = instanceInfo.getLastModifier();
 			FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
-			cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
-			wid = instanceInfo.getWorkSpace().getId();
+			String cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
+			String wid = instanceInfo.getWorkSpace().getId();
 			String target = "iwork_space.sw?cid=" + cid + "&wid=" + wid;
 		%>
 	<tr>
@@ -163,7 +163,7 @@
 	</div>
 	
 	<div class="num_box">
-		<select name="selListCountInPage" title="<fmt:message key='common.title.count_in_page'/> " onchange="selectListParam();return false;">
+		<select name="selPageSize" title="<fmt:message key='common.title.count_in_page'/> " onchange="selectListParam();return false;">
 			<option <%if (countInPage == 10) {%> selected <%}%>>10</option>
 			<option <%if (countInPage == 20) {%> selected <%}%>>20</option>
 			<option <%if (countInPage == 30) {%> selected <%}%>>30</option>

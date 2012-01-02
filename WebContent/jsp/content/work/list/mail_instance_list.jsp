@@ -84,7 +84,7 @@
 			UserInfo lastModifier = instanceInfo.getLastModifier();
 			cid = SmartWorks.CONTEXT_PREFIX_MAIL_SPACE + instanceInfo.getId();
 			wid = instanceInfo.getWorkSpace().getId();
-			String target = "mail_space.sw?cid=" + cid + "&wid=" + wid;
+			String target = "mail_space.sw?folderId=" + folderId + "&msgId=" + instanceInfo.getId();
 		%>
 	<tr>
 		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSender().getName())%></a></td>
