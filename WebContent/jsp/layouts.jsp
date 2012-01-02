@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="org.claros.commons.configuration.PropertyFile"%>
 <%@page import="org.claros.commons.mail.utility.Constants"%>
 <%@page import="org.claros.commons.mail.protocols.Protocol"%>
@@ -51,6 +52,12 @@
 	}
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser();
+
+	UserInfo[] userInfos = smartWorks.searchUser("신");
+
+	for(UserInfo userInfo : userInfos) {
+		System.out.println(userInfo.getLongName());	
+	}
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />

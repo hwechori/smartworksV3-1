@@ -15,6 +15,7 @@ import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.searcher.model.SchUser;
 import net.smartworks.server.engine.common.searcher.model.SchWorkspace;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
@@ -275,7 +276,37 @@ public class CommunityServiceImpl implements ICommunityService {
 
 	@Override
 	public UserInfo[] searchUser(String key) throws Exception {
-		return SmartTest.getAvailableChatter();
+		if (CommonUtil.isEmpty(key))
+			return null;
+
+		User cUser = SmartUtil.getCurrentUser();
+
+		SchUser[] schUsers = SwManagerFactory.getInstance().getSchManager().getSchUser(cUser.getCompanyId(), cUser.getId(), key);
+
+		if (CommonUtil.isEmpty(schUsers))
+			return null;
+
+		List<UserInfo> userList = new ArrayList<UserInfo>();
+
+		for(SchUser schUser : schUsers) {
+			UserInfo userInfo = new UserInfo();
+			userInfo.setId(schUser.getId());
+			userInfo.setName(schUser.getName());
+			userInfo.setPosition(schUser.getPosition());
+			userInfo.setRole(schUser.getRoleId().equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
+			DepartmentInfo departmentInfo = new DepartmentInfo();
+			departmentInfo.setId(schUser.getUserDeptId());
+			departmentInfo.setName(schUser.getUserDeptName());
+			departmentInfo.setDesc(schUser.getUserDeptDesc());
+			userInfo.setDepartment(departmentInfo);
+			userList.add(userInfo);
+		}
+
+		UserInfo[] userInfos = new UserInfo[userList.size()];
+		userList.toArray(userInfos);
+
+		return userInfos;
+
 	}
 
 	@Override

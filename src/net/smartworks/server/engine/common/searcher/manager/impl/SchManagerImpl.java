@@ -15,6 +15,7 @@ import java.util.List;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.searcher.exception.SchException;
 import net.smartworks.server.engine.common.searcher.manager.ISchManager;
+import net.smartworks.server.engine.common.searcher.model.SchUser;
 import net.smartworks.server.engine.common.searcher.model.SchWorkspace;
 import net.smartworks.server.engine.common.util.CommonUtil;
 
@@ -81,6 +82,52 @@ public class SchManagerImpl extends AbstractManager implements ISchManager {
 		SchWorkspace[] objs = new SchWorkspace[list.size()];
 		list.toArray(objs);
 		return objs;
+	}
+
+	@Override
+	public SchUser[] getSchUser(String companyId, String userId, String key) throws SchException {
+		if (CommonUtil.isEmpty(key)) 
+			return null;
+		
+		StringBuffer queryBuffer = new StringBuffer();
+		
+		queryBuffer.append(" select usr.id, usr.name ");
+		queryBuffer.append(" 		, usr.pos as position ");
+		queryBuffer.append(" 		, usr.roleId as roleId ");
+		queryBuffer.append(" 		, dept.id as deptId ");
+		queryBuffer.append(" 		, dept.name as deptName ");
+		queryBuffer.append(" 		, dept.description as deptDesc ");
+		queryBuffer.append("  from sworguser usr, sworgdept dept ");
+		queryBuffer.append(" where usr.deptId = dept.id ");
+		queryBuffer.append("   and usr.name like :key ");
+
+		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
+
+		query.setString("key", CommonUtil.toLikeString(key));
+		
+		List list = query.list();
+		if (list == null || list.isEmpty())
+			return null;
+		List objList = new ArrayList();
+		for (Iterator itr = list.iterator(); itr.hasNext();) {
+			Object[] fields = (Object[]) itr.next();
+			SchUser obj = new SchUser();
+			int j = 0;
+			obj.setId((String)fields[j++]);
+			obj.setName((String)fields[j++]);
+			obj.setUserPosition((String)fields[j++]);
+			obj.setRoleId((String)fields[j++]);
+			obj.setUserDeptId((String)fields[j++]);
+			obj.setUserDeptName((String)fields[j++]);
+			obj.setUserDeptDesc((String)fields[j++]);
+
+			objList.add(obj);
+		}
+		list = objList;
+		SchUser[] objs = new SchUser[list.size()];
+		list.toArray(objs);
+		return objs;
+
 	}
 
 }

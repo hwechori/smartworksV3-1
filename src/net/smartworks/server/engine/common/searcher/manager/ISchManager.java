@@ -9,10 +9,13 @@
 package net.smartworks.server.engine.common.searcher.manager;
 
 import net.smartworks.server.engine.common.searcher.exception.SchException;
+import net.smartworks.server.engine.common.searcher.model.SchUser;
 import net.smartworks.server.engine.common.searcher.model.SchWorkspace;
 
 public interface ISchManager {
 
 	public SchWorkspace[] getSchWorkspace(String companyId, String userid, String key) throws SchException;
-	
+
+	public SchUser[] getSchUser(String companyId, String userId, String key) throws SchException;
+
 }
