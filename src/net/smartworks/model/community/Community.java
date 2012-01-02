@@ -13,8 +13,8 @@ public class Community extends BaseObject {
 	public static final String COMMUNITY_USER = "User";
 	public static final String COMMUNITY_DEPARTMENT = "Department";
 	public static final String COMMUNITY_GROUP = "Group";
-	private String  bigPictureName = null;
-	private String  smallPictureName = null;
+	private String bigPictureName = null;
+	private String smallPictureName = null;
 
 	public String getOrgPictureName() {
 		return this.bigPictureName;
