@@ -27,8 +27,6 @@
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				var target = $('#iwork_list_page');
-				target.html(data);
 			},
 			error : function(e) {
 				popShowInfo(swInfoType.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
@@ -39,7 +37,7 @@
 	selectListParam = function(){
 		var forms = $('form:visible');
 		var paramsJson = {};
-		paramsJson["href"] = "iwork_instance_list.sw?workId=" + getUrlVars().workId;
+		paramsJson["href"] = "jsp/content/work/list/iwork_instance_list.jsp?workId=" + Request.parameter("workId");
 		var searchFilters = $('form[name="frmSearchFilter"]');
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
@@ -55,7 +53,7 @@
 			}
 			paramsJson['frmSearchFilters'] = searchFilterArray;
 		}		
-		console.log(JSON.stringify(paramsJson));		
+		getIntanceList(paramsJson);		
 	};
 	
 	$('a.js_select_paging').live("click", function(e){

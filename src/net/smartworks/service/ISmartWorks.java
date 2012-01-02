@@ -25,7 +25,6 @@ import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
-import net.smartworks.model.instance.info.MailInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.notice.Notice;
@@ -199,5 +198,7 @@ public interface ISmartWorks {
 	public abstract SwdRecord getRecord(HttpServletRequest request) throws Exception;
 
 	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public abstract RequestParams setInstanceListParams(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 }

@@ -14,7 +14,7 @@ public class InstanceInfoList {
 	private int type;
 	private InstanceInfo[]	instanceDatas;
 	private SortingField sortedField;
-	private int countInPage;
+	private int pageSize;
 	private int	totalPages;
 	private int currentPage;
 	
@@ -36,11 +36,11 @@ public class InstanceInfoList {
 	public void setSortedField(SortingField sortedField) {
 		this.sortedField = sortedField;
 	}
-	public int getCountInPage() {
-		return countInPage;
+	public int getPageSize() {
+		return pageSize;
 	}
-	public void setCountInPage(int countInPage) {
-		this.countInPage = countInPage;
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 	public int getTotalPages() {
 		return totalPages;

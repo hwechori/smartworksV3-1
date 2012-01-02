@@ -48,7 +48,7 @@
 		int type = instanceList.getType();
 		sortedField = instanceList.getSortedField();
 		if(sortedField==null) sortedField = new SortingField();
-		countInPage = instanceList.getCountInPage();
+		countInPage = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
 		currentPage = 1;

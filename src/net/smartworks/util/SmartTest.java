@@ -839,9 +839,9 @@ public class SmartTest {
 	public static InstanceInfoList getWorkInstanceList1(RequestParams params) throws Exception{
 		InstanceInfoList instanceList = new InstanceInfoList();
 		instanceList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-		instanceList.setCountInPage(params.getCountInPage());
+		instanceList.setPageSize(params.getPageSize());
 		instanceList.setTotalPages(31);
-		instanceList.setCurrentPage(params.getPageNumber());
+		instanceList.setCurrentPage(params.getCurrentPage());
 		InstanceInfo[] instanceRecords = getInstanceRecords1();
 		instanceList.setInstanceDatas(instanceRecords);
 		return instanceList;
@@ -849,9 +849,9 @@ public class SmartTest {
 	public static InstanceInfoList getWorkInstanceList2(RequestParams params) throws Exception{
 		InstanceInfoList instanceList = new InstanceInfoList();
 		instanceList.setType(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
-		instanceList.setCountInPage(params.getCountInPage());
+		instanceList.setPageSize(params.getPageSize());
 		instanceList.setTotalPages(31);
-		instanceList.setCurrentPage(params.getPageNumber());
+		instanceList.setCurrentPage(params.getCurrentPage());
 		InstanceInfo[] instanceRecords = getInstanceRecords2();
 		instanceList.setInstanceDatas(instanceRecords);
 		return instanceList;

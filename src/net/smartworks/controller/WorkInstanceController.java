@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
 import net.smartworks.util.SmartUtil;
@@ -209,6 +210,20 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("href", "my_profile.sw");
 		return map;
+	}
+
+	@RequestMapping(value = "/set_instance_list_params", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody ModelAndView setInstanceListParams(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		RequestParams requestParams = smartworks.setInstanceListParams(requestBody, request);
+		String href = (String)requestBody.get("href");
+
+		ModelAndView mnv = new ModelAndView();
+		mnv.addObject("requestParams", requestParams);
+		mnv.setViewName(href);
+
+		return mnv;
+
 	}
 
 }
