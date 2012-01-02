@@ -18,6 +18,7 @@ import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.MailInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.mail.MailAttachment;
 import net.smartworks.model.mail.MailFolder;
 import net.smartworks.server.service.IMailService;
 import net.smartworks.util.LocalDate;
@@ -461,14 +462,34 @@ public class MailServiceImpl extends BaseService implements IMailService {
 				subject = getText(request, "no.subject");
 			}
 			
-			instance = new MailInstance(msgId, subject, new User(from, ""), new LocalDate(email.getBaseHeader().getDate().getTime()));
+			InternetAddress addrFrom = (InternetAddress)email.getBaseHeader().getFrom()[0];
+			InternetAddress[] addrTo = (InternetAddress[])email.getBaseHeader().getTo();			
+			InternetAddress[] addrCc = (InternetAddress[])email.getBaseHeader().getCc();
+			InternetAddress[] addrBcc = (InternetAddress[])email.getBaseHeader().getBcc();
+			User sender = new User(addrFrom.getAddress(), addrFrom.getPersonal());
+			User[] receivers = new User[addrTo.length];
+			for(int k=0; i<addrTo.length; k++)
+				receivers[k] = new User(addrTo[k].getAddress(), addrTo[k].getPersonal());
+			User[] ccReceivers = new User[addrCc.length];
+			for(int k=0; i<addrCc.length; k++)
+				ccReceivers[k] = new User(addrCc[k].getAddress(), addrCc[k].getPersonal());
+			User[] bccReceivers = new User[addrBcc.length];
+			for(int k=0; i<addrBcc.length; k++)
+				bccReceivers[k] = new User(addrBcc[k].getAddress(), addrBcc[k].getPersonal());
 			
+			instance = new MailInstance(msgId, subject, sender, new LocalDate(email.getBaseHeader().getDate().getTime()));
+			instance.setReceivers(receivers);
+			instance.setCcReceivers(ccReceivers);
+			instance.setBcccReceivers(bccReceivers);
+			
+			MailAttachment[] attachments = null;
 			// parts begin
 			List parts = email.getParts();
 			if (parts != null) {
 				if (parts.size() > 1 || i == -1) {
 					EmailPart tmp = null;
 					String mime = null;
+					attachments = new MailAttachment[parts.size()];
 					for (int j=0;j<parts.size();j++) {
 						tmp = (EmailPart)parts.get(j);
 
@@ -481,9 +502,11 @@ public class MailServiceImpl extends BaseService implements IMailService {
 							mime = mime.substring(0, mime.indexOf(" "));
 						}
 						String fileName = org.claros.commons.utility.Utility.updateTRChars(tmp.getFilename());
+						attachments[j] = new MailAttachment(Integer.toString(j), fileName, mime, tmp.getSize());
 					}
 				}
 			}
+			instance.setPartId(i);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

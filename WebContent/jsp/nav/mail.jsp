@@ -21,8 +21,8 @@
 <div class='navi_list js_collapsible'>
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_mail">
-		<a href="fetch_unread_mails.sw" title="<fmt:message key='nav.mail.fetch_unread_mails'/>"><img src="images/avatar_load.gif"/></a>
-		<a href="write_new_mail.sw" title="<fmt:message key='nav.mail.new_mail'/>"><img src="images/ic_mail.png"/></a>
+		<a href="fetch_unread_mails.sw" title="<fmt:message key='nav.mail.fetch_unread_mails'/>"><img src="images/load_gr.gif"/></a>
+		<a href="write_new_mail.sw" title="<fmt:message key='nav.mail.new_mail'/>"><img src="images/load_gr_02.gif"/></a>
 		<a href="create_new_folder.sw" title="<fmt:message key='nav.mail.new_folder'/>"><img src="images/ic_mail.png"/></a>
 		<a href="delete_existing_folder.sw" title="<fmt:message key='nav.mail.delete_folder'/>"><img src="images/ic_mail.png"/></a>
 	</div>

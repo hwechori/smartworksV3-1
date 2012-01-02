@@ -102,7 +102,7 @@ SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject = function(imageBoxs){
 		var fileInfos = new Array();
 		for(var j=0; j<files.length; j++){
 			var file = $(files[j]);
-			fileInfos.push({fileId : file.attr('fileId')}, {fileName : file.attr('fileName')});
+			fileInfos.push({fileId : file.attr('fileId'), fileName : file.attr('fileName')});
 		}
 		fileJson['files'] = fileInfos;
 		filesJson[fieldId] =  fileJson;

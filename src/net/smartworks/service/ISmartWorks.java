@@ -184,7 +184,7 @@ public interface ISmartWorks {
 
 	public abstract MailInstance getMailInstanceById(String folderId, String msgId) throws Exception;
 
-	public abstract void setMyProfile(HttpServletRequest request) throws Exception;
+	public abstract void setMyProfile(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 

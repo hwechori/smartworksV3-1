@@ -405,8 +405,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public void setMyProfile(HttpServletRequest request) throws Exception {
-		workService.setMyProfile(request);
+	public void setMyProfile(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		workService.setMyProfile(requestBody, request);
 	}
 
 	@Override

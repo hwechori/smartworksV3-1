@@ -1,6 +1,8 @@
 package net.smartworks.model.instance;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.mail.MailAttachment;
+import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
 import net.smartworks.util.LocalDate;
@@ -11,12 +13,14 @@ public class MailInstance extends Instance {
 	private LocalDate sendDate;
 	private User[] receivers;
 	private User[] ccReceivers;
+	private User[] bccReceivers;
 	private int priority;
-	private String data;
-	private WorkInstance[] attachments;
-	private boolean isRead;
-	private WorkCategory mailCategory;
-	private Work mailGroup;
+	private long size;
+	private int partId;
+	private MailAttachment[] attachments;
+	private boolean unread;
+	private MailFolder mailFolder;
+	private MailFolder parentMailFolder;
 
 	public User getSender() {
 		return sender;
@@ -58,44 +62,60 @@ public class MailInstance extends Instance {
 		this.priority = priority;
 	}
 
-	public String getData() {
-		return data;
+	public int getPartId() {
+		return partId;
 	}
 
-	public void setData(String data) {
-		this.data = data;
+	public void setPartId(int partId) {
+		this.partId = partId;
 	}
 
-	public WorkInstance[] getAttachments() {
+	public MailAttachment[] getAttachments() {
 		return attachments;
 	}
 
-	public void setAttachments(WorkInstance[] attachments) {
+	public void setAttachments(MailAttachment[] attachments) {
 		this.attachments = attachments;
 	}
 
-	public boolean isRead() {
-		return isRead;
+	public User[] getBccReceivers() {
+		return bccReceivers;
 	}
 
-	public void setRead(boolean isRead) {
-		this.isRead = isRead;
+	public void setBcccReceivers(User[] bccReceivers) {
+		this.bccReceivers = bccReceivers;
 	}
 
-	public WorkCategory getMailCategory() {
-		return mailCategory;
+	public long getSize() {
+		return size;
 	}
 
-	public void setMailCategory(WorkCategory mailCategory) {
-		this.mailCategory = mailCategory;
+	public void setSize(long size) {
+		this.size = size;
 	}
 
-	public Work getMailGroup() {
-		return mailGroup;
+	public boolean isUnread() {
+		return unread;
 	}
 
-	public void setMailGroup(Work mailGroup) {
-		this.mailGroup = mailGroup;
+	public void setUnread(boolean unread) {
+		this.unread = unread;
+	}
+
+	public MailFolder getMailFolder() {
+		return mailFolder;
+	}
+
+	public void setMailFolder(MailFolder mailFolder) {
+		this.mailFolder = mailFolder;
+	}
+
+	public MailFolder getParentMailFolder() {
+		return parentMailFolder;
+	}
+
+	public void setParentMailFolder(MailFolder parentMailFolder) {
+		this.parentMailFolder = parentMailFolder;
 	}
 
 	public MailInstance() {
