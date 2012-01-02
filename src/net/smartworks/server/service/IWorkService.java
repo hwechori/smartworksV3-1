@@ -1,6 +1,7 @@
 package net.smartworks.server.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,7 +41,7 @@ public interface IWorkService {
 
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception;
 
-	public void setMyProfile(HttpServletRequest request) throws Exception;
+	public void setMyProfile(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception;
 

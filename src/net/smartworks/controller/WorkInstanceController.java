@@ -204,8 +204,8 @@ public class WorkInstanceController extends ExceptionInterceptor {
 
 	@RequestMapping(value = "/update_my_profile", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody Map<String, Object> updateMyProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		smartworks.setMyProfile(request);
+	public @ResponseBody Map<String, Object> updateMyProfile(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setMyProfile(requestBody, request);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("href", "my_profile.sw");
 		return map;

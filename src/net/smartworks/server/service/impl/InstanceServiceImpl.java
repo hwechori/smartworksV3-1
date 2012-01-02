@@ -369,9 +369,9 @@ public class InstanceServiceImpl implements IInstanceService {
 			String refForm = null;
 			String refFormField = null;
 			String refRecordId = null;
-			Object filedValue = SmartFormInfoMap.get(fieldId);
-			if (filedValue instanceof LinkedHashMap) {
-				Map<String, Object> valueMap = (Map<String, Object>)filedValue;
+			Object fieldValue = SmartFormInfoMap.get(fieldId);
+			if (fieldValue instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
 				groupId = (String)valueMap.get("groupId");
 				refForm = (String)valueMap.get("refForm");
 				users = (ArrayList)valueMap.get("users");
@@ -402,7 +402,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					}
 					value = user;
 				}
-			} else if(filedValue instanceof String) {
+			} else if(fieldValue instanceof String) {
 				value = (String)SmartFormInfoMap.get(fieldId);
 			}
 			if (CommonUtil.isEmpty(value))

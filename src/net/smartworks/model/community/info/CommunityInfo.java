@@ -1,7 +1,5 @@
 package net.smartworks.model.community.info;
 
-import java.io.File;
-
 import net.smartworks.model.BaseObject;
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
@@ -51,7 +49,7 @@ public class CommunityInfo extends BaseObject {
 	public String getPath(){
 		if(SmartUtil.getCurrentUser() == null)
 			return null;
-		return Community.PICTURE_PATH + File.separator + SmartUtil.getCurrentUser().getCompanyId() + File.separator + Community.PROFILES_DIR + File.separator;
+		return Community.PICTURE_PATH + SmartUtil.getCurrentUser().getCompanyId() + "/" + Community.PROFILES_DIR + "/";
 	}
 	public CommunityInfo(){
 		super();
