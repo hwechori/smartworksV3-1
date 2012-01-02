@@ -24,9 +24,9 @@ showInfoOptions = {
 			backgroundColor:"#fff",
 			borderColor:"#000",
 			color: "#000",
-			height:200,
+			height:300,
 			padding:1,
-			width:500
+			width:200
 		},
 		overlayClose: false
 	};
@@ -38,24 +38,24 @@ progressOptions = {
 			backgroundColor:"#fff",
 			borderColor:"#000",
 			color: "#000",
-			height:200,
+			height:300,
 			padding:1,
-			width:300
+			width:200
 		},
 		overlayClose: false
 	};
 
 var swInfoType = {
-	INFO : 'Info',
-	WARN : 'Warn',
-	ERROR: 'Error'
+	INFO : 'info',
+	WARN : 'warn',
+	ERROR: 'error'
 };
 popShowInfo = function(infoType, message){
 	if(infoType !== swInfoType.INFO && infoType !== swInfoType.WARN && infoType !== swInfoType.ERROR) infoType = swInfoType.INFO;
-	$.modal( '<div class="pop_corner_all pop_section_300">' + 
+	$.modal( '<div class="pop_corner_all">' + 
 				'<div class="form_contents margin_t10">' + 
 					'<div class="ico_pop_' + infoType + '">' + language.message('popType'+infoType) + '</div>' +
-				 	'<div class="pop_notice_section">' + message + '</div>' +
+				 	'<div class="pop_message_h">' + message + '</div>' +
 				 '</div>' +
 				 '<div class="glo_btn_space">' +
 				 	'<div class="float_right">' +
@@ -68,12 +68,12 @@ popShowInfo = function(infoType, message){
 };
 
 popConfirm = function(message, onOk, onCancel){
-	$.modal( '<div class="pop_corner_all pop_section_300">' + 
+	$.modal( '<div class="pop_corner_all">' + 
 				'<div class="form_contents margin_t10">' + 
-				 	'<div class="pop_notice_section">' + message + '</div>' +
+				 	'<div class="pop_message_h">' + message + '</div>' +
 				 '</div>' +
 				 '<div class="glo_btn_space">' +
-				 	'<div class="float_right">' +
+				 	'<div class="float_right space_l5">' +
 				 		'<span class="btn_gray"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
 				 			'<span class="Btn01Center">' + language.message('buttonCancel') + '</span> <span class="Btn01End"></span>' +
 				 		'</a> </span>' +
@@ -89,12 +89,8 @@ popConfirm = function(message, onOk, onCancel){
 				opacity: 20,
 				overlayCss: {backgroundColor:"#fff"},
 				containerCss:{
-					backgroundColor:"#fff",
-					borderColor:"#000",
-					color: "#000",
 					height:200,
-					padding:1,
-					width:500
+					width:300
 				},
 				overlayClose: false,
 				onShow: function(dialog){
