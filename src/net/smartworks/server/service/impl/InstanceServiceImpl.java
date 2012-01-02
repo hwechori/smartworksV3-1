@@ -1,5 +1,6 @@
 package net.smartworks.server.service.impl;
 
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +22,7 @@ import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
@@ -86,23 +88,28 @@ import org.claros.commons.mail.comparator.ComparatorTo;
 import org.claros.commons.mail.exception.ProtocolNotAvailableException;
 import org.claros.commons.mail.models.ConnectionMetaHandler;
 import org.claros.commons.mail.models.ConnectionProfile;
+import org.claros.commons.mail.models.Email;
 import org.claros.commons.mail.models.EmailHeader;
+import org.claros.commons.mail.models.EmailPart;
 import org.claros.commons.mail.protocols.Protocol;
 import org.claros.commons.mail.protocols.ProtocolFactory;
 import org.claros.commons.mail.utility.Constants;
 import org.claros.commons.mail.utility.Utility;
 import org.claros.intouch.common.services.BaseService;
 import org.claros.intouch.webmail.controllers.FolderController;
+import org.claros.intouch.webmail.controllers.IconController;
 import org.claros.intouch.webmail.controllers.InboxController;
+import org.claros.intouch.webmail.controllers.MailController;
 import org.claros.intouch.webmail.factory.FolderControllerFactory;
 import org.claros.intouch.webmail.factory.InboxControllerFactory;
+import org.claros.intouch.webmail.factory.MailControllerFactory;
 import org.claros.intouch.webmail.models.FolderDbObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
-public class InstanceServiceImpl extends BaseService implements IInstanceService {
+public class InstanceServiceImpl implements IInstanceService {
 
 	private ITskManager getTskManager() {
 		return SwManagerFactory.getInstance().getTskManager();
@@ -915,231 +922,5 @@ public class InstanceServiceImpl extends BaseService implements IInstanceService
 		
 		return ModelConverter.getProcessWorkInstanceByPrcProcessInst(userId, null, prcInst);
 		
-	}
-	@Override
-	public InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception {
-
-		InstanceInfoList instanceInfoList = new InstanceInfoList();
-
-	    ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-	    HttpServletRequest request = attr.getRequest();
-
-		AuthProfile auth = getAuthProfile(request);
-		// get folder and set it into sesssion
-		String sFolder = MailFolder.getFolderNameById(folderId);
-
-		// prepare variables
-		List headers = null;
-		ConnectionMetaHandler handler = getConnectionHandler(request);
-		ConnectionProfile profile = getConnectionProfile(request);
-
-		FolderControllerFactory foldFact = null;
-		FolderController folderCont = null;
-		String currFolder = org.claros.commons.mail.utility.Constants.FOLDER_INBOX(profile);
-
-		try {
-			if (auth == null) {
-				throw new org.claros.commons.exception.NoPermissionException();
-			}
-			// if folder name is empty or it is inbox then do mail filtering. It is done by inbox controller
-			if (sFolder == null || sFolder.equals("") || sFolder.equals(currFolder)) {
-				try {
-					InboxControllerFactory inFact = new InboxControllerFactory(auth, profile, handler);
-					InboxController inCont = inFact.getInboxController();
-					handler = inCont.checkEmail();
-					request.getSession().setAttribute("handler", handler);
-					foldFact = new FolderControllerFactory(auth, profile, handler);
-					folderCont = foldFact.getFolderController();
-				} catch (Exception e) {
-				}
-
-				// get the id(pop3) or the mail folder name (imap)
-				if (profile.getProtocol().equals(org.claros.commons.mail.utility.Constants.POP3)) {
-					currFolder = folderCont.getInboxFolder().getId().toString();
-				} else {
-					currFolder = folderCont.getInboxFolder().getFolderName();
-				}
-			} else {
-				currFolder = sFolder;
-				handler = (ConnectionMetaHandler)request.getSession().getAttribute("handler");
-				foldFact = new FolderControllerFactory(auth, profile, handler);
-				folderCont = foldFact.getFolderController();
-			}
-			request.getSession().setAttribute("folder", currFolder);
-
-			// get info about the current folder
-			FolderDbObject myFolder = folderCont.getFolder(currFolder);
-
-			// time to fetch the headers
-			if (profile.getProtocol().equals(org.claros.commons.mail.utility.Constants.POP3) && myFolder.getFolderType().equals(org.claros.intouch.common.utility.Constants.FOLDER_TYPE_INBOX)) {
-				currFolder = org.claros.commons.mail.utility.Constants.FOLDER_INBOX(null);
-			}
-
-			// get and set sort parameters
-			String mailSort = params.getSortingField().getFieldId();
-			if(null==mailSort) mailSort = "date";
-			String mailSortDirection = params.getSortingField().isAscending() ? "asc" : "desc";
-			request.getSession().setAttribute("mailSort", mailSort);
-			request.getSession().setAttribute("mailSortDirection", mailSortDirection);
-
-			// first check to see if the server supports server side sorting or not. 
-			// if it supports server side sorting it is a big performance enhancement.
-			ArrayList sortedHeaders = null;
-			boolean supportsServerSorting = false;
-			try {
-				// if the user doesn't want server side sorting for any reason(????) do not to server
-				// side imap sorting.
-				String disableImapSort = PropertyFile.getConfiguration("/config/config.xml").getString("common-params.disable-imap-sort");
-				if (disableImapSort != null && (disableImapSort.toLowerCase().equals("yes") || disableImapSort.toLowerCase().equals("true"))) {
-					sortedHeaders = null;
-					supportsServerSorting = false;
-				} else {
-					// the user agrees on the performance enhancement imap sort offers. So go on.
-					// let's give a try if the user supports it or not.
-					ProtocolFactory pFact = new ProtocolFactory(profile, auth, handler);
-					Protocol protocol = pFact.getProtocol(currFolder);
-					
-					sortedHeaders = protocol.getHeadersSortedList(mailSort, mailSortDirection);
-					
-					// profile has the boolean variable of it supports server side sorting or not!!!
-					// so set it to the session for future references. 
-					profile = protocol.getProfile();
-					request.getSession().setAttribute("profile", profile);
-					
-					supportsServerSorting = true;
-				}
-			} catch (ProtocolNotAvailableException p) {
-				sortedHeaders = null;
-				supportsServerSorting = false;
-			}
-			
-			// it is pop3 mode or the imap server doesn't support server side sorting. 
-			if (!supportsServerSorting) {
-				headers = folderCont.getHeadersByFolder(currFolder);
-			}
-			// if server side sorting is supported, do not fetch the messages yet. they will be fetched
-			// when paging variables are set below. 
-
-			
-			// get and set pageNo
-			int pageNo = 1;
-			pageNo = params.getPageNumber();
-			
-			boolean isAscending = false;
-			if (mailSortDirection != null && mailSortDirection.equals("asc")) {
-				isAscending = true;
-			}
-			
-			// organize em
-			String fromSort = "";
-			String dateSort = "";
-			String sizeSort = "";
-			String subjectSort = "";
-			
-			if (mailSort == null || mailSort.equals("date")) {
-				if (isAscending) dateSort = "asc"; else dateSort = "desc";
-			} else if (mailSort.equals("from")) {
-				if (isAscending) fromSort = "asc"; else fromSort = "desc";
-			} else if (mailSort.equals("subject")) {
-				if (isAscending) subjectSort = "asc"; else subjectSort = "desc";
-			} else if (mailSort.equals("to")) {
-				if (isAscending) fromSort = "asc"; else fromSort = "desc";
-			} else if (mailSort.equals("size")) {
-				if (isAscending) sizeSort = "asc"; else sizeSort = "desc";
-			}
-			
-			if (myFolder.getFolderType().equals(org.claros.intouch.common.utility.Constants.FOLDER_TYPE_SENT)) {
-				  if (mailSort != null && mailSort.equals("from")) {
-					  mailSort = "to";
-				  }
-			} else {
-				  if (mailSort != null && mailSort.equals("to")) {
-					  mailSort = "from";
-				  }
-			}
-			
-			if (!supportsServerSorting) {
-				// sort the headers
-				Locale loc = new Locale(SmartUtil.getCurrentUser().getLocale());
-				if (mailSort == null || mailSort.equals("date")) {
-					Collections.sort(headers, new ComparatorDate(isAscending));
-				} else if (mailSort.equals("from")) {
-					Collections.sort(headers, new ComparatorFrom(isAscending, loc));
-				} else if (mailSort.equals("subject")) {
-					Collections.sort(headers, new ComparatorSubject(isAscending, loc));
-				} else if (mailSort.equals("to")) {
-					Collections.sort(headers, new ComparatorTo(isAscending, loc));
-				} else if (mailSort.equals("size")) {
-					Collections.sort(headers, new ComparatorSize(isAscending));
-				}
-			}
-			
-			// organize and generate XML from the headers.
-			if (headers != null || supportsServerSorting) {
-				EmailHeader tmp = null;
-				int pageSize = params.getCountInPage();
-				
-				// determine the message count. the method varies if server side or client side 
-				// sorting is used. 
-				int messageCount = -1;
-				if (!supportsServerSorting) {
-					messageCount = headers.size();
-				} else {
-					messageCount = sortedHeaders.size();
-				}
-				int pageCount = messageCount/pageSize;
-				if((messageCount%pageSize)>0) pageCount++;
-				if(pageNo > pageCount) pageNo = pageCount;
-				int startIdx = (pageNo-1)*pageSize;
-				if (startIdx < 0) startIdx = 0;
-				int endIdx = startIdx+pageSize;
-				if(endIdx > messageCount) endIdx = messageCount;
-				
-				instanceInfoList.setCountInPage(pageSize);
-				instanceInfoList.setCurrentPage(pageNo);
-				instanceInfoList.setTotalPages(pageCount);
-				instanceInfoList.setSortedField(new SortingField(mailSort, isAscending));
-				
-				MailInstanceInfo[] instanceInfos = null;
-				// If server side sorting is supported, it is time to fetch the message headers. 
-				// not all of the headers are fetched.
-				if (supportsServerSorting) {
-					int msgs[] = new int[endIdx - startIdx];
-					int counter = 0;
-					for (int y=startIdx;y<endIdx;y++) {
-						msgs[counter] = ((Integer)sortedHeaders.get(y)).intValue();
-						counter++;
-					}
-					headers = folderCont.getHeadersByFolder(currFolder, msgs);
-					
-					instanceInfos = new MailInstanceInfo[headers.size()];
-					// we only have the headers to be displayed in the headers arraylist. 
-					for (int i=0;i<headers.size();i++) {
-						tmp = (EmailHeader)headers.get(i);
-						MailInstanceInfo mailInstance = new MailInstanceInfo(Integer.toString(tmp.getMessageId()),
-								tmp.getSubject(), new UserInfo(Utility.addressArrToString(tmp.getFrom()), ""), new LocalDate(tmp.getDate().getTime()));						
-						mailInstance.setSize(tmp.getSize());
-						instanceInfos[i] = mailInstance;
-					}
-				} else {
-
-					instanceInfos = new MailInstanceInfo[endIdx-startIdx];
-					// with the client side sorting method the headers array has all the message headers
-					// so with a for statement display them. 
-					for (int i=startIdx;i<endIdx;i++) {
-						tmp = (EmailHeader)headers.get(i);
-						MailInstanceInfo mailInstance = new MailInstanceInfo(Integer.toString(tmp.getMessageId()),
-								tmp.getSubject(), new UserInfo(Utility.addressArrToString(tmp.getFrom()), ""), new LocalDate(tmp.getDate().getTime()));						
-						mailInstance.setSize(tmp.getSize());
-						instanceInfos[i-startIdx] = mailInstance;
-					}
-				}
-				instanceInfoList.setInstanceDatas(instanceInfos);
-			}
-		} catch (Exception e) {
-		}
-		
-		return instanceInfoList;
-	}
-
+	}	
 }

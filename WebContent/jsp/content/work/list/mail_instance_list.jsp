@@ -87,10 +87,10 @@
 			String target = "mail_space.sw?cid=" + cid + "&wid=" + wid;
 		%>
 	<tr>
-		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSender().getId())%></a></td>
+		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSender().getName())%></a></td>
 		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSubject())%></a></td>
 		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSendDate().toLocalString())%></a></td>
-		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSize())%></a></td>
+		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSize())%>B</a></td>
 		<td><a href="<%=target%>" class="js_content"></a></td>
 	</tr>
 	<%

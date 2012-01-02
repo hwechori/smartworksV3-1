@@ -19,6 +19,7 @@ import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -180,6 +181,8 @@ public interface ISmartWorks {
 	public abstract CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception;
 
 	public abstract MailFolder[] getMailFoldersById(String folderId) throws Exception;
+
+	public abstract MailInstance getMailInstanceById(String folderId, String msgId) throws Exception;
 
 	public abstract void setMyProfile(HttpServletRequest request) throws Exception;
 

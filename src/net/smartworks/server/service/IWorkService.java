@@ -44,6 +44,4 @@ public interface IWorkService {
 
 	public CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception;
 
-	public MailFolder[] getMailFoldersById(String folderId) throws Exception;
-
 }
