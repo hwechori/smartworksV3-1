@@ -469,8 +469,8 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		long totalCount = getSwdManager().getRecordSize(user.getId(), swdRecordCond);
 
-		int pageCount = params.getCountInPage();
-		int currentPage = params.getPageNumber();
+		int pageCount = params.getPageSize();
+		int currentPage = params.getCurrentPage();
 		SortingField sf = params.getSortingField();
 //		SearchFilter searchFilter = params.getSearchFilter();
 //		Condition[] conditions = searchFilter.getConditions();
@@ -558,7 +558,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		instanceInfoList.setInstanceDatas(iWInstanceInfos);
 		long termTime = start.getTime() - new Date().getTime();
 		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-		instanceInfoList.setCountInPage(pageCount);
+		instanceInfoList.setPageSize(pageCount);
 		instanceInfoList.setTotalPages((int)totalCount);
 		instanceInfoList.setCurrentPage(currentPage);
 
@@ -592,8 +592,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		prcInstCond.setPackageId(workId);
 		long totalCount = getPrcManager().getProcessInstExtendsSize(user.getId(), prcInstCond);
 		
-		int pageCount = params.getCountInPage();
-		int currentPage = params.getPageNumber();
+		int pageCount = params.getPageSize();
+		int currentPage = params.getCurrentPage();
 		
 		SortingField sf = params.getSortingField();
 		
@@ -689,7 +689,7 @@ public class InstanceServiceImpl implements IInstanceService {
 //		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));
 		instanceInfoList.setInstanceDatas(pWInstanceInfos);
 		
-		instanceInfoList.setCountInPage(pageCount);
+		instanceInfoList.setPageSize(pageCount);
 		instanceInfoList.setTotalPages((int)totalCount);
 		instanceInfoList.setCurrentPage(currentPage);
 		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
@@ -716,8 +716,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		long totalCount = getPrcManager().getProcessInstSize(user.getId(), prcInstCond);
 		
-		int currentPage = params.getPageNumber();
-		int pageCount = params.getCountInPage();
+		int currentPage = params.getCurrentPage();
+		int pageCount = params.getPageSize();
 		SortingField sf = params.getSortingField();
 		
 		//임시로 무조건 오더링 한다
@@ -735,7 +735,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		InstanceInfoList instanceInfoList = new InstanceInfoList();
 		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));
-		instanceInfoList.setCountInPage(pageCount);
+		instanceInfoList.setPageSize(pageCount);
 		instanceInfoList.setTotalPages((int)totalCount);
 		instanceInfoList.setCurrentPage(currentPage);
 		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
@@ -757,8 +757,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		prcInstCond.setCompanyId(companyId);
 		prcInstCond.setProcessId(prc[0].getProcessId());
 		long totalCount = getPrcManager().getProcessInstSize(userId, prcInstCond);
-		int currentPage = params.getPageNumber();
-		int pageCount = params.getCountInPage();
+		int currentPage = params.getCurrentPage();
+		int pageCount = params.getPageSize();
 		SortingField sf = params.getSortingField();
 		//임시로 무조건 오더링 한다
 		if (sf != null || true) {
@@ -871,7 +871,7 @@ public class InstanceServiceImpl implements IInstanceService {
 //		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));
 		instanceInfoList.setInstanceDatas(pWInstanceInfos);
 		
-		instanceInfoList.setCountInPage(pageCount);
+		instanceInfoList.setPageSize(pageCount);
 		instanceInfoList.setTotalPages((int)totalCount);
 		instanceInfoList.setCurrentPage(currentPage);
 		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);

@@ -265,7 +265,7 @@ public class MailServiceImpl extends BaseService implements IMailService {
 			
 			// get and set pageNo
 			int pageNo = 1;
-			pageNo = params.getPageNumber();
+			pageNo = params.getCurrentPage();
 			
 			boolean isAscending = false;
 			if (mailSortDirection != null && mailSortDirection.equals("asc")) {
@@ -319,7 +319,7 @@ public class MailServiceImpl extends BaseService implements IMailService {
 			// organize and generate XML from the headers.
 			if (headers != null || supportsServerSorting) {
 				EmailHeader tmp = null;
-				int pageSize = params.getCountInPage();
+				int pageSize = params.getPageSize();
 				
 				// determine the message count. the method varies if server side or client side 
 				// sorting is used. 
@@ -337,7 +337,7 @@ public class MailServiceImpl extends BaseService implements IMailService {
 				int endIdx = startIdx+pageSize;
 				if(endIdx > messageCount) endIdx = messageCount;
 				
-				instanceInfoList.setCountInPage(pageSize);
+				instanceInfoList.setPageSize(pageSize);
 				instanceInfoList.setCurrentPage(pageNo);
 				instanceInfoList.setTotalPages(pageCount);
 				instanceInfoList.setSortedField(new SortingField(mailSort, isAscending));

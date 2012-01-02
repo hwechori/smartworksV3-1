@@ -13,7 +13,9 @@ import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Data;
@@ -573,38 +575,85 @@ public class WorkServiceImpl implements IWorkService {
 
 		RequestParams requestParams = new RequestParams();
 
-		Map<String, Object> frmMyProfileSetting = (Map<String, Object>)requestBody.get("frmIworkFilterName");
-		String selFilterName = (String)frmMyProfileSetting.get("selFilterName");
+		Map<String, Object> frmIworkFilterName = (Map<String, Object>)requestBody.get("frmIworkFilterName");
+		String selFilterName = (String)frmIworkFilterName.get("selFilterName");
+		requestParams.setFilterId(selFilterName);
+
 		Map<String, Object> frmSortingField = (Map<String, Object>)requestBody.get("frmSortingField");
 		String hdnSortingFieldId = (String)frmSortingField.get("hdnSortingFieldId");
 		String hdnSortingIsAscending = (String)frmSortingField.get("hdnSortingIsAscending");
+		SortingField sortingField = new SortingField();
+		sortingField.setFieldId(hdnSortingFieldId);
+		sortingField.setAscending(Boolean.parseBoolean(hdnSortingIsAscending));
+		requestParams.setSortingField(sortingField);
+
 		Map<String, Object> frmInstanceListPaging = (Map<String, Object>)requestBody.get("frmInstanceListPaging");
-		String hdnCurrentPage = (String)frmSortingField.get("hdnCurrentPage");
-		String hdnNext10 = (String)frmSortingField.get("hdnNext10");
-		String hdnNextEnd = (String)frmSortingField.get("hdnNextEnd");
-		String selPageSize = (String)frmSortingField.get("selPageSize");
-		String hdnPrev10 = (String)frmSortingField.get("hdnPrev10");
-		String hdnPrevEnd = (String)frmSortingField.get("hdnPrevEnd");
-		Map<String, Object> frmSearchFilters = (Map<String, Object>)requestBody.get("frmSearchFilters");
-		Set<String> keySet = frmSearchFilters.keySet();
-		Iterator<String> itr = keySet.iterator();
+		String hdnCurrentPage = (String)frmInstanceListPaging.get("hdnCurrentPage");
+		String selPageSize = (String)frmInstanceListPaging.get("selPageSize");
+		boolean hdnNext10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNext10"));
+		boolean hdnNextEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNextEnd"));
+		boolean hdnPrev10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrev10"));
+		boolean hdnPrevEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrevEnd"));
+		requestParams.setCurrentPage(Integer.parseInt(hdnCurrentPage));
+		requestParams.setPageSize(Integer.parseInt(selPageSize));
+		if(hdnNext10)
+			requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXT10);
+		else if(hdnNextEnd)
+			requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXTEND);
+		else if(hdnPrev10)
+			requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREV10);
+		else if(hdnPrevEnd)
+			requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
+
+		List<Map<String, Object>> frmSearchFilters = (ArrayList<Map<String, Object>>)requestBody.get("frmSearchFilters");
+
+		if(!frmSearchFilters.isEmpty())
+			requestParams.setFilterId(null);
 
 		String selFilterLeftOperand = null;
 		String selFilterStringOperator = null;
 		String txtFilterStringOperand = null;
 
-		while (itr.hasNext()) {
-			String fieldId = (String)itr.next();
-			Object fieldValue = frmSearchFilters.get(fieldId);
+		List<Condition> conditionList = new ArrayList<Condition>();
+
+		for(int i = 0; i < frmSearchFilters.size(); i++) {
+			Map<String, Object> valueMap = (Map<String, Object>)frmSearchFilters.get(i);
+			Condition condition = new Condition();
+			selFilterLeftOperand = (String)valueMap.get("selFilterLeftOperand");
+			selFilterStringOperator = (String)valueMap.get("selFilterStringOperator");
+			txtFilterStringOperand = (String)valueMap.get("txtFilterStringOperand");
+			condition.setLeftOperand(new FormField(selFilterLeftOperand, null, null));
+			condition.setOperator(selFilterStringOperator);
+			condition.setRightOperand(txtFilterStringOperand);
+			conditionList.add(condition);
+		}
+			
+//		for(int i = 0; i < frmSearchFilters.subList(0, frmSearchFilters.size()).size(); i++) {
+//			Map<String, Object> frmSearchFilter = frmSearchFilters.get(i);
+//			String fileId = frmSearchFilter.get("fileId",);
+//		}
+		
+/*			Object fieldValue = frmSearchFilters.get(fieldId);
 			if (fieldValue instanceof LinkedHashMap) {
 				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+				Condition condition = new Condition();
 				selFilterLeftOperand = (String)valueMap.get("selFilterLeftOperand");
 				selFilterStringOperator = (String)valueMap.get("selFilterStringOperator");
 				txtFilterStringOperand = (String)valueMap.get("txtFilterStringOperand");
-			}
-		}
+				condition.setLeftOperand(new FormField(selFilterLeftOperand, null, null));
+				condition.setOperator(selFilterStringOperator);
+				condition.setRightOperand(txtFilterStringOperand);
+				conditionList.add(condition);
+			}*/
 
-		return null;
+		Condition[] conditions = new Condition[conditionList.size()];
+		conditionList.toArray(conditions);
+
+		SearchFilter searchFilter = new SearchFilter();
+		searchFilter.setConditions(conditions);
+		requestParams.setSearchFilter(searchFilter);
+
+		return requestParams;
 	}		
 
 }
