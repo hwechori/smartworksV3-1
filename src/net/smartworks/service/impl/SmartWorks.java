@@ -25,6 +25,7 @@ import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.report.Data;
@@ -38,6 +39,7 @@ import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IDocFileService;
 import net.smartworks.server.service.IInstanceService;
+import net.smartworks.server.service.IMailService;
 import net.smartworks.server.service.INoticeService;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
@@ -54,6 +56,7 @@ public class SmartWorks implements ISmartWorks {
 	ICalendarService calendarService;
 	IInstanceService instanceService;
 	IWorkService workService;
+	IMailService mailService;
 	IDocFileService docFileService;
 
 	@Autowired
@@ -429,6 +432,16 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		docFileService.uploadTempFile(request, response);
+	}
+
+	@Override
+	public MailFolder[] getMailFoldersById(String folderId) throws Exception {
+		return workService.getMailFoldersById(folderId);
+	}
+
+	@Override
+	public InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception {
+		return instanceService.getMailInstanceList(folderId, params);
 	}
 
 }

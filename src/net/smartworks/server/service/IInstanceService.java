@@ -35,6 +35,8 @@ public interface IInstanceService {
 
 	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 
+	public InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
+
 	public WorkInstance getWorkInstanceById(String instanceId) throws Exception;
 
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;

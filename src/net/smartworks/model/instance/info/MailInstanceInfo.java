@@ -1,30 +1,53 @@
 package net.smartworks.model.instance.info;
 
-import net.smartworks.model.community.User;
+import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
-import net.smartworks.model.work.Work;
-import net.smartworks.model.work.WorkCategory;
+import net.smartworks.model.mail.MailFolder;
 import net.smartworks.util.LocalDate;
 
-public class MailInstanceInfo extends Instance {
+public class MailInstanceInfo extends InstanceInfo {
 
-	private User sender;
+	private UserInfo sender;
 	private LocalDate sendDate;
-	private User[] receivers;
-	private User[] ccReceivers;
+	private UserInfo[] receivers;
+	private UserInfo[] ccReceivers;
 	private int priority;
-	private String data;
+	private long size;
 	private WorkInstance[] attachments;
 	private boolean isRead;
-	private WorkCategory mailCategory;
-	private Work mailGroup;
+	private MailFolder mailFolder;
+	private MailFolder parentMailFolder;
 
-	public User getSender() {
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
+	}
+
+	public MailFolder getMailFolder() {
+		return mailFolder;
+	}
+
+	public void setMailFolder(MailFolder mailFolder) {
+		this.mailFolder = mailFolder;
+	}
+
+	public MailFolder getParentMailFolder() {
+		return parentMailFolder;
+	}
+
+	public void setParentMailFolder(MailFolder parentMailFolder) {
+		this.parentMailFolder = parentMailFolder;
+	}
+
+	public UserInfo getSender() {
 		return sender;
 	}
 
-	public void setSender(User sender) {
+	public void setSender(UserInfo sender) {
 		this.sender = sender;
 	}
 
@@ -36,19 +59,19 @@ public class MailInstanceInfo extends Instance {
 		this.sendDate = sendDate;
 	}
 
-	public User[] getReceivers() {
+	public UserInfo[] getReceivers() {
 		return receivers;
 	}
 
-	public void setReceivers(User[] receivers) {
+	public void setReceivers(UserInfo[] receivers) {
 		this.receivers = receivers;
 	}
 
-	public User[] getCcReceivers() {
+	public UserInfo[] getCcReceivers() {
 		return ccReceivers;
 	}
 
-	public void setCcReceivers(User[] ccReceivers) {
+	public void setCcReceivers(UserInfo[] ccReceivers) {
 		this.ccReceivers = ccReceivers;
 	}
 
@@ -58,14 +81,6 @@ public class MailInstanceInfo extends Instance {
 
 	public void setPriority(int priority) {
 		this.priority = priority;
-	}
-
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
 	}
 
 	public WorkInstance[] getAttachments() {
@@ -84,27 +99,11 @@ public class MailInstanceInfo extends Instance {
 		this.isRead = isRead;
 	}
 
-	public WorkCategory getMailCategory() {
-		return mailCategory;
-	}
-
-	public void setMailCategory(WorkCategory mailCategory) {
-		this.mailCategory = mailCategory;
-	}
-
-	public Work getMailGroup() {
-		return mailGroup;
-	}
-
-	public void setMailGroup(Work mailGroup) {
-		this.mailGroup = mailGroup;
-	}
-
 	public MailInstanceInfo() {
 		super();
 	}
 
-	public MailInstanceInfo(String id, String subject, User sender,
+	public MailInstanceInfo(String id, String subject, UserInfo sender,
 			LocalDate sendDate) {
 		super(id, subject, Instance.TYPE_MAIL, sender, sender, sendDate);
 		this.sender = sender;

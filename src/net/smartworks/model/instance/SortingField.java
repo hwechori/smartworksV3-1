@@ -26,5 +26,9 @@ public class SortingField {
 	public SortingField(){
 		super();
 	}
+	public SortingField(String fieldId, boolean isAscending){
+		this.fieldId = fieldId;
+		this.setAscending(isAscending);
+	}
 
 }

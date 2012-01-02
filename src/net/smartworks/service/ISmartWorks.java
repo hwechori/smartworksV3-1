@@ -24,7 +24,9 @@ import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
+import net.smartworks.model.instance.info.MailInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.report.Data;
@@ -153,6 +155,8 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 	
+	public abstract InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
+
 	public abstract WorkInstance getWorkInstanceById(String instanceId) throws Exception;
 
 	public abstract Report getReportById(String reportId) throws Exception;
@@ -173,9 +177,11 @@ public interface ISmartWorks {
 
 	public abstract String setBoardInstance(HttpServletRequest request) throws Exception;
 
-	public abstract void setMyProfile(HttpServletRequest request) throws Exception;
-
 	public abstract CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception;
+
+	public abstract MailFolder[] getMailFoldersById(String folderId) throws Exception;
+
+	public abstract void setMyProfile(HttpServletRequest request) throws Exception;
 
 	public abstract void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 

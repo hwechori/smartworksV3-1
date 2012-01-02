@@ -18,6 +18,7 @@ public class FormField extends BaseObject{
 	
 	public static final String TYPE_TEXT = "textInput"; //string
 	public static final String TYPE_USER = "userField"; //user
+	public static final String TYPE_USERS = "usersField"; //users
 	public static final String TYPE_FILE = "fileField"; //file
 	public static final String TYPE_OTHER_WORK = "refFormField"; // work
 	public static final String TYPE_RICHTEXT_EDITOR = "richEditor"; //string

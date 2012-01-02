@@ -1,3 +1,11 @@
+<%@page import="org.claros.commons.configuration.PropertyFile"%>
+<%@page import="org.claros.commons.mail.utility.Constants"%>
+<%@page import="org.claros.commons.mail.protocols.Protocol"%>
+<%@page import="org.claros.commons.mail.protocols.ProtocolFactory"%>
+<%@page import="org.claros.commons.auth.models.AuthProfile"%>
+<%@page import="org.claros.commons.mail.models.ConnectionMetaHandler"%>
+<%@page import="org.claros.commons.mail.models.ConnectionProfile"%>
+<%@page import="java.util.Locale"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.server.engine.scheduling.manager.impl.SchdulingManagerImpl"%>
 <%@page import="net.smartworks.server.service.impl.SchedulingService"%>
@@ -51,6 +59,7 @@
 <script type="">
 currentUser = {
 	userId : "<%=currentUser.getId()%>",
+	password : "<%=currentUser.getPassword()%>",
 	name : "<%=currentUser.getName()%>",
 	longName : "<%=currentUser.getLongName()%>",
 	companyId : "<%=currentUser.getCompanyId()%>",
@@ -119,6 +128,7 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
 <script type="text/javascript" src="js/sw/sw-file.js"></script>
+<script type="text/javascript" src="js/sw/sw-webmail.js"></script>
 <script type="text/javascript" src='js/sw/sw-formFields.js'></script>
 <script type="text/javascript" src='js/sw/sw-popup.js'></script>
 
@@ -156,7 +166,6 @@ currentUser = {
 </head>
 
 <body>
-
 	<div id="wrap">
 		<!-- Header -->
 		<div id="header">

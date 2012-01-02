@@ -9,6 +9,7 @@ public class InstanceInfoList {
 	public static final int TYPE_PROCESS_INSTANCE_LIST = 1;
 	public static final int TYPE_INFORMATION_INSTANCE_LIST = 2;
 	public static final int TYPE_SCHDULE_INSTANCE_LIST = 3;
+	public static final int TYPE_MAIL_INSTANCE_LIST = 4;
 	
 	private int type;
 	private InstanceInfo[]	instanceDatas;
