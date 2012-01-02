@@ -82,7 +82,7 @@
 		for (MailInstanceInfo instanceInfo : instanceInfos) {
 			UserInfo owner = instanceInfo.getOwner();
 			UserInfo lastModifier = instanceInfo.getLastModifier();
-			cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
+			cid = SmartWorks.CONTEXT_PREFIX_MAIL_SPACE + instanceInfo.getId();
 			wid = instanceInfo.getWorkSpace().getId();
 			String target = "mail_space.sw?cid=" + cid + "&wid=" + wid;
 		%>

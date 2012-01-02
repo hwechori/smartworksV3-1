@@ -3,6 +3,7 @@ package net.smartworks.model.instance.info;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.WorkInstance;
+import net.smartworks.model.mail.MailAttachment;
 import net.smartworks.model.mail.MailFolder;
 import net.smartworks.util.LocalDate;
 
@@ -14,8 +15,8 @@ public class MailInstanceInfo extends InstanceInfo {
 	private UserInfo[] ccReceivers;
 	private int priority;
 	private long size;
-	private WorkInstance[] attachments;
-	private boolean isRead;
+	private MailAttachment[] attachments;
+	private boolean unread;
 	private MailFolder mailFolder;
 	private MailFolder parentMailFolder;
 
@@ -83,20 +84,20 @@ public class MailInstanceInfo extends InstanceInfo {
 		this.priority = priority;
 	}
 
-	public WorkInstance[] getAttachments() {
+	public MailAttachment[] getAttachments() {
 		return attachments;
 	}
 
-	public void setAttachments(WorkInstance[] attachments) {
+	public void setAttachments(MailAttachment[] attachments) {
 		this.attachments = attachments;
 	}
 
-	public boolean isRead() {
-		return isRead;
+	public boolean isUnread() {
+		return unread;
 	}
 
-	public void setRead(boolean isRead) {
-		this.isRead = isRead;
+	public void setUnread(boolean unread) {
+		this.unread = unread;
 	}
 
 	public MailInstanceInfo() {
