@@ -30,8 +30,8 @@
 	String wid = request.getParameter("wid");
 
 	RequestParams params = new RequestParams();
-	params.setCountInPage(20);
-	params.setPageNumber(1);
+	params.setPageSize(20);
+	params.setCurrentPage(1);
 	params.setSortingField(new SortingField("date", false));
 	String folderId = SmartUtil.getSpaceIdFromContentContext(cid);
 	folderId = MailFolder.ID_INBOX;
@@ -46,14 +46,14 @@
 <table>
 	<%
 	SortingField sortedField = null;
-	int countInPage = 0, totalPages = 0, currentPage = 0;
+	int pageSize = 0, totalPages = 0, currentPage = 0;
 	if (instanceList != null
 			&& (instanceList.getInstanceDatas() != null)
 			&& (work != null)) {
 		int type = instanceList.getType();
 		sortedField = instanceList.getSortedField();
 		if(sortedField==null) sortedField = new SortingField();
-		countInPage = instanceList.getCountInPage();
+		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
 		currentPage = 1;
@@ -148,10 +148,10 @@
 	
 	<div class="num_box">
 		<select name="selListCountInPage" title="<fmt:message key='common.title.count_in_page'/> " onchange="selectListParam();return false;">
-			<option <%if (countInPage == 10) {%> selected <%}%>>10</option>
-			<option <%if (countInPage == 20) {%> selected <%}%>>20</option>
-			<option <%if (countInPage == 30) {%> selected <%}%>>30</option>
-			<option <%if (countInPage == 50) {%> selected <%}%>>50</option>
+			<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
+			<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
+			<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
+			<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
 		</select>
 	</div>
 	<!-- 페이징 //-->
