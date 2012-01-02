@@ -36,6 +36,8 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
+<div class="list_contents form_contents">
+
 <!-- 목록 테이블 -->
 <table>
 	<tr class="tit_bg js_instance_list_header">
@@ -89,6 +91,7 @@
 </table>
 <!-- 목록 테이블 //-->
 
+
 <!-- 페이징 -->
 <div class="paginate">
 	<%
@@ -140,3 +143,5 @@
 	</select>
 </div>
 <!-- 페이징 //-->
+
+</div>

@@ -38,7 +38,7 @@
 	%>
 	<li class="js_drill_down"><a href="<%=targetContent%>" categoryId="<%=work.getId()%>"><span class="<%=iconType%>"></span>
 			<span><%=work.getName()%></span></a>
-		<div style="display: none"></div></li>
+		<div style="display: none" class="menu_2dep"></div></li>
 	<%
 		}
 	%>

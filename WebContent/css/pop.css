@@ -1,18 +1,29 @@
 @charset "utf-8";
 /* CSS Document */
 
-.pop_corner_all{ border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;}
+.pop_corner_all{ border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border: 1px solid #c7c7c7; background-color:#FFF;}
 .pop_section_500 {width:500px; border: 1px solid #c7c7c7; background-color:#FFF;}
 .pop_section_400 {width:400px; border: 1px solid #c7c7c7; background-color:#FFF;}
 .pop_section_300 {width:300px; border: 1px solid #c7c7c7; background-color:#FFF;}
 
 
-.pop_title {font-weight:bold; font-size:14px; position:absolute;}
+.pop_title {font-weight:bold; font-size:14px; position:absolute; color:#454545;}
 
 
 /* 사용자 선택 */
-.user_list_area {border: 1px solid #c7c7c7; max-height: 350px; overflow-y: auto; }
+.user_list_area {border: 1px solid #c7c7c7; max-height: 350px; height:350px; overflow-y: auto; text-align: left; }
 
 /* 알림 */
 .pop_notice_section {border: 1px solid #c7c7c7;}
 .ico_notice {background: url("../images/body_icon.png") no-repeat scroll 0 -480px transparent; display:block; height:23px; text-align: left; padding:0 0 0 30px; position:relative; font-weight:bold; padding-bottom:10px;}
+
+/* popup 카테고리 */
+#simplemodal-data li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+
+#simplemodal-data li a:hover {display:block; background-color:#fffccd;}
+
+#simplemodal-data li .menu_2dep li a {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#simplemodal-data li .menu_2dep li a:hover {display:block; background-color:#fffccd;}
+
+#simplemodal-data li .menu_2dep li div li a {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#simplemodal-data li .menu_2dep li div li a:hover {display:block; background-color:#fffccd;}

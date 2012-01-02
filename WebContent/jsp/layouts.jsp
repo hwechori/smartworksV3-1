@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="org.claros.commons.configuration.PropertyFile"%>
 <%@page import="org.claros.commons.mail.utility.Constants"%>
 <%@page import="org.claros.commons.mail.protocols.Protocol"%>
@@ -51,6 +52,7 @@
 	}
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser();
+
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -78,6 +80,7 @@ currentUser = {
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
 <link href="css/form.css" type="text/css" rel="stylesheet" />
+<link href="css/pop.css" type="text/css" rel="stylesheet" />
 
 <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" title="ui-theme" />
 <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />

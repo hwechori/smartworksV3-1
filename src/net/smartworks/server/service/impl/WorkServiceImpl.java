@@ -476,24 +476,25 @@ public class WorkServiceImpl implements IWorkService {
 			}
 		}
 
+		SwoUser user = getSwoManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
+
 		if(!files.isEmpty()) {
 			for(int i=0; i < files.subList(0, files.size()).size(); i++) {
 				Map<String, String> file = files.get(i);
 				profileFileId = file.get("fileId");
 				profileFileName = file.get("fileName");
 				txtUserProfilePicture = getDocManager().insertProfilesFile(profileFileId, profileFileName, txtUserProfileUserId);
+				user.setPicture(txtUserProfilePicture);
 			}
 		}
 
 		//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW); -- md5 password 암호화
-		SwoUser user = getSwoManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
 		user.setPassword(pwUserProfilePW);
 		user.setLocale(selUserProfileLocale);
 		user.setTimeZone(selUserProfileTimeZone);
 		user.setEmail(txtUserProfileEmail);
 		user.setExtensionNo(txtUserProfilePhoneNo);
 		user.setMobileNo(txtUserProfileCellNo);
-		user.setPicture(txtUserProfilePicture);
 		try {
 			getSwoManager().setUser(txtUserProfileUserId, user, null);
 			UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());

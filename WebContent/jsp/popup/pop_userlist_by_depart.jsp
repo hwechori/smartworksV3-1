@@ -39,7 +39,7 @@
 					<li class="js_drill_down"><a
 						href="pop_userlist_by_depart.sw" departmentId="<%=department.getId()%>"><span class="<%=iconType%>"></span>
 							<span><%=department.getName()%></span></a>
-						<div style="display: none"></div></li>
+						<div style="display: none" class="menu_2dep"></div></li>
 					<%
 				}
 			}
