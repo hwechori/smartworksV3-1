@@ -5,23 +5,42 @@ import net.smartworks.model.instance.SortingField;
 
 public class RequestParams {
 
-	private int countInPage;
-	private int pageNumber;
+	public static final int PAGING_ACTION_NEXT10 = 1;
+	public static final int PAGING_ACTION_NEXTEND = 2;
+	public static final int PAGING_ACTION_PREV10 = 3;
+	public static final int PAGING_ACTION_PREVEND = 4;
+	
+	private int pageSize;
+	private int currentPage;
+	private int pagingAction;
 	private SortingField sortingField;
 	private String searchKey;
+	private String filterId;
 	private SearchFilter searchFilter;
 	
-	public int getCountInPage() {
-		return countInPage;
+	public int getPageSize() {
+		return pageSize;
 	}
-	public void setCountInPage(int countInPage) {
-		this.countInPage = countInPage;
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
-	public int getPageNumber() {
-		return pageNumber;
+	public int getCurrentPage() {
+		return currentPage;
 	}
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+	public int getPagingAction() {
+		return pagingAction;
+	}
+	public void setPagingAction(int pagingAction) {
+		this.pagingAction = pagingAction;
+	}
+	public String getFilterId() {
+		return filterId;
+	}
+	public void setFilterId(String filterId) {
+		this.filterId = filterId;
 	}
 	public SortingField getSortingField() {
 		return sortingField;

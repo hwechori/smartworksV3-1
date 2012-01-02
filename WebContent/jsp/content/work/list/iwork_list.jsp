@@ -20,7 +20,7 @@
 <script type="text/javascript">
 	getIntanceList = function(paramsJson){
 		console.log(JSON.stringify(paramsJson));
-		var url = "iwork_instance_list.sw";
+		var url = "set_instance_list_params.sw";
 		$.ajax({
 			url : url,
 			contentType : 'application/json',
@@ -39,6 +39,7 @@
 	selectListParam = function(){
 		var forms = $('form:visible');
 		var paramsJson = {};
+		paramsJson["href"] = "iwork_instance_list.sw?workId=" + getUrlVars().workId;
 		var searchFilters = $('form[name="frmSearchFilter"]');
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
@@ -342,7 +343,9 @@
 					<!-- 목록 테이블 -->
 					<div class="list_contents">
 						<div id='iwork_list_page' >
-							<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp"></jsp:include>
+							<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp">
+								<jsp:param value="<%=workId%>" name="workId"/>
+							</jsp:include>
 						</div>
 
 						<!-- 목록 테이블 //-->
