@@ -755,6 +755,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 					dataField.setId(field.getFormFieldId());
 					dataField.setName(field.getFormFieldName());
 					dataField.setType(dataType);
+					dataField.setDisplayOrder(field.getDisplayOrder());
 					dataType = field.getFormFieldType();
 					if (colName != null && colName.equalsIgnoreCase("id")) {
 						dataField.setValue((String)fields[0]);

@@ -45,6 +45,17 @@ public class SwdDataField extends BaseObject {
 	private String refRecordId;
 	
 	private String value;
+	private int displayOrder;
+
+	public int getDisplayOrder() {
+		return displayOrder;
+	}
+	public void setDisplayOrder(int displayOrder) {
+		this.displayOrder = displayOrder;
+	}
+	public String getId() {
+		return id;
+	}
 	private SwdDataField[] dataFields;
 	public SwdDataField() {
 		super();
@@ -243,9 +254,6 @@ public class SwdDataField extends BaseObject {
 	}
 	public void setDataFields(SwdDataField[] dataFields) {
 		this.dataFields = dataFields;
-	}
-	public String getId() {
-		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
