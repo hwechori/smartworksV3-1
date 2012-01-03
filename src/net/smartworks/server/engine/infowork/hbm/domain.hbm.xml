@@ -49,8 +49,10 @@
 		<id name="id" column="id" type="string">
 			<generator class="assigned" />
 		</id>
+		<property name="domainId" column="domainId" type="string" length="50"/>
 		<property name="formFieldId" column="formFieldId" type="string" length="50"/>
 		<property name="formFieldName" column="formFieldName" type="string" length="50"/>
+		<property name="tableColName" column="tableColName" type="string" length="50"/>
 		<property name="dispOrder" column="dispOrder" type="int"/>
 		<property name="tableWidth" column="tableWidth" type="float"/>
 	</class>

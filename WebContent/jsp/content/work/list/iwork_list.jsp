@@ -27,17 +27,19 @@
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
+				$('#iwork_list_page').html(data);
 			},
 			error : function(e) {
 				popShowInfo(swInfoType.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
 			}
 		});
 	};
-	
+
 	selectListParam = function(){
 		var forms = $('form:visible');
 		var paramsJson = {};
-		paramsJson["href"] = "jsp/content/work/list/iwork_instance_list.jsp?workId=" + Request.parameter("workId");
+		var workId = $('div.js_work_list').attr('workId');
+		paramsJson["href"] = "jsp/content/work/list/iwork_instance_list.jsp?workId=" + workId;
 		var searchFilters = $('form[name="frmSearchFilter"]');
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
@@ -49,7 +51,8 @@
 			var searchFilterArray = new Array();
 			for(var i=0; i<searchFilters.length; i++){
 				var searchFilter = $(searchFilters[i]);
-				searchFilterArray.push(searchFilter.find(':visible').serializeObject());				
+				if(searchFilter.is(':visible'))
+					searchFilterArray.push(searchFilter.find(':visible').serializeObject());
 			}
 			paramsJson['frmSearchFilters'] = searchFilterArray;
 		}		
@@ -105,7 +108,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet">
+<div class="section_portlet js_work_list" workId=<%=work.getId()%>>
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>

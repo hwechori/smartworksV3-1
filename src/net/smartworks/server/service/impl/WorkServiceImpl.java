@@ -37,6 +37,7 @@ import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemList;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
+import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
@@ -575,6 +576,12 @@ public class WorkServiceImpl implements IWorkService {
 
 		RequestParams requestParams = new RequestParams();
 
+		Map<String, Object> frmSearchInstance = (Map<String, Object>)requestBody.get("frmSearchInstance");
+		if(frmSearchInstance != null) {
+			String txtSearchInstance = (String)frmSearchInstance.get("txtSearchInstance");
+			requestParams.setSearchKey(txtSearchInstance);
+		}
+
 		Map<String, Object> frmIworkFilterName = (Map<String, Object>)requestBody.get("frmIworkFilterName");
 		String selFilterName = (String)frmIworkFilterName.get("selFilterName");
 		requestParams.setFilterId(selFilterName);
@@ -588,72 +595,73 @@ public class WorkServiceImpl implements IWorkService {
 		requestParams.setSortingField(sortingField);
 
 		Map<String, Object> frmInstanceListPaging = (Map<String, Object>)requestBody.get("frmInstanceListPaging");
-		String hdnCurrentPage = (String)frmInstanceListPaging.get("hdnCurrentPage");
-		String selPageSize = (String)frmInstanceListPaging.get("selPageSize");
-		boolean hdnNext10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNext10"));
-		boolean hdnNextEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNextEnd"));
-		boolean hdnPrev10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrev10"));
-		boolean hdnPrevEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrevEnd"));
-		requestParams.setCurrentPage(Integer.parseInt(hdnCurrentPage));
-		requestParams.setPageSize(Integer.parseInt(selPageSize));
-		if(hdnNext10)
-			requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXT10);
-		else if(hdnNextEnd)
-			requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXTEND);
-		else if(hdnPrev10)
-			requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREV10);
-		else if(hdnPrevEnd)
-			requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
+			if(frmInstanceListPaging != null) {
+				String hdnCurrentPage = (String)frmInstanceListPaging.get("hdnCurrentPage");
+				String selPageSize = (String)frmInstanceListPaging.get("selPageSize");
+				boolean hdnNext10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNext10"));
+				boolean hdnNextEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNextEnd"));
+				boolean hdnPrev10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrev10"));
+				boolean hdnPrevEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrevEnd"));
+				if(hdnCurrentPage != null)
+					requestParams.setCurrentPage(Integer.parseInt(hdnCurrentPage));
+				if(selPageSize != null)
+					requestParams.setPageSize(Integer.parseInt(selPageSize));
+				if(hdnNext10)
+					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXT10);
+				else if(hdnNextEnd)
+					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXTEND);
+				else if(hdnPrev10)
+					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREV10);
+				else if(hdnPrevEnd)
+					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
+			}
 
 		List<Map<String, Object>> frmSearchFilters = (ArrayList<Map<String, Object>>)requestBody.get("frmSearchFilters");
 
-		if(!frmSearchFilters.isEmpty())
+		if(frmSearchFilters != null)
 			requestParams.setFilterId(null);
 
 		String selFilterLeftOperand = null;
-		String selFilterStringOperator = null;
+		String selFilterOperator = null;
 		String txtFilterStringOperand = null;
+		String txtFilterDateOperand = null;
+		String txtFilterTimeOperand = null;
+		String txtFiltetRightOperandType = null;
 
 		List<Condition> conditionList = new ArrayList<Condition>();
 
-		for(int i = 0; i < frmSearchFilters.size(); i++) {
-			Map<String, Object> valueMap = (Map<String, Object>)frmSearchFilters.get(i);
-			Condition condition = new Condition();
-			selFilterLeftOperand = (String)valueMap.get("selFilterLeftOperand");
-			selFilterStringOperator = (String)valueMap.get("selFilterStringOperator");
-			txtFilterStringOperand = (String)valueMap.get("txtFilterStringOperand");
-			condition.setLeftOperand(new FormField(selFilterLeftOperand, null, null));
-			condition.setOperator(selFilterStringOperator);
-			condition.setRightOperand(txtFilterStringOperand);
-			conditionList.add(condition);
-		}
-			
-//		for(int i = 0; i < frmSearchFilters.subList(0, frmSearchFilters.size()).size(); i++) {
-//			Map<String, Object> frmSearchFilter = frmSearchFilters.get(i);
-//			String fileId = frmSearchFilter.get("fileId",);
-//		}
-		
-/*			Object fieldValue = frmSearchFilters.get(fieldId);
-			if (fieldValue instanceof LinkedHashMap) {
-				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+		if(frmSearchFilters != null) {
+			for(int i = 0; i <  frmSearchFilters.subList(0, frmSearchFilters.size()).size(); i++) {
+				Map<String, Object> valueMap = frmSearchFilters.get(i);
 				Condition condition = new Condition();
 				selFilterLeftOperand = (String)valueMap.get("selFilterLeftOperand");
-				selFilterStringOperator = (String)valueMap.get("selFilterStringOperator");
+				selFilterOperator = (String)valueMap.get("selFilterOperator");
 				txtFilterStringOperand = (String)valueMap.get("txtFilterStringOperand");
-				condition.setLeftOperand(new FormField(selFilterLeftOperand, null, null));
-				condition.setOperator(selFilterStringOperator);
-				condition.setRightOperand(txtFilterStringOperand);
+				txtFilterDateOperand = (String)valueMap.get("txtFilterDateOperand");
+				txtFilterTimeOperand = (String)valueMap.get("txtFilterTimeOperand");
+				if(txtFilterStringOperand != null) {
+					txtFiltetRightOperandType = Filter.OPERANDTYPE_STRING;
+					condition.setRightOperand(txtFilterStringOperand);
+				} else if(txtFilterDateOperand != null || txtFilterTimeOperand != null) {
+					txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					condition.setRightOperand(txtFilterDateOperand + " " + txtFilterTimeOperand);
+				}
+
+				condition.setLeftOperand(new FormField(selFilterLeftOperand, null, txtFiltetRightOperandType));
+				condition.setOperator(selFilterOperator);
 				conditionList.add(condition);
-			}*/
+			}
 
-		Condition[] conditions = new Condition[conditionList.size()];
-		conditionList.toArray(conditions);
+			Condition[] conditions = new Condition[conditionList.size()];
+			conditionList.toArray(conditions);
 
-		SearchFilter searchFilter = new SearchFilter();
-		searchFilter.setConditions(conditions);
-		requestParams.setSearchFilter(searchFilter);
+			SearchFilter searchFilter = new SearchFilter();
+			searchFilter.setConditions(conditions);
+			requestParams.setSearchFilter(searchFilter);
+		}
 
 		return requestParams;
+
 	}		
 
 }

@@ -19,6 +19,10 @@ public class SwdDomainFieldView implements Serializable {
 	private String id;
 	private String formFieldId;
 	private String formFieldName;
+	private String tableColName;
+	private String domainId;
+
+
 	private int dispOrder;
 	private float tableWidth;
 
@@ -39,6 +43,18 @@ public class SwdDomainFieldView implements Serializable {
 	}
 	public void setFormFieldName(String formFieldName) {
 		this.formFieldName = formFieldName;
+	}
+	public String getTableColName() {
+		return tableColName;
+	}
+	public void setTableColName(String tableColName) {
+		this.tableColName = tableColName;
+	}
+	public String getDomainId() {
+		return domainId;
+	}
+	public void setDomainId(String domainId) {
+		this.domainId = domainId;
 	}
 	public int getDispOrder() {
 		return dispOrder;

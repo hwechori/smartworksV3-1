@@ -19,7 +19,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<select name="selFilterFileOperator" class="selb_size_sec">
+<select name="selFilterOperator" class="selb_size_sec">
 	<%
 		for (KeyMap stringOper : stringOpers) {
 	%>
@@ -33,7 +33,7 @@
 	%>
 </select>
 <span class="str_field"> <input class="fieldline" type="text"
-	name="txtFilterFileOperand"
+	name="txtFilterStringOperand"
 	value="<%if (operandValue != null) {%><%=operandValue%><%}%>"> </span>
 <span class="btn_x_grb_posi">
 	<button class="btn_x_grb js_remove_condition"></button> </span>

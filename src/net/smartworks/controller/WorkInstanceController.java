@@ -214,11 +214,12 @@ public class WorkInstanceController extends ExceptionInterceptor {
 
 	@RequestMapping(value = "/set_instance_list_params", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody ModelAndView setInstanceListParams(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView setInstanceListParams(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		RequestParams requestParams = smartworks.setInstanceListParams(requestBody, request);
 		String href = (String)requestBody.get("href");
-
+		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
 		ModelAndView mnv = new ModelAndView();
+		mnv.addObject(smartworks);
 		mnv.addObject("requestParams", requestParams);
 		mnv.setViewName(href);
 

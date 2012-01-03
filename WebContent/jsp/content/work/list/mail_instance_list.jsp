@@ -30,8 +30,8 @@
 	String wid = request.getParameter("wid");
 
 	RequestParams params = new RequestParams();
-	params.setCountInPage(20);
-	params.setPageNumber(1);
+	params.setPageSize(20);
+	params.setCurrentPage(1);
 	params.setSortingField(new SortingField("date", false));
 	String folderId = SmartUtil.getSpaceIdFromContentContext(cid);
 	folderId = MailFolder.ID_INBOX;
@@ -53,7 +53,7 @@
 		int type = instanceList.getType();
 		sortedField = instanceList.getSortedField();
 		if(sortedField==null) sortedField = new SortingField();
-		countInPage = instanceList.getCountInPage();
+		countInPage = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
 		currentPage = 1;

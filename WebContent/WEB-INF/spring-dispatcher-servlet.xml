@@ -8,8 +8,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<!-- ================================= VIEW RESOLVER ===================================== -->
 
-	<beans:bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<beans:property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
 		<beans:property name="prefix" value="" />

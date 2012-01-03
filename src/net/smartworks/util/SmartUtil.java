@@ -284,9 +284,9 @@ public class SmartUtil {
 		if(obj==null) return true;
 		if(obj.getClass().equals(String.class)) return StringUtils.isEmpty((String)obj);
 		if(obj.getClass().isArray()) return (obj==null || Array.getLength(obj)==0) ? true : false;
-		return true;
+		return false;
 	}
-	
+
 	public static boolean isEmpty(String str){
 		return (str == null || str.length()==0) ? true : false;
 	}

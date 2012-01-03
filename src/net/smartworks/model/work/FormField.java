@@ -11,11 +11,11 @@ public class FormField extends BaseObject{
 	public static final String ID_PROCESS_TIME = "processTime";
 	public static final String ID_PROCESS_TYPE = "processType";
 
-	public static final String ID_OWNER = "owner";
-	public static final String ID_CREATED_DATE = "createdDate";
-	public static final String ID_LAST_MODIFIER = "lastModifier";
-	public static final String ID_LAST_MODIFIED_DATE = "lastModifiedDate";
-	
+	public static final String ID_OWNER = "creator";
+	public static final String ID_CREATED_DATE = "createdTime";
+	public static final String ID_LAST_MODIFIER = "modifier";
+	public static final String ID_LAST_MODIFIED_DATE = "modifiedTime";
+
 	public static final String TYPE_TEXT = "textInput"; //string
 	public static final String TYPE_USER = "userField"; //user
 	public static final String TYPE_USERS = "usersField"; //users

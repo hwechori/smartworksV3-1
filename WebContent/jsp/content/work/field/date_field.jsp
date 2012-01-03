@@ -26,7 +26,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<select name="selFilterDateOperator"
+<select name="selFilterOperator"
 	class="selb_size_sec js_select_filter_operator">
 	<%
 	String operType = "";

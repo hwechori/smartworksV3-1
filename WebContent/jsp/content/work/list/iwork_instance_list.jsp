@@ -22,7 +22,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks)request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
 	RequestParams params = (RequestParams)request.getAttribute("requestParams");
 	if(SmartUtil.isBlankObject(params)){
@@ -42,18 +42,16 @@
 	<%
 	SortingField sortedField = null;
 	int countInPage = 0, totalPages = 0, currentPage = 0;
-	if (instanceList != null
-			&& (instanceList.getInstanceDatas() != null)
-			&& (work != null)) {
+	if (instanceList != null && work != null) {
 		int type = instanceList.getType();
 		sortedField = instanceList.getSortedField();
 		if(sortedField==null) sortedField = new SortingField();
 		countInPage = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
-		currentPage = 1;
 		FormField[] displayFields = work.getDisplayFields();
-		IWInstanceInfo[] instanceInfos = (IWInstanceInfo[]) instanceList.getInstanceDatas();
+		if(instanceList.getInstanceDatas() != null) {
+			IWInstanceInfo[] instanceInfos = (IWInstanceInfo[]) instanceList.getInstanceDatas();
 	%>
 	<tr class="tit_bg">
 		<%
@@ -61,7 +59,9 @@
 			if (fields != null) {
 				for (FormField field : fields) {
 			%>
- 		<th class="r_line"><a href="" class="js_select_field_sorting" fieldId="<%=field.getId()%>"><%=field.getName()%> <%if(sortedField.getFieldId().equals(field.getId())){
+ 		<th class="r_line"><a href="" class="js_select_field_sorting" fieldId="<%=field.getId()%>"><%=field.getName()%>
+ 		<%
+ 			if(sortedField.getFieldId().equals(field.getId())){
  				if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %></a>
 		</th>
 <%-- 		<th class="r_line"><%=field.getName()%> <img class="bu_arr_b">
@@ -90,8 +90,7 @@
 		%>
 	<tr>
 			<%
-			if ((fieldDatas != null)
-							&& (fieldDatas.length == displayFields.length)) {
+			if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
 						for (FieldData data : fieldDatas) {
 			%>
 		<td><a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
@@ -105,18 +104,18 @@
 				</div>
 				<div class="noti_in">
 					<span class="t_name"><%=lastModifier.getLongName()%></span>
-					<div class="t_date"><%=instanceInfo.getLastModifiedDate()
-							.toLocalString()%></div>
+					<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
 				</div></a></td>
 	</tr>
 	<%
+		}
 		}
 	}
 	%>
 </table>
 <form name="frmSortingField">
-	<input name="hdnSortingFieldId" type="hidden" value="<%=sortedField.getFieldId()%>" >
-	<input name="hdnSortingIsAscending" type="hidden" value="<%=sortedField.isAscending()%>" >
+	<input name="hdnSortingFieldId" type="hidden" value="<%=sortedField.getFieldId()%>">
+	<input name="hdnSortingIsAscending" type="hidden" value="<%=sortedField.isAscending()%>">
 </form>
 <!-- 목록 테이블 //-->
 

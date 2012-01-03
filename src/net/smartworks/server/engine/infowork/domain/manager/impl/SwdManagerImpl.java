@@ -936,7 +936,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				fieldType = field.getFormFieldType();
 				if (fieldType != null && !fieldType.equalsIgnoreCase("string"))
 					continue;
-				cond.addFilter(new Filter("like", field.getTableColumnName(), searchKey));
+				cond.addFilter(new Filter("like", "searchKey", field.getTableColumnName(), "", searchKey));
 			}
 		}
 		Map<String, Filter> filterMap = new HashMap<String, Filter>();
@@ -945,8 +945,17 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		Integer i = 0;
 		iWrap.setObj(i);
 		first = appendFilterConditions(cond.getFilter(), logicalOperator, first, true, iWrap, fieldColumnMap, fieldTypeMap, filterMap, paramTypeMap, buf);
+		String leftType = "";
+		if(cond.getFilter() != null) {
+			for(Filter f : cond.getFilter()) {
+				leftType = f.getLeftOperandType();
+			}
+			if(leftType.equals("searchKey"))
+				buf.append(") ");
+		}
+
 		i = (Integer)iWrap.getObj();
-		
+
 		Filters[] filterses = cond.getFilters();
 		if (!CommonUtil.isEmpty(filterses)) {
 			for (Filters filters : filterses) {
@@ -1051,14 +1060,18 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		
 		String operator;
 		String left;
+		String leftType;
 		String right;
 		String rightType;
 		Integer i = (Integer)iWrap.getObj();
+		boolean firstCnt = true;
 		for (Filter f : filter) {
 			operator = f.getOperator();
 			left = f.getLeftOperandValue();
+			leftType = f.getLeftOperandType();
 			right = f.getRightOperandValue();
 			rightType = f.getRightOperandType();
+
 			if (left == null)
 				throw new SwdException("left operand of filter condition is null.");
 			if (operator == null) {
@@ -1084,6 +1097,11 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			} else {
 				buf.append(CommonUtil.SPACE).append(logicalOperator);
 			}
+			if(leftType.equals("searchKey")) {
+				logicalOperator = "or";
+			} else {
+				logicalOperator = "and";
+			}
 			String fieldType = (String)fieldTypeMap.get(left);
 			buf.append(CommonUtil.SPACE);
 			boolean isLikeCast = false;
@@ -1091,10 +1109,21 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				if (fieldType != null && !fieldType.equalsIgnoreCase("string"))
 					isLikeCast = true;
 			}
+
 			if (isLikeCast)
 				buf.append(" cast(");
-			if (left.indexOf(".") == -1)
-				buf.append("obj.");
+			if (left.indexOf(".") == -1) {
+				if(leftType.equals("searchKey")) {
+					if(firstCnt) {
+						buf.append("(obj.");
+						firstCnt = false;
+					} else {
+						buf.append("obj.");
+					}
+				} else {
+					buf.append("obj.");
+				}
+			}
 			buf.append(left);
 			if (isLikeCast)
 				buf.append(" as varchar)");
@@ -2136,6 +2165,23 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		objList.toArray(swdRecordExtends);
 
 		return swdRecordExtends;
+	}
+
+	@Override
+	public String getTableColName(String domainId, String formFieldId) throws SwdException {
+		String hql = "select tableColName	" +
+				 "	 	from SwdDomainFieldView	" +
+				 "	   where domainId = '" + domainId + "' and formFieldId = '" + formFieldId + "'";
+
+		Query query = this.getSession().createQuery(hql);
+
+		String tableColName = (String)query.uniqueResult();
+
+		if(tableColName == null)
+			return null;
+
+		return tableColName;
+
 	}
 
 }
