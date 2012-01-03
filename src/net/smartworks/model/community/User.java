@@ -14,7 +14,7 @@ public class User extends WorkSpace {
 
 	private int	userLevel = USER_LEVEL_DEFAULT;
 	private int role = USER_ROLE_MEMBER;
-	private String position;
+	private String position = "";
 	private String locale;
 	private String timeZone;
 	private String departmentId;
@@ -112,5 +112,9 @@ public class User extends WorkSpace {
 	}
 	public User(String id, String name){
 		super(id, name);
+	}
+	
+	public String getEmailAddressShown(){
+		return this.getLongName() + " <" + super.getId() + ">";
 	}
 }

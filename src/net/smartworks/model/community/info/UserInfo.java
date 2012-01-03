@@ -5,7 +5,7 @@ import net.smartworks.model.community.User;
 public class UserInfo extends WorkSpaceInfo {
 
 	private int role = User.USER_ROLE_MEMBER;
-	private String position;
+	private String position = "";
 	private DepartmentInfo department;
 
 	public int getRole() {
@@ -35,5 +35,9 @@ public class UserInfo extends WorkSpaceInfo {
 	}
 	public UserInfo(String id, String name){
 		super(id, name);
+	}
+
+	public String getEmailAddressShown(){
+		return getLongName()  + " <" + getId() + ">";
 	}
 }

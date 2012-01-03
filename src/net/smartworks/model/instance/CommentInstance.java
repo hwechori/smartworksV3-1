@@ -1,18 +1,18 @@
 package net.smartworks.model.instance;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.work.Work;
 import net.smartworks.util.LocalDate;
 
 public class CommentInstance extends Instance {
 
-	public final static int COMMENT_TYPE_ON_WORK_DESC = 1;
+	public final static int COMMENT_TYPE_ON_WORK_SPACE = 1;
 	public final static int COMMENT_TYPE_ON_WORK_MANUAL = 2;
 	public final static int COMMENT_TYPE_ON_WORK_INSTANCE = 3;
 	public final static int COMMENT_TYPE_ON_TASK_INSTANCE = 4;
 
 	private int commentType=-1;
-	private Work work;
 	private WorkInstance workInstance;
 	private TaskInstance taskInstance;
 	private User commentor;
@@ -24,14 +24,6 @@ public class CommentInstance extends Instance {
 
 	public void setCommentType(int commentType) {
 		this.commentType = commentType;
-	}
-
-	public Work getWork() {
-		return work;
-	}
-
-	public void setWork(Work work) {
-		this.work = work;
 	}
 
 	public WorkInstance getWorkInstance() {

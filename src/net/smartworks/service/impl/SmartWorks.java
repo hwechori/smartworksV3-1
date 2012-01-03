@@ -176,8 +176,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception {
-		return noticeService.getNoticeBoxForMe10(noticeType, lastNotice);
+	public void removeNoticeInstance(String noticeId) throws Exception {
+		noticeService.removeNoticeInstance(noticeId);
+	}
+
+	@Override
+	public NoticeBox getNoticeBoxForMe10(int noticeType, String lastNoticeId) throws Exception {
+		return noticeService.getNoticeBoxForMe10(noticeType, lastNoticeId);
 	}
 
 	@Override

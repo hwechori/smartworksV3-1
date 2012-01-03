@@ -8,7 +8,6 @@ import net.smartworks.util.LocalDate;
 public class CommentInstanceInfo extends InstanceInfo {
 
 	private int commentType=-1;
-	private WorkInfo work;
 	private InstanceInfo workInstance;
 	private TaskInstanceInfo taskInstance;
 	private UserInfo commentor;
@@ -20,14 +19,6 @@ public class CommentInstanceInfo extends InstanceInfo {
 
 	public void setCommentType(int commentType) {
 		this.commentType = commentType;
-	}
-
-	public WorkInfo getWork() {
-		return work;
-	}
-
-	public void setWork(WorkInfo work) {
-		this.work = work;
 	}
 
 	public InstanceInfo getWorkInstance() {

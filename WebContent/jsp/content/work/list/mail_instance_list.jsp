@@ -89,7 +89,7 @@
 	<tr>
 		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSender().getName())%></a></td>
 		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSubject())%></a></td>
-		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSendDate().toLocalString())%></a></td>
+		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSendDate().toLocaleString())%></a></td>
 		<td><a href="<%=target%>" class="js_content"><%=CommonUtil.toNotNull(instanceInfo.getSize())%>B</a></td>
 		<td><a href="<%=target%>" class="js_content"></a></td>
 	</tr>

@@ -137,7 +137,9 @@ public interface ISmartWorks {
 
 	public abstract Notice[] getNoticesForMe() throws Exception;
 
-	public abstract NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception;
+	public abstract void removeNoticeInstance(String noticeId) throws Exception;
+
+	public abstract NoticeBox getNoticeBoxForMe10(int noticeType, String lastNoticeId) throws Exception;
 
 	public String getWorkIdByFormId(String formId) throws Exception;
 
