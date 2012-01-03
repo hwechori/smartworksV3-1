@@ -447,8 +447,6 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception {
 
-		Date start = new Date();
-
 		User user = SmartUtil.getCurrentUser();
 
 		SwdDomainCond swdDomainCond = new SwdDomainCond();
@@ -467,39 +465,64 @@ public class InstanceServiceImpl implements IInstanceService {
 		swdRecordCond.setFormId(swdDomain.getFormId());
 		swdRecordCond.setDomainId(swdDomain.getObjId());
 
-		long totalCount = getSwdManager().getRecordSize(user.getId(), swdRecordCond);
-
 		int pageCount = params.getPageSize();
 		int currentPage = params.getCurrentPage();
+		String searchKey = params.getSearchKey();
 		SortingField sf = params.getSortingField();
-//		SearchFilter searchFilter = params.getSearchFilter();
-//		Condition[] conditions = searchFilter.getConditions();
-//		for(Condition condition : conditions) {
-//			FormField leftOperand = condition.getLeftOperand();
-//			String operator = condition.getOperator();
-//			Object rightOperand = condition.getRightOperand();
-//		}
+		SearchFilter searchFilter = params.getSearchFilter();
+		List<Filter> filterList = new ArrayList<Filter>();
+		if(searchFilter != null) {
+			Condition[] conditions = searchFilter.getConditions();
+			for(Condition condition : conditions) {
+				Filter filter = new Filter();
 
-		String fieldName = "";
+				FormField leftOperand = condition.getLeftOperand();
+				String formFieldId = leftOperand.getId();
+				String tableColName = getSwdManager().getTableColName(swdDomain.getObjId(), formFieldId);
+				String formFiledType = leftOperand.getType();
+				String operator = condition.getOperator();
+				String rightOperand = (String)condition.getRightOperand();
+
+				filter.setLeftOperandValue(tableColName);
+				filter.setOperator(operator);
+				filter.setRightOperandType(formFiledType);
+				filter.setRightOperandValue(rightOperand);
+				filterList.add(filter);
+			}
+
+			Filter[] filters = new Filter[filterList.size()];
+			filterList.toArray(filters);
+
+			swdRecordCond.setFilter(filters);
+		}
+
+		if(!CommonUtil.isEmpty(searchKey))
+			swdRecordCond.setSearchKey(searchKey);
+
+		long totalCount = getSwdManager().getRecordSize(user.getId(), swdRecordCond);
+
+		String columnName = "";
 		boolean isAsc;
 
 		if (sf != null) {
-			fieldName  = CommonUtil.toDefault("createdTime" , sf.getFieldId());
-			isAsc =  sf.isAscending();
+			columnName  = CommonUtil.toDefault(sf.getFieldId(), FormField.ID_CREATED_DATE);
+			isAsc = sf.isAscending();
 		} else {
-			fieldName = "createdTime";
+			columnName = FormField.ID_CREATED_DATE;
 			isAsc = false;
 		}
-		swdRecordCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
+		SortingField sortingField = new SortingField();
+		sortingField.setFieldId(columnName);
+		sortingField.setAscending(isAsc);
 
-		swdRecordCond.setPageNo(currentPage);
+		swdRecordCond.setOrders(new Order[]{new Order(columnName, isAsc)});
+
+		if (currentPage > 0)
+			swdRecordCond.setPageNo(currentPage-1);
+
 		swdRecordCond.setPageSize(pageCount);
-
 		SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
 
-		if (swdRecords == null)
-			return null;
-			
 		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
 
 		//SwdField[] swdFields = getSwdManager().getViewFieldList(workId, swdDomain.getFormId());
@@ -507,62 +530,73 @@ public class InstanceServiceImpl implements IInstanceService {
 		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
 		SwfField[] swfFields = swfForms[0].getFields();
 
-		IWInstanceInfo[] iWInstanceInfos = new IWInstanceInfo[swdRecords.length];
+		InstanceInfoList instanceInfoList = new InstanceInfoList();
 
-		for(int i = 0; i < swdRecords.length; i++) {
-			IWInstanceInfo iWInstanceInfo = new IWInstanceInfo();
-			SwdRecord swdRecord = swdRecords[i];
-			iWInstanceInfo.setId(swdRecord.getRecordId());
-			iWInstanceInfo.setOwner(ModelConverter.getUserInfoByUserId(swdRecord.getCreationUser()));
-			iWInstanceInfo.setSubject(""); //TODO
-			int type = WorkInstance.TYPE_INFORMATION;
-			iWInstanceInfo.setType(type);
-			iWInstanceInfo.setStatus(WorkInstance.STATUS_COMPLETED);
-			iWInstanceInfo.setWorkSpace(null);
+		if(swdRecords != null) {
+			IWInstanceInfo[] iWInstanceInfos = new IWInstanceInfo[swdRecords.length];
 
-			WorkCategoryInfo groupInfo = null;
-			if (!CommonUtil.isEmpty(swdRecordExtends[0].getSubCtgId()))
-				groupInfo = new WorkCategoryInfo(swdRecordExtends[0].getSubCtgId(), swdRecordExtends[0].getSubCtg());
-
-			WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
-
-			WorkInfo workInfo = new SmartWorkInfo(swdRecord.getFormId(), swdRecord.getFormName(), type, groupInfo, categoryInfo);
-
-			iWInstanceInfo.setWork(workInfo);
-			iWInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
-			iWInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
-
-			SwdDataField[] swdDataFields = swdRecord.getDataFields();
-			List<FieldData> fieldDataList = new ArrayList<FieldData>();
-
-			for(SwdDataField swdDataField : swdDataFields) {
-				for(SwfField swfField : swfFields) {
-					if(swdDataField.getDisplayOrder() > -1) {
-						if(swdDataField.getId().equals(swfField.getId())) {
-							FieldData fieldData = new FieldData();
-							fieldData.setFieldId(swdDataField.getId());
-							fieldData.setFieldType(swfField.getFormat().getViewingType());
-							fieldData.setValue(swdDataField.getValue());
-							fieldDataList.add(fieldData);
+			for(int i = 0; i < swdRecords.length; i++) {
+				IWInstanceInfo iWInstanceInfo = new IWInstanceInfo();
+				SwdRecord swdRecord = swdRecords[i];
+				iWInstanceInfo.setId(swdRecord.getRecordId());
+				iWInstanceInfo.setOwner(ModelConverter.getUserInfoByUserId(swdRecord.getCreationUser()));
+				iWInstanceInfo.setSubject(""); //TODO
+				int type = WorkInstance.TYPE_INFORMATION;
+				iWInstanceInfo.setType(type);
+				iWInstanceInfo.setStatus(WorkInstance.STATUS_COMPLETED);
+				iWInstanceInfo.setWorkSpace(null);
+	
+				WorkCategoryInfo groupInfo = null;
+				if (!CommonUtil.isEmpty(swdRecordExtends[0].getSubCtgId()))
+					groupInfo = new WorkCategoryInfo(swdRecordExtends[0].getSubCtgId(), swdRecordExtends[0].getSubCtg());
+	
+				WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
+	
+				WorkInfo workInfo = new SmartWorkInfo(swdRecord.getFormId(), swdRecord.getFormName(), type, groupInfo, categoryInfo);
+	
+				iWInstanceInfo.setWork(workInfo);
+				iWInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
+				iWInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
+	
+				SwdDataField[] swdDataFields = swdRecord.getDataFields();
+				List<FieldData> fieldDataList = new ArrayList<FieldData>();
+	
+				for(SwdDataField swdDataField : swdDataFields) {
+					for(SwfField swfField : swfFields) {
+						if(swdDataField.getDisplayOrder() > -1) {
+							if(swdDataField.getId().equals(swfField.getId())) {
+								FieldData fieldData = new FieldData();
+								fieldData.setFieldId(swdDataField.getId());
+								fieldData.setFieldType(swfField.getFormat().getViewingType());
+								fieldData.setValue(swdDataField.getValue());
+								fieldDataList.add(fieldData);
+							}
 						}
 					}
 				}
+				FieldData[] fieldDatas = new FieldData[fieldDataList.size()];
+				fieldDataList.toArray(fieldDatas);
+				iWInstanceInfo.setDisplayDatas(fieldDatas);
+				iWInstanceInfos[i] = iWInstanceInfo;
 			}
-			FieldData[] fieldDatas = new FieldData[fieldDataList.size()];
-			fieldDataList.toArray(fieldDatas);
-			iWInstanceInfo.setDisplayDatas(fieldDatas);
-			iWInstanceInfos[i] = iWInstanceInfo;
+			instanceInfoList.setInstanceDatas(iWInstanceInfos);
 		}
 
-		InstanceInfoList instanceInfoList = new InstanceInfoList();
-		instanceInfoList.setInstanceDatas(iWInstanceInfos);
-		long termTime = start.getTime() - new Date().getTime();
+		int totalPages = (int)totalCount % pageCount;
+
+		if(totalPages == 0)
+			totalPages = (int)totalCount / pageCount;
+		else
+			totalPages = (int)totalCount / pageCount + 1;
+
+		instanceInfoList.setSortedField(sortingField);
 		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 		instanceInfoList.setPageSize(pageCount);
-		instanceInfoList.setTotalPages((int)totalCount);
+		instanceInfoList.setTotalPages(totalPages);
 		instanceInfoList.setCurrentPage(currentPage);
 
 		return instanceInfoList;
+
 	}
 
 	@Override

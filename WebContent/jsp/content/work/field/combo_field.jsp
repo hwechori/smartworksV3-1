@@ -20,7 +20,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<select name="selFilterComboOperator" class="selb_size_sec">
+<select name="selFilterOperator" class="selb_size_sec">
 	<%
 		for (KeyMap generalOper : generalOpers) {
 	%>
@@ -33,7 +33,7 @@
 		}
 	%>
 </select>
-<span class="str_field"><select name="txtFilterComboOperand">
+<span class="str_field"><select name="txtFilterStringOperand">
 		<option value="<%=Instance.STATUS_RUNNING%>" <%if((operandValue != null) && Integer.parseInt(operandValue) == Instance.STATUS_RUNNING){%> selected<%} %>>
 			<fmt:message key="filter.operand.status.running" />
 		</option>

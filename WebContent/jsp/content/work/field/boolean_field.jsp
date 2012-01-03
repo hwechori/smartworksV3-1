@@ -18,7 +18,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<select name="selFilterBooleanOperator" class="selb_size_sec">
+<select name="selFilterOperator" class="selb_size_sec">
 	<%
 		for (KeyMap generalOper : generalOpers) {
 	%>
@@ -31,7 +31,7 @@
 		}
 	%>
 </select>
-<span class="str_field"><select name="txtFilterBooleanOperand">
+<span class="str_field"><select name="txtFilterStringOperand">
 		<option value="true" <%if((operandValue != null) && operandValue.equals("true")){%> selected<%} %>>
 			<fmt:message key="filter.operand.true" />
 		</option>

@@ -21,7 +21,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<select name="selFilterTimeOperator" class="selb_size_sec">
+<select name="selFilterOperator" class="selb_size_sec">
 	<%
 		for (KeyMap timeOper : timeOpers) {
 	%>
