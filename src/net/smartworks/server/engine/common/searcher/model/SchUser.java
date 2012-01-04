@@ -10,8 +10,30 @@ package net.smartworks.server.engine.common.searcher.model;
 
 public class SchUser extends SchWorkspace {
 
-	private String roleId;
-
+	public String getCompanyName() {
+		return super.getUserCompanyName();
+	}
+	public int getUserLevel() {
+		return super.getUserLevel();
+	}
+	public String getLocale() {
+		return super.getUserLocale();
+	}
+	public String getTimeZone() {
+		return super.getUserTimeZone();
+	}
+	public String getEmployeeId() {
+		return super.getUserEmployeeId();
+	}
+	public String getPhoneNo() {
+		return super.getUserCellPhoneNo();
+	}
+	public String getCellPhoneNo() {
+		return super.getUserCellPhoneNo();
+	}
+	public String getCompanyId() {
+		return super.getUserCompanyId();
+	}
 	public String getId() {
 		return super.getId();
 	}
@@ -21,11 +43,8 @@ public class SchUser extends SchWorkspace {
 	public String getPosition() {
 		return super.getUserPosition();
 	}
-	public String getRoleId() {
-		return roleId;
-	}
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
+	public int getRole() {
+		return super.getUserRole();
 	}
 	public String getDeptId() {
 		return super.getUserDeptId();

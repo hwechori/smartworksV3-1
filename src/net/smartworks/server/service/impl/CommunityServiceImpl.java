@@ -255,7 +255,57 @@ public class CommunityServiceImpl implements ICommunityService {
 	 */
 	@Override
 	public WorkSpace getWorkSpaceById(String workSpaceId) throws Exception {
-		return SmartTest.getWorkSpaceById(workSpaceId);
+
+		if (CommonUtil.isEmpty(workSpaceId))
+			return null;
+
+		User cUser = SmartUtil.getCurrentUser();
+
+
+		SchWorkspace schWorkSpace = SwManagerFactory.getInstance().getSchManager().getWorkspaceById(cUser.getCompanyId(), cUser.getId(), workSpaceId);
+
+		WorkSpace workSpace = new WorkSpace();;
+
+		if(schWorkSpace != null) {
+	
+			String type = schWorkSpace.getType();
+
+			if (type.equalsIgnoreCase("user")) {
+				User user = new User();
+				user.setId(schWorkSpace.getId());
+				user.setName(schWorkSpace.getName());
+				user.setPosition(schWorkSpace.getUserPosition());
+				String picture = schWorkSpace.getUserPicture();
+				if(picture != null && !picture.equals("")) {
+					String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+					String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+					user.setSmallPictureName(pictureId + "_small" + "." + extension);
+				}
+				user.setRole(schWorkSpace.getUserRole());
+				user.setUserLevel(schWorkSpace.getUserLevel());
+				user.setLocale(schWorkSpace.getUserLocale());
+				user.setTimeZone(schWorkSpace.getUserTimeZone());
+				user.setEmployeeId(schWorkSpace.getUserEmployeeId());
+				user.setPhoneNo(schWorkSpace.getUserPhoneNo());
+				user.setCellPhoneNo(schWorkSpace.getUserCellPhoneNo());
+				user.setCompanyId(schWorkSpace.getUserCompanyId());
+				user.setCompany(schWorkSpace.getUserCompanyName());
+				user.setDepartmentId(schWorkSpace.getUserDeptId());
+				user.setDepartment(schWorkSpace.getUserDeptName());
+				workSpace = user;
+
+			} else if (type.equalsIgnoreCase("department")) {
+				Department dept = new Department();
+
+				dept.setId(schWorkSpace.getId());
+				dept.setName(schWorkSpace.getName());
+				dept.setDesc(schWorkSpace.getDescription());
+				workSpace = dept;
+			}
+		}
+
+		return workSpace;
+
 	}
 
 	/*
@@ -299,7 +349,7 @@ public class CommunityServiceImpl implements ICommunityService {
 			userInfo.setId(schUser.getId());
 			userInfo.setName(schUser.getName());
 			userInfo.setPosition(schUser.getPosition());
-			userInfo.setRole(schUser.getRoleId().equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
+			userInfo.setRole(schUser.getRole());
 			DepartmentInfo departmentInfo = new DepartmentInfo();
 			departmentInfo.setId(schUser.getUserDeptId());
 			departmentInfo.setName(schUser.getUserDeptName());

@@ -19,7 +19,70 @@ public class SchWorkspace {
 	private String userDeptId;
 	private String userDeptName;
 	private String userDeptDesc;
-	
+	private int userRole;
+	private int	userLevel;
+	private String userLocale;
+	private String userTimeZone;
+	private String userEmployeeId;
+	private String userPhoneNo;
+	private String userCellPhoneNo;
+	private String userCompanyId;
+	private String userCompanyName;
+
+	public int getUserRole() {
+		return userRole;
+	}
+	public void setUserRole(int userRole) {
+		this.userRole = userRole;
+	}
+	public int getUserLevel() {
+		return userLevel;
+	}
+	public void setUserLevel(int userLevel) {
+		this.userLevel = userLevel;
+	}
+	public String getUserLocale() {
+		return userLocale;
+	}
+	public void setUserLocale(String userLocale) {
+		this.userLocale = userLocale;
+	}
+	public String getUserTimeZone() {
+		return userTimeZone;
+	}
+	public void setUserTimeZone(String userTimeZone) {
+		this.userTimeZone = userTimeZone;
+	}
+	public String getUserEmployeeId() {
+		return userEmployeeId;
+	}
+	public void setUserEmployeeId(String userEmployeeId) {
+		this.userEmployeeId = userEmployeeId;
+	}
+	public String getUserPhoneNo() {
+		return userPhoneNo;
+	}
+	public void setUserPhoneNo(String userPhoneNo) {
+		this.userPhoneNo = userPhoneNo;
+	}
+	public String getUserCellPhoneNo() {
+		return userCellPhoneNo;
+	}
+	public void setUserCellPhoneNo(String userCellPhoneNo) {
+		this.userCellPhoneNo = userCellPhoneNo;
+	}
+	public String getUserCompanyId() {
+		return userCompanyId;
+	}
+	public void setUserCompanyId(String userCompanyId) {
+		this.userCompanyId = userCompanyId;
+	}
+	public String getUserCompanyName() {
+		return userCompanyName;
+	}
+	public void setUserCompanyName(String userCompanyName) {
+		this.userCompanyName = userCompanyName;
+	}
 	public String getId() {
 		return id;
 	}
