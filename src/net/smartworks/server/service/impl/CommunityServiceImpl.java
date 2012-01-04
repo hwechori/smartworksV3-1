@@ -178,7 +178,13 @@ public class CommunityServiceImpl implements ICommunityService {
 				userInfo.setId(workSpaceInfo.getId());
 				userInfo.setName(workSpaceInfo.getName());
 				userInfo.setPosition(workSpaceInfo.getUserPosition());
-				
+				String picture = workSpaceInfo.getUserPicture();
+				if(picture != null && !picture.equals("")) {
+					String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+					String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+					userInfo.setSmallPictureName(pictureId + "_small" + "." + extension);
+				}
+
 				DepartmentInfo userDeptInfo = new DepartmentInfo();
 				userDeptInfo.setId(workSpaceInfo.getUserDeptId());
 				userDeptInfo.setName(workSpaceInfo.getUserDeptName());
