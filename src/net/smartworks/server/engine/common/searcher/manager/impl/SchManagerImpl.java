@@ -37,6 +37,7 @@ public class SchManagerImpl extends AbstractManager implements ISchManager {
 		queryBuffer.append(" 		, usr.id, usr.name ");
 		queryBuffer.append(" 		, '' as description ");
 		queryBuffer.append(" 		, usr.pos as userPosition ");
+		queryBuffer.append(" 		, usr.picture as userPicture ");
 		queryBuffer.append(" 		, dept.id as userDeptId ");
 		queryBuffer.append(" 		, dept.name as userDeptName ");
 		queryBuffer.append(" 		, dept.description as userDeptDesc ");
@@ -47,6 +48,7 @@ public class SchManagerImpl extends AbstractManager implements ISchManager {
 		queryBuffer.append(" 		, dept.id, dept.name ");
 		queryBuffer.append(" 		, dept.description as description ");
 		queryBuffer.append(" 		, '' as userPosition ");
+		queryBuffer.append(" 		, '' as userPicture ");
 		queryBuffer.append(" 		, '' as userDeptId ");
 		queryBuffer.append(" 		, '' as userDeptName ");
 		queryBuffer.append(" 		, '' as userDeptDesc  ");
@@ -70,11 +72,12 @@ public class SchManagerImpl extends AbstractManager implements ISchManager {
 			obj.setType((String)fields[j++]);    
 			obj.setId((String)fields[j++]);    
 			obj.setName((String)fields[j++]);     
-			obj.setDescription((String)fields[j++]);   
-			obj.setUserPosition((String)fields[j++]); 
+			obj.setDescription((String)fields[j++]);
+			obj.setUserPosition((String)fields[j++]);   
+			obj.setUserPicture((String)fields[j++]); 
 			obj.setUserDeptId((String)fields[j++]);
 			obj.setUserDeptName((String)fields[j++]);
-			obj.setUserDeptDesc((String)fields[j++]);     
+			obj.setUserDeptDesc((String)fields[j++]);
 			
 			objList.add(obj);
 		}
