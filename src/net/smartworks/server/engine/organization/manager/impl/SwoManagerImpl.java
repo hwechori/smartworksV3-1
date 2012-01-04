@@ -1439,8 +1439,15 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		buff.append(" and user.id = :id");
 		Query query = this.getSession().createQuery(buff.toString());
 		query.setString("id", id);
-		
+
 		SwoUserExtend userExtend = (SwoUserExtend)query.uniqueResult();
+		String picture = userExtend.getPictureName();
+
+		if(picture != null && !picture.equals("")) {
+			String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+			String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+			userExtend.setSmallPictureName(pictureId + "_small" + "." + extension);
+		}
 
 		if (userExtend != null)
 			userMap.put(id, userExtend);

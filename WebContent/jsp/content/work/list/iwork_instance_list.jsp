@@ -41,12 +41,12 @@
 <table>
 	<%
 	SortingField sortedField = null;
-	int countInPage = 0, totalPages = 0, currentPage = 0;
+	int pageSize = 0, totalPages = 0, currentPage = 0;
 	if (instanceList != null && work != null) {
 		int type = instanceList.getType();
 		sortedField = instanceList.getSortedField();
 		if(sortedField==null) sortedField = new SortingField();
-		countInPage = instanceList.getPageSize();
+		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
 		FormField[] displayFields = work.getDisplayFields();
@@ -125,9 +125,9 @@
 		<%
 			if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
 				boolean isFirst10Pages = (currentPage <= 10) ? true : false;
-				boolean isLast10Pages = ((currentPage / 10) == (totalPages / 10)) ? true
+				boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true
 						: false;
-				int startPage = (currentPage / 10) * 10 + 1;
+				int startPage = ((currentPage - 1) / 10) * 10 + 1;
 				int endPage = isLast10Pages ? totalPages : startPage + 9;
 				if (!isFirst10Pages) {
 		%>
@@ -163,10 +163,10 @@
 	
 	<div class="num_box">
 		<select name="selPageSize" title="<fmt:message key='common.title.count_in_page'/> " onchange="selectListParam();return false;">
-			<option <%if (countInPage == 10) {%> selected <%}%>>10</option>
-			<option <%if (countInPage == 20) {%> selected <%}%>>20</option>
-			<option <%if (countInPage == 30) {%> selected <%}%>>30</option>
-			<option <%if (countInPage == 50) {%> selected <%}%>>50</option>
+			<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
+			<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
+			<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
+			<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
 		</select>
 	</div>
 	<!-- 페이징 //-->
