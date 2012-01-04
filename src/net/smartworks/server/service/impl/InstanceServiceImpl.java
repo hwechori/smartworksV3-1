@@ -465,8 +465,6 @@ public class InstanceServiceImpl implements IInstanceService {
 		swdRecordCond.setFormId(swdDomain.getFormId());
 		swdRecordCond.setDomainId(swdDomain.getObjId());
 
-		int pageCount = params.getPageSize();
-		int currentPage = params.getCurrentPage();
 		String searchKey = params.getSearchKey();
 		SortingField sf = params.getSortingField();
 		SearchFilter searchFilter = params.getSearchFilter();
@@ -517,10 +515,36 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		swdRecordCond.setOrders(new Order[]{new Order(columnName, isAsc)});
 
+		int pageSize = params.getPageSize();
+		int currentPage = params.getCurrentPage();
+
+		int totalPages = (int)totalCount % pageSize;
+
+		if(totalPages == 0)
+			totalPages = (int)totalCount / pageSize;
+		else
+			totalPages = (int)totalCount / pageSize + 1;
+
+		int result = 0;
+
+		if(params.getPagingAction() != 0) {
+			if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+				result = (((currentPage - 1) / 10) * 10) + 11;
+			} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+				result = totalPages;
+			} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+				result = ((currentPage - 1) / 10) * 10;
+			} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+				result = 1;
+			}
+			currentPage = result;
+		}
+
 		if (currentPage > 0)
 			swdRecordCond.setPageNo(currentPage-1);
 
-		swdRecordCond.setPageSize(pageCount);
+		swdRecordCond.setPageSize(pageSize);
+
 		SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
 
 		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
@@ -582,16 +606,11 @@ public class InstanceServiceImpl implements IInstanceService {
 			instanceInfoList.setInstanceDatas(iWInstanceInfos);
 		}
 
-		int totalPages = (int)totalCount % pageCount;
 
-		if(totalPages == 0)
-			totalPages = (int)totalCount / pageCount;
-		else
-			totalPages = (int)totalCount / pageCount + 1;
 
 		instanceInfoList.setSortedField(sortingField);
 		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-		instanceInfoList.setPageSize(pageCount);
+		instanceInfoList.setPageSize(pageSize);
 		instanceInfoList.setTotalPages(totalPages);
 		instanceInfoList.setCurrentPage(currentPage);
 
