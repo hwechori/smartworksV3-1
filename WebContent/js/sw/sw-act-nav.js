@@ -7,10 +7,14 @@ $(function() {
 	 */
 	$('.js_nav_tab_work a').swnavi(
 			{
+				before : function(event){
+					popProgressNavGray($('.js_nav_tab_work span'));
+				},
 				target : 'my_works',
 				after : function(event) {
 					$(event.target).addClass('current').siblings().removeClass(
 							'current');
+					closeProgress();
 				}
 			});
 
@@ -22,10 +26,14 @@ $(function() {
 	 */
 	$('.js_nav_tab_com a').swnavi(
 			{
+				before : function(event){
+					popProgressNavGray($('.js_nav_tab_com span'));
+				},
 				target : 'my_communities',
 				after : function(event) {
 					$(event.target).addClass('current').siblings().removeClass(
 							'current');
+					closeProgress();
 				}
 			});
 
@@ -34,7 +42,19 @@ $(function() {
 	 * 가져온 값을 content(메인컨텐트)화면에 보여준다.
 	 */
 	$('a.js_content').swnavi({
-		target : 'content'
+		before : function(event){
+			var input = $(event.target);
+			if(!isEmpty(input.parents('.js_nav_my_works')) || !isEmpty(input.parents('.js_nav_my_com'))){
+				popProgressNavGray(input.parents('li:first').find('span:last'));
+			}else if(!isEmpty(input.parents('.js_srch_my_works'))){
+				console.log(input.parents('.js_srch_my_works').find('.js_auto_complete'));
+				popProgressNav(input.parents('.js_srch_my_works').prev('li span:first'));
+			}
+		},
+		target : 'content',
+		after : function(event){
+			closeProgress();
+		}
 	});
 
 	$('a.js_content_iwork_space').swnavi({
@@ -80,13 +100,15 @@ $(function() {
 	$('.js_notice_count a').swnavi({
 		target : 'notice_message_box',
 		before : function(event) {
+			popProgressNav($('div.js_notice_icons_area li:last'));
 			$('#notice_message_box').hide();
-			$('#notice_message_box').slideDown();
+			$('.js_notice_count').find('a').removeClass('current');
 		},
 		after : function(event) {
-			$('.js_notice_count').find('a').removeClass('current');
 			$(event.target).parents('.js_notice_count:first').find('a')
 					.addClass('current');
+			closeProgress();
+			$('#notice_message_box').show();
 		}
 	});
 
@@ -118,7 +140,7 @@ $(function() {
 	 * 알림아이콘에 있는 current 값들을 지운다(message box가 닫혀지는 시간만큼 기다리기위해...)
 	 */
 	$('.js_close_message').live('click', function(e) {
-		$('#notice_message_box').slideUp();
+		$('#notice_message_box').hide();
 		setTimeout(function() {
 			$('.js_notice_count').find('a').removeClass('current');
 		}, 500);
@@ -130,7 +152,10 @@ $(function() {
 	 * js_collapsible class를 찾아서, 위로 닫고 아래로 여는것을 한번씩 실행해준다.
 	 */
 	$('.js_collapse_parent_siblings').live('click', function(e) {
-		$(e.target).parent().parent().siblings('.js_collapsible').toggle();
+		var input = $(e.target);
+		if(input.hasClass('arr_on')) input.removeClass('arr_on').addClass('arr_off');
+		else input.removeClass('arr_off').addClass('arr_on');
+		input.parent().parent().siblings('.js_collapsible').toggle();
 		return false;
 	});
 
@@ -155,7 +180,7 @@ $(function() {
 		}
 		if(isEmpty($(target).children())){
 			if(isEmpty(departmentId))
-				$('div.js_nav_my_works').showLoading();						
+				popProgressNav(input.find('span:last'));						
 			$.ajax({
 				url : url,
 				data : {
@@ -170,11 +195,11 @@ $(function() {
 					target.siblings('li.js_drill_down').find('div').hide();
 					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
 					if(isEmpty(departmentId))
-						$('div.js_nav_my_works').hideLoading();											
+						closeProgress();											
 				},
 				error : function(){
 					if(isEmpty(departmentId))
-						$('div.js_nav_my_works').hideLoading();											
+						closeProgress();											
 				}
 			});
 		}else{

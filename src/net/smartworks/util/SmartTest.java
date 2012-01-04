@@ -356,6 +356,7 @@ public class SmartTest {
 			TaskInstanceInfo taskInstance = new TaskInstanceInfo("taskInstance1", "대표이사승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, getUserInfo2(), getUserInfo2(), new LocalDate(LocalDate.convertStringToTime("201110051600")));
 			taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
 			PWInstanceInfo instance = new PWInstanceInfo("inst1", "휴가 신청합니다.", getSmartWorkInfo1(), getUserInfo1(), getUserInfo1(), new LocalDate(LocalDate.convertStringToTime("201110211300")), taskInstance);
+			instance.setWork(SmartTest.getProcessWorkInfo1());
 			taskInstance.setWorkInstance(instance);
 			return instance;
 	}
@@ -415,7 +416,9 @@ public class SmartTest {
 	}
 
 	public static IWInstanceInfo getWorkInstanceInfo5() throws Exception {
-		return new IWInstanceInfo("inst5", "삼성 노트북 구매발주서", getSmartWorkInfo8(), getUserInfo3(), getUserInfo3(), new LocalDate(LocalDate.convertStringToTime("201110291300")));
+		IWInstanceInfo instance = new IWInstanceInfo("inst5", "삼성 노트북 구매발주서", getSmartWorkInfo8(), getUserInfo3(), getUserInfo3(), new LocalDate(LocalDate.convertStringToTime("201110291300")));
+		instance.setCreatedDate(new LocalDate());
+		return instance;
 	}
 
 	public static Department getDepartment1() throws Exception {
@@ -550,6 +553,7 @@ public class SmartTest {
 		taskInstance.setStatus(Instance.STATUS_DELAYED_RUNNING);
 		taskInstance.setWorkInstance(getWorkInstanceInfo1());
 		taskInstance.setAssignee(getUserInfo1());
+		taskInstance.setCreatedDate(new LocalDate());
 		return taskInstance;
 	}
 
@@ -818,9 +822,17 @@ public class SmartTest {
 
 	public static NoticeMessage[] getSavedboxMessages() throws Exception {
 
-		NoticeMessage[] mailboxNotices = getMailboxMessages();
+		NoticeMessage notice1, notice2, notice3, notice4, notice5;
 
-		return mailboxNotices;
+		notice1 = new NoticeMessage("notice31", 0, SmartTest.getUserInfo2(), new LocalDate());
+		notice1.setInstance(getTaskInstanceInfoIA());
+		
+		notice2 = new NoticeMessage("notice32", 0, SmartTest.getUserInfo2(), new LocalDate());
+		notice2.setInstance(SmartTest.getWorkInstanceInfo5());
+		
+
+		return new NoticeMessage[] { notice1, notice2};
+
 	}
 	
 	private static IWInstanceInfo[] getInstanceRecords1() throws Exception{

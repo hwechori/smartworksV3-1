@@ -38,7 +38,7 @@
 	<li><a
 		href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
 		<span class="<%=iconType%>"></span>
-		<%=work.getName()%></a>
+		<%=work.getName()%><span></span></a>
 	</li>
 	<%
 		} else {

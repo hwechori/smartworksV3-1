@@ -53,15 +53,11 @@
 					before.apply(this, [event]);
 				}
 				if(target == target_) {
-					$('#'+target).showLoading();
 					$.history.load(this.getAttribute('href'), function(){
-						$('#'+target).hideLoading();
 						if(after) after.apply(_this, [event]);
 					} );
 				} else {
-					$('#'+target).showLoading();
 					$('#' + target).load(this.getAttribute('href'), function(){
-						$('#'+target).hideLoading();
 						if(after) after.apply(_this, [event]);						
 					});
 				}

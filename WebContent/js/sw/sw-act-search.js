@@ -25,6 +25,7 @@ $(function() {
 			var currentValue = input[0].value;
 			if (lastValue === currentValue && currentValue !== requestedValue) {
 				requestedValue = currentValue;
+				console.log(input[0].value);
 				$.ajax({
 					url : url,
 					data : {
@@ -34,6 +35,8 @@ $(function() {
 					success : function(data, status, jqXHR) {
 						target.html(data);
 						target.show();
+					},
+					error : function(data, status, jqXHR){
 					}
 				});
 			} else {

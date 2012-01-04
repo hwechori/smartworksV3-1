@@ -31,20 +31,6 @@ showInfoOptions = {
 		overlayClose: false
 	};
 
-progressOptions = {
-		opacity: 20,
-		overlayCss: {backgroundColor:"#fff"},
-		containerCss:{
-			backgroundColor:"#fff",
-			borderColor:"#000",
-			color: "#000",
-			height:200,
-			padding:1,
-			width:300
-		},
-		overlayClose: false
-	};
-
 var swInfoType = {
 	INFO : 'Info',
 	WARN : 'Warn',
@@ -115,15 +101,67 @@ popConfirm = function(message, onOk, onCancel){
 				}
 			});
 };
+var progressTarget = "";
+popProgressCenter = function(){
+	$.modal('<img class="js_progress_icon" src="images/load_wh.gif" align="bottom"/>', {
+		opacity: 10,
+		autoPosition: true,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
 
-popProgress = function(message){
-	$.modal( '<div class="pop_corner_all pop_section_300">' + 
-			'<div class="form_contents margin_t10">' + 
-			 	'<div class="pop_notice_section">' + message + '</div>' +
-			 '</div>' +
-		  '</div>', progressOptions);
-	
+	} );
 };
+
+popProgressCont = function(target){
+	progressTarget= target;
+	$('<img class="js_progress_icon" src="images/load_wh.gif" align="bottom"/>').appendTo(target);
+	$.modal("", {
+		opacity: 10,
+		autoPosition: false,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
+	} );
+};
+
+popProgressContGray = function(target){
+	progressTarget= target;
+	$('<img class="js_progress_icon" src="images/load_wh_02.gif" align="bottom"/>').appendTo(target);
+	$.modal("", {
+		opacity: 10,
+		autoPosition: false,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
+	} );
+};
+
+popProgressNav = function(target){
+	progressTarget= target;
+	$('<img class="js_progress_icon" src="images/load_gr.gif" align="bottom"/>').appendTo(target);
+	$.modal("", {
+		opacity: 10,
+		autoPosition: false,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
+	} );
+};
+
+popProgressNavGray = function(target){
+	progressTarget= target;
+	$('<img class="js_progress_icon" src="images/load_gr_02.gif" align="bottom"/>').appendTo(target);
+	$.modal("", {
+		opacity: 10,
+		autoPosition: false,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
+	} );
+};
+
+closeProgress = function(){
+	$.modal.close();
+	if(!isEmpty(progressTarget))
+		progressTarget.find('.js_progress_icon').remove();
+};
+
 
 popSelectUser = function(target){
 	if(isEmpty(target)) return;

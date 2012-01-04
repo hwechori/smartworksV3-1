@@ -19,5 +19,7 @@ language.bundle['ko'] = {
 	popTypeError : "오류",
 	buttonClose : "닫기",
 	buttonCancel : "취소",
-	buttonConfirm : "확인"
+	buttonConfirm : "확인",
+	setMyProfileSucceed : "개인정보수정이 정상적으로 완료되었습니다.",
+	setMyProfileError : "개인정보수정하는 중 오류가 발생하였습니다. 관리자에게 확인바랍니다!!!"
 };

@@ -24,6 +24,7 @@
 	String lastNoticeId = request.getParameter("lastNoticeId");
 	int noticeType = (SmartUtil.isBlankObject(strNoticeType)) ? Notice.TYPE_INVALID : Integer.parseInt(strNoticeType);
 %>
+<!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 

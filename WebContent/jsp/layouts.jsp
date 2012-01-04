@@ -106,7 +106,6 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.json-2.3.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.zclip.min.js"></script>
-<script type="text/javascript" src="js/jquery/jquery.showLoading.min.js"></script>
 <script type="text/javascript" src="js/jquery/jshashtable-2.1.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.numberformatter-1.2.2.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.formatCurrency-1.4.0.min.js"></script>

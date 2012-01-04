@@ -59,7 +59,7 @@ function updateNoticeCount(message){
 <!-- 회사 로고 및 연결 링크 //-->
 
 <!-- Notice 아이콘들 및 연결 기능  -->
-<div class="notice_ico">
+<div class="notice_ico js_notice_icons_area">
 	<ul>
 		<!--  Notification 알림 영역 -->
 		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
@@ -156,8 +156,9 @@ function updateNoticeCount(message){
 			</a>
 		</li>
 		<!-- 임시저장 알림 영역  -->
-		
+		<li></li>
 	</ul>
+	<ul></ul>
 </div>
 <!-- Notice 아이콘들 및 연결 기능  //-->
 

@@ -19,5 +19,7 @@ language.bundle['en'] = {
 	popTypeError : "Error",
 	buttonClose : "Close",
 	buttonCancel : "Cancel",
-	buttonConfirm : "Confirm"
+	buttonConfirm : "Confirm",
+	setMyProfileSucceed : "My Profile has been updated successfully...",
+	setMyProfileError : "Error has been occured while updating this Profile Information. Please contact the Adminstrator!!"
 };
