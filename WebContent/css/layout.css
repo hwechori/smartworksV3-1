@@ -160,18 +160,26 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .nav_subtitl_area {display: inline;}
 
 
-/* 나의 커뮤니티, 나의 업무 Hover */
+/* 나의 커뮤니티, 나의 업무, 메일, 커뮤너티멤버 Hover */
 #my_works li, 
 #my_communities li {position:relative;}
+#my_mail li {position:relative;}
+#community_members li {position:relative;}
 
 #my_works li a, 
 #my_communities li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#my_mail li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#community_members li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 
 #my_works li a:hover, 
 #my_communities li a:hover {display:block; background-color:#4e4e4e;}
+#my_mail li a:hover {display:block; background-color:#4e4e4e;}
+#community_members li a:hover {display:block; background-color:#4e4e4e;}
 
 #my_works .nav_subtitl_area, 
 #my_communities .nav_subtitl_area {display: inline; float: left; position: relative; width: 180px;}
+#my_mail .nav_subtitl_area {display: inline; float: left; position: relative; width: 180px;}
+#community_members .nav_subtitl_area {display: inline; float: left; position: relative; width: 180px;}
 
 #my_works li .menu_2dep li a {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 #my_works li .menu_2dep li a:hover {display:block; background-color:#4e4e4e;}
