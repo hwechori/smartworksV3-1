@@ -32,7 +32,7 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 	private static String RETRIVE_USER = "	select 	orguser.id, orguser.name, orguser.companyId, orgcompany.name as companyName, orguser.deptId, orgdept.name as deptName, 		" +
 										 "		   	orguser.empNo, orguser.mobileNo, orguser.internalNo, orguser.locale, orguser.timeZone,										" +
 										 "          orguser.type, orguser.lang, orguser.pos, orguser.stdtime, orguser.authId,													" +
-										 "	        orguser.email,	orguser.passwd, orguser.picture																				" +
+										 "	        orguser.email,	orguser.passwd, orguser.picture, orguser.roleId																" +
 										 "    from 	sworguser orguser, sworgdept orgdept, sworgcompany orgcompany																" +
 										 "	 where 	orguser.deptid = orgdept.id																									" +
 										 "	   and 	orguser.companyid = orgcompany.id																							" +
@@ -112,6 +112,7 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 				login.setBigPictureName(rs.getString("picture"));
 				login.setSmallPictureName(rs.getString("picture"));
 			}
+			login.setRole(rs.getString("roleId").equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
 			login.setUserLevel(login.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
 
 			return login;

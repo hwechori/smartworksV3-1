@@ -3,13 +3,12 @@ package net.smartworks.model.community;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 
-
 public class Department extends WorkSpace {
 
 	public static final String  DEFAULT_DEPART_PICTURE  = "default_depart_picture";
 
 	private String 	desc = null;
-	private Department parent = null;
+	private DepartmentInfo parent = null;
 	private User	head = null;
 	private UserInfo[]	members = null;
 	private DepartmentInfo[] children = null;
@@ -20,10 +19,10 @@ public class Department extends WorkSpace {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public Department getParent() {
+	public DepartmentInfo getParent() {
 		return parent;
 	}
-	public void setParent(Department parent) {
+	public void setParent(DepartmentInfo parent) {
 		this.parent = parent;
 	}
 	public User getHead() {
