@@ -10,7 +10,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <script type="text/javascript">
-function submitForms(e) {
+function submitForms() {
 	var scheduleWork = $('form[name="frmScheduleWork"]');
 	if(scheduleWork.find($('input[name="chkScheduleWork"]')).is(':checked')){
 		scheduleWork.addClass('js_validation_required');

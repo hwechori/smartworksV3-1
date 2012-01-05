@@ -16,31 +16,58 @@ $(function() {
 	}
 
 	$('.js_select_action a').live('click',function(e) {
-				var input = $(e.target);
-				$('.js_select_action').find('a').removeClass('current');
-				input.parents('.up_icon_list').find('a').addClass('current').attr('id');
-				var target = $('#upload_form_box');
-				var url = input.attr('href');
-				$.ajax({
-					url : url,
-					data : {},
-					success : function(data, status, jqXHR) {
-						target.html(data).slideDown(500);
-						if(!isEmpty(target.find('form[name="frmNewFile"]'))){
-							loadNewFileFields();
-						}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
-							loadNewPictureFields();							
-						}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
-							loadNewEventFields();
-						}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
-							loadNewMemoFields();
-						}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
-							loadNewBoardFields();
-						}
-					}
-				});
-				return false;
-			});
+		var input = $(e.target);
+		$('.js_select_action').find('a').removeClass('current');
+		input.parents('.up_icon_list').find('a').addClass('current');
+		var target = $('#upload_form_box');
+		var url = input.attr('href');
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
+					loadNewFileFields();
+				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
+					loadNewPictureFields();							
+				}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
+					loadNewEventFields();
+				}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
+					loadNewMemoFields();
+				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
+					loadNewBoardFields();
+				}
+			}
+		});
+		return false;
+	});
+
+	$('.js_cancel_action a').live('click',function(e) {
+		var input = $('.js_select_action').find('a:first');
+		$('.js_select_action').find('a').removeClass('current');
+		input.parents('.up_icon_list').find('a').addClass('current');
+		var target = $('#upload_form_box');
+		var url = input.attr('href');
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
+					loadNewFileFields();
+				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
+					loadNewPictureFields();							
+				}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
+					loadNewEventFields();
+				}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
+					loadNewMemoFields();
+				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
+					loadNewBoardFields();
+				}
+			}
+		});
+		return false;
+	});
 
 	/*
 	 * 새업무시작하기에서, 처음나오는 입력창을 클릭하면 실행되는 이벤트로, 우측에 전체업무찾기 버튼을 보여준다.

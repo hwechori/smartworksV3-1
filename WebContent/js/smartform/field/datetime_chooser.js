@@ -26,7 +26,7 @@ SmartWorks.FormRuntime.DateTimeChooserBuilder.build = function(config) {
 	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
-		$('<span class="essen_n"></span>').appendTo($label);
+		$label.addClass('required_label');
 		required = " class='fieldline js_todaytimepicker required' ";
 	}else{
 		required = " class='fieldline js_todaytimepicker' ";

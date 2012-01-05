@@ -31,7 +31,7 @@ SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 	var spanRequired = "";
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
-		spanRequired = '<span class="essen_n"></span>';
+		spanRequired = '<div class="label_required"></div>';
 		required = ' class="form_value form_value_max_width sw_required" ';
 	}else{
 		required = ' class="form_value form_value_max_width" ';

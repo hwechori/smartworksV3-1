@@ -42,7 +42,7 @@
 	<div class="float_right">
 		<span class="btn_gray"> 
 			<!--  완료버튼을 클릭시 해당 업로드 화면페이지에 있는 submitForms()함수를 실행한다.. -->
-			<a href="" onclick='submitForms(); return false;'> 
+			<a href="" onclick='submitForms();return false;'> 
 				<span class="Btn01Start"></span>
 				<span class="Btn01Center"><fmt:message key="common.button.complete"/></span> 
 				<span class="Btn01End"></span> 
@@ -51,7 +51,7 @@
 				
 		<span class="btn_gray">
 			<!--  취소버튼을 클릭시 해당 업로드 화면페이지에 있는 cancelForms()함수를 실행한다.. -->
-			<a href="" onclick="cancelForms(); return false;"> 
+			<a href="" onclick="cancelForms();return false;"> 
 				<span class="Btn01Start"></span> 
 				<span class="Btn01Center"><fmt:message key="common.button.cancel" /></span> 
 				<span class="Btn01End"></span> 

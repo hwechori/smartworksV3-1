@@ -29,7 +29,7 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
-		$('<span class="essen_n"></span>').appendTo($label);
+		$label.addClass('required_label');
 		required = " class='sw_required'";
 	}else{
 		required = "";
