@@ -21,5 +21,8 @@ language.bundle['en'] = {
 	buttonCancel : "Cancel",
 	buttonConfirm : "Confirm",
 	setMyProfileSucceed : "My Profile has been updated successfully...",
-	setMyProfileError : "Error has been occured while updating this Profile Information. Please contact the Adminstrator!!"
+	setMyProfileError : "Error has been occured while updating this Profile Information. Please contact the Administrator!",
+	createIWorkError : "Error has been occured while creating new instance. Please contact the Administrator!",
+	iworkListError : "Error has been occured while loading work list. Please contact the Administrator!",
+	setIworkFilterError : "Error has been occured while saving search filter. Please contact the Administrator!"
 };

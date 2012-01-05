@@ -18,8 +18,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <script type="text/javascript">
-	getIntanceList = function(paramsJson, progressSpan){
-		popProgressContGray(progressSpan);
+	getIntanceList = function(paramsJson, progressSpan, isGray){
+		if(isEmpty(progressSpan))
+			progressSpan = $('.js_work_list_title').find('.js_progress_span:first');
+		if(isGray)
+			popProgressContGray(progressSpan);
+		else
+			popProgressCont(progressSpan);
 		console.log(JSON.stringify(paramsJson));
 		var url = "set_instance_list_params.sw";
 		$.ajax({
@@ -33,12 +38,51 @@
 			},
 			error : function(e) {
 				closeProgress();
-				popShowInfo(swInfoType.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
+				popShowInfo(swInfoType.ERROR, language.message('iworkListError'));
 			}
 		});
 	};
+	
+	saveAsSearchFilter = function(filterId){
+		var paramsJson = {};
+		var workId = $('div.js_work_list').attr('workId');
+		var searchFilters = $('form[name="frmSearchFilter"]');
+		paramsJson['workId'] = workId;
+		if(!isEmpty(filterId))
+			paramsJosn['filterId'] = filterId;
+		if(!isEmpty(searchFilters)){
+			var searchFilterArray = new Array();
+			for(var i=0; i<searchFilters.length; i++){
+				var searchFilter = $(searchFilters[i]);
+				if(searchFilter.is(':visible'))
+					searchFilterArray.push(searchFilter.find(':visible').serializeObject());
+			}
+			paramsJson['frmSearchFilters'] = searchFilterArray;
+		}
+		var progressSpan = $('.js_search_filter').find('span.js_progress_span:first');
+		popProgressCont(progressSpan);
+		$.ajax({
+			url : "set_iwork_search_filter.sw",
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				closeProgress();
+			},
+			error : function(e) {
+				closeProgress();
+				popShowInfo(swInfoType.ERROR, language.message('setIworkFilterError'));
+			}
+		});
+	};
+	
+	saveSearchFilter = function(){
+		var searchFilters = $('form[name="frmSearchFilter"]');
+		var filterId = searchFilters.parents('.js_search_filter').attr('filterId');
+		saveAsSearchFilter(filterId);
+	};
 
-	selectListParam = function(progressSpan){
+	selectListParam = function(progressSpan, isGray){
 		var forms = $('form:visible');
 		var paramsJson = {};
 		var workId = $('div.js_work_list').attr('workId');
@@ -59,47 +103,9 @@
 			}
 			paramsJson['frmSearchFilters'] = searchFilterArray;
 		}
-		if(isEmpty(progressSpan)) grogressSpan = $('.js_search_filter').next('span:first');
-		getIntanceList(paramsJson, progressSpan);		
+		if(isEmpty(progressSpan)) grogressSpan = $('.js_search_filter').next('span.js_progress_span:first');
+		getIntanceList(paramsJson, progressSpan, isGray);		
 	};
-	
-	$('a.js_select_paging').live("click", function(e){
-		var input = $(e.target).parents('a.js_select_paging');
-		input.find('input').attr('value', 'true');
-		var progressSpan = input.prev('span.js_grogress_span:first');
-		selectListParam(progressSpan);
-		return false;
-	});
-	
-	$('a.js_select_current_page').live("click", function(e){
-		var input = $(e.target);
-		var progressSpan = input.prev('span.js_grogress_span:first');
-		input.siblings('input[name="hdnCurrentPage"]').attr('value', input.text());
-		selectListParam(progressSpan);
-		return false;
-	});
-	
-	$('a.js_select_field_sorting').live('click', function(e){
-		var input = $(e.target);
-		var sortingField = $('form[name="frmSortingField"]').find('input[name="hdnSortingFieldId"]');
-		var sortingIsAscending = $('form[name="frmSortingField"]').find('input[name="hdnSortingIsAscending"]');
-		console.log("input...=", input, sortingField, sortingIsAscending);
-		if(sortingField.attr('value') === input.attr('fieldId')){
-			var isAscending = sortingIsAscending.attr('value');
-			sortingIsAscending.attr('value', (isAscending === "true") ? "false" : "true");
-		}else{
-			sortingField.attr('value', input.attr('fieldId'));
-			sortingIsAscending.attr('value', 'false');
-		}
-		selectListParam();
-		return false;
-	});
-
-	$('a.js_search_filter_execute').live("click", function(e){
-		var input = $(e.target).parents('a.js_search_filter_execute');
-		selectListParam();
-		return false;
-	});	
 </script>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
@@ -302,16 +308,16 @@
 						<div class="txt_btn posi_ab">
 							<div class="title"><fmt:message key="common.title.instance_list" /></div>
 							<form name="frmSearchInstance" class="po_left">
+								<span class="js_progress_span"></span>
 								<div class="srch_wh srch_wsize">
 									<input name="txtSearchInstance" class="nav_input" type="text" placeholder="<fmt:message key='search.search_instance' />">
- 									<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam();return false;"></button>
+ 									<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
 								</div>
 							</form>
 
 							<div class="po_left">
 								<form class="form_space" name="frmIworkFilterName">
-									<select name="selFilterName" onchange="$('#search_filter').slideUp(500).html('');$('a.js_search_filter').show();selectListParam();
-									return false;">
+									<select name="selFilterName" class="js_select_search_filter">
 										<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" selected><fmt:message key='filter.name.all_instances' /></option>
 										<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>"><fmt:message key='filter.name.my_instances' /></option>
 										<option value="<%=SearchFilter.FILTER_RECENT_INSTANCES%>"><fmt:message key='filter.name.recent_instances' /></option>
@@ -329,8 +335,8 @@
 									</select>
 								</form>
 							</div>
-							<a href="search_filter.sw?workId=<%=workId%>" class="js_search_filter">
-								<div class="po_left"><fmt:message key='filter.button.search_filter' /></div>
+							<a href="search_filter.sw?workId=<%=workId%>" class="js_edit_search_filter">
+								<div class="po_left"><fmt:message key='filter.button.edit_search_filter' /></div>
 							</a>
 							<span class="js_progress_span"></span>
 						</div>
