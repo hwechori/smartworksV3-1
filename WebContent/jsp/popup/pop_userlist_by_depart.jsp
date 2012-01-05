@@ -12,12 +12,16 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String departmentId = request.getParameter("departmentId");
+	boolean isMultiSelectable = false;
+	isMultiSelectable = Boolean.parseBoolean(request.getParameter("multiUsers"));
+	
 	CommunityInfo[] communities = smartWorks.getAllComsByDepartmentId(CommonUtil.toNotNull(departmentId), false);
 	String iconType = null;
 %>
 
-<ul>
-	<%
+<form name="frmUserSelections">
+	<ul>
+		<%
 		if (!SmartUtil.isBlankObject(communities)) {
 			for (CommunityInfo community : communities) {
 				if (community.getClass().equals(UserInfo.class)) {
@@ -27,22 +31,30 @@
 					} else if(user.getRole() == User.USER_ROLE_MEMBER){
 						iconType = "ico_user_member";
 					}
-					%>
-					<li><a href="" class="js_pop_select_user" userId="<%=user.getId()%>">
-						<span class="<%=iconType%>"></span><%=user.getLongName()%></a>
+		%>
+					<li>
+						<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox" comName="<%=user.getLongName() %>" value="<%=user.getId()%>"/><%} %>						
+						<a <%if(!isMultiSelectable){ %>href="" class="js_pop_select_user"<%} %> userId="<%=user.getId()%>">
+							<span class="<%=iconType%>"></span><%=user.getLongName()%>
+						</a>
 					</li>
 				<%
 				} else if (community.getClass().equals(DepartmentInfo.class)) {
 					DepartmentInfo department = (DepartmentInfo)community;
 					iconType = "ico_depart";
-					%>
-					<li class="js_drill_down"><a
-						href="pop_userlist_by_depart.sw" departmentId="<%=department.getId()%>"><span class="<%=iconType%>"></span>
-							<span><%=department.getName()%></span></a>
-						<div style="display: none" class="menu_2dep"></div></li>
-					<%
+				%>
+					<li class="js_drill_down">
+						<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox" comName="<%=department.getName() %>" value="<%=department.getId()%>"/><%} %>
+						<a href="pop_userlist_by_depart.sw?multiUsers=<%=isMultiSelectable %>" departmentId="<%=department.getId()%>">
+							<span class="<%=iconType%>"></span>
+							<span><%=department.getName()%></span>
+						</a>
+						<div style="display: none" class="menu_2dep"></div>
+					</li>
+		<%
 				}
 			}
 		}
-	%>
-</ul>
+		%>
+	</ul>
+</form>

@@ -32,7 +32,8 @@
 			</a>
 		</div>
 
-
+		<span class="js_all_work_popup"></span>
+		
 		<!--검색 자동완성어 리스트-->
 		<div class="srch_list" id="upload_work_list" style="display: none">
 		</div>

@@ -30,14 +30,14 @@ function submitForms(e) {
 		}
 		console.log(JSON.stringify(paramsJson));
 		var url = "create_new_iwork.sw";
-		popProgress("새로운 항목을 생성 중입니다.");
+		popProgressCont($('#sw_progress_icon_span'));
 		$.ajax({
 			url : url,
 			contentType : 'application/json',
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				$.modal.close();
+				closeProgress();
 				popConfirm("성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??", 
 						function(){
 							document.location.href = data.href;					
@@ -47,7 +47,7 @@ function submitForms(e) {
 						});
 			},
 			error : function(e) {
-				$.modal.close();
+				closeProgress();
 				popShowInfo(swInfoType.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
 			}
 		});

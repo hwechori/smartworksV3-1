@@ -151,7 +151,7 @@ SmartWorks.GridLayout.validate = function(form){
 	});
 
 	var sw_validate = (fileFields && userFields && departmentFields && richEditors && refFormFields && imageBoxs && dataGrids && radioButtons && jq_validate);
-	if(!sw_validate && jq_validate){
+	if(!sw_validate || !jq_validate){
 		showErrors();
 	}
 	return sw_validate;

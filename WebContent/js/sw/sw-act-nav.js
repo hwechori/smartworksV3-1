@@ -191,6 +191,8 @@ $(function() {
 	});
 
 	$('.js_drill_down').live('click', function(e) {
+		if($(e.target).hasClass('js_checkbox')) return true;
+
 		var input = $(e.target).parents('li.js_drill_down:first').children('a');
 		var target = input.siblings('div');
 		var url = input.attr('href');
@@ -201,7 +203,7 @@ $(function() {
 			return false;
 		}
 		if(isEmpty($(target).children())){
-			if(isEmpty(departmentId))
+			if(isEmpty(departmentId) && !input.hasClass('js_popup'))
 				popProgressNav(input.find('span:last'));						
 			$.ajax({
 				url : url,
@@ -216,11 +218,11 @@ $(function() {
 					target.html(data);
 					target.siblings('li.js_drill_down').find('div').hide();
 					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
-					if(isEmpty(departmentId))
+					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
 						closeProgress();											
 				},
 				error : function(){
-					if(isEmpty(departmentId))
+					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
 						closeProgress();											
 				}
 			});
