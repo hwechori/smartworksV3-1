@@ -42,7 +42,7 @@ $(function() {
 		return false;
 	});
 
-	$('.js_cancel_action a').live('click',function(e) {
+	$('a.js_cancel_action').live('click',function(e) {
 		var input = $('.js_select_action').find('a:first');
 		$('.js_select_action').find('a').removeClass('current');
 		input.parents('.up_icon_list').find('a').addClass('current');

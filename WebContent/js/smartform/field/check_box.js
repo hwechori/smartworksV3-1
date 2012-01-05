@@ -24,7 +24,7 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 
 	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
-	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%"><span>' + name + '</span></div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$label.addClass('required_label');

@@ -50,8 +50,8 @@
 		</span> 
 				
 		<span class="btn_gray">
-			<!--  취소버튼을 클릭시 해당 업로드 화면페이지에 있는 cancelForms()함수를 실행한다.. -->
-			<a href="" onclick="cancelForms();return false;"> 
+			<!--  취소버튼을 클릭시 sw_act_work 에서 click event 로 정의 되어있는 함수를 실행한다... -->
+			<a href="" class="js_cancel_action"> 
 				<span class="Btn01Start"></span> 
 				<span class="Btn01Center"><fmt:message key="common.button.cancel" /></span> 
 				<span class="Btn01End"></span> 
