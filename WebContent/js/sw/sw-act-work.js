@@ -275,7 +275,7 @@ $(function() {
 	$('a.js_userpicker_button').live('click', function(e) {
 		var userField = $(e.target).parents('.js_type_userField:first');
 		var userInput = userField.find('.js_selected_communities:first');
-		var target = userField.find('.js_community_popup');
+		var target = userField.find('.js_community_popup:first');
 		var width = userField.find('.form_value').find('div:first').width();
 		var isMultiUsers = userField.attr('multiUsers');
 		popSelectUser(userInput, target, width, isMultiUsers);

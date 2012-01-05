@@ -27,8 +27,8 @@
 	String workId = smartWorks.getWorkIdByFormId(formId);
 	
 	RequestParams params = new RequestParams();
-	params.setCountInPage(20);
-	params.setPageNumber(1);
+	params.setPageSize(20);
+	params.setCurrentPage(1);
 	User cUser = SmartUtil.getCurrentUser();
 	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
 	InstanceInfoList instanceList = smartWorks.getIWorkInstanceList(workId, params);
@@ -55,12 +55,12 @@
 	</tr>
 
 	<%
-		int countInPage = 0, totalPages = 0, currentPage = 0;
+		int pageSize = 0, totalPages = 0, currentPage = 0;
 		if (instanceList != null
 				&& (instanceList.getInstanceDatas() != null)
 				&& (work != null)) {
 			int type = instanceList.getType();
-			countInPage = instanceList.getCountInPage();
+			pageSize = instanceList.getPageSize();
 			totalPages = instanceList.getTotalPages();
 			currentPage = instanceList.getCurrentPage();
 			FormField[] displayFields = work.getDisplayFields();
@@ -136,10 +136,10 @@
 <div class="num_box">
 	<select name=""
 		title="<fmt:message key='common.title.count_in_page'/> ">
-		<option <%if (countInPage == 10) {%> selected <%}%>>10</option>
-		<option <%if (countInPage == 20) {%> selected <%}%>>20</option>
-		<option <%if (countInPage == 30) {%> selected <%}%>>30</option>
-		<option <%if (countInPage == 50) {%> selected <%}%>>50</option>
+		<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
+		<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
+		<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
+		<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
 	</select>
 </div>
 <!-- 페이징 //-->

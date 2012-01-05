@@ -165,6 +165,7 @@ closeProgress = function(){
 
 popSelectUser = function(userInput, target, width, isMultiUsers){
 	if(isEmpty(userInput)) return;
+	target.html('');
 	var conWidth = (!isEmpty(width) && width>0) ? width : 360;
 	$.get("pop_select_user.sw?multiUsers="+isMultiUsers, function(data){
 		$(data).modal({
@@ -181,7 +182,6 @@ popSelectUser = function(userInput, target, width, isMultiUsers){
 			onShow: function(dialog){
 
 				var selectionProc = function(comId, comName){
-					console.log('userInput=', userInput);
 					var userField = userInput.parents('td.js_type_userField:first');
 					var inputTarget = userField.find('input.js_auto_complete:first');
 					if(inputTarget.parents('.sw_required').hasClass('sw_error')){
@@ -208,34 +208,42 @@ popSelectUser = function(userInput, target, width, isMultiUsers){
 						userInput.html(newHTML);
 					}
 				};
-					
-				$('a.js_pop_select_user').live('click', function(e){
-					var input = $(e.target);
-					var comId = input.attr('userId');
-					var comName = input.text();
-					selectionProc(comId, comName);
-					$.modal.close();
-					return false;
-				});
-				$('a.js_pop_select_users').live('click', function(e){
-					var selections = $('form[name="frmUserSelections"]').find('input.js_checkbox:checked');
-					if(isEmpty(selections)) return false;
-					
-					for(var i=0; i<selections.length; i++){
-						var selection = $(selections[i]);
-						var comId = selection.attr('value');
-						var comName = selection.attr("comName");
+				
+				$('a.js_pop_select_user').die('click');
+				$('a.js_pop_select_users').die('click');
+				if(isEmpty(isMultiUsers) || isMultiUsers!== 'true'){
+					$('a.js_pop_select_user').live('click', function(e){
+						var input = $(e.target);
+						var comId = input.attr('userId');
+						var comName = input.text();
 						selectionProc(comId, comName);
-					}
-					$.modal.close();
-					return false;
-				});
+						$.modal.close();
+						target.html('');
+						return false;
+					});
+				}else{
+					$('a.js_pop_select_users').live('click', function(e){
+						var selections = $('form[name="frmUserSelections"]').find('input.js_checkbox:checked');
+						if(isEmpty(selections)) return false;
+						
+						for(var i=0; i<selections.length; i++){
+							var selection = $(selections[i]);
+							var comId = selection.attr('value');
+							var comName = selection.attr("comName");
+							selectionProc(comId, comName);
+						}
+						$.modal.close();
+						target.html('');
+						return false;
+					});
+				}
 			}
 		});
 	});
 };
 
 popSelectWork = function(target, width){
+	target.html('');
 	var conWidth = (!isEmpty(width) && width>0) ? width : 360;
 	$.get("pop_select_work.sw", function(data){
 		$(data).modal({
@@ -271,9 +279,11 @@ popSelectWork = function(target, width){
 									mode : "edit"
 								});
 								$.modal.close();
+								target.html('');
 							},
 							error : function(){
 								$.modal.close();
+								target.html('');
 							}
 						});			
 					});
