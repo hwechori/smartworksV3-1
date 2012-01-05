@@ -52,7 +52,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		usersHtml = "<span><span class='js_community_item user_select' comId='" + users[0].userId + "'>" + users[0].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
 	}
 
-	var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
+	var $html = $('<div class="form_value" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
 					<div ' + required + '">\
 						<div class="js_selected_communities user_sel_area"></div>\
 						<input class="js_auto_complete" href="' + href + '" type="text">\
@@ -63,7 +63,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	$html.find('.js_selected_communities').html(usersHtml);
 	
 	if(readOnly){
-		$user = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>');
+		$user = $('<div class="form_value" style="width:' + valueWidth + '%"></div>');
 		usersHtml = '';
 		for(var i=0; i<users.length; i++)
 			usersHtml = usersHtml + '<a class="js_pop_user_info" href="pop_user_info.sw?userId=' + users[i].userId + '"><span>' + users[i].longName + '</span></a>';

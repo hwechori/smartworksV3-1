@@ -36,9 +36,9 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	
 	var $email = null;
 	if(readOnly){
-		$email = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>').text(value);
+		$email = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$email = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>').attr('value', value);
+		$email = $('<div class="form_value" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>').attr('value', value);
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();

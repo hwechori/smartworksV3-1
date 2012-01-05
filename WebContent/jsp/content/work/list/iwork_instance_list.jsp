@@ -122,6 +122,7 @@
 <form name="frmInstanceListPaging">
 	<!-- 페이징 -->
 	<div class="paginate">
+		<span class="js_progress_span"></span>
 		<%
 			if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
 				boolean isFirst10Pages = (currentPage <= 10) ? true : false;
@@ -162,6 +163,7 @@
 	</div>
 	
 	<div class="num_box">
+		<span class="js_progress_span"></span>
 		<select name="selPageSize" title="<fmt:message key='common.title.count_in_page'/> " onchange="selectListParam();return false;">
 			<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
 			<option <%if (pageSize == 20) {%> selected <%}%>>20</option>

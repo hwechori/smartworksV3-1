@@ -53,7 +53,7 @@
 					<li>
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
-								<imgsrc="<%=owner.getMinPicture()%>" border="0"> </a>
+								<img src="<%=owner.getMinPicture()%>" class="profile_size_s"> </a>
 						</div>
 						<div class="info_list">
 							<a href="<%=targetContent%>?cid=<%=instContext%>"><%=work.getName()%></a>
@@ -75,7 +75,7 @@
 					<li>
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>"title="<%=owner.getLongName()%>">
-								<img src="<%=owner.getMinPicture()%>" border="0"> </a>
+								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 						</div>
 						<div class="info_list">
 							<a href="<%=targetContent%>?cid=<%=instContext%>&wid=<%=workInstance.getWorkSpace()%>"><%=workInstance.getSubject()%></a>
@@ -98,7 +98,7 @@
 					<li>
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
-								<img src="<%=owner.getMinPicture()%>" border="0"> </a>
+								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 						</div>
 						<div class="info_list">
 							<a href="<%=targetContent%>?cid=<%=instContext%>&wid=<%=taskInstance.getWorkInstance().getWorkSpace()%>"><%=taskInstance.getSubject()%></a>
@@ -127,7 +127,7 @@
 					<li>
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
-								<img src="<%=owner.getMinPicture()%>" border="0"> </a>
+								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 						</div>
 						<div class="info_list">
 							<a href="<%=targetContent%>?cid=<%=instContext%>"><%=workSpace.getName()%></a>

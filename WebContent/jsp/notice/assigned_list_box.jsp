@@ -52,7 +52,7 @@
 					<li>
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
-								<img src="<%=owner.getMinPicture()%>" border="0"></a>
+								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"></a>
 						</div>
 						<div class="info_list">
 							<a href="<%=targetContent%>?cid=<%=contextId%>&wid=<%=workSpaceId%>"><%=workInstance.getSubject()%>▶<%=taskInstance.getName()%></a>

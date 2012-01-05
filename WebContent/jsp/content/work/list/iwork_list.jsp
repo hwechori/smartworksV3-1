@@ -18,7 +18,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <script type="text/javascript">
-	getIntanceList = function(paramsJson){
+	getIntanceList = function(paramsJson, progressSpan){
+		popProgressContGray(progressSpan);
 		console.log(JSON.stringify(paramsJson));
 		var url = "set_instance_list_params.sw";
 		$.ajax({
@@ -28,14 +29,16 @@
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				$('#iwork_list_page').html(data);
+				closeProgress();
 			},
 			error : function(e) {
+				closeProgress();
 				popShowInfo(swInfoType.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
 			}
 		});
 	};
 
-	selectListParam = function(){
+	selectListParam = function(progressSpan){
 		var forms = $('form:visible');
 		var paramsJson = {};
 		var workId = $('div.js_work_list').attr('workId');
@@ -55,21 +58,24 @@
 					searchFilterArray.push(searchFilter.find(':visible').serializeObject());
 			}
 			paramsJson['frmSearchFilters'] = searchFilterArray;
-		}		
-		getIntanceList(paramsJson);		
+		}
+		if(isEmpty(progressSpan)) grogressSpan = $('.js_search_filter').next('span:first');
+		getIntanceList(paramsJson, progressSpan);		
 	};
 	
 	$('a.js_select_paging').live("click", function(e){
 		var input = $(e.target).parents('a.js_select_paging');
 		input.find('input').attr('value', 'true');
-		selectListParam();
+		var progressSpan = input.prev('span.js_grogress_span:first');
+		selectListParam(progressSpan);
 		return false;
 	});
 	
 	$('a.js_select_current_page').live("click", function(e){
 		var input = $(e.target);
+		var progressSpan = input.prev('span.js_grogress_span:first');
 		input.siblings('input[name="hdnCurrentPage"]').attr('value', input.text());
-		selectListParam();
+		selectListParam(progressSpan);
 		return false;
 	});
 	
@@ -326,6 +332,7 @@
 							<a href="search_filter.sw?workId=<%=workId%>" class="js_search_filter">
 								<div class="po_left"><fmt:message key='filter.button.search_filter' /></div>
 							</a>
+							<span class="js_progress_span"></span>
 						</div>
 
 						<div class="txt_btn">

@@ -16,7 +16,7 @@
 <%@ page import="net.smartworks.util.LocalDate"%>
 <%
 	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재 사용자 정보도 가져온다.
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks"); 
 	User cUser = SmartUtil.getCurrentUser();
 
 	// 호출될때 전달되는 noticeType, lastNoticeId를 가져온다.

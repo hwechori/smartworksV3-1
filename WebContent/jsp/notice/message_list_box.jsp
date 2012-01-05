@@ -38,7 +38,7 @@
 %>
 				<li>
 					<div class="info_img">
-						<a href="user_space.sw?cid=<%=instContext%>" title="<%=owner.getLongName()%>"> <img src="<%=owner.getMinPicture()%>" border="0"> </a>
+						<a href="user_space.sw?cid=<%=instContext%>" title="<%=owner.getLongName()%>"> <img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 					</div>
 					<div class="info_list"><%=messageInstance.getMessage()%>
 						<div class="t_date"><%=messageInstance.getSendDate().toLocalString()%>

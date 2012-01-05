@@ -20,10 +20,10 @@ $(function() {
 		input.siblings('span.' + target).show().siblings('span.js_right_operand').hide();
 		return false;
 	});
-
+	
 	$('a.js_search_filter').live('click', function(e) {
-		$('#content').showLoading();
 		var input = $(e.target).parent();
+		popProgressContGray(input.next('span:first'));
 		var target = $('#search_filter');
 		var url = input.attr('href') + "&filterId=" + $('form[name="frmIworkFilterName"]').children('select').attr('value');
 		$.ajax({
@@ -31,15 +31,12 @@ $(function() {
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data);
-//				var condition = $(target).find('form.js_new_condition');
-//				var newCondition = condition.clone().removeClass("js_new_condition");
-//				condition.parent().append(newCondition.show());
 				target.slideDown(500);
 				input.hide();
-				$('#content').hideLoading();
+				closeProgress();
 			},
 			error : function(){
-				$('#content').hideLoading();						
+				closeProgress();						
 			}
 		});
 		return false;
