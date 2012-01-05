@@ -144,7 +144,8 @@ mark, rp, rt, ruby, summary, time {
      display: inline;
 }
 
-.float_left {float:left;}
+.float_left {float:left;width:33%}
+.float_left_nowidth{float:left;}
 .float_right {float:right;}
 .center {text-align:center;}
 .clear {display:block; clear:both;}

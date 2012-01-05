@@ -103,7 +103,7 @@ popConfirm = function(message, onOk, onCancel){
 };
 var progressTarget = "";
 popProgressCenter = function(){
-	$.modal('<img class="js_progress_icon" src="images/load_wh.gif" align="bottom"/>', {
+	$.modal('<img class="js_progress_icon" src="images/load_wh.gif"/>', {
 		opacity: 10,
 		autoPosition: true,
 		overlayCss: {backgroundColor:"#fff"},
@@ -114,7 +114,7 @@ popProgressCenter = function(){
 
 popProgressCont = function(target){
 	progressTarget= target;
-	$('<img class="js_progress_icon" src="images/load_wh.gif" align="bottom"/>').appendTo(target);
+	$('<img class="js_progress_icon" src="images/load_wh.gif"/>').appendTo(target);
 	$.modal("", {
 		opacity: 10,
 		autoPosition: false,
