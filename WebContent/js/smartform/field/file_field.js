@@ -25,10 +25,10 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 	
 	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
-	var $label = $('<span class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%"><span>' + name + '</span></div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
-		$('<span class="essen_n"></span>').appendTo($label);
+		$label.addClass('required_label');
 		required = ' class="sw_required"';
 	}else{
 		required = '';		

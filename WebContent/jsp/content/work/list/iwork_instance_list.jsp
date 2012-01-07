@@ -22,14 +22,14 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String cid = request.getParameter("cid");
-	String wid = request.getParameter("wid");
-
-	RequestParams params = new RequestParams();
-	params.setCountInPage(20);
-	params.setPageNumber(1);
-	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
+	ISmartWorks smartWorks = (ISmartWorks)request.getAttribute("smartWorks");
+	String workId = request.getParameter("workId");
+	RequestParams params = (RequestParams)request.getAttribute("requestParams");
+	if(SmartUtil.isBlankObject(params)){
+		params = new RequestParams();
+		params.setPageSize(20);
+		params.setCurrentPage(1);		
+	}
 	User cUser = SmartUtil.getCurrentUser();
 	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
 	InstanceInfoList instanceList = smartWorks.getIWorkInstanceList(workId, params);
@@ -41,19 +41,17 @@
 <table>
 	<%
 	SortingField sortedField = null;
-	int countInPage = 0, totalPages = 0, currentPage = 0;
-	if (instanceList != null
-			&& (instanceList.getInstanceDatas() != null)
-			&& (work != null)) {
+	int pageSize = 0, totalPages = 0, currentPage = 0;
+	if (instanceList != null && work != null) {
 		int type = instanceList.getType();
 		sortedField = instanceList.getSortedField();
 		if(sortedField==null) sortedField = new SortingField();
-		countInPage = instanceList.getCountInPage();
+		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
-		currentPage = 1;
 		FormField[] displayFields = work.getDisplayFields();
-		IWInstanceInfo[] instanceInfos = (IWInstanceInfo[]) instanceList.getInstanceDatas();
+		if(instanceList.getInstanceDatas() != null) {
+			IWInstanceInfo[] instanceInfos = (IWInstanceInfo[]) instanceList.getInstanceDatas();
 	%>
 	<tr class="tit_bg">
 		<%
@@ -61,7 +59,9 @@
 			if (fields != null) {
 				for (FormField field : fields) {
 			%>
- 		<th class="r_line"><a href="" class="js_select_field_sorting" fieldId="<%=field.getId()%>"><%=field.getName()%> <%if(sortedField.getFieldId().equals(field.getId())){
+ 		<th class="r_line"><a href="" class="js_select_field_sorting" fieldId="<%=field.getId()%>"><%=field.getName()%>
+ 		<%
+ 			if(sortedField.getFieldId().equals(field.getId())){
  				if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %></a>
 		</th>
 <%-- 		<th class="r_line"><%=field.getName()%> <img class="bu_arr_b">
@@ -84,14 +84,13 @@
 			UserInfo owner = instanceInfo.getOwner();
 			UserInfo lastModifier = instanceInfo.getLastModifier();
 			FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
-			cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
-			wid = instanceInfo.getWorkSpace().getId();
+			String cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
+			String wid = instanceInfo.getWorkSpace().getId();
 			String target = "iwork_space.sw?cid=" + cid + "&wid=" + wid;
 		%>
 	<tr>
 			<%
-			if ((fieldDatas != null)
-							&& (fieldDatas.length == displayFields.length)) {
+			if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
 						for (FieldData data : fieldDatas) {
 			%>
 		<td><a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
@@ -101,34 +100,35 @@
 			%>
 		<td><a href="<%=target%>"><div class="noti_pic js_content_iwork_space">
 					<img src="<%=lastModifier.getMinPicture()%>"
-						title="<%=lastModifier.getLongName()%>" align="bottom" />
+						title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
 				</div>
 				<div class="noti_in">
 					<span class="t_name"><%=lastModifier.getLongName()%></span>
-					<div class="t_date"><%=instanceInfo.getLastModifiedDate()
-							.toLocalString()%></div>
+					<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
 				</div></a></td>
 	</tr>
 	<%
+		}
 		}
 	}
 	%>
 </table>
 <form name="frmSortingField">
-	<input name="hdnSortingFieldId" type="hidden" value="<%=sortedField.getFieldId()%>" >
-	<input name="hdnSortingIsAscending" type="hidden" value="<%=sortedField.isAscending()%>" >
+	<input name="hdnSortingFieldId" type="hidden" value="<%=sortedField.getFieldId()%>">
+	<input name="hdnSortingIsAscending" type="hidden" value="<%=sortedField.isAscending()%>">
 </form>
 <!-- 목록 테이블 //-->
 
 <form name="frmInstanceListPaging">
 	<!-- 페이징 -->
 	<div class="paginate">
+		<span class="js_progress_span"></span>
 		<%
 			if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
 				boolean isFirst10Pages = (currentPage <= 10) ? true : false;
-				boolean isLast10Pages = ((currentPage / 10) == (totalPages / 10)) ? true
+				boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true
 						: false;
-				int startPage = (currentPage / 10) * 10 + 1;
+				int startPage = ((currentPage - 1) / 10) * 10 + 1;
 				int endPage = isLast10Pages ? totalPages : startPage + 9;
 				if (!isFirst10Pages) {
 		%>
@@ -163,11 +163,12 @@
 	</div>
 	
 	<div class="num_box">
-		<select name="selListCountInPage" title="<fmt:message key='common.title.count_in_page'/> " onchange="selectListParam();return false;">
-			<option <%if (countInPage == 10) {%> selected <%}%>>10</option>
-			<option <%if (countInPage == 20) {%> selected <%}%>>20</option>
-			<option <%if (countInPage == 30) {%> selected <%}%>>30</option>
-			<option <%if (countInPage == 50) {%> selected <%}%>>50</option>
+		<span class="js_progress_span"></span>
+		<select name="selPageSize" title="<fmt:message key='common.title.count_in_page'/> " onchange="selectListParam();return false;">
+			<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
+			<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
+			<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
+			<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
 		</select>
 	</div>
 	<!-- 페이징 //-->

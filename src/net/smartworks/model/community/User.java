@@ -113,4 +113,8 @@ public class User extends WorkSpace {
 	public User(String id, String name){
 		super(id, name);
 	}
+	
+	public String getEmailAddressShown(){
+		return this.getLongName() + " <" + super.getId() + ">";
+	}
 }

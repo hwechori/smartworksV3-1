@@ -356,6 +356,7 @@ public class SmartTest {
 			TaskInstanceInfo taskInstance = new TaskInstanceInfo("taskInstance1", "대표이사승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, getUserInfo2(), getUserInfo2(), new LocalDate(LocalDate.convertStringToTime("201110051600")));
 			taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
 			PWInstanceInfo instance = new PWInstanceInfo("inst1", "휴가 신청합니다.", getSmartWorkInfo1(), getUserInfo1(), getUserInfo1(), new LocalDate(LocalDate.convertStringToTime("201110211300")), taskInstance);
+			instance.setWork(SmartTest.getProcessWorkInfo1());
 			taskInstance.setWorkInstance(instance);
 			return instance;
 	}
@@ -415,7 +416,9 @@ public class SmartTest {
 	}
 
 	public static IWInstanceInfo getWorkInstanceInfo5() throws Exception {
-		return new IWInstanceInfo("inst5", "삼성 노트북 구매발주서", getSmartWorkInfo8(), getUserInfo3(), getUserInfo3(), new LocalDate(LocalDate.convertStringToTime("201110291300")));
+		IWInstanceInfo instance = new IWInstanceInfo("inst5", "삼성 노트북 구매발주서", getSmartWorkInfo8(), getUserInfo3(), getUserInfo3(), new LocalDate(LocalDate.convertStringToTime("201110291300")));
+		instance.setCreatedDate(new LocalDate());
+		return instance;
 	}
 
 	public static Department getDepartment1() throws Exception {
@@ -550,6 +553,7 @@ public class SmartTest {
 		taskInstance.setStatus(Instance.STATUS_DELAYED_RUNNING);
 		taskInstance.setWorkInstance(getWorkInstanceInfo1());
 		taskInstance.setAssignee(getUserInfo1());
+		taskInstance.setCreatedDate(new LocalDate());
 		return taskInstance;
 	}
 
@@ -689,18 +693,17 @@ public class SmartTest {
 		NoticeMessage notice1, notice2, notice3, notice4, notice5;
 		notice1 = new NoticeMessage("notice1", NoticeMessage.TYPE_SYSTEM_NOTICE, SmartTest.getUserInfo1(), new LocalDate());
 		notice1.setMessage("금주 주말(토요일, 일요일)에 시스템 정기점검을 실시하는 관계를 시스템을 1시간 가량 사용할 수 없으니 이점 양해 바랍니다.");
-//		notice2 = new NoticeMessage("notic2", NoticeMessage.TYPE_EVENT_ALARM, SmartTest.getUserInfo2(), SmartTest.getEventInstance1().getLastModifiedDate());
-//		notice2.setEvent(SmartTest.getEventInstanceInfo1());
-//		notice3 = new NoticeMessage("notice3", NoticeMessage.TYPE_TASK_DELAYED, getUserInfo3(), SmartTest.getTaskInstancePA().getLastModifiedDate());
-//		notice3.setInstance(SmartTest.getTaskInstanceInfoPA());
+		notice2 = new NoticeMessage("notic2", NoticeMessage.TYPE_EVENT_ALARM, SmartTest.getUserInfo2(), SmartTest.getEventInstance1().getLastModifiedDate());
+		notice2.setEvent(SmartTest.getEventInstanceInfo1());
+		notice3 = new NoticeMessage("notice3", NoticeMessage.TYPE_TASK_DELAYED, getUserInfo3(), SmartTest.getTaskInstancePA().getLastModifiedDate());
+		notice3.setInstance(SmartTest.getTaskInstanceInfoPA());
 		notice4 = new NoticeMessage("notice4", NoticeMessage.TYPE_JOIN_REQUEST, getUserInfo1(), new LocalDate());
 		notice4.setGroup(SmartTest.getGroupInfo1());
 		notice4.setMessage("님이 커뮤너티에 가입을 신청하셨습니다.");
-//		notice5 = new NoticeMessage("notice5", NoticeMessage.TYPE_INSTANCE_CREATED, SmartTest.getUserInfo1(), SmartTest.getWorkInstance1().getLastModifiedDate());
-//		notice5.setInstance(SmartTest.getWorkInstanceInfo1());
-//		notice5.setMessage("새로운 업무를 등록하였습니다..");
-//		return new NoticeMessage[] { notice1, notice2, notice3, notice4, notice5 };
-		return new NoticeMessage[] { notice1, notice4};
+		notice5 = new NoticeMessage("notice5", NoticeMessage.TYPE_INSTANCE_CREATED, SmartTest.getUserInfo1(), SmartTest.getWorkInstance1().getLastModifiedDate());
+		notice5.setInstance(SmartTest.getWorkInstanceInfo1());
+		notice5.setMessage("새로운 업무를 등록하였습니다..");
+		return new NoticeMessage[] { notice1, notice2, notice3, notice4, notice5 };
 
 	}
 
@@ -742,9 +745,9 @@ public class SmartTest {
 	public static NoticeMessage[] getCommentsMessages() throws Exception {
 
 		NoticeMessage notice1, notice2, notice3, notice4, notice5;
-		CommentInstanceInfo commentsInstance1 = new CommentInstanceInfo("comments1", CommentInstance.COMMENT_TYPE_ON_WORK_DESC, "조금더 보강해야 될것 같은데요????",
+		CommentInstanceInfo commentsInstance1 = new CommentInstanceInfo("comments1", CommentInstance.COMMENT_TYPE_ON_WORK_SPACE, "기획서좀 올려주세요!!! ㅎ",
 				SmartTest.getUserInfo3(), new LocalDate());
-		commentsInstance1.setWork(SmartTest.getSmartWorkInfo1());
+		commentsInstance1.setWorkSpace(getGroupInfo1());
 		notice1 = new NoticeMessage("notice21", 0, SmartTest.getUserInfo3(), new LocalDate());
 		notice1.setInstance(commentsInstance1);
 
@@ -754,20 +757,20 @@ public class SmartTest {
 		notice2 = new NoticeMessage("notice22", 0, SmartTest.getUserInfo1(), new LocalDate());
 		notice2.setInstance(commentsInstance2);
 
-//		CommentInstanceInfo commentsInstance3 = new CommentInstanceInfo("comments3", CommentInstance.COMMENT_TYPE_ON_WORK_INSTANCE, "휴가잘다녀오세요!!!",
-//				SmartTest.getUserInfo2(), new LocalDate());
-//		commentsInstance3.setWorkInstance(SmartTest.getWorkInstanceInfo1());
-//		notice3 = new NoticeMessage("notice23", 0, SmartTest.getUserInfo2(), new LocalDate());
-//		notice3.setInstance(commentsInstance3);
-//
-//		CommentInstanceInfo commentsInstance4 = new CommentInstanceInfo("comments4", CommentInstance.COMMENT_TYPE_ON_TASK_INSTANCE, "재 기안해 주시기 바랍니다...",
-//				SmartTest.getUserInfo3(), new LocalDate());
-//		commentsInstance4.setTaskInstance(SmartTest.getTaskInstanceInfoPA());
-//		notice4 = new NoticeMessage("notice24", 0, SmartTest.getUserInfo3(), new LocalDate());
-//		notice4.setInstance(commentsInstance4);
+		CommentInstanceInfo commentsInstance3 = new CommentInstanceInfo("comments3", CommentInstance.COMMENT_TYPE_ON_WORK_INSTANCE, "휴가잘다녀오세요!!!",
+				SmartTest.getUserInfo2(), new LocalDate());
+		commentsInstance3.setWorkInstance(SmartTest.getWorkInstanceInfo1());
+		notice3 = new NoticeMessage("notice23", 0, SmartTest.getUserInfo2(), new LocalDate());
+		notice3.setInstance(commentsInstance3);
 
-//		return new NoticeMessage[] { notice1, notice2, notice3, notice4 };
-		return new NoticeMessage[] { notice1, notice2};
+		CommentInstanceInfo commentsInstance4 = new CommentInstanceInfo("comments4", CommentInstance.COMMENT_TYPE_ON_TASK_INSTANCE, "재 기안해 주시기 바랍니다...",
+				SmartTest.getUserInfo3(), new LocalDate());
+		commentsInstance4.setTaskInstance(SmartTest.getTaskInstanceInfoPA());
+		notice4 = new NoticeMessage("notice24", 0, SmartTest.getUserInfo3(), new LocalDate());
+		notice4.setInstance(commentsInstance4);
+
+		return new NoticeMessage[] {notice1, notice2, notice3, notice4 };
+//		return new NoticeMessage[] { notice1, notice2};
 
 	}
 
@@ -787,10 +790,10 @@ public class SmartTest {
 		notice4 = new NoticeMessage("notice34", 0, getUserInfo2(), new LocalDate());
 		notice4.setInstance(assignedInstances[3]);
 
-		notice5 = new NoticeMessage("notice35", 0, getUserInfo3(), new LocalDate());
-		notice5.setInstance(assignedInstances[4]);
-
-		return new NoticeMessage[] { notice1, notice2, notice3, notice4, notice5 };
+//		notice5 = new NoticeMessage("notice35", 0, getUserInfo3(), new LocalDate());
+//		notice5.setInstance(assignedInstances[4]);
+//
+		return new NoticeMessage[] { notice1, notice2, notice3, notice4};
 	}
 
 	public static NoticeMessage[] getMailboxMessages() throws Exception {
@@ -819,9 +822,17 @@ public class SmartTest {
 
 	public static NoticeMessage[] getSavedboxMessages() throws Exception {
 
-		NoticeMessage[] mailboxNotices = getMailboxMessages();
+		NoticeMessage notice1, notice2, notice3, notice4, notice5;
 
-		return mailboxNotices;
+		notice1 = new NoticeMessage("notice31", 0, SmartTest.getUserInfo2(), new LocalDate());
+		notice1.setInstance(getTaskInstanceInfoIA());
+		
+		notice2 = new NoticeMessage("notice32", 0, SmartTest.getUserInfo2(), new LocalDate());
+		notice2.setInstance(SmartTest.getWorkInstanceInfo5());
+		
+
+		return new NoticeMessage[] { notice1, notice2};
+
 	}
 	
 	private static IWInstanceInfo[] getInstanceRecords1() throws Exception{
@@ -839,9 +850,9 @@ public class SmartTest {
 	public static InstanceInfoList getWorkInstanceList1(RequestParams params) throws Exception{
 		InstanceInfoList instanceList = new InstanceInfoList();
 		instanceList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-		instanceList.setCountInPage(params.getCountInPage());
+		instanceList.setPageSize(params.getPageSize());
 		instanceList.setTotalPages(31);
-		instanceList.setCurrentPage(params.getPageNumber());
+		instanceList.setCurrentPage(params.getCurrentPage());
 		InstanceInfo[] instanceRecords = getInstanceRecords1();
 		instanceList.setInstanceDatas(instanceRecords);
 		return instanceList;
@@ -849,9 +860,9 @@ public class SmartTest {
 	public static InstanceInfoList getWorkInstanceList2(RequestParams params) throws Exception{
 		InstanceInfoList instanceList = new InstanceInfoList();
 		instanceList.setType(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
-		instanceList.setCountInPage(params.getCountInPage());
+		instanceList.setPageSize(params.getPageSize());
 		instanceList.setTotalPages(31);
-		instanceList.setCurrentPage(params.getPageNumber());
+		instanceList.setCurrentPage(params.getCurrentPage());
 		InstanceInfo[] instanceRecords = getInstanceRecords2();
 		instanceList.setInstanceDatas(instanceRecords);
 		return instanceList;

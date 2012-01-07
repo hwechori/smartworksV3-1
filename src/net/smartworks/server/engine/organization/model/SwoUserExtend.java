@@ -43,7 +43,14 @@ public class SwoUserExtend {
 	private String userLevel = null;
 	private String type = null;
 	private String description = null;
+	private String smallPictureName = null;
 
+	public String getSmallPictureName() {
+		return smallPictureName;
+	}
+	public void setSmallPictureName(String smallPictureName) {
+		this.smallPictureName = smallPictureName;
+	}
 	public String getType() {
 		return type;
 	}

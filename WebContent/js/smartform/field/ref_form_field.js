@@ -28,10 +28,10 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	
 	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
-	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</span>');
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%"><span>' + name + '</span></div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
-		$('<span class="essen_n"></span>').appendTo($label);
+		$label.addClass('required_label');
 		required = " class='fieldline sw_required' ";
 	}else{
 		required = "class='fieldline' ";
@@ -40,9 +40,9 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	
 	var $refForm = null;
 	if(readOnly){
-		$refForm = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>').text(value);
+		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$refForm = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><div class="ico_fb_space"><input readonly="readonly" type="text" name="' + id + '"' + required + '><a href="#" class="js_workitempicker_button"><span class="ico_fb_work"></span></a></div></div>');
+		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"><div class="ico_fb_space"><input readonly="readonly" type="text" name="' + id + '"' + required + '><a href="#" class="js_workitempicker_button"><span class="ico_fb_work"></span></a></div></div>');
 		$refForm.find('input').attr('value', value);
 	}
 	if ($graphic.attr('hidden') == 'true'){

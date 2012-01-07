@@ -15,6 +15,7 @@ import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.searcher.model.SchUser;
 import net.smartworks.server.engine.common.searcher.model.SchWorkspace;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
@@ -177,7 +178,13 @@ public class CommunityServiceImpl implements ICommunityService {
 				userInfo.setId(workSpaceInfo.getId());
 				userInfo.setName(workSpaceInfo.getName());
 				userInfo.setPosition(workSpaceInfo.getUserPosition());
-				
+				String picture = workSpaceInfo.getUserPicture();
+				if(picture != null && !picture.equals("")) {
+					String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+					String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+					userInfo.setSmallPictureName(pictureId + "_small" + "." + extension);
+				}
+
 				DepartmentInfo userDeptInfo = new DepartmentInfo();
 				userDeptInfo.setId(workSpaceInfo.getUserDeptId());
 				userDeptInfo.setName(workSpaceInfo.getUserDeptName());
@@ -248,7 +255,57 @@ public class CommunityServiceImpl implements ICommunityService {
 	 */
 	@Override
 	public WorkSpace getWorkSpaceById(String workSpaceId) throws Exception {
-		return SmartTest.getWorkSpaceById(workSpaceId);
+
+		if (CommonUtil.isEmpty(workSpaceId))
+			return null;
+
+		User cUser = SmartUtil.getCurrentUser();
+
+
+		SchWorkspace schWorkSpace = SwManagerFactory.getInstance().getSchManager().getWorkspaceById(cUser.getCompanyId(), cUser.getId(), workSpaceId);
+
+		WorkSpace workSpace = new WorkSpace();;
+
+		if(schWorkSpace != null) {
+	
+			String type = schWorkSpace.getType();
+
+			if (type.equalsIgnoreCase("user")) {
+				User user = new User();
+				user.setId(schWorkSpace.getId());
+				user.setName(schWorkSpace.getName());
+				user.setPosition(schWorkSpace.getUserPosition());
+				String picture = schWorkSpace.getUserPicture();
+				if(picture != null && !picture.equals("")) {
+					String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+					String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+					user.setSmallPictureName(pictureId + "_small" + "." + extension);
+				}
+				user.setRole(schWorkSpace.getUserRole());
+				user.setUserLevel(schWorkSpace.getUserLevel());
+				user.setLocale(schWorkSpace.getUserLocale());
+				user.setTimeZone(schWorkSpace.getUserTimeZone());
+				user.setEmployeeId(schWorkSpace.getUserEmployeeId());
+				user.setPhoneNo(schWorkSpace.getUserPhoneNo());
+				user.setCellPhoneNo(schWorkSpace.getUserCellPhoneNo());
+				user.setCompanyId(schWorkSpace.getUserCompanyId());
+				user.setCompany(schWorkSpace.getUserCompanyName());
+				user.setDepartmentId(schWorkSpace.getUserDeptId());
+				user.setDepartment(schWorkSpace.getUserDeptName());
+				workSpace = user;
+
+			} else if (type.equalsIgnoreCase("department")) {
+				Department dept = new Department();
+
+				dept.setId(schWorkSpace.getId());
+				dept.setName(schWorkSpace.getName());
+				dept.setDesc(schWorkSpace.getDescription());
+				workSpace = dept;
+			}
+		}
+
+		return workSpace;
+
 	}
 
 	/*
@@ -275,7 +332,37 @@ public class CommunityServiceImpl implements ICommunityService {
 
 	@Override
 	public UserInfo[] searchUser(String key) throws Exception {
-		return SmartTest.getAvailableChatter();
+		if (CommonUtil.isEmpty(key))
+			return null;
+
+		User cUser = SmartUtil.getCurrentUser();
+
+		SchUser[] schUsers = SwManagerFactory.getInstance().getSchManager().getSchUser(cUser.getCompanyId(), cUser.getId(), key);
+
+		if (CommonUtil.isEmpty(schUsers))
+			return null;
+
+		List<UserInfo> userList = new ArrayList<UserInfo>();
+
+		for(SchUser schUser : schUsers) {
+			UserInfo userInfo = new UserInfo();
+			userInfo.setId(schUser.getId());
+			userInfo.setName(schUser.getName());
+			userInfo.setPosition(schUser.getPosition());
+			userInfo.setRole(schUser.getRole());
+			DepartmentInfo departmentInfo = new DepartmentInfo();
+			departmentInfo.setId(schUser.getUserDeptId());
+			departmentInfo.setName(schUser.getUserDeptName());
+			departmentInfo.setDesc(schUser.getUserDeptDesc());
+			userInfo.setDepartment(departmentInfo);
+			userList.add(userInfo);
+		}
+
+		UserInfo[] userInfos = new UserInfo[userList.size()];
+		userList.toArray(userInfos);
+
+		return userInfos;
+
 	}
 
 	@Override

@@ -409,45 +409,42 @@ $(function() {
 		smartTalk.publishWritingStatus(chatId);
 	});
 	
-	$('.js_select_chatter')
-			.live(
-					'click',
-					function(e) {
-						var input = $(e.target);
-						var comName = input.attr('comName');
-						var comId = input.attr('comId');
-						var minPicture = input.children('img').attr('src');
-						var target = input.parents('div.js_chatter_list').siblings(
-								'div.js_chatter_names').find(
-								'div.js_selected_chatters');
-						var oldHTML = target.html();
-						if (oldHTML == null)
-							oldHTML = "";
-						var chatterItems = $(target).find('span.js_chatter_item');
-						var isSameId = false;
-						for ( var i = 0; i < chatterItems.length; i++) {
-							var oldComId = $(chatterItems[i]).attr('comId');
-							if (oldComId != null && oldComId === comId) {
-								isSameId = true;
-								break;
-							}
-						}
-						if (!isSameId) {
-							var newHTML = oldHTML
-									+ "<span class='js_chatter_item user_select' comId='"
-									+ comId
-									+ "' comName='"
-									+ comName
-									+ "' minPicture='"
-									+ minPicture
-									+ "'>"
-									+ comName
-									+ "<span class='btn_x_gr'><a class='js_remove_chatter' href=''> x</a></span></span>";
-							target.html(newHTML);
-						}
-						target.next().focus();
-						return false;
-					});
+	$('.js_select_chatter').live( 'click', function(e) {
+		var input = $(e.target);
+		var comName = input.attr('comName');
+		var comId = input.attr('comId');
+		var minPicture = input.children('img').attr('src');
+		var target = input.parents('div.js_chatter_list').siblings(
+				'div.js_chatter_names').find(
+				'div.js_selected_chatters');
+		var oldHTML = target.html();
+		if (oldHTML == null)
+			oldHTML = "";
+		var chatterItems = $(target).find('span.js_chatter_item');
+		var isSameId = false;
+		for ( var i = 0; i < chatterItems.length; i++) {
+			var oldComId = $(chatterItems[i]).attr('comId');
+			if (oldComId != null && oldComId === comId) {
+				isSameId = true;
+				break;
+			}
+		}
+		if (!isSameId) {
+			var newHTML = oldHTML
+					+ "<span class='js_chatter_item user_select' comId='"
+					+ comId
+					+ "' comName='"
+					+ comName
+					+ "' minPicture='"
+					+ minPicture
+					+ "'>"
+					+ comName
+					+ "<span class='btn_x_gr'><a class='js_remove_chatter' href=''> x</a></span></span>";
+			target.html(newHTML);
+		}
+		target.next().focus();
+		return false;
+	});
 	
 	$('.js_remove_chatter').live('click', function(e) {
 		var input = $(e.target);

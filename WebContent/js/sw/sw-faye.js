@@ -1,17 +1,23 @@
 
+
+// 모든 화면이 브라우저에 로드되면, smartTalk를 초기화하여 채팅, 알림, 전체알림기능들을 사용할 수 있게 한다.
 $(document).ready(function(){
  	smartTalk.init();
 });
 
+// 채팅서버의 연결할 url, faye Context, etc...
 var serverUrl = "http://localhost:8000";
 var swContext = "/faye";
 var currentUserId = currentUser.userId;
+
+// 채팅사용자 상태정보 
 var userStatus = {
 	ONLINE : "online",
 	OFFLINE : "offline",
 	LEAVED : "leaved"
 };
 
+// smartTalk를 이용하여 보내고 받을 메시지들의 Subject 정보들...
 var swSubject = {
 	SMARTWORKS : "/smartworks",
 	COMPANYID : "/" + currentUser.companyId,
@@ -23,17 +29,18 @@ var swSubject = {
 	ALL : "/*"
 };
 
+// smartTalk를 이용하여 전달하고 받을 메시지의 type 정보들...
 var msgType = {
-	BROADCASTING : "BCAST",
-	NOTICE_COUNT : "NCOUNT",
-	CHAT_REQUEST : "CHATREQ",
-	JOIN_CHAT : "JOINCHAT",
-	JOINED_IN_CHAT : "JOINEDCHAT",
-	LEAVE_CHAT : "LEAVECHAT",
-	CHAT_MESSAGE : "CHATTING",
-	WRITING_CHAT_MESSAGE : "WRITING",
-	CHATTERS_INVITED : "CHTSINVITED",
-	AVAILABLE_CHATTERS : "ACHATTERS"
+	BROADCASTING : "BCAST", 		// 전체알림을 위한 브로드캐스팀 메시지 
+	NOTICE_COUNT : "NCOUNT", 		// 개인적으로 새로운 알림 갯수를 전달하는 메시지 
+	CHAT_REQUEST : "CHATREQ", 		// 채팅을 요청하는 메시지 
+	JOIN_CHAT : "JOINCHAT", 		// faye서버에서 채팅에 참여하라고 전달하는 메시지 
+	JOINED_IN_CHAT : "JOINEDCHAT",	// 채팅참여 요청을 받은 채팅사용자가 채팅에 참여했다는 메시지 
+	LEAVE_CHAT : "LEAVECHAT",		// 채팅참여자가 채팅에서 떠났다는 메시지
+	CHAT_MESSAGE : "CHATTING",		// 채팅 메시지..
+	WRITING_CHAT_MESSAGE : "WRITING",// 채팅 메시지를 쓰고 있다는 메시지...
+	CHATTERS_INVITED : "CHTSINVITED",// 채팅 참여자들을 초청했다는 메시지..
+	AVAILABLE_CHATTERS : "ACHATTERS" // 채팅 가능한 사용자들을 알려주는 메시지 
 };
 
 var smartMsgClient = null;
@@ -334,10 +341,16 @@ var smartTalk = {
 
 	},
 
+	// 현재 사용자 계정으로 Subscribe를 하여, 현재사용자에게만 오는 메시지를 받아서 처리한다.
 	startSubOnMe : function() {
 		smartTalk.subscribe(smartTalk.myChannel(swSubject.USERID), function(message) {
+			
+					// 서버에서 받은 메시지가 NOTICE_COUNT이면, 
+					// header.jsp에 있는 updateNoticeCount()를 호출하여 알림 숫자들을 업데이트하게 한다.
 					if (message.msgType === msgType.NOTICE_COUNT){
 						updateNoticeCount(message);
+						
+					// 받은 메시지가 채팅메시지이면 채팅처리를 위해 smartTalk.startSubOnChatId()를 호출한다.
 					} else if (message.msgType === msgType.JOIN_CHAT){
 						smartTalk.startSubOnChatId(message);
 						startChattingWindow(message);
@@ -345,6 +358,7 @@ var smartTalk = {
 				});
 	},
 
+	// 현재 시스템을 사용하고있는 모든 사용자에게 동시에 전달하는 메시지를 보낸다.
 	publishBcast : function(message) {
 		smartTalk.publish(smartTalk.myChannel(swSubject.BROADCASTING), {
 			msgType : msgType.BROADCASTING,

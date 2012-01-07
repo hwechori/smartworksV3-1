@@ -265,7 +265,7 @@ public class MailServiceImpl extends BaseService implements IMailService {
 			
 			// get and set pageNo
 			int pageNo = 1;
-			pageNo = params.getPageNumber();
+			pageNo = params.getCurrentPage();
 			
 			boolean isAscending = false;
 			if (mailSortDirection != null && mailSortDirection.equals("asc")) {
@@ -319,7 +319,7 @@ public class MailServiceImpl extends BaseService implements IMailService {
 			// organize and generate XML from the headers.
 			if (headers != null || supportsServerSorting) {
 				EmailHeader tmp = null;
-				int pageSize = params.getCountInPage();
+				int pageSize = params.getPageSize();
 				
 				// determine the message count. the method varies if server side or client side 
 				// sorting is used. 
@@ -337,7 +337,7 @@ public class MailServiceImpl extends BaseService implements IMailService {
 				int endIdx = startIdx+pageSize;
 				if(endIdx > messageCount) endIdx = messageCount;
 				
-				instanceInfoList.setCountInPage(pageSize);
+				instanceInfoList.setPageSize(pageSize);
 				instanceInfoList.setCurrentPage(pageNo);
 				instanceInfoList.setTotalPages(pageCount);
 				instanceInfoList.setSortedField(new SortingField(mailSort, isAscending));
@@ -413,6 +413,7 @@ public class MailServiceImpl extends BaseService implements IMailService {
 
 		MailInstance instance = null;
 		
+		
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	    HttpServletRequest request = attr.getRequest();
 
@@ -467,17 +468,27 @@ public class MailServiceImpl extends BaseService implements IMailService {
 			InternetAddress[] addrCc = (InternetAddress[])email.getBaseHeader().getCc();
 			InternetAddress[] addrBcc = (InternetAddress[])email.getBaseHeader().getBcc();
 			User sender = new User(addrFrom.getAddress(), addrFrom.getPersonal());
-			User[] receivers = new User[addrTo.length];
-			for(int k=0; i<addrTo.length; k++)
-				receivers[k] = new User(addrTo[k].getAddress(), addrTo[k].getPersonal());
-			User[] ccReceivers = new User[addrCc.length];
-			for(int k=0; i<addrCc.length; k++)
-				ccReceivers[k] = new User(addrCc[k].getAddress(), addrCc[k].getPersonal());
-			User[] bccReceivers = new User[addrBcc.length];
-			for(int k=0; i<addrBcc.length; k++)
-				bccReceivers[k] = new User(addrBcc[k].getAddress(), addrBcc[k].getPersonal());
+			User[] receivers = null;
+			if(addrTo != null){
+				receivers = new User[addrTo.length];
+				for(int k=0; k<addrTo.length; k++)
+					receivers[k] = new User(addrTo[k].getAddress(), addrTo[k].getPersonal());
+			}
+			User[] ccReceivers = null;
+			if(addrCc != null){
+				ccReceivers = new User[addrCc.length];
+				for(int k=0; k<addrCc.length; k++)
+					ccReceivers[k] = new User(addrCc[k].getAddress(), addrCc[k].getPersonal());
+			}
+			User[] bccReceivers = null;
+			if(addrBcc != null){
+				bccReceivers = new User[addrBcc.length];
+				for(int k=0; addrBcc!=null && k<addrBcc.length; k++)
+					bccReceivers[k] = new User(addrBcc[k].getAddress(), addrBcc[k].getPersonal());
+			}
 			
 			instance = new MailInstance(msgId, subject, sender, new LocalDate(email.getBaseHeader().getDate().getTime()));
+			instance.setCreatedDate(new LocalDate(email.getBaseHeader().getDate().getTime()));
 			instance.setReceivers(receivers);
 			instance.setCcReceivers(ccReceivers);
 			instance.setBcccReceivers(bccReceivers);

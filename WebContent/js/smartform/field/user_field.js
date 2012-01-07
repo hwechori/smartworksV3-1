@@ -27,10 +27,10 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	
 	var labelWidth = (isEmpty(options.layoutInstance)) ? parseInt($graphic.attr('labelWidth')) : options.layoutInstance.getLabelWidth(id);
 	var valueWidth = 100 - labelWidth;
-	var $label = $('<div class="form_label" style="width:' + labelWidth + '%">' + name + '</div>');
+	var $label = $('<div class="form_label" style="width:' + labelWidth + '%"><span>' + name + '</span></div>');
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
-		$('<span class="essen_n"></span>').appendTo($label);
+		$label.addClass('required_label');
 		required = " class='fieldline js_community_names sw_required'";
 	}else{
 		required = " class='fieldline js_community_names'";
@@ -52,18 +52,18 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		usersHtml = "<span><span class='js_community_item user_select' comId='" + users[0].userId + "'>" + users[0].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
 	}
 
-	var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
+	var $html = $('<div class="form_value" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
 					<div ' + required + '">\
 						<div class="js_selected_communities user_sel_area"></div>\
 						<input class="js_auto_complete" href="' + href + '" type="text">\
 						<div class="js_srch_x"></div>\
 					</div>\
-					<div class="js_community_list commu_list" style="display: none"></div><a href="#" class="js_userpicker_button"><span ' + icoClass + '></span></a></div></div>');
+					<div class="js_community_list commu_list" style="display: none"></div><span class="js_community_popup"></span><a href="#" class="js_userpicker_button"><span ' + icoClass + '></span></a></div></div>');
 
 	$html.find('.js_selected_communities').html(usersHtml);
 	
 	if(readOnly){
-		$user = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>');
+		$user = $('<div class="form_value" style="width:' + valueWidth + '%"></div>');
 		usersHtml = '';
 		for(var i=0; i<users.length; i++)
 			usersHtml = usersHtml + '<a class="js_pop_user_info" href="pop_user_info.sw?userId=' + users[i].userId + '"><span>' + users[i].longName + '</span></a>';

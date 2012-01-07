@@ -28,8 +28,8 @@
 	String wid = request.getParameter("wid");
 
 	RequestParams params = new RequestParams();
-	params.setCountInPage(50);
-	params.setPageNumber(0);
+	params.setPageSize(50);
+	params.setCurrentPage(0);
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
 	ProcessWork work = (ProcessWork) smartWorks.getWorkById(workId);
@@ -51,10 +51,10 @@
 </tr>
 
 <%
-	int countInPage = 0, totalPages = 0, currentPage = 0;
+	int pageSize = 0, totalPages = 0, currentPage = 0;
 	if (instanceList != null && (instanceList.getInstanceDatas() != null) && (work != null)) {
 		int type = instanceList.getType();
-		countInPage = instanceList.getCountInPage();
+		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
 		PWInstanceInfo[] instanceInfos = (PWInstanceInfo[])instanceList.getInstanceDatas();
@@ -143,9 +143,9 @@
 <div class="num_box">
 	<select name=""
 		title="<fmt:message key='common.title.count_in_page'/> ">
-		<option <%if (countInPage == 10) {%> selected <%}%>>10</option>
-		<option <%if (countInPage == 20) {%> selected <%}%>>20</option>
-		<option <%if (countInPage == 30) {%> selected <%}%>>30</option>
-		<option <%if (countInPage == 50) {%> selected <%}%>>50</option>
+		<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
+		<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
+		<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
+		<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
 	</select>
 </div>

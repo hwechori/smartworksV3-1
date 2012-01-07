@@ -622,7 +622,7 @@ public class ModelConverter {
 		userInfo.setId(userExtend.getId());
 		userInfo.setName(userExtend.getName());
 		userInfo.setDepartment(new DepartmentInfo(userExtend.getDepartmentId(), userExtend.getDepartmentName()));
-		userInfo.setSmallPictureName(userExtend.getPictureName());
+		userInfo.setSmallPictureName(userExtend.getSmallPictureName());
 		//userInfo.setPicturePath(picturePath);
 		userInfo.setPosition(userExtend.getPosition());
 		return userInfo;

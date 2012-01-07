@@ -24,7 +24,7 @@
 				String boardContext = ISmartWorks.CONTEXT_PREFIX_BOARD_SPACE + board.getId();
 		%>
 		<li>
-			<div class="float_left">
+			<div class="float_left_nowidth">
 				<a href="user_space.sw?cid=<%=owner.getId()%>"><img
 					src="<%=owner.getMinPicture()%>" width="20" height="20" alt="<%=owner.getLongName()%>"
 					/> </a>

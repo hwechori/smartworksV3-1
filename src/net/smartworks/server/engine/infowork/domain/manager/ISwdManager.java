@@ -97,4 +97,7 @@ public interface ISwdManager extends IManager {
 	public SwdField[] getViewFieldList(String packageId, String formId) throws SwdException;
 
 	public SwdRecordExtend[] getCtgPkg(String packageId) throws SwdException;
+
+	public String getTableColName(String domainId, String formFieldId) throws SwdException;
+
 }

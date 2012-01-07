@@ -18,10 +18,12 @@ public interface INoticeService {
 	 */
 	public Notice[] getNoticesForMe() throws Exception;
 
+	public void removeNoticeInstance(String noticeId) throws Exception;
+
 	/* (non-Javadoc)
 	 * @see net.smartworks.service.impl.ISmartWorks#getNoticeBoxForMe10(int, net.smartworks.util.LocalDate)
 	 */
-	public NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception;
+	public NoticeBox getNoticeBoxForMe10(int noticeType, String lastNoticeId) throws Exception;
 
 	public String[] getBroadcastingMessages() throws Exception;
 

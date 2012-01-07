@@ -19,6 +19,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
@@ -44,7 +45,7 @@
 
 
 <!-- 상세 필터 -->
-<div class="filter_group js_search_filter">
+<div class="filter_group js_search_filter"  filterId="<%=filterId%>">
 	<table>
 		<tr>
 			<td>
@@ -268,6 +269,10 @@
 	</table>
 	<div class="filter_btn_space">
 		<div class="float_right">
+			<span class="js_progress_span"></span>
+			<span>
+				<input class="fieldline" style="width:160px;" type="text" name="txtNewFilterId"/>
+			</span>
 			<span class="btn_wh">
 				<a href="" class="js_search_filter_saveas"><span class="Btn01Start"></span>
 					<span class="Btn01Center"><fmt:message key="common.button.save_as"/></span><span class="Btn01End"></span> 

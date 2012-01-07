@@ -6,6 +6,7 @@ import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartUtil;
 
 public class MailInstance extends Instance {
 
@@ -127,6 +128,30 @@ public class MailInstance extends Instance {
 		super(id, subject, Instance.TYPE_MAIL, sender, sender, sendDate);
 		this.sender = sender;
 		this.sendDate = sendDate;
+	}
+	
+	public String getReceiversShown(){
+		if(SmartUtil.isBlankObject(this.receivers)) return "";
+		String shown = receivers[0].getEmailAddressShown();
+		for(int i=1; i<this.receivers.length; i++)
+			shown = shown + ", " +  receivers[i].getEmailAddressShown();
+		return shown;
+	}
+	
+	public String getCcReceiversShown(){
+		if(SmartUtil.isBlankObject(this.ccReceivers)) return "";
+		String shown = ccReceivers[0].getEmailAddressShown();
+		for(int i=1; i<this.ccReceivers.length; i++)
+			shown = shown + ", " +  ccReceivers[i].getEmailAddressShown();
+		return shown;		
+	}
+	
+	public String getBccReceiversShown(){
+		if(SmartUtil.isBlankObject(this.bccReceivers)) return "";
+		String shown = bccReceivers[0].getEmailAddressShown();
+		for(int i=1; i<this.bccReceivers.length; i++)
+			shown = shown + ", " +  bccReceivers[i].getEmailAddressShown();
+		return shown;		
 	}
 
 }

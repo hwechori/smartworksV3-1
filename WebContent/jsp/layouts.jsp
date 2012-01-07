@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.community.WorkSpace"%>
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="org.claros.commons.configuration.PropertyFile"%>
 <%@page import="org.claros.commons.mail.utility.Constants"%>
 <%@page import="org.claros.commons.mail.protocols.Protocol"%>
@@ -51,6 +53,15 @@
 	}
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser();
+	WorkSpace workSpace = smartWorks.getWorkSpaceById("hsshin@maninsoft.co.kr");
+
+	if(workSpace.getClass().equals(User.class)) {
+		User user = (User)workSpace;
+		System.out.println(user.getId());
+		System.out.println(user.getName());
+		System.out.println(user.getLongName());
+	}
+
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -104,7 +115,6 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/history/jquery.history.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.json-2.3.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.zclip.min.js"></script>
-<script type="text/javascript" src="js/jquery/jquery.showLoading.min.js"></script>
 <script type="text/javascript" src="js/jquery/jshashtable-2.1.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.numberformatter-1.2.2.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.formatCurrency-1.4.0.min.js"></script>
@@ -123,9 +133,8 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
 
-<!-- <script type="text/javascript" src="http://localhost:8000/faye.js"></script>
+<script type="text/javascript" src="http://localhost:8000/faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-faye.js"></script>
- -->
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
 <script type="text/javascript" src="js/sw/sw-file.js"></script>
@@ -136,6 +145,7 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-act-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-report.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-search.js"></script>
+<script type="text/javascript" src="js/sw/sw-act-filter.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-work.js"></script>
 
 <script type="text/javascript" src='js/smartform/smartworks.js'></script>

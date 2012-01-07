@@ -25,6 +25,7 @@ $(function() {
 			var currentValue = input[0].value;
 			if (lastValue === currentValue && currentValue !== requestedValue) {
 				requestedValue = currentValue;
+				console.log(input[0].value);
 				$.ajax({
 					url : url,
 					data : {
@@ -34,6 +35,8 @@ $(function() {
 					success : function(data, status, jqXHR) {
 						target.html(data);
 						target.show();
+					},
+					error : function(data, status, jqXHR){
 					}
 				});
 			} else {
@@ -99,7 +102,6 @@ $(function() {
 			var target = input.parent().next('div');
 			if(!isEmpty(start_work)) target =  start_work.find('#upload_work_list');
 			else if(!isEmpty(chatter_name)) target = chatter_name.siblings('div.js_chatter_list');
-
 			target.find('.sw_hover:first a').click();
 			input.focusout();
 		}

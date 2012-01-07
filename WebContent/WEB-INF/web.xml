@@ -234,11 +234,6 @@
     <servlet-class>org.claros.chat.ajax.Sender</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>ClearServlet</servlet-name>
-    <servlet-class>org.claros.chat.controllers.ClearServlet</servlet-class>
-	<load-on-startup>2</load-on-startup>
-  </servlet>
-  <servlet>
     <servlet-name>ShowAvatar</servlet-name>
     <servlet-class>org.claros.chat.ajax.ShowAvatar</servlet-class>
   </servlet>
@@ -389,11 +384,6 @@
   <servlet>
     <servlet-name>SetReminderToOkService</servlet-name>
     <servlet-class>org.claros.intouch.calendar.services.SetReminderToOkService</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>CheckAlertBatchService</servlet-name>
-    <servlet-class>org.claros.intouch.calendar.services.CheckAlertBatchService</servlet-class>
-    <load-on-startup>7</load-on-startup>
   </servlet>
   <servlet>
     <servlet-name>GetFileListService</servlet-name>

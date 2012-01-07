@@ -176,8 +176,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public NoticeBox getNoticeBoxForMe10(int noticeType, LocalDate lastNotice) throws Exception {
-		return noticeService.getNoticeBoxForMe10(noticeType, lastNotice);
+	public void removeNoticeInstance(String noticeId) throws Exception {
+		noticeService.removeNoticeInstance(noticeId);
+	}
+
+	@Override
+	public NoticeBox getNoticeBoxForMe10(int noticeType, String lastNoticeId) throws Exception {
+		return noticeService.getNoticeBoxForMe10(noticeType, lastNoticeId);
 	}
 
 	@Override
@@ -453,6 +458,11 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public MailInstance getMailInstanceById(String folderId, String msgId) throws Exception {
 		return mailService.getMailInstanceById(folderId, msgId);
+	}
+
+	@Override
+	public RequestParams setInstanceListParams(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return workService.setInstanceListParams(requestBody, request);
 	}
 
 }

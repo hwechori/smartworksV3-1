@@ -16,31 +16,58 @@ $(function() {
 	}
 
 	$('.js_select_action a').live('click',function(e) {
-				var input = $(e.target);
-				$('.js_select_action').find('a').removeClass('current');
-				input.parents('.up_icon_list').find('a').addClass('current').attr('id');
-				var target = $('#upload_form_box');
-				var url = input.attr('href');
-				$.ajax({
-					url : url,
-					data : {},
-					success : function(data, status, jqXHR) {
-						target.html(data).slideDown(500);
-						if(!isEmpty(target.find('form[name="frmNewFile"]'))){
-							loadNewFileFields();
-						}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
-							loadNewPictureFields();							
-						}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
-							loadNewEventFields();
-						}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
-							loadNewMemoFields();
-						}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
-							loadNewBoardFields();
-						}
-					}
-				});
-				return false;
-			});
+		var input = $(e.target);
+		$('.js_select_action').find('a').removeClass('current');
+		input.parents('.up_icon_list').find('a').addClass('current');
+		var target = $('#upload_form_box');
+		var url = input.attr('href');
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
+					loadNewFileFields();
+				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
+					loadNewPictureFields();							
+				}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
+					loadNewEventFields();
+				}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
+					loadNewMemoFields();
+				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
+					loadNewBoardFields();
+				}
+			}
+		});
+		return false;
+	});
+
+	$('a.js_cancel_action').live('click',function(e) {
+		var input = $('.js_select_action').find('a:first');
+		$('.js_select_action').find('a').removeClass('current');
+		input.parents('.up_icon_list').find('a').addClass('current');
+		var target = $('#upload_form_box');
+		var url = input.attr('href');
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
+					loadNewFileFields();
+				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
+					loadNewPictureFields();							
+				}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
+					loadNewEventFields();
+				}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
+					loadNewMemoFields();
+				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
+					loadNewBoardFields();
+				}
+			}
+		});
+		return false;
+	});
 
 	/*
 	 * 새업무시작하기에서, 처음나오는 입력창을 클릭하면 실행되는 이벤트로, 우측에 전체업무찾기 버튼을 보여준다.
@@ -52,10 +79,11 @@ $(function() {
 
 	/*
 	 * 세업무시작하기에서, 입력창에 값을 입력하여 나오는 검색결과를 선택하면 실행되는 이벤트로, 검색결과항목의 href값으로 ajax를
-	 * 실행하여 가져온 값으로 id가 start_work_form인 곳 화면을 그려서, 아래로 펼쳐준다.
+	 * 실행하여 가져온 값으로 id가 form_works 인 곳 화면을 그려서, 아래로 펼쳐준다.
 	 */
 	$('.js_select_work').swnavi({
 		before : function(event) {
+			popProgressCenter();
 			$('#form_works').slideUp().slideDown(500);
 			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work").slideUp();
 		},
@@ -77,7 +105,11 @@ $(function() {
 						formXml : formXml,
 						mode : "edit"
 					});
-				}
+					closeProgress();
+				},
+				error : function(){
+					closeProgress();
+				}				
 			});			
 		}
 	});
@@ -229,7 +261,10 @@ $(function() {
     });
 
 	$('a.js_pop_all_works').live('click', function(e) {
-		popSelectWork();
+		var startWork = $(e.target).parents('.js_start_work');
+		var target = startWork.find('.js_all_work_popup');
+		var width = startWork.find('.js_auto_complete:first').parent().width();
+		popSelectWork(target, width);
 		return false;
 	});
 
@@ -265,9 +300,12 @@ $(function() {
 	});
 
 	$('a.js_userpicker_button').live('click', function(e) {
-		var input = $(e.target);
-		var target = input.parents('.js_type_userField:first').find('.js_selected_communities');
-		popSelectUser(target);
+		var userField = $(e.target).parents('.js_type_userField:first');
+		var userInput = userField.find('.js_selected_communities:first');
+		var target = userField.find('.js_community_popup:first');
+		var width = userField.find('.form_value').find('div:first').width();
+		var isMultiUsers = userField.attr('multiUsers');
+		popSelectUser(userInput, target, width, isMultiUsers);
 		return false;
 	});
 

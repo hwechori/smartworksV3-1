@@ -29,7 +29,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 
-<select name="selFilterDateTimeOperator"
+<select name="selFilterOperator"
 	class="selb_size_sec js_select_filter_operator">
 	<%
 		String operType = "";
@@ -86,6 +86,6 @@
 <span class="str_field js_operand_number js_right_operand"
 	<%if (!selectedOperType.equals("js_operand_number")) {%> style="display: none"
 	<%}%>> <input class="inputline number" type="text"
-	name="txtFilterDateOperandNumber" value=""> </span>
+	name="txtFilterTimeOperand" value=""> </span>
 <span class="btn_x_grb_posi">
 	<button class="btn_x_grb js_remove_condition"></button> </span>

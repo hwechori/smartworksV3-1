@@ -31,20 +31,6 @@ showInfoOptions = {
 		overlayClose: false
 	};
 
-progressOptions = {
-		opacity: 20,
-		overlayCss: {backgroundColor:"#fff"},
-		containerCss:{
-			backgroundColor:"#fff",
-			borderColor:"#000",
-			color: "#000",
-			height:300,
-			padding:1,
-			width:200
-		},
-		overlayClose: false
-	};
-
 var swInfoType = {
 	INFO : 'info',
 	WARN : 'warn',
@@ -111,48 +97,98 @@ popConfirm = function(message, onOk, onCancel){
 				}
 			});
 };
+var progressTarget = "";
+popProgressCenter = function(){
+	$.modal('<img class="js_progress_icon" src="images/load_wh.gif"/>', {
+		opacity: 10,
+		autoPosition: true,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
 
-popProgress = function(message){
-	$.modal( '<div class="pop_corner_all pop_section_300">' + 
-			'<div class="form_contents margin_t10">' + 
-			 	'<div class="pop_notice_section">' + message + '</div>' +
-			 '</div>' +
-		  '</div>', progressOptions);
-	
+	} );
 };
 
-popSelectUser = function(target){
-	if(isEmpty(target)) return;
-	$.get("pop_select_user.sw", function(data){
+popProgressCont = function(target){
+	progressTarget= target;
+	$('<img class="js_progress_icon" src="images/load_wh.gif"/>').appendTo(target);
+	$.modal("", {
+		opacity: 10,
+		autoPosition: false,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
+	} );
+};
+
+popProgressContGray = function(target){
+	progressTarget= target;
+	$('<img class="js_progress_icon" src="images/load_wh_02.gif" align="bottom"/>').appendTo(target);
+	$.modal("", {
+		opacity: 10,
+		autoPosition: false,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
+	} );
+};
+
+popProgressNav = function(target){
+	progressTarget= target;
+	$('<img class="js_progress_icon" src="images/load_gr.gif" align="bottom"/>').appendTo(target);
+	$.modal("", {
+		opacity: 10,
+		autoPosition: false,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
+	} );
+};
+
+popProgressNavGray = function(target){
+	progressTarget= target;
+	$('<img class="js_progress_icon" src="images/load_gr_02.gif" align="bottom"/>').appendTo(target);
+	$.modal("", {
+		opacity: 10,
+		autoPosition: false,
+		overlayCss: {backgroundColor:"#fff"},
+		overlayClose: false
+	} );
+};
+
+closeProgress = function(){
+	$.modal.close();
+	if(!isEmpty(progressTarget))
+		progressTarget.find('.js_progress_icon').remove();
+};
+
+
+popSelectUser = function(userInput, target, width, isMultiUsers){
+	if(isEmpty(userInput)) return;
+	target.html('');
+	var conWidth = (!isEmpty(width) && width>0) ? width : 360;
+	$.get("pop_select_user.sw?multiUsers="+isMultiUsers, function(data){
 		$(data).modal({
-			opacity: 20,
+			appendTo: target,
+			opacity: 0,
+			autoPosition: false,
+			fixed: false,
 			overlayCss: {backgroundColor:"#fff"},
 			containerCss:{
 				height:500,
-				width:400
+				width: conWidth
 			},
 			overlayClose: true,
-			onOpen: function(dialog){
-				onOpenEffect(dialog);
-				// TO DO
-			},
 			onShow: function(dialog){
-				$('a.js_pop_select_user').live('click', function(e){
-					var input = $(e.target);
-					var comId = input.attr('userId');
-					var comName = input.text();
 
-					var userField = target.parents('td.js_type_userField');
-					var inputTarget = userField.find('input.js_auto_complete');
+				var selectionProc = function(comId, comName){
+					var userField = userInput.parents('td.js_type_userField:first');
+					var inputTarget = userField.find('input.js_auto_complete:first');
 					if(inputTarget.parents('.sw_required').hasClass('sw_error')){
 						inputTarget.parents('.sw_required').removeClass('sw_error');
 						$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 					}
 
-					var oldHTML = target.html();
+					var oldHTML = userInput.html();
 					if (oldHTML == null  || (userField.attr('multiUsers') !== 'true'))
 						oldHTML = "";
-					var communityItems = $(target).find('span.js_community_item');
+					var communityItems = $(userInput).find('span.js_community_item:first');
 					var isSameId = false;
 					for(var i=0; i<communityItems.length; i++){
 						var oldComId = $(communityItems[i]).attr('comId');
@@ -165,71 +201,90 @@ popSelectUser = function(target){
 						var newHTML = oldHTML + "<span class='js_community_item user_select' comId='" + comId+ "'>"
 							+ comName
 							+ "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
-						target.html(newHTML);
+						userInput.html(newHTML);
 					}
-					
-					$.modal.close();
-					return false;
-				});
-			},
-			onClose: function(dialog){
-				// TO DO
-				onCloseEffect(dialog);
+				};
+				
+				$('a.js_pop_select_user').die('click');
+				$('a.js_pop_select_users').die('click');
+				if(isEmpty(isMultiUsers) || isMultiUsers!== 'true'){
+					$('a.js_pop_select_user').live('click', function(e){
+						var input = $(e.target);
+						var comId = input.attr('userId');
+						var comName = input.text();
+						selectionProc(comId, comName);
+						$.modal.close();
+						target.html('');
+						return false;
+					});
+				}else{
+					$('a.js_pop_select_users').live('click', function(e){
+						var selections = $('form[name="frmUserSelections"]').find('input.js_checkbox:checked');
+						if(isEmpty(selections)) return false;
+						
+						for(var i=0; i<selections.length; i++){
+							var selection = $(selections[i]);
+							var comId = selection.attr('value');
+							var comName = selection.attr("comName");
+							selectionProc(comId, comName);
+						}
+						$.modal.close();
+						target.html('');
+						return false;
+					});
+				}
 			}
 		});
 	});
 };
 
-popSelectWork = function(target){
+popSelectWork = function(target, width){
+	target.html('');
+	var conWidth = (!isEmpty(width) && width>0) ? width : 360;
 	$.get("pop_select_work.sw", function(data){
 		$(data).modal({
-			opacity: 20,
+			appendTo: target,
+			opacity: 0,
+			autoPosition: false,
+			fixed: false,
 			overlayCss: {backgroundColor:"#fff"},
 			containerCss:{
-				height:500,
-				width:400
+				width:conWidth
 			},
 			overlayClose: true,
-			onOpen: function(dialog){
-				onOpenEffect(dialog);
-				// TO DO
-			},
 			onShow: function(dialog){
 				$('.js_pop_select_work').live( 'click', function(e){
 					var input = $(e.target).parents('li:first').children('a');
 					$('#form_works').slideUp().slideDown(500);
 					$('#upload_work_list').hide().parents(".js_start_work").slideUp();
-					if(isEmpty(target)){
-						var href = input.attr('href');
-						$.get(href,  function(data){
-							$('#form_works').html(data);
-							var formContent = $('#form_works').find('div.js_form_content');
-							var workId = input.attr('workId');
-							$.ajax({
-								url : "get_form_xml.sw",
-								data : {
-									workId : workId
-								},
-								success : function(formXml, status, jqXHR) {
-									console.log(formXml);
-									new SmartWorks.GridLayout({
-										target : formContent,
-										formXml : formXml,
-										mode : "edit"
-									});
-								}
-							});			
-						});
-					}else{
-					
-					}
-					$.modal.close();
+					var href = input.attr('href');
+					$.get(href,  function(data){
+						$('#form_works').html(data);
+						var formContent = $('#form_works').find('div.js_form_content');
+						var workId = input.attr('workId');
+						$.ajax({
+							url : "get_form_xml.sw",
+							data : {
+								workId : workId
+							},
+							success : function(formXml, status, jqXHR) {
+								console.log(formXml);
+								new SmartWorks.GridLayout({
+									target : formContent,
+									formXml : formXml,
+									mode : "edit"
+								});
+								$.modal.close();
+								target.html('');
+							},
+							error : function(){
+								$.modal.close();
+								target.html('');
+							}
+						});			
+					});
 					return false;
 				});
-			},
-			onClose: function(dialog){
-				// TO DO
-				onCloseEffect(dialog);
 			}
 		});
 	});
@@ -246,10 +301,6 @@ popSelectWorkItem = function(formId, target){
 				width:800
 			},
 			overlayClose: true,
-			onOpen: function(dialog){
-				onOpenEffect(dialog);
-				// TO DO
-			},
 			onShow: function(dialog){
 				$('.js_pop_select_work_item').live( 'click', function(e){
 					var input = $(e.target);
@@ -268,10 +319,6 @@ popSelectWorkItem = function(formId, target){
 					$.modal.close();
 					return false;
 				});
-			},
-			onClose: function(dialog){
-				// TO DO
-				onCloseEffect(dialog);
 			}
 		});
 	});

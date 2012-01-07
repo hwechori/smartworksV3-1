@@ -21,7 +21,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<select name="selFilterUserOperator" class="selb_size_sec">
+<select name="selFilterOperator" class="selb_size_sec">
 	<%
 		for (KeyMap stringOper : stringOpers) {
 	%>
@@ -35,7 +35,7 @@
 	%>
 </select>
 <span class="str_field"> <input class="inputline" type="text"
-	name="txtFilterUserOperand"
+	name="txtFilterStringOperand"
 	value="<%if (operandValue != null) {%><%=operandValue%><%}%>"
 	id="<%if (operandId != null) {%><%=operandId%><%}%>"></input><img src="images/btn_s_person.png" /></span>
 <span class="btn_x_grb_posi">
