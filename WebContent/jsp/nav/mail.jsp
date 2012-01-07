@@ -34,9 +34,9 @@
 <div class='navi_list js_collapsible'>
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_mail">
-		<a href="fetch_unread_mails.sw" title="<fmt:message key='nav.mail.fetch_unread_mails'/>"><img class="btn_unread_mail"/></a>
-		<a href="write_new_mail.sw" title="<fmt:message key='nav.mail.new_mail'/>"><img class="btn_new_mail"></a>
-		<a href="create_new_folder.sw" title="<fmt:message key='nav.mail.new_folder'/>"><img class="btn_folder_add"></a>
+		<a href="fetch_unread_mails.sw" title="<fmt:message key='nav.mail.fetch_unread_mails'/>"><span class="btn_unread_mail"/></span></a>
+		<a href="write_new_mail.sw" title="<fmt:message key='nav.mail.new_mail'/>"><span class="btn_new_mail"></span></a>
+		<a href="create_new_folder.sw" title="<fmt:message key='nav.mail.new_folder'/>"><span class="btn_folder_add"></span></a>
 	</div>
 	<div id='my_mail'>
 		<!--  메일서버에서 현재사용자의 메일폴더정보를 가져와서 보여준다.. -->

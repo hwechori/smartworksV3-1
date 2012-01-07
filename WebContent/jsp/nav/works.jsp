@@ -42,11 +42,14 @@
 <div class="navi_list js_collapsible  js_nav_my_works">
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_work">
-		<span></span><!--  프로그래스아이콘이 실행되느니 곳 -->
-		<a href="my_recent_instances.sw" class="current"><fmt:message key="nav.works.my_recent_instances" /></a>
-		<a href="my_favorite_works.sw"><fmt:message key="nav.works.my_favorite_works" /></a>
- 		<a href="my_all_works.sw"><fmt:message key="nav.works.my_all_works" /></a>
+	
+		<!--  프로그래스아이콘이 실행되는 곳 -->
+ 		<a href="my_all_works.sw" title="<fmt:message key='nav.works.my_all_works' />"><span class="btn_all_works"/></span></a>
+ 		<a href="my_favorite_works.sw" title="<fmt:message key='nav.works.my_favorite_works' />"><span class="btn_favorite"/></span></a>
+ 		<a href="my_recent_instances.sw" class="" title="<fmt:message key='nav.works.my_recent_instances' />" ><span class="btn_recent"></span></a>
+ 		
 	</div>
+	
 	<div id='my_works'>
 		<jsp:include page="my_recent_instances.jsp" />
 	</div>

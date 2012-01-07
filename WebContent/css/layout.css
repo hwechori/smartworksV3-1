@@ -141,18 +141,54 @@ body, #nav {background: url("../images/bg_body.jpg");}
 .ico_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
 
 
-/* nav_mail */
+/* nav_mail btn*/
 .ico_mail_inbox {background: url("../images/mail_img.png") no-repeat 0 0 transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
 .ico_mail_sent {background: url("../images/mail_img.png") no-repeat 0 -24px transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
 .ico_mail_drafts {background: url("../images/mail_img.png") no-repeat 0 -46px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
 .ico_mail_junk {background: url("../images/mail_img.png") no-repeat 0 -69px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
 .ico_mail_trash {background: url("../images/mail_img.png") no-repeat 0 -93px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
 
-.btn_unread_mail a {background: url("../images/mail_img.png") no-repeat 0 -127px transparent; height:17px; padding:0 0 0 25px; display: inline-block;}
+a .btn_unread_mail {background: url("../images/mail_img.png") no-repeat 0 -125px transparent; height:20px; width:20px; display: inline-block; float:right;}
+a .btn_unread_mail:hover,
+.btn_unread_mail.current {background: url("../images/mail_img.png") no-repeat 0 -150px;}
 
-.btn_new_mail a {background: url("../images/mail_img.png") no-repeat 0 -127px transparent; height:17px; padding:0 0 0 25px; display: inline-block;}
+a .btn_new_mail {background: url("../images/mail_img.png") no-repeat -50px -125px transparent; height:20px;  width:20px; display: inline-block; float:right;}
+a .btn_new_mail:hover,
+.btn_new_mail.current {background: url("../images/mail_img.png") no-repeat -50px -150px;}
 
-.btn_folder_add a {background: url("../images/mail_img.png") no-repeat 0 -127px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
+a .btn_folder_add {background: url("../images/mail_img.png") no-repeat -25px -125px transparent; height:20px;  width:20px; display: inline-block; float:right;}
+a .btn_folder_add:hover,
+.btn_folder_add.current {background: url("../images/mail_img.png") no-repeat -25px -150px;}
+
+
+/* nav_community btn */ 
+.btn_my_depart {background: url("../images/mail_img.png") no-repeat -115px -188px transparent; height:20px; width:43px; display: inline-block; float:right;}
+a .btn_my_depart:hover,
+.btn_my_depart.current {background: url("../images/mail_img.png") no-repeat -115px -217px;}
+
+.btn_my_group {background: url("../images/mail_img.png") no-repeat -158px -188px transparent; height:20px; width:43px; display: inline-block; float:right;} 
+a .btn_my_group:hover,
+.btn_my_group.current {background: url("../images/mail_img.png") no-repeat -158px -217px;}
+
+.btn_my_group_add {background: url("../images/mail_img.png") no-repeat -212px -219px transparent; height:13px; width:13px; display: inline-block; float: right;
+ margin: 2px 5px 0 0;} 
+ a .btn_my_group_add:hover {background: url("../images/mail_img.png") no-repeat -237px -219px ;} 
+ 
+
+
+/* nav_works btn */
+.btn_recent {background: url("../images/mail_img.png") no-repeat -115px -246px transparent; height:20px; width:43px; display: inline-block; float:right;}
+a .btn_recent:hover,
+.btn_recent.current {background: url("../images/mail_img.png") no-repeat -115px -274px;}
+
+.btn_favorite {background: url("../images/mail_img.png") no-repeat -158px -246px transparent; height:20px; width:43px; display: inline-block; float:right;}
+a .btn_favorite:hover,
+.btn_favorite.current {background: url("../images/mail_img.png") no-repeat -158px -274px;}
+
+.btn_all_works {background: url("../images/mail_img.png") no-repeat -201px -246px transparent; height:20px; width:43px; display: inline-block; float:right;}
+a .btn_all_works:hover,
+.btn_all_works.current {background: url("../images/mail_img.png") no-repeat -201px -274px;}
+
 
 
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
@@ -197,7 +233,7 @@ body, #nav {background: url("../images/bg_body.jpg");}
 
 
 /*category link */
-.categ_link {position:relative; margin:0 5px 8px 0; text-align:right; top:5px; font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
+.categ_link {margin:0 2px 8px 0; height:20px; font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5; padding-top:2px;}
 #nav .categ_link a:hover, #nav .categ_link a:focus, #nav .categ_link a:active, #nav .categ_link a:visited {color:#FFF; text-decoration:underline;}
 
 
@@ -507,15 +543,19 @@ body, #nav {background: url("../images/bg_body.jpg");}
 			
 
 .btn_x, .btn_x a {float:right; color:#9b9b9b; font-size:12px; display: block; width:16px; height:15px; text-align:center; text-decoration:none;}
-.btn_x a:hover {background-color:#f2f2f2; width:16px; height:15px; text-decoration:none;}
+a .btn_x:hover {color:#FFF; text-decoration:none; }
 
 .btn_x_gr {color:#c7c7c7; font-size:12px;}
+a .btn_x_gr:hover {background-color:#f2f2f2; text-decoration:none; }
+
 .btn_x_grb {background: url("../images/btn_x_b.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 11px;
     padding: 0; width: 11px; position: relative;}
+    
 .btn_im_x {background: url("../images/btn_im_x_gr.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
     padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
 .btn_im_x_wh {background: url("../images/btn_im_x2.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
 padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
+
 .nav_srch .btn_im_x{top:-19px;right:8px}
     
 	
