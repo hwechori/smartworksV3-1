@@ -55,7 +55,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <tr class="js_report_chart_type" <%if(reportType != Report.TYPE_CHART){%> style="display: none" <%} %>>
-	<td><fmt:message key="report.chart.type" /><span class="essen_n"></span></td>
+	<th><fmt:message key="report.chart.type" /><span class="essen_n"></span></th>
 	<td colspan="4" class=""><select name="selReportChartType">
 			<option value="<%=ChartReport.CHART_TYPE_COLUMN%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_COLUMN) {%>
@@ -101,11 +101,11 @@
 	</td>
 </tr>
 <tr>
-	<td>
+	<th>
 			<fmt:message key="report.title.xaxis" /><span class="essen_n"></span>
 
-	</td>
-	<td class="js_select_chart_axis"><select
+	</th>
+	<td class="js_select_chart_axis" colspan="4"><select
 		name="selReportXAxis">
 			<%
 				String xAxisId = null;
@@ -125,7 +125,7 @@
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
 				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(xAxisId) %>" /></jsp:include>
 	</select>
-	</td>
+	
 	<%
 	String xFieldType = "";
 	if (chart != null)
@@ -136,7 +136,8 @@
 	if (chart != null && chart.getXAxisSelector() != null)
 		xAxisSelector = chart.getXAxisSelector();
 	%>
-	<td class="js_axis_selector_date" <%if (!xFieldType.equals(FormField.TYPE_DATE) && !xFieldType.equals(FormField.TYPE_DATETIME)) {%>
+	
+	<span class="js_axis_selector_date" <%if (!xFieldType.equals(FormField.TYPE_DATE) && !xFieldType.equals(FormField.TYPE_DATETIME)) {%>
 		style="display: none" <%}%>><select
 		name="selReportXAxisSelectorDate">
 			<%
@@ -151,8 +152,8 @@
 				}
 			%>
 	</select>
-	</td>
-	<td class="js_axis_selector_user"
+	</span>
+	<span class="js_axis_selector_user"
 		<%if (!xFieldType.equals(FormField.TYPE_USER)) {%>
 		style="display: none" <%}%>><select
 		name="selReportXAxisSelectorUser">
@@ -168,13 +169,13 @@
 				}
 			%>
 	</select>
-	</td>
+	</span>
 	<%
 		String xAxisSort = null;
 		if (chart != null && chart.getXAxisSort() != null)
 			xAxisSort = chart.getXAxisSort();
 	%>
-	<td><input type="radio" name="rdoReportXAxisSort"
+	<span><input type="radio" name="rdoReportXAxisSort"
 		value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
 		<%if (xAxisSort != null && xAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
 		checked <%}%>> <fmt:message
@@ -182,14 +183,15 @@
 		name="rdoReportXAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
 		<%if (xAxisSort != null && xAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
 		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></td>
+			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></span>
+	</td>		
 </tr>
 <tr>
-	<td>
+	<th>
 			<fmt:message key="report.title.yaxis" /><span class="essen_n"></span>
 
-	</td>
-	<td colspan="3" class=""><select name="selReportYAxis">
+	</th>
+	<td colspan="4" class=""><select name="selReportYAxis">
 			<%
 				String yAxisId = null;
 				if (fields != null) {
@@ -208,8 +210,7 @@
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
 				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(yAxisId) %>" /></jsp:include>
 	</select>
-	</td>
-	<td><select name="selReportYAxisValue">
+	<span><select name="selReportYAxisValue">
 			<%
 				String value = null;
 				if (chart != null && chart.getValueType() != null)
@@ -225,7 +226,8 @@
 				}
 			%>
 	</select>
-	</td>
+	</span>
+	</td>	
 </tr>
 <%
 	String zFieldType="", zAxisId=null, zAxisSelector=null, zAxisSort=null, 
@@ -267,11 +269,11 @@
 </tr>
 <tr class="js_chart_zaxis" <%if (SmartUtil.isBlankObject(zAxisId)) {%>
 	style="display: none" <%}%>>
-	<td>
+	<th>
 			<fmt:message key="report.title.zaxis" /><span class="essen_n"></span>
 
-	</td>
-	<td class="js_select_chart_axis"><select
+	</th>
+	<td class="js_select_chart_axis" colspan="4"><select
 		name="selReportZAxis">
 			<%
 				if (fields != null) {
@@ -288,8 +290,7 @@
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
 				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(zAxisId) %>" /></jsp:include>
 	</select>
-	</td>
-	<td class="js_axis_selector_date"
+	<span class="js_axis_selector_date"
 		<%if (!zFieldType.equals(FormField.TYPE_DATE) && !zFieldType.equals(FormField.TYPE_DATETIME)) {%>
 		style="display: none" <%}%>><select
 		name="selReportZAxisSelectorDate">
@@ -305,8 +306,8 @@
 				}
 			%>
 	</select>
-	</td>
-	<td class="js_axis_selector_user"
+	</span>
+	<span class="js_axis_selector_user"
 		<%if (!zFieldType.equals(FormField.TYPE_USER)) {%>
 		style="display: none" <%}%>><select
 		name="selReportZAxisSelectorUser">
@@ -322,8 +323,8 @@
 				}
 			%>
 	</select>
-	</td>
-	<td><input type="radio" name="rdoReportZAxisSort"
+	</span>
+	<span><input type="radio" name="rdoReportZAxisSort"
 		value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
 		<%if (zAxisSort != null && zAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
 		checked <%}%>> <fmt:message
@@ -331,8 +332,8 @@
 		name="rdoReportZAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
 		<%if (zAxisSort != null && zAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
 		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></td>
-	<td class="js_remove_chart_zaxis"><a href=""><fmt:message key="report.button.remove_zaxis" /></a>
+			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></span>
+	<span class="js_remove_chart_zaxis"><a href=""><fmt:message key="report.button.remove_zaxis" /></a></span>
 	</td>
 </tr>
 <%
@@ -345,11 +346,11 @@
 </tr>
 <tr class="js_chart_xsecondaxis" <%if (SmartUtil.isBlankObject(xSecondAxisId)) {%>
 	style="display: none" <%}%>>
-	<td>
+	<th>
 			<fmt:message key="report.title.xsecondaxis" /><span class="essen_n"></span>
 
-	</td>
-	<td class="js_select_chart_axis"><select
+	</th>
+	<td class="js_select_chart_axis" colspan="4"><select
 		name="selReportXSecondAxis">
 			<%
 				if (fields != null) {
@@ -366,8 +367,7 @@
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
 				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(xSecondAxisId) %>" /></jsp:include>
 	</select>
-	</td>
-	<td class="js_axis_selector_date"
+	<span class="js_axis_selector_date"
 		<%if (!xSecondFieldType.equals(FormField.TYPE_DATE) && !xSecondFieldType.equals(FormField.TYPE_DATETIME)) {%>
 		style="display: none" <%}%>><select
 		name="selReportXSecondAxisSelectorDate">
@@ -383,8 +383,8 @@
 				}
 			%>
 	</select>
-	</td>
-	<td class="js_axis_selector_user"
+	</span>
+	<span class="js_axis_selector_user"
 		<%if (!xSecondFieldType.equals(FormField.TYPE_USER)) {%>
 		style="display: none" <%}%>><select
 		name="selReportXSecondAxisSelectorUser">
@@ -400,8 +400,8 @@
 				}
 			%>
 	</select>
-	</td>
-	<td><input type="radio" name="rdoReportXSecondAxisSort"
+	</span>
+	<span><input type="radio" name="rdoReportXSecondAxisSort"
 		value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
 		<%if (xSecondAxisSort != null && xSecondAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
 		checked <%}%>> <fmt:message
@@ -409,8 +409,8 @@
 		name="rdoReportXSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
 		<%if (xSecondAxisSort != null && xSecondAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
 		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></td>
-	<td class="js_remove_chart_xsecondaxis"><a href=""><fmt:message key="report.button.remove_xsecondaxis" /></a>
+			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></span>
+	<span class="js_remove_chart_xsecondaxis"><a href=""><fmt:message key="report.button.remove_xsecondaxis" /></a></span>
 	</td>
 </tr>
 
@@ -421,10 +421,10 @@
 </tr>
 <tr class="js_chart_zsecondaxis" <%if (SmartUtil.isBlankObject(zSecondAxisId)) {%>
 	style="display: none" <%}%>>
-	<td>
+	<th>
 			<fmt:message key="report.title.zsecondaxis" /><span class="essen_n"></span>
 
-	</td>
+	</th>
 	<td class="js_select_chart_axis"><select
 		name="selReportZSecondAxis">
 			<%
@@ -442,8 +442,7 @@
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
 				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(zSecondAxisId) %>" /></jsp:include>
 	</select>
-	</td>
-	<td class="js_axis_selector_date"
+	<span class="js_axis_selector_date"
 		<%if (!zSecondFieldType.equals(FormField.TYPE_DATE) && !zSecondFieldType.equals(FormField.TYPE_DATETIME)) {%>
 		style="display: none" <%}%>><select
 		name="selReportZSecondAxisSelectorDate">
@@ -459,8 +458,8 @@
 				}
 			%>
 	</select>
-	</td>
-	<td class="js_axis_selector_user"
+	</span>
+	<span class="js_axis_selector_user"
 		<%if (!zSecondFieldType.equals(FormField.TYPE_USER)) {%>
 		style="display: none" <%}%>><select
 		name="selReportZSecondAxisSelectorUser">
@@ -476,8 +475,8 @@
 				}
 			%>
 	</select>
-	</td>
-	<td><input type="radio" name="rdoReportZSecondAxisSort"
+	</span>
+	<span><input type="radio" name="rdoReportZSecondAxisSort"
 		value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
 		<%if (zSecondAxisSort != null && zSecondAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
 		checked <%}%>> <fmt:message
@@ -485,8 +484,8 @@
 		name="rdoReportZSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
 		<%if (zSecondAxisSort != null && zSecondAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
 		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></td>
-	<td class="js_remove_chart_zsecondaxis"><a href=""><fmt:message key="report.button.remove_zsecondaxis" /></a>
+			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></span>
+	<span class="js_remove_chart_zsecondaxis"><a href=""><fmt:message key="report.button.remove_zsecondaxis" /></a></span>
 	</td>
 </tr>
 

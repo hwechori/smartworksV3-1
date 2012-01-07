@@ -345,7 +345,7 @@ Ext.onReady(function () {
 	
 			}else{
 				Ext.create('Ext.chart.Chart', {
-					width: 600,
+					align: 'stretch',
 					height: 400,
 					animate: true,
 					resizable: true,
