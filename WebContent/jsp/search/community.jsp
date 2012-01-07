@@ -37,7 +37,7 @@
 				picName = user.getMinPicture();
 				comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
 				targetContent = "user_space.sw";
-				comName = user.getName();
+				comName = user.getLongName();
 				comId = user.getId();
 			} else if (workSpace.getClass() == DepartmentInfo.class) {
 				DepartmentInfo depart = (DepartmentInfo) workSpace;
