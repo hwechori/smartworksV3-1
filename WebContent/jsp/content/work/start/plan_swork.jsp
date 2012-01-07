@@ -31,7 +31,7 @@ function submitForms(e) {
 		}
 		console.log(JSON.stringify(paramsJson));
 		var url = "create_new_iwork.sw";
-		popProgress("새로운 업무를 생성 중입니다.");
+		smartPop.progress("새로운 업무를 생성 중입니다.");
 		$.ajax({
 			url : url,
 			contentType : 'application/json',
@@ -39,7 +39,7 @@ function submitForms(e) {
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				$.modal.close();
-				popConfirm("성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??", 
+				smartPop.confirm("성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??", 
 						function(){
 							document.location.href = data.href;					
 						},
@@ -49,7 +49,7 @@ function submitForms(e) {
 			},
 			error : function(e) {
 				$.modal.close();
-				popShowInfo(swInfoType.ERROR, "새로운 업무를 생성중에 이상이 발생하였습니다.");
+				smartPop.showInfo(smartPop.ERROR, "새로운 업무를 생성중에 이상이 발생하였습니다.");
 			}
 		});
 	}

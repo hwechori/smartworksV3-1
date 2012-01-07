@@ -58,18 +58,19 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.buildEx = function(config){
 			fieldName: '',
 			value: '',
 			columns: 1,
+			colSpan: 1, 
 			required: false,
 			readOnly: false		
 	};
 	SmartWorks.extend(options, config);
 
 	var labelWidth = 10;
-	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	if(options.columns >= 1 && options.columns <= 4 && options.colSpan <= options.columns) labelWidth = 10 * options.columns/options.colSpan;
 	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
 						'<format type="currencyInput" viewingType="currencyInput"/>' +
 					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '"/>' +
 					'</formEntity>');
-	var $formCol = $('<td class="form_col js_type_currenyInput" fieldid="' + options.fieldId+ '" colspan="1" width="500.61775800946384" rowspan="1">');
+	var $formCol = $('<td class="form_col js_type_currenyInput" fieldid="' + options.fieldId+ '" colspan="' + options.colSpan + '" width="500.61775800946384" rowspan="1">');
 	$formCol.appendTo(options.container);
 	SmartWorks.FormRuntime.CurrencyInputBuilder.build({
 			mode : options.readOnly, // view or edit

@@ -23,7 +23,7 @@ $(function() {
 	
 	$('a.js_edit_search_filter').live('click', function(e) {
 		var input = $(e.target).parent();
-		popProgressContGray(input.next('span:first'));
+		smartPop.progressContGray(input.next('span:first'));
 		var target = $('#search_filter');
 		var url = input.attr('href') + "&filterId=" + $('form[name="frmIworkFilterName"]').children('select').attr('value');
 		$.ajax({
@@ -33,10 +33,10 @@ $(function() {
 				target.html(data);
 				target.slideDown(500);
 				input.hide();
-				closeProgress();
+				smartPop.closeProgress();
 			},
 			error : function(){
-				closeProgress();						
+				smartPop.closeProgress();						
 			}
 		});
 		return false;
@@ -46,15 +46,22 @@ $(function() {
 	$('a.js_select_paging').live("click", function(e){
 		var input = $(e.target).parents('a.js_select_paging');
 		input.find('input').attr('value', 'true');
-		var progressSpan = input.prev('span.js_grogress_span:first');
+		var progressSpan = input.siblings('span.js_progress_span:first');
 		selectListParam(progressSpan, false);
 		return false;
 	});
 	
 	$('a.js_select_current_page').live("click", function(e){
 		var input = $(e.target);
-		var progressSpan = input.prev('span.js_grogress_span:first');
+		var progressSpan = input.siblings('span.js_progress_span:first');
 		input.siblings('input[name="hdnCurrentPage"]').attr('value', input.text());
+		selectListParam(progressSpan, false);
+		return false;
+	});
+	
+	$('.js_select_page_size').live("change", function(e){
+		var input = $(e.target);
+		var progressSpan = input.siblings('span.js_progress_span:first');
 		selectListParam(progressSpan, false);
 		return false;
 	});
@@ -63,7 +70,6 @@ $(function() {
 		var input = $(e.target);
 		var sortingField = $('form[name="frmSortingField"]').find('input[name="hdnSortingFieldId"]');
 		var sortingIsAscending = $('form[name="frmSortingField"]').find('input[name="hdnSortingIsAscending"]');
-		console.log("input...=", input, sortingField, sortingIsAscending);
 		if(sortingField.attr('value') === input.attr('fieldId')){
 			var isAscending = sortingIsAscending.attr('value');
 			sortingIsAscending.attr('value', (isAscending === "true") ? "false" : "true");
@@ -71,7 +77,8 @@ $(function() {
 			sortingField.attr('value', input.attr('fieldId'));
 			sortingIsAscending.attr('value', 'false');
 		}
-		selectListParam();
+		var progressSpan = input.siblings('.js_progress_span:first');
+		selectListParam(progressSpan, false);
 		return false;
 	});
 
@@ -90,6 +97,7 @@ $(function() {
 	});
 
 	$('a.js_search_filter_execute').live("click", function(e){
+		if (!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return false;
 		var progressSpan = $('.js_search_filter').find('span.js_progress_span:first');
 		selectListParam(progressSpan, false);
 		return false;

@@ -83,7 +83,7 @@ $(function() {
 	 */
 	$('.js_select_work').swnavi({
 		before : function(event) {
-			popProgressCenter();
+			smartPop.progressCenter();
 			$('#form_works').slideUp().slideDown(500);
 			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work").slideUp();
 		},
@@ -105,10 +105,10 @@ $(function() {
 						formXml : formXml,
 						mode : "edit"
 					});
-					closeProgress();
+					smartPop.closeProgress();
 				},
 				error : function(){
-					closeProgress();
+					smartPop.closeProgress();
 				}				
 			});			
 		}
@@ -264,7 +264,7 @@ $(function() {
 		var startWork = $(e.target).parents('.js_start_work');
 		var target = startWork.find('.js_all_work_popup');
 		var width = startWork.find('.js_auto_complete:first').parent().width();
-		popSelectWork(target, width);
+		smartPop.selectWork(target, width);
 		return false;
 	});
 
@@ -305,14 +305,14 @@ $(function() {
 		var target = userField.find('.js_community_popup:first');
 		var width = userField.find('.form_value').find('div:first').width();
 		var isMultiUsers = userField.attr('multiUsers');
-		popSelectUser(userInput, target, width, isMultiUsers);
+		smartPop.selectUser(userInput, target, width, isMultiUsers);
 		return false;
 	});
 
 	$('a.js_workitempicker_button').live('click', function(e) {
 		var target = $(e.target).parents('td.js_type_refFormField:first');
 		var formId = target.attr('refForm');
-		popSelectWorkItem(formId, target);
+		smartPop.selectWorkItem(formId, target);
 		return false;
 	});
 	

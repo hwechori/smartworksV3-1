@@ -1,4 +1,10 @@
-language.bundle['en'] = {
+
+// File Name 	: sw-language-en.js
+// Description 	: SmartWork 의 다국어 지원을 위한 English 메시지 번들..
+// Author 		: Y.S Jung
+// Created Date : 2011.11.
+
+smartMessage.bundle['en'] = {
 	uploadFile : 'File Upload',
 	cancelUpload : 'Cancel',
 	uploadFailed : 'Failed',

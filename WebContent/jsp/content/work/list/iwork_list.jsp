@@ -22,9 +22,9 @@
 		if(isEmpty(progressSpan))
 			progressSpan = $('.js_work_list_title').find('.js_progress_span:first');
 		if(isGray)
-			popProgressContGray(progressSpan);
+			smartPop.progressContGray(progressSpan);
 		else
-			popProgressCont(progressSpan);
+			smartPop.progressCont(progressSpan);
 		console.log(JSON.stringify(paramsJson));
 		var url = "set_instance_list_params.sw";
 		$.ajax({
@@ -34,22 +34,24 @@
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				$('#iwork_list_page').html(data);
-				closeProgress();
+				smartPop.closeProgress();
 			},
 			error : function(e) {
-				closeProgress();
-				popShowInfo(swInfoType.ERROR, language.message('iworkListError'));
+				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('iworkListError'));
 			}
 		});
 	};
 	
 	saveAsSearchFilter = function(filterId){
+		if(isEmpty(filterId)) $('input[name="txtNewFilterId"]').addClass('required');
+		if (!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return;
 		var paramsJson = {};
 		var workId = $('div.js_work_list').attr('workId');
 		var searchFilters = $('form[name="frmSearchFilter"]');
 		paramsJson['workId'] = workId;
 		if(!isEmpty(filterId))
-			paramsJosn['filterId'] = filterId;
+			paramsJson['filterId'] = filterId;
 		if(!isEmpty(searchFilters)){
 			var searchFilterArray = new Array();
 			for(var i=0; i<searchFilters.length; i++){
@@ -60,18 +62,18 @@
 			paramsJson['frmSearchFilters'] = searchFilterArray;
 		}
 		var progressSpan = $('.js_search_filter').find('span.js_progress_span:first');
-		popProgressCont(progressSpan);
+		smartPop.progressCont(progressSpan);
 		$.ajax({
 			url : "set_iwork_search_filter.sw",
 			contentType : 'application/json',
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				closeProgress();
+				smartPop.closeProgress();
 			},
 			error : function(e) {
-				closeProgress();
-				popShowInfo(swInfoType.ERROR, language.message('setIworkFilterError'));
+				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('setIworkFilterError'));
 			}
 		});
 	};
@@ -79,10 +81,12 @@
 	saveSearchFilter = function(){
 		var searchFilters = $('form[name="frmSearchFilter"]');
 		var filterId = searchFilters.parents('.js_search_filter').attr('filterId');
+		if(isEmpty(filterId)) $('input[name="txtNewFilterId"]').removeClass('required');
 		saveAsSearchFilter(filterId);
 	};
 
 	selectListParam = function(progressSpan, isGray){
+		console.log('progressSpan=', progressSpan);
 		var forms = $('form:visible');
 		var paramsJson = {};
 		var workId = $('div.js_work_list').attr('workId');
@@ -296,6 +300,7 @@
 							%>
 						</select>
 					</div>
+					<span class="po_right js_progress_span"></span>
 				</div>
 				<!--통계메뉴 영역//-->
 				<div class="js_work_report_form margin_b5"></div>

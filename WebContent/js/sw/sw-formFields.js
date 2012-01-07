@@ -185,7 +185,7 @@ function loadNewEventFields() {
 				fieldId: "txtEventPlace",
 				fieldName: placeTitle,
 				columns: 2,
-				colSpan: 1,
+				colSpan: 2,
 				required: false
 			});
 
@@ -195,7 +195,7 @@ function loadNewEventFields() {
 				fieldId: "txtEventRelatedUsers",
 				fieldName: relatedUsersTitle,
 				columns: 2,
-				colSpan: 1,
+				colSpan: 2,
 				multiUsers: true,
 				required: false
 			});
@@ -206,7 +206,7 @@ function loadNewEventFields() {
 				fieldId: "txtEventContent",
 				fieldName: contentTitle,
 				columns: 2,
-				colSpan: 1,
+				colSpan: 2,
 				multiLines: 3,
 				required: false
 			});
