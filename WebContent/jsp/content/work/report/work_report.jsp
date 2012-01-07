@@ -74,17 +74,17 @@
 	<div class="form_contents">
 		<table class="table_nomal js_report_title">
 			<tr>
-				<td width="17%"><fmt:message key="report.title.report_name" /><span
-					class="essen_n"></span></td>
-				<td width="83%" colspan="4"><input id="" type="text"
+				<th><fmt:message key="report.title.report_name" /><span
+					class="essen_n"></span></th>
+				<td colspan="4"><input id="" type="text"
 					class="fieldline" name="txtWorkReportName"
 					value="<%if (report != null) {%><fmt:message key='<%=report.getName() %>'/><%}%>">
 				</td>
 			</tr>
 
 			<tr class="js_work_report_type">
-				<td><fmt:message key="report.title.report_type" /><span
-					class="essen_n"></span></td>
+				<th><fmt:message key="report.title.report_type" /><span
+					class="essen_n"></span></th>
 				<td colspan="4" class=""><input name="rdoWorkReportType"
 					class="required" type="radio" value="<%=Report.TYPE_CHART%>"
 					url="work_report_chart.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"

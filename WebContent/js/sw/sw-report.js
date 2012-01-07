@@ -256,7 +256,6 @@ Ext.onReady(function () {
 		createChart : function(){
 		    gridPanel = Ext.create('Ext.grid.Panel', {
 		        id: 'reportDataGrid',
-		        flex: 0.60,
 		        border: false,
 		        height: 200,
 		        resizable: true,
@@ -345,7 +344,7 @@ Ext.onReady(function () {
 	
 			}else{
 				Ext.create('Ext.chart.Chart', {
-					width: 600,
+					align: 'stretch',
 					height: 400,
 					animate: true,
 					resizable: true,
