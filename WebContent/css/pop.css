@@ -16,6 +16,8 @@
 /* 알림 */
 .pop_notice_section {border: 1px solid #c7c7c7;}
 .ico_notice {background: url("../images/body_icon.png") no-repeat scroll 0 -480px transparent; display:block; height:23px; text-align: left; padding:0 0 0 30px; position:relative; font-weight:bold; padding-bottom:10px;}
+.pop_message_h {padding:10px 0;}
+
 
 /* popup 카테고리 */
 #simplemodal-data li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
