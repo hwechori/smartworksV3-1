@@ -1,4 +1,10 @@
-language.bundle['ko'] = {
+
+// File Name 	: sw-language-ko.js
+// Description 	: SmartWork 의 다국어 지원을 위한 한국어 메시지 번들..
+// Author 		: Y.S Jung
+// Created Date : 2011.11.
+
+smartMessage.bundle['ko'] = {
 	uploadFile : '파일올리기',
 	cancelUpload : '취소',
 	uploadFailed : '실패',

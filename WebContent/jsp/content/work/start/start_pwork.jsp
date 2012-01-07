@@ -31,7 +31,7 @@ function submitForms(e) {
 		}
 		console.log(JSON.stringify(paramsJson));
 		var url = "start_new_pwork.sw";
-		popProgress("새로운 프로세스업무를 시작하는 중입니다.");
+		smartPop.progress("새로운 프로세스업무를 시작하는 중입니다.");
 		$.ajax({
 			url : url,
 			contentType : 'application/json',
@@ -39,7 +39,7 @@ function submitForms(e) {
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				$.modal.close();
-				popConfirm("성공적으로 완료하였습니다. 시작된 업무 페이지로 이동하시겠습니까??", 
+				smartPop.confirm("성공적으로 완료하였습니다. 시작된 업무 페이지로 이동하시겠습니까??", 
 						function(){
 							document.location.href = data.href;					
 						},
@@ -49,7 +49,7 @@ function submitForms(e) {
 			},
 			error : function(e) {
 				$.modal.close();
-				popShowInfo(swInfoType.ERROR, "새로운 프로세스업무 시작중에 이상이 발생하였습니다.");
+				smartPop.showInfo(smartPop.ERROR, "새로운 프로세스업무 시작중에 이상이 발생하였습니다.");
 			}
 		});
 	}

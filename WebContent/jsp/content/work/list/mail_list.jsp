@@ -33,7 +33,7 @@
 				target.html(data);
 			},
 			error : function(e) {
-				popShowInfo(swInfoType.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
+				smartPop.showInfo(smartPop.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
 			}
 		});
 	};

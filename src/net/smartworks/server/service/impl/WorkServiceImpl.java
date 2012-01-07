@@ -399,7 +399,7 @@ public class WorkServiceImpl implements IWorkService {
 	public SearchFilter getSearchFilterById(String filterId) throws Exception {
 
 		User user = SmartUtil.getCurrentUser();
-		if(filterId.equals(SearchFilter.FILTER_ALL_INSTANCES)) return null;
+		if(filterId.equals(SearchFilter.FILTER_ALL_INSTANCES)) return SearchFilter.getAllInstancesFilter();
 		if(filterId.equals(SearchFilter.FILTER_MY_INSTANCES)) return SearchFilter.getMyInstancesFilter(ModelConverter.getUserByUserId(user.getId()));
 		if(filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES)) return SearchFilter.getRecentInstancesFilter();
 		if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) return SearchFilter.getMyRecentInstancesFilter(ModelConverter.getUserByUserId(user.getId()));
@@ -583,38 +583,42 @@ public class WorkServiceImpl implements IWorkService {
 		}
 
 		Map<String, Object> frmIworkFilterName = (Map<String, Object>)requestBody.get("frmIworkFilterName");
-		String selFilterName = (String)frmIworkFilterName.get("selFilterName");
-		requestParams.setFilterId(selFilterName);
+		if(frmIworkFilterName != null){
+			String selFilterName = (String)frmIworkFilterName.get("selFilterName");
+			requestParams.setFilterId(selFilterName);
+		}
 
 		Map<String, Object> frmSortingField = (Map<String, Object>)requestBody.get("frmSortingField");
-		String hdnSortingFieldId = (String)frmSortingField.get("hdnSortingFieldId");
-		String hdnSortingIsAscending = (String)frmSortingField.get("hdnSortingIsAscending");
-		SortingField sortingField = new SortingField();
-		sortingField.setFieldId(hdnSortingFieldId);
-		sortingField.setAscending(Boolean.parseBoolean(hdnSortingIsAscending));
-		requestParams.setSortingField(sortingField);
+		if(frmSortingField != null){
+			String hdnSortingFieldId = (String)frmSortingField.get("hdnSortingFieldId");
+			String hdnSortingIsAscending = (String)frmSortingField.get("hdnSortingIsAscending");
+			SortingField sortingField = new SortingField();
+			sortingField.setFieldId(hdnSortingFieldId);
+			sortingField.setAscending(Boolean.parseBoolean(hdnSortingIsAscending));
+			requestParams.setSortingField(sortingField);
+		}
 
 		Map<String, Object> frmInstanceListPaging = (Map<String, Object>)requestBody.get("frmInstanceListPaging");
-			if(frmInstanceListPaging != null) {
-				String hdnCurrentPage = (String)frmInstanceListPaging.get("hdnCurrentPage");
-				String selPageSize = (String)frmInstanceListPaging.get("selPageSize");
-				boolean hdnNext10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNext10"));
-				boolean hdnNextEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNextEnd"));
-				boolean hdnPrev10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrev10"));
-				boolean hdnPrevEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrevEnd"));
-				if(hdnCurrentPage != null)
-					requestParams.setCurrentPage(Integer.parseInt(hdnCurrentPage));
-				if(selPageSize != null)
-					requestParams.setPageSize(Integer.parseInt(selPageSize));
-				if(hdnNext10)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXT10);
-				else if(hdnNextEnd)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXTEND);
-				else if(hdnPrev10)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREV10);
-				else if(hdnPrevEnd)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
-			}
+		if(frmInstanceListPaging != null) {
+			String hdnCurrentPage = (String)frmInstanceListPaging.get("hdnCurrentPage");
+			String selPageSize = (String)frmInstanceListPaging.get("selPageSize");
+			boolean hdnNext10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNext10"));
+			boolean hdnNextEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNextEnd"));
+			boolean hdnPrev10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrev10"));
+			boolean hdnPrevEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrevEnd"));
+			if(hdnCurrentPage != null)
+				requestParams.setCurrentPage(Integer.parseInt(hdnCurrentPage));
+			if(selPageSize != null)
+				requestParams.setPageSize(Integer.parseInt(selPageSize));
+			if(hdnNext10)
+				requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXT10);
+			else if(hdnNextEnd)
+				requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXTEND);
+			else if(hdnPrev10)
+				requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREV10);
+			else if(hdnPrevEnd)
+				requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
+		}
 
 		List<Map<String, Object>> frmSearchFilters = (ArrayList<Map<String, Object>>)requestBody.get("frmSearchFilters");
 

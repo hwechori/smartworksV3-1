@@ -42,6 +42,9 @@ public class SearchFilter extends BaseObject{
 		this.conditions = conditions;
 	}
 
+	public static SearchFilter getAllInstancesFilter(){
+		return new SearchFilter(FILTER_ALL_INSTANCES, FILTER_ALL_INSTANCES, new Condition[]{});
+	}
 	public static SearchFilter getMyInstancesFilter(User currentUser){
 		return new SearchFilter(FILTER_MY_INSTANCES, FILTER_MY_INSTANCES, new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser )});
 	}

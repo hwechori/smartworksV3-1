@@ -9,14 +9,14 @@ function updateChattingBoxTitle(chatId, chatterInfos) {
 		if (!isEmpty(chatterList)) {
 			title = chatterList[0].longName;
 			if (chatterList.length > 2) {
-				title = title + language.message('chatUserAnd') + (chatterList.length - 1) + language.message('chatUserMore');
+				title = title + smartMessage.get('chatUserAnd') + (chatterList.length - 1) + smartMessage.get('chatUserMore');
 			} else {
 				for ( var i = 1; i < chatterList.length; i++) {
 					title = title + "," + chatterList[i].longName;
 				}
 			}
 		} else {
-			title = language.message('chatNoChatters');
+			title = smartMessage.get('chatNoChatters');
 		}
 	}
 	$('#' + chatId).find('div.js_chatting_title').html(title);
@@ -239,7 +239,7 @@ function updateChatterStatus(chatId, chatterInfo, status) {
 	} else if (status === userStatus.OFFLINE) {
 		var data = "<div class='msg_section' userId='" + userId
 				+ "'><span class='t_name'>" + longName
-				+ "</span>" + language.message('chatUserOfflineMessage') + "</div>";
+				+ "</span>" + smartMessage.get('chatUserOfflineMessage') + "</div>";
 		target.append(data);
 	}else if(status === userStatus.LEAVED){
 		

@@ -13,26 +13,26 @@ $(function() {
 	});
 
 	$('a.js_new_work_report').live('click', function(e) {
-		$('#content').showLoading();						
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
 		var url = input.attr('href');
+		var progressSpan = input.parents('.js_work_report:first').find('span.js_progress_span');
+		smartPop.progressCont(progressSpan);						
 		$.ajax({
 			url : url,
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
-				$('#content').hideLoading();						
+				smartPop.closeProgress();						
 			},
 			error : function(){
-				$('#content').hideLoading();						
+				smartPop.closeProgress();						
 			}
 		});
 		return false;
 	});
 
 	$('select.js_select_work_report').live('change', function(e) {
-		$('#content').showLoading();						
 		var input = $(e.target);
 		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
 		var url = input.attr('href')
@@ -41,6 +41,8 @@ $(function() {
 		var reportType = selected.attr('reportType');
 		var reportName = selected.html();
 		var chartType = selected.attr('chartType');
+		var progressSpan = input.parents('.js_work_report:first').find('span.js_progress_span');
+		smartPop.progressCont(progressSpan);						
 		$.ajax({
 			url : url,
 			data : {reportId: reportId, reportType: reportType, reportName: reportName, chartType: chartType},
@@ -48,10 +50,10 @@ $(function() {
 				var chartTarget = target.html(data).find('div.js_work_report_view');
 				smartChart.load(reportId, chartType, false, "chart_target");
 				target.slideDown(500);
-				$('#content').hideLoading();						
+				smartPop.closeProgress();						
 			},
 			error : function(){
-				$('#content').hideLoading();						
+				smartPop.closeProgress();						
 			}
 
 		});
