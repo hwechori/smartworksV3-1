@@ -87,8 +87,8 @@ $(function() {
 	$('td.js_select_chart_axis select').live('change', function(e) {
 		var input = $(e.target);		
 		var type = input.children('option:selected').attr('type');
-		var targetDate = input.parents('td.js_select_chart_axis:first').next('td.js_axis_selector_date:first');
-		var targetUser = targetDate.next('td.js_axis_selector_user:first');
+		var targetDate = input.nextAll('.js_axis_selector_date:first');
+		var targetUser = input.nextAll('.js_axis_selector_user:first');
 		if(type === "dateChooser" || type ==="dateTimeChooser"){
 			targetDate.show();
 			targetUser.hide();
@@ -104,29 +104,33 @@ $(function() {
 
 	$('tr.js_add_chart_zaxis a').live('click', function(e) {
 		var input = $(e.target).parents('tr.js_add_chart_zaxis:first').hide();
-		input.next('tr.js_chart_zaxis:first').slideDown(500);
+		input.next('tr.js_chart_zaxis').show();
+		var secondZaxis = input.nextAll('tr.js_chart_zsecondaxis:first');
+		if(secondZaxis.not(":visible") && secondZaxis.prevAll('tr.js_report_chart_type').not(':visible'))
+			secondZaxis.prev('tr.js_add_chart_zsecondaxis').show();
 		return false;
 	});
-	$('td.js_remove_chart_zaxis a').live('click', function(e){
-		var target = $(e.target).parents('tr.js_chart_zaxis:first').hide().prev('tr.js_add_chart_zaxis:first').show();
+	$('.js_remove_chart_zaxis a').live('click', function(e){
+		$(e.target).parents('tr.js_chart_zaxis:first').hide().prev('tr.js_add_chart_zaxis').show();
+		$(e.target).parents('tr.js_chart_zaxis:first').nextAll('tr.js_add_chart_zsecondaxis:first').hide().next('tr.js_chart_zsecondaxis').hide();
 		return false;
 	});
 	$('tr.js_add_chart_xsecondaxis a').live('click', function(e) {
 		var input = $(e.target).parents('tr.js_add_chart_xsecondaxis:first').hide();
-		input.next('tr.js_chart_xsecondaxis:first').slideDown(500);
+		input.next('tr.js_chart_xsecondaxis').show();
 		return false;
 	});
-	$('td.js_remove_chart_xsecondaxis a').live('click', function(e){
-		var target = $(e.target).parents('tr.js_chart_xsecondaxis:first').hide().prev('tr.js_add_chart_xsecondaxis:first').show();
+	$('.js_remove_chart_xsecondaxis a').live('click', function(e){
+		$(e.target).parents('tr.js_chart_xsecondaxis:first').hide().prev('tr.js_add_chart_xsecondaxis').show();
 		return false;
 	});
 	$('tr.js_add_chart_zsecondaxis a').live('click', function(e) {
 		var input = $(e.target).parents('tr.js_add_chart_zsecondaxis:first').hide();
-		input.next('tr.js_chart_zsecondaxis:first').slideDown(500);
+		input.next('tr.js_chart_zsecondaxis').show();
 		return false;
 	});
-	$('td.js_remove_chart_zsecondaxis a').live('click', function(e){
-		var target = $(e.target).parents('tr.js_chart_zsecondaxis:first').hide().prev('tr.js_add_chart_zsecondaxis:first').show();
+	$('.js_remove_chart_zsecondaxis a').live('click', function(e){
+		$(e.target).parents('tr.js_chart_zsecondaxis:first').hide().prev('tr.js_add_chart_zsecondaxis').show();
 		return false;
 	});
 	$('tr.js_toggle_chart_search_filter a').live('click', function(e) {

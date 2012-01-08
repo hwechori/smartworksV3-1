@@ -55,178 +55,161 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <tr class="js_report_chart_type" <%if(reportType != Report.TYPE_CHART){%> style="display: none" <%} %>>
-	<th><fmt:message key="report.chart.type" /><span class="essen_n"></span></th>
-	<td colspan="4" class=""><select name="selReportChartType">
+	<th><fmt:message key="report.chart.type" /></th>
+	<td colspan="4" class="">
+		<select name="selReportChartType">
 			<option value="<%=ChartReport.CHART_TYPE_COLUMN%>"
-				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_COLUMN) {%>
-				selected <%}%>>
+				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_COLUMN) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.column" />
 			</option>
 			<option value="<%=ChartReport.CHART_TYPE_BAR%>"
-				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_BAR) {%>
-				selected <%}%>>
+				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_BAR) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.bar" />
 			</option>
 			<option value="<%=ChartReport.CHART_TYPE_LINE%>"
-				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_LINE) {%>
-				selected <%}%>>
+				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_LINE) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.line" />
 			</option>
 			<option value="<%=ChartReport.CHART_TYPE_PIE%>"
-				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_PIE) {%>
-				selected <%}%>>
+				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_PIE) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.pie" />
 			</option>
 			<option value="<%=ChartReport.CHART_TYPE_AREA%>"
-				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_AREA) {%>
-				selected <%}%>>
+				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_AREA) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.area" />
 			</option>
 			<option value="<%=ChartReport.CHART_TYPE_GAUGE%>"
-				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_GAUGE) {%>
-				selected <%}%>>
+				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_GAUGE) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.gauge" />
 			</option>
 			<option value="<%=ChartReport.CHART_TYPE_RADAR%>"
-				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_RADAR) {%>
-				selected <%}%>>
+				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_RADAR) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.radar" />
 			</option>
 			<option value="<%=ChartReport.CHART_TYPE_SCATTER%>"
-				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_SCATTER) {%>
-				selected <%}%>>
+				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_SCATTER) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.scatter" />
 			</option>
-	</select>
+		</select>
 	</td>
 </tr>
 <tr>
-	<th>
-			<fmt:message key="report.title.xaxis" /><span class="essen_n"></span>
-
-	</th>
-	<td class="js_select_chart_axis" colspan="4"><select
-		name="selReportXAxis">
+	<th><fmt:message key="report.title.xaxis" /></th>
+	<td class="js_select_chart_axis" colspan="4">
+		<select name="selReportXAxis">
 			<%
-				String xAxisId = null;
-				if (fields != null) {
-					if (chart != null && chart.getXAxis() != null)
-						xAxisId = chart.getXAxis().getId();
-					for (FormField field : fields) {
+			String xAxisId = null;
+			if (fields != null) {
+				if (chart != null && chart.getXAxis() != null)
+					xAxisId = chart.getXAxis().getId();
+				for (FormField field : fields) {
 			%>
-			<option type="<%=field.getType()%>" value="<%=field.getId()%>"
-				<%if (xAxisId != null && xAxisId.equals(field.getId())) {%> selected
-				<%}%>><%=field.getName()%></option>
+					<option type="<%=field.getType()%>" value="<%=field.getId()%>"
+						<%if (xAxisId != null && xAxisId.equals(field.getId())) {%> selected
+						<%}%>><%=field.getName()%></option>
 			<%
 				}
-				}
+			}
 			%>
 			<jsp:include page="/jsp/content/work/field/default_fields.jsp">
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
-				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(xAxisId) %>" /></jsp:include>
-	</select>
+				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(xAxisId) %>" />
+			</jsp:include>
+		</select>
 	
-	<%
-	String xFieldType = "";
-	if (chart != null)
-		xFieldType = chart.getXAxis().getType();
-	else if (matrix != null)
-		xFieldType = matrix.getXAxis().getType();
-	String xAxisSelector = null;
-	if (chart != null && chart.getXAxisSelector() != null)
-		xAxisSelector = chart.getXAxisSelector();
-	%>
+		<%
+		String xFieldType = "";
+		if (chart != null)
+			xFieldType = chart.getXAxis().getType();
+		else if (matrix != null)
+			xFieldType = matrix.getXAxis().getType();
+		String xAxisSelector = null;
+		if (chart != null && chart.getXAxisSelector() != null)
+			xAxisSelector = chart.getXAxisSelector();
+		%>
 	
-	<span class="js_axis_selector_date" <%if (!xFieldType.equals(FormField.TYPE_DATE) && !xFieldType.equals(FormField.TYPE_DATETIME)) {%>
-		style="display: none" <%}%>><select
-		name="selReportXAxisSelectorDate">
-			<%
+		<span class="js_axis_selector_date" <%if (!xFieldType.equals(FormField.TYPE_DATE) && !xFieldType.equals(FormField.TYPE_DATETIME)) {%> style="display: none" <%}%>>
+			<select name="selReportXAxisSelectorDate">
+				<%
 				for (KeyMap selector : Report.AXIS_SELECTORS_DATE) {
-			%>
-			<option value="<%=selector.getId()%>"
-				<%if (xAxisSelector != null && xAxisSelector.equals(selector.getId())) {%>
-				selected <%}%>>
-				<fmt:message key="<%=selector.getKey() %>" />
-			</option>
-			<%
+				%>
+					<option value="<%=selector.getId()%>"
+						<%if (xAxisSelector != null && xAxisSelector.equals(selector.getId())) {%> selected <%}%>>
+						<fmt:message key="<%=selector.getKey() %>" />
+					</option>
+				<%
 				}
-			%>
-	</select>
-	</span>
-	<span class="js_axis_selector_user"
-		<%if (!xFieldType.equals(FormField.TYPE_USER)) {%>
-		style="display: none" <%}%>><select
-		name="selReportXAxisSelectorUser">
-			<%
+				%>
+			</select>
+		</span>
+		<span class="js_axis_selector_user" <%if (!xFieldType.equals(FormField.TYPE_USER)) {%> style="display: none" <%}%>>
+			<select name="selReportXAxisSelectorUser">
+				<%
 				for (KeyMap selector : Report.AXIS_SELECTORS_USER) {
-			%>
-			<option value="<%=selector.getId()%>"
-				<%if (xAxisSelector != null && xAxisSelector.equals(selector.getId())) {%>
-				selected <%}%>>
-				<fmt:message key="<%=selector.getKey() %>" />
-			</option>
-			<%
+				%>
+					<option value="<%=selector.getId()%>"
+						<%if (xAxisSelector != null && xAxisSelector.equals(selector.getId())) {%> selected <%}%>>
+						<fmt:message key="<%=selector.getKey() %>" />
+					</option>
+				<%
 				}
-			%>
-	</select>
-	</span>
-	<%
+				%>
+			</select>
+		</span>
+		<%
 		String xAxisSort = null;
 		if (chart != null && chart.getXAxisSort() != null)
 			xAxisSort = chart.getXAxisSort();
-	%>
-	<span><input type="radio" name="rdoReportXAxisSort"
-		value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
-		<%if (xAxisSort != null && xAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
-		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> <input type="radio"
-		name="rdoReportXAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
-		<%if (xAxisSort != null && xAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
-		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></span>
+		%>
+		<span>
+			<input type="radio" name="rdoReportXAxisSort" value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
+				<%if (xAxisSort == null || xAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%> checked <%}%>> 
+				<fmt:message key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> 
+			<input type="radio" name="rdoReportXAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
+				<%if (xAxisSort != null && xAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%> checked <%}%>> 
+				<fmt:message key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" />
+		</span>
 	</td>		
 </tr>
 <tr>
-	<th>
-			<fmt:message key="report.title.yaxis" /><span class="essen_n"></span>
-
-	</th>
-	<td colspan="4" class=""><select name="selReportYAxis">
+	<th><fmt:message key="report.title.yaxis" /></th>
+	<td colspan="4" class="">
+		<select name="selReportYAxis">
 			<%
-				String yAxisId = null;
-				if (fields != null) {
-					if (chart != null && chart.getYAxis() != null)
-						yAxisId = chart.getYAxis().getId();
-					for (FormField field : fields) {
+			String yAxisId = null;
+			if (fields != null) {
+				if (chart != null && chart.getYAxis() != null)
+					yAxisId = chart.getYAxis().getId();
+				for (FormField field : fields) {
 			%>
-			<option type="<%=field.getPageName()%>" value="<%=field.getId()%>"
-				<%if (yAxisId != null && yAxisId.equals(field.getId())) {%> selected
-				<%}%>><%=field.getName()%></option>
+					<option type="<%=field.getPageName()%>" value="<%=field.getId()%>" 
+						<%if (yAxisId != null && yAxisId.equals(field.getId())) {%> selected <%}%>><%=field.getName()%>
+					</option>
 			<%
 				}
-				}
+			}
 			%>
 			<jsp:include page="/jsp/content/work/field/default_fields.jsp">
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
-				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(yAxisId) %>" /></jsp:include>
-	</select>
-	<span><select name="selReportYAxisValue">
-			<%
+				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(yAxisId) %>" />
+			</jsp:include>
+		</select>
+		<span>
+			<select name="selReportYAxisValue">
+				<%
 				String value = null;
 				if (chart != null && chart.getValueType() != null)
 					value = chart.getValueType();
 				for (KeyMap valueType : Report.VALUE_TYPES) {
-			%>
-			<option value="<%=valueType.getId()%>"
-				<%if (value != null && value.equals(valueType.getId())) {%> selected
-				<%}%>>
-				<fmt:message key="<%=valueType.getKey() %>" />
-			</option>
-			<%
+				%>
+					<option value="<%=valueType.getId()%>" <%if (value != null && value.equals(valueType.getId())) {%> selected <%}%>>
+						<fmt:message key="<%=valueType.getKey() %>" />
+					</option>
+				<%
 				}
-			%>
-	</select>
-	</span>
+				%>
+			</select>
+		</span>
 	</td>	
 </tr>
 <%
@@ -262,230 +245,194 @@
 			zSecondAxisSort = matrix.getZSecondAxisSort();
 	}
 %>
-<tr class="js_add_chart_zaxis" <%if (zAxisId != null) {%>
-	style="display: none" <%}%>>
-	<td colspan="5"><a href=""><fmt:message key="report.button.add_zaxis" /></a>
+<tr class="js_add_chart_zaxis" <%if (zAxisId != null) {%> style="display: none" <%}%>>
+	<td colspan="5">
+		<a href=""><fmt:message key="report.button.add_zaxis" /></a>
 	</td>
 </tr>
-<tr class="js_chart_zaxis" <%if (SmartUtil.isBlankObject(zAxisId)) {%>
-	style="display: none" <%}%>>
-	<th>
-			<fmt:message key="report.title.zaxis" /><span class="essen_n"></span>
-
-	</th>
-	<td class="js_select_chart_axis" colspan="4"><select
-		name="selReportZAxis">
+<tr class="js_chart_zaxis" <%if (SmartUtil.isBlankObject(zAxisId)) {%> style="display: none" <%}%>>
+	<th><fmt:message key="report.title.zaxis" /></th>
+	<td class="js_select_chart_axis" colspan="4">
+		<select name="selReportZAxis">
 			<%
-				if (fields != null) {
-					for (FormField field : fields) {
+			if (fields != null) {
+				for (FormField field : fields) {
 			%>
-			<option type="<%=field.getType()%>" value="<%=field.getId()%>"
-				<%if (zAxisId != null && zAxisId.equals(field.getId())) {%>
-				selected"<%}%>><%=field.getName()%></option>
+					<option type="<%=field.getType()%>" value="<%=field.getId()%>" 
+						<%if (zAxisId != null && zAxisId.equals(field.getId())) {%> selected"<%}%>><%=field.getName()%>
+					</option>
 			<%
 				}
-				}
+			}
 			%>
 			<jsp:include page="/jsp/content/work/field/default_fields.jsp">
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
-				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(zAxisId) %>" /></jsp:include>
-	</select>
-	<span class="js_axis_selector_date"
-		<%if (!zFieldType.equals(FormField.TYPE_DATE) && !zFieldType.equals(FormField.TYPE_DATETIME)) {%>
-		style="display: none" <%}%>><select
-		name="selReportZAxisSelectorDate">
-			<%
+				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(zAxisId) %>" />
+			</jsp:include>
+		</select>
+		<span class="js_axis_selector_date" <%if (!zFieldType.equals(FormField.TYPE_DATE) && !zFieldType.equals(FormField.TYPE_DATETIME)) {%> style="display: none" <%}%>>
+			<select name="selReportZAxisSelectorDate">
+				<%
 				for (KeyMap selector : Report.AXIS_SELECTORS_DATE) {
-			%>
-			<option value="<%=selector.getId()%>"
-				<%if (zAxisSelector != null && zAxisSelector.equals(selector.getId())) {%>
-				selected <%}%>>
-				<fmt:message key="<%=selector.getKey() %>" />
-			</option>
-			<%
+				%>
+					<option value="<%=selector.getId()%>" <%if (zAxisSelector != null && zAxisSelector.equals(selector.getId())) {%> selected <%}%>>
+						<fmt:message key="<%=selector.getKey() %>" />
+					</option>
+				<%
 				}
-			%>
-	</select>
-	</span>
-	<span class="js_axis_selector_user"
-		<%if (!zFieldType.equals(FormField.TYPE_USER)) {%>
-		style="display: none" <%}%>><select
-		name="selReportZAxisSelectorUser">
-			<%
+				%>
+			</select>
+		</span>
+		<span class="js_axis_selector_user" <%if (!zFieldType.equals(FormField.TYPE_USER)) {%> style="display: none" <%}%>>
+			<select name="selReportZAxisSelectorUser">
+				<%
 				for (KeyMap selector : Report.AXIS_SELECTORS_USER) {
-			%>
-			<option value="<%=selector.getId()%>"
-				<%if (zAxisSelector != null && zAxisSelector.equals(selector.getId())) {%>
-				selected <%}%>>
-				<fmt:message key="<%=selector.getKey() %>" />
-			</option>
-			<%
+				%>
+					<option value="<%=selector.getId()%>" <%if (zAxisSelector != null && zAxisSelector.equals(selector.getId())) {%> selected <%}%>>
+						<fmt:message key="<%=selector.getKey() %>" />
+					</option>
+				<%
 				}
-			%>
-	</select>
-	</span>
-	<span><input type="radio" name="rdoReportZAxisSort"
-		value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
-		<%if (zAxisSort != null && zAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
-		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> <input type="radio"
-		name="rdoReportZAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
-		<%if (zAxisSort != null && zAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
-		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></span>
-	<span class="js_remove_chart_zaxis"><a href=""><fmt:message key="report.button.remove_zaxis" /></a></span>
+				%>
+			</select>
+		</span>
+		<span>
+			<input type="radio" name="rdoReportZAxisSort" value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
+				<%if (zAxisSort == null || zAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%> checked <%}%>>
+				<fmt:message key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" />
+			<input type="radio" name="rdoReportZAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
+				<%if (zAxisSort != null && zAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%> checked <%}%>>
+				<fmt:message key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" />
+		</span>
+		<span class="js_remove_chart_zaxis"><a class='btn_x_gr' href='' title="<fmt:message key="report.button.remove_zaxis" />">x</a></span>
 	</td>
 </tr>
 <%
 	if (reportType == Report.TYPE_MATRIX) {
 %>
-<tr class="js_add_chart_xsecondaxis" <%if (xSecondAxisId != null) {%>
-	style="display: none" <%}%>>
-	<td colspan="5"><a href=""><fmt:message key="report.button.add_xsecondaxis" /></a>
+<tr class="js_add_chart_xsecondaxis" <%if (xSecondAxisId != null) {%> style="display: none" <%}%>>
+	<td colspan="5">
+		<a href=""><fmt:message key="report.button.add_xsecondaxis" /></a>
 	</td>
 </tr>
-<tr class="js_chart_xsecondaxis" <%if (SmartUtil.isBlankObject(xSecondAxisId)) {%>
-	style="display: none" <%}%>>
-	<th>
-			<fmt:message key="report.title.xsecondaxis" /><span class="essen_n"></span>
-
-	</th>
-	<td class="js_select_chart_axis" colspan="4"><select
-		name="selReportXSecondAxis">
+<tr class="js_chart_xsecondaxis" <%if (SmartUtil.isBlankObject(xSecondAxisId)) {%> style="display: none" <%}%>>
+	<th><fmt:message key="report.title.xsecondaxis" /></th>
+	<td class="js_select_chart_axis" colspan="4">
+		<select name="selReportXSecondAxis">
 			<%
-				if (fields != null) {
-					for (FormField field : fields) {
+			if (fields != null) {
+				for (FormField field : fields) {
 			%>
-			<option type="<%=field.getType()%>" value="<%=field.getId()%>"
-				<%if (xSecondAxisId != null && xSecondAxisId.equals(field.getId())) {%>
-				selected"<%}%>><%=field.getName()%></option>
+					<option type="<%=field.getType()%>" value="<%=field.getId()%>" 
+						<%if (xSecondAxisId != null && xSecondAxisId.equals(field.getId())) {%> selected"<%}%>><%=field.getName()%>
+					</option>
 			<%
 				}
-				}
+			}
 			%>
 			<jsp:include page="/jsp/content/work/field/default_fields.jsp">
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
-				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(xSecondAxisId) %>" /></jsp:include>
-	</select>
-	<span class="js_axis_selector_date"
-		<%if (!xSecondFieldType.equals(FormField.TYPE_DATE) && !xSecondFieldType.equals(FormField.TYPE_DATETIME)) {%>
-		style="display: none" <%}%>><select
-		name="selReportXSecondAxisSelectorDate">
-			<%
+				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(xSecondAxisId) %>" />
+			</jsp:include>
+		</select>
+		<span class="js_axis_selector_date" <%if (!xSecondFieldType.equals(FormField.TYPE_DATE) && !xSecondFieldType.equals(FormField.TYPE_DATETIME)) {%> style="display: none" <%}%>>
+			<select name="selReportXSecondAxisSelectorDate">
+				<%
 				for (KeyMap selector : Report.AXIS_SELECTORS_DATE) {
-			%>
-			<option value="<%=selector.getId()%>"
-				<%if (xSecondAxisSelector != null && xSecondAxisSelector.equals(selector.getId())) {%>
-				selected <%}%>>
-				<fmt:message key="<%=selector.getKey() %>" />
-			</option>
-			<%
+				%>
+					<option value="<%=selector.getId()%>" <%if (xSecondAxisSelector != null && xSecondAxisSelector.equals(selector.getId())) {%> selected <%}%>>
+						<fmt:message key="<%=selector.getKey() %>" />
+					</option>
+				<%
 				}
-			%>
-	</select>
-	</span>
-	<span class="js_axis_selector_user"
-		<%if (!xSecondFieldType.equals(FormField.TYPE_USER)) {%>
-		style="display: none" <%}%>><select
-		name="selReportXSecondAxisSelectorUser">
-			<%
+				%>
+			</select>
+		</span>
+		<span class="js_axis_selector_user" <%if (!xSecondFieldType.equals(FormField.TYPE_USER)) {%> style="display: none" <%}%>>
+			<select name="selReportXSecondAxisSelectorUser">
+				<%
 				for (KeyMap selector : Report.AXIS_SELECTORS_USER) {
-			%>
-			<option value="<%=selector.getId()%>"
-				<%if (xSecondAxisSelector != null && xSecondAxisSelector.equals(selector.getId())) {%>
-				selected <%}%>>
-				<fmt:message key="<%=selector.getKey() %>" />
-			</option>
-			<%
+				%>
+					<option value="<%=selector.getId()%>" <%if (xSecondAxisSelector != null && xSecondAxisSelector.equals(selector.getId())) {%> selected <%}%>>
+						<fmt:message key="<%=selector.getKey() %>" />
+					</option>
+				<%
 				}
-			%>
-	</select>
-	</span>
-	<span><input type="radio" name="rdoReportXSecondAxisSort"
-		value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
-		<%if (xSecondAxisSort != null && xSecondAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
-		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> <input type="radio"
-		name="rdoReportXSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
-		<%if (xSecondAxisSort != null && xSecondAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
-		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></span>
-	<span class="js_remove_chart_xsecondaxis"><a href=""><fmt:message key="report.button.remove_xsecondaxis" /></a></span>
+				%>
+			</select>
+		</span>
+		<span>
+			<input type="radio" name="rdoReportXSecondAxisSort" value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
+				<%if (xSecondAxisSort == null || xSecondAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%> checked <%}%>>
+				<fmt:message key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> 
+			<input type="radio" name="rdoReportXSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
+				<%if (xSecondAxisSort != null && xSecondAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%> checked <%}%>>
+				<fmt:message key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" />
+		</span>
+		<span class="js_remove_chart_xsecondaxis"><a class='btn_x_gr' href='' title="<fmt:message key="report.button.remove_xsecondaxis" />">x</a></span>
 	</td>
 </tr>
 
-<tr class="js_add_chart_zsecondaxis" <%if (zSecondAxisId != null) {%>
-	style="display: none" <%}%>>
-	<td colspan="5"><a href=""><fmt:message key="report.button.add_zsecondaxis" /></a>
+<tr class="js_add_chart_zsecondaxis" style="display: none">
+	<td colspan="5">
+		<a href=""><fmt:message key="report.button.add_zsecondaxis" /></a>
 	</td>
 </tr>
-<tr class="js_chart_zsecondaxis" <%if (SmartUtil.isBlankObject(zSecondAxisId)) {%>
-	style="display: none" <%}%>>
-	<th>
-			<fmt:message key="report.title.zsecondaxis" /><span class="essen_n"></span>
-
-	</th>
-	<td class="js_select_chart_axis"><select
-		name="selReportZSecondAxis">
+<tr class="js_chart_zsecondaxis" <%if (SmartUtil.isBlankObject(zSecondAxisId)) {%> style="display: none" <%}%>>
+	<th><fmt:message key="report.title.zsecondaxis" /></th>
+	<td class="js_select_chart_axis">
+		<select name="selReportZSecondAxis">
 			<%
-				if (fields != null) {
-					for (FormField field : fields) {
+			if (fields != null) {
+				for (FormField field : fields) {
 			%>
-			<option type="<%=field.getType()%>" value="<%=field.getId()%>"
-				<%if (zSecondAxisId != null && zSecondAxisId.equals(field.getId())) {%>
-				selected"<%}%>><%=field.getName()%></option>
+					<option type="<%=field.getType()%>" value="<%=field.getId()%>" 
+						<%if (zSecondAxisId != null && zSecondAxisId.equals(field.getId())) {%> selected"<%}%>><%=field.getName()%>
+					</option>
 			<%
 				}
-				}
+			}
 			%>
 			<jsp:include page="/jsp/content/work/field/default_fields.jsp">
 				<jsp:param name="workType" value="<%=CommonUtil.toNotNull(work.getType()) %>" />			
-				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(zSecondAxisId) %>" /></jsp:include>
-	</select>
-	<span class="js_axis_selector_date"
-		<%if (!zSecondFieldType.equals(FormField.TYPE_DATE) && !zSecondFieldType.equals(FormField.TYPE_DATETIME)) {%>
-		style="display: none" <%}%>><select
-		name="selReportZSecondAxisSelectorDate">
-			<%
+				<jsp:param name="fieldId" value="<%=CommonUtil.toNotNull(zSecondAxisId) %>" />
+			</jsp:include>
+		</select>
+		<span class="js_axis_selector_date" <%if (!zSecondFieldType.equals(FormField.TYPE_DATE) && !zSecondFieldType.equals(FormField.TYPE_DATETIME)) {%> style="display: none" <%}%>>
+			<select name="selReportZSecondAxisSelectorDate">
+				<%
 				for (KeyMap selector : Report.AXIS_SELECTORS_DATE) {
-			%>
-			<option value="<%=selector.getId()%>"
-				<%if (zSecondAxisSelector != null && zSecondAxisSelector.equals(selector.getId())) {%>
-				selected <%}%>>
-				<fmt:message key="<%=selector.getKey() %>" />
-			</option>
-			<%
+				%>
+					<option value="<%=selector.getId()%>" <%if (zSecondAxisSelector != null && zSecondAxisSelector.equals(selector.getId())) {%> selected <%}%>>
+						<fmt:message key="<%=selector.getKey() %>" />
+					</option>
+				<%
 				}
-			%>
-	</select>
-	</span>
-	<span class="js_axis_selector_user"
-		<%if (!zSecondFieldType.equals(FormField.TYPE_USER)) {%>
-		style="display: none" <%}%>><select
-		name="selReportZSecondAxisSelectorUser">
-			<%
+				%>
+			</select>
+		</span>
+		<span class="js_axis_selector_user" <%if (!zSecondFieldType.equals(FormField.TYPE_USER)) {%> style="display: none" <%}%>>
+			<select name="selReportZSecondAxisSelectorUser">
+				<%
 				for (KeyMap selector : Report.AXIS_SELECTORS_USER) {
-			%>
-			<option value="<%=selector.getId()%>"
-				<%if (zSecondAxisSelector != null && zSecondAxisSelector.equals(selector.getId())) {%>
-				selected <%}%>>
-				<fmt:message key="<%=selector.getKey() %>" />
-			</option>
-			<%
+				%>
+					<option value="<%=selector.getId()%>" <%if (zSecondAxisSelector != null && zSecondAxisSelector.equals(selector.getId())) {%> selected <%}%>>
+						<fmt:message key="<%=selector.getKey() %>" />
+					</option>
+				<%
 				}
-			%>
-	</select>
-	</span>
-	<span><input type="radio" name="rdoReportZSecondAxisSort"
-		value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
-		<%if (zSecondAxisSort != null && zSecondAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%>
-		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> <input type="radio"
-		name="rdoReportZSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
-		<%if (zSecondAxisSort != null && zSecondAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%>
-		checked <%}%>> <fmt:message
-			key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" /></span>
-	<span class="js_remove_chart_zsecondaxis"><a href=""><fmt:message key="report.button.remove_zsecondaxis" /></a></span>
+				%>
+			</select>
+		</span>
+		<span>
+			<input type="radio" name="rdoReportZSecondAxisSort" value="<%=Report.AXIS_SORT_DESCEND.getId()%>"
+				<%if (zSecondAxisSort == null || zSecondAxisSort.equals(Report.AXIS_SORT_DESCEND.getId())) {%> checked <%}%>>
+				<fmt:message key="<%=Report.AXIS_SORT_DESCEND.getKey() %>" /> 
+			<input type="radio" name="rdoReportZSecondAxisSort" value="<%=Report.AXIS_SORT_ASCEND.getId()%>"
+				<%if (zSecondAxisSort != null && zSecondAxisSort.equals(Report.AXIS_SORT_ASCEND.getId())) {%> checked <%}%>>
+				<fmt:message key="<%=Report.AXIS_SORT_ASCEND.getKey() %>" />
+		</span>
+		<span class="js_remove_chart_zsecondaxis"><a class='btn_x_gr' href='' title="<fmt:message key="report.button.remove_zsecondaxis" />">x</a></span>
 	</td>
 </tr>
 

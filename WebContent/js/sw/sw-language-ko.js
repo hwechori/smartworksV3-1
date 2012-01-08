@@ -29,6 +29,7 @@ smartMessage.bundle['ko'] = {
 	setMyProfileSucceed : "개인정보수정이 정상적으로 완료되었습니다.",
 	setMyProfileError : "개인정보수정하는 중 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	createIWorkError : "새로운 항목생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	createReportError : "새로운 보고서 생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	iworkListError : "업무목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	setIworkFilterError : "상세필터 저장 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!"
 };

@@ -5,7 +5,8 @@ public class FieldData {
 	private String fieldId;
 	private String fieldType;
 	private String value;
-	private String fileId;
+	private String groupId;
+	private String[] fileNames;
 
 	public FieldData() {
 		super();
@@ -28,11 +29,17 @@ public class FieldData {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	public String getFileId() {
-		return fileId;
+	public String getGroupId() {
+		return groupId;
 	}
-	public void setFileId(String fileId) {
-		this.fileId = fileId;
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+	public String[] getFileNames() {
+		return fileNames;
+	}
+	public void setFileNames(String[] fileNames) {
+		this.fileNames = fileNames;
 	}
 	public FieldData(String fieldId, String fieldType, String value){
 		super();

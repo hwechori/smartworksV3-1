@@ -48,7 +48,7 @@ function submitForms() {
 			},
 			error : function(e) {
 				smartPop.closeProgress();
-				smartPop.showInfo(smartPop.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get("createIWorkError"));
 			}
 		});
 	}
