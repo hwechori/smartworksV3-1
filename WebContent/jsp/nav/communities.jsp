@@ -40,9 +40,17 @@
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_com">
 	
-	<!-- 아래 class="btn_my_group_add"는 그룹 추가 버튼입니다 -->
-		<a href="my_groups.sw" title="<fmt:message key='nav.communities.my_groups'/>"><span class="btn_my_group"/><span class="btn_my_group_add" style="display:none"></span></span></a>
-		<a href="my_departments.sw" class="" title="<fmt:message key='nav.communities.my_departments'/>"><span class="btn_my_depart"/></span></a> 
+		<!-- 아래 class="btn_my_group_add"는 그룹 추가 버튼입니다 -->
+		<a href="my_groups.sw" title="<fmt:message key='nav.communities.my_groups'/>">
+			<span class="btn_my_group">
+				<span class="btn_my_group_add" title="<fmt:message key='nav.communities.add_group'/>" style="display:none"></span>
+			</span>
+		</a>
+		<a href="my_departments.sw" class="" title="<fmt:message key='nav.communities.my_departments'/>">
+			<span class="btn_my_depart current"></span>
+		</a> 
+		<span class="js_progress_span"></span><!--  프로그래스아이콘이 실행되는 곳 -->
+
 	</div>
 	<div id='my_communities'>
 		<jsp:include page='/jsp/nav/my_departments.jsp' />

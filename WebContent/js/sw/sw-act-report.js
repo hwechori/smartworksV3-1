@@ -72,7 +72,7 @@ $(function() {
 	$('tr.js_work_report_type td').live('change', function(e) {
 		var input = $(e.target);
 		var target = input.parents('table.js_report_title').next('table.js_form_by_report_type');
-		var url = input.attr('url');
+		var url = input.attr('href');
 		var reportType = input.attr('value');
 		$.ajax({
 			url : url,

@@ -43,10 +43,10 @@
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_work">
 	
-		<!--  프로그래스아이콘이 실행되는 곳 -->
  		<a href="my_all_works.sw" title="<fmt:message key='nav.works.my_all_works' />"><span class="btn_all_works"/></span></a>
  		<a href="my_favorite_works.sw" title="<fmt:message key='nav.works.my_favorite_works' />"><span class="btn_favorite"/></span></a>
- 		<a href="my_recent_instances.sw" class="" title="<fmt:message key='nav.works.my_recent_instances' />" ><span class="btn_recent"></span></a>
+ 		<a href="my_recent_instances.sw" title="<fmt:message key='nav.works.my_recent_instances' />" ><span class="btn_recent current"></span></a>
+		<span class="js_progress_span"></span><!--  프로그래스아이콘이 실행되는 곳 -->
  		
 	</div>
 	

@@ -60,9 +60,9 @@ $(function() {
 		else if (!isEmpty(user_name))
 			target = user_name.next('div');
 		else if(!isEmpty(chatter_name))
-			target = chatter_name.siblings('div.js_chatter_list');
+			target = chatter_name.nextAll('div.js_chatter_list');
 		else
-			target = input.parent().siblings('div');
+			target = input.parent().nextAll('div');
 		setTimeout(function() {
 			input.next('div').removeClass('btn_im_x').addClass('srch_ico');
 			target.html('').hide();

@@ -8,12 +8,13 @@ $(function() {
 	$('.js_nav_tab_work a').swnavi(
 			{
 				before : function(event){
-					smartPop.progressNavGray($('.js_nav_tab_work span'));
+					smartPop.progressNavGray($(event.target).parents('.js_nav_tab_work span.js_progress_span:first'));
+					var input = $(event.target);
+					input.addClass('current');
+					input.parent().siblings().find('span').removeClass('current');
 				},
 				target : 'my_works',
 				after : function(event) {
-					$(event.target).addClass('current').siblings().removeClass(
-							'current');
 					smartPop.closeProgress();
 				}
 			});
@@ -27,12 +28,16 @@ $(function() {
 	$('.js_nav_tab_com a').swnavi(
 			{
 				before : function(event){
-					smartPop.progressNavGray($('.js_nav_tab_com span'));
+					smartPop.progressNavGray($(event.target).parents('.js_nav_tab_com span.js_progress_span:first'));
+					var input = $(event.target).parent('a');
+					input.find('span:first').addClass('current');
+					input.find('.btn_my_group_add').show();
+					
+					input.siblings().find('span:first').removeClass('current');
+					input.siblings().find('.btn_my_group_add').hide();
 				},
 				target : 'my_communities',
 				after : function(event) {
-					$(event.target).addClass('current').siblings().removeClass(
-							'current');
 					smartPop.closeProgress();
 				}
 			});
