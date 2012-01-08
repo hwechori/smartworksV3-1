@@ -39,9 +39,10 @@
 <div class='navi_list js_collapsible js_nav_my_com'>
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_com">
-		<span></span>
-		<a href="my_departments.sw" class="current"><fmt:message key="nav.communities.my_departments" /></a> 
-		<a href="my_groups.sw"><fmt:message key="nav.communities.my_groups" /></a>
+	
+	<!-- 아래 class="btn_my_group_add"는 그룹 추가 버튼입니다 -->
+		<a href="my_groups.sw" title="<fmt:message key='nav.communities.my_groups'/>"><span class="btn_my_group"/><span class="btn_my_group_add" style="display:none"></span></span></a>
+		<a href="my_departments.sw" class="" title="<fmt:message key='nav.communities.my_departments'/>"><span class="btn_my_depart"/></span></a> 
 	</div>
 	<div id='my_communities'>
 		<jsp:include page='/jsp/nav/my_departments.jsp' />
