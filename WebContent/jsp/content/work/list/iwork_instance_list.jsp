@@ -55,27 +55,35 @@
 	%>
 	<tr class="tit_bg">
 		<%
-			FormField[] fields = work.getDisplayFields();
-			if (fields != null) {
-				for (FormField field : fields) {
-			%>
- 		<th class="r_line"><a href="" class="js_select_field_sorting" fieldId="<%=field.getId()%>"><%=field.getName()%>
- 		<%
- 			if(sortedField.getFieldId().equals(field.getId())){
- 				if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %></a>
-		</th>
+		FormField[] fields = work.getDisplayFields();
+		if (fields != null) {
+			for (FormField field : fields) {
+		%>
+	 		<th class="r_line">
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=field.getId()%>"><%=field.getName()%>
+	 		<%
+			if(sortedField.getFieldId().equals(field.getId())){
+				if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %></a>
+				<span class="js_progress_span"></span>
+			</th>
 <%-- 		<th class="r_line"><%=field.getName()%> <img class="bu_arr_b">
 		</th>
- --%>			<%
-				}
-			}
-			%>
-		<th><a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIER %>">
-				<fmt:message key='common.title.last_modifier' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIER)){
-					if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %></a>/
-			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
-				<fmt:message key='common.title.last_modified_date' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIED_DATE)){
-					if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %></a></th>		
+ --%>
+	<%
+		}
+	}
+	%>
+			<th>
+				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIER %>">
+					<fmt:message key='common.title.last_modifier' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIER)){
+						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
+				</a>/
+				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
+					<fmt:message key='common.title.last_modified_date' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIED_DATE)){
+						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
+				</a>
+				<span class="js_progress_span"></span>
+			</th>		
 	</tr>
 
 
@@ -158,10 +166,12 @@
 			}
 			}
 		%>
+		<span class="js_progress_span"></span>
 	</div>
 	
 	<div class="num_box">
-		<select name="selPageSize" title="<fmt:message key='common.title.count_in_page'/> " onchange="selectListParam();return false;">
+		<span class="js_progress_span"></span>
+		<select class="js_select_page_size" name="selPageSize" title="<fmt:message key='common.title.count_in_page'/>">
 			<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
 			<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
 			<option <%if (pageSize == 30) {%> selected <%}%>>30</option>

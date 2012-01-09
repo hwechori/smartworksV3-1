@@ -1,8 +1,8 @@
-
-<!-- Name 			: community.jsp									 				 -->
-<!-- Description	: 커뮤너티를 찾는 검색박스에서 key 값을 받아 서버에서 결과를가져와 보여주는 화면  -->
-<!-- Author			: Y.S. JUNG														 -->
-<!-- Created Date	: 2011.9.														 -->
+	
+<!-- Name 			: community.jsp									 					 -->
+<!-- Description	: 커뮤너티를 찾는 검색박스에서 key 값을 받아 서버에서 결과를가져와 보여주는 화면   -->
+<!-- Author			: Maninsoft, Inc.													 -->
+<!-- Created Date	: 2011.9.															 -->
 
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>
 <%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
@@ -37,7 +37,7 @@
 				picName = user.getMinPicture();
 				comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
 				targetContent = "user_space.sw";
-				comName = user.getName();
+				comName = user.getLongName();
 				comId = user.getId();
 			} else if (workSpace.getClass() == DepartmentInfo.class) {
 				DepartmentInfo depart = (DepartmentInfo) workSpace;

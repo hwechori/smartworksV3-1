@@ -263,3 +263,10 @@ display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
 .bu_stat {background: url("../images/body_icon.png") no-repeat scroll 0 -251px transparent; height:21px; display:inline-block; padding: 0 0 0 24px;}
 .bu_n_stat {background: url("../images/body_icon.png") no-repeat scroll -432px -250px transparent; height:21px; display:inline-block; padding: 0 0 0 25px;}
 .bu_file {background: url("../images/body_icon.png") no-repeat scroll -163px -364px transparent; height:20px; width:16px; display:inline-block;}
+
+
+/*프로파일 화면 구성*/
+.section_portlet .photo_section,.section_portlet .table_nomal600{float:left}
+.section_portlet .photo_section{width:200px}
+.t_text_s11{margin:30px 0 0 28px;text-align:center;width:110px}
+.section_portlet .qq-upload-button{top:115px;left:30px}

@@ -17,8 +17,8 @@ function getExt(fileName) {
 function fileUploader(groupId, target) {
 	
 	var template = '<div class="qq-uploader js_form_file_field">' + 
-    '<div class="qq-upload-drop-area"><span>' + language.message("uploadDropArea") + '</span></div>' +
-    '<div class="qq-upload-button">' + language.message("uploadFile") + '</div>' +
+    '<div class="qq-upload-drop-area"><span>' + smartMessage.get("uploadDropArea") + '</span></div>' +
+    '<div class="qq-upload-button">' + smartMessage.get("uploadFile") + '</div>' +
     '<ul class="qq-upload-list"></ul>' + 
     '</div>';
 
@@ -27,8 +27,8 @@ function fileUploader(groupId, target) {
 	'<a href="#" class="qq-upload-file"></a>' +
 	'<span class="qq-upload-spinner"></span>' +
 	'<span class="qq-upload-size"></span>' +
-	'<a class="qq-upload-cancel" href="#">' + language.message("cancelUpload") + '</a>' +
-	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
+	'<a class="qq-upload-cancel" href="#">' + smartMessage.get("cancelUpload") + '</a>' +
+	'<span class="qq-upload-failed-text">' + smartMessage.get("uploadFailed") + '</span>' +
 	'<a href="#" class="qq-delete-text" style="display:none">X</a>' +
 	'</li>';
 
@@ -40,11 +40,11 @@ function fileUploader(groupId, target) {
         },
         sizeLimit: 67108864,
         messages: {
-            typeError: language.message('uploadTypeError'),
-            sizeError: language.message('uploadSizeError'),
-            minSizeError: language.message('uploadMinSizeError'),
-            emptyError: language.message('uploadEmptyError'),
-            onLeave: language.message('uploadOnLeave')            
+            typeError: smartMessage.get('uploadTypeError'),
+            sizeError: smartMessage.get('uploadSizeError'),
+            minSizeError: smartMessage.get('uploadMinSizeError'),
+            emptyError: smartMessage.get('uploadEmptyError'),
+            onLeave: smartMessage.get('uploadOnLeave')            
         },
         action: 'upload_temp_file.sw',
         onSubmit: function(id, fileName) {
@@ -96,8 +96,8 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile, file
 	'<a href="#" class="qq-upload-file"></a>' +
 	'<span class="qq-upload-spinner"></span>' +
 	'<span class="qq-upload-size"></span>' +
-	'<a class="qq-upload-cancel" href="#">' + language.message("cancelUpload") + '</a>' +
-	'<span class="qq-upload-failed-text">' + language.message("uploadFailed") + '</span>' +
+	'<a class="qq-upload-cancel" href="#">' + smartMessage.get("cancelUpload") + '</a>' +
+	'<span class="qq-upload-failed-text">' + smartMessage.get("uploadFailed") + '</span>' +
 	'<a href="#" class="qq-delete-text" style="display:none">X</a>' +
 	'</li>';
 	if(!groupId) {
@@ -147,7 +147,7 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile, file
 					file.find('.qq-delete-text').show();
 				}
 			},
-			error : function(e) {
+			error : function(xhr, ajaxOptions, thrownError) {
 				alert(e);
 			}
 		});
@@ -192,8 +192,8 @@ function viewFiles(groupId, target){
 					file.find('.qq-upload-size').text(getBytesWithUnit(data[i].fileSize));
 				}
 			},
-			error : function(e) {
-				alert(e);
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert(xhr);
 			}
 		});
 	}

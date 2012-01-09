@@ -19,6 +19,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String workId = request.getParameter("workId");
@@ -44,12 +45,12 @@
 
 
 <!-- 상세 필터 -->
-<div class="filter_group js_search_filter">
+<div class="filter_group js_search_filter"  filterId="<%=filterId%>">
 	<table>
 		<tr>
 			<td>
 				<form name="frmSearchFilter" style="display: none"
-					class="filter_area js_filter_condition js_new_condition">
+					class="filter_area js_filter_condition js_new_condition js_validation_required">
 					<select name="selFilterLeftOperand"
 						class="selb_size_fir js_select_filter_operand">
 						<%
@@ -169,10 +170,12 @@
 	 								<%
 					 				} else if (fieldType.equals(FormField.TYPE_USER)) {
 					 					String operandValue = URLEncoder.encode(((User) rightOperand).getLongName(), "UTF-8");
+					 					String operandValueSecond = ((User) rightOperand).getId();
 	 								%> 
 	 									<jsp:include page="/jsp/content/work/field/user_field.jsp">
 	 										<jsp:param name="operator" value="<%=operator%>" />
 	 										<jsp:param name="operandValue" value="<%=operandValue %>" />
+	 										<jsp:param name="operandValueSecond" value="<%=operandValueSecond %>" />
 	 										<jsp:param name="operandId" value="<%=((User)rightOperand).getId()%>" />
 	 									</jsp:include> 
 	 								<%
@@ -267,36 +270,47 @@
 		</tr>
 	</table>
 	<div class="filter_btn_space">
-		<div class="float_right">
-			<span class="btn_wh">
-				<a href="" class="js_search_filter_saveas"><span class="Btn01Start"></span>
-					<span class="Btn01Center"><fmt:message key="common.button.save_as"/></span><span class="Btn01End"></span> 
-				</a> 
-			</span> 
- 			<%
- 			if(!(!SmartUtil.isBlankObject(filter) && filter.isSystemFilter())){
- 	 			System.out.println(SmartUtil.isBlankObject(filter));
- 				if(!SmartUtil.isBlankObject(filter))
- 	 				System.out.println(filter.isSystemFilter());
- 			%>
+		<form name="frmSearchFilterActions" class="js_validation_required">
+			<div class="float_right">
+				<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
+				<span class="fload_right form_space" style="text-align:right; color: red" id="error_message_span"></span>
+				<span class="js_progress_span"></span>
+				<span>
+					<input class="fieldline" style="width:160px;" type="text" name="txtNewFilterId"/>
+				</span>
+				<span class="btn_wh">
+					<a href="" class="js_search_filter_saveas"><span class="Btn01Start"></span>
+						<span class="Btn01Center"><fmt:message key="common.button.save_as"/></span><span class="Btn01End"></span> 
+					</a> 
+				</span> 
+	 			<%
+	 			if(!(!SmartUtil.isBlankObject(filter) && filter.isSystemFilter())){
+	 				if(!SmartUtil.isBlankObject(filter))
+	 			%>
+					<span class="btn_wh"> 
+						<a href="" class="js_search_filter_save"><span class="Btn01Start"></span>
+							<span class="Btn01Center"><fmt:message key="common.button.save"/></span><span class="Btn01End"></span> 
+						</a>
+					</span> 
+					<span class="btn_wh"> 
+						<a href="" class="js_search_filter_delete"><span class="Btn01Start"></span>
+							<span class="Btn01Center"><fmt:message key="common.button.delete"/></span><span class="Btn01End"></span>
+						</a>
+					</span> 
+				<%
+				}
+				%>
 				<span class="btn_wh"> 
-					<a href="" class="js_search_filter_save"><span class="Btn01Start"></span>
-						<span class="Btn01Center"><fmt:message key="common.button.save"/></span><span class="Btn01End"></span> 
+					<a href="" class="js_search_filter_execute"><span class="Btn01Start"></span>
+						<span class="Btn01Center"><fmt:message key="common.button.execute"/></span><span class="Btn01End"></span>
 					</a>
 				</span> 
-			<%
-			}
-			%>
-			<span class="btn_wh"> 
-				<a href="" class="js_search_filter_execute"><span class="Btn01Start"></span>
-					<span class="Btn01Center"><fmt:message key="common.button.execute"/></span><span class="Btn01End"></span>
-				</a>
-			</span> 
-			<span class="btn_wh">
-				<a href="" class="js_search_filter_close"><span class="Btn01Start"></span>
-					<span class="Btn01Center"><fmt:message key="common.button.close"/></span> <span class="Btn01End"></span>
-				</a>
-			</span>
-		</div>
+				<span class="btn_wh">
+					<a href="" class="js_search_filter_close"><span class="Btn01Start"></span>
+						<span class="Btn01Center"><fmt:message key="common.button.close"/></span> <span class="Btn01End"></span>
+					</a>
+				</span>
+			</div>
+		</form>
 	</div>
 </div>

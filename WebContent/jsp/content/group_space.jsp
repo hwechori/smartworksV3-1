@@ -2,7 +2,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks"); 
 	String cid = request.getParameter("cid");
 	if (SmartUtil.isBlankObject(cid))
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);

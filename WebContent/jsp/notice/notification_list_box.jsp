@@ -1,7 +1,7 @@
 
 <!-- Name 			: notification_list_box.jsp										 -->
 <!-- Description	: 화면구성중에 Header 에서 개인에게 알림이 필요한 목록들을 보여주는 박스 	 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
@@ -40,7 +40,7 @@
 				if (nMessage.getType() == NoticeMessage.TYPE_SYSTEM_NOTICE) {
 %>
 					<li>
-						<div class="info_img"><img src="images/pop_ico_info.jpg" border="0"></div>
+						<div class="info_img"><img src="images/pop_ico_info.jpg"  class="profile_size_s"></div>
 						<div class="info_list"><%=nMessage.getMessage()%><div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 							<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
 								<div class="btn_x js_remove_notice" >X</div></a></div>
@@ -55,7 +55,7 @@
 					userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 				%>
 					<li>
-						<div class="info_img"><img src="images/upic_event.jpg" border="0"></div>
+						<div class="info_img"><img src="images/upic_event.jpg"  class="profile_size_s"></div>
 						<div class="info_list">
 							<b><%=event.getStart().toLocalString()%> </b><a href="event_space.sw?cid=<%=instContext%>&wid=<%=event.getWorkSpace().getId()%>"><%=event.getSubject()%></a>
 							<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
@@ -74,7 +74,7 @@
 				%>
 					<li>
 						<div class="info_img">
-							<a href="user_space.sw?cid=<%=userContext%>"title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>" border="0"> </a>
+							<a href="user_space.sw?cid=<%=userContext%>"title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 						</div>
 						<div class="info_list">
 							<a href="pwork_task.sw?cid=<%=instContext%>&wid=<%=task.getWorkSpace().getId()%>"><%=work.getSubject()%>▶<%=task.getName()%></a>
@@ -93,7 +93,7 @@
 				%>
 					<li>
 						<div class="info_img">
-							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>" border="0"> </a>
+							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 						</div>
 						<div class="info_list">
 							<a href="group_space.sw?cid=<%=instContext%>"><%=nMessage.getGroup().getName()%></a>
@@ -115,7 +115,7 @@
 				%>
 					<li>
 						<div class="info_img">
-							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>" border="0"> </a>
+							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 						</div>
 						<div class="info_list">
 							<a href="<%=targetContent%>?cid=<%=instContext%>&wid=<%=instance.getWorkSpace().getId()%>"><%=instance.getSubject()%></a>
