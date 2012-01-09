@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.model.community.Department"%>
+<%@page import="net.smartworks.model.community.User"%>
+<%@page import="net.smartworks.model.community.WorkSpace"%>
+<%@page import="net.smartworks.service.ISmartWorks"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="net.smartworks.server.engine.factory.SwManagerFactory"%>
@@ -50,7 +54,7 @@
 	
 	mgr.deploy("hsshin@maninsoft.co.kr", xpdl, null); */
 	
-	ISwfManager swfMgr = (ISwfManager)SmartUtil.getBean("swfManager", request);
+/* 	ISwfManager swfMgr = (ISwfManager)SmartUtil.getBean("swfManager", request);
 
 	SwfForm swfForm = swfMgr.getForm("hsshin@maninsoft.co.kr", "frm_3dbf6b88c28346a181172db0828a4bd4");
 
@@ -89,7 +93,7 @@
 
 	//System.out.println("PackageName = " + work.getName() + ", PackageId = " + work.getId() + ", PackageType = " + work.getType() + ", PackageDescription = " + work.getDesc());
 
- 	InformationWork infoWork = (InformationWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
+ 	/* InformationWork infoWork = (InformationWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
 
  	System.out.println("getAccessPolicy().getLevel()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getAccessPolicy().getLevel());
 	System.out.println("getWritePolicy().getLevel()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+infoWork.getWritePolicy().getLevel());
@@ -102,13 +106,27 @@
 			e.printStackTrace();
 		}
 	}
-
-	SmartWork smartWork = (SmartWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
-	System.out.println(smartWork.getFullpathName());
+ */
+/* 	SmartWork smartWork = (SmartWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
+	System.out.println(smartWork.getFullpathName()); */
+	WorkSpace workSpace = smartworks.getWorkSpaceById("PROTEC1_TEAM");
+	if(workSpace.getClass().equals(User.class)) {
+		User user = (User)workSpace;
+		System.out.println(user.getName());
+	} else if(workSpace.getClass().equals(Department.class)) {
+		Department department = (Department)workSpace;
+		System.out.println(department.getName());
+	} else {
+		System.out.println("null");
 	}
+
+	User user = smartworks.getUserById("hsshin@maninsoft.co.kr");
+	System.out.println(user.getEmailAddressShown() + user.getName());
+	Department department = smartworks.getDepartmentById("PROTEC1_TEAM");
+	System.out.println(department.getName() + department.getParent().getName());
+
 %>
 <textarea style="width:800px;height:400px;">
-<%=swfForm %>
 </textarea>
 </body>
 </html>

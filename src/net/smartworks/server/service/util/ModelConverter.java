@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.smartworks.model.community.Department;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.community.info.DepartmentInfo;
@@ -62,6 +63,7 @@ import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
+import net.smartworks.server.engine.organization.model.SwoDepartmentExtend;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
@@ -77,6 +79,7 @@ import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartUtil;
 
 public class ModelConverter {
 	
@@ -472,9 +475,7 @@ public class ModelConverter {
 			return null;
 		return lastSwTask[0];
 	}
-	
-	
-	
+
 	public static InstanceInfo getInstanceInfoByPrcInst(InstanceInfo instInfo, PrcProcessInst prcInst) throws Exception {
 		if (prcInst == null)
 			return null;
@@ -613,6 +614,7 @@ public class ModelConverter {
 		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
 		return getUserInfoBySwoUserExtend(null, userExtend);
 	}
+
 	public static UserInfo getUserInfoBySwoUserExtend(UserInfo userInfo, SwoUserExtend userExtend) throws Exception {
 		if (userExtend == null)
 			return null;
@@ -621,12 +623,13 @@ public class ModelConverter {
 		
 		userInfo.setId(userExtend.getId());
 		userInfo.setName(userExtend.getName());
-		userInfo.setDepartment(new DepartmentInfo(userExtend.getDepartmentId(), userExtend.getDepartmentName()));
+		userInfo.setDepartment(new DepartmentInfo(userExtend.getDepartmentId(), userExtend.getDepartmentName(), userExtend.getDepartmentDesc()));
 		userInfo.setSmallPictureName(userExtend.getSmallPictureName());
-		//userInfo.setPicturePath(picturePath);
 		userInfo.setPosition(userExtend.getPosition());
+		userInfo.setRole(userExtend.getRoleId().equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
 		return userInfo;
 	}
+
 	public static Map<String, WorkCategoryInfo> getPkgCtgInfoMapByPackage(PkgPackage pkg) throws Exception {
 		
 		String categoryId = pkg.getCategoryId();
@@ -860,25 +863,114 @@ public class ModelConverter {
 			return null;
 		if (user == null)
 			user = new User();
-		
+
 		user.setId(userExtend.getId());
 		user.setName(userExtend.getName());
+		user.setCompanyId(userExtend.getCompanyId());
+		user.setCompany(userExtend.getCompanyName());
+		user.setDepartmentId(userExtend.getDepartmentId());
 		user.setDepartment(userExtend.getDepartmentName());
-		user.setBigPictureName(userExtend.getPictureName());
-		user.setSmallPictureName(userExtend.getPictureName());
+		user.setBigPictureName(userExtend.getBigPictureName());
+		user.setSmallPictureName(userExtend.getSmallPictureName());
 		user.setPosition(userExtend.getPosition());
-		String locale = userExtend.getLocale();
-		if (locale == null)
-			locale = "ko";
-		if (locale.equalsIgnoreCase("kor"))
-			locale = "ko";
-		if (locale.equalsIgnoreCase("eng"))
-			locale = "en";
-		user.setLocale(locale);
+		user.setLocale(userExtend.getLocale());
 		user.setCompany(userExtend.getCompanyName());
 		user.setTimeZone(userExtend.getTimeZone());
-		user.setUserLevel(-1);//userExtend.getUserLevel();
+		user.setUserLevel(userExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
+		user.setRole(userExtend.getRoleId().equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
+		user.setEmployeeId(userExtend.getEmployeeId());
+		user.setPhoneNo(userExtend.getPhoneNo());
+		user.setCellPhoneNo(userExtend.getCellPhoneNo());
+
 		return user;
+	}
+
+	public static Department getDepartmentByDepartmentId(String departmentId) throws Exception {
+		if (CommonUtil.isEmpty(departmentId))
+			return null;
+		User cUser = SmartUtil.getCurrentUser();
+		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
+		return getDepartmentBySwoDepartment(null, departmentExtend);
+	}
+
+	public static Department getDepartmentBySwoDepartment(Department department, SwoDepartmentExtend departmentExtend) throws Exception {
+		if (departmentExtend == null)
+			return null;
+		if (department == null)
+			department = new Department();
+
+		User cUser = SmartUtil.getCurrentUser();
+
+		department.setId(departmentExtend.getId());
+		department.setName(departmentExtend.getName());
+		department.setDesc(departmentExtend.getDescription());
+
+		DepartmentInfo parent = getDepartmentInfoByDepartmentId(departmentExtend.getParentId());
+		if(parent != null)
+			department.setParent(parent);
+
+		User head = getUserByUserId(departmentExtend.getHeadId());
+		if(head != null)
+			department.setHead(head);
+
+		List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+		SwoUserExtend[] userExtends = getSwoManager().getUsersOfDepartment(cUser.getId(), department.getId());
+		if(userExtends != null) {
+			for(SwoUserExtend swoUserExtend : userExtends) {
+				UserInfo member = new UserInfo();
+				member.setId(swoUserExtend.getId());
+				member.setName(swoUserExtend.getName());
+				member.setPosition(swoUserExtend.getPosition());
+				member.setRole(swoUserExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
+				member.setSmallPictureName(swoUserExtend.getSmallPictureName());
+				member.setDepartment(new DepartmentInfo(swoUserExtend.getDepartmentId(), swoUserExtend.getDepartmentName(), swoUserExtend.getDepartmentDesc()));
+				userInfoList.add(member);
+			}
+	
+			UserInfo[] members = new UserInfo[userInfoList.size()];
+			userInfoList.toArray(members);
+			department.setMembers(members);
+		}
+
+		List<DepartmentInfo> departmentInfoList = new ArrayList<DepartmentInfo>();
+		SwoDepartmentExtend[] departmentExtends = getSwoManager().getChildrenOfDepartment(cUser.getId(), department.getId());
+		if(departmentExtends != null) {
+			for(SwoDepartmentExtend swoDepartmentExtend : departmentExtends) {
+				DepartmentInfo child = new DepartmentInfo();
+				child.setId(swoDepartmentExtend.getId());
+				child.setName(swoDepartmentExtend.getName());
+				child.setDesc(swoDepartmentExtend.getDescription());
+				departmentInfoList.add(child);
+			}
+	
+			DepartmentInfo[] children = new DepartmentInfo[departmentInfoList.size()];
+			departmentInfoList.toArray(children);
+			department.setChildren(children);
+		}
+
+		return department;
+	}
+
+	public static DepartmentInfo getDepartmentInfoByDepartmentId(String departmentId) throws Exception {
+		if (CommonUtil.isEmpty(departmentId))
+			return null;
+		User cUser = SmartUtil.getCurrentUser();
+		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
+		return getDepartmentInfoBySwoUserExtend(null, departmentExtend);
+	}
+
+	public static DepartmentInfo getDepartmentInfoBySwoUserExtend(DepartmentInfo departmentInfo, SwoDepartmentExtend departmentExtend) throws Exception {
+		if (departmentExtend == null)
+			return null;
+		if (departmentInfo == null) 
+			departmentInfo = new DepartmentInfo();
+
+		departmentInfo.setId(departmentExtend.getId());
+		departmentInfo.setName(departmentExtend.getName());
+		departmentInfo.setDesc(departmentExtend.getDescription());
+		departmentInfo.setSmallPictureName(departmentExtend.getSmallPictureName());
+
+		return departmentInfo;
 	}
 
 	public static Work getWorkByCtgCategory(Work work, CtgCategory ctg) throws Exception {
