@@ -1,7 +1,7 @@
 
 <!-- Name 			: my_favorite_works.jsp				 					 -->
 <!-- Description	: 현재사용자의 자주가는 업무들을 보여주는 화면  					 -->
-<!-- Author			: Y.S. JUNG												 -->
+<!-- Author			: Maninsoft, Inc.										 -->
 <!-- Created Date	: 2011.9.												 -->
 
 <%@page import="net.smartworks.util.SmartUtil"%>

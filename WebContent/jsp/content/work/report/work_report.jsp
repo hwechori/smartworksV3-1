@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.model.security.AccessPolicy"%>
+<%@page import="net.smartworks.model.filter.info.SearchFilterInfo"%>
+<%@page import="net.smartworks.model.filter.SearchFilter"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.model.KeyMap"%>
 <%@page import="net.smartworks.model.work.InformationWork"%>
@@ -15,30 +18,39 @@
 
 <script type="text/javascript">
 	function submitForms(e) {
-		if ($('form.js_validation_required').validate().form()) {
-			var scheduleWork = document.getElementsByName('frmScheduleWork');
-			if (scheduleWork[0].chkScheduleWork.value === 'on') {
-				scheduleWork[0].hdnSchedulePerformer.value = $(
-						scheduleWork[0].txtSchedulePerformer).attr('uid');
+		var forms = $('div.js_work_report_page form');
+		if (SmartWorks.GridLayout.validate(forms)) {
+			var paramsJson = {};
+			paramsJson['workId'] = $('div.js_work_report_page').attr('workId');
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 			}
-			var params = $('form').serialize();
-			var url = "create_new_iwork.sw";
+			console.log(JSON.stringify(paramsJson));
+			var url = "create_new_work_report.sw";
+			smartPop.progressCont($('#sw_progress_icon_span'));
 			$.ajax({
 				url : url,
+				contentType : 'application/json',
 				type : 'POST',
-				data : params,
+				data : JSON.stringify(paramsJson),
 				success : function(data, status, jqXHR) {
-					document.location.href = data.href;
-				},
+					console.log('before=', $('.js_work_report_list_box:first'));
+					$('.js_work_report_list_box:first').html(data);
+					console.log('after=', $('.js_work_report_list_box:first'));
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get("createReportSucceed"));
+					$('a.js_close_work_report').click();
+ 				},
 				error : function(e) {
-					alert(e);
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("createReportError"));
+					$('a.js_close_work_report').click();
 				}
 			});
-		} else {
-			return;
+		
 		}
-		return;
-	}
+	};
 </script>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
@@ -62,98 +74,121 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<div class="form_wrap up up_padding">
+<div class="form_wrap up up_padding js_work_report_page" workId="<%=workId %>">
 	<!-- 컨텐츠 -->
 	<div class="form_title">
-		<div class="ico_stworks title_noico">
-			<fmt:message key="report.title.new_report" />
-		</div>
+		<div class="ico_stworks title_noico"><fmt:message key="report.title.new_report" /></div>
 		<div class="solid_line"></div>
 	</div>
 
-	<div class="form_contents">
+	<form name="frmWorkReport" class="form_contents js_validation_required">
 		<table class="table_nomal js_report_title">
 			<tr>
-				<td width="17%"><fmt:message key="report.title.report_name" /><span
-					class="essen_n"></span></td>
-				<td width="83%" colspan="4"><input id="" type="text"
-					class="fieldline" name="txtWorkReportName"
-					value="<%if (report != null) {%><fmt:message key='<%=report.getName() %>'/><%}%>">
+				<th><fmt:message key="report.title.report_name" /><span class="essen_n"></span></th>
+				<td colspan="4">
+					<input name="txtWorkReportName" type="text" class="fieldline required"
+						value="<%if (report != null) {%><fmt:message key='<%=report.getName() %>'/><%}%>">
 				</td>
 			</tr>
 
 			<tr class="js_work_report_type">
-				<td><fmt:message key="report.title.report_type" /><span
-					class="essen_n"></span></td>
-				<td colspan="4" class=""><input name="rdoWorkReportType"
-					class="required" type="radio" value="<%=Report.TYPE_CHART%>"
-					url="work_report_chart.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"
-					<%if (reportType == Report.TYPE_CHART) {%> checked <%}%>> <fmt:message
-						key="report.type.chart" /><input name="rdoWorkReportType"
-					type="radio" value="<%=Report.TYPE_MATRIX%>"
-					url="work_report_chart.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"
-					<%if (reportType == Report.TYPE_MATRIX) {%> checked <%}%>>
-					<fmt:message key="report.type.matrix" /><input
-					name="rdoWorkReportType" type="radio"
-					value="<%=Report.TYPE_TABLE%>"
-					url="work_report_table.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"
-					<%if (reportType == Report.TYPE_TABLE) {%> checked <%}%>> <fmt:message
-						key="report.type.table" />
+				<th><fmt:message key="report.title.report_type" /></th>
+				<td colspan="4" class="">
+					<input name="rdoWorkReportType" type="radio" value="<%=Report.TYPE_CHART%>"
+						href="work_report_chart.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"
+						<%if (reportType == Report.TYPE_CHART) {%> checked <%}%>><fmt:message key="report.type.chart" />
+					<input name="rdoWorkReportType" type="radio" value="<%=Report.TYPE_MATRIX%>"
+						href="work_report_chart.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"
+						<%if (reportType == Report.TYPE_MATRIX) {%> checked <%}%>><fmt:message key="report.type.matrix" />
+					<input name="rdoWorkReportType" type="radio" value="<%=Report.TYPE_TABLE%>"
+						href="work_report_table.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"
+						<%if (reportType == Report.TYPE_TABLE) {%> checked <%}%>> <fmt:message key="report.type.table" />
 				</td>
 			</tr>
 		</table>
 		<table class="table_nomal js_form_by_report_type">
-				<%
-					if (reportType == Report.TYPE_CHART || reportType == Report.TYPE_MATRIX) {
-				%>
+			<%
+			if (reportType == Report.TYPE_CHART || reportType == Report.TYPE_MATRIX) {
+			%>
 				<jsp:include page="/jsp/content/work/report/work_report_chart.jsp">
 					<jsp:param name="workId" value="<%=workId %>" />
 					<jsp:param name="reportId" value="<%=CommonUtil.toNotNull(reportId) %>" />
 					<jsp:param name="reportType" value="<%=reportType %>" />
 				</jsp:include>
-				<%
-					} else if (reportType == Report.TYPE_TABLE) {
-				%>
+			<%
+			} else if (reportType == Report.TYPE_TABLE) {
+			%>
 				<jsp:include page="/jsp/content/work/report/work_report_table.jsp">
 					<jsp:param name="workId" value="<%=workId %>" />
 					<jsp:param name="reportId" value="<%=CommonUtil.toNotNull(reportId) %>" />
 					<jsp:param name="reportType" value="<%=reportType %>" />
 				</jsp:include>
-				<%
-					}
-				%>
+			<%
+			}
+			%>
 		</table>
-		<table class="table_nomal">
-			<tr class="js_toggle_chart_search_filter"
-				url="search_filter.sw?workId=<%=workId%>&filterId=<%=CommonUtil.toNotNull(filterId)%>">
-				<td <%if(!SmartUtil.isBlankObject(filterId)){ %>style="display:none"<%} %>><a href=""><fmt:message key="report.button.add_search_filter" /></a></td>
-				<td actionType="remove" <%if(SmartUtil.isBlankObject(filterId)){ %>style="display:none"<%} %>><a href=""><fmt:message key="report.button.remove_search_filter" /></a></td>
-			</tr>
-			<tr class="js_chart_search_filter" style="display: none">
+
+ 		<table class="table_nomal">
+			<tr class="js_report_search_filter">
+				<th><fmt:message key="report.title.search_filter" /></th>
+				<td colspan="4" class="">
+					<select name="selReportFilterName">
+						<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" <%if(SmartUtil.isBlankObject(filterId) || filterId.equals(SearchFilter.FILTER_ALL_INSTANCES)) {%> selected <%} %> ><fmt:message key='filter.name.all_instances' /></option>
+						<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>" <%if(filterId.equals(SearchFilter.FILTER_MY_INSTANCES)) {%> selected <%} %> ><fmt:message key='filter.name.my_instances' /></option>
+						<option value="<%=SearchFilter.FILTER_RECENT_INSTANCES%>" <%if(filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES)) {%> selected <%} %> ><fmt:message key='filter.name.recent_instances' /></option>
+						<option value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES%>" <%if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) {%> selected <%} %> ><fmt:message key='filter.name.my_recent_instances' /></option>
+						<%
+						SearchFilterInfo[] filters = work.getSearchFilters();
+						if (filters != null) {
+							for (SearchFilterInfo filter : filters) {
+								if(SmartUtil.isBlankObject(filter.getId())) continue;
+						%>
+							<option value="<%=filter.getId()%>" <%if(filterId.equals(filter.getId())) {%> selected <%} %> ><%=filter.getName()%></option>
+						<%
+							}
+						}
+						%>
+					</select>
+				</td>
 			</tr>
 		</table>
-	</div>
+  	</form>
 
 	<!-- 등록 취소 버튼 -->
 	<div class="glo_btn_space">
-
 		<div class="float_right padding_r10">
-			<span class="btn_gray"> <a href=""> <span
-					class="Btn01Start"></span> <span class="Btn01Center">저장</span> <span
-					class="Btn01End"></span> </a> </span> <span class="btn_gray space_l5">
-				<a href=""> <span class="Btn01Start"></span> <span
-					class="Btn01Center">취소</span> <span class="Btn01End"></span> </a> </span>
+			<span class="btn_gray"> 
+				<a href="" onclick="submitForms();return false;"> 
+					<span class="Btn01Start"></span> 
+					<span class="Btn01Center"><fmt:message key="common.button.save"/></span> 
+					<span class="Btn01End"></span>
+				</a> 
+			</span> 
+			<span class="btn_gray space_l5">
+				<a href="" class="js_close_work_report"> 
+					<span class="Btn01Start"></span> 
+					<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> 
+					<span class="Btn01End"></span> 
+				</a> 
+			</span>
 		</div>
 
-		<div class="float_right padding_r10">
-
-			<form class="float_right form_space">
-				<img class="bu_read"> <select>
-					<option>전체공개</option>
-					<option>비공개</option>
+		<form name="frmAccessPolicy" class="float_right padding_r10 js_validation_required">
+			<div class="float_right form_space">
+				<img class="bu_read"> 
+				<select name="selAccessPolicy">
+					<option value="<%=AccessPolicy.LEVEL_PUBLIC%>"><fmt:message key="common.security.access.public"/></option>
+					<option value="<%=AccessPolicy.LEVEL_PRIVATE%>"><fmt:message key="common.security.access.private"/></option>
 				</select>
-			</form>
-		</div>
+			</div>
+		</form>
+
+		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
+		<div id="sw_progress_icon_span" class="float_right form_space" ></div>
+		
+		<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
+		<span class="fload_right form_space" style="text-align:right; color: red" id="error_message_span"></span>
+
 	</div>
 	<!-- 등록 취소 버튼//-->
 </div>

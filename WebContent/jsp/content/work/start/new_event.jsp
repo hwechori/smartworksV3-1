@@ -11,9 +11,10 @@
 
 <script type="text/javascript">
 function submitForms(e) {
-	if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
+	var newEvent = $('.js_new_event_page');
+	if(!SmartWorks.GridLayout.validate(newEvent.find('form.js_validation_required'))) return
 
-	var forms = $('form');
+	var forms = newEvent.find('form');
 	var paramsJson = {};
 	for(var i=0; i<forms.length; i++){
 		var form = $(forms[i]);
@@ -55,7 +56,7 @@ $('input.js_current_timepicker').timepicker({
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="up_wrap">
+<div class="up_wrap js_new_event_page">
 	<div class="up_point posit_event"></div>
 	<div class="form_wrap up up_padding">
 		<!-- 폼- 확장 -->

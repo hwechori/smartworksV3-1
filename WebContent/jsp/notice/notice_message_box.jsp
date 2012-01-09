@@ -1,7 +1,7 @@
 
 <!-- Name 			: notice_message_box.jsp										 -->
 <!-- Description	: 화면구성중에 Header 에서 알림아이콘을 클릭하면 알림 내용을 보여주는 박스  	 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.util.SmartUtil"%>
@@ -16,7 +16,7 @@
 <%@ page import="net.smartworks.util.LocalDate"%>
 <%
 	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재 사용자 정보도 가져온다.
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks"); 
 	User cUser = SmartUtil.getCurrentUser();
 
 	// 호출될때 전달되는 noticeType, lastNoticeId를 가져온다.

@@ -1,7 +1,7 @@
 
 <!-- Name 			: worklist_by_category.jsp										 	 		-->
 <!-- Description	: 좌측의 Navigation Bar의 나의 공간에서 전체업무의 하위 카테고리의 업무들을 보여주는 공간 -->
-<!-- Author			: Y.S. JUNG													 				-->
+<!-- Author			: Maninsoft, Inc.															-->
 <!-- Created Date	: 2011.9.													 				-->
 
 <%@page import="net.smartworks.util.SmartUtil"%>

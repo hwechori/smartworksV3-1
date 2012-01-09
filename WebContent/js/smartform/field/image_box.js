@@ -31,10 +31,10 @@ SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 	var spanRequired = "";
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
-		spanRequired = '<span class="essen_n"></span>';
-		required = ' class="form_value form_value_max_width sw_required" ';
+		spanRequired = '<div class="label_required"></div>';
+		required = ' class="form_value sw_required" ';
 	}else{
-		required = ' class="form_value form_value_max_width" ';
+		required = ' class="form_value" ';
 	}
 	
 	var picSize = 'style="min-height:20px;width:' + ((picWidth) ? picWidth : 300) + 'px;' + ((picHeight) ? ('height="' + picHeight + 'px;"') : '"' );
@@ -63,6 +63,8 @@ SmartWorks.FormRuntime.ImageBoxBuilder.buildEx = function(config){
 			fieldName: '',
 			groupId: '', 	//데이터 값으로 이미지 groupId 또는 img src를 입력하면 사진을 가져와 보여 준다.
 			imgSource: '',	//데이터 값으로 이미지 groupId 또는 img src를 입력하면 사진을 가져와 보여 준다.
+			columns: 1,
+			colSpan: 1,
 			pictureWidth: 300,
 			pictureHeight: 0,
 			required: false,
@@ -70,12 +72,12 @@ SmartWorks.FormRuntime.ImageBoxBuilder.buildEx = function(config){
 	};
 	SmartWorks.extend(options, config);
 	var labelWidth = 10;
-	if(options.columns >= 1 && options.columns <= 4) labelWidth = 10 * options.columns;
+	if(options.columns >= 1 && options.columns <= 4 && options.colSpan <= options.columns) labelWidth = 10 * options.columns/options.colSpan;
 	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
 						'<format type="imageBox" viewingType="imageBox"/>' +
 					    '<graphic hidden="false" readOnly="'+ options.readOnly + '" labelWidth="'+ labelWidth + '" pictureWidth="'+ options.pictureWidth + '" pictureHeight="' + options.pictureHeight + '"/>' +
 					'</formEntity>');
-	var $formCol = $('<td class="form_col js_type_imageBox" fieldid="' + options.fieldId + '"  colspan="1" width="500.61775800946384" rowspan="1">');
+	var $formCol = $('<td class="form_col js_type_imageBox" fieldid="' + options.fieldId + '"  colspan="' + options.colSpan + '" width="500.61775800946384" rowspan="1">');
 	$formCol.appendTo(options.container);
 	SmartWorks.FormRuntime.ImageBoxBuilder.build({
 			mode : options.readOnly, // view or edit

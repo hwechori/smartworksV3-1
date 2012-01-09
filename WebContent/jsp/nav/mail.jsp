@@ -1,7 +1,7 @@
 
 <!-- Name 			: mail.jsp										 				 -->
 <!-- Description	: 좌측의 Navigation Bar에서 메일의 폴더들과 관련 기능들을 보여주는 화면 	 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.util.SmartUtil"%>
@@ -20,7 +20,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 메일 해더 부분  -->
-<ul>
+<ul class="navi_tit_mail">
 	<li>
 		<!-- 메일 라벨과 클릭시 아래의 메일폴더선택트리화면을 접었다 폈다하는 기능 제공  -->
 		<!-- *** js_collapse_parent_siblings : sw_act_nav.js 에서 이클래스의 클릭이벤트를 받아서 -->
@@ -34,10 +34,9 @@
 <div class='navi_list js_collapsible'>
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_mail">
-		<a href="fetch_unread_mails.sw" title="<fmt:message key='nav.mail.fetch_unread_mails'/>"><img src="images/ic_mail.png"/></a>
-		<a href="write_new_mail.sw" title="<fmt:message key='nav.mail.new_mail'/>"><img src="images/ic_mail.png"/></a>
-		<a href="create_new_folder.sw" title="<fmt:message key='nav.mail.new_folder'/>"><img src="images/ic_mail.png"/></a>
-		<a href="delete_existing_folder.sw" title="<fmt:message key='nav.mail.delete_folder'/>"><img src="images/ic_mail.png"/></a>
+		<a href="fetch_unread_mails.sw" title="<fmt:message key='nav.mail.fetch_unread_mails'/>"><span class="btn_unread_mail"/></span></a>
+		<a href="write_new_mail.sw" title="<fmt:message key='nav.mail.new_mail'/>"><span class="btn_new_mail"></span></a>
+		<a href="create_new_folder.sw" title="<fmt:message key='nav.mail.new_folder'/>"><span class="btn_folder_add"></span></a>
 	</div>
 	<div id='my_mail'>
 		<!--  메일서버에서 현재사용자의 메일폴더정보를 가져와서 보여준다.. -->

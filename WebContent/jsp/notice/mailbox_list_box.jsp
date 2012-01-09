@@ -1,8 +1,8 @@
 
 <!-- Name 			: mailbox_list_box.jsp										 -->
 <!-- Description	: 화면구성중에 Header 에서 새로 도착한 메일 목록들을 보여주는 박스 	 -->
-<!-- Author			: Y.S. JUNG														 -->
-<!-- Created Date	: 2011.9.														 -->
+<!-- Author			: Maninsoft, Inc.											 -->
+<!-- Created Date	: 2011.9.													 -->
 
 <%@page import="net.smartworks.model.mail.MailFolder"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>

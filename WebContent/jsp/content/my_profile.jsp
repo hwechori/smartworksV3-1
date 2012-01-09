@@ -1,7 +1,7 @@
 
 <!-- Name 			: my_profile.jsp										 -->
 <!-- Description	: 현재사용자 프로파일 정보를 조회하고 수정하는 화면 				 -->
-<!-- Author			: Y.S. JUNG												 -->
+<!-- Author			: Maninsoft, Inc.										 -->
 <!-- Created Date	: 2011.9.												 -->
 
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
@@ -47,11 +47,11 @@
 				success : function(data, status, jqXHR) {
 					// 사용자정보 수정이 정상적으로 완료되었으면, 현재 페이지에 그대로 있는다.
 					$.modal.close();
-					popShowInfo(swInfoType.INFO, language.message('setMyProfileSucceed'));
+					smartPop.showInfo(smartPop..INFO, smartMessage.get('setMyProfileSucceed'));
 				},
 				error : function(e) {
 					$.modal.close();
-					popShowInfo(swInfoType.ERROR, language.message('setMyProfileError'));
+					smartPop.showInfo(swInfoType.ERROR, smartMessage.get('setMyProfileError'));
 				}
 			});
 		}

@@ -1,7 +1,7 @@
 
 <!-- Name 			: assigned_list_box.jsp											 -->
 <!-- Description	: 화면구성중에 Header 에서 현재사용자에게 할당된 업무 목록들을 보여주는 박스  -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.model.work.info.WorkInfo"%>
@@ -52,7 +52,7 @@
 					<li>
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
-								<img src="<%=owner.getMinPicture()%>" border="0"></a>
+								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"></a>
 						</div>
 						<div class="info_list">
 							<a href="<%=targetContent%>?cid=<%=contextId%>&wid=<%=workSpaceId%>"><%=workInstance.getSubject()%>▶<%=taskInstance.getName()%></a>

@@ -1,4 +1,10 @@
-language.bundle['ko'] = {
+
+// File Name 	: sw-language-ko.js
+// Description 	: SmartWork 의 다국어 지원을 위한 한국어 메시지 번들..
+// Author 		: Y.S Jung
+// Created Date : 2011.11.
+
+smartMessage.bundle['ko'] = {
 	uploadFile : '파일올리기',
 	cancelUpload : '취소',
 	uploadFailed : '실패',
@@ -21,5 +27,10 @@ language.bundle['ko'] = {
 	buttonCancel : "취소",
 	buttonConfirm : "확인",
 	setMyProfileSucceed : "개인정보수정이 정상적으로 완료되었습니다.",
-	setMyProfileError : "개인정보수정하는 중 오류가 발생하였습니다. 관리자에게 확인바랍니다!!!"
+	setMyProfileError : "개인정보수정하는 중 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	createIWorkError : "새로운 항목생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	createReportSucceed : "새로운 보고서가 정상적으로 생성되었습니다.",
+	createReportError : "새로운 보고서 생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	iworkListError : "업무목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	setIworkFilterError : "상세필터 저장 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!"
 };

@@ -1,8 +1,8 @@
 
-<!-- Name 			: message_list_box.jsp										 -->
+<!-- Name 			: message_list_box.jsp									 -->
 <!-- Description	: 화면구성중에 Header 에서 새로운 쪽지들의 목록들을 보여주는 박스 	 -->
-<!-- Author			: Y.S. JUNG														 -->
-<!-- Created Date	: 2011.9.														 -->
+<!-- Author			: Maninsoft, Inc.										 -->
+<!-- Created Date	: 2011.9.												 -->
 
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
@@ -38,7 +38,7 @@
 %>
 				<li>
 					<div class="info_img">
-						<a href="user_space.sw?cid=<%=instContext%>" title="<%=owner.getLongName()%>"> <img src="<%=owner.getMinPicture()%>" border="0"> </a>
+						<a href="user_space.sw?cid=<%=instContext%>" title="<%=owner.getLongName()%>"> <img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 					</div>
 					<div class="info_list"><%=messageInstance.getMessage()%>
 						<div class="t_date"><%=messageInstance.getSendDate().toLocalString()%>

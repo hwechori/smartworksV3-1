@@ -14,8 +14,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-
-	User cUser = SmartUtil.getCurrentUser();
+	User cUser = SmartUtil.getCurrentUser(); 
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -26,19 +25,19 @@
 	<!-- 팝업 타이틀 -->
 	<div class="form_title">
 		<div class="pop_title">업무항목</div>
-
 		<div class="txt_btn">
 			<div class="btn_x">
 				<a href="" onclick="$.modal.close();return false;">X</a>
 			</div>
 		</div>
-
 		<div class="solid_line"></div>
 	</div>
 	<!-- 팝업 타이틀 //-->
 
-	<jsp:include page="/jsp/popup/pop_iwork_instance_list.jsp"></jsp:include>
-	
+	<div id="iwork_list_page">
+		<jsp:include page="/jsp/popup/pop_iwork_instance_list.jsp"></jsp:include>
+	</div>
+
 	<!-- 하단버튼영역 -->
 	<div class="glo_btn_space">
 
@@ -50,9 +49,6 @@
 
 	</div>
 	<!-- 하단버튼영역 //-->
-
-
-
 
 </div>
 <!-- 전체 레이아웃//-->

@@ -14,15 +14,20 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.report.ChartReport;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
+import net.smartworks.service.impl.SmartWorks;
+import net.smartworks.util.SmartMessage;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -126,6 +131,7 @@ public class WorkController extends ExceptionInterceptor {
 	}
 
 	@RequestMapping(value = "/get_form_xml", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<String> getFormXml(HttpServletRequest request, HttpServletResponse response) {
 		String formXml = "";
 		try {
@@ -151,7 +157,7 @@ public class WorkController extends ExceptionInterceptor {
 //	}
 
 	@RequestMapping(value = "/get_record", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody Map<String, Object> getRecord(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SwdRecord swdRecord = smartworks.getRecord(request);
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -159,4 +165,30 @@ public class WorkController extends ExceptionInterceptor {
 		return map;
 	}
 
+	@RequestMapping(value = "/set_iwork_search_filter", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public ModelAndView setIwokrSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
+		String filterId = "";
+		String workId = (String)requestBody.get("workId");
+		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
+		ModelAndView mnv = new ModelAndView();
+		mnv.addObject(smartworks);
+		mnv.setViewName("jsp/content/work/list/search_filter_list_box.jsp?workId=" + workId + "&filterId=" + filterId);
+		return mnv;
+	}
+
+	@RequestMapping(value = "/create_iwork_search_filter", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public ModelAndView createIwokrSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
+		String filterId = "";
+		String workId = (String)requestBody.get("workId");
+		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
+		ModelAndView mnv = new ModelAndView();
+		mnv.addObject(smartworks);
+		mnv.setViewName("jsp/content/work/list/search_filter_list_box.jsp?workId=" + workId + "&filterId=" + filterId);
+		if(true) throw new DuplicateKeyException(SmartMessage.getString("server.error.duplicated_key"));
+		return mnv;
+	}
 }

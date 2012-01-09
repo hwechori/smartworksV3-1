@@ -24,7 +24,9 @@ public class SmartWork extends Work {
 	private AccessPolicy accessPolicy = new AccessPolicy();
 	private WritePolicy writePolicy = new WritePolicy();
 	private EditPolicy editPolicy = new EditPolicy();
+	private String lastReportId;
 	private ReportInfo[] reports;
+	private String lastFilterId;
 	private SearchFilterInfo[] searchFilters;
 	private User lastModifier;
 	private LocalDate lastModifiedDate;
@@ -64,13 +66,25 @@ public class SmartWork extends Work {
 	public void setEditPolicy(EditPolicy editPolicy) {
 		this.editPolicy = editPolicy;
 	}
+	public String getLastReportId() {
+		return lastReportId;
+	}
+	public void setLastReportId(String lastReportId) {
+		this.lastReportId = lastReportId;
+	}
+	public String getLastFilterId() {
+		return lastFilterId;
+	}
+	public void setLastFilterId(String lastFilterId) {
+		this.lastFilterId = lastFilterId;
+	}
+
 	public SearchFilterInfo[] getSearchFilters() {
 		return searchFilters;
 	}
 	public void setSearchFilters(SearchFilterInfo[] searchFilters) {
 		this.searchFilters = searchFilters;
 	}
-
 	public ReportInfo[] getReports() {
 		return reports;
 	}

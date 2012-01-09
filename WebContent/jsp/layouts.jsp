@@ -124,6 +124,7 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
+<script type="text/javascript" src="js/sw/sw-common.js"></script>
 
 <script type="text/javascript" src="http://localhost:8000/faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-faye.js"></script>
@@ -137,6 +138,7 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-act-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-report.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-search.js"></script>
+<script type="text/javascript" src="js/sw/sw-act-filter.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-work.js"></script>
 
 <script type="text/javascript" src='js/smartform/smartworks.js'></script>

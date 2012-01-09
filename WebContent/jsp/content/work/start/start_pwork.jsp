@@ -12,14 +12,15 @@
 
 <script type="text/javascript">
 function submitForms(e) {
-	var scheduleWork = $('form[name="frmScheduleWork"]');
+	var startPwork = $('.js_start_pwork_page');
+	var scheduleWork = startPwork.find('form[name="frmScheduleWork"]');
 	if(scheduleWork.find($('input[name="chkScheduleWork"]')).is(':checked')){
 		scheduleWork.addClass('js_validation_required');
 	}else{
 		scheduleWork.removeClass('js_validation_required');	
 	}
-	if (SmartWorks.GridLayout.validate($('form.js_validation_required'))) {
-		var forms = $('form');
+	if (SmartWorks.GridLayout.validate(startPwork.find('form.js_validation_required'))) {
+		var forms = startPwork.find('form');
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
@@ -31,7 +32,7 @@ function submitForms(e) {
 		}
 		console.log(JSON.stringify(paramsJson));
 		var url = "start_new_pwork.sw";
-		popProgress("새로운 프로세스업무를 시작하는 중입니다.");
+		smartPop.progress("새로운 프로세스업무를 시작하는 중입니다.");
 		$.ajax({
 			url : url,
 			contentType : 'application/json',
@@ -39,7 +40,7 @@ function submitForms(e) {
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				$.modal.close();
-				popConfirm("성공적으로 완료하였습니다. 시작된 업무 페이지로 이동하시겠습니까??", 
+				smartPop.confirm("성공적으로 완료하였습니다. 시작된 업무 페이지로 이동하시겠습니까??", 
 						function(){
 							document.location.href = data.href;					
 						},
@@ -49,7 +50,7 @@ function submitForms(e) {
 			},
 			error : function(e) {
 				$.modal.close();
-				popShowInfo(swInfoType.ERROR, "새로운 프로세스업무 시작중에 이상이 발생하였습니다.");
+				smartPop.showInfo(smartPop.ERROR, "새로운 프로세스업무 시작중에 이상이 발생하였습니다.");
 			}
 		});
 	}
@@ -67,7 +68,7 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 js_form_wrap">
+<div class="form_wrap up up_padding margin_b2 js_form_wrap js_start_pwork_page">
 	<div class="form_title js_form_header">
 		<div class="ico_pworks title"><%=work.getFullpathName() %></div>
 		<div class="txt_btn">
@@ -79,6 +80,16 @@ function submitForms(e) {
 			</div>
 		</div>
 		<div class="solid_line"></div>
+	</div>
+	<div class="txt_btn txt_btn_height js_form_detail_buttons">
+		<div class="po_right">
+			<a href="" class="js_toggle_form_detail" requiredOnly="false" workId="<%=workId%>"><fmt:message
+					key="common.upload.button.detail" /> </a>
+		</div>
+		<div class="po_right" style="display: none">
+			<a href="" class="js_toggle_form_detail" requiredOnly="true" workId="<%=workId%>"><fmt:message
+					key="common.upload.button.brief" /> </a>
+		</div>
 	</div>
 	<div class="js_form_task_approval" style="display:none"></div>
 	<div class="js_form_task_forward" style="display:none"></div>

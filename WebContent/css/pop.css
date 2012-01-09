@@ -16,6 +16,8 @@
 /* 알림 */
 .pop_notice_section {border: 1px solid #c7c7c7;}
 .ico_notice {background: url("../images/body_icon.png") no-repeat scroll 0 -480px transparent; display:block; height:23px; text-align: left; padding:0 0 0 30px; position:relative; font-weight:bold; padding-bottom:10px;}
+.pop_message_h {padding:10px 0;}
+
 
 /* popup 카테고리 */
 #simplemodal-data li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
@@ -27,3 +29,9 @@
 
 #simplemodal-data li .menu_2dep li div li a {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 #simplemodal-data li .menu_2dep li div li a:hover {display:block; background-color:#fffccd;}
+
+/*popup information*/
+.pop_i_info li{clear:both;overflow:hidden}
+.pop_i_info .info_img,.pop_i_info .info_list{float:left;}
+.pop_i_info .info_img img{width:20px}
+.pop_i_info .info_list{padding:0 0 2px 5px;width:215px}

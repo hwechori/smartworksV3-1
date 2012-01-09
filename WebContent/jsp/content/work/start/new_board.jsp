@@ -9,9 +9,10 @@
 
 <script type="text/javascript">
 function submitForms() {
-	if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
+	var newBoard = $('js_new_board_page');
+	if(!SmartWorks.GridLayout.validate(newBoard.find('form.js_validation_required'))) return
 
-	var forms = $('form');
+	var forms = newBoard.find('form');
 	var paramsJson = {};
 	for(var i=0; i<forms.length; i++){
 		var form = $(forms[i]);
@@ -41,7 +42,7 @@ function submitForms() {
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-<div class="up_wrap">
+<div class="up_wrap js_new_board_page">
 	<div class="up_point posit_board"></div>
 	<div class="form_wrap up up_padding">
 

@@ -13,9 +13,9 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 업무계획하기 -->
-<div class="form_add_a">
-	<form name='frmTaskForward' class="input_1line js_validation_required">
-		<span class="float_left">
+<div class="column1">
+	<form name='frmTaskForward' class="form_layout js_validation_required">
+		<span>
 			<div class="js_task_forward_fields" subjectTitle="<fmt:message key='common.forward.title.subject'/>" forwardeeTitle="<fmt:message key='common.forward.title.forwardee'/>" CommentsTitle="<fmt:message key="common.forward.title.comments" />"></div>
 		</span>
 	</form>

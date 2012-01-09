@@ -42,6 +42,7 @@
 .addfriend_h { padding-bottom:4px;}
 .user_sel_area {float:left; padding:2px;}
 .addf_line {border:1px solid #c7c7c7; left:0px; margin:0 2px 4px 0; width: 204px; padding: 1px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; float:left;}
+.js_community_names .user_sel_area{float:left;padding:0;margin-left:3px;padding:0;position:relative;top:-2px}
 
 .info_list {padding:0 0 2px 18px; line-height:16px; }
 

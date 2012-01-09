@@ -30,12 +30,12 @@ $('input.js_todaytimepicker').datetimepicker({
 %>
 
 <!-- 업무계획하기 -->
-<div class="form_add_a">
+<div class="column3">
 	<div class="dash_line"></div>
-	<form name='frmScheduleWork' class="input_1line">
-		<div class="float_left padding_r10">
-			<input name="chkScheduleWork" type="checkbox" onclick="$(this).parent().next('span').toggle();loadCheckScheduleFields();"/><fmt:message key="common.upload.button.schedule" /></div>
-		<span class="float_left" style='display: none'>
+	<form name='frmScheduleWork' class="form_layout">
+		<div class="padding_r10">
+			<input name="chkScheduleWork" class="padding_l15" type="checkbox" onclick="$(this).parent().next('span').toggle();loadCheckScheduleFields();"/><fmt:message key="common.upload.button.schedule" /></div>
+		<span style='display: none'>
 			<div class="js_check_schedule_fields" startDateName="<fmt:message key='common.upload.field.schedule_start_date'/>" endDateName="<fmt:message key='common.upload.field.schedule_end_date'/>" performerName="<fmt:message key="common.uplaod.field.schedule_performer" />"></div>
 		</span>
 	</form>

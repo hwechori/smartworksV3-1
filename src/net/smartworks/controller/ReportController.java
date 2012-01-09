@@ -14,13 +14,18 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Data;
+import net.smartworks.model.report.Report;
 import net.smartworks.service.ISmartWorks;
+import net.smartworks.service.impl.SmartWorks;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,39 +43,30 @@ public class ReportController {
 	}
 
 	@RequestMapping("/work_report")
-	public ModelAndView workReport(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView workReport(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/report/work_report.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/work/report/work_report.jsp", "");
 	}
 
 	@RequestMapping("/work_report_chart")
-	public ModelAndView workReportChart(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView workReportChart(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/report/work_report_chart.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/work/report/work_report_chart.jsp", "");
 	}
 
 	@RequestMapping("/work_report_table")
-	public ModelAndView workReportTable(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView workReportTable(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/report/work_report_table.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/work/report/work_report_table.jsp", "");
 	}
 
 	@RequestMapping("/work_report_view")
-	public ModelAndView workReportView(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView workReportView(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/report/work_report_view.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/work/report/work_report_view.jsp", "");
 	}
 
 	@RequestMapping(value = "/get_report_data", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody Map<String, Object> getReportData(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Data reportData = smartworks.getReportData(request);
 		// TO DO : Exception handler
@@ -80,6 +76,19 @@ public class ReportController {
 		map.put("groupNames", reportData.getGroupNames());
 		map.put("values", reportData.getValues());
 		return map;
+	}
+	
+	@RequestMapping(value = "/create_new_work_report", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public ModelAndView createNewWorkReport(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String reportId = smartworks.setNewWorkReport(requestBody, request);
+		String reportId = "";
+		String workId = (String)requestBody.get("workId");
+		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
+		ModelAndView mnv = new ModelAndView();
+		mnv.addObject(smartworks);
+		mnv.setViewName("jsp/content/work/report/work_report_list_box.jsp?workId=" + workId + "&reportId=" + reportId);
+		return mnv;
 	}
 	
 }

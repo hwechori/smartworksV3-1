@@ -1,4 +1,10 @@
-language.bundle['en'] = {
+
+// File Name 	: sw-language-en.js
+// Description 	: SmartWork 의 다국어 지원을 위한 English 메시지 번들..
+// Author 		: Y.S Jung
+// Created Date : 2011.11.
+
+smartMessage.bundle['en'] = {
 	uploadFile : 'File Upload',
 	cancelUpload : 'Cancel',
 	uploadFailed : 'Failed',
@@ -21,5 +27,9 @@ language.bundle['en'] = {
 	buttonCancel : "Cancel",
 	buttonConfirm : "Confirm",
 	setMyProfileSucceed : "My Profile has been updated successfully...",
-	setMyProfileError : "Error has been occured while updating this Profile Information. Please contact the Adminstrator!!"
+	setMyProfileError : "Error has been occured while updating this Profile Information. Please contact the Administrator!",
+	createIWorkError : "Error has been occured while creating new instance. Please contact the Administrator!",
+	createReportError : "Error has been occured while creating new report. Please contact the Administrator!",
+	iworkListError : "Error has been occured while loading work list. Please contact the Administrator!",
+	setIworkFilterError : "Error has been occured while saving search filter. Please contact the Administrator!"
 };

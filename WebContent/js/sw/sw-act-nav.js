@@ -8,13 +8,14 @@ $(function() {
 	$('.js_nav_tab_work a').swnavi(
 			{
 				before : function(event){
-					popProgressNavGray($('.js_nav_tab_work span'));
+					smartPop.progressNavGray($(event.target).parents('.js_nav_tab_work span.js_progress_span:first'));
+					var input = $(event.target);
+					input.addClass('current');
+					input.parent().siblings().find('span').removeClass('current');
 				},
 				target : 'my_works',
 				after : function(event) {
-					$(event.target).addClass('current').siblings().removeClass(
-							'current');
-					closeProgress();
+					smartPop.closeProgress();
 				}
 			});
 
@@ -27,13 +28,17 @@ $(function() {
 	$('.js_nav_tab_com a').swnavi(
 			{
 				before : function(event){
-					popProgressNavGray($('.js_nav_tab_com span'));
+					smartPop.progressNavGray($(event.target).parents('.js_nav_tab_com span.js_progress_span:first'));
+					var input = $(event.target).parent('a');
+					input.find('span:first').addClass('current');
+					input.find('.btn_my_group_add').show();
+					
+					input.siblings().find('span:first').removeClass('current');
+					input.siblings().find('.btn_my_group_add').hide();
 				},
 				target : 'my_communities',
 				after : function(event) {
-					$(event.target).addClass('current').siblings().removeClass(
-							'current');
-					closeProgress();
+					smartPop.closeProgress();
 				}
 			});
 
@@ -45,15 +50,15 @@ $(function() {
 		before : function(event){
 			var input = $(event.target);
 			if(!isEmpty(input.parents('.js_nav_my_works')) || !isEmpty(input.parents('.js_nav_my_com'))){
-				popProgressNavGray(input.parents('li:first').find('span:last'));
+				smartPop.progressNavGray(input.parents('li:first').find('span:last'));
 			}else if(!isEmpty(input.parents('.js_srch_my_works'))){
 				console.log(input.parents('.js_srch_my_works').find('.js_auto_complete'));
-				popProgressNav(input.parents('.js_srch_my_works').prev('li span:first'));
+				smartPop.progressNav(input.parents('.js_srch_my_works').prev('li span:first'));
 			}
 		},
 		target : 'content',
 		after : function(event){
-			closeProgress();
+			smartPop.closeProgress();
 		}
 	});
 
@@ -61,15 +66,15 @@ $(function() {
 		
 		var input = $(event.target);
 		if(!isEmpty(input.parents('.js_srch_my_com'))){
-			popProgressNavGray(input.parents('.js_srch_my_com').prev('li').find('span:last'));
+			smartPop.progressNavGray(input.parents('.js_srch_my_com').prev('li').find('span:last'));
 			var target = input.parent().next('div');
 			window.location = target.find('.sw_hover:first a').attr('href');
-			closeProgress();
+			smartPop.closeProgress();
 		}else if(!isEmpty(input.parents('.js_srch_com_members'))){
-			popProgressNavGray(input.parents('.js_srch_com_members').prev('li').find('span:last'));
+			smartPop.progressNavGray(input.parents('.js_srch_com_members').prev('li').find('span:last'));
 			var target = input.parent().next('div');
 			window.location = target.find('.sw_hover:first a').attr('href');
-			closeProgress();
+			smartPop.closeProgress();
 		}
 	});
 
@@ -99,6 +104,9 @@ $(function() {
 								formValues : formData.record,
 								mode : "view"
 							});
+						},
+						error : function(xhr, ajaxOptions, thrownError){
+							
 						}
 					});
 				}
@@ -116,14 +124,14 @@ $(function() {
 	$('.js_notice_count a').swnavi({
 		target : 'notice_message_box',
 		before : function(event) {
-			popProgressNav($('div.js_notice_icons_area li:last'));
+			smartPop.progressNav($('div.js_notice_icons_area li:last'));
 			$('#notice_message_box').hide();
 			$('.js_notice_count').find('a').removeClass('current');
 		},
 		after : function(event) {
 			$(event.target).parents('.js_notice_count:first').find('a')
 					.addClass('current');
-			closeProgress();
+			smartPop.closeProgress();
 			$('#notice_message_box').show();
 		}
 	});
@@ -145,6 +153,9 @@ $(function() {
 			},
 			success : function(data, status, jqXHR) {
 				$('#notice_message_box').html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
 			}
 		});
 		return false;
@@ -171,11 +182,9 @@ $(function() {
 		var input = $(e.target);
 		if(input.hasClass('arr_on')){
 			input.removeClass('arr_on').addClass('arr_off');
-			input.parent().next().hide();
 			
 		}else{
 			input.removeClass('arr_off').addClass('arr_on');
-			input.parent().next().show();
 		}
 		input.parent().parent().siblings('.js_collapsible').toggle();
 		return false;
@@ -191,6 +200,8 @@ $(function() {
 	});
 
 	$('.js_drill_down').live('click', function(e) {
+		if($(e.target).hasClass('js_checkbox')) return true;
+
 		var input = $(e.target).parents('li.js_drill_down:first').children('a');
 		var target = input.siblings('div');
 		var url = input.attr('href');
@@ -201,8 +212,8 @@ $(function() {
 			return false;
 		}
 		if(isEmpty($(target).children())){
-			if(isEmpty(departmentId))
-				popProgressNav(input.find('span:last'));						
+			if(isEmpty(departmentId) && !input.hasClass('js_popup'))
+				smartPop.progressNav(input.find('span:last'));						
 			$.ajax({
 				url : url,
 				data : {
@@ -216,12 +227,12 @@ $(function() {
 					target.html(data);
 					target.siblings('li.js_drill_down').find('div').hide();
 					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
-					if(isEmpty(departmentId))
-						closeProgress();											
+					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
+						smartPop.closeProgress();											
 				},
-				error : function(){
-					if(isEmpty(departmentId))
-						closeProgress();											
+				error : function(xhr, ajaxOptions, thrownError){
+					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
+						smartPop.closeProgress();											
 				}
 			});
 		}else{

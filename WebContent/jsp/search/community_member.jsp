@@ -1,7 +1,7 @@
 
-<!-- Name 			: user.jsp									 				 		-->
+<!-- Name 			: user.jsp									 				 	 -->
 <!-- Description	: 사람을 찾는 검색박스에서 key 값을 받아 서버에서 결과를가져와 보여주는 화면  -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>

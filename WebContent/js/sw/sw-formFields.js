@@ -38,6 +38,7 @@ function loadCheckScheduleFields() {
 				fieldId: "txtScheduleStartDate",
 				fieldName: startDateName,
 				columns: 3,
+				colSpan: 1,
 				required: true
 			});
 		  	
@@ -46,6 +47,7 @@ function loadCheckScheduleFields() {
 				fieldId: "txtScheduleEndDate",
 				fieldName: endDateName,
 				columns: 3,
+				colSpan: 1,
 				required: true
 			});
 		  	
@@ -54,6 +56,7 @@ function loadCheckScheduleFields() {
 				fieldId: "txtSchedulePerformer",
 				fieldName: performerName,
 				columns: 3,
+				colSpan: 1,
 				multiUsers: false,
 				required: true,
 				users: new Array({
@@ -153,7 +156,8 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventName",
 				fieldName: eventNameTitle,
-				columns: 1,
+				columns: 2,
+				colSpan: 2,
 				required: true
 			});
 		  	
@@ -163,6 +167,7 @@ function loadNewEventFields() {
 				fieldId: "txtEventStartDate",
 				fieldName: startDateTitle,
 				columns: 2,
+				colSpan: 1,
 				required: true
 			});
 			SmartWorks.FormRuntime.DateTimeChooserBuilder.buildEx({
@@ -170,6 +175,7 @@ function loadNewEventFields() {
 				fieldId: "txtEventEndDate",
 				fieldName: endDateTitle,
 				columns: 2,
+				colSpan: 1,
 				required: false
 			});
 		  	
@@ -178,7 +184,8 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventPlace",
 				fieldName: placeTitle,
-				columns: 1,
+				columns: 2,
+				colSpan: 2,
 				required: false
 			});
 
@@ -187,7 +194,8 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventRelatedUsers",
 				fieldName: relatedUsersTitle,
-				columns: 1,
+				columns: 2,
+				colSpan: 2,
 				multiUsers: true,
 				required: false
 			});
@@ -197,7 +205,8 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventContent",
 				fieldName: contentTitle,
-				columns: 1,
+				columns: 2,
+				colSpan: 2,
 				multiLines: 3,
 				required: false
 			});

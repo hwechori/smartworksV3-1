@@ -1,7 +1,7 @@
 
 <!-- Name 			: works.jsp										 				 -->
 <!-- Description	: 좌측의 Navigation Bar에서 현재사용자의 업무를 찾아서 페이징하는 박스 	 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@ page contentType="text/html; charset=utf-8"%>
@@ -42,11 +42,14 @@
 <div class="navi_list js_collapsible  js_nav_my_works">
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_work">
-		<span></span><!--  프로그래스아이콘이 실행되느니 곳 -->
-		<a href="my_recent_instances.sw" class="current"><fmt:message key="nav.works.my_recent_instances" /></a>
-		<a href="my_favorite_works.sw"><fmt:message key="nav.works.my_favorite_works" /></a>
- 		<a href="my_all_works.sw"><fmt:message key="nav.works.my_all_works" /></a>
+	
+ 		<a href="my_all_works.sw" title="<fmt:message key='nav.works.my_all_works' />"><span class="btn_all_works"/></span></a>
+ 		<a href="my_favorite_works.sw" title="<fmt:message key='nav.works.my_favorite_works' />"><span class="btn_favorite"/></span></a>
+ 		<a href="my_recent_instances.sw" title="<fmt:message key='nav.works.my_recent_instances' />" ><span class="btn_recent current"></span></a>
+		<span class="js_progress_span"></span><!--  프로그래스아이콘이 실행되는 곳 -->
+ 		
 	</div>
+	
 	<div id='my_works'>
 		<jsp:include page="my_recent_instances.jsp" />
 	</div>

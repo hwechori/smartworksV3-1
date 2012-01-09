@@ -3,7 +3,8 @@ SmartWorks.GridLayout = function(config) {
 		target : $('<div></div>'),
 		formXml : '',
 		formValues : '',
-		mode : 'edit'
+		mode : 'edit',
+		requiredOnly : 'false'
 	};
 
 	SmartWorks.extend(this.options, config);
@@ -76,6 +77,12 @@ SmartWorks.GridLayout = function(config) {
 		for ( var j = 0; j < $cells.length; j++) {
 			var $cell = $cells.eq(j);
 			var id = $cell.attr('fieldId');
+			var $entity = [];
+			if(id){
+				$entity = $form.find('#' + id);
+				if(this.options.requiredOnly === 'true' && $entity[0].getAttribute('required') !== 'true')
+					continue;
+			}
 			var colspan = parseInt($cell.attr('span'));
 			var rowspan = parseInt($cell.attr('rowspan'));			
 			var width = 0;
@@ -101,7 +108,6 @@ SmartWorks.GridLayout = function(config) {
 			if(rowspan)
 				$html_cell.attr('rowspan', rowspan);
 			if(id) {
-				var $entity = $form.find('#' + id);
 				SmartWorks.FormFieldBuilder.build(this.options.mode, $html_cell, $entity, dataField, this);				
 			}
 
@@ -132,26 +138,25 @@ SmartWorks.GridLayout.serializeObject = function(form){
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject(form.find('.js_type_imageBox'));
 	var dataGrids = {};
-	console.log(fileFields, userFields, departmentFields, richEditors, refFormFields, imageBoxs, departmentFields);
 	return mergeObjects(merge3Objects(fileFields, userFields, richEditors), merge3Objects(refFormFields, imageBoxs, departmentFields));
 };
 
 SmartWorks.GridLayout.validate = function(form){
-	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.validate(form.find('.js_type_fileField'));
-	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.validate(form.find('.js_type_userField'));
+	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.validate(form.find('.js_type_fileField:visible'));
+	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.validate(form.find('.js_type_userField:visible'));
 	var departmentFields = true;//SmartWorks.FormRuntime.DepartmentFieldBuilder.validate(form.find('.js_type_departmentField'));
-	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.validate(form.find('.js_type_richEditor'));
-	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.validate(form.find('.js_type_refFormField'));
-	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.validate(form.find('.js_type_imageBox'));
-	var radioButtons = SmartWorks.FormRuntime.RadioButtonBuilder.validate(form.find('.js_type_radioButton'));
+	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.validate(form.find('.js_type_richEditor:visible'));
+	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.validate(form.find('.js_type_refFormField:visible'));
+	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.validate(form.find('.js_type_imageBox:visible'));
+	var radioButtons = SmartWorks.FormRuntime.RadioButtonBuilder.validate(form.find('.js_type_radioButton:visible'));
 	var dataGrids = true;
 	var jq_validate = true;
 	form.each(function(){
-		jq_validate = $(this).validate({ showErrors: showErrors}).form() && jq_validate;
+		jq_validate = $(this).validate({ showErrors: showErrors, ignore:":not(:visible)" }).form() && jq_validate;
 	});
 
 	var sw_validate = (fileFields && userFields && departmentFields && richEditors && refFormFields && imageBoxs && dataGrids && radioButtons && jq_validate);
-	if(!sw_validate && jq_validate){
+	if(!sw_validate || !jq_validate){
 		showErrors();
 	}
 	return sw_validate;

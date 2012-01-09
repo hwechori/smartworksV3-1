@@ -10,15 +10,16 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <script type="text/javascript">
-function submitForms(e) {
-	var scheduleWork = $('form[name="frmScheduleWork"]');
+function submitForms() {
+	var newIwork = $('.js_new_iwork_page');
+	var scheduleWork = newIwork.find('form[name="frmScheduleWork"]');
 	if(scheduleWork.find($('input[name="chkScheduleWork"]')).is(':checked')){
 		scheduleWork.addClass('js_validation_required');
 	}else{
 		scheduleWork.removeClass('js_validation_required');	
 	}
-	if (SmartWorks.GridLayout.validate($('form.js_validation_required'))) {
-		var forms = $('form');
+	if (SmartWorks.GridLayout.validate(newIwork.find('form.js_validation_required'))) {
+		var forms = newIwork.find('form');
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
@@ -30,15 +31,15 @@ function submitForms(e) {
 		}
 		console.log(JSON.stringify(paramsJson));
 		var url = "create_new_iwork.sw";
-		popProgress("새로운 항목을 생성 중입니다.");
+		smartPop.progressCont($('#sw_progress_icon_span'));
 		$.ajax({
 			url : url,
 			contentType : 'application/json',
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				$.modal.close();
-				popConfirm("성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??", 
+				smartPop.closeProgress();
+				smartPop.confirm("성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??", 
 						function(){
 							document.location.href = data.href;					
 						},
@@ -47,8 +48,8 @@ function submitForms(e) {
 						});
 			},
 			error : function(e) {
-				$.modal.close();
-				popShowInfo(swInfoType.ERROR, "새로운 항목 생성중에 이상이 발생하였습니다.");
+				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get("createIWorkError"));
 			}
 		});
 	}
@@ -66,7 +67,7 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 js_form_wrap">
+<div class="form_wrap up up_padding margin_b2 js_form_wrap js_new_iwork_page">
 	<div class="form_title js_form_header">
 		<div class="ico_iworks title"><%=work.getFullpathName()%></div>
 		<div class="txt_btn">
@@ -74,10 +75,20 @@ function submitForms(e) {
 				<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
 			</div>
 			<div class="po_right image_posi">
-				<a href="" class="js_toggle_forward_btn"><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
+				<a href="" class="js_toggle_forward_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
 			</div>
 		</div>
 		<div class="solid_line"></div>
+	</div>
+	<div class="txt_btn txt_btn_height js_form_detail_buttons">
+		<div class="po_right">
+			<a href="" class="js_toggle_form_detail" requiredOnly="false" workId="<%=workId%>"><fmt:message
+					key="common.upload.button.detail" /> </a>
+		</div>
+		<div class="po_right" style="display: none">
+			<a href="" class="js_toggle_form_detail" requiredOnly="true" workId="<%=workId%>"><fmt:message
+					key="common.upload.button.brief" /> </a>
+		</div>
 	</div>
 	<div class="js_form_task_approval" style="display:none"></div>
 	<div class="js_form_task_forward" style="display:none"></div>
