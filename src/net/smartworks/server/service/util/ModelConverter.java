@@ -928,12 +928,20 @@ public class ModelConverter {
 		department.setDesc(departmentExtend.getDescription());
 
 		DepartmentInfo parent = getDepartmentInfoByDepartmentId(departmentExtend.getParentId());
-		if(parent != null)
+		if(parent != null) {
 			department.setParent(parent);
+		} else {
+			parent = new DepartmentInfo();
+			department.setParent(parent);
+		}
 
 		User head = getUserByUserId(departmentExtend.getHeadId());
-		if(head != null)
+		if(head != null) {
 			department.setHead(head);
+		} else {
+			head = new User();
+			department.setHead(head);
+		}
 
 		List<UserInfo> userInfoList = new ArrayList<UserInfo>();
 		SwoUserExtend[] userExtends = getSwoManager().getUsersOfDepartment(cUser.getId(), department.getId());
