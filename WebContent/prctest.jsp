@@ -43,16 +43,16 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-		long size = SwManagerFactory.getInstance().getPrcManager().getProcessInstExtendsSize("kmyu@maninsoft.co.kr","pkg_e4e0150049fd4a44828dd01c797ee07e");
+/* 		long size = SwManagerFactory.getInstance().getPrcManager().getProcessInstExtendsSize("kmyu@maninsoft.co.kr","pkg_e4e0150049fd4a44828dd01c797ee07e");
 		
 		PrcProcessInstExtend[] works = SwManagerFactory.getInstance().getPrcManager().getProcessInstExtends("kmyu@maninsoft.co.kr", 10, 0, "pkg_e4e0150049fd4a44828dd01c797ee07e");
 		System.out.println(size);
 		System.out.println(works.length);
-		System.out.println(works[0].getPrcTitle());
+		System.out.println(works[0].getPrcTitle()); */
 			
 %>
 <textarea style="width:800px;height:400px;">
-<%= works[0].getPrcTitle() %>
+<%-- <%= works[0].getPrcTitle() %> --%>
 </textarea>
 </body>
 </html>

@@ -125,8 +125,7 @@
 		<%
 			if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
 				boolean isFirst10Pages = (currentPage <= 10) ? true : false;
-				boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true
-						: false;
+				boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true : false;
 				int startPage = ((currentPage - 1) / 10) * 10 + 1;
 				int endPage = isLast10Pages ? totalPages : startPage + 9;
 				if (!isFirst10Pages) {

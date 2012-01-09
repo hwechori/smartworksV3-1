@@ -43,7 +43,7 @@ public class SwoUserCond extends SwoObjectCond {
 	public static final String A_PICTURE = "picture";
 	public static final String A_RETIREE = "retiree";
 	public static final String A_MOBILENO = "mobileNo";
-	public static final String A_INTERNALNO = "internalNo";
+	public static final String A_EXTENSIONNO = "extensionNo";
 	
 	private String companyId;
 	private String deptId;
@@ -60,8 +60,8 @@ public class SwoUserCond extends SwoObjectCond {
 	private String picture;
 	private String retiree;
 	private String mobileNo;
-	private String internalNo;
-	
+	private String extensionNo;
+
 	private String[] typeNotIns;
 
 	public SwoUserCond() {
@@ -94,7 +94,7 @@ public class SwoUserCond extends SwoObjectCond {
 		appendAttributeString(A_PICTURE, picture, true, buf);
 		appendAttributeString(A_RETIREE, retiree, true, buf);
 		appendAttributeString(A_MOBILENO, mobileNo, true, buf);
-		appendAttributeString(A_INTERNALNO, internalNo, true, buf);
+		appendAttributeString(A_EXTENSIONNO, extensionNo, true, buf);
 		return buf.toString();
 	}
 	public String toElementsString(String tab, boolean lite) {
@@ -131,8 +131,8 @@ public class SwoUserCond extends SwoObjectCond {
 			Node position = attrMap.getNamedItem(A_POSITION);
 			Node picture = attrMap.getNamedItem(A_PICTURE);
 			Node retiree = attrMap.getNamedItem(A_RETIREE);
-			Node mobileNo = attrMap.getNamedItem("MOBILENO");
-			Node internalNo = attrMap.getNamedItem("A_INTERNALNO");
+			Node mobileNo = attrMap.getNamedItem(A_MOBILENO);
+			Node extensionNo = attrMap.getNamedItem(A_EXTENSIONNO);
 			if (password != null)
 				obj.setPassword(password.getNodeValue());
 			if (email != null)
@@ -161,10 +161,10 @@ public class SwoUserCond extends SwoObjectCond {
 				obj.setRetiree(retiree.getNodeValue());
 			if (mobileNo != null)
 				obj.setMobileNo(mobileNo.getNodeValue());
-			if (internalNo != null)
-				obj.setInternalNo(internalNo.getNodeValue());
+			if (extensionNo != null)
+				obj.setExtensionNo(extensionNo.getNodeValue());
 		}
-		
+
 		NodeList childNodeList = node.getChildNodes();
 		if (childNodeList == null || childNodeList.getLength() == 0)
 			return obj;
@@ -378,11 +378,12 @@ public class SwoUserCond extends SwoObjectCond {
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	public String getInternalNo() {
-		return internalNo;
+	
+	public String getExtensionNo() {
+		return extensionNo;
 	}
-	public void setInternalNo(String internalNo) {
-		this.internalNo = internalNo;
+	public void setExtensionNo(String extensionNo) {
+		this.extensionNo = extensionNo;
 	}
 
 }

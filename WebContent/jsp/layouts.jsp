@@ -53,14 +53,6 @@
 	}
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User currentUser = SmartUtil.getCurrentUser();
-	WorkSpace workSpace = smartWorks.getWorkSpaceById("hsshin@maninsoft.co.kr");
-
-	if(workSpace.getClass().equals(User.class)) {
-		User user = (User)workSpace;
-		System.out.println(user.getId());
-		System.out.println(user.getName());
-		System.out.println(user.getLongName());
-	}
 
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />

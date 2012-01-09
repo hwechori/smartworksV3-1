@@ -22,6 +22,7 @@ import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.service.ICommunityService;
+import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
@@ -77,8 +78,12 @@ public class CommunityServiceImpl implements ICommunityService {
 	 * )
 	 */
 	@Override
-	public Department getDepartmentById(String departId) throws Exception {
-		return SmartTest.getDepartmentById(departId);
+	public Department getDepartmentById(String departmentId) throws Exception {
+		if (CommonUtil.isEmpty(departmentId))
+			return null;
+
+		return ModelConverter.getDepartmentByDepartmentId(departmentId);
+
 	}
 
 	/*
@@ -140,7 +145,12 @@ public class CommunityServiceImpl implements ICommunityService {
 	 */
 	@Override
 	public User getUserById(String userId) throws Exception {
-		return SmartTest.getUserById(userId);
+
+		if (CommonUtil.isEmpty(userId))
+			return null;
+
+		return ModelConverter.getUserByUserId(userId);
+
 	}
 
 	/*
@@ -258,53 +268,21 @@ public class CommunityServiceImpl implements ICommunityService {
 
 		if (CommonUtil.isEmpty(workSpaceId))
 			return null;
+		
+		String type = SwManagerFactory.getInstance().getSwoManager().getTypeByWorkspaceId(workSpaceId);
 
-		User cUser = SmartUtil.getCurrentUser();
-
-
-		SchWorkspace schWorkSpace = SwManagerFactory.getInstance().getSchManager().getWorkspaceById(cUser.getCompanyId(), cUser.getId(), workSpaceId);
-
-		WorkSpace workSpace = new WorkSpace();;
-
-		if(schWorkSpace != null) {
-	
-			String type = schWorkSpace.getType();
-
-			if (type.equalsIgnoreCase("user")) {
-				User user = new User();
-				user.setId(schWorkSpace.getId());
-				user.setName(schWorkSpace.getName());
-				user.setPosition(schWorkSpace.getUserPosition());
-				String picture = schWorkSpace.getUserPicture();
-				if(picture != null && !picture.equals("")) {
-					String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
-					String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
-					user.setSmallPictureName(pictureId + "_small" + "." + extension);
-				}
-				user.setRole(schWorkSpace.getUserRole());
-				user.setUserLevel(schWorkSpace.getUserLevel());
-				user.setLocale(schWorkSpace.getUserLocale());
-				user.setTimeZone(schWorkSpace.getUserTimeZone());
-				user.setEmployeeId(schWorkSpace.getUserEmployeeId());
-				user.setPhoneNo(schWorkSpace.getUserPhoneNo());
-				user.setCellPhoneNo(schWorkSpace.getUserCellPhoneNo());
-				user.setCompanyId(schWorkSpace.getUserCompanyId());
-				user.setCompany(schWorkSpace.getUserCompanyName());
-				user.setDepartmentId(schWorkSpace.getUserDeptId());
-				user.setDepartment(schWorkSpace.getUserDeptName());
-				workSpace = user;
-
-			} else if (type.equalsIgnoreCase("department")) {
-				Department dept = new Department();
-
-				dept.setId(schWorkSpace.getId());
-				dept.setName(schWorkSpace.getName());
-				dept.setDesc(schWorkSpace.getDescription());
-				workSpace = dept;
-			}
+		if(type.equals("user")) {
+			User user = this.getUserById(workSpaceId);
+			return user;
+		} else if(type.equals("department")) {
+			Department department = this.getDepartmentById(workSpaceId);
+			return department;
+		} else if(type.equals("group")) {
+			Group group = new Group();
+			return group;
 		}
 
-		return workSpace;
+		return null;
 
 	}
 

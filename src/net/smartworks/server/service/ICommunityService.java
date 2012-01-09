@@ -18,7 +18,7 @@ public interface ICommunityService {
 
 	public abstract WorkSpaceInfo[] searchCommunity(String key) throws Exception;
 
-	public abstract User getUserById(String userId) throws Exception;
+	public abstract User getUserById(String userId) throws Exception; // 2011.01.05
 
 	public abstract Group getGroupById(String groupId) throws Exception;
 
@@ -26,11 +26,11 @@ public interface ICommunityService {
 
 	public abstract Group setGroup(HttpServletRequest request) throws Exception;
 
-	public abstract Department getDepartmentById(String departId) throws Exception;
+	public abstract Department getDepartmentById(String departmentId) throws Exception; // 2011.01.05
 
 	public abstract DepartmentInfo[] getMyDepartments() throws Exception;
 
-	public abstract WorkSpace getWorkSpaceById(String workSpaceId) throws Exception;
+	public abstract WorkSpace getWorkSpaceById(String workSpaceId) throws Exception; // 2011.01.05
 
 	public abstract UserInfo[] getAvailableChatter() throws Exception;
 
@@ -38,7 +38,7 @@ public interface ICommunityService {
 
 	public abstract UserInfo[] searchUser(String key) throws Exception;
 
-	public abstract CommunityInfo[] getMyCommunities() throws Exception;	
+	public abstract CommunityInfo[] getMyCommunities() throws Exception; // 2011.01.05
 
 	public abstract String setMyProfile(HttpServletRequest request) throws Exception;
 	
