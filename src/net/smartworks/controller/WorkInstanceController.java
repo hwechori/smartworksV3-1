@@ -204,7 +204,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	}
 
 	@RequestMapping(value = "/update_my_profile", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody Map<String, Object> updateMyProfile(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		smartworks.setMyProfile(requestBody, request);
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -213,7 +213,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	}
 
 	@RequestMapping(value = "/set_instance_list_params", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	public ModelAndView setInstanceListParams(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		RequestParams requestParams = smartworks.setInstanceListParams(requestBody, request);
 		String href = (String)requestBody.get("href");
@@ -222,7 +222,6 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		mnv.addObject(smartworks);
 		mnv.addObject("requestParams", requestParams);
 		mnv.setViewName(href);
-
 		return mnv;
 
 	}

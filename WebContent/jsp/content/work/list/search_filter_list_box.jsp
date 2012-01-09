@@ -29,16 +29,28 @@
 
 <form class="form_space" name="frmIworkFilterName">
 	<select name="selFilterName" class="js_select_search_filter">
-		<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" selected><fmt:message key='filter.name.all_instances' /></option>
-		<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>"><fmt:message key='filter.name.my_instances' /></option>
-		<option value="<%=SearchFilter.FILTER_RECENT_INSTANCES%>"><fmt:message key='filter.name.recent_instances' /></option>
-		<option value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES%>"><fmt:message key='filter.name.my_recent_instances' /></option>
+		<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" 
+			<%if(SmartUtil.isBlankObject(work.getLastFilterId()) || SearchFilter.FILTER_ALL_INSTANCES.equals(work.getLastFilterId())){%> selected <%} %>>
+			<fmt:message key='filter.name.all_instances' />
+		</option>
+		<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>"
+			<%if(SearchFilter.FILTER_MY_INSTANCES.equals(work.getLastFilterId())){%> selected <%} %>>
+			<fmt:message key='filter.name.my_instances' />
+		</option>
+		<option value="<%=SearchFilter.FILTER_RECENT_INSTANCES%>"
+			<%if(SearchFilter.FILTER_RECENT_INSTANCES.equals(work.getLastFilterId())){%> selected <%} %>>
+			<fmt:message key='filter.name.recent_instances' />
+		</option>
+		<option value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES%>"
+			<%if(SearchFilter.FILTER_MY_RECENT_INSTANCES.equals(work.getLastFilterId())){%> selected <%} %>>
+			<fmt:message key='filter.name.my_recent_instances' /></option>
 		<%
 		SearchFilterInfo[] filters = work.getSearchFilters();
 		if (filters != null) {
 			for (SearchFilterInfo filter : filters) {
 		%>
-			<option value="<%=filter.getId()%>"><%=filter.getName()%></option>
+			<option value="<%=filter.getId()%>"
+			<%if(filter.getId().equals(work.getLastFilterId())){%> selected <%} %>><%=filter.getName()%></option>
 		<%
 			}
 		}

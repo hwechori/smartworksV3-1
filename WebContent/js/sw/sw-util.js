@@ -92,3 +92,14 @@ function isEmpty(str) {
 function isBlank(str) {
     return (!str || /^\s*$/.test(str));
 };
+
+// private method for UTF-8 encoding
+function encodeUTF8 (string) {
+	return unescape(encodeURIComponent(string));
+};
+
+// private method for UTF-8 decoding
+function decodeUTF8 (utftext) {
+	return decodeURIComponent(escape(utftext));
+};
+

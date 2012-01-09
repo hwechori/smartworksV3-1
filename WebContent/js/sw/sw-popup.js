@@ -39,7 +39,7 @@ smartPop = {
 
 	showInfo : function(infoType, message){
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
-		$.modal( '<div class="pop_corner_all pop_section_300">' + 
+		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
 					'<div class="form_contents margin_t10">' + 
 						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
 					 	'<div class="pop_notice_section">' + message + '</div>' +
@@ -51,11 +51,11 @@ smartPop = {
 					 		'</a> </span>' +
 					 	'</div>' +
 					 '</div>' +
-				  '</div>', showInfoOptions);
+				  '</div>').appendTo($(document)), showInfoOptions);
 	},
 	
 	confirm : function(message, onOk, onCancel){
-		$.modal( '<div class="pop_corner_all pop_section_300">' + 
+		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
 					'<div class="form_contents margin_t10">' + 
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
@@ -71,7 +71,7 @@ smartPop = {
 				 			'</a> </span>' +
 				 		'</div>' +
 					 '</div>' +
-				  '</div>', 
+				  '</div>').appendTo($(document)), 
 		  {
 			opacity: 50,
 			overlayCss: {backgroundColor:"#000"},
@@ -105,7 +105,7 @@ smartPop = {
 
 	progressTarget : "",
 	progressCenter : function(){
-		$.modal('<img class="js_progress_icon" src="images/load_wh.gif"/>', {
+		$.modal($('<img class="js_progress_icon" src="images/load_wh.gif"/>').appendTo($(document)), {
 			opacity: 20,
 			autoPosition: true,
 			overlayCss: {backgroundColor:"#000"},

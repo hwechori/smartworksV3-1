@@ -4,6 +4,7 @@ import net.smartworks.model.BaseObject;
 import net.smartworks.model.KeyMap;
 import net.smartworks.model.community.User;
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.security.AccessPolicy;
 import net.smartworks.model.work.Work;
 import net.smartworks.util.LocalDate;
 
@@ -12,6 +13,8 @@ public class Report extends BaseObject {
 	public final static int TYPE_CHART = 1;
 	public final static int TYPE_MATRIX = 2;
 	public final static int TYPE_TABLE = 3;
+	
+	public final static String REPORT_ID_NONE = "none";
 
 	public static final KeyMap VALUE_TYPE_COUNT = new KeyMap("count", "report.value.type.count");
 	public static final KeyMap VALUE_TYPE_SUM = new KeyMap("sum", "report.value.type.sum");
@@ -43,6 +46,7 @@ public class Report extends BaseObject {
 
 	private int type=-1;
 	private SearchFilter searchFilter;
+	private AccessPolicy accessPolicy = new AccessPolicy();
 	private Work work;
 	private User owner;
 	private LocalDate createdDate;
@@ -60,6 +64,12 @@ public class Report extends BaseObject {
 	}
 	public void setSearchFilter(SearchFilter searchFilter) {
 		this.searchFilter = searchFilter;
+	}
+	public AccessPolicy getAccessPolicy() {
+		return accessPolicy;
+	}
+	public void setAccessPolicy(AccessPolicy accessPolicy) {
+		this.accessPolicy = accessPolicy;
 	}
 	public Work getWork() {
 		return work;

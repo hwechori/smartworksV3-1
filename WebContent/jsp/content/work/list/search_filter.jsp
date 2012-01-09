@@ -285,13 +285,16 @@
 				</span> 
 	 			<%
 	 			if(!(!SmartUtil.isBlankObject(filter) && filter.isSystemFilter())){
-	 	 			System.out.println(SmartUtil.isBlankObject(filter));
 	 				if(!SmartUtil.isBlankObject(filter))
-	 	 				System.out.println(filter.isSystemFilter());
 	 			%>
 					<span class="btn_wh"> 
 						<a href="" class="js_search_filter_save"><span class="Btn01Start"></span>
 							<span class="Btn01Center"><fmt:message key="common.button.save"/></span><span class="Btn01End"></span> 
+						</a>
+					</span> 
+					<span class="btn_wh"> 
+						<a href="" class="js_search_filter_delete"><span class="Btn01Start"></span>
+							<span class="Btn01Center"><fmt:message key="common.button.delete"/></span><span class="Btn01End"></span>
 						</a>
 					</span> 
 				<%

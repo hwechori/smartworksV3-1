@@ -3,6 +3,7 @@ package net.smartworks.model.filter;
 import net.smartworks.model.BaseObject;
 import net.smartworks.model.community.User;
 import net.smartworks.model.instance.WorkInstance;
+import net.smartworks.model.security.AccessPolicy;
 import net.smartworks.model.work.FormField;
 
 public class SearchFilter extends BaseObject{

@@ -29,6 +29,10 @@
 
 <select name="selMyReportList" class="js_select_work_report"
 	href="work_report_view.sw?workId=<%=workId%>&workType=<%=work.getType()%>">
+	<option value="<%=Report.REPORT_ID_NONE %>" 
+		<%if(SmartUtil.isBlankObject(work.getLastReportId()) || work.getLastReportId().equals(Report.REPORT_ID_NONE)){ %> selected <%} %>>
+		<fmt:message key="report.title.no_report" />
+	</option>
 	<%
 	Report[] infoReports = ChartReport.DEFAULT_CHARTS_INFORMATION;
 	if (infoReports != null) {
@@ -36,7 +40,8 @@
 			String chartType = null;
 			if(report.getType() == Report.TYPE_CHART) chartType = ((ChartReport)report).getChartTypeInString();
 	%>
-	<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>>
+	<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>
+		<%if(report.getId().equals(work.getLastReportId())){ %> selected <%} %>>
 		<fmt:message key="<%=report.getName()%>" />
 	</option>
 	<%
@@ -47,7 +52,9 @@
 		for (ReportInfo report : reports) {
 			String chartType = report.getChartTypeInString();
 	%>
-	<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>><%=report.getName()%></option>
+	<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>
+		<%if(report.getId().equals(work.getLastReportId())){ %> selected <%} %>><%=report.getName()%>
+		</option>
 	<%
 		}
 	}

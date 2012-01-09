@@ -110,6 +110,11 @@ $(function() {
 		return false;
 	});	
 
+	$('a.js_search_filter_delete').live("click", function(e){
+		deleteSearchFilter();
+		return false;
+	});	
+
 	$('a.js_search_filter_save').live("click", function(e){
 		saveSearchFilter();
 		return false;
