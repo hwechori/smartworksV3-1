@@ -1,7 +1,7 @@
 
 <!-- Name 			: works.jsp										 				 -->
 <!-- Description	: 좌측의 Navigation Bar에서 현재사용자의 업무를 찾아서 페이징하는 박스 	 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@ page contentType="text/html; charset=utf-8"%>

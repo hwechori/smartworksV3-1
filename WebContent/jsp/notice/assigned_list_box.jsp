@@ -1,7 +1,7 @@
 
 <!-- Name 			: assigned_list_box.jsp											 -->
 <!-- Description	: 화면구성중에 Header 에서 현재사용자에게 할당된 업무 목록들을 보여주는 박스  -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.model.work.info.WorkInfo"%>

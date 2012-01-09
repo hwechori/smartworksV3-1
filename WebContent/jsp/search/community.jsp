@@ -1,8 +1,8 @@
-
-<!-- Name 			: community.jsp									 				 -->
-<!-- Description	: 커뮤너티를 찾는 검색박스에서 key 값을 받아 서버에서 결과를가져와 보여주는 화면  -->
-<!-- Author			: Y.S. JUNG														 -->
-<!-- Created Date	: 2011.9.														 -->
+	
+<!-- Name 			: community.jsp									 					 -->
+<!-- Description	: 커뮤너티를 찾는 검색박스에서 key 값을 받아 서버에서 결과를가져와 보여주는 화면   -->
+<!-- Author			: Maninsoft, Inc.													 -->
+<!-- Created Date	: 2011.9.															 -->
 
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>
 <%@page import="net.smartworks.model.community.info.DepartmentInfo"%>

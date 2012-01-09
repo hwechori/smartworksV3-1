@@ -2,7 +2,7 @@
 <!-- Name 			: default_fields.jsp												 -->
 <!-- Description	: 업무목록 페이지들의 상세필터에서 업무별로(정보관리업무, 프로세스업무, 일정계획업무)-->
 <!--				  기본으로 가지는 필드의 비교 기능    									 -->
-<!-- Author			: Y.S. JUNG															 -->
+<!-- Author			: Maninsoft, Inc.													 -->
 <!-- Created Date	: 2011.9.															 -->
 
 <%@page import="net.smartworks.model.report.Report"%>

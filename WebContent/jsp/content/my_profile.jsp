@@ -1,7 +1,7 @@
 
 <!-- Name 			: my_profile.jsp										 -->
 <!-- Description	: 현재사용자 프로파일 정보를 조회하고 수정하는 화면 				 -->
-<!-- Author			: Y.S. JUNG												 -->
+<!-- Author			: Maninsoft, Inc.										 -->
 <!-- Created Date	: 2011.9.												 -->
 
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>

@@ -1,7 +1,7 @@
 
 <!-- Name 			: my_departments.jsp												-->
 <!-- Description	: 좌측의 Navigation Bar의 나의 커뮤너티에서 나의 커뮤너티그룹들을 보여주는 공간	-->
-<!-- Author			: Y.S. JUNG													 		-->
+<!-- Author			: Maninsoft, Inc.													-->
 <!-- Created Date	: 2011.9.													 		-->
 
 <%@page import="net.smartworks.util.SmartUtil"%>

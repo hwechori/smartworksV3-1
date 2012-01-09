@@ -147,7 +147,7 @@ function createUploader(groupId, target, isMultiple, isProfile, isTempFile, file
 					file.find('.qq-delete-text').show();
 				}
 			},
-			error : function(e) {
+			error : function(xhr, ajaxOptions, thrownError) {
 				alert(e);
 			}
 		});
@@ -192,8 +192,8 @@ function viewFiles(groupId, target){
 					file.find('.qq-upload-size').text(getBytesWithUnit(data[i].fileSize));
 				}
 			},
-			error : function(e) {
-				alert(e);
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert(xhr);
 			}
 		});
 	}

@@ -1,7 +1,7 @@
 
 <!-- Name 			: boolean_field.jsp											 -->
 <!-- Description	: 업무목록 페이지들의 상세필터에서 조건이 참거짓인 항목 화면 			 -->
-<!-- Author			: Y.S. JUNG													 -->
+<!-- Author			: Maninsoft, Inc.											 -->
 <!-- Created Date	: 2011.9.													 -->
 
 <%@page import="java.net.URLDecoder"%>

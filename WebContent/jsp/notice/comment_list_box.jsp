@@ -1,8 +1,8 @@
 
-<!-- Name 			: comment_list_box.jsp										 -->
+<!-- Name 			: comment_list_box.jsp									 -->
 <!-- Description	: 화면구성중에 Header 에서 새로운 댓글 목록들을 보여주는 박스 	 -->
-<!-- Author			: Y.S. JUNG														 -->
-<!-- Created Date	: 2011.9.														 -->
+<!-- Author			: Maninsoft, Inc.										 -->
+<!-- Created Date	: 2011.9.												 -->
 
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>
 <%@page import="net.smartworks.model.community.info.DepartmentInfo"%>

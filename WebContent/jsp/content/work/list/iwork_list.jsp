@@ -33,7 +33,7 @@
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				$('#iwork_list_page').html(data);
+				$('#iwork_instance_list_page').html(data);
 				smartPop.closeProgress();
 			},
 			error : function(e) {
@@ -44,11 +44,13 @@
 	};
 	
 	saveAsSearchFilter = function(filterId){
-		if(isEmpty(filterId)) $('input[name="txtNewFilterId"]').addClass('required');
-		if (!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return;
+		var iworkList = $('.js_iwork_list_page');
+		var searchFilter = $('.js_search_filter_page');
+		if(isEmpty(filterId)) searchFilter.find('input[name="txtNewFilterId"]').addClass('required');
+		if (!SmartWorks.GridLayout.validate(searchFilter.find('form.js_validation_required'))) return;
 		var paramsJson = {};
-		var workId = $('div.js_work_list').attr('workId');
-		var searchFilters = $('form[name="frmSearchFilter"]');
+		var workId = iworkList.attr('workId');
+		var searchFilters = searchFilter.find('form[name="frmSearchFilter"]');
 		paramsJson['workId'] = workId;
 		if(!isEmpty(filterId))
 			paramsJson['filterId'] = filterId;
@@ -61,7 +63,7 @@
 			}
 			paramsJson['frmSearchFilters'] = searchFilterArray;
 		}
-		var progressSpan = $('.js_search_filter').find('span.js_progress_span:first');
+		var progressSpan = searchFilter.find('span.js_progress_span:first');
 		smartPop.progressCont(progressSpan);
 		$.ajax({
 			url : "set_iwork_search_filter.sw",
@@ -69,6 +71,8 @@
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
+				$('.js_search_filter_list_box:first').html(data);
+				$('a.js_search_filter_close').click();
 				smartPop.closeProgress();
 			},
 			error : function(e) {
@@ -79,19 +83,19 @@
 	};
 	
 	saveSearchFilter = function(){
-		var searchFilters = $('form[name="frmSearchFilter"]');
-		var filterId = searchFilters.parents('.js_search_filter').attr('filterId');
-		if(isEmpty(filterId)) $('input[name="txtNewFilterId"]').removeClass('required');
+		var searchFilter = $('.js_search_filter_page');
+		var filterId = searchFilter.attr('filterId');
+		if(isEmpty(filterId)) searchFilter.find('input[name="txtNewFilterId"]').removeClass('required');
 		saveAsSearchFilter(filterId);
 	};
 
 	selectListParam = function(progressSpan, isGray){
-		console.log('progressSpan=', progressSpan);
-		var forms = $('form:visible');
+		var iworkList = $('.js_iwork_list_page');
+		var forms = iworkList.find('form:visible');
 		var paramsJson = {};
-		var workId = $('div.js_work_list').attr('workId');
+		var workId = iworkList.attr('workId');
 		paramsJson["href"] = "jsp/content/work/list/iwork_instance_list.jsp?workId=" + workId;
-		var searchFilters = $('form[name="frmSearchFilter"]');
+		var searchFilters = iworkList.find('form[name="frmSearchFilter"]');
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
 			if(form.attr('name') !== "frmSearchFilter" && !(!isEmpty(searchFilters) && form.attr('name') === "frmSearchInstance")){
@@ -107,7 +111,7 @@
 			}
 			paramsJson['frmSearchFilters'] = searchFilterArray;
 		}
-		if(isEmpty(progressSpan)) grogressSpan = $('.js_search_filter').next('span.js_progress_span:first');
+		if(isEmpty(progressSpan)) grogressSpan = iworkList.find('.js_search_filter').next('span.js_progress_span:first');
 		getIntanceList(paramsJson, progressSpan, isGray);		
 	};
 </script>
@@ -124,7 +128,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_work_list" workId=<%=work.getId()%>>
+<div class="section_portlet js_iwork_list_page" workId=<%=work.getId()%>>
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>
@@ -272,7 +276,7 @@
 						<a href="work_report.sw?workId=<%=work.getId()%>"
 							class="js_new_work_report"><fmt:message key="report.button.new_work_report"/></a>
 					</div>
-					<div class="po_right bu_stat">
+					<div class="po_right bu_stat js_work_report_list_box">
 						<select name="selMyReportList" class="js_select_work_report"
 							href="work_report_view.sw?workId=<%=workId%>&workType=<%=work.getType()%>">
 							<%
@@ -320,7 +324,7 @@
 								</div>
 							</form>
 
-							<div class="po_left">
+							<div class="po_left js_search_filter_list_box">
 								<form class="form_space" name="frmIworkFilterName">
 									<select name="selFilterName" class="js_select_search_filter">
 										<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" selected><fmt:message key='filter.name.all_instances' /></option>
@@ -361,7 +365,7 @@
 
 					<!-- 목록 테이블 -->
 					<div class="list_contents">
-						<div id='iwork_list_page' >
+						<div id='iwork_instance_list_page' >
 							<jsp:include page="/jsp/content/work/list/iwork_instance_list.jsp">
 								<jsp:param value="<%=workId%>" name="workId"/>
 							</jsp:include>

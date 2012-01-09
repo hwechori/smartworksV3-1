@@ -8,6 +8,9 @@ $('.js_more_list').live('click', function(e) {
 		},
 		success : function(data, status, jqXHR) {
 			$(data).appendTo(base_ul);
+		},
+		error : function(xhr, ajaxOptions, thrownError){
+			
 		}
 	});
 

@@ -1,7 +1,7 @@
 
 <!-- Name 			: my_all_mail_folders.jsp										 -->
 <!-- Description	: 좌측의 Navigation Bar 의  메일에서 메일폴더들을 가져다 보여주는 화면 	 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.model.mail.MailFolder"%>

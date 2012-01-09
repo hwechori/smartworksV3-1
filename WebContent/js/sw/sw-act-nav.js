@@ -104,6 +104,9 @@ $(function() {
 								formValues : formData.record,
 								mode : "view"
 							});
+						},
+						error : function(xhr, ajaxOptions, thrownError){
+							
 						}
 					});
 				}
@@ -150,6 +153,9 @@ $(function() {
 			},
 			success : function(data, status, jqXHR) {
 				$('#notice_message_box').html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
 			}
 		});
 		return false;
@@ -224,7 +230,7 @@ $(function() {
 					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
 						smartPop.closeProgress();											
 				},
-				error : function(){
+				error : function(xhr, ajaxOptions, thrownError){
 					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
 						smartPop.closeProgress();											
 				}

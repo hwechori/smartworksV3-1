@@ -1,7 +1,7 @@
 
 <!-- Name 			: community_members.jsp										 	 -->
-<!-- Description	: 좌측의 Navigation Bar에서 커뮤너티공간인경우 멤버들을 보여주는 공간 		 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Description	: 좌측의 Navigation Bar 에서 커뮤너티공간인경우 멤버들을 보여주는 공간 	 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.model.community.info.UserInfo"%>

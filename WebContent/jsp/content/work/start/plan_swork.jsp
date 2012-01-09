@@ -12,14 +12,15 @@
 
 <script type="text/javascript">
 function submitForms(e) {
-	var scheduleWork = $('form[name="frmScheduleWork"]');
+	var planSwork = $('.js_plan_swork_page');
+	var scheduleWork = planSwork.find('form[name="frmScheduleWork"]');
 	if(scheduleWork.find($('input[name="chkScheduleWork"]')).is(':checked')){
 		scheduleWork.addClass('js_validation_required');
 	}else{
 		scheduleWork.removeClass('js_validation_required');	
 	}
-	if (SmartWorks.GridLayout.validate($('form.js_validation_required'))) {
-		var forms = $('form');
+	if (SmartWorks.GridLayout.validate(planSwork.find('form.js_validation_required'))) {
+		var forms = planSwork.find('form');
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
@@ -68,7 +69,7 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 js_form_wrap">
+<div class="form_wrap up up_padding margin_b2 js_form_wrap js_plan_swork_page">
 	<div class="form_title js_form_header">
 		<div class="ico_sworks title"><%=work.getFullpathName()%></div>
 		<div class="txt_btn">

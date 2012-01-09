@@ -1,7 +1,7 @@
 
 <!-- Name 			: my_all_works.jsp										 	 -->
-<!-- Description	: 좌측의 Navigation Bar의 나의 공간에서 전체업무를 보여주는 공간 	 -->
-<!-- Author			: Y.S. JUNG													 -->
+<!-- Description	: 좌측의 Navigation Bar 의 나의 공간에서 전체업무를 보여주는 공간 	 -->
+<!-- Author			: Maninsoft, Inc.											 -->
 <!-- Created Date	: 2011.9.													 -->
 
 <%@page import="net.smartworks.model.community.User"%>

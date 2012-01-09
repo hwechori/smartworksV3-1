@@ -8,16 +8,16 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <script type="text/javascript">
 function submitForms(e) {
-
-	var $frmSmartForm = $('form[name="frmSmartForm"]');
+	var newFile = $('.js_new_file_page');
+	var $frmSmartForm = newFile.find('form[name="frmSmartForm"]');
 	if(isEmpty($frmSmartForm)) {
-		if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
+		if(!SmartWorks.GridLayout.validate(newFile.find('form.js_validation_required'))) return
 		var target = $('#form_import');
 		$.ajax({
 			url : "file_detail_form.sw",
 			success : function(data, status, jqXHR) {
 				target.html(data).hide();
-				var form = $('form[name="frmNewFile"]');
+				var form = newFile.find('form[name="frmNewFile"]');
 				var uploader = form.find('.qq-uploader');
 				var comments = form.find('textarea[name="txtFileDesc"]').attr("value");
 				var groupId = uploader.attr('groupId');
@@ -25,7 +25,7 @@ function submitForms(e) {
 				var fileName = $(fileList[0]).attr('fileName');
 				if(isEmpty(fileName))
 					fileName = "";
-				var formContent = $('#form_import').find('div.js_form_content');
+				var formContent = newFile.find('#form_import').find('div.js_form_content');
 				if(!isEmpty(formContent)) {
 					var workId = formContent.attr('workId');
 					$.ajax({
@@ -55,7 +55,7 @@ function submitForms(e) {
 		});
 	} else {
 		if(!SmartWorks.GridLayout.validate($frmSmartForm)) return
-		var forms = $('form');
+		var forms = newFile.find('form');
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
@@ -91,7 +91,7 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="up_wrap">
+<div class="up_wrap js_new_file_page">
 	<div class="up_point posit_file"></div>
 	<div class="up up_padding">
 		<!-- 폼- 확장 -->
@@ -102,11 +102,11 @@ function submitForms(e) {
 			<div class="form_contents">
 				<div class="txt_btn txt_btn_height js_file_detail_form">
 					<div>
-						<a class="js_toggle_form_detail" href="file_detail_form.sw"><fmt:message
+						<a class="js_toggle_file_detail" href="file_detail_form.sw"><fmt:message
 								key="common.upload.button.view_file_detail" /> </a>
 					</div>
 					<div style="display: none">
-						<a class="js_toggle_form_detail" href="empty_content.sw"><fmt:message
+						<a class="js_toggle_file_detail" href="empty_content.sw"><fmt:message
 								key="common.upload.button.close_file_detail" /> </a>
 					</div>
 				</div>

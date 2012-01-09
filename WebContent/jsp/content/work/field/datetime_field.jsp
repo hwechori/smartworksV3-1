@@ -1,7 +1,7 @@
 
 <!-- Name 			: datetime_field.jsp											 -->
 <!-- Description	: 업무목록 페이지들의 상세필터에서 조건이 날짜및 시간인 항목 화면 			 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="java.text.DecimalFormat"%>
@@ -21,7 +21,7 @@
 	
 </script>
 <%
-	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다..
+	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다.. 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 

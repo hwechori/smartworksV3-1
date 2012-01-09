@@ -1,7 +1,7 @@
 
 <!-- Name 			: communities.jsp										 		 -->
-<!-- Description	: 좌측의 Navigation Bar에서 현재사용자의 커뮤너티들을 찾아서 페이징하는 박스 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Description	: 좌측의 Navigation Bar 에서 현재사용자의 커뮤너티들을 찾아서 페이징하는 박스 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@ page contentType="text/html; charset=utf-8"%>

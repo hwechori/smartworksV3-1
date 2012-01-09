@@ -3,7 +3,8 @@ SmartWorks.GridLayout = function(config) {
 		target : $('<div></div>'),
 		formXml : '',
 		formValues : '',
-		mode : 'edit'
+		mode : 'edit',
+		requiredOnly : 'false'
 	};
 
 	SmartWorks.extend(this.options, config);
@@ -76,6 +77,12 @@ SmartWorks.GridLayout = function(config) {
 		for ( var j = 0; j < $cells.length; j++) {
 			var $cell = $cells.eq(j);
 			var id = $cell.attr('fieldId');
+			var $entity = [];
+			if(id){
+				$entity = $form.find('#' + id);
+				if(this.options.requiredOnly === 'true' && $entity[0].getAttribute('required') !== 'true')
+					continue;
+			}
 			var colspan = parseInt($cell.attr('span'));
 			var rowspan = parseInt($cell.attr('rowspan'));			
 			var width = 0;
@@ -101,7 +108,6 @@ SmartWorks.GridLayout = function(config) {
 			if(rowspan)
 				$html_cell.attr('rowspan', rowspan);
 			if(id) {
-				var $entity = $form.find('#' + id);
 				SmartWorks.FormFieldBuilder.build(this.options.mode, $html_cell, $entity, dataField, this);				
 			}
 
@@ -132,7 +138,6 @@ SmartWorks.GridLayout.serializeObject = function(form){
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject(form.find('.js_type_imageBox'));
 	var dataGrids = {};
-	console.log(fileFields, userFields, departmentFields, richEditors, refFormFields, imageBoxs, departmentFields);
 	return mergeObjects(merge3Objects(fileFields, userFields, richEditors), merge3Objects(refFormFields, imageBoxs, departmentFields));
 };
 

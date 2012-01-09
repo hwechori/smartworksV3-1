@@ -216,6 +216,9 @@ Ext.onReady(function () {
 						smartChart.values = data.values;
 						smartChart.createChart();
 					}
+				},
+				error : function(xhr, ajaxOptions, thrownError){
+					
 				}
 			});
 		},

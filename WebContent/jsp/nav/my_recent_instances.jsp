@@ -1,7 +1,7 @@
 
 <!-- Name 			: my_recent_instances.jsp								 -->
 <!-- Description	: 현재사용자의 최근 처리한 항목들을 보여주는 화면   				 -->
-<!-- Author			: Y.S. JUNG												 -->
+<!-- Author			: Maninsoft, Inc.										 -->
 <!-- Created Date	: 2011.9.												 -->
 
 <%@page import="net.smartworks.model.community.info.UserInfo"%>

@@ -1,7 +1,7 @@
 
 <!-- Name 			: space_profile.jsp								 				 -->
 <!-- Description	: 화면 왼쪽의 Navigation Bar 에서 현재공간의 프로파일및 정보를 보여준다... -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.util.SmartUtil"%>

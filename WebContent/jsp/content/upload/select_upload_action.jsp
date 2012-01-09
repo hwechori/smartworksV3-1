@@ -1,7 +1,7 @@
 
 <!-- Name 			: select_upload_action.jsp										 -->
 <!-- Description	: 새롭게 시작하거나 올리고자 하는 업무들 선택하는 아이콘들        			 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.model.community.User"%>

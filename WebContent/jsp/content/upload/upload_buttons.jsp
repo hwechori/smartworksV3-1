@@ -1,7 +1,7 @@
 
 <!-- Name 			: upload_buttons.jsp											 -->
 <!-- Description	: 새로운 업무나 파일들을 올릴때 사용되는 버튼들(공간 및 권한지정 포함)       -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.model.community.info.CommunityInfo"%>

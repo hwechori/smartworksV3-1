@@ -36,7 +36,7 @@ $(function() {
 						target.html(data);
 						target.show();
 					},
-					error : function(data, status, jqXHR){
+					error : function(xhr, ajaxOptions, thrownError){
 					}
 				});
 			} else {

@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.report.ChartReport;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
@@ -128,6 +129,7 @@ public class WorkController extends ExceptionInterceptor {
 	}
 
 	@RequestMapping(value = "/get_form_xml", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<String> getFormXml(HttpServletRequest request, HttpServletResponse response) {
 		String formXml = "";
 		try {
@@ -163,12 +165,14 @@ public class WorkController extends ExceptionInterceptor {
 
 	@RequestMapping(value = "/set_iwork_search_filter", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody Map<String, Object> setIworkSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
-		// TO DO : Exception handler
-		Map<String, Object> map = new HashMap<String, Object>();
-		return map;
+	public ModelAndView createNewWorkReport(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
+		String filterId = "";
+		String workId = (String)requestBody.get("workId");
+		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
+		ModelAndView mnv = new ModelAndView();
+		mnv.addObject(smartworks);
+		mnv.setViewName("jsp/content/work/list/search_filter_list_box.jsp?workId=" + workId + "&filterId=" + filterId);
+		return mnv;
 	}
-
-	
 }

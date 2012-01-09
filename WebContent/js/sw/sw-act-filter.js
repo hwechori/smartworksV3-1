@@ -9,6 +9,9 @@ $(function() {
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).show();
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
 			}
 		});
 		return false;
@@ -35,8 +38,8 @@ $(function() {
 				input.hide();
 				smartPop.closeProgress();
 			},
-			error : function(){
-				smartPop.closeProgress();						
+			error : function(xhr, ajaxOptions, thrownError){
+				smartPop.closeProgress();
 			}
 		});
 		return false;
@@ -44,6 +47,7 @@ $(function() {
 
 	
 	$('a.js_select_paging').live("click", function(e){
+		$('#search_filter').slideUp(500).html('');
 		var input = $(e.target).parents('a.js_select_paging');
 		input.find('input').attr('value', 'true');
 		var progressSpan = input.siblings('span.js_progress_span:first');
@@ -53,6 +57,7 @@ $(function() {
 	
 	$('a.js_select_current_page').live("click", function(e){
 		var input = $(e.target);
+		$('#search_filter').slideUp(500).html('');
 		var progressSpan = input.siblings('span.js_progress_span:first');
 		input.siblings('input[name="hdnCurrentPage"]').attr('value', input.text());
 		selectListParam(progressSpan, false);
@@ -61,6 +66,7 @@ $(function() {
 	
 	$('.js_select_page_size').live("change", function(e){
 		var input = $(e.target);
+		$('#search_filter').slideUp(500).html('');
 		var progressSpan = input.siblings('span.js_progress_span:first');
 		selectListParam(progressSpan, false);
 		return false;
@@ -68,6 +74,7 @@ $(function() {
 	
 	$('a.js_select_field_sorting').live('click', function(e){
 		var input = $(e.target);
+		$('#search_filter').slideUp(500).html('');
 		var sortingField = $('form[name="frmSortingField"]').find('input[name="hdnSortingFieldId"]');
 		var sortingIsAscending = $('form[name="frmSortingField"]').find('input[name="hdnSortingIsAscending"]');
 		if(sortingField.attr('value') === input.attr('fieldId')){
@@ -98,7 +105,7 @@ $(function() {
 
 	$('a.js_search_filter_execute').live("click", function(e){
 		if (!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return false;
-		var progressSpan = $('.js_search_filter').find('span.js_progress_span:first');
+		var progressSpan = $('.js_search_filter_page').find('span.js_progress_span:first');
 		selectListParam(progressSpan, false);
 		return false;
 	});	

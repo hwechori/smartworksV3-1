@@ -25,10 +25,15 @@ $(function() {
 				target.html(data).slideDown(500);
 				smartPop.closeProgress();						
 			},
-			error : function(){
+			error : function(xhr, ajaxOptions, thrownError){
 				smartPop.closeProgress();						
 			}
 		});
+		return false;
+	});
+
+	$('a.js_close_work_report').live('click', function(e) {
+		$(e.target).parents('.js_work_report_page').hide().html('');
 		return false;
 	});
 
@@ -52,7 +57,7 @@ $(function() {
 				target.slideDown(500);
 				smartPop.closeProgress();						
 			},
-			error : function(){
+			error : function(xhr, ajaxOptions, thrownError){
 				smartPop.closeProgress();						
 			}
 
@@ -79,6 +84,9 @@ $(function() {
 			data : {reportType : reportType },
 			success : function(data, status, jqXHR) {
 				target.html(data).show();
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
 			}
 		});
 		return false;
@@ -151,7 +159,7 @@ $(function() {
 					input.hide().siblings().show();
 					$('#content').hideLoading();						
 				},
-				error : function(){
+				error : function(xhr, ajaxOptions, thrownError){
 					$('#content').hideLoading();											
 				}
 			});

@@ -175,6 +175,9 @@ function startChattingWindow(message) {
 						chatterInfos[i].status);
 			}
 			chattingBox.slideDown(1000);
+		},
+		error : function(xhr, ajaxOptions, thrownError){
+			
 		}
 	});
 }

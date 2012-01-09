@@ -8,15 +8,15 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <script type="text/javascript">
 function submitForms(e) {
+	var newPicture = $('.js_new_picture_page');
+	if(!SmartWorks.GridLayout.validate(newPicture.find('form.js_validation_required'))) return
 
-	if(!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return
-
-	var target = $('#form_import');
+	var target = newPicture.find('#form_import');
 	$.ajax({
 		url : "file_detail_form.sw",
 		success : function(data, status, jqXHR) {
 			target.html(data).hide();
-			var form = $('form[name="frmNewPicture"]');
+			var form = newPicture.find('form[name="frmNewPicture"]');
 			var uploader = form.find('.qq-uploader');
 			var comments = form.find('textarea[name="txtPictureDesc"]').attr("value");
 			var groupId = uploader.attr('groupId');
@@ -24,7 +24,7 @@ function submitForms(e) {
 			var fileName = $(fileList[0]).attr('fileName');
 			if(isEmpty(fileName))
 				fileName = "";
-			var formContent = $('#form_import').find('div.js_form_content');
+			var formContent = newPicture.find('#form_import').find('div.js_form_content');
 			if(!isEmpty(formContent)) {
 				var workId = formContent.attr('workId');
 				$.ajax({
@@ -47,7 +47,7 @@ function submitForms(e) {
 							mode : "edit"
 						});
 						$frmSmartForm = formContent.children('form');
-						var forms = $('form');
+						var forms = newPicture.find('form');
 						var paramsJson = {};
 						for(var i=0; i<forms.length; i++){
 							var form = $(forms[i]);
@@ -87,7 +87,7 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="up_wrap">
+<div class="up_wrap js_new_picture_page">
 	<div class="up_point posit_file"></div>
 	<div class="up up_padding">
 		<!-- 폼- 확장 -->

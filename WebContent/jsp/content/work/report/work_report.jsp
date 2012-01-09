@@ -21,7 +21,7 @@
 		var forms = $('div.js_work_report_page form');
 		if (SmartWorks.GridLayout.validate(forms)) {
 			var paramsJson = {};
-			paramsJson['workId'] = $('div.js_work_report').attr('workId');
+			paramsJson['workId'] = $('div.js_work_report_page').attr('workId');
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
@@ -35,18 +35,17 @@
 				type : 'POST',
 				data : JSON.stringify(paramsJson),
 				success : function(data, status, jqXHR) {
+					console.log('before=', $('.js_work_report_list_box:first'));
+					$('.js_work_report_list_box:first').html(data);
+					console.log('after=', $('.js_work_report_list_box:first'));
 					smartPop.closeProgress();
- 					smartPop.confirm("성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??", 
-							function(){
-								document.location.href = data.href;					
-							},
-							function(){
-								document.location.href = document.location.href;
-							});
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get("createReportSucceed"));
+					$('a.js_close_work_report').click();
  				},
 				error : function(e) {
 					smartPop.closeProgress();
 					smartPop.showInfo(smartPop.ERROR, smartMessage.get("createReportError"));
+					$('a.js_close_work_report').click();
 				}
 			});
 		
@@ -166,7 +165,7 @@
 				</a> 
 			</span> 
 			<span class="btn_gray space_l5">
-				<a href=""> 
+				<a href="" class="js_close_work_report"> 
 					<span class="Btn01Start"></span> 
 					<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> 
 					<span class="Btn01End"></span> 

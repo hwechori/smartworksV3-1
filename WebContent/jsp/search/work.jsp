@@ -1,7 +1,7 @@
 
 <!-- Name 			: work.jsp										 				 -->
 <!-- Description	: 업무를 찾는 검색박스에서 key 값을 받아 서버에서 결과를가져와 보여주는 화면  -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.model.community.User"%>

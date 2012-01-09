@@ -33,9 +33,9 @@ var smartMail = {
 				loggedIn = true;
 				console.log(data);
 			},
-			error : function(data, status, jqXHR){
+			error : function(xhr, ajaxOptions, thrownError){
 				loggedIn = false;
-				console.log(data);
+				console.log(xhr);
 				if(loginRetries < loginRetry.max){
 					loginRetries++;
 					console.log("LOGIN RETRY = " + loginRetries);
@@ -70,8 +70,8 @@ var smartMail = {
 				if(isEmpty(folderId))
 					smartMail.unreadMailCount();
 			},
-			error : function(data, status, jqXHR){
-				console.log("error=", data);
+			error : function(xhr, ajaxOptions, thrownError){
+				console.log("error=", xhr);
 			}
 		});
 	},
@@ -90,8 +90,8 @@ var smartMail = {
 					unreadMessages = unreadCount;
 				}
 			},
-			error : function(data, status, jqXHR){
-				console.log("error=", data);
+			error : function(xhr, ajaxOptions, thrownError){
+				console.log("error=", xhr);
 				smartMail.checkNewMailExists();
 			}
 		});
@@ -116,8 +116,8 @@ var smartMail = {
 				}
 				setTimeout(smartMail.checkNewMailExists, checkMailInterval);
 			},
-			error : function(data, status, jqXHR){
-				console.log("error=", data);
+			error : function(xhr, ajaxOptions, thrownError){
+				console.log("error=", xhr);
 			  	checkingMail = false;
 				setTimeout(smartMail.checkNewMailExists, checkMailInterval);
 			}

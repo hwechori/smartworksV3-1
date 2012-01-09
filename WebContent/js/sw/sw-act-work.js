@@ -37,6 +37,9 @@ $(function() {
 				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
 					loadNewBoardFields();
 				}
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
 			}
 		});
 		return false;
@@ -64,6 +67,9 @@ $(function() {
 				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
 					loadNewBoardFields();
 				}
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
 			}
 		});
 		return false;
@@ -92,26 +98,50 @@ $(function() {
 			var input = $(event.target).parents('li:first').children('a');
 			var formContent = $('#form_works').find('div.js_form_content');
 			var workId = input.attr('workId');
-			var workType = formContent.attr("workType");
 			$.ajax({
 				url : "get_form_xml.sw",
 				data : {
 					workId : workId
 				},
 				success : function(formXml, status, jqXHR) {
-					console.log(formXml);
 					new SmartWorks.GridLayout({
 						target : formContent,
 						formXml : formXml,
-						mode : "edit"
+						mode : "edit",
+						requiredOnly : "true"						
 					});
 					smartPop.closeProgress();
 				},
-				error : function(){
+				error : function(xhr, ajaxOptions, thrownError){
 					smartPop.closeProgress();
 				}				
 			});			
 		}
+	});
+
+	$('.js_toggle_form_detail').live('click', function(event){
+		var input = $(event.target);
+		input.parent().hide().siblings().show();
+		var formContent = $('#form_works').find('div.js_form_content');
+		var workId = input.attr('workId');
+		var requiredOnly = input.attr('requiredOnly');
+		$.ajax({
+			url : "get_form_xml.sw",
+			data : {
+				workId : workId
+			},
+			success : function(formXml, status, jqXHR) {
+				new SmartWorks.GridLayout({
+					target : formContent,
+					formXml : formXml,
+					mode : "edit",
+					requiredOnly : requiredOnly						
+				});
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+			}				
+		});	
+		return false;
 	});
 
 	$('a.js_create_new_work').live('click', function(e) {
@@ -136,6 +166,9 @@ $(function() {
 							formXml : formXml,
 							mode : "edit"
 						});
+					},
+					error : function(xhr, ajaxOptions, thrownError){
+						
 					}
 				});			
 			}
@@ -151,7 +184,7 @@ $(function() {
 		if(input[0].checked) endtime.hide();
 		else endtime.show();
 	});
-	$('a.js_toggle_form_detail').swnavi(
+	$('a.js_toggle_file_detail').swnavi(
 		{
 			target : 'form_import',
 			after : function(event) {
@@ -192,6 +225,9 @@ $(function() {
 								formValues : record,
 								mode : "edit"
 							});
+						},
+						error : function(xhr, ajaxOptions, thrownError){
+							
 						}
 					});
 				}
@@ -246,6 +282,9 @@ $(function() {
 			context : this,
 			success : function(data, status, jqXHR) {
 				$(e.target).parent().remove();
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
 			}
 		});
 		return false;
@@ -333,6 +372,9 @@ $(function() {
 			success : function(data, status, jqXHR) {
 				target.html(data).slideToggle(500);
 				loadTaskForwardFields();
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
 			}
 		});
 		return false;

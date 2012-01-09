@@ -1,7 +1,7 @@
 
 <!-- Name 			: notice_message_box.jsp										 -->
 <!-- Description	: 화면구성중에 Header 에서 알림아이콘을 클릭하면 알림 내용을 보여주는 박스  	 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.util.SmartUtil"%>

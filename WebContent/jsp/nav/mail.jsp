@@ -1,7 +1,7 @@
 
 <!-- Name 			: mail.jsp										 				 -->
 <!-- Description	: 좌측의 Navigation Bar에서 메일의 폴더들과 관련 기능들을 보여주는 화면 	 -->
-<!-- Author			: Y.S. JUNG														 -->
+<!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
 <%@page import="net.smartworks.util.SmartUtil"%>
