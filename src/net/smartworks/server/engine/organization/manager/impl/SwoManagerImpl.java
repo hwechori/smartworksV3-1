@@ -2193,22 +2193,33 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			return (SwoDepartmentExtend)departmentMap.get(departmentId);
 		}
 
+		SwoDepartmentExtend departmentExtend = new SwoDepartmentExtend();
+
 		StringBuffer buff = new StringBuffer();
 		buff.append("select new net.smartworks.server.engine.organization.model.SwoDepartmentExtend(");
-		buff.append(" dept.id, dept.name, dept.description,");
-		buff.append(" dept.parentId, user.id)");
-		buff.append(" from SwoDepartment dept, SwoUser user");
-		buff.append(" where dept.id = user.deptId");
-		buff.append(" and user.roleId = 'DEPT LEADER'");
-		buff.append(" and dept.id = :id");
+		buff.append("  id, name, description, parentId)");
+		buff.append("  from SwoDepartment");
+		buff.append(" where id = :id");
 		Query query = this.getSession().createQuery(buff.toString());
 		query.setString("id", departmentId);
 
-		SwoDepartmentExtend departmentExtend = new SwoDepartmentExtend();
 		departmentExtend = (SwoDepartmentExtend)query.uniqueResult();
 
 		if(departmentExtend == null)
 			return null;
+
+		buff = new StringBuffer();
+		buff.append("select user.id");
+		buff.append("  from SwoDepartment dept, SwoUser user");
+		buff.append(" where dept.id = user.deptId");
+		buff.append("   and user.roleId = 'DEPT LEADER'");
+		buff.append("   and dept.id = :id");
+		query = this.getSession().createQuery(buff.toString());
+		query.setString("id", departmentId);
+
+		String headId = (String)query.uniqueResult();
+
+		departmentExtend.setHeadId(headId);
 
 		if (departmentExtend != null)
 			userMap.put(departmentId, departmentExtend);
@@ -2235,7 +2246,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		List list = query.list();
 
 		if (list == null || list.isEmpty())
-			return null;
+			return new SwoUserExtend[0];
 
 		SwoUserExtend[] swoUserExtends = new SwoUserExtend[list.size()];
 		

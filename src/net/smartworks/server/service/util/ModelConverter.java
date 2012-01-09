@@ -885,6 +885,28 @@ public class ModelConverter {
 		return user;
 	}
 
+	public static DepartmentInfo getDepartmentInfoByDepartmentId(String departmentId) throws Exception {
+		if (CommonUtil.isEmpty(departmentId))
+			return null;
+		User cUser = SmartUtil.getCurrentUser();
+		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
+		return getDepartmentInfoBySwoUserExtend(null, departmentExtend);
+	}
+
+	public static DepartmentInfo getDepartmentInfoBySwoUserExtend(DepartmentInfo departmentInfo, SwoDepartmentExtend departmentExtend) throws Exception {
+		if (departmentExtend == null)
+			return null;
+		if (departmentInfo == null) 
+			departmentInfo = new DepartmentInfo();
+
+		departmentInfo.setId(departmentExtend.getId());
+		departmentInfo.setName(departmentExtend.getName());
+		departmentInfo.setDesc(departmentExtend.getDescription());
+		departmentInfo.setSmallPictureName(departmentExtend.getSmallPictureName());
+
+		return departmentInfo;
+	}
+
 	public static Department getDepartmentByDepartmentId(String departmentId) throws Exception {
 		if (CommonUtil.isEmpty(departmentId))
 			return null;
@@ -930,6 +952,8 @@ public class ModelConverter {
 			UserInfo[] members = new UserInfo[userInfoList.size()];
 			userInfoList.toArray(members);
 			department.setMembers(members);
+		} else {
+			department.setMembers(new UserInfo[0]);
 		}
 
 		List<DepartmentInfo> departmentInfoList = new ArrayList<DepartmentInfo>();
@@ -946,31 +970,11 @@ public class ModelConverter {
 			DepartmentInfo[] children = new DepartmentInfo[departmentInfoList.size()];
 			departmentInfoList.toArray(children);
 			department.setChildren(children);
+		} else {
+			department.setChildren(new DepartmentInfo[0]);
 		}
 
 		return department;
-	}
-
-	public static DepartmentInfo getDepartmentInfoByDepartmentId(String departmentId) throws Exception {
-		if (CommonUtil.isEmpty(departmentId))
-			return null;
-		User cUser = SmartUtil.getCurrentUser();
-		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
-		return getDepartmentInfoBySwoUserExtend(null, departmentExtend);
-	}
-
-	public static DepartmentInfo getDepartmentInfoBySwoUserExtend(DepartmentInfo departmentInfo, SwoDepartmentExtend departmentExtend) throws Exception {
-		if (departmentExtend == null)
-			return null;
-		if (departmentInfo == null) 
-			departmentInfo = new DepartmentInfo();
-
-		departmentInfo.setId(departmentExtend.getId());
-		departmentInfo.setName(departmentExtend.getName());
-		departmentInfo.setDesc(departmentExtend.getDescription());
-		departmentInfo.setSmallPictureName(departmentExtend.getSmallPictureName());
-
-		return departmentInfo;
 	}
 
 	public static Work getWorkByCtgCategory(Work work, CtgCategory ctg) throws Exception {
