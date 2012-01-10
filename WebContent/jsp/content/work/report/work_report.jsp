@@ -83,7 +83,7 @@
 	</div>
 	<div class="js_work_report_edit" style="display:none">
 	</div>
-	<div class="js_work_report_view" <%if(SmartUtil.isBlankObject(lastReport)){ %>style="display:none" <%} %>>
+	<div class="js_work_report_view" >
 		<%
 		if(!SmartUtil.isBlankObject(lastReport)){
 		%>

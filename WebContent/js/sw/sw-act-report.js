@@ -23,6 +23,8 @@ $(function() {
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
+				target.find('.js_button_save_as').hide();
+				target.find('.js_work_report_name').show();
 				smartPop.closeProgress();						
 			},
 			error : function(xhr, ajaxOptions, thrownError){
@@ -40,7 +42,6 @@ $(function() {
 		var progressSpan = input.parent().next('span.js_progress_span');
 		var reportId = workReport.find('select[name="selMyReportList"]').attr('value');
 		smartPop.progressCont(progressSpan);
-		console.log(url);
 		$.ajax({
 			url : url,
 			data : {
@@ -64,11 +65,14 @@ $(function() {
 
 	
 	$('a.js_work_report_execute').live('click', function(e) {
-		var forms = $(e.target).parents('.js_work_report_edit').find('form');
+		var input = $(e.target);
+		var forms = input.parents('.js_work_report_edit').find('form');
+		forms.find('.js_work_report_name input').removeClass('required');
 		if (SmartWorks.GridLayout.validate(forms)) {
 			var paramsJson = {};
 			var workReportEdit = forms.find('.js_work_report_edit_page');
-			paramsJson['workId'] = workReportEdit.attr('workId');
+			var workId = workReportEdit.attr('workId');
+			paramsJson['workId'] = workId;
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				var visibleForm = form.find(':visible');
@@ -76,17 +80,37 @@ $(function() {
 			}
 			console.log(JSON.stringify(paramsJson));
 			var url = "get_report_data_by_def.sw";
-			smartPop.progressCont($(e.target).parents('.js_work_report_edit').find('form[name="frmAccessPolicy"]').nextAll('.js_progress_span'));
+			smartPop.progressCont(input.parents('.js_work_report_edit').find('.js_progress_span'));
 			$.ajax({
 				url : url,
 				contentType : 'application/json',
 				type : 'POST',
 				data : JSON.stringify(paramsJson),
 				success : function(data, status, jqXHR) {
+					var reportData = data;
 					var reportType = forms.find('input[name="rdoWorkReportType"]').attr('value');
 					var chartType = forms.find('select[name="selReportChartType"]').find('option:selected').attr('chartType');
-					smartPop.closeProgress();
-					smartChart.loadWithData(reportType, data, chartType, false, "chart_target");
+					if(isEmpty($('#chart_target'))){
+						$.ajax({
+							url : "work_report_view.sw",
+							data : {
+								workId: workId,
+								chartType: chartType
+							},
+							success : function(data, status, jqXHR) {
+								input.parents('.js_work_report_page').find('div.js_work_report_view').html(data).slideDown(500);
+								smartChart.loadWithData(reportType, reportData, chartType, false, "chart_target");
+								smartPop.closeProgress();
+							},
+							error : function(xhr, ajaxOptions, thrownError){
+								smartPop.closeProgress();						
+							}
+						});
+
+					}else{
+						smartChart.loadWithData(reportType, reportData, chartType, false, "chart_target");
+						smartPop.closeProgress();						
+					}
  				},
 				error : function(e) {
 					smartPop.closeProgress();
@@ -95,6 +119,7 @@ $(function() {
 			});
 		
 		}
+		forms.find('.js_work_report_name input').addClass('required');
 		return false;
 	});
 
@@ -105,9 +130,8 @@ $(function() {
 			var paramsJson = {};
 			var workReportEditPage = workReportEdit.find('.js_work_report_edit_page');
 			paramsJson['workId'] = workReportEditPage.attr('workId');
-			console.log('workId=', workReportEditPage.attr('workId'));
 			var url = "create_new_work_report.sw";
-			if(workReportEdit.find("input.js_work_report_name").not(':visible')){
+			if(!workReportEdit.find(".js_work_report_name").is(':visible')){
 				paramsJson['reportId'] = workReportEditPage.attr('reportId');
 				url = "set_work_report.sw";
 			}

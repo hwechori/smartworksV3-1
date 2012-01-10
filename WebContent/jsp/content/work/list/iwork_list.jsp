@@ -274,10 +274,6 @@
 
 			<!-- 목록영역  -->
 			<div class="contents_space">
-				<a href='new_work_report.sw?workId=<%=workId %>' class="js_select_new_work_report">새보고서 만들기</a>
-				<div class="js_new_work_report">
-				</div>
-
 				<div>
 					<jsp:include page="/jsp/content/work/report/work_report.jsp">
 						<jsp:param value="<%=workId %>" name="workId"/>
