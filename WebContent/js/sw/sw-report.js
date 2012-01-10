@@ -372,24 +372,35 @@ Ext.onReady(function () {
 			 				});
 	
 			}else{
-				Ext.create('Ext.chart.Chart', {
-					align: 'stretch',
-					width: 600,
-					height: 400,
-					animate: true,
-					resizable: true,
-					renderTo : Ext.get(smartChart.target),
-					store : Ext.create('Ext.data.JsonStore', {
-						fields : smartChart.getFields(),
-						data : smartChart.values
-					}),
-					shadow : true,
-					legend : {
-						position : 'right'
+				Ext.create('Ext.form.Panel',{
+					layout: {
+						align: 'stretch',
+						type: 'vbox'
 					},
-					axes : smartChart.getAxes(),
-					series : smartChart.getSeries(smartChart.chartType)
-				});		
+					items: [{
+						xtype: 'container',
+						flex: 1,
+						layout: 'fit',
+						items: [{
+							xtype: 'chart',
+							width: 600,
+							height: 300,
+							animate: true,
+							resizable: true,
+							renderTo : Ext.get(smartChart.target),
+							store : Ext.create('Ext.data.JsonStore', {
+								fields : smartChart.getFields(),
+								data : smartChart.values
+							}),
+							shadow : true,
+							legend : {
+								position : 'right'
+							},
+							axes : smartChart.getAxes(),
+							series : smartChart.getSeries(smartChart.chartType)
+						}]
+					}]
+				});
 			}
 		}
 	};
