@@ -32,5 +32,11 @@ smartMessage.bundle['ko'] = {
 	createReportSucceed : "새로운 보고서가 정상적으로 생성되었습니다.",
 	createReportError : "새로운 보고서 생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	iworkListError : "업무목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
-	setIworkFilterError : "상세필터 저장 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!"
+	setFilterSucceed : "상세필터가 정상적으로 저장되었습니다.",
+	setFilterError : "상세필터 저장 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	
+	
+	
+	nullPointerException : "접근할 수 없는 값을 호출 하였습니다. 관리자에게 확인바랍니다!",
+	duplicateKeyException : "키값이 중복 되었습니다. 키에 해당되는 값을 다른 이름으로 바꾸어 다시 시도 바랍니다!"
 };

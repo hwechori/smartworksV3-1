@@ -12,12 +12,12 @@ $(function() {
 		return false;
 	});
 
-	$('a.js_new_work_report').live('click', function(e) {
+	$('a.js_select_new_work_report').live('click', function(e) {
 		var input = $(e.target);
-		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
+		var target = input.next('div.js_new_work_report');
 		var url = input.attr('href');
-		var progressSpan = input.parents('.js_work_report:first').find('span.js_progress_span');
-		smartPop.progressCont(progressSpan);						
+//		var progressSpan = input.parents('.js_work_report:first').find('span.js_progress_span');
+//		smartPop.progressCont(progressSpan);						
 		$.ajax({
 			url : url,
 			data : {},
@@ -32,35 +32,180 @@ $(function() {
 		return false;
 	});
 
-	$('a.js_close_work_report').live('click', function(e) {
-		$(e.target).parents('.js_work_report_page').hide().html('');
-		return false;
-	});
-
-	$('select.js_select_work_report').live('change', function(e) {
+	$('a.js_edit_work_report').live('click', function(e) {
 		var input = $(e.target);
-		var target = input.parents('div.js_work_report').siblings('div.js_work_report_form');
-		var url = input.attr('href')
-		var selected = input.children('option:selected');
-		var reportId = selected.attr('value');
-		var reportType = selected.attr('reportType');
-		var reportName = selected.html();
-		var chartType = selected.attr('chartType');
-		var progressSpan = input.parents('.js_work_report:first').find('span.js_progress_span');
-		smartPop.progressCont(progressSpan);						
+		var workReport = input.parents('div.js_work_report_page');
+		var target = workReport.find('div.js_work_report_edit');
+		var url = input.attr('href');
+		var progressSpan = input.parent().next('span.js_progress_span');
+		var reportId = workReport.find('select[name="selMyReportList"]').attr('value');
+		smartPop.progressCont(progressSpan);
+		console.log(url);
 		$.ajax({
 			url : url,
-			data : {reportId: reportId, reportType: reportType, reportName: reportName, chartType: chartType},
+			data : {
+				reportId: reportId
+			},
 			success : function(data, status, jqXHR) {
-				var chartTarget = target.html(data).find('div.js_work_report_view');
-				smartChart.load(reportId, chartType, false, "chart_target");
-				target.slideDown(500);
+				target.html(data).slideDown(500);
 				smartPop.closeProgress();						
 			},
 			error : function(xhr, ajaxOptions, thrownError){
 				smartPop.closeProgress();						
 			}
+		});
+		return false;
+	});
 
+	$('a.js_work_report_close').live('click', function(e) {
+		$(e.target).parents('.js_work_report_edit').slideUp().html('');
+		return false;
+	});
+
+	
+	$('a.js_work_report_execute').live('click', function(e) {
+		var forms = $(e.target).parents('.js_work_report_edit').find('form');
+		if (SmartWorks.GridLayout.validate(forms)) {
+			var paramsJson = {};
+			var workReportEdit = forms.find('.js_work_report_edit_page');
+			paramsJson['workId'] = workReportEdit.attr('workId');
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				var visibleForm = form.find(':visible');
+				paramsJson[form.attr('name')] = mergeObjects(visibleForm.serializeObject(), SmartWorks.GridLayout.serializeObject(visibleForm));
+			}
+			console.log(JSON.stringify(paramsJson));
+			var url = "get_report_data_by_def.sw";
+			smartPop.progressCont($(e.target).parents('.js_work_report_edit').find('form[name="frmAccessPolicy"]').nextAll('.js_progress_span'));
+			$.ajax({
+				url : url,
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					var reportType = forms.find('input[name="rdoWorkReportType"]').attr('value');
+					var chartType = forms.find('select[name="selReportChartType"]').find('option:selected').attr('chartType');
+					smartPop.closeProgress();
+					smartChart.loadWithData(reportType, data, chartType, false, "chart_target");
+ 				},
+				error : function(e) {
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("createReportError"));
+				}
+			});
+		
+		}
+		return false;
+	});
+
+	$('a.js_work_report_save').live('click', function(e) {
+		var workReportEdit = $(e.target).parents('.js_work_report_edit');
+		var forms = workReportEdit.find('form');
+		if (SmartWorks.GridLayout.validate(forms)) {
+			var paramsJson = {};
+			var workReportEditPage = workReportEdit.find('.js_work_report_edit_page');
+			paramsJson['workId'] = workReportEditPage.attr('workId');
+			console.log('workId=', workReportEditPage.attr('workId'));
+			var url = "create_new_work_report.sw";
+			if(workReportEdit.find("input.js_work_report_name").not(':visible')){
+				paramsJson['reportId'] = workReportEditPage.attr('reportId');
+				url = "set_work_report.sw";
+			}
+				
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				var visibleForm = form.find(':visible');
+				paramsJson[form.attr('name')] = mergeObjects(visibleForm.serializeObject(), SmartWorks.GridLayout.serializeObject(visibleForm));
+			}
+			console.log(JSON.stringify(paramsJson));
+			smartPop.progressCont($(e.target).parents('.js_work_report_edit').find('form[name="frmAccessPolicy"]').nextAll('.js_progress_span'));
+			$.ajax({
+				url : url,
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					$('.js_work_report_list_box:first').html(data);
+					$('a.js_work_report_close').click();
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get('setReportSucceed'));
+ 				},
+				error : function(e) {
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("createReportError"));
+				}
+			});
+		
+		}
+		return false;
+	});
+
+	$('a.js_work_report_delete').live('click', function(e) {
+		var paramsJson = {};
+		var workReportEdit = $(e.target).parents('.js_work_report_edit_page');
+		paramsJson['workId'] = workReportEdit.attr('workId');
+		paramsJson['reportId'] = workReportEdit.attr('reportId');
+		console.log(JSON.stringify(paramsJson));
+		smartPop.progressCont($(e.target).parents('.js_work_report_edit').find('form[name="frmAccessPolicy"]').nextAll('.js_progress_span'));
+		$.ajax({
+			url : "remove_work_report.sw",
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				$('.js_work_report_list_box:first').html(data);
+				$('a.js_work_report_close').click();
+				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.INFORM, smartMessage.get('setReportSucceed'));
+			},
+			error : function(e) {
+				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get("createReportError"));
+			}
+		});
+		
+		return false;
+	});
+
+	$('a.js_work_report_saveas').live('click', function(e) {
+		var input = $(e.target).hide();
+		var workReport = input.parents('.js_work_report_page:first');
+		workReport.find('.js_button_save_as').hide();
+		workReport.find('.js_button_save').show();
+		workReport.find('.js_work_report_name').show();
+		
+		return false;
+	});
+
+	$('select.js_select_work_report').live('change', function(e) {
+		var input = $(e.target);
+		var workReport = $('div.js_work_report_page');
+		var target = workReport.find('div.js_work_report_view');
+		var url = input.attr('href');
+		var reportType = workReport.attr("reportType");
+		var selected = input.children('option:selected');
+		var reportId = selected.attr('value');
+		if(reportId==="none"){
+			target.slideUp().html('');
+			workReport.find('div.js_work_report_edit').slideUp().html('');
+			return false;
+		}
+		var chartType = selected.attr('chartType');
+		var progressSpan = input.parent().next('span.js_progress_span');
+		smartPop.progressCont(progressSpan);						
+		$.ajax({
+			url : url,
+			data : {
+				chartType: chartType
+			},
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+				smartChart.load(parseInt(reportType), reportId, chartType, false, "chart_target");
+				smartPop.closeProgress();						
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				smartPop.closeProgress();						
+			}
 		});
 		
 		return false;
@@ -69,7 +214,6 @@ $(function() {
 	$('select.js_change_chart_type').live('change', function(e) {
 		var input = $(e.target);
 		var chartType = input.attr('value');
-		$('#chart_target').html("");
 		smartChart.reload(chartType, false);
 		return false;
 	});

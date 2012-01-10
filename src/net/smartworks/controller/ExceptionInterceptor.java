@@ -8,12 +8,6 @@
 
 package net.smartworks.controller;
 
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
-import net.smartworks.util.SmartMessage;
-
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,16 +18,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ExceptionInterceptor {
 	
 	@ExceptionHandler(NullPointerException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public @ResponseBody String nullPointExceptionHandler(NullPointerException e) {
-		return  "";
+		return  "nullPointerException";
 	}
 	
 	@ExceptionHandler(DuplicateKeyException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public @ResponseBody Map<String, String> duplicatekeyExceptionHandler(DuplicateKeyException e) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("smartMessage", "server.error.duplicated_key");
-		return map;
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public @ResponseBody String duplicatekeyExceptionHandler(DuplicateKeyException e) {
+		return "duplicateKeyException";
 	}	
 }

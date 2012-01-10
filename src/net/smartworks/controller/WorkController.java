@@ -188,7 +188,6 @@ public class WorkController extends ExceptionInterceptor {
 		ModelAndView mnv = new ModelAndView();
 		mnv.addObject(smartworks);
 		mnv.setViewName("jsp/content/work/list/search_filter_list_box.jsp?workId=" + workId + "&filterId=" + filterId);
-		if(true) throw new DuplicateKeyException(SmartMessage.getString("server.error.duplicated_key"));
 		return mnv;
 	}
 }

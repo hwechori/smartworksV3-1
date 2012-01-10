@@ -31,5 +31,9 @@ smartMessage.bundle['en'] = {
 	createIWorkError : "Error has been occured while creating new instance. Please contact the Administrator!",
 	createReportError : "Error has been occured while creating new report. Please contact the Administrator!",
 	iworkListError : "Error has been occured while loading work list. Please contact the Administrator!",
-	setIworkFilterError : "Error has been occured while saving search filter. Please contact the Administrator!"
+	setIworkFilterError : "Error has been occured while saving search filter. Please contact the Administrator!",
+	
+	
+	nullPointerException : "Null Pointer Exception. Please contact the Administrator!",
+	duplicateKeyException : "Duplicate Key Exception. Please contact the Administrator!"	
 };

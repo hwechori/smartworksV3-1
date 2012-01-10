@@ -13,7 +13,7 @@ public class Report extends BaseObject {
 	public final static int TYPE_CHART = 1;
 	public final static int TYPE_MATRIX = 2;
 	public final static int TYPE_TABLE = 3;
-	
+		
 	public final static String REPORT_ID_NONE = "none";
 
 	public static final KeyMap VALUE_TYPE_COUNT = new KeyMap("count", "report.value.type.count");
@@ -117,5 +117,29 @@ public class Report extends BaseObject {
 		this.owner = owner;
 		this.lastModifier = lastModifier;
 		this.lastModifiedDate = lastModifiedDate;
+	}
+	
+	public boolean isSystemReport(){
+		switch(this.getType()){
+		case Report.TYPE_CHART:
+			for(ChartReport report : ChartReport.DEFAULT_CHARTS_INFORMATION)
+				if(report.getId().equals(this.getId())) return true;
+			for(ChartReport report : ChartReport.DEFAULT_CHARTS_PROCESS)
+				if(report.getId().equals(this.getId())) return true;
+			break;
+		case Report.TYPE_MATRIX:
+			for(MatrixReport report : MatrixReport.DEFAULT_MATRIXS_INFORMATION)
+				if(report.getId().equals(this.getId())) return true;
+			for(MatrixReport report : MatrixReport.DEFAULT_MATRIXS_PROCESS)
+				if(report.getId().equals(this.getId())) return true;
+			break;
+		case Report.TYPE_TABLE:
+			for(TableReport report : TableReport.DEFAULT_TABLES_INFORMATION)
+				if(report.getId().equals(this.getId())) return true;
+			for(TableReport report : TableReport.DEFAULT_TABLES_PROCESS)
+				if(report.getId().equals(this.getId())) return true;
+			break;			
+		}
+		return false;
 	}
 }

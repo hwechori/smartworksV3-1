@@ -103,3 +103,7 @@ function decodeUTF8 (utftext) {
 	return decodeURIComponent(escape(utftext));
 };
 
+httpStatus = {
+		InternalServerError : 500
+};
+

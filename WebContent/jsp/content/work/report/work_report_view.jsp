@@ -16,28 +16,17 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String workId = request.getParameter("workId");
-	String strWorkType = request.getParameter("workType");
-	String reportId = request.getParameter("reportId");
-	String reportName = request.getParameter("reportName");
-	String strReportType = request.getParameter("reportType");
 	String chartType = request.getParameter("chartType");
 	User cUser = SmartUtil.getCurrentUser();
 
-	int workType = SmartWork.TYPE_INFORMATION, reportType = Report.TYPE_CHART;
-	if (!SmartUtil.isBlankObject(strWorkType))
-		workType = Integer.parseInt(strWorkType);
-	if (!SmartUtil.isBlankObject(strReportType))
-		reportType = Integer.parseInt(strReportType);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<div class="form_wrap up up_padding">
+<div class="form_wrap up up_padding js_work_report_view">
 
 	<!-- 컨텐츠 -->
 	<div class="form_title">
-		<div class="ico_stworks title_noico"><%=reportName%></div>
 		<select name="selReportChartType" class="js_change_chart_type">
 			<option
 				value="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_COLUMN]%>"
@@ -88,10 +77,7 @@
 				<fmt:message key="report.chart.type.scatter" />
 			</option>
 		</select>
-		<a href=""><fmt:message key="report.button.view_report_def"/></a>
-		<div class="solid_line"></div>
 	</div>
-
 	<div id="chart_target" class="form_contents js_work_report_view">
 	</div>
 </div>

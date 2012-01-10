@@ -78,12 +78,18 @@
 				$('.js_search_filter_list_box:first').html(data);
 				$('a.js_search_filter_close').click();
 				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.INFORM, smartMessage.get('setFilterSucceed'));
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				smartPop.closeProgress();
-				console.log(xhr, xhr.reponseText);
-alert(xhr.smartMessage);
-				smartPop.showInfo(smartPop.ERROR, smartMessage.get('setIworkFilterError'));
+				if(xhr.status == httpStatus.InternalServerError){
+					var message = smartMessage.get(xhr.responseText);
+					if(!isEmpty(message)){
+						smartPop.showInfo(smartPop.ERROR, message);
+						return;
+					}
+				}
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('setFilterError'));
 			}
 		});
 	};
@@ -268,52 +274,16 @@ alert(xhr.smartMessage);
 
 			<!-- 목록영역  -->
 			<div class="contents_space">
-
-				<!--통계메뉴 영역-->
-				<div class="txt_btn margin_b5 margin_t10 js_work_report">
-
-					<div class="po_right">
-						<a href="work_report.sw?workId=<%=work.getId()%>" class="js_new_work_report"><fmt:message key="report.button.new_work_report"/></a>
-					</div>
-					<div class="po_right bu_stat js_work_report_list_box">
-						<select name="selMyReportList" class="js_select_work_report" href="work_report_view.sw?workId=<%=workId%>&workType=<%=work.getType()%>">							
-							<option value="<%=Report.REPORT_ID_NONE %>" 
-								<%if(SmartUtil.isBlankObject(work.getLastReportId()) || work.getLastReportId().equals(Report.REPORT_ID_NONE)){ %> selected <%} %>>
-								<fmt:message key="report.title.no_report" />
-							</option>
-							<%
-							Report[] infoReports = ChartReport.DEFAULT_CHARTS_INFORMATION;
-							if (infoReports != null) {
-								for (Report report : infoReports) {
-									String chartType = null;
-									if(report.getType() == Report.TYPE_CHART) chartType = ((ChartReport)report).getChartTypeInString();
-							%>
-									<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>
-										<%if(report.getId().equals(work.getLastReportId())){ %> selected <%} %>>
-										<fmt:message key="<%=report.getName()%>" />
-									</option>
-							<%
-								}
-							}
-							ReportInfo[] reports = work.getReports();
-							if (reports != null) {
-								for (ReportInfo report : reports) {
-									String chartType = report.getChartTypeInString();
-									if(SmartUtil.isBlankObject(report.getId())) continue;
-							%>
-									<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>
-										<%if(report.getId().equals(work.getLastReportId())){ %> selected <%} %>><%=report.getName()%>
-									</option>
-							<%
-								}
-							}
-							%>
-						</select>
-					</div>
-					<span class="po_right js_progress_span"></span>
+				<a href='new_work_report.sw?workId=<%=workId %>' class="js_select_new_work_report">새보고서 만들기</a>
+				<div class="js_new_work_report">
 				</div>
-				<!--통계메뉴 영역//-->
-				<div class="js_work_report_form margin_b5"></div>
+
+				<div>
+					<jsp:include page="/jsp/content/work/report/work_report.jsp">
+						<jsp:param value="<%=workId %>" name="workId"/>
+						<jsp:param value="<%=work.getLastReportId() %>" name="reportId"/>
+					</jsp:include>
+				</div>
 
 				<!-- 목록보기 -->
 				<div>
@@ -353,6 +323,7 @@ alert(xhr.smartMessage);
 										SearchFilterInfo[] filters = work.getSearchFilters();
 										if (filters != null) {
 											for (SearchFilterInfo filter : filters) {
+												if(SmartUtil.isBlankObject(filter.getId())) continue;
 										%>
 												<option value="<%=filter.getId()%>" <%if(filter.getId().equals(work.getLastFilterId())){%> selected <%} %>><%=filter.getName()%></option>
 										<%

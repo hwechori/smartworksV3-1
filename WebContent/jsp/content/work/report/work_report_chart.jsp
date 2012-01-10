@@ -58,35 +58,35 @@
 	<th><fmt:message key="report.chart.type" /></th>
 	<td colspan="4" class="">
 		<select name="selReportChartType">
-			<option value="<%=ChartReport.CHART_TYPE_COLUMN%>"
+			<option chartType="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_COLUMN] %>" value="<%=ChartReport.CHART_TYPE_COLUMN%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_COLUMN) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.column" />
 			</option>
-			<option value="<%=ChartReport.CHART_TYPE_BAR%>"
+			<option chartType="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_COLUMN] %>" value="<%=ChartReport.CHART_TYPE_BAR%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_BAR) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.bar" />
 			</option>
-			<option value="<%=ChartReport.CHART_TYPE_LINE%>"
+			<option chartType="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_LINE] %>" value="<%=ChartReport.CHART_TYPE_LINE%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_LINE) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.line" />
 			</option>
-			<option value="<%=ChartReport.CHART_TYPE_PIE%>"
+			<option chartType="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_PIE] %>" value="<%=ChartReport.CHART_TYPE_PIE%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_PIE) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.pie" />
 			</option>
-			<option value="<%=ChartReport.CHART_TYPE_AREA%>"
+			<option chartType="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_AREA] %>" value="<%=ChartReport.CHART_TYPE_AREA%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_AREA) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.area" />
 			</option>
-			<option value="<%=ChartReport.CHART_TYPE_GAUGE%>"
+			<option chartType="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_GAUGE] %>" value="<%=ChartReport.CHART_TYPE_GAUGE%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_GAUGE) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.gauge" />
 			</option>
-			<option value="<%=ChartReport.CHART_TYPE_RADAR%>"
+			<option chartType="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_RADAR] %>" value="<%=ChartReport.CHART_TYPE_RADAR%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_RADAR) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.radar" />
 			</option>
-			<option value="<%=ChartReport.CHART_TYPE_SCATTER%>"
+			<option chartType="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_SCATTER] %>" value="<%=ChartReport.CHART_TYPE_SCATTER%>"
 				<%if (chart != null && chart.getChartType() == ChartReport.CHART_TYPE_SCATTER) {%> selected <%}%>>
 				<fmt:message key="report.chart.type.scatter" />
 			</option>

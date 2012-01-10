@@ -223,16 +223,37 @@ Ext.onReady(function () {
 			});
 		},
 	
-		load : function(reportId, chartType, isStacked, target) {
+		load : function(reportType, reportId, chartType, isStacked, target) {
+			smartChart.reportType = reportType;
+			if(isEmpty(chartType)) chartType = swChartType.DEFAULT;
 			smartChart.chartType = chartType;
 			smartChart.isStacked = isStacked;
 			smartChart.target = target;
+			$('#'+target).html('');
 			smartChart.getChartData(reportId);
+		},
+		
+		loadWithData : function(reportType, data, chartType, isStacked, target) {
+			console.log($('#' + target));
+			smartChart.reportType = reportType;
+			if(isEmpty(chartType)) chartType = swChartType.DEFAULT;
+			smartChart.chartType = chartType;
+			smartChart.isStacked = isStacked;
+			smartChart.target = target;
+			$('#'+target).html('');
+			if(data){
+				smartChart.xFieldName = data.xFieldName;
+				smartChart.yValueName = data.yValueName;
+				smartChart.groupNames = data.groupNames;
+				smartChart.values = data.values;
+				smartChart.createChart();
+			}
 		},
 		
 		reload : function(chartType, isStacked){
 			smartChart.chartType = chartType;
 			smartChart.isStacked = isStacked;
+			$('#'+smartChart.target).html('');
 			smartChart.createChart();
 		},
 		
@@ -257,18 +278,21 @@ Ext.onReady(function () {
 		},
 		
 		createChart : function(){
-		    gridPanel = Ext.create('Ext.grid.Panel', {
-		        id: 'reportDataGrid',
-		        align: 'stretch',
-		        border: false,
-		        height: 200,
-		        resizable: true,
-		        store:  Ext.create('Ext.data.JsonStore', {
-					fields : smartChart.getFields(),
-					data : smartChart.values
-				}),
-				renderTo : Ext.get(smartChart.target),
-		        columns: smartChart.getColumns(),
+//		    gridPanel = Ext.create('Ext.grid.Panel', {
+//		        id: 'reportDataGrid',
+//		        align: 'stretch',
+//		        border: false,
+//		        height: 200,
+//		        resizable: true,
+//		        store:  Ext.create('Ext.data.JsonStore', {
+//					fields : smartChart.getFields(),
+//					data : smartChart.values
+//				}),
+//				renderTo : Ext.get(smartChart.target),
+//		        columns: smartChart.getColumns(),
+
+			
+			
 //		        listeners: {
 //		            selectionchange: function(model, records) {
 //		                var json, name, i, l, items, series, fields;
@@ -298,7 +322,8 @@ Ext.onReady(function () {
 //		                }
 ////		            }
 //		        }
-		    });
+
+//		    });
 		    
 			if(smartChart.chartType === swChartType.PIE){
 				for(var i=0; i< smartChart.groupNames.length; i++)
@@ -349,6 +374,7 @@ Ext.onReady(function () {
 			}else{
 				Ext.create('Ext.chart.Chart', {
 					align: 'stretch',
+					width: 600,
 					height: 400,
 					animate: true,
 					resizable: true,
