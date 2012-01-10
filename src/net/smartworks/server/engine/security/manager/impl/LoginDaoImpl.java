@@ -14,6 +14,7 @@ import java.sql.Types;
 import javax.sql.DataSource;
 
 import net.smartworks.model.community.User;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.security.manager.LoginDao;
 import net.smartworks.server.engine.security.model.Login;
 
@@ -102,8 +103,8 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			login.setPassword(rs.getString("passwd"));
 			login.setLocale(rs.getString("locale"));
 			login.setTimeZone(rs.getString("timeZone"));
-			String picture = rs.getString("picture");
-			if(picture != null && !picture.equals("")) {
+			String picture = CommonUtil.toNotNull(rs.getString("picture"));
+			if(!picture.equals("")) {
 				String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
 				String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
 				login.setBigPictureName(pictureId + "_big" + "." + extension);

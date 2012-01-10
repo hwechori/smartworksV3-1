@@ -587,11 +587,12 @@ public class InstanceServiceImpl implements IInstanceService {
 	
 				for(SwdDataField swdDataField : swdDataFields) {
 					for(SwfField swfField : swfFields) {
-						if(swdDataField.getDisplayOrder() > -1) {
+						String viewingType = swfField.getFormat().getViewingType();
+						if(swdDataField.getDisplayOrder() > -1 && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
 							if(swdDataField.getId().equals(swfField.getId())) {
 								FieldData fieldData = new FieldData();
 								fieldData.setFieldId(swdDataField.getId());
-								fieldData.setFieldType(swfField.getFormat().getViewingType());
+								fieldData.setFieldType(viewingType);
 								fieldData.setValue(swdDataField.getValue());
 								fieldDataList.add(fieldData);
 							}
@@ -605,8 +606,6 @@ public class InstanceServiceImpl implements IInstanceService {
 			}
 			instanceInfoList.setInstanceDatas(iWInstanceInfos);
 		}
-
-
 
 		instanceInfoList.setSortedField(sortingField);
 		instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);

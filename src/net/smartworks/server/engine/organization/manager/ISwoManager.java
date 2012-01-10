@@ -21,6 +21,7 @@ import net.smartworks.server.engine.organization.model.SwoContact;
 import net.smartworks.server.engine.organization.model.SwoContactCond;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
+import net.smartworks.server.engine.organization.model.SwoDepartmentExtend;
 import net.smartworks.server.engine.organization.model.SwoTeam;
 import net.smartworks.server.engine.organization.model.SwoTeamCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
@@ -116,6 +117,12 @@ public interface ISwoManager {
 	
 	public SwoUserExtend[] getUsersExtend(String userId, String[] ids) throws SwoException;
 
+	public SwoDepartmentExtend getDepartmentExtend(String userId, String departmentId) throws SwoException;
+
+	public SwoUserExtend[] getUsersOfDepartment(String userId, String departmentId) throws SwoException;
+
+	public SwoDepartmentExtend[] getChildrenOfDepartment(String userId, String departmentId) throws SwoException;
+
 	public String getDefaultLogo() throws SwoException;
 
 	public String getLogo(String user, String companyId) throws SwoException;
@@ -161,5 +168,7 @@ public interface ISwoManager {
 	public String getUserDispName(String userId) throws SwoException;
 
 	public SwoUserExtend[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws SwoException;
+
+	public String getTypeByWorkspaceId(String workspaceId) throws SwoException;
 
 }

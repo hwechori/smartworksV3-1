@@ -16,5 +16,9 @@ public class DepartmentInfo extends WorkSpaceInfo {
 	public DepartmentInfo(String id, String name){
 		super(id, name);
 	}
+	public DepartmentInfo(String id, String name, String desc){
+		super(id, name);
+		this.desc = desc;
+	}
 
 }
