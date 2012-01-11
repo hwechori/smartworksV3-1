@@ -43,11 +43,16 @@
 			// 카테고리가 아닌경우는 업무이니, 클릭하면 업무목록공간으로 이동하게 한다...
 			if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
-				<li>
+				<li class="<%=classType%>">
+					
 					<a href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
 						<span class="<%=iconType%>"></span><%=work.getName()%><span></span>
 					</a>
+					<form>
+						<div class="checkOption"><input type="checkbox" name="option1" value="Milk"></div>
+					</form>
 				</li>
+				
 			<%
 			
 			// 카테고리인 경우에는 드릴다운하여 하위업무나 카테고리를 선택할수 있게 한다...

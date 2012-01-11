@@ -114,6 +114,8 @@ body, #nav {background: url("../images/bg_body.jpg");}
 	
 /*Left Navigation*/	
 #nav {background-color:#6b6b6b;float:left;width:226px;height:100%; z-index:30;}
+li.js_content .checkOption{display:none;position:absolute;margin-top:-21px;margin-left:195px}
+li.js_content:hover .checkOption{display:block}
 
 /*global Menu */
 .global_menu {position:absolute; right:10px; top:11px;  font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
@@ -229,7 +231,7 @@ a .btn_all_works:hover,
 #my_works li .menu_2dep li a:hover {display:block; background-color:#4e4e4e;}
 
 #my_works li .menu_2dep li div li a {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-#my_works li .menu_2dep li div li a:hover {display:block; background-color:#4e4e4e;}
+#my_works li .menu_2dep li div li a:hover{display:block; background-color:#4e4e4e;}
 
 
 /*category link */
