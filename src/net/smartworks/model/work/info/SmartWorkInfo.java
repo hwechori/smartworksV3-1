@@ -4,7 +4,8 @@ public class SmartWorkInfo extends WorkInfo {
 
 	private WorkCategoryInfo myGroup = null;
 	private WorkCategoryInfo myCategory = null;
-
+	private boolean favorite = false;
+	
 	public String getFullpathName(){
 		return this.myCategory.getName() + ((this.myGroup != null && this.myGroup.getId() != null) ? " > " + this.myGroup.getName() : "") + " > "
 				+ super.getName();		
@@ -22,6 +23,12 @@ public class SmartWorkInfo extends WorkInfo {
 		this.myCategory = myCategory;
 	}
 
+	public boolean isFavorite() {
+		return favorite;
+	}
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
+	}
 	public SmartWorkInfo(){
 		super();
 	}
