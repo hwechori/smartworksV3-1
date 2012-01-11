@@ -14,12 +14,11 @@ public class SwoDepartmentExtend {
 		super();
 	}
 
-	public SwoDepartmentExtend(String id, String name, String description, String parentId, String headId) {
+	public SwoDepartmentExtend(String id, String name, String description, String parentId) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.parentId = parentId;
-		this.headId = headId;
 	}
 
 	private String id = null;

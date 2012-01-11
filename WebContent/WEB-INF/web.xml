@@ -60,6 +60,10 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+ 	<session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
   <servlet>
     <servlet-name>InitiatorBase</servlet-name>
 <!--     <display-name>InitiatorBase</display-name>

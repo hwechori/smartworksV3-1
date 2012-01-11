@@ -77,6 +77,10 @@
 				<fmt:message key="report.chart.type.scatter" />
 			</option>
 		</select>
+		<%if(chartType.equals(ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_BAR]) 
+				|| chartType.equals(ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_COLUMN])){ %>
+			<div><fmt:message key="report.button.stacked_chart"/><input type="checkbox" name="chkStackedChart" class="js_change_stacked_chart"></div>
+		<%} %>
 	</div>
 	<div id="chart_target" class="form_contents js_work_report_view">
 	</div>

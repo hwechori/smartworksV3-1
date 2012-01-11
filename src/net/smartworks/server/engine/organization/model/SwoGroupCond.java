@@ -1,9 +1,9 @@
 /*	
  * $Id$
- * created by    : maninsoft
- * creation-date : 2011. 11. 2.
+ * created by    : hsshin
+ * creation-date : 2012. 1. 10.
  * =========================================================
- * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
+ * Copyright (c) 2012 ManinSoft, Inc. All rights reserved.
  */
 
 package net.smartworks.server.engine.organization.model;
@@ -18,30 +18,55 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SwoTeamCond extends SwoObjectCond {
+public class SwoGroupCond extends SwoObjectCond {
 
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(SwoTeamCond.class);
+	private static Log logger = LogFactory.getLog(SwoGroupCond.class);
 	
-	private static final String NAME = CommonUtil.toName(SwoTeamCond.class, PREFIX);
+	private static final String NAME = CommonUtil.toName(SwoGroupCond.class, PREFIX);
 
-	public static final String A_TEAMLEADER = "teamLeader";
-	public static final String A_DEPT = "dept";
-	public static final String A_MEMBER = "member";
-	public static final String A_ACCESSLEVEL = "accessLevel";
-	public static final String A_STATE = "state";
+	public static final String A_GROUPLEADER = "groupLeader";
+	public static final String A_GROUPTYPE = "groupType";
+	public static final String A_STATUS = "status";
 	public static final String A_DESCRIPTION = "description";
-	public static final String A_NAMELIKE = "nameLike";
-	
-	private String teamLeader;
-	private String dept;
-	private String member;
-	private String accessLevel;
-	private String state;
+
+	private String groupLeader;
+	private String groupType;
+	private String status;
 	private String description;
 	private String nameLike;
-	
-	public SwoTeamCond() {
+
+	public String getGroupLeader() {
+		return groupLeader;
+	}
+	public void setGroupLeader(String groupLeader) {
+		this.groupLeader = groupLeader;
+	}
+	public String getGroupType() {
+		return groupType;
+	}
+	public void setGroupType(String groupType) {
+		this.groupType = groupType;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getNameLike() {
+		return nameLike;
+	}
+	public void setNameLike(String nameLike) {
+		this.nameLike = nameLike;
+	}
+	public SwoGroupCond() {
 		super();
 	}
 	public String toString(String name, String tab) {
@@ -52,13 +77,11 @@ public class SwoTeamCond extends SwoObjectCond {
 	public String toAttributesString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
-		appendAttributeString(A_TEAMLEADER, teamLeader, buf);
-		appendAttributeString(A_DEPT, dept, buf);
-		appendAttributeString(A_MEMBER, member, buf);
-		appendAttributeString(A_ACCESSLEVEL, accessLevel, buf);
-		appendAttributeString(A_STATE, state, buf);
-		appendAttributeString(A_DESCRIPTION,description, buf);
-		
+		appendAttributeString(A_GROUPLEADER, groupLeader, buf);
+		appendAttributeString(A_GROUPTYPE, groupType, buf);
+		appendAttributeString(A_STATUS, status, buf);
+		appendAttributeString(A_DESCRIPTION, description, buf);
+
 		return buf.toString();
 	}
 	public String toElementsString(String tab, boolean lite) {
@@ -70,37 +93,30 @@ public class SwoTeamCond extends SwoObjectCond {
 		if (node == null)
 			return null;
 		
-		SwoTeam obj = null;
-		if (baseObj == null || !(baseObj instanceof SwoTeam))
-			obj = new SwoTeam();
+		SwoGroupCond obj = null;
+		if (baseObj == null || !(baseObj instanceof SwoGroupCond))
+			obj = new SwoGroupCond();
 		else
-			obj = (SwoTeam)baseObj;
+			obj = (SwoGroupCond)baseObj;
 		SwoObjectCond.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
-			Node teamLeader = attrMap.getNamedItem(A_TEAMLEADER);
-			Node dept = attrMap.getNamedItem(A_DEPT);
-			Node member = attrMap.getNamedItem(A_MEMBER);
-			Node accessLevel = attrMap.getNamedItem(A_ACCESSLEVEL);
-			Node state = attrMap.getNamedItem(A_STATE);
+			Node groupLeader = attrMap.getNamedItem(A_GROUPLEADER);
+			Node groupType = attrMap.getNamedItem(A_GROUPTYPE);
+			Node status = attrMap.getNamedItem(A_STATUS);
 			Node description = attrMap.getNamedItem(A_DESCRIPTION);
-			
-			
-			if (teamLeader != null)
-				obj.setTeamLeader(teamLeader.getNodeValue());
-			if (dept != null)
-				obj.setDept(dept.getNodeValue());
-			if (member != null)
-				obj.setMember(member.getNodeValue());
-			if (accessLevel != null)
-				obj.setAccessLevel(accessLevel.getNodeValue());
-			if (state != null)
-				obj.setState(state.getNodeValue());
+
+			if (groupLeader != null)
+				obj.setGroupLeader(groupLeader.getNodeValue());
+			if (groupType != null)
+				obj.setGroupType(groupType.getNodeValue());
+			if (status != null)
+				obj.setStatus(status.getNodeValue());
 			if (description != null)
 				obj.setDescription(description.getNodeValue());
 		}
-		
+
 		// elements 값 설정
 		
 		return obj;
@@ -113,20 +129,20 @@ public class SwoTeamCond extends SwoObjectCond {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static SwoTeamCond[] add(SwoTeamCond[] objs, SwoTeamCond obj) {
+	public static SwoGroupCond[] add(SwoGroupCond[] objs, SwoGroupCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		SwoTeamCond[] newObjs = new SwoTeamCond[size+1];
+		SwoGroupCond[] newObjs = new SwoGroupCond[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static SwoTeamCond[] remove(SwoTeamCond[] objs, SwoTeamCond obj) {
+	public static SwoGroupCond[] remove(SwoGroupCond[] objs, SwoGroupCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -134,7 +150,7 @@ public class SwoTeamCond extends SwoObjectCond {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		SwoTeamCond[] newObjs = new SwoTeamCond[size-1];
+		SwoGroupCond[] newObjs = new SwoGroupCond[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -144,7 +160,7 @@ public class SwoTeamCond extends SwoObjectCond {
 		}
 		return newObjs;
 	}
-	public static SwoTeamCond[] left(SwoTeamCond[] objs, SwoTeamCond obj) {
+	public static SwoGroupCond[] left(SwoGroupCond[] objs, SwoGroupCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -156,7 +172,7 @@ public class SwoTeamCond extends SwoObjectCond {
 		}
 		if (idx < 1)
 			return objs;
-		SwoTeamCond[] newObjs = new SwoTeamCond[objs.length];
+		SwoGroupCond[] newObjs = new SwoGroupCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -169,7 +185,7 @@ public class SwoTeamCond extends SwoObjectCond {
 		}
 		return newObjs;
 	}
-	public static SwoTeamCond[] right(SwoTeamCond[] objs, SwoTeamCond obj) {
+	public static SwoGroupCond[] right(SwoGroupCond[] objs, SwoGroupCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -181,7 +197,7 @@ public class SwoTeamCond extends SwoObjectCond {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		SwoTeamCond[] newObjs = new SwoTeamCond[objs.length];
+		SwoGroupCond[] newObjs = new SwoGroupCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
@@ -201,49 +217,6 @@ public class SwoTeamCond extends SwoObjectCond {
 			logger.warn(e, e);
 			return null;
 		}
-	}
-	
-	public String getNameLike() {
-		return nameLike;
-	}
-	public void setNameLike(String nameLike) {
-		this.nameLike = nameLike;
-	}
-	public String getTeamLeader() {
-		return teamLeader;
-	}
-	public void setTeamLeader(String teamLeader) {
-		this.teamLeader = teamLeader;
-	}
-	public String getDept() {
-		return dept;
-	}
-	public void setDept(String dept) {
-		this.dept = dept;
-	}
-	public String getMember() {
-		return member;
-	}
-	public void setMember(String member) {
-		this.member = member;
-	}
-	public String getAccessLevel() {
-		return accessLevel;
-	}
-	public void setAccessLevel(String accessLevel) {
-		this.accessLevel = accessLevel;
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 }

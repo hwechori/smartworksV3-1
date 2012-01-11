@@ -52,7 +52,6 @@ $(function() {
 			if(!isEmpty(input.parents('.js_nav_my_works')) || !isEmpty(input.parents('.js_nav_my_com'))){
 				smartPop.progressNavGray(input.parents('li:first').find('span:last'));
 			}else if(!isEmpty(input.parents('.js_srch_my_works'))){
-				console.log(input.parents('.js_srch_my_works').find('.js_auto_complete'));
 				smartPop.progressNav(input.parents('.js_srch_my_works').prev('li span:first'));
 			}
 		},
@@ -241,5 +240,37 @@ $(function() {
 			target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
 		}
 		return false;
+	});
+	
+	$('.js_check_favorite_work').live('click', function(e){
+		var input = $(e.target);
+		var workId = input.attr('workId');
+		var url = 'remove_a_favorite_work.sw';
+		var isAdd = false;
+		if(input.is(':checked')){
+			url = 'add_a_favorite_work.sw';
+			isAdd = true;
+		}
+		var progressSpan = input.parent().prev().find('span:last');
+		smartPop.progressNav(progressSpan);						
+		$.ajax({
+			url : url,
+			data : {
+				workId : workId
+			},
+			success : function(data, status, jqXHR) {
+				if(isAdd)
+					input.attr('checked', true);
+				else
+					input.attr('checked', false);
+				smartPop.closeProgress();											
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				if(isAdd) input.attr('checked', false);
+				else input.attr('checked', true);
+				smartPop.closeProgress();											
+			}
+		});		
+		return true;
 	});
 });

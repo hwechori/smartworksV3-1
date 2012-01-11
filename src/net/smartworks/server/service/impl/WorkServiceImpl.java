@@ -50,6 +50,7 @@ import net.smartworks.server.engine.infowork.domain.model.SwdFieldCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
+import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
@@ -270,46 +271,29 @@ public class WorkServiceImpl implements IWorkService {
 		
 		SwfFormCond swfCond = new SwfFormCond();
 		swfCond.setPackageId(workId);
-		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_LITE);
+		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_ALL);
 		if (CommonUtil.isEmpty(swfForms))
 			return null;
-		
+
 		String formId = swfForms[0].getId();
 
-/*		List<SwdDomainFieldView> fieldViewList = getSwdManager().findDomainFieldViewList(formId);
-		List<SwfFormFieldDef> formFieldDefList = getSwfManager().findFormFieldByForm(formId, true);
-		
-		List<String> fieldIdList = new ArrayList<String>();
-		for (int i = 0; i < fieldViewList.size(); i++) {
-			SwdDomainFieldView dfv = fieldViewList.get(i);
-			if (dfv.getDispOrder() > -1)
-				fieldIdList.add(dfv.getFormFieldId());
-		}
-		List<FormField> resultList = new ArrayList<FormField>();
-		for (int i = 0; i < formFieldDefList.size(); i++) {
-			SwfFormFieldDef sfd = formFieldDefList.get(i);
-			String formFieldId = sfd.getId();
-			String viewingType = sfd.getViewingType();
-			
-			if (fieldIdList.contains(formFieldId) && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
-				FormField formField = new FormField();
-				formField.setId(formFieldId);
-				formField.setName(sfd.getName());
-				formField.setType(sfd.getType());
-				resultList.add(formField);
-			}
-		}*/
+		SwfField[] swfFields = swfForms[0].getFields();
 
 		List<FormField> resultList = new ArrayList<FormField>();
 		SwdField[] swdViewFields = getSwdManager().getViewFieldList(workId, formId);
 		for(SwdField swdViewField : swdViewFields) {
-			if(swdViewField.getDisplayOrder() > -1) {
-				FormField formField = new FormField();
-				formField.setId(swdViewField.getFormFieldId());
-				formField.setName(swdViewField.getFormFieldName());
-				formField.setType(swdViewField.getFormFieldType());
-				formField.setDisplayOrder(swdViewField.getDisplayOrder());
-				resultList.add(formField);
+			for(SwfField swfField : swfFields) {
+				String viewingType = swfField.getFormat().getViewingType();
+				if(swdViewField.getDisplayOrder() > -1 && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
+					if(swdViewField.getFormFieldId().equals(swfField.getId())) {
+						FormField formField = new FormField();
+						formField.setId(swdViewField.getFormFieldId());
+						formField.setName(swdViewField.getFormFieldName());
+						formField.setType(viewingType);
+						formField.setDisplayOrder(swdViewField.getDisplayOrder());
+						resultList.add(formField);
+					}
+				}
 			}
 		}
 
@@ -363,12 +347,17 @@ public class WorkServiceImpl implements IWorkService {
 
 		List<FormField> formFieldList = new ArrayList<FormField>();
 		for(SwdField swdField : swdFields) {
-			FormField formField = new FormField();
-			formField.setId(swdField.getFormFieldId());
-			formField.setName(swdField.getFormFieldName());
-			formField.setType(swdField.getFormFieldType());
-			formField.setDisplayOrder(swdField.getDisplayOrder());
-			formFieldList.add(formField);
+			for(SwfField swfField : swfFields) {
+				String viewingType = swfField.getFormat().getViewingType();
+				if(swdField.getFormFieldId().equals(swfField.getId())) {
+					FormField formField = new FormField();
+					formField.setId(swdField.getFormFieldId());
+					formField.setName(swdField.getFormFieldName());
+					formField.setType(viewingType);
+					formField.setDisplayOrder(swdField.getDisplayOrder());
+					formFieldList.add(formField);
+				}
+			}
 		}
 
 		FormField[] resultFormFields = new FormField[formFieldList.size()];

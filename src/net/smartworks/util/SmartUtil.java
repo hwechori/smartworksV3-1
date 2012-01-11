@@ -235,9 +235,9 @@ public class SmartUtil {
 		return user;
 	}
 
-	public static User getCurrentUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public static Login getCurrentUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		User user = new Login();
+		Login user = new Login();
 		SecurityContext context = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
 		if(context != null) {
 			Authentication auth = context.getAuthentication();
@@ -259,7 +259,29 @@ public class SmartUtil {
 		Authentication authentication = securityContext.getAuthentication();
 		if(authentication != null) {
 			Object principal = authentication.getPrincipal();
-			return (User)(principal instanceof Login ? principal : null);
+			Login login = (Login)(principal instanceof Login ? principal : null);
+			User user = new User();
+			if(login != null) {
+				user.setId(login.getId());
+				user.setName(login.getName());
+				user.setPassword(login.getPassword());
+				user.setCompanyId(login.getCompanyId());
+				user.setCompany(login.getCompany());
+				user.setDepartmentId(login.getDepartmentId());
+				user.setDepartment(login.getDepartment());
+				user.setPosition(login.getPosition());
+				user.setBigPictureName(login.getBigPictureName());
+				user.setSmallPictureName(login.getSmallPictureName());
+				user.setLocale(login.getLocale());
+				user.setTimeZone(login.getTimeZone());
+				user.setRole(login.getRole());
+				user.setUserLevel(login.getUserLevel());
+				user.setPhoneNo(login.getPhoneNo());
+				user.setCellPhoneNo(login.getCellPhoneNo());
+				user.setEmployeeId(login.getEmpNo());
+			}
+			return user;
+
 		}
 		return null;
 	}

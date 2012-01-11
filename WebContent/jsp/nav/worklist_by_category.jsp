@@ -48,9 +48,7 @@
 					<a href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
 						<span class="<%=iconType%>"></span><%=work.getName()%><span></span>
 					</a>
-					<form>
-						<div class="checkOption"><input type="checkbox" name="option1" value="Milk"></div>
-					</form>
+					<div class="checkOption"><input class="js_check_favorite_work" workId="<%=work.getId() %>" type="checkbox" name="option1" value="Milk"></div>
 				</li>
 				
 			<%

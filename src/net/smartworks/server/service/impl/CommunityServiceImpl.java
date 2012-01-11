@@ -109,6 +109,7 @@ public class CommunityServiceImpl implements ICommunityService {
 	}
 
 	public Group setGroup(HttpServletRequest request) throws Exception {
+
 		String groupName = request.getParameter("groupName");
 		String groupDesc = request.getParameter("groupDesc");
 		String groupLeader = request.getParameter("groupLeader");
@@ -253,7 +254,37 @@ public class CommunityServiceImpl implements ICommunityService {
 	 */
 	@Override
 	public UserInfo[] searchCommunityMember(String communityId, String key) throws Exception {
-		return SmartTest.searchCommunityMember();
+
+		if (CommonUtil.isEmpty(communityId) || CommonUtil.isEmpty(key))
+			return null;
+
+		User cUser = SmartUtil.getCurrentUser();
+
+		SchUser[] schUsers = SwManagerFactory.getInstance().getSchManager().getSchCommunityMember(cUser.getCompanyId(), cUser.getId(), communityId, key);
+		List<UserInfo> userList = new ArrayList<UserInfo>();
+
+		if(schUsers != null) {
+			for(SchUser schUser : schUsers) {
+				UserInfo userInfo = new UserInfo();
+				userInfo.setId(schUser.getId());
+				userInfo.setName(schUser.getName());
+				userInfo.setPosition(schUser.getPosition());
+				userInfo.setRole(schUser.getRole());
+				DepartmentInfo departmentInfo = new DepartmentInfo();
+				departmentInfo.setId(schUser.getDeptId());
+				departmentInfo.setName(schUser.getDeptName());
+				departmentInfo.setDesc(schUser.getDeptDesc());
+				userInfo.setDepartment(departmentInfo);
+				userList.add(userInfo);
+			}
+	
+			UserInfo[] userInfos = new UserInfo[userList.size()];
+			userList.toArray(userInfos);
+
+			return userInfos;
+		}
+		return null;
+
 	}
 
 	/*
@@ -271,15 +302,17 @@ public class CommunityServiceImpl implements ICommunityService {
 		
 		String type = SwManagerFactory.getInstance().getSwoManager().getTypeByWorkspaceId(workSpaceId);
 
-		if(type.equals("user")) {
-			User user = this.getUserById(workSpaceId);
-			return user;
-		} else if(type.equals("department")) {
-			Department department = this.getDepartmentById(workSpaceId);
-			return department;
-		} else if(type.equals("group")) {
-			Group group = new Group();
-			return group;
+		if(type != null) {
+			if(type.equals("user")) {
+				User user = this.getUserById(workSpaceId);
+				return user;
+			} else if(type.equals("department")) {
+				Department department = this.getDepartmentById(workSpaceId);
+				return department;
+			} else if(type.equals("group")) {
+				Group group = new Group();
+				return group;
+			}
 		}
 
 		return null;
