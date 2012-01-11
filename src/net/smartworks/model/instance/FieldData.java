@@ -5,7 +5,6 @@ public class FieldData {
 	private String fieldId;
 	private String fieldType;
 	private String value;
-	private String groupId;
 	private String[] fileNames;
 
 	public FieldData() {
@@ -28,12 +27,6 @@ public class FieldData {
 	}
 	public void setValue(String value) {
 		this.value = value;
-	}
-	public String getGroupId() {
-		return groupId;
-	}
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
 	}
 	public String[] getFileNames() {
 		return fileNames;

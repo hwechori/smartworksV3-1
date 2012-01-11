@@ -885,6 +885,28 @@ public class ModelConverter {
 		return user;
 	}
 
+	public static DepartmentInfo getDepartmentInfoByDepartmentId(String departmentId) throws Exception {
+		if (CommonUtil.isEmpty(departmentId))
+			return null;
+		User cUser = SmartUtil.getCurrentUser();
+		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
+		return getDepartmentInfoBySwoUserExtend(null, departmentExtend);
+	}
+
+	public static DepartmentInfo getDepartmentInfoBySwoUserExtend(DepartmentInfo departmentInfo, SwoDepartmentExtend departmentExtend) throws Exception {
+		if (departmentExtend == null)
+			return null;
+		if (departmentInfo == null) 
+			departmentInfo = new DepartmentInfo();
+
+		departmentInfo.setId(departmentExtend.getId());
+		departmentInfo.setName(departmentExtend.getName());
+		departmentInfo.setDesc(departmentExtend.getDescription());
+		departmentInfo.setSmallPictureName(departmentExtend.getSmallPictureName());
+
+		return departmentInfo;
+	}
+
 	public static Department getDepartmentByDepartmentId(String departmentId) throws Exception {
 		if (CommonUtil.isEmpty(departmentId))
 			return null;
@@ -906,12 +928,17 @@ public class ModelConverter {
 		department.setDesc(departmentExtend.getDescription());
 
 		DepartmentInfo parent = getDepartmentInfoByDepartmentId(departmentExtend.getParentId());
-		if(parent != null)
+		if(parent != null) {
 			department.setParent(parent);
+		} else {
+			parent = new DepartmentInfo();
+			department.setParent(parent);
+		}
 
 		User head = getUserByUserId(departmentExtend.getHeadId());
-		if(head != null)
+		if(head != null) {
 			department.setHead(head);
+		}
 
 		List<UserInfo> userInfoList = new ArrayList<UserInfo>();
 		SwoUserExtend[] userExtends = getSwoManager().getUsersOfDepartment(cUser.getId(), department.getId());
@@ -926,7 +953,7 @@ public class ModelConverter {
 				member.setDepartment(new DepartmentInfo(swoUserExtend.getDepartmentId(), swoUserExtend.getDepartmentName(), swoUserExtend.getDepartmentDesc()));
 				userInfoList.add(member);
 			}
-	
+
 			UserInfo[] members = new UserInfo[userInfoList.size()];
 			userInfoList.toArray(members);
 			department.setMembers(members);
@@ -949,28 +976,6 @@ public class ModelConverter {
 		}
 
 		return department;
-	}
-
-	public static DepartmentInfo getDepartmentInfoByDepartmentId(String departmentId) throws Exception {
-		if (CommonUtil.isEmpty(departmentId))
-			return null;
-		User cUser = SmartUtil.getCurrentUser();
-		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
-		return getDepartmentInfoBySwoUserExtend(null, departmentExtend);
-	}
-
-	public static DepartmentInfo getDepartmentInfoBySwoUserExtend(DepartmentInfo departmentInfo, SwoDepartmentExtend departmentExtend) throws Exception {
-		if (departmentExtend == null)
-			return null;
-		if (departmentInfo == null) 
-			departmentInfo = new DepartmentInfo();
-
-		departmentInfo.setId(departmentExtend.getId());
-		departmentInfo.setName(departmentExtend.getName());
-		departmentInfo.setDesc(departmentExtend.getDescription());
-		departmentInfo.setSmallPictureName(departmentExtend.getSmallPictureName());
-
-		return departmentInfo;
 	}
 
 	public static Work getWorkByCtgCategory(Work work, CtgCategory ctg) throws Exception {

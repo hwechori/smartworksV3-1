@@ -134,4 +134,62 @@ public class SchManagerImpl extends AbstractManager implements ISchManager {
 
 	}
 
+	@Override
+	public SchUser[] getSchCommunityMember(String companyId, String userId, String communityId, String key) throws SchException {
+		if (CommonUtil.isEmpty(key)) 
+			return null;
+
+		StringBuffer queryBuffer = new StringBuffer();
+		queryBuffer.append("select userId, userName, userPos, userRoleId, deptId, deptName, deptDesc ");
+		queryBuffer.append("  from ");
+		queryBuffer.append("     (");
+		queryBuffer.append("		select dept.id as id, usr.id as userId, usr.name as userName, ");
+		queryBuffer.append("	           usr.pos as userPos, usr.roleId as userRoleId, ");
+		queryBuffer.append("	   	       dept.id as deptId, dept.name as deptName, dept.description as deptDesc ");
+		queryBuffer.append("		  from ");
+		queryBuffer.append("	           sworguser usr, sworgdept dept ");
+		queryBuffer.append("		 where usr.deptId = dept.id");
+		queryBuffer.append("	     union ");
+		queryBuffer.append("		select grpmember.groupId as id, usr.id as userId, usr.name as userName,");
+		queryBuffer.append("	   		   usr.pos as userPos, usr.roleId as userRoleId,");
+		queryBuffer.append("	   	       dept.id as deptId, dept.name as deptName, dept.description as deptDesc");
+		queryBuffer.append("		  from ");
+		queryBuffer.append("	           sworguser usr, sworgdept dept, sworggroupmember grpmember");
+		queryBuffer.append("	     where usr.id = grpmember.userId");
+		queryBuffer.append("  	       and usr.deptId = dept.id");
+		queryBuffer.append("	  ) community");
+		queryBuffer.append("  where community.id = :communityId ");
+		queryBuffer.append("    and community.userName like :key ");
+
+		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
+
+		query.setString("communityId", communityId);
+		query.setString("key", CommonUtil.toLikeString(key));
+
+		List list = query.list();
+		if (list == null || list.isEmpty())
+			return null;
+		List objList = new ArrayList();
+		for (Iterator itr = list.iterator(); itr.hasNext();) {
+			Object[] fields = (Object[]) itr.next();
+			SchUser obj = new SchUser();
+			int j = 0;
+			obj.setId((String)fields[j++]);
+			obj.setName((String)fields[j++]);
+			obj.setUserPosition((String)fields[j++]);
+			obj.setUserRole(((String)fields[j++]).equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
+			obj.setUserDeptId((String)fields[j++]);
+			obj.setUserDeptName((String)fields[j++]);
+			obj.setUserDeptDesc((String)fields[j++]);
+
+			objList.add(obj);
+		}
+		list = objList;
+		SchUser[] objs = new SchUser[list.size()];
+		list.toArray(objs);
+
+		return objs;
+
+	}
+
 }

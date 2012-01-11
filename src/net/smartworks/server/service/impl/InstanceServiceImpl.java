@@ -39,6 +39,7 @@ import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
+import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
@@ -593,7 +594,23 @@ public class InstanceServiceImpl implements IInstanceService {
 								FieldData fieldData = new FieldData();
 								fieldData.setFieldId(swdDataField.getId());
 								fieldData.setFieldType(viewingType);
-								fieldData.setValue(swdDataField.getValue());
+								String value = swdDataField.getValue();
+								if(viewingType.equals(FormField.TYPE_USERS)) {
+									// TO-DO Multi User 의 경우
+								} else if(viewingType.equals(FormField.TYPE_FILE)) {
+									List<IFileModel> fileList = getDocManager().findFileGroup(value);
+									List<String> fileNameList = new ArrayList<String>();
+									int j = 0;
+									for(IFileModel fileModel : fileList) {
+										fileModel = fileList.get(j);
+										String fileName = fileModel.getFileName();
+										fileNameList.add(fileName);
+									}
+									String[] fileNames = new String[fileNameList.size()];
+									fileNameList.toArray(fileNames);
+									fieldData.setFileNames(fileNames);
+								}
+								fieldData.setValue(value);
 								fieldDataList.add(fieldData);
 							}
 						}

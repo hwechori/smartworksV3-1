@@ -22,6 +22,8 @@ import net.smartworks.server.engine.organization.model.SwoContactCond;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
 import net.smartworks.server.engine.organization.model.SwoDepartmentExtend;
+import net.smartworks.server.engine.organization.model.SwoGroup;
+import net.smartworks.server.engine.organization.model.SwoGroupCond;
 import net.smartworks.server.engine.organization.model.SwoTeam;
 import net.smartworks.server.engine.organization.model.SwoTeamCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
@@ -170,5 +172,25 @@ public interface ISwoManager {
 	public SwoUserExtend[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws SwoException;
 
 	public String getTypeByWorkspaceId(String workspaceId) throws SwoException;
+
+	public SwoGroup getGroup(String user, String id, String level) throws SwoException;
+
+	public SwoGroup getGroup(String user, SwoGroupCond cond, String level) throws SwoException;
+
+	public void setGroup(String user, SwoGroup obj, String level) throws SwoException;
+
+	public void createGroup(String user, SwoGroup obj) throws SwoException;
+
+	public void removeGroup(String user, String id) throws SwoException;
+
+	public void removeGroup(String user, SwoGroupCond cond) throws SwoException;
+
+	public long getGroupSize(String user, SwoGroupCond cond) throws SwoException;
+
+	public SwoGroup[] getGroups(String user, SwoGroupCond cond, String level) throws SwoException;
+
+	public void createGroupMember(String user, String groupId, String userId, String joinType) throws SwoException;
+
+	public void setGroupMember(String user, String groupId, String userId) throws SwoException;
 
 }
