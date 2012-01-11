@@ -13,7 +13,7 @@ Ext.onReady(function () {
 		MATRIX : 2,
 		TABLE : 3
 	};
-	
+
 	swChartType = {
 		LINE : "line",
 		AREA : "area",
@@ -377,40 +377,6 @@ Ext.onReady(function () {
 //				renderTo : Ext.get(smartChart.target),
 //		        columns: smartChart.getColumns(),
 
-			
-			
-//		        listeners: {
-//		            selectionchange: function(model, records) {
-//		                var json, name, i, l, items, series, fields;
-//		                if (records[0]) {
-//		                    rec = records[0];
-//		                    if (!form) {
-//		                        form = this.up('form').getForm();
-//		                        fields = form.getFields();
-//		                        fields.each(function(field){
-//		                            if (field.name != 'company') {
-//		                                field.setDisabled(false);
-//		                            }
-//		                        });
-//		                    } else {
-//		                        fields = form.getFields();
-//		                    }
-//		                    
-//		                    // prevent change events from firing
-//		                    fields.each(function(field){
-//		                        field.suspendEvents();
-//		                    });
-//		                    form.loadRecord(rec);
-//		                    updateRecord(rec);
-//		                    fields.each(function(field){
-//		                        field.resumeEvents();
-//		                    });
-//		                }
-////		            }
-//		        }
-
-//		    });
-		    
 			if(smartChart.chartType === swChartType.PIE){
 				for(var i=0; i< smartChart.groupNames.length; i++)
 					Ext.create('Ext.chart.Chart', {
