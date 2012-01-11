@@ -99,7 +99,7 @@ $(function() {
 							},
 							success : function(data, status, jqXHR) {
 								input.parents('.js_work_report_page').find('div.js_work_report_view').html(data).slideDown(500);
-								smartChart.loadWithData(reportType, reportData, chartType, true, "chart_target");
+								smartChart.loadWithData(reportType, reportData, chartType, false, "chart_target");
 								smartPop.closeProgress();
 							},
 							error : function(xhr, ajaxOptions, thrownError){
@@ -108,7 +108,7 @@ $(function() {
 						});
 
 					}else{
-						smartChart.loadWithData(reportType, reportData, chartType, true, "chart_target");
+						smartChart.loadWithData(reportType, reportData, chartType, false, "chart_target");
 						smartPop.closeProgress();						
 					}
  				},
@@ -224,7 +224,7 @@ $(function() {
 			},
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
-				smartChart.load(parseInt(reportType), reportId, chartType, true, "chart_target");
+				smartChart.load(parseInt(reportType), reportId, chartType, false, "chart_target");
 				smartPop.closeProgress();						
 			},
 			error : function(xhr, ajaxOptions, thrownError){
@@ -238,8 +238,18 @@ $(function() {
 	$('select.js_change_chart_type').live('change', function(e) {
 		var input = $(e.target);
 		var chartType = input.attr('value');
-		smartChart.reload(chartType, true);
+		var stackedChart = input.parents('.js_work_report_view').find('.js_change_stacked_chart');
+		if(chartType === "column" || chartType === "bar") stackedChart.parent().show();
+		else stackedChart.parent().hide();
+		smartChart.reload(chartType, stackedChart.is(':checked'));
 		return false;
+	});
+
+	$('input.js_change_stacked_chart').live('click', function(e) {
+		var input = $(e.target);
+		var chartType = input.parents('.js_work_report_view').find('select.js_change_chart_type').attr('value');
+		smartChart.reload(chartType, input.is(':checked') );
+		return true;
 	});
 
 	$('tr.js_work_report_type td').live('change', function(e) {

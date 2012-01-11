@@ -95,7 +95,7 @@
 				var reportId = workReport.attr("reportId");
 				var reportType = workReport.attr("reportType");
 				var chartType = workReport.attr("chartType");
-				smartChart.load(parseInt(reportType), reportId, chartType, true, "chart_target");
+				smartChart.load(parseInt(reportType), reportId, chartType, false, "chart_target");
 
 			</script>
 		<%} %>
