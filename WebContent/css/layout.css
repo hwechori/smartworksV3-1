@@ -3,6 +3,7 @@
 #wrap {background: url("../images/top_bg.jpg") repeat-x scroll 0 0 transparent; height:100%; min-width:1000px; margin:0; z-index:1; position:relative;}
 html, body {color:#454545; font-family:'돋움',Dotum, Arial, sans-serif, tahoma, verdana,; height:100%; line-height:1.5em;}
 body, #nav {background: url("../images/bg_body.jpg");}
+a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#333}
 #nav a:link, #nav a:visited, #header a:link, #header a:visited {color:#FFF;}
 #nav a:hover, #nav a:focus, #nav a:active, #header a:hover, #header a:focus, #header a:active {color:#FFF; text-decoration:none;}
 #nav .current {color:#FFF; text-decoration:underline; font-weight:bold;}
@@ -485,6 +486,24 @@ a .btn_all_works:hover,
 
 .noti_tit_snew {background: url("../images/ico_notice_s.gif") no-repeat scroll 8px 0 transparent;
 		    padding:0 0 0 23px; font-weight:bold;}
+		    
+/* Noice - 정연희 추가 작업분에 대한 style입니다 */
+.notice {clear:both; margin:0 12px 5px 5px; padding-top:10px;}
+.notice .headlineNotice{float:left;width:33%;padding-right:5px;border-right:1px solid #cfcfcf}
+.notice .recentNotice{float:left;width:64%;margin-left:10px}
+.notice a.more{background: url("../images/btnMainNotice.gif") no-repeat;width:65px;height:90px;float:left;margin-right:5px}
+.notice a.more:hover{background: url("../images/btnMainNotice.gif") -65px 0 no-repeat;}
+.headlineNotice .title{display:block;font-size:13px;font-weight:bold;padding:7px 0 4px 0}
+.headlineNotice .index{display:block;font-size:11px;color:#535e9a}
+.headlineNotice .info{display:block;font-size:11px;color:#696969}
+.headlineNotice .content{display:block;font-size:12px;}
+.headlineNotice .ico_division_s{background-position:70px 0;padding-left:90px}
+.recentNotice td{border-bottom:1px dotted #DCDFE0}
+.recentNotice .title{background: url("../images/dotRed.gif") 1px 9px no-repeat;padding-left:10px}
+.recentNotice .title,.recentNotice .index{vertical-align:top}
+.recentNotice .title a{font-size:13px;font-weight:bold}
+.recentNotice .ico_division_s{background-position:0 3px;}
+.recentNotice .date{font-size:12px;font-weight:normal;text-align:center}
 			
 /* Work ING */
 #work_ing {margin:0 15px;}
