@@ -7,17 +7,22 @@
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.model.work.info.WorkInfo"%>
+<%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ page import="net.smartworks.model.work.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다.
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	User cUser = SmartUtil.getCurrentUser();
 	
 	// 서버에서 전달된 카테고리아이디를 가지고 하위 카테고리와 업무들을 가져온다...
 	WorkInfo[] works = smartWorks.getMyAllWorksByCategoryId(request.getParameter("categoryId"));
 	String iconType = null, classType = "js_content", workContext = null, targetContent = null;
 %>
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <ul>
 	<%
@@ -48,7 +53,7 @@
 					<a href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
 						<span class="<%=iconType%>"></span><%=work.getName()%><span></span>
 					</a>
-					<div class="checkOption"><input class="js_check_favorite_work" workId="<%=work.getId() %>" type="checkbox" name="option1" value="Milk"></div>
+					<div class="checkOption"><input title="<fmt:message key='nav.works.my_favorite_works'/>" class="js_check_favorite_work" workId="<%=work.getId() %>" type="checkbox" <%if(((SmartWorkInfo)work).isFavorite()){ %> checked <%} %>></div>
 				</li>
 				
 			<%

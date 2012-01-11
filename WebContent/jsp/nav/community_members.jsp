@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
+<%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
@@ -16,6 +17,7 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	UserInfo[] members = null;
+	DepartmentInfo[] children = null;
 
 	// 호출할때 전달된 cid(Context ID, 패이지 컨택스트를 지정하는 변수) 를 가져옮..
 	String cid = request.getParameter("cid");
@@ -27,7 +29,9 @@
 	if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, cid)) {
 		members = smartWorks.getGroupById(communityId).getMembers();
 	} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE, cid)) {
-		members = smartWorks.getDepartmentById(communityId).getMembers();
+		Department department = smartWorks.getDepartmentById(communityId);
+		members = department.getMembers();
+		children = department.getChildren();
 	}
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
@@ -76,6 +80,22 @@
 						<a href="user_space.sw?cid=<%=contextId%>">
 							<span class="ico_pe"><img src="<%=member.getMinPicture()%>" class="profile_size_s"></span> 
 							<span class="nav_subtitl_area"><%=member.getLongName()%></span>
+						</a>
+					</li>
+			<%
+				}
+			}
+			%>
+			<%
+			if (children != null) {
+				String contextId = null;
+				for (DepartmentInfo department : children) {
+					contextId = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + department.getId();
+			%>
+					<li>
+						<a href="department_space.sw?cid=<%=contextId%>">
+							<span class="ico_pe"><img src="<%=department.getMinPicture()%>" class="profile_size_s"></span> 
+							<span class="nav_subtitl_area"><%=department.getName()%></span>
 						</a>
 					</li>
 			<%
