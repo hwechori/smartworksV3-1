@@ -13,6 +13,49 @@
 
 	BoardInstanceInfo[] boards = smartWorks.getBoardInstances(new LocalDate(), 5);
 %>
+<!-- 공지사항 정연희 추가 style begin-->
+<div class="notice">
+	<div class="headlineNotice">
+		<a href="#" class="more"></a>
+		<a href="#">
+			<span class="title">올레캠퍼스 자바개발자 교육과정 소개합니다</span>
+			<span class="index ico_division_s">한라공조협력업체 정보화시스템 고도화 프로젝트</span>
+			<span class="info">개발팀 신현성, 19:00</span>
+			<span class="content">올레캠퍼스 자바개발자 교육과정 소개합니다. 올레캠퍼스 자바개발자 교육과정 소개합니다. 올레캠퍼..</span>
+		</a>
+	</div>
+	<div class="recentNotice">
+		<table>
+			<tr>
+				<td class="title"><a href="#">워크샵 일정계획 공지합니다</a></td>
+				<td class="index ico_division_s">한라공조협력업체 정보화시스템 고도화</td>
+				<td class="writer"><a href="#"><img width="20" height="20" alt="기술연구소장 유광민" src="images/no_user_picture_min.jpg"> 기술연구소 유광민</a></td>
+				<td class="date">01-30 23:14</td>
+			</tr>
+			<tr>
+				<td class="title"><a href="#">워크샵 일정계획 공지합니다</a></td>
+				<td class="index ico_division_s">한라공조협력업체 정보화시스템 고도화</td>
+				<td class="writer"><a href="#"><img width="20" height="20" alt="기술연구소장 유광민" src="images/no_user_picture_min.jpg"> 기술연구소 유광민</a></td>
+				<td class="date">01-30 23:14</td>
+			</tr>
+			<tr>
+				<td class="title"><a href="#">올레캠퍼스 자바개발자 교육과정 소개합니다.</a></td>
+				<td class="index ico_division_s">한라공조협력업체 </td>
+				<td class="writer"><a href="#"><img width="20" height="20" alt="기술연구소장 유광민" src="images/no_user_picture_min.jpg"> 기술연구소 유광민</a></td>
+				<td class="date">01-30 23:14</td>
+			</tr>
+			<tr>
+				<td class="title"><a href="#">워크샵 일정계획 공지합니다</a></td>
+				<td class="index ico_division_s">한라공조협력업체 정보화시스템 고도화</td>
+				<td class="writer"><a href="#"><img width="20" height="20" alt="기술연구소장 유광민" src="images/no_user_picture_min.jpg"> 기술연구소 유광민</a></td>
+				<td class="date">01-30 23:14</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<!-- 공지사항 정연희 추가 style end-->
+
 <!-- 공지사항 -->
 <div id="notice">
 	<ul>
