@@ -45,6 +45,7 @@ import net.smartworks.server.engine.organization.model.SwoTeamCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserCond;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
+import net.smartworks.util.SmartMessage;
 
 import org.hibernate.Query;
 
@@ -2168,21 +2169,23 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		SwoUserExtend userExtend = new SwoUserExtend();
 		userExtend = new SwoUserExtend();
 		userExtend.setId(User.USER_ID_NONE_EXISTING);
-		userExtend.setName("server.user.name.noneexisting");
-		userExtend.setCompanyId("Maninsoft");
-		userExtend.setCompanyName("Maninsoft");
-		userExtend.setDepartmentId("System");
-		userExtend.setDepartmentName("System");
-		userExtend.setPosition("ADMIN");
+		userExtend.setName(SmartMessage.getString("server.user.name.noneexisting"));
+		userExtend.setCompanyId("");
+		userExtend.setCompanyName("");
+		userExtend.setDepartmentId("");
+		userExtend.setDepartmentName("");
+		userExtend.setPosition("");
 		userExtend.setLocale("ko");
 		userExtend.setTimeZone("Asia/Seoul");
 		userExtend.setPictureName("");
-		userExtend.setRoleId("DEPT LEADER");
-		userExtend.setAuthId("ADMINISTRATOR");
-		userExtend.setEmployeeId("E00001");
-		userExtend.setEmail(User.USER_ID_NONE_EXISTING);
-		userExtend.setPhoneNo("031-714-5714");
-		userExtend.setCellPhoneNo("031-714-5714");
+		userExtend.setRoleId("");
+		userExtend.setAuthId("");
+		userExtend.setEmployeeId("");
+		userExtend.setEmail("");
+		userExtend.setPhoneNo("");
+		userExtend.setCellPhoneNo("");
+		userExtend.setBigPictureName("");
+		userExtend.setSmallPictureName("");
 
 		return userExtend;
 

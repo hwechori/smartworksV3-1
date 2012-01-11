@@ -15,7 +15,6 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
-import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.ChartReport;
@@ -348,12 +347,17 @@ public class WorkServiceImpl implements IWorkService {
 
 		List<FormField> formFieldList = new ArrayList<FormField>();
 		for(SwdField swdField : swdFields) {
-			FormField formField = new FormField();
-			formField.setId(swdField.getFormFieldId());
-			formField.setName(swdField.getFormFieldName());
-			formField.setType(swdField.getFormFieldType());
-			formField.setDisplayOrder(swdField.getDisplayOrder());
-			formFieldList.add(formField);
+			for(SwfField swfField : swfFields) {
+				String viewingType = swfField.getFormat().getViewingType();
+				if(swdField.getFormFieldId().equals(swfField.getId())) {
+					FormField formField = new FormField();
+					formField.setId(swdField.getFormFieldId());
+					formField.setName(swdField.getFormFieldName());
+					formField.setType(viewingType);
+					formField.setDisplayOrder(swdField.getDisplayOrder());
+					formFieldList.add(formField);
+				}
+			}
 		}
 
 		FormField[] resultFormFields = new FormField[formFieldList.size()];
