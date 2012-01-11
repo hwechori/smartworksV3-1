@@ -42,6 +42,8 @@ Ext.onReady(function () {
 		groupNames : null,
 		values : null,
 		requestUrl : "get_report_data.sw",
+		labelFont : '11px Arial',
+		labelRotate : null,
 	
 		getFields : function() {
 			var fields = new Array();
@@ -51,54 +53,94 @@ Ext.onReady(function () {
 			return fields;
 		},
 		
-		getTheme : function(){
-			if(smartChart.chartType === swChartType.LINE)
+		getTheme : function(chartType){
+			if(chartType === swChartType.LINE)
 				return "Base";
-			else if(smartChart.chartType === swChartType.AREA)
+			else if(chartType === swChartType.AREA)
 				return "Base";
-			else if(smartChart.chartType === swChartType.BAR)
+			else if(chartType === swChartType.BAR)
 				return "Base";
-			else if(smartChart.chartType === swChartType.PIE)
+			else if(chartType === swChartType.PIE)
 				return "Category2";
-			else if(smartChart.chartType === swChartType.COLUMN)
+			else if(chartType === swChartType.COLUMN)
 				return "Base";
-			else if(smartChart.chartType === swChartType.GUAGE)
+			else if(chartType === swChartType.GUAGE)
 				return "Base";
-			else if(smartChart.chartType === swChartType.RADAR)
-				return "Base";
-			else if(smartChart.chartType === swChartType.SCATTER)
+			else if(chartType === swChartType.RADAR)
+				return "Category2";
+			else if(chartType === swChartType.SCATTER)
 				return "Base";
 		},
 		
-		getAxes : function() {
+		getAxes : function(chartType) {
 			var yAxisPosition = "left";
 			var xAxisPosition = "bottom";
 			var yAxisGrid = true;
-			if(smartChart.chartType === swChartType.AREA)
+			if(chartType === swChartType.AREA)
 				yAxisGrid = false;
-			if(smartChart.chartType === swChartType.BAR){
+			if(chartType === swChartType.BAR){
 				yAxisPosition = "bottom";
 				xAxisPosition = "left";
 			}
+			var labelRotate = smartChart.labelRotate;
+			if(chartType === swChartType.BAR
+					|| chartType === swChartType.PIE
+					|| chartType === swChartType.GAUGE
+					|| chartType === swChartType.RADAR){
+				labelRotate = null;
+			}
+			
+			var numericLabel = {
+				renderer: Ext.util.Format.numberRenderer('0,0'),
+				font: smartChart.labelFont
+			};
+			var categoryLabel = {
+				font: smartChart.labelFont,
+				renderer: function(name) {
+					return name;
+				}
+			};
 	
-			if(smartChart.chartType === swChartType.PIE) return [];
-			else if(smartChart.chartType === swChartType.RADAR){
+			if(chartType === swChartType.PIE) return [];
+			else if(chartType === swChartType.RADAR){
 				return [{
 	                type: 'Radial',
 	                position: 'radial',
 	                label: {
-	                    display: true
-	                }}];		
-			}else if(smartChart.chartType === swChartType.GAUGE){
+	                    display: true,
+	                    font: smartChart.labelFont
+	                }
+				}];		
+			}else if(chartType === swChartType.GAUGE){
 				return [{
 	                type: 'gauge',
 	                position: 'gauge',
+	                title: smartChart.xfieldName,
 	                minimum: 0,
 	                maximum: 100,
 	                steps: 10,
 	                margin: -10
 	            }];
-			}else{ 
+			}else if(chartType === swChartType.SCATTER){
+				return [{
+					        type: 'Numeric',
+					        position: 'left',
+					        fields: smartChart.groupNames,
+					        title: smartChart.yValueName,
+					        grid: true,
+					        minimum: 0,
+					        label : numericLabel
+					    }, {
+					        type: 'Category',
+					        position: 'bottom',
+					        fields: [ smartChart.xFieldName ],
+					        title: smartChart.xFieldName,
+					        label: labelRotate
+					    }];
+			}else if(chartType === swChartType.LINE 
+					|| chartType === swChartType.AREA
+					|| chartType === swChartType.BAR
+					|| chartType === swChartType.COLUMN){ 
 				return [{
 					type : 'Numeric',
 					minimum : 0,
@@ -107,21 +149,13 @@ Ext.onReady(function () {
 					fields : smartChart.groupNames,
 					title : smartChart.yValueName,
 					minorTickSteps : 1,
-					label: {
-						renderer: Ext.util.Format.numberRenderer('0,0'),
-						font: '11px Arial'
-					}
+					label: numericLabel
 				}, {
 					type : 'Category',
 					position : xAxisPosition,
 					fields : [ smartChart.xFieldName ],
 					title : smartChart.xFieldName,
-					label: {
-						font: '11px Arial',
-						renderer: function(name) {
-							return name;
-						}
-					}
+	                label: labelRotate
 				} ];
 			}
 		},
@@ -142,33 +176,36 @@ Ext.onReady(function () {
 			        field: 'name',
 			        display: 'rotate',
 			        contrast: true,
-			        font: '11px Arial'
+			        font: smartChart.labelFont
 			    }		}];
 		    return series;
 		},
 		
-		getSeries : function(type) {			
+		getSeries : function(chartType) {			
+			var markerConfig = {
+					type: 'circle',
+					radius: 3,
+					size: 3,							
+				}; 
+			var highlight = {
+                    size: 7,
+                    radius: 7
+                };
 			var axis = "left";
-			if(smartChart.chartType === swChartType.RADAR ) style = { 'stroke-width': 2, fill: 'none'};	
-			if(smartChart.chartType === swChartType.BAR) axis = "bottom";
-			if(type === swChartType.LINE){
+			if(chartType === swChartType.BAR) axis = "bottom";
+			
+			if(chartType === swChartType.LINE){
 				var series = new Array();
 				for(var i=0; i<smartChart.groupNames.length; i++){
 					series.push({
-						type : smartChart.chartType,
+						type : chartType,
 						axis : axis,
 						xField : smartChart.xFieldName,
 						yField : smartChart.groupNames[i],
-						stacked : smartChart.isStacked,
-		                highlight: {
-		                    size: 7,
-		                    radius: 7
-		                },
-		                markerConfig: {
-		                    type: 'circle',
-		                    size: 4,
-		                    radius: 4,
-		                    'stroke-width': 0
+		                highlight: highlight,
+		                markerConfig: markerConfig,
+		                style:{
+							'stroke-width': 0		                	
 		                }
 //		                tips: {
 //		                    trackMouse: true,
@@ -181,9 +218,51 @@ Ext.onReady(function () {
 					});
 				}
 				return series;
-			}else{
+			}else if(chartType === swChartType.RADAR){
+				var series = new Array();
+				for(var i=0; i<smartChart.groupNames.length; i++){
+					series.push({
+						type : chartType,
+						xField : smartChart.xFieldName,
+						yField : smartChart.groupNames[i],
+						showInLegend: true,
+						showMarkers: true,
+						markerConfig: markerConfig,
+						style:{
+							'stroke-width': 2,
+							fill: 'none'
+						}
+					});
+				}
+				return series;
+				
+			}else if(chartType === swChartType.SCATTER){
+				var series = new Array();
+				for(var i=0; i<smartChart.groupNames.length; i++){
+					series.push({
+				        type: chartType,
+					    showInLegend: true,
+		                highlight: highlight,
+		                label: {
+		                	orientation: smartChart.labelOrientation
+		                },
+		                markerConfig: markerConfig,
+		                style : {
+		                    'stroke-width': 0
+		                },
+				        axis: 'left',
+				        xField: smartChart.xFieldName,
+				        yField: smartChart.groupNames[i]
+					});
+				}
+				return series;
+				
+			}else if(chartType === swChartType.AREA
+					|| chartType === swChartType.GAUGE
+					|| chartType === swChartType.COLUMN
+					|| chartType === swChartType.BAR){
 				return [{
-					type : smartChart.chartType,
+					type : chartType,
 	                gutter: 80,
 					axis : axis,
 					xField : smartChart.xFieldName,
@@ -214,6 +293,13 @@ Ext.onReady(function () {
 						smartChart.yValueName = data.yValueName;
 						smartChart.groupNames = data.groupNames;
 						smartChart.values = data.values;
+						if(data.values.length>15){
+							smartChart.labelRotate = {
+				                	rotate : {
+				                		degrees : 270
+				                	}
+				                };
+						}else smartChart.labelRotate = null;
 						smartChart.createChart();
 					}
 				},
@@ -339,7 +425,7 @@ Ext.onReady(function () {
 							data : smartChart.values
 						}),
 						shadow : true,
-						axes : smartChart.getAxes(),
+						axes : smartChart.getAxes(smartChart.chartType),
 						series : smartChart.getSeriesForPIE(i)
 					});		
 			}else if(smartChart.chartType === swChartType.GAUGE){
@@ -362,7 +448,7 @@ Ext.onReady(function () {
 			            
 			            insetPadding: 25,
 			            flex: 1,					
-			            axes: smartChart.getAxes(),
+			            axes: smartChart.getAxes(smartChart.chartType),
 			            series: [{
 			                type: smartChart.chartType,
 			                field: smartChart.groupNames[i],
@@ -371,12 +457,35 @@ Ext.onReady(function () {
 			            }]
 			 				});
 	
+			}else if(smartChart.chartType === swChartType.SCATTER){
+					Ext.create('Ext.chart.Chart', {
+						width: 600,
+						height: 300,
+						animate: true,
+						theme: 'Category2',
+						resizable: true,
+			            style: 'background:#fff',
+			            renderTo: Ext.get(smartChart.target),
+			            store : Ext.create('Ext.data.JsonStore', {
+							fields : smartChart.getFields(),
+							data : smartChart.values
+			            }),
+			            
+						legend : {
+							position : 'right'
+						},
+			            flex: 1,					
+			            axes: smartChart.getAxes(smartChart.chartType),
+			            series: smartChart.getSeries(smartChart.chartType)
+					});
+	
 			}else{
 				Ext.create('Ext.form.Panel',{
 					layout: {
 						align: 'stretch',
 						type: 'vbox'
 					},
+			        style: 'overflow: hidden;',
 					items: [{
 						xtype: 'container',
 						flex: 1,
@@ -386,7 +495,9 @@ Ext.onReady(function () {
 							width: 600,
 							height: 300,
 							animate: true,
+							theme: 'Category2',
 							resizable: true,
+							insetPadding: 20,// radar
 							renderTo : Ext.get(smartChart.target),
 							store : Ext.create('Ext.data.JsonStore', {
 								fields : smartChart.getFields(),
@@ -396,7 +507,7 @@ Ext.onReady(function () {
 							legend : {
 								position : 'right'
 							},
-							axes : smartChart.getAxes(),
+							axes : smartChart.getAxes(smartChart.chartType),
 							series : smartChart.getSeries(smartChart.chartType)
 						}]
 					}]

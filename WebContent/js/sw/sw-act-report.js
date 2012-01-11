@@ -99,7 +99,7 @@ $(function() {
 							},
 							success : function(data, status, jqXHR) {
 								input.parents('.js_work_report_page').find('div.js_work_report_view').html(data).slideDown(500);
-								smartChart.loadWithData(reportType, reportData, chartType, false, "chart_target");
+								smartChart.loadWithData(reportType, reportData, chartType, true, "chart_target");
 								smartPop.closeProgress();
 							},
 							error : function(xhr, ajaxOptions, thrownError){
@@ -108,7 +108,7 @@ $(function() {
 						});
 
 					}else{
-						smartChart.loadWithData(reportType, reportData, chartType, false, "chart_target");
+						smartChart.loadWithData(reportType, reportData, chartType, true, "chart_target");
 						smartPop.closeProgress();						
 					}
  				},
@@ -224,7 +224,7 @@ $(function() {
 			},
 			success : function(data, status, jqXHR) {
 				target.html(data).slideDown(500);
-				smartChart.load(parseInt(reportType), reportId, chartType, false, "chart_target");
+				smartChart.load(parseInt(reportType), reportId, chartType, true, "chart_target");
 				smartPop.closeProgress();						
 			},
 			error : function(xhr, ajaxOptions, thrownError){
@@ -238,7 +238,7 @@ $(function() {
 	$('select.js_change_chart_type').live('change', function(e) {
 		var input = $(e.target);
 		var chartType = input.attr('value');
-		smartChart.reload(chartType, false);
+		smartChart.reload(chartType, true);
 		return false;
 	});
 
