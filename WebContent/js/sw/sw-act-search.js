@@ -10,6 +10,7 @@ $(function() {
 		var input = $(e.target);
 		var start_work = input.parents('div.js_start_work');
 		var chatter_name = input.parents('div.js_chatter_names');
+		var communityId = input.parents('ul.js_community_members').attr('communityId');
 		var target;
 		if (!isEmpty(input[0].value))
 			input.next('div').removeClass('srch_ico').addClass('btn_im_x');
@@ -29,7 +30,8 @@ $(function() {
 				$.ajax({
 					url : url,
 					data : {
-						key : input[0].value
+						key : input[0].value,
+						communityId : communityId
 					},
 					context : input,
 					success : function(data, status, jqXHR) {

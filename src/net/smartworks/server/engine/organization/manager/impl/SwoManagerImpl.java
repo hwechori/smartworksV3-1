@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.smartworks.model.community.User;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
@@ -35,6 +36,9 @@ import net.smartworks.server.engine.organization.model.SwoContactCond;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
 import net.smartworks.server.engine.organization.model.SwoDepartmentExtend;
+import net.smartworks.server.engine.organization.model.SwoGroup;
+import net.smartworks.server.engine.organization.model.SwoGroupCond;
+import net.smartworks.server.engine.organization.model.SwoGroupMember;
 import net.smartworks.server.engine.organization.model.SwoObject;
 import net.smartworks.server.engine.organization.model.SwoTeam;
 import net.smartworks.server.engine.organization.model.SwoTeamCond;
@@ -2079,7 +2083,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		SwoUser swoUser = this.getUser(userId, id, IManager.LEVEL_LITE);
 
 		if(swoUser == null) {
-			userExtend = this.getSystemUser();
+			userExtend = this.getNoneExistingUser();
 		} else {
 			StringBuffer buff = new StringBuffer();
 			buff.append("select new net.smartworks.server.engine.organization.model.SwoUserExtend( ");
@@ -2160,11 +2164,11 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		return usersExtendsArray;
 	}
 
-	public SwoUserExtend getSystemUser() throws SwoException {
+	public SwoUserExtend getNoneExistingUser() throws SwoException {
 		SwoUserExtend userExtend = new SwoUserExtend();
 		userExtend = new SwoUserExtend();
-		userExtend.setId("admin@maninsoft.co.kr");
-		userExtend.setName("admin");
+		userExtend.setId(User.USER_ID_NONE_EXISTING);
+		userExtend.setName("server.user.name.noneexisting");
 		userExtend.setCompanyId("Maninsoft");
 		userExtend.setCompanyName("Maninsoft");
 		userExtend.setDepartmentId("System");
@@ -2176,7 +2180,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		userExtend.setRoleId("DEPT LEADER");
 		userExtend.setAuthId("ADMINISTRATOR");
 		userExtend.setEmployeeId("E00001");
-		userExtend.setEmail("admin@maninsoft.co.kr");
+		userExtend.setEmail(User.USER_ID_NONE_EXISTING);
 		userExtend.setPhoneNo("031-714-5714");
 		userExtend.setCellPhoneNo("031-714-5714");
 
@@ -2317,12 +2321,15 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		buff.append(" ( ");
 		buff.append(" 	select 'user' as type ");
 		buff.append(" 		, usr.id, usr.name ");
-		buff.append(" 	From sworguser usr, sworgdept dept ");
-		buff.append(" 	where usr.deptId = dept.id ");
+		buff.append(" 	from sworguser usr ");
 		buff.append(" 	union ");
 		buff.append(" 	select 'department' as type ");
 		buff.append(" 		, dept.id, dept.name ");
 		buff.append(" 	from sworgdept dept ");
+		buff.append(" 	union ");
+		buff.append(" 	select 'group' as type ");
+		buff.append(" 		, grp.id, grp.name ");
+		buff.append(" 	from sworggroup grp ");
 		buff.append(" ) workspaceinfo ");
 		buff.append(" where workspaceinfo.id = :id ");
 
@@ -2333,6 +2340,299 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		String type = (String)query.uniqueResult();
 
 		return type;
+
+	}
+
+	@Override
+	public SwoGroup getGroup(String user, String id, String level) throws SwoException {
+		try {
+			if (level == null)
+				level = LEVEL_ALL;
+			if (level.equals(LEVEL_ALL)) {
+				SwoGroup obj = (SwoGroup)this.get(SwoGroup.class, id);
+				return obj;
+			} else {
+				SwoGroupCond cond = new SwoGroupCond();
+				cond.setId(id);
+				SwoGroup[] objs = this.getGroups(user, cond, level);
+				if (objs == null || objs.length == 0)
+					return null;
+				return objs[0];
+			}
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwoException(e);
+		}
+	}
+
+	@Override
+	public SwoGroup getGroup(String user, SwoGroupCond cond, String level) throws SwoException {
+		if (level == null)
+			level = LEVEL_ALL;
+		cond.setPageSize(2);
+		SwoGroup[] teams = getGroups(user, cond, level);
+		if (CommonUtil.isEmpty(teams))
+			return null;
+		try {
+			if (teams.length != 1)
+				throw new SwoException("More than 1 Object");
+		} catch (SwoException e) {
+			logger.error(e, e);
+			throw e;
+		}
+		return teams[0];
+	}
+
+	@Override
+	public void setGroup(String user, SwoGroup obj, String level) throws SwoException {
+		if (level == null)
+			level = LEVEL_ALL;
+		try {
+			if (level.equals(LEVEL_ALL)) {
+				fill(user, obj);
+				if(obj.getId() == null)
+					obj.setId(IDCreator.createId(SmartServerConstant.GROUP_APPR));
+				set(obj);
+			} else {
+				StringBuffer buf = new StringBuffer();
+				buf.append("update SwoGroup set");
+				buf.append(" companyId=:companyId, name=:name, groupLeader=:groupLeader, groupType=:groupType, status=:status, description=:description,");
+				buf.append(" creationDate=:creationDate, creationUser=:creationUser,");
+				buf.append(" modificationUser=:modificationUser, modificationDate=:modificationDate");
+				buf.append(" where id=:id");
+				Query query = this.getSession().createQuery(buf.toString());
+				query.setString(SwoGroup.A_COMPANYID, obj.getCompanyId());
+				query.setString(SwoGroup.A_NAME, obj.getName());
+				query.setString(SwoGroup.A_GROUPLEADER, obj.getGroupLeader());
+				query.setString(SwoGroup.A_GROUPTYPE, obj.getGroupType());
+				query.setString(SwoGroup.A_STATUS, obj.getStatus());
+				query.setString(SwoGroup.A_DESCRIPTION, obj.getDescription());
+				query.setTimestamp(SwoGroup.A_CREATIONDATE, obj.getCreationDate());
+				query.setString(SwoGroup.A_CREATIONUSER, obj.getCreationUser());
+				query.setTimestamp(SwoGroup.A_MODIFICATIONUSER, obj.getModificationDate());
+				query.setTimestamp(SwoGroup.A_MODIFICATIONDATE, obj.getModificationDate());
+				query.setString(SwoGroup.A_ID, obj.getId());
+			}
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwoException(e);
+		}
+	}
+
+	@Override
+	public void createGroup(String user, SwoGroup obj) throws SwoException {
+		try {
+			fill(user, obj);
+			if(obj.getId() == null)
+				obj.setId(IDCreator.createId(SmartServerConstant.GROUP_APPR));
+			create(obj);
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwoException(e);
+		}
+	}
+
+	@Override
+	public void removeGroup(String user, String id) throws SwoException {
+		try {
+			remove(SwoGroup.class, id);
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwoException(e);
+		}
+		
+	}
+
+	@Override
+	public void removeGroup(String user, SwoGroupCond cond) throws SwoException {
+		SwoGroup obj = getGroup(user, cond, null);
+		if (obj == null)
+			return;
+		removeGroup(user, obj.getId());
+	}
+
+	private Query appendQuery(StringBuffer buf, SwoGroupCond cond) throws Exception {
+		String id = null;
+		String companyId = null;
+		String name = null;
+		String groupLeader = null;
+		String groupType = null;
+		String status = null;
+		String creationUser = null;
+		Date creationDate = null;
+		String modificationUser = null;
+		Date modificationDate = null;
+		String nameLike = null;
+
+		if (cond != null) {
+			id = cond.getId();
+			companyId = cond.getCompanyId();
+			name = cond.getName();
+			groupLeader = cond.getGroupLeader();
+			groupType = cond.getGroupType();
+			status = cond.getStatus();
+			creationUser = cond.getCreationUser();
+			creationDate = cond.getCreationDate();
+			modificationUser = cond.getModificationUser();
+			modificationDate = cond.getModificationDate();
+			nameLike = cond.getNameLike();
+		}
+		buf.append(" from SwoGroup obj");
+		buf.append(" where obj.id is not null");
+		//TODO 시간 검색에 대한 확인 필요
+		if (cond != null) {
+			if (id != null)
+				buf.append(" and obj.id = :id");
+			if (companyId != null)
+				buf.append(" and obj.companyId = :companyId");
+			if (name != null)
+				buf.append(" and obj.name = :name");
+			if (nameLike != null)
+				buf.append(" and obj.name like :nameLike");
+			if (groupLeader != null)
+				buf.append(" and obj.groupLeader = :groupLeader");
+			if (groupType != null)
+				buf.append(" and obj.groupType = :groupType");
+			if (status != null)
+				buf.append(" and obj.status = :status");
+			if (creationUser != null)
+				buf.append(" and obj.creationUser = :creationUser");
+			if (creationDate != null)
+				buf.append(" and obj.creationDate = :creationDate");
+			if (modificationUser != null)
+				buf.append(" and obj.modificationUser = :modificationUser");
+			if (modificationDate != null)
+				buf.append(" and obj.modificationDate = :modificationDate");
+		}
+
+		this.appendOrderQuery(buf, "obj", cond);
+		
+		Query query = this.createQuery(buf.toString(), cond);
+		if (cond != null) {
+			if (id != null)
+				query.setString("id", id);
+			if (companyId != null)
+				query.setString("companyId", companyId);
+			if (name != null)
+				query.setString("name", name);
+			if (nameLike != null)
+				query.setString("nameLike", CommonUtil.toLikeString(nameLike));
+			if (groupLeader != null)
+				query.setString("groupLeader", groupLeader);
+			if (groupType != null)
+				query.setString("groupType", groupType);
+			if (status != null)
+				query.setString("status", status);
+			if (creationUser != null)
+				query.setString("creationUser", creationUser);
+			if (creationDate != null)
+				query.setTimestamp("creationDate", creationDate);
+			if (modificationUser != null)
+				query.setString("modificationUser", modificationUser);
+			if (modificationDate != null)
+				query.setTimestamp("modificationDate", modificationDate);
+		}
+		return query;
+	}
+
+	@Override
+	public long getGroupSize(String user, SwoGroupCond cond) throws SwoException {
+		try {
+			StringBuffer buf = new StringBuffer();
+			buf.append("select");
+			buf.append(" count(obj)");
+			Query query = this.appendQuery(buf, cond);
+			List list = query.list();
+			long count = ((Long)list.get(0)).longValue();
+			return count;
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwoException(e);
+		}
+	}
+
+	@Override
+	public SwoGroup[] getGroups(String user, SwoGroupCond cond, String level) throws SwoException {
+		try {
+			if (level == null)
+				level = LEVEL_LITE;
+			StringBuffer buf = new StringBuffer();
+			buf.append("select");
+			if (level.equals(LEVEL_ALL)) {
+				buf.append(" obj");
+			} else {
+				buf.append(" obj.id, obj.companyId, obj.name, obj.groupLeader, obj.groupType, obj.status, obj.description,");
+				buf.append(" obj.creationUser, obj.creationDate,");
+				buf.append(" obj.modificationUser, obj.modificationDate");
+			}
+			Query query = this.appendQuery(buf, cond);
+			List list = query.list();
+			if (list == null || list.isEmpty())
+				return null;
+			if (!level.equals(LEVEL_ALL)) {
+				List objList = new ArrayList();
+				for (Iterator itr = list.iterator(); itr.hasNext();) {
+					Object[] fields = (Object[]) itr.next();
+					SwoGroup obj = new SwoGroup();
+					int j = 0;
+					obj.setId((String)fields[j++]);
+					obj.setCompanyId((String)fields[j++]);
+					obj.setName((String)fields[j++]);
+					obj.setGroupLeader((String)fields[j++]);
+					obj.setGroupType((String)fields[j++]);
+					obj.setStatus((String)fields[j++]);
+					obj.setDescription((String)fields[j++]);
+					obj.setCreationUser((String)fields[j++]);
+					obj.setCreationDate((Timestamp)fields[j++]);
+					obj.setModificationUser((String)fields[j++]);
+					obj.setModificationDate((Timestamp)fields[j++]);
+					objList.add(obj);
+				}
+				list = objList;
+			}
+			SwoGroup[] objs = new SwoGroup[list.size()];
+			list.toArray(objs);
+			return objs;
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwoException(e);
+		}
+	}
+
+	@Override
+	public void createGroupMember(String user, String groupId, String userId, String joinType) throws SwoException {
+
+		StringBuffer buff = new StringBuffer();
+
+		buff.append(" insert into SwoGroupMember ");
+		buff.append(" (groupId, userId, joinType, joinStatus) ");
+		buff.append(" values(groupId = :groupId, userId = :userId, joinType = :joinType, joinStatus = 'P') ");
+
+		Query query = this.getSession().createQuery(buff.toString());
+		query.setString(SwoGroupMember.A_GROUPID, groupId);
+		query.setString(SwoGroupMember.A_USERID, userId);
+		query.setString(SwoGroupMember.A_JOINTYPE, joinType);
+
+		query.executeUpdate();
+
+	}
+
+	@Override
+	public void setGroupMember(String user, String groupId, String userId) throws SwoException {
+
+		StringBuffer buff = new StringBuffer();
+
+		buff.append(" update SwoGroupMember set ");
+		buff.append(" joinStatus = :joinStatus, joinDate = :joinDate ");
+		buff.append(" where groupId = :groupId, userId = :userId ");
+
+		Query query = this.getSession().createQuery(buff.toString());
+		query.setString(SwoGroupMember.A_JOINSTATUS, "N");
+		query.setTimestamp(SwoGroupMember.A_JOINDATE, new Date());
+		query.setString(SwoGroupMember.A_GROUPID, groupId);
+		query.setString(SwoGroupMember.A_USERID, userId);
+
+		query.executeUpdate();
 
 	}
 

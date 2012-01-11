@@ -22,11 +22,12 @@
 	if (SmartUtil.isBlankObject(cid))
 		cid = ISmartWorks.CONTEXT_HOME;
 
+	String communityId = SmartUtil.getSpaceIdFromContentContext(cid);
 	// 공간이 그룹일때와 부서일때를 구분하여 해당 정보를 서버에게 가져온다...
 	if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, cid)) {
-		members = smartWorks.getGroupById(SmartUtil.getSpaceIdFromContentContext(cid)).getMembers();
+		members = smartWorks.getGroupById(communityId).getMembers();
 	} else if (SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE, cid)) {
-		members = smartWorks.getDepartmentById(SmartUtil.getSpaceIdFromContentContext(cid)).getMembers();
+		members = smartWorks.getDepartmentById(communityId).getMembers();
 	}
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
@@ -34,7 +35,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 커뮤너티 멤버와 검색박스가 있는 헤더  -->
-<ul class="navi_tit">
+<ul class="navi_tit js_community_members" communityId="<%=communityId%>">
 
 	<!-- 커뮤너티멤버 라벨과 클릭시 아래의 멤버선택트리화면을 접었다 폈다하는 기능 제공  -->
 	<!-- *** js_collapse_parent_siblings : sw_act_nav.js 에서 이클래스의 클릭이벤트를 받아서 -->

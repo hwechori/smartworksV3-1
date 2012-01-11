@@ -47,6 +47,10 @@ public class SmartServerConstant {
 	 */
 	public static final String TEAM_APPR = "team";
 	/**
+	 * 그룹 축약어 - group
+	 */
+	public static final String GROUP_APPR = "grp";
+	/**
 	 * 역할 축약어 - role
 	 */
 	public static final String ROLE_ABBR = "role";

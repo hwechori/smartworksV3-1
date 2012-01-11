@@ -70,7 +70,7 @@
 	%>
 		<li><img class="profile_size_66" src="<%=thisDepartment.getOrgPicture()%>"></li>
 		<li><%=thisDepartment.getName()%><br /> <b><%=thisDepartment.getDesc()%></b><br />
-			<fmt:message key="department.text.head" /> : <%=thisDepartment.getHead().getLongName()%><br />
+			<fmt:message key="department.text.head" /> : <%=thisDepartment.getHead() == null ? "" : thisDepartment.getHead().getLongName()%><br />
 		</li>
 	<%
 	// 사용자인 경우....

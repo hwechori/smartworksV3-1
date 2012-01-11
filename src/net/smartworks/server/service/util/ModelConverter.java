@@ -938,9 +938,6 @@ public class ModelConverter {
 		User head = getUserByUserId(departmentExtend.getHeadId());
 		if(head != null) {
 			department.setHead(head);
-		} else {
-			head = new User();
-			department.setHead(head);
 		}
 
 		List<UserInfo> userInfoList = new ArrayList<UserInfo>();
@@ -956,12 +953,10 @@ public class ModelConverter {
 				member.setDepartment(new DepartmentInfo(swoUserExtend.getDepartmentId(), swoUserExtend.getDepartmentName(), swoUserExtend.getDepartmentDesc()));
 				userInfoList.add(member);
 			}
-	
+
 			UserInfo[] members = new UserInfo[userInfoList.size()];
 			userInfoList.toArray(members);
 			department.setMembers(members);
-		} else {
-			department.setMembers(new UserInfo[0]);
 		}
 
 		List<DepartmentInfo> departmentInfoList = new ArrayList<DepartmentInfo>();
@@ -978,8 +973,6 @@ public class ModelConverter {
 			DepartmentInfo[] children = new DepartmentInfo[departmentInfoList.size()];
 			departmentInfoList.toArray(children);
 			department.setChildren(children);
-		} else {
-			department.setChildren(new DepartmentInfo[0]);
 		}
 
 		return department;

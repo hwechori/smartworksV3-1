@@ -124,5 +124,32 @@
 		<property name="modificationUser" column="modifier" type="string" length="50"/>
 		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
 	</class>
-	
+
+	<class name="SwoGroup" table="SWOrgGroup">
+		<id name="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="companyId" type="string" length="50"/>
+		<property name="name" type="string" length="50"/>
+		<property name="groupLeader" type="string" length="50"/>
+		<property name="groupType" type="string" length="1"/>
+		<property name="status" type="string" length="1"/>
+		<property name="description" type="string" length="4000"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+
+	<class name="SwoGroupMember" table="SWOrgGroupMember">
+		<composite-id>
+	        <key-property name="groupId" type="string" length="50"/>
+	        <key-property name="userId" type="string" length="50"/>
+	    </composite-id>
+		<property name="joinType" type="string" length="1"/>
+		<property name="joinStatus" type="string" length="1"/>
+		<property name="joinDate" column="joinTime" type="timestamp"/>
+		<property name="outDate" column="outTime" type="timestamp"/>
+	</class>
+
 </hibernate-mapping>

@@ -3,16 +3,26 @@ package net.smartworks.model.community;
 import net.smartworks.model.community.info.UserInfo;
 
 
-public class Group extends WorkSpace{
+public class Group extends WorkSpace {
 
-	public static final String  DEFAULT_GROUP_PICTURE  = "default_group_picture";
+	public static final String DEFAULT_GROUP_PICTURE  = "default_group_picture";
+	public static final String GROUP_TYPE_OPEN = "Open";
+	public static final String GROUP_TYPE_CLOSE = "Close";
+	public static final String GROUP_TYPE_DEFAULT = GROUP_TYPE_OPEN;
 
 	private String	desc = null;
 	private boolean	isPublic = false;
 	private User	leader = null;
 	private UserInfo[] 	members = null;
 	private User	owner = null;
+	private String type = GROUP_TYPE_DEFAULT;
 
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getDesc() {
 		return desc;
 	}
