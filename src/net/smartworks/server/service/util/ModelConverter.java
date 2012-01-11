@@ -838,10 +838,8 @@ public class ModelConverter {
 		return taskInstInfo;
 	}
 
-	
 	// #########################################  specific class  ########################################################################
-	
-	
+
 	public static User[] getUserArrayBySwoUserExtendArray(SwoUserExtend[] userExtends) throws Exception {
 		if (CommonUtil.isEmpty(userExtends))
 			return null;
