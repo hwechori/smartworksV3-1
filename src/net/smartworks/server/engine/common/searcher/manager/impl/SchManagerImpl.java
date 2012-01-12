@@ -140,9 +140,9 @@ public class SchManagerImpl extends AbstractManager implements ISchManager {
 			return null;
 
 		StringBuffer queryBuffer = new StringBuffer();
-		queryBuffer.append("select userId, userName, userPos, userRoleId, deptId, deptName, deptDesc ");
-		queryBuffer.append("  from ");
-		queryBuffer.append("     (");
+		queryBuffer.append(" select userId, userName, userPos, userRoleId, deptId, deptName, deptDesc ");
+		queryBuffer.append("   from ");
+		queryBuffer.append("      (");
 		queryBuffer.append("		select dept.id as id, usr.id as userId, usr.name as userName, ");
 		queryBuffer.append("	           usr.pos as userPos, usr.roleId as userRoleId, ");
 		queryBuffer.append("	   	       dept.id as deptId, dept.name as deptName, dept.description as deptDesc ");
@@ -157,9 +157,10 @@ public class SchManagerImpl extends AbstractManager implements ISchManager {
 		queryBuffer.append("	           sworguser usr, sworgdept dept, sworggroupmember grpmember");
 		queryBuffer.append("	     where usr.id = grpmember.userId");
 		queryBuffer.append("  	       and usr.deptId = dept.id");
-		queryBuffer.append("	  ) community");
-		queryBuffer.append("  where community.id = :communityId ");
-		queryBuffer.append("    and community.userName like :key ");
+		queryBuffer.append("	   ) community");
+		queryBuffer.append("   where community.id = :communityId ");
+		queryBuffer.append("     and community.userName like :key ");
+		queryBuffer.append("order by community.userRoleId asc, community.userName asc");
 
 		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
 
