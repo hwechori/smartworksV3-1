@@ -465,4 +465,14 @@ public class SmartWorks implements ISmartWorks {
 		return workService.setInstanceListParams(requestBody, request);
 	}
 
+	@Override
+	public void addAFavoriteWork(HttpServletRequest request) throws Exception {
+		workService.addAFavoriteWork(request.getParameter("workId"));
+	}
+
+	@Override
+	public void removeAFavoriteWork(HttpServletRequest request) throws Exception {
+		workService.removeAFavoriteWork(request.getParameter("workId"));		
+	}
+
 }

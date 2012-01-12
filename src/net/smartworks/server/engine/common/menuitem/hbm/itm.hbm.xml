@@ -34,6 +34,7 @@
 		<id name="objId" type="string" length="50" unsaved-value="undefined">
 			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
 		</id>
+		<property name="itmSeq" type="int"/>
 		<property name="name" type="string" length="255"/>
 		<property name="menuSeqNo" type="int"/>
 		<property name="imgPath" type="string" length="150"/>

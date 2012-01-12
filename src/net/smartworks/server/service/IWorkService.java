@@ -46,5 +46,9 @@ public interface IWorkService {
 	public CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception;
 
 	public RequestParams setInstanceListParams(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-	
+
+	public void addAFavoriteWork(String workId) throws Exception;
+
+	public void removeAFavoriteWork(String workId) throws Exception;
+
 }

@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.server.service.IWorkService"%>
 <%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.model.community.WorkSpace"%>
@@ -109,7 +110,7 @@
  */
 /* 	SmartWork smartWork = (SmartWork) smartworks.getWorkById("Semiteq", "hsshin@maninsoft.co.kr", "pkg_af2c5abbdc694feab78b2706c31f3bde");
 	System.out.println(smartWork.getFullpathName()); */
-	WorkSpace workSpace = smartworks.getWorkSpaceById("PROTEC1_TEAM");
+/* 	WorkSpace workSpace = smartworks.getWorkSpaceById("PROTEC1_TEAM");
 	if(workSpace.getClass().equals(User.class)) {
 		User user = (User)workSpace;
 		System.out.println(user.getName());
@@ -118,12 +119,18 @@
 		System.out.println(department.getName());
 	} else {
 		System.out.println("null");
-	}
+	} */
 
-	User user = smartworks.getUserById("hsshin@maninsoft.co.kr");
+/* 	User user = smartworks.getUserById("hsshin@maninsoft.co.kr");
 	System.out.println(user.getEmailAddressShown() + user.getName());
 	Department department = smartworks.getDepartmentById("PROTEC1_TEAM");
-	System.out.println(department.getName() + department.getParent().getName());
+	System.out.println(department.getName() + department.getParent().getName()); */
+
+	IWorkService workService = (IWorkService)SmartUtil.getBean("workServiceImpl", request);
+
+	workService.addAFavoriteWork("pkg_ba32f6e9af594c9ea9cf921ffa2cadee");
+	
+	//workService.removeAFavoriteWork("pkg_ba32f6e9af594c9ea9cf921ffa2cadee");
 
 %>
 <textarea style="width:800px;height:400px;">
