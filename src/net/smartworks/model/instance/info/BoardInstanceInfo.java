@@ -6,7 +6,15 @@ import net.smartworks.util.LocalDate;
 
 public class BoardInstanceInfo extends InstanceInfo {
 		
-	
+	private String briefContent;
+
+	public String getBriefContent() {
+		return briefContent;
+	}
+	public void setBriefContent(String briefContent) {
+		this.briefContent = briefContent;
+	}
+
 	public BoardInstanceInfo(){
 		super();
 		super.setType(Instance.TYPE_EVENT);

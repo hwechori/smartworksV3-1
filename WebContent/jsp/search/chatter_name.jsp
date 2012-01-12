@@ -28,7 +28,7 @@
 				else comName = community.getName();
 				String comId = community.getId();
 	%>
-	<li><a href="" comName="<%=comName %>" comId="<%=comId %>" class="js_select_chatter"><img class="space_r2" src="<%=picName%>"> <%=comName %></a>
+	<li><a href="" comName="<%=comName %>" comId="<%=comId %>" class="js_select_chatter"><img class="space_r2 profile_size_s" src="<%=picName%>"> <%=comName %></a>
 	</li>
 	<%
 			}

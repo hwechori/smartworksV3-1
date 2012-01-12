@@ -19,7 +19,7 @@
 		if(chatters != null){
 			for (UserInfo chatter : chatters) {
 	%>
-	<li><img src="<%=chatter.getMinPicture()%>" border="0"><a
+	<li><img src="<%=chatter.getMinPicture()%>" class="profile_size_s"><a
 		title="<%=chatter.getDepartment()%>"><%=chatter.getPosition()%> <%=chatter.getName()%></a>
 	</li>
 	<%

@@ -57,7 +57,7 @@
 						if (fields != null) {
 							for (FormField field : fields) {
 						%>
-							<option type="<%=field.getPageName()%>" value="<%=field.getId()%>"><%=field.getName()%></option>
+							<option page="<%=field.getPageName() %>" type="<%=field.getType()%>" value="<%=field.getId()%>"><%=field.getName()%></option>
 						<%
 							}
 						}
@@ -138,7 +138,7 @@
 									<%
 									for (FormField field : fields) {
 									%>
-										<option type="<%=field.getPageName()%>" value="<%=field.getId()%>"
+										<option page="<%=field.getPageName() %>" type="<%=field.getType()%>" value="<%=field.getId()%>"
 									<%if (leftOperand.getId().equals(field.getId())) {%> selected <%}%>><%=field.getName()%></option>
 									<%
 									}

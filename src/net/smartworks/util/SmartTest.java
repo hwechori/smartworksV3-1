@@ -1040,10 +1040,13 @@ public class SmartTest {
 
 		BoardInstanceInfo board1 = new BoardInstanceInfo("board1", "워크샵 일정계획 공지 합니다.", SmartTest.getUserInfo1(), time1);
 		board1.setWorkSpace(SmartTest.getGroupInfo2());
+		board1.setBriefContent("좋은내용으로 기획하고 있으니 많은 의견들 주시기 바랍니다........");
 		BoardInstanceInfo board2 = new BoardInstanceInfo("board2", "하반기 해외 B2B마케팅 성공사례 세미나", SmartTest.getUserInfo1(), time2);
+		board2.setWorkSpace(SmartTest.getGroupInfo2());
 		BoardInstanceInfo board3 = new BoardInstanceInfo("board3", "올레캠퍼스 자바개발자 교육과정 소개합니다.", SmartTest.getUserInfo2(), time3);
 		board3.setWorkSpace(SmartTest.getDepartmentInfo2());
 		BoardInstanceInfo board4 = new BoardInstanceInfo("board4", "가을 조직개편 조직도 입니다.", SmartTest.getUserInfo3(), time4);
+		board4.setWorkSpace(SmartTest.getGroupInfo1());
 		BoardInstanceInfo board5 = new BoardInstanceInfo("board5", "가을 정기 임직원 승진 발표", SmartTest.getUserInfo3(), time5);
 		BoardInstanceInfo board6 = new BoardInstanceInfo("board6", "2011년도 경영계획 공지합니다.", SmartTest.getUserInfo1(), time6);
 		BoardInstanceInfo board7 = new BoardInstanceInfo("board7", "여름휴가 일정 공지합니다.", SmartTest.getUserInfo3(), time7);

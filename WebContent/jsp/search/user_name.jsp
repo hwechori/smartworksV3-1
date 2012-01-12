@@ -24,7 +24,7 @@
 				String comId = user.getId();
 	%>
 	<li><a href="" comName="<%=user.getLongName()%>" comId="<%=comId%>"
-		class="js_select_community"><img src="<%=picName%>"><%=comName%></a>
+		class="js_select_community"><img src="<%=picName%>" class="profile_size_s"><%=comName%></a>
 	</li>
 	<%
 		}

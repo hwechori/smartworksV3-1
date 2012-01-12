@@ -47,11 +47,11 @@
 				success : function(data, status, jqXHR) {
 					// 사용자정보 수정이 정상적으로 완료되었으면, 현재 페이지에 그대로 있는다.
 					$.modal.close();
-					smartPop.showInfo(smartPop..INFO, smartMessage.get('setMyProfileSucceed'));
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get('setMyProfileSucceed'));
 				},
 				error : function(e) {
 					$.modal.close();
-					smartPop.showInfo(swInfoType.ERROR, smartMessage.get('setMyProfileError'));
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get('setMyProfileError'));
 				}
 			});
 		}
