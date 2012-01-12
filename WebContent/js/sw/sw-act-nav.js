@@ -245,9 +245,10 @@ $(function() {
 	$('.js_check_favorite_work').live('click', function(e){
 		var input = $(e.target);
 		var workId = input.attr('workId');
+		var favoriteWorks = input.parents('li.js_favorite_works:first');
 		var url = 'remove_a_favorite_work.sw';
 		var isAdd = false;
-		if(input.is(':checked')){
+		if(input.is(':checked') && isEmpty(favoriteWorks)){
 			url = 'add_a_favorite_work.sw';
 			isAdd = true;
 		}
@@ -259,10 +260,14 @@ $(function() {
 				workId : workId
 			},
 			success : function(data, status, jqXHR) {
-				if(isAdd)
+				if(isAdd){
 					input.attr('checked', true);
-				else
-					input.attr('checked', false);
+				}else{
+					if(isEmpty(favoriteWorks))
+						input.attr('checked', false);
+					else
+						favoriteWorks.remove();
+				}
 				smartPop.closeProgress();											
 			},
 			error : function(xhr, ajaxOptions, thrownError){
