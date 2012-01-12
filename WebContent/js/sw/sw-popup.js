@@ -323,5 +323,27 @@ smartPop = {
 				}
 			});
 		});
+	},
+	
+	createGroup : function(){
+		$.get("pop_new_group.sw", function(data){
+			$(data).modal({
+				opacity: 50,
+				overlayCss: {backgroundColor:"#000"},
+				containerCss:{
+					height:500,
+					width:800
+				},
+				overlayClose: false,
+				onShow: function(dialog){
+					loadGroupProfileField();
+					loadNewGroupFields();
+					$('.js_close_new_group').live( 'click', function(e){
+						$.modal.close();
+						return false;
+					});
+				}
+			});
+		});
 	}
 };

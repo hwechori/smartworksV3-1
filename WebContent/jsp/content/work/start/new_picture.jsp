@@ -12,6 +12,8 @@ function submitForms(e) {
 	if(!SmartWorks.GridLayout.validate(newPicture.find('form.js_validation_required'))) return
 
 	var target = newPicture.find('#form_import');
+	var progressSpan = newPicture.find('.js_progress_span');
+	smartPop.progressCont(progressSpan);
 	$.ajax({
 		url : "file_detail_form.sw",
 		success : function(data, status, jqXHR) {
@@ -58,7 +60,6 @@ function submitForms(e) {
 							}
 						}
 						console.log("JSON", JSON.stringify(paramsJson));
-						alert('wait');
 						var url = "upload_new_picture.sw";
 						$.ajax({
 							url : url,
@@ -66,10 +67,11 @@ function submitForms(e) {
 							type : 'POST',
 							data : JSON.stringify(paramsJson),
 							success : function(data, status, jqXHR) {
+								smartPop.closeProgress();
 								document.location.href = data.href;
 							},
 							error : function(e) {
-								alert(e);
+								smartPop.closeProgress();
 							}
 						});
 					}

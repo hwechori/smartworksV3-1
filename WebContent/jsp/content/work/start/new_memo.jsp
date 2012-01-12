@@ -19,7 +19,8 @@ function submitForms() {
 		paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 	}
 	console.log(JSON.stringify(paramsJson));
-	alert('wait');
+	var progressSpan = newMemo.find('.js_progress_span');
+	smartPop.progressCont(progressSpan);
 	var url = "create_new_memo.sw";
 	$.ajax({
 		url : url,
@@ -27,10 +28,11 @@ function submitForms() {
 		type : 'POST',
 		data : JSON.stringify(paramsJson),
 		success : function(data, status, jqXHR) {
+			smartPop.closeProgress();
 			document.location.href = data.href;
 		},
 		error : function(e) {
-			alert(e);
+			smartPop.closeProgress();
 		}
 	});
 }

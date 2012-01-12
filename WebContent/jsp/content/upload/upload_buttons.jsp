@@ -126,7 +126,7 @@
 		</div>
 		
 		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
-		<div id="sw_progress_icon_span" class="float_right form_space" ></div>
+		<div class="float_right form_space js_progress_span" ></div>
 		
 		<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 		<span class="fload_right form_space" style="text-align:right; color: red" id="error_message_span"></span>

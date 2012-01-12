@@ -26,8 +26,9 @@
 	// 개인정보프로파일 수정하기 버튼을 클릭하면, 
 	// 모든정보를 JSON형식으로 Serialize해서 서버의 update_my_profile.sw 서비스를 호출하여 수정한다.
 	function submitForms(e) {
-		if (SmartWorks.GridLayout.validate($('form.js_validation_required'))) {
-			var forms = $('form');
+		var myProfile = $('.js_my_profile_page');
+		if (SmartWorks.GridLayout.validate(myProfile.find('form.js_validation_required'))) {
+			var forms = myProfile.find('form');
 			var paramsJson = {};
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
@@ -39,6 +40,8 @@
 			}
 			console.log(JSON.stringify(paramsJson));
 			var url = "update_my_profile.sw";
+			var progressSpan = myProfile.find('.js_progress_span');
+			smartPop.progressCont(progressSpan);
 			$.ajax({
 				url : url,
 				contentType : 'application/json',
@@ -46,11 +49,11 @@
 				data : JSON.stringify(paramsJson),
 				success : function(data, status, jqXHR) {
 					// 사용자정보 수정이 정상적으로 완료되었으면, 현재 페이지에 그대로 있는다.
-					$.modal.close();
+					smartPop.closeProgress();
 					smartPop.showInfo(smartPop.INFORM, smartMessage.get('setMyProfileSucceed'));
 				},
 				error : function(e) {
-					$.modal.close();
+					smartPop.closeProgress();
 					smartPop.showInfo(smartPop.ERROR, smartMessage.get('setMyProfileError'));
 				}
 			});
@@ -63,7 +66,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet">
+<div class="section_portlet js_my_profile_page">
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>
@@ -105,43 +108,37 @@
 							<tr>
 								<td><fmt:message key="profile.title.user_name" /><span class="essen_n"></span></td>
 								<td>
-									<input name="txtUserProfileUserName" class="fieldline" type="text" class="required"
-										value="<%=CommonUtil.toNotNull(cUser.getName())%>">		
+									<input name="txtUserProfileUserName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(cUser.getName())%>">		
 								</td>
 							</tr>
 							<tr>
 								<td><fmt:message key="profile.title.employee_id" /></td>
 								<td>
-									<input name="txtUserProfileEmpId" class="fieldline" type="text"
-										value="<%=CommonUtil.toNotNull(cUser.getEmployeeId())%>" title="">		
+									<input name="txtUserProfileEmpId" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(cUser.getEmployeeId())%>">		
 								</td>
 							</tr>		
 							<tr>
 								<td><fmt:message key="profile.title.password" /><span class="essen_n"></span></td>
 								<td>
-									<input name="pwUserProfilePW" class="fieldline" type="password" class="required"
-										value="<%=CommonUtil.toNotNull(cUser.getPassword())%>" title="">		
+									<input name="pwUserProfilePW" class="fieldline required" type="password" value="<%=CommonUtil.toNotNull(cUser.getPassword())%>">		
 								</td>
 							</tr>
 							<tr>
 								<td><fmt:message key="profile.title.password_confirm" /><span class="essen_n"></span></td>
 								<td>
-									<input name="pwUserProfilePWCfm" type="password" class="required fieldline"
-										value="<%=CommonUtil.toNotNull(cUser.getPassword())%>" title="">		
+									<input name="pwUserProfilePWCfm" type="password" class="required fieldline" value="<%=CommonUtil.toNotNull(cUser.getPassword())%>">		
 								</td>
 							</tr>
 							<tr>
 								<td><fmt:message key="profile.title.department" /><span class="essen_n"></span></td>
 								<td>
-									<input name="txtUserProfileDepartment" type="text" class="required fieldline"
-										companyId="<%=cUser.getCompanyId()%>" value="<%=CommonUtil.toNotNull(cUser.getDepartment())%>" title="">		
+									<input name="txtUserProfileDepartment" type="text" class="required fieldline" companyId="<%=cUser.getCompanyId()%>" value="<%=CommonUtil.toNotNull(cUser.getDepartment())%>">		
 								</td>
 							</tr>
 							<tr>
 								<td><fmt:message key="profile.title.position" /><span class="essen_n"></span></td>
 								<td>
-									<input name="txtUserProfilePosition" type="text" class="required fieldline"
-										value="<%=CommonUtil.toNotNull(cUser.getPosition())%>" title="">		
+									<input name="txtUserProfilePosition" type="text" class="required fieldline" value="<%=CommonUtil.toNotNull(cUser.getPosition())%>">		
 								</td>
 							</tr>
 							<tr>
@@ -152,10 +149,7 @@
 										for (String locale : LocaleInfo.supportingLocales) {
 											String strKey = "common.title.locale." + locale;
 										%>
-											<option value="<%=locale%>" 
-												<%if (cUser.getLocale().equals(locale)) {%> selected <%}%>>
-												<fmt:message key="<%=strKey%>" />
-											</option>
+											<option value="<%=locale%>" <%if (cUser.getLocale().equals(locale)) {%> selected <%}%>><fmt:message key="<%=strKey%>" /></option>
 										<%
 										}
 										%>
@@ -169,9 +163,7 @@
 										<%
 										for (KeyMap timeZoneName : timeZoneNames) {
 										%>
-											<option value="<%=timeZoneName.getId()%>"
-												<%if (cUser.getTimeZone().equals(timeZoneName.getId())) {%> selected <%}%>>
-												<%=timeZoneName.getKey()%></option>
+											<option value="<%=timeZoneName.getId()%>" <%if (cUser.getTimeZone().equals(timeZoneName.getId())) {%> selected <%}%>><%=timeZoneName.getKey()%></option>
 										<%
 										}
 										%>
@@ -181,15 +173,13 @@
 							<tr>
 								<td><fmt:message key="profile.title.phone_no" /></td>
 								<td>
-									<input name="txtUserProfilePhoneNo" class="fieldline" type="text"
-										value="<%=CommonUtil.toNotNull(cUser.getPhoneNo())%>" title="">
+									<input name="txtUserProfilePhoneNo" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(cUser.getPhoneNo())%>" title="">
 								</td>
 							</tr>
 							<tr>
 								<td><fmt:message key="profile.title.cell_phone_no" /></td>
 								<td>
-									<input name="txtUserProfileCellNo" class="fieldline" type="text"
-										value="<%=CommonUtil.toNotNull(cUser.getCellPhoneNo())%>" title="">
+									<input name="txtUserProfileCellNo" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(cUser.getCellPhoneNo())%>" title="">
 								</td>
 							</tr>
 						</table>
@@ -201,13 +191,17 @@
 			<!-- 버튼 영역 -->
 			<div class="glo_btn_space">
 				<div class="float_right padding_r10">
-					<a href="" onclick='submitForms(); return false;'>
-						<span class="btn_gray">
+					<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
+					<span class="fload_right form_space" style="text-align:right; color: red" id="error_message_span"></span>
+					<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
+					<span class="js_progress_span"></span>
+					<span class="btn_gray">
+						<a href="" onclick='submitForms(); return false;'>
 							<span class="Btn01Start"></span>
 							<span class="Btn01Center"><fmt:message key="popup.button.modify_my_profile"/></span>
 							<span class="Btn01End"></span>
-						</span>
-					</a> 
+						</a> 
+					</span>
 					 <span class="btn_gray space_l5"> 
 						 <a href="" onclick="return true;"> 
 						 	<span class="Btn01Start"></span>

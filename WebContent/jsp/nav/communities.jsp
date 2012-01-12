@@ -43,7 +43,7 @@
 		<!-- 아래 class="btn_my_group_add"는 그룹 추가 버튼입니다 -->
 		<a href="my_groups.sw" title="<fmt:message key='nav.communities.my_groups'/>">
 			<span class="btn_my_group">
-				<span class="btn_my_group_add" title="<fmt:message key='nav.communities.add_group'/>" style="display:none"></span>
+				<span class="btn_my_group_add js_add_new_group" title="<fmt:message key='nav.communities.add_group'/>" style="display:none"></span>
 			</span>
 		</a>
 		<a href="my_departments.sw" class="" title="<fmt:message key='nav.communities.my_departments'/>">

@@ -31,7 +31,8 @@ function submitForms() {
 		}
 		console.log(JSON.stringify(paramsJson));
 		var url = "create_new_iwork.sw";
-		smartPop.progressCont($('#sw_progress_icon_span'));
+		var progressSpan = newIwork.find('.js_progress_span');
+		smartPop.progressCont(progressSpan);
 		$.ajax({
 			url : url,
 			contentType : 'application/json',

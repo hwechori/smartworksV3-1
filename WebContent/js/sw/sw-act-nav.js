@@ -273,4 +273,11 @@ $(function() {
 		});		
 		return true;
 	});
+
+	$('.js_add_new_group').live('click', function(e){
+		
+		smartPop.createGroup();
+		return false;
+	});
+
 });

@@ -326,5 +326,54 @@ function loadTaskForwardFields() {
 	}
 };
 
+function loadGroupProfileField() {
+	var groupProfileFields = $('div.js_group_profile_field');
+	if(!isEmpty(groupProfileFields)) {
+		for(var i=0; i<groupProfileFields.length; i++) {
+			var groupProfileField = $(groupProfileFields[i]);
+			
+			var gridRow = SmartWorks.GridLayout.newGridRow();
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			groupProfileField.html(gridTable.html(gridRow));
+
+			SmartWorks.FormRuntime.ImageBoxBuilder.buildEx({
+				container: gridRow,
+				fieldId: "imgGroupProfile",
+				fieldName: "group profile",
+				imgSource: "images/default_group_picture.jpg",
+				pictureWidth: 110,
+				pictureHeight: 110,
+				required: false
+			});
+			console.log("groupProfileField=", groupProfileField);
+		}		
+	}
+};
+
+function loadNewGroupFields() {
+	var newGroupFields = $('div.js_new_group_fields');
+	if(!isEmpty(newGroupFields)) {
+		for(var i=0; i<newGroupFields.length; i++) {
+			var newGroupField = $(newGroupFields[i]);
+			alert("jell");
+			var gridRow = SmartWorks.GridLayout.newGridRow();
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			newGroupField.html(gridTable.html(gridRow));
+			var groupMembersTitle = newGroupField.attr("groupMembersTitle");
+
+			SmartWorks.FormRuntime.UserFieldBuilder.buildEx({
+				container: gridRow,
+				fieldId: "txtGroupMembers",
+				fieldName: groupMembersTitle,
+				columns: 2,
+				colSpan: 1,
+				multiUsers: true,
+				required: false
+			});
+			console.log('newGroupField=', newGroupField);			
+		}		
+	}
+};
+
 $(function() {	
 });

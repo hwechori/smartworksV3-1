@@ -13,6 +13,8 @@ function submitForms(e) {
 	if(isEmpty($frmSmartForm)) {
 		if(!SmartWorks.GridLayout.validate(newFile.find('form.js_validation_required'))) return
 		var target = $('#form_import');
+		var progressSpan = newFile.find('.js_progress_span');
+		smartPop.progressCont(progressSpan);
 		$.ajax({
 			url : "file_detail_form.sw",
 			success : function(data, status, jqXHR) {
@@ -47,6 +49,7 @@ function submitForms(e) {
 								}),
 								mode : "edit"
 							});
+							smartPop.closeProgress();
 							submitForms(e);
 						}
 					});
@@ -66,7 +69,8 @@ function submitForms(e) {
 			}
 		}
 		console.log("JSON", JSON.stringify(paramsJson));
-		alert('wait');
+		var progressSpan = newFile.find('.js_progress_span');
+		smartPop.progressCont(progressSpan);
 		var url = "upload_new_file.sw";
 		$.ajax({
 			url : url,
@@ -74,10 +78,11 @@ function submitForms(e) {
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
+				smartPop.closeProgress();
 				document.location.href = data.href;
 			},
 			error : function(e) {
-				alert(e);
+				smartPop.closeProgress();
 			}
 		});
 	}

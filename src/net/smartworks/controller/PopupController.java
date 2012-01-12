@@ -83,4 +83,10 @@ public class PopupController {
 		return SmartUtil.returnMnv(request, "jsp/popup/pop_iwork_instance_list.jsp",
 				"");
 	}
+
+	@RequestMapping("/pop_new_group")
+	public ModelAndView newGroup(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_new_group.jsp", "");
+	}
 }

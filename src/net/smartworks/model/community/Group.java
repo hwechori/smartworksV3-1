@@ -7,7 +7,7 @@ public class Group extends WorkSpace {
 
 	public static final String DEFAULT_GROUP_PICTURE  = "default_group_picture";
 	public static final String GROUP_TYPE_OPEN = "Open";
-	public static final String GROUP_TYPE_CLOSE = "Close";
+	public static final String GROUP_TYPE_CLOSED = "Closed";
 	public static final String GROUP_TYPE_DEFAULT = GROUP_TYPE_OPEN;
 
 	private String	desc = null;
