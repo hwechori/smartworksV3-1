@@ -100,6 +100,7 @@ public class WorkServiceImpl implements IWorkService {
 	private IDocFileManager getDocManager() {
 		return SwManagerFactory.getInstance().getDocManager();
 	}
+
 	private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -654,6 +655,89 @@ public class WorkServiceImpl implements IWorkService {
 		}
 
 		return requestParams;
+
+	}
+	@Override
+	public void addAFavoriteWork(String workId) throws Exception {
+
+		User cUser = SmartUtil.getCurrentUser();
+		String companyId = cUser.getCompanyId();
+		String userId = cUser.getId();
+
+		ItmMenuItemListCond menuItemListCond = new ItmMenuItemListCond();
+		menuItemListCond.setUserId(userId);
+
+		ItmMenuItemList menuItemList = getItmManager().getMenuItemList(userId, menuItemListCond, IManager.LEVEL_LITE);
+
+		PkgPackageCond packageCond = new PkgPackageCond();
+		packageCond.setPackageId(workId);
+		packageCond.setCompanyId(companyId);
+		PkgPackage pkg = getPkgManager().getPackage(userId, packageCond, IManager.LEVEL_LITE);
+		String groupId = "";
+		String categoryId = "";
+		String packageType = "";
+		String packageName = "";
+		if(pkg != null) {
+			groupId = pkg.getObjId();
+			categoryId = pkg.getCategoryId();
+			packageType = pkg.getType();
+			packageName = pkg.getName();
+		}
+
+		SwfFormCond formCond = new SwfFormCond();
+		formCond.setCompanyId(companyId);
+		formCond.setPackageId(workId);
+		SwfForm[] forms = getSwfManager().getForms(userId, formCond, IManager.LEVEL_LITE);
+		String formId = "";
+		if(forms != null) {
+			formId = forms[0].getId();
+		}
+
+		ItmMenuItemList newMenuItemList = new ItmMenuItemList();
+		newMenuItemList.setCompanyId(companyId);
+		newMenuItemList.setUserId(userId);
+
+		List<ItmMenuItem> itmMenuItemList = new ArrayList<ItmMenuItem>();
+		ItmMenuItem menuItem = new ItmMenuItem();
+		menuItem.setCompanyId(companyId);
+		menuItem.setPackageId(workId);
+		menuItem.setName(packageName);
+		menuItem.setGroupId(groupId);
+		menuItem.setCategoryId(categoryId);
+		menuItem.setPackageType(packageType);
+		menuItem.setFormId(formId);
+		String objId = "";
+		int itmSeq = 0;
+		if(menuItemList != null) {
+			objId = menuItemList.getObjId();
+			itmSeq = getItmManager().getMaxItmSeq(userId) + 1;
+		}
+		menuItem.setObjId(objId);
+
+		itmMenuItemList.add(menuItem);
+
+		ItmMenuItem[] menuItems = new ItmMenuItem[itmMenuItemList.size()];
+		itmMenuItemList.toArray(menuItems);
+
+		newMenuItemList.setMenuItems(menuItems);
+
+		if(menuItemList == null) {
+			getItmManager().createMenuItemList(userId, newMenuItemList);
+		} else {
+			menuItem.setObjId(objId);
+			menuItem.setItmSeq(itmSeq);
+			getItmManager().addMenuItem(userId, menuItem);
+		}
+
+	}
+
+	@Override
+	public void removeAFavoriteWork(String workId) throws Exception {
+
+		User cUser = SmartUtil.getCurrentUser();
+		String userId = cUser.getId();
+
+		getItmManager().removeMenuItems(userId, workId);
 
 	}		
 

@@ -22,14 +22,15 @@ public class ItmMenuItem  extends MisObject implements Comparable {
 	public ItmMenuItem() {
 		super();
 	}
-	
+
 	public static final String A_MENUSEQNO = "menuSeqNo";
 	public static final String A_IMGPATH = "imgPath";
 	public static final String A_CATEGORYID = "categoryId";
 	public static final String A_PACKAGEID = "packageId";
 	public static final String A_PACKAGETYPE = "packageType";
 	public static final String A_FORMID = "formId";
-	public static final String A_GROUPID ="groupId";
+	public static final String A_GROUPID = "groupId";
+	public static final String A_ITMSEQ = "itmSeq";
 	
 	private String groupId;
 	private int menuSeqNo;
@@ -38,8 +39,8 @@ public class ItmMenuItem  extends MisObject implements Comparable {
 	private String packageId;
 	private String packageType;
 	private String formId;
-	
-	
+	private int itmSeq;
+
 	public  String toString(String name, String tab) {
 		if (name == null || name.trim().length() == 0)
 			name = NAME;
@@ -55,6 +56,7 @@ public class ItmMenuItem  extends MisObject implements Comparable {
 		appendAttributeString(A_PACKAGEID, packageId, buf);
 		appendAttributeString(A_PACKAGETYPE, packageType, buf);
 		appendAttributeString(A_FORMID, formId, buf);
+		appendAttributeString(A_ITMSEQ, itmSeq, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
@@ -77,6 +79,7 @@ public class ItmMenuItem  extends MisObject implements Comparable {
 			Node packageId = attrMap.getNamedItem(A_PACKAGEID);
 			Node packageType = attrMap.getNamedItem(A_PACKAGETYPE);
 			Node formId = attrMap.getNamedItem(A_FORMID);
+			Node itmSeq = attrMap.getNamedItem(A_ITMSEQ);
 			if (groupId != null)
 				obj.setGroupId(groupId.getNodeValue());
 			if (menuSeqNo != null)
@@ -91,6 +94,8 @@ public class ItmMenuItem  extends MisObject implements Comparable {
 				obj.setPackageType(packageType.getNodeValue());
 			if (formId != null)
 				obj.setFormId(formId.getNodeValue());
+			if (itmSeq != null)
+				obj.setItmSeq(Integer.parseInt(itmSeq.getNodeValue()));
 		}
 		return obj;
 	}
@@ -242,5 +247,11 @@ public class ItmMenuItem  extends MisObject implements Comparable {
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
 	}
-	
+	public int getItmSeq() {
+		return itmSeq;
+	}
+	public void setItmSeq(int itmSeq) {
+		this.itmSeq = itmSeq;
+	}
+
 }

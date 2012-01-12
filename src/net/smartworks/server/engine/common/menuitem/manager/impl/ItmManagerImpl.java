@@ -60,12 +60,11 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 			} else {
 				StringBuffer buf = new StringBuffer();
 				buf.append("update ItmMenuItemList set");
-				buf.append(" name=:name, companyId=:companyId, userId=:userId");
+				buf.append("  companyId=:companyId, userId=:userId");
 				buf.append(", creationUser=:creationUser, creationDate=:creationDate");
 				buf.append(", modificationUser=:modificationUser, modificationDate=:modificationDate");
 				buf.append(" where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
-				query.setString(ItmMenuItemList.A_NAME, obj.getName());
 				query.setString(ItmMenuItemList.A_COMPANYID, obj.getCompanyId());
 				query.setString(ItmMenuItemList.A_USERID, obj.getUserId());
 				query.setString(ItmMenuItemList.A_CREATIONUSER, obj.getCreationUser());
@@ -134,8 +133,6 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 		if (cond != null) {
 			if (objId != null)
 				buf.append(" and obj.objId = :objId");
-			if (name != null)
-				buf.append(" and obj.name = :name");
 			if (companyId != null)
 				buf.append(" and obj.companyId = :companyId");
 			if (userId != null)
@@ -184,8 +181,6 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 		if (cond != null) {
 			if (objId != null)
 				query.setString("objId", objId);
-			if (name != null)
-				query.setString("name", name);
 			if (companyId != null)
 				query.setString("companyId", companyId);
 			if (userId != null)
@@ -254,7 +249,7 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 			if (level.equals(LEVEL_ALL)) {
 				buf.append(" obj");
 			} else {
-				buf.append(" obj.objId, obj.name, obj.companyId, obj.userId"); 
+				buf.append(" obj.objId, obj.companyId, obj.userId"); 
 				buf.append(", obj.creationUser, obj.creationDate");
 				buf.append(", obj.modificationUser, obj.modificationDate");
 			}
@@ -269,7 +264,6 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 					ItmMenuItemList obj = new ItmMenuItemList();
 					int j = 0;
 					obj.setObjId((String)fields[j++]);
-					obj.setName((String)fields[j++]);
 					obj.setCompanyId((String)fields[j++]);
 					obj.setUserId((String)fields[j++]);
 					obj.setCreationUser(((String)fields[j++]));
@@ -288,7 +282,19 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 			throw new ItmException(e);
 		}
 	}
-	
+
+	@Override
+	public void addMenuItem(String userId, ItmMenuItem obj) throws ItmException {
+		try {
+			fill(userId, obj);
+			create(obj);
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new ItmException(e);
+		}
+	}
+
+	@Override
 	public void removeMenuItems(String userId, String packageId) throws ItmException {
 		if (CommonUtil.isEmpty(packageId))
 			return;
@@ -296,4 +302,25 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 		Query query = this.getSession().createQuery(hql);
 		query.executeUpdate();
 	}
+
+	public int getMaxItmSeq(String userId) throws ItmException {
+		if (CommonUtil.isEmpty(userId))
+			return 0;
+
+		StringBuffer buff = new StringBuffer();
+		buff.append("select max(itm.itmSeq) as maxItmSeq");
+		buff.append(" from SwMenuItem itm, SwMenuItemList itemlist");
+		buff.append(" where itm.objId = itemlist.objId");
+		buff.append(" and itemlist.userId = :userId");
+
+		Query query = this.getSession().createSQLQuery(buff.toString());
+
+		query.setString("userId", userId);
+
+		int maxItmSeq = (Integer)query.uniqueResult();
+
+		return maxItmSeq;
+
+	}
+
 }

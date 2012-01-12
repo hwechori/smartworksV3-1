@@ -203,4 +203,8 @@ public interface ISmartWorks {
 
 	public abstract RequestParams setInstanceListParams(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
+	public abstract void addAFavoriteWork(HttpServletRequest request) throws Exception;
+
+	public abstract void removeAFavoriteWork(HttpServletRequest request) throws Exception;
+
 }
