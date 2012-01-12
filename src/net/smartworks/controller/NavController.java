@@ -8,17 +8,15 @@
 
 package net.smartworks.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,6 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class NavController {
+
+	ISmartWorks smartworks;
+
+	@Autowired
+	public void setSmartworks(ISmartWorks smartworks) {
+		this.smartworks = smartworks;
+	}
 
 	@RequestMapping("/community_members.sw")
 	public ModelAndView communityMembers(HttpServletRequest request,
@@ -96,11 +101,13 @@ public class NavController {
 	@RequestMapping(value = "/add_a_favorite_work", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public void addAFavoriteWork(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.addAFavoriteWork(request);
 	}
-	
+
 	@RequestMapping(value = "/remove_a_favorite_work", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public void removeAFavoriteWork(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeAFavoriteWork(request);
 	}
-	
+
 }

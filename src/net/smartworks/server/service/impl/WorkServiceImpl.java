@@ -134,10 +134,12 @@ public class WorkServiceImpl implements IWorkService {
 		String[] packageIdArray = new String[items.length];
 		for (int i = 0; i < items.length; i++) {
 			ItmMenuItem item = items[i];
-			String packageId = item.getPackageId();
-			packageIdArray[i] = packageId;
+			if(item != null) {
+				String packageId = item.getPackageId();
+				packageIdArray[i] = packageId;
+			}
 		}
-		
+
 		PkgPackageCond pkgCond = new PkgPackageCond();
 		pkgCond.setCompanyId(user.getCompanyId());
 		pkgCond.setPackageIdIns(packageIdArray);
