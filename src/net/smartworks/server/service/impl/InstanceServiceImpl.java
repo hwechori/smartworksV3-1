@@ -578,11 +578,11 @@ public class InstanceServiceImpl implements IInstanceService {
 				WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
 	
 				WorkInfo workInfo = new SmartWorkInfo(swdRecord.getFormId(), swdRecord.getFormName(), type, groupInfo, categoryInfo);
-	
+
 				iWInstanceInfo.setWork(workInfo);
 				iWInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
 				iWInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
-	
+
 				SwdDataField[] swdDataFields = swdRecord.getDataFields();
 				List<FieldData> fieldDataList = new ArrayList<FieldData>();
 	
@@ -600,6 +600,13 @@ public class InstanceServiceImpl implements IInstanceService {
 								} else if(formatType.equals(FormField.TYPE_CURRENCY)) {
 									String symbol = swfField.getFormat().getCurrency();
 									fieldData.setSymbol(symbol);
+								} else if(formatType.equals(FormField.TYPE_PERCENT)) {
+									// TO-DO
+								} else if(formatType.equals(FormField.TYPE_DATE)) {
+									if(value != null) {
+									}
+								} else if(formatType.equals(FormField.TYPE_TIME)) {
+								} else if(formatType.equals(FormField.TYPE_DATETIME)) {
 								} else if(formatType.equals(FormField.TYPE_FILE)) {
 									List<IFileModel> fileList = getDocManager().findFileGroup(value);
 									List<String> fileNameList = new ArrayList<String>();
