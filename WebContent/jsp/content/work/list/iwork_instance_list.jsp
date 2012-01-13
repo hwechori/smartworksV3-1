@@ -1,3 +1,4 @@
+<%@page import="java.text.NumberFormat"%>
 <%@page import="net.smartworks.model.instance.SortingField"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.service.impl.SmartWorks"%>
@@ -96,11 +97,24 @@
 				<tr>
 					<%
 					if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
+						NumberFormat nf = NumberFormat.getNumberInstance();
+						NumberFormat pf = NumberFormat.getPercentInstance();
 						for (FieldData data : fieldDatas) {
 					%>
-							<td><a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
-								<%if(data.getFieldType().equals(FormField.TYPE_FILE)){%><img src="images/file/icon_bmp.gif" groupId="<%=data.getValue()%>">
-								<%}else{%><%=CommonUtil.toNotNull(data.getValue())%><%} %></a></td>
+							<td <%if(data.getFieldType().equals(FormField.TYPE_CURRENCY) || 
+									data.getFieldType().equals(FormField.TYPE_NUMBER) || 
+									data.getFieldType().equals(FormField.TYPE_PERCENT)){ %>class="hAlignRight"<%} %>>
+								<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+									<%if(data.getFieldType().equals(FormField.TYPE_FILE)){%><img src="images/file/icon_bmp.gif" groupId="<%=data.getValue()%>">
+									<%}else if(data.getFieldType().equals(FormField.TYPE_NUMBER)){%><%=CommonUtil.toNotNull(nf.format(Float.parseFloat(data.getValue())))%>
+									<%}else if(data.getFieldType().equals(FormField.TYPE_PERCENT)){%><%=CommonUtil.toNotNull(pf.format(Integer.parseInt(data.getValue())*100))%>
+									<%}else if(data.getFieldType().equals(FormField.TYPE_CURRENCY)){%><%=data.getSymbol()%><%=CommonUtil.toNotNull(nf.format(Integer.parseInt(data.getValue())))%>
+									<%}else if(data.getFieldType().equals(FormField.TYPE_IMAGE) ||
+												data.getFieldType().equals(FormField.TYPE_RICHTEXT_EDITOR) ||
+												data.getFieldType().equals(FormField.TYPE_DATA_GRID)){%>
+									<%}else{%><%=CommonUtil.toNotNull(data.getValue())%><%} %>
+								</a>
+							</td>
 					<%
 						}
 					}
