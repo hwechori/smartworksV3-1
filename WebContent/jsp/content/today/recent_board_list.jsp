@@ -31,11 +31,16 @@
 	
 	%>
 		<div class="headlineNotice">
-			<a href="board_list.sw?cid=<%=boardContext%>wid=<%=workSpace.getId() %>" class="more"></a>
+			<a href="board_list.sw?cid=<%=boardContext%>wid=<%=workSpace.getId() %>" class="more">전체보기</a>
 			<a href="board_space.sw?cid=<%=boardContext%>">
 				<span class="title"><%=board.getSubject() %></span>
-				<span class="index"><img src="<%=workSpaceIco%>"><%if(!workSpaceIco.equals("")){%><%=workSpace.getName() %><%} %></span>
-				<span class="info"><img class="profile_size_s" src="<%=board.getOwner().getMinPicture()%>"><%=board.getOwner().getLongName() %> <%=board.getLastModifiedDate().toLocalString() %></span>
+				<span class="index"><img class="profile_size_s" src="<%=board.getOwner().getMinPicture()%>">
+					<span class="t_name"><%=board.getOwner().getLongName() %></span> 
+					<span class="arr">▶</span>
+					<img src="<%=workSpaceIco%>"><%if(!workSpaceIco.equals("")){%><%=workSpace.getName() %><%} %>
+					<span class="date t_date"><%=board.getLastModifiedDate().toLocalString() %></span>
+				</span>
+				<span class="info"></span>
 				<span class="content"><%=board.getBriefContent() %></span>
 			</a>
 		</div>
@@ -54,10 +59,12 @@
 						workSpaceIco = "";
 				%>			
 					<tr>
-						<td class="title"><a href="board_space.sw?cid=<%=boardContext%>"><%=board.getSubject()%></a></td>
-						<td class="index"><img src="<%=workSpaceIco%>"><%if(!workSpaceIco.equals("")){%><%=workSpace.getName()%><%} %></td>
-						<td class="writer"><a href=""><img class="profile_size_s" src="<%=board.getOwner().getMinPicture()%>"><%=board.getOwner().getLongName() %> <%=board.getLastModifiedDate().toLocalString() %></a></td>
-						<td class="date"></td>
+						<td class="title"><a href="board_space.sw?cid=<%=boardContext%>"><%=board.getSubject()%></a> 
+							<img class="profile_size_s" src="<%=board.getOwner().getMinPicture()%>"><span class="t_name"><%=board.getOwner().getLongName() %></span> 
+							<span class="arr">▶</span>
+							<img src="<%=workSpaceIco%>"><%if(!workSpaceIco.equals("")){%><%=workSpace.getName()%><%} %>
+						</td>
+						<td class="date t_date"><%=board.getLastModifiedDate().toLocalString() %></td>
 					</tr>
 				<%
 				}

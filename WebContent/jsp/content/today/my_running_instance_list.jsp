@@ -31,13 +31,13 @@
 									key="content.my_running_instance_list" />
 				</div>
 				
-				<div class="txt_btn float_left">
+				<div class="txt_btn float_left_nowidth">
 					<div class="po_left"><a href="">전체 <span class="t_red_bold">[10]</a></span> | <a href="">할당업무만 <span class="t_red_bold">[4]</a></span></div>
 				</div>
 				
 				<!-- 검색 -->
 				<div class="nav_srch padding_b2">
-				<div class="srch_wh srch_wsize">
+				<div class="srch_wh srch_wsize2">
 						<input id="" class="nav_input js_auto_complete" type="text"
 							title="<fmt:message key="search.search_running_instance"/>"
 							placeholder="<fmt:message key="search.search_running_instance"/>"
@@ -55,10 +55,9 @@
 			
 			<!-- 라인  -->
 			<div class="solid_line"></div>
-			
-						<ul>
+						<table>
 							<jsp:include page="/jsp/content/today/more_instance_list.jsp" />
-						</ul>
+						</table>
 						<div class="js_more_list">
 							<a href="more_instance_list.sw">더보기</a>
 						</div>

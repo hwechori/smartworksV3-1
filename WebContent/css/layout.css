@@ -8,6 +8,13 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#333}
 #nav a:hover, #nav a:focus, #nav a:active, #header a:hover, #header a:focus, #header a:active {color:#FFF; text-decoration:none;}
 #nav .current {color:#FFF; text-decoration:underline; font-weight:bold;}
 
+/* common style - 정연희 추가합니다 */
+.hAlignLeft{text-align:left}
+.hAlignCenter{text-align:center}
+.hAlignRight{text-align:right;padding-right:10px !important}
+.vAlignTop{vertical-align:top}
+.vAlignMiddle{vertical-align:middle}
+.vAlignBottom{vertical-align:bottom}
 
 
 /*Header*/
@@ -104,6 +111,7 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#333}
 	width:25px;padding:0; position:relative;top:-23px;left:169px;border:0}
 .srch button:hover, .srch .srch_ico:hover{background:url("../images/btn_srch.png") -25px 0 no-repeat;}
 .srch_wsize {width:195px;height:23px;margin: 0 10px;overflow:hidden}
+.srch_wsize2{width:195px;height:23px;margin:0;margin-top:-2px;overflow:hidden}
 
 /*Search-white */
 .srch_wh {background: none repeat scroll 0 0 #FFF; border-color: #c7c7c7; border-style: solid; border-width: 1px; height:16px;}
@@ -491,28 +499,33 @@ a .btn_all_works:hover,
 .notice {clear:both; margin:0 12px 5px 5px; padding-top:10px;}
 .notice .headlineNotice{float:left;width:33%;padding-right:5px;border-right:1px solid #cfcfcf}
 .notice .recentNotice{float:left;width:64%;margin-left:10px}
-.notice a.more{background: url("../images/btnMainNotice.gif") no-repeat;width:65px;height:90px;float:left;margin-right:5px}
-.notice a.more:hover{background: url("../images/btnMainNotice.gif") -65px 0 no-repeat;}
+.notice a.more{background: url("../images/btnMainNotice.gif") no-repeat;width:50px;height:30px;float:left;margin-right:5px;padding:75px 15px 0 0;font-size:10px;text-align:right;}
+.notice a.more:hover{background: url("../images/btnMainNotice.gif") -65px 0 no-repeat;color:#ba3938}
 .headlineNotice .title{display:block;font-size:13px;font-weight:bold;padding:7px 0 4px 0}
-.headlineNotice .index{display:block;font-size:11px;color:#535e9a}
 .headlineNotice .info{display:block;font-size:11px;color:#696969}
-.headlineNotice .content{display:block;font-size:12px;}
+.headlineNotice .content{display:block;font-size:12px;border-top:1px dotted #cfcfcf;padding-top:2px;clear:right}
 .headlineNotice .ico_division_s{background-position:70px 0;padding-left:90px}
 .recentNotice td{border-bottom:1px dotted #DCDFE0}
 .recentNotice .title{background: url("../images/dotRed.gif") 1px 9px no-repeat;padding-left:10px}
 .recentNotice .title,.recentNotice .index{vertical-align:top}
 .recentNotice .title a{font-size:13px;font-weight:bold}
 .recentNotice .ico_division_s{background-position:0 3px;}
-.recentNotice .date{font-size:12px;font-weight:normal;text-align:center}
+.recentNotice .date{font-weight:normal;text-align:right;white-space:nowrap}
+.recentNotice .title img,.headlineNotice .index img{margin:0 3px 0 0}
+.headlineNotice .index{font-size:11px;color:#666;overflow:hidden}
+.headlineNotice .index span.date{float:right;margin-right:9px;font-weight:normal;}
+
+/* 나의 진행중인 업 - 정연희 추가 작업분에 대한 style입니다 */
+.dateAlignRight{float:right}
 			
 /* Work ING */
 #work_ing {margin:0 15px;}
 #work_ing li {border-bottom:1px solid #DCDFE0;}
 #work_ing li.end { border:none;}
-.working_br {line-height:18px; padding:10px 0 3px 0;}
-#work_ing .pic {padding:0 10px 0 0; float:left;}
+.working_br td{padding:4px 0;border-bottom:1px solid #cfcfcf}
 #work_ing .tit { font-size:14px; font-weight:bold; float:left; }
 #work_ing .titl_section {height:21px; padding-top:14px;}
+td.pic{width:85px}
 
 /* Ico */
 .ico_division_s {background: url("../images/ico_division_s.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px; color:#23579e;}

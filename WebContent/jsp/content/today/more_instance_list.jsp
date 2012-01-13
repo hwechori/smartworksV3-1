@@ -115,15 +115,15 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<li class="working_br">
-	<div class="pic">
+<tr class="working_br">
+	<td class="pic">
 		<img src="<%=statusImage%>"
 			title="<fmt:message key='<%=statusTitle%>'/>" /> <a
 			href="user_space.sw?cid=<%=ownerContextId%>"><img
 			src="<%=owner.getMidPicture()%>" title="<%=owner.getLongName()%>" />
 		</a>
-	</div>
-	<div>
+	</td>
+	<td>
 		<a href="user_space.sw?cid=<%=ownerContextId%>"><span
 			class="t_name"><%=owner.getLongName()%></span> </a>
 		<%
@@ -312,19 +312,17 @@
 			}
 					}
 		%>
-	</div>
-	<div>
+		<br/>
 		<a
-			href="<%=targetContent%>list.sw?cid=<%=workListContextId%>&wid=<%=cUser.getId()%>"><span
-			class="<%=workTypeClass%> t_date"><%=work.getFullpathName()%></span>
+			href="<%=targetContent%>list.sw?cid=<%=workListContextId%>&wid=<%=cUser.getId()%>">
+			<span class="ico_pworks"></span>
+			<span class="<%=workTypeClass%> t_date"><%=work.getFullpathName()%></span>
 		</a> <a
 			href="<%=targetContent%>space.sw?cid=<%=workContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>"><span
 			class="t_bold"><%=workInstance.getSubject()%></span> </a>
-	</div>
-	<div>
-		<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
-	</div>
-</li>
+	</td>
+	<td class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></td>
+</tr>
 <%
 	}
 	}
