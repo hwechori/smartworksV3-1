@@ -596,17 +596,16 @@ public class ModelConverter {
 		itemListCond.setCompanyId(user.getCompanyId());
 		itemListCond.setUserId(user.getId());
 		ItmMenuItemList itmList = getItmManager().getMenuItemList(user.getId(), itemListCond, IManager.LEVEL_ALL);
-		if(itmList == null)
-			return null;
 
-		ItmMenuItem[] items = itmList.getMenuItems();
-		if (CommonUtil.isEmpty(items)) 
-			return null;
-
-		for(ItmMenuItem item : items) {
-			if(item != null) {
-				if(pkg.getPackageId().equals(item.getPackageId()))
-					workInfo.setFavorite(true);
+		if(itmList != null) {
+			ItmMenuItem[] items = itmList.getMenuItems();	
+			if(items != null) {
+				for(ItmMenuItem item : items) {
+					if(item != null) {
+						if(pkg.getPackageId().equals(item.getPackageId()))
+							workInfo.setFavorite(true);
+					}
+				}
 			}
 		}
 
