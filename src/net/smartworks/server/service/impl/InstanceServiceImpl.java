@@ -604,6 +604,7 @@ public class InstanceServiceImpl implements IInstanceService {
 									// TO-DO
 								} else if(formatType.equals(FormField.TYPE_DATE)) {
 									if(value != null) {
+										value = new LocalDate((LocalDate.convertStringToDate(value)).getTime()).toLocalDateSimpleString();
 									}
 								} else if(formatType.equals(FormField.TYPE_TIME)) {
 								} else if(formatType.equals(FormField.TYPE_DATETIME)) {
