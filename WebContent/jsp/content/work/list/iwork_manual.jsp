@@ -13,11 +13,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String cid = request.getParameter("cid");
-	String wid = request.getParameter("wid");
-
-	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
+
+	String workId = request.getParameter("workId");
 	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
 	CommentInstance[] comments = smartWorks.getRecentCommentsInWorkManual(workId, 3);
 %>

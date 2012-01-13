@@ -5,6 +5,7 @@ public class FieldData {
 	private String fieldId;
 	private String fieldType;
 	private String value;
+	private String symbol;
 	private String[] fileNames;
 
 	public FieldData() {
@@ -27,6 +28,12 @@ public class FieldData {
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+	public String getSymbol() {
+		return symbol;
+	}
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
 	}
 	public String[] getFileNames() {
 		return fileNames;

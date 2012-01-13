@@ -54,7 +54,7 @@ public class LocalDate extends Date{
 		if(LocaleInfo.isSupportingLocale(locale))
 			this.setLocale(locale);
 	}
-
+	
 	public String getLocale(){
 		return locale.toString();
 	}
@@ -165,6 +165,11 @@ public class LocalDate extends Date{
 	public static Date convertStringToDate(String yyyyMMddHHmm) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
 		return df.parse(yyyyMMddHHmm);					
+	}
+	
+	public static Date convertValueToDate(String yyyyMMddHHmmssSSS) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		return df.parse(yyyyMMddHHmmssSSS);					
 	}
 	
 	public static long convertStringToTime(String yyyyMMddHHmm) throws Exception{

@@ -52,6 +52,10 @@ import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.common.collection.model.ColList;
 import net.smartworks.server.engine.common.collection.model.ColListCond;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
+import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
+import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemList;
+import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
@@ -106,6 +110,9 @@ public class ModelConverter {
 	}
 	private static ITskManager getTskManager() {
 		return SwManagerFactory.getInstance().getTskManager();
+	}
+	private static IItmManager getItmManager() {
+		return SwManagerFactory.getInstance().getItmManager();
 	}
 	private static PkgPackage getPkgPackageByPackageId(String packageId) throws Exception {
 		if (CommonUtil.isEmpty(packageId))
@@ -566,6 +573,7 @@ public class ModelConverter {
 			PkgPackage pkg = pkgs[i];
 			smartWorkInfos[i] = getSmartWorkInfoByPkgPackage(null, pkg);
 		}
+
 		return smartWorkInfos;
 	}
 	public static SmartWorkInfo getSmartWorkInfoByPkgPackage(SmartWorkInfo workInfo, PkgPackage pkg) throws Exception {
@@ -579,6 +587,27 @@ public class ModelConverter {
 		Map<String, WorkCategoryInfo> pkgCtgPathMap = getPkgCtgInfoMapByPackage(pkg);
 		workInfo.setMyCategory(pkgCtgPathMap.get("category"));
 		workInfo.setMyGroup(pkgCtgPathMap.get("group"));
+
+		User user = SmartUtil.getCurrentUser();
+		if(CommonUtil.isEmpty(user.getCompanyId()) || CommonUtil.isEmpty(user.getId()))
+			return null;
+
+		ItmMenuItemListCond itemListCond = new ItmMenuItemListCond();
+		itemListCond.setCompanyId(user.getCompanyId());
+		itemListCond.setUserId(user.getId());
+		ItmMenuItemList itmList = getItmManager().getMenuItemList(user.getId(), itemListCond, IManager.LEVEL_ALL);
+
+		if(itmList != null) {
+			ItmMenuItem[] items = itmList.getMenuItems();	
+			if(items != null) {
+				for(ItmMenuItem item : items) {
+					if(item != null) {
+						if(pkg.getPackageId().equals(item.getPackageId()))
+							workInfo.setFavorite(true);
+					}
+				}
+			}
+		}
 
 		return workInfo;
 	}	

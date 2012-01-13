@@ -1,3 +1,4 @@
+<%@page import="java.text.NumberFormat"%>
 <%@page import="net.smartworks.model.instance.SortingField"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.service.impl.SmartWorks"%>
@@ -53,70 +54,85 @@
 		if(instanceList.getInstanceDatas() != null) {
 			IWInstanceInfo[] instanceInfos = (IWInstanceInfo[]) instanceList.getInstanceDatas();
 	%>
-	<tr class="tit_bg">
-		<%
-		FormField[] fields = work.getDisplayFields();
-		if (fields != null) {
-			for (FormField field : fields) {
-		%>
-	 		<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=field.getId()%>"><%=field.getName()%>
-	 		<%
-			if(sortedField.getFieldId().equals(field.getId())){
-				if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %></a>
-				<span class="js_progress_span"></span>
-			</th>
-<%-- 		<th class="r_line"><%=field.getName()%> <img class="bu_arr_b">
-		</th>
- --%>
-	<%
-		}
-	}
-	%>
-			<th>
-				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIER %>">
-					<fmt:message key='common.title.last_modifier' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIER)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
-				</a>/
-				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
-					<fmt:message key='common.title.last_modified_date' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIED_DATE)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
-				</a>
-				<span class="js_progress_span"></span>
-			</th>		
-	</tr>
-
-
-		<%
-		for (IWInstanceInfo instanceInfo : instanceInfos) {
-			UserInfo owner = instanceInfo.getOwner();
-			UserInfo lastModifier = instanceInfo.getLastModifier();
-			FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
-			String cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
-			String wid = instanceInfo.getWorkSpace().getId();
-			String target = "iwork_space.sw?cid=" + cid + "&wid=" + wid;
-		%>
-	<tr>
-			<%
-			if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
-						for (FieldData data : fieldDatas) {
-			%>
-		<td><a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=CommonUtil.toNotNull(data.getValue())%></a></td>
-			<%
+			<tr class="tit_bg">
+				<%
+				FormField[] fields = work.getDisplayFields();
+				if (fields != null) {
+					for (FormField field : fields) {
+				%>
+				 		<th class="r_line">
+				 			<a href="" class="js_select_field_sorting" fieldId="<%=field.getId()%>"><%=field.getName()%>
+						 		<%
+								if(sortedField.getFieldId().equals(field.getId())){
+									if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+								%>
+							</a>
+							<span class="js_progress_span"></span>
+						</th>
+				<%
+					}
 				}
-			}
+				%>
+				<th>
+					<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIER %>">
+						<fmt:message key='common.title.last_modifier' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIER)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
+					</a>/
+					<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
+						<fmt:message key='common.title.last_modified_date' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIED_DATE)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
+					</a>
+					<span class="js_progress_span"></span>
+				</th>		
+			</tr>
+			<%
+			for (IWInstanceInfo instanceInfo : instanceInfos) {
+				UserInfo owner = instanceInfo.getOwner();
+				UserInfo lastModifier = instanceInfo.getLastModifier();
+				FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
+				String cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
+				String wid = instanceInfo.getWorkSpace().getId();
+				String target = "iwork_space.sw?cid=" + cid + "&wid=" + wid;
 			%>
-		<td><a href="<%=target%>"><div class="noti_pic js_content_iwork_space">
-					<img src="<%=lastModifier.getMinPicture()%>"
-						title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
-				</div>
-				<div class="noti_in">
-					<span class="t_name"><%=lastModifier.getLongName()%></span>
-					<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
-				</div></a></td>
-	</tr>
+				<tr>
+					<%
+					if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
+						NumberFormat nf = NumberFormat.getNumberInstance();
+						NumberFormat pf = NumberFormat.getPercentInstance();
+						for (FieldData data : fieldDatas) {
+					%>
+							<td <%if(data.getFieldType().equals(FormField.TYPE_CURRENCY) || 
+									data.getFieldType().equals(FormField.TYPE_NUMBER) || 
+									data.getFieldType().equals(FormField.TYPE_PERCENT)){ %>class="hAlignRight"<%} %>>
+								<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+									<%if(data.getFieldType().equals(FormField.TYPE_FILE)){%><img src="images/file/icon_bmp.gif" groupId="<%=data.getValue()%>">
+									<%}else if(data.getFieldType().equals(FormField.TYPE_NUMBER)){%><%=CommonUtil.toNotNull(nf.format(Float.parseFloat(data.getValue())))%>
+									<%}else if(data.getFieldType().equals(FormField.TYPE_PERCENT)){%><%=CommonUtil.toNotNull(pf.format(Integer.parseInt(data.getValue())*100))%>
+									<%}else if(data.getFieldType().equals(FormField.TYPE_CURRENCY)){%><%=data.getSymbol()%><%=CommonUtil.toNotNull(nf.format(Integer.parseInt(data.getValue())))%>
+									<%}else if(data.getFieldType().equals(FormField.TYPE_IMAGE) ||
+												data.getFieldType().equals(FormField.TYPE_RICHTEXT_EDITOR) ||
+												data.getFieldType().equals(FormField.TYPE_DATA_GRID)){%>
+									<%}else{%><%=CommonUtil.toNotNull(data.getValue())%><%} %>
+								</a>
+							</td>
+					<%
+						}
+					}
+					%>
+					<td>
+						<a href="<%=target%>">
+							<div class="noti_pic js_content_iwork_space">
+								<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
+							</div>
+							<div class="noti_in">
+								<span class="t_name"><%=lastModifier.getLongName()%></span>
+								<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+							</div>
+						</a>
+					</td>
+				</tr>
 	<%
-		}
+			}
 		}
 	}
 	%>
@@ -131,40 +147,47 @@
 	<!-- 페이징 -->
 	<div class="paginate">
 		<%
-			if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
-				boolean isFirst10Pages = (currentPage <= 10) ? true : false;
-				boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true : false;
-				int startPage = ((currentPage - 1) / 10) * 10 + 1;
-				int endPage = isLast10Pages ? totalPages : startPage + 9;
-				if (!isFirst10Pages) {
+		if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
+			boolean isFirst10Pages = (currentPage <= 10) ? true : false;
+			boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true : false;
+			int startPage = ((currentPage - 1) / 10) * 10 + 1;
+			int endPage = isLast10Pages ? totalPages : startPage + 9;
+			if (!isFirst10Pages) {
 		%>
-		<a class="pre_end js_select_paging" href="" title="<fmt:message key='common.title.first_page'/>">
-			<span class="spr"></span><input name="hdnPrevEnd" type="hidden" value="false"> </a>		
-		<a class="pre js_select_paging" href="" title="<fmt:message key='common.title.prev_10_pages'/> ">
-			<span class="spr"></span><input name="hdnPrev10" type="hidden" value="false"></a>
-		<%
+				<a class="pre_end js_select_paging" href="" title="<fmt:message key='common.title.first_page'/>">
+					<span class="spr"></span>
+					<input name="hdnPrevEnd" type="hidden" value="false"> 
+				</a>		
+				<a class="pre js_select_paging" href="" title="<fmt:message key='common.title.prev_10_pages'/> ">
+					<span class="spr"></span>
+					<input name="hdnPrev10" type="hidden" value="false">
+				</a>
+			<%
 			}
-				for (int num = startPage; num <= endPage; num++) {
-					if (num == currentPage) {
-		%>
-		<strong><%=num%></strong>
-		<input name="hdnCurrentPage" type="hidden" value="<%=num%>"/>
-		<%
-			} else {
-		%>
-		<a class="num js_select_current_page" href=""><%=num%></a>
-		<%
-			}
+			for (int num = startPage; num <= endPage; num++) {
+				if (num == currentPage) {
+			%>
+					<strong><%=num%></strong>
+					<input name="hdnCurrentPage" type="hidden" value="<%=num%>"/>
+				<%
+				} else {
+				%>
+					<a class="num js_select_current_page" href=""><%=num%></a>
+				<%
 				}
-				if (!isLast10Pages) {
-		%>
-		<a class="next js_select_paging" title="<fmt:message key='common.title.next_10_pages'/> ">
-			<span class="spr"></span><input name="hdnNext10" type="hidden" value="false"/></a>
-		<a class="next_end js_select_paging" title="<fmt:message key='common.title.last_page'/> ">
-		<span class="spr"><input name="hdnNextEnd" type="hidden" value="false"/></span> </a>
+			}
+			if (!isLast10Pages) {
+			%>
+				<a class="next js_select_paging" title="<fmt:message key='common.title.next_10_pages'/> ">
+					<span class="spr"></span>
+					<input name="hdnNext10" type="hidden" value="false"/>
+				</a>
+				<a class="next_end js_select_paging" title="<fmt:message key='common.title.last_page'/> ">
+					<span class="spr"><input name="hdnNextEnd" type="hidden" value="false"/></span> 
+				</a>
 		<%
 			}
-			}
+		}
 		%>
 		<span class="js_progress_span"></span>
 	</div>
