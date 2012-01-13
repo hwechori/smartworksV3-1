@@ -236,9 +236,28 @@ $(function() {
 
 	$('a.js_view_work_manual').live('click', function(e){
 		var input = $(e.target);
-		input.parents("div.js_content_div:first").next('#work_manual').slideToggle(500);
+		var target = input.parents("div.js_work_list_page").find('#work_manual').slideToggle(500);
 		input.hide();
 		input.siblings().show();
+
+		var href = input.attr('href');
+		if(isEmpty(href)){
+			target.html('');
+		}else{
+			var progressSpan = input.parent().next('span.js_progress_span');
+			smartPop.progressCont(progressSpan);
+			$.ajax({
+				url : href,
+				data : {},
+				success : function(data, status, jqXHR) {
+					target.html(data);
+					smartPop.closeProgress();
+				},
+				error : function(xhr, ajaxOptions, thrownError){
+					smartPop.closeProgress();					
+				}
+			});
+		}
 		return false;
 	});
 

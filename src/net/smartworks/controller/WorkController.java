@@ -49,7 +49,15 @@ public class WorkController extends ExceptionInterceptor {
 			HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/iwork_list.jsp", "iwork_list.tiles");
+				"jsp/content/work/list/iwork_list.jsp", "");
+	}
+
+	@RequestMapping("/iwork_manual")
+	public ModelAndView iworkManual(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/list/iwork_manual.jsp", "");
 	}
 
 	@RequestMapping("/pwork_list")
@@ -57,7 +65,15 @@ public class WorkController extends ExceptionInterceptor {
 			HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/pwork_list.jsp", "pwork_list.tiles");
+				"jsp/content/work/list/pwork_list.jsp", "");
+	}
+
+	@RequestMapping("/pwork_manual")
+	public ModelAndView pworkManual(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/list/pwork_manual.jsp", "");
 	}
 
 	@RequestMapping("/swork_list")
@@ -65,7 +81,7 @@ public class WorkController extends ExceptionInterceptor {
 			HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/swork_list.jsp", "swork_list.tiles");
+				"jsp/content/work/list/swork_list.jsp", "");
 	}
 
 	@RequestMapping("/board_list")

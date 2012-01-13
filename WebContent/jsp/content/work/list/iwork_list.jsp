@@ -140,7 +140,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_iwork_list_page" workId=<%=work.getId()%>>
+<div class="section_portlet js_iwork_list_page js_work_list_page" workId=<%=work.getId()%>>
 	<div class="portlet_t"><div class="portlet_tl"></div></div>
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
@@ -193,20 +193,23 @@
 				<!-- 버튼 영역-->
 				<div class="txt_btn solid_line_sb margin_t15">
 					<span class="po_left bu_work_explan"> 
-						<a class="js_view_work_manual" href=""><fmt:message key="common.button.view.work_manual" />▼</a>
+						<a class="js_view_work_manual" href="iwork_manual.sw?workId=<%=workId%>"><fmt:message key="common.button.view.work_manual" />▼</a>
 						<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
 					</span> 
+					<span class="js_progress_span"></span>
 					<span class="po_left">
-						<%if (work.getManualFileName() != null) {%>
+						<%
+						if (work.getManualFileName() != null) {
+						%>
 							<a href="" class="bu_video space_r2" title="<fmt:message key='work.title.manual_file'/>"></a> 
 						<%
 						}
- 						if (work.getHelpUrl() != null) {
- 						%> 
- 							<a href="<%=work.getHelpUrl()%>" class="bu_webex" title="<fmt:message key='work.title.help_url'/>" target="_blank"></a>
- 						<%
- 						}
- 						%>
+						if (work.getHelpUrl() != null) {
+						%> 
+							<a href="<%=work.getHelpUrl()%>" class="bu_webex" title="<fmt:message key='work.title.help_url'/>" target="_blank"></a>
+						<%
+						}
+						%>
  					</span>
 
 					<!-- 우측 권한 아이콘-->
@@ -270,7 +273,7 @@
 				<!-- 버튼 영역 //-->
 
 			</div>
-			<div id="work_manual" style="display: none"><jsp:include page="/jsp/content/work/list/iwork_manual.jsp"></jsp:include></div>
+			<div id="work_manual" style="display: none"></div>
 
 			<!-- 목록영역  -->
 			<div class="contents_space">
