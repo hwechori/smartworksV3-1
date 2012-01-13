@@ -54,7 +54,7 @@ public class LocalDate extends Date{
 		if(LocaleInfo.isSupportingLocale(locale))
 			this.setLocale(locale);
 	}
-
+	
 	public String getLocale(){
 		return locale.toString();
 	}

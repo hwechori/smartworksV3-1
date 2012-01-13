@@ -30,9 +30,9 @@ public class FormField extends BaseObject{
 	public static final String TYPE_CHECK_BOX = "checkBox"; // boolean
 	public static final String TYPE_EMAIL = "emailIDInput"; // string
 	public static final String TYPE_DATE = "dateChooser"; //date
-	public static final String TYPE_TIME = "timeChooser"; //time
+	public static final String TYPE_TIME = "timeField"; //time
 	public static final String TYPE_DATETIME = "dateTimeChooser"; //datetime
-	
+	public static final String TYPE_DATA_GRID = "dataGrid"; //
 
 	public static final FormField FIELD_STATUS = new FormField(ID_STATUS, "", TYPE_COMBO);
 	public static final FormField FIELD_SUBJECT = new FormField(ID_SUBJECT, "", TYPE_TEXT);
