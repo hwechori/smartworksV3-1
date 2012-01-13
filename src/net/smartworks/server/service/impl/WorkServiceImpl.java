@@ -123,20 +123,19 @@ public class WorkServiceImpl implements IWorkService {
 		itemListCond.setCompanyId(user.getCompanyId());
 		itemListCond.setUserId(user.getId());
 		ItmMenuItemList itmList = getItmManager().getMenuItemList(user.getId(), itemListCond, IManager.LEVEL_ALL);
-		if (itmList == null)
-			return null;
 
-		ItmMenuItem[] items = itmList.getMenuItems();
-		
-		if (CommonUtil.isEmpty(items)) 
-			return null;
-		
-		String[] packageIdArray = new String[items.length];
-		for (int i = 0; i < items.length; i++) {
-			ItmMenuItem item = items[i];
-			if(item != null) {
-				String packageId = item.getPackageId();
-				packageIdArray[i] = packageId;
+		String[] packageIdArray = null;
+		if(itmList != null) {
+			ItmMenuItem[] items = itmList.getMenuItems();
+			if(items != null) {
+				packageIdArray = new String[items.length];
+				for (int i = 0; i < items.length; i++) {
+					ItmMenuItem item = items[i];
+					if(item != null) {
+						String packageId = item.getPackageId();
+						packageIdArray[i] = packageId;
+					}
+				}
 			}
 		}
 
