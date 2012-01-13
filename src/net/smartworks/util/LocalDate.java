@@ -167,6 +167,11 @@ public class LocalDate extends Date{
 		return df.parse(yyyyMMddHHmm);					
 	}
 	
+	public static Date convertValueToDate(String yyyyMMddHHmmssSSS) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		return df.parse(yyyyMMddHHmmssSSS);					
+	}
+	
 	public static long convertStringToTime(String yyyyMMddHHmm) throws Exception{
 		return convertStringToDate(yyyyMMddHHmm).getTime();					
 	}
