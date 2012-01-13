@@ -285,13 +285,13 @@ public class WorkServiceImpl implements IWorkService {
 		SwdField[] swdViewFields = getSwdManager().getViewFieldList(workId, formId);
 		for(SwdField swdViewField : swdViewFields) {
 			for(SwfField swfField : swfFields) {
-				String viewingType = swfField.getFormat().getViewingType();
-				if(swdViewField.getDisplayOrder() > -1 && !viewingType.equals("richEditor") && !viewingType.equals("textArea") && !viewingType.equals("dataGrid")) {
+				String formatType = swfField.getFormat().getType();
+				if(swdViewField.getDisplayOrder() > -1 && !formatType.equals("richEditor") && !formatType.equals("imageBox") && !formatType.equals("dataGrid")) {
 					if(swdViewField.getFormFieldId().equals(swfField.getId())) {
 						FormField formField = new FormField();
 						formField.setId(swdViewField.getFormFieldId());
 						formField.setName(swdViewField.getFormFieldName());
-						formField.setType(viewingType);
+						formField.setType(formatType);
 						formField.setDisplayOrder(swdViewField.getDisplayOrder());
 						resultList.add(formField);
 					}
@@ -350,12 +350,12 @@ public class WorkServiceImpl implements IWorkService {
 		List<FormField> formFieldList = new ArrayList<FormField>();
 		for(SwdField swdField : swdFields) {
 			for(SwfField swfField : swfFields) {
-				String viewingType = swfField.getFormat().getViewingType();
+				String formatType = swfField.getFormat().getType();
 				if(swdField.getFormFieldId().equals(swfField.getId())) {
 					FormField formField = new FormField();
 					formField.setId(swdField.getFormFieldId());
 					formField.setName(swdField.getFormFieldName());
-					formField.setType(viewingType);
+					formField.setType(formatType);
 					formField.setDisplayOrder(swdField.getDisplayOrder());
 					formFieldList.add(formField);
 				}
