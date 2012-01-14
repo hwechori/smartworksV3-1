@@ -140,3 +140,11 @@ httpStatus = {
          }
     });
 })(jQuery);
+
+function scrollHeight(){
+	return document.body.scrollHeight;
+};
+
+function scrollWidth(){
+	return document.body.scrollWidth;
+};

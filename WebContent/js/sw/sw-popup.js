@@ -38,20 +38,20 @@ smartPop = {
 	ERROR: 'Error',
 
 	overlay : function(target){
-		if(isEmpty($(target))) target = $(document).find('body');
-		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:100%; height:100%; z-index:10000; display:block; opacity:0.2"></span>').appendTo($(target));
+		if(isEmpty($(target))) target = $(document.body);
+		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:' + scrollWidth() + 'px; height:' + scrollHeight() + 'px; z-index:10000; display:block; opacity:0.2"></span>').appendTo($(target));
 	},
 	
 	overlayDark : function(target){
-		if(isEmpty($(target))) target = $(document).find('body');
-		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:100%; height:100%; z-index:10000; display:block; opacity:0.5"></span>').appendTo($(target));
+		if(isEmpty($(target))) target = $(document.body);
+		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:' + scrollWidth() + 'px; height:' + scrollHeight() + 'px; z-index:10000; display:block; opacity:0.5"></span>').appendTo($(target));
 	},
 	
 	closeOverlay : function(){
 		$("#sw_overlay_span").remove();
 	},
 	
-	showInfo : function(infoType, message){
+	showInfoOld : function(infoType, message){
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
 		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
 					'<div class="form_contents margin_t10">' + 
@@ -117,10 +117,10 @@ smartPop = {
 		});
 	},
 
-	showInfoNew : function(infoType, message){
+	showInfo : function(infoType, message){
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
 		smartPop.overlayDark();
-		$('<div id="sw_pop_show_info" style="z-index:100000" class="pop_corner_all pop_section_300">' + 
+		$('<div id="sw_pop_show_info" style="z-index:100000; position:fixed;" class="pop_corner_all pop_section_300">' + 
 					'<div class="form_contents margin_t10">' + 
 						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
 					 	'<div class="pop_notice_section">' + message + '</div>' +
@@ -132,7 +132,7 @@ smartPop = {
 					 		'</a> </span>' +
 					 	'</div>' +
 					 '</div>' +
-				  '</div>').center();
+				  '</div>').center().appendTo($(document.body));
 	},
 	
 	confirm : function(message, onOk, onCancel){
