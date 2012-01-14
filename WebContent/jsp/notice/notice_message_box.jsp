@@ -16,7 +16,7 @@
 <%@ page import="net.smartworks.util.LocalDate"%>
 <%
 	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재 사용자 정보도 가져온다.
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks"); 
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
 	// 호출될때 전달되는 noticeType, lastNoticeId를 가져온다.
@@ -33,7 +33,7 @@
 	// 알림 메시지
 	if (noticeType == Notice.TYPE_NOTIFICATION) {
 	%>
-		<li class="t_bold"><fmt:message key="notice.message.box.notification" /></li>
+		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.notification" /></li></div>
 		<jsp:include page="/jsp/notice/notification_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -41,7 +41,7 @@
 	// 쪽지
 	} else if (noticeType == Notice.TYPE_MESSAGE) {
 	%>
-		<li class="t_bold"><fmt:message key="notice.message.box.message" /></li>
+		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.message" /></li></div>
 		<jsp:include page="/jsp/notice/message_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -49,7 +49,7 @@
 	// 댓글 
 	} else if (noticeType == Notice.TYPE_COMMENT) {
 	%>
-		<li class="t_bold"><fmt:message key="notice.message.box.comments" /></li>
+		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.comments" /></li></div>
 		<jsp:include page="/jsp/notice/comment_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -57,7 +57,7 @@
 	// 할당 업무 
 	} else if (noticeType == Notice.TYPE_ASSIGNED) {
 	%>
-		<li class="t_bold"><fmt:message key="notice.message.box.assigned" /></li>
+		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.assigned" /></li></div>
 		<jsp:include page="/jsp/notice/assigned_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -65,7 +65,7 @@
 	// 이메일 받은편지함
 	} else if (noticeType == Notice.TYPE_MAILBOX) {
 	%>
-		<li class="t_bold"><fmt:message key="notice.message.box.mailbox" /></li>
+		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.mailbox" /></li></div>
 		<jsp:include page="/jsp/notice/mailbox_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -73,7 +73,7 @@
 	// 임시 저장함
 	} else if (noticeType == Notice.TYPE_SAVEDBOX) {
 	%>
-		<li class="t_bold"><fmt:message key="notice.message.box.savedbox" /></li>
+		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.savedbox" /></li></div>
 		<jsp:include page="/jsp/notice/savedbox_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>

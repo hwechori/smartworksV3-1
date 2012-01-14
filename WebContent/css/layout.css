@@ -114,8 +114,8 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#333}
 	
 /*Left Navigation*/	
 #nav {background-color:#6b6b6b;float:left;width:226px;height:100%; z-index:30;}
-li.js_content .checkOption{display:none;position:absolute;margin-top:-21px;margin-left:195px}
-li.js_content:hover .checkOption{display:block}
+li.js_content .checkOption {display:none; position:absolute;margin-top:-21px;margin-left:195px}
+li.js_content:hover .checkOption {display:block}
 
 
 /*global Menu */
