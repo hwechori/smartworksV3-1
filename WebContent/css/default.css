@@ -6,7 +6,7 @@ html {
 
 body {
      font-size: 0.75em;
-     font-family: '占쏙옙占쏙옙',dotum,Helvetica,sans-serif;
+     font-family: dotum,Helvetica,sans-serif;
 	 scrollbar-face-color:#FFFFFF;/*占쏙옙크占싼뱄옙 표占쏙옙 占쏙옙占쏙옙*/
 	 scrollbar-highlight-color:#C7C7C7;/*표占쏙옙 占쏙옙占쏙옙 占싸븝옙 占싼삼옙占쏙옙*/
 	 scrollbar-shadow-color:#C7C7C7;/*표占쏙옙 占쏙옙占쏙옙占쏙옙 占싸븝옙 占쌓몌옙占쏙옙 占싼삼옙占쏙옙*/
@@ -34,14 +34,14 @@ a, abbr, acronym, address, applet, article, aside, audio, b, blockquote, big, bo
      padding: 0pt;
 }
 
-h1, h2, h3, h4, h5, h6, th, td, table, button, textarea, sub {
+h1, h2, h3, h4, h5, h6, th, td, button, textarea, sub {
      font-size: 1em;
 	 text-align:left;
 	 padding:2px 0;
 }
 
 body, button, select, input, textarea, sub {
-     font-family:'占쏙옙占쏙옙', dotum,  sans-serif;
+     font-family:'dotum,  sans-serif;
 	 font-size:12px;
 }
 

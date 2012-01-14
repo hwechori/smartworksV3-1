@@ -523,6 +523,9 @@ a .btn_all_works:hover,
 	text-align:center;color:#fff;font-size:14px;font-weight:bold
 }
 .redTabContent .rightCap{background: url("../images/bgRoundRedContentRight.gif") no-repeat;width:27px;height:30px;position:relative;top:-6px;float:right}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+.redTabContent .rightCap {top:-24px;left:15px}
+}
 			
 /* Work ING */
 #work_ing {margin:0 15px;}
