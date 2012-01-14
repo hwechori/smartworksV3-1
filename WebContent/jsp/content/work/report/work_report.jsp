@@ -36,10 +36,8 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<div class="form_wrap up up_padding js_work_report_page" workId="<%=workId %>" reportId="<%=lastReportId%>" reportType="<%=lastReport.getType() %>" chartType="<%=lastChartType%>">
-	<!-- 컨텐츠 -->
-	<div class="form_title">
-		<div class=" po_left"><fmt:message key="report.title.report" /></div>
+<div class="list_title_space ">
+		<div class="title"><fmt:message key="report.title.report" /></div>
 		<div class="po_left js_work_report_list_box">
 			<select name="selMyReportList" class="js_select_work_report" href="work_report_view.sw?workId=<%=workId%>&workType=<%=work.getType()%>">							
 				<option value="<%=Report.REPORT_ID_NONE %>" 
@@ -79,8 +77,10 @@
 			<a href="work_report_edit.sw?workId=<%=work.getId()%>" class="js_edit_work_report"><fmt:message key="report.button.edit_report"/></a>
 		</div>
 		<span class="po_left js_progress_span"></span>
-		<div class="solid_line"></div>
 	</div>
+<div class="form_wrap up up_padding js_work_report_page" workId="<%=workId %>" reportId="<%=lastReportId%>" reportType="<%=lastReport.getType() %>" chartType="<%=lastChartType%>">
+	<!-- 컨텐츠 -->
+	
 	<div class="js_work_report_edit" style="display:none">
 	</div>
 	<div class="js_work_report_view" >
