@@ -480,6 +480,9 @@ a .btn_all_works:hover,
 .space_left { margin-left:15px;}
 .space_right { float:right; margin-right:20px;}
 .space_top { margin-top:5px;}
+.eventCell1{border:1px solid #efb9ba;border-width:0 1px;padding-bottom:7px}
+.eventCell{margin:0 7px;padding:0 7px}
+.cellDate{display:inline-block;border-bottom:1px dotted #cfcfcf;padding:0 5px 1px 5px;margin-bottom:3px}
 
 /* Noice */
 #notice {clear:both; margin:0 30px 5px 5px; padding-top:10px;}
@@ -496,8 +499,8 @@ a .btn_all_works:hover,
 		    padding:0 0 0 23px; font-weight:bold;}
 		    
 /* Noice - 정연희 추가 작업분에 대한 style입니다 */
-.notice {clear:both; margin:0 12px 5px 5px; padding-top:10px;}
-.notice .headlineNotice{float:left;width:33%;padding-right:5px;border-right:1px solid #cfcfcf}
+.notice {overflow:hidden; margin:0 12px 0 15px; padding-top:10px;}
+.notice .headlineNotice{float:left;width:32.5%;padding-right:5px;border-right:1px solid #cfcfcf}
 .notice .recentNotice{float:left;width:64%;margin-left:10px}
 .notice a.more{background: url("../images/btnMainNotice.gif") no-repeat;width:50px;height:30px;float:left;margin-right:5px;padding:75px 15px 0 0;font-size:10px;text-align:right;}
 .notice a.more:hover{background: url("../images/btnMainNotice.gif") -65px 0 no-repeat;color:#ba3938}
@@ -517,6 +520,15 @@ a .btn_all_works:hover,
 
 /* 나의 진행중인 업 - 정연희 추가 작업분에 대한 style입니다 */
 .dateAlignRight{float:right}
+
+/* 3일 업무표시 디자인교체 - 정연희 추가 작업분에 대한 style입니다 */
+.redStroke{background: url("../images/bgRoundRedStrokeLeft.gif") no-repeat;height:40px;text-align:center}
+.redStroke .redStrokeRightCap{background: url("../images/bgRoundRedStrokeRight.gif") no-repeat;width:15px;height:40px;float:right}
+.redTabContent{
+	background: url("../images/bgRoundRedContentLeft.gif") no-repeat;margin-top:3px;padding:6px 0 0 25px;display:inline-block;height:30px;
+	text-align:center;color:#fff;font-size:14px;font-weight:bold
+}
+.redTabContent .rightCap{background: url("../images/bgRoundRedContentRight.gif") no-repeat;width:27px;height:30px;position:relative;top:-6px;float:right}
 			
 /* Work ING */
 #work_ing {margin:0 15px;}
@@ -600,6 +612,7 @@ padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
 
 /* Text style */
 .t_red {color:#e54b4b;}
+.t_lightOrange {color:#fff4a7;font-weight:normal}
 .t_red_bold {color:#e54b4b; font-weight:bold;}
 .t_up_num {color:#e54b4b; font-weight:bold;}
 .t_bold {font-weight:bold;}
