@@ -53,7 +53,7 @@
 					<a href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
 						<span class="<%=iconType%>"></span><%=work.getName()%><span></span>
 					</a>
-					<div class="checkOption"><input title="<fmt:message key='nav.works.my_favorite_works'/>" class="js_check_favorite_work c" workId="<%=work.getId() %>" <%if(((SmartWorkInfo)work).isFavorite()){ %> checked <%} %>></div>
+					<div class="checkOption"><div title="<fmt:message key='nav.works.my_favorite_works'/>" class="js_check_favorite_work ico_faver" workId="<%=work.getId() %>" <%if(((SmartWorkInfo)work).isFavorite()){ %> checked <%} %>></div></div>
 				</li>
 				
 			<%
