@@ -31,44 +31,38 @@
 %>
 
 <!-- 이벤트,공지 포틀릿 -->	
-	 <div class="section_portlet">
-	 <div class="portlet_t">
-      <div class="portlet_tl"></div>
-    </div>
-        
+	<div class="section_portlet">
+        <!-- red caption design change begin -->
+        <div class="redStroke">
+        	<span class="redTabContent">
+        		<%=today.toLocalDateString()%>
+        		<span class="t_lightOrange">
+				 <%
+				 	if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
+				 %> ( <%
+				 	}
+				 	CompanyEvent[] cesToday = threeDaysCC[0].getCompanyEvents();
+				 	CompanyEvent[] cesTomorrow = threeDaysCC[1].getCompanyEvents();
+				 	for (int i = 0; i < cesToday.length; i++) {
+				 		if (i != 0) {
+				 %>, <%
+				 	}
+				 %><%=cesToday[i].getName()%> <%
+				 	}
+				 %> <%
+				 	if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
+				 %>)<%
+				 	}
+				 %>
+				 </span> 
+				 <%=today.toLocalTimeString()%>
+        		<span class="rightCap"></span>
+        	</span>
+        	<div class="redStrokeRightCap"></div>
+        </div>
+        <!-- red caption design change end -->
     <div class="portlet_l" style="display: block;">
-    <ul class="portlet_r" style="display: block;">
-	
-	<!-- Date -->
-    <div class="date_section">
-        <span class="date_start"></span>
-        <span class="date_center">
-            <span class="date"><%=today.toLocalDateString()%></span>
-            <span class="t_red">
-			 <%
-			 	if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
-			 %> ( <%
-			 	}
-			 	CompanyEvent[] cesToday = threeDaysCC[0].getCompanyEvents();
-			 	CompanyEvent[] cesTomorrow = threeDaysCC[1].getCompanyEvents();
-			 	for (int i = 0; i < cesToday.length; i++) {
-			 		if (i != 0) {
-			 %>, <%
-			 	}
-			 %><%=cesToday[i].getName()%> <%
-			 	}
-			 %> <%
-			 	if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
-			 %>)<%
-			 	}
-			 %>
-			 </span> 
-			 <%=today.toLocalTimeString()%>
-        </span>
-        <span class="date_end"></span>
-    </div>
-    <!-- Date //-->
-	
+   	 <ul class="portlet_r" style="display: block;">
 	
 			<!-- 이벤트 목록 영역 -->
 			<div class="event_space">
@@ -76,28 +70,25 @@
 					<%
 						for (int cnt = 0; cnt < threeDaysCC.length; cnt++) {
 					%>
-					<li class="float_left">
-						<div class="event">
-							<div class="event_t">
-								<div class="event_t_l"></div>
-							</div>
-							<div class="event_l" style="display: block;">
-								<ul class="event_r" style="display: block;">
+					<li class="float_left eventCell<%=cnt%>">
+						<div>
+							<div class="eventCell" style="display: block;">
+								<ul style="display: block;">
 									<%
 										if (cnt == 0) {
 									%>
-									<li class="line_dashed center"><span class="t_bold"><fmt:message
-												key='content.threedays.today' /> </span> <%=today.toLocalDateShortString()%></li>
+									<li class="line_dashed center"><span class="cellDate"><span class="t_bold"><fmt:message
+												key='content.threedays.today' /> </span> <%=today.toLocalDateShortString()%></span></li>
 									<%
 										} else if (cnt == 1) {
 									%>
-									<li class="line_dashed center"><span class="t_bold"><fmt:message
-												key='content.threedays.tomorrow' /> </span> <%=tomorrow.toLocalDateShortString()%></li>
+									<li class="line_dashed center"><span class="cellDate"><span class="t_bold"><fmt:message
+												key='content.threedays.tomorrow' /> </span> <%=tomorrow.toLocalDateShortString()%></span></li>
 									<%
 										} else if (cnt == 2) {
 									%>
-									<li class="line_dashed center"><span class="t_bold"><fmt:message
-												key='content.threedays.after' /> </span>
+									<li class="line_dashed center"><span class="cellDate"><span class="t_bold"><fmt:message
+												key='content.threedays.after' /> </span></span>
 									</li>
 									<%
 										}
@@ -167,15 +158,12 @@
 									%>
 								</ul>
 							</div>
-							<div class="event_b" style="display: block;"></div>
 						</div></li>
 					<%
 						}
 					%>
 				</ul>
-				<!-- 공지사항 -->
-				<jsp:include page="/jsp/content/today/recent_board_list.jsp" />
-				<!--공지사항//-->
+				
 			</div>
 			<!-- 이벤트 목록 영역 //-->
 		</ul>
@@ -183,3 +171,17 @@
 	<div class="portlet_b" style="display: block;"></div>
 </div>
 <!-- 이벤트,공지 포틀릿//-->
+
+<div class="section_portlet">
+	<div class="portlet_t">
+		<div class="portlet_tl"></div>
+	</div>
+	<div style="display: block;" class="portlet_l">
+		<div style="display: block;" class="portlet_r">
+			<!-- 공지사항 -->
+			<jsp:include page="/jsp/content/today/recent_board_list.jsp" />
+			<!--공지사항//-->
+		</div>
+	</div>	
+	<div class="portlet_b" style="display: block;"></div>
+</div>
