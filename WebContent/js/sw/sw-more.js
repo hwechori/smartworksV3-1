@@ -1,10 +1,23 @@
 $('.js_more_list').live('click', function(e) {
 	var anchor = $(e.target);
 	var base_ul = anchor.parent().prev('ul');
+	var runningPage = input.find('.js_my_running_instance_list_page');
+	var lastDate = runningPage.find('.js_running_instance_item').attr('dateValue');
+	var assignedOnly = runningPage.find('a.js_view_assigned_instances').hasClass('current');
+	var instanceCount;
+	if(assignedOnly)
+		instanceCount = runningPage.find('a.js_view_assigned_instances').attr('instanceCount');
+	else
+		instanceCount = runningPage.find('a.js_view_my_running_instances').attr('instanceCount');
+	if(instanceCount > runningPage.length)
+		runningPage.find('.js_more_list').show();
+	else
+		runningPage.find('.js_more_list').hide();
 	$.ajax({
 		url : anchor.attr('href'),
 		data : {
-		// last_id : null
+			lastDate : lastDate,
+			assignedOnly : assignedOnly
 		},
 		success : function(data, status, jqXHR) {
 			$(data).appendTo(base_ul);

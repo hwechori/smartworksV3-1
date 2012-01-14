@@ -20,6 +20,7 @@ import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
+import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
@@ -180,13 +181,25 @@ public class InstanceServiceImpl implements IInstanceService {
 		return SmartTest.getInstanceById(instanceId);
 	}
 
-	public InstanceInfo[] getMyRunningInstances() throws Exception {
-		Date limitDate = new Date();
-		int resultSize = 10;
-		return getMyRunningInstances( limitDate, resultSize);
-	}
-	
-	public InstanceInfo[] getMyRunningInstances(Date limitDate, int resultSize) throws Exception {
+	/*
+	 * 
+	 * 현재사용자의 진행중인 업무, 즉 현재사용자에게 할당된 태스크들과 현재사용자가 시작한 업무중 진행중인 업무를 가져다 주는 서비스로,
+	 * 인스턴스들중에서 lastModifiedDate가 lastInstacneDate보다 이전것들을 requestSize만큼 sorting 순서를 적용하여 가져다 준다
+	 * 
+	 * lastInstanceDate : input
+	 * 		가져올 인스턴스들의 기준 시점. lastInstanceDate가 null 이면 현재시간을 기준으로 가져다 준다.
+	 * 
+	 * requestSize : input
+	 * 		가져올 인스턴스 갯수
+	 * assignedOnly : input
+	 * 		가져올 인스턴스 종류.
+	 * 		true : 현재사용자의 진행중인 업무중에서 할당된 업무들만 가져온다.
+	 * 		false : 현재사용자의 모든 진행중인 업무들을 가져온다..
+	 * 
+	 * InstanceInfo[] : return
+	 * 	
+	 */
+	public InstanceInfo[] getMyRunningInstances(LocalDate lastInstanceDate, int requestSize, boolean assignedOnly) throws Exception {
 //		return SmartTest.getRunningInstances();
 		//정보관리업무에서 파생된 업무는 IWInstanceInfo
 		//프로세스 태스크및 프로세스에서 파생된 업무는 PWInstanceInfo
@@ -204,6 +217,18 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		if(tasks != null) return ModelConverter.getInstanceInfoArrayByTaskWorkArray(user.getId(), tasks);
 		return null;
+	}
+
+	/*
+	 * 
+	 * 현재사용자의 진행중인 업무들의 갯수를 가져도준다. 진행중인 업무 전체갯수와 할당된업무갯수만을 가져다 준다.
+	 * 
+	 * RunningCounts : return
+	 * 	
+	 */
+	public RunningCounts getMyRunningInstancesCounts() throws Exception {
+		RunningCounts runningCounts = new RunningCounts();
+		return runningCounts;
 	}
 
 	@Override
