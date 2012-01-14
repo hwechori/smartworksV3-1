@@ -1,19 +1,19 @@
 @charset "utf-8";
 
 html {
-     font-size: 1em;
+     font-size: 12px;
 }
 
 body {
-     font-size: 0.75em;
+     font-size: 12px;
      font-family: dotum,Helvetica,sans-serif;
-	 scrollbar-face-color:#FFFFFF;/*占쏙옙크占싼뱄옙 표占쏙옙 占쏙옙占쏙옙*/
-	 scrollbar-highlight-color:#C7C7C7;/*표占쏙옙 占쏙옙占쏙옙 占싸븝옙 占싼삼옙占쏙옙*/
-	 scrollbar-shadow-color:#C7C7C7;/*표占쏙옙 占쏙옙占쏙옙占쏙옙 占싸븝옙 占쌓몌옙占쏙옙 占싼삼옙占쏙옙*/
-	 scrollbar-3dlight-color:#FFFFFF;/*표占쏙옙 占쏙옙占쏙옙 占싸븝옙 占쏙옙체占쏙옙 占쏙옙占쏙옙*/
-	 scrollbar-arrow-color:#C7C7C7;/*占쏙옙크占싼뱄옙 占쏙옙占쌓몌옙 占쏙각占쏙옙 占쏙옙占쏙옙*/
-	 scrollbar-track-color:#FFFFFF;/*占쏙옙크占싼뱄옙 占쌔울옙 占쏙옙占쏙옙 트占쏙옙 占쏙옙占쏙옙*/
-	 scrollbar-darkshadow-color:#FFFFFF;/*표占쏙옙 占쏙옙 占싸븝옙 占쌓몌옙占쏙옙 占쏙옙占쏙옙*/
+	 scrollbar-face-color:#FFFFFF;
+	 scrollbar-highlight-color:#C7C7C7;
+	 scrollbar-shadow-color:#C7C7C7;
+	 scrollbar-3dlight-color:#FFFFFF;
+	 scrollbar-arrow-color:#C7C7C7;
+	 scrollbar-track-color:#FFFFFF;
+	 scrollbar-darkshadow-color:#FFFFFF;
 }
 
 label {
@@ -35,14 +35,13 @@ a, abbr, acronym, address, applet, article, aside, audio, b, blockquote, big, bo
 }
 
 h1, h2, h3, h4, h5, h6, th, td, button, textarea, sub {
-     font-size: 1em;
 	 text-align:left;
 	 padding:2px 0;
 }
 
 body, button, select, input, textarea, sub {
-     font-family:'dotum,  sans-serif;
-	 font-size:12px;
+     font-family: dotum, sans-serif;
+	 font-size: 12px;
 }
 
 input {

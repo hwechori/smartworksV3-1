@@ -1,4 +1,4 @@
-
+@charset "utf-8";
 .chat_warp {position: fixed; bottom:0; right:0;}
 .chat_space { direction: ltr; height: 25px; position: fixed; right: 0; z-index: 300; bottom: 0;}
 .chat_section {border:1px solid #232323; background-color:#454645; max-width: 273px; min-width: 110px; float:right; margin-left:10px; bottom:0; position:fixed; z-index: 300;}
@@ -33,7 +33,7 @@
 .chat_list li {border-bottom:1px dashed #9C9C9C; margin:5px 10px 0; color:#454545; vertical-align: middle; padding: 2px 0; overflow:hidden;}	
 .chat_list li.end {border-bottom:none;}
 
-/* �ý��� �޼��� */
+/* 占시쏙옙占쏙옙 占쌨쇽옙占쏙옙 */
 .msg_section {background-color:#f5f3ec; color:#454545; font-size:11px; padding:5px; margin: 0 2px; border-bottom: 1px solid #FFFFFF;}
 .msg_section .ic_add_friend {background: url("../images/chat_img.png") no-repeat scroll 0 -49px transparent; display:inline-block; padding-right:4px; height:16px; width:14px;}
 
@@ -56,14 +56,14 @@
 
 
 
-/* ä��â ����, Default */
+/* 채占쏙옙창 占쏙옙占쏙옙, Default */
 .chat_close_section, .chat_de_section {border:1px solid #232323; background-color:#454645; min-width: 105px; margin-left:10px; z-index:102; color:#FFF; bottom: 0; position: fixed; right: 0;}
 .chatic_titl {background: url("../images/chat_img.png") no-repeat scroll 0 -74px transparent; display:inline-block; padding: 0 0 1px 24px; height:20px; color:#FFF;}
 .chat_close_section  a .top_group:hover { background:none; background-color:#454545;}
 .chat_de_section .chat_de_list {background-color:#FFF; margin: 0 2px; max-height:300px; width:190px; color:#454545; overflow-y:auto;}
 
 
-/* �̵� ȭ��ǥ */
+/* 占싱듸옙 화占쏙옙표 */
 .chat_num_section {border:1px solid #232323; background-color:#454645; margin-left:10px; z-index:102; color:#FFF; position: fixed; bottom: 0;}
 .cha_next {background: url("../images/chat_img.png") no-repeat scroll 0 -162px transparent; display:inline-block; width:12px; height:15px; color:#FFF;}
 .cha_prev {background: url("../images/chat_img.png") no-repeat scroll 0 -137px transparent; display:inline-block; width:12px; height:15px; color:#FFF;}
@@ -71,7 +71,7 @@
 
 
 
-/* ä�� â ���� */
+/* 채占쏙옙 창 占쏙옙占쏙옙 */
 .clearfix:after { clear: both;  content: "."; display: block; font-size: 0; height: 0; line-height: 0; visibility: hidden;}
 .chat_group {float: left; position: relative;}
 .chat_container {float: right;}
