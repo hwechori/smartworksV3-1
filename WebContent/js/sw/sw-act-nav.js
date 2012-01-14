@@ -248,7 +248,7 @@ $(function() {
 		var favoriteWorks = input.parents('li.js_favorite_works:first');
 		var url = 'remove_a_favorite_work.sw';
 		var isAdd = false;
-		if(input.is(':checked') && isEmpty(favoriteWorks)){
+		if(input.hasClass('checked') && isEmpty(favoriteWorks)){
 			url = 'add_a_favorite_work.sw';
 			isAdd = true;
 		}
@@ -261,18 +261,18 @@ $(function() {
 			},
 			success : function(data, status, jqXHR) {
 				if(isAdd){
-					input.attr('checked', true);
+					input.addClass('checked');
 				}else{
 					if(isEmpty(favoriteWorks))
-						input.attr('checked', false);
+						input.removeClass('checked');
 					else
 						favoriteWorks.remove();
 				}
 				smartPop.closeProgress();											
 			},
 			error : function(xhr, ajaxOptions, thrownError){
-				if(isAdd) input.attr('checked', false);
-				else input.attr('checked', true);
+				if(isAdd) input.removeClass('checked');
+				else input.addClass('checked');
 				smartPop.closeProgress();											
 			}
 		});		
