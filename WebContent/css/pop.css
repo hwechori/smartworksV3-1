@@ -32,10 +32,11 @@
 
 /*popup information*/
 .pop_i_info {border:1px solid #acacac; background-color:#242324; width:273px; position:absolute; top:33px; left:106px; padding-bottom:8px; z-index:39; color:#ececec;}
-.pop_i_info li {border-bottom:1px solid #DCDFE0; position:relative; clear:both; overflow:hidden; padding-bottom:8px;}
+.pop_i_info li {border-bottom:1px solid #DCDFE0; position:relative; clear:both; overflow:hidden;}
 .pop_i_info li:hover {background-color:#484848}
 .pop_i_info li:hover .btn_x {display:block; overflow: hidden; vertical-align:middle;}
 .pop_i_info li .btn_x {display:none}
+.pop_i_info li .info_ms_section {margin:8px 15px;} 
 
 .pop_i_info .info_img,.pop_i_info .info_list {float:left;}
 .pop_i_info .info_img img {width:20px}
