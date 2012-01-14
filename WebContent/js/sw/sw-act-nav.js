@@ -280,7 +280,8 @@ $(function() {
 	});
 
 	$('.js_add_new_group').live('click', function(e){
-		
+
+//		$('<div id="test_id" style="position:absolute; top:0; left:0; background-color:#000000; width:100%; height:100%; z-index:1000; display:block; opacity:0.5"></div>').appendTo($('.js_my_running_instance_list_page'));
 		smartPop.createGroup();
 		return false;
 	});
