@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-.pop_corner_all{ border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border: 1px solid #c7c7c7; background-color:#FFF;}
+.pop_corner_all{ border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border: 1px solid #c7c7c7; background-color:#FFF; padding-top: 5px;}
 .pop_section_500 {width:500px; border: 1px solid #c7c7c7; background-color:#FFF;}
 .pop_section_400 {width:400px; border: 1px solid #c7c7c7; background-color:#FFF;}
 .pop_section_300 {width:300px; border: 1px solid #c7c7c7; background-color:#FFF;}
@@ -36,8 +36,8 @@
 .pop_i_info li:hover {background-color:#484848}
 .pop_i_info li:hover .btn_x {display:block; overflow: hidden; vertical-align:middle;}
 .pop_i_info li .btn_x {display:none}
-.pop_i_info li .info_ms_section {margin:0 15px; padding: 6px 0; overflow: hidden; border-bottom: 1px dotted #DCDFE0;}
-.pop_i_info .info_ms_title {margin:10px 15px 5px; border-bottom: 1px solid #DCDFE0;} /* title */
+.pop_i_info li .info_ms_section {margin:0 15px; padding: 6px 0; overflow: hidden; border-bottom: 1px solid #9f9f9f;}
+.pop_i_info .info_ms_title {margin:10px 15px 5px; border-bottom: 1px solid #9f9f9f;} /* title */
 
 .pop_i_info .info_img,.pop_i_info .info_list {float:left;}
 .pop_i_info .info_img img {width:20px}
@@ -46,3 +46,14 @@
 /* icon */
 .ico_pop_info {background: url("../images/header_nico.png") no-repeat -159px -267px transparent; height:20px; width:20px; display: inline-block;}
 .ico_pop_event {background: url("../images/header_nico.png") no-repeat -195px -267px transparent; height:20px; width:20px; display: inline-block;}
+
+/* close btn */
+.pop_btn_x a {background: url("../images/pop_btn_x.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 15px;
+    padding: 0; position: relative; right: 3px; top:2px; width: 15px; float: right;} 
+.pop_btn_x a:hover {background-color:#e5e5e5;}
+
+/* pop title */
+.pop_title_space {padding:7px 0; overflow:hidden;border-bottom:2px solid #999}
+.pop_title_space .title_work {background: url("../images/body_icon.png") no-repeat scroll -547px -146px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
+.pop_title_space .title_user {background: url("../images/body_icon.png") no-repeat scroll -547px -187px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
+.pop_title_space.w_margin {margin: 0 20px;} 

@@ -3,7 +3,7 @@
 #wrap {background: url("../images/top_bg.jpg") repeat-x scroll 0 0 transparent; height:100%; min-width:1000px; margin:0; z-index:1; position:relative;}
 html, body {color:#454545; font-family:'돋움',Dotum, Arial, sans-serif, tahoma, verdana,; height:100%; line-height:1.5em;}
 body, #nav {background: url("../images/bg_body.jpg");}
-a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#333}
+a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545;}
 #nav a:link, #nav a:visited, #header a:link, #header a:visited {color:#FFF;}
 #nav a:hover, #nav a:focus, #nav a:active, #header a:hover, #header a:focus, #header a:active {color:#FFF; text-decoration:none;}
 #nav .current {color:#FFF; text-decoration:underline; font-weight:bold;}
@@ -304,7 +304,7 @@ a .btn_all_works:hover,
 .btn_posi {right:0; top:0; position:absolute;}
 .btn_ico {float:right; margin:0 0 2px 8px; height: 18px;}
 
-.txt_btn {font-family:'돋움',Dotum; font-size: 11px; height: 19px; font-weight:normal;}
+.txt_btn {font-family: Dotum; font-size: 11px; height: 19px; font-weight:normal;}
 .txt_btn .po_right {float:right; margin-left:10px;}
 .txt_btn .po_left {float:left; margin-right:10px;}
 .txt_btn .ch_right {float:right; margin-left:4px;}
@@ -352,7 +352,7 @@ a .btn_all_works:hover,
 .form_title .title {font-weight:bold; font-size:14px; padding:0 0 0 19px; position:absolute;} /* 타이틀 우측으로 아이콘이 있을때 */
 .form_title .title_noico  {font-weight:bold; font-size:14px; font-family:'돋움',Dotum, Arial, sans-serif; padding: 0 0 0 19px;} /* 타이틀 우측으로 아이콘이 없을때 */
 .form_contents {padding:0 20px 10px; text-align: center;}
-.form_contents table tr {height:30px;}
+/* .form_contents table tr {height:30px;} */
 .form_contents table .before_icon {padding:2px 10px 2px 0;}
 .form_contents .title_2dep {text-align:left;} 
 .form_contents .item {width:80px;}
@@ -583,20 +583,15 @@ td.pic{width:85px}
 			
 
 			
+
+/* close btn */
+.btn_x, .btn_im_x {background: url("../images/btn_im_x_gr.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
+    padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;} 
+.btn_x a:hover, .btn_im__x a:hover {background-color:#919191;}
+
 .btn_right {left: 452px; position:relative;}
-.btn_x, .btn_x a {float:right; color:#9b9b9b; font-size:12px; display: block; width:16px; height:15px; text-align:center; text-decoration:none;}
-a .btn_x:hover {color:#FFF; text-decoration:none; }
-
 .btn_x_gr {color:#c7c7c7; font-size:12px;}
-a .btn_x_gr:hover {background-color:#f2f2f2; text-decoration:none; }
-
-.btn_x_grb {background: url("../images/btn_x_b.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 11px;
-    padding: 0; width: 11px; position: relative;}
-    
-.btn_im_x {background: url("../images/btn_im_x_gr.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
-    padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;}
-    
-
+.btn_x_gr a:hover {background-color:#f2f2f2; text-decoration:none; font-size:12px;}
 .nav_srch .btn_im_x{top:-19px;right:8px}
     
 	

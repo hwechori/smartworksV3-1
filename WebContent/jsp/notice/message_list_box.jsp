@@ -36,17 +36,21 @@
 				UserInfo owner = messageInstance.getSender();
 				instContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 %>
+				<ul>
 				<li>
+				<div class="info_ms_section">
 					<div class="info_img">
 						<a href="user_space.sw?cid=<%=instContext%>" title="<%=owner.getLongName()%>"> <img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 					</div>
 					<div class="info_list"><%=messageInstance.getMessage()%>
 						<div class="t_date"><%=messageInstance.getSendDate().toLocalString()%>
 							<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-								<div class="btn_x js_remove_notice" >X</div></a>
+								<div class="btn_x js_remove_notice" ></div></a>
 						</div>
 					</div>
+					</div>
 				</li>
+				</ul>
 <%
 			}
 		}

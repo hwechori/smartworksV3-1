@@ -23,14 +23,26 @@
 <div class="pop_corner_all">
 
 	<!-- 팝업 타이틀 -->
-	<div class="form_title">
-		<div class="pop_title">업무항목</div>
+	<div class="pop_title_space w_margin"> 
 		<div class="txt_btn">
-			<div class="btn_x">
-				<a href="" onclick="$.modal.close();return false;">X</a>
+			<div class="title_work">업무항목</div>
+			
+			<!-- 검색 -->
+			<form class="po_left" name="frmSearchInstance">
+				<span class="js_progress_span"></span>
+				<div class="srch_wh srch_wsize">
+					<input class="nav_input" type="text" placeholder="항목 찾기" name="txtSearchInstance">
+					<button onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;" title="항목 찾기"></button>
+				</div>
+			</form>
+			
+			<div class="txt_btn">
+				<div class="pop_btn_x">
+					<a onclick="$.modal.close();return false;" href=""></a>
+				</div>
 			</div>
+		
 		</div>
-		<div class="solid_line"></div>
 	</div>
 	<!-- 팝업 타이틀 //-->
 
