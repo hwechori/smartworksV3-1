@@ -36,10 +36,13 @@
 .pop_i_info li:hover {background-color:#484848}
 .pop_i_info li:hover .btn_x {display:block; overflow: hidden; vertical-align:middle;}
 .pop_i_info li .btn_x {display:none}
-.pop_i_info li .info_ms_section {margin:0 15px; padding: 6px 0; overflow: hidden; border-bottom:1px solid #DCDFE0;} 
+.pop_i_info li .info_ms_section {margin:0 15px; padding: 6px 0; overflow: hidden; border-bottom: 1px dotted #DCDFE0;}
+.pop_i_info .info_ms_title {margin:10px 15px 5px; border-bottom: 1px solid #DCDFE0;} /* title */
 
 .pop_i_info .info_img,.pop_i_info .info_list {float:left;}
 .pop_i_info .info_img img {width:20px}
-.pop_i_info .info_list {padding:0 0 2px 5px;width:215px}
+.pop_i_info .info_list {padding:0 0 0 5px;width:215px}
 
-
+/* icon */
+.ico_pop_info {background: url("../images/header_nico.png") no-repeat -159px -267px transparent; height:20px; width:20px; display: inline-block;}
+.ico_pop_event {background: url("../images/header_nico.png") no-repeat -195px -267px transparent; height:20px; width:20px; display: inline-block;}

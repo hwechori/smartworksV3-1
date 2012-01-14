@@ -579,6 +579,7 @@ td.pic{width:85px}
     		float:left; color:#fff; height:20px; padding:2px 3px 0; text-align:center; font-weight:bold;}
 .btn_gray .Btn01End {background: url("../images/btn_gr_right.jpg") repeat scroll 0 0 transparent;
     		float:left; height:22px; width:5px;}
+.btn_hpadding {margin:7px 0;}
 			
 
 			
