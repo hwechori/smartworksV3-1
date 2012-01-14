@@ -20,6 +20,8 @@ import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.MailInstance;
+import net.smartworks.model.instance.RunningCounts;
+import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -81,7 +83,9 @@ public interface ISmartWorks {
 	public final static String CONTEXT_PREFIX_PWORK_TASK = "pw.ts.";
 	public final static String CONTEXT_PREFIX_SWORK_TASK = "sw.ts.";
 
-	public abstract InstanceInfo[] getMyRunningInstances() throws Exception;
+	public abstract InstanceInfo[] getMyRunningInstances(LocalDate lastInstanceDate, int requestSize, boolean assignedOnly) throws Exception;
+	
+	public abstract RunningCounts getMyRunningInstancesCounts() throws Exception;
 	
 	public abstract String[] getBroadcastingMessages() throws Exception;
 

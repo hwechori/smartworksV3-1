@@ -399,4 +399,40 @@ $(function() {
 		return false;
 	});
 
+	$('a.js_view_my_running_instances').live('click',function(e) {
+		var input = $(e.target).addClass('current').siblings().removeClass('current');
+		var target =  input.parent().prev('ul');
+		$.ajax({
+			url : 'more_instance_list.sw',
+			data : {
+				assignedOnly : false
+			},
+			success : function(data, status, jqXHR) {
+				target.html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
+			}
+		});
+		return false;
+	});
+
+	$('a.js_view_assigned_instances').live('click',function(e) {
+		var input = $(e.target).addClass('current').siblings().removeClass('current');
+		var target =  input.parent().prev('ul');
+		$.ajax({
+			url : 'more_instance_list.sw',
+			data : {
+				assignedOnly : true
+			},
+			success : function(data, status, jqXHR) {
+				target.html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
+			}
+		});
+		return false;
+	});
+
 });

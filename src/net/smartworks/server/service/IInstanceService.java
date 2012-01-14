@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.MailInstance;
+import net.smartworks.model.instance.RunningCounts;
+import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
@@ -24,7 +26,9 @@ public interface IInstanceService {
 
 	public Instance getInstanceById(String instanceId) throws Exception;
 
-	public InstanceInfo[] getMyRunningInstances() throws Exception;
+	public InstanceInfo[] getMyRunningInstances(LocalDate lastInstanceDate, int requestSize, boolean assignedOnly) throws Exception;
+
+	public RunningCounts getMyRunningInstancesCounts() throws Exception;
 
 	public InstanceInfo[] searchMyRunningInstance(String key) throws Exception;
 
