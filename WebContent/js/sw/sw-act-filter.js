@@ -26,7 +26,7 @@ $(function() {
 	
 	$('a.js_edit_search_filter').live('click', function(e) {
 		var input = $(e.target).parent();
-		smartPop.progressContGray(input.next('span:first'));
+		smartPop.progressCont(input.next('span:first'));
 		var target = $('#search_filter');
 		var url = input.attr('href') + "&filterId=" + $('form[name="frmIworkFilterName"]').children('select').attr('value');
 		$.ajax({
@@ -93,7 +93,7 @@ $(function() {
 		$('#search_filter').slideUp(500).html('');
 		$('a.js_edit_search_filter').show();
 		var progressSpan = $('.js_edit_search_filter').next('span.js_progress_span:first');
-		selectListParam(progressSpan, true);
+		selectListParam(progressSpan, false);
 		return false;		
 	});
 	

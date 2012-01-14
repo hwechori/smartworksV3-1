@@ -23,7 +23,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<div class="form_wrap up up_padding js_work_report_view">
+<div class="js_work_report_view">
 
 	<!-- 컨텐츠 -->
 	<div class="form_title">
