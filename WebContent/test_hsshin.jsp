@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.util.LocalDate"%>
+<%@page import="net.smartworks.model.calendar.CompanyCalendar"%>
 <%@page import="net.smartworks.server.service.IWorkService"%>
 <%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.model.community.User"%>
@@ -126,10 +128,12 @@
 	Department department = smartworks.getDepartmentById("PROTEC1_TEAM");
 	System.out.println(department.getName() + department.getParent().getName()); */
 
-	IWorkService workService = (IWorkService)SmartUtil.getBean("workServiceImpl", request);
+/*	IWorkService workService = (IWorkService)SmartUtil.getBean("workServiceImpl", request);
 
 	workService.addAFavoriteWork("pkg_ba32f6e9af594c9ea9cf921ffa2cadee");
-	
+	*/
+
+	CompanyCalendar[] companyCalendars = smartworks.getCompanyCalendars(new LocalDate(), 3);
 	//workService.removeAFavoriteWork("pkg_ba32f6e9af594c9ea9cf921ffa2cadee");
 
 %>
