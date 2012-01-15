@@ -116,27 +116,38 @@ smartPop = {
 			}
 		});
 	},
+	
+	closeInfo : function(){
+		smartPop.closeOverlay();
+		$('#sw_pop_show_info').remove();		
+	},
 
 	showInfo : function(infoType, message){
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
 		smartPop.overlayDark();
-		$('<div id="sw_pop_show_info" style="z-index:100000; position:fixed;" class="pop_corner_all pop_section_300">' + 
+		$('<div id="sw_pop_show_info" style="z-index:10001; position:absolute;" class="pop_corner_all pop_section_300">' + 
 					'<div class="form_contents margin_t10">' + 
 						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
 					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a onclick="smartPop.closeOverlay();$("#sw_pop_show_info").remove() ;return false;" href=""> <span class="Btn01Start"></span>' +
+					 		'<span class="btn_gray"> <a onclick="smartPop.closeInfo(); return false;" href=""> <span class="Btn01Start"></span>' +
 					 			'<span class="Btn01Center">' + smartMessage.get('buttonClose') + '</span> <span class="Btn01End"></span>' +
 					 		'</a> </span>' +
 					 	'</div>' +
 					 '</div>' +
-				  '</div>').center().appendTo($(document.body));
+				  '</div>').appendTo($(document.body)).center();
+	},
+	
+	closeConfirm : function(){
+		smartPop.closeOverlay();
+		$('#sw_pop_confirm').remove();
 	},
 	
 	confirm : function(message, onOk, onCancel){
-		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
+		smartPop.overlayDark();
+		$('<div id="sw_pop_confirm" class="pop_corner_all pop_section_300" style="z-index:10001; position:absolute;">' + 
 					'<div class="form_contents margin_t10">' + 
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
@@ -152,35 +163,22 @@ smartPop = {
 				 			'</a> </span>' +
 				 		'</div>' +
 					 '</div>' +
-				  '</div>').appendTo($(document)), 
-		  {
-			opacity: 50,
-			overlayCss: {backgroundColor:"#000"},
-			containerCss:{
-				backgroundColor:"#fff",
-				borderColor:"#000",
-				color: "#000",
-				height:200,
-				padding:1,
-				width:500
-			},
-			overlayClose: false,
-			onShow: function(dialog){
-				$('.js_btn_ok', dialog.data[0]).live('click', function(){
-					if ($.isFunction(onOk)) {
-						onOk.apply();
-					}
-					$.modal.close();
-					return false;
-				});
-				$('.js_btn_cancel', dialog.data[0]).live('click', function(){
-					if ($.isFunction(onCancel)) {
-						onCancel.apply();
-					}
-					$.modal.close();
-					return false;
-				});
+				  '</div>').appendTo($(document.body)).center(); 
+
+		$('#sw_pop_confirm .js_btn_ok').live('click', function(){
+			if ($.isFunction(onOk)) {
+				onOk.apply();
 			}
+			smartPop.closeConfirm();
+			return false;
+		});
+		
+		$('#sw_pop_confirm .js_btn_cancel').live('click', function(){
+			if ($.isFunction(onCancel)) {
+				onCancel.apply();
+			}
+			smartPop.closeCofirm();
+			return false;
 		});
 	},
 
