@@ -16,6 +16,12 @@ function submitForms() {
 	var paramsJson = {};
 	for(var i=0; i<forms.length; i++){
 		var form = $(forms[i]);
+		if(form.attr('name') === 'frmSmartForm'){
+			paramsJson['formId'] = form.attr('formId');
+			paramsJson['formName'] = form.attr('formName');
+		}else if(form.attr('name') === 'frmNewFile'){
+			continue;
+		}
 		paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 	}
 	console.log(JSON.stringify(paramsJson));
@@ -29,10 +35,13 @@ function submitForms() {
 		data : JSON.stringify(paramsJson),
 		success : function(data, status, jqXHR) {
 			smartPop.closeProgress();
-			document.location.href = data.href;
+			smartPop.showInfo(smartPop.INFO, smartMessage.get("createMemoSucceed"), function(){
+				document.location.href = data.href;
+			});
 		},
 		error : function(e) {
 			smartPop.closeProgress();
+			smartPop.showInfo(smartPop.ERROR, smartMessage.get("createMemoError"));
 		}
 	});
 }
@@ -48,7 +57,6 @@ function submitForms() {
 <div class="up_wrap js_new_memo_page">
 	<div class="up_point posit_memo"></div>
 	<div class="form_wrap up up_padding">
-
 
 		<!-- 폼- 확장 -->
 		<form name='frmNewMemo' class="form_title js_validation_required">

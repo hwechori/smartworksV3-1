@@ -13,11 +13,16 @@
 function submitForms(e) {
 	var newEvent = $('.js_new_event_page');
 	if(!SmartWorks.GridLayout.validate(newEvent.find('form.js_validation_required'))) return
-
 	var forms = newEvent.find('form');
 	var paramsJson = {};
 	for(var i=0; i<forms.length; i++){
 		var form = $(forms[i]);
+		if(form.attr('name') === 'frmSmartForm'){
+			paramsJson['formId'] = form.attr('formId');
+			paramsJson['formName'] = form.attr('formName');
+		}else if(form.attr('name') === 'frmNewFile'){
+			continue;
+		}
 		paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 	}
 	console.log(JSON.stringify(paramsJson));
@@ -31,21 +36,16 @@ function submitForms(e) {
 		data : JSON.stringify(paramsJson),
 		success : function(data, status, jqXHR) {
 			smartPop.closeProgress();
-			document.location.href = data.href;
+			smartPop.showInfo(smartPop.INFO, smartMessage.get("createEventSucceed"), function(){
+				document.location.href = data.href;
+			});
 		},
 		error : function(e) {
 			smartPop.closeProgress();
+			smartPop.showInfo(smartPop.ERROR, smartMessage.get("createEventError"));
 		}
 	});
 }
-$('input.js_today_datepicker').datepicker({
-	defaultDate : new Date(),
-	dateFormat : 'yy.mm.dd'
-});
-
-$('input.js_current_timepicker').timepicker({
-});
-
 </script>
 
 <%
@@ -63,142 +63,13 @@ $('input.js_current_timepicker').timepicker({
 	<div class="form_wrap up up_padding">
 		<!-- 폼- 확장 -->
 		<form name="frmNewEvent" class="form_title js_validation_required">
-			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" startDateTitle="<fmt:message key='common.upload.event.start_date'/>" endDateTitle="<fmt:message key='common.upload.event.end_date'/>" placeTitle="<fmt:message key='common.upload.event.place'/>" relatedUsersTitle="<fmt:message key='common.upload.event.related_users'/>" contentTitle="<fmt:message key='common.upload.event.content' />">
+			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" 
+				startDateTitle="<fmt:message key='common.upload.event.start_date'/>" endDateTitle="<fmt:message key='common.upload.event.end_date'/>"  alarmPolicyTitle="<fmt:message key='common.upload.button.set_alarm'/>"
+				placeTitle="<fmt:message key='common.upload.event.place'/>" relatedUsersTitle="<fmt:message key='common.upload.event.related_users'/>" 
+				contentTitle="<fmt:message key='common.upload.event.content' />">
 			</div>
 
-<%-- 			<div class="input_1line">
-				<div class="float_left">
-					<input class="fieldline space_data date js_today_datepicker" type="text"
-						name="txtEventStartDate" readonly="readonly" value="<%=today%>">
-				</div>
-
-				<div class="float_left js_start_time">
-					<select name="selEventStartTime">
-						<%
-							{
-								boolean isNow = false, isPassed = false;
-								DecimalFormat df = new DecimalFormat("00");
-								int iCurHour = df.parse(curTime.substring(0, 2)).intValue();
-								for (int i = 0; i < 24; i++) {
-									String hourString = df.format(i) + ":00";
-									String thirtyMinuteString = df.format(i) + ":30";
-									if (iCurHour < i && !isPassed)
-										isNow = true;
-						%>
-						<option
-							<%if (isNow) {
-						isNow = false;
-						isPassed = true;%>
-							selected <%}%> value="<%=hourString%>"><%=hourString%></option>
-						<option><%=thirtyMinuteString%></option>
-						<%
-							}
-							}
-						%>
-					</select>
-				</div>
-				<!-- 종료 날짜 추가 내용 -->
-				<div class="float_left space_l10 js_end_datetime"
-					style='display: none'>
-					<div class="float_left">
-						- <input name="txtEventEndDate"
-							class="fieldline space_data date js_today_datepicker" type="text"
-							value="<%=today%>">
-					</div>
-					<div class="float_left js_end_time">
-						<input name="txtEventEndTime"
-							class="fieldline space_data js_current_timepicker" type="text" value="<%=curTime%>">
-					</div>
-				</div>
-				<!-- 종료 날짜 추가 내용 //-->
-				<div class="float_left txt_btn">
-					<a href="" class="space_l10"
-						onclick="$(this).hide().siblings().show().parent().siblings('div.js_end_datetime').toggle();return false;"><fmt:message
-							key="common.upload.button.add_eventend" /> </a> <a
-						style="display: none" href="" class="space_l10"
-						onclick="$(this).hide().siblings().show().parent().siblings('div.js_end_datetime').toggle();return false;"><fmt:message
-							key="common.upload.button.delete_eventend" /> </a>
-				</div>
-
-				<span class="input_check">
-					<input name="chkEventWholeDay" class="js_whole_day" type="checkbox"><label><fmt:message
-							key="common.upload.event.whole_day" /></label>
-				</span>
-
-				<span class="input_check">
-					<input name="chkEventAlarm" type="checkbox"
-						value=""
-						onclick="$(this).parent().next('div').toggle();return true;" />
-					<label><fmt:message key="common.upload.button.set_alarm" /></label>
-				</span>
-				<!-- 알림 설정 내용 -->
-				<div class="float_left space_l5" style="display: none;">
-					<select name="selEventAlarmTime">
-						<option>
-							<fmt:message key="event.alarm.on_time" />
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_minute">
-								<fmt:param>10</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_minute">
-								<fmt:param>15</fmt:param>
-							</fmt:message>
-						</option>
-						<option selected>
-							<fmt:message key="event.alarm.before_minute">
-								<fmt:param>30</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_hour">
-								<fmt:param>1</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_hour">
-								<fmt:param>2</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_hour">
-								<fmt:param>4</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_hour">
-								<fmt:param>24</fmt:param>
-							</fmt:message>
-						</option>
-					</select>
-				</div>
-				<!-- 알림 설정 내용 //-->
-			</div>
-
-			<div class="input_1line">
-				<input class="fieldline" name="txtEventPlace" type="text" title=""
-					placeholder="<fmt:message key='common.upload.event.place'/>">
-			</div>
-			<input type="hidden" name="hdnRelatedUsers" />
-			<div class="input_1line fieldline js_community_names">
-				<div class="js_selected_communities user_sel_area"></div>
-				<input class="js_auto_complete" href='community_name.sw' type="text"
-					title=""
-					placeholder="<fmt:message key='common.upload.event.related_users'/>">
-				<div class='js_srch_x'></div>
-
-			</div>
-			<div class="js_community_list" style="display: none"></div>
-
-			<div>
-				<textarea class="up_textarea" name="txtaEventContent" cols=""
-					rows="5">
-					<fmt:message key='common.upload.event.content' />
-				</textarea>
-			</div>
- --%>		</form>
+		</form>
 		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
 	</div>
 </div>

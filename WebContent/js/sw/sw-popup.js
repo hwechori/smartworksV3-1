@@ -301,7 +301,7 @@ smartPop = {
 				onShow: function(dialog){
 
 					var selectionProc = function(comId, comName){
-						var userField = userInput.parents('td.js_type_userField:first');
+						var userField = userInput.parents('.js_type_userField:first');
 						var inputTarget = userField.find('input.js_auto_complete:first');
 						if(inputTarget.parents('.sw_required').hasClass('sw_error')){
 							inputTarget.parents('.sw_required').removeClass('sw_error');

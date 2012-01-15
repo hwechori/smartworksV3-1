@@ -12,6 +12,7 @@
 <script type="text/javascript">
 function submitForms() {
 	var newIwork = $('.js_new_iwork_page');
+	var workId = newIwork.attr("workId");
 	var scheduleWork = newIwork.find('form[name="frmScheduleWork"]');
 	if(scheduleWork.find($('input[name="chkScheduleWork"]')).is(':checked')){
 		scheduleWork.addClass('js_validation_required');
@@ -21,6 +22,7 @@ function submitForms() {
 	if (SmartWorks.GridLayout.validate(newIwork.find('form.js_validation_required'))) {
 		var forms = newIwork.find('form');
 		var paramsJson = {};
+		paramsJson['workId'] = workId;
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
 			if(form.attr('name') === 'frmSmartForm'){
@@ -40,7 +42,7 @@ function submitForms() {
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				smartPop.closeProgress();
-				smartPop.confirm("성공적으로 완료하였습니다. 생성된 항목페이지로 이동하시겠습니까??", 
+				smartPop.confirm(smartMessage.get("createIWorkSucceed"), 
 						function(){
 							document.location.href = data.href;					
 						},
@@ -68,7 +70,7 @@ function submitForms() {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 js_form_wrap js_new_iwork_page">
+<div class="form_wrap up up_padding margin_b2 js_form_wrap js_new_iwork_page" workId="<%=workId%>">
 	<div class="form_title js_form_header">
 		<div class="ico_iworks title"><%=work.getFullpathName()%></div>
 		<div class="txt_btn">

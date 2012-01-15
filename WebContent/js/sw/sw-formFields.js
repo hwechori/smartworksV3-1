@@ -149,6 +149,7 @@ function loadNewEventFields() {
 			var eventNameTitle = newEventField.attr("eventNameTitle");
 			var startDateTitle = newEventField.attr("startDateTitle");
 			var endDateTitle = newEventField.attr("endDateTitle");
+			var alarmPolicyTitle = newEventField.attr("alarmPolicyTitle");
 			var placeTitle = newEventField.attr("placeTitle");
 			var relatedUsersTitle = newEventField.attr("relatedUsersTitle");
 			var contentTitle = newEventField.attr("contentTitle");
@@ -156,8 +157,8 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventName",
 				fieldName: eventNameTitle,
-				columns: 2,
-				colSpan: 2,
+				columns: 3,
+				colSpan: 3,
 				required: true
 			});
 		  	
@@ -166,7 +167,7 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventStartDate",
 				fieldName: startDateTitle,
-				columns: 2,
+				columns: 3,
 				colSpan: 1,
 				required: true
 			});
@@ -174,8 +175,27 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventEndDate",
 				fieldName: endDateTitle,
-				columns: 2,
+				columns: 3,
 				colSpan: 1,
+				required: false
+			});
+			
+			var staticItems = new Array();
+			staticItems.push(smartMessage.get("alarmPolicyNone"));
+			staticItems.push(smartMessage.get("alarmPolicyOnTime"));
+			staticItems.push(smartMessage.get("alarmPolicy5m"));
+			staticItems.push(smartMessage.get("alarmPolicy10m"));
+			staticItems.push(smartMessage.get("alarmPolicy15m"));
+			staticItems.push(smartMessage.get("alarmPolicy30m"));
+			staticItems.push(smartMessage.get("alarmPolicy1h"));
+			staticItems.push(smartMessage.get("alarmPolicy1d"));
+			SmartWorks.FormRuntime.ComboBoxBuilder.buildEx({
+				container: gridRow,
+				fieldId: "selEventAlarmPolicy",
+				fieldName: alarmPolicyTitle,
+				columns: 3,
+				colSpan: 1,
+				staticItems : staticItems,
 				required: false
 			});
 		  	
@@ -184,8 +204,8 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventPlace",
 				fieldName: placeTitle,
-				columns: 2,
-				colSpan: 2,
+				columns: 3,
+				colSpan: 3,
 				required: false
 			});
 
@@ -194,8 +214,8 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventRelatedUsers",
 				fieldName: relatedUsersTitle,
-				columns: 2,
-				colSpan: 2,
+				columns: 3,
+				colSpan: 3,
 				multiUsers: true,
 				required: false
 			});
@@ -205,8 +225,8 @@ function loadNewEventFields() {
 				container: gridRow,
 				fieldId: "txtEventContent",
 				fieldName: contentTitle,
-				columns: 2,
-				colSpan: 2,
+				columns: 3,
+				colSpan: 3,
 				multiLines: 3,
 				required: false
 			});

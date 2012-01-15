@@ -65,8 +65,10 @@ function submitForms(e) {
 			if(form.attr('name') === 'frmSmartForm'){
 				paramsJson['formId'] = form.attr('formId');
 				paramsJson['formName'] = form.attr('formName');
-				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+			}else if(form.attr('name') === 'frmNewFile'){
+				continue;
 			}
+			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 		}
 		console.log("JSON", JSON.stringify(paramsJson));
 		var progressSpan = newFile.find('.js_progress_span');
@@ -79,10 +81,13 @@ function submitForms(e) {
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				smartPop.closeProgress();
-				document.location.href = data.href;
+				smartPop.showInfo(smartPop.INFO, smartMessage.get("uploadFileSucceed"), function(){
+					document.location.href = data.href;
+				});
 			},
 			error : function(e) {
 				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get("uploadFileError"));
 			}
 		});
 	}
@@ -101,8 +106,8 @@ function submitForms(e) {
 	<div class="up up_padding">
 		<!-- 폼- 확장 -->
 		<form name="frmNewFile" class="form_wrap js_validation_required">
-			<div class="form_title" class="js_file_brief_form">
-				<div class="js_new_file_fields" fileNameTitle="<fmt:message key='common.upload.file.name'/>" fileDescTitle="<fmt:message key='common.upload.file.desc'/>">
+			<div class="form_title js_file_brief_form">
+				<div class="js_new_file_fields" fileNameTitle="<fmt:message key='common.upload.file.name'/>" fileDescTitle="<fmt:message key='common.upload.file.desc'/>"></div>
 			</div>
 			<div class="form_contents">
 				<div class="txt_btn txt_btn_height js_file_detail_form">
@@ -120,9 +125,9 @@ function submitForms(e) {
 				<div id="form_import"></div>
 				<!-- 상세 정보 추가시 화면 //-->
 			</div>
-			<!-- 하단 등록,취소 버튼 -->
-			<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
-			<!-- 하단 등록,취소 버튼 -->
-	</form>
-</div>
+		</form>
+		<!-- 하단 등록,취소 버튼 -->
+		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+		<!-- 하단 등록,취소 버튼 -->
+	</div>
 </div>

@@ -56,8 +56,10 @@ function submitForms(e) {
 							if(form.attr('name') === 'frmSmartForm'){
 								paramsJson['formId'] = form.attr('formId');
 								paramsJson['formName'] = form.attr('formName');
-								paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+							}else if(form.attr('name') === 'frmNewPicture'){
+								continue;
 							}
+							paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 						}
 						console.log("JSON", JSON.stringify(paramsJson));
 						var url = "upload_new_picture.sw";
@@ -68,10 +70,13 @@ function submitForms(e) {
 							data : JSON.stringify(paramsJson),
 							success : function(data, status, jqXHR) {
 								smartPop.closeProgress();
-								document.location.href = data.href;
+								smartPop.showInfo(smartPop.INFO, smartMessage.get("uploadPictureSucceed"), function(){
+									document.location.href = data.href;
+								});
 							},
 							error : function(e) {
 								smartPop.closeProgress();
+								smartPop.showInfo(smartPop.ERROR, smartMessage.get("uploadPictureError"));
 							}
 						});
 					}
@@ -101,9 +106,9 @@ function submitForms(e) {
 			<div id="form_import"></div>
 			<!-- 상세 정보 추가시 화면 //-->
 
-			<!-- 하단 등록,취소 버튼 -->
-			<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
-			<!-- 하단 등록,취소 버튼 -->
 		</form>
+		<!-- 하단 등록,취소 버튼 -->
+		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+		<!-- 하단 등록,취소 버튼 -->
 	</div>
 </div>

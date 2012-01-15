@@ -9,13 +9,18 @@
 
 <script type="text/javascript">
 function submitForms() {
-	var newBoard = $('js_new_board_page');
+	var newBoard = $('.js_new_board_page');
 	if(!SmartWorks.GridLayout.validate(newBoard.find('form.js_validation_required'))) return
-
 	var forms = newBoard.find('form');
 	var paramsJson = {};
 	for(var i=0; i<forms.length; i++){
 		var form = $(forms[i]);
+		if(form.attr('name') === 'frmSmartForm'){
+			paramsJson['formId'] = form.attr('formId');
+			paramsJson['formName'] = form.attr('formName');
+		}else if(form.attr('name') === 'frmNewFile'){
+			continue;
+		}
 		paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 	}
 	console.log(JSON.stringify(paramsJson));
@@ -29,10 +34,13 @@ function submitForms() {
 		data : JSON.stringify(paramsJson),
 		success : function(data, status, jqXHR) {
 			smartPop.closeProgress();
-			document.location.href = data.href;
+			smartPop.showInfo(smartPop.INFO, smartMessage.get("createBoardSucceed"), function(){
+				document.location.href = data.href;
+			});
 		},
 		error : function(e) {
 			smartPop.closeProgress();
+			smartPop.showInfo(smartPop.ERROR, smartMessage.get("createBoardError"));
 		}
 	});
 }

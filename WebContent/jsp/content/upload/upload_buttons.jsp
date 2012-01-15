@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
+<%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="net.smartworks.model.community.info.CommunityInfo"%>
 <%@page import="net.smartworks.model.community.Group"%>
 <%@page import="net.smartworks.model.security.AccessPolicy"%>
@@ -36,7 +37,7 @@
 	CommunityInfo[] communities = smartWorks.getMyCommunities();
 %>
 
-<div class="glo_btn_space">
+<div class="glo_btn_space js_upload_buttons_page">
 
 	<!--  완료 및 취소 버튼 -->
 	<div class="float_right">
@@ -61,7 +62,7 @@
 	<!--  완료 및 취소 버튼 //-->
 
 	<!--  접근권한 및 등록할 공간정보를 선택하는 박스들 -->
-	<form name="frmAccessSpace" class="float_right padding_r10">
+	<form name="frmAccessSpace" class="float_right padding_r10 js_validation_required">
 		<div id="" class="float_right form_space">
 		
 			<!--  현재사용자가 선택할 수 있는 업무공간들을 구성한다.. -->
@@ -99,7 +100,7 @@
 
 		<div id="" class="float_right form_space">
 			<!--  현재업무의 접근(읽기)권한 중에 선택가능한 권한들을 구성한다... -->
-			<select name="selAccessLevel">
+			<select name="selAccessLevel" class="js_select_access_level">
 				<%
 				// 읽기권한이 공개 이면, 공개, 비공개, 사용자 지정중에 선택할 수 있다..
 				int accessLevel = work.getAccessPolicy().getLevel();
@@ -110,19 +111,62 @@
 					<option value="<%=AccessPolicy.LEVEL_CUSTOM%>"><fmt:message key="common.security.access.custom" /></option>
 				<%
 				// 읽기권한이 사용자지정이면, 비공개 또는 사용자지정 중에서 선택할 수 있다..
-				} else if (work.getAccessPolicy().getLevel() == AccessPolicy.LEVEL_CUSTOM) {
+				} else if (accessLevel == AccessPolicy.LEVEL_CUSTOM) {
 				%>
 					<option value="<%=AccessPolicy.LEVEL_PRIVATE%>"><fmt:message key="common.security.access.private" /></option>
 					<option selected value="<%=AccessPolicy.LEVEL_CUSTOM%>"><fmt:message key="common.security.access.custom" /></option>
 				<%
 				// 읽기권한이 비공개이면, 비공개만 해당된다...
-				} else if (work.getAccessPolicy().getLevel() == AccessPolicy.LEVEL_PUBLIC) {
+				} else if (accessLevel == AccessPolicy.LEVEL_PRIVATE) {
 				%>
 					<option value="<%=AccessPolicy.LEVEL_PRIVATE%>"><fmt:message key="common.security.access.private" /></option>
 				<%
 				}
 				%>
 			</select>
+		</div>
+
+<%
+AccessPolicy ap = new AccessPolicy();
+ap.setLevel(AccessPolicy.LEVEL_CUSTOM);
+UserInfo user = new UserInfo();
+user.setId(cUser.getId());
+user.setName(cUser.getName());
+user.setPosition(cUser.getPosition());
+ap.setCommunitiesToOpen(new CommunityInfo[]{user});
+work.setAccessPolicy(ap);
+%>
+		<div class="float_right form_space js_access_level_custom" <%if(work.getAccessPolicy().getLevel() != AccessPolicy.LEVEL_CUSTOM){ %> style="display:none"<%} %>>
+			<span class="js_type_userField" fieldId="txtAccessableUsers" multiUsers="true">
+				<div class="form_value">
+					<div class="ico_fb_space">
+						<div class="fieldline js_community_names sw_required">
+							<div class="js_selected_communities user_sel_area">
+								<%
+								String comName = "";
+								for(CommunityInfo community : work.getAccessPolicy().getCommunitiesToOpen()){	
+									if(community.getClass().equals(UserInfo.class))
+										comName = ((UserInfo)community).getLongName();
+									else 
+										comName = community.getName();
+								%>
+									<span>
+										<span class="js_community_item user_select" comId="<%=community.getId()%>"><%=comName %>
+											<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span>
+										</span>
+									</span>
+								<%
+								}
+								%>
+							</div>
+							<input class="js_auto_complete" href="community_name.sw" type="text">
+							<div class="js_srch_x"></div>
+						</div>
+						<div class="js_community_list commu_list" style="display: none"></div>
+						<span class="js_community_popup"></span><a href="" class="js_userpicker_button"><span class="ico_fb_users"></span></a>
+					</div>
+				</div>
+			</span>
 		</div>
 		
 		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->

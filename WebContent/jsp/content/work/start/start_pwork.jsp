@@ -13,6 +13,7 @@
 <script type="text/javascript">
 function submitForms(e) {
 	var startPwork = $('.js_start_pwork_page');
+	var workId = startPwork.attr('workId');
 	var scheduleWork = startPwork.find('form[name="frmScheduleWork"]');
 	if(scheduleWork.find($('input[name="chkScheduleWork"]')).is(':checked')){
 		scheduleWork.addClass('js_validation_required');
@@ -22,6 +23,7 @@ function submitForms(e) {
 	if (SmartWorks.GridLayout.validate(startPwork.find('form.js_validation_required'))) {
 		var forms = startPwork.find('form');
 		var paramsJson = {};
+		paramsJson['workId'] = workId;
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
 			if(form.attr('name') === 'frmSmartForm'){
@@ -32,7 +34,7 @@ function submitForms(e) {
 		}
 		console.log(JSON.stringify(paramsJson));
 		var url = "start_new_pwork.sw";
-		var progressSpan = newPwork.find('.js_progress_span');
+		var progressSpan = startPwork.find('.js_progress_span');
 		smartPop.progressCont(progressSpan);
 		$.ajax({
 			url : url,
@@ -41,7 +43,7 @@ function submitForms(e) {
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
 				smartPop.closeProgress();
-				smartPop.confirm("성공적으로 완료하였습니다. 시작된 업무 페이지로 이동하시겠습니까??", 
+				smartPop.confirm(smartMessage.get("startPWorkSucceed"), 
 						function(){
 							document.location.href = data.href;					
 						},
@@ -51,7 +53,7 @@ function submitForms(e) {
 			},
 			error : function(e) {
 				smartPop.closeProgress();
-				smartPop.showInfo(smartPop.ERROR, "새로운 프로세스업무 시작중에 이상이 발생하였습니다.");
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get("startPWorkError"));
 			}
 		});
 	}
@@ -69,7 +71,7 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 js_form_wrap js_start_pwork_page">
+<div class="form_wrap up up_padding margin_b2 js_form_wrap js_start_pwork_page" workId="<%=workId%>">
 	<div class="form_title js_form_header">
 		<div class="ico_pworks title"><%=work.getFullpathName() %></div>
 		<div class="txt_btn">

@@ -143,7 +143,30 @@ $(function() {
 		});	
 		return false;
 	});
-
+	
+	$('input.js_toggle_schedule_work').live('click', function(e) {
+		var input = $(e.target);
+		var target = $(e.target).parent().next('span');
+		if(input.is(':checked')){
+			loadCheckScheduleFields();
+			target.show();
+		}else{
+			target.find('.js_check_schedule_fields').html('');
+			target.hide();
+		}
+	});
+	
+	var ACCESS_LEVEL_CUSTOM = '2';
+	$('select.js_select_access_level').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_upload_buttons_page').find('.js_access_level_custom');
+		var accessLevel = input.attr('value');
+		if(accessLevel === ACCESS_LEVEL_CUSTOM)
+			target.show();
+		else
+			target.hide();
+	});
+	
 	$('a.js_create_new_work').live('click', function(e) {
 		var input = $(e.target);
 		var target = input.parents('div.js_work_list_title:first').siblings('div.js_new_work_form');
@@ -189,7 +212,7 @@ $(function() {
 			target : 'form_import',
 			after : function(event) {
 				var input = $(event.target);
-				input.parents('div.js_file_detail_form').parent().prev().slideToggle(500);
+				input.parents('.js_file_detail_form').parent().prev().slideToggle(500);
 				input.parent().toggle().siblings().toggle();
 				var form = input.parents('form[name="frmNewFile"]');
 				var uploader = form.find('.qq-uploader');

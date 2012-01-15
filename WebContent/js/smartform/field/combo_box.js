@@ -38,7 +38,6 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 	
 	var $staticItems = $format.find('list staticItems staticItem');
 	
-
 	var $input = $('<div class="form_value" style="width:' + valueWidth + '%"><select name="' + id + '"' + required + '></select><div>');
 
 	$input.attr('fieldId', id);
@@ -72,6 +71,7 @@ SmartWorks.FormRuntime.ComboBoxBuilder.buildEx = function(config){
 			fieldId: '',
 			fieldName: '',
 			value: '',
+			staticItems : [],
 			columns: 1,
 			colSpan: 1,
 			required: false,
@@ -79,10 +79,18 @@ SmartWorks.FormRuntime.ComboBoxBuilder.buildEx = function(config){
 	};
 	SmartWorks.extend(options, config);
 
+	var staticList = "";
+	if(!isEmpty(options.staticItems)){
+		staticList = '<list type="" refCodeCategoryId="null" refCodeCategoryName="null" listType="static"><staticItems>';
+			for(var i=0; i<options.staticItems.length; i++)
+				staticList = staticList + '<staticItem>' + options.staticItems[i] + '</staticItem>';
+		staticList = staticList + '</staticItems></list>';		
+	}
+
 	var labelWidth = 10;
 	if(options.columns >= 1 && options.columns <= 4 && options.colSpan <= options.columns) labelWidth = 10 * options.columns/options.colSpan;
 	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
-						'<format type="comboBox" viewingType="comboBox"/>' +
+						'<format type="comboBox" viewingType="comboBox">' + staticList + '</format>' + 
 					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '"/>' +
 					'</formEntity>');
 	var $formCol = $('<td class="form_col js_type_comboBox" fieldid="' + options.fieldId+ '" colspan="' + options.colSpan +  '" width="500.61775800946384" rowspan="1">');
@@ -91,7 +99,8 @@ SmartWorks.FormRuntime.ComboBoxBuilder.buildEx = function(config){
 			mode : options.readOnly, // view or edit
 			container : $formCol,
 			entity : $formEntity,
-			dataField : options.value			
+			dataField : options.value,
+			staticItems : options.staticItems
 	});
 	
 };

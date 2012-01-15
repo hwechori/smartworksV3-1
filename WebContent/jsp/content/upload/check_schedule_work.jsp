@@ -34,8 +34,8 @@ $('input.js_todaytimepicker').datetimepicker({
 	<div class="dash_line"></div>
 	<form name='frmScheduleWork' class="form_layout">
 		<div class="padding_r10">
-			<input name="chkScheduleWork" class="padding_l15" type="checkbox" onclick="$(this).parent().next('span').toggle();loadCheckScheduleFields();"/><fmt:message key="common.upload.button.schedule" /></div>
-		<span style='display: none'>
+			<input name="chkScheduleWork" class="padding_l15 js_toggle_schedule_work" type="checkbox"/><fmt:message key="common.upload.button.schedule" /></div>
+		<span style="display:none">
 			<div class="js_check_schedule_fields" startDateName="<fmt:message key='common.upload.field.schedule_start_date'/>" endDateName="<fmt:message key='common.upload.field.schedule_end_date'/>" performerName="<fmt:message key="common.uplaod.field.schedule_performer" />"></div>
 		</span>
 	</form>
