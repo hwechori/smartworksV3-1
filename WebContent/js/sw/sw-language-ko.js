@@ -31,6 +31,8 @@ smartMessage.bundle['ko'] = {
 	createIWorkError : "새로운 항목생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	createReportSucceed : "새로운 보고서가 정상적으로 생성되었습니다.",
 	createReportError : "새로운 보고서 생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	createGroupSucceed : "새로운 그룹이 정상적으로 생성되었습니다.",
+	createGroupError : "새로운 그룹 생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	iworkListError : "업무목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	setFilterSucceed : "상세필터가 정상적으로 저장되었습니다.",
 	setFilterError : "상세필터 저장 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",

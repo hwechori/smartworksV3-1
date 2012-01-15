@@ -141,7 +141,7 @@ $(function() {
 			$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 		}
 		var oldHTML = target.html();
-		if (oldHTML == null || (userField.attr('multiUsers') !== 'true'))
+		if (oldHTML == null || (!isEmpty(userField) && userField.attr('multiUsers') !== 'true'))
 			oldHTML = "";
 		var communityItems = $(target).find('span.js_community_item');
 		var isSameId = false;

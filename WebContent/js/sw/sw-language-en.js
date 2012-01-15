@@ -28,8 +28,12 @@ smartMessage.bundle['en'] = {
 	buttonConfirm : "Confirm",
 	setMyProfileSucceed : "My Profile has been updated successfully...",
 	setMyProfileError : "Error has been occured while updating this Profile Information. Please contact the Administrator!",
+	createIWorkSucceed : "New Information Work has been created successfully...",
 	createIWorkError : "Error has been occured while creating new instance. Please contact the Administrator!",
-	createReportError : "Error has been occured while creating new report. Please contact the Administrator!",
+	createReportSucceed : "New Report has been created successfully...",
+	createReportError : "Error has been occured while creating new Report. Please contact the Administrator!",
+	createGroupSucceed : "New Group has been created successfully...",
+	createGroupError : "Error has been occured while creating new Group. Please contact the Administrator!",
 	iworkListError : "Error has been occured while loading work list. Please contact the Administrator!",
 	setIworkFilterError : "Error has been occured while saving search filter. Please contact the Administrator!",
 	

@@ -106,7 +106,8 @@ SmartWorks.FormRuntime.RichEditorBuilder.validate = function(richEditors){
 		var id = richEditor.attr('fieldId');
 		if(!isEmpty(oEditors)) oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
 		var value = richEditor.find('textarea')[0].value;
-		if(isEmpty(value) || value === "<br>"){
+		var required = richEditor.find('span.sw_required');
+		if(!isEmpty(required) && (isEmpty(value) || value === "<br>")){
 			richEditor.find('span.sw_required').addClass("sw_error");
 			richEditorsValid = false;
 		}else{

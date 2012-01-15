@@ -122,7 +122,7 @@ smartPop = {
 		$('#sw_pop_show_info').remove();		
 	},
 
-	showInfo : function(infoType, message){
+	showInfo : function(infoType, message, onClose){
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
 		smartPop.overlayDark();
 		$('<div id="sw_pop_show_info" style="z-index:10001; position:absolute;" class="pop_corner_all pop_section_300">' + 
@@ -132,12 +132,19 @@ smartPop = {
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
 					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a onclick="smartPop.closeInfo(); return false;" href=""> <span class="Btn01Start"></span>' +
+					 		'<span class="btn_gray"> <a class="js_btn_close" href=""> <span class="Btn01Start"></span>' +
 					 			'<span class="Btn01Center">' + smartMessage.get('buttonClose') + '</span> <span class="Btn01End"></span>' +
 					 		'</a> </span>' +
 					 	'</div>' +
 					 '</div>' +
 				  '</div>').appendTo($(document.body)).center();
+		$('#sw_pop_show_info .js_btn_close').live('click', function(){
+			if ($.isFunction(onClose)) {
+				onClose.apply();
+			}
+			smartPop.closeInfo();
+			return false;
+		});
 	},
 	
 	closeConfirm : function(){
@@ -269,6 +276,10 @@ smartPop = {
 		smartPop.closeOverlay();
 		if(!isEmpty(smartPop.progressTarget))
 			smartPop.progressTarget.find('.js_progress_icon').remove();
+	},
+	
+	close : function(){
+		$.modal.close();
 	},
 	
 	selectUser : function(userInput, target, width, isMultiUsers){
