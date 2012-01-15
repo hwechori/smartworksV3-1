@@ -6,6 +6,9 @@ import net.smartworks.util.LocalDate;
 
 public class CompanyEvent extends BaseObject {
 
+	public static final String EVENT_TYPE_HOLIDAY = "1";
+	public static final String EVENT_TYPE_EVENTDAY = "2";
+
 	private Boolean 		isHoliday;
 	private User[]			relatedUsers;
 	private LocalDate		plannedStart;

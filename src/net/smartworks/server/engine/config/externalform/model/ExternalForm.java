@@ -85,7 +85,7 @@ public class ExternalForm extends MisObject {
 			obj = (ExternalForm)baseObj;
 		
 		//부모 attributes, elements 값 설정
-		BaseObject.toObject(node, obj);
+		MisObject.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {

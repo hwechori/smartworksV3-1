@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.config.model" default-lazy="false">
+	<class name="SwcEventDay" table="SwEventday">
+		<id name="objId" type="string" length="50" unsaved-value="undefined">
+			<generator class="com.maninsoft.smart.domain.model.util.IdGen"/>
+		</id>
+		<property name="name" type="string" length="50"/>
+		<property name="companyId" type="string" length="4000"/>
+		<property name="type" type="string" length="50"/>
+		<property name="startDay" type="timestamp"/>
+		<property name="endDay" type="timestamp"/>
+		<property name="reltdPerson" type="string" length="300"/>
+		<property name="description" type="string" length="4000"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+</hibernate-mapping>
