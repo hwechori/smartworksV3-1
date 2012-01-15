@@ -36,13 +36,17 @@
 				UserInfo owner = mailInstance.getSender();
 				String instContext = ISmartWorks.CONTEXT_PREFIX_MAIL_SPACE + owner.getId();
 %>
-				<li>
-					<div class="info_img"><b><%=owner.getName()%> </b></div>
-					<div class="info_list">
-						<a href="mail_space.sw?folderId=<%=MailFolder.ID_INBOX %>&msgId=<%=mailInstance.getId()%>"><%=mailInstance.getSubject()%></a>
-						<div class="t_date"><%=mailInstance.getSendDate().toLocalString()%></div>
-					</div>
-				</li>
+				<ul>
+					<li>
+						<div class="info_ms_section">
+						<div class="info_img"><b><%=owner.getName()%> </b></div>
+						<div class="info_list">
+							<a href="mail_space.sw?folderId=<%=MailFolder.ID_INBOX %>&msgId=<%=mailInstance.getId()%>"><%=mailInstance.getSubject()%></a>
+							<div class="t_date"><%=mailInstance.getSendDate().toLocalString()%></div>
+						</div>
+						</div>
+					</li>
+				</ul>
 <%
 			}
 		}

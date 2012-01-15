@@ -28,12 +28,12 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<ul>
+<div>
 	<%
 	// 알림 메시지
 	if (noticeType == Notice.TYPE_NOTIFICATION) {
 	%>
-		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.notification" /></li></div>
+		<div class="info_ms_title t_bold"><fmt:message key="notice.message.box.notification" /></div>
 		<jsp:include page="/jsp/notice/notification_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -41,7 +41,7 @@
 	// 쪽지
 	} else if (noticeType == Notice.TYPE_MESSAGE) {
 	%>
-		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.message" /></li></div>
+		<div class="info_ms_title t_bold"><fmt:message key="notice.message.box.message" /></div>
 		<jsp:include page="/jsp/notice/message_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -49,7 +49,7 @@
 	// 댓글 
 	} else if (noticeType == Notice.TYPE_COMMENT) {
 	%>
-		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.comments" /></li></div>
+		<div class="info_ms_title t_bold"><fmt:message key="notice.message.box.comments" /></div>
 		<jsp:include page="/jsp/notice/comment_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -57,7 +57,7 @@
 	// 할당 업무 
 	} else if (noticeType == Notice.TYPE_ASSIGNED) {
 	%>
-		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.assigned" /></li></div>
+		<div class="info_ms_title t_bold"><fmt:message key="notice.message.box.assigned" /></div>
 		<jsp:include page="/jsp/notice/assigned_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -65,7 +65,7 @@
 	// 이메일 받은편지함
 	} else if (noticeType == Notice.TYPE_MAILBOX) {
 	%>
-		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.mailbox" /></li></div>
+		<div class="info_ms_title t_bold"><fmt:message key="notice.message.box.mailbox" /></div>
 		<jsp:include page="/jsp/notice/mailbox_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -73,7 +73,7 @@
 	// 임시 저장함
 	} else if (noticeType == Notice.TYPE_SAVEDBOX) {
 	%>
-		<div class="info_ms_section"><li class="t_bold"><fmt:message key="notice.message.box.savedbox" /></li></div>
+		<div class="info_ms_title t_bold"><fmt:message key="notice.message.box.savedbox" /></div>
 		<jsp:include page="/jsp/notice/savedbox_list_box.jsp" >
 			<jsp:param value="<%=lastNoticeId %>" name="lastNoticeId"/>
 		</jsp:include>
@@ -81,23 +81,25 @@
 	}
 	%>
 
-	<!--  메시지박스 닫기 버튼  -->
-	<div class="btn_black js_close_message">
-		<a href="">
-			<span class="Btn01Start"></span> 
-			<span class="Btn01Center"><fmt:message key="notice.message.box.close" /></span>
-			<span class="Btn01End"></span>
-		</a>
+	<div class="btn_hpadding">
+		<!--  메시지박스 닫기 버튼  -->
+		<div class="btn_black js_close_message">
+			<a href="">
+				<span class="Btn01Start"></span> 
+				<span class="Btn01Center"><fmt:message key="notice.message.box.close" /></span>
+				<span class="Btn01End"></span>
+			</a>
+		</div>
+		<!--  메시지박스 닫기 버튼  //-->
+	
+		<!--  메시지박스 전체보기 버튼  -->
+		<div class="btn_black js_detail_message">
+			<a href=""> 
+				<span class="Btn01Start"></span> 
+				<span class="Btn01Center"><fmt:message key="notice.message.box.detail" /></span>
+				<span class="Btn01End"></span>
+			</a>
+		</div>
+		<!--  메시지박스 전체보기 버튼  //-->
 	</div>
-	<!--  메시지박스 닫기 버튼  //-->
-
-	<!--  메시지박스 전체보기 버튼  -->
-	<div class="btn_black js_detail_message">
-		<a href=""> 
-			<span class="Btn01Start"></span> 
-			<span class="Btn01Center"><fmt:message key="notice.message.box.detail" /></span>
-			<span class="Btn01End"></span>
-		</a>
-	</div>
-	<!--  메시지박스 전체보기 버튼  //-->
-</ul>
+</div>

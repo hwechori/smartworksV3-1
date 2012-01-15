@@ -39,12 +39,13 @@
 				// Notice message type 이 시스템 알림인 경우, 
 				if (nMessage.getType() == NoticeMessage.TYPE_SYSTEM_NOTICE) {
 %>
+					<ul>
 					<li>
 						<div class="info_ms_section">
-							<div class="info_img"><img src="images/pop_ico_info.jpg"  class="profile_size_s"></div>
+							<div class="info_img"><div class="ico_pop_info profile_size_s"></div></div>
 							<div class="info_list"><%=nMessage.getMessage()%><div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 								<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-									<div class="btn_x js_remove_notice" >X</div></a></div>
+									<div class="btn_x js_remove_notice" ></div></a></div>
 							</div>
 						</div>
 					</li>
@@ -58,12 +59,12 @@
 				%>
 					<li>
 						<div class="info_ms_section">
-							<div class="info_img"><img src="images/upic_event.jpg"  class="profile_size_s"></div>
+							<div class="info_img"><div class="ico_pop_event profile_size_s"></div></div>
 							<div class="info_list">
 								<b><%=event.getStart().toLocalString()%> </b><a href="event_space.sw?cid=<%=instContext%>&wid=<%=event.getWorkSpace().getId()%>"><%=event.getSubject()%></a>
 								<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 									<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-										<div class="btn_x js_remove_notice" >X</div></a></div>
+										<div class="btn_x js_remove_notice" ></div></a></div>
 							</div>
 						</div>
 					</li>
@@ -86,7 +87,7 @@
 								<fmt:message key="notice.message.task.delayed" />
 								<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 									<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-										<div class="btn_x js_remove_notice" >X</div></a></div>
+										<div class="btn_x js_remove_notice" ></div></a></div>
 							</div>
 						</div>
 					</li>
@@ -107,7 +108,7 @@
 								<fmt:message key="notice.message.join.request" />
 								<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 									<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-										<div class="btn_x js_remove_notice" >X</div></a></div>
+										<div class="btn_x js_remove_notice" ></div></a></div>
 							</div>
 						</div>
 					</li>
@@ -131,10 +132,11 @@
 								<fmt:message key="notice.message.instance.created" />
 								<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 									<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-										<div class="btn_x js_remove_notice" >X</div></a></div>
+										<div class="btn_x js_remove_notice" ></div></a></div>
 							</div>
 						</div>
 					</li>
+					</ul>
 	<%
 				}
 			}

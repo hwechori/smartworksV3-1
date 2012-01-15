@@ -50,7 +50,9 @@
 					targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_LIST);
 					instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_LIST) + work.getId();
 %>
+					<ul>
 					<li>
+					<div class="info_ms_section">
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
 								<img src="<%=owner.getMinPicture()%>" class="profile_size_s"> </a>
@@ -60,9 +62,10 @@
 							<%=commentInstance.getComment()%>
 							<div class="t_date"><%=commentInstance.getLastModifiedDate().toLocalString()%>
 								<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-									<div class="btn_x js_remove_notice" >X</div></a>
+									<div class="btn_x js_remove_notice" ></div></a>
 							</div>
 						</div>
+					</div>
 					</li>
 				<%
 				// 업무 인스턴스 공간에 댓글을 남긴 경우   
@@ -73,6 +76,7 @@
 					instContext = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_WORK_INSTANCE) + workInstance.getId();
 				%>
 					<li>
+					<div class="info_ms_section">
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>"title="<%=owner.getLongName()%>">
 								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
@@ -82,8 +86,9 @@
 							<%=commentInstance.getComment()%>
 							<div class="t_date"><%=commentInstance.getLastModifiedDate().toLocalString()%>
 								<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-									<div class="btn_x js_remove_notice" >X</div></a>
+									<div class="btn_x js_remove_notice" ></div></a>
 							</div>
+						</div>
 						</div>
 					</li>
 				<%
@@ -96,6 +101,7 @@
 							+ taskInstance.getWorkInstance().getId();
 				%>
 					<li>
+					<div class="info_ms_section">
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
 								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
@@ -105,8 +111,9 @@
 							<%=commentInstance.getComment()%>
 							<div class="t_date"><%=commentInstance.getLastModifiedDate().toLocalString()%>
 								<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-									<div class="btn_x js_remove_notice" >X</div></a>
+									<div class="btn_x js_remove_notice" ></div></a>
 							</div>
+						</div>
 						</div>
 					</li>
 				<%
@@ -125,6 +132,7 @@
 					}
 				%>
 					<li>
+					<div class="info_ms_section">
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
 								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
@@ -134,10 +142,12 @@
 							<%=commentInstance.getComment()%>
 							<div class="t_date"><%=commentInstance.getLastModifiedDate().toLocalString()%>
 								<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
-									<div class="btn_x js_remove_notice" >X</div></a>
+									<div class="btn_x js_remove_notice" ></div></a>
 							</div>
 						</div>
+						</div>
 					</li>
+					</ul>
 	<%
 				}
 			}
