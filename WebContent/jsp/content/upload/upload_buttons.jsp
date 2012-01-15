@@ -4,6 +4,8 @@
 <!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
+<%@page import="net.smartworks.model.community.info.GroupInfo"%>
+<%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="net.smartworks.model.community.info.CommunityInfo"%>
 <%@page import="net.smartworks.model.community.Group"%>
@@ -67,15 +69,12 @@
 		
 			<!--  현재사용자가 선택할 수 있는 업무공간들을 구성한다.. -->
 			<select name="selWorkSpace">
-				<option  value="<%=cUser.getId()%>">
-					<fmt:message key="common.upload.space.self" />
-				</option>
-				<optgroup
-					label="<fmt:message key="common.upload.space.department"/>">
+				<option  value="<%=cUser.getId()%>"><fmt:message key="common.upload.space.self" /></option>
+				<optgroup label="<fmt:message key="common.upload.space.department"/>">
 					<%
 					// 현재사용자가 속해있는 부서들을 선택하는 옵션들을 구성한다..
 					for (CommunityInfo community : communities) {
-						if (community.getClass().equals(Department.class)) {
+						if (community.getClass().equals(DepartmentInfo.class)) {
 					%>
 							<option value="<%=community.getId()%>"><%=community.getName()%></option>
 					<%
@@ -87,7 +86,7 @@
 					<%
 					// 현재사용자가 속해있는 그룹들을 선택하는 옵션들을 구성한다..
 					for (CommunityInfo community : communities) {
-						if (community.getClass().equals(Group.class)) {
+						if (community.getClass().equals(GroupInfo.class)) {
 					%>
 							<option value="<%=community.getId()%>"><%=community.getName()%></option>
 					<%
@@ -126,16 +125,7 @@
 			</select>
 		</div>
 
-<%
-AccessPolicy ap = new AccessPolicy();
-ap.setLevel(AccessPolicy.LEVEL_CUSTOM);
-UserInfo user = new UserInfo();
-user.setId(cUser.getId());
-user.setName(cUser.getName());
-user.setPosition(cUser.getPosition());
-ap.setCommunitiesToOpen(new CommunityInfo[]{user});
-work.setAccessPolicy(ap);
-%>
+		<!-- 접근권한이 사용자지정인 경우에 공개할 사용자들을 선택하는 화면 -->
 		<div class="float_right form_space js_access_level_custom" <%if(work.getAccessPolicy().getLevel() != AccessPolicy.LEVEL_CUSTOM){ %> style="display:none"<%} %>>
 			<span class="js_type_userField" fieldId="txtAccessableUsers" multiUsers="true">
 				<div class="form_value">
@@ -143,19 +133,21 @@ work.setAccessPolicy(ap);
 						<div class="fieldline js_community_names sw_required">
 							<div class="js_selected_communities user_sel_area">
 								<%
-								String comName = "";
-								for(CommunityInfo community : work.getAccessPolicy().getCommunitiesToOpen()){	
-									if(community.getClass().equals(UserInfo.class))
-										comName = ((UserInfo)community).getLongName();
-									else 
-										comName = community.getName();
-								%>
-									<span>
-										<span class="js_community_item user_select" comId="<%=community.getId()%>"><%=comName %>
-											<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span>
+								if(!SmartUtil.isBlankObject(work.getAccessPolicy().getCommunitiesToOpen())){
+									String comName = "";
+									for(CommunityInfo community : work.getAccessPolicy().getCommunitiesToOpen()){	
+										if(community.getClass().equals(UserInfo.class))
+											comName = ((UserInfo)community).getLongName();
+										else 
+											comName = community.getName();
+									%>
+										<span>
+											<span class="js_community_item user_select" comId="<%=community.getId()%>"><%=comName %>
+												<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span>
+											</span>
 										</span>
-									</span>
-								<%
+									<%
+									}
 								}
 								%>
 							</div>
@@ -168,6 +160,7 @@ work.setAccessPolicy(ap);
 				</div>
 			</span>
 		</div>
+		<!-- 접근권한이 사용자지정인 경우에 공개할 사용자들을 선택하는 화면 //-->
 		
 		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 		<div class="float_right form_space js_progress_span" ></div>
