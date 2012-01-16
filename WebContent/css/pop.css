@@ -11,16 +11,19 @@
 
 
 /* Layer popup list */
-.pop_list_area {border: 1px solid #c7c7c7; text-align: left; background-color: #FFF; margin-top: 1px; -webkit-box-shadow: 0px 2px 10px #505050;}
+.pop_list_area {border: 1px solid #c7c7c7; text-align: left; background-color: #FFF; margin-top: 1px; -webkit-box-shadow: 0px 2px 10px #505050; font-size: 11px;}
 .pop_list_area li .dep {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 
 .pop_list_area li .dep:hover {display:block; background-color:#fffccd;}
 
-.pop_list_area li .dep .menu_2dep li .dep {display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-.pop_list_area li .dep .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
+.pop_list_area li .menu_2dep li .dep {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+.pop_list_area li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
 
-.pop_list_area li .dep .menu_2dep li .dep .menu_2dep li .dep {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-.pop_list_area li .dep .menu_2dep li .dep .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
+.pop_list_area li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 44px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+.pop_list_area li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
+
+.pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 54px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+.pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
 
 
 /*popup information*/
@@ -46,7 +49,7 @@ a .pop_btn_x {background: url("../images/pop_btn_x.gif") no-repeat scroll left t
 a:hover .pop_btn_x {background-color:#e5e5e5;}
 
 /* pop title */
-.pop_title_space {padding:7px 0; overflow:hidden;border-bottom:2px solid #999}
+.pop_title_space {padding:15px 0 5px; overflow:hidden;border-bottom:2px solid #999}
 .pop_title_space .title_work {background: url("../images/body_icon.png") no-repeat scroll -547px -146px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
 .pop_title_space .title_user {background: url("../images/body_icon.png") no-repeat scroll -547px -187px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
 .pop_title_space.w_margin {margin: 0 20px;}
