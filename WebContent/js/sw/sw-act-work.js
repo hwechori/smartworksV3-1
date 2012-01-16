@@ -123,6 +123,7 @@ $(function() {
 		var input = $(event.target);
 		input.parent().hide().siblings().show();
 		var formContent = $('#form_works').find('div.js_form_content');
+		if(isEmpty(formContent)) formContent = input.parents('.js_iwork_list_page').find('div.js_form_content');
 		var workId = input.attr('workId');
 		var requiredOnly = input.attr('requiredOnly');
 		$.ajax({
@@ -131,6 +132,7 @@ $(function() {
 				workId : workId
 			},
 			success : function(formXml, status, jqXHR) {
+				formContent.html('');
 				new SmartWorks.GridLayout({
 					target : formContent,
 					formXml : formXml,
@@ -169,7 +171,7 @@ $(function() {
 	
 	$('a.js_create_new_work').live('click', function(e) {
 		var input = $(e.target);
-		var target = input.parents('div.js_work_list_title:first').siblings('div.js_new_work_form');
+		var target = input.parents('.js_iwork_list_page').find('div.js_new_work_form');
 		var url = input.attr('href');
 		$.ajax({
 			url : url,
@@ -187,7 +189,8 @@ $(function() {
 						new SmartWorks.GridLayout({
 							target : formContent,
 							formXml : formXml,
-							mode : "edit"
+							mode : "edit",
+							requiredOnly : "true"
 						});
 					},
 					error : function(xhr, ajaxOptions, thrownError){

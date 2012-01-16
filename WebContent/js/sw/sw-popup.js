@@ -294,7 +294,6 @@ smartPop = {
 				fixed: false,
 				overlayCss: {backgroundColor:"#000"},
 				containerCss:{
-					height:500,
 					width: conWidth
 				},
 				overlayClose: true,

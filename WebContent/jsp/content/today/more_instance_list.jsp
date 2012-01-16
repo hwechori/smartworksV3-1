@@ -157,7 +157,7 @@
 				<!-- 인스턴스 상태 및 시작자 사진표시 -->
 				<td class="pic">
 					<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>" />
-					<a href="user_space.sw?cid=<%=ownerContextId%>"><img src="<%=owner.getMidPicture()%>" title="<%=owner.getLongName()%>" /></a>
+					<a href="user_space.sw?cid=<%=ownerContextId%>"><img class="profile_size_m" src="<%=owner.getMidPicture()%>" title="<%=owner.getLongName()%>" /></a>
 				</td>
 				<!-- 인스턴스 상태 및 시작자 사진표시 -->
 				
