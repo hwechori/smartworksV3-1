@@ -65,7 +65,7 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 .list_contents table .r_line {border-right:1px solid #ccc;}
 .list_contents table .tit_bg {background: url("../images/bg_thGradient.gif") 0 100% repeat-x}
 .list_contents table .tit_bg th{border-bottom:1px solid #ccc}
-.list_contents table th {text-align:center; padding:0 5px;}
+.list_contents table th {text-align:center; padding:5px 5px 0;}
 .list_contents table td {padding-left:10px; }
 .po_left{display:inline-block}
 .js_work_report_list_box{width:170px}

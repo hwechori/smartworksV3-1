@@ -16,26 +16,24 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--  전체 레이아웃 -->
+	<!-- 팝업 컨텐츠 -->
 		<div class="pop_list_area">
 			<jsp:include page="/jsp/popup/pop_userlist_by_depart.jsp"></jsp:include>
-		</div>
-	<!-- 팝업 컨텐츠 //-->
-
- 	<!-- 하단버튼영역 -->
+			
+	<!-- 하단버튼영역 -->
  	<%
  	if(isMultiSelectable){
  	%>
 		<div class="glo_btn_space">
 	
 			<div class="float_right">
-				<span class="btn_gray"> <a href="" onclick="$.modal.close();return false;"> <span
-						class="Btn01Start"></span> <span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> <span
-						class="Btn01End"></span> </a> </span>
-			</div>
-			<div class="float_right">
 				<span class="btn_gray"> <a class="js_pop_select_users" href=""> <span
-						class="Btn01Start"></span> <span class="Btn01Center"><fmt:message key="common.button.complete"/></span> <span
-						class="Btn01End"></span> </a> </span>
+				class="Btn01Start"></span> <span class="Btn01Center"><fmt:message key="common.button.complete"/></span> <span
+				class="Btn01End"></span> </a> </span>
+				
+				<span class="btn_gray"> <a href="" onclick="$.modal.close();return false;"> <span
+				class="Btn01Start"></span> <span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> <span
+				class="Btn01End"></span> </a> </span>
 			</div>
 	
 		</div>
@@ -43,4 +41,9 @@
 	}
 	%>
 	<!-- 하단버튼영역 //-->
+	
+		</div>
+	<!-- 팝업 컨텐츠 //-->
+
+ 	
 <!-- 전체 레이아웃//-->

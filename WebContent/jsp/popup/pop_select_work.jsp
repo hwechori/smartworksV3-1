@@ -7,15 +7,9 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 %>
-<!--  전체 레이아웃 -->
-<div class="pop_corner_all">
 
 	<!-- 팝업 컨텐츠 -->
-	<div class="form_contents">
-		<div class="user_list_area">
+		<div class="pop_list_area">
 			<jsp:include page="/jsp/popup/pop_worklist_by_category.jsp"></jsp:include>
 		</div>
-	</div>
 	<!-- 팝업 컨텐츠 //-->
-</div>
-<!-- 전체 레이아웃//-->

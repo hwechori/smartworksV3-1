@@ -33,10 +33,12 @@
 					}
 		%>
 					<li>
-						<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox" comName="<%=user.getLongName() %>" value="<%=user.getId()%>"/><%} %>						
-						<a <%if(!isMultiSelectable){ %>href="" class="js_pop_select_user"<%} %> userId="<%=user.getId()%>">
-							<span class="<%=iconType%>"></span><%=user.getLongName()%>
-						</a>
+						<div class="dep">
+							<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox float_left_nowidth" comName="<%=user.getLongName() %>" value="<%=user.getId()%>"/><%} %>						
+							<a <%if(!isMultiSelectable){ %>href="" class="js_pop_select_user"<%} %> userId="<%=user.getId()%>">
+								<span class="<%=iconType%>"></span><%=user.getLongName()%>
+							</a>
+						</div>
 					</li>
 				<%
 				} else if (community.getClass().equals(DepartmentInfo.class)) {
@@ -44,11 +46,13 @@
 					iconType = "ico_depart";
 				%>
 					<li class="js_drill_down">
-						<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox" comName="<%=department.getName() %>" value="<%=department.getId()%>"/><%} %>
-						<a href="pop_userlist_by_depart.sw?multiUsers=<%=isMultiSelectable %>" departmentId="<%=department.getId()%>">
-							<span class="<%=iconType%>"></span>
-							<span><%=department.getName()%></span>
-						</a>
+						<div class="dep">
+							<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox float_left_nowidth" comName="<%=department.getName() %>" value="<%=department.getId()%>"/><%} %>
+							<a href="pop_userlist_by_depart.sw?multiUsers=<%=isMultiSelectable %>" departmentId="<%=department.getId()%>">
+								<span class="<%=iconType%>"></span>
+								<span><%=department.getName()%></span>
+							</a>
+						</div>
 						<div style="display: none" class="menu_2dep"></div>
 					</li>
 		<%

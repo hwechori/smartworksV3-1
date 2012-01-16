@@ -125,8 +125,8 @@ smartPop = {
 	showInfo : function(infoType, message, onClose){
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
 		smartPop.overlayDark();
-		$('<div id="sw_pop_show_info" style="z-index:10001; position:absolute;" class="pop_corner_all pop_section_300">' + 
-					'<div class="form_contents margin_t10">' + 
+		$('<div id="sw_pop_show_info" style="z-index:10001; position:absolute;" class="pop_corner_all smart_pop_section">' + 
+					'<div class="form_contents">' + 
 						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
@@ -154,7 +154,7 @@ smartPop = {
 	
 	confirm : function(message, onOk, onCancel){
 		smartPop.overlayDark();
-		$('<div id="sw_pop_confirm" class="pop_corner_all pop_section_300" style="z-index:10001; position:absolute;">' + 
+		$('<div id="sw_pop_confirm" class="pop_corner_all smart_pop_section" style="z-index:10001; position:absolute;">' + 
 					'<div class="form_contents margin_t10">' + 
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
