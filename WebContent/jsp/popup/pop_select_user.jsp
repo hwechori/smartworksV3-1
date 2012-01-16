@@ -16,13 +16,9 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--  전체 레이아웃 -->
-<div class="pop_corner_all">
-
-	<div class="form_contents">
 		<div class="user_list_area">
 			<jsp:include page="/jsp/popup/pop_userlist_by_depart.jsp"></jsp:include>
 		</div>
-	</div>
 	<!-- 팝업 컨텐츠 //-->
 
  	<!-- 하단버튼영역 -->
@@ -47,5 +43,4 @@
 	}
 	%>
 	<!-- 하단버튼영역 //-->
-</div>
 <!-- 전체 레이아웃//-->

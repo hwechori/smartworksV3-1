@@ -11,7 +11,7 @@
 
 
 /* 사용자 선택 */
-.user_list_area {border: 1px solid #c7c7c7; max-height: 350px; height:350px; overflow-y: auto; text-align: left; }
+.user_list_area {border: 1px solid #c7c7c7; text-align: left; background-color: #FFF; }
 
 /* 알림 */
 .pop_notice_section {border: 1px solid #c7c7c7;}
@@ -48,12 +48,12 @@
 .ico_pop_event {background: url("../images/header_nico.png") no-repeat -195px -267px transparent; height:20px; width:20px; display: inline-block;}
 
 /* close btn */
-.pop_btn_x a {background: url("../images/pop_btn_x.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 15px;
+a .pop_btn_x {background: url("../images/pop_btn_x.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 15px;
     padding: 0; position: relative; right: 3px; top:2px; width: 15px; float: right;} 
-.pop_btn_x a:hover {background-color:#e5e5e5;}
+a:hover .pop_btn_x {background-color:#e5e5e5;}
 
 /* pop title */
-.pop_title_space {padding:7px 0; overflow:hidden;border-bottom:2px solid #999}
+.pop_title_space {padding:10px 0; overflow:hidden;border-bottom:2px solid #999}
 .pop_title_space .title_work {background: url("../images/body_icon.png") no-repeat scroll -547px -146px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
 .pop_title_space .title_user {background: url("../images/body_icon.png") no-repeat scroll -547px -187px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
 .pop_title_space.w_margin {margin: 0 20px;} 

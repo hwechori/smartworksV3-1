@@ -206,11 +206,3 @@
 		<input type="hidden"  name="selPageSize" value="10" >
 	</form>
 </div>
-<div class="num_box">
-	<select name="" title="<fmt:message key='common.title.count_in_page'/> ">
-		<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
-		<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
-		<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
-		<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
-	</select>
-</div>
