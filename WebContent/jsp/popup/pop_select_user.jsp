@@ -16,7 +16,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--  전체 레이아웃 -->
-		<div class="user_list_area">
+		<div class="pop_list_area">
 			<jsp:include page="/jsp/popup/pop_userlist_by_depart.jsp"></jsp:include>
 		</div>
 	<!-- 팝업 컨텐츠 //-->

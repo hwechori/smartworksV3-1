@@ -316,17 +316,17 @@ a .btn_all_works:hover,
 .txt_btn_height {height:16px;}
 
 
-/* 검색- 자동 완성어 리스트 */
-.srch_list {z-index:100; position:absolute; width:447px; top: 22px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;}
-.srch_list li {position:relative; color:#454545;}
-.srch_list li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#454545;}
+/* 검색- 자동 완성어 list, layer_pop list */
+.srch_list {z-index:100; position:absolute; width:447px; margin-top: 1px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;}
+.srch_list li, .srch_list_nowid li {position:relative; color:#454545;}
+.srch_list li a, .srch_list_nowid li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#454545;}
 /*.srch_list li a:hover {display:block; background-color:#fffccd; color:#454545;}*/
-.srch_list li.sw_hover {display:block; background-color:#fffccd; color:#454545;}
+.srch_list li.sw_hover, .srch_list_nowid li a:hover {display:block; background-color:#fffccd; color:#454545;}
 .srch_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 410px;}
+.srch_list_nowid {z-index:100; position:absolute; margin-top: 1px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;} /* no width*/
 
-
-/* nav검색- 자동 완성어 리스트 */
-.nav_srch_list {z-index:100; position:absolute; width:192px; margin:0 0 0 10px;margin-top:-1px;-webkit-box-shadow: 0px 2px 10px #505050; background-color:#222; border: 1px solid #555;}
+/* nav검색- 자동 완성어 list */
+.nav_srch_list {z-index:100; position:absolute; width:192px; margin:0 0 0 10px; margin-top:-1px;-webkit-box-shadow: 0px 2px 10px #505050; background-color:#222; border: 1px solid #555;}
 .nav_srch_list li {position:relative; margin-top: 2px;}
 .nav_srch_list li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#ededed;}
 /*.nav_srch_list li a:hover {display:block; background-color:#484848;}*/
@@ -336,13 +336,14 @@ a .btn_all_works:hover,
 .nav_srch_list .js_location .nav_subtitl_area{margin:3px 0 0 5px}
 
 
-/* 검색- community name 리스트 */
-.commu_list {z-index:100; position:absolute; width:250px; top: 20px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;}
+/* 검색- community name list */
+.commu_list {z-index:100; position:absolute; width:250px; margin-top: 1px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;}
 .commu_list li {position:relative; color:#454545;}
 .commu_list li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#454545;}
 /*.commu_list li a:hover {display:block; background-color:#fffccd; color:#454545;}*/
 .commu_list li.sw_hover {display:block; background-color:#fffccd; color:#454545;}
 .commu_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 410px;}
+
 
 /* 입력폼 */
 .form_wrap {background: none repeat scroll 0 0 #FFFFFF; height:100%; }
@@ -484,6 +485,7 @@ a .btn_all_works:hover,
 .noti_pic {float:left; padding:5px 0;}
 .noti_in_bodytitle {word-wrap: break-word; text-align:left; padding:9px 0 0 58px;} /* Body Title로 들어갈 때 */
 
+.noti_in {text-align:left; line-height: 13px; padding: 3px 0 0 0;}
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
 
 .noti_tit {background: url("../images/ico_notice_s.gif") no-repeat scroll 8px 2px transparent;
