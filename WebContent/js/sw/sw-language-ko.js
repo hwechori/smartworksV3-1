@@ -54,11 +54,16 @@ smartMessage.bundle['ko'] = {
 	createReportError : "새로운 보고서 생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	createGroupSucceed : "새로운 그룹이 정상적으로 생성되었습니다.",
 	createGroupError : "새로운 그룹 생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	setIWorkInstanceSucceed : "업무내용이 성공적으로 수정되었습니다.",
+	setIWorkInstanceError : "업무내용 수정 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다.",
+	removeIWorkInstanceSucceed : "업무내용이 성공적으로 삭제되었습니다.",
+	removeIWorkInstanceError : "업무내용 삭제 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다.",
 	iworkListError : "업무목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	setFilterSucceed : "상세필터가 정상적으로 저장되었습니다.",
 	setFilterError : "상세필터 저장 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	
-	
+	removeConfirmation : "항목을 삭제하려고 합니다. 정말로 삭제하시겠습니까? ",
+	saveConfirmation : "항목을 수정하려고 합니다. 정말로 수정하시겠습니까? ",
 	
 	nullPointerException : "접근할 수 없는 값을 호출 하였습니다. 관리자에게 확인바랍니다!",
 	duplicateKeyException : "키값이 중복 되었습니다. 키에 해당되는 값을 다른 이름으로 바꾸어 다시 시도 바랍니다!"
