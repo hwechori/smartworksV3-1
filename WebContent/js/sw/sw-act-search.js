@@ -8,6 +8,7 @@ $(function() {
 	$('input.js_auto_complete').live('keyup', function(e) {
 		if(e.which>=9 && e.which<=45) return;
 		var input = $(e.target);
+		var listWidth = input.parent().width();
 		var start_work = input.parents('div.js_start_work');
 		var chatter_name = input.parents('div.js_chatter_names');
 		var communityId = input.parents('ul.js_community_members').attr('communityId');
@@ -35,7 +36,7 @@ $(function() {
 					},
 					context : input,
 					success : function(data, status, jqXHR) {
-						target.html(data);
+						target.html(data).width(listWidth);
 						target.show();
 					},
 					error : function(xhr, ajaxOptions, thrownError){

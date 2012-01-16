@@ -52,6 +52,10 @@ public interface ISmartWorks {
 	public final static int SPACE_TYPE_WORK_LIST = 1;
 	public final static int SPACE_TYPE_WORK_INSTANCE = 2;
 	public final static int SPACE_TYPE_TASK_INSTANCE = 3;
+	public final static int SPACE_TYPE_USER = 4;
+	public final static int SPACE_TYPE_GROUP = 5;
+	public final static int SPACE_TYPE_DEPARTMENT = 6;
+	
 
 	public final static int CONTEXT_PREFIX_LENGTH = 6;
 	public final static String CONTEXT_PREFIX_USER_SPACE = "us.sp.";

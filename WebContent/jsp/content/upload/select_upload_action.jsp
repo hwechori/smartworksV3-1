@@ -14,14 +14,12 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	// 호출할때 전달된 cid(Context ID, 패이지 컨택스트를 지정하는 변수), 
-	// wid(WorkSpace Id, 공간을 저정하는 변수) 를 가져옮..
-	String cid = request.getParameter("cid");
-	if (SmartUtil.isBlankObject(cid))
-		cid = ISmartWorks.CONTEXT_HOME;
-	String wid = request.getParameter("wid");
-	if (SmartUtil.isBlankObject(wid))
-		wid = cUser.getId();
+	// 호출할때 전달된 spaceId를 가져온다.
+	// spaceId 에 따라 보여지는 항목들이 달라진다..
+	String strSpaceType = request.getParameter("spaceType");
+	int spaceType = 0;
+	if(!SmartUtil.isBlankObject(strSpaceType))
+		spaceType = Integer.parseInt(strSpaceType);
 %>
 
 <!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
@@ -37,7 +35,9 @@
 	</div>	
 	<%
 	// 실행되는 위치가 태스크 공간일 경우에는 이벤트등록하는 기능은 제외한다...
-	if(!SmartUtil.isWorkSpaceContextType(cid) && !SmartUtil.isTaskSpaceContextType(cid)) {
+	if(spaceType != ISmartWorks.SPACE_TYPE_WORK_INSTANCE 
+		&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE 
+		&& spaceType != ISmartWorks.SPACE_TYPE_USER) {
 	%>
 		<div class="up_event up_icon_list">
 			<a href="new_event.sw"><fmt:message key='common.upload.event' /></a>
@@ -50,7 +50,9 @@
 	</div>
 	<% 
 	// 실행되는 위치가 태스크 공간일 경우에는 공지등록하는 기능을 제외한다....
-	if(!SmartUtil.isWorkSpaceContextType(cid) && !SmartUtil.isTaskSpaceContextType(cid)) {
+	if(spaceType != ISmartWorks.SPACE_TYPE_WORK_INSTANCE 
+		&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE 
+		&& spaceType != ISmartWorks.SPACE_TYPE_USER) {
 	%>
 		<div class="up_board up_icon_list">
 			<a href="new_board.sw"><fmt:message key='common.upload.board' /></a>

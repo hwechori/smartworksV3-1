@@ -35,7 +35,7 @@
 					<li>
 						<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox" comName="<%=user.getLongName() %>" value="<%=user.getId()%>"/><%} %>						
 						<a <%if(!isMultiSelectable){ %>href="" class="js_pop_select_user"<%} %> userId="<%=user.getId()%>">
-							<span class="<%=iconType%>"></span><%=user.getLongName()%>
+							<span class="<%=iconType%>"></span><img class="profile_size_s" src="<%=user.getMinPicture()%>"><%=user.getLongName()%>
 						</a>
 					</li>
 				<%
