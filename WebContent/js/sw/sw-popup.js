@@ -160,10 +160,10 @@ smartPop = {
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
 					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
+					 		'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
 					 			'<span class="Btn01Center">' + smartMessage.get('buttonConfirm') + '</span> <span class="Btn01End"></span>' +
 					 		'</a> </span>' + 
-				 			'<span class="btn_gray space_l5"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
+				 			'<span class="btn_gray space_l5"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
 				 				'<span class="Btn01Center">'  + smartMessage.get('buttonCancel') + '</span> <span class="Btn01End"></span>' +
 				 			'</a> </span>' +
 				 		'</div>' +

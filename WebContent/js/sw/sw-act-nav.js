@@ -78,6 +78,9 @@ $(function() {
 	});
 
 	$('a.js_content_iwork_space').swnavi({
+		before : function(e){
+			smartPop.progressCenter();
+		},
 		target : 'content',
 		after : function(e){
 			var input = $(e.target);
@@ -103,9 +106,10 @@ $(function() {
 								formValues : formData.record,
 								mode : "view"
 							});
+							smartPop.closeProgress();
 						},
 						error : function(xhr, ajaxOptions, thrownError){
-							
+							smartPop.closeProgress();							
 						}
 					});
 				}
