@@ -3,6 +3,7 @@
 
 .pop_corner_all{ border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border: 1px solid #c7c7c7; background-color:#FFF; -webkit-box-shadow: 0px 2px 10px #505050;}
 .smart_pop_section {width:425px; border: 1px solid #c7c7c7; background-color:#FFF;}
+.smart_userinfo_section {width:300px; border: 1px solid #c7c7c7; background-color:#FFF;}
 .pop_contents {padding: 10px;}
 
 
