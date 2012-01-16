@@ -90,8 +90,8 @@ $(function() {
 	$('.js_select_work').swnavi({
 		before : function(event) {
 			smartPop.progressCenter();
-			$('#form_works').slideUp().slideDown(500);
-			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work").slideUp();
+			$('#form_works').hide().show();
+			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work").hide();
 		},
 		target : 'form_works',
 		after : function(event) {

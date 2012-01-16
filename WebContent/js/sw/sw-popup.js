@@ -182,7 +182,7 @@ smartPop = {
 			if ($.isFunction(onCancel)) {
 				onCancel.apply();
 			}
-			smartPop.closeCofirm();
+			smartPop.closeConfirm();
 			return false;
 		});
 	},
@@ -374,7 +374,7 @@ smartPop = {
 				overlayClose: true,
 				onShow: function(dialog){
 					$('.js_pop_select_work').live( 'click', function(e){
-						var input = $(e.target).parents('li:first').children('a');
+						var input = $(e.target).parents('li:first').find('a');
 						$('#form_works').slideUp().slideDown(500);
 						$('#upload_work_list').hide().parents(".js_start_work").slideUp();
 						var href = input.attr('href');

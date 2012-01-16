@@ -48,7 +48,7 @@
 					<li class="js_drill_down">
 						<div class="dep">
 							<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox float_left_nowidth" comName="<%=department.getName() %>" value="<%=department.getId()%>"/><%} %>
-							<a href="pop_userlist_by_depart.sw?multiUsers=<%=isMultiSelectable %>" departmentId="<%=department.getId()%>">
+							<a href="pop_userlist_by_depart.sw?multiUsers=<%=isMultiSelectable %>" departmentId="<%=department.getId()%>" class="js_popup">
 								<span class="<%=iconType%>"></span>
 								<span><%=department.getName()%></span>
 							</a>

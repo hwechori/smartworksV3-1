@@ -201,8 +201,9 @@ $(function() {
 	$('.js_drill_down').live('click', function(e) {
 		if($(e.target).hasClass('js_checkbox')) return true;
 
-		var input = $(e.target).parents('li.js_drill_down:first').children('a');
+		var input = $(e.target).parents('li.js_drill_down:first').find('a');
 		var target = input.siblings('div');
+		if(input.hasClass('js_popup')) target = input.parent().siblings('div');
 		var url = input.attr('href');
 		var categoryId = input[0].getAttribute("categoryId");
 		var groupId = input[0].getAttribute("groupId");
@@ -211,7 +212,9 @@ $(function() {
 			return false;
 		}
 		if(isEmpty($(target).children())){
-			if(isEmpty(departmentId) && !input.hasClass('js_popup'))
+			if(input.hasClass('js_popup'))
+				smartPop.progressCont(input.find('span:last'));
+			else
 				smartPop.progressNav(input.find('span:last'));						
 			$.ajax({
 				url : url,
@@ -226,12 +229,10 @@ $(function() {
 					target.html(data);
 					target.siblings('li.js_drill_down').find('div').hide();
 					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
-					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
-						smartPop.closeProgress();											
+					smartPop.closeProgress();											
 				},
 				error : function(xhr, ajaxOptions, thrownError){
-					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
-						smartPop.closeProgress();											
+					smartPop.closeProgress();											
 				}
 			});
 		}else{
