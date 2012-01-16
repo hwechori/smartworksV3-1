@@ -68,7 +68,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="swaManager" ref="swaManager"/>
 		<beans:property name="workListManager" ref="workListManager"/>
 		<beans:property name="schManager" ref="schManager"/>
-		<!-- <beans:property name="swcManager" ref="swcManager"/> -->
+		<beans:property name="swcManager" ref="swcManager"/>
 
 		<!-- beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="lcsManager" ref="lcsManager"/>
@@ -81,4 +81,5 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<beans:bean id="pkgManager" class="net.smartworks.server.engine.pkg.manager.impl.PkgManagerImpl"/>
 	<beans:bean id="itmManager" class="net.smartworks.server.engine.common.menuitem.manager.impl.ItmManagerImpl"/>
 	<beans:bean id="workListManager" class="net.smartworks.server.engine.worklist.manager.impl.WorkListManagerImpl"/>
+	<beans:bean id="swcManager" class="net.smartworks.server.engine.config.manager.impl.SwcManagerImpl"/>
 </beans:beans>

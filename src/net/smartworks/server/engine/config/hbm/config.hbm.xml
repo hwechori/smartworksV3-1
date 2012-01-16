@@ -1,9 +1,39 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="net.smartworks.server.engine.config.model" default-lazy="false">
+	<class name="SwcWorkHour" table="SwWorkhour">
+		<id name="objId" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="companyId" type="string" length="50"/>
+		<property name="type" type="string" length="50"/>
+		<property name="startDayOfWeek" type="string" length="50"/>
+		<property name="workingDays" type="int"/>
+		<property name="validFromDate" column="validFromDate" type="timestamp"/>
+		<property name="validToDate" column="validToDate" type="timestamp"/>
+		<property name="monStartTime" type="timestamp"/>
+		<property name="monEndTime" type="timestamp"/>
+		<property name="tueStartTime" type="timestamp"/>
+		<property name="tueEndTime" type="timestamp"/>
+		<property name="wedStartTime" type="timestamp"/>
+		<property name="wedEndTime" type="timestamp"/>
+		<property name="thuStartTime" type="timestamp"/>
+		<property name="thuEndTime" type="timestamp"/>
+		<property name="friStartTime" type="timestamp"/>
+		<property name="friEndTime" type="timestamp"/>
+		<property name="satStartTime" type="timestamp"/>
+		<property name="satEndTime" type="timestamp"/>
+		<property name="sunStartTime" type="timestamp"/>
+		<property name="sunEndTime" type="timestamp"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+	</class>
+
 	<class name="SwcEventDay" table="SwEventday">
 		<id name="objId" type="string" length="50" unsaved-value="undefined">
-			<generator class="com.maninsoft.smart.domain.model.util.IdGen"/>
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
 		</id>
 		<property name="name" type="string" length="50"/>
 		<property name="companyId" type="string" length="4000"/>

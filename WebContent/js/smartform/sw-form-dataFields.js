@@ -51,3 +51,28 @@ function createFileDataFields(config){
 	}));
 	return {dataFields: dataFields};
 }
+
+function createMemoDataFields(config){
+	var options = {
+			formXml : null,
+			comments : null
+	};
+
+	SmartWorks.extend(options, config);
+
+	var title = options.comments.substring(0, 20);
+	var formXml = $(options.formXml);
+	console.log("formXml", formXml);
+	var dataFields = new Array();
+	dataFields.push(SmartWorks.FormRuntime.TextInputBuilder.dataField({
+		fieldName: '제목',
+		formXml: formXml,
+		value: title
+	}));
+	dataFields.push(SmartWorks.FormRuntime.RichEditorBuilder.dataField({
+		fieldName: '내용',
+		formXml: formXml,
+		value : options.comments
+	}));
+	return {dataFields: dataFields};
+}

@@ -37,7 +37,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	@Override
 	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, int days) throws Exception {
 
-		User cUser = SmartUtil.getCurrentUser();
+		/*User cUser = SmartUtil.getCurrentUser();
 
 		SwcEventDayCond swcEventDayCond = new SwcEventDayCond();
 		swcEventDayCond.setCompanyId(cUser.getCompanyId());
@@ -137,7 +137,7 @@ public class CalendarServiceImpl implements ICalendarService {
 				CompanyEvent[] companyEvents = new CompanyEvent[companyEventList.size()];
 				companyEventList.toArray(companyEvents);
 				companyCalendar.setCompanyEvents(companyEvents);
-				companyCalendar.setDate(new LocalDate(fromDate.getTime() + LocalDate.ONE_SECOND));
+				companyCalendar.setDate(new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY * 2));
 			}
 			companyCalendarList.add(companyCalendar);
 		}
@@ -145,7 +145,8 @@ public class CalendarServiceImpl implements ICalendarService {
 		CompanyCalendar[] companyCalendars = new CompanyCalendar[companyCalendarList.size()];
 		companyCalendarList.toArray(companyCalendars);
 
-		return companyCalendars;
+		return companyCalendars;*/
+		return SmartTest.getCompanyCalendars();
 
 	}
 
