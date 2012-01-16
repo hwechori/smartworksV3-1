@@ -130,18 +130,17 @@ $(function() {
 
 	$('.js_select_community').live( 'click', function(e) {
 		var input = $(e.target);
-		
 		var comName = input.attr('comName');
 		var comId = input.attr('comId');
 		var target = input.parents('.js_community_list').prev().find('.js_selected_communities');				
-		var userField = target.parents('td.js_type_userField');
+		var userField = target.parents('.js_type_userField');
 		var inputTarget = userField.find('input.js_auto_complete');
 		if(inputTarget.parents('.sw_required').hasClass('sw_error')){
 			inputTarget.parents('.sw_required').removeClass('sw_error');
 			$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 		}
 		var oldHTML = target.html();
-		if (oldHTML == null || (userField.attr('multiUsers') !== 'true'))
+		if (oldHTML == null || (!isEmpty(userField) && userField.attr('multiUsers') !== 'true'))
 			oldHTML = "";
 		var communityItems = $(target).find('span.js_community_item');
 		var isSameId = false;
@@ -166,7 +165,7 @@ $(function() {
 	$('.js_remove_community').live('click', function(e) {
 		var input = $(e.target);
 		
-		var userField = input.parents('td.js_type_userField');
+		var userField = input.parents('.js_type_userField');
 		if(!isEmpty(userField) && userField.attr('multiUsers') !== 'true') {
 			var inputTarget = userField.find('input.js_auto_complete')
 			inputTarget.show();

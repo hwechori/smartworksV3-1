@@ -38,20 +38,20 @@ smartPop = {
 	ERROR: 'Error',
 
 	overlay : function(target){
-		if(isEmpty($(target))) target = $(document).find('body');
-		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:100%; height:100%; z-index:10000; display:block; opacity:0.2"></span>').appendTo($(target));
+		if(isEmpty($(target))) target = $(document.body);
+		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:' + scrollWidth() + 'px; height:' + scrollHeight() + 'px; z-index:10000; display:block; opacity:0.2"></span>').appendTo($(target));
 	},
 	
 	overlayDark : function(target){
-		if(isEmpty($(target))) target = $(document).find('body');
-		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:100%; height:100%; z-index:10000; display:block; opacity:0.5"></span>').appendTo($(target));
+		if(isEmpty($(target))) target = $(document.body);
+		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:' + scrollWidth() + 'px; height:' + scrollHeight() + 'px; z-index:10000; display:block; opacity:0.5"></span>').appendTo($(target));
 	},
 	
 	closeOverlay : function(){
 		$("#sw_overlay_span").remove();
 	},
 	
-	showInfo : function(infoType, message){
+	showInfoOld : function(infoType, message){
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
 		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
 					'<div class="form_contents margin_t10">' + 
@@ -116,27 +116,45 @@ smartPop = {
 			}
 		});
 	},
+	
+	closeInfo : function(){
+		smartPop.closeOverlay();
+		$('#sw_pop_show_info').remove();		
+	},
 
-	showInfoNew : function(infoType, message){
+	showInfo : function(infoType, message, onClose){
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
 		smartPop.overlayDark();
-		$('<div id="sw_pop_show_info" style="z-index:100000" class="pop_corner_all pop_section_300">' + 
+		$('<div id="sw_pop_show_info" style="z-index:10001; position:absolute;" class="pop_corner_all pop_section_300">' + 
 					'<div class="form_contents margin_t10">' + 
 						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
 					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a onclick="smartPop.closeOverlay();$("#sw_pop_show_info").remove() ;return false;" href=""> <span class="Btn01Start"></span>' +
+					 		'<span class="btn_gray"> <a class="js_btn_close" href=""> <span class="Btn01Start"></span>' +
 					 			'<span class="Btn01Center">' + smartMessage.get('buttonClose') + '</span> <span class="Btn01End"></span>' +
 					 		'</a> </span>' +
 					 	'</div>' +
 					 '</div>' +
-				  '</div>').center();
+				  '</div>').appendTo($(document.body)).center();
+		$('#sw_pop_show_info .js_btn_close').live('click', function(){
+			if ($.isFunction(onClose)) {
+				onClose.apply();
+			}
+			smartPop.closeInfo();
+			return false;
+		});
+	},
+	
+	closeConfirm : function(){
+		smartPop.closeOverlay();
+		$('#sw_pop_confirm').remove();
 	},
 	
 	confirm : function(message, onOk, onCancel){
-		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
+		smartPop.overlayDark();
+		$('<div id="sw_pop_confirm" class="pop_corner_all pop_section_300" style="z-index:10001; position:absolute;">' + 
 					'<div class="form_contents margin_t10">' + 
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
@@ -152,35 +170,22 @@ smartPop = {
 				 			'</a> </span>' +
 				 		'</div>' +
 					 '</div>' +
-				  '</div>').appendTo($(document)), 
-		  {
-			opacity: 50,
-			overlayCss: {backgroundColor:"#000"},
-			containerCss:{
-				backgroundColor:"#fff",
-				borderColor:"#000",
-				color: "#000",
-				height:200,
-				padding:1,
-				width:500
-			},
-			overlayClose: false,
-			onShow: function(dialog){
-				$('.js_btn_ok', dialog.data[0]).live('click', function(){
-					if ($.isFunction(onOk)) {
-						onOk.apply();
-					}
-					$.modal.close();
-					return false;
-				});
-				$('.js_btn_cancel', dialog.data[0]).live('click', function(){
-					if ($.isFunction(onCancel)) {
-						onCancel.apply();
-					}
-					$.modal.close();
-					return false;
-				});
+				  '</div>').appendTo($(document.body)).center(); 
+
+		$('#sw_pop_confirm .js_btn_ok').live('click', function(){
+			if ($.isFunction(onOk)) {
+				onOk.apply();
 			}
+			smartPop.closeConfirm();
+			return false;
+		});
+		
+		$('#sw_pop_confirm .js_btn_cancel').live('click', function(){
+			if ($.isFunction(onCancel)) {
+				onCancel.apply();
+			}
+			smartPop.closeCofirm();
+			return false;
 		});
 	},
 
@@ -273,6 +278,10 @@ smartPop = {
 			smartPop.progressTarget.find('.js_progress_icon').remove();
 	},
 	
+	close : function(){
+		$.modal.close();
+	},
+	
 	selectUser : function(userInput, target, width, isMultiUsers){
 		if(isEmpty(userInput)) return;
 		target.html('');
@@ -285,14 +294,13 @@ smartPop = {
 				fixed: false,
 				overlayCss: {backgroundColor:"#000"},
 				containerCss:{
-					height:500,
 					width: conWidth
 				},
 				overlayClose: true,
 				onShow: function(dialog){
 
 					var selectionProc = function(comId, comName){
-						var userField = userInput.parents('td.js_type_userField:first');
+						var userField = userInput.parents('.js_type_userField:first');
 						var inputTarget = userField.find('input.js_auto_complete:first');
 						if(inputTarget.parents('.sw_required').hasClass('sw_error')){
 							inputTarget.parents('.sw_required').removeClass('sw_error');

@@ -244,11 +244,12 @@ $(function() {
 	
 	$('.js_check_favorite_work').live('click', function(e){
 		var input = $(e.target);
+		console.log(input);
 		var workId = input.attr('workId');
 		var favoriteWorks = input.parents('li.js_favorite_works:first');
 		var url = 'remove_a_favorite_work.sw';
 		var isAdd = false;
-		if(input.hasClass('checked') && isEmpty(favoriteWorks)){
+		if(!input.hasClass('checked') && isEmpty(favoriteWorks)){
 			url = 'add_a_favorite_work.sw';
 			isAdd = true;
 		}

@@ -134,7 +134,8 @@ SmartWorks.FormRuntime.UserFieldBuilder.validate = function(userFields){
 	for(var i=0; i<userFields.length; i++){
 		var userField = $(userFields[i]);
 		var userId = userField.find('.js_community_item:first').attr('comId');
-		if(isBlank(userId)){
+		var required = userField.find('div.sw_required');
+		if(!isEmpty(required) && isBlank(userId)){
 			userField.find('div.sw_required').addClass("sw_error");
 			usersValid = false;
 		}

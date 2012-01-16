@@ -95,13 +95,11 @@ public interface ISmartWorks {
 
 	public abstract CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public abstract EventInstanceInfo[] getEventInstances(LocalDate fromDate, int days) throws Exception;
+	public abstract EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, int days) throws Exception;
 
-	public abstract EventInstanceInfo[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
+	public abstract EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public abstract BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception;
-
-	public abstract BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
+	public abstract BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception;
 
 	public abstract CompanyCalendar getCompanyEventBox(LocalDate date) throws Exception;
 
