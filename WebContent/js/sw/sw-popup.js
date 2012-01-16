@@ -70,7 +70,7 @@ smartPop = {
 	
 	confirmOld : function(message, onOk, onCancel){
 		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
-					'<div class="form_contents margin_t10">' + 
+					'<div class="pop_contents margin_t10">' + 
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
@@ -126,7 +126,7 @@ smartPop = {
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
 		smartPop.overlayDark();
 		$('<div id="sw_pop_show_info" style="z-index:10001; position:absolute;" class="pop_corner_all smart_pop_section">' + 
-					'<div class="form_contents">' + 
+					'<div class="pop_contents">' + 
 						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
@@ -155,18 +155,16 @@ smartPop = {
 	confirm : function(message, onOk, onCancel){
 		smartPop.overlayDark();
 		$('<div id="sw_pop_confirm" class="pop_corner_all smart_pop_section" style="z-index:10001; position:absolute;">' + 
-					'<div class="form_contents margin_t10">' + 
-					 	'<div class="pop_notice_section">' + message + '</div>' +
+					'<div class="pop_contents">' + 
+					 	'<div class="pop_notice_section margin_t10">' + message + '</div>' +
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
 					 	'<div class="float_right">' +
 					 		'<span class="btn_gray"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonCancel') + '</span> <span class="Btn01End"></span>' +
-					 		'</a> </span>' +
-					 	'</div>' +
-					 	'<div class="float_right">' +
-				 			'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
-				 				'<span class="Btn01Center">' + smartMessage.get('buttonConfirm') + '</span> <span class="Btn01End"></span>' +
+					 			'<span class="Btn01Center">' + smartMessage.get('buttonConfirm') + '</span> <span class="Btn01End"></span>' +
+					 		'</a> </span>' + 
+				 			'<span class="btn_gray space_l5"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
+				 				'<span class="Btn01Center">'  + smartMessage.get('buttonCancel') + '</span> <span class="Btn01End"></span>' +
 				 			'</a> </span>' +
 				 		'</div>' +
 					 '</div>' +

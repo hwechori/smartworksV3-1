@@ -1,11 +1,9 @@
 @charset "utf-8";
 /* CSS Document */
 
-.pop_corner_all{ border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border: 1px solid #c7c7c7; background-color:#FFF; padding-top: 10px; -webkit-box-shadow: 0px 2px 10px #505050;}
+.pop_corner_all{ border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border: 1px solid #c7c7c7; background-color:#FFF; -webkit-box-shadow: 0px 2px 10px #505050;}
 .smart_pop_section {width:425px; border: 1px solid #c7c7c7; background-color:#FFF;}
-.pop_section_500 {width:500px; border: 1px solid #c7c7c7; background-color:#FFF;}
-.pop_section_400 {width:400px; border: 1px solid #c7c7c7; background-color:#FFF;}
-.pop_section_300 {width:300px; border: 1px solid #c7c7c7; background-color:#FFF;}
+.pop_contents {padding: 10px;}
 
 
 .pop_title {font-weight:bold; font-size:14px; position:absolute; color:#454545;}
@@ -55,9 +53,9 @@ a:hover .pop_btn_x {background-color:#e5e5e5;}
 
 
 /* Smart Pop */
-.pop_notice_section {padding-left: 6px; text-align: left;}
+.pop_notice_section {padding-left: 7px; text-align: left; min-height: 35px;}
 .pop_message_h {padding:10px 0;}
 
-.ico_pop_Info {background: url("../images/body_icon.png") no-repeat scroll -547px -257px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 4px 0 0 33px; text-align: left;}
+.ico_pop_Info {background: url("../images/body_icon.png") no-repeat scroll -547px -257px transparent; display: block; font-size: 14px; font-weight: bold; line-height: 20px; padding: 2px 0 0 33px; text-align: left; margin-bottom: 5px;}
 .ico_pop_Warn {background: url("../images/body_icon.png") no-repeat scroll -547px -227px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 3px 0 0 33px; text-align: left;}
 .ico_pop_Error {background: url("../images/body_icon.png") no-repeat scroll -547px -291px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 4px 0 0 33px; text-align: left;}
