@@ -18,11 +18,9 @@ import net.smartworks.util.LocalDate;
 
 public interface IInstanceService {
 
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
+	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception;
 
 	public InstanceInfo[] getMyRecentInstances() throws Exception;
-
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception;
 
 	public Instance getInstanceById(String instanceId) throws Exception;
 

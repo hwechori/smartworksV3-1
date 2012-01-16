@@ -6,9 +6,9 @@ import net.smartworks.util.LocalDate;
 
 public interface ICalendarService {
 
-	public abstract EventInstanceInfo[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
+	public abstract EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public abstract EventInstanceInfo[] getEventInstances(LocalDate fromDate, int days) throws Exception;
+	public abstract EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, int days) throws Exception;
 
 	public abstract CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception;
 

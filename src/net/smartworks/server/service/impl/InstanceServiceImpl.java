@@ -106,22 +106,14 @@ public class InstanceServiceImpl implements IInstanceService {
 	 * @see
 	 * net.smartworks.service.impl.ISmartWorks#getBoardInstances(net.smartworks
 	 * .util.LocalDate, int)
-	 */
-	@Override
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception {
-		return SmartTest.getBoardInstances();
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * net.smartworks.service.impl.ISmartWorks#getBoardInstances(net.smartworks
-	 * .util.LocalDate, net.smartworks.util.LocalDate)
+	 * description : 현재사용자의 최근 5개 공지사항을 가져다 주는 서비스..
+	 * 
+	 * BoardInstanceInfo[] : return
 	 */
 	@Override
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
-		return null;
+	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception {
+		return SmartTest.getBoardInstances();
 	}
 
 	/*

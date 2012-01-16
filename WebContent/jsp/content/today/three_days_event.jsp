@@ -1,3 +1,9 @@
+
+<!-- Name 			: three_days_event.jsp											 -->
+<!-- Description	: 현재사용자에게 해당되는 오늘, 내일 그리고 모레이후의 이벤트를 표시해주는 화면 -->
+<!-- Author			: Maninsoft, Inc.												 -->
+<!-- Created Date	: 2011.9.														 -->
+
 <%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>
 <%@page import="net.smartworks.model.community.info.WorkSpaceInfo"%>
@@ -11,8 +17,11 @@
 <%@ page import="net.smartworks.model.instance.*"%>
 <%@ page import="net.smartworks.model.community.*"%>
 <%
+	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다 
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
+
+	// 호출시 전달된 값들을 가져와서 세션 어트리뷰트로 저장한다...
 	String cid = request.getParameter("cid");
 	if (SmartUtil.isBlankObject(cid))
 		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
@@ -24,10 +33,11 @@
 	else
 		session.setAttribute("wid", wid);
 
+	// 회사 달력에 있는 3일의 달력정보를 가져온다...
 	CompanyCalendar[] threeDaysCC = smartWorks.getCompanyCalendars(new LocalDate(), 3);
 	LocalDate today = threeDaysCC[0].getDate();
 	LocalDate tomorrow = threeDaysCC[1].getDate();
-	EventInstanceInfo[] events = smartWorks.getEventInstances(new LocalDate(), 10);
+	EventInstanceInfo[] events = smartWorks.getMyEventInstances(new LocalDate(), 10);
 %>
 
 <!-- 이벤트,공지 포틀릿 -->	
@@ -38,150 +48,173 @@
         		<%=today.toLocalDateString()%>
         		<span class="t_lightOrange">
 				 <%
-				 	if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
-				 %> ( <%
+				 if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
+				 %> 
+			 		( 
+				 	<%
 				 	}
 				 	CompanyEvent[] cesToday = threeDaysCC[0].getCompanyEvents();
 				 	CompanyEvent[] cesTomorrow = threeDaysCC[1].getCompanyEvents();
 				 	for (int i = 0; i < cesToday.length; i++) {
 				 		if (i != 0) {
-				 %>, <%
-				 	}
-				 %><%=cesToday[i].getName()%> <%
-				 	}
-				 %> <%
-				 	if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
-				 %>)<%
-				 	}
-				 %>
-				 </span> 
-				 <%=today.toLocalTimeString()%>
+				 	%>
+				 			,
+				 		<%
+			 			}
+			 			%>
+			 			<%=cesToday[i].getName()%> 
+			 		<%
+			 		}
+			 		%> 
+			 	<%
+			 	if (!SmartUtil.isBlankObject(threeDaysCC[0].getCompanyEvents())) {
+			 	%>
+			 		)
+			 	<%
+			 	}
+			 	%>
+				</span> 
+				<%=today.toLocalTimeString()%>
         		<span class="rightCap"></span>
         	</span>
         	<div class="redStrokeRightCap"></div>
         </div>
         <!-- red caption design change end -->
     <div class="portlet_l" style="display: block;">
-   	 <ul class="portlet_r" style="display: block;">
+   		<ul class="portlet_r" style="display: block;">
 	
 			<!-- 이벤트 목록 영역 -->
 			<div class="event_space">
 				<ul>
 					<%
-						for (int cnt = 0; cnt < threeDaysCC.length; cnt++) {
+					for (int cnt = 0; cnt < threeDaysCC.length; cnt++) {
 					%>
 					<li class="float_left eventCell<%=cnt%>">
 						<div>
 							<div class="eventCell" style="display: block;">
 								<ul style="display: block;">
 									<%
-										if (cnt == 0) {
+									if (cnt == 0) {
 									%>
-									<li class="line_dashed center"><span class="cellDate"><span class="t_bold"><fmt:message
-												key='content.threedays.today' /> </span> <%=today.toLocalDateShortString()%></span></li>
+										<li class="line_dashed center">
+											<span class="cellDate"><span class="t_bold"><fmt:message key='content.threedays.today' /> </span> <%=today.toLocalDateShortString()%></span>
+										</li>
 									<%
-										} else if (cnt == 1) {
+									} else if (cnt == 1) {
 									%>
-									<li class="line_dashed center"><span class="cellDate"><span class="t_bold"><fmt:message
-												key='content.threedays.tomorrow' /> </span> <%=tomorrow.toLocalDateShortString()%></span></li>
+										<li class="line_dashed center">
+											<span class="cellDate"><span class="t_bold"><fmt:message key='content.threedays.tomorrow' /> </span> <%=tomorrow.toLocalDateShortString()%></span>
+										</li>
 									<%
-										} else if (cnt == 2) {
+									} else if (cnt == 2) {
 									%>
-									<li class="line_dashed center"><span class="cellDate"><span class="t_bold"><fmt:message
-												key='content.threedays.after' /> </span></span>
-									</li>
+										<li class="line_dashed center">
+											<span class="cellDate"><span class="t_bold"><fmt:message key='content.threedays.after' /> </span></span>
+										</li>
 									<%
+									}
+									%>
+								<li>
+								<span class="t_red"> 
+									<%
+ 									for (int i = 0; (cnt == 0) && (i < cesToday.length); i++) {
+ 										if (i != 0) {
+ 									%>
+ 											, 
+ 										<%
+ 										}
+ 										%>
+ 										<%=cesToday[i].getName()%> 
+ 									<%
+ 									}
+ 									%> 
+ 									<%
+ 									for (int i = 0; (cnt == 1) && (i < cesTomorrow.length); i++) {
+ 										if (i != 0) {
+ 									%>
+ 											, 
+ 										<%
+ 										}
+ 										%>
+ 										<%=cesTomorrow[i].getName()%> 
+ 									<%
+ 									}
+ 									%> 
+ 								</span>
+							</li>
+							<%
+							if (events != null) {
+								for (EventInstanceInfo event : events) {
+									if (((cnt == 0) && today.isSameDate(event.getStart())) || ((cnt == 1) && tomorrow.isSameDate(event.getStart()))
+											|| ((cnt == 2) && tomorrow.isAfterDate(event.getStart()))) {
+										UserInfo owner = event.getOwner();
+										String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
+										String commContext = null;
+										String targetContent = null;
+										String eventContext = ISmartWorks.CONTEXT_PREFIX_EVENT_SPACE + event.getId();
+										WorkSpaceInfo workSpace = event.getWorkSpace();
+										if (workSpace != null && workSpace.getClass() == GroupInfo.class) {
+											targetContent = "group_space.sw";
+											commContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + workSpace.getId();
+										} else if (event.getWorkSpace() != null && workSpace.getClass() == DepartmentInfo.class) {
+											targetContent = "department_space.sw";
+											commContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + workSpace.getId();
 										}
-									%>
-									<li><span class="t_red"> <%
- 	for (int i = 0; (cnt == 0) && (i < cesToday.length); i++) {
- 			if (i != 0) {
- %>, <%
- 	}
- %><%=cesToday[i].getName()%> <%
- 	}
- %> <%
- 	for (int i = 0; (cnt == 1) && (i < cesTomorrow.length); i++) {
- 			if (i != 0) {
- %>, <%
- 	}
- %><%=cesTomorrow[i].getName()%> <%
- 	}
- %> </span>
-									</li>
-									<%
-										if (events != null) {
-												for (EventInstanceInfo event : events) {
-													if (((cnt == 0) && today.isSameDate(event.getStart())) || ((cnt == 1) && tomorrow.isSameDate(event.getStart()))
-															|| ((cnt == 2) && tomorrow.isAfterDate(event.getStart()))) {
-														UserInfo owner = event.getOwner();
-														String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
-														String commContext = null;
-														String targetContent = null;
-														String eventContext = ISmartWorks.CONTEXT_PREFIX_EVENT_SPACE + event.getId();
-														WorkSpaceInfo workSpace = event.getWorkSpace();
-														if (workSpace != null && workSpace.getClass() == GroupInfo.class) {
-															targetContent = "group_space.sw";
-															commContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + workSpace.getId();
-														} else if (event.getWorkSpace() != null && workSpace.getClass() == DepartmentInfo.class) {
-															targetContent = "department_space.sw";
-															commContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + workSpace.getId();
-														}
-														if (cnt < 2) {
-									%>
-									<li><span class="t_gbold"><%=event.getStart().toLocalTimeShortString()%></span>
+										if (cnt < 2) {
+							%>
+											<li><span class="t_gbold"><%=event.getStart().toLocalTimeShortString()%></span>
 										<%
-											} else {
+										} else {
 										%>
-									
-									<li><span class="t_gbold"><%=event.getStart().toLocalString()%></span>
+											<li><span class="t_gbold"><%=event.getStart().toLocalString()%></span>
 										<%
-											}
-															if (!owner.getId().equals(cUser.getId())) {
-										%> <span class="t_name"><a
-											href="user_space.sw?cid=<%=userContext%>"><%=owner.getLongName()%></a>
-									</span><span class="arr">▶</span> <%
- 	}
- %> <%
- 	if (!workSpace.getId().equals(owner.getId())) {
- %> <span class="ico_division_s"><a
-											href="<%=targetContent%>?cid=<%=commContext%>"><%=workSpace.getName()%></a>
-									</span> <%
- 	}
- %><a
-										href="event_space.sw?cid=<%=eventContext%>&wid=<%=workSpace.getId()%>"><%=event.getSubject()%></a>
-									</li>
-									<%
 										}
-												}
-											}
-									%>
-								</ul>
-							</div>
-						</div></li>
-					<%
+										if (!owner.getId().equals(cUser.getId())) {
+										%> 
+											<span class="t_name"><a href="user_space.sw?cid=<%=userContext%>"><%=owner.getLongName()%></a></span>
+											<span class="arr">▶</span> 
+										<%
+ 										}
+ 										%> 
+ 										<%
+ 										if (!workSpace.getId().equals(owner.getId())) {
+ 										%> 
+ 											<span class="ico_division_s"><a href="<%=targetContent%>?cid=<%=commContext%>"><%=workSpace.getName()%></a></span> 
+ 										<%
+ 										}
+ 										%>
+ 										<a href="event_space.sw?cid=<%=eventContext%>&wid=<%=workSpace.getId()%>"><%=event.getSubject()%></a>
+											</li>
+							<%
+									}
+								}
+							}
+							%>
+										</ul>
+									</div>
+								</div>
+							</li>
+						<%
 						}
-					%>
-				</ul>
-				
-			</div>
-			<!-- 이벤트 목록 영역 //-->
-		</ul>
-	</div>
-	<div class="portlet_b" style="display: block;"></div>
-</div>
-<!-- 이벤트,공지 포틀릿//-->
-
-<div class="section_portlet">
-	<div class="portlet_t">
-		<div class="portlet_tl"></div>
-	</div>
-	<div style="display: block;" class="portlet_l">
-		<div style="display: block;" class="portlet_r">
-			<!-- 공지사항 -->
-			<jsp:include page="/jsp/content/today/recent_board_list.jsp" />
-			<!--공지사항//-->
+						%>
+					</ul>				
+				</div>
+				<!-- 이벤트 목록 영역 //-->
+			</ul>
 		</div>
-	</div>	
-	<div class="portlet_b" style="display: block;"></div>
-</div>
+		<div class="portlet_b" style="display: block;"></div>
+	</div>
+	<!-- 이벤트,공지 포틀릿//-->
+	
+	<div class="section_portlet">
+		<div class="portlet_t"><div class="portlet_tl"></div></div>
+		<div style="display: block;" class="portlet_l">
+			<div style="display: block;" class="portlet_r">
+				
+				<!-- 최근 5개 공지사항을 보여주는 곳 -->
+				<jsp:include page="/jsp/content/today/recent_board_list.jsp" />
+				<!-- 최근 5개 공지사항을 보여주는 곳 //-->
+			</div>
+		</div>	
+		<div class="portlet_b" style="display: block;"></div>
+	</div>
