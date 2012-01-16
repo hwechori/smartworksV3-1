@@ -126,7 +126,8 @@ SmartWorks.FormRuntime.DepartmentFieldBuilder.validate = function(departmentFiel
 	for(var i=0; i<departmentFields.length; i++){
 		var departmentField = $(departmentFields[i]);
 		var departmentId = departmentField.find('.js_community_item:first').attr('comId');
-		if(isBlank(departmentId)){
+		var required = departmentField.find('div.sw_required');
+		if(!isEmpty(required) && isBlank(departmentId)){
 			departmentField.find('div.sw_required').addClass("sw_error");
 			departmentsValid = false;
 		}

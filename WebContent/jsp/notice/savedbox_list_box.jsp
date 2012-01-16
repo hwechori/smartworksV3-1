@@ -71,15 +71,19 @@
 					break;
 				}
 %>
+				<ul>
 				<li>
+				<div class="info_ms_section">
 					<div class="info_img">
 						<div class="<%=iconType%>"><%=work.getName()%></div>
 					</div>
-					<div class="info_list">
+					<div class="info_list margin_l15">
 						<a href="<%=targetContent %>" ><%=instance.getSubject()%></a>		
 						<div class="t_date"><%=instance.getCreatedDate().toLocalString()%></div>
 					</div>
+					</div>
 				</li>
+				</ul>
 <%
 			}
 		}

@@ -61,7 +61,6 @@
 </div>
 <!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 
-
 <!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
 <div class="js_upload_form" id="upload_form_box">
 	<jsp:include page="/jsp/content/upload/start_work.jsp" />

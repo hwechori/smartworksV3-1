@@ -93,7 +93,7 @@ SmartWorks.FormRuntime.RichEditorBuilder.serializeObject = function(richEditors)
 	for(var i=0; i<richEditors.length; i++){
 		var richEditor = $(richEditors[i]);
 		var id = richEditor.attr('fieldId');
-		if(!isEmpty(oEditors)) oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
+		if(!isEmpty(oEditors) && !isEmpty(oEditors.getById[id])) oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
 		richEditorsJson[richEditor.attr('fieldId')] = richEditor.find('textarea')[0].value;
 	}
 	return richEditorsJson;
@@ -106,7 +106,8 @@ SmartWorks.FormRuntime.RichEditorBuilder.validate = function(richEditors){
 		var id = richEditor.attr('fieldId');
 		if(!isEmpty(oEditors)) oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
 		var value = richEditor.find('textarea')[0].value;
-		if(isEmpty(value) || value === "<br>"){
+		var required = richEditor.find('span.sw_required');
+		if(!isEmpty(required) && (isEmpty(value) || value === "<br>")){
 			richEditor.find('span.sw_required').addClass("sw_error");
 			richEditorsValid = false;
 		}else{

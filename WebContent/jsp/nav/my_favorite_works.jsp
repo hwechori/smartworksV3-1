@@ -46,7 +46,7 @@
 					<span class="<%=iconType%>"></span>
 					<span><%=work.getName()%></span>
 				</a>
-				<div class="checkOption"><input title="<fmt:message key='common.button.delete'/>" class="js_check_favorite_work" workId="<%=work.getId() %>" type="checkbox"></div>
+				<div class="checkOption"><div title="<fmt:message key='common.button.delete'/>" class="js_check_favorite_work btn_im_x" workId="<%=work.getId() %>"></div></div>
 			</li>
 		<%
 			}

@@ -114,7 +114,7 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.validate = function(refFormFields){
 		var refFormField = $(refFormFields[i]).find('input.sw_required');
 		var value = refFormField.attr('value');
 		var refRecordId = $(refFormFields[i]).attr('refRecordId');
-		if(isEmpty(value) || isEmpty(refRecordId)){
+		if(!isEmpty(refFormField) && (isEmpty(value) || isEmpty(refRecordId))){
 			refFormField.addClass("sw_error");
 			refFormsValid = false;
 		}

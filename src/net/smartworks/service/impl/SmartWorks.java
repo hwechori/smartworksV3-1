@@ -20,6 +20,8 @@ import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.MailInstance;
+import net.smartworks.model.instance.RunningCounts;
+import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -196,13 +198,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public EventInstanceInfo[] getEventInstances(LocalDate fromDate, int days) throws Exception {
-		return calendarService.getEventInstances(fromDate, days);
+	public EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, int days) throws Exception {
+		return calendarService.getMyEventInstances(fromDate, days);
 	}
 
 	@Override
-	public EventInstanceInfo[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
-		return calendarService.getEventInstances(fromDate, toDate);
+	public EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
+		return calendarService.getMyEventInstances(fromDate, toDate);
 	}
 
 	@Override
@@ -221,13 +223,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception {
-		return instanceService.getBoardInstances(fromDate, days);
-	}
-
-	@Override
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
-		return instanceService.getBoardInstances(fromDate, toDate);
+	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception {
+		return instanceService.getMyRecentBoardInstances();
 	}
 
 	@Override
@@ -246,8 +243,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public InstanceInfo[] getMyRunningInstances() throws Exception {
-		return instanceService.getMyRunningInstances();
+	public InstanceInfo[] getMyRunningInstances(LocalDate lastInstanceDate, int requestSize, boolean assignedOnly) throws Exception {
+		return instanceService.getMyRunningInstances(lastInstanceDate, requestSize, assignedOnly);
+	}
+
+	@Override
+	public RunningCounts getMyRunningInstancesCounts() throws Exception {
+		return instanceService.getMyRunningInstancesCounts();
 	}
 
 	@Override

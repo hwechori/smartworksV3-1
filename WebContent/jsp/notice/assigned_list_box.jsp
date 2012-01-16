@@ -49,7 +49,9 @@
 					String workSpaceId = taskInstance.getWorkSpace().getId();
 					String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 %>
+					<ul>
 					<li>
+					<div class="info_ms_section">
 						<div class="info_img">
 							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
 								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"></a>
@@ -58,7 +60,9 @@
 							<a href="<%=targetContent%>?cid=<%=contextId%>&wid=<%=workSpaceId%>"><%=workInstance.getSubject()%>▶<%=taskInstance.getName()%></a>
 							<div class="t_date"><%=taskInstance.getLastModifiedDate().toLocalString()%></div>
 						</div>
+						</div>
 					</li>
+					</ul>
 <%
 				}
 			}

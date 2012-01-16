@@ -345,7 +345,7 @@
 					</div>
 					<!-- 목록보기 타이틀-->
 
-					<!-- 상세필터 -->
+					<!-- 상세필터 및 새업무등록하기 화면 -->
 					<div id="search_filter" class="filter_section js_new_work_form"></div>
 					<!-- 상세필터 -->
 

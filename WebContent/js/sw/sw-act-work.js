@@ -123,6 +123,7 @@ $(function() {
 		var input = $(event.target);
 		input.parent().hide().siblings().show();
 		var formContent = $('#form_works').find('div.js_form_content');
+		if(isEmpty(formContent)) formContent = input.parents('.js_iwork_list_page').find('div.js_form_content');
 		var workId = input.attr('workId');
 		var requiredOnly = input.attr('requiredOnly');
 		$.ajax({
@@ -131,6 +132,7 @@ $(function() {
 				workId : workId
 			},
 			success : function(formXml, status, jqXHR) {
+				formContent.html('');
 				new SmartWorks.GridLayout({
 					target : formContent,
 					formXml : formXml,
@@ -143,10 +145,33 @@ $(function() {
 		});	
 		return false;
 	});
-
+	
+	$('input.js_toggle_schedule_work').live('click', function(e) {
+		var input = $(e.target);
+		var target = $(e.target).parent().next('span');
+		if(input.is(':checked')){
+			loadCheckScheduleFields();
+			target.show();
+		}else{
+			target.find('.js_check_schedule_fields').html('');
+			target.hide();
+		}
+	});
+	
+	var ACCESS_LEVEL_CUSTOM = '2';
+	$('select.js_select_access_level').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_upload_buttons_page').find('.js_access_level_custom');
+		var accessLevel = input.attr('value');
+		if(accessLevel === ACCESS_LEVEL_CUSTOM)
+			target.show();
+		else
+			target.hide();
+	});
+	
 	$('a.js_create_new_work').live('click', function(e) {
 		var input = $(e.target);
-		var target = input.parents('div.js_work_list_title:first').siblings('div.js_new_work_form');
+		var target = input.parents('.js_iwork_list_page').find('div.js_new_work_form');
 		var url = input.attr('href');
 		$.ajax({
 			url : url,
@@ -164,7 +189,8 @@ $(function() {
 						new SmartWorks.GridLayout({
 							target : formContent,
 							formXml : formXml,
-							mode : "edit"
+							mode : "edit",
+							requiredOnly : "true"
 						});
 					},
 					error : function(xhr, ajaxOptions, thrownError){
@@ -189,7 +215,7 @@ $(function() {
 			target : 'form_import',
 			after : function(event) {
 				var input = $(event.target);
-				input.parents('div.js_file_detail_form').parent().prev().slideToggle(500);
+				input.parents('.js_file_detail_form').parent().prev().slideToggle(500);
 				input.parent().toggle().siblings().toggle();
 				var form = input.parents('form[name="frmNewFile"]');
 				var uploader = form.find('.qq-uploader');
@@ -391,6 +417,42 @@ $(function() {
 			success : function(data, status, jqXHR) {
 				target.html(data).slideToggle(500);
 				loadTaskForwardFields();
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
+			}
+		});
+		return false;
+	});
+
+	$('a.js_view_my_running_instances').live('click',function(e) {
+		var input = $(e.target).addClass('current').siblings().removeClass('current');
+		var target =  input.parent().prev('ul');
+		$.ajax({
+			url : 'more_instance_list.sw',
+			data : {
+				assignedOnly : false
+			},
+			success : function(data, status, jqXHR) {
+				target.html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
+			}
+		});
+		return false;
+	});
+
+	$('a.js_view_assigned_instances').live('click',function(e) {
+		var input = $(e.target).addClass('current').siblings().removeClass('current');
+		var target =  input.parent().prev('ul');
+		$.ajax({
+			url : 'more_instance_list.sw',
+			data : {
+				assignedOnly : true
+			},
+			success : function(data, status, jqXHR) {
+				target.html(data);
 			},
 			error : function(xhr, ajaxOptions, thrownError){
 				

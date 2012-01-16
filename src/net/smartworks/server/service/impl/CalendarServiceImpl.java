@@ -170,7 +170,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, int)
 	 */
 	@Override
-	public EventInstanceInfo[] getEventInstances(LocalDate fromDate, int days) throws Exception {
+	public EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, int days) throws Exception {
 		return SmartTest.getEventInstances();
 	}
 
@@ -182,7 +182,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 * .util.LocalDate, net.smartworks.util.LocalDate)
 	 */
 	@Override
-	public EventInstanceInfo[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
+	public EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
 		return null;
 	}
 

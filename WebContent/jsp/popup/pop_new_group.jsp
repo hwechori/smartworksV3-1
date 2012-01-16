@@ -49,7 +49,10 @@
 				success : function(data, status, jqXHR) {
 					// 사용자정보 수정이 정상적으로 완료되었으면, 현재 페이지에 그대로 있는다.
 					smartPop.closeProgress();
-					smartPop.showInfo(smartPop.INFORM, smartMessage.get('createGroupSucceed'));
+ 					smartPop.showInfo(smartPop.INFORM, smartMessage.get('createGroupSucceed'), function(){
+ 						smartPop.close();
+ 						document.location.href = data.href;
+ 					});
 				},
 				error : function(e) {
 					smartPop.closeProgress();
@@ -120,11 +123,23 @@
 							<div><img src="<%=SmartUtil.getCurrentUser().getMinPicture()%>" class="profile_size_s"/><input name="txtGroupLeader" type="hidden" class=""  value="<%=SmartUtil.getCurrentUser().getId() %>"><%=SmartUtil.getCurrentUser().getLongName() %></div>
 						</td>
 					</tr>
+					<tr>
+						<td><fmt:message key="group.title.members" /></td>
+						<td class="js_type_userField" fieldId="txtGroupMembers" multiUsers="true">
+							<div class="form_value">
+								<div>
+									<div class="fieldline js_community_names">
+										<div class="js_selected_communities user_sel_area"></div>
+										<input class="js_auto_complete" href="community_name.sw" type="text">
+										<div class="js_srch_x"></div>
+									</div>
+									<div class="js_community_list commu_list" style="display: none"></div>
+								</div>
+							</div>
+						</td>
+					</tr>
 				</table>
-<%-- 
-				<div class="js_new_group_fields" groupMembersTitle="<fmt:message key='group.title.members'/>"></div>
-
- --%>			</span>
+			</span>
 		</form>
 	</div>
 	<!-- 컨텐츠 //-->
