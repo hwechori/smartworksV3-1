@@ -298,8 +298,7 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 	public void removeMenuItems(String userId, String packageId) throws ItmException {
 		if (CommonUtil.isEmpty(packageId))
 			return;
-
-		String hql = "delete ItmMenuItem where creator = '" + userId + "' and packageId = '" + packageId + "'";
+		String hql = "delete swmenuitem from swmenuitemlist where swmenuitem.objid = swmenuitemlist.objid and swmenuitemlist.creator = '" + userId + "' and swmenuitem.packageId = '" + packageId + "'";
 		Query query = this.getSession().createQuery(hql);
 		query.executeUpdate();
 	}

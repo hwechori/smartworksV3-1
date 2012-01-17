@@ -32,7 +32,7 @@ SmartWorks.FormRuntime.DateTimeChooserBuilder.build = function(config) {
 		required = " class='fieldline js_todaytimepicker' ";
 	}
 	$label.appendTo(options.container);
-	
+
 	var $text = null;
 	if(readOnly){
 		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>').text(value);

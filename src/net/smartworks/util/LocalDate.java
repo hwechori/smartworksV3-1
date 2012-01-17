@@ -99,6 +99,10 @@ public class LocalDate extends Date{
 	public String toLocalDateSimpleString(){
 		return (new SimpleDateFormat("yyyy.MM.dd", this.locale)).format(getLocalTime());
 	}
+
+	public String toLocalDateSimpleDashString(){
+		return (new SimpleDateFormat("yyyy-MM-dd", this.locale)).format(getLocalTime());
+	}
 	
 	public String toLocalDateTimeSimpleString(){
 		return (new SimpleDateFormat("yyyy.MM.dd HH:mm", this.locale)).format(getLocalTime());
