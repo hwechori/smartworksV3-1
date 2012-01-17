@@ -81,7 +81,7 @@ function submitForms() {
 				var progressSpan = newEvent.find('.js_progress_span');
 				smartPop.progressCont(progressSpan);
 				var url = "create_new_event.sw";
-				// create_new_memo.sw서비스를 요청한다..
+				// create_new_event.sw서비스를 요청한다..
 				$.ajax({
 					url : url,
 					contentType : 'application/json',

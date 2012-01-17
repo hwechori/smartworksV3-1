@@ -7,14 +7,16 @@ public class SmartForm extends BaseObject{
 	public static final String FORM_IMAGE_PATH = "images/";
 	public static final String  NO_FORM_IMAGE  = "no_form_image";
 
-	public final static String ID_MEMMO_MANAGEMENT = "frm_9d4df59b25694c8ea13e07e0f0fb2579";
-	public final static String NAME_MEMMO_MANAGEMENT = "개인메모";
+	public final static String ID_MEMO_MANAGEMENT = "frm_9d4df59b25694c8ea13e07e0f0fb2579";
+	public final static String NAME_MEMO_MANAGEMENT = "개인메모";
+	public final static String ID_EVENT_MANAGEMENT = "frm_a8b6f52fdd2f4cf6a4f7f3f9f175f4d3";
+	public final static String NAME_EVENT_MANAGEMENT = "이벤트";
 
 	private String description;
 	private String minImageName;
 	private String orgImageName;
 	private FormField[] fields;
-	
+
 	public FormField[] getFields() {
 		return fields;
 	}
