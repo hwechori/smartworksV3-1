@@ -70,10 +70,10 @@
 		            </div>
 		            
 		            <div class="txt_btn">
-		                <div class="po_right"><a href=""><img src="images/btn_print.gif" alt="<fmt:message key='common.button.print'/>" /></a></div>
-		                <div class="po_right"><a href=""><img src="images/btn_mail.gif" alt="<fmt:message key='common.button.email'/>" /></a></div>
-		                <div class="po_right"><a href=""><img src="images/btn_approvep.gif" alt="<fmt:message key='common.button.approval'/>" /></a></div>
-		                <div class="po_right"><a href=""><img src="images/btn_referw.gif" alt="<fmt:message key='common.button.forward'/>" /></a></div>
+		                <div class="po_right"><a href=""><img src="images/btn_print.gif" title="<fmt:message key='common.button.print'/>" /></a></div>
+		                <div class="po_right"><a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a></div>
+		                <div class="po_right"><a href=""><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /></a></div>
+		                <div class="po_right"><a href=""><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /></a></div>
 		            </div>
 		            <!-- 우측 버튼 -->
 		                    

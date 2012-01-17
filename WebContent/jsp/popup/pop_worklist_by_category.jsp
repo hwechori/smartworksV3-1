@@ -32,19 +32,19 @@
 				if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
 	<li>
-		<div class="dep">
+		<span class="dep">
 			<a href="<%=targetContent%>?workId=<%=work.getId()%>" class="<%=classType%>" workId="<%=work.getId()%>"><span class="<%=iconType%>"></span><%=work.getName()%></a>
-		</div>
+		</span>
 	</li>
 	<%
 		} else {
 	%>
 	<li class="js_drill_down">
-		<div class="dep">
+		<span class="dep">
 			<a href="<%=targetContent%>" categoryId="<%=work.getId()%>" class="js_popup"><span class="<%=iconType%>"></span>
 			<span><%=work.getName()%></span>
 			</a>
-		</div>
+		</span>
 		<div style="display: none" class="menu_2dep"></div></li>
 	<%
 		}
