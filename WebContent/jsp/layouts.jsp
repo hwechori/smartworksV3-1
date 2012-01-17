@@ -203,5 +203,6 @@ currentUser = {
 
 	</div>
  	<jsp:include page="/jsp/chatting/chatter_list.jsp" />
+ 	<jsp:include page="/jsp/popup/pop_user_info.jsp" /></jsp:include>
 </body>
 </html>
