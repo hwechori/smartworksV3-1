@@ -51,72 +51,6 @@ smartPop = {
 		$("#sw_overlay_span").remove();
 	},
 	
-	showInfoOld : function(infoType, message){
-		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
-		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
-					'<div class="form_contents margin_t10">' + 
-						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
-					 	'<div class="pop_notice_section">' + message + '</div>' +
-					 '</div>' +
-					 '<div class="glo_btn_space">' +
-					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a onclick="$.modal.close();return false;" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonClose') + '</span> <span class="Btn01End"></span>' +
-					 		'</a> </span>' +
-					 	'</div>' +
-					 '</div>' +
-				  '</div>').appendTo($(document)), showInfoOptions);
-	},
-	
-	confirmOld : function(message, onOk, onCancel){
-		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
-					'<div class="pop_contents margin_t10">' + 
-					 	'<div class="pop_notice_section">' + message + '</div>' +
-					 '</div>' +
-					 '<div class="glo_btn_space">' +
-					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonCancel') + '</span> <span class="Btn01End"></span>' +
-					 		'</a> </span>' +
-					 	'</div>' +
-					 	'<div class="float_right">' +
-				 			'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
-				 				'<span class="Btn01Center">' + smartMessage.get('buttonConfirm') + '</span> <span class="Btn01End"></span>' +
-				 			'</a> </span>' +
-				 		'</div>' +
-					 '</div>' +
-				  '</div>').appendTo($(document)), 
-		  {
-			opacity: 50,
-			overlayCss: {backgroundColor:"#000"},
-			containerCss:{
-				backgroundColor:"#fff",
-				borderColor:"#000",
-				color: "#000",
-				height:200,
-				padding:1,
-				width:500
-			},
-			overlayClose: false,
-			onShow: function(dialog){
-				$('.js_btn_ok', dialog.data[0]).live('click', function(){
-					if ($.isFunction(onOk)) {
-						onOk.apply();
-					}
-					$.modal.close();
-					return false;
-				});
-				$('.js_btn_cancel', dialog.data[0]).live('click', function(){
-					if ($.isFunction(onCancel)) {
-						onCancel.apply();
-					}
-					$.modal.close();
-					return false;
-				});
-			}
-		});
-	},
-	
 	closeInfo : function(){
 		smartPop.closeOverlay();
 		$('#sw_pop_show_info').remove();		
@@ -188,62 +122,6 @@ smartPop = {
 	},
 
 	progressTarget : "",
-	progressCenterOld : function(){
-		$.modal($('<img class="js_progress_icon" src="images/load_wh.gif"/>').appendTo($(document)), {
-			opacity: 20,
-			autoPosition: true,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-
-		} );
-	},
-	progressContOld : function(target){
-		smartPop.progressTarget= target;
-		$('<img class="js_progress_icon" src="images/load_wh.gif"/>').appendTo(target);
-		$.modal("", {
-			opacity: 20,
-			autoPosition: false,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-		} );
-	},
-	progressContGrayOld : function(target){
-		smartPop.progressTarget= target;
-		$('<img class="js_progress_icon" src="images/load_wh_02.gif" align="bottom"/>').appendTo(target);
-		$.modal("", {
-			opacity: 20,
-			autoPosition: false,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-		} );
-	},
-	progressNavOld : function(target){
-		smartPop.progressTarget= target;
-		$('<img class="js_progress_icon" src="images/load_gr.gif" align="bottom"/>').appendTo(target);
-		$.modal("", {
-			opacity: 20,
-			autoPosition: false,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-		} );
-	},
-	progressNavGrayOld : function(target){
-		smartPop.progressTarget= target;
-		$('<img class="js_progress_icon" src="images/load_gr_02.gif" align="bottom"/>').appendTo(target);
-		$.modal("", {
-			opacity: 20,
-			autoPosition: false,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-		} );
-	},
-
-	closeProgressOld : function(){
-		$.modal.close();
-		if(!isEmpty(smartPop.progressTarget))
-			smartPop.progressTarget.find('.js_progress_icon').remove();
-	},
-
 	progressCenter : function(){
 		$('<img class="js_progress_icon" src="images/load_wh.gif"/>').appendTo($(document));
 		smartPop.overlay();
@@ -392,7 +270,8 @@ smartPop = {
 									new SmartWorks.GridLayout({
 										target : formContent,
 										formXml : formXml,
-										mode : "edit"
+										mode : "edit",
+										requiredOnly : 'true'
 									});
 									$.modal.close();
 									target.html('');
