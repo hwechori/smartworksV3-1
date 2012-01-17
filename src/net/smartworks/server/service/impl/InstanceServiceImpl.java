@@ -31,6 +31,8 @@ import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.work.FormField;
+import net.smartworks.model.work.SmartForm;
+import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -38,6 +40,7 @@ import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.StringUtil;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.docfile.model.IFileModel;
@@ -113,7 +116,78 @@ public class InstanceServiceImpl implements IInstanceService {
 	 */
 	@Override
 	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception {
-		return SmartTest.getBoardInstances();
+
+		String workId = SmartWork.ID_CBOARD_MANAGEMENT;
+
+		User user = SmartUtil.getCurrentUser();
+
+		SwdDomainCond swdDomainCond = new SwdDomainCond();
+		swdDomainCond.setCompanyId(user.getCompanyId());
+
+		SwfFormCond swfFormCond = new SwfFormCond();
+		swfFormCond.setCompanyId(user.getCompanyId());
+		swfFormCond.setPackageId(workId);
+
+		swdDomainCond.setFormId(getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE)[0].getId());
+
+		SwdDomain swdDomain = getSwdManager().getDomain(user.getId(), swdDomainCond, IManager.LEVEL_LITE);
+
+		SwdRecordCond swdRecordCond = new SwdRecordCond();
+		swdRecordCond.setCompanyId(user.getCompanyId());
+		swdRecordCond.setFormId(swdDomain.getFormId());
+		swdRecordCond.setDomainId(swdDomain.getObjId());
+
+		swdRecordCond.setPageNo(0);
+		swdRecordCond.setPageSize(5);
+
+		swdRecordCond.setOrders(new Order[]{new Order(FormField.ID_CREATED_DATE, false)});
+
+		SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
+
+		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
+
+		BoardInstanceInfo[] boardInstanceInfos = null;
+
+		if(swdRecords != null) {
+			boardInstanceInfos = new BoardInstanceInfo[swdRecords.length];
+			for(int i=0; i < swdRecords.length; i++) {
+				SwdRecord swdRecord = swdRecords[i];
+				BoardInstanceInfo boardInstanceInfo = new BoardInstanceInfo();
+				boardInstanceInfo.setId(swdRecord.getRecordId());
+				boardInstanceInfo.setOwner(ModelConverter.getUserInfoByUserId(swdRecord.getCreationUser()));
+				boardInstanceInfo.setCreatedDate(new LocalDate((swdRecord.getCreationDate()).getTime()));
+				int type = WorkInstance.TYPE_INFORMATION;
+				boardInstanceInfo.setType(type);
+				boardInstanceInfo.setStatus(WorkInstance.STATUS_COMPLETED);
+				boardInstanceInfo.setWorkSpace(null);
+
+				WorkCategoryInfo groupInfo = null;
+				if (!CommonUtil.isEmpty(swdRecordExtends[0].getSubCtgId()))
+					groupInfo = new WorkCategoryInfo(swdRecordExtends[0].getSubCtgId(), swdRecordExtends[0].getSubCtg());
+	
+				WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
+	
+				WorkInfo workInfo = new SmartWorkInfo(swdRecord.getFormId(), swdRecord.getFormName(), type, groupInfo, categoryInfo);
+
+				boardInstanceInfo.setWork(workInfo);
+				boardInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
+				boardInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
+
+				SwdDataField[] swdDataFields = swdRecord.getDataFields();
+				for(SwdDataField swdDataField : swdDataFields) {
+					String value = swdDataField.getValue();
+					if(swdDataField.getId().equals("0")) {
+						boardInstanceInfo.setSubject(value);
+					} else if(swdDataField.getId().equals("1")) {
+						boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 20, "..."));
+					}
+				}
+				boardInstanceInfos[i] = boardInstanceInfo;
+			}
+		}
+
+		return boardInstanceInfos;
+
 	}
 
 	/*
@@ -313,8 +387,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		key Set : formId
 		key Set : formName
 		*/
-		Map<String, Object> SmartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
-		
+		Map<String, Object> smartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+
 		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
 		String formId = (String)requestBody.get("formId");
 		String formName = (String)requestBody.get("formName");
@@ -341,7 +415,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			fieldInfoMap.put(field.getFormFieldId(), field);
 		}
 		
-		Set<String> keySet = SmartFormInfoMap.keySet();
+		Set<String> keySet = smartFormInfoMap.keySet();
 		Iterator<String> itr = keySet.iterator();
 		
 //		SwdField[] fieldDatas = new SwdField[keySet.size()];
@@ -355,7 +429,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			String refForm = null;
 			String refFormField = null;
 			String refRecordId = null;
-			Object fieldValue = SmartFormInfoMap.get(fieldId);
+			Object fieldValue = smartFormInfoMap.get(fieldId);
 			if (fieldValue instanceof LinkedHashMap) {
 				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
 				groupId = (String)valueMap.get("groupId");
@@ -364,7 +438,8 @@ public class InstanceServiceImpl implements IInstanceService {
 
 				if(!CommonUtil.isEmpty(groupId)) {
 					files = (ArrayList<Map<String,String>>)valueMap.get("files");
-					value = groupId;
+					if(files != null && files.size() > 0)
+						value = groupId;
 				} else if(!CommonUtil.isEmpty(refForm)) {
 					refFormField = (String)valueMap.get("refFormField");
 					refRecordId = (String)valueMap.get("refRecordId");
@@ -389,7 +464,11 @@ public class InstanceServiceImpl implements IInstanceService {
 					value = user;
 				}
 			} else if(fieldValue instanceof String) {
-				value = (String)SmartFormInfoMap.get(fieldId);
+				value = (String)smartFormInfoMap.get(fieldId);
+				if(formId.equals(SmartForm.ID_MEMMO_MANAGEMENT)) {
+					if(fieldId.equals("12"))
+						value = StringUtil.subString(value, 0, 20, "...");
+				}
 			}
 			if (CommonUtil.isEmpty(value))
 				continue;
@@ -422,17 +501,20 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
 
-		try {
-			for(int i=0; i < files.subList(0, files.size()).size(); i++) {
-				Map<String, String> file = files.get(i);
-				String fileId = file.get("fileId");
-				String fileName = file.get("fileName");
-				String fileSize = file.get("fileSize");
-				getDocManager().insertFiles(workType, groupId, fileId, fileName, fileSize);
+		if(files != null && files.size() > 0) {
+			try {
+				for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+					Map<String, String> file = files.get(i);
+					String fileId = file.get("fileId");
+					String fileName = file.get("fileName");
+					String fileSize = file.get("fileSize");
+					getDocManager().insertFiles(workType, groupId, fileId, fileName, fileSize);
+				}
+			} catch (Exception e) {
+				throw new DocFileException("file upload fail...");
 			}
-		} catch (Exception e) {
-			throw new DocFileException("file upload fail...");
 		}
+
 		return null;
 	}
 

@@ -88,6 +88,7 @@ SmartWorks.FormRuntime.DateChooserBuilder.dataField = function(config){
 			value: ''
 	};
 
+	console.log("value ::::: ", value);
 	SmartWorks.extend(options, config);
 	$formXml = $(options.formXml);
 	var dataField = {};

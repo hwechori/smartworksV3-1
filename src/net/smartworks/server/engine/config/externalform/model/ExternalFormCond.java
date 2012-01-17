@@ -85,7 +85,7 @@ public class ExternalFormCond extends MisObjectCond {
 			obj = (ExternalFormCond)baseObj;
 		
 		//부모 attributes, elements 값 설정
-		BaseObject.toObject(node, obj);
+		MisObjectCond.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {

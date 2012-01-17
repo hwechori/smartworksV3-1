@@ -111,6 +111,8 @@ public class WebService extends MisObject {
 				obj.setWsdlAddress(wsdlAddress.getNodeValue());
 			if (portName != null)
 				obj.setPortName(portName.getNodeValue());
+			if (operationName != null)
+				obj.setOperationName(operationName.getNodeValue());
 			if (description != null)
 				obj.setDescription(description.getNodeValue());
 		}
