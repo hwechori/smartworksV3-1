@@ -1,5 +1,6 @@
 package net.smartworks.server.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,81 +43,37 @@ public class CalendarServiceImpl implements ICalendarService {
 		SwcEventDayCond swcEventDayCond = new SwcEventDayCond();
 		swcEventDayCond.setCompanyId(cUser.getCompanyId());
 
+		String fromDateString = null;
+		Date searchDay = null;
 		List<CompanyCalendar> companyCalendarList = new ArrayList<CompanyCalendar>();
 		for(int i=0; i<3; i++) {
 			CompanyCalendar companyCalendar = new CompanyCalendar();
 			if(i == 0) {
-				swcEventDayCond.setSearchDay(new Date(fromDate.getGMTDate())); //today
-				SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
-
-				List<User> userList = new ArrayList<User>();
-				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
-				for(SwcEventDay swcEventDay : swcEventDays) {
-					boolean isHoliDay = swcEventDay.getType().equals(CompanyEvent.EVENT_TYPE_HOLIDAY) ? true : false;
-					LocalDate plannedStart = new LocalDate(swcEventDay.getStartDay().getTime());
-					LocalDate plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
-					if(swcEventDay.getReltdPerson() != null) {
-						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
-						for(String reltdUser : reltdUsers) {
-							User relatedUser = ModelConverter.getUserByUserId(reltdUser);
-							userList.add(relatedUser);
-						}
-					}
-					User[] relatedUsers = new User[userList.size()];
-					userList.toArray(relatedUsers);
-
-					CompanyEvent companyEvent = new CompanyEvent();
-					companyEvent.setIsHoliday(isHoliDay);
-					companyEvent.setRelatedUsers(relatedUsers);
-					companyEvent.setPlannedStart(plannedStart);
-					companyEvent.setPlannedEnd(plannedEnd);
-					companyEventList.add(companyEvent);
-				}
-				CompanyEvent[] companyEvents = new CompanyEvent[companyEventList.size()];
-				companyEventList.toArray(companyEvents);
-				companyCalendar.setCompanyEvents(companyEvents);
+				fromDateString = new LocalDate(fromDate.getGMTDate()).toLocalDateSimpleDashString();
 				companyCalendar.setDate(fromDate);
 			} else if(i == 1) {
-				swcEventDayCond.setSearchDay(new Date(fromDate.getGMTDate() + 1)); // tomorrow
-				SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
-
-				List<User> userList = new ArrayList<User>();
-				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
-				for(SwcEventDay swcEventDay : swcEventDays) {
-					boolean isHoliDay = swcEventDay.getType().equals(CompanyEvent.EVENT_TYPE_HOLIDAY) ? true : false;
-					LocalDate plannedStart = new LocalDate(swcEventDay.getStartDay().getTime());
-					LocalDate plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
-					if(swcEventDay.getReltdPerson() != null) {
-						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
-						for(String reltdUser : reltdUsers) {
-							User relatedUser = ModelConverter.getUserByUserId(reltdUser);
-							userList.add(relatedUser);
-						}
-					}
-					User[] relatedUsers = new User[userList.size()];
-					userList.toArray(relatedUsers);
-
-					CompanyEvent companyEvent = new CompanyEvent();
-					companyEvent.setIsHoliday(isHoliDay);
-					companyEvent.setRelatedUsers(relatedUsers);
-					companyEvent.setPlannedStart(plannedStart);
-					companyEvent.setPlannedEnd(plannedEnd);
-					companyEventList.add(companyEvent);
-				}
-				CompanyEvent[] companyEvents = new CompanyEvent[companyEventList.size()];
-				companyEventList.toArray(companyEvents);
-				companyCalendar.setCompanyEvents(companyEvents);
-				companyCalendar.setDate(new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY));
+				fromDateString = new LocalDate(fromDate.getGMTDate() + LocalDate.ONE_DAY).toLocalDateSimpleDashString();
+				companyCalendar.setDate(new LocalDate(fromDate.getGMTDate() + LocalDate.ONE_DAY));
 			} else if(i == 2) {
-				swcEventDayCond.setSearchDay(new Date(fromDate.getGMTDate() + (1*2))); // after tomorrow
-				SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
+				fromDateString = new LocalDate(fromDate.getGMTDate() + LocalDate.ONE_DAY * 2).toLocalDateSimpleDashString();
+				companyCalendar.setDate(new LocalDate(fromDate.getGMTDate() + LocalDate.ONE_DAY * 2));
+			}
+			System.out.println(i +": "+ fromDateString);
+			searchDay = new SimpleDateFormat("yyyy-MM-dd").parse(fromDateString);
+			System.out.println(i +": "+ searchDay);
+			swcEventDayCond.setSearchDay(searchDay);
+			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
 
-				List<User> userList = new ArrayList<User>();
-				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
-				for(SwcEventDay swcEventDay : swcEventDays) {
+			List<User> userList = new ArrayList<User>();
+			if(swcEventDays != null) {
+				CompanyEvent[] companyEvents = new CompanyEvent[swcEventDays.length];
+				for(int j = 0; j < swcEventDays.length; j++) {
+					SwcEventDay swcEventDay = swcEventDays[i];
 					boolean isHoliDay = swcEventDay.getType().equals(CompanyEvent.EVENT_TYPE_HOLIDAY) ? true : false;
 					LocalDate plannedStart = new LocalDate(swcEventDay.getStartDay().getTime());
 					LocalDate plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
+					String id = swcEventDay.getObjId();
+					String name = swcEventDay.getName();
 					if(swcEventDay.getReltdPerson() != null) {
 						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
 						for(String reltdUser : reltdUsers) {
@@ -126,25 +83,32 @@ public class CalendarServiceImpl implements ICalendarService {
 					}
 					User[] relatedUsers = new User[userList.size()];
 					userList.toArray(relatedUsers);
-
+	
 					CompanyEvent companyEvent = new CompanyEvent();
+					companyEvent.setId(id);
+					companyEvent.setName(name);
 					companyEvent.setIsHoliday(isHoliDay);
 					companyEvent.setRelatedUsers(relatedUsers);
 					companyEvent.setPlannedStart(plannedStart);
 					companyEvent.setPlannedEnd(plannedEnd);
-					companyEventList.add(companyEvent);
+
+					companyEvents[j] = companyEvent;
 				}
-				CompanyEvent[] companyEvents = new CompanyEvent[companyEventList.size()];
-				companyEventList.toArray(companyEvents);
 				companyCalendar.setCompanyEvents(companyEvents);
-				companyCalendar.setDate(new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY * 2));
+
 			}
 			companyCalendarList.add(companyCalendar);
 		}
 
-		CompanyCalendar[] companyCalendars = new CompanyCalendar[companyCalendarList.size()];
+		CompanyCalendar[] companyCalendars = new CompanyCalendar[3];
+
 		companyCalendarList.toArray(companyCalendars);
 
+		for(int k = 0; k < companyCalendars.length; k++) {
+			if(companyCalendars[k] == null) {
+				companyCalendars[k] = new CompanyCalendar();
+			}
+		}
 		return companyCalendars;*/
 		return SmartTest.getCompanyCalendars();
 
