@@ -18,7 +18,7 @@ public interface IItmManager extends IManager {
 	public long getMenuItemListSize(String userId, ItmMenuItemListCond cond) throws ItmException;
 	public ItmMenuItemList[] getMenuItemLists(String userId, ItmMenuItemListCond cond, String level) throws ItmException;
 	
-	public void removeMenuItems(String userId, String packageId) throws ItmException;
+	public void removeMenuItem(String userId, String packageId) throws ItmException;
 
 	public int getMaxItmSeq(String userId) throws ItmException;
 

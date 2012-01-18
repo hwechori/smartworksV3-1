@@ -137,16 +137,17 @@ public class WorkServiceImpl implements IWorkService {
 					}
 				}
 			}
-		}
 
-		PkgPackageCond pkgCond = new PkgPackageCond();
-		pkgCond.setCompanyId(user.getCompanyId());
-		pkgCond.setPackageIdIns(packageIdArray);
-		PkgPackage[] pkgs = getPkgManager().getPackages(user.getId(), pkgCond, IManager.LEVEL_ALL);
-		
-		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
-		
-		return workPkgs;
+			PkgPackageCond pkgCond = new PkgPackageCond();
+			pkgCond.setCompanyId(user.getCompanyId());
+			pkgCond.setPackageIdIns(packageIdArray);
+			PkgPackage[] pkgs = getPkgManager().getPackages(user.getId(), pkgCond, IManager.LEVEL_ALL);
+
+			SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
+			
+			return workPkgs;
+		}
+		return null;
 	}
 
 	@Override
@@ -737,9 +738,16 @@ public class WorkServiceImpl implements IWorkService {
 
 		User cUser = SmartUtil.getCurrentUser();
 		String userId = cUser.getId();
+		getItmManager().removeMenuItem(userId, workId);
 
-		getItmManager().removeMenuItems(userId, workId);
+/*		ItmMenuItemListCond itmMenuItemListCond = new ItmMenuItemListCond();
+		itmMenuItemListCond.setUserId(userId);
+		ItmMenuItem itmMenuItem = new ItmMenuItem();
+		itmMenuItem.setPackageId(workId);
+		itmMenuItemListCond.setMenuItems(new ItmMenuItem[]{itmMenuItem});
 
-	}		
+		getItmManager().removeMenuItemList(userId, itmMenuItemListCond);*/
+
+	}
 
 }

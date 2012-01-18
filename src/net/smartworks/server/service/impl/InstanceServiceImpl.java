@@ -707,11 +707,14 @@ public class InstanceServiceImpl implements IInstanceService {
 								} else if(formatType.equals(FormField.TYPE_PERCENT)) {
 									// TO-DO
 								} else if(formatType.equals(FormField.TYPE_DATE)) {
-									if(value != null) {
+									if(value != null)
 										value = new LocalDate((LocalDate.convertStringToDate(value)).getTime()).toLocalDateSimpleString();
-									}
 								} else if(formatType.equals(FormField.TYPE_TIME)) {
+									if(value != null)
+										value = new LocalDate((LocalDate.convertStringToTime(value))).toLocalDateSimpleString();
 								} else if(formatType.equals(FormField.TYPE_DATETIME)) {
+									if(value != null)
+										value = new LocalDate((LocalDate.convertStringToDate(value)).getTime()).toLocalDateTimeSimpleString();
 								} else if(formatType.equals(FormField.TYPE_FILE)) {
 									List<IFileModel> fileList = getDocManager().findFileGroup(value);
 									List<String> fileNameList = new ArrayList<String>();
