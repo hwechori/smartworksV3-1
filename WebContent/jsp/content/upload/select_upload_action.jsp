@@ -14,12 +14,7 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	// 호출할때 전달된 spaceId를 가져온다.
-	// spaceId 에 따라 보여지는 항목들이 달라진다..
-	String strSpaceType = request.getParameter("spaceType");
-	int spaceType = 0;
-	if(!SmartUtil.isBlankObject(strSpaceType))
-		spaceType = Integer.parseInt(strSpaceType);
+	int spaceType = SmartUtil.getSpaceTypeFromContentContext((String)session.getAttribute("cid"));
 %>
 
 <!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->

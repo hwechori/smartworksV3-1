@@ -131,10 +131,13 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	String wid = request.getParameter("wid");
-
+	session.setAttribute("cid", cid);
+	session.setAttribute("wid", wid);
+	
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
 	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
+	session.setAttribute("smartWork", work);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -193,7 +196,7 @@
 				<!-- 버튼 영역-->
 				<div class="txt_btn solid_line_sb margin_t15">
 					<span class="po_left bu_work_explan"> 
-						<a class="js_view_work_manual" href="iwork_manual.sw?workId=<%=workId%>"><fmt:message key="common.button.view.work_manual" />▼</a>
+						<a class="js_view_work_manual" href="iwork_manual.sw"><fmt:message key="common.button.view.work_manual" />▼</a>
 						<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
 					</span> 
 					<span class="js_progress_span"></span>
@@ -279,7 +282,6 @@
 			<div class="contents_space">
 				<div>
 					<jsp:include page="/jsp/content/work/report/work_report.jsp">
-						<jsp:param value="<%=workId %>" name="workId"/>
 						<jsp:param value="<%=work.getLastReportId() %>" name="reportId"/>
 					</jsp:include>
 				</div>

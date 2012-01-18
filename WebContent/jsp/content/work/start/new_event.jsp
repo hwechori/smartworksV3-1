@@ -132,6 +132,8 @@ function submitForms() {
 		<div class="js_hidden_form_content" style="display:none">
 		</div>
 		<!-- 새이벤트를 등록하기위한 완료 버튼과 취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+			<jsp:param value="<%=SmartWork.ID_EVENT_MANAGEMENT%>" name="workId"/>
+		</jsp:include>
 	</div>
 </div>

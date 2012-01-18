@@ -22,10 +22,10 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String workId = request.getParameter("workId");
 	String filterId = request.getParameter("filterId");
 	User cUser = SmartUtil.getCurrentUser();
-	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
+	SmartWork work = (SmartWork)session.getAttribute("smartWork");
+	String workId = work.getId();
 
 	FormField[] fields = null;
 	SearchFilter filter = null;

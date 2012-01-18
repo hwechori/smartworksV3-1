@@ -94,8 +94,16 @@ function submitForms() {
 	String workId = request.getParameter("workId");
 	String workName = request.getParameter("workName");
 	
-	// workId로 해당정보관리업무 상세정보를 가져온다.
-	InformationWork work = (InformationWork)smartWorks.getWorkById(workId);
+	// iwork_list에서 호출이 되었으면 세션어트리뷰트에 smartWork를 설정하기때문에,
+	// 확인해서 workId가 같으면 그 object를 이용한다.
+	// 그렇지 않으면, workId로 해당정보관리업무 상세정보를 가져온다.
+	InformationWork work = null;
+	SmartWork smartWork = (SmartWork)session.getAttribute("smartWork");
+	if(!SmartUtil.isBlankObject(smartWork) && smartWork.getId().equals(workId)){
+		work = (InformationWork)smartWork;
+	}else{
+		work = (InformationWork)smartWorks.getWorkById(workId);
+	}
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -144,5 +152,7 @@ function submitForms() {
 	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
 	
 	<!-- 새업무를 시작하기위한 완료 버튼과 취소 버튼 -->
-	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+	<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+		<jsp:param value="<%=workId %>" name="workId"/>
+	</jsp:include>
 </div>

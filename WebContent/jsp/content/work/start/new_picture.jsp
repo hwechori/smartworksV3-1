@@ -132,7 +132,9 @@ function submitForms(e) {
 		</form>
 		
 		<!-- 등록 취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+			<jsp:param value="<%=SmartWork.ID_FILE_MANAGEMENT %>" name="workId"/>
+		</jsp:include>
 		<!-- 등록 취소 버튼 //-->
 	</div>
 </div>

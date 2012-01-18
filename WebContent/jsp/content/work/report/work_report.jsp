@@ -19,17 +19,15 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	SmartWork work = null;
-	if (workId != null)
-		work = (SmartWork) smartWorks.getWorkById(workId);
+	SmartWork work = (SmartWork)session.getAttribute("smartWork");
+	String workId = work.getId();
 	String lastReportId = "chart.pcnt.monthly";//work.getLastReportId();
 	Report lastReport = null;
 	String lastChartType = null;
 	if(lastReportId != null){
-		lastReport = smartWorks.getReportById(work.getLastReportId());
+		lastReport = smartWorks.getReportById(lastReportId);
 		if(lastReport.getType() == Report.TYPE_CHART) lastChartType = ((ChartReport)lastReport).getChartTypeInString();
 	}
 %>
@@ -74,7 +72,7 @@
 		</select>
 	</div>
 	<div class="po_left">
-		<a href="work_report_edit.sw?workId=<%=work.getId()%>" class="js_edit_work_report"><fmt:message key="report.button.edit_report"/></a>
+		<a href="work_report_edit.sw" class="js_edit_work_report"><fmt:message key="report.button.edit_report"/></a>
 	</div>
 	<span class="po_left js_progress_span"></span>
 	<div class="js_work_report_edit" style="display:none"></div>

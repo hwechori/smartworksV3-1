@@ -24,14 +24,21 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	// 호출하면서 설정된 WorkSpace ID 및 Work ID 를 가져온다..
-	String wid = request.getParameter("wid");
-	if (SmartUtil.isBlankObject(wid))
-		wid = cUser.getId();
-	String workId = request.getParameter("workId");
+	String cid = (String)session.getAttribute("cid");
+	String wid = (String)session.getAttribute("wid");
+
+	// cid를 가지고 현재 공간의 타입을 가져온다.
+	int spaceType = SmartUtil.getSpaceTypeFromContentContext(cid);
 	
-	// 실행한 업무에 대한 정보들을 가져온다.. 업무의 권한정보를 설정할 때 사용된다..
-	SmartWork work = (SmartWork)smartWorks.getWorkById(workId);
+	// 호출하면서 설정된 Work ID와 Instance ID 를 가져온다..
+	String workId = request.getParameter("workId");
+	String instId = request.getParameter("instId");
+	
+	// 홈이아닌 업무공간에서 실행되었으면 세션어트리뷰터에 저장된 work object를 가져오고,
+	// 그렇지 않으면 workId로 업무에 대한 정보들을 가져온다.. 업무의 권한정보를 설정할 때 사용된다..
+	SmartWork work = (SmartWork)session.getAttribute("smartWork");
+	if(SmartUtil.isBlankObject(work) || work.getId().equals(workId))
+		work = (SmartWork)smartWorks.getWorkById(workId);
 	if (SmartUtil.isBlankObject(work))
 		work = new SmartWork();
 	
@@ -68,33 +75,49 @@
 		<div id="" class="float_right form_space">
 		
 			<!--  현재사용자가 선택할 수 있는 업무공간들을 구성한다.. -->
-			<select name="selWorkSpace">
-				<option  value="<%=cUser.getId()%>"><fmt:message key="common.upload.space.self" /></option>
-				<optgroup label="<fmt:message key="common.upload.space.department"/>">
-					<%
-					// 현재사용자가 속해있는 부서들을 선택하는 옵션들을 구성한다..
-					for (CommunityInfo community : communities) {
-						if (community.getClass().equals(DepartmentInfo.class)) {
-					%>
-							<option value="<%=community.getId()%>"><%=community.getName()%></option>
-					<%
+			<%
+			if((spaceType == ISmartWorks.SPACE_TYPE_DEPARTMENT)
+				|| (spaceType == ISmartWorks.SPACE_TYPE_GROUP)
+				|| (spaceType == ISmartWorks.SPACE_TYPE_USER)){
+			%>
+				<input name="selWorkSpace" type="hidden" value="<%=wid%>">
+			<%
+			}else if(spaceType == ISmartWorks.SPACE_TYPE_WORK_INSTANCE){
+			%>
+				<input name="selWorkSpace" type="hidden" value="<%=instId%>">
+			<%
+			}else{
+			%>
+				<select name="selWorkSpace">
+					<option  value="<%=cUser.getId()%>"><fmt:message key="common.upload.space.self" /></option>
+					<optgroup label="<fmt:message key="common.upload.space.department"/>">
+						<%
+						// 현재사용자가 속해있는 부서들을 선택하는 옵션들을 구성한다..
+						for (CommunityInfo community : communities) {
+							if (community.getClass().equals(DepartmentInfo.class)) {
+						%>
+								<option value="<%=community.getId()%>"><%=community.getName()%></option>
+						<%
+							}
 						}
-					}
-					%>
-				</optgroup>
-				<optgroup label="<fmt:message key="common.upload.space.group"/>">
-					<%
-					// 현재사용자가 속해있는 그룹들을 선택하는 옵션들을 구성한다..
-					for (CommunityInfo community : communities) {
-						if (community.getClass().equals(GroupInfo.class)) {
-					%>
-							<option value="<%=community.getId()%>"><%=community.getName()%></option>
-					<%
+						%>
+					</optgroup>
+					<optgroup label="<fmt:message key="common.upload.space.group"/>">
+						<%
+						// 현재사용자가 속해있는 그룹들을 선택하는 옵션들을 구성한다..
+						for (CommunityInfo community : communities) {
+							if (community.getClass().equals(GroupInfo.class)) {
+						%>
+								<option value="<%=community.getId()%>"><%=community.getName()%></option>
+						<%
+							}
 						}
-					}
-					%>
-				</optgroup>
-			</select>
+						%>
+					</optgroup>
+				</select>
+			<%
+			}
+			%>
 		</div>
 
 		<div id="" class="float_right form_space">

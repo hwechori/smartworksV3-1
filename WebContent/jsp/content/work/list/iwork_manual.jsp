@@ -15,8 +15,8 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	String workId = request.getParameter("workId");
-	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
+	InformationWork work = (InformationWork)session.getAttribute("smartWork");
+	String workId = work.getId();
 	CommentInstance[] comments = smartWorks.getRecentCommentsInWorkManual(workId, 3);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

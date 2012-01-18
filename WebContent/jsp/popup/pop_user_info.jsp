@@ -27,9 +27,9 @@
 
 	<!-- 팝업 컨텐츠 -->
 	<div class="pop_contents">
-		<img src="<%=user.getOrgPicture() %>" class="profile_size_110 float_left">
+		<img src="<%=cUser.getOrgPicture() %>" class="profile_size_110 float_left">
 		<div class="pop_notice_section">
-			<div><%=user.getDepartment() %> <span class="smartp_name">user.getLongName()</span></div>
+			<div><%=cUser.getDepartment() %> <span class="smartp_name">cUser.getLongName()</span></div>
 			<div class="smartp_info">상세정보</div>
 		</div>
 	</div>

@@ -18,16 +18,14 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String workId = request.getParameter("workId");
 	String reportId = request.getParameter("reportId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	SmartWork work = null;
+	SmartWork work = (SmartWork)session.getAttribute("smartWork");
+	String workId = work.getId();
 	Report report = null;
 	String filterId = "";
 	int reportType = Report.TYPE_CHART;
-	if (workId != null)
-		work = (SmartWork) smartWorks.getWorkById(workId);
 	if (reportId != null) {
 		report = smartWorks.getReportById(reportId);
 		reportType = report.getType();
@@ -51,13 +49,13 @@
 			<th><fmt:message key="report.title.report_type" /></th>
 			<td colspan="4" class="">
 				<input name="rdoWorkReportType" type="radio" value="<%=Report.TYPE_CHART%>"
-					href="work_report_chart.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"
+					href="work_report_chart.sw?reportId=<%=CommonUtil.toNotNull(reportId)%>"
 					<%if (reportType == Report.TYPE_CHART) {%> checked <%}%>><fmt:message key="report.type.chart" />
 				<input name="rdoWorkReportType" type="radio" value="<%=Report.TYPE_MATRIX%>"
-					href="work_report_chart.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"
+					href="work_report_chart.sw?reportId=<%=CommonUtil.toNotNull(reportId)%>"
 					<%if (reportType == Report.TYPE_MATRIX) {%> checked <%}%>><fmt:message key="report.type.matrix" />
 				<input name="rdoWorkReportType" type="radio" value="<%=Report.TYPE_TABLE%>"
-					href="work_report_table.sw?workId=<%=workId%>&reportId=<%=CommonUtil.toNotNull(reportId)%>"
+					href="work_report_table.sw?reportId=<%=CommonUtil.toNotNull(reportId)%>"
 					<%if (reportType == Report.TYPE_TABLE) {%> checked <%}%>> <fmt:message key="report.type.table" />
 			</td>
 		</tr>
@@ -67,7 +65,6 @@
 		if (reportType == Report.TYPE_CHART || reportType == Report.TYPE_MATRIX) {
 		%>
 			<jsp:include page="/jsp/content/work/report/work_report_chart.jsp">
-				<jsp:param name="workId" value="<%=workId %>" />
 				<jsp:param name="reportId" value="<%=CommonUtil.toNotNull(reportId) %>" />
 				<jsp:param name="reportType" value="<%=reportType %>" />
 			</jsp:include>
@@ -75,7 +72,6 @@
 		} else if (reportType == Report.TYPE_TABLE) {
 		%>
 			<jsp:include page="/jsp/content/work/report/work_report_table.jsp">
-				<jsp:param name="workId" value="<%=workId %>" />
 				<jsp:param name="reportId" value="<%=CommonUtil.toNotNull(reportId) %>" />
 				<jsp:param name="reportType" value="<%=reportType %>" />
 			</jsp:include>

@@ -21,14 +21,14 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	String workId = request.getParameter("workId");
-	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
+	SmartWork work = (SmartWork)session.getAttribute("smartWork");
+	String workId = work.getId();
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <select name="selMyReportList" class="js_select_work_report"
-	href="work_report_view.sw?workId=<%=workId%>&workType=<%=work.getType()%>">
+	href="work_report_view.sw?workType=<%=work.getType()%>">
 	<option value="<%=Report.REPORT_ID_NONE %>" 
 		<%if(SmartUtil.isBlankObject(work.getLastReportId()) || work.getLastReportId().equals(Report.REPORT_ID_NONE)){ %> selected <%} %>>
 		<fmt:message key="report.title.no_report" />

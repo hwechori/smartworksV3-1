@@ -103,46 +103,6 @@ function submitForms() {
 	}
 
 }
-
-	/* if(!SmartWorks.GridLayout.validate(newBoard.find('form.js_validation_required'))) return
-	var forms = newBoard.find('form');
-	var paramsJson = {};
-	for(var i=0; i<forms.length; i++){
-		var form = $(forms[i]);
-		// 폼이 스마트폼이면 formId와 formName 값을 전달한다...
-		if(form.attr('name') === 'frmSmartForm'){
-			paramsJson['formId'] = form.attr('formId');
-			paramsJson['formName'] = form.attr('formName');
-		}else if(form.attr('name') === 'frmNewFile'){	
-			continue;
-		}
-		// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
-		paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-	}
-	console.log(JSON.stringify(paramsJson));
-	// 서비스요청 프로그래스바를 나타나게 한다....
-	var progressSpan = newBoard.find('.js_progress_span');
-	smartPop.progressCont(progressSpan);
-	var url = "create_new_board.sw";
-	// create_new_board.sw서비스를 요청한다..
-	$.ajax({
-		url : url,
-		contentType : 'application/json',
-		type : 'POST',
-		data : JSON.stringify(paramsJson),
-		success : function(data, status, jqXHR) {
-			// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
-			smartPop.closeProgress();
-			smartPop.showInfo(smartPop.INFO, smartMessage.get("createBoardSucceed"), function(){
-				document.location.href = data.href;
-			});
-		},
-		error : function(e) {
-			// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
-			smartPop.closeProgress();
-			smartPop.showInfo(smartPop.ERROR, smartMessage.get("createBoardError"));
-		}
-	}); */
 </script>
 
 <%
@@ -167,6 +127,8 @@ function submitForms() {
 		<div class="js_hidden_form_content" style="display:none">
 		</div>
 		<!-- 새공지를 등록하기위한 완료 버튼과 취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+			<jsp:param value="<%=SmartWork.ID_CBOARD_MANAGEMENT%>" name="workId"/>
+		</jsp:include>
 	</div>
 </div>

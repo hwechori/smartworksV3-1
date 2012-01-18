@@ -87,5 +87,7 @@ function submitForms(e) {
 	<div class="js_form_content" workType="swork"></div>
 	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
 	<!-- 폼- 확장 //-->
-	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+	<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+		<jsp:param value="<%=workId %>" name="workId"/>
+	</jsp:include>
 </div>

@@ -4,8 +4,15 @@
 <!-- Author			: Maninsoft, Inc.										 -->
 <!-- Created Date	: 2011.9.												 -->
 
+<%@page import="net.smartworks.service.ISmartWorks"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 
+<%
+
+	session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
+	session.removeAttribute("wid");
+
+%>
 <!-- 새업무, 사진, 파일, 이벤트... 을 올리는 화면 -->
 <jsp:include page="/jsp/content/upload/select_upload_action.jsp" />
 <!-- 새업무, 사진, 파일, 이벤트... 을 올리는 화면 //-->
