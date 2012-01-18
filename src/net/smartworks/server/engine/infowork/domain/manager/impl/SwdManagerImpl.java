@@ -573,7 +573,9 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				}
 			} else if (type.equalsIgnoreCase("boolean")) {
 				query.setBoolean(param, CommonUtil.toBoolean(value));
-			} else if (type.equalsIgnoreCase("datetime") || type.equalsIgnoreCase("date")) {
+			} else if (type.equalsIgnoreCase("datetime")) {
+				query.setTimestamp(param, DateUtil.toDate(value, "yyyy-MM-dd HH:mm:ss.SSS"));
+			} else if (type.equalsIgnoreCase("date")) {
 				query.setTimestamp(param, DateUtil.toDate(value));
 			} else if (type.equalsIgnoreCase("time")) {
 				if (CommonUtil.isEmpty(value)) {

@@ -100,10 +100,6 @@ public class LocalDate extends Date{
 		return (new SimpleDateFormat("yyyy.MM.dd", this.locale)).format(getLocalTime());
 	}
 
-	public String toLocalDateSimpleDashString(){
-		return (new SimpleDateFormat("yyyy-MM-dd", this.locale)).format(getLocalTime());
-	}
-
 	public String toLocalDateTimeSimpleString(){
 		return (new SimpleDateFormat("yyyy.MM.dd HH:mm", this.locale)).format(getLocalTime());
 	}
@@ -183,14 +179,24 @@ public class LocalDate extends Date{
 		return df.parse(yyyyMMddHHmm);					
 	}
 
-	public static Date convertStringToDateTime(String yyyyMMddHHmmssS) throws Exception{
+	public static Date convertStringToDateTime(String yyyyMMddHHmm) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-		return df.parse(yyyyMMddHHmmssS);					
+		return df.parse(yyyyMMddHHmm);					
 	}
 
-	public static LocalDate convertValueToLocalDate(String yyyyMMddHHmmssSSS) throws Exception{
+	public static LocalDate convertLocalStringToLocalDate(String yyyyMMddHHmmssSSS) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
+	}
+
+	public static LocalDate convertGMTStringToLocalDate(String yyyyMMddHHmmssSSS) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime());					
+	}
+
+	public static LocalDate convertStringToDashLocalDate(String yyyyMMddHHmmssSS) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return new LocalDate((df.parse(yyyyMMddHHmmssSS)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}
 
 	public static LocalDate convertStringToLocalDate(String yyyyMMddHHmm) throws Exception{

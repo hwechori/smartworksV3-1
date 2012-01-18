@@ -1,7 +1,11 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,12 +24,19 @@ import net.smartworks.server.engine.common.searcher.model.SchWorkspace;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
+import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -110,12 +121,101 @@ public class CommunityServiceImpl implements ICommunityService {
 
 	public Group setGroup(HttpServletRequest request) throws Exception {
 
+		/*Map<String, Object> frmNewGroupProfile = (Map<String, Object>)requestBody.get("frmNewGroupProfile");
+
+		Set<String> keySet = frmNewGroupProfile.keySet();
+		Iterator<String> itr = keySet.iterator();
+
+		List<String> users = null;
+		List<Map<String, String>> files = null;
+		String groupId = null;
+		String txtGroupName = null;
+		String txtaGroupDesc = null;
+		String selGroupProfileType = null;
+		String txtGroupLeader = null;
+		String txtGroupMembers = null;
+
+		String txtUserProfilePhoneNo = null;
+		String txtUserProfileCellNo = null;
+		String profileFileId = null;
+		String profileFileName = null;
+		String txtUserProfilePicture = null;
+
+		while (itr.hasNext()) {
+			String fieldId = (String)itr.next();
+			Object fieldValue = frmNewGroupProfile.get(fieldId);
+			if (fieldValue instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+				users = (ArrayList)valueMap.get("users");
+				groupId = (String)valueMap.get("groupId");
+				files = (ArrayList<Map<String,String>>)valueMap.get("files");
+			} else if(fieldValue instanceof String) {
+				if(fieldId.equals("txtUserProfileUserId"))
+					txtUserProfileUserId = (String)frmMyProfileSetting.get("txtUserProfileUserId");
+				else if(fieldId.equals("pwUserProfilePW"))
+					pwUserProfilePW = (String)frmMyProfileSetting.get("pwUserProfilePW");
+					//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW);
+				else if(fieldId.equals("selUserProfileLocale"))
+					selUserProfileLocale = (String)frmMyProfileSetting.get("selUserProfileLocale");
+				else if(fieldId.equals("selUserProfileTimeZone"))
+					selUserProfileTimeZone = (String)frmMyProfileSetting.get("selUserProfileTimeZone");
+				else if(fieldId.equals("txtUserProfileEmail"))
+					txtUserProfileEmail = (String)frmMyProfileSetting.get("txtUserProfileEmail");
+				else if(fieldId.equals("txtUserProfilePhoneNo"))
+					txtUserProfilePhoneNo = (String)frmMyProfileSetting.get("txtUserProfilePhoneNo");
+				else if(fieldId.equals("txtUserProfileCellNo"))
+					txtUserProfileCellNo = (String)frmMyProfileSetting.get("txtUserProfileCellNo");
+			}
+		}
+
+		SwoUser user = getSwoManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
+
+		if(!users.isEmpty()) {
+			for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+				Map<String, String> file = files.get(i);
+			}
+		}
+		if(!files.isEmpty()) {
+			for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+				Map<String, String> file = files.get(i);
+				profileFileId = file.get("fileId");
+				profileFileName = file.get("fileName");
+				txtUserProfilePicture = getDocManager().insertProfilesFile(profileFileId, profileFileName, txtUserProfileUserId);
+				user.setPicture(txtUserProfilePicture);
+			}
+		}
+
+		//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW); -- md5 password 암호화
+		user.setPassword(pwUserProfilePW);
+		user.setLocale(selUserProfileLocale);
+		user.setTimeZone(selUserProfileTimeZone);
+		user.setEmail(txtUserProfileEmail);
+		user.setExtensionNo(txtUserProfilePhoneNo);
+		user.setMobileNo(txtUserProfileCellNo);
+		try {
+			getSwoManager().setUser(txtUserProfileUserId, user, null);
+			UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
+	        Authentication authentication = authenticationManager.authenticate(authRequest);
+	        SecurityContext securityContext = new SecurityContextImpl();
+	        securityContext.setAuthentication(authentication);
+	        SecurityContextHolder.setContext(securityContext);
+	        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
+
+		
+		
+		
+		
+		
+		
 		String groupName = request.getParameter("groupName");
 		String groupDesc = request.getParameter("groupDesc");
 		String groupLeader = request.getParameter("groupLeader");
 		String groupOwner = request.getParameter("groupOwner");
 		String[] groupMembers = request.getParameterValues("groupMembers");
-		
+
 		boolean isPublic = Boolean.getBoolean(request.getParameter("isPublic"));
 		Group group = new Group();
 		group.setName(groupName);

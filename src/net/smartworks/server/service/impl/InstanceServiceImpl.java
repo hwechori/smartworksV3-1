@@ -421,7 +421,7 @@ public class InstanceServiceImpl implements IInstanceService {
 //		SwdField[] fieldDatas = new SwdField[keySet.size()];
 		List fieldDataList = new ArrayList();
 		List<Map<String, String>> files = null;
-		List users = null;
+		List<Map<String, String>> users = null;
 		String groupId = null;
 		while (itr.hasNext()) {
 			String fieldId = (String)itr.next();
@@ -434,7 +434,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
 				groupId = (String)valueMap.get("groupId");
 				refForm = (String)valueMap.get("refForm");
-				users = (ArrayList)valueMap.get("users");
+				users = (ArrayList<Map<String,String>>)valueMap.get("users");
 
 				if(!CommonUtil.isEmpty(groupId)) {
 					files = (ArrayList<Map<String,String>>)valueMap.get("files");
@@ -448,20 +448,22 @@ public class InstanceServiceImpl implements IInstanceService {
 					String deptName = getSwoManager().getDepartment(userId, swoDepartmentCond, IManager.LEVEL_LITE).getName();
 					value = deptName;
 				} else if(!CommonUtil.isEmpty(users)) {
-					String user = "";
+					refFormField = "frm_user_SYSTEM"; 
+					String resultRefRecordId = "";
+					String resultValue = "";
 					String symbol = ";";
 					if(users.size() == 1) {
-						user = (String)users.get(0);
+						resultRefRecordId = users.get(0).get("id");
+						resultValue = users.get(0).get("name");
 					} else {
-						for(int i=0; i < users.size(); i++) {
-							user += (String)users.get(i) + symbol;
+						for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+							Map<String, String> user = users.get(i);
+							resultRefRecordId += user.get("id") + symbol;
+							resultValue += user.get("name") + symbol;
 						}
-//						int sapaEmptyInt = 2;
-//						int userSapaEmpty = user.length() - sapaEmptyInt;
-//						user = user.substring(0, userSapaEmpty);
-						System.out.println("user : " + user);
 					}
-					value = user;
+					refRecordId = resultRefRecordId;
+					value = resultValue;
 				}
 			} else if(fieldValue instanceof String) {
 				value = (String)smartFormInfoMap.get(fieldId);
@@ -708,13 +710,13 @@ public class InstanceServiceImpl implements IInstanceService {
 									// TO-DO
 								} else if(formatType.equals(FormField.TYPE_DATE)) {
 									if(value != null)
-										value = new LocalDate((LocalDate.convertStringToDate(value)).getTime()).toLocalDateSimpleString();
+										value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateSimpleString(); 
 								} else if(formatType.equals(FormField.TYPE_TIME)) {
 									if(value != null)
-										value = new LocalDate((LocalDate.convertStringToTime(value))).toLocalDateSimpleString();
+										value = LocalDate.convertGMTStringToLocalDate(value).toLocalTimeSimpleString();
 								} else if(formatType.equals(FormField.TYPE_DATETIME)) {
 									if(value != null)
-										value = new LocalDate((LocalDate.convertStringToDate(value)).getTime()).toLocalDateTimeSimpleString();
+										value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
 								} else if(formatType.equals(FormField.TYPE_FILE)) {
 									List<IFileModel> fileList = getDocManager().findFileGroup(value);
 									List<String> fileNameList = new ArrayList<String>();

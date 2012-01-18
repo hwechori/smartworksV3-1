@@ -156,12 +156,13 @@ function createEventDataFields(config){
 	dataFields.push(SmartWorks.FormRuntime.UserFieldBuilder.dataField({
 		fieldName: '참여자',
 		formXml: formXml,
-		value: options.relatedUsers
+		users: options.relatedUsers
 	}));
 	dataFields.push(SmartWorks.FormRuntime.RichEditorBuilder.dataField({
 		fieldName: '이벤트내용',
 		formXml: formXml,
 		value : options.content
 	}));
+	console.log("dataFields :::: ", dataFields);
 	return {dataFields: dataFields};
 }

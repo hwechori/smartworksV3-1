@@ -49,7 +49,7 @@ public class SmartServerConstant {
 	/**
 	 * 그룹 축약어 - group
 	 */
-	public static final String GROUP_APPR = "grp";
+	public static final String GROUP_APPR = "group";
 	/**
 	 * 역할 축약어 - role
 	 */

@@ -35,12 +35,20 @@ public class SwoGroup extends SwoObject {
 	public static final String A_GROUPTYPE = "groupType";
 	public static final String A_STATUS = "status";
 	public static final String A_DESCRIPTION = "description";
+	public static final String A_PICTUTRE = "picture";
 
 	private String groupLeader;
 	private String groupType;
 	private String status;
 	private String description;
+	private String picture;
 
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 	public String getGroupLeader() {
 		return groupLeader;
 	}
@@ -80,6 +88,7 @@ public class SwoGroup extends SwoObject {
 		appendAttributeString(A_GROUPTYPE, groupType, buf);
 		appendAttributeString(A_STATUS, status, buf);
 		appendAttributeString(A_DESCRIPTION, description, buf);
+		appendAttributeString(A_PICTUTRE, picture, buf);
 
 		return buf.toString();
 	}
@@ -105,6 +114,7 @@ public class SwoGroup extends SwoObject {
 			Node groupType = attrMap.getNamedItem(A_GROUPTYPE);
 			Node status = attrMap.getNamedItem(A_STATUS);
 			Node description = attrMap.getNamedItem(A_DESCRIPTION);
+			Node picture = attrMap.getNamedItem(A_PICTUTRE);
 
 			if (groupLeader != null)
 				obj.setGroupLeader(groupLeader.getNodeValue());
@@ -114,6 +124,8 @@ public class SwoGroup extends SwoObject {
 				obj.setStatus(status.getNodeValue());
 			if (description != null)
 				obj.setDescription(description.getNodeValue());
+			if (picture != null)
+				obj.setPicture(picture.getNodeValue());
 		}
 
 		// elements 값 설정
