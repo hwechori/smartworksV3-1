@@ -29,7 +29,7 @@
 	String strLastDate = request.getParameter("lastDate");
 	LocalDate lastDate = new LocalDate();
 	if(!SmartUtil.isBlankObject(strLastDate))		
-		lastDate = LocalDate.convertValueToLocalDate(request.getParameter("lastDate"));
+		lastDate = LocalDate.convertLocalStringToLocalDate(request.getParameter("lastDate"));
 	boolean assignedOnly = Boolean.parseBoolean(request.getParameter("assignedOnly"));
 
 	// lastDate와 assignedOnly값을 가지고 현재 진행중인 모든 인스턴스리스트를 가져온다...
