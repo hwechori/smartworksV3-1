@@ -76,6 +76,7 @@ import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartMessage;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
@@ -704,11 +705,17 @@ public class InstanceServiceImpl implements IInstanceService {
 									if(value != null) {
 										String[] users = value.split(";");
 										String resultUser = "";
-										if(users.length > 0) {
+										if(users.length > 0 && users.length < 4) {
 											for(int j=0; j<users.length; j++) {
 												resultUser += users[j] + ", ";
 											}
-											resultUser = resultUser.substring(0, resultUser.length()-1);
+											resultUser = resultUser.substring(0, resultUser.length()-2);
+										} else if(users.length > 0 && users.length > 3) {
+											for(int j=0; j<3; j++) {
+												resultUser += users[j] + ", ";
+											}
+											resultUser = resultUser.substring(0, resultUser.length()-2);
+											resultUser = resultUser + " " + SmartMessage.getString("content.sentence.with_other_users", (new Object[]{(users.length - 3)}));
 										}
 										value = resultUser;
 									}

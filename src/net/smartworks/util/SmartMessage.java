@@ -7,6 +7,16 @@ import java.util.ResourceBundle;
 
 public class SmartMessage {
 
+	public static String getString(String key){
+		try{
+			ResourceBundle res = ResourceBundle.getBundle("resource/smartworksMessage", new Locale(SmartUtil.getCurrentUser().getLocale()));
+			return res.getString(key);
+		}catch(Exception e){
+			
+		}
+		return "";
+	}
+
 	public static String getString(String key, Object[] params){
 		try{
 			ResourceBundle res = ResourceBundle.getBundle("resource/smartworksMessage", new Locale(SmartUtil.getCurrentUser().getLocale()));
