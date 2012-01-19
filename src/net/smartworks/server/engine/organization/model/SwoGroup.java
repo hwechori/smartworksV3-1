@@ -8,6 +8,7 @@
 
 package net.smartworks.server.engine.organization.model;
 
+import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
@@ -42,6 +43,7 @@ public class SwoGroup extends SwoObject {
 	private String status;
 	private String description;
 	private String picture;
+	private SwoGroupMember[] swoGroupMembers;
 
 	public String getPicture() {
 		return picture;
@@ -107,7 +109,7 @@ public class SwoGroup extends SwoObject {
 		else
 			obj = (SwoGroup)baseObj;
 		SwoObject.toObject(node, obj);
-		
+
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
 			Node groupLeader = attrMap.getNamedItem(A_GROUPLEADER);
@@ -228,6 +230,25 @@ public class SwoGroup extends SwoObject {
 			logger.warn(e, e);
 			return null;
 		}
+	}
+	public SwoGroupMember[] getSwoGroupMembers() {
+		return swoGroupMembers;
+	}
+	public void setSwoGroupMembers(SwoGroupMember[] swoGroupMembers) {
+		this.swoGroupMembers = swoGroupMembers;
+	}
+	public void addGroupMember(SwoGroupMember swoGroupMember) {
+		if (swoGroupMember == null)
+			return;
+		this.setSwoGroupMembers(SwoGroupMember.add(this.getSwoGroupMembers(), swoGroupMember));
+	}
+	public void removeGroupMember(SwoGroupMember swoGroupMember) {
+		if (swoGroupMember == null)
+			return;
+		this.setSwoGroupMembers(SwoGroupMember.remove(this.getSwoGroupMembers(), swoGroupMember));
+	}
+	public void resetGroupMembers() {
+		this.swoGroupMembers = null;
 	}
 
 }

@@ -375,8 +375,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		return null;  
 	}
-	
-	
+
 	@Override
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
@@ -701,7 +700,19 @@ public class InstanceServiceImpl implements IInstanceService {
 								fieldData.setFieldId(swdDataField.getId());
 								fieldData.setFieldType(formatType);
 								String value = swdDataField.getValue();
-								if(formatType.equals(FormField.TYPE_USERS)) {
+								if(formatType.equals(FormField.TYPE_USER)) {
+									if(value != null) {
+										String[] users = value.split(";");
+										String resultUser = "";
+										if(users.length > 0) {
+											for(int j=0; j<users.length; j++) {
+												resultUser += users[j] + ", ";
+											}
+											resultUser = resultUser.substring(0, resultUser.length()-1);
+										}
+										value = resultUser;
+									}
+								} else if(formatType.equals(FormField.TYPE_USERS)) {
 									// TO-DO Multi User 의 경우
 								} else if(formatType.equals(FormField.TYPE_CURRENCY)) {
 									String symbol = swfField.getFormat().getCurrency();
