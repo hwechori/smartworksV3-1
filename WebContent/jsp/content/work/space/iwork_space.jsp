@@ -25,7 +25,7 @@
 	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
 String workId = request.getParameter("workId");
 	
-	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(null);
+	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_INFORMATION, null);
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
 	InformationWork work = (InformationWork)instance.getWork();
@@ -78,22 +78,22 @@ String workId = request.getParameter("workId");
 		                <div class="po_right"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
 		            </div>
 		            
-					<div class="txt_btn txt_btn_height js_form_detail_buttons">
-						<div class="po_right">
-							<a href="" class="js_toggle_form_detail" requiredOnly="false" workId="<%=workId%>"><fmt:message key="common.upload.button.detail" /> </a>
+					<!-- 전자결재, 업무전달 버튼들 -->
+					<div class="txt_btn">
+		                <div class="po_right">
+		                	<a href=""><img src="images/btn_print.gif" title="<fmt:message key='common.button.print'/>" /></a>
+		                </div>
+		                <div class="po_right">
+		                	<a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a>
+		                </div>
+						<div class="po_right image_posi">
+							<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
 						</div>
-						<div class="po_right" style="display: none">
-							<a href="" class="js_toggle_form_detail" requiredOnly="true" workId="<%=workId%>"><fmt:message key="common.upload.button.brief" /> </a>
+						<div class="po_right image_posi">
+							<a href="" class="js_toggle_forward_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
 						</div>
 					</div>
-
-		            <div class="txt_btn">
-		                <div class="po_right"><a href=""><img src="images/btn_print.gif" title="<fmt:message key='common.button.print'/>" /></a></div>
-		                <div class="po_right"><a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a></div>
-		                <div class="po_right"><a href=""><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /></a></div>
-		                <div class="po_right"><a href=""><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /></a></div>
-		            </div>
-		            <!-- 우측 버튼 -->
+					<!-- 전자결재, 업무전달 버튼들 //-->
 		                    
                 	<div class="solid_line"></div>
                 </div>
