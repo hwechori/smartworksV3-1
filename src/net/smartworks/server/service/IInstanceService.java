@@ -6,9 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
-import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.RunningCounts;
-import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;

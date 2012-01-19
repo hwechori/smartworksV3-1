@@ -8,6 +8,7 @@
 
 package net.smartworks.server.engine.organization.model;
 
+import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
@@ -35,12 +36,21 @@ public class SwoGroup extends SwoObject {
 	public static final String A_GROUPTYPE = "groupType";
 	public static final String A_STATUS = "status";
 	public static final String A_DESCRIPTION = "description";
+	public static final String A_PICTUTRE = "picture";
 
 	private String groupLeader;
 	private String groupType;
 	private String status;
 	private String description;
+	private String picture;
+	private SwoGroupMember[] swoGroupMembers;
 
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 	public String getGroupLeader() {
 		return groupLeader;
 	}
@@ -80,6 +90,7 @@ public class SwoGroup extends SwoObject {
 		appendAttributeString(A_GROUPTYPE, groupType, buf);
 		appendAttributeString(A_STATUS, status, buf);
 		appendAttributeString(A_DESCRIPTION, description, buf);
+		appendAttributeString(A_PICTUTRE, picture, buf);
 
 		return buf.toString();
 	}
@@ -98,13 +109,14 @@ public class SwoGroup extends SwoObject {
 		else
 			obj = (SwoGroup)baseObj;
 		SwoObject.toObject(node, obj);
-		
+
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
 			Node groupLeader = attrMap.getNamedItem(A_GROUPLEADER);
 			Node groupType = attrMap.getNamedItem(A_GROUPTYPE);
 			Node status = attrMap.getNamedItem(A_STATUS);
 			Node description = attrMap.getNamedItem(A_DESCRIPTION);
+			Node picture = attrMap.getNamedItem(A_PICTUTRE);
 
 			if (groupLeader != null)
 				obj.setGroupLeader(groupLeader.getNodeValue());
@@ -114,6 +126,8 @@ public class SwoGroup extends SwoObject {
 				obj.setStatus(status.getNodeValue());
 			if (description != null)
 				obj.setDescription(description.getNodeValue());
+			if (picture != null)
+				obj.setPicture(picture.getNodeValue());
 		}
 
 		// elements 값 설정
@@ -216,6 +230,25 @@ public class SwoGroup extends SwoObject {
 			logger.warn(e, e);
 			return null;
 		}
+	}
+	public SwoGroupMember[] getSwoGroupMembers() {
+		return swoGroupMembers;
+	}
+	public void setSwoGroupMembers(SwoGroupMember[] swoGroupMembers) {
+		this.swoGroupMembers = swoGroupMembers;
+	}
+	public void addGroupMember(SwoGroupMember swoGroupMember) {
+		if (swoGroupMember == null)
+			return;
+		this.setSwoGroupMembers(SwoGroupMember.add(this.getSwoGroupMembers(), swoGroupMember));
+	}
+	public void removeGroupMember(SwoGroupMember swoGroupMember) {
+		if (swoGroupMember == null)
+			return;
+		this.setSwoGroupMembers(SwoGroupMember.remove(this.getSwoGroupMembers(), swoGroupMember));
+	}
+	public void resetGroupMembers() {
+		this.swoGroupMembers = null;
 	}
 
 }

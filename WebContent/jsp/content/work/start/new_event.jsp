@@ -30,7 +30,14 @@ function submitForms() {
 	var endDate = form.find('input[name="txtEventEndDate"]').attr("value");
 	var alarmPolicy = form.find('select[name="selEventAlarmPolicy"]').attr("value");
 	var place = form.find('input[name="txtEventPlace"]').attr("value");
-	var relatedUsers = form.find('input[name="txtEventRelatedUsers"]').attr("value");
+	var relatedUserField = form.find('.js_type_userField .js_community_item');
+	var relatedUsers = new Array();
+	for(var i=0; i<relatedUserField.length; i++){
+		relatedUsers.push({
+			userId : $(relatedUserField[i]).attr('comId'),
+			longName : relatedUserField[i].childNodes[0].nodeValue
+		});
+	}
 	var content = form.find('textarea[name="txtEventContent"]').attr("value");
 	var formContent = newEvent.find('.js_hidden_form_content');
 	
@@ -81,7 +88,7 @@ function submitForms() {
 				var progressSpan = newEvent.find('.js_progress_span');
 				smartPop.progressCont(progressSpan);
 				var url = "create_new_event.sw";
-				// create_new_memo.sw서비스를 요청한다..
+				// create_new_event.sw서비스를 요청한다..
 				$.ajax({
 					url : url,
 					contentType : 'application/json',
