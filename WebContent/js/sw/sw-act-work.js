@@ -363,6 +363,7 @@ $(function() {
 							formValues : formData.record,
 							mode : "view"
 						});
+						showErrors();
 						iworkSpace.find('.js_btn_modify').show();
 						iworkSpace.find('.js_btn_delete').show();
 						iworkSpace.find('.js_btn_save').hide();
@@ -383,7 +384,7 @@ $(function() {
 		var instId = iworkSpace.attr("instId");
 		var formContent = iworkSpace.find('div.js_form_content');
 		// iwork_instance 에 있는 활성화되어 있는 모든 입력화면들을 validation하여 이상이 없으면 submit를 진행한다...
-		if (!SmartWorks.GridLayout.validate(iworkSpace.find('form.js_validation_required'))) return false;
+		if (!SmartWorks.GridLayout.validate(iworkSpace.find('form.js_validation_required'), $('.js_space_error_message'))) return false;
 		
 		smartPop.confirm(smartMessage.get("saveConfirmation"), function(){
 			var forms = iworkSpace.find('form');

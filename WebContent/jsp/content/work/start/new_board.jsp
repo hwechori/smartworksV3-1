@@ -21,7 +21,7 @@ function submitForms() {
 	var newBoard = $('.js_new_board_page');
 
 	// new_board 에 있는 활성화되어 있는 모든 입력화면들을 validation하여 이상이 없으면 submit를 진행한다...
-	if(!SmartWorks.GridLayout.validate(newBoard.find('form.js_validation_required'))) return
+	if(!SmartWorks.GridLayout.validate(newBoard.find('form.js_validation_required'), $('.js_upload_error_message'))) return
 
 	var form = newBoard.find('form[name="frmNewBoard"]');
 	var uploader = form.find('.qq-uploader');

@@ -68,7 +68,7 @@ $(function() {
 		var input = $(e.target);
 		var forms = input.parents('.js_work_report_edit').find('form');
 		forms.find('.js_work_report_name input').removeClass('required');
-		if (SmartWorks.GridLayout.validate(forms)) {
+		if (SmartWorks.GridLayout.validate(forms, $('.js_report_error_message'))) {
 			var paramsJson = {};
 			var workReportEdit = forms.find('.js_work_report_edit_page');
 			var workId = workReportEdit.attr('workId');
@@ -126,7 +126,7 @@ $(function() {
 	$('a.js_work_report_save').live('click', function(e) {
 		var workReportEdit = $(e.target).parents('.js_work_report_edit');
 		var forms = workReportEdit.find('form');
-		if (SmartWorks.GridLayout.validate(forms)) {
+		if (SmartWorks.GridLayout.validate(forms, $('.js_report_error_message'))) {
 			var paramsJson = {};
 			var workReportEditPage = workReportEdit.find('.js_work_report_edit_page');
 			paramsJson['workId'] = workReportEditPage.attr('workId');

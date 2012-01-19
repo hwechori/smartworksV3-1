@@ -19,7 +19,8 @@ function submitForms(e) {
 	}else{
 		scheduleWork.removeClass('js_validation_required');	
 	}
-	if (SmartWorks.GridLayout.validate(planSwork.find('form.js_validation_required'))) {
+
+	if (SmartWorks.GridLayout.validate(planSwork.find('form.js_validation_required'), $('.js_upload_error_message'))) {
 		var forms = planSwork.find('form');
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){

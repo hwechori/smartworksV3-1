@@ -189,7 +189,7 @@
 		<div class="float_right form_space js_progress_span" ></div>
 		
 		<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
-		<span class="float_right form_space" style="text-align:right; color: red" id="error_message_span"></span>
+		<span class="form_space sw_error_message js_upload_error_message" style="text-align:right; color: red"></span>
 	</form>
 	<!--  접근권한 및 등록할 공간정보를 선택하는 박스들 //-->
 </div>

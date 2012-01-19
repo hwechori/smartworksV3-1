@@ -273,7 +273,7 @@
 		<form name="frmSearchFilterActions" class="js_validation_required">
 			<div class="float_right">
 				<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
-				<span class="fload_right form_space" style="text-align:right; color: red" id="error_message_span"></span>
+				<span class="form_space sw_error_message js_filter_error_message" style="text-align:right; color: red"></span>
 				<span class="js_progress_span"></span>
 				<span>
 					<input class="fieldline" style="width:160px;" type="text" name="txtNewFilterId"/>

@@ -51,7 +51,9 @@
 			url = "create_iwork_search_filter.sw";
 			searchFilter.find('input[name="txtNewFilterId"]').addClass('required');
 		}
-		if (!SmartWorks.GridLayout.validate(searchFilter.find('form.js_validation_required'))) return;
+
+		if (!SmartWorks.GridLayout.validate(searchFilter.find('form.js_validation_required'), $('.js_filter_error_message'))) return;
+
 		var paramsJson = {};
 		var workId = iworkList.attr('workId');
 		var searchFilters = searchFilter.find('form[name="frmSearchFilter"]');

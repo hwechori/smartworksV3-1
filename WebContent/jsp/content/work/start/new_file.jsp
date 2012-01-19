@@ -21,7 +21,8 @@ function submitForms(e) {
 	if(isEmpty($frmSmartForm)) {
 
 		// new_file 에 있는 활성화되어 있는 모든 입력화면들을 validation하여 이상이 있으면 리턴한다....
-		if(!SmartWorks.GridLayout.validate(newFile.find('form.js_validation_required'))) return
+		if(!SmartWorks.GridLayout.validate(newFile.find('form.js_validation_required'), $('.js_upload_error_message'))) return
+
 		var target = $('#form_import');
 
 		// 서비스요청 프로그래스바를 나타나게 한다....

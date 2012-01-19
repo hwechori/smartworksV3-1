@@ -31,7 +31,7 @@ function submitForms() {
 	}
 	
 	// new_iwork에 있는 활성화되어 있는 모든 입력화면들을 validation하여 이상이 없으면 submit를 진행한다...
-	if (SmartWorks.GridLayout.validate(newIwork.find('form.js_validation_required'))) {
+	if (SmartWorks.GridLayout.validate(newIwork.find('form.js_validation_required'), $('.js_upload_error_message'))) {
 		var forms = newIwork.find('form');
 		var paramsJson = {};
 		paramsJson['workId'] = workId;

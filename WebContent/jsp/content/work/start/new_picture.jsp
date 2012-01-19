@@ -19,7 +19,7 @@ function submitForms(e) {
 	var newPicture = $('.js_new_picture_page');
 
 	// new_picture 에 있는 활성화되어 있는 모든 입력화면들을 validation하여 이상이 있으면 리턴한다....
-	if(!SmartWorks.GridLayout.validate(newPicture.find('form.js_validation_required'))) return
+	if(!SmartWorks.GridLayout.validate(newPicture.find('form.js_validation_required'), $('.js_upload_error_message'))) return
 
 	var target = newPicture.find('#form_import');
 

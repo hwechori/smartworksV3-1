@@ -92,7 +92,7 @@
 				FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
 				String cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
 				String wid = instanceInfo.getWorkSpace().getId();
-				String target = "iwork_space.sw?cid=" + cid;
+				String target = "iwork_space.sw?cid=" + cid + "&workId=" + workId;
 			%>
 				<tr>
 					<%

@@ -104,7 +104,7 @@ $(function() {
 	});
 
 	$('a.js_search_filter_execute').live("click", function(e){
-		if (!SmartWorks.GridLayout.validate($('form.js_validation_required'))) return false;
+		if (!SmartWorks.GridLayout.validate($('form.js_validation_required'), $('.js_filter_error_message'))) return false;
 		var progressSpan = $('.js_search_filter_page').find('span.js_progress_span:first');
 		selectListParam(progressSpan, false);
 		return false;

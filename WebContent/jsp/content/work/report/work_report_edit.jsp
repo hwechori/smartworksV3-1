@@ -162,7 +162,7 @@
 	<div class="float_right form_space js_progress_span" ></div>
 	
 	<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
-	<span class="fload_right form_space" style="text-align:right; color: red" id="error_message_span"></span>
+	<span class="form_space sw_error_message js_report_error_message" style="text-align:right; color: red"></span>
 
 </div>
 <!-- 등록 취소 버튼//-->

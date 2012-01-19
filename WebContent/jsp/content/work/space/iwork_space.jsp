@@ -23,6 +23,7 @@
 	
 	String cid = request.getParameter("cid");
 	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
+String workId = request.getParameter("workId");
 	
 	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(null);
 	User owner = instance.getOwner();
@@ -52,7 +53,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!-- 컨텐츠 레이아웃-->
-    <div class="section_portlet js_iwork_space_page" workId="<%=work.getId()%>" instId="<%=instId%>">
+    <div class="section_portlet js_iwork_space_page" workId="<%=workId%>" instId="<%=instId%>">
     	<div class="portlet_t">
       		<div class="portlet_tl"></div>
     	</div>
@@ -113,7 +114,7 @@
 						<div class="form_space js_progress_span" ></div>
 						
 						<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
-						<span class="form_space" style="text-align:right; color: red" id="error_message_span"></span>
+						<span class="form_space sw_error_message js_space_error_message" style="text-align:right; color: red"></span>
 
 				        <span class="btn_gray js_btn_modify">
 				        	<a href="" class="js_modify_iwork_instance">

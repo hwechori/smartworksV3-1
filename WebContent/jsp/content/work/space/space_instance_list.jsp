@@ -20,9 +20,10 @@
 	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다..
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
+
+	InformationWorkInstance workInstance = (InformationWorkInstance)session.getAttribute("workInstance");
 	
-	String instId = request.getParameter("instId");
-	String workId = request.getParameter("workId");
+	
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -37,9 +38,7 @@
     	    
 				<!-- 올리기 -->
 				<div class="detail_up_wrap">
-					<jsp:include page="/jsp/content/upload/select_upload_action.jsp">
-						<jsp:param value="<%=ISmartWorks.SPACE_TYPE_WORK_INSTANCE %>" name="spaceType"/>
-					</jsp:include>
+					<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
 				</div>
 				<!-- 올리기 //-->
 	    
