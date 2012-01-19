@@ -1,4 +1,3 @@
-
 package net.smartworks.util;
 
 import java.text.MessageFormat;
@@ -6,6 +5,16 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class SmartMessage {
+
+	public static String getString(String key){
+		try{
+			ResourceBundle res = ResourceBundle.getBundle("resource/smartworksMessage", new Locale(SmartUtil.getCurrentUser().getLocale()));
+			return res.getString(key);
+		}catch(Exception e){
+			
+		}
+		return "";
+	}
 
 	public static String getString(String key){
 		try{
