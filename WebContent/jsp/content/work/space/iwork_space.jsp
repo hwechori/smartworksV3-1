@@ -25,7 +25,7 @@
 	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
 	String workId = request.getParameter("workId");
 	
-	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(null);
+	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_INFORMATION, null);
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
 	InformationWork work = (InformationWork)instance.getWork();
@@ -78,18 +78,33 @@
 		                <div class="po_right"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
 		            </div>
 		            
-		            <div class="txt_btn">
-		                <div class="po_right"><a href=""><img src="images/btn_print.gif" title="<fmt:message key='common.button.print'/>" /></a></div>
-		                <div class="po_right"><a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a></div>
-		                <div class="po_right"><a href=""><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /></a></div>
-		                <div class="po_right"><a href=""><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /></a></div>
-		            </div>
-		            <!-- 우측 버튼 -->
+					<!-- 전자결재, 업무전달 버튼들 -->
+					<div class="txt_btn">
+		                <div class="po_right">
+		                	<a href=""><img src="images/btn_print.gif" title="<fmt:message key='common.button.print'/>" /></a>
+		                </div>
+		                <div class="po_right">
+		                	<a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a>
+		                </div>
+						<div class="po_right image_posi">
+							<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
+						</div>
+						<div class="po_right image_posi">
+							<a href="" class="js_toggle_forward_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
+						</div>
+					</div>
+					<!-- 전자결재, 업무전달 버튼들 //-->
 		                    
                 	<div class="solid_line"></div>
                 </div>
 		            <!-- 타이틀 -->
 		            
+				<!--  전자결재화면이 나타나는 곳 -->
+				<div class="js_form_task_approval" style="display:none"></div>
+				
+				<!-- 업무전달화면이 나타나는 곳 -->
+				<div class="js_form_task_forward" style="display:none"></div>
+				
 				<!-- 상세보기 컨텐츠 -->
 				<div class="contents_space">				            
 			       <div class="list_contents js_form_content">      
