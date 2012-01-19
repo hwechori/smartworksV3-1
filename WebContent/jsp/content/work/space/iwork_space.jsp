@@ -78,6 +78,15 @@ String workId = request.getParameter("workId");
 		                <div class="po_right"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
 		            </div>
 		            
+					<div class="txt_btn txt_btn_height js_form_detail_buttons">
+						<div class="po_right">
+							<a href="" class="js_toggle_form_detail" requiredOnly="false" workId="<%=workId%>"><fmt:message key="common.upload.button.detail" /> </a>
+						</div>
+						<div class="po_right" style="display: none">
+							<a href="" class="js_toggle_form_detail" requiredOnly="true" workId="<%=workId%>"><fmt:message key="common.upload.button.brief" /> </a>
+						</div>
+					</div>
+
 		            <div class="txt_btn">
 		                <div class="po_right"><a href=""><img src="images/btn_print.gif" title="<fmt:message key='common.button.print'/>" /></a></div>
 		                <div class="po_right"><a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a></div>
@@ -90,6 +99,12 @@ String workId = request.getParameter("workId");
                 </div>
 		            <!-- 타이틀 -->
 		            
+				<!--  전자결재화면이 나타나는 곳 -->
+				<div class="js_form_task_approval" style="display:none"></div>
+				
+				<!-- 업무전달화면이 나타나는 곳 -->
+				<div class="js_form_task_forward" style="display:none"></div>
+				
 				<!-- 상세보기 컨텐츠 -->
 				<div class="contents_space">				            
 			       <div class="list_contents js_form_content">      
