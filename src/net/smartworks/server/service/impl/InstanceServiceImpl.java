@@ -704,11 +704,17 @@ public class InstanceServiceImpl implements IInstanceService {
 									if(value != null) {
 										String[] users = value.split(";");
 										String resultUser = "";
-										if(users.length > 0) {
+										if(users.length > 0 && users.length < 4) {
 											for(int j=0; j<users.length; j++) {
 												resultUser += users[j] + ", ";
 											}
-											resultUser = resultUser.substring(0, resultUser.length()-1);
+											System.out.println(resultUser);
+											System.out.println(resultUser.length());
+											resultUser = resultUser.substring(0, resultUser.length()-2);
+										} else if(users.length > 0 && users.length > 3) {
+											for(int j=0; j<users.length; j++) {
+												resultUser += users[j] + ", ";
+											}
 										}
 										value = resultUser;
 									}
@@ -728,7 +734,7 @@ public class InstanceServiceImpl implements IInstanceService {
 								} else if(formatType.equals(FormField.TYPE_DATETIME)) {
 									if(value != null)
 										value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
-								} else if(formatType.equals(FormField.TYPE_FILE)) {
+								} else if(formatType.equals(FormField.TYPE_FILE)) { 
 									List<IFileModel> fileList = getDocManager().findFileGroup(value);
 									List<String> fileNameList = new ArrayList<String>();
 									int j = 0;
@@ -1080,26 +1086,31 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public WorkInstance getWorkInstanceById(String instanceId) throws Exception {
+	public WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception {
 		//TODO 인스턴스로 패키지 타입을 알수가 없다 테이블에 컬럼을 생성하기는 했지만 초기 테스트시에는 데이터가 없기 때문에
 		//인스턴스에 diagramId = pkgId 가 있으면 프로세스 업무 없으면 정보관리 업무로 판단한다
 
 		User user = SmartUtil.getCurrentUser();
-		PrcProcessInst prcInst = getPrcManager().getProcessInst(user.getId(), instanceId, IManager.LEVEL_LITE);
-		if (prcInst == null)
-			return null;
-		String packageId = prcInst.getDiagramId();
-		
-		if (!CommonUtil.isEmpty(packageId)) {
+
+		if(workType == SmartWork.TYPE_PROCESS) {
+			PrcProcessInst prcInst = getPrcManager().getProcessInst(user.getId(), instanceId, IManager.LEVEL_LITE);
+			if (prcInst == null)
+				return null;
 			return getProcessWorkInstanceById(user.getCompanyId(), user.getId(), prcInst);
-		} else {
+		} else if(workType == SmartWork.TYPE_INFORMATION){
 			return SmartTest.getWorkInstanceById(instanceId);
+		} else if(workType == SmartWork.TYPE_SCHEDULE) {
+			return null;
 		}
+
+		return null;
+
 	}
-	
+
 	public ProcessWorkInstance getProcessWorkInstanceById(String companyId, String userId, PrcProcessInst prcInst) throws Exception {
-		
+
 		return ModelConverter.getProcessWorkInstanceByPrcProcessInst(userId, null, prcInst);
-		
-	}	
+	
+	}
+
 }

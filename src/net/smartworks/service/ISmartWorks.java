@@ -21,7 +21,6 @@ import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.RunningCounts;
-import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -165,7 +164,7 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
 
-	public abstract WorkInstance getWorkInstanceById(String instanceId) throws Exception;
+	public abstract WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception;
 
 	public abstract Report getReportById(String reportId) throws Exception;
 

@@ -1,7 +1,6 @@
 
 package net.smartworks.util;
 
-import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.ResourceBundle;
 

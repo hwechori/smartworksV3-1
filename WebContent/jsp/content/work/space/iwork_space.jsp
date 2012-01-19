@@ -23,7 +23,7 @@
 	
 	String cid = request.getParameter("cid");
 	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
-String workId = request.getParameter("workId");
+	String workId = request.getParameter("workId");
 	
 	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(null);
 	User owner = instance.getOwner();
