@@ -22,6 +22,7 @@ import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.filter.info.SearchFilterInfo;
+import net.smartworks.model.instance.InformationWorkInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.TaskInstance;
@@ -60,6 +61,10 @@ import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
+import net.smartworks.server.engine.infowork.domain.model.SwdDomainFieldView;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
@@ -89,6 +94,9 @@ public class ModelConverter {
 	
 	private static ISwoManager getSwoManager() {
 		return SwManagerFactory.getInstance().getSwoManager();
+	}
+	private static ISwdManager getSwdManager() {
+		return SwManagerFactory.getInstance().getSwdManager();
 	}
 	private static IPkgManager getPkgManager() {
 		return SwManagerFactory.getInstance().getPkgManager();
@@ -1342,6 +1350,7 @@ public class ModelConverter {
 		
 		return workInstance;
 	}
+
 	public static ProcessWorkInstance getProcessWorkInstanceByPrcProcessInst(String userId, ProcessWorkInstance processWorkInstance, PrcProcessInst prcInst) throws Exception {
 		if (prcInst == null)
 			return null;
@@ -1351,6 +1360,128 @@ public class ModelConverter {
 		getWorkInstanceByPrcProcessInst(userId, processWorkInstance, prcInst);
 		
 		return processWorkInstance;
+	}
+
+	public static IWInstanceInfo getWorkInstanceInfoBySwdRecord(IWInstanceInfo iWInstanceInfo, SwdRecord swdRecord) throws Exception {
+		if (swdRecord == null)
+			return null;
+		if (iWInstanceInfo == null) 
+			iWInstanceInfo = new IWInstanceInfo();
+		
+		getWorkInstanceInfoBySwdRecord(iWInstanceInfo, swdRecord);
+
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setProcessInstId(swdRecord.getRecordId());
+		String fieldName = "creationDate";
+		boolean isAsc = false;
+		tskCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
+		tskCond.setPageNo(0);
+		tskCond.setPageSize(1);
+		
+//		TskTask[] lastSwTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+		TskTask lastSwTask = getLastTskTaskByInstanceId(swdRecord.getRecordId());
+		
+		TaskInstanceInfo lastTask = getTaskInstanceInfoByTskTask(iWInstanceInfo, null, lastSwTask);
+		iWInstanceInfo.setLastTask(lastTask); 
+		
+		return iWInstanceInfo;
+	}
+
+	public static IWInstanceInfo getIWInstanceInfoBySwdRecord(IWInstanceInfo iWInstanceInfo, SwdRecord swdRecord) throws Exception {
+		if (swdRecord == null)
+			return null;
+		if (iWInstanceInfo == null) 
+			iWInstanceInfo = new IWInstanceInfo();
+
+		getWorkInstanceInfoBySwdRecord(iWInstanceInfo, swdRecord);
+		
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setProcessInstId(swdRecord.getRecordId());
+		String fieldName = "creationDate";
+		boolean isAsc = false;
+		tskCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
+		tskCond.setPageNo(0);
+		tskCond.setPageSize(1);
+
+//		TskTask[] lastSwTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+		TskTask lastSwTask = getLastTskTaskByInstanceId(swdRecord.getRecordId());
+
+		TaskInstanceInfo lastTask = getTaskInstanceInfoByTskTask(iWInstanceInfo, null, lastSwTask);
+		iWInstanceInfo.setLastTask(lastTask); 
+		
+		return iWInstanceInfo;
+	}
+
+	public static Instance getInstanceBySwdRecord(String userId, Instance instance, SwdRecord swdRecord) throws Exception {
+		if (swdRecord == null)
+			return null;
+		if (instance == null)
+			instance = new Instance();
+		
+		instance.setId(swdRecord.getRecordId());//processInstanceId
+		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdRecord.getDomainId(), IManager.LEVEL_LITE);
+		String titleField = swdDomain.getTitleFieldId();
+		String title = swdRecord.getDataFieldValue(titleField);
+		instance.setSubject(title);
+		instance.setCreatedDate(new LocalDate(swdRecord.getCreationDate().getTime()));
+
+		TskTask lastTask = getLastExecutedTskTaskByPrcInstId(swdRecord.getRecordId());
+		if (lastTask == null) {
+			instance.setLastModifier(new User());
+			instance.setLastModifiedDate(new LocalDate(1)); //TODO LastModifiedDate now
+		} else {
+			instance.setLastModifier(getUserByUserId(lastTask.getAssignee()));
+			instance.setLastModifiedDate(new LocalDate(lastTask.getExecutionDate().getTime())); //TODO LastModifiedDate now
+		}
+
+		instance.setOwner(getUserByUserId(swdRecord.getCreationUser()));
+		instance.setStatus(Instance.STATUS_COMPLETED);
+		instance.setType(WorkInstance.TYPE_INFORMATION);
+
+		
+		String formId = swdDomain.getFormId();
+		SwfForm swfForm = getSwfManager().getForm(userId, formId);
+
+		String packageId = swfForm.getPackageId();
+
+		instance.setWork(getProcessWorkByPkgPackageId(userId, packageId));
+		//TODO workspaceid > ??
+		instance.setWorkSpace(new WorkSpace());
+
+		return instance;
+	}
+
+	public static WorkInstance getWorkInstanceBySwdRecord(String userId, WorkInstance workInstance, SwdRecord swdRecord) throws Exception {
+		if (swdRecord == null)
+			return null;
+		if (workInstance == null)
+			workInstance = new WorkInstance();
+		
+		getInstanceBySwdRecord(userId, workInstance, swdRecord);
+		
+		IWInstanceInfo iwInstInfo = getIWInstanceInfoBySwdRecord(null, swdRecord);
+		
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setProcessInstId(swdRecord.getRecordId());
+		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+
+		TskTask[] tasks = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+		
+		workInstance.setTasks(getTaskInstanceInfoArrayByTskTaskArray(iwInstInfo, tasks));
+		workInstance.setNumberOfSubInstances(-1);
+
+		return workInstance;
+	}
+
+	public static InformationWorkInstance getInformationWorkInstanceBySwdRecord(String userId, InformationWorkInstance informationWorkInstance, SwdRecord swdRecord) throws Exception {
+		if (swdRecord == null)
+			return null;
+		if (informationWorkInstance == null)
+			informationWorkInstance = new InformationWorkInstance();
+		
+		getWorkInstanceBySwdRecord(userId, informationWorkInstance, swdRecord);
+		
+		return informationWorkInstance;
 	}
 	
 }

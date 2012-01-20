@@ -18,6 +18,7 @@ import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.FieldData;
+import net.smartworks.model.instance.InformationWorkInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.RunningCounts;
@@ -180,6 +181,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					if(swdDataField.getId().equals("0")) {
 						boardInstanceInfo.setSubject(value);
 					} else if(swdDataField.getId().equals("1")) {
+						System.out.println(value);
 						boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 20, "..."));
 					}
 				}
@@ -392,6 +394,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
 		String formId = (String)requestBody.get("formId");
 		String formName = (String)requestBody.get("formName");
+		String instanceId = (String)requestBody.get("instanceId");
 		int formVersion = 1;
 		User cuser = SmartUtil.getCurrentUser();
 		String userId = null;
@@ -505,8 +508,9 @@ public class InstanceServiceImpl implements IInstanceService {
 		obj.setFormName(formName);
 		obj.setFormVersion(formVersion);
 		obj.setDataFields(fieldDatas);
+		obj.setRecordId(instanceId);
 
-		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
+		String returnInstanceId = getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
 
 		if(files != null && files.size() > 0) {
 			try {
@@ -522,7 +526,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			}
 		}
 
-		return null;
+		return returnInstanceId;
 	}
 
 	@Override
@@ -551,6 +555,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		return SmartTest.getCommentInstances();
 	}
 
+	int previousPageSize = 0;
 	@Override
 	public InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception {
 
@@ -623,7 +628,16 @@ public class InstanceServiceImpl implements IInstanceService {
 		swdRecordCond.setOrders(new Order[]{new Order(columnName, isAsc)});
 
 		int pageSize = params.getPageSize();
+		
 		int currentPage = params.getCurrentPage();
+
+		if(previousPageSize != pageSize)
+			currentPage = 1;
+
+		previousPageSize = pageSize;
+
+		if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+			currentPage = 1;
 
 		int totalPages = (int)totalCount % pageSize;
 
@@ -1099,7 +1113,10 @@ public class InstanceServiceImpl implements IInstanceService {
 				return null;
 			return getProcessWorkInstanceById(user.getCompanyId(), user.getId(), prcInst);
 		} else if(workType == SmartWork.TYPE_INFORMATION){
-			return SmartTest.getWorkInstanceById(instanceId);
+			
+//			SwdRecord swdRecord = getSwdManager().getRecord(user.getId(), domainId, instanceId, IManager.LEVEL_LITE);
+//			return getInformationWorkInstanceById(user.getCompanyId(), user.getId(), swdRecord);
+			return SmartTest.getInformationWorkInstance1();
 		} else if(workType == SmartWork.TYPE_SCHEDULE) {
 			return null;
 		}
@@ -1112,6 +1129,12 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		return ModelConverter.getProcessWorkInstanceByPrcProcessInst(userId, null, prcInst);
 	
+	}
+
+	public InformationWorkInstance getInformationWorkInstanceById(String companyId, String userId, SwdRecord swdRecord) throws Exception {
+
+		return ModelConverter.getInformationWorkInstanceBySwdRecord(userId, null, swdRecord);
+
 	}
 
 }
