@@ -181,6 +181,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					if(swdDataField.getId().equals("0")) {
 						boardInstanceInfo.setSubject(value);
 					} else if(swdDataField.getId().equals("1")) {
+						System.out.println(value);
 						boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 20, "..."));
 					}
 				}
