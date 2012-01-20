@@ -44,7 +44,7 @@ public interface ISwdManager extends IManager {
 
 	public SwdRecord getRecord(String user, String domainId, String recordId, String level) throws SwdException;
 	public SwdRecord getRecord(String user, SwdRecordCond cond, String level) throws SwdException;
-	public void setRecord(String user, SwdRecord obj, String level) throws SwdException;
+	public String setRecord(String user, SwdRecord obj, String level) throws SwdException;
 	public void removeRecord(String user, String domainId, String recordId) throws SwdException;
 	public void removeRecord(String user, SwdRecordCond cond) throws SwdException;
 	public long getRecordSize(String user, SwdRecordCond cond) throws SwdException;
