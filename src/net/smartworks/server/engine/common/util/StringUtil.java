@@ -25,7 +25,7 @@ public class StringUtil {
 	public static String subString(String str, int startPoint, int endPoint, String tag) {
 
 		for(int i=0; i<str.length(); i++) {
-		    if(Character.getType(str.charAt(i)) != 5) {
+		    if(Character.getType(str.charAt(i)) != 5 && Character.getType(str.charAt(i)) != 12) {
 		    	endPoint = endPoint + 1;
 		    }
 		}
