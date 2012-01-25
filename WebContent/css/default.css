@@ -168,15 +168,18 @@ mark, rp, rt, ruby, summary, time {
 .padding_b6 {padding-bottom:6px;}
 
 .margin_t2 {margin-top:2px;}
+.margin_t5 {margin-top:5px;}
 .margin_t10 {margin-top:10px;}
 .margin_t15 {margin-top:15px;}
 .margin_b5 {margin-bottom:5px;}
 .margin_b2 {margin-bottom:2px;}
 .margin_l15 {margin-left:15px;}
 
-.text_align_l {text-align:left;}
-.text_align_c {text-align:center;}
-.text_align_r {text-align:right;}
+.text_align_l {text-align:left !important}
+.text_align_c {text-align:center !important}
+.text_align_r {text-align:right !important}
+
+.li_height13 {line-height: 13px;}
 
 .posi_ab {position:absolute;}
 

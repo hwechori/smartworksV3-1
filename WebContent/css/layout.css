@@ -409,9 +409,7 @@ a .btn_all_works:hover,
 .table_nomal600 table tr {height:32px}
 
 /*라운드 포틀릿*/
-.section_portlet {
-    background: url("../images/bg_portlet_b.jpg") no-repeat scroll 0 100% transparent;
-    margin-bottom:10px; position:relative; width:100%; z-index:30;}
+.section_portlet {background: url("../images/bg_portlet_b.jpg") no-repeat scroll 0 100% transparent; margin-bottom:10px; position:relative; width:100%; z-index:30; clear:both}
 .section_portlet ul {height:100%;}
 	
 .tab_portlet {
@@ -483,10 +481,10 @@ a .btn_all_works:hover,
 /* Noice */
 #notice {clear:both; margin:0 30px 5px 5px; padding-top:10px;}
 #notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; padding:5px 0; clear:both;}
-.noti_pic {float:left; padding:5px 0;}
+.noti_pic {float:left; padding:5px 0; margin-right: 5px;}
 .noti_in_bodytitle {word-wrap: break-word; text-align:left; padding:9px 0 0 58px;} /* Body Title로 들어갈 때 */
 
-.noti_in {text-align:left; line-height: 13px; padding: 3px 0 0 0;}
+.noti_in {text-align:left; padding: 3px 0 0 0;}
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
 
 .noti_tit {background: url("../images/ico_notice_s.gif") no-repeat scroll 8px 2px transparent;
@@ -602,9 +600,9 @@ td.pic{width:85px}
 .user_select {background: none repeat scroll 0 0 #E5F3FF; border: 1px solid #97bee2; color: #333333;padding: 0 6px 0 5px; margin: 0 2px 0 0;
 -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;font-size:11px;}
 
-
 /* Text style */
-.t_red {color:#e54b4b;}
+.t_red, .t_sunday {color:#e54b4b;}
+.t_saturday {color:#4b79c8;}
 .t_lightOrange {color:#fff4a7;font-weight:normal}
 .t_red_bold {color:#e54b4b; font-weight:bold;}
 .t_up_num {color:#e54b4b; font-weight:bold;}
@@ -614,6 +612,7 @@ td.pic{width:85px}
 .t_woname {color:#23579e; font-weight:bold;}
 .t_date, .t_text_s11 {font-size:11px; color:#999897;}
 .t_white {font-size:12px; font-weight:normal;}
+.t_nowork { text-align:center; padding:8px 0 !important; color:#b2b2b2}
 .arr {font-size:10px; margin-right:2px;}
 
 /* Line Style */
