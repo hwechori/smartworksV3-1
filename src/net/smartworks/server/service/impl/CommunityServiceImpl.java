@@ -230,7 +230,6 @@ public class CommunityServiceImpl implements ICommunityService {
 
 		List list = new ArrayList();
 		for(String str : groupMembers) {
-			System.out.println(str);
 			list.add(str);
 		}
 

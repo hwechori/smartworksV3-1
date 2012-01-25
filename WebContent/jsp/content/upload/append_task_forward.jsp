@@ -24,7 +24,11 @@
 		<span>
 			<!-- 업무전달을 위한 입력화면들을 자동으로 그려주는 곳 -->
 			<!-- js_task_forward_fields : js/sw/sw-formFields.js 의 loadTaskForwardFields()에서 자동으로 화면을 그려준다. -->
-			<div class="js_task_forward_fields" subjectTitle="<fmt:message key='common.forward.title.subject'/>" forwardeeTitle="<fmt:message key='common.forward.title.forwardee'/>" CommentsTitle="<fmt:message key="common.forward.title.comments" />"></div>
+			<div class="js_task_forward_fields" 
+				subjectTitle="<fmt:message key='common.forward.title.subject'/>" 
+				forwardeeTitle="<fmt:message key='common.forward.title.forwardee'/>" 
+				CommentsTitle="<fmt:message key="common.forward.title.comments" />">
+			</div>
 		</span>
 	</form>
 	<div class="dash_line"></div>

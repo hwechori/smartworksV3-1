@@ -72,6 +72,7 @@ smartPop = {
 					 	'</div>' +
 					 '</div>' +
 				  '</div>').appendTo($(document.body)).center();
+		$('#sw_pop_show_info .js_btn_close').die('click');
 		$('#sw_pop_show_info .js_btn_close').live('click', function(){
 			if ($.isFunction(onClose)) {
 				onClose.apply();
@@ -104,6 +105,8 @@ smartPop = {
 					 '</div>' +
 				  '</div>').appendTo($(document.body)).center(); 
 
+		$('#sw_pop_confirm .js_btn_ok').die('click');
+		$('#sw_pop_confirm .js_btn_cancel').die('click');
 		$('#sw_pop_confirm .js_btn_ok').live('click', function(){
 			if ($.isFunction(onOk)) {
 				onOk.apply();
@@ -251,36 +254,31 @@ smartPop = {
 				},
 				overlayClose: true,
 				onShow: function(dialog){
+					$('.js_pop_select_work').die('click');
 					$('.js_pop_select_work').live( 'click', function(e){
 						var input = $(e.target).parents('li:first').find('a');
-						$('#form_works').slideUp().slideDown(500);
-						$('#upload_work_list').hide().parents(".js_start_work").slideUp();
+						$('#form_works').html('').hide();
+						$('#upload_work_list').hide().parents(".js_start_work").hide();
 						var href = input.attr('href');
 						$.get(href,  function(data){
 							$('#form_works').html(data);
 							var formContent = $('#form_works').find('div.js_form_content');
 							var workId = input.attr('workId');
-							$.ajax({
-								url : "get_form_xml.sw",
-								data : {
-									workId : workId
-								},
-								success : function(formXml, status, jqXHR) {
-									console.log(formXml);
-									new SmartWorks.GridLayout({
-										target : formContent,
-										formXml : formXml,
-										mode : "edit",
-										requiredOnly : 'true'
-									});
+							new SmartWorks.GridLayout({
+								target : formContent,
+								mode : "edit",
+								requiredOnly : 'true',
+								workId : workId,
+								onSuccess : function(){
+									$('#form_works').show();
 									$.modal.close();
-									target.html('');
+									target.html('');											
 								},
-								error : function(){
+								onError : function(){
 									$.modal.close();
-									target.html('');
+									target.html('');											
 								}
-							});			
+							});
 						});
 						return false;
 					});
@@ -301,6 +299,7 @@ smartPop = {
 				},
 				overlayClose: false,
 				onShow: function(dialog){
+					$('.js_pop_select_work_item').die('click');
 					$('.js_pop_select_work_item').live( 'click', function(e){
 						var input = $(e.target);
 						var recordId = input.attr('instId');
@@ -336,6 +335,7 @@ smartPop = {
 				onShow: function(dialog){
 					loadGroupProfileField();
 					loadNewGroupFields();
+					$('.js_close_new_group').die('click');
 					$('.js_close_new_group').live( 'click', function(e){
 						$.modal.close();
 						return false;

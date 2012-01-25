@@ -73,7 +73,6 @@ public class DocFileController {
 
 		List<IFileModel> list = new ArrayList<IFileModel>();
 		list = smartworks.findFileGroup(request);
-		System.out.println();
 
 		return list;
 	}

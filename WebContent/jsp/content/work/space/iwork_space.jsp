@@ -59,7 +59,7 @@
     	</div>
     	<div class="portlet_l" style="display: block;">
 		    <ul class="portlet_r" style="display: block;">		    		            
-            	<div class="body_titl_pic">		
+            	<div class="body_titl_pic js_form_header">		
                     <div class="">
                         <div class="noti_pic"><img class="profile_size_m" src="<%=instance.getOwner().getMidPicture() %>" /></div>
                         <div class="noti_in_bodytitle">
@@ -135,6 +135,30 @@
 				        	<a href="" class="js_modify_iwork_instance">
 					            <span class="Btn01Start"></span>
 					            <span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+					            <span class="Btn01End"></span>
+				            </a>
+				   		</span>
+				
+				        <span class="btn_gray js_btn_do_forward" style="display:none">
+				        	<a href="" class="js_forward_iwork_instance">
+					            <span class="Btn01Start"></span>
+					            <span class="Btn01Center"><fmt:message key="common.button.do_forward"/></span>
+					            <span class="Btn01End"></span>
+				            </a>
+				   		</span>
+				
+				        <span class="btn_gray js_btn_do_approval" style="display:none">
+				        	<a href="" class="js_approval_iwork_instance">
+					            <span class="Btn01Start"></span>
+					            <span class="Btn01Center"><fmt:message key="common.button.do_approval"/></span>
+					            <span class="Btn01End"></span>
+				            </a>
+				   		</span>
+				
+				        <span class="btn_gray js_btn_do_email" style="display:none">
+				        	<a href="" class="js_email_iwork_instance">
+					            <span class="Btn01Start"></span>
+					            <span class="Btn01Center"><fmt:message key="common.button.do_email"/></span>
 					            <span class="Btn01End"></span>
 				            </a>
 				   		</span>

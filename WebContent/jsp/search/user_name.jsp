@@ -16,21 +16,24 @@
 
 <ul>
 	<%
-		if (users != null) {
-			for (UserInfo user : users) {
-				String picName = user.getMinPicture();
-				String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
-				String comName = user.getLongName();
-				String comId = user.getId();
+	if (users != null) {
+		for (UserInfo user : users) {
+			String picName = user.getMinPicture();
+			String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
+			String comName = user.getLongName();
+			String comId = user.getId();
 	%>
-	<li><a href="" comName="<%=user.getLongName()%>" comId="<%=comId%>"
-		class="js_select_community"><img src="<%=picName%>" class="profile_size_s"><%=comName%></a>
-	</li>
+			<li>
+				<a href="" comName="<%=user.getLongName()%>" comId="<%=comId%>" class="js_select_community">
+					<img src="<%=picName%>" class="profile_size_s"><%=comName%>
+				</a>
+			</li>
 	<%
 		}
-		}else{
-			%>
-			<li><span><fmt:message key="search.message.no_searched_data"/></span></li>
-			<%} %>
-
+	}else{
+	%>
+		<li><span><fmt:message key="search.message.no_searched_data"/></span></li>
+	<%
+	} 
+	%>
 </ul>

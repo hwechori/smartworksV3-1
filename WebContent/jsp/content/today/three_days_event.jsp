@@ -47,6 +47,7 @@
 			 	CompanyEvent[] cesToday = threeDaysCC[0].getCompanyEvents();
 			 	CompanyEvent[] cesTomorrow = threeDaysCC[1].getCompanyEvents();
 			 	// 오늘에 대한 이벤트를 표시한다..
+			 	if(cesToday != null) {
 			 	for (int i = 0; i < cesToday.length; i++) {
 			 		if (i != 0) {
 			 	%>
@@ -57,6 +58,7 @@
 		 			<%=cesToday[i].getName()%> 
 		 		<%
 		 		}
+			 	}
 		 		%> 
 			 	<%
 			 	// 오늘에 대한 이벤트가 있었으면 마무리한다...
@@ -114,6 +116,7 @@
 											<li>
 												<span class="t_red"> 
 													<%
+													if(cesToday != null) {
 				 									for (int i = 0; (cnt == 0) && (i < cesToday.length); i++) {
 				 										if (i != 0) {
 				 									%>
@@ -124,8 +127,10 @@
 				 										<%=cesToday[i].getName()%> 
 				 									<%
 				 									}
+													}
 				 									%> 
 				 									<%
+				 									if(cesTomorrow != null) {
 				 									for (int i = 0; (cnt == 1) && (i < cesTomorrow.length); i++) {
 				 										if (i != 0) {
 				 									%>
@@ -135,6 +140,7 @@
 				 										%>
 				 										<%=cesTomorrow[i].getName()%> 
 				 									<%
+				 									}
 				 									}
 				 									%> 
 				 								</span>
@@ -197,7 +203,7 @@
 								</li>
 								<!-- 하루씩 증가하면서 이벤트박스 생성 //-->
 							<%
-							}
+			 		}
 							// end 오늘, 내일, 그리고 모레의 회사 이벤트를 나타내는 곳
 							%>
 						</ul>				
