@@ -249,8 +249,8 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 
 /* Option - date */
 .option_section { float:right; margin:5px 5px 0 0}
-.sel_date_section {background: url("../images/bg_date_feild.jpg") no-repeat 0 0;display: inline-block; font-weight: bold; height: 19px; padding: 0 0 0 6px;}
-.sel_date_section a.btn_calendar {background: url("../images/bg_date_feild.jpg") no-repeat -577px 0; float: right; height: 19px; margin-left:4px; width: 23px;}
+.sel_date_section {background: url("../images/bg_date_feild.jpg") no-repeat 0 0;display: inline-block; font-weight: bold; height: 19px; padding: 0 0 0 6px; width:120px}
+.sel_date_section a.btn_calendar {background: url("../images/bg_date_feild.jpg") no-repeat -577px 0; float: right; height: 19px; width: 23px;}
 .sel_date_section a:hover.btn_calendar {background: url("../images/bg_date_feild.jpg") no-repeat 100% 0; float: right}
 
 /* 상단 아이콘 */
