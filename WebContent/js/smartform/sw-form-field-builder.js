@@ -129,7 +129,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			layoutInstance : layoutInstance
 		});
 		return;	
-	case 'dateTimeField' :
+	case 'dateTimeChooser' :
 		SmartWorks.FormRuntime.DateTimeChooserBuilder.build({
 			mode : mode, // view or edit
 			container : $target,

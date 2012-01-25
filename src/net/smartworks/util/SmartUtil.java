@@ -68,8 +68,7 @@ public class SmartUtil {
 	/* (non-Javadoc)
 	 * @see net.smartworks.service.impl.ISmartWorks#isSameContextPrefix(java.lang.String, java.lang.String)
 	 */
-	public static boolean isSameContextPrefix(String contextPrefix,
-			String contextId) throws Exception {
+	public static boolean isSameContextPrefix(String contextPrefix,	String contextId) throws Exception {
 		if (contextPrefix == null || contextId == null
 				|| contextPrefix.length() >= contextId.length())
 			return false;
@@ -103,19 +102,18 @@ public class SmartUtil {
 	/* (non-Javadoc)
 	 * @see net.smartworks.service.impl.ISmartWorks#isWorkSpaceContextType(java.lang.String)
 	 */
-	public static boolean isWorkSpaceContextType(String contextId)
-			throws Exception {
+	public static boolean isWorkSpaceContextType(String contextId) throws Exception {
 		if (contextId == null || contextId.length() < 6)
 			return false;
-		if (contextId.substring(0, 6).equals("iw.sp.")
-				|| contextId.substring(0, 6).equals("pw.sp.")
-				|| contextId.substring(0, 6).equals("sw.sp.")
-				|| contextId.substring(0, 6).equals("fl.sp.")
-				|| contextId.substring(0, 6).equals("mm.sp.")
-				|| contextId.substring(0, 6).equals("im.sp.")
-				|| contextId.substring(0, 6).equals("ev.sp.")
-				|| contextId.substring(0, 6).equals("bd.sp.")
-				|| contextId.substring(0, 6).equals("ml.sp."))
+		if (contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_FILE_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MEMO_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IMAGE_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_EVENT_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_BOARD_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MAIL_SPACE))
 			return true;
 		return false;
 	}
@@ -123,13 +121,12 @@ public class SmartUtil {
 	/* (non-Javadoc)
 	 * @see net.smartworks.service.impl.ISmartWorks#isTaskSpaceContextType(java.lang.String)
 	 */
-	public static boolean isTaskSpaceContextType(String contextId)
-			throws Exception {
+	public static boolean isTaskSpaceContextType(String contextId) throws Exception {
 		if (contextId == null || contextId.length() < 6)
 			return false;
-		if (contextId.substring(0, 6).equals("iw.ts.")
-				|| contextId.substring(0, 6).equals("pw.ts.")
-				|| contextId.substring(0, 6).equals("sw.ts."))
+		if (contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IWORK_TASK)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_PWORK_TASK)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_TASK))
 			return true;
 		return false;
 	}
@@ -137,8 +134,7 @@ public class SmartUtil {
 	/* (non-Javadoc)
 	 * @see net.smartworks.service.impl.ISmartWorks#isCommunitySpaceContextType(java.lang.String)
 	 */
-	public static boolean isCommunitySpaceContextType(String contextId)
-			throws Exception {
+	public static boolean isCommunitySpaceContextType(String contextId) throws Exception {
 		if (contextId == null || contextId.length() < 6)
 			return false;
 		if (contextId.substring(0, 6).equals(SmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE)
@@ -148,11 +144,47 @@ public class SmartUtil {
 		return false;
 	}
 
-	public static String getSpaceIdFromContentContext(String contentContext)
-			throws Exception {
-		if (contentContext == null || contentContext.length() <= SmartWorks.CONTEXT_PREFIX_LENGTH)
+	public static String getSpaceIdFromContentContext(String contextId) throws Exception {
+		if (contextId == null || contextId.length() <= SmartWorks.CONTEXT_PREFIX_LENGTH)
 			return null;
-		return contentContext.substring(SmartWorks.CONTEXT_PREFIX_LENGTH);
+		return contextId.substring(SmartWorks.CONTEXT_PREFIX_LENGTH);
+	}
+
+	public static int getSpaceTypeFromContentContext(String contextId) throws Exception {
+		if (contextId == null || contextId.length() < 6)
+			return 0;
+		if (contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_FILE_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IMAGE_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_EVENT_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MEMO_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_BOARD_SPACE)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MAIL_SPACE))
+			return ISmartWorks.SPACE_TYPE_WORK_INSTANCE;
+		else if (contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IWORK_LIST)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_PWORK_LIST)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_LIST)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_FILE_LIST)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IMAGE_LIST)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_EVENT_LIST)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MEMO_LIST)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_BOARD_LIST)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MAIL_LIST)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SAVED_LIST))
+			return ISmartWorks.SPACE_TYPE_WORK_LIST;
+		else if (contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IWORK_TASK)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_PWORK_TASK)
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_TASK))
+			return ISmartWorks.SPACE_TYPE_TASK_INSTANCE;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_USER_SPACE))
+			return ISmartWorks.SPACE_TYPE_USER;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE))
+			return ISmartWorks.SPACE_TYPE_GROUP;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE))
+			return ISmartWorks.SPACE_TYPE_DEPARTMENT;
+		return 0;
 	}
 
 	/* (non-Javadoc)

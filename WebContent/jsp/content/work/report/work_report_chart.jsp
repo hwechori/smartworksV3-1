@@ -16,7 +16,6 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String workId = request.getParameter("workId");
 	String strReportType = request.getParameter("reportType");
 	String reportId = request.getParameter("reportId");
 	User cUser = SmartUtil.getCurrentUser();
@@ -24,7 +23,8 @@
 	int reportType = Report.TYPE_CHART;
 	if (!SmartUtil.isBlankObject(strReportType))
 		reportType = Integer.parseInt(strReportType);
-	SmartWork work = null;
+	SmartWork work = (SmartWork)session.getAttribute("smartWork");
+	String workId = work.getId();
 	Report report = null;
 	ChartReport chart = null;
 	MatrixReport matrix = null;

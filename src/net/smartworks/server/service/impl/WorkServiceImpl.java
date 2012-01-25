@@ -15,6 +15,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.ChartReport;
@@ -43,6 +44,7 @@ import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
@@ -63,6 +65,7 @@ import net.smartworks.server.engine.pkg.model.PkgPackageCond;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartMessage;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
@@ -137,16 +140,17 @@ public class WorkServiceImpl implements IWorkService {
 					}
 				}
 			}
-		}
 
-		PkgPackageCond pkgCond = new PkgPackageCond();
-		pkgCond.setCompanyId(user.getCompanyId());
-		pkgCond.setPackageIdIns(packageIdArray);
-		PkgPackage[] pkgs = getPkgManager().getPackages(user.getId(), pkgCond, IManager.LEVEL_ALL);
-		
-		SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
-		
-		return workPkgs;
+			PkgPackageCond pkgCond = new PkgPackageCond();
+			pkgCond.setCompanyId(user.getCompanyId());
+			pkgCond.setPackageIdIns(packageIdArray);
+			PkgPackage[] pkgs = getPkgManager().getPackages(user.getId(), pkgCond, IManager.LEVEL_ALL);
+
+			SmartWorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
+			
+			return workPkgs;
+		}
+		return null;
 	}
 
 	@Override
@@ -560,6 +564,35 @@ public class WorkServiceImpl implements IWorkService {
 		swdRecordCond.setRecordId(request.getParameter("recordId"));
 		SwdRecord swdRecord = getSwdManager().getRecord("", swdRecordCond, null);
 
+		SwdDataField[] swdDataFields = swdRecord.getDataFields();
+		for(SwdDataField swdDataField : swdDataFields) {
+			String value = swdDataField.getValue();
+			String formatType = swdDataField.getType();
+			if(formatType.equals(FormField.TYPE_USER)) {
+				if(value != null) {
+					String[] users = value.split(";");
+					String resultUser = "";
+					if(users.length > 0) {
+						for(int j=0; j<users.length; j++) {
+							resultUser += users[j] + ", ";
+						}
+						resultUser = resultUser.substring(0, resultUser.length()-2);
+					}
+					value = resultUser;
+				}
+			} else if(formatType.equals(FormField.TYPE_DATE)) {
+				if(value != null)
+					value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateSimpleString(); 
+			} else if(formatType.equals(FormField.TYPE_TIME)) {
+				if(value != null)
+					value = LocalDate.convertGMTStringToLocalDate(value).toLocalTimeSimpleString();
+			} else if(formatType.equals(FormField.TYPE_DATETIME)) {
+				if(value != null)
+					value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
+			}
+			swdDataField.setValue(value);
+		}
+
 		return swdRecord;
 	}
 	@Override
@@ -737,9 +770,16 @@ public class WorkServiceImpl implements IWorkService {
 
 		User cUser = SmartUtil.getCurrentUser();
 		String userId = cUser.getId();
+		getItmManager().removeMenuItem(userId, workId);
 
-		getItmManager().removeMenuItems(userId, workId);
+/*		ItmMenuItemListCond itmMenuItemListCond = new ItmMenuItemListCond();
+		itmMenuItemListCond.setUserId(userId);
+		ItmMenuItem itmMenuItem = new ItmMenuItem();
+		itmMenuItem.setPackageId(workId);
+		itmMenuItemListCond.setMenuItems(new ItmMenuItem[]{itmMenuItem});
 
-	}		
+		getItmManager().removeMenuItemList(userId, itmMenuItemListCond);*/
+
+	}
 
 }

@@ -2402,7 +2402,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			} else {
 				StringBuffer buf = new StringBuffer();
 				buf.append("update SwoGroup set");
-				buf.append(" companyId=:companyId, name=:name, groupLeader=:groupLeader, groupType=:groupType, status=:status, description=:description,");
+				buf.append(" companyId=:companyId, name=:name, groupLeader=:groupLeader, groupType=:groupType, status=:status, picture=:picture, description=:description,");
 				buf.append(" creationDate=:creationDate, creationUser=:creationUser,");
 				buf.append(" modificationUser=:modificationUser, modificationDate=:modificationDate");
 				buf.append(" where id=:id");
@@ -2412,6 +2412,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				query.setString(SwoGroup.A_GROUPLEADER, obj.getGroupLeader());
 				query.setString(SwoGroup.A_GROUPTYPE, obj.getGroupType());
 				query.setString(SwoGroup.A_STATUS, obj.getStatus());
+				query.setString(SwoGroup.A_PICTUTRE, obj.getPicture());
 				query.setString(SwoGroup.A_DESCRIPTION, obj.getDescription());
 				query.setTimestamp(SwoGroup.A_CREATIONDATE, obj.getCreationDate());
 				query.setString(SwoGroup.A_CREATIONUSER, obj.getCreationUser());
@@ -2567,7 +2568,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			if (level.equals(LEVEL_ALL)) {
 				buf.append(" obj");
 			} else {
-				buf.append(" obj.id, obj.companyId, obj.name, obj.groupLeader, obj.groupType, obj.status, obj.description,");
+				buf.append(" obj.id, obj.companyId, obj.name, obj.groupLeader, obj.groupType, obj.status, obj.picture, obj.description,");
 				buf.append(" obj.creationUser, obj.creationDate,");
 				buf.append(" obj.modificationUser, obj.modificationDate");
 			}
@@ -2587,6 +2588,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 					obj.setGroupLeader((String)fields[j++]);
 					obj.setGroupType((String)fields[j++]);
 					obj.setStatus((String)fields[j++]);
+					obj.setPicture((String)fields[j++]);
 					obj.setDescription((String)fields[j++]);
 					obj.setCreationUser((String)fields[j++]);
 					obj.setCreationDate((Timestamp)fields[j++]);

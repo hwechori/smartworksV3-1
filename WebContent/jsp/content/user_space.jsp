@@ -4,15 +4,9 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
-	if (SmartUtil.isBlankObject(cid))
-		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
-	else
-		session.setAttribute("cid", cid);
-	String wid = request.getParameter("wid");
-	if (SmartUtil.isBlankObject(wid))
-		session.setAttribute("wid", SmartUtil.getCurrentUser().getId());
-	else
-		session.setAttribute("wid", wid);
+
+	session.setAttribute("cid", cid);
+	session.removeAttribute("wid");
 %>
 
 Content for User Space ~!!!! contextId =

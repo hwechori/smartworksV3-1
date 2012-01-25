@@ -24,7 +24,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks)request.getAttribute("smartWorks");
-	String workId = request.getParameter("workId");
 	RequestParams params = (RequestParams)request.getAttribute("requestParams");
 	if(SmartUtil.isBlankObject(params)){
 		params = new RequestParams();
@@ -32,7 +31,8 @@
 		params.setCurrentPage(1);		
 	}
 	User cUser = SmartUtil.getCurrentUser();
-	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
+	InformationWork work = (InformationWork)session.getAttribute("smartWork");
+	String workId = work.getId();
 	InstanceInfoList instanceList = smartWorks.getIWorkInstanceList(workId, params);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -92,7 +92,7 @@
 				FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
 				String cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
 				String wid = instanceInfo.getWorkSpace().getId();
-				String target = "iwork_space.sw?cid=" + cid + "&wid=" + wid;
+				String target = "iwork_space.sw?cid=" + cid + "&workId=" + workId;
 			%>
 				<tr>
 					<%
@@ -120,7 +120,7 @@
 					}
 					%>
 					<td>
-						<a href="<%=target%>">
+						<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
 							<div class="noti_pic js_content_iwork_space">
 								<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
 							</div>

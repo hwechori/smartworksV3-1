@@ -141,7 +141,7 @@ SmartWorks.GridLayout.serializeObject = function(form){
 	return mergeObjects(merge3Objects(fileFields, userFields, richEditors), merge3Objects(refFormFields, imageBoxs, departmentFields));
 };
 
-SmartWorks.GridLayout.validate = function(form){
+SmartWorks.GridLayout.validate = function(form, messageTarget){
 	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.validate(form.find('.js_type_fileField:visible'));
 	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.validate(form.find('.js_type_userField:visible'));
 	var departmentFields = true;//SmartWorks.FormRuntime.DepartmentFieldBuilder.validate(form.find('.js_type_departmentField'));
@@ -151,6 +151,11 @@ SmartWorks.GridLayout.validate = function(form){
 	var radioButtons = SmartWorks.FormRuntime.RadioButtonBuilder.validate(form.find('.js_type_radioButton:visible'));
 	var dataGrids = true;
 	var jq_validate = true;
+	
+	if(messageTarget instanceof jQuery){
+		$('.sw_error_message').hide();
+		messageTarget.show();
+	}
 	form.each(function(){
 		jq_validate = $(this).validate({ showErrors: showErrors, ignore:":not(:visible)" }).form() && jq_validate;
 	});
@@ -159,5 +164,6 @@ SmartWorks.GridLayout.validate = function(form){
 	if(!sw_validate || !jq_validate){
 		showErrors();
 	}
+	if(messageTarget instanceof jQuery) $('.sw_error_message').show();
 	return sw_validate;
 };

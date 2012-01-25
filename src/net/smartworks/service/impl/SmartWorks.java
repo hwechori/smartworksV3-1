@@ -198,13 +198,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public EventInstanceInfo[] getEventInstances(LocalDate fromDate, int days) throws Exception {
-		return calendarService.getEventInstances(fromDate, days);
+	public EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, int days) throws Exception {
+		return calendarService.getMyEventInstances(fromDate, days);
 	}
 
 	@Override
-	public EventInstanceInfo[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
-		return calendarService.getEventInstances(fromDate, toDate);
+	public EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
+		return calendarService.getMyEventInstances(fromDate, toDate);
 	}
 
 	@Override
@@ -223,13 +223,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception {
-		return instanceService.getBoardInstances(fromDate, days);
-	}
-
-	@Override
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
-		return instanceService.getBoardInstances(fromDate, toDate);
+	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception {
+		return instanceService.getMyRecentBoardInstances();
 	}
 
 	@Override
@@ -327,8 +322,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public WorkInstance getWorkInstanceById(String instanceId) throws Exception {
-		return instanceService.getWorkInstanceById(instanceId);
+	public WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception {
+		return instanceService.getWorkInstanceById(workType, instanceId);
 	}
 
 	/*

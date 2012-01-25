@@ -58,7 +58,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 						<input class="js_auto_complete" href="' + href + '" type="text">\
 						<div class="js_srch_x"></div>\
 					</div>\
-					<div class="js_community_list commu_list" style="display: none"></div><span class="js_community_popup"></span><a href="" class="js_userpicker_button"><span ' + icoClass + '></span></a></div></div>');
+					<div class="js_community_list srch_list_nowid" style="display: none"></div><span class="js_community_popup"></span><a href="" class="js_userpicker_button"><span ' + icoClass + '></span></a></div></div>');
 
 	$html.find('.js_selected_communities').html(usersHtml);
 	
@@ -123,7 +123,10 @@ SmartWorks.FormRuntime.UserFieldBuilder.serializeObject = function(userFields){
 		var userList = userField.find('.js_community_item');
 		var users = new Array();
 		for(var j=0; j<userList.length; j++)
-			users.push($(userList[j]).attr('comId'));
+			users.push({
+				id : $(userList[j]).attr('comId'),
+				name : userList[j].childNodes[0].nodeValue
+			});
 		usersJson[fieldId] =  {users: users};
 	}
 	return usersJson;
@@ -150,6 +153,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.dataField = function(config){
 			users: new Array() //{userId: '',longName: ''}
 	};
 
+	console.log("options.users :::: ", options.users);
 	SmartWorks.extend(options, config);
 	$formXml = $(options.formXml);
 	var dataField = {};

@@ -93,7 +93,7 @@ SmartWorks.FormRuntime.RichEditorBuilder.serializeObject = function(richEditors)
 	for(var i=0; i<richEditors.length; i++){
 		var richEditor = $(richEditors[i]);
 		var id = richEditor.attr('fieldId');
-		if(!isEmpty(oEditors)) oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
+		if(!isEmpty(oEditors) && !isEmpty(oEditors.getById[id])) oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
 		richEditorsJson[richEditor.attr('fieldId')] = richEditor.find('textarea')[0].value;
 	}
 	return richEditorsJson;

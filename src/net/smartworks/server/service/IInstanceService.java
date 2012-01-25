@@ -6,9 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
-import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.RunningCounts;
-import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
@@ -18,11 +16,9 @@ import net.smartworks.util.LocalDate;
 
 public interface IInstanceService {
 
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
+	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception;
 
 	public InstanceInfo[] getMyRecentInstances() throws Exception;
-
-	public BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception;
 
 	public Instance getInstanceById(String instanceId) throws Exception;
 
@@ -40,7 +36,7 @@ public interface IInstanceService {
 
 	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 
-	public WorkInstance getWorkInstanceById(String instanceId) throws Exception;
+	public WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception;
 
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 

@@ -26,7 +26,7 @@
 	// 모든정보를 JSON형식으로 Serialize해서 서버의 update_my_profile.sw 서비스를 호출하여 수정한다.
 	function submitForms(e) {
 		var newGroup = $('.js_new_group_page');
-		if (SmartWorks.GridLayout.validate(newGroup.find('form.js_validation_required'))) {
+		if (SmartWorks.GridLayout.validate(newGroup.find('form.js_validation_required'), $('.js_popup_error_message'))) {
 			var forms = newGroup.find('form');
 			var paramsJson = {};
 			for(var i=0; i<forms.length; i++){
@@ -147,7 +147,7 @@
 	<div class="glo_btn_space">
 		<div class="float_right padding_r10">
 			<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
-			<span class="fload_right form_space" style="text-align:right; color: red" id="error_message_span"></span>
+			<span class="form_space sw_error_message js_pop_error_message" style="text-align:right; color: red"></span>
 			<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 			<span class="js_progress_span float_right"></span>
 			<span class="btn_gray">

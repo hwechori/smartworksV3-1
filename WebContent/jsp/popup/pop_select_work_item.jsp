@@ -37,9 +37,7 @@
 			</form>
 			
 			<div class="txt_btn">
-				<div class="pop_btn_x">
-					<a onclick="$.modal.close();return false;" href=""></a>
-				</div>
+					<a onclick="$.modal.close();return false;" href=""><div class="pop_btn_x"></div></a>
 			</div>
 		
 		</div>

@@ -19,18 +19,16 @@
 
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String workId = request.getParameter("workId");
 	User cUser = SmartUtil.getCurrentUser();
 
-	SmartWork work = null;
-	if (workId != null)
-		work = (SmartWork) smartWorks.getWorkById(workId);
+	SmartWork work = (SmartWork)session.getAttribute("smartWork");
+	String workId = work.getId();
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
 
-<div class="form_wrap up up_padding js_new_work_report_page" workId="<%=workId %>">
+<div class="form_wrap up up_padding js_new_work_report_page">
 	<!-- 컨텐츠 -->
 	<div class="form_title">
 		<div class=" po_left"><fmt:message key="report.title.new_report" /></div>

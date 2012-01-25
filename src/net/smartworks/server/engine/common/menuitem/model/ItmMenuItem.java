@@ -99,7 +99,7 @@ public class ItmMenuItem  extends MisObject implements Comparable {
 		}
 		return obj;
 	}
-		public static BaseObject toObject(String str) throws Exception {
+	public static BaseObject toObject(String str) throws Exception {
 			if (str == null)
 				return null;
 			Document doc = XmlUtil.toDocument(str);

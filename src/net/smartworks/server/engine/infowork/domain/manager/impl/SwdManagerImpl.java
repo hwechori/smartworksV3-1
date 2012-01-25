@@ -57,6 +57,7 @@ import net.smartworks.server.engine.infowork.form.model.SwfConditions;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfFieldRef;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
+import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfFormRef;
@@ -425,7 +426,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		}
 		return objs[0];
 	}
-	public void setRecord(String user, SwdRecord obj, String level) throws SwdException {
+	public String setRecord(String user, SwdRecord obj, String level) throws SwdException {
 		// 테이블을 알기 위해 도메인을 조회합니다.
 		String domainId = obj.getDomainId();
 		String formId = obj.getFormId();
@@ -544,6 +545,9 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			}
 			
 			query.executeUpdate();
+
+			return obj.getRecordId();
+
 		} catch (Exception e) {
 			throw new SwdException(e);
 		}
@@ -573,7 +577,9 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				}
 			} else if (type.equalsIgnoreCase("boolean")) {
 				query.setBoolean(param, CommonUtil.toBoolean(value));
-			} else if (type.equalsIgnoreCase("datetime") || type.equalsIgnoreCase("date")) {
+			} else if (type.equalsIgnoreCase("datetime")) {
+				query.setTimestamp(param, DateUtil.toDate(value, "yyyy-MM-dd HH:mm:ss.SSS"));
+			} else if (type.equalsIgnoreCase("date")) {
 				query.setTimestamp(param, DateUtil.toDate(value));
 			} else if (type.equalsIgnoreCase("time")) {
 				if (CommonUtil.isEmpty(value)) {
@@ -744,22 +750,29 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				objList.add(obj);
 				if (CommonUtil.isEmpty(selectedFieldList))
 					continue;
-				String colName;
-				SwdDataField dataField;
-				String dataType;
+				String colName = "";
+				SwdDataField dataField = null;
+				String dataType = "";
+				SwfFormCond swfFormCond = new SwfFormCond();
+				swfFormCond.setId(obj.getFormId());
+				SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
+				SwfField[] swfFields = swfForms[0].getFields();
 				for (SwdField field : selectedFieldList) {
-					colName = field.getTableColumnName();
-					dataType = field.getFormFieldType();
 					dataField = new SwdDataField();
-					obj.addDataField(dataField);
-					dataField.setId(field.getFormFieldId());
-					dataField.setName(field.getFormFieldName());
-					dataField.setType(dataType);
-					dataField.setDisplayOrder(field.getDisplayOrder());
-					dataType = field.getFormFieldType();
-					if (colName != null && colName.equalsIgnoreCase("id")) {
-						dataField.setValue((String)fields[0]);
-						continue;
+					for(SwfField swfField : swfFields) {
+						if(field.getFormFieldId().equals(swfField.getId())) {
+							dataType = swfField.getFormat().getType();
+							colName = field.getTableColumnName();
+							obj.addDataField(dataField);
+							dataField.setId(field.getFormFieldId());
+							dataField.setName(field.getFormFieldName());
+							dataField.setType(dataType);
+							dataField.setDisplayOrder(field.getDisplayOrder());
+							if (colName != null && colName.equalsIgnoreCase("id")) {
+								dataField.setValue((String)fields[0]);
+								continue;
+							}
+						}
 					}
 					Object fieldValue = fields[j++];
 					if (fieldValue == null)

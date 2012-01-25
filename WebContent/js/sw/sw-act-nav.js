@@ -78,6 +78,9 @@ $(function() {
 	});
 
 	$('a.js_content_iwork_space').swnavi({
+		before : function(e){
+			smartPop.progressCenter();
+		},
 		target : 'content',
 		after : function(e){
 			var input = $(e.target);
@@ -103,9 +106,10 @@ $(function() {
 								formValues : formData.record,
 								mode : "view"
 							});
+							smartPop.closeProgress();
 						},
 						error : function(xhr, ajaxOptions, thrownError){
-							
+							smartPop.closeProgress();							
 						}
 					});
 				}
@@ -201,8 +205,9 @@ $(function() {
 	$('.js_drill_down').live('click', function(e) {
 		if($(e.target).hasClass('js_checkbox')) return true;
 
-		var input = $(e.target).parents('li.js_drill_down:first').children('a');
+		var input = $(e.target).parents('li.js_drill_down:first').find('a');
 		var target = input.siblings('div');
+		if(input.hasClass('js_popup')) target = input.parent().siblings('div');
 		var url = input.attr('href');
 		var categoryId = input[0].getAttribute("categoryId");
 		var groupId = input[0].getAttribute("groupId");
@@ -211,7 +216,9 @@ $(function() {
 			return false;
 		}
 		if(isEmpty($(target).children())){
-			if(isEmpty(departmentId) && !input.hasClass('js_popup'))
+			if(input.hasClass('js_popup'))
+				smartPop.progressCont(input.find('span:last'));
+			else
 				smartPop.progressNav(input.find('span:last'));						
 			$.ajax({
 				url : url,
@@ -226,12 +233,10 @@ $(function() {
 					target.html(data);
 					target.siblings('li.js_drill_down').find('div').hide();
 					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
-					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
-						smartPop.closeProgress();											
+					smartPop.closeProgress();											
 				},
 				error : function(xhr, ajaxOptions, thrownError){
-					if(isEmpty(departmentId) && !input.hasClass('js_popup'))
-						smartPop.closeProgress();											
+					smartPop.closeProgress();											
 				}
 			});
 		}else{
@@ -244,7 +249,6 @@ $(function() {
 	
 	$('.js_check_favorite_work').live('click', function(e){
 		var input = $(e.target);
-		console.log(input);
 		var workId = input.attr('workId');
 		var favoriteWorks = input.parents('li.js_favorite_works:first');
 		var url = 'remove_a_favorite_work.sw';

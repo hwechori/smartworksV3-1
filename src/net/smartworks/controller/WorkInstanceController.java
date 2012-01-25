@@ -137,9 +137,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody Map<String, Object> createNewIwork(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
-		// TO DO : Exception handler
+		String workId = (String)requestBody.get("workId");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace") + "&workId=" + workId);
 		return map;
 	}
 
@@ -177,7 +177,6 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody Map<String, Object> createNewEvent(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
-		// TO DO : Exception handler
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("href", "event_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_EVENT_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
 		return map;
@@ -201,6 +200,20 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("href", "board_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_BOARD_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
 		return map;
+	}
+
+	@RequestMapping(value = "/set_iwork_instance", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void setIworkInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setInformationWorkInstance(requestBody, request);
+	}
+
+	@RequestMapping(value = "/remove_iwork_instance", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody Map<String, Object> removeIworkInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
+		// TO DO : Exception handler
+		return null;
 	}
 
 	@RequestMapping(value = "/update_my_profile", method = RequestMethod.POST)

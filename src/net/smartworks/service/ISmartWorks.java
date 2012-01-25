@@ -21,7 +21,6 @@ import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.RunningCounts;
-import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -52,6 +51,10 @@ public interface ISmartWorks {
 	public final static int SPACE_TYPE_WORK_LIST = 1;
 	public final static int SPACE_TYPE_WORK_INSTANCE = 2;
 	public final static int SPACE_TYPE_TASK_INSTANCE = 3;
+	public final static int SPACE_TYPE_USER = 4;
+	public final static int SPACE_TYPE_GROUP = 5;
+	public final static int SPACE_TYPE_DEPARTMENT = 6;
+	
 
 	public final static int CONTEXT_PREFIX_LENGTH = 6;
 	public final static String CONTEXT_PREFIX_USER_SPACE = "us.sp.";
@@ -95,13 +98,11 @@ public interface ISmartWorks {
 
 	public abstract CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public abstract EventInstanceInfo[] getEventInstances(LocalDate fromDate, int days) throws Exception;
+	public abstract EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, int days) throws Exception;
 
-	public abstract EventInstanceInfo[] getEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
+	public abstract EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public abstract BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, int days) throws Exception;
-
-	public abstract BoardInstanceInfo[] getBoardInstances(LocalDate fromDate, LocalDate toDate) throws Exception;
+	public abstract BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception;
 
 	public abstract CompanyCalendar getCompanyEventBox(LocalDate date) throws Exception;
 
@@ -163,7 +164,7 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
 
-	public abstract WorkInstance getWorkInstanceById(String instanceId) throws Exception;
+	public abstract WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception;
 
 	public abstract Report getReportById(String reportId) throws Exception;
 

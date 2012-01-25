@@ -122,6 +122,7 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 			creationDate = cond.getCreationDate();
 			modificationUser = cond.getModificationUser();
 			modificationDate = cond.getModificationDate();
+			menuItems = cond.getMenuItems();
 		}
 		buf.append(" from ItmMenuItemList obj");
 		if (menuItems != null && menuItems.length != 0) {
@@ -295,12 +296,11 @@ public class ItmManagerImpl extends AbstractManager implements IItmManager {
 	}
 
 	@Override
-	public void removeMenuItems(String userId, String packageId) throws ItmException {
+	public void removeMenuItem(String userId, String packageId) throws ItmException {
 		if (CommonUtil.isEmpty(packageId))
 			return;
-
-		String hql = "delete ItmMenuItem where creator = '" + userId + "' and packageId = '" + packageId + "'";
-		Query query = this.getSession().createQuery(hql);
+		String buffer = "delete swmenuitem from swmenuitemlist where swmenuitem.objid = swmenuitemlist.objid and swmenuitemlist.userId = '" + userId + "' and swmenuitem.packageId = '" + packageId + "'";
+		Query query = this.getSession().createSQLQuery(buffer.toString());
 		query.executeUpdate();
 	}
 

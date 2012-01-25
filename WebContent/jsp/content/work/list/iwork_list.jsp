@@ -51,7 +51,9 @@
 			url = "create_iwork_search_filter.sw";
 			searchFilter.find('input[name="txtNewFilterId"]').addClass('required');
 		}
-		if (!SmartWorks.GridLayout.validate(searchFilter.find('form.js_validation_required'))) return;
+
+		if (!SmartWorks.GridLayout.validate(searchFilter.find('form.js_validation_required'), $('.js_filter_error_message'))) return;
+
 		var paramsJson = {};
 		var workId = iworkList.attr('workId');
 		var searchFilters = searchFilter.find('form[name="frmSearchFilter"]');
@@ -131,10 +133,13 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	String cid = request.getParameter("cid");
 	String wid = request.getParameter("wid");
-
+	session.setAttribute("cid", cid);
+	session.setAttribute("wid", wid);
+	
 	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
 	InformationWork work = (InformationWork) smartWorks.getWorkById(workId);
+	session.setAttribute("smartWork", work);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -193,7 +198,7 @@
 				<!-- 버튼 영역-->
 				<div class="txt_btn solid_line_sb margin_t15">
 					<span class="po_left bu_work_explan"> 
-						<a class="js_view_work_manual" href="iwork_manual.sw?workId=<%=workId%>"><fmt:message key="common.button.view.work_manual" />▼</a>
+						<a class="js_view_work_manual" href="iwork_manual.sw"><fmt:message key="common.button.view.work_manual" />▼</a>
 						<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
 					</span> 
 					<span class="js_progress_span"></span>
@@ -279,7 +284,6 @@
 			<div class="contents_space">
 				<div>
 					<jsp:include page="/jsp/content/work/report/work_report.jsp">
-						<jsp:param value="<%=workId %>" name="workId"/>
 						<jsp:param value="<%=work.getLastReportId() %>" name="reportId"/>
 					</jsp:include>
 				</div>
@@ -345,7 +349,7 @@
 					</div>
 					<!-- 목록보기 타이틀-->
 
-					<!-- 상세필터 -->
+					<!-- 상세필터 및 새업무등록하기 화면 -->
 					<div id="search_filter" class="filter_section js_new_work_form"></div>
 					<!-- 상세필터 -->
 

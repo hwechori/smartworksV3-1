@@ -90,8 +90,8 @@ $(function() {
 	$('.js_select_work').swnavi({
 		before : function(event) {
 			smartPop.progressCenter();
-			$('#form_works').slideUp().slideDown(500);
-			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work").slideUp();
+			$('#form_works').hide().show();
+			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work").hide();
 		},
 		target : 'form_works',
 		after : function(event) {
@@ -123,6 +123,7 @@ $(function() {
 		var input = $(event.target);
 		input.parent().hide().siblings().show();
 		var formContent = $('#form_works').find('div.js_form_content');
+		if(isEmpty(formContent)) formContent = input.parents('.js_iwork_list_page').find('div.js_form_content');
 		var workId = input.attr('workId');
 		var requiredOnly = input.attr('requiredOnly');
 		$.ajax({
@@ -131,6 +132,7 @@ $(function() {
 				workId : workId
 			},
 			success : function(formXml, status, jqXHR) {
+				formContent.html('');
 				new SmartWorks.GridLayout({
 					target : formContent,
 					formXml : formXml,
@@ -143,10 +145,33 @@ $(function() {
 		});	
 		return false;
 	});
-
+	
+	$('input.js_toggle_schedule_work').live('click', function(e) {
+		var input = $(e.target);
+		var target = $(e.target).parent().next('span');
+		if(input.is(':checked')){
+			loadCheckScheduleFields();
+			target.show();
+		}else{
+			target.find('.js_check_schedule_fields').html('');
+			target.hide();
+		}
+	});
+	
+	var ACCESS_LEVEL_CUSTOM = '2';
+	$('select.js_select_access_level').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_upload_buttons_page').find('.js_access_level_custom');
+		var accessLevel = input.attr('value');
+		if(accessLevel === ACCESS_LEVEL_CUSTOM)
+			target.show();
+		else
+			target.hide();
+	});
+	
 	$('a.js_create_new_work').live('click', function(e) {
 		var input = $(e.target);
-		var target = input.parents('div.js_work_list_title:first').siblings('div.js_new_work_form');
+		var target = input.parents('.js_iwork_list_page').find('div.js_new_work_form');
 		var url = input.attr('href');
 		$.ajax({
 			url : url,
@@ -164,7 +189,8 @@ $(function() {
 						new SmartWorks.GridLayout({
 							target : formContent,
 							formXml : formXml,
-							mode : "edit"
+							mode : "edit",
+							requiredOnly : "true"
 						});
 					},
 					error : function(xhr, ajaxOptions, thrownError){
@@ -189,7 +215,7 @@ $(function() {
 			target : 'form_import',
 			after : function(event) {
 				var input = $(event.target);
-				input.parents('div.js_file_detail_form').parent().prev().slideToggle(500);
+				input.parents('.js_file_detail_form').parent().prev().slideToggle(500);
 				input.parent().toggle().siblings().toggle();
 				var form = input.parents('form[name="frmNewFile"]');
 				var uploader = form.find('.qq-uploader');
@@ -267,6 +293,235 @@ $(function() {
 		var target_point = $(target).find("div.up_point:first");
 		target_point.css({"left": (input.position().left + 20) + "px"});
 		$(target).show().siblings('div.js_task_manual').hide();
+		return false;
+	});
+	
+	$('a.js_modify_iwork_instance').live('click', function(e){
+		var input = $(e.target);
+		var iworkSpace = input.parents('.js_iwork_space_page');
+		var workId = iworkSpace.attr("workId");
+		var instId = iworkSpace.attr("instId");
+		var formContent = iworkSpace.find('div.js_form_content');
+		$.ajax({
+			url : "get_form_xml.sw",
+			data : {
+				workId : workId
+			},
+			success : function(formXml, status, jqXHR) {
+				$.ajax({
+					url : "get_record.sw",
+					data : {
+						workId : workId,
+						recordId : instId
+					},
+					success : function(formData, status, jqXHR) {
+						formContent.html('');
+						formContent.removeClass('list_contents');			
+						new SmartWorks.GridLayout({
+							target : formContent,
+							formXml : formXml,
+							formValues : formData.record,
+							mode : "edit"
+						});
+						iworkSpace.find('.js_btn_modify').hide();
+						iworkSpace.find('.js_btn_delete').hide();
+						iworkSpace.find('.js_btn_save').show();
+						iworkSpace.find('.js_btn_cancel').show();
+					},
+					error : function(xhr, ajaxOptions, thrownError){
+					}
+				});
+			}
+		});
+		return false;
+	});
+
+	$('a.js_cancel_iwork_instance').live('click', function(e){
+		var input = $(e.target);
+		var iworkSpace = input.parents('.js_iwork_space_page');
+		var workId = iworkSpace.attr("workId");
+		var instId = iworkSpace.attr("instId");
+		var formContent = iworkSpace.find('div.js_form_content');
+		$.ajax({
+			url : "get_form_xml.sw",
+			data : {
+				workId : workId
+			},
+			success : function(formXml, status, jqXHR) {
+				$.ajax({
+					url : "get_record.sw",
+					data : {
+						workId : workId,
+						recordId : instId
+					},
+					success : function(formData, status, jqXHR) {
+						formContent.html('');
+						formContent.addClass('list_contents');
+						new SmartWorks.GridLayout({
+							target : formContent,
+							formXml : formXml,
+							formValues : formData.record,
+							mode : "view"
+						});
+						showErrors();
+						iworkSpace.find('.js_btn_modify').show();
+						iworkSpace.find('.js_btn_delete').show();
+						iworkSpace.find('.js_btn_save').hide();
+						iworkSpace.find('.js_btn_cancel').hide();
+					},
+					error : function(xhr, ajaxOptions, thrownError){
+					}
+				});
+			}
+		});
+		return false;
+	});
+
+	$('a.js_save_iwork_instance').live('click', function(e){
+		var input = $(e.target);
+		var iworkSpace = input.parents('.js_iwork_space_page');
+		var workId = iworkSpace.attr("workId");
+		var instId = iworkSpace.attr("instId");
+		var formContent = iworkSpace.find('div.js_form_content');
+		// iwork_instance 에 있는 활성화되어 있는 모든 입력화면들을 validation하여 이상이 없으면 submit를 진행한다...
+		if (!SmartWorks.GridLayout.validate(iworkSpace.find('form.js_validation_required'), $('.js_space_error_message'))) return false;
+		
+		smartPop.confirm(smartMessage.get("saveConfirmation"), function(){
+			var forms = iworkSpace.find('form');
+			var paramsJson = {};
+			paramsJson['workId'] = workId;
+			paramsJson['instanceId'] = instId;
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				
+				// 폼이 스마트폼이면 formId와 formName 값을 전달한다...
+				if(form.attr('name') === 'frmSmartForm'){
+					paramsJson['formId'] = form.attr('formId');
+					paramsJson['formName'] = form.attr('formName');
+				}
+				
+				// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+			}
+			console.log(JSON.stringify(paramsJson));
+			var url = "set_iwork_instance.sw";
+			
+			// 서비스요청 프로그래스바를 나타나게 한다....
+			var progressSpan = iworkSpace.find('.js_progress_span');
+			smartPop.progressCont(progressSpan);
+			
+			// set_iwork_instance.sw서비스를 요청한다..
+			$.ajax({
+				url : url,
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					
+					// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.INFO, smartMessage.get("setIWorkInstanceSucceed"), function(){
+						// 서비스요청 프로그래스바를 나타나게 한다....
+						var progressSpan = iworkSpace.find('.js_progress_span');
+						smartPop.progressCont(progressSpan);
+						$.ajax({
+							url : "get_form_xml.sw",
+							data : {
+								workId : workId
+							},
+							success : function(formXml, status, jqXHR) {
+								$.ajax({
+									url : "get_record.sw",
+									data : {
+										workId : workId,
+										recordId : instId
+									},
+									success : function(formData, status, jqXHR) {
+										formContent.html('');
+										formContent.addClass('list_contents');
+										new SmartWorks.GridLayout({
+											target : formContent,
+											formXml : formXml,
+											formValues : formData.record,
+											mode : "view"
+										});
+										iworkSpace.find('.js_btn_modify').show();
+										iworkSpace.find('.js_btn_delete').show();
+										iworkSpace.find('.js_btn_save').hide();
+										iworkSpace.find('.js_btn_cancel').hide();
+										smartPop.closeProgress();
+									},
+									error : function(xhr, ajaxOptions, thrownError){
+										smartPop.closeProgress();
+									}
+								});
+							}
+						});
+						
+					});
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("setIWorkInstanceError"), function(){
+						return false;
+					});
+					
+				}
+			});
+		},
+		function(){
+			return false;
+		});
+		return false;
+	});
+
+	$('a.js_delete_iwork_instance').live('click', function(e){
+		smartPop.confirm(smartMessage.get('removeConfirmation'), function(){
+			var input = $(e.target);
+			var iworkSpace = input.parents('.js_iwork_space_page');
+			var workId = iworkSpace.attr("workId");
+			var instId = iworkSpace.attr("instId");
+			var paramsJson = {};
+			paramsJson['workId'] = workId;
+			paramsJson['instanceId'] = instId;
+			console.log(JSON.stringify(paramsJson));
+			var url = "remove_iwork_instance.sw";
+			
+			// 서비스요청 프로그래스바를 나타나게 한다....
+			var progressSpan = iworkSpace.find('.js_progress_span');
+			smartPop.progressCont(progressSpan);
+			
+			// set_iwork_instance.sw서비스를 요청한다..
+			$.ajax({
+				url : url,
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					
+					// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.INFO, smartMessage.get("removeIWorkInstanceSucceed"), 
+							function(){
+								// 정보관리업무 목록 페이지로 이동한다.....
+								document.location.href = "iwork_list.sw?cid=iw.li." + workId;					
+							});
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("removeIWorkInstanceError"), function(){
+						return false;
+					});
+					
+				}
+			});
+			
+		},
+		function(){
+			return false;
+		});
 		return false;
 	});
 

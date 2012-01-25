@@ -51,72 +51,6 @@ smartPop = {
 		$("#sw_overlay_span").remove();
 	},
 	
-	showInfoOld : function(infoType, message){
-		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
-		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
-					'<div class="form_contents margin_t10">' + 
-						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
-					 	'<div class="pop_notice_section">' + message + '</div>' +
-					 '</div>' +
-					 '<div class="glo_btn_space">' +
-					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a onclick="$.modal.close();return false;" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonClose') + '</span> <span class="Btn01End"></span>' +
-					 		'</a> </span>' +
-					 	'</div>' +
-					 '</div>' +
-				  '</div>').appendTo($(document)), showInfoOptions);
-	},
-	
-	confirmOld : function(message, onOk, onCancel){
-		$.modal( $('<div class="pop_corner_all pop_section_300">' + 
-					'<div class="form_contents margin_t10">' + 
-					 	'<div class="pop_notice_section">' + message + '</div>' +
-					 '</div>' +
-					 '<div class="glo_btn_space">' +
-					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonCancel') + '</span> <span class="Btn01End"></span>' +
-					 		'</a> </span>' +
-					 	'</div>' +
-					 	'<div class="float_right">' +
-				 			'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
-				 				'<span class="Btn01Center">' + smartMessage.get('buttonConfirm') + '</span> <span class="Btn01End"></span>' +
-				 			'</a> </span>' +
-				 		'</div>' +
-					 '</div>' +
-				  '</div>').appendTo($(document)), 
-		  {
-			opacity: 50,
-			overlayCss: {backgroundColor:"#000"},
-			containerCss:{
-				backgroundColor:"#fff",
-				borderColor:"#000",
-				color: "#000",
-				height:200,
-				padding:1,
-				width:500
-			},
-			overlayClose: false,
-			onShow: function(dialog){
-				$('.js_btn_ok', dialog.data[0]).live('click', function(){
-					if ($.isFunction(onOk)) {
-						onOk.apply();
-					}
-					$.modal.close();
-					return false;
-				});
-				$('.js_btn_cancel', dialog.data[0]).live('click', function(){
-					if ($.isFunction(onCancel)) {
-						onCancel.apply();
-					}
-					$.modal.close();
-					return false;
-				});
-			}
-		});
-	},
-	
 	closeInfo : function(){
 		smartPop.closeOverlay();
 		$('#sw_pop_show_info').remove();		
@@ -125,8 +59,8 @@ smartPop = {
 	showInfo : function(infoType, message, onClose){
 		if(infoType !== smartPop.INFO && infoType !== smartPop.WARN && infoType !== smartPop.ERROR) infoType = smartPop.INFO;
 		smartPop.overlayDark();
-		$('<div id="sw_pop_show_info" style="z-index:10001; position:absolute;" class="pop_corner_all pop_section_300">' + 
-					'<div class="form_contents margin_t10">' + 
+		$('<div id="sw_pop_show_info" style="z-index:10001; position:absolute;" class="pop_corner_all smart_pop_section">' + 
+					'<div class="pop_contents">' + 
 						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
@@ -154,19 +88,17 @@ smartPop = {
 	
 	confirm : function(message, onOk, onCancel){
 		smartPop.overlayDark();
-		$('<div id="sw_pop_confirm" class="pop_corner_all pop_section_300" style="z-index:10001; position:absolute;">' + 
-					'<div class="form_contents margin_t10">' + 
-					 	'<div class="pop_notice_section">' + message + '</div>' +
+		$('<div id="sw_pop_confirm" class="pop_corner_all smart_pop_section" style="z-index:10001; position:absolute;">' + 
+					'<div class="pop_contents">' + 
+					 	'<div class="pop_notice_section margin_t10">' + message + '</div>' +
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
 					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonCancel') + '</span> <span class="Btn01End"></span>' +
-					 		'</a> </span>' +
-					 	'</div>' +
-					 	'<div class="float_right">' +
-				 			'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
-				 				'<span class="Btn01Center">' + smartMessage.get('buttonConfirm') + '</span> <span class="Btn01End"></span>' +
+					 		'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
+					 			'<span class="Btn01Center">' + smartMessage.get('buttonConfirm') + '</span> <span class="Btn01End"></span>' +
+					 		'</a> </span>' + 
+				 			'<span class="btn_gray space_l5"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
+				 				'<span class="Btn01Center">'  + smartMessage.get('buttonCancel') + '</span> <span class="Btn01End"></span>' +
 				 			'</a> </span>' +
 				 		'</div>' +
 					 '</div>' +
@@ -184,68 +116,12 @@ smartPop = {
 			if ($.isFunction(onCancel)) {
 				onCancel.apply();
 			}
-			smartPop.closeCofirm();
+			smartPop.closeConfirm();
 			return false;
 		});
 	},
 
 	progressTarget : "",
-	progressCenterOld : function(){
-		$.modal($('<img class="js_progress_icon" src="images/load_wh.gif"/>').appendTo($(document)), {
-			opacity: 20,
-			autoPosition: true,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-
-		} );
-	},
-	progressContOld : function(target){
-		smartPop.progressTarget= target;
-		$('<img class="js_progress_icon" src="images/load_wh.gif"/>').appendTo(target);
-		$.modal("", {
-			opacity: 20,
-			autoPosition: false,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-		} );
-	},
-	progressContGrayOld : function(target){
-		smartPop.progressTarget= target;
-		$('<img class="js_progress_icon" src="images/load_wh_02.gif" align="bottom"/>').appendTo(target);
-		$.modal("", {
-			opacity: 20,
-			autoPosition: false,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-		} );
-	},
-	progressNavOld : function(target){
-		smartPop.progressTarget= target;
-		$('<img class="js_progress_icon" src="images/load_gr.gif" align="bottom"/>').appendTo(target);
-		$.modal("", {
-			opacity: 20,
-			autoPosition: false,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-		} );
-	},
-	progressNavGrayOld : function(target){
-		smartPop.progressTarget= target;
-		$('<img class="js_progress_icon" src="images/load_gr_02.gif" align="bottom"/>').appendTo(target);
-		$.modal("", {
-			opacity: 20,
-			autoPosition: false,
-			overlayCss: {backgroundColor:"#000"},
-			overlayClose: false
-		} );
-	},
-
-	closeProgressOld : function(){
-		$.modal.close();
-		if(!isEmpty(smartPop.progressTarget))
-			smartPop.progressTarget.find('.js_progress_icon').remove();
-	},
-
 	progressCenter : function(){
 		$('<img class="js_progress_icon" src="images/load_wh.gif"/>').appendTo($(document));
 		smartPop.overlay();
@@ -294,14 +170,13 @@ smartPop = {
 				fixed: false,
 				overlayCss: {backgroundColor:"#000"},
 				containerCss:{
-					height:500,
 					width: conWidth
 				},
 				overlayClose: true,
 				onShow: function(dialog){
 
 					var selectionProc = function(comId, comName){
-						var userField = userInput.parents('td.js_type_userField:first');
+						var userField = userInput.parents('.js_type_userField:first');
 						var inputTarget = userField.find('input.js_auto_complete:first');
 						if(inputTarget.parents('.sw_required').hasClass('sw_error')){
 							inputTarget.parents('.sw_required').removeClass('sw_error');
@@ -377,7 +252,7 @@ smartPop = {
 				overlayClose: true,
 				onShow: function(dialog){
 					$('.js_pop_select_work').live( 'click', function(e){
-						var input = $(e.target).parents('li:first').children('a');
+						var input = $(e.target).parents('li:first').find('a');
 						$('#form_works').slideUp().slideDown(500);
 						$('#upload_work_list').hide().parents(".js_start_work").slideUp();
 						var href = input.attr('href');
@@ -395,7 +270,8 @@ smartPop = {
 									new SmartWorks.GridLayout({
 										target : formContent,
 										formXml : formXml,
-										mode : "edit"
+										mode : "edit",
+										requiredOnly : 'true'
 									});
 									$.modal.close();
 									target.html('');

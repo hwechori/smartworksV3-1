@@ -19,7 +19,8 @@ function submitForms(e) {
 	}else{
 		scheduleWork.removeClass('js_validation_required');	
 	}
-	if (SmartWorks.GridLayout.validate(planSwork.find('form.js_validation_required'))) {
+
+	if (SmartWorks.GridLayout.validate(planSwork.find('form.js_validation_required'), $('.js_upload_error_message'))) {
 		var forms = planSwork.find('form');
 		var paramsJson = {};
 		for(var i=0; i<forms.length; i++){
@@ -87,5 +88,7 @@ function submitForms(e) {
 	<div class="js_form_content" workType="swork"></div>
 	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
 	<!-- 폼- 확장 //-->
-	<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+	<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+		<jsp:param value="<%=workId %>" name="workId"/>
+	</jsp:include>
 </div>

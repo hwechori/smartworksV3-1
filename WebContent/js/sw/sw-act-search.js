@@ -8,6 +8,7 @@ $(function() {
 	$('input.js_auto_complete').live('keyup', function(e) {
 		if(e.which>=9 && e.which<=45) return;
 		var input = $(e.target);
+		var listWidth = input.parent().width();
 		var start_work = input.parents('div.js_start_work');
 		var chatter_name = input.parents('div.js_chatter_names');
 		var communityId = input.parents('ul.js_community_members').attr('communityId');
@@ -35,7 +36,7 @@ $(function() {
 					},
 					context : input,
 					success : function(data, status, jqXHR) {
-						target.html(data);
+						target.html(data).width(listWidth);
 						target.show();
 					},
 					error : function(xhr, ajaxOptions, thrownError){
@@ -130,11 +131,10 @@ $(function() {
 
 	$('.js_select_community').live( 'click', function(e) {
 		var input = $(e.target);
-		
 		var comName = input.attr('comName');
 		var comId = input.attr('comId');
 		var target = input.parents('.js_community_list').prev().find('.js_selected_communities');				
-		var userField = target.parents('td.js_type_userField');
+		var userField = target.parents('.js_type_userField');
 		var inputTarget = userField.find('input.js_auto_complete');
 		if(inputTarget.parents('.sw_required').hasClass('sw_error')){
 			inputTarget.parents('.sw_required').removeClass('sw_error');
@@ -166,7 +166,7 @@ $(function() {
 	$('.js_remove_community').live('click', function(e) {
 		var input = $(e.target);
 		
-		var userField = input.parents('td.js_type_userField');
+		var userField = input.parents('.js_type_userField');
 		if(!isEmpty(userField) && userField.attr('multiUsers') !== 'true') {
 			var inputTarget = userField.find('input.js_auto_complete')
 			inputTarget.show();

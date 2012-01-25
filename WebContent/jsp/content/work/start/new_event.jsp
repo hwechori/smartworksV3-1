@@ -1,3 +1,9 @@
+
+<!-- Name 			: new_event.jsp									 -->
+<!-- Description	: 스마트폼을 이용하여 새 이벤트를 등록하는 화면 	      	 -->
+<!-- Author			: Maninsoft, Inc.								 -->
+<!-- Created Date	: 2011.9.										 -->
+
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
@@ -10,195 +16,131 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <script type="text/javascript">
-function submitForms(e) {
+
+//완료버튼 클릭시 create_new_event.sw 서비스를 실행하기 위해 submit하는 스크립트..
+function submitForms() {
 	var newEvent = $('.js_new_event_page');
-	if(!SmartWorks.GridLayout.validate(newEvent.find('form.js_validation_required'))) return
 
-	var forms = newEvent.find('form');
-	var paramsJson = {};
-	for(var i=0; i<forms.length; i++){
-		var form = $(forms[i]);
-		paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+	// new_event 에 있는 활성화되어 있는 모든 입력화면들을 validation하여 이상이 없으면 submit를 진행한다...
+	if(!SmartWorks.GridLayout.validate(newEvent.find('form.js_validation_required'), $('.js_upload_error_message'))) return
+
+	var form = newEvent.find('form[name="frmNewEvent"]');
+	var name = form.find('input[name="txtEventName"]').attr("value");
+	var startDate = form.find('input[name="txtEventStartDate"]').attr("value");
+	var endDate = form.find('input[name="txtEventEndDate"]').attr("value");
+	var alarmPolicy = form.find('select[name="selEventAlarmPolicy"]').attr("value");
+	var place = form.find('input[name="txtEventPlace"]').attr("value");
+	var relatedUserField = form.find('.js_type_userField .js_community_item');
+	var relatedUsers = new Array();
+	for(var i=0; i<relatedUserField.length; i++){
+		relatedUsers.push({
+			userId : $(relatedUserField[i]).attr('comId'),
+			longName : relatedUserField[i].childNodes[0].nodeValue
+		});
 	}
-	console.log(JSON.stringify(paramsJson));
-	var progressSpan = newEvent.find('.js_progress_span');
-	smartPop.progressCont(progressSpan);
-	var url = "create_new_event.sw";
-	$.ajax({
-		url : url,
-		contentType : 'application/json',
-		type : 'POST',
-		data : JSON.stringify(paramsJson),
-		success : function(data, status, jqXHR) {
-			smartPop.closeProgress();
-			document.location.href = data.href;
-		},
-		error : function(e) {
-			smartPop.closeProgress();
-		}
-	});
-}
-$('input.js_today_datepicker').datepicker({
-	defaultDate : new Date(),
-	dateFormat : 'yy.mm.dd'
-});
+	var content = form.find('textarea[name="txtEventContent"]').attr("value");
+	var formContent = newEvent.find('.js_hidden_form_content');
+	
+	if(!isEmpty(formContent)) {
 
-$('input.js_current_timepicker').timepicker({
-});
+		var workId = newEvent.attr('workId');
+		$.ajax({
+			url : "get_form_xml.sw",
+			data : {
+				workId : workId
+			},
+			success : function(formXml, status, jqXHR) {
+
+				// 화면 xml을 가져오면 가져온 값과 입력된 설명값들을 가지고 스마트폼을 이용해 화면을 그린다...
+				var formXml = $(formXml);
+				new SmartWorks.GridLayout({
+					target : formContent,
+					formXml : formXml,
+					formValues : createEventDataFields({
+						formXml : formXml,
+						name : name,
+						startDate : startDate,
+						endDate : endDate,
+						alarmPolicy : alarmPolicy,
+						place : place,
+						relatedUsers : relatedUsers,
+						content : content
+					}),
+					mode : "edit"
+				});
+				// 그려진 화면에 있는 입력화면들을 JSON형식으로 Serialize한다...
+				var forms = newEvent.find('form');
+				var paramsJson = {};
+				for(var i=0; i<forms.length; i++){
+					var form = $(forms[i]);
+					// 폼이 스마트폼이면 formId와 formName 값을 전달한다...
+					if(form.attr('name') === 'frmSmartForm'){
+						paramsJson['formId'] = form.attr('formId');
+						paramsJson['formName'] = form.attr('formName');
+					}else if(form.attr('name') === 'frmNewEvent'){
+						continue;
+					}
+					// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
+					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+				}
+				console.log(JSON.stringify(paramsJson));
+				// 서비스요청 프로그래스바를 나타나게 한다....
+				var progressSpan = newEvent.find('.js_progress_span');
+				smartPop.progressCont(progressSpan);
+				var url = "create_new_event.sw";
+				// create_new_event.sw서비스를 요청한다..
+				$.ajax({
+					url : url,
+					contentType : 'application/json',
+					type : 'POST',
+					data : JSON.stringify(paramsJson),
+					success : function(data, status, jqXHR) {
+						// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
+						smartPop.closeProgress();
+						smartPop.showInfo(smartPop.INFO, smartMessage.get("createEventSucceed"), function(){
+							document.location.href = data.href;
+						});
+					},
+					error : function(e) {
+						// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+						smartPop.closeProgress();
+						smartPop.showInfo(smartPop.ERROR, smartMessage.get("createEventError"));
+					}
+				});
+			}
+		});
+	}
+}
 
 </script>
 
 <%
+	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다..
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
-	LocalDate date = new LocalDate();
-	String today = date.toLocalDateSimpleString();
-	String curTime = date.toLocalTimeShortString();
 %>
+<!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="up_wrap js_new_event_page">
+<div class="up_wrap js_new_event_page" workId="<%=SmartWork.ID_EVENT_MANAGEMENT%>">
 	<div class="up_point posit_event"></div>
 	<div class="form_wrap up up_padding">
 		<!-- 폼- 확장 -->
 		<form name="frmNewEvent" class="form_title js_validation_required">
-			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" startDateTitle="<fmt:message key='common.upload.event.start_date'/>" endDateTitle="<fmt:message key='common.upload.event.end_date'/>" placeTitle="<fmt:message key='common.upload.event.place'/>" relatedUsersTitle="<fmt:message key='common.upload.event.related_users'/>" contentTitle="<fmt:message key='common.upload.event.content' />">
+			<!-- 새로운 이벤트를 등록하기 위한 입력화면을 스마트폼을 이용하여 자동으로 그린다.. -->
+			<!-- js_new_event_fields :  js/sw/sw-formFields.js 에서 loadNewEventFields()가 찾아서 이벤트입력화면을 이곳에 그려준다.. -->
+			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" 
+				startDateTitle="<fmt:message key='common.upload.event.start_date'/>" endDateTitle="<fmt:message key='common.upload.event.end_date'/>"  alarmPolicyTitle="<fmt:message key='common.upload.button.set_alarm'/>"
+				placeTitle="<fmt:message key='common.upload.event.place'/>" relatedUsersTitle="<fmt:message key='common.upload.event.related_users'/>" 
+				contentTitle="<fmt:message key='common.upload.event.content' />">
 			</div>
-
-<%-- 			<div class="input_1line">
-				<div class="float_left">
-					<input class="fieldline space_data date js_today_datepicker" type="text"
-						name="txtEventStartDate" readonly="readonly" value="<%=today%>">
-				</div>
-
-				<div class="float_left js_start_time">
-					<select name="selEventStartTime">
-						<%
-							{
-								boolean isNow = false, isPassed = false;
-								DecimalFormat df = new DecimalFormat("00");
-								int iCurHour = df.parse(curTime.substring(0, 2)).intValue();
-								for (int i = 0; i < 24; i++) {
-									String hourString = df.format(i) + ":00";
-									String thirtyMinuteString = df.format(i) + ":30";
-									if (iCurHour < i && !isPassed)
-										isNow = true;
-						%>
-						<option
-							<%if (isNow) {
-						isNow = false;
-						isPassed = true;%>
-							selected <%}%> value="<%=hourString%>"><%=hourString%></option>
-						<option><%=thirtyMinuteString%></option>
-						<%
-							}
-							}
-						%>
-					</select>
-				</div>
-				<!-- 종료 날짜 추가 내용 -->
-				<div class="float_left space_l10 js_end_datetime"
-					style='display: none'>
-					<div class="float_left">
-						- <input name="txtEventEndDate"
-							class="fieldline space_data date js_today_datepicker" type="text"
-							value="<%=today%>">
-					</div>
-					<div class="float_left js_end_time">
-						<input name="txtEventEndTime"
-							class="fieldline space_data js_current_timepicker" type="text" value="<%=curTime%>">
-					</div>
-				</div>
-				<!-- 종료 날짜 추가 내용 //-->
-				<div class="float_left txt_btn">
-					<a href="" class="space_l10"
-						onclick="$(this).hide().siblings().show().parent().siblings('div.js_end_datetime').toggle();return false;"><fmt:message
-							key="common.upload.button.add_eventend" /> </a> <a
-						style="display: none" href="" class="space_l10"
-						onclick="$(this).hide().siblings().show().parent().siblings('div.js_end_datetime').toggle();return false;"><fmt:message
-							key="common.upload.button.delete_eventend" /> </a>
-				</div>
-
-				<span class="input_check">
-					<input name="chkEventWholeDay" class="js_whole_day" type="checkbox"><label><fmt:message
-							key="common.upload.event.whole_day" /></label>
-				</span>
-
-				<span class="input_check">
-					<input name="chkEventAlarm" type="checkbox"
-						value=""
-						onclick="$(this).parent().next('div').toggle();return true;" />
-					<label><fmt:message key="common.upload.button.set_alarm" /></label>
-				</span>
-				<!-- 알림 설정 내용 -->
-				<div class="float_left space_l5" style="display: none;">
-					<select name="selEventAlarmTime">
-						<option>
-							<fmt:message key="event.alarm.on_time" />
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_minute">
-								<fmt:param>10</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_minute">
-								<fmt:param>15</fmt:param>
-							</fmt:message>
-						</option>
-						<option selected>
-							<fmt:message key="event.alarm.before_minute">
-								<fmt:param>30</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_hour">
-								<fmt:param>1</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_hour">
-								<fmt:param>2</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_hour">
-								<fmt:param>4</fmt:param>
-							</fmt:message>
-						</option>
-						<option>
-							<fmt:message key="event.alarm.before_hour">
-								<fmt:param>24</fmt:param>
-							</fmt:message>
-						</option>
-					</select>
-				</div>
-				<!-- 알림 설정 내용 //-->
-			</div>
-
-			<div class="input_1line">
-				<input class="fieldline" name="txtEventPlace" type="text" title=""
-					placeholder="<fmt:message key='common.upload.event.place'/>">
-			</div>
-			<input type="hidden" name="hdnRelatedUsers" />
-			<div class="input_1line fieldline js_community_names">
-				<div class="js_selected_communities user_sel_area"></div>
-				<input class="js_auto_complete" href='community_name.sw' type="text"
-					title=""
-					placeholder="<fmt:message key='common.upload.event.related_users'/>">
-				<div class='js_srch_x'></div>
-
-			</div>
-			<div class="js_community_list" style="display: none"></div>
-
-			<div>
-				<textarea class="up_textarea" name="txtaEventContent" cols=""
-					rows="5">
-					<fmt:message key='common.upload.event.content' />
-				</textarea>
-			</div>
- --%>		</form>
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp"></jsp:include>
+		</form>
+		<div class="js_hidden_form_content" style="display:none">
+		</div>
+		<!-- 새이벤트를 등록하기위한 완료 버튼과 취소 버튼 -->
+		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+			<jsp:param value="<%=SmartWork.ID_EVENT_MANAGEMENT%>" name="workId"/>
+		</jsp:include>
 	</div>
 </div>
