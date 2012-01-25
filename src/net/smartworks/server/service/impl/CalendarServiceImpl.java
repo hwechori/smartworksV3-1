@@ -219,7 +219,7 @@ public class CalendarServiceImpl implements ICalendarService {
 						if(value != null) {
 							String[] reltdUsers = value.split(";");
 							for(String reltdUser : reltdUsers) {
-								if(reltdUser.equals(user.getId()))
+								if(reltdUser.equals(user.getId()) || reltdUser.equals(user.getDepartmentId()))
 									isExistUser = true;
 								UserInfo relatedUser = ModelConverter.getUserInfoByUserId(reltdUser);
 								if(relatedUser != null)
