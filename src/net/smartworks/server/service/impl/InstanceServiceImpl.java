@@ -18,6 +18,7 @@ import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.FieldData;
+import net.smartworks.model.instance.InformationWorkInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.RunningCounts;
@@ -351,8 +352,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		// 업무연결아이디와 해당 업무 맵 ??????//
 		Map<String, SwdRecord[]> formLinkIdRecordMap = new HashMap<String, SwdRecord[]>();
 
+		//새로 값이 셋팅되어 변경될 레코드 클론
+		SwdRecord oldRecord = (SwdRecord)record.clone();
+		SwdRecord newRecord = (SwdRecord)record.clone();
+
+		
+		
 		// 각 필드들 마다 가져오기 맵핑을 확인하여 값을 셋팅한다
-		// 
 		for (SwfField field : fields) {
 			// 가져오기 매핑정의가 있는지 확인 시작
 			SwfMappings mappings = field.getMappings();
@@ -368,6 +374,31 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			//가져오기 셋팅이 여러개 일수 있다
 			for (SwfMapping preMapping : preMappings) {
+				//초기 데이터 가져오기 호출이 아니고 매번호출이 아니라면 스킵
+				//초기 데이터 가져오기내용 검토 필요(초기인지 아닌지 알수 있나?)
+				if (!isFirstSetMode && !preMapping.isEachTime())
+					continue;
+
+				String mappingType = preMapping.getType();
+//				mappingType = TYPE_SIMPLE = "mapping_form"; 단순 맵핑
+//				mappingTYpe = TYPE_EXPRESSION = "expression"; 계산식
+				
+				if (SwfMapping.TYPE_SIMPLE.equalsIgnoreCase(mappingType)) {
+					//단순 맵핑 (현재업무화면, 다른업무화면, 프로세스업무화면, 시스템함수, 웹서비스)
+					String mappingFormType = preMapping.getMappingFormType();
+					if (CommonUtil.isEmpty(mappingFormType))
+						continue;
+					// 현재업무항목
+					if (SwfMapping.MAPPINGTYPE_SELFFORM.equalsIgnoreCase(mappingFormType)) {
+						
+						
+					} 
+					
+				} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingType)) {
+					//계산식
+					
+					
+				}
 				
 				
 				
@@ -376,7 +407,62 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		return null;  
 	}
+	private void setResultFieldMapByFields(String userId, Map<String, Object> resultMap, SwfField field, SwdRecord oldRecord) throws Exception {
+		
+		SwfMappings mappings = field.getMappings();
+		if (mappings == null)
+			return;
+		SwfMapping[] preMappings = mappings.getPreMappings();
+		if (CommonUtil.isEmpty(preMappings))
+			return;
+		// 가져오기 매핑정의가 있는지 확인 끝
 
+		String fieldId = field.getId();
+		String fieldType = field.getSystemType();
+		
+		//가져오기 셋팅이 여러개 일수 있다
+		for (SwfMapping preMapping : preMappings) {
+			//초기 데이터 가져오기 호출이 아니고 매번호출이 아니라면 스킵
+			//초기 데이터 가져오기내용 검토 필요(초기인지 아닌지 알수 있나?)
+			if (!preMapping.isEachTime())
+				continue;
+
+			String mappingType = preMapping.getType();
+//			mappingType = TYPE_SIMPLE = "mapping_form"; 단순 맵핑
+//			mappingTYpe = TYPE_EXPRESSION = "expression"; 계산식
+			
+			if (SwfMapping.TYPE_SIMPLE.equalsIgnoreCase(mappingType)) {
+				//단순 맵핑 (현재업무화면, 다른업무화면, 프로세스업무화면, 시스템함수, 웹서비스)
+				String mappingFormType = preMapping.getMappingFormType();
+				if (CommonUtil.isEmpty(mappingFormType))
+					continue;
+				// 현재업무항목
+				if (SwfMapping.MAPPINGTYPE_SELFFORM.equalsIgnoreCase(mappingFormType)) {
+					
+					
+					//현재 업무 항목이라면 재귀 함수호출로 호출되는쪽의 데이터 맵핑이 있는지를 다시 살핀다
+					
+					
+					
+					
+				} 
+				
+			} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingType)) {
+				//계산식
+				
+				
+			}
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+	}
+	
 	@Override
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
@@ -392,6 +478,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
 		String formId = (String)requestBody.get("formId");
 		String formName = (String)requestBody.get("formName");
+		String instanceId = (String)requestBody.get("instanceId");
 		int formVersion = 1;
 		User cuser = SmartUtil.getCurrentUser();
 		String userId = null;
@@ -409,7 +496,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		SwdField[] fields = getSwdManager().getFields(userId, swdFieldCond, IManager.LEVEL_LITE);
 		if (CommonUtil.isEmpty(fields))
 			return null;//TODO return null? throw new Exception??
-		
+
 		Map<String, SwdField> fieldInfoMap = new HashMap<String, SwdField>();
 		for (SwdField field : fields) {
 			fieldInfoMap.put(field.getFormFieldId(), field);
@@ -505,8 +592,9 @@ public class InstanceServiceImpl implements IInstanceService {
 		obj.setFormName(formName);
 		obj.setFormVersion(formVersion);
 		obj.setDataFields(fieldDatas);
+		obj.setRecordId(instanceId);
 
-		getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
+		String returnInstanceId = getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
 
 		if(files != null && files.size() > 0) {
 			try {
@@ -522,7 +610,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			}
 		}
 
-		return null;
+		return returnInstanceId;
 	}
 
 	@Override
@@ -551,6 +639,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		return SmartTest.getCommentInstances();
 	}
 
+	int previousPageSize = 0;
 	@Override
 	public InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception {
 
@@ -623,7 +712,16 @@ public class InstanceServiceImpl implements IInstanceService {
 		swdRecordCond.setOrders(new Order[]{new Order(columnName, isAsc)});
 
 		int pageSize = params.getPageSize();
+		
 		int currentPage = params.getCurrentPage();
+
+		if(previousPageSize != pageSize)
+			currentPage = 1;
+
+		previousPageSize = pageSize;
+
+		if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+			currentPage = 1;
 
 		int totalPages = (int)totalCount % pageSize;
 
@@ -728,7 +826,7 @@ public class InstanceServiceImpl implements IInstanceService {
 									// TO-DO
 								} else if(formatType.equals(FormField.TYPE_DATE)) {
 									if(value != null)
-										value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateSimpleString(); 
+										value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateSimpleString();
 								} else if(formatType.equals(FormField.TYPE_TIME)) {
 									if(value != null)
 										value = LocalDate.convertGMTStringToLocalDate(value).toLocalTimeSimpleString();
@@ -1099,7 +1197,10 @@ public class InstanceServiceImpl implements IInstanceService {
 				return null;
 			return getProcessWorkInstanceById(user.getCompanyId(), user.getId(), prcInst);
 		} else if(workType == SmartWork.TYPE_INFORMATION){
-			return SmartTest.getWorkInstanceById(instanceId);
+			
+//			SwdRecord swdRecord = getSwdManager().getRecord(user.getId(), domainId, instanceId, IManager.LEVEL_LITE);
+//			return getInformationWorkInstanceById(user.getCompanyId(), user.getId(), swdRecord);
+			return SmartTest.getInformationWorkInstance1();
 		} else if(workType == SmartWork.TYPE_SCHEDULE) {
 			return null;
 		}
@@ -1112,6 +1213,12 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		return ModelConverter.getProcessWorkInstanceByPrcProcessInst(userId, null, prcInst);
 	
+	}
+
+	public InformationWorkInstance getInformationWorkInstanceById(String companyId, String userId, SwdRecord swdRecord) throws Exception {
+
+		return ModelConverter.getInformationWorkInstanceBySwdRecord(userId, null, swdRecord);
+
 	}
 
 }

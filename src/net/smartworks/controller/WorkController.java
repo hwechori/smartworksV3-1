@@ -183,7 +183,7 @@ public class WorkController extends ExceptionInterceptor {
 
 	@RequestMapping(value = "/set_iwork_search_filter", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public ModelAndView setIwokrSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView setIworkSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
 		String filterId = "";
 		String workId = (String)requestBody.get("workId");
@@ -196,7 +196,7 @@ public class WorkController extends ExceptionInterceptor {
 
 	@RequestMapping(value = "/create_iwork_search_filter", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public ModelAndView createIwokrSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView createIworkSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
 		String filterId = "";
 		String workId = (String)requestBody.get("workId");
