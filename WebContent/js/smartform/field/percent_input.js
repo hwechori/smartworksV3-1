@@ -29,9 +29,9 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$label.addClass('required_label');
-		required = " class='fieldline required' ";
+		required = " class='fieldline text_align_r required' ";
 	}else{
-		required = " class='fieldline' ";
+		required = " class='fieldline text_align_r' ";
 	}
 	$label.appendTo(options.container);
 	
@@ -42,8 +42,8 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	if (readOnly) {
 		$percent = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"></div>').text(percentValue);
 	} else {
-		$percent = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"'  + required + '/></div>')
-				.attr('value', percentValue);
+		$percent = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"'  + required + '/></div>');
+		$percent.find('input').attr('value', percentValue);
 	}
 
 	if ($graphic.attr('hidden') == 'true'){

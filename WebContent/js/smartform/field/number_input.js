@@ -28,9 +28,9 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$label.addClass('required_label');
-		required = " class='js_number_input fieldline required' ";
+		required = " class='js_number_input fieldline text_align_r required' ";
 	}else{
-		required = " class='js_number_input fieldline' ";
+		required = " class='js_number_input fieldline text_align_r' ";
 	}
 	$label.appendTo(options.container);
 	
@@ -38,8 +38,8 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	if(readOnly){
 		$number = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"></div>').text(value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$number = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
-		//if save mode = $currency.toNumber().attr('value');
+		$number = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>');
+		$number.find('input').attr('value',value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();
