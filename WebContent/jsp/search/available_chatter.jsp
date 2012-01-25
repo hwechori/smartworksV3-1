@@ -16,17 +16,19 @@
 
 <ul>
 	<%
-		if(chatters != null){
-			for (UserInfo chatter : chatters) {
+	if(chatters != null){
+		for (UserInfo chatter : chatters) {
 	%>
-	<li><img src="<%=chatter.getMinPicture()%>" class="profile_size_s"><a
-		title="<%=chatter.getDepartment()%>"><%=chatter.getPosition()%> <%=chatter.getName()%></a>
-	</li>
+			<li>
+				<img src="<%=chatter.getMinPicture()%>" class="profile_size_s">
+				<a title="<%=chatter.getDepartment()%>"><%=chatter.getPosition()%> <%=chatter.getName()%></a>
+			</li>
 	<%
-			}
-		}else{
-			%>
-			<li><span><fmt:message key="search.message.no_searched_data"/></span></li>
-			<%} %>
-
+		}
+	}else{
+	%>
+		<li><span><fmt:message key="search.message.no_searched_data"/></span></li>
+	<%
+	}
+	%>
 </ul>

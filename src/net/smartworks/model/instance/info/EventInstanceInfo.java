@@ -1,5 +1,6 @@
 package net.smartworks.model.instance.info;
 
+import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.util.LocalDate;
@@ -7,7 +8,7 @@ import net.smartworks.util.LocalDate;
 public class EventInstanceInfo extends InstanceInfo {
 
 	private String			content;
-	private UserInfo[]		relatedUsers;
+	private CommunityInfo[]	relatedUsers;
 	private LocalDate		start;
 	private LocalDate		end;
 
@@ -17,10 +18,10 @@ public class EventInstanceInfo extends InstanceInfo {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public UserInfo[] getRelatedUsers() {
+	public CommunityInfo[] getRelatedUsers() {
 		return relatedUsers;
 	}
-	public void setRelatedUsers(UserInfo[] relatedUsers) {
+	public void setRelatedUsers(CommunityInfo[] relatedUsers) {
 		this.relatedUsers = relatedUsers;
 	}
 	public LocalDate getStart() {

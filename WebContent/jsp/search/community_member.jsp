@@ -28,28 +28,28 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <ul>
-<%
+	<%
 	// 검색된 사용자가 있으면 목록을 만들어 보여준다...
 	if (users != null) {
 		for (UserInfo user : users) {
 			String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + user.getId();
-%>
+	%>
 			<li>
 				<a href="user_space.sw?cid=<%=comContext%>&wid=<%=user.getId()%>" class="js_location">
 					<img src="<%=user.getMinPicture()%>" class="profile_size_s">
 					<span class="nav_subtitl_area"><%=user.getLongName()%></span>
 				</a>
 			</li>
-<%
+	<%
 		}
 	
 	// 검색된 결과가 없으면, 검색된결과가 없다는 메시지를 보여준다...
 	} else {
-%>
+	%>
 		<li>
 			<span><fmt:message key="search.message.no_searched_data"/></span>
 		</li>
-<%
+	<%
 	}
-%>
+	%>
 </ul>

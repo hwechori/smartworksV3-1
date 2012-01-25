@@ -1,6 +1,7 @@
 package net.smartworks.model.calendar;
 
 import net.smartworks.model.BaseObject;
+import net.smartworks.model.community.Community;
 import net.smartworks.model.community.User;
 import net.smartworks.util.LocalDate;
 
@@ -10,7 +11,7 @@ public class CompanyEvent extends BaseObject {
 	public static final String EVENT_TYPE_EVENTDAY = "2";
 
 	private Boolean 		isHoliday;
-	private User[]			relatedUsers;
+	private Community[]		relatedUsers;
 	private LocalDate		plannedStart;
 	private LocalDate		plannedEnd;
 
@@ -20,10 +21,10 @@ public class CompanyEvent extends BaseObject {
 	public void setIsHoliday(Boolean isHoliday) {
 		this.isHoliday = isHoliday;
 	}
-	public User[] getRelatedUsers() {
+	public Community[] getRelatedUsers() {
 		return relatedUsers;
 	}
-	public void setRelatedUsers(User[] relatedUsers) {
+	public void setRelatedUsers(Community[] relatedUsers) {
 		this.relatedUsers = relatedUsers;
 	}
 	public LocalDate getPlannedStart() {

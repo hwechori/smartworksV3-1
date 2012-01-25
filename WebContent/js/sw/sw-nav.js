@@ -14,14 +14,19 @@
 (function($){
 	var target_ = null;
 	var origin_ = null;
+	var after_ = null;
+	var this_ = null;
+	var event_ = null;
 
 	var historic_load = function(url) {
 		if(url) {
 			if(origin_ == null) {
 				origin_ = $('#' + target_).html() || "";
 			}
-			$('#' + target_).load(url);
-		} else {
+			$('#' + target_).load(url, function(){
+				if(after_) after_.apply(this_, event_);				
+			});
+		} else if(origin_) {
 			$('#' + target_).html(origin_);
 		}
 	};
@@ -53,9 +58,10 @@
 					before.apply(this, [event]);
 				}
 				if(target == target_) {
-					$.history.load(this.getAttribute('href'), function(){
-						if(after) after.apply(_this, [event]);
-					} );
+					after_ = after;
+					this_ = this;
+					event_ = [event];
+					$.history.load(this.getAttribute('href'));
 				} else {
 					$('#' + target).load(this.getAttribute('href'), function(){
 						if(after) after.apply(_this, [event]);						

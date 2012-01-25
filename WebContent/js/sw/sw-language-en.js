@@ -58,11 +58,14 @@ smartMessage.bundle['en'] = {
 	setIWorkInstanceError : "Error has been occured while changing Instance data. Please contact the Administrator!",
 	removeIWorkInstanceSucceed : "Instance data has been deleted successfully...",
 	removeIWorkInstanceError : "Error has been occured while deleting Instance data. Please contact the Administrator!",
+	forwardIWorkInstanceSucceed : "Instance data has been forwarded successfully...",
+	forwardIWorkInstanceError : "Error has been occured while forwarding Instance data. Please contact the Administrator!",
 	iworkListError : "Error has been occured while loading work list. Please contact the Administrator!",
 	setIworkFilterError : "Error has been occured while saving search filter. Please contact the Administrator!",
 	
 	removeConfirmation : "Do you really want to remove?",
 	saveConfirmation : "Do you really want to save changes? ",
+	forwardConfirmation : "Do you really want to forward this instance data? ",
 		
 	nullPointerException : "Null Pointer Exception. Please contact the Administrator!",
 	duplicateKeyException : "Duplicate Key Exception. Please contact the Administrator!"	
