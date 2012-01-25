@@ -284,8 +284,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		// 업무연결아이디와 해당 업무 맵 ??????//
 		Map<String, SwdRecord[]> formLinkIdRecordMap = new HashMap<String, SwdRecord[]>();
 
+		//새로 값이 셋팅되어 변경될 레코드 클론
+		SwdRecord oldRecord = (SwdRecord)record.clone();
+		SwdRecord newRecord = (SwdRecord)record.clone();
+
+		
+		
 		// 각 필드들 마다 가져오기 맵핑을 확인하여 값을 셋팅한다
-		// 
 		for (SwfField field : fields) {
 			// 가져오기 매핑정의가 있는지 확인 시작
 			SwfMappings mappings = field.getMappings();
@@ -301,6 +306,31 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			//가져오기 셋팅이 여러개 일수 있다
 			for (SwfMapping preMapping : preMappings) {
+				//초기 데이터 가져오기 호출이 아니고 매번호출이 아니라면 스킵
+				//초기 데이터 가져오기내용 검토 필요(초기인지 아닌지 알수 있나?)
+				if (!isFirstSetMode && !preMapping.isEachTime())
+					continue;
+
+				String mappingType = preMapping.getType();
+//				mappingType = TYPE_SIMPLE = "mapping_form"; 단순 맵핑
+//				mappingTYpe = TYPE_EXPRESSION = "expression"; 계산식
+				
+				if (SwfMapping.TYPE_SIMPLE.equalsIgnoreCase(mappingType)) {
+					//단순 맵핑 (현재업무화면, 다른업무화면, 프로세스업무화면, 시스템함수, 웹서비스)
+					String mappingFormType = preMapping.getMappingFormType();
+					if (CommonUtil.isEmpty(mappingFormType))
+						continue;
+					// 현재업무항목
+					if (SwfMapping.MAPPINGTYPE_SELFFORM.equalsIgnoreCase(mappingFormType)) {
+						
+						
+					} 
+					
+				} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingType)) {
+					//계산식
+					
+					
+				}
 				
 				
 				
@@ -309,6 +339,64 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		return null;  
 	}
+	
+	private void setResultFieldMapByFields(String userId, Map<String, Object> resultMap, SwfField field, SwdRecord oldRecord) throws Exception {
+		
+		SwfMappings mappings = field.getMappings();
+		if (mappings == null)
+			return;
+		SwfMapping[] preMappings = mappings.getPreMappings();
+		if (CommonUtil.isEmpty(preMappings))
+			return;
+		// 가져오기 매핑정의가 있는지 확인 끝
+
+		String fieldId = field.getId();
+		String fieldType = field.getSystemType();
+		
+		//가져오기 셋팅이 여러개 일수 있다
+		for (SwfMapping preMapping : preMappings) {
+			//초기 데이터 가져오기 호출이 아니고 매번호출이 아니라면 스킵
+			//초기 데이터 가져오기내용 검토 필요(초기인지 아닌지 알수 있나?)
+			if (!preMapping.isEachTime())
+				continue;
+
+			String mappingType = preMapping.getType();
+//			mappingType = TYPE_SIMPLE = "mapping_form"; 단순 맵핑
+//			mappingTYpe = TYPE_EXPRESSION = "expression"; 계산식
+			
+			if (SwfMapping.TYPE_SIMPLE.equalsIgnoreCase(mappingType)) {
+				//단순 맵핑 (현재업무화면, 다른업무화면, 프로세스업무화면, 시스템함수, 웹서비스)
+				String mappingFormType = preMapping.getMappingFormType();
+				if (CommonUtil.isEmpty(mappingFormType))
+					continue;
+				// 현재업무항목
+				if (SwfMapping.MAPPINGTYPE_SELFFORM.equalsIgnoreCase(mappingFormType)) {
+					
+					
+					//현재 업무 항목이라면 재귀 함수호출로 호출되는쪽의 데이터 맵핑이 있는지를 다시 살핀다
+					
+					
+					
+					
+				} 
+				
+			} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingType)) {
+				//계산식
+				
+				
+			}
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+	}
+	
+	
 	
 	
 	@Override
