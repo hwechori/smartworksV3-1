@@ -42,7 +42,6 @@ public class SchedulingService {
 			SchedulerFactory schedFact = new StdSchedulerFactory();
 			Scheduler sched = schedFact.getScheduler();
 			String[] grps = sched.getJobGroupNames();
-			System.out.println(grps);
 
 		} catch (Exception e) {
 			e.printStackTrace();

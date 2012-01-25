@@ -181,7 +181,6 @@ public class InstanceServiceImpl implements IInstanceService {
 					if(swdDataField.getId().equals("0")) {
 						boardInstanceInfo.setSubject(value);
 					} else if(swdDataField.getId().equals("1")) {
-						System.out.println(value);
 						boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 20, "..."));
 					}
 				}
@@ -412,7 +411,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		SwdField[] fields = getSwdManager().getFields(userId, swdFieldCond, IManager.LEVEL_LITE);
 		if (CommonUtil.isEmpty(fields))
 			return null;//TODO return null? throw new Exception??
-		
+
 		Map<String, SwdField> fieldInfoMap = new HashMap<String, SwdField>();
 		for (SwdField field : fields) {
 			fieldInfoMap.put(field.getFormFieldId(), field);
@@ -742,7 +741,7 @@ public class InstanceServiceImpl implements IInstanceService {
 									// TO-DO
 								} else if(formatType.equals(FormField.TYPE_DATE)) {
 									if(value != null)
-										value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateSimpleString(); 
+										value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateSimpleString();
 								} else if(formatType.equals(FormField.TYPE_TIME)) {
 									if(value != null)
 										value = LocalDate.convertGMTStringToLocalDate(value).toLocalTimeSimpleString();

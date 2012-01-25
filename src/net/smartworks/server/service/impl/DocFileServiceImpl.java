@@ -131,8 +131,6 @@ public class DocFileServiceImpl implements IDocFileService {
     		String sourceFile = "";
     		String file_name = "";
 
-    		int count = fileId.indexOf("temp_");
-    		System.out.println(count);
     		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
     		if(fileId.startsWith("temp_")) {
     			file_name = fileName;
