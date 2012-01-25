@@ -2,11 +2,13 @@ package net.smartworks.server.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
+import net.smartworks.model.calendar.WorkHour;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.WorkInstance;
@@ -22,6 +24,8 @@ import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
+import net.smartworks.server.engine.config.model.SwcWorkHour;
+import net.smartworks.server.engine.config.model.SwcWorkHourCond;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
@@ -65,11 +69,18 @@ public class CalendarServiceImpl implements ICalendarService {
 
 		User cUser = SmartUtil.getCurrentUser();
 
+		SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
+		swcWorkHourCond.setCompanyId(cUser.getCompanyId());
+		SwcWorkHour swcWorkHour = getSwcManager().getWorkhour(cUser.getId(), swcWorkHourCond, IManager.LEVEL_LITE); 
+
 		SwcEventDayCond swcEventDayCond = new SwcEventDayCond();
 		swcEventDayCond.setCompanyId(cUser.getCompanyId());
 
 		String fromDateString = null;
 		Date searchDay = null;
+		int start = 0;
+		int end = 0;
+		int workTime = 0;
 		CompanyCalendar[] companyCalendars = new CompanyCalendar[3];
 		for(int i=0; i<3; i++) {
 			CompanyCalendar companyCalendar = new CompanyCalendar();
@@ -77,8 +88,21 @@ public class CalendarServiceImpl implements ICalendarService {
 			} else if(i == 1) {
 				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
 			} else if(i == 2) {
-				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY * 2);
+				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
 			}
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(fromDate);
+	/*		switch (dayOfWeek) {
+			case Calendar.MONDAY:
+				start = swcWorkHour.getMonStartTime().getTime();
+				end = (int)swcWorkHour.getMonEndTime().getTime();
+				break;
+			case Calendar.TUESDAY:
+				
+			default:
+				break;
+			}*/
+			companyCalendar.setWorkHour(new WorkHour(start, end, workTime));
 			companyCalendar.setDate(fromDate);
 			fromDateString = fromDate.toGMTDateString();
 			searchDay = new SimpleDateFormat("yyyy-MM-dd").parse(fromDateString);
@@ -116,7 +140,6 @@ public class CalendarServiceImpl implements ICalendarService {
 				companyEventList.toArray(companyEvents);
 				companyCalendar.setCompanyEvents(companyEvents);
 			}
-			companyCalendar.setDate(fromDate);
 			companyCalendars[i] = companyCalendar;
 		}
 
