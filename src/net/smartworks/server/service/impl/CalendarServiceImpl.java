@@ -92,16 +92,48 @@ public class CalendarServiceImpl implements ICalendarService {
 			}
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(fromDate);
-	/*		switch (dayOfWeek) {
+			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+			Calendar startCalendar = Calendar.getInstance();
+			Calendar endCalendar = Calendar.getInstance();
+
+			switch (dayOfWeek) {
+			case Calendar.SUNDAY:
+				startCalendar.setTime(swcWorkHour.getSunStartTime());
+				endCalendar.setTime(swcWorkHour.getSunEndTime());
+				break;
 			case Calendar.MONDAY:
-				start = swcWorkHour.getMonStartTime().getTime();
-				end = (int)swcWorkHour.getMonEndTime().getTime();
+				startCalendar.setTime(swcWorkHour.getMonStartTime());
+				endCalendar.setTime(swcWorkHour.getMonEndTime());
 				break;
 			case Calendar.TUESDAY:
-				
+				startCalendar.setTime(swcWorkHour.getTueStartTime());
+				endCalendar.setTime(swcWorkHour.getTueEndTime());
+				break;
+			case Calendar.WEDNESDAY:
+				startCalendar.setTime(swcWorkHour.getWedStartTime());
+				endCalendar.setTime(swcWorkHour.getWedEndTime());
+				break;
+			case Calendar.THURSDAY:
+				startCalendar.setTime(swcWorkHour.getThuStartTime());
+				endCalendar.setTime(swcWorkHour.getThuEndTime());
+				break;
+			case Calendar.FRIDAY:
+				startCalendar.setTime(swcWorkHour.getFriStartTime());
+				endCalendar.setTime(swcWorkHour.getFriEndTime());
+				break;
+			case Calendar.SATURDAY:
+				startCalendar.setTime(swcWorkHour.getSatStartTime());
+				endCalendar.setTime(swcWorkHour.getSatEndTime());
+				break;
 			default:
 				break;
-			}*/
+			}
+
+			start = startCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + startCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
+			end = endCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + endCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
+			workTime = end - start;
+
 			companyCalendar.setWorkHour(new WorkHour(start, end, workTime));
 			companyCalendar.setDate(fromDate);
 			fromDateString = fromDate.toGMTDateString();
