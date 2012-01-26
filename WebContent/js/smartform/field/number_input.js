@@ -14,7 +14,7 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	SmartWorks.extend(options, config);
 	options.container.html('');
 
-	var value = (options.dataField && options.dataField.value) || '';
+	var value = (options.dataField && options.dataField.value) || 0;
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 
@@ -38,7 +38,7 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	if(readOnly){
 		$number = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"></div>').text(value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$number = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + '></div>');
+		$number = $('<div name="' + id + '" class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text"' + required + '></div>');
 		$number.find('input').attr('value',value).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}
 	if ($graphic.attr('hidden') == 'true'){
@@ -68,7 +68,16 @@ $('input.js_number_input').live('keyup', function(e) {
 			case 78: break; // N (Opera 9.63+ maps the "." from the number key section to the "N" key too!) (See: http://unixpapa.com/js/key.html search for ". Del")
 			case 110: break; // . number block (Opera 9.63+ maps the "." from the number block to the "N" key (78) !!!)
 			case 190: break; // .
-			default: $(this).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+			default:
+				if($(this).attr('value') === '0-') $(this).attr('value', '-');
+				var value = $(this).attr('value');
+				var firstStr = value.substring(0,1);
+				var secondStr = value.substring(1,2);
+				if(value !== '-' && value !== '.')
+					if(isEmpty(value) || (firstStr !== '-' && firstStr !== '.' && (firstStr<'0' || firstStr>'9')) || (((firstStr === '-' && secondStr !== '.') || firstStr === '.') && (secondStr<'0' || secondStr>'9'))){
+						$(this).attr('value', 0);
+					}
+				$(this).formatCurrency({ symbol: '' ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		}
 	}
 });
@@ -122,4 +131,15 @@ SmartWorks.FormRuntime.NumberInputBuilder.dataField = function(config){
 			value: options.value
 	};
 	return dataField;
+};
+
+SmartWorks.FormRuntime.NumberInputBuilder.serializeObject = function(numberInputs){
+	
+	var numberInputsJson = {};
+	for(var i=0; i<numberInputs.length; i++){
+		var numberInput = $(numberInputs[i]);
+		var valueStr = numberInput.find('input').attr('value');
+		numberInputsJson[numberInput.attr('fieldId')] = $.parseNumber( valueStr, {format:"-0,000.0", locale: currentUser.locale });
+	}
+	return numberInputsJson;
 };
