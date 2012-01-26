@@ -41,19 +41,19 @@ public class CommunityController {
 	@RequestMapping("/department_space")
 	public ModelAndView departmentSpace(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		return SmartUtil.returnMnv(request, "jsp/content/department_space.jsp", "department_space.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/department_space.jsp", "department_space.tiles");
 	}
 
 	@RequestMapping("/group_space")
 	public ModelAndView groupSpace(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/group_space.jsp", "group_space.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/group_space.jsp", "group_space.tiles");
 	}
 
 	@RequestMapping("/user_space")
 	public ModelAndView userSpace(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/user_space.jsp", "user_space.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/user_space.jsp", "user_space.tiles");
 	}
 
 	@RequestMapping("/chatting_box")

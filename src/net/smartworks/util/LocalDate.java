@@ -148,6 +148,11 @@ public class LocalDate extends Date{
 		return false;
 	}
 	
+	public static long getDiffDate(Date fromDate, Date toDate){
+		if(fromDate==null || toDate==null) return 0;
+		return (toDate.getTime() - fromDate.getTime())/LocalDate.ONE_DAY;		
+	}
+	
 	public long getLocalTime(){
 		if(this.timeZone == null){
 			return super.getTime() + TimeZone.getDefault().getRawOffset();

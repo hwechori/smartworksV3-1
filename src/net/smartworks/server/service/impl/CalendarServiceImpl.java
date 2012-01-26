@@ -81,15 +81,9 @@ public class CalendarServiceImpl implements ICalendarService {
 		int start = 0;
 		int end = 0;
 		int workTime = 0;
-		CompanyCalendar[] companyCalendars = new CompanyCalendar[3];
-		for(int i=0; i<3; i++) {
+		CompanyCalendar[] companyCalendars = new CompanyCalendar[days];
+		for(int i=0; i<days; i++) {
 			CompanyCalendar companyCalendar = new CompanyCalendar();
-			if(i == 0) {
-			} else if(i == 1) {
-				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
-			} else if(i == 2) {
-				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
-			}
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(fromDate);
 			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -173,6 +167,7 @@ public class CalendarServiceImpl implements ICalendarService {
 				companyCalendar.setCompanyEvents(companyEvents);
 			}
 			companyCalendars[i] = companyCalendar;
+			fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
 		}
 
 		for(int k = 0; k < companyCalendars.length; k++) {
@@ -194,7 +189,8 @@ public class CalendarServiceImpl implements ICalendarService {
 	 */
 	@Override
 	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception {
-		return null;
+		
+		return getCompanyCalendars(fromDate, (int)LocalDate.getDiffDate(fromDate, toDate)+1);
 	}
 
 	/*
