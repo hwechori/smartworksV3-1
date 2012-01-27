@@ -57,6 +57,7 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.Version;
 import net.smartworks.server.engine.process.xpdl.xpdl2.WorkflowProcesses;
 import net.smartworks.server.engine.process.xpdl.xpdl2.XPDLVersion;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Xpdl2Factory;
+import net.smartworks.util.LocalDate;
 
 import org.apache.tuscany.sdo.api.SDOUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -589,7 +590,7 @@ public class ProcessModelHelper {
 	public static Created createCurrentCreated() {
 		
 		Created createdTime = factory.createCreated();
-		createdTime.setValue(new Date().toString());
+		createdTime.setValue(new LocalDate().toString());//date to localdate - 
 		return createdTime;
 	}
 	

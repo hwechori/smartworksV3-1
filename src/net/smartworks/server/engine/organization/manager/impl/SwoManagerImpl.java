@@ -45,6 +45,7 @@ import net.smartworks.server.engine.organization.model.SwoTeamCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserCond;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
+import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartMessage;
 
 import org.hibernate.Query;
@@ -62,7 +63,8 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 	protected void fill(String user, SwoObject obj) throws Exception {
 		if (obj == null)
 			return;
-		Date date = new Date();
+		//date to localdate - Date date = new Date();
+		LocalDate date = new LocalDate();
 		obj.setModificationUser(user);
 		obj.setModificationDate(date);
 		if (obj.getCreationDate() == null) {
@@ -2636,7 +2638,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 
 		Query query = this.getSession().createQuery(buff.toString());
 		query.setString(SwoGroupMember.A_JOINSTATUS, "N");
-		query.setTimestamp(SwoGroupMember.A_JOINDATE, new Date());
+		query.setTimestamp(SwoGroupMember.A_JOINDATE, new LocalDate());//date to localdate - 
 		query.setString(SwoGroupMember.A_GROUPID, groupId);
 		query.setString(SwoGroupMember.A_USERID, userId);
 

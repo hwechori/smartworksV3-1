@@ -11,6 +11,7 @@ import net.smartworks.server.engine.common.model.Cond;
 import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.util.LocalDate;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,7 +49,8 @@ public abstract class AbstractManager extends HibernateDaoSupport implements IMa
 	protected void fill(String user, MisObject obj) throws Exception {
 		if (obj == null)
 			return;
-		Date date = new Date();
+		//date to localdate - Date date = new Date();
+		LocalDate date = new LocalDate();
 		obj.setModificationUser(user);
 		obj.setModificationDate(date);
 		if (obj.getCreationDate() == null) {

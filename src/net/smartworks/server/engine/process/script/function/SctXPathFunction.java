@@ -26,6 +26,7 @@ import net.smartworks.server.engine.process.script.util.F2SUtil;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
+import net.smartworks.util.LocalDate;
 
 import org.apache.commons.jxpath.ExpressionContext;
 import org.apache.commons.jxpath.Function;
@@ -126,7 +127,7 @@ public class SctXPathFunction implements Function, Functions {
 		} else if (methodName.equals("generateId")) {
 			result = CommonUtil.newId();
 		} else if (methodName.equals("getCurrentDate")) {
-			result = DateUtil.toXsdDateString(new Date());
+			result = DateUtil.toXsdDateString(new LocalDate());//date to localdate - 
 		} else {
 			//result = super.invoke(context, parameters); 원래는 자식에 있던 invoke였으나 부모로 합쳐짐
 			throw new RuntimeException("No Method Name (SctPathFunction : deleted Super Class Function _ 20111112)");

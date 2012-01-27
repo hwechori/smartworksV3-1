@@ -25,6 +25,7 @@ import net.smartworks.server.engine.process.task.manager.AbstractTskManagerAdvis
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
+import net.smartworks.util.LocalDate;
 
 public class TskManagerDefaultAdvisorImpl extends AbstractTskManagerAdvisor {
 	public static final String USER = "defaultTaskAdvisor";
@@ -343,7 +344,7 @@ public class TskManagerDefaultAdvisorImpl extends AbstractTskManagerAdvisor {
 	protected void fillAssignmentDate(TskTask obj, Object data, String expression) throws Exception {
 		if (obj.getAssignmentDate() != null)
 			return;
-		obj.setAssignmentDate(new Date());
+		obj.setAssignmentDate(new LocalDate());//date to localdate - 
 	}
 	protected void fillDueDate(TskTask obj, Object data, String expression) throws Exception {
 	}

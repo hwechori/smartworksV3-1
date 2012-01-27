@@ -44,6 +44,7 @@ import net.smartworks.server.engine.process.task.manager.AbstractTskManagerAdvis
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
+import net.smartworks.util.LocalDate;
 
 import org.springframework.util.StringUtils;
 
@@ -234,7 +235,7 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		
 		if (objType.equalsIgnoreCase("SINGLE")) {
 			Date cDate = obj.getCreationDate();
-			if (cDate.getTime() + 5000 < new Date().getTime())
+			if (cDate.getTime() + 5000 < new LocalDate().getTime())//date to localdate - 
 				setSingleTask(user, obj);
 		}
 		
@@ -380,7 +381,7 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 			recTask.setDocument(obj.getDocument());
 		recTask.setAssigner(obj.getAssignee());
 		recTask.setAssignee(recUser);
-		recTask.setAssignmentDate(new Date());
+		recTask.setAssignmentDate(new LocalDate());//date to localdate - 
 		recTask.setForm(recForm);
 		//recTask.setDueDate(DateUtil.toDate(recDueDate));
 		
@@ -394,9 +395,10 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		recTask.setExpectStartDate(realEndDate);
 		recTask.setRealStartDate(realEndDate);
 		
-		Date expectEndDate = new Date();
+		//date to localdate - Date expectEndDate = new Date();
+		LocalDate expectEndDate = new LocalDate();
 		try {
-			expectEndDate = DateUtil.toDate(hopeEndDate, "yyyy-MM-dd HH:mm");
+			expectEndDate = (LocalDate)DateUtil.toDate(hopeEndDate, "yyyy-MM-dd HH:mm");
 		} catch (Exception e) {
 			logger.warn("fail to convert hopeEndDate(yyyy-MM-dd HH:mm), default setExpectEndDate : RealStartDate + 30Min");
 			expectEndDate.setTime(realEndDate.getTime() + 1800000);
@@ -721,7 +723,7 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		if (task == null)
 			return null;
 		TskTask newTask = (TskTask)task.cloneNew();
-		newTask.setAssignmentDate(new Date());
+		newTask.setAssignmentDate(new LocalDate());//date to localdate - 
 		newTask.setStartDate(null);
 		newTask.setExecutionDate(null);
 		newTask.setExtendedAttributeValue("counter", null);
@@ -894,7 +896,7 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		return context.getPriority();
 	}
 	protected Date toTaskAssignmentDate(TskTask context, Object data, TskTaskDef def) throws Exception {
-		return new Date();
+		return new LocalDate();//date to localdate - 
 	}
 	protected Date toTaskDueDate(TskTask context, Object data, TskTaskDef def) throws Exception {
 		return null;
@@ -1098,7 +1100,8 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		if (expectStartDate == null) {
 			//예상 시작시간이 없다면 예상시작, 실제시작시간에 현재 시간을 입력하고 taskDef의 평균소요 시간을 
 			//구하여 예상 종료시간을 채운다. 만약에 taskDef가 없다면 기본30분으로 한다(//TODO 정책확립필요)
-			Date now = new Date();
+			//date to localdate - Date now = new Date();
+			LocalDate now = new LocalDate();
 			obj.setExpectStartDate(now);
 			obj.setRealStartDate(now);
 			
@@ -1107,7 +1110,7 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 			
 			if (!CommonUtil.isEmpty(def))
 				taskDef = getTskManager().getTaskDef("tskManagerSmartLinkAdvisor", def, IManager.LEVEL_LITE);
-			expectEndDate = new Date();
+			expectEndDate = new LocalDate();//date to localdate - 
 			if (taskDef != null &&  !CommonUtil.isEmpty(taskDef.getDueDate())) {
 				//dueDate 는 분단위로 설정이 되어 있다
 				expectEndDate.setTime(now.getTime() + ((Long.parseLong(taskDef.getDueDate())) * 60 * 1000));
@@ -1143,7 +1146,7 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		String type = obj.getType();
 		if (type.equalsIgnoreCase("SINGLE")) {
 			Date cDate = obj.getCreationDate();
-			if (cDate.getTime() + 5000 < new Date().getTime())
+			if (cDate.getTime() + 5000 < new LocalDate().getTime())//date to localdate - 
 				setSingleTask(user, obj);
 		}
 		

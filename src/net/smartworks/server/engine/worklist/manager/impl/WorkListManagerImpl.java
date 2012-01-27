@@ -129,7 +129,9 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("on taskInfo.tskPrcInstId = prcInstInfo.prcObjId ");
 		if (lastInstanceDate != null)
 			queryBuffer.append("where taskInfo.tskCreateDate < :lastInstanceDate ");
-		queryBuffer.append("order by taskInfo.tskCreatedate desc ");
+		
+		this.appendOrderQuery(queryBuffer, "taskInfo", cond);
+		//queryBuffer.append("order by taskInfo.tskCreatedate desc ");
 
 		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
 

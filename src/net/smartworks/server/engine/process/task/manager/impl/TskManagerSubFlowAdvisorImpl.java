@@ -33,6 +33,7 @@ import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
+import net.smartworks.util.LocalDate;
 
 public class TskManagerSubFlowAdvisorImpl extends AbstractTskManagerAdvisor {
 
@@ -340,10 +341,12 @@ public class TskManagerSubFlowAdvisorImpl extends AbstractTskManagerAdvisor {
 		task.setExtendedPropertyValue("parentPrcInstId", parentPrcInstId);
 		task.setExtendedPropertyValue("parentTskDefId", subTaskDef.getObjId());
 		
-		Date now = new Date();
+		//date to localdate - Date now = new Date();
+		LocalDate now = new LocalDate();
 		task.setExpectStartDate(now);
 		task.setRealStartDate(now);
-		Date expectEndDate = new Date();
+		//date to localdate - Date expectEndDate = new Date();
+		LocalDate expectEndDate = new LocalDate();
 		if (startTaskDef != null &&  !CommonUtil.isEmpty(startTaskDef.getDueDate())) {
 			//dueDate 는 분단위로 설정이 되어 있다
 			expectEndDate.setTime(now.getTime() + ((Long.parseLong(startTaskDef.getDueDate())) * 60 * 1000));
