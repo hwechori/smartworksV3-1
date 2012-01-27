@@ -32,6 +32,7 @@ import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
+import net.smartworks.util.LocalDate;
 
 public class SwdManagerAdvisorImpl_bakup extends AbstractSwdManagerAdvisor {
 	public SwdManagerAdvisorImpl_bakup() {
@@ -128,7 +129,8 @@ public class SwdManagerAdvisorImpl_bakup extends AbstractSwdManagerAdvisor {
 	}
 
 	public void preSetRecord(String user, SwdRecord obj, String level) throws Exception {
-		Date date = new Date();
+		//date to localdate - Date date = new Date();
+		LocalDate date = new LocalDate();
 		String cUser = obj.getCreationUser();
 		Date cDate = obj.getCreationDate();
 		if (cUser == null || cDate == null) {
@@ -346,7 +348,7 @@ public class SwdManagerAdvisorImpl_bakup extends AbstractSwdManagerAdvisor {
 				task.setDocument(obj.toString(null, null));
 				task.setAssigner(user);
 				task.setAssignee(user);
-				task.setAssignmentDate(new Date());
+				task.setAssignmentDate(new LocalDate());//date to localdate - 
 				if (approvalLine != null) {
 					task.setExtendedPropertyValue("approvalLine", approvalLine);
 				} else {
@@ -406,7 +408,7 @@ public class SwdManagerAdvisorImpl_bakup extends AbstractSwdManagerAdvisor {
 				task.setDocument(obj.toString(null, null));
 				task.setAssigner(user);
 				task.setAssignee(user);
-				task.setAssignmentDate(new Date());
+				task.setAssignmentDate(new LocalDate());//date to localdate - 
 				task.setForm(formId);
 				task.setExtendedPropertyValue("superTaskId", superTaskId);
 				task.setExtendedPropertyValue("superForm", superForm);

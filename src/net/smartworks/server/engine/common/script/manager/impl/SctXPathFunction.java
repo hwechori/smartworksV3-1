@@ -35,6 +35,7 @@ import net.smartworks.server.engine.process.script.util.F2SUtil;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
+import net.smartworks.util.LocalDate;
 
 import org.apache.commons.jxpath.ExpressionContext;
 import org.apache.commons.jxpath.Function;
@@ -217,7 +218,7 @@ public class SctXPathFunction implements Function, Functions {
 		} else if (methodName.equals("generateId")) {
 			result = CommonUtil.newId();
 		} else if (methodName.equals("getCurrentDate")) {
-			result = DateUtil.toXsdDateString(new Date());
+			result = DateUtil.toXsdDateString(new LocalDate());////date to localdate - 
 		} else {
 			result = invokeNomal(context, parameters);
 		}

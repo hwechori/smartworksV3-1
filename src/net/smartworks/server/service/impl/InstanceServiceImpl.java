@@ -1026,7 +1026,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		TskTask task = new TskTask();
 		task.setType(taskDef.getType());
 		task.setName(taskDef.getName());
-		task.setTitle("프로세스 제목(타이틀) 정의 필요 (필수>단문>첫번째)");
+		task.setTitle("프로세스 제목(타이틀) 정의 필요 (필수>단문>첫번째)20120127 #1");
 		task.setAssignee(userId);
 		task.setAssigner(userId);
 		task.setForm(taskDef.getForm());
@@ -1035,10 +1035,12 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		task.setDocument(taskDocument);
 		
-		Date now = new Date();
+		//date to localdate - Date now = new Date();
+		LocalDate now = new LocalDate();
 		task.setExpectStartDate(new LocalDate(now.getTime()));
 		task.setRealStartDate(new LocalDate(now.getTime()));
-		Date expectEndDate = new Date();
+		//date to localdate - Date expectEndDate = new Date();
+		LocalDate expectEndDate = new LocalDate();
 		if (taskDef != null &&  !CommonUtil.isEmpty(taskDef.getDueDate())) {
 			//dueDate 는 분단위로 설정이 되어 있다
 			expectEndDate.setTime(new LocalDate(now.getTime() + ((Long.parseLong(taskDef.getDueDate())) * 60 * 1000)).getTime());
@@ -1435,7 +1437,8 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {
 
-		Date startTime = new Date();
+		//date to localdate - Date startTime = new Date();
+		LocalDate startTime = new LocalDate();
 		Long start = startTime.getTime();
 		//TODO workId = category 프로세스 인스턴스정보에는 패키지 컬럼이 없고 다이어 그램 컬럼에 정보가 들어가 있다
 		//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다
@@ -1481,7 +1484,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		return instanceInfoList;
 	}
 	public InstanceInfoList getPWorkInstanceList_bak2(String companyId, String userId, String workId, RequestParams params) throws Exception {
-		Date startTime = new Date();
+		//date to localdate - Date startTime = new Date();
+		LocalDate startTime = new LocalDate();
 		Long start = startTime.getTime();
 		//TODO workId = category 프로세스 인스턴스정보에는 패키지 컬럼이 없고 다이어 그램 컬럼에 정보가 들어가 있다
 		//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다

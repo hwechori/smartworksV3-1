@@ -16,6 +16,7 @@ import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
 import net.smartworks.server.engine.config.model.SwcWorkHour;
 import net.smartworks.server.engine.config.model.SwcWorkHourCond;
+import net.smartworks.util.LocalDate;
 
 import org.hibernate.Query;
 
@@ -322,7 +323,7 @@ public class SwcManagerImpl extends AbstractManager implements ISwcManager {
 		try {
 			SwcWorkHourCond cond = new SwcWorkHourCond();
 			cond.setCompanyId(companyId);
-			cond.setValidFromDate(new Date());
+			cond.setValidFromDate(new LocalDate());//date to localdate - 
 			
 			Order order = new Order("validFromDate", false);
 			Order[] orders = new Order[]{order};
