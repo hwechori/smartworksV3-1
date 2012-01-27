@@ -292,6 +292,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		taskCond.setPageNo(0);
 		taskCond.setPageSize(requestSize);
 		
+		taskCond.setOrders(new Order[]{new Order("tskCreatedate", false)});
+		
 		TaskWork[] tasks = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkList(user.getId(), taskCond);
 		
 		if(tasks != null) return ModelConverter.getInstanceInfoArrayByTaskWorkArray(user.getId(), tasks);
@@ -306,7 +308,24 @@ public class InstanceServiceImpl implements IInstanceService {
 	 * 	
 	 */
 	public RunningCounts getMyRunningInstancesCounts() throws Exception {
+		
+		User user = SmartUtil.getCurrentUser();
+		if (CommonUtil.isEmpty(user.getCompanyId()) || CommonUtil.isEmpty(user.getId()))
+			return null;
+		
+		TaskWorkCond taskCond = new TaskWorkCond();
+		taskCond.setTskAssignee(user.getId());
+		taskCond.setLastInstanceDate(new LocalDate());
+		
+		long totalTaskSize = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkListSize(user.getId(), taskCond);
+		
+		taskCond.setTskStatus(TskTask.TASKSTATUS_ASSIGN);
+		
+		long assignedTaskSize = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkListSize(user.getId(), taskCond);
+		
 		RunningCounts runningCounts = new RunningCounts();
+		runningCounts.setTotal((int)totalTaskSize);
+		runningCounts.setAssignedOnly((int)assignedTaskSize);
 		return runningCounts;
 	}
 
