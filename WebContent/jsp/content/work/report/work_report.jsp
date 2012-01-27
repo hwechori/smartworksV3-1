@@ -82,7 +82,6 @@
 		</select>
 		<div class="js_work_report_edit" style="display:none"></div>
 	</div>
-</div>	
 	<div class="">
 		<!-- 컨텐츠 -->
 		<div class="js_work_report_view" >
@@ -103,5 +102,6 @@
 			<%} %>
 		</div>
 	</div>
+</div>	
 
 <!-- 전체 레이아웃//-->
