@@ -46,7 +46,9 @@ function submitForms(e) {
 			// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
 			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 		}
+		console.log('##############################################################');
 		console.log(JSON.stringify(paramsJson));
+		console.log('##############################################################');
 		var url = "start_new_pwork.sw";
 		// 서비스요청 프로그래스바를 나타나게 한다....
 		var progressSpan = startPwork.find('.js_progress_span');

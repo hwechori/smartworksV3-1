@@ -55,7 +55,14 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		</beans:property>
 	</beans:bean>
 
-
-
-
+	
+	<beans:bean id="sctXPathManager" class="net.smartworks.server.engine.common.script.manager.impl.SctXPathManagerImpl">
+		<beans:property name="functionsList">
+			<beans:list>
+				<beans:bean id="xPathFunction" class="net.smartworks.server.engine.common.script.manager.impl.SctXPathFunction">
+					<beans:property name="prefix" value="mis"/>
+				</beans:bean>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
 </beans:beans>
