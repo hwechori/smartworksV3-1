@@ -161,9 +161,20 @@ public class ModelConverter {
 					instInfo.setSubject(task.getPrcTitle());
 					instInfo.setType(Instance.TYPE_WORK);
 					
+					
 					SmartWorkInfo workInfo = new SmartWorkInfo();
 					workInfo.setId(task.getPackageId());
 					workInfo.setName(task.getPackageName());
+					
+					/*TYPE_INFORMATION = 21;
+					TYPE_PROCESS = 22;
+					TYPE_SCHEDULE = 23;*/
+					if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON)) {
+						workInfo.setType(SmartWork.TYPE_PROCESS);
+					} else if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE)) {
+						workInfo.setType(SmartWork.TYPE_INFORMATION);
+					}
+					
 					if (task.getParentCtgId() != null) {
 						workInfo.setMyCategory(new WorkCategoryInfo(task.getParentCtgId(), task.getParentCtgName()));
 						workInfo.setMyGroup(new WorkCategoryInfo(task.getChildCtgId(), task.getChildCtgName()));
@@ -177,7 +188,7 @@ public class ModelConverter {
 					instInfo.setOwner(getUserInfoByUserId(task.getPrcCreateUser()));
 					instInfo.setLastModifiedDate(new LocalDate( task.getLastTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? task.getLastTskCreateDate().getTime() : task.getLastTskExecuteDate().getTime()));
 					instInfo.setLastModifier(getUserInfoByUserId(task.getLastTskAssignee()));
-					
+					instInfo.setCreatedDate(new LocalDate(task.getPrcCreateDate().getTime()));
 					
 					TaskInstanceInfo lastTask = new TaskInstanceInfo();
 					lastTask.setId(task.getLastTskObjId());

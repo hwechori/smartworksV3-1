@@ -281,9 +281,16 @@ public class InstanceServiceImpl implements IInstanceService {
 			return null;
 
 		TaskWorkCond taskCond = new TaskWorkCond();
+		if (assignedOnly)
+			taskCond.setTskStatus(TskTask.TASKSTATUS_ASSIGN);
+		if (lastInstanceDate != null) {
+			taskCond.setLastInstanceDate(lastInstanceDate);
+		} else {
+			taskCond.setLastInstanceDate(new LocalDate());
+		}
 		taskCond.setTskAssignee(user.getId());
 		taskCond.setPageNo(0);
-		taskCond.setPageSize(10);
+		taskCond.setPageSize(requestSize);
 		
 		TaskWork[] tasks = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkList(user.getId(), taskCond);
 		
