@@ -8,6 +8,9 @@
 
 package net.smartworks.server.engine.infowork.domain.model;
 
+import java.util.List;
+import java.util.Map;
+
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
@@ -45,6 +48,14 @@ public class SwdDataField extends BaseObject {
 	private String refRecordId;
 	
 	private String value;
+	private List<Map<String, String>> users;
+
+	public List<Map<String, String>> getUsers() {
+		return users;
+	}
+	public void setUsers(List<Map<String, String>> users) {
+		this.users = users;
+	}
 	private int displayOrder;
 
 	public int getDisplayOrder() {

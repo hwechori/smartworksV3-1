@@ -198,7 +198,12 @@ public class LocalDate extends Date{
 		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}
 
-	public static LocalDate convertLocalSimpleStringToLocalDate(String yyyyMMdd) throws Exception{
+	public static LocalDate convertLocalDateTimeStringToLocalDate(String yyyyMMddHHmm) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return new LocalDate((df.parse(yyyyMMddHHmm)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
+	}
+
+	public static LocalDate convertLocalDateStringToLocalDate(String yyyyMMdd) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
 		return new LocalDate((df.parse(yyyyMMdd)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}

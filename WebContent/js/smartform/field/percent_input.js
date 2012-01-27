@@ -14,7 +14,7 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	SmartWorks.extend(options, config);
 	options.container.html('');
 
-	var value = (options.dataField && options.dataField.value) || 0;
+	var value = (options.dataField && parseFloat(options.dataField.value)) || 0;
 	$entity = options.entity;
 	$graphic = $entity.children('graphic');
 	$format = $entity.children('format');
