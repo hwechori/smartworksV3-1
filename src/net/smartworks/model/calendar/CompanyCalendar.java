@@ -39,7 +39,6 @@ public class CompanyCalendar {
 	}
 
 	public boolean isHoliday(){
-		if(companyEvents==null) return false;
 		for(CompanyEvent ce : companyEvents){
 			if(ce.getIsHoliday()) return true;
 		}

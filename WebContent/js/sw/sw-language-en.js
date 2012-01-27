@@ -66,9 +66,7 @@ smartMessage.bundle['en'] = {
 	removeConfirmation : "Do you really want to remove?",
 	saveConfirmation : "Do you really want to save changes? ",
 	forwardConfirmation : "Do you really want to forward this instance data? ",
-
-	spaceOverDateSeleted : "Future date has been selected. Please select today or before!",
-			
+		
 	nullPointerException : "Null Pointer Exception. Please contact the Administrator!",
 	duplicateKeyException : "Duplicate Key Exception. Please contact the Administrator!"	
 };
