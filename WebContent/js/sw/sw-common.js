@@ -44,5 +44,4 @@ smartCommon= {
 		    }
 		});
 	}
-
 };

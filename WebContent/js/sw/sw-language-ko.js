@@ -68,8 +68,6 @@ smartMessage.bundle['ko'] = {
 	saveConfirmation : "항목을 수정하려고 합니다. 정말로 수정하시겠습니까? ",
 	forwardConfirmation : "항목을 전달하려고 합니다. 정말로 전달하시겠습니까? ",
 	
-	spaceOverDateSeleted : "미래의 날짜를 선택하였습니다. 오늘이나 과거의 날짜를 선택하십시요!",
-	
 	nullPointerException : "접근할 수 없는 값을 호출 하였습니다. 관리자에게 확인바랍니다!",
 	duplicateKeyException : "키값이 중복 되었습니다. 키에 해당되는 값을 다른 이름으로 바꾸어 다시 시도 바랍니다!"
 };
