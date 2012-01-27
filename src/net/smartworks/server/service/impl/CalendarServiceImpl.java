@@ -11,7 +11,6 @@ import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
-import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
