@@ -293,18 +293,34 @@
 
 					<!-- 목록보기 타이틀-->
 					<div class="list_title_space js_work_list_title">
-						<div class="txt_btn posi_ab">
 							<div class="title"><fmt:message key="common.title.instance_list" /></div>
-							<form name="frmSearchInstance" class="po_left">
-								<span class="js_progress_span"></span>
-								<div class="srch_wh srch_wsize">
-									<input name="txtSearchInstance" class="nav_input" type="text" placeholder="<fmt:message key='search.search_instance' />">
- 									<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
+							<div class="titleLineBtns">
+								<div class="btnIconsEdit">
+									<a href="search_filter.sw?workId=<%=workId%>" class="js_edit_search_filter btnIconsTail">
+										<fmt:message key='filter.button.edit_search_filter' />
+									</a>
 								</div>
-							</form>
-
-							<div class="po_left js_search_filter_list_box">
-								<form class="form_space" name="frmIworkFilterName">
+								<div class="btnIconsCreate">
+									<a href="new_iwork.sw?workId=<%=workId%>" class="js_create_new_work btnIconsTail" workId="<%=workId%>">새항목 등록하기</a>
+								</div>
+								<div class="btnIconsExcel">
+									<a href="" class="btnIconsTail">엑셀로 등록하기</a>
+								</div>
+							</div>
+							
+							<a href="search_filter.sw?workId=<%=workId%>" class="js_edit_search_filter">
+								<div class="po_left"><fmt:message key='filter.button.edit_search_filter' /></div>
+							</a>
+						
+						<div class="borderGrayBox1">
+								<form name="frmSearchInstance" class="po_left">
+									<span class="js_progress_span"></span>
+									<div class="srch_wh srch_wsize">
+										<input name="txtSearchInstance" class="nav_input" type="text" placeholder="<fmt:message key='search.search_instance' />">
+ 										<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
+									</div>
+								</form>
+								<form class="form_space po_left" name="frmIworkFilterName">
 									<select name="selFilterName" class="js_select_search_filter">
 										<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" 
 											<%if(SmartUtil.isBlankObject(work.getLastFilterId()) || SearchFilter.FILTER_ALL_INSTANCES.equals(work.getLastFilterId())){%> selected <%} %>>
@@ -336,16 +352,6 @@
 									</select>
 								</form>
 							</div>
-							<a href="search_filter.sw?workId=<%=workId%>" class="js_edit_search_filter">
-								<div class="po_left"><fmt:message key='filter.button.edit_search_filter' /></div>
-							</a>
-							<span class="js_progress_span"></span>
-						</div>
-
-						<div class="txt_btn">
-							<div class="po_right"><a href="">엑셀로 등록하기</a></div>
-							<div class="po_right"><a href="new_iwork.sw?workId=<%=workId%>" class="js_create_new_work" workId="<%=workId%>">새항목 등록하기</a></div>
-						</div>
 					</div>
 					<!-- 목록보기 타이틀-->
 

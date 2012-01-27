@@ -108,13 +108,13 @@
 			value="/jsp/content/work/task/swork_task.jsp" />
 	</definition>
 	<definition name="department_space" extends="layouts">
-		<put-attribute name="content" value="/jsp/content/department_space.jsp" />
+		<put-attribute name="content" value="/jsp/content/community/space/department_space.jsp" />
 	</definition>
 	<definition name="group_space" extends="layouts">
-		<put-attribute name="content" value="/jsp/content/group_space.jsp" />
+		<put-attribute name="content" value="/jsp/content/community/space/group_space.jsp" />
 	</definition>
 	<definition name="user_space" extends="layouts">
-		<put-attribute name="content" value="/jsp/content/user_space.jsp" />
+		<put-attribute name="content" value="/jsp/content/community/space/user_space.jsp" />
 	</definition>
 	<definition name="my_profile" extends="layouts">
 		<put-attribute name="content" value="/jsp/content/my_profile.jsp" />

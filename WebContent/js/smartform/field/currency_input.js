@@ -100,10 +100,17 @@ $('input.js_currency_input').live('keyup', function(e) {
 			case 110: break; // . number block (Opera 9.63+ maps the "." from the number block to the "N" key (78) !!!)
 			case 190: break; // .
 			default:
+				if($(this).attr('value') === $(this).attr('symbol') + '0-') $(this).attr('value', '-');				
 				var value = $(this).attr('value');
 				var firstStr = value.substring(0,1);
 				var secondStr = value.substring(1,2);
-				if(isEmpty(value) || (firstStr !== $(this).attr('symbol') && (firstStr<'0' || firstStr>'9')) || (firstStr === $(this).attr('symbol') && (secondStr<'0' || secondStr>'9'))) $(this).attr('value', 0);
+				var thirdStr = value.substring(2,3);
+				if(isEmpty(value) 
+						|| (firstStr !== $(this).attr('symbol') && firstStr !== '-' && (firstStr<'0' || firstStr>'9')) 
+						|| (firstStr === $(this).attr('symbol') && (secondStr<'0' || secondStr>'9'))
+						|| (firstStr === '-' && !isEmpty(secondStr) && secondStr!==$(this).attr('symbol')  && secondStr!=='.' && (secondStr<'0' || secondStr>'9')) 
+						|| (firstStr === '-' && secondStr===$(this).attr('symbol') && (thirdStr<'0' || thirdStr>'9'))) 
+					$(this).attr('value', 0);
 				$(this).formatCurrency({ symbol: $(this).attr('symbol') ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		}
 	}
