@@ -1,29 +1,15 @@
 package net.smartworks.server.engine.process.task.manager.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import javax.mail.internet.MimeMessage;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.common.util.ServletUtil;
-import net.smartworks.server.engine.factory.SwManagerFactory;
-import net.smartworks.server.engine.organization.manager.ISwoManager;
-import net.smartworks.server.engine.organization.model.SwoConfig;
-import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.process.task.manager.AbstractTskManagerAdvisor;
 import net.smartworks.server.engine.process.task.model.TskTask;
 
@@ -40,11 +26,6 @@ public class TskManagerMailAdvisorImpl extends AbstractTskManagerAdvisor {
 	private String mailContentUrl = null;
 	private String isEnableReferenceMail = "false";
 	private String mailMode;
-	
-	private ISwoManager getSwoManager() {
-		return SwManagerFactory.getInstance().getSwoManager();
-	}
-	
 	public TaskExecutor getMailExecutor() {
 		return mailExecutor;
 	}
@@ -61,7 +42,6 @@ public class TskManagerMailAdvisorImpl extends AbstractTskManagerAdvisor {
 		System.out.println("mailAdvisor preExecuteTask");
 	}
 	public void preSetTask(String user, TskTask obj, String level) throws Exception {
-		System.out.println("mailAdvisor preSetTask");
 		if (level != null && level.equals(IManager.LEVEL_LITE))
 			return;
 		try {
@@ -71,7 +51,6 @@ public class TskManagerMailAdvisorImpl extends AbstractTskManagerAdvisor {
 		}
 	}
 	public void postSetTask(String user, TskTask obj, String level) throws Exception {
-		System.out.println("mailAdvisor postSetTask");
 		if (level != null && level.equals(IManager.LEVEL_LITE))
 			return;
 		if (CommonUtil.toInt(obj.getExtendedPropertyValue(COUNTER), 0) > 0)
@@ -162,22 +141,16 @@ public class TskManagerMailAdvisorImpl extends AbstractTskManagerAdvisor {
 		return title;
 	}
 	public String toMailFrom(String user, TskTask obj) throws Exception {
-		String assigner = obj.getAssigner();
-		if (assigner == null)
-			return null;
-		SwoUser userObj = getSwoManager().getUser(user, assigner, IManager.LEVEL_LITE);
-		if (userObj == null)
-			return null;
-		return userObj.getEmail();
+		String mailFrom = obj.getExtendedAttributeValue("mailFrom");
+		if (mailFrom == null)
+			mailFrom = obj.getExtendedPropertyValue("mailFrom");
+		return mailFrom;
 	}
 	public String toMailTo(String user, TskTask obj) throws Exception {
-		String assignee = obj.getAssignee();
-		if (assignee == null)
-			return null;
-		SwoUser userObj = getSwoManager().getUser(user, assignee, IManager.LEVEL_LITE);
-		if (userObj == null)
-			return null;
-		return userObj.getEmail();
+		String mailTo = obj.getExtendedAttributeValue("mailTo");
+		if (mailTo == null)
+			mailTo = obj.getExtendedPropertyValue("mailTo");
+		return mailTo;
 	}
 	public JavaMailSender getMailSender() {
 		return mailSender;
@@ -244,55 +217,11 @@ public class TskManagerMailAdvisorImpl extends AbstractTskManagerAdvisor {
 				logger.warn(e, e);
 			}
 		}
-	}	
+	}
 	public void sendMailByUserInfo(String user, String from, String to, String title, String content) throws Exception {
-		SwoUser userObj = getSwoManager().getUser(user, user, IManager.LEVEL_LITE);
-		
-		SwoConfig config = getSwoManager().getConfig(user, userObj.getCompanyId(), null);
-		if (!config.isActivity())
-			return;
-		
-		if (config == null || config.getSmtpAddress() == null || config.getUserId() == null || config.getPassword() == null) 
-			throw new Exception("Mail info is null");
-		
-		String host = config.getSmtpAddress();
-		String id = config.getUserId();
-		String pass = config.getPassword();
-		
-		sendMail(host, id, pass, title, to, from, content);
-
-		if (logger.isInfoEnabled()) {
-			StringBuffer buf = new StringBuffer();
-			buf.append("Send mail from:").append(from).append(" to:").append(to).append(" title:").append(title);
-			logger.info(buf);
-		}
+		//상속 구현
 	}
-	private static void sendMail(String mailServerName, String id, String pass, String subject, String to, 
-			String from, String messageText) throws AddressException, MessagingException, UnsupportedEncodingException {
-
-		Authenticator auth = new PassAuthenticator(id, pass);
-		Properties mailProps = new Properties();
-		mailProps.put("mail.smtp.host", mailServerName);
-		mailProps.put("mail.smtp.auth", "true");
-
-		Session mailSession = Session.getInstance(mailProps, auth);
-
-		InternetAddress toAddrs = new InternetAddress(to);
-		InternetAddress fromAddr = new InternetAddress(id, "SmartWorks");
-
-		Message message = new MimeMessage(mailSession);
-		message.setFrom(fromAddr);
-		message.setRecipient(Message.RecipientType.TO, toAddrs);
-		message.setSubject(subject);
-		message.setContent(messageText.toString(), "text/html; charset=euc-kr");
-		
-		try {
-			Transport.send(message);
-		} catch(Exception ex) {
-			ex.printStackTrace();
-			throw new MessagingException(ex.getMessage());
-		}
-	}
+	
 	private void sendMail(String from, String to, String title, String content) throws Exception {
 		MimeMessage mimeMsg = mailSender.createMimeMessage();
 		MimeMessageHelper msgHelper = new MimeMessageHelper(mimeMsg, true);
@@ -307,16 +236,5 @@ public class TskManagerMailAdvisorImpl extends AbstractTskManagerAdvisor {
 			logger.info(buf);
 		}
 		mailSender.send(mimeMsg);
-	}
-}
-class PassAuthenticator extends Authenticator {
-	private String id;
-	private String pass;
-	public PassAuthenticator(String id, String pass) {
-		this.id = id;
-		this.pass = pass;
-	}
-	public PasswordAuthentication getPasswordAuthentication() {
-		return new PasswordAuthentication(this.id, this.pass);
 	}
 }

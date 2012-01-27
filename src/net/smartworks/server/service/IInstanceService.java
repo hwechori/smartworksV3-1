@@ -40,7 +40,7 @@ public interface IInstanceService {
 
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
-	public String startProcessWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	public String startProcessWorkInstance(HttpServletRequest request) throws Exception;
 
 	public String setFileInstance(HttpServletRequest request) throws Exception;
 

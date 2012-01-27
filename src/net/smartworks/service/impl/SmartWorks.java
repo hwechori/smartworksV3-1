@@ -283,8 +283,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public String startProcessWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-		return instanceService.startProcessWorkInstance(requestBody, request);
+	public String startProcessWorkInstance(HttpServletRequest request) throws Exception {
+		return instanceService.startProcessWorkInstance(request);
 
 	}
 

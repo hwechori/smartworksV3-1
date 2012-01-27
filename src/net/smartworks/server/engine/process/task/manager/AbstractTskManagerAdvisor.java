@@ -1,10 +1,7 @@
 package net.smartworks.server.engine.process.task.manager;
 
 import net.smartworks.server.engine.common.collection.manager.IColManager;
-import net.smartworks.server.engine.common.script.manager.ISctManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
-import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
-import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.process.approval.manager.IAprManager;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
@@ -37,9 +34,6 @@ public abstract class AbstractTskManagerAdvisor {
 	private IPrcManager prcManager;
 	private IColManager colManager;
 	private IAprManager aprManager;
-	private ISwdManager swdManager;
-	private ISwfManager swfManager;
-	private ISctManager sctManager;
 //	private IPrcManager prcManager;
 //	private IChtManager chtManager;
 //	private IPrcAdminService prcService;
@@ -70,22 +64,6 @@ public abstract class AbstractTskManagerAdvisor {
 		if (aprManager == null)
 			aprManager = SwManagerFactory.getInstance().getAprManager();
 		return aprManager;
-	}
-
-	public ISwdManager getSwdManager() {
-		if (swdManager == null)
-			swdManager = SwManagerFactory.getInstance().getSwdManager();
-		return swdManager;
-	}
-	public ISwfManager getSwfManager() {
-		if (swfManager == null)
-			swfManager = SwManagerFactory.getInstance().getSwfManager();
-		return swfManager;
-	}
-	public ISctManager getSctManager() {
-		if (sctManager == null)
-			sctManager = SwManagerFactory.getInstance().getSctManager();
-		return sctManager;
 	}
 	
 	public AbstractTskManagerAdvisor() {

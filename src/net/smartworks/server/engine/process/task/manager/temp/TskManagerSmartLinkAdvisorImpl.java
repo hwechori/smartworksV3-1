@@ -16,8 +16,6 @@ import java.util.regex.Pattern;
 
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Property;
-import net.smartworks.server.engine.common.script.manager.ISctManager;
-import net.smartworks.server.engine.common.script.manager.impl.SctXPathManagerImpl;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.MisUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
@@ -29,6 +27,8 @@ import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.process.process.model.PrcProcessInst;
+import net.smartworks.server.engine.process.script.manager.ISctManager;
+import net.smartworks.server.engine.process.script.manager.impl.SctXPathManagerImpl;
 import net.smartworks.server.engine.process.script.util.F2SUtil;
 import net.smartworks.server.engine.process.task.exception.TskException;
 import net.smartworks.server.engine.process.task.manager.impl.TskManagerLinkAdvisorImpl;
