@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.Instance"%>
 <%@page import="net.smartworks.model.instance.SortingField"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.service.impl.SmartWorks"%>
@@ -113,9 +114,43 @@
 				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
 				String cid = SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceInfo.getId();
 				String target = "pwork_space.sw?cid=" + cid + "?workId=" + workId;
+				String statusImage = "";
+				String statusTitle = "";
+				switch (instanceInfo.getStatus()) {
+				// 인스턴스가 현재 진행중인 경우..
+				case Instance.STATUS_RUNNING:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.running";
+					break;
+				// 인스턴스가 지연진행중인 경우....
+				case Instance.STATUS_DELAYED_RUNNING:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.delayed_running";
+					break;
+				// 인스턴스가 반려된 경우...
+				case Instance.STATUS_RETURNED:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.returned";
+					break;
+				// 인스턴스가 지연반려된 경우....
+				case Instance.STATUS_RETURNED_DELAYED:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.returned_delayed";
+					break;
+				// 기타 잘못되어 상태가 없는 경우..
+				default:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.running";
+				}
 			%>
 				<tr>
-					<td></td>
+					<td>
+						<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+							<div class="noti_pic js_content_iwork_space">
+								<img src="<%=statusImage%>" title="<%=statusTitle%>"/>
+							</div>
+						</a>
+					</td>
 					<td>
 						<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
 							<div class="noti_pic js_content_iwork_space">
