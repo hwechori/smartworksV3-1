@@ -14,7 +14,7 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	SmartWorks.extend(options, config);
 	options.container.html('');
 
-	var value = (options.dataField && options.dataField.value) || 0;
+	var value = (options.dataField && parseFloat(options.dataField.value)) || 0;
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 

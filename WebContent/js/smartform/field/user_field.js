@@ -65,8 +65,12 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	if(readOnly){
 		$user = $('<div class="form_value" style="width:' + valueWidth + '%"></div>');
 		usersHtml = '';
-		for(var i=0; i<users.length; i++)
-			usersHtml = usersHtml + '<a class="js_pop_user_info" href="pop_user_info.sw?userId=' + users[i].userId + '"><span>' + users[i].longName + '</span></a>';
+		for(var i=0; i<users.length; i++) {
+			var separator = ', ';
+			if(i == users.length - 1)
+				separator = '';
+			usersHtml = usersHtml + '<a class="js_pop_user_info" href="pop_user_info.sw?userId=' + users[i].userId + '"><span>' + users[i].longName + separator + '</span></a>';
+		}
 		$user.html(usersHtml);
 	}else{	
 		$user = $html;
