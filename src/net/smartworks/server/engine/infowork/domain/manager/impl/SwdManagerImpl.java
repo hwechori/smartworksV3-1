@@ -752,29 +752,22 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				objList.add(obj);
 				if (CommonUtil.isEmpty(selectedFieldList))
 					continue;
-				String colName = "";
-				SwdDataField dataField = null;
-				String dataType = "";
-				SwfFormCond swfFormCond = new SwfFormCond();
-				swfFormCond.setId(obj.getFormId());
-				SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
-				SwfField[] swfFields = swfForms[0].getFields();
+				String colName;
+				SwdDataField dataField;
+				String dataType;
 				for (SwdField field : selectedFieldList) {
+					colName = field.getTableColumnName();
+					dataType = field.getFormFieldType();
 					dataField = new SwdDataField();
-					for(SwfField swfField : swfFields) {
-						if(field.getFormFieldId().equals(swfField.getId())) {
-							dataType = swfField.getFormat().getType();
-							colName = field.getTableColumnName();
-							obj.addDataField(dataField);
-							dataField.setId(field.getFormFieldId());
-							dataField.setName(field.getFormFieldName());
-							dataField.setType(dataType);
-							dataField.setDisplayOrder(field.getDisplayOrder());
-							if (colName != null && colName.equalsIgnoreCase("id")) {
-								dataField.setValue((String)fields[0]);
-								continue;
-							}
-						}
+					obj.addDataField(dataField);
+					dataField.setId(field.getFormFieldId());
+					dataField.setName(field.getFormFieldName());
+					dataField.setType(dataType);
+					dataField.setDisplayOrder(field.getDisplayOrder());
+					dataType = field.getFormFieldType();
+					if (colName != null && colName.equalsIgnoreCase("id")) {
+						dataField.setValue((String)fields[0]);
+						continue;
 					}
 					Object fieldValue = fields[j++];
 					if (fieldValue == null)
