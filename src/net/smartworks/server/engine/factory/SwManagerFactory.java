@@ -13,7 +13,6 @@ import net.smartworks.server.engine.authority.manager.ISwaManager;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
-import net.smartworks.server.engine.common.script.manager.ISctManager;
 import net.smartworks.server.engine.common.searcher.manager.ISchManager;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
@@ -54,7 +53,6 @@ public class SwManagerFactory {
 	private IItmManager itmManager;
 	private ISchManager schManager;
 	private ISwcManager swcManager;
-	private ISctManager sctManager;
 
 	private WorkListManagerImpl workListManager;
 
@@ -185,12 +183,6 @@ public class SwManagerFactory {
 	}
 	public void setSwcManager(ISwcManager swcManager) {
 		this.swcManager = swcManager;
-	}
-	public ISctManager getSctManager() {
-		return sctManager;
-	}
-	public void setSctManager(ISctManager sctManager) {
-		this.sctManager = sctManager;
 	}
 
 //	public IChtManager getChtManager() {

@@ -9,13 +9,7 @@ import java.util.List;
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
-import net.smartworks.model.community.Community;
-import net.smartworks.model.community.Department;
-import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
-import net.smartworks.model.community.info.CommunityInfo;
-import net.smartworks.model.community.info.DepartmentInfo;
-import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -87,9 +81,15 @@ public class CalendarServiceImpl implements ICalendarService {
 		int start = 0;
 		int end = 0;
 		int workTime = 0;
-		CompanyCalendar[] companyCalendars = new CompanyCalendar[days];
-		for(int i=0; i<days; i++) {
+		CompanyCalendar[] companyCalendars = new CompanyCalendar[3];
+		for(int i=0; i<3; i++) {
 			CompanyCalendar companyCalendar = new CompanyCalendar();
+			if(i == 0) {
+			} else if(i == 1) {
+				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
+			} else if(i == 2) {
+				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
+			}
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(fromDate);
 			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -141,7 +141,7 @@ public class CalendarServiceImpl implements ICalendarService {
 			swcEventDayCond.setSearchDay(searchDay);
 			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
 
-			List<Community> userList = new ArrayList<Community>();
+			List<User> userList = new ArrayList<User>();
 			if(swcEventDays != null) {
 				CompanyEvent[] companyEvents = new CompanyEvent[swcEventDays.length];
 				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
@@ -155,14 +155,10 @@ public class CalendarServiceImpl implements ICalendarService {
 					if(swcEventDay.getReltdPerson() != null) {
 						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
 						for(String reltdUser : reltdUsers) {
-							if(reltdUser.getClass().equals(User.class))
-								userList.add(ModelConverter.getUserByUserId(reltdUser));
-							else if(reltdUser.getClass().equals(Department.class))
-								userList.add(ModelConverter.getDepartmentByDepartmentId(reltdUser));
-// TO DO					else if(reltdUser.getClass().equals(Group.class))
-// TO DO						userList.add(ModelConverter.getGroupByGroupId(reltdUser));
+							User relatedUser = ModelConverter.getUserByUserId(reltdUser);
+							userList.add(relatedUser);
 						}
-						Community[] relatedUsers = new Community[userList.size()];
+						User[] relatedUsers = new User[userList.size()];
 						userList.toArray(relatedUsers);
 						companyEvent.setRelatedUsers(relatedUsers);
 					}
@@ -177,7 +173,6 @@ public class CalendarServiceImpl implements ICalendarService {
 				companyCalendar.setCompanyEvents(companyEvents);
 			}
 			companyCalendars[i] = companyCalendar;
-			fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
 		}
 
 		for(int k = 0; k < companyCalendars.length; k++) {
@@ -199,8 +194,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 */
 	@Override
 	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception {
-		
-		return getCompanyCalendars(fromDate, (int)LocalDate.getDiffDate(fromDate, toDate)+1);
+		return null;
 	}
 
 	/*
@@ -263,7 +257,7 @@ public class CalendarServiceImpl implements ICalendarService {
 				eventInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
 
 				SwdDataField[] swdDataFields = swdRecord.getDataFields();
-				List<CommunityInfo> userInfoList = new ArrayList<CommunityInfo>();
+				List<UserInfo> userInfoList = new ArrayList<UserInfo>();
 				boolean isExistUser = false;
 				for(SwdDataField swdDataField : swdDataFields) {
 					String value = swdDataField.getValue();
@@ -282,21 +276,11 @@ public class CalendarServiceImpl implements ICalendarService {
 							for(String reltdUser : reltdUsers) {
 								if(reltdUser.equals(user.getId()) || reltdUser.equals(user.getDepartmentId()))
 									isExistUser = true;
-								if(reltdUser.getClass().equals(UserInfo.class)){
-									UserInfo relatedUser = ModelConverter.getUserInfoByUserId(reltdUser);
-									if(relatedUser != null)
-										userInfoList.add(relatedUser);
-								}else if(reltdUser.getClass().equals(DepartmentInfo.class)){
-									DepartmentInfo relatedUser = ModelConverter.getDepartmentInfoByDepartmentId(reltdUser);
-									if(relatedUser != null)
-										userInfoList.add(relatedUser);
-								}else if(reltdUser.getClass().equals(GroupInfo.class)){
-// TO DO							GroupInfo relatedUser = ModelConverter.getGroupInfoByGroupId(reltdUser);
-// TO DO							if(relatedUser != null)
-// TO DO								userInfoList.add(relatedUser);
-								}
+								UserInfo relatedUser = ModelConverter.getUserInfoByUserId(reltdUser);
+								if(relatedUser != null)
+									userInfoList.add(relatedUser);
 							}
-							CommunityInfo[] relatedUsers = new CommunityInfo[userInfoList.size()];
+							UserInfo[] relatedUsers = new UserInfo[userInfoList.size()];
 							userInfoList.toArray(relatedUsers);
 							eventInstanceInfo.setRelatedUsers(relatedUsers);
 						}

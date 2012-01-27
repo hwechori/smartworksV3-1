@@ -2070,8 +2070,6 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		this.swfManager = swfManager;
 	}
 	public ISctManager getSctManager() {
-		if (sctManager == null)
-			sctManager = SwManagerFactory.getInstance().getSctManager();
 		return sctManager;
 	}
 	public void setSctManager(ISctManager sctManager) {
