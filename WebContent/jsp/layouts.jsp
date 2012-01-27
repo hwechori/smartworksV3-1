@@ -140,6 +140,7 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-act-search.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-filter.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-work.js"></script>
+<script type="text/javascript" src="js/sw/sw-act-space.js"></script>
 
 <script type="text/javascript" src='js/smartform/smartworks.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-layout.js'></script>

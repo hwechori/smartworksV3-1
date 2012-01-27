@@ -56,6 +56,24 @@ public class CommunityController {
 		return SmartUtil.returnMnv(request, "jsp/content/community/space/user_space.jsp", "user_space.tiles");
 	}
 
+	@RequestMapping("/space_tab_dayly")
+	public ModelAndView spaceTabDayly(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_tab_dayly.jsp", "space_tab_dayly.tiles");
+	}
+
+	@RequestMapping("/space_tab_weekly")
+	public ModelAndView spaceTabWeekly(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_tab_weekly.jsp", "space_tab_weekly.tiles");
+	}
+
+	@RequestMapping("/space_tab_monthly")
+	public ModelAndView spaceTabMonthly(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_tab_monthly.jsp", "space_tab_monthly.tiles");
+	}
+
 	@RequestMapping("/chatting_box")
 	public ModelAndView chattingBox(HttpServletRequest request, HttpServletResponse response) {
 

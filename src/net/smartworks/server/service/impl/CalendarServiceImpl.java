@@ -9,7 +9,13 @@ import java.util.List;
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
+import net.smartworks.model.community.Community;
+import net.smartworks.model.community.Department;
+import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
+import net.smartworks.model.community.info.CommunityInfo;
+import net.smartworks.model.community.info.DepartmentInfo;
+import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -135,7 +141,7 @@ public class CalendarServiceImpl implements ICalendarService {
 			swcEventDayCond.setSearchDay(searchDay);
 			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
 
-			List<User> userList = new ArrayList<User>();
+			List<Community> userList = new ArrayList<Community>();
 			if(swcEventDays != null) {
 				CompanyEvent[] companyEvents = new CompanyEvent[swcEventDays.length];
 				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
@@ -149,10 +155,14 @@ public class CalendarServiceImpl implements ICalendarService {
 					if(swcEventDay.getReltdPerson() != null) {
 						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
 						for(String reltdUser : reltdUsers) {
-							User relatedUser = ModelConverter.getUserByUserId(reltdUser);
-							userList.add(relatedUser);
+							if(reltdUser.getClass().equals(User.class))
+								userList.add(ModelConverter.getUserByUserId(reltdUser));
+							else if(reltdUser.getClass().equals(Department.class))
+								userList.add(ModelConverter.getDepartmentByDepartmentId(reltdUser));
+// TO DO					else if(reltdUser.getClass().equals(Group.class))
+// TO DO						userList.add(ModelConverter.getGroupByGroupId(reltdUser));
 						}
-						User[] relatedUsers = new User[userList.size()];
+						Community[] relatedUsers = new Community[userList.size()];
 						userList.toArray(relatedUsers);
 						companyEvent.setRelatedUsers(relatedUsers);
 					}
@@ -253,7 +263,7 @@ public class CalendarServiceImpl implements ICalendarService {
 				eventInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
 
 				SwdDataField[] swdDataFields = swdRecord.getDataFields();
-				List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+				List<CommunityInfo> userInfoList = new ArrayList<CommunityInfo>();
 				boolean isExistUser = false;
 				for(SwdDataField swdDataField : swdDataFields) {
 					String value = swdDataField.getValue();
@@ -272,11 +282,21 @@ public class CalendarServiceImpl implements ICalendarService {
 							for(String reltdUser : reltdUsers) {
 								if(reltdUser.equals(user.getId()) || reltdUser.equals(user.getDepartmentId()))
 									isExistUser = true;
-								UserInfo relatedUser = ModelConverter.getUserInfoByUserId(reltdUser);
-								if(relatedUser != null)
-									userInfoList.add(relatedUser);
+								if(reltdUser.getClass().equals(UserInfo.class)){
+									UserInfo relatedUser = ModelConverter.getUserInfoByUserId(reltdUser);
+									if(relatedUser != null)
+										userInfoList.add(relatedUser);
+								}else if(reltdUser.getClass().equals(DepartmentInfo.class)){
+									DepartmentInfo relatedUser = ModelConverter.getDepartmentInfoByDepartmentId(reltdUser);
+									if(relatedUser != null)
+										userInfoList.add(relatedUser);
+								}else if(reltdUser.getClass().equals(GroupInfo.class)){
+// TO DO							GroupInfo relatedUser = ModelConverter.getGroupInfoByGroupId(reltdUser);
+// TO DO							if(relatedUser != null)
+// TO DO								userInfoList.add(relatedUser);
+								}
 							}
-							UserInfo[] relatedUsers = new UserInfo[userInfoList.size()];
+							CommunityInfo[] relatedUsers = new CommunityInfo[userInfoList.size()];
 							userInfoList.toArray(relatedUsers);
 							eventInstanceInfo.setRelatedUsers(relatedUsers);
 						}

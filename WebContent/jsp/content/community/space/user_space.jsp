@@ -16,7 +16,10 @@
 	session.removeAttribute("wid");
 	session.setAttribute("user", user);
 %>
-
-<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
-
-<jsp:include page="/jsp/content/community/space/tab_dayly.jsp"></jsp:include>
+<div class="js_user_space_page">
+	<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
+	
+	<div class="js_space_instance_list">
+		<jsp:include page="/jsp/content/community/space/space_tab_dayly.jsp"></jsp:include>
+	</div>
+</div>
