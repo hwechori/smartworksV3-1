@@ -56,6 +56,15 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 		</aop:aspect>
 	</aop:config>
 
+	<!-- default Advisor -->
+	<beans:bean id="tskManagerDefaultAdvisor" class="net.smartworks.server.engine.process.task.manager.impl.TskManagerDefaultAdvisorImpl"/>
+	<aop:config>
+		<aop:aspect id="tskDefaultAdvisor" ref="tskManagerDefaultAdvisor">
+			<aop:pointcut id="defaultMethod" expression="target(net.smartworks.server.engine.process.task.manager.impl.TskManagerImpl)"/>
+			<aop:around pointcut-ref="defaultMethod" method="invoke"/>
+		</aop:aspect>
+	</aop:config>
+	
 	<!-- domain Advisor -->
 	<beans:bean id="swdManagerAdvisor" class="net.smartworks.server.engine.infowork.domain.manager.impl.SwdManagerAdvisorImpl"/>
 	<aop:config>

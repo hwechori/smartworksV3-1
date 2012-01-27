@@ -40,6 +40,7 @@ import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
+import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.StringUtil;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
@@ -64,6 +65,7 @@ import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
+import net.smartworks.server.engine.process.process.exception.PrcException;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
@@ -72,6 +74,8 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
+import net.smartworks.server.engine.process.task.model.TskTaskDef;
+import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.IInstanceService;
@@ -461,8 +465,155 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		
 		
+	}	
+	public String setInformationWorkInstance_old(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		
+		/*
+		Key Set : frmSmartForm
+		Key Set : frmScheduleWork
+		Key Set : frmAccessSpace
+		key Set : formId
+		key Set : formName
+		*/
+		Map<String, Object> smartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+
+		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
+		String formId = (String)requestBody.get("formId");
+		String formName = (String)requestBody.get("formName");
+		String instanceId = (String)requestBody.get("instanceId");
+		int formVersion = 1;
+		User cuser = SmartUtil.getCurrentUser();
+		String userId = null;
+		if (cuser != null)
+			userId = cuser.getId();
+
+		SwdDomainCond swdDomainCond = new SwdDomainCond();
+		swdDomainCond.setFormId(formId);
+		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdDomainCond, IManager.LEVEL_LITE);
+
+		domainId = swdDomain.getObjId();
+
+		SwdFieldCond swdFieldCond = new SwdFieldCond();
+		swdFieldCond.setDomainObjId(domainId);
+		SwdField[] fields = getSwdManager().getFields(userId, swdFieldCond, IManager.LEVEL_LITE);
+		if (CommonUtil.isEmpty(fields))
+			return null;//TODO return null? throw new Exception??
+
+		Map<String, SwdField> fieldInfoMap = new HashMap<String, SwdField>();
+		for (SwdField field : fields) {
+			fieldInfoMap.put(field.getFormFieldId(), field);
+		}
+		
+		Set<String> keySet = smartFormInfoMap.keySet();
+		Iterator<String> itr = keySet.iterator();
+		
+//		SwdField[] fieldDatas = new SwdField[keySet.size()];
+		List fieldDataList = new ArrayList();
+		List<Map<String, String>> files = null;
+		List<Map<String, String>> users = null;
+		String groupId = null;
+		while (itr.hasNext()) {
+			String fieldId = (String)itr.next();
+			String value = null;
+			String refForm = null;
+			String refFormField = null;
+			String refRecordId = null;
+			Object fieldValue = smartFormInfoMap.get(fieldId);
+			if (fieldValue instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+				groupId = (String)valueMap.get("groupId");
+				refForm = (String)valueMap.get("refForm");
+				users = (ArrayList<Map<String,String>>)valueMap.get("users");
+
+				if(!CommonUtil.isEmpty(groupId)) {
+					files = (ArrayList<Map<String,String>>)valueMap.get("files");
+					if(files != null && files.size() > 0)
+						value = groupId;
+				} else if(!CommonUtil.isEmpty(refForm)) {
+					refFormField = (String)valueMap.get("refFormField");
+					refRecordId = (String)valueMap.get("refRecordId");
+					SwoDepartmentCond swoDepartmentCond = new SwoDepartmentCond();
+					swoDepartmentCond.setId(refRecordId);
+					String deptName = getSwoManager().getDepartment(userId, swoDepartmentCond, IManager.LEVEL_LITE).getName();
+					value = deptName;
+				} else if(!CommonUtil.isEmpty(users)) {
+					refFormField = "frm_user_SYSTEM"; 
+					String resultRefRecordId = "";
+					String resultValue = "";
+					String symbol = ";";
+					if(users.size() == 1) {
+						resultRefRecordId = users.get(0).get("id");
+						resultValue = users.get(0).get("name");
+					} else {
+						for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+							Map<String, String> user = users.get(i);
+							resultRefRecordId += user.get("id") + symbol;
+							resultValue += user.get("name") + symbol;
+						}
+					}
+					refRecordId = resultRefRecordId;
+					value = resultValue;
+				}
+			} else if(fieldValue instanceof String) {
+				value = (String)smartFormInfoMap.get(fieldId);
+				if(formId.equals(SmartForm.ID_MEMO_MANAGEMENT)) {
+					if(fieldId.equals("12"))
+						value = StringUtil.subString(value, 0, 20, "...");
+				} else if(formId.equals(SmartForm.ID_EVENT_MANAGEMENT)) {
+					if(fieldId.equals("1") || fieldId.equals("2")) {
+						if(!value.isEmpty())
+							value = LocalDate.convertStringToLocalDate(value).toGMTDateString();
+					}
+				}
+			}
+			if (CommonUtil.isEmpty(value))
+				continue;
+			SwdDataField fieldData = new SwdDataField();
+			fieldData.setId(fieldId);
+			fieldData.setName(fieldInfoMap.get(fieldId).getFormFieldName());
+			fieldData.setRefForm(refForm);
+			fieldData.setRefFormField(refFormField);
+			fieldData.setRefRecordId(refRecordId);
+			fieldData.setValue(value);
+
+			fieldDataList.add(fieldData);
+			
+		}
+		String workType = "";
+		String servletPath = request.getServletPath();
+		if(servletPath.equals("/upload_new_picture.sw"))
+			workType = "Pictures";
+		else
+			workType = "Files";
+
+		SwdDataField[] fieldDatas = new SwdDataField[fieldDataList.size()];
+		fieldDataList.toArray(fieldDatas);
+		SwdRecord obj = new SwdRecord();
+		obj.setDomainId(domainId);
+		obj.setFormId(formId);
+		obj.setFormName(formName);
+		obj.setFormVersion(formVersion);
+		obj.setDataFields(fieldDatas);
+		obj.setRecordId(instanceId);
+
+		String returnInstanceId = getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
+
+		if(files != null && files.size() > 0) {
+			try {
+				for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+					Map<String, String> file = files.get(i);
+					String fileId = file.get("fileId");
+					String fileName = file.get("fileName");
+					String fileSize = file.get("fileSize");
+					getDocManager().insertFiles(workType, groupId, fileId, fileName, fileSize);
+				}
+			} catch (Exception e) {
+				throw new DocFileException("file upload fail...");
+			}
+		}
+
+		return returnInstanceId;
 	}
-	
 	@Override
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
@@ -612,10 +763,260 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		return returnInstanceId;
 	}
+	
+	private SwdRecord getSwdRecordByRequestBody(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		
+		if (CommonUtil.isEmpty(swdFields))
+			return null;//TODO return null? throw new Exception??
 
+		Map<String, Object> smartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+
+		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
+		String formId = (String)requestBody.get("formId");
+		String formName = (String)requestBody.get("formName");
+		String instanceId = (String)requestBody.get("instanceId");
+		int formVersion = 1;
+		
+		Map<String, SwdField> fieldInfoMap = new HashMap<String, SwdField>();
+		for (SwdField field : swdFields) {
+			fieldInfoMap.put(field.getFormFieldId(), field);
+		}
+		
+		Set<String> keySet = smartFormInfoMap.keySet();
+		Iterator<String> itr = keySet.iterator();
+		
+//		SwdField[] fieldDatas = new SwdField[keySet.size()];
+		List fieldDataList = new ArrayList();
+		List<Map<String, String>> files = null;
+		List<Map<String, String>> users = null;
+		String groupId = null;
+		while (itr.hasNext()) {
+			String fieldId = (String)itr.next();
+			String value = null;
+			String refForm = null;
+			String refFormField = null;
+			String refRecordId = null;
+			Object fieldValue = smartFormInfoMap.get(fieldId);
+			if (fieldValue instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+				groupId = (String)valueMap.get("groupId");
+				refForm = (String)valueMap.get("refForm");
+				users = (ArrayList<Map<String,String>>)valueMap.get("users");
+
+				if(!CommonUtil.isEmpty(groupId)) {
+					files = (ArrayList<Map<String,String>>)valueMap.get("files");
+					if(files != null && files.size() > 0)
+						value = groupId;
+				} else if(!CommonUtil.isEmpty(refForm)) {
+					refFormField = (String)valueMap.get("refFormField");
+					refRecordId = (String)valueMap.get("refRecordId");
+					SwoDepartmentCond swoDepartmentCond = new SwoDepartmentCond();
+					swoDepartmentCond.setId(refRecordId);
+					String deptName = getSwoManager().getDepartment(userId, swoDepartmentCond, IManager.LEVEL_LITE).getName();
+					value = deptName;
+				} else if(!CommonUtil.isEmpty(users)) {
+					refFormField = "frm_user_SYSTEM"; 
+					String resultRefRecordId = "";
+					String resultValue = "";
+					String symbol = ";";
+					if(users.size() == 1) {
+						resultRefRecordId = users.get(0).get("id");
+						resultValue = users.get(0).get("name");
+					} else {
+						for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+							Map<String, String> user = users.get(i);
+							resultRefRecordId += user.get("id") + symbol;
+							resultValue += user.get("name") + symbol;
+						}
+					}
+					refRecordId = resultRefRecordId;
+					value = resultValue;
+				}
+			} else if(fieldValue instanceof String) {
+				value = (String)smartFormInfoMap.get(fieldId);
+				if(formId.equals(SmartForm.ID_MEMO_MANAGEMENT)) {
+					if(fieldId.equals("12"))
+						value = StringUtil.subString(value, 0, 20, "...");
+				} else if(formId.equals(SmartForm.ID_EVENT_MANAGEMENT)) {
+					if(fieldId.equals("1") || fieldId.equals("2")) {
+						if(!value.isEmpty())
+							value = LocalDate.convertStringToLocalDate(value).toGMTDateString();
+					}
+				}
+			}
+			if (CommonUtil.isEmpty(value))
+				continue;
+			SwdDataField fieldData = new SwdDataField();
+			fieldData.setId(fieldId);
+			fieldData.setName(fieldInfoMap.get(fieldId).getFormFieldName());
+			fieldData.setRefForm(refForm);
+			fieldData.setRefFormField(refFormField);
+			fieldData.setRefRecordId(refRecordId);
+			fieldData.setValue(value);
+
+			fieldDataList.add(fieldData);
+			
+		}
+		String workType = "";
+		String servletPath = request.getServletPath();
+		if(servletPath.equals("/upload_new_picture.sw"))
+			workType = "Pictures";
+		else
+			workType = "Files";
+
+		SwdDataField[] fieldDatas = new SwdDataField[fieldDataList.size()];
+		fieldDataList.toArray(fieldDatas);
+		SwdRecord obj = new SwdRecord();
+		obj.setDomainId(domainId);
+		obj.setFormId(formId);
+		obj.setFormName(formName);
+		obj.setFormVersion(formVersion);
+		obj.setDataFields(fieldDatas);
+		obj.setRecordId(instanceId);
+
+		if(files != null && files.size() > 0) {
+			try {
+				for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+					Map<String, String> file = files.get(i);
+					String fileId = file.get("fileId");
+					String fileName = file.get("fileName");
+					String fileSize = file.get("fileSize");
+					getDocManager().insertFiles(workType, groupId, fileId, fileName, fileSize);
+				}
+			} catch (Exception e) {
+				throw new DocFileException("file upload fail...");
+			}
+		}
+		
+		return obj;
+	}
+	
 	@Override
-	public String startProcessWorkInstance(HttpServletRequest request) throws Exception {
-		return "testId";
+	public String startProcessWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		/*{
+			"workId":"pkg_cf3b0087995f4f99a41c93e2fe95b22d",
+			"formId":"frm_c19b1fe4bceb4732acbb8a4cd2a57474",
+			"formName":"기안품의",
+			"frmSmartForm":
+				{
+					"4":
+						{
+							"users":
+								[
+									{
+										"id":"kmyu@maninsoft.co.kr",
+										"name":"\n\t\t\t\t\t\t\t\t연구소장 유광민\n\t\t\t\t\t\t\t"
+									}
+								]
+						},
+					"16":
+						{
+							"users":
+								[
+									{
+										"id":"kmyu@maninsoft.co.kr",
+										"name":"\n\t\t\t\t\t\t\t\t연구소장 유광민\n\t\t\t\t\t\t\t"
+									}
+								]
+						},
+					"92":"1",
+					"535":"1"
+				},
+			"frmScheduleWork":
+				{
+				},
+			"frmAccessSpace":
+				{
+					"selWorkSpace":"kmyu@maninsoft.co.kr",
+					"selAccessLevel":"3",
+					"txtAccessableUsers":
+						{
+							"users":
+								[
+								]
+						}
+				}
+			}*/
+
+		User cuser = SmartUtil.getCurrentUser();
+		String userId = null;
+		if (cuser != null)
+			userId = cuser.getId();
+		
+		Map<String, Object> smartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+		
+		
+		//패키지 정보로 프로세스 정보를 얻는다.
+		String packageId = (String)requestBody.get("workId");
+		String formId = (String)requestBody.get("formId");
+		PrcProcessCond cond = new PrcProcessCond();
+		cond.setDiagramId(packageId);
+		PrcProcess[] prcs = getPrcManager().getProcesses(userId, cond, IManager.LEVEL_LITE);
+		if (prcs == null || prcs.length != 1)
+			throw new PrcException("Start Process Is Null Or More then 1");
+		PrcProcess prc = prcs[0];
+		String processId = prc.getProcessId();
+		
+		//패키지 정보로 프로세스 첫번째 taskdef를 찾는다
+		Property[] extProps = new Property[] {new Property("processId", processId), new Property("startActivity", "true")};
+		TskTaskDefCond taskCond = new TskTaskDefCond();
+		taskCond.setExtendedProperties(extProps);
+		TskTaskDef[] taskDefs = getTskManager().getTaskDefs(userId, taskCond, IManager.LEVEL_LITE);
+		if (CommonUtil.isEmpty(taskDefs))
+			throw new Exception(new StringBuffer("No start activity. -> processId:").append(processId).toString());
+		TskTaskDef taskDef = taskDefs[0];
+		String taskDefId = taskDef.getObjId();
+		
+		//넘어온 frmSamrtForm 정보로 레코드를 생성한다
+		SwfForm form = getSwfManager().getForm(userId, formId);
+		SwfField[] formFields = form.getFields();
+		List domainFieldList = new ArrayList();
+		for (SwfField field: formFields) {
+			SwdField domainField = new SwdField();
+			domainField.setFormFieldId(field.getId());
+			domainField.setFormFieldName(field.getName());
+			domainField.setFormFieldType(field.getSystemType());
+			domainField.setArray(field.isArray());
+			domainField.setSystemField(field.isSystem());
+			domainFieldList.add(domainField);
+		}
+		SwdField[] domainFields = new SwdField[domainFieldList.size()];
+		domainFieldList.toArray(domainFields);
+		
+		SwdRecord recordObj = getSwdRecordByRequestBody(userId, domainFields, requestBody, request);
+		String taskDocument = null;
+		if (recordObj != null)
+			taskDocument = recordObj.toString();
+		
+		//TODO 참조자, 전자결재, 연결업무 정보를 셋팅한다
+		
+		//태스크를 생성하여 실행한다
+		TskTask task = new TskTask();
+		task.setType(taskDef.getType());
+		task.setName(taskDef.getName());
+		task.setTitle("프로세스 제목(타이틀) 정의 필요 (필수>단문>첫번째)");
+		task.setAssignee(userId);
+		task.setAssigner(userId);
+		task.setForm(taskDef.getForm());
+		task.setDef(taskDef.getObjId());
+		task.setIsStartActivity("true");
+		
+		task.setDocument(taskDocument);
+		
+		Date now = new Date();
+		task.setExpectStartDate(new LocalDate(now.getTime()));
+		task.setRealStartDate(new LocalDate(now.getTime()));
+		Date expectEndDate = new Date();
+		if (taskDef != null &&  !CommonUtil.isEmpty(taskDef.getDueDate())) {
+			//dueDate 는 분단위로 설정이 되어 있다
+			expectEndDate.setTime(new LocalDate(now.getTime() + ((Long.parseLong(taskDef.getDueDate())) * 60 * 1000)).getTime());
+		} else {
+			expectEndDate.setTime(new LocalDate(now.getTime() + 1800000).getTime());
+		}
+		task.setExpectEndDate(expectEndDate);
+		task = getTskManager().executeTask(userId, task, "execute");
+		
+		return task.getProcessInstId();
 	}
 
 	@Override
