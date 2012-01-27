@@ -9,7 +9,9 @@
 package net.smartworks.server.engine.infowork.domain.manager.impl;
 
 import java.math.BigInteger;
+import java.sql.Clob;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -777,8 +779,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 					Object fieldValue = fields[j++];
 					if (fieldValue == null)
 						continue;
-					/*if(fieldValue instanceof SerializableClob) {
-						SerializableClob clob = (SerializableClob)fieldValue;
+					if(fieldValue instanceof Clob) {
+						Clob clob = (Clob)fieldValue;
 						try {
 							int clobLength = (int)clob.length();
 							fieldValue = clob.getSubString(1, clobLength);
@@ -791,7 +793,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 						} catch (SQLException e) {
 							throw new SwdException(e);
 						}
-					} else*/ if (dataType == null) {
+					} else if (dataType == null) {
 						dataField.setValue(fieldValue.toString());
 					} else if (fieldValue instanceof String) {
 						if (dataType.equalsIgnoreCase("complex")) {

@@ -112,6 +112,10 @@ public class LocalDate extends Date{
 		return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")).format(getGMTDate());
 	}
 
+	public String toGMTTimeString(){
+		return (new SimpleDateFormat("HH:mm:ss")).format(getGMTDate());
+	}
+
 	public String toLocalTimeString(){
 		return DateFormat.getTimeInstance(DateFormat.MEDIUM, this.locale).format(getLocalTime());
 	}
@@ -142,6 +146,11 @@ public class LocalDate extends Date{
 	public boolean isAfterDate(LocalDate when){
 		if(getLocalDateOnly(this).getTime() < getLocalDateOnly(when).getTime()) return true;
 		return false;
+	}
+	
+	public static long getDiffDate(Date fromDate, Date toDate){
+		if(fromDate==null || toDate==null) return 0;
+		return (toDate.getTime() - fromDate.getTime())/LocalDate.ONE_DAY;		
 	}
 	
 	public long getLocalTime(){
@@ -189,9 +198,24 @@ public class LocalDate extends Date{
 		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}
 
+	public static LocalDate convertLocalSimpleStringToLocalDate(String yyyyMMdd) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
+		return new LocalDate((df.parse(yyyyMMdd)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
+	}
+
+	public static LocalDate convertLocalTimeStringToLocalDate(String HHmm) throws Exception{
+		DateFormat df = new SimpleDateFormat("HH:mm");
+		return new LocalDate((df.parse(HHmm)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
+	}
+
 	public static LocalDate convertGMTStringToLocalDate(String yyyyMMddHHmmssSSS) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime());					
+	}
+
+	public static LocalDate convertGMTTimeStringToLocalDate(String HHmmss) throws Exception{
+		DateFormat df = new SimpleDateFormat("HH:mm");
+		return new LocalDate((df.parse(HHmmss)).getTime());
 	}
 
 	public static LocalDate convertStringToDashLocalDate(String yyyyMMddHHmmssSS) throws Exception{

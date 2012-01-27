@@ -18,22 +18,26 @@
 
 <ul>
 	<%
-		if(communities != null){
-			for (CommunityInfo community : communities) {
-				String picName = community.getMinPicture();
-				String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + community.getId();
-				String comName = null;
-				if(community.getClass().equals(UserInfo.class)) comName = ((UserInfo)community).getLongName();
-				else comName = community.getName();
-				String comId = community.getId();
+	if(communities != null){
+		for (CommunityInfo community : communities) {
+			String picName = community.getMinPicture();
+			String comContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + community.getId();
+			String comName = null;
+			if(community.getClass().equals(UserInfo.class)) comName = ((UserInfo)community).getLongName();
+			else comName = community.getName();
+			String comId = community.getId();
 	%>
-	<li><a href="" comName="<%=comName%>" comId="<%=comId %>" class="js_select_community"><img src="<%=picName%>" class="profile_size_s"><%=comName%></a>
-	</li>
+				<li>
+					<a href="" comName="<%=comName%>" comId="<%=comId %>" class="js_select_community">
+						<img src="<%=picName%>" class="profile_size_s"><%=comName%>
+					</a>
+				</li>
 	<%
-			}
-		}else{
-			%>
-			<li><span><fmt:message key="search.message.no_searched_data"/></span></li>
-			<%} %>
-
+		}
+	}else{
+	%>
+		<li><span><fmt:message key="search.message.no_searched_data"/></span></li>
+	<%
+	}
+	%>
 </ul>

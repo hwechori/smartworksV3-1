@@ -14,7 +14,7 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	SmartWorks.extend(options, config);
 	options.container.html('');
 
-	var value = (options.dataField && options.dataField.value) || '';
+	var value = (options.dataField && options.dataField.value) || 0;
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 
@@ -30,9 +30,9 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$label.addClass('required_label');
-		required = " class='js_currency_input fieldline required' ";
+		required = " class='js_currency_input fieldline text_align_r required' ";
 	}else{
-		required = " class='js_currency_input fieldline' ";
+		required = " class='js_currency_input fieldline text_align_r' ";
 	}
 	$label.appendTo(options.container);
 	
@@ -40,8 +40,8 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	if(readOnly){
 		$currency = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"></div>').text(value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}else{	
-		$currency = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"><input class="text_align_r" type="text" symbol="' + currency +'" name="' + id + '"' + required + '></div>').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
-		//if save mode = $currency.toNumber().attr('value');
+		$currency = $('<div name="' + id + '" class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text" symbol="' + currency + '"'  + required + '></div>');
+		$currency.find('input').attr('value',value).formatCurrency({ symbol: currency ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();
@@ -99,9 +99,22 @@ $('input.js_currency_input').live('keyup', function(e) {
 			case 78: break; // N (Opera 9.63+ maps the "." from the number key section to the "N" key too!) (See: http://unixpapa.com/js/key.html search for ". Del")
 			case 110: break; // . number block (Opera 9.63+ maps the "." from the number block to the "N" key (78) !!!)
 			case 190: break; // .
-			default: $(this).formatCurrency({ symbol: $(this).attr('symbol') ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+			default:
+				if($(this).attr('value') === $(this).attr('symbol') + '0-') $(this).attr('value', '-');				
+				var value = $(this).attr('value');
+				var firstStr = value.substring(0,1);
+				var secondStr = value.substring(1,2);
+				var thirdStr = value.substring(2,3);
+				if(isEmpty(value) 
+						|| (firstStr !== $(this).attr('symbol') && firstStr !== '-' && (firstStr<'0' || firstStr>'9')) 
+						|| (firstStr === $(this).attr('symbol') && (secondStr<'0' || secondStr>'9'))
+						|| (firstStr === '-' && !isEmpty(secondStr) && secondStr!==$(this).attr('symbol')  && secondStr!=='.' && (secondStr<'0' || secondStr>'9')) 
+						|| (firstStr === '-' && secondStr===$(this).attr('symbol') && (thirdStr<'0' || thirdStr>'9'))) 
+					$(this).attr('value', 0);
+				$(this).formatCurrency({ symbol: $(this).attr('symbol') ,colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		}
 	}
+	
 });
 
 
@@ -124,4 +137,14 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.dataField = function(config){
 			value: options.value
 	};
 	return dataField;
+};
+
+SmartWorks.FormRuntime.CurrencyInputBuilder.serializeObject = function(currencyInputs){
+	var currencyInputsJson = {};
+	for(var i=0; i<currencyInputs.length; i++){
+		var currencyInput = $(currencyInputs[i]);
+		var valueStr = currencyInput.find('input').attr('value');
+		currencyInputsJson[currencyInput.attr('fieldId')] = $.parseNumber( valueStr.substring(1, valueStr.length), {format:"-0,000.0", locale: currentUser.locale });
+	}
+	return currencyInputsJson;
 };

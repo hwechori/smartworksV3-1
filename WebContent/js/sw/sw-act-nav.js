@@ -5,19 +5,19 @@ $(function() {
 	 * 지정되어 있으며, 이를 선택하면, 밑에 있는 id="my_works"인 div 영역에 탭에서 지정한 href 의 값을 ajax 로
 	 * 호출하여 가져온 값을 보여준다. 그리고, 탭에서 선택된곳에 current 로 지정하고 기타것들은 current 를 제거한다.
 	 */
-	$('.js_nav_tab_work a').swnavi(
-			{
-				before : function(event){
-					smartPop.progressNavGray($(event.target).parents('.js_nav_tab_work span.js_progress_span:first'));
-					var input = $(event.target);
-					input.addClass('current');
-					input.parent().siblings().find('span').removeClass('current');
-				},
-				target : 'my_works',
-				after : function(event) {
-					smartPop.closeProgress();
-				}
-			});
+	$('.js_nav_tab_work a').swnavi({
+		history : false,
+		before : function(event){
+			smartPop.progressNavGray($(event.target).parents('.js_nav_tab_work span.js_progress_span:first'));
+			var input = $(event.target);
+			input.addClass('current');
+			input.parent().siblings().find('span').removeClass('current');
+		},
+		target : 'my_works',
+		after : function(event) {
+			smartPop.closeProgress();
+		}
+	});
 
 	/*
 	 * 좌측 "나의 커뮤너티" 박스이 좌측상단에 있는 탭(나의 부서, 나의 그룹)탭들이 class="js_nav_tab_com" 로
@@ -25,28 +25,29 @@ $(function() {
 	 * href 의 값을 ajax 호출하여 가져온 값을 보여준다. 그리고, 탭에서 선택된곳에 current 로 지정하고 기타 것들은
 	 * current 를 제거한다.
 	 */
-	$('.js_nav_tab_com a').swnavi(
-			{
-				before : function(event){
-					smartPop.progressNavGray($(event.target).parents('.js_nav_tab_com span.js_progress_span:first'));
-					var input = $(event.target).parent('a');
-					input.find('span:first').addClass('current');
-					input.find('.btn_my_group_add').show();
-					
-					input.siblings().find('span:first').removeClass('current');
-					input.siblings().find('.btn_my_group_add').hide();
-				},
-				target : 'my_communities',
-				after : function(event) {
-					smartPop.closeProgress();
-				}
-			});
+	$('.js_nav_tab_com a').swnavi({
+		history : false,
+		before : function(event){
+			smartPop.progressNavGray($(event.target).parents('.js_nav_tab_com span.js_progress_span:first'));
+			var input = $(event.target).parent('a');
+			input.find('span:first').addClass('current');
+			input.find('.btn_my_group_add').show();
+			
+			input.siblings().find('span:first').removeClass('current');
+			input.siblings().find('.btn_my_group_add').hide();
+		},
+		target : 'my_communities',
+		after : function(event) {
+			smartPop.closeProgress();
+		}
+	});
 
 	/*
 	 * 어디에서든 class 값이 js_content로 지정된 anchor 가 선택이 되면, anchor 의 href 값으로 ajax 를 호출하여
 	 * 가져온 값을 content(메인컨텐트)화면에 보여준다.
 	 */
 	$('a.js_content').swnavi({
+		history : true,
 		before : function(event){
 			var input = $(event.target);
 			if(!isEmpty(input.parents('.js_nav_my_works')) || !isEmpty(input.parents('.js_nav_my_com'))){
@@ -78,6 +79,7 @@ $(function() {
 	});
 
 	$('a.js_content_iwork_space').swnavi({
+		history : true,
 		before : function(e){
 			smartPop.progressCenter();
 		},
@@ -87,31 +89,17 @@ $(function() {
 			var workId = input.attr("workId");
 			var instId = input.attr("instId");
 			var formContent = $('div.js_form_content');
-			$.ajax({
-				url : "get_form_xml.sw",
-				data : {
-					workId : workId
+			new SmartWorks.GridLayout({
+				target : formContent,
+				mode : "view",
+				workId : workId,
+				recordId : instId,
+				onSuccess : function(){
+					smartPop.closeProgress();																
 				},
-				success : function(formXml, status, jqXHR) {
-					$.ajax({
-						url : "get_record.sw",
-						data : {
-							workId : workId,
-							recordId : instId
-						},
-						success : function(formData, status, jqXHR) {							
-							new SmartWorks.GridLayout({
-								target : formContent,
-								formXml : formXml,
-								formValues : formData.record,
-								mode : "view"
-							});
-							smartPop.closeProgress();
-						},
-						error : function(xhr, ajaxOptions, thrownError){
-							smartPop.closeProgress();							
-						}
-					});
+				onError : function(){
+					smartPop.closeProgress();
+					
 				}
 			});
 		}

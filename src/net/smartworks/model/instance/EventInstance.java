@@ -2,6 +2,7 @@ package net.smartworks.model.instance;
 
 import java.util.Date;
 
+import net.smartworks.model.community.Community;
 import net.smartworks.model.community.User;
 import net.smartworks.model.work.Work;
 import net.smartworks.util.LocalDate;
@@ -18,7 +19,7 @@ public class EventInstance extends WorkInstance {
 	public final static int ALARM_ON_BOTH_TIME		= 3;
 		
 	private String			content;
-	private User[]			relatedUsers;
+	private Community[]			relatedUsers;
 	private LocalDate		start;
 	private LocalDate		end;
 	private int				alarmOption=-1; 	// 시작시간에 한번만, 미리알림시간에 한번만, 미리알리시간과 시작시간에 한번씩, 미리알미리알미리알림없음 
@@ -30,10 +31,10 @@ public class EventInstance extends WorkInstance {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public User[] getRelatedUsers() {
+	public Community[] getRelatedUsers() {
 		return relatedUsers;
 	}
-	public void setRelatedUsers(User[] relatedUsers) {
+	public void setRelatedUsers(Community[] relatedUsers) {
 		this.relatedUsers = relatedUsers;
 	}
 	public LocalDate getStart() {

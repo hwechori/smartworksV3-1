@@ -185,7 +185,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					if(swdDataField.getId().equals("0")) {
 						boardInstanceInfo.setSubject(value);
 					} else if(swdDataField.getId().equals("1")) {
-						boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 20, "..."));
+						boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 44, "..."));
 					}
 				}
 				boardInstanceInfos[i] = boardInstanceInfo;
@@ -652,7 +652,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		for (SwdField field : fields) {
 			fieldInfoMap.put(field.getFormFieldId(), field);
 		}
-		
+
 		Set<String> keySet = smartFormInfoMap.keySet();
 		Iterator<String> itr = keySet.iterator();
 		
@@ -664,6 +664,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		while (itr.hasNext()) {
 			String fieldId = (String)itr.next();
 			String value = null;
+			String type = null;
 			String refForm = null;
 			String refFormField = null;
 			String refRecordId = null;
@@ -714,6 +715,11 @@ public class InstanceServiceImpl implements IInstanceService {
 							value = LocalDate.convertStringToLocalDate(value).toGMTDateString();
 					}
 				}
+				type = fieldInfoMap.get(fieldId).getFormFieldType();
+				if(type.equals("datetime"))
+					value = LocalDate.convertLocalSimpleStringToLocalDate(value).toGMTDateString();
+				else if(type.equals("time"))
+					value = LocalDate.convertLocalTimeStringToLocalDate(value).toGMTTimeString();
 			}
 			if (CommonUtil.isEmpty(value))
 				continue;

@@ -14,7 +14,7 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	SmartWorks.extend(options, config);
 	options.container.html('');
 
-	var value = (options.dataField && options.dataField.value) || '';
+	var value = (options.dataField && options.dataField.value) || 0;
 	$entity = options.entity;
 	$graphic = $entity.children('graphic');
 	$format = $entity.children('format');
@@ -29,21 +29,21 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$label.addClass('required_label');
-		required = " class='fieldline required' ";
+		required = " class='js_percent_input fieldline text_align_r required' ";
 	}else{
-		required = " class='fieldline' ";
+		required = " class='js_percent_input fieldline text_align_r' ";
 	}
 	$label.appendTo(options.container);
 	
-	var percentValue = (value * 100) + '%';
+	var percentValue = value + '%';
 		
 	var $percent = null;
 	
 	if (readOnly) {
 		$percent = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"></div>').text(percentValue);
 	} else {
-		$percent = $('<div class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"'  + required + '/></div>')
-				.attr('value', percentValue);
+		$percent = $('<div name="' + id + '" class="form_value form_number_input" style="width:' + valueWidth + '%"><input type="text"' + required + '/></div>');
+		$percent.find('input').attr('value', percentValue);
 	}
 
 	if ($graphic.attr('hidden') == 'true'){
@@ -54,20 +54,20 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	return options.container;
 };
 
-$('.percent input').live('blur', function(e) {
+$('input.js_percent_input').live('blur', function(e) {
 	$input = $(e.target);
 	
 	var value = $input.attr('value');
 	
-	value = (value * 100) + '';
+	value = ($.parseNumber(value, {format: "-0,000.0", locale: currentUser.locale}) * 100) + '';
 	
 	var idx = value.lastIndexOf('%');
 	
 	if(idx === -1)
-		$input.attr('value', value + '%');
+	$input.attr('value', $.formatNumber(value, {format: "-#,###.#", locale: currentUser.locale}) + '%');
 });
 
-$('.percent input').live('focusin', function(e) {
+$('input.js_percent_input').live('focusin', function(e) {
 	$input = $(e.target);
 	
 	var value = $input.attr('value');
@@ -77,25 +77,39 @@ $('.percent input').live('focusin', function(e) {
 	if(idx > -1)
 		value = value.substring(0, idx);
 	
-	value = (parseFloat(value) / 100) + '';
+	value = ($.parseNumber(value, {format: "-0,000.0", locale: currentUser.locale}) / 100) + '';
 	
-	$input.attr('value', value);
+	$input.attr('value', $.formatNumber(value, {format: "-#,###.#", locale: currentUser.locale}));
 });
 
-$('.percent input').live('keyup', function(e) {
+$('input.js_percent_input').live('keyup', function(e) {
 	var e = window.event || e;
 	var keyUnicode = e.charCode || e.keyCode;
 	if (e !== undefined) {
-		if ((keyUnicode < 48 || keyUnicode > 57)) {
-			if (keyUnicode == 190) {
-				if (this.value.indexOf('.') != (this.value.length-1) ) {
-					var value = this.value;
-					this.value = value.substring(0, value.length -1);
-				}
-			} else {
-				var value = this.value;
-				this.value = value.substring(0, value.length -1);
-			}
+		switch (keyUnicode) {
+			case 16: break; // Shift
+			case 17: break; // Ctrl
+			case 18: break; // Alt
+			case 27: this.value = ''; break; // Esc: clear entry
+			case 35: break; // End
+			case 36: break; // Home
+			case 37: break; // cursor left
+			case 38: break; // cursor up
+			case 39: break; // cursor right
+			case 40: break; // cursor down
+			case 78: break; // N (Opera 9.63+ maps the "." from the number key section to the "N" key too!) (See: http://unixpapa.com/js/key.html search for ". Del")
+			case 110: break; // . number block (Opera 9.63+ maps the "." from the number block to the "N" key (78) !!!)
+			case 190: break; // .
+			default:
+				if($(this).attr('value') === '0-') $(this).attr('value', '-');
+				var value = $(this).attr('value');
+				var firstStr = value.substring(0,1);
+				var secondStr = value.substring(1,2);
+				if(value !== '-' && value !== '.')
+					if(isEmpty(value) || (firstStr !== '-' && firstStr !== '.' && (firstStr<'0' || firstStr>'9')) || (((firstStr === '-' && secondStr !== '.') || firstStr === '.') && (secondStr<'0' || secondStr>'9'))){
+						$(this).attr('value', 0);
+					}
+				$(this).formatCurrency({ symbol: '' , colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 		}
 	}
 });
@@ -150,3 +164,14 @@ SmartWorks.FormRuntime.PercentInputBuilder.dataField = function(config){
 	};
 	return dataField;
 };
+
+SmartWorks.FormRuntime.PercentInputBuilder.serializeObject = function(percentInputs){
+	var percentInputsJson = {};
+	for(var i=0; i<percentInputs.length; i++){
+		var percentInput = $(percentInputs[i]);
+		var valueStr = percentInput.find('input').attr('value');
+		percentInputsJson[percentInput.attr('fieldId')] = $.parseNumber( valueStr.substring(0, valueStr.length-1), {format:"-0,000.0", locale: currentUser.locale });
+	}
+	return percentInputsJson;
+};
+
