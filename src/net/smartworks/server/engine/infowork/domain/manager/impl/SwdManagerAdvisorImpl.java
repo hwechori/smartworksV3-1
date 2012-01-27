@@ -31,6 +31,7 @@ import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
+import net.smartworks.util.LocalDate;
 
 public class SwdManagerAdvisorImpl extends AbstractSwdManagerAdvisor {
 	public SwdManagerAdvisorImpl() {
@@ -97,7 +98,8 @@ public class SwdManagerAdvisorImpl extends AbstractSwdManagerAdvisor {
 		}
 	}
 	public void preSetRecord(String user, SwdRecord obj, String level) throws Exception {
-		Date date = new Date();
+		//date to localdate - Date date = new Date();
+		LocalDate date = new LocalDate();
 		String cUser = obj.getCreationUser();
 		Date cDate = obj.getCreationDate();
 		if (cUser == null || cDate == null) {

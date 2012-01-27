@@ -35,7 +35,8 @@ public class TaskWork {
 	private String prcStatus;                          
 	private String prcCreateUser;                      
 	private String prcDid;                             
-	private String prcPrcId;                           
+	private String prcPrcId; 
+	private Date prcCreateDate;
 	private String lastTskObjId;                       
 	private String lastTskName;                        
 	private String lastTskCreateUser;                  
@@ -192,6 +193,12 @@ public class TaskWork {
 	}
 	public void setPrcPrcId(String prcPrcId) {
 		this.prcPrcId = prcPrcId;
+	}
+	public Date getPrcCreateDate() {
+		return prcCreateDate;
+	}
+	public void setPrcCreateDate(Date prcCreateDate) {
+		this.prcCreateDate = prcCreateDate;
 	}
 	public String getLastTskObjId() {
 		return lastTskObjId;

@@ -11,6 +11,7 @@ package net.smartworks.server.engine.worklist.model;
 import java.util.Date;
 
 import net.smartworks.server.engine.common.model.Cond;
+import net.smartworks.util.LocalDate;
 
 public class TaskWorkCond extends Cond{
 
@@ -48,7 +49,14 @@ public class TaskWorkCond extends Cond{
 	private Date lastTskDueDate; 
 	private String lastTskForm;                        
 	private String lastTskCount;
+	private LocalDate lastInstanceDate; 
 	
+	public LocalDate getLastInstanceDate() {
+		return lastInstanceDate;
+	}
+	public void setLastInstanceDate(LocalDate lastInstanceDate) {
+		this.lastInstanceDate = lastInstanceDate;
+	}
 	public String getTskObjId() {
 		return tskObjId;
 	}

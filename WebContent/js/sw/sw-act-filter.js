@@ -25,7 +25,7 @@ $(function() {
 	});
 	
 	$('a.js_edit_search_filter').live('click', function(e) {
-		var input = $(e.target).parent();
+		var input = $(e.target);
 		smartPop.progressCont(input.next('span:first'));
 		var target = $('#search_filter');
 		var url = input.attr('href') + "&filterId=" + $('form[name="frmIworkFilterName"]').children('select').attr('value');
@@ -35,7 +35,7 @@ $(function() {
 			success : function(data, status, jqXHR) {
 				target.html(data);
 				target.slideDown(500);
-				input.hide();
+				input.parent().hide();
 				smartPop.closeProgress();
 			},
 			error : function(xhr, ajaxOptions, thrownError){
@@ -91,7 +91,7 @@ $(function() {
 
 	$('.js_select_search_filter').live('change', function(e){
 		$('#search_filter').slideUp(500).html('');
-		$('a.js_edit_search_filter').show();
+		$('a.js_edit_search_filter').parent().show();
 		var progressSpan = $('.js_edit_search_filter').next('span.js_progress_span:first');
 		selectListParam(progressSpan, false);
 		return false;		
@@ -99,7 +99,7 @@ $(function() {
 	
 	$('a.js_search_filter_close').live('click', function(e) {
 		$('#search_filter').slideUp(500).html('');
-		$('a.js_edit_search_filter').show();
+		$('a.js_edit_search_filter').parent().show();
 		return false;
 	});
 

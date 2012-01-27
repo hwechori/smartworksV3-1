@@ -38,6 +38,7 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.Task;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Transition;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Transitions;
 import net.smartworks.server.engine.process.xpdl.xpdl2.WorkflowProcesses;
+import net.smartworks.util.LocalDate;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -277,7 +278,7 @@ public class MonXpdlManagerImpl implements IMonManager{
 						long realStartDateLong = realStartDate.getTime();
 						long endDateLong = 0;
 						if (task.getStatus().equalsIgnoreCase((String)MisUtil.taskStatusMap().get("started"))) {
-							endDateLong = new Date().getTime();
+							endDateLong = new LocalDate().getTime();//date to localdate - 
 						} else if (task.getStatus().equalsIgnoreCase((String)MisUtil.taskStatusMap().get("executed"))) {
 							endDateLong = task.getExecutionDate().getTime();
 						}
@@ -348,7 +349,7 @@ public class MonXpdlManagerImpl implements IMonManager{
 						}
 					}
 					long ExpectEndDateLong = realStartDateLong + (meanTime * 60 * 1000);
-					long now = new Date().getTime();
+					long now = new LocalDate().getTime();//date to localdate - 
 					
 					if (ExpectEndDateLong < now) {
 						act.setStatus("DELAYED");

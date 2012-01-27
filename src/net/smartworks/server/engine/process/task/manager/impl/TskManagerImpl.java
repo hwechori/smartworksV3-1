@@ -22,6 +22,7 @@ import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 import net.smartworks.server.engine.process.task.model.TskTaskExtend;
+import net.smartworks.util.LocalDate;
 
 import org.hibernate.Query;
 
@@ -689,13 +690,14 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		TskTask obj = this.getTask(user, id, LEVEL_LITE);
 		if (obj.getStartDate() != null)
 			return obj;
-		obj.setStartDate(new Date());
+		obj.setStartDate(new LocalDate());//date to localdate - 
 		setTask(user, obj, LEVEL_LITE);
 		return obj;
 	}
 
 	public TskTask executeTask(String user, TskTask obj, String action) throws TskException {
-		Date date = new Date();
+		//date to localdate - Date date = new Date();
+		LocalDate date = new LocalDate();
 		if (obj.getStartDate() == null)
 			obj.setStartDate(new Date(date.getTime() - 600000));
 		obj.setPerformer(user);

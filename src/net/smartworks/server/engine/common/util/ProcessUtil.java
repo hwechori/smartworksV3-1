@@ -5,6 +5,7 @@ import java.util.Date;
 import net.smartworks.server.engine.process.xpdl.util.ProcessModelHelper;
 import net.smartworks.server.engine.process.xpdl.xpdl2.PackageType;
 import net.smartworks.server.engine.process.xpdl.xpdl2.ProcessType1;
+import net.smartworks.util.LocalDate;
 
 public class ProcessUtil {
 
@@ -26,7 +27,7 @@ public class ProcessUtil {
 		xpdl.getRedefinableHeader().getVersion().setValue("" + version);
 		xpdl.getRedefinableHeader().getAuthor().setValue(userId);
 		xpdl.getRedefinableHeader().getCodepage().setValue("UTF-8");
-		xpdl.getPackageHeader().getCreated().setValue(new Date().toString());
+		xpdl.getPackageHeader().getCreated().setValue(new LocalDate().toString());//date to localdate - 
 		
 		ProcessType1 process = (ProcessType1)xpdl.getWorkflowProcesses().getWorkflowProcess().get(0);
 		process.setId(processId);

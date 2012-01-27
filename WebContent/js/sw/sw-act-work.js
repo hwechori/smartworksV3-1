@@ -158,6 +158,7 @@ $(function() {
 		var input = $(e.target);
 		var target = input.parents('.js_iwork_list_page').find('div.js_new_work_form');
 		var url = input.attr('href');
+		$('a.js_search_filter_close').click();
 		$.ajax({
 			url : url,
 			data : {},
