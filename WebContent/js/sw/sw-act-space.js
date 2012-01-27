@@ -29,10 +29,7 @@ $(function() {
 		var url = input.find(':selected').attr('value');
 		$.ajax({
 			url : url,
-			data : {
-				startDate : startDate,
-				selectedIndex : selectedIndex
-			},
+			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data);
 			},

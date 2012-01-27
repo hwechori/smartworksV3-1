@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.WorkSpace"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="net.smartworks.model.calendar.CompanyCalendar"%>
 <%@page import="net.smartworks.model.community.User"%>
@@ -10,7 +11,7 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	User user = (User)session.getAttribute("user");
+	WorkSpace workSpace = (WorkSpace)session.getAttribute("workSpace");
 
 	LocalDate today = new LocalDate();
 
@@ -35,7 +36,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--탭-->
-<div class="tab js_space_tab_dayly_page" userId="<%=user.getId() %>" startDate="<%=startDateStr%>">
+<div class="tab js_space_tab_dayly_page" workSpaceId="<%=workSpace.getId() %>" startDate="<%=startDateStr%>">
 
 	<%
 	String prevWeekHref = "space_tab_dayly.sw?startDate=" 
