@@ -97,7 +97,7 @@ public class LocalDate extends Date{
 		cal.setTime(new Date(this.getLocalDate()));
 		return cal.get(Calendar.MONTH);
 	}
-	
+
 	public int getYear(){
 		Calendar cal = Calendar.getInstance(this.timeZone, this.locale);
 		cal.setTime(new Date(this.getLocalDate()));
@@ -214,10 +214,6 @@ public class LocalDate extends Date{
 	}
 
 	public boolean isSameDate(LocalDate when){
-		System.out.println(when);
-		System.out.println(getLocalDateOnly(this));
-		System.out.println(getLocalDateOnly(when));
-		System.out.println("-------------------------------------");
 		if( getLocalDateOnly(this).getTime() == getLocalDateOnly(when).getTime()) return true;
 		return false;
 	}
@@ -291,6 +287,11 @@ public class LocalDate extends Date{
 	public static LocalDate convertLocalDateStringToLocalDate(String yyyyMMdd) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
 		return new LocalDate((df.parse(yyyyMMdd)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
+	}
+
+	public static LocalDate convertLocalYearStringToLocalDate(String yyyy) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy");
+		return new LocalDate((df.parse(yyyy)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}
 
 	public static LocalDate convertLocalTimeStringToLocalDate(String HHmm) throws Exception{
@@ -375,36 +376,20 @@ public class LocalDate extends Date{
 	}
 
 	private LocalDate getLocalDateOnly(LocalDate localDate){
-
-		System.out.println("in date=" + localDate.toLocalDateTimeSimpleString());
-		long time = localDate.getLocalTime();
-		time = time/LocalDate.ONE_DAY;
-		time = time*LocalDate.ONE_DAY;
-		LocalDate lDate = new LocalDate(time-TimeZone.getTimeZone(localDate.getTimeZone()).getRawOffset());
-		lDate.setTimeZone(localDate.getTimeZone());
-		System.out.println("out date=" + lDate.toLocalDateTimeSimpleString());
+		LocalDate lDate = null;
+		try{
+			lDate =  LocalDate.convertLocalDateStringToLocalDate(localDate.toLocalDateSimpleString());
+		}catch (Exception e){
+		}
 		return lDate;
-
-	}
-
-	private LocalDate getLocalMonthOnly(LocalDate localDate){
-
-		long time = localDate.getLocalTime();
-		time = time/LocalDate.ONE_YEAR;
-		time = time*LocalDate.ONE_YEAR;
-		LocalDate lDate = new LocalDate(time-TimeZone.getTimeZone(localDate.getTimeZone()).getRawOffset());
-		lDate.setTimeZone(localDate.getTimeZone());
-		return lDate;
-
 	}
 
 	private LocalDate getLocalYearOnly(LocalDate localDate){
-
-		long time = localDate.getLocalTime();
-		time = time/LocalDate.ONE_YEAR;
-		time = time*LocalDate.ONE_YEAR;
-		LocalDate lDate = new LocalDate(time-TimeZone.getTimeZone(localDate.getTimeZone()).getRawOffset());
-		lDate.setTimeZone(localDate.getTimeZone());
+		LocalDate lDate = null;
+		try{
+			lDate =  LocalDate.convertLocalYearStringToLocalDate(localDate.toLocalYearString());
+		}catch (Exception e){
+		}
 		return lDate;
 
 	}

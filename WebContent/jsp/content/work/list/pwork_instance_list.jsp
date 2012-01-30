@@ -145,15 +145,15 @@
 			%>
 				<tr>
 					<td>
-						<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
-							<div class="noti_pic js_content_iwork_space">
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+							<div class="noti_pic js_content_pwork_space">
 								<img src="<%=statusImage%>" title="<%=statusTitle%>"/>
 							</div>
 						</a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
-							<div class="noti_pic js_content_iwork_space">
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+							<div class="noti_pic js_content_pwork_space">
 								<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s" />
 							</div>
 							<div class="noti_in">
@@ -163,10 +163,10 @@
 						</a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=instanceInfo.getSubject()%></a>
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=instanceInfo.getSubject()%></a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=lastTask.getName()%></a>
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=lastTask.getName()%></a>
 					</td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
