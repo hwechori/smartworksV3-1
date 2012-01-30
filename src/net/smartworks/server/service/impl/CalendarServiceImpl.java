@@ -77,7 +77,10 @@ public class CalendarServiceImpl implements ICalendarService {
 
 		SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
 		swcWorkHourCond.setCompanyId(cUser.getCompanyId());
-		SwcWorkHour swcWorkHour = getSwcManager().getWorkhour(cUser.getId(), swcWorkHourCond, IManager.LEVEL_LITE); 
+
+		swcWorkHourCond.setOrders(new Order[]{new Order(FormField.ID_LAST_MODIFIED_DATE, false)});
+
+		SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
 
 		SwcEventDayCond swcEventDayCond = new SwcEventDayCond();
 		swcEventDayCond.setCompanyId(cUser.getCompanyId());
@@ -88,7 +91,19 @@ public class CalendarServiceImpl implements ICalendarService {
 		int end = 0;
 		int workTime = 0;
 		CompanyCalendar[] companyCalendars = new CompanyCalendar[days];
+		SwcWorkHour swcWorkHour = new SwcWorkHour();
 		for(int i=0; i<days; i++) {
+			if(swcWorkHours != null) {
+				for(int j=0; j<swcWorkHours.length; j++) {
+					if(swcWorkHour.getValidFromDate().getTime() <= fromDate.getTime()) {
+						swcWorkHour = swcWorkHours[j];
+					} else {
+						if(swcWorkHour.getValidToDate() == null) {
+							swcWorkHour = swcWorkHours[0];
+						}
+					}
+				}
+			}
 			CompanyCalendar companyCalendar = new CompanyCalendar();
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(fromDate);
