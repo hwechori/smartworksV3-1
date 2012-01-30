@@ -1,7 +1,6 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -803,7 +802,13 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		return returnInstanceId;
 	}
-	
+
+	@Override
+	public void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private SwdRecord getSwdRecordByRequestBody(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
 		if (CommonUtil.isEmpty(swdFields))

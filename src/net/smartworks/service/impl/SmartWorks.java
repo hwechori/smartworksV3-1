@@ -22,7 +22,6 @@ import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.RunningCounts;
-import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -283,9 +282,14 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getRecentCommentsInWorkManual(workId, length);
 	}
 
+	@Override
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		return instanceService.setInformationWorkInstance(requestBody, request);
+	}
 
+	@Override
+	public void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		instanceService.removeInformationWorkInstance(requestBody, request);
 	}
 
 	@Override

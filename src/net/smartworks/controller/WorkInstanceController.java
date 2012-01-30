@@ -210,10 +210,8 @@ public class WorkInstanceController extends ExceptionInterceptor {
 
 	@RequestMapping(value = "/remove_iwork_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody Map<String, Object> removeIworkInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
-		// TO DO : Exception handler
-		return null;
+	public @ResponseBody void removeIworkInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeInformationWorkInstance(requestBody, request);
 	}
 
 	@RequestMapping(value = "/forward_iwork_instance", method = RequestMethod.POST)
