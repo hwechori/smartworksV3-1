@@ -1353,7 +1353,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception {
-
+		
 		User user = SmartUtil.getCurrentUser();
 		//TODO workId = category 프로세스 인스턴스정보에는 패키지 컬럼이 없고 다이어 그램 컬럼에 정보가 들어가 있다
 		//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다
@@ -1362,12 +1362,43 @@ public class InstanceServiceImpl implements IInstanceService {
 		long totalCount = getPrcManager().getProcessInstExtendsSize(user.getId(), prcInstCond);
 		
 		int pageCount = params.getPageSize();
-		int currentPage = params.getCurrentPage();
+		int currentPage = params.getCurrentPage()-1;
 		
 		SortingField sf = params.getSortingField();
 		
+		String columnName = "";
+		boolean isAsc;
+
+		//화면에서 사용하고 있는 컬럼의 상수값과 실제 프로세스 인스턴스 데이터 베이스의 컬럼 이름이 맞지 않아 컨버팅 작업
+		//한군데에서 관리 하도록 상수로 변경 필요
+		if (sf == null) {
+			sf = new SortingField();
+			sf.setFieldId("createdTime");
+			sf.setAscending(false);
+		}
+		String sfColumnNameTemp = sf.getFieldId();
+		
+		if (sfColumnNameTemp.equalsIgnoreCase("status")) {
+			sfColumnNameTemp = "prcStatus"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("subject")) {
+			sfColumnNameTemp = "prcTitle";
+		} else if (sfColumnNameTemp.equalsIgnoreCase("lastTask")) {
+			sfColumnNameTemp = "lastTask_tskname"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("creator")) {
+			sfColumnNameTemp = "prcCreateUser"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("createdTime")) {
+			sfColumnNameTemp = "prcCreateDate"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("modifier")) {
+			sfColumnNameTemp = "prcModifyUser"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("modifiedTime")) {
+			sfColumnNameTemp = "prcModifyDate"; 
+		} else {
+			sfColumnNameTemp = "prcCreateDate";
+		}
+
 		prcInstCond.setPageNo(currentPage);
 		prcInstCond.setPageSize(pageCount);
+		prcInstCond.setOrders(new Order[]{new Order(sfColumnNameTemp, sf.isAscending())});
 		PrcProcessInstExtend[] prcInsts = getPrcManager().getProcessInstExtends(user.getId(), prcInstCond);
 		
 		if (prcInsts == null)
@@ -1457,11 +1488,20 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 //		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));
 		instanceInfoList.setInstanceDatas(pWInstanceInfos);
-		
 		instanceInfoList.setPageSize(pageCount);
-		instanceInfoList.setTotalPages((int)totalCount);
-		instanceInfoList.setCurrentPage(currentPage);
-		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
+		int totalPages = (int)totalCount / pageCount;
+		if (totalPages == 0) {
+			totalPages = 1;
+		} else {
+			int ext = (int)totalCount % pageCount;
+			if (ext != 0)
+				totalPages += 1;
+		}
+		
+		instanceInfoList.setSortedField(sf);
+		instanceInfoList.setTotalPages(totalPages);
+		instanceInfoList.setCurrentPage(currentPage+1);
+		instanceInfoList.setType(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
 		return instanceInfoList;
 	}
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {
@@ -1687,32 +1727,32 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) {
+	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByWorkHour(date, workHourType, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) {
+	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByWorkHours(date, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) {
+	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByDate(date, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) {
+	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByDates(fromDate, toDate, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) {
+	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByWeek(weekStart, weekEnd, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) {
+	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByWeeks(month, maxSize);
 	}

@@ -13,6 +13,7 @@ public class InstanceInfo{
 	private WorkInfo work;
 	private WorkSpaceInfo workSpace;
 	private int status=-1;
+	private int numberOfAssociatedWorks=0;
 	private UserInfo owner;
 	private LocalDate createdDate;
 	private UserInfo lastModifier;
@@ -44,6 +45,12 @@ public class InstanceInfo{
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public int getNumberOfAssociatedWorks() {
+		return numberOfAssociatedWorks;
+	}
+	public void setNumberOfAssociatedWorks(int numberOfAssociatedWorks) {
+		this.numberOfAssociatedWorks = numberOfAssociatedWorks;
 	}
 	public void setSubject(String subject) {
 		this.subject = subject;

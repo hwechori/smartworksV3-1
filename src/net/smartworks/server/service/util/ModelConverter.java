@@ -1078,14 +1078,14 @@ public class ModelConverter {
 		if (work == null)
 			work = new Work();
 			
-		String ctgId = pkg.getObjId();
-		String ctgName = pkg.getName();
-		String ctgDesc = pkg.getDescription();
+		String packageId = pkg.getPackageId();
+		String packageName = pkg.getName();
+		String packageDesc = pkg.getDescription();
 		//TODO
 		int ctgType = -1;
-		work.setId(ctgId);
-		work.setName(ctgName);
-		work.setDesc(ctgDesc);
+		work.setId(packageId);
+		work.setName(packageName);
+		work.setDesc(packageDesc);
 		work.setType(-1);
 		
 		return work;
