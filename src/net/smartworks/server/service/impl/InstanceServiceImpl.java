@@ -1350,8 +1350,39 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		SortingField sf = params.getSortingField();
 		
+		String columnName = "";
+		boolean isAsc;
+
+		//화면에서 사용하고 있는 컬럼의 상수값과 실제 프로세스 인스턴스 데이터 베이스의 컬럼 이름이 맞지 않아 컨버팅 작업
+		//한군데에서 관리 하도록 상수로 변경 필요
+		if (sf == null) {
+			sf = new SortingField();
+			sf.setFieldId("createdTime");
+			sf.setAscending(false);
+		}
+		String sfColumnNameTemp = sf.getFieldId();
+		
+		if (sfColumnNameTemp.equalsIgnoreCase("status")) {
+			sfColumnNameTemp = "prcStatus"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("subject")) {
+			sfColumnNameTemp = "prcTitle";
+		} else if (sfColumnNameTemp.equalsIgnoreCase("lastTask")) {
+			sfColumnNameTemp = "lastTask_tskname"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("creator")) {
+			sfColumnNameTemp = "prcCreateUser"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("createdTime")) {
+			sfColumnNameTemp = "prcCreateDate"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("modifier")) {
+			sfColumnNameTemp = "prcModifyUser"; 
+		} else if (sfColumnNameTemp.equalsIgnoreCase("modifiedTime")) {
+			sfColumnNameTemp = "prcModifyDate"; 
+		} else {
+			sfColumnNameTemp = "prcCreateDate";
+		}
+
 		prcInstCond.setPageNo(currentPage);
 		prcInstCond.setPageSize(pageCount);
+		prcInstCond.setOrders(new Order[]{new Order(sfColumnNameTemp, sf.isAscending())});
 		PrcProcessInstExtend[] prcInsts = getPrcManager().getProcessInstExtends(user.getId(), prcInstCond);
 		
 		if (prcInsts == null)
@@ -1441,11 +1472,20 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 //		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));
 		instanceInfoList.setInstanceDatas(pWInstanceInfos);
-		
 		instanceInfoList.setPageSize(pageCount);
-		instanceInfoList.setTotalPages((int)totalCount);
-		instanceInfoList.setCurrentPage(currentPage);
-		instanceInfoList.setTotalPages(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
+		int totalPages = (int)totalCount / pageCount;
+		if (totalPages == 0) {
+			totalPages = 1;
+		} else {
+			int ext = (int)totalCount % pageCount;
+			if (ext != 0)
+				totalPages += 1;
+		}
+		
+		instanceInfoList.setSortedField(sf);
+		instanceInfoList.setTotalPages(totalPages);
+		instanceInfoList.setCurrentPage(currentPage+1);
+		instanceInfoList.setType(InstanceInfoList.TYPE_PROCESS_INSTANCE_LIST);
 		return instanceInfoList;
 	}
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {
