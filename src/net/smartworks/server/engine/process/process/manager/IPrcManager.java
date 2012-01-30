@@ -12,6 +12,8 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstVariable
 import net.smartworks.server.engine.process.process.model.PrcProcessInstVariableCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessVariable;
 import net.smartworks.server.engine.process.process.model.PrcProcessVariableCond;
+import net.smartworks.server.engine.process.process.model.PrcSwProcess;
+import net.smartworks.server.engine.process.process.model.PrcSwProcessCond;
 
 public interface IPrcManager {
 	public PrcProcessInst getProcessInst(String user, String id, String level) throws PrcException;
@@ -28,6 +30,8 @@ public interface IPrcManager {
 	public void removeProcess(String user, String id) throws PrcException;
 	public long getProcessSize(String user, PrcProcessCond cond) throws PrcException;
 	public PrcProcess[] getProcesses(String user, PrcProcessCond cond, String level) throws PrcException;
+	
+	public PrcSwProcess[] getSwProcesses(String user, PrcSwProcessCond cond) throws PrcException;
 	
 	public PrcProcessInstRel getProcessInstRel(String user, String id, String level) throws PrcException;
 	public void setProcessInstRel(String user, PrcProcessInstRel obj, String level) throws PrcException;

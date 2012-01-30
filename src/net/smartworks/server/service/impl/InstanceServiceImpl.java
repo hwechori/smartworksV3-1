@@ -1691,7 +1691,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception {
+	public WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception {
 		//TODO 인스턴스로 패키지 타입을 알수가 없다 테이블에 컬럼을 생성하기는 했지만 초기 테스트시에는 데이터가 없기 때문에
 		//인스턴스에 diagramId = pkgId 가 있으면 프로세스 업무 없으면 정보관리 업무로 판단한다
 
@@ -1703,10 +1703,17 @@ public class InstanceServiceImpl implements IInstanceService {
 				return null;
 			return getProcessWorkInstanceById(user.getCompanyId(), user.getId(), prcInst);
 		} else if(workType == SmartWork.TYPE_INFORMATION){
-			
-//			SwdRecord swdRecord = getSwdManager().getRecord(user.getId(), domainId, instanceId, IManager.LEVEL_LITE);
-//			return getInformationWorkInstanceById(user.getCompanyId(), user.getId(), swdRecord);
-			return SmartTest.getInformationWorkInstance1();
+			SwfFormCond swfFormCond = new SwfFormCond();
+			swfFormCond.setCompanyId(user.getCompanyId());
+			swfFormCond.setPackageId(workId);
+			SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE);
+			SwdRecordCond swdRecordCond = new SwdRecordCond();
+			swdRecordCond.setCompanyId(user.getCompanyId());
+			swdRecordCond.setFormId(swfForms[0].getId());
+			swdRecordCond.setRecordId(instanceId);
+			SwdRecord swdRecord = getSwdManager().getRecord(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
+			return getInformationWorkInstanceById(user.getCompanyId(), user.getId(), swdRecord);
+			//return SmartTest.getInformationWorkInstance1();
 		} else if(workType == SmartWork.TYPE_SCHEDULE) {
 			return null;
 		}

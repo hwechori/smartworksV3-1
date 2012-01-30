@@ -333,8 +333,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception {
-		return instanceService.getWorkInstanceById(workType, instanceId);
+	public WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception {
+		return instanceService.getWorkInstanceById(workType, workId, instanceId);
 	}
 
 	@Override

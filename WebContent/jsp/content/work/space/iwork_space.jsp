@@ -25,7 +25,7 @@
 	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
 	String workId = request.getParameter("workId");
 	
-	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_INFORMATION, null);
+	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_INFORMATION, workId, instId);
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
 	InformationWork work = (InformationWork)instance.getWork();

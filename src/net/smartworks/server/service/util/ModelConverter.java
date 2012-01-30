@@ -10,8 +10,11 @@ package net.smartworks.server.service.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import commonj.sdo.Sequence;
 
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.User;
@@ -36,11 +39,15 @@ import net.smartworks.model.security.AccessPolicy;
 import net.smartworks.model.security.EditPolicy;
 import net.smartworks.model.security.WritePolicy;
 import net.smartworks.model.work.FormField;
+import net.smartworks.model.work.InformationWork;
 import net.smartworks.model.work.ProcessWork;
+import net.smartworks.model.work.SmartDiagram;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
+import net.smartworks.model.work.info.SmartFormInfo;
+import net.smartworks.model.work.info.SmartTaskInfo;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -59,11 +66,11 @@ import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemList;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
+import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
-import net.smartworks.server.engine.infowork.domain.model.SwdDomainFieldView;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
@@ -83,9 +90,21 @@ import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInst;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
+import net.smartworks.server.engine.process.process.model.PrcSwProcess;
+import net.smartworks.server.engine.process.process.model.PrcSwProcessCond;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
+import net.smartworks.server.engine.process.task.model.TskTaskDef;
+import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
+import net.smartworks.server.engine.process.xpdl.util.ProcessModelHelper;
+import net.smartworks.server.engine.process.xpdl.xpdl2.Activities;
+import net.smartworks.server.engine.process.xpdl.xpdl2.Activity;
+import net.smartworks.server.engine.process.xpdl.xpdl2.PackageType;
+import net.smartworks.server.engine.process.xpdl.xpdl2.Performer;
+import net.smartworks.server.engine.process.xpdl.xpdl2.Performers;
+import net.smartworks.server.engine.process.xpdl.xpdl2.ProcessType1;
+import net.smartworks.server.engine.process.xpdl.xpdl2.WorkflowProcesses;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartUtil;
@@ -1126,9 +1145,106 @@ public class ModelConverter {
 		processWork.setManualFileName("MANUAL FILE NAME");
 		processWork.setManualFilePath("MANUAL FILE PATH");
 		
+		processWork.setDiagram(getSmartDiagramByPkgInfo(userId, pkg));
+		
 		return processWork;
 	}
-	
+	private static SmartDiagram getSmartDiagramByPkgInfo(String userId, PkgPackage pkg) throws Exception {
+		
+		SmartDiagram smartDiagram = new SmartDiagram();
+		smartDiagram.setDescription(pkg.getDescription());
+		smartDiagram.setId("id");
+		smartDiagram.setMinImageName("minImageName");
+		smartDiagram.setName(pkg.getName());
+		smartDiagram.setOrgImageName("orgImageName");
+		
+		smartDiagram.setTasks(getSmartTaskInfosByPkgId(userId, pkg.getPackageId()));
+		
+		return smartDiagram;
+	}
+	public static SmartTaskInfo[] getSmartTaskInfosByPkgId(String userId, String packageId) throws Exception {
+		
+		PrcSwProcessCond swPrcCond = new PrcSwProcessCond();
+		swPrcCond.setPackageId(packageId);
+		PrcSwProcess[] swPrcs = getPrcManager().getSwProcesses(userId, swPrcCond);
+		
+		if (swPrcs == null)
+			return null;
+		if (swPrcs.length != 1)
+			throw new Exception("More Then 1 SwProcess Package!");
+		
+		//XPDL Parsing
+		Map activityPerformerMap = new HashMap();
+		
+		String processXpdl = swPrcs[0].getContent();
+		PackageType pt = ProcessModelHelper.load(processXpdl);
+		WorkflowProcesses prcs = pt.getWorkflowProcesses();
+		List prcList = prcs.getWorkflowProcess();
+		for (Iterator prcItr = prcList.iterator(); prcItr.hasNext();) {
+			ProcessType1 prc = (ProcessType1) prcItr.next();
+			Activities acts = prc.getActivities();
+			List actList = acts.getActivity();
+			for (Iterator actIter = actList.iterator(); actIter.hasNext();) {
+				Activity act = (Activity) actIter.next();
+				String actId = act.getId();
+				
+				Sequence attrs = act.getAnyAttribute();
+				if (attrs != null && attrs.size() > 0) {
+					for (int i=0; i<attrs.size(); i++) {
+						commonj.sdo.Property attr = attrs.getProperty(i);
+						String attrName = attr.getName();
+						Object attrValue = attrs.getValue(i);
+						if (CommonUtil.isEmpty(attrName) || attrValue == null)
+							continue;
+						if (attrName.equals("PerformerName")) {
+							activityPerformerMap.put(actId, attrValue);
+						} 
+					}
+				}
+//				Performers performers = act.getPerformers();
+//
+//				List performerList = null;
+//				if (performers != null)
+//					performerList = performers.getPerformer();
+//				if (performerList != null && !performerList.isEmpty()) {
+//					String peformer = ((Performer)performerList.get(0)).getValue();
+//					activityPerformerMap.put(actId, peformer);
+//				}
+			}
+		}
+		//Parsing End
+		
+		String processId = swPrcs[0].getProcessId();
+		TskTaskDefCond tskDefCond = new TskTaskDefCond();
+		tskDefCond.setType(TskTask.TASKTYPE_COMMON);
+		tskDefCond.setExtendedProperties(new Property[]{new Property("processId", processId)});
+		
+		TskTaskDef[] tskDefs = getTskManager().getTaskDefs(userId, tskDefCond, IManager.LEVEL_ALL);
+		List smartTaskInfoList = new ArrayList();
+		for (TskTaskDef taskDef: tskDefs) {
+			String actId = taskDef.getExtendedPropertyValue("activityId");
+			String isStartActivityStr = taskDef.getExtendedPropertyValue("startActivity");
+			boolean isStartActivity = CommonUtil.toBoolean(isStartActivityStr);
+			SmartTaskInfo smartTaskInfo = new SmartTaskInfo();
+			smartTaskInfo.setAssigningName((String)activityPerformerMap.get(actId));
+			smartTaskInfo.setId(actId);
+			smartTaskInfo.setName(taskDef.getName());
+			smartTaskInfo.setStartTask(isStartActivity);
+			
+			SmartFormInfo formInfo = new SmartFormInfo();
+			formInfo.setDescription(taskDef.getDescription());
+			formInfo.setId(taskDef.getForm());
+			formInfo.setName(taskDef.getName());
+			formInfo.setMinImageName("minImageName");
+			formInfo.setOrgImageName("orgImageName");
+			smartTaskInfo.setForm(formInfo);
+			smartTaskInfoList.add(smartTaskInfo);
+		}
+		SmartTaskInfo[] smartTaskInfoArray = new SmartTaskInfo[smartTaskInfoList.size()];
+		smartTaskInfoList.toArray(smartTaskInfoArray);
+		
+		return smartTaskInfoArray;
+	}
 	public static SearchFilterInfo[] getSearchFilterInfoByPkgPackage(String userId, PkgPackage pkg) throws Exception {
 		
 		return new SearchFilterInfo[]{new SearchFilterInfo("","")};
@@ -1392,13 +1508,29 @@ public class ModelConverter {
 		return processWorkInstance;
 	}
 
+	public static InformationWork getInformationWorkByPkgPackageId(String userId,String packageId) throws Exception {
+		return getInformationWorkByPkgPackage(userId, null, getPkgPackageByPackageId(packageId));
+	}
+	public static InformationWork getInformationWorkByPkgPackage(String userId, InformationWork informationWork, PkgPackage pkg) throws Exception {
+		if (pkg == null)
+			return null;
+		if (informationWork == null)
+			informationWork = new InformationWork();
+		
+		getSmartWorkByPkgPackage(userId, informationWork, pkg);
+		
+		informationWork.setHelpUrl("HELP URL");
+		informationWork.setManualFileName("MANUAL FILE NAME");
+		informationWork.setManualFilePath("MANUAL FILE PATH");
+
+		return informationWork;
+	}
+
 	public static IWInstanceInfo getWorkInstanceInfoBySwdRecord(IWInstanceInfo iWInstanceInfo, SwdRecord swdRecord) throws Exception {
 		if (swdRecord == null)
 			return null;
 		if (iWInstanceInfo == null) 
 			iWInstanceInfo = new IWInstanceInfo();
-		
-		getWorkInstanceInfoBySwdRecord(iWInstanceInfo, swdRecord);
 
 		TskTaskCond tskCond = new TskTaskCond();
 		tskCond.setProcessInstId(swdRecord.getRecordId());
@@ -1447,7 +1579,7 @@ public class ModelConverter {
 			return null;
 		if (instance == null)
 			instance = new Instance();
-		
+
 		instance.setId(swdRecord.getRecordId());//processInstanceId
 		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdRecord.getDomainId(), IManager.LEVEL_LITE);
 		String titleField = swdDomain.getTitleFieldId();
@@ -1455,28 +1587,21 @@ public class ModelConverter {
 		instance.setSubject(title);
 		instance.setCreatedDate(new LocalDate(swdRecord.getCreationDate().getTime()));
 
-		TskTask lastTask = getLastExecutedTskTaskByPrcInstId(swdRecord.getRecordId());
-		if (lastTask == null) {
-			instance.setLastModifier(new User());
-			instance.setLastModifiedDate(new LocalDate(1)); //TODO LastModifiedDate now
-		} else {
-			instance.setLastModifier(getUserByUserId(lastTask.getAssignee()));
-			instance.setLastModifiedDate(new LocalDate(lastTask.getExecutionDate().getTime())); //TODO LastModifiedDate now
-		}
+		instance.setLastModifier(getUserByUserId(swdRecord.getModificationUser()));
+		instance.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
 
 		instance.setOwner(getUserByUserId(swdRecord.getCreationUser()));
 		instance.setStatus(Instance.STATUS_COMPLETED);
 		instance.setType(WorkInstance.TYPE_INFORMATION);
 
-		
 		String formId = swdDomain.getFormId();
 		SwfForm swfForm = getSwfManager().getForm(userId, formId);
 
 		String packageId = swfForm.getPackageId();
 
-		instance.setWork(getProcessWorkByPkgPackageId(userId, packageId));
-		//TODO workspaceid > ??
-		instance.setWorkSpace(new WorkSpace());
+		instance.setWork(getInformationWorkByPkgPackageId(userId, packageId));
+
+		instance.setWorkSpace(getUserByUserId(swdRecord.getCreationUser()));
 
 		return instance;
 	}

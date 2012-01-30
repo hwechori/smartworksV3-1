@@ -168,7 +168,7 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
 
-	public abstract WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception;
+	public abstract WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception;
 
 	public abstract TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception;
 
