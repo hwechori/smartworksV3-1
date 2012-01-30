@@ -1,7 +1,6 @@
 package net.smartworks.util;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -98,7 +97,7 @@ public class LocalDate extends Date{
 		cal.setTime(new Date(this.getLocalDate()));
 		return cal.get(Calendar.MONTH);
 	}
-	
+
 	public int getYear(){
 		Calendar cal = Calendar.getInstance(this.timeZone, this.locale);
 		cal.setTime(new Date(this.getLocalDate()));
@@ -162,6 +161,10 @@ public class LocalDate extends Date{
 		return (new SimpleDateFormat("yyyy.MM.dd", this.locale)).format(getLocalTime());
 	}
 
+	public String toLocalDateSimple2String(){
+		return (new SimpleDateFormat("yyyy-MM-dd", this.locale)).format(getLocalTime());
+	}
+
 	public String toLocalDateLongString(){
 		return (new SimpleDateFormat("yyyy.MM.dd E", this.locale)).format(getLocalTime());
 	}
@@ -178,8 +181,16 @@ public class LocalDate extends Date{
 		return (new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSS", this.locale)).format(getLocalTime());
 	}
 
+	public String toLocalDateString2(){
+		return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", this.locale)).format(getLocalTime());
+	}
+
 	public String toGMTDateString(){
 		return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")).format(getGMTDate());
+	}
+
+	public String toGMTSimpleDateString(){
+		return (new SimpleDateFormat("yyyy-MM-dd")).format(getGMTDate());
 	}
 
 	public String toGMTTimeString(){
@@ -278,6 +289,11 @@ public class LocalDate extends Date{
 		return new LocalDate((df.parse(yyyyMMdd)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}
 
+	public static LocalDate convertLocalYearStringToLocalDate(String yyyy) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy");
+		return new LocalDate((df.parse(yyyy)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
+	}
+
 	public static LocalDate convertLocalTimeStringToLocalDate(String HHmm) throws Exception{
 		DateFormat df = new SimpleDateFormat("HH:mm");
 		return new LocalDate((df.parse(HHmm)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
@@ -285,7 +301,12 @@ public class LocalDate extends Date{
 
 	public static LocalDate convertGMTStringToLocalDate(String yyyyMMddHHmmssSSS) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime());					
+		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime());
+	}
+
+	public static LocalDate convertGMTSimpleStringToLocalDate(String yyyyMMdd) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		return new LocalDate((df.parse(yyyyMMdd)).getTime());					
 	}
 
 	public static LocalDate convertGMTTimeStringToLocalDate(String HHmmss) throws Exception{
@@ -355,34 +376,20 @@ public class LocalDate extends Date{
 	}
 
 	private LocalDate getLocalDateOnly(LocalDate localDate){
-
-		long time = localDate.getLocalTime();
-		time = time/LocalDate.ONE_DAY;
-		time = time*LocalDate.ONE_DAY;
-		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
-		lDate.setTimeZone(localDate.getTimeZone());
+		LocalDate lDate = null;
+		try{
+			lDate =  LocalDate.convertLocalDateStringToLocalDate(localDate.toLocalDateSimpleString());
+		}catch (Exception e){
+		}
 		return lDate;
-
-	}
-
-	private LocalDate getLocalMonthOnly(LocalDate localDate){
-
-		long time = localDate.getLocalTime();
-		time = time/LocalDate.ONE_YEAR;
-		time = time*LocalDate.ONE_YEAR;
-		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
-		lDate.setTimeZone(localDate.getTimeZone());
-		return lDate;
-
 	}
 
 	private LocalDate getLocalYearOnly(LocalDate localDate){
-
-		long time = localDate.getLocalTime();
-		time = time/LocalDate.ONE_YEAR;
-		time = time*LocalDate.ONE_YEAR;
-		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
-		lDate.setTimeZone(localDate.getTimeZone());
+		LocalDate lDate = null;
+		try{
+			lDate =  LocalDate.convertLocalYearStringToLocalDate(localDate.toLocalYearString());
+		}catch (Exception e){
+		}
 		return lDate;
 
 	}
