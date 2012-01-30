@@ -98,8 +98,6 @@ public class CalendarServiceImpl implements ICalendarService {
 					if((new LocalDate(swcWorkHours[j].getValidFromDate().getTime())).getTime() <= fromDate.getTime()) {
 						if(swcWorkHours[j].getValidToDate() == null) {
 							swcWorkHour = swcWorkHours[0];
-						} else if((new LocalDate(swcWorkHours[j].getValidToDate().getTime())).getTime() >= fromDate.getTime()) {
-							swcWorkHour = swcWorkHours[j];
 						}
 					}
 				}
