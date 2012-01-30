@@ -1,265 +1,239 @@
+
+<!-- Name 			: pwork_space.jsp						 -->
+<!-- Description	: 프로세스업무 인스턴스 공간을 표시하는 페이지    -->
+<!-- Author			: Maninsoft, Inc.						 -->
+<!-- Created Date	: 2011.9.								 -->
+
+<%@page import="net.smartworks.util.SmartTest"%>
+<%@page import="net.smartworks.model.work.ProcessWork"%>
+<%@page import="net.smartworks.model.instance.ProcessWorkInstance"%>
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.TaskInstance"%>
+<%@page import="net.smartworks.model.work.InformationWork"%>
+<%@page import="net.smartworks.model.community.WorkSpace"%>
+<%@page import="net.smartworks.model.instance.InformationWorkInstance"%>
+<%@page import="net.smartworks.model.work.Work"%>
+<%@page import="net.smartworks.model.work.SmartWork"%>
+<%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
+	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다..
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	User cUser = SmartUtil.getCurrentUser();
+	
 	String cid = request.getParameter("cid");
-	if (SmartUtil.isBlankObject(cid))
-		session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
-	else
-		session.setAttribute("cid", cid);
-	String wid = request.getParameter("wid");
-	if (SmartUtil.isBlankObject(wid))
-		session.setAttribute("wid", SmartUtil.getCurrentUser().getId());
-	else
-		session.setAttribute("wid", wid);
+	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
+	String workId = request.getParameter("workId");
+	
+	ProcessWorkInstance instance = (ProcessWorkInstance)session.getAttribute("workInstance");
+	if(SmartUtil.isBlankObject(instance) || !instance.getId().equals(instId)) 
+		instance = (ProcessWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_PROCESS, null);
+	User owner = instance.getOwner();
+	WorkSpace workSpace = instance.getWorkSpace();
+//	ProcessWork work = (ProcessWork)instance.getWork();
+	ProcessWork work = (ProcessWork)SmartTest.getProcessWork1();
+	
+	TaskInstanceInfo[] taskHistories = instance.getTasks();
+
+	session.setAttribute("cid", cid);
+	session.removeAttribute("wid");
+	session.setAttribute("workInstance", instance);
+	
 %>
 <!-- 컨텐츠 레이아웃-->
-    <div class="section_portlet">
-    <div class="portlet_t">
-      <div class="portlet_tl"></div>
-    </div>
+<div class="section_portlet">
+    <div class="portlet_t"><div class="portlet_tl"></div></div>
     <div class="portlet_l" style="display: block;">
-    <ul class="portlet_r" style="display: block;">
-            
-            <!-- 타이틀 -->
-            	<div class="body_titl_pic">
-
-                    <div class="title_section">
-                        <div class="noti_pic"><img src="images/pic_size_48.jpg" /></div>
-                        <div class="noti_in_bodytitle">
-                            <span class="t_name">Snagkil Ahn</span><span class="t_date"> 2011.11.15</span>
-                            <div class=""><span class="ico_iworks t_date">근태/특근관리 &gt; 근태품의</span> <span class="title_picico">예비군 훈련관계로 휴가신청합니다</span></div>
-                        </div>
-                    </div>
-                    
-            <!-- 우측 버튼-->
-             <div class="txt_btn first">
-                <div class="po_right"><a href="">주소복사</a></div>
-            </div>
-            
-            <div class="txt_btn">
-                <div class="po_right"><a href=""><img class="ico_print"></a></div>
-                <div class="po_right"><a href=""><img class="ico_mail"></a></div>
-                <div class="po_right"><a href="">프로세스 다이어그램보기▼</a></div>
-            </div>
-            <!-- 우측 버튼 -->
-                    
-                	<div class="solid_line"></div>
-                </div>
-            <!-- 타이틀 -->
- 
-            
-<!-- 프로세스 영역 -->
-<div class="define_space">
-        <div class="proce_section">
-        
-        <!-- 방향 Prev -->
-        <div class="float_left"><a href=""><img class="proc_btn_prev"></a></div>
-        
-        <!-- 시작
-        <div class="proc_start_compl float_left padding_r10"> 시작 </div>
-        	화살표
-        <div class="proc_arr_next float_left padding_r10"></div>
-        -->
-        
-        <!-- 태스크 시작-->
-        <div class="proce_space">
-        
-            <!-- 태스크 --> 
-            <ul>
-            <li class="proc_task_compl float_left padding_r10">
-                <a href="">
-                <span class="pstart"></span>
-                <span class="pcenter">
-                    <!-- task 정보 -->
-                    <div class="float_left">
-                    <img align="bottom" src="images/pic_size_29.jpg">
-                    </div>
-                    <div class="noti_in">
-                    <span>근태계 기안</span>
-                    <div class="t_date">2011.11.15 14:00</div>
-                    </div>
-                    <!-- task 정보 //-->
-                </span>
-                <span class="pend"></span>
-                </a>
-            </li>
-            <!-- 태스크 //--> 
-            
-            <!--화살표-->
-            <li class="proc_arr_next float_left padding_r10"></li>
-            <!--화살표-->
-            
-            <!-- 태스크 --> 
-            <li class="proc_task_yet float_left padding_r10">
-                <a href="">
-                <span class="pstart"></span>
-                <span class="pcenter">
-                    <!-- task 정보 -->
-                    <div class="float_left">
-                    <img align="bottom" src="images/pic_size_29.jpg">
-                    </div>
-                    <div class="noti_in">
-                    <span>이력 기록</span>
-                    <div class="t_date">2011.11.15 14:00</div>
-                    </div>
-                    <!-- task 정보 //-->
-                </span>
-                <span class="pend"></span>
-                </a>
-            </li>
-            <!-- 태스크 //--> 
-            
-            <!--화살표-->
-            <li class="proc_arr_next float_left padding_r10"></li>
-            <!--화살표-->
-            
-           <!-- 태스크 --> 
-            <li class="proc_task_rturn float_left padding_r10">
-                <a href="">
-                <span class="pstart"></span>
-                <span class="pcenter">
-                    <!-- task 정보 -->
-                    <div class="float_left">
-                    <img align="bottom" src="images/pic_size_29.jpg">
-                    </div>
-                    <div class="noti_in">
-                    <span>개인별 근태현황</span>
-                    <div class="t_date">2011.11.15 14:00</div>
-                    </div>
-                    <!-- task 정보 //-->
-                </span>
-                <span class="pend"></span>
-                </a>
-            </li>
-            <!-- 태스크 //-->
-            
-            <!--화살표-->
-            <li class="proc_arr_next float_left padding_r10"></li>
-            <!--화살표-->
-            
-            <!-- 태스크 --> 
-            <li class="proc_task_ing float_left padding_r10">
-                <a href="">
-                <span class="pstart"></span>
-                <span class="pcenter">
-                    <!-- task 정보 -->
-                    <div class="float_left">
-                    <img align="bottom" src="images/pic_size_29.jpg">
-                    </div>
-                    <div class="noti_in">
-                    <span>승인자 결재</span>
-                    <div class="t_date">2011.11.15 14:00</div>
-                    </div>
-                    <!-- task 정보 //-->
-                </span>
-                <span class="pend"></span>
-                </a>
-            </li>
-            <!-- 태스크 //-->
-            </ul>
-        
-        </div>
-        <!-- 태스크 시작//-->
-        
-        <!-- 방향 Next -->
-        <div class="float_right"><a href=""><img class="proc_btn_next"></a></div>
-
+	    <ul class="portlet_r" style="display: block;">		            
+			<!-- 타이틀 -->
+			<div class="body_titl_pic">		
+	            <div class="title_section">
+	                <div class="noti_pic"><img src="<%=instance.getOwner().getMidPicture() %>"  class="profile_size_m"/></div>
+	                <div class="noti_in_bodytitle">
+	                    <span class="t_name"><%=instance.getOwner().getLongName()%></span>
+	                    <span class="t_date"><%=instance.getCreatedDate().toLocalString()%></span>
+	                    <div class="">
+	                    	<span class="ico_pworks t_date"><%=work.getFullpathName() %></span> 
+	                    	<span class="title_picico"><%=instance.getSubject()%></span>
+	                    </div>
+	                </div>
+	            </div>
+		                    
+	            <!-- 우측 버튼-->
+	            <div class="txt_btn first"><div class="po_right"><a href="">주소복사</a></div></div>
+	            
+	            <div class="txt_btn">
+	                <div class="po_right"><a href=""><img class="ico_print"></a></div>
+	                <div class="po_right"><a href=""><img class="ico_mail"></a></div>
+	                <div class="po_right"><a href="">프로세스 다이어그램보기▼</a></div>
+	            </div>
+	            <!-- 우측 버튼 -->
+		                    
+               	<div class="solid_line"></div>
+			</div>
+			<!-- 타이틀 -->
+		 		            
+			<!-- 프로세스 영역 -->
+			<div class="define_space">
+				<div class="proce_section">
+			    
+			        <!-- 방향 Prev -->
+			        <div class="float_left"><a href=""><img class="proc_btn_prev"></a></div>
+			        
+			        <!-- 시작
+			        <div class="proc_start_compl float_left padding_r10"> 시작 </div>
+			        	화살표
+			        <div class="proc_arr_next float_left padding_r10"></div>
+			        -->
+			        
+			        <!-- 태스크 시작-->
+			        <div class="proce_space">			        
+				    	<ul>
+				        	<%
+				        	if(!SmartUtil.isBlankObject(taskHistories)){	
+				        		for(int i=0; i<taskHistories.length; i++){
+				        			TaskInstanceInfo task = taskHistories[i];
+				        			String statusClass = "proc_task_yet";
+				        			if(task.getStatus() == TaskInstance.STATUS_RETURNED)
+				        				statusClass = "proc_task_returned";
+				        			else if(task.getStatus() == TaskInstance.STATUS_RETURNED)
+				        				statusClass = "proc_task_returned";
+				        			else if(task.getStatus() == TaskInstance.STATUS_RUNNING)
+				        				statusClass = "proc_task_running";
+				        			else if(task.getStatus() == TaskInstance.STATUS_RETURNED_DELAYED)
+				        				statusClass = "proc_task_returned_d";
+				        			else if(task.getStatus() == TaskInstance.STATUS_DELAYED_RUNNING)
+				        				statusClass = "proc_task_delayed_r";
+				        			else if(task.getStatus() == TaskInstance.STATUS_COMPLETED)
+				        				statusClass = "proc_task_completed";
+				        	%>
+			            			<!-- 태스크 --> 
+						            <li class="<%=statusClass %> float_left padding_r10">
+						                <a href="">
+							                <span class="pstart"></span>
+							                <span class="pcenter">
+							                    <!-- task 정보 -->
+							                    <div class="float_left">
+							                    	<img align="bottom" src="<%=task.getOwner().getMinPicture()%>">
+							                    </div>
+							                    <div class="noti_in">
+								                    <span><%=task.getName() %></span>
+								                    <div class="t_date"><%=task.getLastModifiedDate().toLocalString() %></div>
+							                    </div>
+							                    <!-- task 정보 //-->
+							                </span>
+							                <span class="pend"></span>
+						                </a>
+						            </li>
+				            		<!-- 태스크 //--> 
+			            			<%
+			            			if(i<taskHistories.length-1){
+			            			%>
+							            <!--화살표-->
+							            <li class="proc_arr_next float_left padding_r10"></li>
+							            <!--화살표-->
+							        <%
+							        }
+							        %>
+			            	<%
+				        		}
+				        	}
+			            	%>
+			            </ul>
+			        
+			        </div>
+			        <!-- 태스크 시작//-->
+			        
+			        <!-- 방향 Next -->
+			        <div class="float_right"><a href=""><img class="proc_btn_next"></a></div>
+			
+				</div>
+			</div>
+			<!--프로세스 영역//-->
+				
+			<!-- 업무- 근태계 기안 -->
+			<div class="contents_space">
+			    <div class="up_point posit_default"></div>
+		        <div class="form_wrap up up_padding">
+		        
+		        	<!-- 컨텐츠-->
+		        	<div class="area">		            
+						<div class="list_title_space"><div class="title">근태계 기안</div></div>		            
+			            <div class="list_contents">
+			            	<table>
+			                    <tbody>
+			                        <tr>
+				                        <th style=" text-align:right">작성자</th>
+				                        <td class="r_line">선임 신현성</td>
+				                        <th>회의일자</th>
+				                        <td class="r_line">2011.11.15</td>
+				                        <th>회의시간</th>
+				                        <td class="r_line">13:00</td>
+				                        <th>회의장소</th>
+				                        <td>회의실</td>
+			                        </tr>
+			                        <tr>
+				                        <th style=" text-align:right">참석자</th>
+				                        <td colspan="7">정보관리업무 제목 목록입니다</td>
+			                        </tr>
+			                        <tr>
+				                        <th style=" text-align:right">회의안건</th>
+				                        <td colspan="7">정보관리업무 제목 목록입니다</td>
+			                        </tr>
+			                        <tr>
+				                        <th style=" text-align:right">회의내용</th>
+				                        <td colspan="7">정보관리업무 제목 목록입니다</td>
+			                        </tr>
+			                    </tbody>
+			                </table>
+			            </div>
+			            </div>
+			        </div>
+		            <!-- 컨텐츠 //-->
+				</div>
+				<!-- 업무- 근태계 기안 //-->
+			
+			<!-- 버튼 영역 -->
+			<div class="glo_btn_space">
+				    
+				<!-- 수정, 삭제버튼 -->
+			    <div class="float_right">
+			        <span class="btn_gray">
+			            <span class="Btn01Start"></span>
+			            <span class="Btn01Center">업무완료</span>
+			            <span class="Btn01End"></span>
+			      	</span>
+			
+			     	<span class="btn_gray space_l5">
+			            <span class="Btn01Start"></span>
+			            <span class="Btn01Center">반 려</span>
+			            <span class="Btn01End"></span>
+			       	</span>
+			            
+			      	<span class="btn_gray space_l5">
+			            <span class="Btn01Start"></span>
+			            <span class="Btn01Center">위 임</span>
+			            <span class="Btn01End"></span>
+			      	</span>
+			            
+			     	<span class="btn_gray space_l5">
+			            <span class="Btn01Start"></span>
+			            <span class="Btn01Center">저 장</span>
+			            <span class="Btn01End"></span>
+			      	</span>
+				</div>
+				<!-- 수정, 삭제버튼 //-->    		  
+			</div>
+			<!-- 버튼 영역 //-->     
+		
+		</ul>
 	</div>
-</div>
-<!--프로세스 영역//-->
-
-
-<!-- 업무- 근태계 기안 -->
-<div class="contents_space">
-    <div class="up_point posit_default"></div>
-        <div class="form_wrap up up_padding">
-        
-        	<!-- 컨텐츠-->
-        	<div class="area">
-            
-			<div class="list_title_space">
-            	<div class="title">근태계 기안</div>
-            </div>
-            
-            <div class="list_contents">
-            	<table>
-                    <tbody>
-                        <tr>
-                        <th style=" text-align:right">작성자</th>
-                        <td class="r_line">선임 신현성</td>
-                        <th>회의일자</th>
-                        <td class="r_line">2011.11.15</td>
-                        <th>회의시간</th>
-                        <td class="r_line">13:00</td>
-                        <th>회의장소</th>
-                        <td>회의실</td>
-                        </tr>
-                        <tr>
-                        <th style=" text-align:right">참석자</th>
-                        <td colspan="7">정보관리업무 제목 목록입니다</td>
-                        </tr>
-                        <tr>
-                        <th style=" text-align:right">회의안건</th>
-                        <td colspan="7">정보관리업무 제목 목록입니다</td>
-                        </tr>
-                        <tr>
-                        <th style=" text-align:right">회의내용</th>
-                        <td colspan="7">정보관리업무 제목 목록입니다</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            </div>
-            <!-- 컨텐츠 //-->
-        </div>
-</div>
-<!-- 업무- 근태계 기안 //-->
-
-<!-- 버튼 영역 -->
-<div class="glo_btn_space">
-
-    
-<!-- 수정, 삭제버튼 -->
-    <div class="float_right">
-        <span class="btn_gray">
-            <span class="Btn01Start"></span>
-            <span class="Btn01Center">업무완료</span>
-            <span class="Btn01End"></span>
-            </span>
-
-         <span class="btn_gray space_l5">
-            <span class="Btn01Start"></span>
-            <span class="Btn01Center">반 려</span>
-            <span class="Btn01End"></span></span>
-            
-            <span class="btn_gray space_l5">
-            <span class="Btn01Start"></span>
-            <span class="Btn01Center">위 임</span>
-            <span class="Btn01End"></span></span>
-            
-            <span class="btn_gray space_l5">
-            <span class="Btn01Start"></span>
-            <span class="Btn01Center">저 장</span>
-            <span class="Btn01End"></span></span>
-     </div>
-<!-- 수정, 삭제버튼 //-->    
-  
-</div>
-<!-- 버튼 영역 //-->     
-
-</ul>
-</div>
-<div class="portlet_b" style="display: block;"></div>
+	<div class="portlet_b" style="display: block;"></div>
 </div> 
 <!-- 컨텐츠 레이아웃//-->
-
-
-
-
-
-
 
 <!--댓글 영역 -->
 
