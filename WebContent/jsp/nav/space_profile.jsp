@@ -59,26 +59,29 @@
 	<%
 	// 그룹인경우....
 	if (thisGroup != null) {
+		String target = "group_space.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + thisGroup.getId(); 
 	%>
-		<li><img class="profile_size_66" src="<%=thisGroup.getOrgPicture()%>"></li>
-		<li><%=thisGroup.getName()%><br /> <b><%=thisGroup.getDesc()%></b><br />
-			<fmt:message key="group.text.leader" /> : <%=thisGroup.getLeader().getLongName()%><br />
+		<li><a href="<%=target %>"><img class="profile_size_66" src="<%=thisGroup.getOrgPicture()%>"></a></li>
+		<li><a href="<%=target %>"><%=thisGroup.getName()%><br /> <b><%=thisGroup.getDesc()%></b><br />
+			<fmt:message key="group.text.leader" /> : <%=thisGroup.getLeader().getLongName()%><br /></a>
 		</li>
 	<%
 	// 부서인경우....
 	} else if (thisDepartment != null) {
+		String target = "department_space.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + thisDepartment.getId(); 
 	%>
-		<li><img class="profile_size_66" src="<%=thisDepartment.getOrgPicture()%>"></li>
-		<li><%=thisDepartment.getName()%><br /> <b><%=thisDepartment.getDesc()%></b><br />
-			<fmt:message key="department.text.head" /> : <%=thisDepartment.getHead() == null ? "" : thisDepartment.getHead().getLongName()%><br />
+		<li><a href="<%=target %>"><img class="profile_size_66" src="<%=thisDepartment.getOrgPicture()%>"></a></li>
+		<li><a href="<%=target %>"><%=thisDepartment.getName()%><br /> <b><%=thisDepartment.getDesc()%></b><br />
+			<fmt:message key="department.text.head" /> : <%=thisDepartment.getHead() == null ? "" : thisDepartment.getHead().getLongName()%><br /></a>
 		</li>
 	<%
 	// 사용자인 경우....
 	} else if (thisUser != null) {
+		String target = "user_space.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_USER_SPACE + thisUser.getId(); 
 	%>
-		<li><img class="profile_size_66" src="<%=thisUser.getOrgPicture()%>"></li>
-		<li><%=thisUser.getPosition()%><br /> <b><%=thisUser.getName()%></b><br />
-			<%=thisUser.getDepartment()%><br />
+		<li><a href="<%=target %>"><img class="profile_size_66" src="<%=thisUser.getOrgPicture()%>"></a></li>
+		<li><a href="<%=target %>"><%=thisUser.getPosition()%><br /> <b><%=thisUser.getName()%></b><br />
+			<%=thisUser.getDepartment()%><br /></a>
 		</li>
 	<%
 	}

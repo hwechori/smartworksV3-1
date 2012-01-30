@@ -9,6 +9,7 @@ import java.util.List;
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
+import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
@@ -360,5 +361,10 @@ public class CalendarServiceImpl implements ICalendarService {
 	@Override
 	public EventInstanceInfo[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception {
 		return null;
+	}
+
+	@Override
+	public WorkHourPolicy getCompanyWorkHourPolicy() throws Exception {
+		return new WorkHourPolicy();
 	}
 }

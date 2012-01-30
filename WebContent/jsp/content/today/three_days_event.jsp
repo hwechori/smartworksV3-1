@@ -146,8 +146,8 @@
 				 								</span>
 											</li>
 											<%
-											// Start 이벤트가 있으면 있는 만큼 돌면서 리스트를 만든다...
-											if (events != null) {
+											if (events != null && events.length>0) {
+												// Start 이벤트가 있으면 있는 만큼 돌면서 리스트를 만든다...
 												for (EventInstanceInfo event : events) {
 													if (((cnt == 0) && today.isSameDate(event.getStart())) || ((cnt == 1) && tomorrow.isSameDate(event.getStart()))
 															|| ((cnt == 2) && tomorrow.isAfterDate(event.getStart()))) {
@@ -192,25 +192,30 @@
 						 										<a href="event_space.sw?cid=<%=eventContext%>&wid=<%=workSpace.getId()%>"><%=event.getSubject()%></a>
 															</li>
 											<%
-														}
 													}
 												}
 												// End 이벤트가 있으면 있는 만큼 돌면서 리스트를 만든다...
-								%>
-											</ul>
-										</div>
+											// 이벤트가 없으면 이벤트가 없습니다라고 표시한다..
+											}else{
+											%>
+												<li><span><fmt:message key="common.message.no_event"/></span></li>
+											<%
+											}
+											%>
+										</ul>
 									</div>
-								</li>
-								<!-- 하루씩 증가하면서 이벤트박스 생성 //-->
-							<%
-			 		}
-							// end 오늘, 내일, 그리고 모레의 회사 이벤트를 나타내는 곳
-							%>
-						</ul>				
-					</div>
-					<!-- 이벤트 목록 영역 //-->
-				</ul>
-			</div>
+								</div>
+							</li>
+							<!-- 하루씩 증가하면서 이벤트박스 생성 //-->
+						<%
+		 				}
+						// end 오늘, 내일, 그리고 모레의 회사 이벤트를 나타내는 곳
+						%>
+					</ul>				
+				</div>
+				<!-- 이벤트 목록 영역 //-->
+			</ul>
+		</div>
 		<!-- 오늘, 내일 그리고 모레이후 이벤트들을 나타내는 곳 -->
 
 		<div class="portlet_b" style="display: block;"></div>
