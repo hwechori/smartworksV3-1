@@ -78,7 +78,7 @@ public class CalendarServiceImpl implements ICalendarService {
 		SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
 		swcWorkHourCond.setCompanyId(cUser.getCompanyId());
 
-		swcWorkHourCond.setOrders(new Order[]{new Order(FormField.ID_LAST_MODIFIED_DATE, false)});
+		swcWorkHourCond.setOrders(new Order[]{new Order("modificationDate", false)});
 
 		SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
 
@@ -95,11 +95,11 @@ public class CalendarServiceImpl implements ICalendarService {
 		for(int i=0; i<days; i++) {
 			if(swcWorkHours != null) {
 				for(int j=0; j<swcWorkHours.length; j++) {
-					if(swcWorkHour.getValidFromDate().getTime() <= fromDate.getTime()) {
-						swcWorkHour = swcWorkHours[j];
-					} else {
-						if(swcWorkHour.getValidToDate() == null) {
+					if((new LocalDate(swcWorkHours[j].getValidFromDate().getTime())).getTime() <= fromDate.getTime()) {
+						if(swcWorkHours[j].getValidToDate() == null) {
 							swcWorkHour = swcWorkHours[0];
+						} else if((new LocalDate(swcWorkHours[j].getValidToDate().getTime())).getTime() >= fromDate.getTime()) {
+							swcWorkHour = swcWorkHours[j];
 						}
 					}
 				}

@@ -37,7 +37,7 @@ public interface IInstanceService {
 
 	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 
-	public WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception;
+	public WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception;
 	
 	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception;
 
