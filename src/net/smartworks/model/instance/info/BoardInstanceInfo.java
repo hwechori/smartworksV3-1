@@ -4,7 +4,7 @@ import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.util.LocalDate;
 
-public class BoardInstanceInfo extends InstanceInfo {
+public class BoardInstanceInfo extends WorkInstanceInfo {
 		
 	private String briefContent;
 	private String attachment;

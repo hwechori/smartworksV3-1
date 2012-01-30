@@ -5,7 +5,7 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.util.LocalDate;
 
-public class MemoInstanceInfo extends InstanceInfo {
+public class MemoInstanceInfo extends WorkInstanceInfo {
 
 	private String content;
 		

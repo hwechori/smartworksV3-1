@@ -6,9 +6,16 @@ import net.smartworks.util.LocalDate;
 
 public class FileInstance extends WorkInstance {
 
+	private String groupId;
 	private String[] fileNames;
 	private String content;
 	
+	public String getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
 	public String[] getFileNames() {
 		return fileNames;
 	}

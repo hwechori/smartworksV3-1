@@ -161,98 +161,18 @@
 						}
 						%>
 						<ul>
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>메모입니다...메모입니다..</div>
-										<div>
-											<span class="t_date"> 2011.10.13</span> <a href=""><span
-												class="repl_write">댓글달기</span>
-											</a>
-										</div>
-									</div>
-								</div></li>
-	
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>
-											<strong>이미지이미지이미지이미지</strong>
-											<div>이미지 파일에 대한 설명 내용이 있다면 이 곳에 들어갑니다..</div>
-											<div class="imag_area">
-												<img src="../images/up_image.jpg" />
-											</div>
-											<div>
-												<span class="t_date"> 2011.10.13</span> <a href=""><span
-													class="repl_write">댓글달기</span>
-												</a>
-											</div>
-	
-											<!-- 댓글 -->
-											<div class="replay_point posit_replay"></div>
-											<div class="replay_section">
-	
-												<div class="list_replay">
-													<ul>
-														<li><img class="repl_tinfo"><a href=""><strong>7</strong>개의
-																댓글 모두 보기</a>
-														</li>
-														<li>
-															<div class="noti_pic">
-																<img src="../images/pic_size_29.jpg" alt="신민아"
-																	align="bottom" />
-															</div>
-															<div class="noti_in">
-																<span class="t_name">Minashin</span><span class="t_date">
-																	2011.10.13</span>
-																<div>와우~ 멋져요~</div>
-															</div></li>
-														<li>
-															<div class="noti_pic">
-																<img src="../images/pic_size_29.jpg" alt="신민아"
-																	align="bottom" />
-															</div>
-															<div class="noti_in">
-																<span class="t_name">Minashin</span><span class="t_date">
-																	2011.10.13</span>
-																<div>재미있었겠네요~</div>
-															</div></li>
-														<li>
-															<div class="det_title">
-																<div class="noti_pic">
-																	<img src="../images/pic_size_29.jpg" alt="신민아"
-																		align="bottom" />
-																</div>
-																<div class="noti_in">
-																	<span class="t_name">Minashin</span><span class="t_date">
-																		2011.10.13</span>
-																	<div>가을이 다 지나가부렀네요~~--;</div>
-																</div>
-															</div></li>
-													</ul>
-												</div>
-	
-												<div class="replay_input">
-													<textarea class="up_textarea" rows="1" cols=""
-														name="txtaEventContent">댓글을 입력하세요!</textarea>
-												</div>
-	
-											</div>
-											<!-- 댓글 //-->
-	
-										</div>
-									</div>
-								</div></li>
+							<%
+							if(!SmartUtil.isBlankObject(tasksByWeeks) && tasksByWeeks.length >i && !SmartUtil.isBlankObject(tasksByWeeks[i])){
+								session.setAttribute("taskHistories", tasksByWeeks[i]);
+							%>
+								<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
+							<%
+							}else{
+							%>
+								<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
+							<%
+							}
+							%>											
 						</ul>
 					</div>
 				<%

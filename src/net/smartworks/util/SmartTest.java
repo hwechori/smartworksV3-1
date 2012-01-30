@@ -29,11 +29,13 @@ import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.CommentInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.IWInstanceInfo;
+import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
+import net.smartworks.model.instance.info.WorkInstanceInfo;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.notice.NoticeMessage;
@@ -53,6 +55,7 @@ import net.smartworks.model.work.info.SmartFormInfo;
 import net.smartworks.model.work.info.SmartTaskInfo;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
+import net.smartworks.model.work.info.WorkInfo;
 
 public class SmartTest {
 	// ************************** 테스트용 데이터
@@ -680,12 +683,21 @@ public class SmartTest {
 		assignedInstance3.setWorkInstance(workInstance3);
 
 		TaskInstanceInfo assignedInstance5 = new TaskInstanceInfo("assignedtask5", "일일보고 입니다.", TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED,
-			SmartTest.getUserInfo3(), getUserInfo3(),  new LocalDate(LocalDate.convertStringToTime("201110251600")));
-		assignedInstance5.setStatus(Instance.STATUS_RETURNED_DELAYED);
-		workInstance5.setWorkSpace(getGroupInfo1());
-		assignedInstance5.setWorkInstance(workInstance5);
+				SmartTest.getUserInfo3(), getUserInfo3(),  new LocalDate(LocalDate.convertStringToTime("201110251600")));
+			assignedInstance5.setStatus(Instance.STATUS_RETURNED_DELAYED);
+			workInstance5.setWorkSpace(getGroupInfo1());
+			assignedInstance5.setWorkInstance(workInstance5);
 
-		return new TaskInstanceInfo[]{assignedInstance1, assignedInstance2, assignedInstance3, assignedInstance5};
+		TaskInstanceInfo createdInstance1 = new TaskInstanceInfo("createdtask1", "사진 입니다.", TaskInstance.TYPE_INFORMATION_TASK_CREATED,
+				SmartTest.getUserInfo3(), getUserInfo3(),  new LocalDate(LocalDate.convertStringToTime("201110251600")));
+		createdInstance1.setStatus(Instance.STATUS_COMPLETED);
+		createdInstance1.setWorkSpace(getGroupInfo1());
+		ImageInstanceInfo imageInstance = new ImageInstanceInfo("imageinst1", "오늘찍은 사진입니다.", getSmartWorkInfo8(), getUserInfo3(),  new LocalDate(LocalDate.convertStringToTime("201110251600")));
+		imageInstance.setImgSource("images/2011-04-05 15.26.02.jpg");
+		imageInstance.setContent("안녕하세요......?");
+		createdInstance1.setWorkInstance(imageInstance);
+
+		return new TaskInstanceInfo[]{assignedInstance1, assignedInstance2, assignedInstance3, assignedInstance5, createdInstance1};
 	}
 	// For Test...
 	public static NoticeMessage[] getNotificationMessages() throws Exception {

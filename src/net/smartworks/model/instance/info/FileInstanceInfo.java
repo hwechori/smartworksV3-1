@@ -5,11 +5,18 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.util.LocalDate;
 
-public class FileInstanceInfo extends InstanceInfo {
+public class FileInstanceInfo extends WorkInstanceInfo {
 
+	private String groupId;
 	private String[] fileNames;
 	private String content;
 	
+	public String getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
 	public String[] getFileNames() {
 		return fileNames;
 	}
