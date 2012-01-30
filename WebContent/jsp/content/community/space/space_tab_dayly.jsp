@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.work.SmartWork"%>
+<%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.model.calendar.CompanyEvent"%>
@@ -127,23 +129,39 @@
 					<div class="space_section">
 	 					<div class="title"><%=dayTitle%></div>
 						<ul>
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^
-											(메모는 타이틀 성격이 아니기 때문에 볼드가 안들어갑니다.)</div>
-										<div>
-											<span class="t_date"> 2011.10.13</span> <a href=""><span
-												class="repl_write">댓글달기</span> </a>
+							<%
+							if(!SmartUtil.isBlankObject(tasksByWorkHours) && tasksByWorkHours.length ==1 && !SmartUtil.isBlankObject(tasksByWorkHours[0])){
+								for(int i=0; i<tasksByWorkHours[0].length; i++){
+									TaskInstanceInfo taskInstance = tasksByWorkHours[0][i];
+									WorkInstanceInfo workInstance = taskInstance.getWorkInstance();
+									SmartWork work = workInstance.getWork();
+									
+									switch(work.getType()){
+									case SmartWork.TYPE_INFORMATION:
+									}
+									
+							%>
+									<li>
+										<div class="det_title">
+											<div class="noti_pic">
+												<img src="../images/pic_size_48.jpg">
+											</div>
+											<div class="noti_in_m">
+												<span class="t_name">Minashin</span><span class="arr">▶</span><span
+													class="ico_division_s">마케팅/디자인팀</span>
+												<div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^
+													(메모는 타이틀 성격이 아니기 때문에 볼드가 안들어갑니다.)</div>
+												<div>
+													<span class="t_date"> 2011.10.13</span> <a href=""><span
+														class="repl_write">댓글달기</span> </a>
+												</div>
+											</div>
 										</div>
-									</div>
-								</div></li>
-	
+									</li>
+							<%
+							}
+							%>
+<!-- 	
 							<li>
 								<div class="det_title">
 									<div class="noti_pic">
@@ -164,7 +182,7 @@
 										</div>
 									</div>
 								</div></li>
-						</ul>
+ -->						</ul>
 					</div>
 					<!-- 휴일시간 //-->
 				<%

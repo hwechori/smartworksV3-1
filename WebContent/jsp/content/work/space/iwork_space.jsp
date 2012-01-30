@@ -42,8 +42,6 @@
 			}
 		}
 	}
-	numberOfRelatedWorks = 21;
-	numberOfHistories = 9;
 
 	session.setAttribute("cid", cid);
 	session.removeAttribute("wid");

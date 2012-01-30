@@ -44,7 +44,7 @@
 	
 %>
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet">
+<div class="section_portlet js_pwork_space_page" workId="<%=workId%>" instId="<%=instId%>">
     <div class="portlet_t"><div class="portlet_tl"></div></div>
     <div class="portlet_l" style="display: block;">
 	    <ul class="portlet_r" style="display: block;">		            
@@ -117,7 +117,7 @@
 							                <span class="pcenter">
 							                    <!-- task 정보 -->
 							                    <div class="float_left">
-							                    	<img align="bottom" src="<%=task.getOwner().getMinPicture()%>">
+							                    	<img align="bottom" src="<%=task.getOwner().getMinPicture()%>" class="profile_size_s">
 							                    </div>
 							                    <div class="noti_in">
 								                    <span><%=task.getName() %></span>
