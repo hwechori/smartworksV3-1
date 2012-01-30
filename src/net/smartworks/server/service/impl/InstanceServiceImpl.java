@@ -1707,11 +1707,11 @@ public class InstanceServiceImpl implements IInstanceService {
 			swfFormCond.setCompanyId(user.getCompanyId());
 			swfFormCond.setPackageId(workId);
 			SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE);
-			SwdDomainCond swdDomainCond = new SwdDomainCond();
-			swdDomainCond.setCompanyId(user.getCompanyId());
-			swdDomainCond.setFormId(swfForms[0].getId());
-			SwdDomain swdDomain = getSwdManager().getDomain(user.getId(), swdDomainCond, IManager.LEVEL_LITE);
-			SwdRecord swdRecord = getSwdManager().getRecord(user.getId(), swdDomain.getObjId(), instanceId, IManager.LEVEL_LITE);
+			SwdRecordCond swdRecordCond = new SwdRecordCond();
+			swdRecordCond.setCompanyId(user.getCompanyId());
+			swdRecordCond.setFormId(swfForms[0].getId());
+			swdRecordCond.setRecordId(instanceId);
+			SwdRecord swdRecord = getSwdManager().getRecord(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
 			return getInformationWorkInstanceById(user.getCompanyId(), user.getId(), swdRecord);
 			//return SmartTest.getInformationWorkInstance1();
 		} else if(workType == SmartWork.TYPE_SCHEDULE) {
