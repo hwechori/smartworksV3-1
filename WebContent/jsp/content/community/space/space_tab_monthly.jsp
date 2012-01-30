@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.TaskInstance"%>
+<%@page import="net.smartworks.util.SmartMessage"%>
+<%@page import="net.smartworks.model.calendar.WorkHourPolicy"%>
 <%@page import="net.smartworks.model.community.WorkSpace"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="net.smartworks.model.calendar.CompanyCalendar"%>
@@ -32,6 +36,9 @@
 
 	session.setAttribute("startDate", startDateStr);
 	
+	String selectedMonthStr = "";
+	LocalDate selectedMonth = null;
+	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -54,13 +61,13 @@
 	<ul>
 		<%
 		String monthStr = "";
-		String selectedMonthStr = "";
 		LocalDate month = new LocalDate(startMonth.getTime());
 		for(int i = 0; i<12; i++){
 			LocalDate tempMonth = LocalDate.convertLocalMonthWithDiffMonth(month, i);
 			if(i==selectedIndex){
 				monthStr = tempMonth.toLocalMonthFullString();
 				selectedMonthStr = tempMonth.toLocalMonthString();
+				selectedMonth = new LocalDate(tempMonth.getTime());
 			}else{
 				monthStr = tempMonth.toLocalMonthShortString();
 			}
@@ -113,92 +120,94 @@
 
 			<!-- 컨텐츠 -->
 			<div class="contents_space">
+			
+				<%
+				TaskInstanceInfo[][] tasksByWeeks = smartWorks.getTaskInstancesByWeeks(selectedMonth, 5); 
+				LocalDate weekStart = new LocalDate(selectedMonth.getTime());
+				LocalDate nextMonth = LocalDate.convertLocalMonthWithDiffMonth(selectedMonth, 1);
+				WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
+				for(int i=0; i<6 && weekStart.getTime()<nextMonth.getTime() && weekStart.getTime() <= today.getTime(); i++){
+					weekStart.setFirstDayOfWeek(whp.getFirstDayOfWeek());
+					int weekEndDays = whp.getFirstDayOfWeek() - weekStart.getDayOfWeek();
+					if(weekEndDays<=0) weekEndDays = weekEndDays + 6;
+					else weekEndDays = weekEndDays-1;
+					LocalDate weekEnd = new LocalDate(weekStart.getTime() + weekEndDays*LocalDate.ONE_DAY);
+					if(weekEnd.getTime() > today.getTime()) weekEnd = new LocalDate(today.getTime());
 
-				<!-- 1주 -->
-				<div class="space_section">
-					<div class="title">
-						12.1 목요일 ~ 12.4 <span class="t_sunday">일요일</span>
-					</div>
-					<ul>
-						<li class="t_nowork">업무가 없습니다</li>
-					</ul>
-				</div>
-				<!-- 1주//-->
-
-				<!-- 2주 -->
-				<div class="space_section margin_t10">
-					<div class="title">
-						12.5 월요일</span> ~ 12.11 <span class="t_sunday">일요일</span>
-					</div>
-					<ul>
-						<li>
-							<div class="det_title">
-								<div class="noti_pic">
-									<img src="../images/pic_size_48.jpg">
-								</div>
-								<div class="noti_in_m">
-									<span class="t_name">Minashin</span><span class="arr">▶</span><span
-										class="ico_division_s">마케팅/디자인팀</span>
-									<div>메모입니다...메모입니다..</div>
-									<div>
-										<span class="t_date"> 2011.10.13</span> <a href=""><span
-											class="repl_write">댓글달기</span>
-										</a>
+					String weekTitle = SmartMessage.getString("space.title."+ (i+1) + "week");
+					String titleClassStart = ((weekStart.getDayOfWeek()==Calendar.SUNDAY) ? "t_sunday" : (weekStart.getDayOfWeek()==Calendar.SATURDAY) ? "t_saturday" : "");
+					String titleClassEnd = ((weekEnd.getDayOfWeek()==Calendar.SUNDAY) ? "t_sunday" : (weekEnd.getDayOfWeek()==Calendar.SATURDAY) ? "t_saturday" : "");
+				%>
+					<div class="space_section margin_t10">
+						<%
+						if(weekStart.getTime() == weekEnd.getTime()){
+						%>
+							<div class="title">
+								<%=weekTitle%>(
+								<span class="<%=titleClassStart %>"><%=weekStart.toLocalDateShortString() %></span>
+								 )
+							</div>
+						<%
+						}else{
+						%>
+							<div class="title">
+								<%=weekTitle%>(
+								<span class="<%=titleClassStart %>"><%=weekStart.toLocalDateShortString() %></span>
+								 ~ 
+								 <span class="<%=titleClassEnd %>"><%=weekEnd.toLocalDateShortString() %></span>
+								 )
+							</div>
+						<%
+						}
+						%>
+						<ul>
+							<li>
+								<div class="det_title">
+									<div class="noti_pic">
+										<img src="../images/pic_size_48.jpg">
 									</div>
-								</div>
-							</div></li>
-
-						<li>
-							<div class="det_title">
-								<div class="noti_pic">
-									<img src="../images/pic_size_48.jpg">
-								</div>
-								<div class="noti_in_m">
-									<span class="t_name">Minashin</span><span class="arr">▶</span><span
-										class="ico_division_s">마케팅/디자인팀</span>
-									<div>
-										<strong>이미지이미지이미지이미지</strong>
-										<div>이미지 파일에 대한 설명 내용이 있다면 이 곳에 들어갑니다..</div>
-										<div class="imag_area">
-											<img src="../images/up_image.jpg" />
-										</div>
+									<div class="noti_in_m">
+										<span class="t_name">Minashin</span><span class="arr">▶</span><span
+											class="ico_division_s">마케팅/디자인팀</span>
+										<div>메모입니다...메모입니다..</div>
 										<div>
 											<span class="t_date"> 2011.10.13</span> <a href=""><span
 												class="repl_write">댓글달기</span>
 											</a>
 										</div>
-
-										<!-- 댓글 -->
-										<div class="replay_point posit_replay"></div>
-										<div class="replay_section">
-
-											<div class="list_replay">
-												<ul>
-													<li><img class="repl_tinfo"><a href=""><strong>7</strong>개의
-															댓글 모두 보기</a>
-													</li>
-													<li>
-														<div class="noti_pic">
-															<img src="../images/pic_size_29.jpg" alt="신민아"
-																align="bottom" />
-														</div>
-														<div class="noti_in">
-															<span class="t_name">Minashin</span><span class="t_date">
-																2011.10.13</span>
-															<div>와우~ 멋져요~</div>
-														</div></li>
-													<li>
-														<div class="noti_pic">
-															<img src="../images/pic_size_29.jpg" alt="신민아"
-																align="bottom" />
-														</div>
-														<div class="noti_in">
-															<span class="t_name">Minashin</span><span class="t_date">
-																2011.10.13</span>
-															<div>재미있었겠네요~</div>
-														</div></li>
-													<li>
-														<div class="det_title">
+									</div>
+								</div></li>
+	
+							<li>
+								<div class="det_title">
+									<div class="noti_pic">
+										<img src="../images/pic_size_48.jpg">
+									</div>
+									<div class="noti_in_m">
+										<span class="t_name">Minashin</span><span class="arr">▶</span><span
+											class="ico_division_s">마케팅/디자인팀</span>
+										<div>
+											<strong>이미지이미지이미지이미지</strong>
+											<div>이미지 파일에 대한 설명 내용이 있다면 이 곳에 들어갑니다..</div>
+											<div class="imag_area">
+												<img src="../images/up_image.jpg" />
+											</div>
+											<div>
+												<span class="t_date"> 2011.10.13</span> <a href=""><span
+													class="repl_write">댓글달기</span>
+												</a>
+											</div>
+	
+											<!-- 댓글 -->
+											<div class="replay_point posit_replay"></div>
+											<div class="replay_section">
+	
+												<div class="list_replay">
+													<ul>
+														<li><img class="repl_tinfo"><a href=""><strong>7</strong>개의
+																댓글 모두 보기</a>
+														</li>
+														<li>
 															<div class="noti_pic">
 																<img src="../images/pic_size_29.jpg" alt="신민아"
 																	align="bottom" />
@@ -206,51 +215,50 @@
 															<div class="noti_in">
 																<span class="t_name">Minashin</span><span class="t_date">
 																	2011.10.13</span>
-																<div>가을이 다 지나가부렀네요~~--;</div>
+																<div>와우~ 멋져요~</div>
+															</div></li>
+														<li>
+															<div class="noti_pic">
+																<img src="../images/pic_size_29.jpg" alt="신민아"
+																	align="bottom" />
 															</div>
-														</div></li>
-												</ul>
+															<div class="noti_in">
+																<span class="t_name">Minashin</span><span class="t_date">
+																	2011.10.13</span>
+																<div>재미있었겠네요~</div>
+															</div></li>
+														<li>
+															<div class="det_title">
+																<div class="noti_pic">
+																	<img src="../images/pic_size_29.jpg" alt="신민아"
+																		align="bottom" />
+																</div>
+																<div class="noti_in">
+																	<span class="t_name">Minashin</span><span class="t_date">
+																		2011.10.13</span>
+																	<div>가을이 다 지나가부렀네요~~--;</div>
+																</div>
+															</div></li>
+													</ul>
+												</div>
+	
+												<div class="replay_input">
+													<textarea class="up_textarea" rows="1" cols=""
+														name="txtaEventContent">댓글을 입력하세요!</textarea>
+												</div>
+	
 											</div>
-
-											<div class="replay_input">
-												<textarea class="up_textarea" rows="1" cols=""
-													name="txtaEventContent">댓글을 입력하세요!</textarea>
-											</div>
-
+											<!-- 댓글 //-->
+	
 										</div>
-										<!-- 댓글 //-->
-
 									</div>
-								</div>
-							</div></li>
-					</ul>
-				</div>
-				<!-- 2주//-->
-
-				<!-- 3주 -->
-				<div class="space_section margin_t10">
-					<div class="title_off">
-						12.12 월요일 ~ 12.18 <span class="t_sunday">일요일</span>
+								</div></li>
+						</ul>
 					</div>
-				</div>
-				<!-- 3주//-->
-
-				<!-- 4주 -->
-				<div class="space_section margin_t10">
-					<div class="title_off">
-						12.19 월요일 ~ 12.24 <span class="t_sunday">일요일</span>
-					</div>
-				</div>
-				<!-- 4주//-->
-
-				<!-- 5주 -->
-				<div class="space_section margin_t10">
-					<div class="title_off">
-						12.25 월요일 ~ 12.31 <span class="t_sunday">일요일</span>
-					</div>
-				</div>
-				<!-- 5주//-->
-
+				<%
+					weekStart = new LocalDate(weekEnd.getTime() + LocalDate.ONE_DAY);
+				}
+				%>
 			</div>
 			<!-- 컨텐츠 //-->
 

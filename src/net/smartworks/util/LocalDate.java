@@ -306,7 +306,7 @@ public class LocalDate extends Date{
 	public static LocalDate convertLocalMonthStringToLocalDate(String yyyyMM) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy.MM");
 		if(yyyyMM.length() == 10) df = new SimpleDateFormat("yyyy.MM.dd"); 
-		return new LocalDate((df.parse(yyyyMM)).getTime());
+		return new LocalDate((df.parse(yyyyMM)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());
 	}
 
 	public static LocalDate convertLocalMonthWithDiffMonth(LocalDate localDate, int diffMonth) throws Exception{

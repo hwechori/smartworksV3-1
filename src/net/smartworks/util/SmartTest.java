@@ -1171,6 +1171,26 @@ public class SmartTest {
 		return SearchFilter.getMyRecentInstancesFilter(getUser1());
 	}
 
+	public static TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) {
+		return null;
+	}
+	public static TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) {
+		return null;
+	}
+	public static TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) {
+		return null;
+	}
+	public static TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) {
+		return null;
+	}
+	public static TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) {
+		return null;
+	}
+	public static TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) {
+		return null;
+	}
+	
+	
 	public static Data getReportData() throws Exception{
 		Data reportData = new Data();
 	    Map<String,Object> value1 = new HashMap<String, Object>();

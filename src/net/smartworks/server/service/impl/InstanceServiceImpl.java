@@ -1670,5 +1670,35 @@ public class InstanceServiceImpl implements IInstanceService {
 		return ModelConverter.getInformationWorkInstanceBySwdRecord(userId, null, swdRecord);
 
 	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByWorkHour(date, workHourType, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByWorkHours(date, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByDate(date, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByDates(fromDate, toDate, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByWeek(weekStart, weekEnd, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByWeeks(month, maxSize);
+	}
 
 }
