@@ -97,7 +97,6 @@
 					<%
 					if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
 						NumberFormat nf = NumberFormat.getNumberInstance();
-						NumberFormat pf = NumberFormat.getPercentInstance();
 						for (FieldData data : fieldDatas) {
 					%>
 							<td <%if(data.getFieldType().equals(FormField.TYPE_CURRENCY) || 
@@ -106,7 +105,7 @@
 								<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
 									<%if(data.getFieldType().equals(FormField.TYPE_FILE)){%><img src="images/file/icon_bmp.gif" groupId="<%=data.getValue()%>">
 									<%}else if(data.getFieldType().equals(FormField.TYPE_NUMBER)){%><%=data.getValue() != null ? CommonUtil.toNotNull(nf.format(Float.parseFloat(data.getValue()))) : CommonUtil.toNotNull(data.getValue())%>
-									<%}else if(data.getFieldType().equals(FormField.TYPE_PERCENT)){%><%=data.getValue() != null ? CommonUtil.toNotNull(pf.format(Float.parseFloat(data.getValue())*100)) : CommonUtil.toNotNull(data.getValue())%>
+									<%}else if(data.getFieldType().equals(FormField.TYPE_PERCENT)){%><%=data.getValue() != null ? CommonUtil.toNotNull(nf.format(Float.parseFloat(data.getValue()))) + "%" : CommonUtil.toNotNull(data.getValue())%>
 									<%}else if(data.getFieldType().equals(FormField.TYPE_CURRENCY)){%><%=data.getSymbol()%><%=data.getValue() != null ? CommonUtil.toNotNull(nf.format(Float.parseFloat(data.getValue()))) : CommonUtil.toNotNull(data.getValue())%>
 									<%}else if(data.getFieldType().equals(FormField.TYPE_IMAGE) ||
 												data.getFieldType().equals(FormField.TYPE_RICHTEXT_EDITOR) ||

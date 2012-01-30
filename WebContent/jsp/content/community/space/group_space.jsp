@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.Group"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
@@ -8,19 +9,19 @@
 	User cUser = SmartUtil.getCurrentUser();
 	
 	String cid = request.getParameter("cid");
-	String userId = SmartUtil.getSpaceIdFromContentContext(cid);
+	String groupId = SmartUtil.getSpaceIdFromContentContext(cid);
 
-	User user = (cUser.getId().equals(userId)) ? cUser : smartWorks.getUserById(userId);
+	Group group = smartWorks.getGroupById(groupId);
 
 	session.setAttribute("cid", cid);
 	session.removeAttribute("wid");
-	session.setAttribute("workSpace", user);
+	session.setAttribute("workSpace", group);
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="js_user_space_page">
+<div class="js_group_space_page">
 	<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
 	
 	<div class="js_space_instance_list">

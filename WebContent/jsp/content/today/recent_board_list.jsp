@@ -93,6 +93,11 @@
 		</div>
 		<!-- 나머지 4개를 리스트로 표시한다 //-->
 	<%
+	// 공지사항이 있으면 화면을 그린다...
+	}else{
+	%>
+		<span><fmt:message key="common.message.no_board"/></span>
+	<%
 	}
 	%>
 </div>

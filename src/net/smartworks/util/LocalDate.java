@@ -1,7 +1,9 @@
 package net.smartworks.util;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -15,6 +17,7 @@ public class LocalDate extends Date{
 	public final static	int ONE_MINUTE = 60*ONE_SECOND;
 	public final static int ONE_HOUR = 60*ONE_MINUTE;
 	public final static long ONE_DAY = 24*ONE_HOUR;
+	public final static long ONE_WEEK = 7*ONE_DAY;
 	public final static long ONE_YEAR = 365*ONE_DAY;
 	
 	public final static String TIMEZONE_SEOUL = "Asia/Seoul";
@@ -25,6 +28,7 @@ public class LocalDate extends Date{
 	private TimeZone hostTimeZone = TimeZone.getDefault();
 	private Locale locale = new Locale(LocaleInfo.LOCALE_DEFAULT);
 	private long localNow = System.currentTimeMillis();
+	private int firstDayOfWeek = Calendar.MONDAY;
 	public LocalDate(){
 		super();
 		super.setTime(super.getTime()-hostTimeZone.getRawOffset());
@@ -63,6 +67,10 @@ public class LocalDate extends Date{
 			this.locale = new Locale(locale);
 		}
 	}
+	public long getLocalDate(){
+		return super.getTime() + this.timeZone.getRawOffset();
+	}
+
 	public long getGMTDate(){
 		return super.getTime();
 	}
@@ -78,7 +86,49 @@ public class LocalDate extends Date{
 		if(LocalDate.isValidTimeZone(timeZone)){
 			this.timeZone = TimeZone.getTimeZone(timeZone);
 		}
+	}	
+	public int getFirstDayOfWeek() {
+		return firstDayOfWeek;
 	}
+	public void setFirstDayOfWeek(int firstDayOfWeek) {
+		this.firstDayOfWeek = firstDayOfWeek;
+	}
+	public int getMonth(){
+		Calendar cal = Calendar.getInstance(this.timeZone, this.locale);
+		cal.setTime(new Date(this.getLocalDate()));
+		return cal.get(Calendar.MONTH);
+	}
+	
+	public int getYear(){
+		Calendar cal = Calendar.getInstance(this.timeZone, this.locale);
+		cal.setTime(new Date(this.getLocalDate()));
+		return cal.get(Calendar.YEAR);		
+	}
+	
+	public int getWeekOfMonth(){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date(this.getLocalDate()));
+		cal.setFirstDayOfWeek(this.firstDayOfWeek);
+		cal.setMinimalDaysInFirstWeek(7);
+		return cal.get(Calendar.WEEK_OF_MONTH);		
+	}
+	
+	public int getWeekOfYear(){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date(this.getLocalDate()));
+		cal.setFirstDayOfWeek(this.firstDayOfWeek);
+		cal.setMinimalDaysInFirstWeek(7);
+		return cal.get(Calendar.WEEK_OF_YEAR);		
+	}
+	
+	public int getDayOfWeek(){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date(this.getLocalDate()));
+		cal.setFirstDayOfWeek(this.firstDayOfWeek);
+		cal.setMinimalDaysInFirstWeek(7);
+		return cal.get(Calendar.DAY_OF_WEEK);		
+	}
+	
 	public String toLocalString(){
 		if(isToday()){
 			return (new SimpleDateFormat("HH:mm")).format(getLocalTime());
@@ -92,12 +142,32 @@ public class LocalDate extends Date{
 		return DateFormat.getDateInstance(DateFormat.FULL, this.locale).format(getLocalTime());
 	}
 	
+	public String toLocalMonthFullString(){
+		return (new SimpleDateFormat("yyyy MMMM", this.locale)).format(getLocalTime());		
+	}
+	
+	public String toLocalYearString(){
+		return (new SimpleDateFormat("yyyy", this.locale)).format(getLocalTime());		
+	}
+	
+	public String toLocalMonthShortString(){
+		return (new SimpleDateFormat("MMM", this.locale)).format(getLocalTime());		
+	}
+	
 	public String toLocalDateShortString(){
 		return (new SimpleDateFormat("MM.dd E", this.locale)).format(getLocalTime());
 	}
 
 	public String toLocalDateSimpleString(){
 		return (new SimpleDateFormat("yyyy.MM.dd", this.locale)).format(getLocalTime());
+	}
+
+	public String toLocalDateLongString(){
+		return (new SimpleDateFormat("yyyy.MM.dd E", this.locale)).format(getLocalTime());
+	}
+
+	public String toLocalMonthString(){
+		return (new SimpleDateFormat("yyyy.MM", this.locale)).format(getLocalTime());
 	}
 
 	public String toLocalDateTimeSimpleString(){
@@ -170,7 +240,7 @@ public class LocalDate extends Date{
 	}	
 	
 	public static String convertTimeToString(long time){
-		return (new SimpleDateFormat("HH:mm")).format(time);
+		return (new SimpleDateFormat("HH:mm")).format(time - TimeZone.getDefault().getRawOffset());
 	}
 	public static Date convertLocalToGMT(long localDate, String timeZone){
 		if(isValidTimeZone(timeZone))
@@ -198,7 +268,12 @@ public class LocalDate extends Date{
 		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}
 
-	public static LocalDate convertLocalSimpleStringToLocalDate(String yyyyMMdd) throws Exception{
+	public static LocalDate convertLocalDateTimeStringToLocalDate(String yyyyMMddHHmm) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return new LocalDate((df.parse(yyyyMMddHHmm)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
+	}
+
+	public static LocalDate convertLocalDateStringToLocalDate(String yyyyMMdd) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
 		return new LocalDate((df.parse(yyyyMMdd)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}
@@ -218,7 +293,7 @@ public class LocalDate extends Date{
 		return new LocalDate((df.parse(HHmmss)).getTime());
 	}
 
-	public static LocalDate convertStringToDashLocalDate(String yyyyMMddHHmmssSS) throws Exception{
+	public static LocalDate convertLocalString2ToLocalDate(String yyyyMMddHHmmssSS) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return new LocalDate((df.parse(yyyyMMddHHmmssSS)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}
@@ -226,6 +301,27 @@ public class LocalDate extends Date{
 	public static LocalDate convertStringToLocalDate(String yyyyMMddHHmm) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 		return new LocalDate((df.parse(yyyyMMddHHmm)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());
+	}
+
+	public static LocalDate convertLocalMonthStringToLocalDate(String yyyyMM) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy.MM");
+		if(yyyyMM.length() == 10) df = new SimpleDateFormat("yyyy.MM.dd"); 
+		return new LocalDate((df.parse(yyyyMM)).getTime());
+	}
+
+	public static LocalDate convertLocalMonthWithDiffMonth(LocalDate localDate, int diffMonth) throws Exception{
+		int toMonth = localDate.getMonth() + diffMonth;
+		int toYear = localDate.getYear();
+		while(toMonth < 0 || toMonth > 11){
+			if(toMonth < 0){
+				toYear--;
+				toMonth = toMonth+12;
+			}else{
+				toYear++;
+				toMonth = toMonth-12;
+			}
+		}
+		return convertLocalMonthStringToLocalDate(String.format("%04d", toYear) + "." + String.format("%02d", toMonth+1));
 	}
 
 	public static long convertStringToTime(String yyyyMMddHHmm) throws Exception{
@@ -269,6 +365,17 @@ public class LocalDate extends Date{
 
 	}
 
+	private LocalDate getLocalMonthOnly(LocalDate localDate){
+
+		long time = localDate.getLocalTime();
+		time = time/LocalDate.ONE_YEAR;
+		time = time*LocalDate.ONE_YEAR;
+		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
+		lDate.setTimeZone(localDate.getTimeZone());
+		return lDate;
+
+	}
+
 	private LocalDate getLocalYearOnly(LocalDate localDate){
 
 		long time = localDate.getLocalTime();
@@ -278,5 +385,5 @@ public class LocalDate extends Date{
 		lDate.setTimeZone(localDate.getTimeZone());
 		return lDate;
 
-	}	
+	}
 }

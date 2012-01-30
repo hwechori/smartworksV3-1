@@ -713,7 +713,8 @@ public class InstanceServiceImpl implements IInstanceService {
 					String deptName = getSwoManager().getDepartment(userId, swoDepartmentCond, IManager.LEVEL_LITE).getName();
 					value = deptName;
 				} else if(!CommonUtil.isEmpty(users)) {
-					refFormField = "frm_user_SYSTEM"; 
+					refForm = "frm_user_SYSTEM";
+					refFormField = "4";
 					String resultRefRecordId = "";
 					String resultValue = "";
 					String symbol = ";";
@@ -732,20 +733,27 @@ public class InstanceServiceImpl implements IInstanceService {
 				}
 			} else if(fieldValue instanceof String) {
 				value = (String)smartFormInfoMap.get(fieldId);
-				if(formId.equals(SmartForm.ID_MEMO_MANAGEMENT)) {
-					if(fieldId.equals("12"))
-						value = StringUtil.subString(value, 0, 20, "...");
-				} else if(formId.equals(SmartForm.ID_EVENT_MANAGEMENT)) {
-					if(fieldId.equals("1") || fieldId.equals("2")) {
-						if(!value.isEmpty())
-							value = LocalDate.convertStringToLocalDate(value).toGMTDateString();
-					}
-				}
 				type = fieldInfoMap.get(fieldId).getFormFieldType();
-				if(type.equals("datetime"))
-					value = LocalDate.convertLocalSimpleStringToLocalDate(value).toGMTDateString();
-				else if(type.equals("time"))
-					value = LocalDate.convertLocalTimeStringToLocalDate(value).toGMTTimeString();
+				if(!value.equals("")) {
+					if(formId.equals(SmartForm.ID_MEMO_MANAGEMENT)) {
+						if(fieldId.equals("12"))
+							value = StringUtil.subString(value, 0, 20, "...");
+					} else if(formId.equals(SmartForm.ID_EVENT_MANAGEMENT)) {
+						if(fieldId.equals("1") || fieldId.equals("2")) {
+							if(!value.isEmpty())
+								value = LocalDate.convertStringToLocalDate(value).toGMTDateString();
+						}
+					}
+					if(type.equals("datetime"))
+						if(value.length() == FieldData.SIZE_DATETIME)
+							value = LocalDate.convertLocalDateTimeStringToLocalDate(value).toGMTDateString();
+						else if(value.length() == FieldData.SIZE_DATE)
+							value = LocalDate.convertLocalDateStringToLocalDate(value).toGMTDateString();
+					else if(type.equals("time"))
+						value = LocalDate.convertLocalTimeStringToLocalDate(value).toGMTTimeString();
+				}
+			} else if(fieldValue instanceof Integer) {
+				value = (Integer)smartFormInfoMap.get(fieldId) + "";
 			}
 			if (CommonUtil.isEmpty(value))
 				continue;
