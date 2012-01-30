@@ -2108,7 +2108,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		String picture = CommonUtil.toNotNull(userExtend.getPictureName());
 
 		if(!picture.equals("")) {
-			String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+			String extension = picture.lastIndexOf(".") > 0 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
 			String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
 			userExtend.setBigPictureName(pictureId + "_big" + "." + extension);
 			userExtend.setSmallPictureName(pictureId + "_small" + "." + extension);

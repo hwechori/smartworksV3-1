@@ -623,6 +623,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		queryBuffer.append(" 	) ctgInfo ");
 		queryBuffer.append(" 	on info.prcobjid = ctginfo.prcinstid ");
 		
+		this.appendOrderQuery(queryBuffer, "info", cond);
+		
 		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
 		
 		if (pageSize > 0|| pageNo >= 0) {
