@@ -28,6 +28,8 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstVariable
 import net.smartworks.server.engine.process.process.model.PrcProcessInstVariableCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessVariable;
 import net.smartworks.server.engine.process.process.model.PrcProcessVariableCond;
+import net.smartworks.server.engine.process.process.model.PrcSwProcess;
+import net.smartworks.server.engine.process.process.model.PrcSwProcessCond;
 
 import org.hibernate.Query;
 
@@ -1551,6 +1553,69 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				list = objList;
 			}
 			PrcProcessInstVariable[] objs = new PrcProcessInstVariable[list.size()];
+			list.toArray(objs);
+			return objs;
+		} catch (PrcException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new PrcException(e);
+		}
+	}
+	private Query appendQuery(StringBuffer buf, PrcSwProcessCond cond) throws Exception {
+		String id = null;
+		String packageId = null;
+		int version = -1;
+		String processId = null;
+		String status = null;
+		
+		if (cond != null) {
+			id = cond.getId();
+			packageId = cond.getPackageId();
+			version = cond.getVersion();
+			processId = cond.getProcessId();
+			status = cond.getStatus();
+		}
+		buf.append(" from PrcSwProcess obj");
+		buf.append(" where obj.id is not null");
+		if (cond != null) {
+			if (id != null)
+				buf.append(" and obj.id = :id");
+			if (packageId != null)
+				buf.append(" and obj.packageId = :packageId");
+			if (version != -1)
+				buf.append(" and obj.version = :version");
+			if (processId != null)
+				buf.append(" and obj.processId = :processId");
+			if (status != null)
+				buf.append(" and obj.status = :status");
+		}
+		this.appendOrderQuery(buf, "obj", cond);
+		
+		Query query = this.createQuery(buf.toString(), cond);
+		if (cond != null) {
+			if (id != null)
+				query.setString("id", id);
+			if (packageId != null)
+				query.setString("packageId", packageId);
+			if (version != -1)
+				query.setInteger("version", version);
+			if (processId != null)
+				query.setString("processId", processId);
+			if (status != null)
+				query.setString("status", status);
+		}
+		return query;
+	}
+	public PrcSwProcess[] getSwProcesses(String user, PrcSwProcessCond cond) throws PrcException {
+		try {
+			StringBuffer buf = new StringBuffer();
+			buf.append("select");
+			buf.append(" obj");
+			Query query = this.appendQuery(buf, cond);
+			List list = query.list();
+			if (list == null || list.isEmpty())
+				return null;
+			PrcSwProcess[] objs = new PrcSwProcess[list.size()];
 			list.toArray(objs);
 			return objs;
 		} catch (PrcException e) {
