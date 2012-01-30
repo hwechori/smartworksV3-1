@@ -1,7 +1,6 @@
 package net.smartworks.util;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -162,6 +161,10 @@ public class LocalDate extends Date{
 		return (new SimpleDateFormat("yyyy.MM.dd", this.locale)).format(getLocalTime());
 	}
 
+	public String toLocalDateSimple2String(){
+		return (new SimpleDateFormat("yyyy-MM-dd", this.locale)).format(getLocalTime());
+	}
+
 	public String toLocalDateLongString(){
 		return (new SimpleDateFormat("yyyy.MM.dd E", this.locale)).format(getLocalTime());
 	}
@@ -178,8 +181,16 @@ public class LocalDate extends Date{
 		return (new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSS", this.locale)).format(getLocalTime());
 	}
 
+	public String toLocalDateString2(){
+		return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", this.locale)).format(getLocalTime());
+	}
+
 	public String toGMTDateString(){
 		return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")).format(getGMTDate());
+	}
+
+	public String toGMTSimpleDateString(){
+		return (new SimpleDateFormat("yyyy-MM-dd")).format(getGMTDate());
 	}
 
 	public String toGMTTimeString(){
@@ -203,6 +214,10 @@ public class LocalDate extends Date{
 	}
 
 	public boolean isSameDate(LocalDate when){
+		System.out.println(when);
+		System.out.println(getLocalDateOnly(this));
+		System.out.println(getLocalDateOnly(when));
+		System.out.println("-------------------------------------");
 		if( getLocalDateOnly(this).getTime() == getLocalDateOnly(when).getTime()) return true;
 		return false;
 	}
@@ -285,7 +300,12 @@ public class LocalDate extends Date{
 
 	public static LocalDate convertGMTStringToLocalDate(String yyyyMMddHHmmssSSS) throws Exception{
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime());					
+		return new LocalDate((df.parse(yyyyMMddHHmmssSSS)).getTime());
+	}
+
+	public static LocalDate convertGMTSimpleStringToLocalDate(String yyyyMMdd) throws Exception{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		return new LocalDate((df.parse(yyyyMMdd)).getTime());					
 	}
 
 	public static LocalDate convertGMTTimeStringToLocalDate(String HHmmss) throws Exception{
@@ -356,11 +376,13 @@ public class LocalDate extends Date{
 
 	private LocalDate getLocalDateOnly(LocalDate localDate){
 
+		System.out.println("in date=" + localDate.toLocalDateTimeSimpleString());
 		long time = localDate.getLocalTime();
 		time = time/LocalDate.ONE_DAY;
 		time = time*LocalDate.ONE_DAY;
-		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
+		LocalDate lDate = new LocalDate(time-TimeZone.getTimeZone(localDate.getTimeZone()).getRawOffset());
 		lDate.setTimeZone(localDate.getTimeZone());
+		System.out.println("out date=" + lDate.toLocalDateTimeSimpleString());
 		return lDate;
 
 	}
@@ -370,7 +392,7 @@ public class LocalDate extends Date{
 		long time = localDate.getLocalTime();
 		time = time/LocalDate.ONE_YEAR;
 		time = time*LocalDate.ONE_YEAR;
-		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
+		LocalDate lDate = new LocalDate(time-TimeZone.getTimeZone(localDate.getTimeZone()).getRawOffset());
 		lDate.setTimeZone(localDate.getTimeZone());
 		return lDate;
 
@@ -381,7 +403,7 @@ public class LocalDate extends Date{
 		long time = localDate.getLocalTime();
 		time = time/LocalDate.ONE_YEAR;
 		time = time*LocalDate.ONE_YEAR;
-		LocalDate lDate = new LocalDate(time-localDate.timeZone.getRawOffset());
+		LocalDate lDate = new LocalDate(time-TimeZone.getTimeZone(localDate.getTimeZone()).getRawOffset());
 		lDate.setTimeZone(localDate.getTimeZone());
 		return lDate;
 

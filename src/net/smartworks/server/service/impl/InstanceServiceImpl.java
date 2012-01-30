@@ -805,8 +805,24 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	@Override
 	public void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
+
+		String workId = (String)requestBody.get("workId");
+		String instanceId = (String)requestBody.get("instanceId");
+
+		User user = SmartUtil.getCurrentUser();
+		SwfFormCond swfFormCond = new SwfFormCond();
+		swfFormCond.setCompanyId(user.getCompanyId());
+		swfFormCond.setPackageId(workId);
+
+		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE);
+
+		SwdRecordCond swdRecordCond = new SwdRecordCond();
+		swdRecordCond.setPackageId(workId);
+		swdRecordCond.setFormId(swfForms[0].getId());
+		swdRecordCond.setRecordId(instanceId);
+
+		getSwdManager().removeRecord(user.getId(), swdRecordCond);
+
 	}
 
 	private SwdRecord getSwdRecordByRequestBody(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
