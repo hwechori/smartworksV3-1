@@ -19,7 +19,7 @@ public class EventInstance extends WorkInstance {
 	public final static int ALARM_ON_BOTH_TIME		= 3;
 		
 	private String			content;
-	private Community[]			relatedUsers;
+	private Community[]		relatedUsers;
 	private LocalDate		start;
 	private LocalDate		end;
 	private int				alarmOption=-1; 	// 시작시간에 한번만, 미리알림시간에 한번만, 미리알리시간과 시작시간에 한번씩, 미리알미리알미리알림없음 
