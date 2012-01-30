@@ -1039,7 +1039,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		TskTask task = new TskTask();
 		task.setType(taskDef.getType());
 		task.setName(taskDef.getName());
-		task.setTitle("프로세스 제목(타이틀) 정의 필요 (필수>단문>첫번째)20120127 #1");
+		task.setTitle("프로세스 제목(타이틀) 정의 필요 (필수>단문>첫번째)20120130 #1");
 		task.setAssignee(userId);
 		task.setAssigner(userId);
 		task.setForm(taskDef.getForm());
