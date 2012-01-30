@@ -59,7 +59,6 @@ import net.smartworks.server.engine.infowork.form.model.SwfConditions;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfFieldRef;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
-import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfFormRef;

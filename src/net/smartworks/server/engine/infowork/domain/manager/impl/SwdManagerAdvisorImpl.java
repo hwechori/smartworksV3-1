@@ -69,6 +69,13 @@ public class SwdManagerAdvisorImpl extends AbstractSwdManagerAdvisor {
 	public void postGetRecord(String user, SwdRecordCond cond, String level, SwdRecord res) throws Exception {
 		populateRecord(user, res);
 	}
+	public void postGetRecords(String user, SwdRecordCond cond, String level, SwdRecord[] res) throws Exception {
+		if(level == null || level == IManager.LEVEL_ALL) {
+			for(SwdRecord swdRecord: res) {
+				populateRecord(user, swdRecord);
+			}
+		}
+	}
 	private void populateRecord(String user, SwdRecord obj) throws Exception {
 		if (obj == null)
 			return;
