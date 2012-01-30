@@ -1671,32 +1671,32 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) {
+	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByWorkHour(date, workHourType, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) {
+	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByWorkHours(date, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) {
+	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByDate(date, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) {
+	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByDates(fromDate, toDate, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) {
+	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByWeek(weekStart, weekEnd, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) {
+	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByWeeks(month, maxSize);
 	}

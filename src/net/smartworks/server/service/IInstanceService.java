@@ -39,17 +39,17 @@ public interface IInstanceService {
 
 	public WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception;
 	
-	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize);
+	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception;
 
-	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize);
+	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) throws Exception;
 
-	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize);
+	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) throws Exception;
 
-	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize);
+	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
 
-	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize);
+	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception;
 
-	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize);
+	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) throws Exception;
 
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
