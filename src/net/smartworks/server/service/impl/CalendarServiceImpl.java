@@ -250,7 +250,7 @@ public class CalendarServiceImpl implements ICalendarService {
 		filter1.setLeftOperandValue(tableColName);
 		filter1.setOperator(">=");
 		filter1.setRightOperandType(Filter.OPERANDTYPE_DATE);
-		filter1.setRightOperandValue(fromDate.toGMTDateString());
+		filter1.setRightOperandValue(LocalDate.convertLocalDateStringToLocalDate(fromDate.toLocalDateSimpleString()).toGMTDateString());
 		filterList.add(filter1);
 
 		filter2.setLeftOperandValue(tableColName);
@@ -264,7 +264,7 @@ public class CalendarServiceImpl implements ICalendarService {
 
 		swdRecordCond.setFilter(filters);
 
-		SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
+		SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_ALL);
 
 		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
 
