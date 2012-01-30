@@ -1116,13 +1116,13 @@ public class InstanceServiceImpl implements IInstanceService {
 				FormField leftOperand = condition.getLeftOperand();
 				String formFieldId = leftOperand.getId();
 				String tableColName = getSwdManager().getTableColName(swdDomain.getObjId(), formFieldId);
-				String formFiledType = leftOperand.getType();
+				String formFieldType = leftOperand.getType();
 				String operator = condition.getOperator();
 				String rightOperand = (String)condition.getRightOperand();
 
 				filter.setLeftOperandValue(tableColName);
 				filter.setOperator(operator);
-				filter.setRightOperandType(formFiledType);
+				filter.setRightOperandType(formFieldType);
 				filter.setRightOperandValue(rightOperand);
 				filterList.add(filter);
 			}

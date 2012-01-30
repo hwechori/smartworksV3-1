@@ -18,6 +18,8 @@ import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.filter.Condition;
+import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.work.FormField;
@@ -26,6 +28,7 @@ import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
@@ -156,10 +159,15 @@ public class CalendarServiceImpl implements ICalendarService {
 					if(swcEventDay.getReltdPerson() != null) {
 						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
 						for(String reltdUser : reltdUsers) {
-							if(reltdUser.getClass().equals(User.class))
-								userList.add(ModelConverter.getUserByUserId(reltdUser));
-							else if(reltdUser.getClass().equals(Department.class))
-								userList.add(ModelConverter.getDepartmentByDepartmentId(reltdUser));
+							if(reltdUser.equals(cUser.getId())) {
+								User relatedUser = ModelConverter.getUserByUserId(reltdUser);
+								if(relatedUser != null)
+									userList.add(relatedUser);
+							} else if(reltdUser.equals(cUser.getDepartmentId())) {
+								Department relatedUser = ModelConverter.getDepartmentByDepartmentId(reltdUser);
+								if(relatedUser != null)
+									userList.add(relatedUser);
+							}
 // TO DO					else if(reltdUser.getClass().equals(Group.class))
 // TO DO						userList.add(ModelConverter.getGroupByGroupId(reltdUser));
 						}
@@ -265,7 +273,6 @@ public class CalendarServiceImpl implements ICalendarService {
 
 				SwdDataField[] swdDataFields = swdRecord.getDataFields();
 				List<CommunityInfo> userInfoList = new ArrayList<CommunityInfo>();
-				boolean isExistUser = false;
 				for(SwdDataField swdDataField : swdDataFields) {
 					String value = swdDataField.getValue();
 					if(swdDataField.getId().equals("0")) {
@@ -273,7 +280,16 @@ public class CalendarServiceImpl implements ICalendarService {
 					} else if(swdDataField.getId().equals("6")) {
 						eventInstanceInfo.setContent(value);
 					} else if(swdDataField.getId().equals("1")) {
-						eventInstanceInfo.setStart(LocalDate.convertGMTStringToLocalDate(value));
+						LocalDate start = LocalDate.convertGMTStringToLocalDate(value);
+						LocalDate fromDateVal = fromDate;
+						for(int j=0; j<days; j++) {
+							String startString = start.toLocalDateSimpleString();
+							String fromDateString = fromDateVal.toLocalDateSimpleString();
+							if(startString.equals(fromDateString)) {
+								eventInstanceInfo.setStart(start);
+							}
+							fromDateVal = new LocalDate(fromDateVal.getTime() + LocalDate.ONE_DAY);
+						}
 					} else if(swdDataField.getId().equals("2")) {
 						if(value != null)
 							eventInstanceInfo.setEnd(LocalDate.convertGMTStringToLocalDate(value));
@@ -281,17 +297,15 @@ public class CalendarServiceImpl implements ICalendarService {
 						if(value != null) {
 							String[] reltdUsers = value.split(";");
 							for(String reltdUser : reltdUsers) {
-								if(reltdUser.equals(user.getId()) || reltdUser.equals(user.getDepartmentId()))
-									isExistUser = true;
-								if(reltdUser.getClass().equals(UserInfo.class)){
+								if(reltdUser.equals(user.getId())) {
 									UserInfo relatedUser = ModelConverter.getUserInfoByUserId(reltdUser);
 									if(relatedUser != null)
 										userInfoList.add(relatedUser);
-								}else if(reltdUser.getClass().equals(DepartmentInfo.class)){
+								} else if(reltdUser.equals(user.getDepartmentId())) {
 									DepartmentInfo relatedUser = ModelConverter.getDepartmentInfoByDepartmentId(reltdUser);
 									if(relatedUser != null)
 										userInfoList.add(relatedUser);
-								}else if(reltdUser.getClass().equals(GroupInfo.class)){
+// TO DO						} else if(reltdUser.equals(user.getGroupId())) {
 // TO DO							GroupInfo relatedUser = ModelConverter.getGroupInfoByGroupId(reltdUser);
 // TO DO							if(relatedUser != null)
 // TO DO								userInfoList.add(relatedUser);
@@ -303,7 +317,7 @@ public class CalendarServiceImpl implements ICalendarService {
 						}
 					}
 				}
-				if(isExistUser == true || swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId()))
+				if(eventInstanceInfo.getStart() != null && (eventInstanceInfo.getRelatedUsers() != null || swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId())))
 					eventInstanceInfoList.add(eventInstanceInfo);
 			}
 			EventInstanceInfo[] eventInstanceInfos = new EventInstanceInfo[eventInstanceInfoList.size()];
