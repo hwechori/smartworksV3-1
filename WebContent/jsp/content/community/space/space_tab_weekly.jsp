@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.model.calendar.WorkHourPolicy"%>
 <%@page import="net.smartworks.util.SmartMessage"%>
 <%@page import="net.smartworks.model.community.WorkSpace"%>
@@ -133,6 +135,8 @@
 
 				<%
 				CompanyCalendar[] calendars = smartWorks.getCompanyCalendars(selectedWeekStart, selectedWeekEnd);
+				TaskInstanceInfo[][] tasksByDates = smartWorks.getTaskInstancesByDates(selectedWeekStart, selectedWeekEnd, 5); 
+
 				LocalDate thisDate = new LocalDate(selectedWeekStart.getTime());
 				for(int i=0; i<7 && thisDate.getTime() <= today.getTime(); i++){
 					String titleClass = "title";
@@ -242,10 +246,10 @@
 					</div>
 					<!-- 5일//-->
 				<%
-					thisDate = new LocalDate(selectedWeekStart.getTime() + LocalDate.ONE_DAY*i);
+					thisDate = new LocalDate(selectedWeekStart.getTime() + LocalDate.ONE_DAY*(i+1));
 				}
 				%>
-				<!-- 10일 -->
+<!-- 				10일
 				<div class="space_section margin_t10">
 					<div class="title_off">
 						<span class="t_saturday">12월 10일 토요일</span>
@@ -254,8 +258,8 @@
 						<li class="t_nowork">업무가 없습니다</li>
 					</ul>
 				</div>
-				<!-- 10일//-->
-			</div>
+				10일//
+ -->			</div>
 			<!-- 컨텐츠 //-->
 
 		</ul>

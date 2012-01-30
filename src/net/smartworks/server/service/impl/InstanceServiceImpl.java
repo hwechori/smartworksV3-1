@@ -1,7 +1,6 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -803,7 +802,13 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		return returnInstanceId;
 	}
-	
+
+	@Override
+	public void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private SwdRecord getSwdRecordByRequestBody(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
 		if (CommonUtil.isEmpty(swdFields))
@@ -1116,13 +1121,13 @@ public class InstanceServiceImpl implements IInstanceService {
 				FormField leftOperand = condition.getLeftOperand();
 				String formFieldId = leftOperand.getId();
 				String tableColName = getSwdManager().getTableColName(swdDomain.getObjId(), formFieldId);
-				String formFiledType = leftOperand.getType();
+				String formFieldType = leftOperand.getType();
 				String operator = condition.getOperator();
 				String rightOperand = (String)condition.getRightOperand();
 
 				filter.setLeftOperandValue(tableColName);
 				filter.setOperator(operator);
-				filter.setRightOperandType(formFiledType);
+				filter.setRightOperandType(formFieldType);
 				filter.setRightOperandValue(rightOperand);
 				filterList.add(filter);
 			}
@@ -1664,6 +1669,36 @@ public class InstanceServiceImpl implements IInstanceService {
 
 		return ModelConverter.getInformationWorkInstanceBySwdRecord(userId, null, swdRecord);
 
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByWorkHour(date, workHourType, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByWorkHours(date, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByDate(date, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByDates(fromDate, toDate, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByWeek(weekStart, weekEnd, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByWeeks(month, maxSize);
 	}
 
 }

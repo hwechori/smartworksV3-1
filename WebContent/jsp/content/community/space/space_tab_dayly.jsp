@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.model.calendar.CompanyEvent"%>
 <%@page import="net.smartworks.util.SmartMessage"%>
 <%@page import="net.smartworks.model.calendar.WorkHourPolicy"%>
@@ -39,6 +41,8 @@
 	CompanyCalendar selectedCalendar = calendars[selectedIndex];
 	WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
 	selectedCalendar.setWorkHour(whp.getWorkHour(selectedCalendar.getDate().getDayOfWeek()));
+	
+	TaskInstanceInfo[][] tasksByWorkHours = smartWorks.getTaskInstancesByWorkHours(selectedCalendar.getDate(), 10); 
 	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
@@ -312,6 +316,9 @@
 					<!-- 근무시간 후 -->
 					<div class="space_section margin_t10">
 						<div class="title_off"><fmt:message key="common.title.after_work"/>(<%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getEnd())%> ~ )</div>
+						<ul>
+							<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
+						</ul>
 					</div>
 					<!-- 근무시간 후//-->
 				<%

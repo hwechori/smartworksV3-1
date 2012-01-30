@@ -28,6 +28,7 @@ import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
@@ -169,6 +170,18 @@ public interface ISmartWorks {
 
 	public abstract WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception;
 
+	public abstract TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) throws Exception;
+
 	public abstract Report getReportById(String reportId) throws Exception;
 
 	public abstract SearchFilter getSearchFilterById(String filterId) throws Exception;
@@ -176,6 +189,8 @@ public interface ISmartWorks {
 	public abstract Data getReportData(HttpServletRequest request) throws Exception;
 	
 	public abstract String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract String startProcessWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
