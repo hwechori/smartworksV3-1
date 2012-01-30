@@ -35,7 +35,6 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		//assingnedOnly 값이 true 라면 실행중인(11) 태스크만 조회를 한다.
 		String tskStatus =  cond.getTskStatus();
 		Date lastInstanceDate = cond.getLastInstanceDate();
-		
 		int pageNo = cond.getPageNo();
 		int pageSize = cond.getPageSize();
 		
@@ -56,8 +55,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		, pkg.name as packageName ");
 		queryBuffer.append("		, ctg.id as childCtgId ");
 		queryBuffer.append("		, ctg.name as childCtgName ");
-		queryBuffer.append("		, ctg2.id as parentCtgId ");
-		queryBuffer.append("		, ctg2.name as parentCtgName ");
+		queryBuffer.append("		, case when ctg.parentId = '_PKG_ROOT_' then null else ctg2.id end as parentCtgId ");
+		queryBuffer.append("		, case when ctg.parentId = '_PKG_ROOT_' then null else ctg2.name end as parentCtgName ");
 		queryBuffer.append("	from tsktask task, ");
 		queryBuffer.append("		swform form ");
 		queryBuffer.append("		left outer join ");
@@ -75,7 +74,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		if (!CommonUtil.isEmpty(tskStatus))
 			queryBuffer.append("	and task.tskstatus = :tskStatus ");	
 		queryBuffer.append(") taskInfo ");
-		queryBuffer.append("left outer join ");
+		//queryBuffer.append("left outer join ");
+		queryBuffer.append("join ");
 		queryBuffer.append("( ");
 		queryBuffer.append("	select ");
 		queryBuffer.append("		 prcInst.prcObjId ");
@@ -125,6 +125,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		) prcInstInfo	 ");
 		queryBuffer.append("	where ");
 		queryBuffer.append("		prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid ");
+		queryBuffer.append("		and prcInst.prcStatus != 3 ");
 		queryBuffer.append(") prcInstInfo ");
 		queryBuffer.append("on taskInfo.tskPrcInstId = prcInstInfo.prcObjId ");
 		if (lastInstanceDate != null)
@@ -144,7 +145,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		if (!CommonUtil.isEmpty(tskStatus))
 			query.setString("tskStatus", tskStatus);
 		if (lastInstanceDate != null)
-			query.setDate("lastInstanceDate", lastInstanceDate);
+			query.setTimestamp("lastInstanceDate", lastInstanceDate);
 		
 		return query;
 	}
