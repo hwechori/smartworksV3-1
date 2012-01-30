@@ -1,6 +1,6 @@
 $(function() {
 	
-	$('a.js_space_tab_day').live('click',function(e) {
+	$('a.js_space_tab_index').live('click',function(e) {
 		var input = $(e.target).parents('a:first');
 		if(isEmpty(input)) input = $(e.target);
 		var target = input.parents('.js_space_instance_list');
@@ -19,7 +19,7 @@ $(function() {
 
 	$('a.js_space_datepicker_button').live('click', function(e) {
 		var input = $(e.target);
-		input.parents('.js_user_space_page').find('.js_space_datepicker').datepicker("show");
+		input.parents('.js_space_instance_list').find('.js_space_datepicker').datepicker("show");
 		return false;
 	});
 

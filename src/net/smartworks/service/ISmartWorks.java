@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
@@ -139,6 +140,8 @@ public interface ISmartWorks {
 	public abstract EventInstanceInfo[] getCompanyEventsByDate(LocalDate date, int maxEvents) throws Exception;
 
 	public abstract EventInstanceInfo[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception;
+
+	public abstract WorkHourPolicy getCompanyWorkHourPolicy() throws Exception;
 
 	public abstract Notice[] getNoticesForMe() throws Exception;
 

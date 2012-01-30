@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
@@ -220,6 +221,11 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public EventInstanceInfo[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception {
 		return calendarService.getMyEventsByDate(date, maxEvents);
+	}
+
+	@Override
+	public WorkHourPolicy getCompanyWorkHourPolicy() throws Exception {
+		return calendarService.getCompanyWorkHourPolicy();
 	}
 
 	@Override

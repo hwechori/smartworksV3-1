@@ -14,8 +14,12 @@
 
 	session.setAttribute("cid", cid);
 	session.removeAttribute("wid");
-	session.setAttribute("user", user);
+	session.setAttribute("workSpace", user);
 %>
+<!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
+
 <div class="js_user_space_page">
 	<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
 	

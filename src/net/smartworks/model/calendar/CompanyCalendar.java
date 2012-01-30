@@ -1,6 +1,7 @@
 package net.smartworks.model.calendar;
 
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartUtil;
 
 public class CompanyCalendar {
 	
@@ -44,5 +45,18 @@ public class CompanyCalendar {
 			if(ce.getIsHoliday()) return true;
 		}
 		return false;
+	}
+	
+	public String toCompanyEventsString(){
+		String eventsString = "";
+		if(!SmartUtil.isBlankObject(this.companyEvents)){
+			for(int i=0; i<this.companyEvents.length; i++){
+				if(i==0) eventsString = eventsString+"(";
+				eventsString = eventsString + this.companyEvents[i].getName();
+				if(i==this.companyEvents.length-1) eventsString = eventsString + ")";
+				else eventsString = eventsString + ", ";
+			}
+		}
+		return eventsString;
 	}
 }

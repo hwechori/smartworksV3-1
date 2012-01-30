@@ -17,6 +17,10 @@
 	session.removeAttribute("wid");
 	session.setAttribute("workSpace", department);
 %>
+<!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
+
 <div class="js_department_space_page">
 	<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
 	

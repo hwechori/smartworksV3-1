@@ -13,22 +13,24 @@
 
 	WorkSpace workSpace = (WorkSpace)session.getAttribute("workSpace");
 
-	LocalDate today = new LocalDate();
-
-	String selectedDayStr = request.getParameter("selectedDay");
-	int selectedDay = SmartUtil.isBlankObject(selectedDayStr) ? 6 : Integer.parseInt(selectedDayStr);
-
-	String startDateStr = request.getParameter("startDate");
-	LocalDate startDate = SmartUtil.isBlankObject(startDateStr) 
-			? new LocalDate(today.getTime()-LocalDate.ONE_DAY*6) : LocalDate.convertLocalSimpleStringToLocalDate(startDateStr);
-	LocalDate endDate = new LocalDate(startDate.getTime()+LocalDate.ONE_DAY*6);
-	LocalDate weekLaterDate = new LocalDate(endDate.getTime()+LocalDate.ONE_DAY*6);
+	LocalDate today =  LocalDate.convertLocalDateStringToLocalDate((new LocalDate()).toLocalDateSimpleString());
+	LocalDate thisMonth = LocalDate.convertLocalMonthWithDiffMonth(today, 0);
 	
-	CompanyCalendar[] calendars = (!SmartUtil.isBlankObject(startDateStr) && startDateStr.equals((String)session.getAttribute("startDate")))
-									? (CompanyCalendar[])session.getAttribute("calendars") : smartWorks.getCompanyCalendars(startDate, endDate);
-	startDateStr = startDate.toLocalDateSimpleString();
+	String selectedIndexStr = request.getParameter("selectedIndex");
+	int selectedIndex = SmartUtil.isBlankObject(selectedIndexStr) ? 11 : Integer.parseInt(selectedIndexStr);
+
+	LocalDate startMonth = LocalDate.convertLocalMonthWithDiffMonth(today, -11);
+	String startDateStr = request.getParameter("startDate");
+	if(!SmartUtil.isBlankObject(startDateStr)){
+		LocalDate tempStartDate = LocalDate.convertLocalMonthStringToLocalDate(startDateStr);
+		if(LocalDate.convertLocalMonthWithDiffMonth(tempStartDate, 11).getTime() < today.getTime())
+			startMonth = LocalDate.convertLocalMonthWithDiffMonth(tempStartDate, 0);
+	}
+	if(SmartUtil.isBlankObject(startDateStr)) startDateStr = startMonth.toLocalDateSimpleString();
+	LocalDate endMonth =LocalDate.convertLocalMonthWithDiffMonth(startMonth, 11);
+	LocalDate yearLaterMonth = LocalDate.convertLocalMonthWithDiffMonth(endMonth, 11);
+
 	session.setAttribute("startDate", startDateStr);
-	session.setAttribute("calendars", calendars);
 	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
@@ -36,34 +38,60 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--탭-->
-<div class="tab js_space_tab_monthly_page">
+<div class="tab js_space_tab_monthly_page"  workSpaceId="<%=workSpace.getId() %>" startDate="<%=startDateStr%>">
 
-	<!--Prev arrow -->
-	<a href="" class="btn_arr_prev2"></a> <a href="" class="btn_arr_prev"></a>
-	<!--Prev arrow //-->
+	<%
+	String prevYearHref = "space_tab_monthly.sw?startDate=" 
+			+ (LocalDate.convertLocalMonthWithDiffMonth(startMonth, -12)).toLocalDateSimpleString()
+			+ "selectedIndex=0";
+	String prevMonthHref = "space_tab_monthly.sw?startDate=" 
+			+ (LocalDate.convertLocalMonthWithDiffMonth(startMonth, -1)).toLocalDateSimpleString()
+			+ "selectedIndex=0";
+	%>
+	<a href="<%=prevYearHref %>" class="btn_arr_prev2 js_space_tab_index"></a> 
+	<a href="<%=prevMonthHref %>" class="btn_arr_prev js_space_tab_index"></a>
 
 	<ul>
-		<li><span class="intab"> <a href="#">1월</a> </span></li>
-		<li><span class="intab"> <a href="#">2월</a> </span></li>
-		<li><span class="intab"> <a href="#">3월</a> </span></li>
-		<li><span class="intab"> <a href="#">4월</a> </span></li>
-		<li><span class="intab"> <a href="#">5월</a> </span></li>
-		<li><span class="intab"> <a href="#">6월</a> </span></li>
-		<li><span class="intab"> <a href="#">7월</a> </span></li>
-		<li><span class="intab"> <a href="#">8월</a> </span></li>
-		<li><span class="intab"> <a href="#">9월</a> </span></li>
-		<li><span class="intab"> <a href="#">10월</a> </span></li>
-		<li><span class="intab"> <a href="#">11월</a> </span></li>
-		<li class="current"><span class="intab"> <a href="#">2011.12월</a>
-		</span></li>
+		<%
+		String monthStr = "";
+		String selectedMonthStr = "";
+		LocalDate month = new LocalDate(startMonth.getTime());
+		for(int i = 0; i<12; i++){
+			LocalDate tempMonth = LocalDate.convertLocalMonthWithDiffMonth(month, i);
+			if(i==selectedIndex){
+				monthStr = tempMonth.toLocalMonthFullString();
+				selectedMonthStr = tempMonth.toLocalMonthString();
+			}else{
+				monthStr = tempMonth.toLocalMonthShortString();
+			}
+			String liClass = (i==selectedIndex) ? "current" : "";
+ 			String href = "space_tab_monthly.sw?startDate=" + startDateStr + "&selectedIndex=" + i; 
+		%>
+			<li class="<%=liClass%>"><span class="intab"><a class="js_space_tab_index" href="<%=href %>"><%=monthStr %></a></span></li>
+		<%
+		}
+		%>
 	</ul>
 
-	<!--Next arrow -->
-	<a href="" class="btn_arr_next"></a> <a href="" class="btn_arr_next2"></a>
-	<!--Next arrow //-->
+	<%
+	String nextMonthHref = "space_tab_monthly.sw?startDate=" 
+			+ LocalDate.convertLocalMonthWithDiffMonth(startMonth, 1).toLocalDateSimpleString()
+			+ "selectedIndex=11";
+	String nextYearHref = "space_tab_monthly.sw?startDate=" 
+			+ LocalDate.convertLocalMonthWithDiffMonth(startMonth, 12).toLocalDateSimpleString()
+			+ "selectedIndex=11";
+	%>
+	<%
+	if(endMonth.getTime() < thisMonth.getTime()){
+	%>
+		<a href="<%=nextMonthHref%>" class="btn_arr_next js_space_tab_index"></a>
+		<a href="<%=nextYearHref %>" class="btn_arr_next2 js_space_tab_index"></a>
+	<%
+	} 
+	%>
 
 	<div class="option_section">
-  		<span class="sel_date_section">2011.01.27<input type="hidden" class="js_space_datepicker" value=""><a href="space_tab_monthly.sw" class="btn_calendar js_space_datepicker_button"></a></span> 
+  		<span class="sel_date_section"><%=selectedMonthStr %><input type="hidden" class="js_space_datepicker" value="<%=selectedMonthStr%>.01"><a href="space_tab_monthly.sw" class="btn_calendar js_space_datepicker_button"></a></span> 
 		<select class="js_space_select_scope">
 			<option value="space_tab_dayly.sw"><fmt:message key="space.title.tab_dayly"/></option>
 			<option value="space_tab_weekly.sw"><fmt:message key="space.title.tab_weekly"/></option>
@@ -239,25 +267,26 @@
 				defaultDate : new Date(),
 				dateFormat : 'yy.mm.dd',
 				onSelect : function(date) {
-					var selectedDate = new Date(date);
+					var selectedMonth = new Date(date);
 					var today = new Date();
-					if (selectedDate > today) {
+					var thisMonth = new Date(today.getFullYear(), today.getMonth());
+					if (selectedMonth.getTime() > thisMonth.getTime()) {
 						smartPop.showInfo(smartPop.WARN, smartMessage
 								.get('spaceOverDateSeleted'));
 						return false;
 					}
 					var input = $(this);
-					var target = input.parents('.js_user_space_instance_list');
+					var target = input.parents('.js_space_instance_list');
 					var url = input.next().attr('href');
-					var startDate = new Date(selectedDate.toString());
-					startDate.setDate(selectedDate.getDate() - 6);
-					console.log('selected=', selectedDate.toDateString(),
-							'start=', startDate.toDateString());
+					var startMonth = new Date(selectedMonth.toString());
+					startMonth.setMonth(selectedMonth.getMonth() - 11, 1);
+					console.log('selected=', selectedMonth.toDateString(),
+							'start=', startMonth.toDateString());
 					$.ajax({
 						url : url,
 						data : {
-							startDate : startDate.format('yyyy.mm.dd'),
-							selectedDay : 6
+							startDate : startMonth.format('yyyy.mm.dd'),
+							selectedIndex : 11
 						},
 						success : function(data, status, jqXHR) {
 							target.html(data);
