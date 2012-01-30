@@ -48,7 +48,13 @@
 					<!-- 전체/할당업무만의 갯수와 선택버튼들 -->
 					<div class="txt_btn float_right js_instance_counts">
 						<div class="po_right">
-							<a href="" class="current js_view_my_running_instances" instanceCount="<%=runningCounts.getTotal()%>"><fmt:message key="content.my_running_instance_count"/> <span class="t_red_bold js_all_running_count">[<%=runningCounts.getTotal() %>]</span></a> | <a href="" class="js_view_assigned_instances" instanceCount="<%=runningCounts.getAssignedOnly()%>"><fmt:message key="content.my_running_assigned_count"/> <span class="t_red_bold js_assigned_count">[<%=runningCounts.getAssignedOnly() %>]</span></a>
+							<a href="" class="current js_view_my_running_instances" instanceCount="<%=runningCounts.getTotal()%>"><fmt:message key="content.my_running_instance_count"/> 
+								<span class="t_red_bold js_all_running_count">[<%=runningCounts.getTotal() %>]</span>
+							</a>
+							 | 
+							 <a href="" class="js_view_assigned_instances" instanceCount="<%=runningCounts.getAssignedOnly()%>"><fmt:message key="content.my_running_assigned_count"/> 
+							 	<span class="t_red_bold js_assigned_count">[<%=runningCounts.getAssignedOnly() %>]</span>
+							 </a>
 						</div>
 					</div>
 					<!-- 전체/할당업무만의 갯수와 선택버튼들 //-->

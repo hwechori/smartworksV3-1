@@ -1171,23 +1171,24 @@ public class SmartTest {
 		return SearchFilter.getMyRecentInstancesFilter(getUser1());
 	}
 
-	public static TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) {
-		return null;
+	public static TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception {
+		return SmartTest.getAssignedTaskInstances();
 	}
-	public static TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) {
-		return null;
+	public static TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) throws Exception {
+		
+		return new TaskInstanceInfo[][]{SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances()};
 	}
-	public static TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) {
-		return null;
+	public static TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) throws Exception {
+		return SmartTest.getAssignedTaskInstances();
 	}
-	public static TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) {
-		return null;
+	public static TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
+		return new TaskInstanceInfo[][]{SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances()};
 	}
-	public static TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) {
-		return null;
+	public static TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
+		return SmartTest.getAssignedTaskInstances();
 	}
-	public static TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) {
-		return null;
+	public static TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) throws Exception {
+		return new TaskInstanceInfo[][]{SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances()};
 	}
 	
 	
