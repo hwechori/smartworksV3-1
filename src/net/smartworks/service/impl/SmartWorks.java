@@ -29,6 +29,7 @@ import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
@@ -332,6 +333,38 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getWorkInstanceById(workType, instanceId);
 	}
 
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByWorkHour(date, workHourType, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByWorkHours(date, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByDate(date, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByDates(fromDate, toDate, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByWeek(weekStart, weekEnd, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByWeeks(month, maxSize);
+	}
+	
+	
 	/*
 	 * @Override >>>>>>> branch 'master' of
 	 * git@github.com:maninsoft/smartworksV3.git public String createFile(String
