@@ -914,6 +914,7 @@ public class ModelConverter {
 		int taskType = WorkInstance.TYPE_TASK;
 		String assignee = swTask.getAssignee();
 		String performer = swTask.getAssignee();
+		String formId = swTask.getForm();
 // 프로세스인스턴스가 태스크인스턴스를 포함하고 태스크인스턴스는 프로세스 인스턴스를 포함하기 때문에 무한 루프가 발생한다
 // 하여 태스크 인스턴스를 만들때는 부모 프로세스 인스턴스의 객체 래퍼런스를 가져와서 태스크에다가 주입한다
 //		WorkInstanceInfo workInstanceInfo = getWorkInstanceInfoByPrcProcessInstId(swTask.getProcessInstId());
@@ -924,6 +925,7 @@ public class ModelConverter {
 		taskInstInfo.setAssignee(getUserInfoByUserId(assignee));
 		taskInstInfo.setPerformer(getUserInfoByUserId(performer));
 		taskInstInfo.setWorkInstance(workInstanceInfo);
+		taskInstInfo.setFormId(formId);
 		
 		return taskInstInfo;
 	}
