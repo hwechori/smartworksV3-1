@@ -512,6 +512,27 @@ $(function() {
 		return false;
 	});
 
+	$('a.js_select_task_instance').live("click", function(e){
+		smartPop.progressCenter();
+		var input = $(e.target).parents('a');
+		var formId = input.attr("formId");
+		var instId = input.attr("taskInstId");
+		var formContent = $('div.js_form_content');
+		new SmartWorks.GridLayout({
+			target : formContent,
+			mode : "view",
+			formId : formId,
+			recordId : instId,
+			onSuccess : function(){
+				smartPop.closeProgress();																
+			},
+			onError : function(){
+				smartPop.closeProgress();
+				
+			}
+		});
+	});
+
 	$('input.js_file_upload').live('change', function(e) {
 		var input = $(e.target);
 		var newInput = document.createElement( 'input' );

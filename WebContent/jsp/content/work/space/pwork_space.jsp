@@ -121,7 +121,7 @@
 				        	%>
 			            			<!-- 태스크 --> 
 						            <li class="<%=statusClass %> float_left_nowidth padding_r10">
-						                <a href="" class="js_select_task_instance" formId="" taskInstId="">
+						                <a href="" class="js_select_task_instance" formId="<%=task.getFormId() %>" taskInstId="<%=task.getId()%>">
 							                <span class="pstart"></span>
 							                <span class="pcenter">
 							                    <!-- task 정보 -->
