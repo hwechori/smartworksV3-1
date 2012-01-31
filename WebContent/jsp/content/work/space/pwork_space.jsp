@@ -30,11 +30,10 @@
 	
 	ProcessWorkInstance instance = (ProcessWorkInstance)session.getAttribute("workInstance");
 	if(SmartUtil.isBlankObject(instance) || !instance.getId().equals(instId)) 
-		instance = (ProcessWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_PROCESS, null, instId);
+		instance = (ProcessWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_PROCESS, workId, instId);
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
-//	ProcessWork work = (ProcessWork)instance.getWork();
-	ProcessWork work = (ProcessWork)SmartTest.getProcessWork1();
+	ProcessWork work = (ProcessWork)instance.getWork();
 	
 	TaskInstanceInfo[] taskHistories = instance.getTasks();
 

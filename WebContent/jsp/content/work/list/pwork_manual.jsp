@@ -65,6 +65,7 @@
 								<span class="pcenter">
 									<div class="float_left"><img align="bottom" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>"></div>
 									<div class="noti_in"><span><%=task.getName()%></span></div>
+									<div><span><%=task.getAssigningName()%></span></div>
 								</span> 
 								<span class="pend"></span> 
 							</a>
