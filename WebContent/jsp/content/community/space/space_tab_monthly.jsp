@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.community.Group"%>
+<%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.util.SmartMessage"%>
@@ -16,6 +18,11 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	WorkSpace workSpace = (WorkSpace)session.getAttribute("workSpace");
+	String contextStr;
+	if(SmartUtil.isBlankObject(workSpace)) contextStr = "";
+	else if(workSpace.getClass().equals(User.class)) contextStr = ISmartWorks.CONTEXT_USER_SPACE;
+	else if(workSpace.getClass().equals(Department.class)) contextStr = ISmartWorks.CONTEXT_DEPARTMENT_SPACE;
+	else if(workSpace.getClass().equals(Group.class)) contextStr = ISmartWorks.CONTEXT_GROUP_SPACE;
 
 	LocalDate today =  LocalDate.convertLocalDateStringToLocalDate((new LocalDate()).toLocalDateSimpleString());
 	LocalDate thisMonth = LocalDate.convertLocalMonthWithDiffMonth(today, 0);
@@ -122,7 +129,7 @@
 			<div class="contents_space">
 			
 				<%
-				TaskInstanceInfo[][] tasksByWeeks = smartWorks.getTaskInstancesByWeeks(selectedMonth, 5); 
+				TaskInstanceInfo[][] tasksByWeeks = smartWorks.getTaskInstancesByWeeks(contextStr, workSpace.getId(), selectedMonth, 5); 
 				LocalDate weekStart = new LocalDate(selectedMonth.getTime());
 				LocalDate nextMonth = LocalDate.convertLocalMonthWithDiffMonth(selectedMonth, 1);
 				WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();

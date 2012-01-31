@@ -6,6 +6,7 @@ SmartWorks.GridLayout = function(config) {
 		mode : 'edit',
 		requiredOnly : 'false',
 		workId : null,
+		formId : null,
 		recordId : null,
 		onSuccess : null,
 		onError : null
@@ -134,6 +135,7 @@ SmartWorks.GridLayout = function(config) {
 
 	if(isEmpty(this.options.formXml) && !isEmpty(this.options.workId)){
 		var workId = this.options.workId;
+		var formId = this.options.formId;
 		var recordId = this.options.recordId;
 		var formValues = this.options.formValues;
 		var onError = this.options.onError;
@@ -142,7 +144,8 @@ SmartWorks.GridLayout = function(config) {
 		$.ajax({
 			url : "get_form_xml.sw",
 			data : {
-				workId : workId
+				workId : workId,
+				formId : formId
 			},
 			success : function(formXml, status, jqXHR) {
 				if(isEmpty(formValues) && (!isEmpty(workId)) && (!isEmpty(recordId))){

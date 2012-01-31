@@ -1734,34 +1734,39 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception {
+	public TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate date, int workHourType, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
-		return SmartTest.getTaskInstancesByWorkHour(date, workHourType, maxSize);
+		return SmartTest.getTaskInstancesByWorkHour(contextId, spaceId, date, workHourType, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) throws Exception {
+	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
-		return SmartTest.getTaskInstancesByWorkHours(date, maxSize);
+		return SmartTest.getTaskInstancesByWorkHours(contextId, spaceId, date, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) throws Exception {
+	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
-		return SmartTest.getTaskInstancesByDate(date, maxSize);
+		return SmartTest.getTaskInstancesByDate(contextId, spaceId, date, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
+	public TaskInstanceInfo[][] getTaskInstancesByDates(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
-		return SmartTest.getTaskInstancesByDates(fromDate, toDate, maxSize);
+		return SmartTest.getTaskInstancesByDates(contextId, spaceId, fromDate, toDate, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
+	public TaskInstanceInfo[] getTaskInstancesByWeek(String contextId, String spaceId, LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
-		return SmartTest.getTaskInstancesByWeek(weekStart, weekEnd, maxSize);
+		return SmartTest.getTaskInstancesByWeek(contextId, spaceId, weekStart, weekEnd, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) throws Exception {
+	public TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
-		return SmartTest.getTaskInstancesByWeeks(month, maxSize);
+		return SmartTest.getTaskInstancesByWeeks(contextId, spaceId, month, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return SmartTest.getTaskInstancesByFromDate(contextId, spaceId, fromDate, maxSize);
 	}
 
 }
