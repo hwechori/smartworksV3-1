@@ -518,6 +518,7 @@ $(function() {
 		var formId = input.attr("formId");
 		var instId = input.attr("taskInstId");
 		var formContent = $('div.js_form_content');
+		console.log('formId=', formId, ", instId=", instId, ", formContent=", formContent);
 		new SmartWorks.GridLayout({
 			target : formContent,
 			mode : "view",
@@ -531,6 +532,7 @@ $(function() {
 				
 			}
 		});
+		return false;
 	});
 
 	$('input.js_file_upload').live('change', function(e) {
