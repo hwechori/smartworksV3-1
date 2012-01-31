@@ -93,61 +93,59 @@ public class CalendarServiceImpl implements ICalendarService {
 		CompanyCalendar[] companyCalendars = new CompanyCalendar[days];
 		SwcWorkHour swcWorkHour = new SwcWorkHour();
 		for(int i=0; i<days; i++) {
+			CompanyCalendar companyCalendar = new CompanyCalendar();
 			if(swcWorkHours != null) {
 				for(int j=0; j<swcWorkHours.length; j++) {
 					if((new LocalDate(swcWorkHours[j].getValidFromDate().getTime())).getTime() <= fromDate.getTime()) {
-						if(swcWorkHours[j].getValidToDate() == null) {
-							swcWorkHour = swcWorkHours[0];
-						}
+						swcWorkHour = swcWorkHours[j];
 					}
 				}
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(fromDate);
+				int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+				Calendar startCalendar = Calendar.getInstance();
+				Calendar endCalendar = Calendar.getInstance();
+
+				switch (dayOfWeek) {
+				case Calendar.SUNDAY:
+					startCalendar.setTime(swcWorkHour.getSunStartTime());
+					endCalendar.setTime(swcWorkHour.getSunEndTime());
+					break;
+				case Calendar.MONDAY:
+					startCalendar.setTime(swcWorkHour.getMonStartTime());
+					endCalendar.setTime(swcWorkHour.getMonEndTime());
+					break;
+				case Calendar.TUESDAY:
+					startCalendar.setTime(swcWorkHour.getTueStartTime());
+					endCalendar.setTime(swcWorkHour.getTueEndTime());
+					break;
+				case Calendar.WEDNESDAY:
+					startCalendar.setTime(swcWorkHour.getWedStartTime());
+					endCalendar.setTime(swcWorkHour.getWedEndTime());
+					break;
+				case Calendar.THURSDAY:
+					startCalendar.setTime(swcWorkHour.getThuStartTime());
+					endCalendar.setTime(swcWorkHour.getThuEndTime());
+					break;
+				case Calendar.FRIDAY:
+					startCalendar.setTime(swcWorkHour.getFriStartTime());
+					endCalendar.setTime(swcWorkHour.getFriEndTime());
+					break;
+				case Calendar.SATURDAY:
+					startCalendar.setTime(swcWorkHour.getSatStartTime());
+					endCalendar.setTime(swcWorkHour.getSatEndTime());
+					break;
+				default:
+					break;
+				}
+
+				start = startCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + startCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
+				end = endCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + endCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
+				workTime = end - start;
+
+				companyCalendar.setWorkHour(new WorkHour(start, end, workTime));
 			}
-			CompanyCalendar companyCalendar = new CompanyCalendar();
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(fromDate);
-			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-
-			Calendar startCalendar = Calendar.getInstance();
-			Calendar endCalendar = Calendar.getInstance();
-
-			switch (dayOfWeek) {
-			case Calendar.SUNDAY:
-				startCalendar.setTime(swcWorkHour.getSunStartTime());
-				endCalendar.setTime(swcWorkHour.getSunEndTime());
-				break;
-			case Calendar.MONDAY:
-				startCalendar.setTime(swcWorkHour.getMonStartTime());
-				endCalendar.setTime(swcWorkHour.getMonEndTime());
-				break;
-			case Calendar.TUESDAY:
-				startCalendar.setTime(swcWorkHour.getTueStartTime());
-				endCalendar.setTime(swcWorkHour.getTueEndTime());
-				break;
-			case Calendar.WEDNESDAY:
-				startCalendar.setTime(swcWorkHour.getWedStartTime());
-				endCalendar.setTime(swcWorkHour.getWedEndTime());
-				break;
-			case Calendar.THURSDAY:
-				startCalendar.setTime(swcWorkHour.getThuStartTime());
-				endCalendar.setTime(swcWorkHour.getThuEndTime());
-				break;
-			case Calendar.FRIDAY:
-				startCalendar.setTime(swcWorkHour.getFriStartTime());
-				endCalendar.setTime(swcWorkHour.getFriEndTime());
-				break;
-			case Calendar.SATURDAY:
-				startCalendar.setTime(swcWorkHour.getSatStartTime());
-				endCalendar.setTime(swcWorkHour.getSatEndTime());
-				break;
-			default:
-				break;
-			}
-
-			start = startCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + startCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
-			end = endCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + endCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
-			workTime = end - start;
-
-			companyCalendar.setWorkHour(new WorkHour(start, end, workTime));
 			companyCalendar.setDate(fromDate);
 			fromDateString = fromDate.toGMTDateString();
 			searchDay = new SimpleDateFormat("yyyy-MM-dd").parse(fromDateString);
