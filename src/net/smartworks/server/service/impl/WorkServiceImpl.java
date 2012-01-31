@@ -417,7 +417,11 @@ public class WorkServiceImpl implements IWorkService {
 		User user = SmartUtil.getCurrentUser();
 		SwfFormCond swfFormCond = new SwfFormCond();
 		swfFormCond.setCompanyId(user.getCompanyId());
-		swfFormCond.setPackageId(workId);
+		if(workId.startsWith("pkg_"))
+			swfFormCond.setPackageId(workId);
+		else
+			swfFormCond.setId(workId);
+
 		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
 		if(swfForms != null)
 			return swfForms[0].getObjString();
