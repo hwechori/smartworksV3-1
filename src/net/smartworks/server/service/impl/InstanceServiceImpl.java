@@ -951,7 +951,144 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		return obj;
 	}
-	
+	private SwdRecord getSwdRecordByRequestBody_test(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		
+		if (CommonUtil.isEmpty(swdFields))
+			return null;//TODO return null? throw new Exception??
+
+		Map<String, Object> smartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+
+		String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
+		String formId = (String)requestBody.get("formId");
+		String formName = (String)requestBody.get("formName");
+		String instanceId = (String)requestBody.get("instanceId");
+		int formVersion = 1;
+		
+		Map<String, SwdField> fieldInfoMap = new HashMap<String, SwdField>();
+		for (SwdField field : swdFields) {
+			fieldInfoMap.put(field.getFormFieldId(), field);
+		}
+		
+		Set<String> keySet = fieldInfoMap.keySet();
+		Iterator<String> itr = keySet.iterator();
+		
+//		SwdField[] fieldDatas = new SwdField[keySet.size()];
+		List fieldDataList = new ArrayList();
+		List<Map<String, String>> files = null;
+		List<Map<String, String>> users = null;
+		String groupId = null;
+		while (itr.hasNext()) {
+			String fieldId = (String)itr.next();
+			String value = null;
+			String refForm = null;
+			String refFormField = null;
+			String refRecordId = null;
+			Object fieldValue = smartFormInfoMap.get(fieldId);
+			if (fieldValue == null) {
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			} else if (fieldValue instanceof LinkedHashMap) {
+				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+				groupId = (String)valueMap.get("groupId");
+				refForm = (String)valueMap.get("refForm");
+				users = (ArrayList<Map<String,String>>)valueMap.get("users");
+
+				if(!CommonUtil.isEmpty(groupId)) {
+					files = (ArrayList<Map<String,String>>)valueMap.get("files");
+					if(files != null && files.size() > 0)
+						value = groupId;
+				} else if(!CommonUtil.isEmpty(refForm)) {
+					refFormField = (String)valueMap.get("refFormField");
+					refRecordId = (String)valueMap.get("refRecordId");
+					SwoDepartmentCond swoDepartmentCond = new SwoDepartmentCond();
+					swoDepartmentCond.setId(refRecordId);
+					String deptName = getSwoManager().getDepartment(userId, swoDepartmentCond, IManager.LEVEL_LITE).getName();
+					value = deptName;
+				} else if(!CommonUtil.isEmpty(users)) {
+					refFormField = "frm_user_SYSTEM"; 
+					String resultRefRecordId = "";
+					String resultValue = "";
+					String symbol = ";";
+					if(users.size() == 1) {
+						resultRefRecordId = users.get(0).get("id");
+						resultValue = users.get(0).get("name");
+					} else {
+						for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+							Map<String, String> user = users.get(i);
+							resultRefRecordId += user.get("id") + symbol;
+							resultValue += user.get("name") + symbol;
+						}
+					}
+					refRecordId = resultRefRecordId;
+					value = resultValue;
+				}
+			} else if(fieldValue instanceof String) {
+				value = (String)smartFormInfoMap.get(fieldId);
+				if(formId.equals(SmartForm.ID_MEMO_MANAGEMENT)) {
+					if(fieldId.equals("12"))
+						value = StringUtil.subString(value, 0, 20, "...");
+				} else if(formId.equals(SmartForm.ID_EVENT_MANAGEMENT)) {
+					if(fieldId.equals("1") || fieldId.equals("2")) {
+						if(!value.isEmpty())
+							value = LocalDate.convertStringToLocalDate(value).toGMTDateString();
+					}
+				}
+			}
+			if (CommonUtil.isEmpty(value))
+				continue;
+			SwdDataField fieldData = new SwdDataField();
+			fieldData.setId(fieldId);
+			fieldData.setName(fieldInfoMap.get(fieldId).getFormFieldName());
+			fieldData.setRefForm(refForm);
+			fieldData.setRefFormField(refFormField);
+			fieldData.setRefRecordId(refRecordId);
+			fieldData.setValue(value);
+
+			fieldDataList.add(fieldData);
+			
+		}
+		String workType = "";
+		String servletPath = request.getServletPath();
+		if(servletPath.equals("/upload_new_picture.sw"))
+			workType = "Pictures";
+		else
+			workType = "Files";
+
+		SwdDataField[] fieldDatas = new SwdDataField[fieldDataList.size()];
+		fieldDataList.toArray(fieldDatas);
+		SwdRecord obj = new SwdRecord();
+		obj.setDomainId(domainId);
+		obj.setFormId(formId);
+		obj.setFormName(formName);
+		obj.setFormVersion(formVersion);
+		obj.setDataFields(fieldDatas);
+		obj.setRecordId(instanceId);
+
+		if(files != null && files.size() > 0) {
+			try {
+				for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+					Map<String, String> file = files.get(i);
+					String fileId = file.get("fileId");
+					String fileName = file.get("fileName");
+					String fileSize = file.get("fileSize");
+					getDocManager().insertFiles(workType, groupId, fileId, fileName, fileSize);
+				}
+			} catch (Exception e) {
+				throw new DocFileException("file upload fail...");
+			}
+		}
+		
+		return obj;
+	}
 	@Override
 	public String startProcessWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		/*{
