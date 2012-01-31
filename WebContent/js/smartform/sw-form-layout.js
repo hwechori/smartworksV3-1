@@ -8,6 +8,7 @@ SmartWorks.GridLayout = function(config) {
 		workId : null,
 		formId : null,
 		recordId : null,
+		taskInstId : null,
 		onSuccess : null,
 		onError : null
 	};
@@ -137,6 +138,7 @@ SmartWorks.GridLayout = function(config) {
 		var workId = this.options.workId;
 		var formId = this.options.formId;
 		var recordId = this.options.recordId;
+		var taskInstId = this.options.taskInstId;
 		var formValues = this.options.formValues;
 		var onError = this.options.onError;
 		var getLayout = this.getLayout;
@@ -159,6 +161,17 @@ SmartWorks.GridLayout = function(config) {
 							return getLayout(formXml, formData.record, this_);
 						}
 					});
+				}else if(isEmpty(formValues) && (!isEmpty(workId)) && (!isEmpty(taskInstId))){
+						$.ajax({
+							url : "get_record.sw",
+							data : {
+								workId : workId,
+								taskInstId : taskInstId
+							},
+							success : function(formData, status, jqXHR) {
+								return getLayout(formXml, formData.record, this_);
+							}
+						});
 				}else{
 					return getLayout(formXml, null, this_);
 				}

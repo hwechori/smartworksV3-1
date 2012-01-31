@@ -525,7 +525,7 @@ $(function() {
 			mode : "view",
 			workId : workId,
 			formId : formId,
-			recordId : instId,
+			taskInstId : instId,
 			onSuccess : function(){
 				smartPop.closeProgress();																
 			},
