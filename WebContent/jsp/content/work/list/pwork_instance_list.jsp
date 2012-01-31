@@ -113,7 +113,7 @@
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
 				String cid = SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceInfo.getId();
-				String target = "pwork_space.sw?cid=" + cid + "?workId=" + workId;
+				String target = "pwork_space.sw?cid=" + cid + "&workId=" + workId;
 				String statusImage = "";
 				String statusTitle = "";
 				switch (instanceInfo.getStatus()) {
