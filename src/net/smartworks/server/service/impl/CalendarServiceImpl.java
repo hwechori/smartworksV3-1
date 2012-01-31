@@ -96,7 +96,8 @@ public class CalendarServiceImpl implements ICalendarService {
 			CompanyCalendar companyCalendar = new CompanyCalendar();
 			if(swcWorkHours != null) {
 				for(int j=0; j<swcWorkHours.length; j++) {
-					if((new LocalDate(swcWorkHours[j].getValidFromDate().getTime())).getTime() <= fromDate.getTime()) {
+					swcWorkHour = swcWorkHours[j];
+					if((new LocalDate(swcWorkHour.getValidFromDate().getTime())).getTime() <= fromDate.getTime()) {
 						swcWorkHour = swcWorkHours[j];
 					}
 				}
