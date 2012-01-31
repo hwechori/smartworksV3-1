@@ -477,7 +477,7 @@ public class SmartWorks implements ISmartWorks {
 
 	@Override
 	public String getFormXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return workService.getFormXml(request.getParameter("workId"));
+		return workService.getFormXml(request.getParameter("formId"), request.getParameter("workId"));
 	}
 
 	@Override
