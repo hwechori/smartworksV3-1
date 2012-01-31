@@ -1,3 +1,14 @@
+<%@page import="net.smartworks.model.community.Group"%>
+<%@page import="net.smartworks.model.community.Department"%>
+<%@page import="net.smartworks.model.instance.info.MemoInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.ImageInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.FileInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.EventInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.BoardInstanceInfo"%>
+<%@page import="net.smartworks.model.community.info.WorkSpaceInfo"%>
+<%@page import="net.smartworks.model.instance.Instance"%>
+<%@page import="net.smartworks.model.work.SocialWork"%>
+<%@page import="net.smartworks.model.work.Work"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
 <%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
@@ -19,7 +30,12 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	WorkSpace workSpace = (WorkSpace)session.getAttribute("workSpace");
-
+	String contextStr;
+	if(SmartUtil.isBlankObject(workSpace)) contextStr = "";
+	else if(workSpace.getClass().equals(User.class)) contextStr = ISmartWorks.CONTEXT_USER_SPACE;
+	else if(workSpace.getClass().equals(Department.class)) contextStr = ISmartWorks.CONTEXT_DEPARTMENT_SPACE;
+	else if(workSpace.getClass().equals(Group.class)) contextStr = ISmartWorks.CONTEXT_GROUP_SPACE;
+	
 	LocalDate today =  LocalDate.convertLocalDateStringToLocalDate((new LocalDate()).toLocalDateSimpleString());
 
 	String selectedIndexStr = request.getParameter("selectedIndex");
@@ -44,7 +60,7 @@
 	WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
 	selectedCalendar.setWorkHour(whp.getWorkHour(selectedCalendar.getDate().getDayOfWeek()));
 	
-	TaskInstanceInfo[][] tasksByWorkHours = smartWorks.getTaskInstancesByWorkHours(selectedCalendar.getDate(), 10); 
+	TaskInstanceInfo[][] tasksByWorkHours = smartWorks.getTaskInstancesByWorkHours(contextStr, workSpace.getId(), selectedCalendar.getDate(), 10); 
 	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
@@ -131,58 +147,17 @@
 						<ul>
 							<%
 							if(!SmartUtil.isBlankObject(tasksByWorkHours) && tasksByWorkHours.length ==1 && !SmartUtil.isBlankObject(tasksByWorkHours[0])){
-								for(int i=0; i<tasksByWorkHours[0].length; i++){
-									TaskInstanceInfo taskInstance = tasksByWorkHours[0][i];
-									WorkInstanceInfo workInstance = taskInstance.getWorkInstance();
-									SmartWork work = workInstance.getWork();
-									
-									switch(work.getType()){
-									case SmartWork.TYPE_INFORMATION:
-									}
-									
+								session.setAttribute("taskHistories", tasksByWorkHours[0]);
 							%>
-									<li>
-										<div class="det_title">
-											<div class="noti_pic">
-												<img src="../images/pic_size_48.jpg">
-											</div>
-											<div class="noti_in_m">
-												<span class="t_name">Minashin</span><span class="arr">▶</span><span
-													class="ico_division_s">마케팅/디자인팀</span>
-												<div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^
-													(메모는 타이틀 성격이 아니기 때문에 볼드가 안들어갑니다.)</div>
-												<div>
-													<span class="t_date"> 2011.10.13</span> <a href=""><span
-														class="repl_write">댓글달기</span> </a>
-												</div>
-											</div>
-										</div>
-									</li>
+								<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
+							<%
+							}else{
+							%>
+								<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
 							<%
 							}
-							%>
-<!-- 	
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48_4.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>
-											<img class="bu_file" /> <a href="">BT-case.ppt [678kb]</a> <strong>하반기
-												마케팅 기획 및 B2B 마케팅 자료입니다</strong>
-										</div>
-										<div>관련 설명이 들어갑니다... 없으면 안나오구요~^^ 내용이 많으면
-											줄바꿈됩니다...줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~</div>
-										<div>
-											<span class="t_date"> 2011.10.13</span> <a href=""><span
-												class="repl_write">댓글달기</span> </a>
-										</div>
-									</div>
-								</div></li>
- -->						</ul>
+							%>											
+						</ul>
 					</div>
 					<!-- 휴일시간 //-->
 				<%
@@ -192,43 +167,18 @@
 					<div class="space_section">
 	 					<div class="title"><fmt:message key="common.title.before_work"/>( ~ <%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getStart())%>)</div>
 						<ul>
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^
-											(메모는 타이틀 성격이 아니기 때문에 볼드가 안들어갑니다.)</div>
-										<div>
-											<span class="t_date"> 2011.10.13</span> <a href=""><span
-												class="repl_write">댓글달기</span> </a>
-										</div>
-									</div>
-								</div></li>
-	
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48_4.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>
-											<img class="bu_file" /> <a href="">BT-case.ppt [678kb]</a> <strong>하반기
-												마케팅 기획 및 B2B 마케팅 자료입니다</strong>
-										</div>
-										<div>관련 설명이 들어갑니다... 없으면 안나오구요~^^ 내용이 많으면
-											줄바꿈됩니다...줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~줄바꿔줄바꿔~~</div>
-										<div>
-											<span class="t_date"> 2011.10.13</span> <a href=""><span
-												class="repl_write">댓글달기</span> </a>
-										</div>
-									</div>
-								</div></li>
+							<%
+							if(!SmartUtil.isBlankObject(tasksByWorkHours) && tasksByWorkHours.length==3 && !SmartUtil.isBlankObject(tasksByWorkHours[0])){
+								session.setAttribute("taskHistories", tasksByWorkHours[0]);
+							%>
+								<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
+							<%
+							}else{
+							%>
+								<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
+							<%
+							}
+							%>											
 						</ul>
 					</div>
 					<!-- 근무시간 전//-->
@@ -238,95 +188,18 @@
 						<div class="title"><fmt:message key="common.title.work_hour"/>(<%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getStart())%> ~ <%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getEnd())%>)</div>
 	
 						<ul>
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>메모입니다...메모입니다..</div>
-										<div>
-											<span class="t_date"> 2011.10.13</span> <a href=""><span
-												class="repl_write">댓글달기</span> </a>
-										</div>
-									</div>
-								</div></li>
-	
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>
-											<strong>이미지이미지이미지이미지</strong>
-											<div>이미지 파일에 대한 설명 내용이 있다면 이 곳에 들어갑니다..</div>
-											<div class="imag_area">
-												<img src="../images/up_image.jpg" />
-											</div>
-											<div>
-												<span class="t_date"> 2011.10.13</span> <a href=""><span
-													class="repl_write">댓글달기</span> </a>
-											</div>
-	
-											<!-- 댓글 -->
-											<div class="replay_point posit_replay"></div>
-											<div class="replay_section">
-	
-												<div class="list_replay">
-													<ul>
-														<li><img class="repl_tinfo"><a href=""><strong>7</strong>개의
-																댓글 모두 보기</a></li>
-														<li>
-															<div class="noti_pic">
-																<img src="../images/pic_size_29.jpg" alt="신민아"
-																	align="bottom" />
-															</div>
-															<div class="noti_in">
-																<span class="t_name">Minashin</span><span class="t_date">
-																	2011.10.13</span>
-																<div>와우~ 멋져요~</div>
-															</div></li>
-														<li>
-															<div class="noti_pic">
-																<img src="../images/pic_size_29.jpg" alt="신민아"
-																	align="bottom" />
-															</div>
-															<div class="noti_in">
-																<span class="t_name">Minashin</span><span class="t_date">
-																	2011.10.13</span>
-																<div>재미있었겠네요~</div>
-															</div></li>
-														<li>
-															<div class="det_title">
-																<div class="noti_pic">
-																	<img src="../images/pic_size_29.jpg" alt="신민아"
-																		align="bottom" />
-																</div>
-																<div class="noti_in">
-																	<span class="t_name">Minashin</span><span class="t_date">
-																		2011.10.13</span>
-																	<div>가을이 다 지나가부렀네요~~--;</div>
-																</div>
-															</div></li>
-													</ul>
-												</div>
-	
-												<div class="replay_input">
-													<textarea class="up_textarea" rows="1" cols=""
-														name="txtaEventContent">댓글을 입력하세요!</textarea>
-												</div>
-	
-											</div>
-											<!-- 댓글 //-->
-	
-										</div>
-									</div>
-								</div></li>
+							<%
+							if(!SmartUtil.isBlankObject(tasksByWorkHours) && tasksByWorkHours.length ==3 && !SmartUtil.isBlankObject(tasksByWorkHours[1])){
+								session.setAttribute("taskHistories", tasksByWorkHours[1]);
+							%>
+								<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
+							<%
+							}else{
+							%>
+								<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
+							<%
+							}
+							%>											
 						</ul>
 					</div>
 					<!-- 근무시간//-->
@@ -335,14 +208,24 @@
 					<div class="space_section margin_t10">
 						<div class="title_off"><fmt:message key="common.title.after_work"/>(<%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getEnd())%> ~ )</div>
 						<ul>
-							<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
+							<%
+							if(!SmartUtil.isBlankObject(tasksByWorkHours) && tasksByWorkHours.length ==3 && !SmartUtil.isBlankObject(tasksByWorkHours[2])){
+								session.setAttribute("taskHistories", tasksByWorkHours[2]);
+							%>
+								<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
+							<%
+							}else{
+							%>
+								<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
+							<%
+							}
+							%>											
 						</ul>
 					</div>
 					<!-- 근무시간 후//-->
 				<%
 				}
 				%>
-
 			</div>
 			<!-- 컨텐츠 //-->
 

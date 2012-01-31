@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.community.Group"%>
+<%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.model.calendar.WorkHourPolicy"%>
@@ -16,6 +18,11 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	WorkSpace workSpace = (WorkSpace)session.getAttribute("workSpace");
+	String contextStr;
+	if(SmartUtil.isBlankObject(workSpace)) contextStr = "";
+	else if(workSpace.getClass().equals(User.class)) contextStr = ISmartWorks.CONTEXT_USER_SPACE;
+	else if(workSpace.getClass().equals(Department.class)) contextStr = ISmartWorks.CONTEXT_DEPARTMENT_SPACE;
+	else if(workSpace.getClass().equals(Group.class)) contextStr = ISmartWorks.CONTEXT_GROUP_SPACE;
 
 	LocalDate today =  LocalDate.convertLocalDateStringToLocalDate((new LocalDate()).toLocalDateSimpleString());
 	
@@ -135,7 +142,7 @@
 
 				<%
 				CompanyCalendar[] calendars = smartWorks.getCompanyCalendars(selectedWeekStart, selectedWeekEnd);
-				TaskInstanceInfo[][] tasksByDates = smartWorks.getTaskInstancesByDates(selectedWeekStart, selectedWeekEnd, 5); 
+				TaskInstanceInfo[][] tasksByDates = smartWorks.getTaskInstancesByDates(contextStr, workSpace.getId(), selectedWeekStart, selectedWeekEnd, 5); 
 
 				LocalDate thisDate = new LocalDate(selectedWeekStart.getTime());
 				for(int i=0; i<7 && thisDate.getTime() <= today.getTime(); i++){
@@ -147,101 +154,18 @@
 					<div class="space_section margin_t10">
 						<div class="<%=titleClass%>"><%=calendars[i].getDate().toLocalDateLongString() + calendars[i].toCompanyEventsString()%></div>
 						<ul>
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>메모입니다...메모입니다..</div>
-										<div>
-											<span class="t_date"> 2011.10.13</span> <a href=""><span
-												class="repl_write">댓글달기</span> </a>
-										</div>
-									</div>
-								</div>
-							</li>
-	
-							<li>
-								<div class="det_title">
-									<div class="noti_pic">
-										<img src="../images/pic_size_48.jpg">
-									</div>
-									<div class="noti_in_m">
-										<span class="t_name">Minashin</span><span class="arr">▶</span><span
-											class="ico_division_s">마케팅/디자인팀</span>
-										<div>
-											<strong>이미지이미지이미지이미지</strong>
-											<div>이미지 파일에 대한 설명 내용이 있다면 이 곳에 들어갑니다..</div>
-											<div class="imag_area">
-												<img src="../images/up_image.jpg" />
-											</div>
-											<div>
-												<span class="t_date"> 2011.10.13</span> <a href=""><span
-													class="repl_write">댓글달기</span> </a>
-											</div>
-	
-											<!-- 댓글 -->
-											<div class="replay_point posit_replay"></div>
-											<div class="replay_section">
-	
-												<div class="list_replay">
-													<ul>
-														<li><img class="repl_tinfo"><a href=""><strong>7</strong>개의
-																	댓글 모두 보기</a>
-														</li>
-														<li>
-															<div class="noti_pic">
-																<img src="../images/pic_size_29.jpg" alt="신민아"
-																	align="bottom" />
-															</div>
-															<div class="noti_in">
-																<span class="t_name">Minashin</span><span
-																	class="t_date"> 2011.10.13</span>
-																<div>와우~ 멋져요~</div>
-															</div>
-														</li>
-														<li>
-															<div class="noti_pic">
-																<img src="../images/pic_size_29.jpg" alt="신민아"
-																	align="bottom" />
-															</div>
-															<div class="noti_in">
-																<span class="t_name">Minashin</span><span
-																	class="t_date"> 2011.10.13</span>
-																<div>재미있었겠네요~</div>
-															</div>
-														</li>
-														<li>
-															<div class="det_title">
-																<div class="noti_pic">
-																	<img src="../images/pic_size_29.jpg" alt="신민아"
-																		align="bottom" />
-																</div>
-																<div class="noti_in">
-																	<span class="t_name">Minashin</span><span
-																		class="t_date"> 2011.10.13</span>
-																	<div>가을이 다 지나가부렀네요~~--;</div>
-																</div>
-															</div>
-														</li>
-													</ul>
-												</div>
-	
-												<div class="replay_input">
-													<textarea class="up_textarea" rows="1" cols=""
-														name="txtaEventContent">댓글을 입력하세요!</textarea>
-												</div>
-	
-											</div>
-											<!-- 댓글 //-->
-	
-										</div>
-									</div>
-								</div>
-							</li>
+							<%
+							if(!SmartUtil.isBlankObject(tasksByDates) && tasksByDates.length >i && !SmartUtil.isBlankObject(tasksByDates[i])){
+								session.setAttribute("taskHistories", tasksByDates[i]);
+							%>
+								<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
+							<%
+							}else{
+							%>
+								<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
+							<%
+							}
+							%>											
 						</ul>
 					</div>
 					<!-- 5일//-->
@@ -249,17 +173,7 @@
 					thisDate = new LocalDate(selectedWeekStart.getTime() + LocalDate.ONE_DAY*(i+1));
 				}
 				%>
-<!-- 				10일
-				<div class="space_section margin_t10">
-					<div class="title_off">
-						<span class="t_saturday">12월 10일 토요일</span>
-					</div>
-					<ul>
-						<li class="t_nowork">업무가 없습니다</li>
-					</ul>
-				</div>
-				10일//
- -->			</div>
+			</div>
 			<!-- 컨텐츠 //-->
 
 		</ul>

@@ -127,12 +127,12 @@ a .proc_btn_next:hover {background: url("../images/proc_bg.png") no-repeat -129p
 .proc_start_compl .current { font-weight:bold;}
 .proc_start_yet {}
 
-.proc_task_compl {display:inline-block;}
-.proc_task_compl .pstart {background: url("../images/prc_task_coml_l.gif") no-repeat 0 0 transparent;
+.proc_task_completed {display:inline-block;}
+.proc_task_completed .pstart {background: url("../images/prc_task_coml_l.gif") no-repeat 0 0 transparent;
 			 float:left; height:47px; width:5px;}
-.proc_task_compl .pcenter {background: url("../images/prc_task_coml_c.gif") repeat-x 0 0 transparent;
+.proc_task_completed .pcenter {background: url("../images/prc_task_coml_c.gif") repeat-x 0 0 transparent;
     		float:left; color:#454545; height:39px; padding-top:8px; text-align:center; min-width:113px;}
-.proc_task_compl .pend {background: url("../images/prc_task_coml_r.gif") no-repeat 0 0 transparent;
+.proc_task_completed .pend {background: url("../images/prc_task_coml_r.gif") no-repeat 0 0 transparent;
     		float:left; height:47px; width:5px;}
 			
 .proc_task_yet {display:inline-block;}
@@ -143,29 +143,29 @@ a .proc_btn_next:hover {background: url("../images/proc_bg.png") no-repeat -129p
 .proc_task_yet .pend {background: url("../images/prc_task_yet_r.gif") repeat scroll 0 0 transparent;
     		float:left; height:47px; width:5px;}
 			
-.proc_task_rturn {display:inline-block;}
-.proc_task_rturn .pstart {background: url("../images/prc_task_rturn_l.gif") no-repeat 0 0 transparent;
+.proc_task_returned {display:inline-block;}
+.proc_task_returned .pstart {background: url("../images/prc_task_rturn_l.gif") no-repeat 0 0 transparent;
 			 float:left; height:47px; width:5px;}
-.proc_task_rturn .pcenter {background: url("../images/prc_task_rturn_c.gif") repeat-x 0 0 transparent;
+.proc_task_returned .pcenter {background: url("../images/prc_task_rturn_c.gif") repeat-x 0 0 transparent;
     		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
-.proc_task_rturn .pend {background: url("../images/prc_task_rturn_r.gif") no-repeat 0 0 transparent;
+.proc_task_returned .pend {background: url("../images/prc_task_rturn_r.gif") no-repeat 0 0 transparent;
     		float:left; height:47px; width:5px;}
 			
-.proc_task_ing {display:inline-block;}
-.proc_task_ing .pstart {background: url("../images/prc_task_ing_l.gif") no-repeat 0 0 transparent;
+.proc_task_running {display:inline-block;}
+.proc_task_running .pstart {background: url("../images/prc_task_ing_l.gif") no-repeat 0 0 transparent;
 			 float:left; height:47px; width:5px;}
-.proc_task_ing .pcenter {background: url("../images/prc_task_ing_c.gif") repeat-x 0 0 transparent;
+.proc_task_running .pcenter {background: url("../images/prc_task_ing_c.gif") repeat-x 0 0 transparent;
     		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
-.proc_task_ing .pend {background: url("../images/prc_task_ing_r.gif") no-repeat 0 0 transparent;
+.proc_task_running .pend {background: url("../images/prc_task_ing_r.gif") no-repeat 0 0 transparent;
     		float:left; height:47px; width:5px;}
 			
 
-.proc_task_dlay {display:inline-block;}
-.proc_task_dlay .pstart {background: url("../images/prc_task_dlay_l.gif") no-repeat 0 0 transparent;
+.proc_task_delayed {display:inline-block;}
+.proc_task_delayed .pstart {background: url("../images/prc_task_dlay_l.gif") no-repeat 0 0 transparent;
 			 float:left; height:47px; width:5px;}
-.proc_task_dlay .pcenter {background: url("../images/prc_task_dlay_c.gif") repeat-x 0 0 transparent;
+.proc_task_delayed .pcenter {background: url("../images/prc_task_dlay_c.gif") repeat-x 0 0 transparent;
     		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
-.proc_task_dlay .pend {background: url("../images/prc_task_dlay_r.gif") no-repeat 0 0 transparent;
+.proc_task_delayed .pend {background: url("../images/prc_task_dlay_r.gif") no-repeat 0 0 transparent;
     		float:left; height:47px; width:5px;}
 			
 			

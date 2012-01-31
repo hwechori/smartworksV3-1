@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.work.info.SmartTaskInfo"%>
 <%@page import="net.smartworks.model.instance.Instance"%>
 <%@page import="net.smartworks.model.instance.SortingField"%>
 <%@page import="net.smartworks.util.LocalDate"%>
@@ -34,6 +35,17 @@
 	}
 	User cUser = SmartUtil.getCurrentUser();
 	ProcessWork work = (ProcessWork)session.getAttribute("smartWork");
+	SmartTaskInfo[] tasks = work.getDiagram().getTasks();
+	SmartTaskInfo startTask = null;
+	if(!SmartUtil.isBlankObject(tasks)){
+		for(int i=0; i<tasks.length; i++){
+			if(tasks[i].isStartTask()){
+				startTask = tasks[i];
+				break;
+			}
+		}
+		startTask = tasks[0];
+	}
 	String workId = work.getId();
 	InstanceInfoList instanceList = smartWorks.getPWorkInstanceList(workId, params);
 %>
@@ -113,7 +125,7 @@
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
 				String cid = SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceInfo.getId();
-				String target = "pwork_space.sw?cid=" + cid + "?workId=" + workId;
+				String target = "pwork_space.sw?cid=" + cid + "&workId=" + workId;
 				String statusImage = "";
 				String statusTitle = "";
 				switch (instanceInfo.getStatus()) {
@@ -145,14 +157,14 @@
 			%>
 				<tr>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>">
 							<div class="noti_pic js_content_pwork_space">
 								<img src="<%=statusImage%>" title="<%=statusTitle%>"/>
 							</div>
 						</a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>">
 							<div class="noti_pic js_content_pwork_space">
 								<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s" />
 							</div>
@@ -163,13 +175,13 @@
 						</a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=instanceInfo.getSubject()%></a>
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>"><%=instanceInfo.getSubject()%></a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>"><%=lastTask.getName()%></a>
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>"><%=lastTask.getName()%></a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>">
 							<div class="noti_pic js_content_pwork_space">
 								<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
 							</div>

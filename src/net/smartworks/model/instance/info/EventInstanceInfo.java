@@ -5,7 +5,7 @@ import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.util.LocalDate;
 
-public class EventInstanceInfo extends InstanceInfo {
+public class EventInstanceInfo extends WorkInstanceInfo {
 
 	private String			content;
 	private CommunityInfo[]	relatedUsers;
