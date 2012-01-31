@@ -25,6 +25,7 @@ public class TskTask extends MisObject {
 	
 	public static final String TASKSTATUS_ASSIGN = "11";
 	public static final String TASKSTATUS_COMPLETE = "21";
+	public static final String TASKSTATUS_RETURNED = "23";
 	public static final String TASKSTATUS_CREATE = "1";
 	
 	public static final String TASKTYPE_COMMON = "COMMON";

@@ -863,11 +863,15 @@ public class ModelConverter {
 		WorkInfo work = getWorkInfoByTask(task);
 		WorkSpaceInfo workSpace = null; //TODO
 		
-		int status = -1;
+		int status = 0;
 		if (task.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN)) {
-			status = Instance.STATUS_COMPLETED;
+			status = Instance.STATUS_RUNNING;
 		} else if (task.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_COMPLETE)) {
 			status = Instance.STATUS_COMPLETED;
+		} else if (task.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_RETURNED)) {
+			status = Instance.STATUS_RETURNED;
+		} else if (task.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_CREATE)) {
+			status = Instance.STATUS_PLANNED;
 		}
 		UserInfo owner = ModelConverter.getUserInfoByUserId(task.getCreationUser());
 		UserInfo lastModifier = ModelConverter.getUserInfoByUserId(task.getModificationUser()); 
