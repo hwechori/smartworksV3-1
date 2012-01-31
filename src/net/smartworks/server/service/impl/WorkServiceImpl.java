@@ -412,15 +412,16 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public String getFormXml(String workId) throws Exception {
+	public String getFormXml(String formId, String workId) throws Exception {
 
 		User user = SmartUtil.getCurrentUser();
 		SwfFormCond swfFormCond = new SwfFormCond();
 		swfFormCond.setCompanyId(user.getCompanyId());
-		if(workId.startsWith("pkg_"))
-			swfFormCond.setPackageId(workId);
+
+		if(!CommonUtil.isEmpty(formId))
+			swfFormCond.setId(formId);
 		else
-			swfFormCond.setId(workId);
+			swfFormCond.setPackageId(workId);
 
 		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
 		if(swfForms != null)
