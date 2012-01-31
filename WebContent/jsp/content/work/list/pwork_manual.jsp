@@ -46,7 +46,7 @@
         <div class="proce_section">
         
 	        <!-- 방향 Prev -->
-	        <div class="float_left"><a href=""><img class="proc_btn_prev"></a></div>
+	        <div class="float_left_nowidth"><a href=""><img class="proc_btn_prev"></a></div>
 		
 			<!--  태스크 시작 -->
 			<div class="proce_space">
@@ -59,20 +59,20 @@
 				%>
 						<!-- 태스크 -->
 				
-						<div class="proc_task_yet float_left padding_r10">
+						<div class="proc_task_yet float_left_nowidth padding_r10">
 							<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
 								<span class="pstart"></span> 
 								<span class="pcenter">
-									<div class="float_left"><img align="bottom" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>"></div>
+									<div class="float_left_nowidth"><img align="bottom" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>"></div>
 									<div class="noti_in"><span><%=task.getName()%></span></div>
-									<div><span><%=task.getAssigningName()%></span></div>
+									<div><span class="t_date"><%=task.getAssigningName()%></span></div>
 								</span> 
 								<span class="pend"></span> 
 							</a>
 						</div>
 						
 						 <!--화살표-->
-				        <div class="proc_arr_next float_left padding_r10"></div>
+				        <div class="proc_arr_next float_left_nowidth padding_r10"></div>
 				        <!--화살표-->
 				        
 						<!-- 태스크 //-->

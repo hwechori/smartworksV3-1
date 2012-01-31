@@ -80,12 +80,12 @@
 				<div class="proce_section">
 			    
 			        <!-- 방향 Prev -->
-			        <div class="float_left"><a href=""><img class="proc_btn_prev"></a></div>
+			        <div class="float_left_nowidth"><a href=""><img class="proc_btn_prev"></a></div>
 			        
 			        <!-- 시작
-			        <div class="proc_start_compl float_left padding_r10"> 시작 </div>
+			        <div class="proc_start_compl float_left_nowidth padding_r10"> 시작 </div>
 			        	화살표
-			        <div class="proc_arr_next float_left padding_r10"></div>
+			        <div class="proc_arr_next float_left_nowidth padding_r10"></div>
 			        -->
 			        
 			        <!-- 태스크 시작-->
@@ -108,14 +108,15 @@
 				        				statusClass = "proc_task_delayed_r";
 				        			else if(task.getStatus() == TaskInstance.STATUS_COMPLETED)
 				        				statusClass = "proc_task_completed";
+				        			statusClass = "proc_task_ing";
 				        	%>
 			            			<!-- 태스크 --> 
-						            <li class="<%=statusClass %> float_left padding_r10">
+						            <li class="<%=statusClass %> float_left_nowidth padding_r10">
 						                <a href="">
 							                <span class="pstart"></span>
 							                <span class="pcenter">
 							                    <!-- task 정보 -->
-							                    <div class="float_left">
+							                    <div class="float_left_nowidth">
 							                    	<img align="bottom" src="<%=task.getOwner().getMinPicture()%>" class="profile_size_s">
 							                    </div>
 							                    <div class="noti_in">
@@ -132,7 +133,7 @@
 			            			if(i<taskHistories.length-1){
 			            			%>
 							            <!--화살표-->
-							            <li class="proc_arr_next float_left padding_r10"></li>
+							            <li class="proc_arr_next float_left_nowidth padding_r10"></li>
 							            <!--화살표-->
 							        <%
 							        }
