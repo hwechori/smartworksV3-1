@@ -11,6 +11,7 @@ public class TaskInstanceInfo extends InstanceInfo {
 	private WorkInstanceInfo  workInstance;
 	private UserInfo assignee;
 	private UserInfo performer;
+	private String formId;
 	public String getName() {
 		return name;
 	}
@@ -42,6 +43,12 @@ public class TaskInstanceInfo extends InstanceInfo {
 		this.performer = performer;
 	}
 
+	public String getFormId() {
+		return formId;
+	}
+	public void setFormId(String formId) {
+		this.formId = formId;
+	}
 	public TaskInstanceInfo(){
 		super();
 	}

@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.community.Group"%>
+<%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.model.instance.info.MemoInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.ImageInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.FileInstanceInfo"%>
@@ -28,7 +30,12 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	WorkSpace workSpace = (WorkSpace)session.getAttribute("workSpace");
-
+	String contextStr;
+	if(SmartUtil.isBlankObject(workSpace)) contextStr = "";
+	else if(workSpace.getClass().equals(User.class)) contextStr = ISmartWorks.CONTEXT_USER_SPACE;
+	else if(workSpace.getClass().equals(Department.class)) contextStr = ISmartWorks.CONTEXT_DEPARTMENT_SPACE;
+	else if(workSpace.getClass().equals(Group.class)) contextStr = ISmartWorks.CONTEXT_GROUP_SPACE;
+	
 	LocalDate today =  LocalDate.convertLocalDateStringToLocalDate((new LocalDate()).toLocalDateSimpleString());
 
 	String selectedIndexStr = request.getParameter("selectedIndex");
@@ -53,7 +60,7 @@
 	WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
 	selectedCalendar.setWorkHour(whp.getWorkHour(selectedCalendar.getDate().getDayOfWeek()));
 	
-	TaskInstanceInfo[][] tasksByWorkHours = smartWorks.getTaskInstancesByWorkHours(selectedCalendar.getDate(), 10); 
+	TaskInstanceInfo[][] tasksByWorkHours = smartWorks.getTaskInstancesByWorkHours(contextStr, workSpace.getId(), selectedCalendar.getDate(), 10); 
 	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->

@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.community.Group"%>
+<%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.model.calendar.WorkHourPolicy"%>
@@ -16,6 +18,11 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	WorkSpace workSpace = (WorkSpace)session.getAttribute("workSpace");
+	String contextStr;
+	if(SmartUtil.isBlankObject(workSpace)) contextStr = "";
+	else if(workSpace.getClass().equals(User.class)) contextStr = ISmartWorks.CONTEXT_USER_SPACE;
+	else if(workSpace.getClass().equals(Department.class)) contextStr = ISmartWorks.CONTEXT_DEPARTMENT_SPACE;
+	else if(workSpace.getClass().equals(Group.class)) contextStr = ISmartWorks.CONTEXT_GROUP_SPACE;
 
 	LocalDate today =  LocalDate.convertLocalDateStringToLocalDate((new LocalDate()).toLocalDateSimpleString());
 	
@@ -135,7 +142,7 @@
 
 				<%
 				CompanyCalendar[] calendars = smartWorks.getCompanyCalendars(selectedWeekStart, selectedWeekEnd);
-				TaskInstanceInfo[][] tasksByDates = smartWorks.getTaskInstancesByDates(selectedWeekStart, selectedWeekEnd, 5); 
+				TaskInstanceInfo[][] tasksByDates = smartWorks.getTaskInstancesByDates(contextStr, workSpace.getId(), selectedWeekStart, selectedWeekEnd, 5); 
 
 				LocalDate thisDate = new LocalDate(selectedWeekStart.getTime());
 				for(int i=0; i<7 && thisDate.getTime() <= today.getTime(); i++){

@@ -47,6 +47,19 @@ public interface ISmartWorks {
 	public final static String CONTEXT_SMARTCASTER = "sf.sc";
 	public final static String CONTEXT_DASHBOARD = "sf.db";
 	public final static String CONTEXT_MYPROFILE = "sf.pf";
+	
+	public final static String CONTEXT_USER_SPACE = "us.sp";
+	public final static String CONTEXT_GROUP_SPACE = "gp.sp";
+	public final static String CONTEXT_DEPARTMENT_SPACE = "dp.sp";
+	public final static String CONTEXT_IWORK_SPACE = "iw.sp";
+	public final static String CONTEXT_PWORK_SPACE = "pw.sp";
+	public final static String CONTEXT_SWORK_SPACE = "sw.sp";
+	public final static String CONTEXT_FILE_SPACE = "fl.sp";
+	public final static String CONTEXT_IMAGE_SPACE = "im.sp";
+	public final static String CONTEXT_EVENT_SPACE = "ev.sp";
+	public final static String CONTEXT_MEMO_SPACE = "mm.sp";
+	public final static String CONTEXT_BOARD_SPACE = "bd.sp";
+	public final static String CONTEXT_MAIL_SPACE = "ml.sp";
 
 	public final static String CONTEXT_PREFIX_SELF = "sf.";
 
@@ -170,17 +183,19 @@ public interface ISmartWorks {
 
 	public abstract WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception;
 
-	public abstract TaskInstanceInfo[] getTaskInstancesByWorkHour(LocalDate date, int workHourType, int maxSize) throws Exception;
+	public abstract TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate date, int workHourType, int maxSize) throws Exception;
 
-	public abstract TaskInstanceInfo[][] getTaskInstancesByWorkHours(LocalDate date, int maxSize) throws Exception;
+	public abstract TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;
 
-	public abstract TaskInstanceInfo[] getTaskInstancesByDate(LocalDate date, int maxSize) throws Exception;
+	public abstract TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;
 
-	public abstract TaskInstanceInfo[][] getTaskInstancesByDates(LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
+	public abstract TaskInstanceInfo[][] getTaskInstancesByDates(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
 
-	public abstract TaskInstanceInfo[] getTaskInstancesByWeek(LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception;
+	public abstract TaskInstanceInfo[] getTaskInstancesByWeek(String contextId, String spaceId, LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception;
 
-	public abstract TaskInstanceInfo[][] getTaskInstancesByWeeks(LocalDate month, int maxSize) throws Exception;
+	public abstract TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception;
 
 	public abstract Report getReportById(String reportId) throws Exception;
 
