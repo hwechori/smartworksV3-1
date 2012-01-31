@@ -614,7 +614,7 @@ public class WorkServiceImpl implements IWorkService {
 						swdDataField.setUsers(resultUsers);
 					} else if(formatType.equals(FormField.TYPE_DATE)) {
 						if(value != null)
-							value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateSimpleString(); 
+							value = LocalDate.convertGMTSimpleStringToLocalDate(value).toLocalDateSimpleString(); 
 					} else if(formatType.equals(FormField.TYPE_TIME)) {
 						if(value != null)
 							value = LocalDate.convertGMTTimeStringToLocalDate(value).toLocalTimeShortString();
