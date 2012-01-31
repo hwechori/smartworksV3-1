@@ -30,7 +30,7 @@
 	
 	ProcessWorkInstance instance = (ProcessWorkInstance)session.getAttribute("workInstance");
 	if(SmartUtil.isBlankObject(instance) || !instance.getId().equals(instId)) 
-		instance = (ProcessWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_PROCESS, null);
+		instance = (ProcessWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_PROCESS, null, instId);
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
 //	ProcessWork work = (ProcessWork)instance.getWork();
