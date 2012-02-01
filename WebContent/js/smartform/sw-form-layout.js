@@ -159,6 +159,9 @@ SmartWorks.GridLayout = function(config) {
 						},
 						success : function(formData, status, jqXHR) {
 							return getLayout(formXml, formData.record, this_);
+						},
+						error : function(){
+							return getLayout(formXm, null, this_);
 						}
 					});
 				}else if(isEmpty(formValues) && (!isEmpty(workId)) && (!isEmpty(taskInstId))){
@@ -170,6 +173,9 @@ SmartWorks.GridLayout = function(config) {
 							},
 							success : function(formData, status, jqXHR) {
 								return getLayout(formXml, formData.record, this_);
+							},
+							error : function(){
+								return getLayout(formXml, null, this_);
 							}
 						});
 				}else{
