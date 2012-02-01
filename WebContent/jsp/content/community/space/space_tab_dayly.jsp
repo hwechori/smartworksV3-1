@@ -30,7 +30,7 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	WorkSpace workSpace = (WorkSpace)session.getAttribute("workSpace");
-	String contextStr;
+	String contextStr = null;
 	if(SmartUtil.isBlankObject(workSpace)) contextStr = "";
 	else if(workSpace.getClass().equals(User.class)) contextStr = ISmartWorks.CONTEXT_USER_SPACE;
 	else if(workSpace.getClass().equals(Department.class)) contextStr = ISmartWorks.CONTEXT_DEPARTMENT_SPACE;

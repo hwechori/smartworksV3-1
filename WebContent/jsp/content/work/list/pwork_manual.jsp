@@ -50,7 +50,8 @@
 		
 			<!--  태스크 시작 -->
 			<div class="proce_space">
-
+			<div style="white-space:nowrap">
+			<div style="">
 				<%
 				if (tasks != null) {
 					for (SmartTaskInfo task : tasks) {
@@ -80,7 +81,8 @@
 					}
 				}
 				%>
-
+			</div>
+			</div>
 			</div>
 			<!--  태스크 시작// -->
 	
