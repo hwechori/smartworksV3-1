@@ -271,6 +271,63 @@ $(function() {
 		return false;
 	});
 	
+	$('a.js_manual_tasks_right').live('click', function(e){
+		var input = $(e.target).parents('a:first');
+		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
+		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
+		var left = manualTasks.position().left;
+		var width = manualTasks.width();
+		var remainingWidth = width+left;
+		if(remainingWidth>manualTasksHolder.width()){
+			remainingWidth = remainingWidth - manualTasksHolder.width();
+			if(remainingWidth>0 && remainingWidth<=manualTasksHolder.width()/2){
+				left = left - remainingWidth;
+			}else{
+				left = left - manualTasksHolder.width()/2;
+			}	
+		}
+		manualTasks.css({"left": left + "px"});
+		var manualLeft = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_left');
+		if(left<0)
+			manualLeft.show();
+		else
+			manualLeft.hide();
+		remainingWidth = width+left;
+		if(remainingWidth <= manualTasksHolder.width())
+			input.hide();
+		else
+			input.show();		
+		return false;
+	});
+	
+	$('a.js_manual_tasks_left').live('click', function(e){
+		var input = $(e.target).parents('a:first');
+		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
+		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
+		var left = manualTasks.position().left;
+		var width = manualTasks.width();
+		var remainingWidth = -left;
+		if(remainingWidth>0){
+			if(remainingWidth<=manualTasksHolder.width()/2){
+				left = left + remainingWidth;
+			}else{
+				left = left + manualTasksHolder.width()/2;
+			}	
+		}
+		manualTasks.css({"left": left + "px"});
+		if(left<0)
+			input.show();
+		else
+			input.hide();
+		remainingWidth = width+left;
+		var manualRight = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_right');
+		if(remainingWidth <= manualTasksHolder.width())
+			manualRight.hide();
+		else
+			manualRight.show();
+		return false;
+	});
+	
 	$('a.js_modify_iwork_instance').live('click', function(e){
 		var input = $(e.target);
 		var iworkSpace = input.parents('.js_iwork_space_page');
