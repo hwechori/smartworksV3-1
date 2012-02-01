@@ -28,6 +28,7 @@ public class Filter extends BaseObject {
 	public static final String OPERANDTYPE_FLOAT = "float";
 	public static final String OPERANDTYPE_DOUBLE = "double";
 	public static final String OPERANDTYPE_DATE = "date";
+	public static final String OPERANDTYPE_DATETIME = "dateTime";
 	
 	private String operator;
 	

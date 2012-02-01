@@ -613,14 +613,32 @@ public class WorkServiceImpl implements IWorkService {
 						}
 						swdDataField.setUsers(resultUsers);
 					} else if(formatType.equals(FormField.TYPE_DATE)) {
-						if(value != null)
-							value = LocalDate.convertGMTSimpleStringToLocalDate(value).toLocalDateSimpleString(); 
+						if(value != null) {
+							try {
+								LocalDate localDate = LocalDate.convertGMTSimpleStringToLocalDate(value);
+								if(localDate != null)
+									value = LocalDate.convertGMTSimpleStringToLocalDate(value).toLocalDateSimpleString();
+							} catch (Exception e) {
+							}
+						}
 					} else if(formatType.equals(FormField.TYPE_TIME)) {
-						if(value != null)
-							value = LocalDate.convertGMTTimeStringToLocalDate(value).toLocalTimeShortString();
+						if(value != null) {
+							try {
+								LocalDate localDate = LocalDate.convertGMTTimeStringToLocalDate(value);
+								if(localDate != null)
+									value = LocalDate.convertGMTTimeStringToLocalDate(value).toLocalTimeShortString();
+							} catch (Exception e) {
+							}
+						}
 					} else if(formatType.equals(FormField.TYPE_DATETIME)) {
-						if(value != null)
-							value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
+						if(value != null) {
+							try {
+								LocalDate localDate = LocalDate.convertGMTStringToLocalDate(value);
+								if(localDate != null)
+									value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
+							} catch (Exception e) {
+							}
+						}
 					}
 					swdDataField.setValue(value);
 				}
