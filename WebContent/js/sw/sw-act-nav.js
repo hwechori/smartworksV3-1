@@ -114,12 +114,14 @@ $(function() {
 		after : function(e){
 			smartPop.closeProgress();
 			var input = $(e.target);
+			var workId = input.attr("workId");
 			var formId = input.attr("formId");
 			var instId = input.attr("instId");
 			var formContent = $('div.js_form_content');
 			new SmartWorks.GridLayout({
 				target : formContent,
 				mode : "edit",
+				workId : workId,
 				formId : formId,
 				recordId : instId,
 				onSuccess : function(){

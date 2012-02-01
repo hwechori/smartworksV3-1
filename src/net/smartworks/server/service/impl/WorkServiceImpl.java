@@ -62,6 +62,9 @@ import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
+import net.smartworks.server.engine.process.task.manager.ITskManager;
+import net.smartworks.server.engine.process.task.model.TskTask;
+import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
@@ -101,6 +104,9 @@ public class WorkServiceImpl implements IWorkService {
 	}
 	private IDocFileManager getDocManager() {
 		return SwManagerFactory.getInstance().getDocManager();
+	}
+	private ITskManager getTskManager() {
+		return SwManagerFactory.getInstance().getTskManager();
 	}
 
 	private AuthenticationManager authenticationManager;
@@ -412,12 +418,17 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public String getFormXml(String workId) throws Exception {
+	public String getFormXml(String formId, String workId) throws Exception {
 
 		User user = SmartUtil.getCurrentUser();
 		SwfFormCond swfFormCond = new SwfFormCond();
 		swfFormCond.setCompanyId(user.getCompanyId());
-		swfFormCond.setPackageId(workId);
+
+		if(!CommonUtil.isEmpty(formId))
+			swfFormCond.setId(formId);
+		else
+			swfFormCond.setPackageId(workId);
+
 		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
 		if(swfForms != null)
 			return swfForms[0].getObjString();
@@ -553,16 +564,30 @@ public class WorkServiceImpl implements IWorkService {
 
 	@Override
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
+
+		String workId = request.getParameter("workId");
+		String recordId = request.getParameter("recordId");
+		String taskInstId = request.getParameter("taskInstId");
+
+		SwdRecord swdRecord = null;
 		SwfFormCond swfFormCond = new SwfFormCond();
-		swfFormCond.setPackageId(request.getParameter("workId"));
+		swfFormCond.setPackageId(workId);
 
 		SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
 		SwfField[] swfFields = swfForms[0].getFields();
 
-		SwdRecordCond swdRecordCond = new SwdRecordCond();
-		swdRecordCond.setFormId(swfForms[0].getId());
-		swdRecordCond.setRecordId(request.getParameter("recordId"));
-		SwdRecord swdRecord = getSwdManager().getRecord("", swdRecordCond, null);
+		if(recordId != null) {
+			SwdRecordCond swdRecordCond = new SwdRecordCond();
+			swdRecordCond.setFormId(swfForms[0].getId());
+			swdRecordCond.setRecordId(recordId);
+			swdRecord = getSwdManager().getRecord("", swdRecordCond, null);
+		} else if(taskInstId != null) {
+			TskTaskCond tskTaskCond = new TskTaskCond();
+			tskTaskCond.setObjId(taskInstId);
+			TskTask[] tskTasks = getTskManager().getTasks("", tskTaskCond, null);
+			String tskDocument = tskTasks[0].getDocument();
+			swdRecord = (SwdRecord)SwdRecord.toObject(tskDocument);
+		}
 
 		SwdDataField[] swdDataFields = swdRecord.getDataFields();
 		for(SwdDataField swdDataField : swdDataFields) {
@@ -589,7 +614,7 @@ public class WorkServiceImpl implements IWorkService {
 						swdDataField.setUsers(resultUsers);
 					} else if(formatType.equals(FormField.TYPE_DATE)) {
 						if(value != null)
-							value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateSimpleString(); 
+							value = LocalDate.convertGMTSimpleStringToLocalDate(value).toLocalDateSimpleString(); 
 					} else if(formatType.equals(FormField.TYPE_TIME)) {
 						if(value != null)
 							value = LocalDate.convertGMTTimeStringToLocalDate(value).toLocalTimeShortString();

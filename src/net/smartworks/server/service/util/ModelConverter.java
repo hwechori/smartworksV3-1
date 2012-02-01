@@ -9,6 +9,7 @@
 package net.smartworks.server.service.util;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -900,44 +901,62 @@ public class ModelConverter {
 		
 		return instanceInfo;
 	}
-	public static TaskInstanceInfo[] getTaskInstanceInfoArrayByTskTaskArray(WorkInstanceInfo paretProcessInstObj, TskTask[] swTasks) throws Exception {
+	public static TaskInstanceInfo[] getTaskInstanceInfoArrayByTskTaskArray(WorkInstanceInfo workInstObj, TskTask[] swTasks) throws Exception {
 		if (CommonUtil.isEmpty(swTasks))
 			return null;
-		
+
 		TaskInstanceInfo[] taskInstanceInfos = new TaskInstanceInfo[swTasks.length];
 		for (int i =0; i < swTasks.length; i ++) {
 			TskTask task = swTasks[i];
-			TaskInstanceInfo taskInstanceInfo = (TaskInstanceInfo)getTaskInstanceInfoByTskTask(paretProcessInstObj, null, task);
+			TaskInstanceInfo taskInstanceInfo = (TaskInstanceInfo)getTaskInstanceInfoByTskTask(workInstObj, null, task);
 			taskInstanceInfos[i] = taskInstanceInfo; 
 		}
 		return taskInstanceInfos;
 	}
-	
-	public static TaskInstanceInfo getTaskInstanceInfoByTskTask (WorkInstanceInfo paretProcessInstObj, TaskInstanceInfo taskInstInfo , TskTask swTask) throws Exception {
+
+	public static TaskInstanceInfo getTaskInstanceInfoByTskTask(WorkInstanceInfo paretWorkInstObj, TaskInstanceInfo taskInstInfo, TskTask swTask) throws Exception {
 		if (swTask == null)
 			return null;
 		if (taskInstInfo == null)
 			taskInstInfo = new TaskInstanceInfo();
-		
+
 		getInstanceInfoByTskTask (taskInstInfo, swTask);
-		
+
 		String name = swTask.getName();
 		int taskType = WorkInstance.TYPE_TASK;
+		int type = 0;
+
+		String tskType = swTask.getType();
+		String tskStatus = swTask.getStatus();
+
+		if(tskType.equals(TskTask.TASKTYPE_SINGLE)) {
+			if(tskStatus.equals("11")) {
+				type = TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED;
+			} else if(tskStatus.equals("21")) {
+				type = TaskInstance.TYPE_INFORMATION_TASK_UDATED;
+			}
+		} else if(tskType.equals(TskTask.TASKTYPE_REFERENCE)) {
+			type = TaskInstance.TYPE_INFORMATION_TASK_FORWARDED;
+		} else if(tskType.equals(TskTask.TASKTYPE_APPROVAL)) {
+			type = TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED;
+		}
 		String assignee = swTask.getAssignee();
 		String performer = swTask.getAssignee();
 		String formId = swTask.getForm();
+
 // 프로세스인스턴스가 태스크인스턴스를 포함하고 태스크인스턴스는 프로세스 인스턴스를 포함하기 때문에 무한 루프가 발생한다
 // 하여 태스크 인스턴스를 만들때는 부모 프로세스 인스턴스의 객체 래퍼런스를 가져와서 태스크에다가 주입한다
 //		WorkInstanceInfo workInstanceInfo = getWorkInstanceInfoByPrcProcessInstId(swTask.getProcessInstId());
-		WorkInstanceInfo workInstanceInfo = paretProcessInstObj;
-		
+		WorkInstanceInfo workInstanceInfo = paretWorkInstObj;
+
 		taskInstInfo.setName(name);
 		taskInstInfo.setTaskType(taskType);
+		taskInstInfo.setType(type);
 		taskInstInfo.setAssignee(getUserInfoByUserId(assignee));
 		taskInstInfo.setPerformer(getUserInfoByUserId(performer));
 		taskInstInfo.setWorkInstance(workInstanceInfo);
 		taskInstInfo.setFormId(formId);
-		
+
 		return taskInstInfo;
 	}
 
@@ -1543,47 +1562,41 @@ public class ModelConverter {
 		return informationWork;
 	}
 
-	public static IWInstanceInfo getWorkInstanceInfoBySwdRecord(IWInstanceInfo iWInstanceInfo, SwdRecord swdRecord) throws Exception {
+/*	public static IWInstanceInfo getWorkInstanceInfoBySwdRecord(IWInstanceInfo iWInstanceInfo, SwdRecord swdRecord) throws Exception {
 		if (swdRecord == null)
 			return null;
 		if (iWInstanceInfo == null) 
 			iWInstanceInfo = new IWInstanceInfo();
 
+
 		TskTaskCond tskCond = new TskTaskCond();
-		tskCond.setProcessInstId(swdRecord.getRecordId());
-		String fieldName = "creationDate";
-		boolean isAsc = false;
-		tskCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
-		tskCond.setPageNo(0);
-		tskCond.setPageSize(1);
-		
+		tskCond.setExtendedProperties(new Property[] {new Property("recordId", swdRecord.getRecordId())});
+		TskTask[] tasks = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+
+		String processInstId = tasks[0].getProcessInstId();
+
 //		TskTask[] lastSwTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
-		TskTask lastSwTask = getLastTskTaskByInstanceId(swdRecord.getRecordId());
+		TskTask lastSwTask = getLastTskTaskByInstanceId(processInstId);
 		
 		TaskInstanceInfo lastTask = getTaskInstanceInfoByTskTask(iWInstanceInfo, null, lastSwTask);
-		iWInstanceInfo.setLastTask(lastTask); 
-		
+		iWInstanceInfo.setLastTask(lastTask); 	
 		return iWInstanceInfo;
 	}
-
+*/
 	public static IWInstanceInfo getIWInstanceInfoBySwdRecord(IWInstanceInfo iWInstanceInfo, SwdRecord swdRecord) throws Exception {
 		if (swdRecord == null)
 			return null;
 		if (iWInstanceInfo == null) 
 			iWInstanceInfo = new IWInstanceInfo();
 
-		getWorkInstanceInfoBySwdRecord(iWInstanceInfo, swdRecord);
-		
 		TskTaskCond tskCond = new TskTaskCond();
-		tskCond.setProcessInstId(swdRecord.getRecordId());
-		String fieldName = "creationDate";
-		boolean isAsc = false;
-		tskCond.setOrders(new Order[]{new Order(fieldName, isAsc)});
-		tskCond.setPageNo(0);
-		tskCond.setPageSize(1);
+		tskCond.setExtendedProperties(new Property[] {new Property("recordId", swdRecord.getRecordId())});
+		TskTask[] tasks = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+
+		String processInstId = tasks[0].getProcessInstId();
 
 //		TskTask[] lastSwTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
-		TskTask lastSwTask = getLastTskTaskByInstanceId(swdRecord.getRecordId());
+		TskTask lastSwTask = getLastTskTaskByInstanceId(processInstId);
 
 		TaskInstanceInfo lastTask = getTaskInstanceInfoByTskTask(iWInstanceInfo, null, lastSwTask);
 		iWInstanceInfo.setLastTask(lastTask); 
@@ -1628,17 +1641,23 @@ public class ModelConverter {
 			return null;
 		if (workInstance == null)
 			workInstance = new WorkInstance();
-		
+
 		getInstanceBySwdRecord(userId, workInstance, swdRecord);
 		
 		IWInstanceInfo iwInstInfo = getIWInstanceInfoBySwdRecord(null, swdRecord);
-		
-		TskTaskCond tskCond = new TskTaskCond();
-		tskCond.setProcessInstId(swdRecord.getRecordId());
-		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
 
+		TskTaskCond tskCond = new TskTaskCond();
+		tskCond.setExtendedProperties(new Property[] {new Property("recordId", swdRecord.getRecordId())});
 		TskTask[] tasks = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
-		
+
+		String processInstId = tasks[0].getProcessInstId();
+
+		tskCond = new TskTaskCond();
+		tskCond.setProcessInstId(processInstId);
+		tskCond.setOrders(new Order[]{new Order("creationDate", false)});
+
+		tasks = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
+
 		workInstance.setTasks(getTaskInstanceInfoArrayByTskTaskArray(iwInstInfo, tasks));
 		workInstance.setNumberOfSubInstances(-1);
 
