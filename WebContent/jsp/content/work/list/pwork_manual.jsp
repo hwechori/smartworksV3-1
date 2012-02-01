@@ -34,7 +34,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 업무 설명 보기 -->
-<div class="contents_space">
+<div class="contents_space js_pwork_manual_page">
 
 	<!-- 업무 정의 -->
 	<div class=""><%if(!SmartUtil.isBlankObject(work.getDesc())) {%><%=work.getDesc()%><%}else{ %><fmt:message key="common.message.no_work_desc" /><%} %></div>
@@ -46,12 +46,12 @@
         <div class="proce_section">
         
 	        <!-- 방향 Prev -->
-	        <div class="float_left_nowidth"><a href=""><img class="proc_btn_prev"></a></div>
+	        <div class="float_left_nowidth"><a href="" class="js_manual_tasks_left" style="display:none"><img class="proc_btn_prev"></a></div>
 		
 			<!--  태스크 시작 -->
-			<div class="proce_space">
-			<div style="white-space:nowrap">
-			<div style="">
+			<div class="proce_space js_manual_tasks_holder" style="width:100%;overflow:hidden">
+ 			<div style="width:100%">
+			<div class="js_manual_tasks" style="white-space:nowrap;position:absolute;">
 				<%
 				if (tasks != null) {
 					for (SmartTaskInfo task : tasks) {
@@ -87,7 +87,7 @@
 			<!--  태스크 시작// -->
 	
 			<!-- 방향 Next -->
-		    <div class="float_right"><a href=""><img class="proc_btn_next"></a></div>
+		    <div class="float_right"><a href="" class="js_manual_tasks_right"><img class="proc_btn_next"></a></div>
 	
 		</div>
 		<!--프로세스 영역//-->
