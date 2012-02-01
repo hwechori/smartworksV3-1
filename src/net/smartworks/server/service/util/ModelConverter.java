@@ -572,7 +572,18 @@ public class ModelConverter {
 		} else if (prcInst.getType() != null && prcInst.getType().equalsIgnoreCase(PrcProcessInst.PROCESSINSTTYPE_SCHEDULE)) {
 			instInfo.setType(WorkInstance.TYPE_SCHEDULE);
 		}
-		instInfo.setWork(getSmartWorkInfoByPackageId(prcInst.getPackageId()));
+		String packageId = prcInst.getPackageId();
+		if (packageId == null) {
+			PrcSwProcessCond swPrcCond = new PrcSwProcessCond();
+			swPrcCond.setProcessId(prcInst.getProcessId());
+			PrcSwProcess[] swPrc = getPrcManager().getSwProcesses("", swPrcCond);
+			if (swPrc == null || swPrc.length == 0)
+				return null;
+			packageId = swPrc[0].getPackageId();
+			
+		}
+			
+		instInfo.setWork(getSmartWorkInfoByPackageId(packageId));
 		//TODO workspaceid > ??
 		instInfo.setWorkSpace(new WorkSpaceInfo());
 		

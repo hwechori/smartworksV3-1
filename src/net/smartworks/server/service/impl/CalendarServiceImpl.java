@@ -78,7 +78,7 @@ public class CalendarServiceImpl implements ICalendarService {
 		SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
 		swcWorkHourCond.setCompanyId(cUser.getCompanyId());
 
-		swcWorkHourCond.setOrders(new Order[]{new Order("modificationDate", false)});
+		swcWorkHourCond.setOrders(new Order[]{new Order("validFromDate", false)});
 
 		SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
 
@@ -87,23 +87,26 @@ public class CalendarServiceImpl implements ICalendarService {
 
 		String fromDateString = null;
 		Date searchDay = null;
-		int start = 0;
-		int end = 0;
-		int workTime = 0;
 		CompanyCalendar[] companyCalendars = new CompanyCalendar[days];
 		SwcWorkHour swcWorkHour = new SwcWorkHour();
 		for(int i=0; i<days; i++) {
 			CompanyCalendar companyCalendar = new CompanyCalendar();
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(fromDate);
+			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+			int start = 0;
+			int end = 0;
+			int workTime = 0;
+
 			if(swcWorkHours != null) {
 				for(int j=0; j<swcWorkHours.length; j++) {
 					swcWorkHour = swcWorkHours[j];
 					if((new LocalDate(swcWorkHour.getValidFromDate().getTime())).getTime() <= fromDate.getTime()) {
 						swcWorkHour = swcWorkHours[j];
+						break;
 					}
 				}
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(fromDate);
-				int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
 				Calendar startCalendar = Calendar.getInstance();
 				Calendar endCalendar = Calendar.getInstance();
@@ -146,7 +149,10 @@ public class CalendarServiceImpl implements ICalendarService {
 				workTime = end - start;
 
 				companyCalendar.setWorkHour(new WorkHour(start, end, workTime));
+			} else {
+				companyCalendar.setWorkHour(new WorkHourPolicy().getWorkHour(dayOfWeek));
 			}
+
 			companyCalendar.setDate(fromDate);
 			fromDateString = fromDate.toGMTDateString();
 			searchDay = new SimpleDateFormat("yyyy-MM-dd").parse(fromDateString);
@@ -254,21 +260,21 @@ public class CalendarServiceImpl implements ICalendarService {
 		Filter filter1 = new Filter();
 		Filter filter2 = new Filter();
 
-		LocalDate toDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY*days);
+		LocalDate toDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY*(days-1));
 
 		String formFieldId = "1";
 		String tableColName = getSwdManager().getTableColName(swdDomain.getObjId(), formFieldId);
 
 		filter1.setLeftOperandValue(tableColName);
 		filter1.setOperator(">=");
-		filter1.setRightOperandType(Filter.OPERANDTYPE_DATE);
+		filter1.setRightOperandType(Filter.OPERANDTYPE_DATETIME);
 		filter1.setRightOperandValue(LocalDate.convertLocalDateStringToLocalDate(fromDate.toLocalDateSimpleString()).toGMTDateString());
 		filterList.add(filter1);
 
 		filter2.setLeftOperandValue(tableColName);
 		filter2.setOperator("<=");
-		filter2.setRightOperandType(Filter.OPERANDTYPE_DATE);
-		filter2.setRightOperandValue(toDate.toGMTDateString());
+		filter2.setRightOperandType(Filter.OPERANDTYPE_DATETIME);
+		filter2.setRightOperandValue(new LocalDate((LocalDate.convertLocalDateStringToLocalDate(toDate.toLocalDateSimpleString()).getTime() + LocalDate.ONE_DAY)).toGMTDateString());
 		filterList.add(filter2);
 
 		Filter[] filters = new Filter[2];
@@ -418,6 +424,93 @@ public class CalendarServiceImpl implements ICalendarService {
 
 	@Override
 	public WorkHourPolicy getCompanyWorkHourPolicy() throws Exception {
-		return new WorkHourPolicy();
+
+		User cUser = SmartUtil.getCurrentUser();
+
+		SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
+		swcWorkHourCond.setCompanyId(cUser.getCompanyId());
+
+		swcWorkHourCond.setOrders(new Order[]{new Order("validFromDate", false)});
+
+		SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
+
+		WorkHourPolicy workHourPolicy = new WorkHourPolicy();
+		SwcWorkHour swcWorkHour = new SwcWorkHour();
+		if(swcWorkHours != null) {
+			for(int i=0; i<swcWorkHours.length; i++) {
+				if((new LocalDate(swcWorkHours[i].getValidFromDate().getTime())).getTime() <= new LocalDate().getTime()) {
+					swcWorkHour = swcWorkHours[i];
+					break;
+				}
+			}
+
+			int firstDayOfWeek = Integer.parseInt(swcWorkHour.getStartDayOfWeek()); 
+			int workingDays = swcWorkHour.getWorkingDays();
+			
+			workHourPolicy.setValidFrom(new LocalDate(swcWorkHour.getValidFromDate().getTime()));
+			if(swcWorkHour.getValidToDate() != null)
+				workHourPolicy.setValidTo(new LocalDate(swcWorkHour.getValidToDate().getTime()));
+			workHourPolicy.setFirstDayOfWeek(firstDayOfWeek);
+			workHourPolicy.setWorkingDays(workingDays);
+
+			WorkHour[] workHours = new WorkHour[7];
+			for(int j=firstDayOfWeek; j<firstDayOfWeek+workingDays; j++) {
+
+				int start;
+				int end;
+				int workTime;
+
+				Calendar startCalendar = Calendar.getInstance();
+				Calendar endCalendar = Calendar.getInstance();
+				int dayOfWeek = j;
+
+				if(j > 7)
+					dayOfWeek = j % 7;
+
+				switch (dayOfWeek) {
+				case Calendar.SUNDAY:
+					startCalendar.setTime(swcWorkHour.getSunStartTime());
+					endCalendar.setTime(swcWorkHour.getSunEndTime());
+					break;
+				case Calendar.MONDAY:
+					startCalendar.setTime(swcWorkHour.getMonStartTime());
+					endCalendar.setTime(swcWorkHour.getMonEndTime());
+					break;
+				case Calendar.TUESDAY:
+					startCalendar.setTime(swcWorkHour.getTueStartTime());
+					endCalendar.setTime(swcWorkHour.getTueEndTime());
+					break;
+				case Calendar.WEDNESDAY:
+					startCalendar.setTime(swcWorkHour.getWedStartTime());
+					endCalendar.setTime(swcWorkHour.getWedEndTime());
+					break;
+				case Calendar.THURSDAY:
+					startCalendar.setTime(swcWorkHour.getThuStartTime());
+					endCalendar.setTime(swcWorkHour.getThuEndTime());
+					break;
+				case Calendar.FRIDAY:
+					startCalendar.setTime(swcWorkHour.getFriStartTime());
+					endCalendar.setTime(swcWorkHour.getFriEndTime());
+					break;
+				case Calendar.SATURDAY:
+					startCalendar.setTime(swcWorkHour.getSatStartTime());
+					endCalendar.setTime(swcWorkHour.getSatEndTime());
+					break;
+				default:
+					break;
+				}
+				start = startCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + startCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
+				end = endCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + endCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
+				workTime = end - start;
+
+				workHours[dayOfWeek-1] = new WorkHour(start, end, workTime);
+			}
+			workHourPolicy.setWorkHours(workHours);
+		} else {
+			workHourPolicy = new WorkHourPolicy();
+		}
+
+		return workHourPolicy;
 	}
+
 }

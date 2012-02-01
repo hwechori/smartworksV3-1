@@ -1025,13 +1025,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 					operValue = CommonUtil.toLikeString(f.getRightOperandValue());
 				} else {
 					operValue = f.getRightOperandValue();
-					if ((operType == null || operType.equalsIgnoreCase(Filter.OPERANDTYPE_STRING)) && 
-							paramTypeMap.containsKey(param))
+					if ((operType == null || operType.equalsIgnoreCase(Filter.OPERANDTYPE_STRING)) && paramTypeMap.containsKey(param))
 						operType = paramTypeMap.get(param);
-					if (operType == null) {
-						
-					} else if (operType.equalsIgnoreCase("datetime"))
-						operType = Filter.OPERANDTYPE_DATE;
 				}
 				if (operType == null || operType.equalsIgnoreCase(Filter.OPERANDTYPE_STRING)) {
 					query.setString(param, operValue);
@@ -1045,8 +1040,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 //					query.setDouble(param, CommonUtil.toDouble(operValue));
 				} else if (operType.equalsIgnoreCase(Filter.OPERANDTYPE_DATE)) {
 					query.setTimestamp(param, DateUtil.toDate(operValue));
-				} else if (operType.equalsIgnoreCase(Filter.OPERANDTYPE_DATE)) {
-					query.setTimestamp(param, DateUtil.toDate(operValue));
+				} else if (operType.equalsIgnoreCase(Filter.OPERANDTYPE_DATETIME)) {
+					query.setString(param, operValue);
 				} else if (operType.equalsIgnoreCase("number")) {
 					query.setDouble(param, Double.parseDouble(operValue));
 				} else if (operType.equalsIgnoreCase("boolean")) {
