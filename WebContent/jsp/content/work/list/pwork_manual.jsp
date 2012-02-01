@@ -49,45 +49,40 @@
 	        <div class="float_left_nowidth"><a href="" class="js_manual_tasks_left" style="display:none"><img class="proc_btn_prev"></a></div>
 		
 			<!--  태스크 시작 -->
-			<div class="proce_space js_manual_tasks_holder" style="width:100%;overflow:hidden">
- 			<div style="width:100%">
-			<div class="js_manual_tasks" style="white-space:nowrap;position:absolute;">
-				<%
-				if (tasks != null) {
-					for (SmartTaskInfo task : tasks) {
-						UserInfo assignedUser = task.getAssignedUser();
-						String assigningName = task.getAssigningName();
-				%>
-						<!-- 태스크 -->
-				
-						<div class="proc_task_yet float_left_nowidth padding_r10">
-							<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
-								<span class="pstart"></span> 
-								<span class="pcenter">
-									<div class="float_left_nowidth"><img align="bottom" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>"></div>
-									<div class="noti_in"><span><%=task.getName()%></span></div>
-									<div><span class="t_date"><%=task.getAssigningName()%></span></div>
-								</span> 
-								<span class="pend"></span> 
-							</a>
-						</div>
-						
-						 <!--화살표-->
-				        <div class="proc_arr_next float_left_nowidth padding_r10"></div>
-				        <!--화살표-->
-				        
-						<!-- 태스크 //-->
-				<%
+			<div class="proce_space js_manual_tasks_holder" style="overflow:hidden;width:92%"">
+				<div class="js_manual_tasks" style="white-space:nowrap;position:absolute;">
+					<div class="float_left_nowidth js_manual_task_placeholder" style="display:none"></div>
+					<%
+					if (tasks != null) {
+						int count = 0;
+						for (SmartTaskInfo task : tasks) {
+							count++;
+							UserInfo assignedUser = task.getAssignedUser();
+							String assigningName = task.getAssigningName();
+					%>
+							<!-- 태스크 -->
+							<div class="proc_task_yet float_left_nowidth padding_r10 js_manual_task">
+								<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
+									<span class="pstart"></span> 
+									<span class="pcenter">
+										<div class="float_left_nowidth"><img align="bottom" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>"></div>
+										<div class="noti_in"><span><%=count%>) <%=task.getName()%></span></div>
+										<div><span class="t_date"><%=task.getAssigningName()%></span></div>
+									</span> 
+									<span class="pend"></span> 
+								</a>
+							</div>
+							<!-- 태스크 //-->
+					<%
+						}
 					}
-				}
-				%>
-			</div>
-			</div>
+					%>
+				</div>
 			</div>
 			<!--  태스크 시작// -->
 	
 			<!-- 방향 Next -->
-		    <div class="float_right"><a href="" class="js_manual_tasks_right"><img class="proc_btn_next"></a></div>
+		    <div class="float_right"><a href="" class="js_manual_tasks_right" style="display:none"><img class="proc_btn_next"></a></div>
 	
 		</div>
 		<!--프로세스 영역//-->

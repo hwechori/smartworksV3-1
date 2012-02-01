@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.						 -->
 <!-- Created Date	: 2011.9.								 -->
 
+<%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.util.SmartTest"%>
 <%@page import="net.smartworks.model.work.ProcessWork"%>
 <%@page import="net.smartworks.model.instance.ProcessWorkInstance"%>
@@ -28,9 +29,13 @@
 	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
 	String workId = request.getParameter("workId");
 	
-	ProcessWorkInstance instance = (ProcessWorkInstance)session.getAttribute("workInstance");
-	if(SmartUtil.isBlankObject(instance) || !instance.getId().equals(instId)) 
+	ProcessWorkInstance instance = null;
+	WorkInstance workInstance = (WorkInstance)session.getAttribute("workInstance");
+	if(SmartUtil.isBlankObject(workInstance) || !workInstance.getId().equals(instId)) 
 		instance = (ProcessWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_PROCESS, workId, instId);
+	else
+		instance = (ProcessWorkInstance)workInstance;
+	
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
 	ProcessWork work = (ProcessWork)instance.getWork();

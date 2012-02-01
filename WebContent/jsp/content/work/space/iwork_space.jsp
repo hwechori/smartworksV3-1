@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.						 -->
 <!-- Created Date	: 2011.9.								 -->
 
+<%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.model.work.InformationWork"%>
@@ -25,7 +26,13 @@
 	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
 	String workId = request.getParameter("workId");
 	
-	InformationWorkInstance instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_INFORMATION, workId, instId);
+	InformationWorkInstance instance = null;
+	WorkInstance workInstance = (WorkInstance)session.getAttribute("workInstance");
+	if(SmartUtil.isBlankObject(workInstance) || !workInstance.getId().equals(instId)) 
+		instance = (InformationWorkInstance)smartWorks.getWorkInstanceById(SmartWork.TYPE_INFORMATION, workId, instId);
+	else
+		instance = (InformationWorkInstance)workInstance;
+	
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
 	InformationWork work = (InformationWork)instance.getWork();
