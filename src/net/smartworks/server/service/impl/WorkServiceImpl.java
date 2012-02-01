@@ -1,6 +1,7 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,7 +16,6 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
-import net.smartworks.model.instance.FieldData;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.ChartReport;
@@ -62,10 +62,12 @@ import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
+import net.smartworks.server.engine.process.task.manager.ITskManager;
+import net.smartworks.server.engine.process.task.model.TskTask;
+import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
-import net.smartworks.util.SmartMessage;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
@@ -102,6 +104,9 @@ public class WorkServiceImpl implements IWorkService {
 	}
 	private IDocFileManager getDocManager() {
 		return SwManagerFactory.getInstance().getDocManager();
+	}
+	private ITskManager getTskManager() {
+		return SwManagerFactory.getInstance().getTskManager();
 	}
 
 	private AuthenticationManager authenticationManager;
@@ -413,12 +418,17 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public String getFormXml(String workId) throws Exception {
+	public String getFormXml(String formId, String workId) throws Exception {
 
 		User user = SmartUtil.getCurrentUser();
 		SwfFormCond swfFormCond = new SwfFormCond();
 		swfFormCond.setCompanyId(user.getCompanyId());
-		swfFormCond.setPackageId(workId);
+
+		if(!CommonUtil.isEmpty(formId))
+			swfFormCond.setId(formId);
+		else
+			swfFormCond.setPackageId(workId);
+
 		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
 		if(swfForms != null)
 			return swfForms[0].getObjString();
@@ -554,43 +564,67 @@ public class WorkServiceImpl implements IWorkService {
 
 	@Override
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
+
+		String workId = request.getParameter("workId");
+		String recordId = request.getParameter("recordId");
+		String taskInstId = request.getParameter("taskInstId");
+
+		SwdRecord swdRecord = null;
 		SwfFormCond swfFormCond = new SwfFormCond();
-		swfFormCond.setPackageId(request.getParameter("workId"));
+		swfFormCond.setPackageId(workId);
 
-		SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_LITE);
+		SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
+		SwfField[] swfFields = swfForms[0].getFields();
 
-		SwdRecordCond swdRecordCond = new SwdRecordCond();
-		swdRecordCond.setFormId(swfForms[0].getId());
-		swdRecordCond.setRecordId(request.getParameter("recordId"));
-		SwdRecord swdRecord = getSwdManager().getRecord("", swdRecordCond, null);
+		if(recordId != null) {
+			SwdRecordCond swdRecordCond = new SwdRecordCond();
+			swdRecordCond.setFormId(swfForms[0].getId());
+			swdRecordCond.setRecordId(recordId);
+			swdRecord = getSwdManager().getRecord("", swdRecordCond, null);
+		} else if(taskInstId != null) {
+			TskTaskCond tskTaskCond = new TskTaskCond();
+			tskTaskCond.setObjId(taskInstId);
+			TskTask[] tskTasks = getTskManager().getTasks("", tskTaskCond, null);
+			String tskDocument = tskTasks[0].getDocument();
+			swdRecord = (SwdRecord)SwdRecord.toObject(tskDocument);
+		}
 
 		SwdDataField[] swdDataFields = swdRecord.getDataFields();
 		for(SwdDataField swdDataField : swdDataFields) {
-			String value = swdDataField.getValue();
-			String formatType = swdDataField.getType();
-			if(formatType.equals(FormField.TYPE_USER)) {
-				if(value != null) {
-					String[] users = value.split(";");
-					String resultUser = "";
-					if(users.length > 0) {
-						for(int j=0; j<users.length; j++) {
-							resultUser += users[j] + ", ";
+			for(SwfField swfField : swfFields) {
+				if(swdDataField.getId().equals(swfField.getId())) {
+					String formatType = swfField.getFormat().getType();
+					String value = swdDataField.getValue();
+					String refRecordId = swdDataField.getRefRecordId();
+					List<Map<String, String>> resultUsers = null;
+					if(formatType.equals(FormField.TYPE_USER)) {
+						if(value != null && refRecordId != null) {
+							String[] values = value.split(";");
+							String[] refRecordIds = refRecordId.split(";");
+							resultUsers = new ArrayList<Map<String,String>>();
+							if(values.length > 0 && refRecordIds.length > 0) {
+								for(int j=0; j<values.length; j++) {
+									Map<String, String> map = new HashMap<String, String>();
+									map.put("userId", refRecordIds[j]);
+									map.put("longName", values[j]);
+									resultUsers.add(map);
+								}
+							}
 						}
-						resultUser = resultUser.substring(0, resultUser.length()-2);
+						swdDataField.setUsers(resultUsers);
+					} else if(formatType.equals(FormField.TYPE_DATE)) {
+						if(value != null)
+							value = LocalDate.convertGMTSimpleStringToLocalDate(value).toLocalDateSimpleString(); 
+					} else if(formatType.equals(FormField.TYPE_TIME)) {
+						if(value != null)
+							value = LocalDate.convertGMTTimeStringToLocalDate(value).toLocalTimeShortString();
+					} else if(formatType.equals(FormField.TYPE_DATETIME)) {
+						if(value != null)
+							value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
 					}
-					value = resultUser;
+					swdDataField.setValue(value);
 				}
-			} else if(formatType.equals(FormField.TYPE_DATE)) {
-				if(value != null)
-					value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateSimpleString(); 
-			} else if(formatType.equals(FormField.TYPE_TIME)) {
-				if(value != null)
-					value = LocalDate.convertGMTStringToLocalDate(value).toLocalTimeSimpleString();
-			} else if(formatType.equals(FormField.TYPE_DATETIME)) {
-				if(value != null)
-					value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
 			}
-			swdDataField.setValue(value);
 		}
 
 		return swdRecord;

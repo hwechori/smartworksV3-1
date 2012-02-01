@@ -16,7 +16,7 @@ public class Instance {
 	public final static int TYPE_EVENT = 7;
 	public final static int TYPE_FILE = 8;
 	public final static int TYPE_IMAGE = 9;
-	public final static int TYPE_MENO = 10;
+	public final static int TYPE_MEMO = 10;
 	public final static int TYPE_BOARD = 11;
 	
 	public final static int STATUS_NOT_YET = 0;

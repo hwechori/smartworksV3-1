@@ -4,6 +4,9 @@
 <!-- Author			: Maninsoft, Inc.						 -->
 <!-- Created Date	: 2011.9.								 -->
 
+<%@page import="net.smartworks.util.LocalDate"%>
+<%@page import="net.smartworks.model.instance.ProcessWorkInstance"%>
+<%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.TaskInstance"%>
 <%@page import="net.smartworks.model.work.InformationWork"%>
@@ -21,8 +24,13 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	InformationWorkInstance workInstance = (InformationWorkInstance)session.getAttribute("workInstance");
+	WorkInstance workInstance = (WorkInstance)session.getAttribute("workInstance");
+	String contextStr=null;
+	if(SmartUtil.isBlankObject(workInstance)) contextStr = "";
+	else if(workInstance.getClass().equals(ProcessWorkInstance.class)) contextStr = ISmartWorks.CONTEXT_PWORK_SPACE;
+	else if(workInstance.getClass().equals(InformationWorkInstance.class)) contextStr = ISmartWorks.CONTEXT_IWORK_SPACE;
 	
+	TaskInstanceInfo[] tasks = smartWorks.getTaskInstancesByFromDate(contextStr, workInstance.getId(), new LocalDate(), 20); 
 	
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -45,33 +53,18 @@
 				<!-- 목록시작 -->
 				<div class="replay">
 				    <ul>
-					    <li class="dash_line">
-					        <div class="det_title">
-					            <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
-					            <div class="noti_in">
-					                <span class="t_name">Minashin</span><span class="arr">▶</span><span class="ico_division_s">마케팅/디자인팀</span><span class="t_date"> 2011.10.13</span>
-					                <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^</div>
-					            </div>
-					        </div>
-					    </li>
-					    <li>
-					        <div class="det_title">
-					            <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
-					            <div class="noti_in">
-					                <span class="t_name">Minashin</span><span class="arr">▶</span><span class="ico_division_s">마케팅/디자인팀</span><span class="t_date"> 2011.10.13</span>
-					                <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^</div>
-					            </div>
-					        </div>
-					    </li>
-					    <li class="end">
-					        <div class="det_title">
-					            <div class="noti_pic"><img src="images/pic_size_29.jpg" alt="신민아" align="bottom"/></div>
-					            <div class="noti_in">
-					                <span class="t_name">Minashin</span><span class="arr">▶</span><span class="ico_division_s">마케팅/디자인팀</span><span class="t_date"> 2011.10.13</span>
-					                <div>회의록 내용 중 빠진 부분이나 수정할 사항이 있으시면 참석자 누구든 수정해주시기 바랍니다^^</div>
-					            </div>
-					        </div>
-					    </li>
+				    	<%
+						if(!SmartUtil.isBlankObject(tasks)){
+							session.setAttribute("taskHistories", tasks);
+						%>
+							<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
+						<%
+						}else{
+						%>
+							<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
+						<%
+						}
+						%>											
 				    </ul>
 				</div>
 				<!-- 목록 끝 //-->

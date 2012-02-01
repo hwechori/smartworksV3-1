@@ -2,7 +2,6 @@ package net.smartworks.model.calendar;
 
 import net.smartworks.model.BaseObject;
 import net.smartworks.model.community.Community;
-import net.smartworks.model.community.User;
 import net.smartworks.util.LocalDate;
 
 public class CompanyEvent extends BaseObject {

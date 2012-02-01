@@ -89,8 +89,16 @@ function submitForms(e) {
 	// 호출시 전달된 workId값을 가져온다..
 	String workId = request.getParameter("workId");
 	
-	// 해당 프로세스업무의 상세정보를 가져온다..
-	ProcessWork work = (ProcessWork)smartWorks.getWorkById(workId);
+	// pwork_list에서 호출이 되었으면 세션어트리뷰트에 smartWork를 설정하기때문에,
+	// 확인해서 workId가 같으면 그 object를 이용한다.
+	// 그렇지 않으면, workId로 해당정보관리업무 상세정보를 가져온다.
+	ProcessWork work = null;
+	SmartWork smartWork = (SmartWork)session.getAttribute("smartWork");
+	if(!SmartUtil.isBlankObject(smartWork) && smartWork.getId().equals(workId)){
+		work = (ProcessWork)smartWork;
+	}else{
+		work = (ProcessWork)smartWorks.getWorkById(workId);
+	}
 	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->

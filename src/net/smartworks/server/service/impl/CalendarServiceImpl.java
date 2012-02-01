@@ -2,12 +2,19 @@ package net.smartworks.server.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
+import net.smartworks.model.calendar.WorkHour;
+import net.smartworks.model.calendar.WorkHourPolicy;
+import net.smartworks.model.community.Community;
+import net.smartworks.model.community.Department;
 import net.smartworks.model.community.User;
+import net.smartworks.model.community.info.CommunityInfo;
+import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -17,11 +24,14 @@ import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
+import net.smartworks.server.engine.config.model.SwcWorkHour;
+import net.smartworks.server.engine.config.model.SwcWorkHourCond;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
@@ -65,19 +75,77 @@ public class CalendarServiceImpl implements ICalendarService {
 
 		User cUser = SmartUtil.getCurrentUser();
 
+		SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
+		swcWorkHourCond.setCompanyId(cUser.getCompanyId());
+
+		swcWorkHourCond.setOrders(new Order[]{new Order("modificationDate", false)});
+
+		SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
+
 		SwcEventDayCond swcEventDayCond = new SwcEventDayCond();
 		swcEventDayCond.setCompanyId(cUser.getCompanyId());
 
 		String fromDateString = null;
 		Date searchDay = null;
-		CompanyCalendar[] companyCalendars = new CompanyCalendar[3];
-		for(int i=0; i<3; i++) {
+		int start = 0;
+		int end = 0;
+		int workTime = 0;
+		CompanyCalendar[] companyCalendars = new CompanyCalendar[days];
+		SwcWorkHour swcWorkHour = new SwcWorkHour();
+		for(int i=0; i<days; i++) {
 			CompanyCalendar companyCalendar = new CompanyCalendar();
-			if(i == 0) {
-			} else if(i == 1) {
-				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
-			} else if(i == 2) {
-				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY * 2);
+			if(swcWorkHours != null) {
+				for(int j=0; j<swcWorkHours.length; j++) {
+					swcWorkHour = swcWorkHours[j];
+					if((new LocalDate(swcWorkHour.getValidFromDate().getTime())).getTime() <= fromDate.getTime()) {
+						swcWorkHour = swcWorkHours[j];
+					}
+				}
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(fromDate);
+				int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+				Calendar startCalendar = Calendar.getInstance();
+				Calendar endCalendar = Calendar.getInstance();
+
+				switch (dayOfWeek) {
+				case Calendar.SUNDAY:
+					startCalendar.setTime(swcWorkHour.getSunStartTime());
+					endCalendar.setTime(swcWorkHour.getSunEndTime());
+					break;
+				case Calendar.MONDAY:
+					startCalendar.setTime(swcWorkHour.getMonStartTime());
+					endCalendar.setTime(swcWorkHour.getMonEndTime());
+					break;
+				case Calendar.TUESDAY:
+					startCalendar.setTime(swcWorkHour.getTueStartTime());
+					endCalendar.setTime(swcWorkHour.getTueEndTime());
+					break;
+				case Calendar.WEDNESDAY:
+					startCalendar.setTime(swcWorkHour.getWedStartTime());
+					endCalendar.setTime(swcWorkHour.getWedEndTime());
+					break;
+				case Calendar.THURSDAY:
+					startCalendar.setTime(swcWorkHour.getThuStartTime());
+					endCalendar.setTime(swcWorkHour.getThuEndTime());
+					break;
+				case Calendar.FRIDAY:
+					startCalendar.setTime(swcWorkHour.getFriStartTime());
+					endCalendar.setTime(swcWorkHour.getFriEndTime());
+					break;
+				case Calendar.SATURDAY:
+					startCalendar.setTime(swcWorkHour.getSatStartTime());
+					endCalendar.setTime(swcWorkHour.getSatEndTime());
+					break;
+				default:
+					break;
+				}
+
+				start = startCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + startCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
+				end = endCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + endCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
+				workTime = end - start;
+
+				companyCalendar.setWorkHour(new WorkHour(start, end, workTime));
 			}
 			companyCalendar.setDate(fromDate);
 			fromDateString = fromDate.toGMTDateString();
@@ -85,7 +153,7 @@ public class CalendarServiceImpl implements ICalendarService {
 			swcEventDayCond.setSearchDay(searchDay);
 			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
 
-			List<User> userList = new ArrayList<User>();
+			List<Community> userList = new ArrayList<Community>();
 			if(swcEventDays != null) {
 				CompanyEvent[] companyEvents = new CompanyEvent[swcEventDays.length];
 				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
@@ -99,10 +167,19 @@ public class CalendarServiceImpl implements ICalendarService {
 					if(swcEventDay.getReltdPerson() != null) {
 						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
 						for(String reltdUser : reltdUsers) {
-							User relatedUser = ModelConverter.getUserByUserId(reltdUser);
-							userList.add(relatedUser);
+							if(reltdUser.equals(cUser.getId())) {
+								User relatedUser = ModelConverter.getUserByUserId(reltdUser);
+								if(relatedUser != null)
+									userList.add(relatedUser);
+							} else if(reltdUser.equals(cUser.getDepartmentId())) {
+								Department relatedUser = ModelConverter.getDepartmentByDepartmentId(reltdUser);
+								if(relatedUser != null)
+									userList.add(relatedUser);
+							}
+// TO DO					else if(reltdUser.getClass().equals(Group.class))
+// TO DO						userList.add(ModelConverter.getGroupByGroupId(reltdUser));
 						}
-						User[] relatedUsers = new User[userList.size()];
+						Community[] relatedUsers = new Community[userList.size()];
 						userList.toArray(relatedUsers);
 						companyEvent.setRelatedUsers(relatedUsers);
 					}
@@ -116,8 +193,8 @@ public class CalendarServiceImpl implements ICalendarService {
 				companyEventList.toArray(companyEvents);
 				companyCalendar.setCompanyEvents(companyEvents);
 			}
-			companyCalendar.setDate(fromDate);
 			companyCalendars[i] = companyCalendar;
+			fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
 		}
 
 		for(int k = 0; k < companyCalendars.length; k++) {
@@ -139,7 +216,8 @@ public class CalendarServiceImpl implements ICalendarService {
 	 */
 	@Override
 	public CompanyCalendar[] getCompanyCalendars(LocalDate fromDate, LocalDate toDate) throws Exception {
-		return null;
+		
+		return getCompanyCalendars(fromDate, (int)LocalDate.getDiffDate(fromDate, toDate)+1);
 	}
 
 	/*
@@ -172,7 +250,33 @@ public class CalendarServiceImpl implements ICalendarService {
 
 		swdRecordCond.setOrders(new Order[]{new Order(FormField.ID_CREATED_DATE, false)});
 
-		SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
+		List<Filter> filterList = new ArrayList<Filter>();
+		Filter filter1 = new Filter();
+		Filter filter2 = new Filter();
+
+		LocalDate toDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY*days);
+
+		String formFieldId = "1";
+		String tableColName = getSwdManager().getTableColName(swdDomain.getObjId(), formFieldId);
+
+		filter1.setLeftOperandValue(tableColName);
+		filter1.setOperator(">=");
+		filter1.setRightOperandType(Filter.OPERANDTYPE_DATE);
+		filter1.setRightOperandValue(LocalDate.convertLocalDateStringToLocalDate(fromDate.toLocalDateSimpleString()).toGMTDateString());
+		filterList.add(filter1);
+
+		filter2.setLeftOperandValue(tableColName);
+		filter2.setOperator("<=");
+		filter2.setRightOperandType(Filter.OPERANDTYPE_DATE);
+		filter2.setRightOperandValue(toDate.toGMTDateString());
+		filterList.add(filter2);
+
+		Filter[] filters = new Filter[2];
+		filterList.toArray(filters);
+
+		swdRecordCond.setFilter(filters);
+
+		SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_ALL);
 
 		SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
 
@@ -202,37 +306,58 @@ public class CalendarServiceImpl implements ICalendarService {
 				eventInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
 
 				SwdDataField[] swdDataFields = swdRecord.getDataFields();
-				List<UserInfo> userInfoList = new ArrayList<UserInfo>();
-				boolean isExistUser = false;
+				List<CommunityInfo> userInfoList = new ArrayList<CommunityInfo>();
 				for(SwdDataField swdDataField : swdDataFields) {
 					String value = swdDataField.getValue();
+					String refRecordId = swdDataField.getRefRecordId();
 					if(swdDataField.getId().equals("0")) {
 						eventInstanceInfo.setSubject(value);
 					} else if(swdDataField.getId().equals("6")) {
 						eventInstanceInfo.setContent(value);
 					} else if(swdDataField.getId().equals("1")) {
-						eventInstanceInfo.setStart(LocalDate.convertGMTStringToLocalDate(value));
+						LocalDate start = LocalDate.convertGMTStringToLocalDate(value);
+						/*LocalDate fromDateVal = fromDate;
+						for(int j=0; j<days; j++) {
+							String startString = start.toLocalDateSimpleString();
+							String fromDateString = fromDateVal.toLocalDateSimpleString();
+							if(startString.equals(fromDateString)) {
+								eventInstanceInfo.setStart(start);
+							}
+							fromDateVal = new LocalDate(fromDateVal.getTime() + LocalDate.ONE_DAY);
+						}*/
+						eventInstanceInfo.setStart(start);
 					} else if(swdDataField.getId().equals("2")) {
 						if(value != null)
 							eventInstanceInfo.setEnd(LocalDate.convertGMTStringToLocalDate(value));
 					} else if(swdDataField.getId().equals("5")) {
-						if(value != null) {
-							String[] reltdUsers = value.split(";");
+						if(refRecordId != null) {
+							String[] reltdUsers = refRecordId.split(";");
 							for(String reltdUser : reltdUsers) {
-								if(reltdUser.equals(user.getId()))
-									isExistUser = true;
-								UserInfo relatedUser = ModelConverter.getUserInfoByUserId(reltdUser);
-								if(relatedUser != null)
-									userInfoList.add(relatedUser);
+								if(reltdUser.equals(user.getId())) {
+									UserInfo relatedUser = ModelConverter.getUserInfoByUserId(reltdUser);
+									if(relatedUser != null)
+										userInfoList.add(relatedUser);
+								} else if(reltdUser.equals(user.getDepartmentId())) {
+									DepartmentInfo relatedUser = ModelConverter.getDepartmentInfoByDepartmentId(reltdUser);
+									if(relatedUser != null)
+										userInfoList.add(relatedUser);
+// TO DO						} else if(reltdUser.equals(user.getGroupId())) {
+// TO DO							GroupInfo relatedUser = ModelConverter.getGroupInfoByGroupId(reltdUser);
+// TO DO							if(relatedUser != null)
+// TO DO								userInfoList.add(relatedUser);
+								}
 							}
-							UserInfo[] relatedUsers = new UserInfo[userInfoList.size()];
+							CommunityInfo[] relatedUsers = new CommunityInfo[userInfoList.size()];
 							userInfoList.toArray(relatedUsers);
 							eventInstanceInfo.setRelatedUsers(relatedUsers);
 						}
 					}
 				}
-				if(isExistUser == true || swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId()))
+				if(eventInstanceInfo.getRelatedUsers() != null) {
 					eventInstanceInfoList.add(eventInstanceInfo);
+				} else if(swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId())) {
+					eventInstanceInfoList.add(eventInstanceInfo);
+				}
 			}
 			EventInstanceInfo[] eventInstanceInfos = new EventInstanceInfo[eventInstanceInfoList.size()];
 			eventInstanceInfoList.toArray(eventInstanceInfos);
@@ -289,5 +414,10 @@ public class CalendarServiceImpl implements ICalendarService {
 	@Override
 	public EventInstanceInfo[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception {
 		return null;
+	}
+
+	@Override
+	public WorkHourPolicy getCompanyWorkHourPolicy() throws Exception {
+		return new WorkHourPolicy();
 	}
 }

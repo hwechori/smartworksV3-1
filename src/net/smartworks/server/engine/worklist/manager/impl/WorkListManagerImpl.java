@@ -22,6 +22,7 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.worklist.manager.IWorkListManager;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
+import net.smartworks.util.LocalDate;
 
 import org.hibernate.Query;
 
@@ -31,7 +32,9 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 	private Query appendQuery(StringBuffer queryBuffer , TaskWorkCond cond) throws Exception {
 		
 		String tskAssignee = cond.getTskAssignee();
-		
+		//assingnedOnly 값이 true 라면 실행중인(11) 태스크만 조회를 한다.
+		String tskStatus =  cond.getTskStatus();
+		Date lastInstanceDate = cond.getLastInstanceDate();
 		int pageNo = cond.getPageNo();
 		int pageSize = cond.getPageSize();
 		
@@ -52,8 +55,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		, pkg.name as packageName ");
 		queryBuffer.append("		, ctg.id as childCtgId ");
 		queryBuffer.append("		, ctg.name as childCtgName ");
-		queryBuffer.append("		, ctg2.id as parentCtgId ");
-		queryBuffer.append("		, ctg2.name as parentCtgName ");
+		queryBuffer.append("		, case when ctg.parentId = '_PKG_ROOT_' then null else ctg2.id end as parentCtgId ");
+		queryBuffer.append("		, case when ctg.parentId = '_PKG_ROOT_' then null else ctg2.name end as parentCtgName ");
 		queryBuffer.append("	from tsktask task, ");
 		queryBuffer.append("		swform form ");
 		queryBuffer.append("		left outer join ");
@@ -68,8 +71,11 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("	where tsktype not in ('and','route','SUBFLOW','xor') ");
 		queryBuffer.append("	and task.tskform = form.formid ");
 		queryBuffer.append("	and task.tskassignee = :tskAssignee ");
+		if (!CommonUtil.isEmpty(tskStatus))
+			queryBuffer.append("	and task.tskstatus = :tskStatus ");	
 		queryBuffer.append(") taskInfo ");
-		queryBuffer.append("left outer join ");
+		//queryBuffer.append("left outer join ");
+		queryBuffer.append("join ");
 		queryBuffer.append("( ");
 		queryBuffer.append("	select ");
 		queryBuffer.append("		 prcInst.prcObjId ");
@@ -79,6 +85,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		, prcInst.prcCreateUser ");
 		queryBuffer.append("		, prcInst.prcDid ");
 		queryBuffer.append("		, prcInst.prcPrcId ");
+		queryBuffer.append("		, prcInst.prcCreateDate ");
 		queryBuffer.append("		, prcInstInfo.lastTask_tskobjid ");
 		queryBuffer.append("		, prcInstInfo.lastTask_tskname ");
 		queryBuffer.append("		, prcInstInfo.lastTask_tskcreateuser ");
@@ -118,8 +125,13 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		) prcInstInfo	 ");
 		queryBuffer.append("	where ");
 		queryBuffer.append("		prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid ");
+		queryBuffer.append("		and prcInst.prcStatus != 3 ");
 		queryBuffer.append(") prcInstInfo ");
 		queryBuffer.append("on taskInfo.tskPrcInstId = prcInstInfo.prcObjId ");
+		if (lastInstanceDate != null)
+			queryBuffer.append("where taskInfo.tskCreateDate < :lastInstanceDate ");
+		
+		this.appendOrderQuery(queryBuffer, "taskInfo", cond);
 		//queryBuffer.append("order by taskInfo.tskCreatedate desc ");
 
 		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
@@ -130,6 +142,10 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		}
 		if (!CommonUtil.isEmpty(tskAssignee))
 			query.setString("tskAssignee", tskAssignee);
+		if (!CommonUtil.isEmpty(tskStatus))
+			query.setString("tskStatus", tskStatus);
+		if (lastInstanceDate != null)
+			query.setTimestamp("lastInstanceDate", lastInstanceDate);
 		
 		return query;
 	}
@@ -190,7 +206,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 				obj.setPrcStatus((String)fields[j++]);                          
 				obj.setPrcCreateUser((String)fields[j++]);                      
 				obj.setPrcDid((String)fields[j++]);                             
-				obj.setPrcPrcId((String)fields[j++]);                           
+				obj.setPrcPrcId((String)fields[j++]); 
+				obj.setPrcCreateDate((Timestamp)fields[j++]);
 				obj.setLastTskObjId((String)fields[j++]);                       
 				obj.setLastTskName((String)fields[j++]);                        
 				obj.setLastTskCreateUser((String)fields[j++]);                  

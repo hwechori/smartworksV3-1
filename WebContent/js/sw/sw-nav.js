@@ -40,7 +40,7 @@
 				after: null
 			}, options);
 
-			if(ops.history) {
+			if(ops.history && !target_) {
 				target_ = ops.target;
 				$.history.init(historic_load);
 			}
@@ -52,12 +52,13 @@
 			var target = options.target;
 			var before = options.before;
 			var after = options.after;
+			var history = options.history;
 			var _this = this;
 			try {
 				if(before) {
 					before.apply(this, [event]);
 				}
-				if(target == target_) {
+				if(target == target_ && history && this_ !== this) {
 					after_ = after;
 					this_ = this;
 					event_ = [event];

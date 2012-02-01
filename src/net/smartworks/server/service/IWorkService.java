@@ -37,7 +37,7 @@ public interface IWorkService {
 
 	public Data getReportData(HttpServletRequest request) throws Exception;
 
-	public String getFormXml(String workId) throws Exception;
+	public String getFormXml(String formId, String workId) throws Exception;
 
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception;
 

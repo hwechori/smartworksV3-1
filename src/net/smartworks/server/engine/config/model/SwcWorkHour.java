@@ -63,7 +63,7 @@ public class SwcWorkHour extends MisObject {
 	
 	public static final String A_SUNSTARTTIME = "sunStartTime";
 	public static final String A_SUNENDTIME = "sunEndTime";
-	
+
 	private String type;
 	private String startDayOfWeek;
 	private int workingDays;

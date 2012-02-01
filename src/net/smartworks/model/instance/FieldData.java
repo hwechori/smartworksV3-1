@@ -2,6 +2,10 @@ package net.smartworks.model.instance;
 
 public class FieldData {
 
+	public static final int SIZE_DATETIME = 16;
+	public static final int SIZE_DATE = 10;
+	public static final int SIZE_TIME = 5;
+
 	private String fieldId;
 	private String fieldType;
 	private String value;

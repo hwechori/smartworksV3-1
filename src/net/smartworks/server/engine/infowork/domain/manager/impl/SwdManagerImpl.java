@@ -9,7 +9,9 @@
 package net.smartworks.server.engine.infowork.domain.manager.impl;
 
 import java.math.BigInteger;
+import java.sql.Clob;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -57,7 +59,6 @@ import net.smartworks.server.engine.infowork.form.model.SwfConditions;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfFieldRef;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
-import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfFormRef;
@@ -750,35 +751,28 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				objList.add(obj);
 				if (CommonUtil.isEmpty(selectedFieldList))
 					continue;
-				String colName = "";
-				SwdDataField dataField = null;
-				String dataType = "";
-				SwfFormCond swfFormCond = new SwfFormCond();
-				swfFormCond.setId(obj.getFormId());
-				SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
-				SwfField[] swfFields = swfForms[0].getFields();
+				String colName;
+				SwdDataField dataField;
+				String dataType;
 				for (SwdField field : selectedFieldList) {
+					colName = field.getTableColumnName();
+					dataType = field.getFormFieldType();
 					dataField = new SwdDataField();
-					for(SwfField swfField : swfFields) {
-						if(field.getFormFieldId().equals(swfField.getId())) {
-							dataType = swfField.getFormat().getType();
-							colName = field.getTableColumnName();
-							obj.addDataField(dataField);
-							dataField.setId(field.getFormFieldId());
-							dataField.setName(field.getFormFieldName());
-							dataField.setType(dataType);
-							dataField.setDisplayOrder(field.getDisplayOrder());
-							if (colName != null && colName.equalsIgnoreCase("id")) {
-								dataField.setValue((String)fields[0]);
-								continue;
-							}
-						}
+					obj.addDataField(dataField);
+					dataField.setId(field.getFormFieldId());
+					dataField.setName(field.getFormFieldName());
+					dataField.setType(dataType);
+					dataField.setDisplayOrder(field.getDisplayOrder());
+					dataType = field.getFormFieldType();
+					if (colName != null && colName.equalsIgnoreCase("id")) {
+						dataField.setValue((String)fields[0]);
+						continue;
 					}
 					Object fieldValue = fields[j++];
 					if (fieldValue == null)
 						continue;
-					/*if(fieldValue instanceof SerializableClob) {
-						SerializableClob clob = (SerializableClob)fieldValue;
+					if(fieldValue instanceof Clob) {
+						Clob clob = (Clob)fieldValue;
 						try {
 							int clobLength = (int)clob.length();
 							fieldValue = clob.getSubString(1, clobLength);
@@ -791,7 +785,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 						} catch (SQLException e) {
 							throw new SwdException(e);
 						}
-					} else*/ if (dataType == null) {
+					} else if (dataType == null) {
 						dataField.setValue(fieldValue.toString());
 					} else if (fieldValue instanceof String) {
 						if (dataType.equalsIgnoreCase("complex")) {
@@ -2068,6 +2062,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		this.swfManager = swfManager;
 	}
 	public ISctManager getSctManager() {
+		if (sctManager == null)
+			sctManager = SwManagerFactory.getInstance().getSctManager();
 		return sctManager;
 	}
 	public void setSctManager(ISctManager sctManager) {

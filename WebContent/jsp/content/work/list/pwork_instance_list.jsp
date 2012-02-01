@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.model.work.info.SmartTaskInfo"%>
+<%@page import="net.smartworks.model.instance.Instance"%>
+<%@page import="net.smartworks.model.instance.SortingField"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.service.impl.SmartWorks"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
@@ -23,16 +26,27 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	String cid = request.getParameter("cid");
-	String wid = request.getParameter("wid");
-
-	RequestParams params = new RequestParams();
-	params.setPageSize(50);
-	params.setCurrentPage(0);
-	String workId = SmartUtil.getSpaceIdFromContentContext(cid);
+	ISmartWorks smartWorks = (ISmartWorks)request.getAttribute("smartWorks");
+	RequestParams params = (RequestParams)request.getAttribute("requestParams");
+	if(SmartUtil.isBlankObject(params)){
+		params = new RequestParams();
+		params.setPageSize(20);
+		params.setCurrentPage(1);		
+	}
 	User cUser = SmartUtil.getCurrentUser();
-	ProcessWork work = (ProcessWork) smartWorks.getWorkById(workId);
+	ProcessWork work = (ProcessWork)session.getAttribute("smartWork");
+	SmartTaskInfo[] tasks = work.getDiagram().getTasks();
+	SmartTaskInfo startTask = null;
+	if(!SmartUtil.isBlankObject(tasks)){
+		for(int i=0; i<tasks.length; i++){
+			if(tasks[i].isStartTask()){
+				startTask = tasks[i];
+				break;
+			}
+		}
+		startTask = tasks[0];
+	}
+	String workId = work.getId();
 	InstanceInfoList instanceList = smartWorks.getPWorkInstanceList(workId, params);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -40,112 +54,215 @@
 
 <!-- 목록페이지 -->
 <table>
-<tr>
-	<th class="r_line"><fmt:message key='common.title.status'/></th>
-	<th class="r_line"><fmt:message key='common.title.owner'/>/<fmt:message key='common.title.created_date'/></th>
-	<th class="r_line"><fmt:message key='common.title.instance_subject'/></th>
-	<th class="r_line"><fmt:message key='common.title.last_task'/></th>
-	<th><fmt:message key='common.title.last_modifier' />/<fmt:message
-			key='common.title.last_modified_date' />
-	</th>
-</tr>
-
-<%
+	<%
+	SortingField sortedField = new SortingField();
 	int pageSize = 0, totalPages = 0, currentPage = 0;
-	if (instanceList != null && (instanceList.getInstanceDatas() != null) && (work != null)) {
+	if (instanceList != null && work != null) {
 		int type = instanceList.getType();
+		sortedField = instanceList.getSortedField();
+		if(sortedField==null) sortedField = new SortingField();
 		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
-		PWInstanceInfo[] instanceInfos = (PWInstanceInfo[])instanceList.getInstanceDatas();
-		for (PWInstanceInfo instanceInfo : instanceInfos) {
-			UserInfo owner = instanceInfo.getOwner();
-			UserInfo lastModifier = instanceInfo.getLastModifier();
-			TaskInstanceInfo lastTask = instanceInfo.getLastTask();
-			cid = SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceInfo.getId();
-			wid = instanceInfo.getWorkSpace().getId();
-			String target = "pwork_space.sw?cid=" + cid + "?wid=" + wid;
-%>
+		if(instanceList.getInstanceDatas() != null) {
+			PWInstanceInfo[] instanceInfos = (PWInstanceInfo[])instanceList.getInstanceDatas();
+	%>
+			<tr class="tit_bg">
+				<th class="r_line">
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_STATUS%>"><fmt:message key='common.title.status'/>
+				 		<%
+						if(sortedField.getFieldId().equals(FormField.ID_STATUS)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+						%>
+					</a>				
+				</th>
+				<th class="r_line">
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_OWNER%>"><fmt:message key='common.title.owner'/>
+				 		<%
+						if(sortedField.getFieldId().equals(FormField.ID_OWNER)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+						%>
+					</a>/				
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_CREATED_DATE%>"><fmt:message key='common.title.created_date'/>
+				 		<%
+						if(sortedField.getFieldId().equals(FormField.ID_CREATED_DATE)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+						%>
+					</a>
+				</th>				
+				<th class="r_line">
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_SUBJECT%>"><fmt:message key='common.title.instance_subject'/>
+				 		<%
+						if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+						%>
+					</a>				
+				</th>
+				<th class="r_line">
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_TASK%>"><fmt:message key='common.title.last_task'/>
+				 		<%
+						if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+						%>
+					</a>						
+				</th>
+				<th>
+					<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIER %>">
+						<fmt:message key='common.title.last_modifier' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIER)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
+					</a>/
+					<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
+						<fmt:message key='common.title.last_modified_date' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIED_DATE)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
+					</a>
+					<span class="js_progress_span"></span>
+				</th>
+			</tr>
 
-
-<tr>
-	<td></td>
-	<td><a href="<%=target%>">
-		<div class="noti_pic">
-			<img src="<%=owner.getMinPicture()%>"
-				title="<%=owner.getLongName()%>" align="bottom" />
-		</div>
-		<div class="noti_in">
-			<span class="t_name"><%=owner.getLongName()%></span>
-			<div class="t_date"><%if(instanceInfo.getCreatedDate()!=null){%><%=instanceInfo.getCreatedDate().toLocalString()%><%} %></div>
-		</div></a></td>
-	<td><a href="<%=target%>"><%=instanceInfo.getSubject()%></a></td>
-	<td><a href="<%=target%>"><%=lastTask.getName()%></a></td>
-	<td><a href="<%=target%>">
-		<div class="noti_pic">
-			<img src="<%=lastModifier.getMinPicture()%>"
-				title="<%=lastModifier.getLongName()%>" align="bottom" />
-		</div>
-		<div class="noti_in">
-			<span class="t_name"><%=lastModifier.getLongName()%></span>
-			<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
-		</div></a></td>
-</tr>
-<%
+			<%
+			for (PWInstanceInfo instanceInfo : instanceInfos) {
+				UserInfo owner = instanceInfo.getOwner();
+				UserInfo lastModifier = instanceInfo.getLastModifier();
+				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
+				String cid = SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceInfo.getId();
+				String target = "pwork_space.sw?cid=" + cid + "&workId=" + workId;
+				String statusImage = "";
+				String statusTitle = "";
+				switch (instanceInfo.getStatus()) {
+				// 인스턴스가 현재 진행중인 경우..
+				case Instance.STATUS_RUNNING:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.running";
+					break;
+				// 인스턴스가 지연진행중인 경우....
+				case Instance.STATUS_DELAYED_RUNNING:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.delayed_running";
+					break;
+				// 인스턴스가 반려된 경우...
+				case Instance.STATUS_RETURNED:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.returned";
+					break;
+				// 인스턴스가 지연반려된 경우....
+				case Instance.STATUS_RETURNED_DELAYED:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.returned_delayed";
+					break;
+				// 기타 잘못되어 상태가 없는 경우..
+				default:
+					statusImage = "images/ic_state_ing.jpg";
+					statusTitle = "content.status.running";
+				}
+			%>
+				<tr>
+					<td>
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>">
+							<div class="noti_pic js_content_pwork_space">
+								<img src="<%=statusImage%>" title="<%=statusTitle%>"/>
+							</div>
+						</a>
+					</td>
+					<td>
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>">
+							<div class="noti_pic js_content_pwork_space">
+								<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s" />
+							</div>
+							<div class="noti_in">
+								<span class="t_name"><%=owner.getLongName()%></span>
+								<div class="t_date"><%if(instanceInfo.getCreatedDate()!=null){%><%=instanceInfo.getCreatedDate().toLocalString()%><%} %></div>
+							</div>
+						</a>
+					</td>
+					<td>
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>"><%=instanceInfo.getSubject()%></a>
+					</td>
+					<td>
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>"><%=lastTask.getName()%></a>
+					</td>
+					<td>
+						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>">
+							<div class="noti_pic js_content_pwork_space">
+								<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
+							</div>
+							<div class="noti_in">
+								<span class="t_name"><%=lastModifier.getLongName()%></span>
+								<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+							</div>
+						</a>
+					</td>
+				</tr>
+	<%
+			}
+		}
 	}
-	}
-%>
+	%>
 </table>
 <!-- 목록페이지 //-->
 
+<form name="frmSortingField">
+	<input name="hdnSortingFieldId" type="hidden" value="<%=sortedField.getFieldId()%>">
+	<input name="hdnSortingIsAscending" type="hidden" value="<%=sortedField.isAscending()%>">
+</form>
+<!-- 목록 테이블 //-->
 
-<!-- 페이징 -->
-<div class="paginate">
-	<%
+<form name="frmInstanceListPaging">
+	<!-- 페이징 -->
+	<div class="paginate">
+		<%
 		if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
 			boolean isFirst10Pages = (currentPage <= 10) ? true : false;
-			boolean isLast10Pages = ((currentPage / 10) == (totalPages / 10)) ? true
-					: false;
-			int startPage = (currentPage / 10) * 10 + 1;
+			boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true : false;
+			int startPage = ((currentPage - 1) / 10) * 10 + 1;
 			int endPage = isLast10Pages ? totalPages : startPage + 9;
 			if (!isFirst10Pages) {
-	%>
-	<a class="pre_end" title="<fmt:message key='common.title.first_page'/>"><span
-		class="spr"></span> </a> <a class="pre"
-		title="<fmt:message key='common.title.prev_10_pages'/> "><span
-		class="spr"></span> </a>
-	<%
-		}
+		%>
+				<a class="pre_end js_select_paging" href="" title="<fmt:message key='common.title.first_page'/>">
+					<span class="spr"></span>
+					<input name="hdnPrevEnd" type="hidden" value="false"> 
+				</a>		
+				<a class="pre js_select_paging" href="" title="<fmt:message key='common.title.prev_10_pages'/> ">
+					<span class="spr"></span>
+					<input name="hdnPrev10" type="hidden" value="false">
+				</a>
+			<%
+			}
 			for (int num = startPage; num <= endPage; num++) {
 				if (num == currentPage) {
-	%>
-	<strong><%=num%></strong>
-	<%
-		} else {
-	%>
-	<a class="num" href=""><%=num%></a>
-	<%
-		}
+			%>
+					<strong><%=num%></strong>
+					<input name="hdnCurrentPage" type="hidden" value="<%=num%>"/>
+				<%
+				} else {
+				%>
+					<a class="num js_select_current_page" href=""><%=num%></a>
+				<%
+				}
 			}
 			if (!isLast10Pages) {
-	%>
-	<a class="next"
-		title="<fmt:message key='common.title.next_10_pages'/> "><span
-		class="spr"></span> </a> <a class="next_end"
-		title="<fmt:message key='common.title.last_page'/> "><span
-		class="spr"></span> </a>
-	<%
+			%>
+				<a class="next js_select_paging" title="<fmt:message key='common.title.next_10_pages'/> ">
+					<span class="spr"></span>
+					<input name="hdnNext10" type="hidden" value="false"/>
+				</a>
+				<a class="next_end js_select_paging" title="<fmt:message key='common.title.last_page'/> ">
+					<span class="spr"><input name="hdnNextEnd" type="hidden" value="false"/></span> 
+				</a>
+		<%
+			}
 		}
-		}
-	%>
-</div>
-
-<div class="num_box">
-	<select name=""
-		title="<fmt:message key='common.title.count_in_page'/> ">
-		<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
-		<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
-		<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
-		<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
-	</select>
-</div>
+		%>
+		<span class="js_progress_span"></span>
+	</div>
+	
+	<div class="num_box">
+		<span class="js_progress_span"></span>
+		<select class="js_select_page_size" name="selPageSize" title="<fmt:message key='common.title.count_in_page'/>">
+			<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
+			<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
+			<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
+			<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
+		</select>
+	</div>
+	<!-- 페이징 //-->
+</form>

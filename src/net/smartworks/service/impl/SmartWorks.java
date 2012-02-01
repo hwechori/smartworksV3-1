@@ -1,5 +1,5 @@
-package net.smartworks.service.impl;
 
+package net.smartworks.service.impl;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
@@ -21,13 +22,13 @@ import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.RunningCounts;
-import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
@@ -223,6 +224,11 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
+	public WorkHourPolicy getCompanyWorkHourPolicy() throws Exception {
+		return calendarService.getCompanyWorkHourPolicy();
+	}
+
+	@Override
 	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception {
 		return instanceService.getMyRecentBoardInstances();
 	}
@@ -277,14 +283,19 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getRecentCommentsInWorkManual(workId, length);
 	}
 
+	@Override
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		return instanceService.setInformationWorkInstance(requestBody, request);
-
 	}
 
 	@Override
-	public String startProcessWorkInstance(HttpServletRequest request) throws Exception {
-		return instanceService.startProcessWorkInstance(request);
+	public void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		instanceService.removeInformationWorkInstance(requestBody, request);
+	}
+
+	@Override
+	public String startProcessWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return instanceService.startProcessWorkInstance(requestBody, request);
 
 	}
 
@@ -322,10 +333,47 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception {
-		return instanceService.getWorkInstanceById(workType, instanceId);
+	public WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception {
+		return instanceService.getWorkInstanceById(workType, workId, instanceId);
 	}
 
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate date, int workHourType, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByWorkHour(contextId, spaceId, date, workHourType, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByWorkHours(contextId, spaceId, date, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByDate(contextId, spaceId, date, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByDates(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByDates(contextId, spaceId, fromDate, toDate, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByWeek(String contextId, String spaceId, LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByWeek(contextId, spaceId, weekStart, weekEnd, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByWeeks(contextId, spaceId, month, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getTaskInstancesByFromDate(contextId, spaceId, fromDate, maxSize);
+	}
+	
+	
 	/*
 	 * @Override >>>>>>> branch 'master' of
 	 * git@github.com:maninsoft/smartworksV3.git public String createFile(String
@@ -429,7 +477,7 @@ public class SmartWorks implements ISmartWorks {
 
 	@Override
 	public String getFormXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return workService.getFormXml(request.getParameter("workId"));
+		return workService.getFormXml(request.getParameter("formId"), request.getParameter("workId"));
 	}
 
 	@Override

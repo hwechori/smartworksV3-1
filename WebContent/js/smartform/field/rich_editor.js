@@ -20,6 +20,7 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
+	var height = $graphic.attr('height');
 	var id = $entity.attr('id');
 	var name = $entity.attr('name');
 	
@@ -39,7 +40,7 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	if(readOnly){
 				$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').html(value);
 	}else{	
-		$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"><span' + required + '><textarea style="width:100%; height:100%;display:none" id="' + id + '">'+value+'</textarea></span></div>');
+		$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"><span' + required + '><textarea style="width:100%; height:' + height + 'px;display:none" id="' + id + '">'+value+'</textarea></span></div>');
 	}
 	if ($graphic.attr('hidden') == 'true'){
 		$label.hide();

@@ -105,6 +105,36 @@ $(function() {
 		}
 	});
 
+	$('a.js_content_pwork_space').swnavi({
+		history : true,
+		before : function(e){
+			smartPop.progressCenter();
+		},
+		target : 'content',
+		after : function(e){
+			smartPop.closeProgress();
+			var input = $(e.target);
+			var workId = input.attr("workId");
+			var formId = input.attr("formId");
+			var instId = input.attr("instId");
+			var formContent = $('div.js_form_content');
+			new SmartWorks.GridLayout({
+				target : formContent,
+				mode : "edit",
+				workId : workId,
+				formId : formId,
+				recordId : instId,
+				onSuccess : function(){
+					smartPop.closeProgress();																
+				},
+				onError : function(){
+					smartPop.closeProgress();
+					
+				}
+			});
+		}
+	});
+
 	/*
 	 * 좌측상단에 있는 알림아이콘들에 설정된 class 속성값들이 js_notice_count이고, 이를 클릭하면 그곳의 href값으로
 	 * ajax를 호출하여 가져온 값을 id="notice_message_box"로 지정된 div영역에 보여준다. 실행전에는,

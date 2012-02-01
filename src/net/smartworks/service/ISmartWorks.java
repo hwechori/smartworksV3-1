@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
@@ -27,6 +28,7 @@ import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.mail.MailFolder;
 import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
@@ -45,6 +47,19 @@ public interface ISmartWorks {
 	public final static String CONTEXT_SMARTCASTER = "sf.sc";
 	public final static String CONTEXT_DASHBOARD = "sf.db";
 	public final static String CONTEXT_MYPROFILE = "sf.pf";
+	
+	public final static String CONTEXT_USER_SPACE = "us.sp";
+	public final static String CONTEXT_GROUP_SPACE = "gp.sp";
+	public final static String CONTEXT_DEPARTMENT_SPACE = "dp.sp";
+	public final static String CONTEXT_IWORK_SPACE = "iw.sp";
+	public final static String CONTEXT_PWORK_SPACE = "pw.sp";
+	public final static String CONTEXT_SWORK_SPACE = "sw.sp";
+	public final static String CONTEXT_FILE_SPACE = "fl.sp";
+	public final static String CONTEXT_IMAGE_SPACE = "im.sp";
+	public final static String CONTEXT_EVENT_SPACE = "ev.sp";
+	public final static String CONTEXT_MEMO_SPACE = "mm.sp";
+	public final static String CONTEXT_BOARD_SPACE = "bd.sp";
+	public final static String CONTEXT_MAIL_SPACE = "ml.sp";
 
 	public final static String CONTEXT_PREFIX_SELF = "sf.";
 
@@ -140,6 +155,8 @@ public interface ISmartWorks {
 
 	public abstract EventInstanceInfo[] getMyEventsByDate(LocalDate date, int maxEvents) throws Exception;
 
+	public abstract WorkHourPolicy getCompanyWorkHourPolicy() throws Exception;
+
 	public abstract Notice[] getNoticesForMe() throws Exception;
 
 	public abstract void removeNoticeInstance(String noticeId) throws Exception;
@@ -164,7 +181,21 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
 
-	public abstract WorkInstance getWorkInstanceById(int workType, String instanceId) throws Exception;
+	public abstract WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception;
+
+	public abstract TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate date, int workHourType, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[][] getTaskInstancesByDates(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[] getTaskInstancesByWeek(String contextId, String spaceId, LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception;
+
+	public abstract TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception;
 
 	public abstract Report getReportById(String reportId) throws Exception;
 
@@ -174,7 +205,9 @@ public interface ISmartWorks {
 	
 	public abstract String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
-	public abstract String startProcessWorkInstance(HttpServletRequest request) throws Exception;
+	public abstract void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract String startProcessWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract String setFileInstance(HttpServletRequest request) throws Exception;
 

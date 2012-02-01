@@ -6,7 +6,9 @@ SmartWorks.GridLayout = function(config) {
 		mode : 'edit',
 		requiredOnly : 'false',
 		workId : null,
+		formId : null,
 		recordId : null,
+		taskInstId : null,
 		onSuccess : null,
 		onError : null
 	};
@@ -134,7 +136,9 @@ SmartWorks.GridLayout = function(config) {
 
 	if(isEmpty(this.options.formXml) && !isEmpty(this.options.workId)){
 		var workId = this.options.workId;
+		var formId = this.options.formId;
 		var recordId = this.options.recordId;
+		var taskInstId = this.options.taskInstId;
 		var formValues = this.options.formValues;
 		var onError = this.options.onError;
 		var getLayout = this.getLayout;
@@ -142,7 +146,8 @@ SmartWorks.GridLayout = function(config) {
 		$.ajax({
 			url : "get_form_xml.sw",
 			data : {
-				workId : workId
+				workId : workId,
+				formId : formId
 			},
 			success : function(formXml, status, jqXHR) {
 				if(isEmpty(formValues) && (!isEmpty(workId)) && (!isEmpty(recordId))){
@@ -154,8 +159,25 @@ SmartWorks.GridLayout = function(config) {
 						},
 						success : function(formData, status, jqXHR) {
 							return getLayout(formXml, formData.record, this_);
+						},
+						error : function(){
+							return getLayout(formXm, null, this_);
 						}
 					});
+				}else if(isEmpty(formValues) && (!isEmpty(workId)) && (!isEmpty(taskInstId))){
+						$.ajax({
+							url : "get_record.sw",
+							data : {
+								workId : workId,
+								taskInstId : taskInstId
+							},
+							success : function(formData, status, jqXHR) {
+								return getLayout(formXml, formData.record, this_);
+							},
+							error : function(){
+								return getLayout(formXml, null, this_);
+							}
+						});
 				}else{
 					return getLayout(formXml, null, this_);
 				}
@@ -207,8 +229,13 @@ SmartWorks.GridLayout.serializeObject = function(form){
 	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.serializeObject(form.find('.js_type_richEditor'));
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject(form.find('.js_type_imageBox'));
+	var numberInputs = SmartWorks.FormRuntime.NumberInputBuilder.serializeObject(form.find('.js_type_numberInput'));
+	var percentInputs = SmartWorks.FormRuntime.PercentInputBuilder.serializeObject(form.find('.js_type_percentInput'));
+	var currencyInputs = SmartWorks.FormRuntime.CurrencyInputBuilder.serializeObject(form.find('.js_type_currencyInput'));
 	var dataGrids = {};
-	return mergeObjects(merge3Objects(fileFields, userFields, richEditors), merge3Objects(refFormFields, imageBoxs, departmentFields));
+	return merge3Objects(merge3Objects(fileFields, userFields, richEditors), 
+			merge3Objects(refFormFields, imageBoxs, departmentFields), 
+			merge3Objects(numberInputs, percentInputs, currencyInputs));
 };
 
 SmartWorks.GridLayout.validate = function(form, messageTarget){
