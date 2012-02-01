@@ -579,7 +579,12 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			} else if (type.equalsIgnoreCase("boolean")) {
 				query.setBoolean(param, CommonUtil.toBoolean(value));
 			} else if (type.equalsIgnoreCase("datetime")) {
-				query.setTimestamp(param, DateUtil.toDate(value, "yyyy-MM-dd HH:mm:ss.SSS"));
+				//TODO type이 datetime 으로 들어오는경우 날짜 포멧에 대한 정의 필요 - 임시로 if 문에서 ":"문자 포함여부로 데이터 포멧을 결정한다 변경필요
+				if (value.indexOf(":") != -1) {
+					query.setTimestamp(param, DateUtil.toDate(value, "yyyy-MM-dd HH:mm:ss.SSS"));
+				} else {
+					query.setTimestamp(param, DateUtil.toDate(value, "yyyy.MM.dd"));
+				}
 			} else if (type.equalsIgnoreCase("date")) {
 				query.setTimestamp(param, DateUtil.toDate(value));
 			} else if (type.equalsIgnoreCase("time")) {
