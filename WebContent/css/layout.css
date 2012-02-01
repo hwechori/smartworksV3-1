@@ -243,8 +243,9 @@ a .btn_all_works:hover,
 
 
 /* Contents*/
-#content, #board {margin:15px 10px 10px 240px; color:#454545; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
-#board {width:728px; height:20px;}
+#content {margin:15px 10px 10px 240px; color:#454545; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
+#board {margin:5px 10px 10px 240px; color:#ea1a1a; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
+#board {width:728px; height:20px;} /* #board color, #board top margin 변경-정일모 */
 
 /* UpLoad */
 #upload {width:100%; height:22px; margin: 0 2px; display:inline-block; position:relative;}
@@ -378,8 +379,6 @@ a .btn_all_works:hover,
 .js_report_title th,.js_form_by_report_type th{width:17%;font-weight:normal}
 .js_form_by_report_type span{margin-left:20px}
 .js_form_by_report_type span select{margin-left:5px}
-
-
 
 .ico_posi {position:absolute; right:0; top:0;}
 

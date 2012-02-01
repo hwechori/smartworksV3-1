@@ -49,7 +49,7 @@
 		<a href="my_departments.sw" class="" title="<fmt:message key='nav.communities.my_departments'/>">
 			<span class="btn_my_depart current"></span>
 		</a> 
-		<span class="js_progress_span"></span><!--  프로그래스아이콘이 실행되는 곳 -->
+		<span class="js_progress_span"  style="float:righ;" ></span><!--  프로그래스아이콘이 실행되는 곳 -->
 
 	</div>
 	<div id='my_communities'>
