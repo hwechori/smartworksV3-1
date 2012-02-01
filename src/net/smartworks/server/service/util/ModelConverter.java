@@ -1593,7 +1593,9 @@ public class ModelConverter {
 		tskCond.setExtendedProperties(new Property[] {new Property("recordId", swdRecord.getRecordId())});
 		TskTask[] tasks = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
 
-		String processInstId = tasks[0].getProcessInstId();
+		String processInstId = "";
+		if(tasks != null)
+			processInstId = tasks[0].getProcessInstId();
 
 //		TskTask[] lastSwTask = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
 		TskTask lastSwTask = getLastTskTaskByInstanceId(processInstId);
@@ -1650,7 +1652,9 @@ public class ModelConverter {
 		tskCond.setExtendedProperties(new Property[] {new Property("recordId", swdRecord.getRecordId())});
 		TskTask[] tasks = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
 
-		String processInstId = tasks[0].getProcessInstId();
+		String processInstId = "";
+		if(tasks != null)
+			processInstId = tasks[0].getProcessInstId();
 
 		tskCond = new TskTaskCond();
 		tskCond.setProcessInstId(processInstId);
