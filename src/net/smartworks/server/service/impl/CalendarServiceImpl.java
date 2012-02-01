@@ -435,7 +435,6 @@ public class CalendarServiceImpl implements ICalendarService {
 		SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
 
 		WorkHourPolicy workHourPolicy = new WorkHourPolicy();
-		List<WorkHour> workHourList = new ArrayList<WorkHour>();
 		SwcWorkHour swcWorkHour = new SwcWorkHour();
 		if(swcWorkHours != null) {
 			for(int i=0; i<swcWorkHours.length; i++) {
