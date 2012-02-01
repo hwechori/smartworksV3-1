@@ -73,6 +73,7 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
+import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 import net.smartworks.server.engine.worklist.model.TaskWork;
@@ -204,47 +205,50 @@ public class InstanceServiceImpl implements IInstanceService {
 	 */
 	@Override
 	public InstanceInfo[] getMyRecentInstances() throws Exception {
-		 return SmartTest.getMyRecentInstances();	
-//			if (CommonUtil.isEmpty(companyId) || CommonUtil.isEmpty(userId))
-//				return null;
-//	
-//			TskTaskCond taskCond = new TskTaskCond();
-//			taskCond.setAssignee(userId);
-//			taskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
-//			taskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
-//			taskCond.setOrders(new Order[]{new Order("executionDate" , false)});
-//			taskCond.setPageNo(0);
-//			taskCond.setPageSize(50);
-//			
-//			TskTask[] tasks = getTskManager().getTasks(userId, taskCond, IManager.LEVEL_LITE);
-//			if (CommonUtil.isEmpty(tasks))
-//				return null;
-//		
-//			List<String> prcInstIdList = new ArrayList<String>();
-//			for (int i = 0; i < tasks.length; i++) {
-//				TskTask task = tasks[i];
-//				if (prcInstIdList.size() == 10)
-//					break;
-//				if (prcInstIdList.contains(task.getProcessInstId()))
-//					continue;
-//				prcInstIdList.add(task.getProcessInstId());
-//			}
-//			
-//			String[] prcInstIdArray = new String[prcInstIdList.size()];
-//			
-//			prcInstIdList.toArray(prcInstIdArray);
-//			
-//			PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
-//			
-//			prcInstCond.setCompanyId(companyId);
-//			prcInstCond.setObjIdIns(prcInstIdArray);
-//			
-//			PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(userId, prcInstCond, IManager.LEVEL_LITE);
-//			
-//			InstanceInfo[] instInfo = ModelConverter.getInstanceInfoArrayByPrcInstArray(prcInsts);
-//			
-//			return instInfo;
-			
+		 //return SmartTest.getMyRecentInstances();	
+		
+		User user = SmartUtil.getCurrentUser();
+		if (CommonUtil.isEmpty(user.getCompanyId()) || CommonUtil.isEmpty(user.getId()))
+			return null;
+
+		TskTaskCond taskCond = new TskTaskCond();
+		taskCond.setAssignee(user.getId());
+		taskCond.setStatus(TskTask.TASKSTATUS_COMPLETE);
+		taskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+		taskCond.setOrders(new Order[]{new Order("executionDate" , false)});
+		taskCond.setPageNo(0);
+		taskCond.setPageSize(50);
+		
+		TskTask[] tasks = getTskManager().getTasks(user.getId(), taskCond, IManager.LEVEL_LITE);
+		if (CommonUtil.isEmpty(tasks))
+			return null;
+	
+		List<String> prcInstIdList = new ArrayList<String>();
+		for (int i = 0; i < tasks.length; i++) {
+			TskTask task = tasks[i];
+			if (prcInstIdList.size() == 10)
+				break;
+			if (prcInstIdList.contains(task.getProcessInstId()))
+				continue;
+			prcInstIdList.add(task.getProcessInstId());
+		}
+		
+		String[] prcInstIdArray = new String[prcInstIdList.size()];
+		
+		prcInstIdList.toArray(prcInstIdArray);
+		
+		PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
+		
+		prcInstCond.setCompanyId(user.getCompanyId());
+		prcInstCond.setObjIdIns(prcInstIdArray);
+		prcInstCond.setOrders(new Order[]{new Order("creationDate" , false)});
+		
+		PrcProcessInst[] prcInsts = getPrcManager().getProcessInsts(user.getId(), prcInstCond, IManager.LEVEL_LITE);
+		
+		InstanceInfo[] instInfo = ModelConverter.getInstanceInfoArrayByPrcInstArray(prcInsts);
+		
+		return instInfo;
+		
 	}
 
 	@Override
@@ -825,7 +829,7 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	}
 
-	private SwdRecord getSwdRecordByRequestBody(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+	private SwdRecord getSwdRecordByRequestBody_old(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
 		if (CommonUtil.isEmpty(swdFields))
 			return null;//TODO return null? throw new Exception??
@@ -951,8 +955,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		return obj;
 	}
-	private SwdRecord getSwdRecordByRequestBody_test(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
+	private SwdRecord getSwdRecordByRequestBody(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		if (CommonUtil.isEmpty(swdFields))
 			return null;//TODO return null? throw new Exception??
 
@@ -983,20 +987,13 @@ public class InstanceServiceImpl implements IInstanceService {
 			String refForm = null;
 			String refFormField = null;
 			String refRecordId = null;
+			SwdField fieldTemp = fieldInfoMap.get(fieldId);
+			if (fieldTemp.getFormFieldType().equalsIgnoreCase("boolean")) {
+				value = "false";
+			}
+			
 			Object fieldValue = smartFormInfoMap.get(fieldId);
-			if (fieldValue == null) {
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			} else if (fieldValue instanceof LinkedHashMap) {
+			if (fieldValue instanceof LinkedHashMap) {
 				Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
 				groupId = (String)valueMap.get("groupId");
 				refForm = (String)valueMap.get("refForm");
@@ -1043,8 +1040,8 @@ public class InstanceServiceImpl implements IInstanceService {
 					}
 				}
 			}
-			if (CommonUtil.isEmpty(value))
-				continue;
+//			if (CommonUtil.isEmpty(value))
+//				continue;
 			SwdDataField fieldData = new SwdDataField();
 			fieldData.setId(fieldId);
 			fieldData.setName(fieldInfoMap.get(fieldId).getFormFieldName());
@@ -1169,7 +1166,17 @@ public class InstanceServiceImpl implements IInstanceService {
 		SwfForm form = getSwfManager().getForm(userId, formId);
 		SwfField[] formFields = form.getFields();
 		List domainFieldList = new ArrayList();
+		
+		//제목으로 사용할 필드 (필수>단문>첫번째)
+		List requiredFieldIdList = new ArrayList();
+		List textInputFieldIdList = new ArrayList();
 		for (SwfField field: formFields) {
+			//제목으로 사용할 필드 (필수>단문>첫번째)
+			if (field.isRequired() && field.getFormat().getType().equals("textInput"))
+				requiredFieldIdList.add(field.getId());
+			//제목으로 사용할 필드 (필수>단문>첫번째)
+			if (field.getFormat().getType().equals("textInput"))
+				textInputFieldIdList.add(field.getId());
 			SwdField domainField = new SwdField();
 			domainField.setFormFieldId(field.getId());
 			domainField.setFormFieldName(field.getName());
@@ -1188,11 +1195,31 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		//TODO 참조자, 전자결재, 연결업무 정보를 셋팅한다
 		
+		String title = null;
+		if (requiredFieldIdList.size() != 0) {
+			for (int i = 0; i < requiredFieldIdList.size(); i++) {
+				String temp = recordObj.getDataFieldValue((String)requiredFieldIdList.get(i));
+				if (!CommonUtil.isEmpty(temp)) {
+					title = temp;
+					break;
+				}
+			}
+		} else {
+			for (int i = 0; i < textInputFieldIdList.size(); i++) {
+				String temp = recordObj.getDataFieldValue((String)textInputFieldIdList.get(i));
+				if (!CommonUtil.isEmpty(temp)) {
+					title = temp;
+					break;
+				}
+				
+			}
+		}
+		
 		//태스크를 생성하여 실행한다
 		TskTask task = new TskTask();
 		task.setType(taskDef.getType());
 		task.setName(taskDef.getName());
-		task.setTitle("프로세스 제목(타이틀) 정의 필요 (필수>단문>첫번째)20120130 #1");
+		task.setTitle(CommonUtil.toDefault(title, taskDef.getName() + "(No Title) - " + new LocalDate()));
 		task.setAssignee(userId);
 		task.setAssigner(userId);
 		task.setForm(taskDef.getForm());
