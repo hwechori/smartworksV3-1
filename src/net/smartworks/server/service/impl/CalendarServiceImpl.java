@@ -506,7 +506,6 @@ public class CalendarServiceImpl implements ICalendarService {
 
 				workHours[dayOfWeek-1] = new WorkHour(start, end, workTime);
 			}
-			//workHourList.toArray(workHours);
 			workHourPolicy.setWorkHours(workHours);
 		} else {
 			workHourPolicy = new WorkHourPolicy();
