@@ -171,6 +171,9 @@ currentUser = {
 </head>
 
 <body>
+
+<script type="">smartPop.progressCenter();</script>
+
 	<div id="wrap">
 		<!-- Header -->
 		<div id="header">
@@ -204,5 +207,7 @@ currentUser = {
 
 	</div>
  	<jsp:include page="/jsp/chatting/chatter_list.jsp" />
+
+<script type="">smartPop.closeProgress();</script>
 </body>
 </html>
