@@ -58,7 +58,7 @@
 				if(before) {
 					before.apply(this, [event]);
 				}
-				if(target == target_ && history && this_ !== this) {
+				if(target == target_ && history && this_ !== this && ('#' + this.getAttribute('href')) !== unescape(window.location.hash)) {
 					after_ = after;
 					this_ = this;
 					event_ = [event];
