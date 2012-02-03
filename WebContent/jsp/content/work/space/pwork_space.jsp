@@ -28,6 +28,7 @@
 	String cid = request.getParameter("cid");
 	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
 	String workId = request.getParameter("workId");
+	String taskInstId = request.getParameter("taskInstId");
 	
 	ProcessWorkInstance instance = null;
 	WorkInstance workInstance = (WorkInstance)session.getAttribute("workInstance");
@@ -50,7 +51,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_pwork_space_page" workId="<%=workId%>" instId="<%=instId%>">
+<div class="section_portlet js_pwork_space_page" workId="<%=workId%>" instId="<%=instId%>" taskInstId=<%=taskInstId %>>
     <div class="portlet_t"><div class="portlet_tl"></div></div>
     <div class="portlet_l" style="display: block;">
 	    <ul class="portlet_r" style="display: block;">		            
@@ -115,15 +116,14 @@
 				        										&& !task.getAssignee().equals(cUser.getId())) ? false : true;
 				        			if(task.getStatus() == TaskInstance.STATUS_RETURNED)
 				        				statusClass = "proc_task_returned";
-				        			else if(task.getStatus() == TaskInstance.STATUS_RETURNED)
-				        				statusClass = "proc_task_returned";
 				        			else if(task.getStatus() == TaskInstance.STATUS_RUNNING)
 				        				statusClass = "proc_task_running";
 				        			else if(task.getStatus() == TaskInstance.STATUS_DELAYED_RUNNING)
 				        				statusClass = "proc_task_delayed";
 				        			else if(task.getStatus() == TaskInstance.STATUS_COMPLETED)
 				        				statusClass = "proc_task_completed";
-				        			
+				        			else
+				        				statusClass = "proc_task_not_yet";				        				
 				        		
 				        	%>
 			            			<!-- 태스크 --> 
