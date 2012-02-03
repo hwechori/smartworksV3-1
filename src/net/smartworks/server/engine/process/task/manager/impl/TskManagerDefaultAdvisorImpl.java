@@ -127,7 +127,8 @@ public class TskManagerDefaultAdvisorImpl extends AbstractTskManagerAdvisor {
 			prcInst.setIsSubInstance("TRUE");
 			prcInst.setExtendedPropertyValue("parentPrcInstId", parentPrcInstId);
 			prcInst.setExtendedPropertyValue("parentTskDefId", parentTskDefId);
-		}	
+		}
+		prcInst.setWorkSpaceId(obj.getWorkSpaceId());
 		getPrcManager().setProcessInst(user, prcInst, null);
 		if (logger.isInfoEnabled()) {
 			logger.info("Set Process Instance [ " + title + " ( " + pName + " Process : " + pId + " , Process Instance Id : " + prcInst.getObjId() + " ) ]");
