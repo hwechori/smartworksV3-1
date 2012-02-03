@@ -113,7 +113,7 @@ function submitForms() {
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-<div class="up_wrap js_new_board_page" workId="<%=SmartWork.ID_CBOARD_MANAGEMENT%>">
+<div class="up_wrap js_new_board_page" workId="<%=SmartWork.ID_NOTICE_MANAGEMENT%>">
 	<div class="up_point posit_board"></div>
 	<div class="form_wrap up up_padding">
 
@@ -128,7 +128,7 @@ function submitForms() {
 		</div>
 		<!-- 새공지를 등록하기위한 완료 버튼과 취소 버튼 -->
 		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
-			<jsp:param value="<%=SmartWork.ID_CBOARD_MANAGEMENT%>" name="workId"/>
+			<jsp:param value="<%=SmartWork.ID_NOTICE_MANAGEMENT%>" name="workId"/>
 		</jsp:include>
 	</div>
 </div>
