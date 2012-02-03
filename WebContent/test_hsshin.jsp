@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.server.service.IInstanceService"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.model.calendar.CompanyCalendar"%>
 <%@page import="net.smartworks.server.service.IWorkService"%>
@@ -133,8 +135,24 @@
 	workService.addAFavoriteWork("pkg_ba32f6e9af594c9ea9cf921ffa2cadee");
 	*/
 
-	CompanyCalendar[] companyCalendars = smartworks.getCompanyCalendars(new LocalDate(), 3);
+	//CompanyCalendar[] companyCalendars = smartworks.getCompanyCalendars(new LocalDate(), 3);
 	//workService.removeAFavoriteWork("pkg_ba32f6e9af594c9ea9cf921ffa2cadee");
+
+	//IInstanceService instanceService = (IInstanceService)SmartUtil.getBean("instanceServiceImpl", request);
+
+	ISwdManager swdMgr = (ISwdManager)SmartUtil.getBean("swdManager", request);
+
+	SwdRecordCond swdRecordCond = new SwdRecordCond();
+	swdRecordCond.setFormId("frm_50577f0f2fb9442d99a1e8565b23ef7d");
+	swdRecordCond.setReferencedRecordId("dr_52fca4b227fedf070128b418eced013a");
+
+	SwdRecord[] swdRecords = swdMgr.getRecords("", swdRecordCond, null);
+
+	System.out.println(swdRecords.length);
+
+	/* TaskInstanceInfo[] taskInstanceInfos = instanceService.getInstanceRelatedWorksById("dr_52fca4b22bae1977012c28b4058b00f7"); */
+	
+	
 
 %>
 <textarea style="width:800px;height:400px;">

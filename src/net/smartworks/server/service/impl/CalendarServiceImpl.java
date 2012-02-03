@@ -41,6 +41,7 @@ import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
+import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.util.ModelConverter;
@@ -245,7 +246,14 @@ public class CalendarServiceImpl implements ICalendarService {
 		swfFormCond.setCompanyId(user.getCompanyId());
 		swfFormCond.setPackageId(workId);
 
-		swdDomainCond.setFormId(getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE)[0].getId());
+		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE);
+
+		if(swfForms == null)
+			return null;
+		
+		String formId = swfForms[0].getId();
+
+		swdDomainCond.setFormId(formId);
 
 		SwdDomain swdDomain = getSwdManager().getDomain(user.getId(), swdDomainCond, IManager.LEVEL_LITE);
 

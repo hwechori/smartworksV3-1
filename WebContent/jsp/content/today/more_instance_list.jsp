@@ -370,12 +370,12 @@
 				<!-- 인스턴스 상세내용 표시 //-->
 				
 				<!-- 인스턴스 마지막수정일자 -->
-				<td class="vAlignBottom hAlignRight"><span class="t_date"><%= workInstance.getLastModifiedDate().toLocalString()%></span></td>
+				<td class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></td>
 				<!-- 인스턴스 마지막수정일자 //-->
 			</tr>
 			<!-- 진행중인 업무 아이템 //-->
 	<%
 		}
 	}
-	%>
+	%>	
 	

@@ -252,26 +252,6 @@ $(function() {
 				data : {},
 				success : function(data, status, jqXHR) {
 					target.html(data);
-					var pworkManual = target;
-					if(!isEmpty(pworkManual)){
-						var manualTasksHolder = pworkManual.find(".js_manual_tasks_holder");
-						var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-						if(manualTasks.width()>manualTasksHolder.width());
-							pworkManual.find('.js_manual_tasks_right').show();
-						manualTasks.find('a.js_select_task_manual:first img').click();						
-
-						var tasksRight = manualTasksHolder.width();
-						var tasks = manualTasks.find(".js_manual_task");
-						for(var i=0; i<tasks.length; i++){
-							var task = $(tasks[i]);
-							if(task.position().left>tasksRight)
-								break;
-						}
-						if(tasks.length>0 && i<tasks.length && i>0){
-							var task = $(tasks[i-1]);
-							manualTasks.find('.js_manual_task_placeholder').remove().width(task.width()).show().insertBefore(task);
-						}
-					}
 					smartPop.closeProgress();
 				},
 				error : function(xhr, ajaxOptions, thrownError){
@@ -286,10 +266,7 @@ $(function() {
 		var input = $(e.target).parents('a.js_select_task_manual:first');
 		var target = $("#"+input.attr("taskId"));
 		var target_point = $(target).find("div.up_point:first");
-		var manualTasksHolder = input.parents('.js_pwork_manual_page').find(".js_manual_tasks_holder");
-		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-		var manualTasksleft = manualTasks.position().left;
-		target_point.css({"left": (30 + input.position().left + manualTasksleft + input.width()/2) + "px"});
+		target_point.css({"left": (input.position().left + 20) + "px"});
 		$(target).show().siblings('div.js_task_manual').hide();
 		return false;
 	});
@@ -298,7 +275,6 @@ $(function() {
 		var input = $(e.target).parents('a:first');
 		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
 		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-		var placeHolderTask = manualTasks.find('.js_manual_task_placeholder').hide();
 		var left = manualTasks.position().left;
 		var width = manualTasks.width();
 		var remainingWidth = width+left;
@@ -330,7 +306,6 @@ $(function() {
 			var task = $(tasks[i]);
 			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
 		}
-		
 		manualTasks.css({"left": left + "px"});
 		var manualLeft = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_left');
 		if(left<0)
@@ -342,18 +317,6 @@ $(function() {
 			input.hide();
 		else
 			input.show();		
-
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left>tasksRight && i>1){
-				$(tasks[i-2]).find('img').click();
-				break;
-			}
-		}
-		if(tasks.length>0 && i==tasks.length){
-			$(tasks[tasks.length-1]).find('img').click();
-		}
-
 		return false;
 	});
 	
@@ -361,7 +324,6 @@ $(function() {
 		var input = $(e.target).parents('a:first');
 		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
 		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-		var placeHolderTask = manualTasks.find('.js_manual_task_placeholder').hide();
 		var left = manualTasks.position().left;
 		var width = manualTasks.width();
 		var remainingWidth = -left;
@@ -403,15 +365,6 @@ $(function() {
 			manualRight.hide();
 		else
 			manualRight.show();
-
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+left>=0 ){
-				$(tasks[i]).find('img').click();
-				break;
-			}
-		}
-		
 		return false;
 	});
 	
@@ -960,7 +913,7 @@ $(function() {
 
 	$('a.js_view_my_running_instances').live('click',function(e) {
 		var input = $(e.target).addClass('current').siblings().removeClass('current');
-		var target =  input.parents('.js_my_running_instance_list_page').find('table');
+		var target =  input.parent().prev('ul');
 		$.ajax({
 			url : 'more_instance_list.sw',
 			data : {
@@ -978,7 +931,7 @@ $(function() {
 
 	$('a.js_view_assigned_instances').live('click',function(e) {
 		var input = $(e.target).addClass('current').siblings().removeClass('current');
-		var target =  input.parents('.js_my_running_instance_list_page').find('table');
+		var target =  input.parent().prev('ul');
 		$.ajax({
 			url : 'more_instance_list.sw',
 			data : {

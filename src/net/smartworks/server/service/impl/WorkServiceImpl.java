@@ -279,7 +279,7 @@ public class WorkServiceImpl implements IWorkService {
 
 	}
 	public Work getInfortmationWorkById(String companyId, String userId, String workId) throws Exception {
-		
+
 		SwfFormCond swfCond = new SwfFormCond();
 		swfCond.setPackageId(workId);
 		SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_ALL);
