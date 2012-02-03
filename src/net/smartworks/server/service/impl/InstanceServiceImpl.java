@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +60,7 @@ import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
+import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
@@ -123,7 +125,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception {
 
-		String workId = SmartWork.ID_CBOARD_MANAGEMENT;
+		String workId = SmartWork.ID_NOTICE_MANAGEMENT;
 
 		User user = SmartUtil.getCurrentUser();
 
@@ -134,7 +136,12 @@ public class InstanceServiceImpl implements IInstanceService {
 		swfFormCond.setCompanyId(user.getCompanyId());
 		swfFormCond.setPackageId(workId);
 
-		swdDomainCond.setFormId(getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE)[0].getId());
+		SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE);
+
+		if(swfForms == null)
+			return null;
+
+		swdDomainCond.setFormId(swfForms[0].getId());
 
 		SwdDomain swdDomain = getSwdManager().getDomain(user.getId(), swdDomainCond, IManager.LEVEL_LITE);
 
@@ -1931,6 +1938,28 @@ public class InstanceServiceImpl implements IInstanceService {
 	public TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return SmartTest.getTaskInstancesByFromDate(contextId, spaceId, fromDate, maxSize);
+	}
+	@Override
+	public TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public TaskInstanceInfo[] getInstanceRelatedWorksById(String instId) throws Exception {
+		User user = SmartUtil.getCurrentUser();
+		Map<String, String> refFormMap = getSwfManager().getReferenceFormIdSizeMap(user.getId(), instId);
+
+		Iterator iterator = refFormMap.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Entry entry = (Entry)iterator.next();
+			String refFormId = CommonUtil.toNotNull(entry.getKey());
+			SwdRecordCond swdRecordCond = new SwdRecordCond();
+			swdRecordCond.setFormId(refFormId);
+			swdRecordCond.setReferencedRecordId(instId);
+			SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
+			System.out.println(swdRecords.length);
+		}
+		return null;
 	}
 
 }
