@@ -357,7 +357,7 @@ public class SmartTest {
 
 	public static PWInstanceInfo getWorkInstanceInfo1() throws Exception {
 			TaskInstanceInfo taskInstance = new TaskInstanceInfo("taskInstance1", "대표이사승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, getUserInfo2(), getUserInfo2(), new LocalDate(LocalDate.convertStringToTime("201110051600")));
-			taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
+			taskInstance.setStatus(Instance.STATUS_RETURNED);
 			PWInstanceInfo instance = new PWInstanceInfo("inst1", "휴가 신청합니다.", getSmartWorkInfo1(), getUserInfo1(), getUserInfo1(), new LocalDate(LocalDate.convertStringToTime("201110211300")), taskInstance);
 			instance.setWork(SmartTest.getProcessWorkInfo1());
 			taskInstance.setWorkInstance(instance);
@@ -407,7 +407,7 @@ public class SmartTest {
 
 	public static PWInstanceInfo getWorkInstanceInfo3() throws Exception {
 			TaskInstanceInfo taskInstance = new TaskInstanceInfo("taskInstance1", "대표이사승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, getUserInfo2(), getUserInfo2(), new LocalDate(LocalDate.convertStringToTime("201110051600")));
-			taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
+			taskInstance.setStatus(Instance.STATUS_DELAYED_RUNNING);
 			taskInstance.setAssignee(getUserInfo1());
 			PWInstanceInfo instance = new PWInstanceInfo("inst3", "노트북 구매 기안합니다.", getSmartWorkInfo3(), getUserInfo1(), getUserInfo1(), new LocalDate(LocalDate.convertStringToTime("201110251621")), taskInstance);
 			taskInstance.setWorkInstance(instance);
@@ -472,7 +472,7 @@ public class SmartTest {
 
 	public static TaskInstance getTaskInstancePA() throws Exception {
 		TaskInstance taskInstance = new TaskInstance("taskInstance1", "대표이사승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, getUser2(), getUser2(), new LocalDate(LocalDate.convertStringToTime("201110051600")));
-		taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
+		taskInstance.setStatus(Instance.STATUS_RUNNING);
 		taskInstance.setWorkInstance(getWorkInstance1());
 		taskInstance.setAssignee(SmartUtil.getCurrentUserOld());
 		return taskInstance;
@@ -480,7 +480,7 @@ public class SmartTest {
 
 	public static TaskInstanceInfo getTaskInstanceInfoPA() throws Exception {
 		TaskInstanceInfo taskInstance = new TaskInstanceInfo("taskInstance1", "대표이사승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, getUserInfo2(), getUserInfo2(), new LocalDate(LocalDate.convertStringToTime("201110051600")));
-		taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
+		taskInstance.setStatus(Instance.STATUS_RUNNING);
 			PWInstanceInfo instance = new PWInstanceInfo("inst1", "휴가 신청합니다.", getSmartWorkInfo1(), getUserInfo1(), getUserInfo1(), new LocalDate(LocalDate.convertStringToTime("201110211300")), taskInstance);
 		taskInstance.setWorkInstance(instance);
 		taskInstance.setAssignee(getUserInfo1());
@@ -537,7 +537,7 @@ public class SmartTest {
 
 	public static TaskInstance getTaskInstanceAA() throws Exception {
 		TaskInstance taskInstance = new TaskInstance("taskInstance13", "신규사업기획서 품의", TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED, getUser2(), getUser2(), new LocalDate(LocalDate.convertStringToTime("201110251600")));
-		taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
+		taskInstance.setStatus(Instance.STATUS_RUNNING);
 		taskInstance.setWorkInstance(getWorkInstance1());
 		taskInstance.setAssignee(SmartUtil.getCurrentUserOld());
 		return taskInstance;
@@ -586,7 +586,7 @@ public class SmartTest {
 
 	public static TaskInstanceInfo getTaskInstanceInfoAA() throws Exception {
 		TaskInstanceInfo taskInstance = new TaskInstanceInfo("taskInstance13", "신규사업기획서 품의", TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED, getUserInfo2(), getUserInfo2(), new LocalDate(LocalDate.convertStringToTime("201110251600")));
-		taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
+		taskInstance.setStatus(Instance.STATUS_RUNNING);
 		taskInstance.setWorkInstance(getWorkInstanceInfo1());
 		taskInstance.setAssignee(getUserInfo3());
 		return taskInstance;
@@ -684,7 +684,7 @@ public class SmartTest {
 
 		TaskInstanceInfo assignedInstance5 = new TaskInstanceInfo("assignedtask5", "일일보고 입니다.", TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED,
 				SmartTest.getUserInfo3(), getUserInfo3(),  new LocalDate(LocalDate.convertStringToTime("201110251600")));
-			assignedInstance5.setStatus(Instance.STATUS_RETURNED_DELAYED);
+			assignedInstance5.setStatus(Instance.STATUS_RUNNING);
 			workInstance5.setWorkSpace(getGroupInfo1());
 			assignedInstance5.setWorkInstance(workInstance5);
 
@@ -1072,7 +1072,7 @@ public class SmartTest {
 
 	public static InstanceInfo[] getMyRecentInstances() throws Exception {
 		TaskInstanceInfo taskInstance = new TaskInstanceInfo("taskInstance1", "대표이사승인", TaskInstance.TYPE_PROCESS_TASK_ASSIGNED, getUserInfo2(), getUserInfo2(), new LocalDate(LocalDate.convertStringToTime("201110051600")));
-		taskInstance.setStatus(Instance.STATUS_RETURNED_DELAYED);
+		taskInstance.setStatus(Instance.STATUS_RUNNING);
 		taskInstance.setAssignee(getUserInfo1());
 		PWInstanceInfo workInstance1 = new PWInstanceInfo("inst1", "휴가 신청합니다.", getSmartWorkInfo1(), getUserInfo1(), getUserInfo1(), new LocalDate(LocalDate.convertStringToTime("201110211300")), taskInstance);
 		IWInstanceInfo workInstance2 = new IWInstanceInfo("inst2", "스마트웍스 3.0 개발계획 회의록 입니다.", getSmartWorkInfo2(), getUserInfo1(), getUserInfo1(), new LocalDate(LocalDate.convertStringToTime("201110230900")));

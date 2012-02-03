@@ -136,35 +136,30 @@
 					break;
 				// 인스턴스가 지연진행중인 경우....
 				case Instance.STATUS_DELAYED_RUNNING:
-					statusImage = "images/ic_state_ing.jpg";
+					statusImage = "images/ic_state_d_running.jpg";
 					statusTitle = "content.status.delayed_running";
 					break;
 				// 인스턴스가 반려된 경우...
 				case Instance.STATUS_RETURNED:
-					statusImage = "images/ic_state_ing.jpg";
+					statusImage = "images/ic_state_returned.jpg";
 					statusTitle = "content.status.returned";
-					break;
-				// 인스턴스가 지연반려된 경우....
-				case Instance.STATUS_RETURNED_DELAYED:
-					statusImage = "images/ic_state_ing.jpg";
-					statusTitle = "content.status.returned_delayed";
 					break;
 				// 기타 잘못되어 상태가 없는 경우..
 				default:
-					statusImage = "images/ic_state_ing.jpg";
-					statusTitle = "content.status.running";
+					statusImage = "images/ic_state_not_yet.jpg";
+					statusTitle = "content.status.not_yet";
 				}
 			%>
 				<tr>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>">
+						<a href="<%=target%>" class="js_content_pwork_space">
 							<div class="noti_pic js_content_pwork_space">
 								<img src="<%=statusImage%>" title="<%=statusTitle%>"/>
 							</div>
 						</a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>">
+						<a href="<%=target%>" class="js_content_pwork_space">
 							<div class="noti_pic js_content_pwork_space">
 								<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s" />
 							</div>
@@ -175,13 +170,13 @@
 						</a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>"><%=instanceInfo.getSubject()%></a>
+						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%></a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>"><%=lastTask.getName()%></a>
+						<a href="<%=target%>" class="js_content_pwork_space"><%=lastTask.getName()%></a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space" workId="<%=workId%>" instId="<%=lastTask.getId()%>" formId="<%=startTask.getForm().getId()%>">
+						<a href="<%=target%>" class="js_content_pwork_space">
 							<div class="noti_pic js_content_pwork_space">
 								<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
 							</div>

@@ -197,6 +197,10 @@ public interface ISmartWorks {
 
 	public abstract TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception;
 
+	public abstract TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception;
+
+	public abstract TaskInstanceInfo[] getInstanceRelatedWorksById(String instId) throws Exception;
+
 	public abstract Report getReportById(String reportId) throws Exception;
 
 	public abstract SearchFilter getSearchFilterById(String filterId) throws Exception;

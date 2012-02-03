@@ -1,5 +1,7 @@
 package net.smartworks.model.security;
 
+import net.smartworks.util.SmartUtil;
+
 public class EditPolicy {
 
 	public final static int LEVEL_WIKI = 1;
@@ -19,5 +21,11 @@ public class EditPolicy {
 	public EditPolicy(int level){
 		super();
 		this.level = level;
+	}
+
+	public boolean isEditableForMe(String ownerId){
+		if(this.level == EditPolicy.LEVEL_WIKI || ownerId.equals(SmartUtil.getCurrentUser().getId()))
+			return true;
+		return false;
 	}
 }

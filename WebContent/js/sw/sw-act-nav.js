@@ -85,23 +85,7 @@ $(function() {
 		},
 		target : 'content',
 		after : function(e){
-			var input = $(e.target);
-			var workId = input.attr("workId");
-			var instId = input.attr("instId");
-			var formContent = $('div.js_form_content');
-			new SmartWorks.GridLayout({
-				target : formContent,
-				mode : "view",
-				workId : workId,
-				recordId : instId,
-				onSuccess : function(){
-					smartPop.closeProgress();																
-				},
-				onError : function(){
-					smartPop.closeProgress();
-					
-				}
-			});
+			smartPop.closeProgress();																
 		}
 	});
 
@@ -113,6 +97,25 @@ $(function() {
 		target : 'content',
 		after : function(e){
 			smartPop.closeProgress();
+			var input = $(e.target);
+			var workId = input.attr("workId");
+			var formId = input.attr("formId");
+			var instId = input.attr("instId");
+			var formContent = $('div.js_form_content');
+			new SmartWorks.GridLayout({
+				target : formContent,
+				mode : "edit",
+				workId : workId,
+				formId : formId,
+				recordId : instId,
+				onSuccess : function(){
+					smartPop.closeProgress();																
+				},
+				onError : function(){
+					smartPop.closeProgress();
+					
+				}
+			});
 		}
 	});
 
