@@ -1130,6 +1130,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			"frmAccessSpace":
 				{
 					"selWorkSpace":"kmyu@maninsoft.co.kr",
+					"selWorkSpaceType": 4(ISmartWorks.java 에 정의 되어 있음), 
 					"selAccessLevel":"3",
 					"txtAccessableUsers":
 						{
@@ -1144,9 +1145,6 @@ public class InstanceServiceImpl implements IInstanceService {
 		String userId = null;
 		if (cuser != null)
 			userId = cuser.getId();
-		
-		Map<String, Object> smartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
-		
 		
 		//패키지 정보로 프로세스 정보를 얻는다.
 		String packageId = (String)requestBody.get("workId");
@@ -1232,6 +1230,10 @@ public class InstanceServiceImpl implements IInstanceService {
 		task.setForm(taskDef.getForm());
 		task.setDef(taskDef.getObjId());
 		task.setIsStartActivity("true");
+		
+		Map<String, Object> frmAccessSpace = (Map<String, Object>)requestBody.get("frmAccessSpace");
+		String workSpaceId = (String)frmAccessSpace.get("selWorkSpace");
+		task.setWorkSpaceId(workSpaceId);
 		
 		task.setDocument(taskDocument);
 		
@@ -1624,8 +1626,6 @@ public class InstanceServiceImpl implements IInstanceService {
 				String assignee = prcInst.getLastTask_tskAssignee();
 				String performer = prcInst.getLastTask_tskAssignee();
 				
-				WorkSpaceInfo workSpace = null; //TODO
-				
 				int tskStatus = -1;
 				if (prcInst.getLastTask_tskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN)) {
 					tskStatus = Instance.STATUS_COMPLETED;
@@ -1645,7 +1645,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				lastTaskInfo.setType(tskType);
 				lastTaskInfo.setWork(workInfo);
 				lastTaskInfo.setWorkInstance(pwInstInfo);
-				lastTaskInfo.setWorkSpace(workSpace);
+				lastTaskInfo.setWorkSpace(new WorkSpaceInfo(prcInst.getLastTask_tskWorkSpace(), null));
 				lastTaskInfo.setName(name);
 				lastTaskInfo.setTaskType(tskType);
 				lastTaskInfo.setAssignee(ModelConverter.getUserInfoByUserId(assignee));
@@ -1654,7 +1654,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				pwInstInfo.setLastTask(lastTaskInfo);//마지막 태스크
 			}
 			pwInstInfo.setLastTaskCount(prcInst.getLastTask_tskCount());
-			pwInstInfo.setWorkSpace(null);
+			pwInstInfo.setWorkSpace(new WorkSpaceInfo(prcInst.getPrcWorkSpaceId(), null));
 			pWInstanceInfos[i] = pwInstInfo;
 		}
 //		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));
@@ -1784,7 +1784,6 @@ public class InstanceServiceImpl implements IInstanceService {
 				String name = lastTskTask.getName();
 				String assignee = lastTskTask.getAssignee();
 				String performer = lastTskTask.getAssignee();
-				WorkSpaceInfo workSpace = null; //TODO
 				int tskStatus = -1;
 				if (lastTskTask.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN)) {
 					tskStatus = Instance.STATUS_COMPLETED;
@@ -1802,7 +1801,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				lastTaskInfo.setSubject(subject);
 				lastTaskInfo.setType(type);
 				lastTaskInfo.setWork(workInfo);
-				lastTaskInfo.setWorkSpace(workSpace);
+				lastTaskInfo.setWorkSpace(new WorkSpaceInfo(prcInst.getWorkSpaceId(), null));
 				lastTaskInfo.setName(name);
 				lastTaskInfo.setTaskType(type);
 				lastTaskInfo.setAssignee(ModelConverter.getUserInfoByUserId(assignee));
@@ -1821,7 +1820,6 @@ public class InstanceServiceImpl implements IInstanceService {
 					String name = runningTask.getName();
 					String assignee = runningTask.getAssignee();
 					String performer = runningTask.getAssignee();
-					WorkSpaceInfo workSpace = null; //TODO
 					int tskStatus = -1;
 					if (runningTask.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN)) {
 						tskStatus = Instance.STATUS_COMPLETED;
@@ -1839,7 +1837,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					runningTaskInfo.setSubject(subject);
 					runningTaskInfo.setType(type);
 					runningTaskInfo.setWork(workInfo);
-					runningTaskInfo.setWorkSpace(workSpace);
+					runningTaskInfo.setWorkSpace(new WorkSpaceInfo(runningTask.getWorkSpaceId(), null));
 					runningTaskInfo.setName(name);
 					runningTaskInfo.setTaskType(type);
 					runningTaskInfo.setAssignee(ModelConverter.getUserInfoByUserId(assignee));
@@ -1847,7 +1845,7 @@ public class InstanceServiceImpl implements IInstanceService {
 //					pwInstInfo.setRunningTasks(new TaskInstanceInfo[]{runningTaskInfo});//실행중태스크
 				}
 			}
-			pwInstInfo.setWorkSpace(null);
+			pwInstInfo.setWorkSpace(new WorkSpaceInfo(prcInst.getWorkSpaceId(), null));
 			pWInstanceInfos[i] = pwInstInfo;
 		}
 //		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));

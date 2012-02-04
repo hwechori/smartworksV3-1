@@ -42,6 +42,7 @@
 		<property name="stepInteger" column="tskStep" type="int"/>
 		<property name="instVariable" column="tskInstVariable" type="text"/>
 		<property name="loopCounterInteger" column="tskLoopCnt" type="int"/>
+		<property name="workSpaceId" column="tskWorkSpaceId" type="string" length="100"/>
 		<array name="extendedProperties" table="TskTaskExtProp">
 			<key column="tskObjId" foreign-key="FkTskTaskExtProp"/>
 			<list-index column="tskSeq"/>
