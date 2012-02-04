@@ -58,9 +58,6 @@
 		<option value="<%=Instance.STATUS_COMPLETED%>" <%if((operandValue != null) && Integer.parseInt(operandValue) == Instance.STATUS_COMPLETED){%> selected<%} %>>
 			<fmt:message key="filter.operand.status.completed" />
 		</option>
-		<option value="<%=Instance.STATUS_RETURNED_DELAYED%>" <%if((operandValue != null) && Integer.parseInt(operandValue) == Instance.STATUS_RETURNED_DELAYED){%> selected<%} %>>
-			<fmt:message key="filter.operand.status.returned_delayed" />
-		</option>
 	</select> 
 </span>
 <!-- 내용 확인 필요   ############################# //-->
