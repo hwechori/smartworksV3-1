@@ -3,7 +3,6 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-
 	session.setAttribute("cid", ISmartWorks.CONTEXT_SMARTCASTER);
 	session.removeAttribute("wid");
 	
