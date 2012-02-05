@@ -94,6 +94,7 @@ kbd, samp, code {
 img, button, select, textarea {
      vertical-align: middle;
 }
+select, textarea { width:99%}
 input[type="image"], input[type="text"], input[type="submit"], input[type="password"], textarea {resize: none;}
 	
 input {border:0 none; outline:medium none; vertical-align: middle;}
@@ -151,29 +152,34 @@ mark, rp, rt, ruby, summary, time {
 .center {text-align:center;}
 .clear {display:block; clear:both;}
 
-.space_r2 {margin-right:2px;}
-.space_r10 {margin-right:10px;}
-.space_l5 {margin-left:5px;}
-.space_l10 {margin-left:10px;}
+.space_r2 {margin-right:2px !important}
+.space_r10 {margin-right:10px !important}
+.space_l5 {margin-left:5px !important}
+.space_l10 {margin-left:10px !important}
 
-.padding_l5 {padding-left:5px;}
-.padding_l20 {padding-left:20px;}
-.padding_l10 {padding-left:10px;}
+.padding_l5 {padding-left:5px !important}
+.padding_l20 {padding-left:20px !important}
+.padding_l10 {padding-left:10px !important}
 
-.padding_r5 { padding-right:5px;}
-.padding_r10 { padding-right:10px;}
-.padding_r30 { padding-right:30px;}
-.padding_t5 {padding-top:5px;}
-.padding_b2 {padding-bottom:2px;}
-.padding_b6 {padding-bottom:6px;}
+.padding_r5 { padding-right:5px !important}
+.padding_r10 { padding-right:10px !important}
+.padding_r30 { padding-right:30px !important}
+.padding_t5 {padding-top:5px !important}
+.padding_t10 {padding-top:10px !important}
+.padding_t15 {padding-top:15px !important}
+.padding_t20 {padding-top:20px !important}
+.padding_b2 {padding-bottom:2px !important}
+.padding_b6 {padding-bottom:6px !important}
 
-.margin_t2 {margin-top:2px;}
-.margin_t5 {margin-top:5px;}
-.margin_t10 {margin-top:10px;}
-.margin_t15 {margin-top:15px;}
-.margin_b5 {margin-bottom:5px;}
-.margin_b2 {margin-bottom:2px;}
-.margin_l15 {margin-left:15px;}
+.margin_t2 {margin-top:2px !important}
+.margin_t5 {margin-top:5px !important}
+.margin_t10 {margin-top:10px !important}
+.margin_t15 {margin-top:15px !important}
+.margin_b2 {margin-bottom:2px !important}
+.margin_b5 {margin-bottom:5px !important}
+.margin_b10 {margin-bottom:10px !important}
+.margin_l15 {margin-left:15px !important}
+.margin_l10 {margin-left:10px !important}
 
 .text_align_l {text-align:left !important}
 .text_align_c {text-align:center !important}
