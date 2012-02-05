@@ -25,7 +25,6 @@ public class Instance {
 	public final static int STATUS_RETURNED = 3;
 	public final static int STATUS_COMPLETED = 4;
 	public final static int STATUS_PLANNED = 5;
-	public final static int STATUS_RETURNED_DELAYED = 6;
 	
 	private String id;
 	private String subject;

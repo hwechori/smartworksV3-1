@@ -49,9 +49,9 @@
 	        <div class="float_left_nowidth"><a href="" class="js_manual_tasks_left" style="display:none"><img class="proc_btn_prev"></a></div>
 		
 			<!--  태스크 시작 -->
-			<div class="proce_space js_manual_tasks_holder" style="overflow:hidden;width:92%"">
+			<div class="proce_space js_manual_tasks_holder" style="overflow:hidden;width:92%">
 				<div class="js_manual_tasks" style="white-space:nowrap;position:absolute;">
-					<div class="float_left_nowidth js_manual_task_placeholder" style="display:none"></div>
+					<div class="proc_task_yet float_left_nowidth js_manual_task_placeholder" style="display:none"><span class="pcenter"></span></div>
 					<%
 					if (tasks != null) {
 						int count = 0;
@@ -104,7 +104,7 @@
 										<tbody>
 											<tr>
 												<td><img src="<%=form.getOrgImage() %>" width="349" height="289" /></td>
-												<td>Count=<%=i%><%=form.getDescription() %></td>
+												<%if(SmartUtil.isBlankObject(form.getDescription())){ %><td><fmt:message key="common.message.no_form_desc"/></td><%}else{ %><td><%=form.getDescription() %></td><%} %>
 											</tr>
 										</tbody>
 									</table>

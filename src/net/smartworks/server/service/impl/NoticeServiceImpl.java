@@ -47,7 +47,15 @@ public class NoticeServiceImpl implements INoticeService {
 	 */
 	@Override
 	public Notice[] getNoticesForMe() throws Exception {
-		return SmartTest.getNoticesForMe();
+
+		try{
+			return SmartTest.getNoticesForMe();
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
 	}
 
 	/*
@@ -60,6 +68,13 @@ public class NoticeServiceImpl implements INoticeService {
 	 */
 	@Override
 	public void removeNoticeInstance(String noticeId) throws Exception {
+		
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
 	}
 
 	/*
@@ -88,34 +103,42 @@ public class NoticeServiceImpl implements INoticeService {
 	 */
 	@Override
 	public NoticeBox getNoticeBoxForMe10(int noticeType, String lastNoticeId) throws Exception {
-		switch(noticeType){
-		case Notice.TYPE_MAILBOX:
-			RequestParams params = new RequestParams();
-			params.setPageSize(10);
-			params.setCurrentPage(1);
-			params.setSortingField(new SortingField("date", false));
-			InstanceInfoList mailsList =  mailService.getMailInstanceList(MailFolder.ID_INBOX, params);
-			InstanceInfo[] instances = mailsList.getInstanceDatas();
-			NoticeBox noticeBox = new NoticeBox();
-			NoticeMessage[] notices = new NoticeMessage[instances.length];
-			for(int i=0; i<instances.length; i++){
-				notices[i] = new NoticeMessage(instances[i].getId(), 0, instances[i].getOwner(), instances[i].getCreatedDate());
-				notices[i].setInstance(instances[i]);
-			}
-			noticeBox.setNoticeMessages(notices);
-			noticeBox.setNoticeType(Notice.TYPE_MAILBOX);
-			noticeBox.setDateOfLastNotice(new LocalDate());
-			noticeBox.setRemainingLength(48);
-			return noticeBox;
 
-		case Notice.TYPE_ASSIGNED:
-		case Notice.TYPE_COMMENT:
-		case Notice.TYPE_MESSAGE:
-		case Notice.TYPE_NOTIFICATION:
-		case Notice.TYPE_SAVEDBOX:
-			return SmartTest.getNoticeBoxForMe10(noticeType);
+		try{
+			switch(noticeType){
+			case Notice.TYPE_MAILBOX:
+				RequestParams params = new RequestParams();
+				params.setPageSize(10);
+				params.setCurrentPage(1);
+				params.setSortingField(new SortingField("date", false));
+				InstanceInfoList mailsList =  mailService.getMailInstanceList(MailFolder.ID_INBOX, params);
+				InstanceInfo[] instances = mailsList.getInstanceDatas();
+				NoticeBox noticeBox = new NoticeBox();
+				NoticeMessage[] notices = new NoticeMessage[instances.length];
+				for(int i=0; i<instances.length; i++){
+					notices[i] = new NoticeMessage(instances[i].getId(), 0, instances[i].getOwner(), instances[i].getCreatedDate());
+					notices[i].setInstance(instances[i]);
+				}
+				noticeBox.setNoticeMessages(notices);
+				noticeBox.setNoticeType(Notice.TYPE_MAILBOX);
+				noticeBox.setDateOfLastNotice(new LocalDate());
+				noticeBox.setRemainingLength(48);
+				return noticeBox;
+	
+			case Notice.TYPE_ASSIGNED:
+			case Notice.TYPE_COMMENT:
+			case Notice.TYPE_MESSAGE:
+			case Notice.TYPE_NOTIFICATION:
+			case Notice.TYPE_SAVEDBOX:
+				return SmartTest.getNoticeBoxForMe10(noticeType);
+			}
+			return null;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
 		}
-		return null;
 	}
 
 	/*
@@ -125,6 +148,13 @@ public class NoticeServiceImpl implements INoticeService {
 	 */
 	@Override
 	public String[] getBroadcastingMessages() throws Exception {
-		return SmartTest.getBroadcastingMessages();
+		try{
+			return SmartTest.getBroadcastingMessages();
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
 	}
 }

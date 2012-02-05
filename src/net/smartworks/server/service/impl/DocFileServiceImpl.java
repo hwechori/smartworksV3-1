@@ -44,140 +44,173 @@ public class DocFileServiceImpl implements IDocFileService {
 
 	public void uploadFile(HttpServletRequest request) throws Exception {
 
-		String userId = CommonUtil.toNotNull(request.getParameter("userId"));
-		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));
-
-		List<IFileModel> docList = new ArrayList<IFileModel>();
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        Map<String, MultipartFile> files = multipartRequest.getFileMap();
-
-        for(String fileName : files.keySet()) {
-        	MultipartFile mf = files.get(fileName);
-        	IFileModel doc = new HbFileModel();
-        	doc.setMultipartFile(mf);
-        	docList.add(doc);
-        }
-
-		getDocManager().createFileList(userId, (groupId.equals("") ? null : groupId), docList, request);
-
+		try{
+			String userId = CommonUtil.toNotNull(request.getParameter("userId"));
+			String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));
+	
+			List<IFileModel> docList = new ArrayList<IFileModel>();
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	        Map<String, MultipartFile> files = multipartRequest.getFileMap();
+	
+	        for(String fileName : files.keySet()) {
+	        	MultipartFile mf = files.get(fileName);
+	        	IFileModel doc = new HbFileModel();
+	        	doc.setMultipartFile(mf);
+	        	docList.add(doc);
+	        }
+	
+			getDocManager().createFileList(userId, (groupId.equals("") ? null : groupId), docList, request);
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
 	}
 
 	public void uploadFiles(HttpServletRequest request) throws Exception {
 
-		List<IFileModel> docList = new ArrayList<IFileModel>();
-		Map<String, String> files = new HashMap<String, String>();
-		for(String fileId : files.keySet()) {
-			String fileName = files.get(fileId);
-			IFileModel doc = new HbFileModel();
-			doc.setId(fileId);
-			doc.setFileName(fileName);
-			docList.add(doc);
+		try{
+			List<IFileModel> docList = new ArrayList<IFileModel>();
+			Map<String, String> files = new HashMap<String, String>();
+			for(String fileId : files.keySet()) {
+				String fileName = files.get(fileId);
+				IFileModel doc = new HbFileModel();
+				doc.setId(fileId);
+				doc.setFileName(fileName);
+				docList.add(doc);
+			}
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
 		}
-
 	}
 
 	@Override
 	public void ajaxUploadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		getDocManager().ajaxUploadTempFile(request, response);
+		try{
+			getDocManager().ajaxUploadTempFile(request, response);
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
 	}
 
 	public List<IFileModel> findFileGroup(HttpServletRequest request) throws Exception {
 
-		String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));
-
-		List<IFileModel> fileList = new ArrayList<IFileModel>(); 
-
-		fileList = getDocManager().findFileGroup(groupId);
-
-		return fileList;
-
+		try{
+			String groupId = CommonUtil.toNotNull(request.getParameter("groupId"));
+	
+			List<IFileModel> fileList = new ArrayList<IFileModel>(); 
+	
+			fileList = getDocManager().findFileGroup(groupId);
+	
+			return fileList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
 	}
 
 	public void deleteFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String fileId = CommonUtil.toNotNull(request.getParameter("fileId"));
-		String fileName = CommonUtil.toNotNull(request.getParameter("fileName"));
-		String filePath = "";
-		User user = SmartUtil.getCurrentUser();
-
-		if(fileId.startsWith("temp_")) {
-			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-			filePath = SmartConfUtil.getInstance().getImageServer() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
-		} else {
-			IFileModel doc = getDocManager().retrieveFile(fileId);
-			filePath = doc.getFilePath();
-			getDocManager().deleteFile(fileId);
+		try{
+			String fileId = CommonUtil.toNotNull(request.getParameter("fileId"));
+			String fileName = CommonUtil.toNotNull(request.getParameter("fileName"));
+			String filePath = "";
+			User user = SmartUtil.getCurrentUser();
+	
+			if(fileId.startsWith("temp_")) {
+				String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+				filePath = SmartConfUtil.getInstance().getImageServer() + user.getCompanyId() + "\\"+ "Temps" + "\\" + fileId + "." + extension;
+			} else {
+				IFileModel doc = getDocManager().retrieveFile(fileId);
+				filePath = doc.getFilePath();
+				getDocManager().deleteFile(fileId);
+			}
+			File f = new File(filePath);
+			f.delete();
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
 		}
-		File f = new File(filePath);
-		f.delete();
-
 	}
 
 	@Override
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		DataInputStream in = null;
-    	ServletOutputStream op = null;
-        FileChannel inChannel = null;
-        FileChannel outChannel = null;
-
-    	try{
-
-    		String fileId = request.getParameter("fileId");
-    		String fileName = request.getParameter("fileName");
-
-    		User user = SmartUtil.getCurrentUser();
-
-    		String sourceFile = "";
-    		String file_name = "";
-
-    		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-    		if(fileId.startsWith("temp_")) {
-    			file_name = fileName;
-    			sourceFile = System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY") + "/" + user.getCompanyId() + "/"+ "Temps" + "/" + fileId + "." + extension;
-    			//sourceFile = System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME") + File.separator + user.getCompanyId() + File.separator + "Temps" + File.separator + fileId + "." + extension;
-    		} else {
-    			IFileModel doc = getDocManager().retrieveFile(fileId);
-	    		//파일명, UniqValue
-	    		file_name = doc.getFileName(); 
-    			sourceFile = doc.getFilePath();
-    		}
-
-    		File file = new File(sourceFile);
-    		int length = 0;
-    		op = response.getOutputStream();
-
-    		response.setContentType("application/octet-stream" );
-    		response.setContentLength((int)file.length());
-    		file_name = new String(file_name.getBytes(), response.getCharacterEncoding());
-    		response.setHeader( "Content-Disposition", "attachment; filename=\"" + file_name + "\"" );
-
-    		byte[] bbuf = new byte[4096];
-    		in = new DataInputStream(new FileInputStream(file));
-    		
-    		while ((in != null) && ((length = in.read(bbuf)) != -1))
-    		{
-    			op.write(bbuf,0,length);
-    		}
-    		
-    	}catch(Throwable t){
-    		t.printStackTrace();
-    		try{
-    			if(in != null & op != null){
-    				in.close();
-    				op.flush();
-    				op.close();
-    			}			
-    		}catch(Throwable th){
-    		}
-        } finally {
-            if (inChannel != null)
-                inChannel.close();
-            if (outChannel != null)
-                outChannel.close();
-			op.flush();
-        }
-    }
+		try{
+			DataInputStream in = null;
+	    	ServletOutputStream op = null;
+	        FileChannel inChannel = null;
+	        FileChannel outChannel = null;
+	
+	    	try{
+	
+	    		String fileId = request.getParameter("fileId");
+	    		String fileName = request.getParameter("fileName");
+	
+	    		User user = SmartUtil.getCurrentUser();
+	
+	    		String sourceFile = "";
+	    		String file_name = "";
+	
+	    		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+	    		if(fileId.startsWith("temp_")) {
+	    			file_name = fileName;
+	    			sourceFile = System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY") + "/" + user.getCompanyId() + "/"+ "Temps" + "/" + fileId + "." + extension;
+	    			//sourceFile = System.getenv("SMARTWORKS_FILE_HOME") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_HOME") + File.separator + user.getCompanyId() + File.separator + "Temps" + File.separator + fileId + "." + extension;
+	    		} else {
+	    			IFileModel doc = getDocManager().retrieveFile(fileId);
+		    		//파일명, UniqValue
+		    		file_name = doc.getFileName(); 
+	    			sourceFile = doc.getFilePath();
+	    		}
+	
+	    		File file = new File(sourceFile);
+	    		int length = 0;
+	    		op = response.getOutputStream();
+	
+	    		response.setContentType("application/octet-stream" );
+	    		response.setContentLength((int)file.length());
+	    		file_name = new String(file_name.getBytes(), response.getCharacterEncoding());
+	    		response.setHeader( "Content-Disposition", "attachment; filename=\"" + file_name + "\"" );
+	
+	    		byte[] bbuf = new byte[4096];
+	    		in = new DataInputStream(new FileInputStream(file));
+	    		
+	    		while ((in != null) && ((length = in.read(bbuf)) != -1))
+	    		{
+	    			op.write(bbuf,0,length);
+	    		}
+	    		
+	    	}catch(Throwable t){
+	    		t.printStackTrace();
+	    		try{
+	    			if(in != null & op != null){
+	    				in.close();
+	    				op.flush();
+	    				op.close();
+	    			}			
+	    		}catch(Throwable th){
+	    		}
+	        } finally {
+	            if (inChannel != null)
+	                inChannel.close();
+	            if (outChannel != null)
+	                outChannel.close();
+				op.flush();
+	        }
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
 
 	@Override
 	public void uploadTempFile(HttpServletRequest request, HttpServletResponse response) throws Exception {

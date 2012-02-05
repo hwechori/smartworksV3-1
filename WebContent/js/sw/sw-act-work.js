@@ -252,14 +252,6 @@ $(function() {
 				data : {},
 				success : function(data, status, jqXHR) {
 					target.html(data);
-					var pworkManual = target;
-					if(!isEmpty(pworkManual)){
-						var manualTasksHolder = pworkManual.find(".js_manual_tasks_holder");
-						var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-						if(manualTasks.width()>manualTasksHolder.width());
-							pworkManual.find('.js_manual_tasks_right').show();
-						manualTasks.find('a.js_select_task_manual:first img').click();						
-					}
 					smartPop.closeProgress();
 				},
 				error : function(xhr, ajaxOptions, thrownError){
@@ -274,10 +266,7 @@ $(function() {
 		var input = $(e.target).parents('a.js_select_task_manual:first');
 		var target = $("#"+input.attr("taskId"));
 		var target_point = $(target).find("div.up_point:first");
-		var manualTasksHolder = input.parents('.js_pwork_manual_page').find(".js_manual_tasks_holder");
-		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-		var manualTasksleft = manualTasks.position().left;
-		target_point.css({"left": (30 + input.position().left + manualTasksleft + input.width()/2) + "px"});
+		target_point.css({"left": (input.position().left + 20) + "px"});
 		$(target).show().siblings('div.js_task_manual').hide();
 		return false;
 	});
@@ -286,7 +275,6 @@ $(function() {
 		var input = $(e.target).parents('a:first');
 		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
 		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-		var placeHolderTask = manualTasks.find('.js_manual_task_placeholder').hide();
 		var left = manualTasks.position().left;
 		var width = manualTasks.width();
 		var remainingWidth = width+left;
@@ -311,37 +299,24 @@ $(function() {
 		var tasksRight = manualTasksHolder.width() - left;
 		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]);
-			if(task.position().left>tasksRight)
+			if(task.position().left+task.width()>tasksRight)
 				break;
 		}
-		if(tasks.length>0 && i<tasks.length && i>0){
-			var task = $(tasks[i-1]);
+		if(tasks.length>0 && i<tasks.length && i>=0){
+			var task = $(tasks[i]);
 			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
 		}
-		
 		manualTasks.css({"left": left + "px"});
 		var manualLeft = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_left');
 		if(left<0)
 			manualLeft.show();
 		else
 			manualLeft.hide();
-		remainingWidth = width+left;
+		remainingWidth = manualTasks.width()+left;
 		if(remainingWidth <= manualTasksHolder.width())
 			input.hide();
 		else
 			input.show();		
-
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left>tasksRight && i>1){
-				$(tasks[i-2]).find('img').click();
-				break;
-			}
-		}
-		if(tasks.length>0 && i==tasks.length){
-			$(tasks[tasks.length-1]).find('img').click();
-		}
-
 		return false;
 	});
 	
@@ -349,7 +324,6 @@ $(function() {
 		var input = $(e.target).parents('a:first');
 		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
 		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-		var placeHolderTask = manualTasks.find('.js_manual_task_placeholder').hide();
 		var left = manualTasks.position().left;
 		var width = manualTasks.width();
 		var remainingWidth = -left;
@@ -372,11 +346,11 @@ $(function() {
 		var tasksRight = manualTasksHolder.width() - left;
 		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]);
-			if(task.position().left>tasksRight)
+			if(task.position().left+task.width()>tasksRight)
 				break;
 		}
-		if(tasks.length>0 && i<tasks.length && i>0){
-			var task = $(tasks[i-1]);
+		if(tasks.length>0 && i<tasks.length && i>=0){
+			var task = $(tasks[i]);
 			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
 		}
 
@@ -385,12 +359,162 @@ $(function() {
 			input.show();
 		else
 			input.hide();
-		remainingWidth = width+left;
+		remainingWidth = manualTasks.width()+left;
 		var manualRight = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_right');
 		if(remainingWidth <= manualTasksHolder.width())
 			manualRight.hide();
 		else
 			manualRight.show();
+		return false;
+	});
+	
+	$('a.js_select_task_instance').live("click", function(e){
+		smartPop.progressCenter();
+		var input = $(e.target).parents('a');
+		var pworkSpace = input.parents('.js_pwork_space_page');
+		var workId = pworkSpace.attr("workId");
+		var formId = input.attr("formId");
+		var formMode = input.attr("formMode");
+		var instId = input.attr("taskInstId");
+		var formContent = $('div.js_form_content');
+		new SmartWorks.GridLayout({
+			target : formContent,
+			mode : formMode,
+			workId : workId,
+			formId : formId,
+			taskInstId : instId,
+			onSuccess : function(){
+				smartPop.closeProgress();																
+			},
+			onError : function(){
+				smartPop.closeProgress();
+				
+			}
+		});
+		if(formMode==="edit"){
+			pworkSpace.find('.js_btn_complete').show();
+			pworkSpace.find('.js_btn_return').show();
+			pworkSpace.find('.js_btn_reassign').show();
+			pworkSpace.find('.js_btn_temp_save').show();
+		}else{
+			pworkSpace.find('.js_btn_complete').hide();
+			pworkSpace.find('.js_btn_return').hide();
+			pworkSpace.find('.js_btn_reassign').hide();
+			pworkSpace.find('.js_btn_temp_save').hide();			
+		}
+		return false;
+	});
+
+	$('a.js_instance_tasks_right').live('click', function(e){
+		var input = $(e.target).parents('a:first');
+		var instanceTasksHolder = input.parents('.js_pwork_space_page').find('.js_instance_tasks_holder');
+		var instanceTasks = instanceTasksHolder.find(".js_instance_tasks");
+		var placeHolderTask = instanceTasks.find('.js_instance_task_placeholder').hide();
+		var left = instanceTasks.position().left;
+		var width = instanceTasks.width();
+		var remainingWidth = width+left;
+		if(remainingWidth>instanceTasksHolder.width()){
+			remainingWidth = remainingWidth - instanceTasksHolder.width();
+			if(remainingWidth>0 && remainingWidth<=instanceTasksHolder.width()/2){
+				left = left - remainingWidth;
+			}else{
+				left = left - instanceTasksHolder.width()/2;
+			}	
+		}
+		
+		var tasks = instanceTasks.find(".js_instance_task");
+		for(var i=0; i<tasks.length; i++){
+			var task = $(tasks[i]);
+			if(task.position().left+left>=0 )
+				break;
+		}
+		if(tasks.length>0 && i<tasks.length)
+			left = -$(tasks[i]).position().left;
+		
+		var tasksRight = instanceTasksHolder.width() - left;
+		for(var i=0; i<tasks.length; i++){
+			var task = $(tasks[i]);
+			if(task.position().left+task.width()>tasksRight){
+				break;
+			}
+		}
+		if(tasks.length>0 && i<tasks.length && i>=0){
+			var task = $(tasks[i]);
+			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
+		}
+		
+		instanceTasks.css({"left": left + "px"});
+		var instanceLeft = input.parents('.js_pwork_space_page').find('.js_instance_tasks_left');
+		if(left<0)
+			instanceLeft.show();
+		else
+			instanceLeft.hide();
+		remainingWidth = instanceTasks.width()+left;
+		if(remainingWidth <= instanceTasksHolder.width())
+			input.hide();
+		else
+			input.show();		
+
+		for(var i=0; i<tasks.length; i++){
+			var task = $(tasks[i]);
+			if(task.position().left>tasksRight && i>1){
+				$(tasks[i-2]).find('img').click();
+				break;
+			}
+		}
+		if(tasks.length>0 && i==tasks.length){
+			$(tasks[tasks.length-1]).find('img').click();
+		}
+
+		return false;
+	});
+	
+	$('a.js_instance_tasks_left').live('click', function(e){
+		var input = $(e.target).parents('a:first');
+		var instanceTasksHolder = input.parents('.js_pwork_space_page').find('.js_instance_tasks_holder');
+		var instanceTasks = instanceTasksHolder.find(".js_instance_tasks");
+		var placeHolderTask = instanceTasks.find('.js_instance_task_placeholder').hide();
+		var left = instanceTasks.position().left;
+		var width = instanceTasks.width();
+		var remainingWidth = -left;
+		if(remainingWidth>0){
+			if(remainingWidth<=instanceTasksHolder.width()/2){
+				left = left + remainingWidth;
+			}else{
+				left = left + instanceTasksHolder.width()/2;
+			}	
+		}
+		var tasks = instanceTasks.find(".js_instance_task");
+		for(var i=0; i<tasks.length; i++){
+			var task = $(tasks[i]);
+			if(task.position().left+left>=0 )
+				break;
+		}
+		if(tasks.length>0 && i<tasks.length){
+			left = -$(tasks[i]).position().left;
+		}
+		var tasksRight = instanceTasksHolder.width() - left;
+		for(var i=0; i<tasks.length; i++){
+			var task = $(tasks[i]);
+			if(task.position().left+task.width()>tasksRight)
+				break;
+		}
+		if(tasks.length>0 && i<tasks.length && i>=0){
+			var task = $(tasks[i]);
+			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
+		}
+
+		instanceTasks.css({"left": left + "px"});
+		if(left<0)
+			input.show();
+		else
+			input.hide();
+		remainingWidth = instanceTasks.width()+left;
+		var instanceRight = input.parents('.js_pwork_space_page').find('.js_instance_tasks_right');
+		if(remainingWidth <= instanceTasksHolder.width())
+			instanceRight.hide();
+		else
+			instanceRight.show();
 
 		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]);
@@ -402,7 +526,7 @@ $(function() {
 		
 		return false;
 	});
-	
+
 	$('a.js_modify_iwork_instance').live('click', function(e){
 		var input = $(e.target);
 		var iworkSpace = input.parents('.js_iwork_space_page');
@@ -644,31 +768,6 @@ $(function() {
 		return false;
 	});
 
-	$('a.js_select_task_instance').live("click", function(e){
-		smartPop.progressCenter();
-		var input = $(e.target).parents('a');
-		var workId = input.parents('.js_pwork_space_page').attr("workId");
-		var formId = input.attr("formId");
-		var instId = input.attr("taskInstId");
-		var formContent = $('div.js_form_content');
-		console.log('formId=', formId, ", instId=", instId, ", formContent=", formContent);
-		new SmartWorks.GridLayout({
-			target : formContent,
-			mode : "view",
-			workId : workId,
-			formId : formId,
-			taskInstId : instId,
-			onSuccess : function(){
-				smartPop.closeProgress();																
-			},
-			onError : function(){
-				smartPop.closeProgress();
-				
-			}
-		});
-		return false;
-	});
-
 	$('input.js_file_upload').live('change', function(e) {
 		var input = $(e.target);
 		var newInput = document.createElement( 'input' );
@@ -814,7 +913,7 @@ $(function() {
 
 	$('a.js_view_my_running_instances').live('click',function(e) {
 		var input = $(e.target).addClass('current').siblings().removeClass('current');
-		var target =  input.parents('.js_my_running_instance_list_page').find('table');
+		var target =  input.parent().prev('ul');
 		$.ajax({
 			url : 'more_instance_list.sw',
 			data : {
@@ -832,7 +931,7 @@ $(function() {
 
 	$('a.js_view_assigned_instances').live('click',function(e) {
 		var input = $(e.target).addClass('current').siblings().removeClass('current');
-		var target =  input.parents('.js_my_running_instance_list_page').find('table');
+		var target =  input.parent().prev('ul');
 		$.ajax({
 			url : 'more_instance_list.sw',
 			data : {

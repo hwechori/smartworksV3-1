@@ -10,8 +10,10 @@ package net.smartworks.server.engine.infowork.form.manager.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.manager.IManager;
@@ -19,6 +21,7 @@ import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.SmartUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.form.exception.SwfException;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
@@ -198,6 +201,28 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 		for (Iterator<SwfFormFieldDef> fieldDefIt = formDef.getFormFieldMap().values().iterator(); fieldDefIt.hasNext();)
 			result.add(fieldDefIt.next());
 		return result;
+	}
+
+	@Override
+	public Map<String, String> getReferenceFormIdSizeMap(String user, String recordId) throws SwfException {
+		if (recordId == null)
+			return null;
+
+		String hql = "select myformid, count(id) as myformsize from swdataref where refrecordid = '" + recordId + "' group by myformid";
+
+		Query query = this.getSession().createQuery(hql);
+	
+		List<SwdField> list = query.list();
+	
+		if (list == null || list.isEmpty())
+			return null;
+
+		Map<String, String> map = new HashMap<String, String>();
+		for (Object obj : list) {
+			Object[] fields = (Object[])obj;
+			map.put((String)fields[0], (String)fields[1]);
+		}
+		return map;
 	}
 
 }

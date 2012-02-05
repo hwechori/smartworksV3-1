@@ -59,6 +59,7 @@ public class TskTask extends MisObject {
 	public static final String A_ISSTARTACTIVITY = "isStartActivity";
 	public static final String A_FROMREFTYPE = "fromRefType";
 	public static final String A_FROMREFID = "fromRefId";
+	public static final String A_WORKSPACEID = "workSpaceId";
 	
 	private String correlation;
 	
@@ -85,6 +86,7 @@ public class TskTask extends MisObject {
 	private String isStartActivity;
 	private String fromRefType;
 	private String fromRefId;
+	private String workSpaceId;
 	
 	public TskTask() {
 		super();
@@ -115,6 +117,7 @@ public class TskTask extends MisObject {
 		appendAttributeString(A_ISSTARTACTIVITY, isStartActivity, buf);
 		appendAttributeString(A_FROMREFTYPE, fromRefType, buf);
 		appendAttributeString(A_FROMREFID, fromRefId, buf);
+		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
 		appendAttributeString(A_STEP, getStep(), buf);
 		return buf.toString();
 	}
@@ -160,6 +163,7 @@ public class TskTask extends MisObject {
 			Node isStartActivity = attrMap.getNamedItem(A_ISSTARTACTIVITY);
 			Node fromRefType = attrMap.getNamedItem(A_FROMREFTYPE);
 			Node fromRefId = attrMap.getNamedItem(A_FROMREFID);
+			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
 			Node step = attrMap.getNamedItem(A_STEP);
 			if (correlation != null)
 				obj.setCorrelation(correlation.getNodeValue());
@@ -197,6 +201,8 @@ public class TskTask extends MisObject {
 				obj.setFromRefType(fromRefType.getNodeValue());
 			if (fromRefId != null)
 				obj.setFromRefId(fromRefId.getNodeValue());
+			if (workSpaceId != null)
+				obj.setWorkSpaceId(workSpaceId.getNodeValue());
 			if (step != null)
 				obj.setStep(Integer.parseInt(step.getNodeValue()));
 		}
@@ -504,5 +510,11 @@ public class TskTask extends MisObject {
 	}
 	public void setFromRefId(String fromRefId) {
 		this.fromRefId = fromRefId;
+	}
+	public String getWorkSpaceId() {
+		return workSpaceId;
+	}
+	public void setWorkSpaceId(String workSpaceId) {
+		this.workSpaceId = workSpaceId;
 	}
 }

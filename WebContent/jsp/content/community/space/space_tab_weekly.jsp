@@ -130,7 +130,7 @@
 
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet ">
+<div class="section_portlet js_space_weekly_page">
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>

@@ -280,7 +280,7 @@ public class LocalDate extends Date{
 	}
 
 	public static LocalDate convertLocalDateTimeStringToLocalDate(String yyyyMMddHHmm) throws Exception{
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 		return new LocalDate((df.parse(yyyyMMddHHmm)).getTime() - TimeZone.getTimeZone(SmartUtil.getCurrentUser().getTimeZone()).getRawOffset());					
 	}
 

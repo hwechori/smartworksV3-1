@@ -57,7 +57,8 @@
 	session.setAttribute("calendars", calendars);
 	
 	CompanyCalendar selectedCalendar = calendars[selectedIndex];
-	WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
+//	WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
+	WorkHourPolicy whp = new WorkHourPolicy();
 	selectedCalendar.setWorkHour(whp.getWorkHour(selectedCalendar.getDate().getDayOfWeek()));
 	
 	TaskInstanceInfo[][] tasksByWorkHours = smartWorks.getTaskInstancesByWorkHours(contextStr, workSpace.getId(), selectedCalendar.getDate(), 10); 
@@ -127,7 +128,7 @@
 <!--탭//-->
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet ">
+<div class="section_portlet js_space_dayly_page" workSpaceId="<%=workSpace.getId() %>" >
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>
@@ -142,7 +143,7 @@
 					String dayTitle = SmartMessage.getString("common.title.holiday") + selectedCalendar.toCompanyEventsString();
 				%>
 					<!-- 휴일시간 -->
-					<div class="space_section">
+					<div class="space_section js_space_dayly_holiday">
 	 					<div class="title"><%=dayTitle%></div>
 						<ul>
 							<%
@@ -164,7 +165,7 @@
 				}else{
 				%>				
 					<!-- 근무시간 전 -->
-					<div class="space_section">
+					<div class="space_section  js_space_dayly_before_work" workStart="<%=selectedCalendar.getWorkHour().getStart()%>">
 	 					<div class="title"><fmt:message key="common.title.before_work"/>( ~ <%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getStart())%>)</div>
 						<ul>
 							<%
@@ -184,7 +185,7 @@
 					<!-- 근무시간 전//-->
 	
 					<!-- 근무시간 -->
-					<div class="space_section margin_t10">
+					<div class="space_section margin_t10 js_space_dayly_work_hour" workStart="<%=selectedCalendar.getWorkHour().getStart()%>" workEnd="<%=selectedCalendar.getWorkHour().getEnd()%>">
 						<div class="title"><fmt:message key="common.title.work_hour"/>(<%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getStart())%> ~ <%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getEnd())%>)</div>
 	
 						<ul>
@@ -205,7 +206,7 @@
 					<!-- 근무시간//-->
 	
 					<!-- 근무시간 후 -->
-					<div class="space_section margin_t10">
+					<div class="space_section margin_t10 js_space_dayly_after_work" workEnd="<%=selectedCalendar.getWorkHour().getEnd()%>">
 						<div class="title_off"><fmt:message key="common.title.after_work"/>(<%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getEnd())%> ~ )</div>
 						<ul>
 							<%

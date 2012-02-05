@@ -36,6 +36,7 @@ public class PrcProcessInst extends MisObject {
 	public static final String A_DIAGRAM = "diagram";
 	public static final String A_ISSUBINSTANCE = "isSubInstance";
 	public static final String A_INSTVARIABLE = "instVariable";
+	public static final String A_WORKSPACEID = "workSpaceId";
 	
 	private String title;
 	private String type;
@@ -47,6 +48,7 @@ public class PrcProcessInst extends MisObject {
 	private String diagram;
 	private String isSubInstance;
 	private String instVariable;
+	private String workSpaceId;
 
 	public PrcProcessInst() {
 		super();
@@ -66,6 +68,7 @@ public class PrcProcessInst extends MisObject {
 		appendAttributeString(A_DIAGRAMVERSION, diagramVersion, true, buf);
 		appendAttributeString(A_PROCESSID, processId, buf);
 		appendAttributeString(A_ISSUBINSTANCE, isSubInstance, buf);
+		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
 		return buf.toString();
 	}
 	public String toElementsString(String tab) {
@@ -98,6 +101,7 @@ public class PrcProcessInst extends MisObject {
 			Node diagramVersion = attrMap.getNamedItem(A_DIAGRAMVERSION);
 			Node processId = attrMap.getNamedItem(A_PROCESSID);
 			Node isSubInstance = attrMap.getNamedItem(A_ISSUBINSTANCE);
+			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
 			if (priority != null)
 				obj.setPriority(priority.getNodeValue());
 			if (type != null)
@@ -112,6 +116,8 @@ public class PrcProcessInst extends MisObject {
 				obj.setProcessId(processId.getNodeValue());
 			if (isSubInstance != null)
 				obj.setIsSubInstance(isSubInstance.getNodeValue());
+			if (workSpaceId != null)
+				obj.setWorkSpaceId(workSpaceId.getNodeValue());
 		}
 		
 		NodeList childNodeList = node.getChildNodes();
@@ -288,5 +294,11 @@ public class PrcProcessInst extends MisObject {
 	}
 	public void setPackageId(String packageId) {
 		this.packageId = packageId;
+	}
+	public String getWorkSpaceId() {
+		return workSpaceId;
+	}
+	public void setWorkSpaceId(String workSpaceId) {
+		this.workSpaceId = workSpaceId;
 	}
 }

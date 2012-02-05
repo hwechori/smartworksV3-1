@@ -35,6 +35,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 	public static final String A_OBJIDIN = "objIdIn";
 	public static final String A_OBJIDINS = "objIdIns";
 	public static final String A_ISSUBINSTANCE = "isSubInstance";
+	public static final String A_WORKSPACEID = "workSpaceId";
 	
 	private String title;
 	private String type;
@@ -45,6 +46,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 	private String diagramVersion;
 	private String processId;
 	private String diagram;
+	private String workSpaceId;
 	
 	private String[] objIdIns;
 	private String[] priorityIns;
@@ -72,6 +74,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 		appendAttributeString(A_DIAGRAMVERSION, diagramVersion, true, buf);
 		appendAttributeString(A_PROCESSID, processId, buf);
 		appendAttributeString(A_ISSUBINSTANCE, isSubInstance, buf);
+		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
 		return buf.toString();
 	}
 	
@@ -106,6 +109,7 @@ public class PrcProcessInstCond extends MisObjectCond {
 			Node diagramVersion = attrMap.getNamedItem(A_DIAGRAMVERSION);
 			Node processId = attrMap.getNamedItem(A_PROCESSID);
 			Node isSubInstance = attrMap.getNamedItem(A_ISSUBINSTANCE);
+			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
 			if (diagramId != null)
 				obj.setDiagramId(diagramId.getNodeValue());
 			if (type != null)
@@ -118,6 +122,8 @@ public class PrcProcessInstCond extends MisObjectCond {
 				obj.setProcessId(processId.getNodeValue());
 			if (isSubInstance != null)
 				obj.setIsSubInstance(isSubInstance.getNodeValue());
+			if (workSpaceId != null)
+				obj.setWorkSpaceId(workSpaceId.getNodeValue());
 		}
 		
 		NodeList childNodeList = node.getChildNodes();
@@ -342,5 +348,11 @@ public class PrcProcessInstCond extends MisObjectCond {
 	}
 	public void setPackageId(String packageId) {
 		this.packageId = packageId;
+	}
+	public String getWorkSpaceId() {
+		return workSpaceId;
+	}
+	public void setWorkSpaceId(String workSpaceId) {
+		this.workSpaceId = workSpaceId;
 	}
 }
