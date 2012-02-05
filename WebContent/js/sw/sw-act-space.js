@@ -39,4 +39,28 @@ $(function() {
 		return false;
 	});
 	
+	$('a.js_space_more_history').live('click',function(e) {
+		var input = $(e.target);
+		var lastDate = input.attr('lastDate');
+		var target = input.parents('ul');
+		var url = input.find(':selected').attr('value');
+		var spaceDayly = input.parents('.js_space_dayly_space');
+		var spaceWeekly = input.parents('.js_space_weekly_space');
+		var spaceMonthly = input.parents('.js_space_monthly_space');
+		var spaceInstanceList = input.parents('.js_space_instance_list_page');
+		var url = "";
+		if(!isEmpty(spaceDayly)) url = ""
+		$.ajax({
+			url : url,
+			data : {},
+			success : function(data, status, jqXHR) {
+				input.parents('li').remove();
+				target.append(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+			}
+		});
+		return false;
+	});
+	
 });

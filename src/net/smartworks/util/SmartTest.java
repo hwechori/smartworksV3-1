@@ -697,7 +697,9 @@ public class SmartTest {
 		imageInstance.setContent("안녕하세요......?");
 		createdInstance1.setWorkInstance(imageInstance);
 
-		return new TaskInstanceInfo[]{assignedInstance1, assignedInstance2, assignedInstance3, assignedInstance5, createdInstance1};
+		TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+		moreInstance.setType(-21);
+		return new TaskInstanceInfo[]{assignedInstance1, assignedInstance2, assignedInstance3, assignedInstance5, createdInstance1, moreInstance};
 	}
 	// For Test...
 	public static NoticeMessage[] getNotificationMessages() throws Exception {

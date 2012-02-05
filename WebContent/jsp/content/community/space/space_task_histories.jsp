@@ -43,6 +43,13 @@
 	if(!SmartUtil.isBlankObject(tasksHistories) && tasksHistories.length > 0){
 		for(int i=0; i<tasksHistories.length; i++){
 			TaskInstanceInfo taskInstance = tasksHistories[i];
+			if(taskInstance.getType()<0){
+				String lastDateStr = (i>0) ? (new LocalDate(tasksHistories[i-1].getLastModifiedDate().getTime())).toLocalDateSimpleString() : ""; 
+	%>
+				<li class="t_nowork"><a href="" class="js_space_more_history" lastDate="<%=lastDateStr%>"><fmt:message key="common.message.more_work_task"><fmt:param><%=-taskInstance.getType() %></fmt:param></fmt:message></a></li>
+	<%
+				break;
+			}
 			InstanceInfo workInstance = taskInstance.getWorkInstance();
 			SmartWorkInfo work = (SmartWorkInfo)workInstance.getWork();
 			UserInfo owner = workInstance.getOwner();
