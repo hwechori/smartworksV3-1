@@ -1546,7 +1546,6 @@ public class InstanceServiceImpl implements IInstanceService {
 					SwdRecord swdRecord = swdRecords[i];
 					iWInstanceInfo.setId(swdRecord.getRecordId());
 					iWInstanceInfo.setOwner(ModelConverter.getUserInfoByUserId(swdRecord.getCreationUser()));
-					iWInstanceInfo.setSubject(""); //TODO
 					int type = WorkInstance.TYPE_INFORMATION;
 					iWInstanceInfo.setType(type);
 					iWInstanceInfo.setStatus(WorkInstance.STATUS_COMPLETED);
@@ -1647,10 +1646,8 @@ public class InstanceServiceImpl implements IInstanceService {
 	
 			return instanceInfoList;
 		}catch (Exception e){
-			// Exception Handling Required
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
+			return null;
 		}
 	}
 
