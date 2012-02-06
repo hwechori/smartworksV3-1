@@ -21,67 +21,57 @@ import org.springframework.web.servlet.ModelAndView;
 public class TaskInstanceController {
 
 	@RequestMapping("/iwork_task")
-	public ModelAndView iworkTask(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView iworkTask(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/task/iwork_task.jsp", "iwork_task.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/task/iwork_task.jsp", "iwork_task.tiles");
 	}
 
 	@RequestMapping("/pwork_task")
-	public ModelAndView pworkTask(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView pworkTask(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/task/pwork_task.jsp", "pwork_task.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/task/pwork_task.jsp", "pwork_task.tiles");
 	}
 
 	@RequestMapping("/swork_task")
-	public ModelAndView sworkTask(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView sworkTask(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/task/swork_task.jsp", "swork_task.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/task/swork_task.jsp", "swork_task.tiles");
 	}
 
 	@RequestMapping("/new_iwork")
-	public ModelAndView newIwork(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView newIwork(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/start/new_iwork.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/work/start/new_iwork.jsp", "");
 	}
 
 	@RequestMapping("/start_pwork")
-	public ModelAndView startPwork(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView startPwork(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/start/start_pwork.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/work/start/start_pwork.jsp", "");
 	}
 
 	@RequestMapping("/plan_swork")
-	public ModelAndView planSwork(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView planSwork(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/start/plan_swork.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/work/start/plan_swork.jsp", "");
 	}
 
 	@RequestMapping("/append_task_forward")
-	public ModelAndView appendTaskForward(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView appendTaskForward(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/upload/append_task_forward.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/upload/append_task_forward.jsp", "");
 	}
 
 	@RequestMapping("/append_task_approval")
-	public ModelAndView appendTaskApproval(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView appendTaskApproval(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/upload/append_task_approval.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/upload/append_task_approval.jsp", "");
+	}
+
+	@RequestMapping("/more_space_task_histories")
+	public ModelAndView moreSpaceTaskHistories(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/more_space_task_histories.jsp", "");
 	}
 
 }
