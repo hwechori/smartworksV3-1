@@ -375,7 +375,6 @@ function loadNewGroupFields() {
 	if(!isEmpty(newGroupFields)) {
 		for(var i=0; i<newGroupFields.length; i++) {
 			var newGroupField = $(newGroupFields[i]);
-			alert("jell");
 			var gridRow = SmartWorks.GridLayout.newGridRow();
 			var gridTable = SmartWorks.GridLayout.newGridTable();
 			newGroupField.html(gridTable.html(gridRow));

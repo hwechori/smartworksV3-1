@@ -28,6 +28,7 @@
 	String cid = request.getParameter("cid");
 	String instId = SmartUtil.getSpaceIdFromContentContext(cid);
 	String workId = request.getParameter("workId");
+	String taskInstId = request.getParameter("taskInstId");
 	
 	ProcessWorkInstance instance = null;
 	WorkInstance workInstance = (WorkInstance)session.getAttribute("workInstance");
@@ -50,7 +51,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_pwork_space_page" workId="<%=workId%>" instId="<%=instId%>">
+<div class="section_portlet js_pwork_space_page" workId="<%=workId%>" instId="<%=instId%>" taskInstId=<%=taskInstId %>>
     <div class="portlet_t"><div class="portlet_tl"></div></div>
     <div class="portlet_l" style="display: block;">
 	    <ul class="portlet_r" style="display: block;">		            
@@ -94,54 +95,53 @@
 				<div class="proce_section">
 			    
 			        <!-- 방향 Prev -->
-			        <div class="float_left_nowidth"><a href=""><img class="proc_btn_prev"></a></div>
+	        		<div class="float_left_nowidth"><a href="" class="js_instance_tasks_left" style="display:none"><img class="proc_btn_prev"></a></div>
 			        
-			        <!-- 시작
-			        <div class="proc_start_compl float_left_nowidth padding_r10"> 시작 </div>
-			        	화살표
+			        <div class="proc_task_completed float_left_nowidth padding_r10"> 시작 </div>
 			        <div class="proc_arr_next float_left_nowidth padding_r10"></div>
-			        -->
 			        
 			        <!-- 태스크 시작-->
-			        <div class="proce_space">			        
-				    	<ul>
+			        <div class="proce_space js_instance_tasks_holder" style="overflow:hidden;width:92%;backgroud-color:yellow;">			        
+						<div class="js_instance_tasks" style="white-space:nowrap;position:absolute;">
+							<div class="proc_task_yet float_left_nowidth js_instance_task_placeholder" style="display:none"><span class="pcenter"></span></div>
 				        	<%
 				        	if(!SmartUtil.isBlankObject(taskHistories)){	
 				        		for(int i=0; i<taskHistories.length; i++){
 				        			TaskInstanceInfo task = taskHistories[i];
 				        			String statusClass = "proc_task_yet";
+				        			String formMode = (task.getAssignee().getId().equals(cUser.getId()) 
+				        								&& ( 	task.getStatus()==TaskInstance.STATUS_RUNNING
+				        									 || task.getStatus()==TaskInstance.STATUS_DELAYED_RUNNING) ) ? "edit" : "view";
+				        			boolean isSelectable = ((task.getStatus()==TaskInstance.STATUS_RUNNING||task.getStatus()==TaskInstance.STATUS_DELAYED_RUNNING)
+				        										&& !task.getAssignee().equals(cUser.getId())) ? false : true;
 				        			if(task.getStatus() == TaskInstance.STATUS_RETURNED)
-				        				statusClass = "proc_task_returned";
-				        			else if(task.getStatus() == TaskInstance.STATUS_RETURNED)
 				        				statusClass = "proc_task_returned";
 				        			else if(task.getStatus() == TaskInstance.STATUS_RUNNING)
 				        				statusClass = "proc_task_running";
-				        			else if(task.getStatus() == TaskInstance.STATUS_RETURNED_DELAYED)
-				        				statusClass = "proc_task_delayed";
 				        			else if(task.getStatus() == TaskInstance.STATUS_DELAYED_RUNNING)
 				        				statusClass = "proc_task_delayed";
 				        			else if(task.getStatus() == TaskInstance.STATUS_COMPLETED)
 				        				statusClass = "proc_task_completed";
+				        			else
+				        				statusClass = "proc_task_not_yet";				        				
 				        		
 				        	%>
 			            			<!-- 태스크 --> 
-						            <li class="<%=statusClass %> float_left_nowidth padding_r10">
-						                <a href="" class="js_select_task_instance" formId="<%=task.getFormId() %>" taskInstId="<%=task.getId()%>">
+						            <div class="<%=statusClass %> float_left_nowidth padding_r10 js_instance_task">
+						                <a <%if(isSelectable){ %> href="" class="js_select_task_instance" <%} %> formId="<%=task.getFormId() %>" taskInstId="<%=task.getId()%>" formMode=<%=formMode %>>
 							                <span class="pstart"></span>
 							                <span class="pcenter">
 							                    <!-- task 정보 -->
-							                    <div class="float_left_nowidth">
-							                    	<img align="bottom" src="<%=task.getOwner().getMinPicture()%>" class="profile_size_s">
-							                    </div>
+							                    <div class="float_left_nowidth"><img align="bottom" src="<%=task.getOwner().getMinPicture()%>" class="profile_size_s"></div>
 							                    <div class="noti_in">
-								                    <span><%=task.getName() %></span>
+								                    <span><%=i+1%>) <%=task.getName() %></span>
 								                    <div class="t_date"><%=task.getLastModifiedDate().toLocalString() %></div>
 							                    </div>
 							                    <!-- task 정보 //-->
 							                </span>
 							                <span class="pend"></span>
 						                </a>
-						            </li>
+						            </div>
 				            		<!-- 태스크 //--> 
 			            			<%
 			            			if(i<taskHistories.length-1){
@@ -156,13 +156,12 @@
 				        		}
 				        	}
 			            	%>
-			            </ul>
-			        
+			        	</div>
 			        </div>
 			        <!-- 태스크 시작//-->
 			        
 			        <!-- 방향 Next -->
-			        <div class="float_right"><a href=""><img class="proc_btn_next"></a></div>
+		    		<div class="float_right"><a href="" class="js_instance_tasks_right" style="display:none"><img class="proc_btn_next"></a></div>
 			
 				</div>
 			</div>
@@ -192,28 +191,28 @@
 					<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 					<span class="form_space sw_error_message js_space_error_message" style="text-align:right; color: red"></span>
 
-					<span class="btn_gray space_l5 js_btn_complete">
+					<span class="btn_gray space_l5 js_btn_complete" style="display:none">
 			        	<a href="" class="js_complete_pwork_instance">
 				            <span class="Btn01Start"></span>
 				            <span class="Btn01Center"><fmt:message key="common.button.complete"/></span>
 				            <span class="Btn01End"></span>
 				    	</a>
 			   		</span>
-					<span class="btn_gray space_l5 js_btn_return">
+					<span class="btn_gray space_l5 js_btn_return" style="display:none">
 			        	<a href="" class="js_return_pwork_instance">
 				            <span class="Btn01Start"></span>
 				            <span class="Btn01Center"><fmt:message key="common.button.return"/></span>
 				            <span class="Btn01End"></span>
 				    	</a>
 			   		</span>
-					<span class="btn_gray space_l5 js_btn_reassign">
+					<span class="btn_gray space_l5 js_btn_reassign" style="display:none">
 			        	<a href="" class="js_reassign_pwork_instance">
 				            <span class="Btn01Start"></span>
 				            <span class="Btn01Center"><fmt:message key="common.button.reassign"/></span>
 				            <span class="Btn01End"></span>
 				    	</a>
 			   		</span>
-					<span class="btn_gray space_l5 js_btn_temp_save">
+					<span class="btn_gray space_l5 js_btn_temp_save" style="display:none">
 			        	<a href="" class="js_temp_save_pwork_instance">
 				            <span class="Btn01Start"></span>
 				            <span class="Btn01Center"><fmt:message key="common.button.temp_save"/></span>
@@ -229,6 +228,41 @@
 	<div class="portlet_b" style="display: block;"></div>
 </div> 
 <!-- 컨텐츠 레이아웃//-->
+<script type="text/javascript">
+
+	var pworkSpace = $('.js_pwork_space_page');
+	var instanceTasksHolder = pworkSpace.find(".js_instance_tasks_holder");
+	var instanceTasks = instanceTasksHolder.find(".js_instance_tasks");
+	var placeHolderTask = instanceTasks.find('.js_instance_task_placeholder').hide();
+	var left = instanceTasks.position().left;
+	var width = instanceTasks.width();
+	var remainingWidth = width+left;
+
+	var tasksRight = instanceTasksHolder.width();
+	var tasks = instanceTasks.find(".js_instance_task");
+	for(var i=0; i<tasks.length; i++){
+		var task = $(tasks[i]);
+		if(task.position().left+task.width()>tasksRight)
+			break;
+	}
+	if(tasks.length>0 && i<tasks.length && i>=0){
+		var task = $(tasks[i]);
+		instanceTasks.find('.js_instance_task_placeholder').remove().width(task.width()).show().insertBefore(task);
+	}
+
+	var instanceLeft = pworkSpace.find('.js_instance_tasks_left');	
+	var instanceRight = pworkSpace.find('.js_instance_tasks_right');	
+	if(left<0)
+		instanceLeft.show();
+	else
+		instanceLeft.hide();
+	remainingWidth = instanceTasks.width()+left;
+	if(remainingWidth <= instanceTasksHolder.width())
+		instanceRight.hide();
+	else
+		instanceRight.show();		
+		
+</script>
 
 <jsp:include page="/jsp/content/work/space/space_instance_list.jsp">
 	<jsp:param value="<%=work.getId() %>" name="workId"/>

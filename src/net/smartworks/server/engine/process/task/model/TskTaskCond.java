@@ -61,6 +61,7 @@ public class TskTaskCond extends MisObjectCond{
 	public static final String A_PRIORITYNOTINS = "priorityNotIns";
 	public static final String A_FORMIN = "formIn";
 	public static final String A_FORMINS = "formIns";
+	public static final String A_WORKSPACEID = "workSpaceId";
 	
 	private String creationUser;
 	private String modificationUser;
@@ -95,6 +96,7 @@ public class TskTaskCond extends MisObjectCond{
 	private String fromRefId;
 	private int loopCounter = -1;
 	private int step = -1;
+	private String workSpaceId;
 	
 	private String[] typeIns;
 	private String[] typeNotIns;
@@ -139,6 +141,7 @@ public class TskTaskCond extends MisObjectCond{
 		appendAttributeString(A_ISSTARTACTIVITY, isStartActivity, buf);
 		appendAttributeString(A_FROMREFTYPE, fromRefType, buf);
 		appendAttributeString(A_FROMREFID, fromRefId, buf);
+		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
 		appendAttributeString(A_STEP, step, buf);
 		return buf.toString();
 	}
@@ -194,6 +197,7 @@ public class TskTaskCond extends MisObjectCond{
 			Node isStartActivity = attrMap.getNamedItem(A_ISSTARTACTIVITY);
 			Node fromRefType = attrMap.getNamedItem(A_FROMREFTYPE);
 			Node fromRefId = attrMap.getNamedItem(A_FROMREFID);
+			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
 			Node loopCounter = attrMap.getNamedItem(A_LOOPCOUNTER);
 			Node step = attrMap.getNamedItem(A_STEP);
 			if (correlation != null)
@@ -244,6 +248,8 @@ public class TskTaskCond extends MisObjectCond{
 				obj.setFromRefType(fromRefType.getNodeValue());
 			if (fromRefId != null)
 				obj.setFromRefId(fromRefId.getNodeValue());
+			if (workSpaceId != null)
+				obj.setWorkSpaceId(workSpaceId.getNodeValue());
 			if (step != null)
 				obj.setStep(Integer.parseInt(step.getNodeValue()));
 		}
@@ -634,5 +640,11 @@ public class TskTaskCond extends MisObjectCond{
 	}
 	public void setFromRefId(String fromRefId) {
 		this.fromRefId = fromRefId;
+	}
+	public String getWorkSpaceId() {
+		return workSpaceId;
+	}
+	public void setWorkSpaceId(String workSpaceId) {
+		this.workSpaceId = workSpaceId;
 	}
 }

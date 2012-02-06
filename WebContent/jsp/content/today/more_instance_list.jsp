@@ -131,11 +131,6 @@
 					statusImage = "images/ic_state_ing.jpg";
 					statusTitle = "content.status.returned";
 					break;
-				// 인스턴스가 지연반려된 경우....
-				case Instance.STATUS_RETURNED_DELAYED:
-					statusImage = "images/ic_state_ing.jpg";
-					statusTitle = "content.status.returned_delayed";
-					break;
 				// 기타 잘못되어 상태가 없는 경우..
 				default:
 					statusImage = "images/ic_state_ing.jpg";

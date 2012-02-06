@@ -102,7 +102,7 @@
 							<td <%if(data.getFieldType().equals(FormField.TYPE_CURRENCY) || 
 									data.getFieldType().equals(FormField.TYPE_NUMBER) || 
 									data.getFieldType().equals(FormField.TYPE_PERCENT)){ %>class="hAlignRight"<%} %>>
-								<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+								<a href="<%=target%>" class="js_content_iwork_space">
 									<%if(data.getFieldType().equals(FormField.TYPE_FILE)){%><img src="images/file/icon_bmp.gif" groupId="<%=data.getValue()%>">
 									<%}else if(data.getFieldType().equals(FormField.TYPE_NUMBER)){%><%=data.getValue() != null ? CommonUtil.toNotNull(nf.format(Float.parseFloat(data.getValue()))) : CommonUtil.toNotNull(data.getValue())%>
 									<%}else if(data.getFieldType().equals(FormField.TYPE_PERCENT)){%><%=data.getValue() != null ? CommonUtil.toNotNull(nf.format(Float.parseFloat(data.getValue()))) + "%" : CommonUtil.toNotNull(data.getValue())%>
@@ -118,7 +118,7 @@
 					}
 					%>
 					<td>
-						<a href="<%=target%>" class="js_content_iwork_space" workId="<%=workId%>" instId="<%=instanceInfo.getId()%>">
+						<a href="<%=target%>" class="js_content_iwork_space">
 							<div class="noti_pic js_content_iwork_space">
 								<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
 							</div>

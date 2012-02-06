@@ -124,6 +124,7 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
+<script type="text/javascript" src="js/sw/sw-flash.js"></script>
 <script type="text/javascript" src="js/sw/sw-common.js"></script>
 
 <script type="text/javascript" src="http://localhost:8000/faye.js"></script>
@@ -171,6 +172,9 @@ currentUser = {
 </head>
 
 <body>
+
+<script type="">smartPop.progressCenter();</script>
+
 	<div id="wrap">
 		<!-- Header -->
 		<div id="header">
@@ -204,5 +208,7 @@ currentUser = {
 
 	</div>
  	<jsp:include page="/jsp/chatting/chatter_list.jsp" />
+
+<script type="">smartPop.closeProgress();</script>
 </body>
 </html>

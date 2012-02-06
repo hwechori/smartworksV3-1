@@ -35,7 +35,8 @@
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-	
+
+<div class="js_space_instance_list_page">	
 	<!-- 댓글 영역 -->
 	<div class="gr_up_point posit_point"></div>
 	<!-- 댓글 목록 -->
@@ -88,3 +89,4 @@
 		</div>
 	</div>
 	<!-- 목록 버튼//-->
+</div>
