@@ -2083,31 +2083,9 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate date, int workHourType, int maxSize) throws Exception {
-		try{
-			return SmartTest.getTaskInstancesByWorkHour(contextId, spaceId, date, workHourType, maxSize);
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
-	}
-	@Override
 	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
 		try{
 			return SmartTest.getTaskInstancesByWorkHours(contextId, spaceId, date, maxSize);
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
-	}
-	@Override
-	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
-		try{
-			return SmartTest.getTaskInstancesByDate(contextId, spaceId, date, maxSize);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -2127,17 +2105,6 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWeek(String contextId, String spaceId, LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
-		try{
-			return SmartTest.getTaskInstancesByWeek(contextId, spaceId, weekStart, weekEnd, maxSize);
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
-	}
-	@Override
 	public TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception {
 		try{
 			return SmartTest.getTaskInstancesByWeeks(contextId, spaceId, month, maxSize);
@@ -2149,9 +2116,9 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception {
+	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		try{
-			return SmartTest.getTaskInstancesByFromDate(contextId, spaceId, fromDate, maxSize);
+			return SmartTest.getTaskInstancesByDate(contextId, spaceId, fromDate, toDate, maxSize);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
