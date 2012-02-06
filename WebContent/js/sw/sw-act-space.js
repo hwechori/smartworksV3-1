@@ -87,7 +87,7 @@ $(function() {
 		var input = $(e.target);
 		input.parent().hide().next().show();
 		var pworkSpace = input.parents('.js_pwork_space_page');
-		var target = pworkSpace.find('.js_process_instance_diagram');
+		var target = pworkSpace.find('.js_process_instance_viewer');
 		var instanceId = pworkSpace.attr('instId');
 		loadInstanceViewer(target, {
 				instanceId : instanceId
@@ -100,7 +100,7 @@ $(function() {
 		var input = $(e.target);
 		input.parent().hide().prev().show();
 		var pworkSpace = input.parents('.js_pwork_space_page');
-		var target = pworkSpace.find('.js_process_instance_diagram');
+		var target = pworkSpace.find('.js_process_instance_viewer');
 		target.hide().html('');
 		return false;
 	});
