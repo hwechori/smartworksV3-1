@@ -271,7 +271,7 @@ update swdomainfield set id = 'notice_filegroupid', tablecolname = 'filegroupid'
 update swdomainfield set id = 'notice_title', tablecolname = 'title'  where domainid= 'frm_notice_SYSTEM' and tablecolname = 'c0'
 update swdomainfield set id = 'notice_content', tablecolname = 'content'  where domainid= 'frm_notice_SYSTEM' and tablecolname = 'c1'
 
-update swform set formid = 'frm_event_SYSTEM', content = '<form id="frm_notice_SYSTEM" version="1" name="공지사항">
+update swform set formid = 'frm_notice_SYSTEM', content = '<form id="frm_notice_SYSTEM" version="1" name="공지사항">
   <children>
     <formEntity id="0" name="제목" systemType="string" required="true" system="false">
       <children/>
