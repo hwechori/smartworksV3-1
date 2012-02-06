@@ -199,7 +199,7 @@ public interface ISmartWorks {
 
 	public abstract TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception;
 
-	public abstract TaskInstanceInfo[] getInstanceRelatedWorksById(String instId) throws Exception;
+	public abstract InstanceInfoList getInstanceRelatedWorksById(String instId) throws Exception;
 
 	public abstract Report getReportById(String reportId) throws Exception;
 

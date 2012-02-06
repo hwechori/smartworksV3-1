@@ -55,7 +55,7 @@ public interface IInstanceService {
 
 	public TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception;
 
-	public TaskInstanceInfo[] getInstanceRelatedWorksById(String instId) throws Exception;
+	public InstanceInfoList getInstanceRelatedWorksById(String instId) throws Exception;
 
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 

@@ -747,8 +747,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				obj.setRecordId((String)fields[j++]);
 				j++;
 				obj.setDomainId(domain.getObjId());
-				obj.setFormId((String)fields[j++]);
-				obj.setFormName((String)fields[j++]);
+				//obj.setFormId((String)fields[j++]);
+				//obj.setFormName((String)fields[j++]);
 				obj.setCreationUser((String)fields[j++]);
 				obj.setCreationDate((Timestamp)fields[j++]);
 				obj.setModificationUser((String)fields[j++]);
@@ -880,7 +880,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		// 쿼리 생성
 		StringBuffer buf = new StringBuffer();
 		// select
-		buf.append("select obj.id, obj.domainId, domain.formId, domain.formName, obj.creator, obj.createdTime");
+		//buf.append("select obj.id, obj.domainId, domain.formId, domain.formName, obj.creator, obj.createdTime");
+		buf.append("select obj.id, obj.domainId, obj.creator, obj.createdTime");
 		buf.append(", obj.modifier, obj.modifiedTime");
 		String columnName;
 		if (!CommonUtil.isEmpty(fields)) {
@@ -901,7 +902,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		}
 		// from
 		buf.append(" from ").append(tableName).append(" obj");
-		buf.append(", swdomain domain");
+		//buf.append(", swdomain domain");
 		if (refFormId != null || refRecordId != null) {
 			buf.append(", swdataref");
 		}
@@ -914,10 +915,10 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				buf.append(" and swdataref.refformid = :refFormId");
 			if (refRecordId != null)
 				buf.append(" and swdataref.refrecordid = :refRecordId");
-			buf.append(" and obj.domainId = domain.id");
-		} else {
-			buf.append(" where obj.domainId = domain.id");
-			first = false;
+			//buf.append(" and obj.domainId = domain.id");
+		//} else {
+			//buf.append(" where obj.domainId = domain.id");
+			//first = false;
 		}
 		String recordId = cond.getRecordId();
 		String creationUser = cond.getCreationUser();

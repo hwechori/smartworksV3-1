@@ -60,7 +60,6 @@ import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
-import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
@@ -146,6 +145,9 @@ public class InstanceServiceImpl implements IInstanceService {
 	
 			SwdDomain swdDomain = getSwdManager().getDomain(user.getId(), swdDomainCond, IManager.LEVEL_LITE);
 	
+			if(swdDomain == null)
+				return  null;
+
 			SwdRecordCond swdRecordCond = new SwdRecordCond();
 			swdRecordCond.setCompanyId(user.getCompanyId());
 			swdRecordCond.setFormId(swdDomain.getFormId());
@@ -162,6 +164,9 @@ public class InstanceServiceImpl implements IInstanceService {
 	
 			BoardInstanceInfo[] boardInstanceInfos = null;
 	
+			String formId = swdDomain.getFormId();
+			String formName = swdDomain.getFormName();
+
 			if(swdRecords != null) {
 				boardInstanceInfos = new BoardInstanceInfo[swdRecords.length];
 				for(int i=0; i < swdRecords.length; i++) {
@@ -181,7 +186,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 					WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
 		
-					WorkInfo workInfo = new SmartWorkInfo(swdRecord.getFormId(), swdRecord.getFormName(), type, groupInfo, categoryInfo);
+					WorkInfo workInfo = new SmartWorkInfo(formId, formName, type, groupInfo, categoryInfo);
 	
 					boardInstanceInfo.setWork(workInfo);
 					boardInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
@@ -1418,14 +1423,17 @@ public class InstanceServiceImpl implements IInstanceService {
 			swfFormCond.setPackageId(workId);
 	
 			swdDomainCond.setFormId(getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE)[0].getId());
-	
+
 			SwdDomain swdDomain = getSwdManager().getDomain(user.getId(), swdDomainCond, IManager.LEVEL_LITE);
-	
+
+			if(swdDomain == null)
+				return null;
+
 			SwdRecordCond swdRecordCond = new SwdRecordCond();
 			swdRecordCond.setCompanyId(user.getCompanyId());
 			swdRecordCond.setFormId(swdDomain.getFormId());
 			swdRecordCond.setDomainId(swdDomain.getObjId());
-	
+
 			String searchKey = params.getSearchKey();
 			SortingField sf = params.getSortingField();
 			SearchFilter searchFilter = params.getSearchFilter();
@@ -1509,23 +1517,27 @@ public class InstanceServiceImpl implements IInstanceService {
 				}
 				currentPage = result;
 			}
-	
+
 			if (currentPage > 0)
 				swdRecordCond.setPageNo(currentPage-1);
-	
+
 			swdRecordCond.setPageSize(pageSize);
-	
+
 			SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
-	
+
 			SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
-	
+
 			//SwdField[] swdFields = getSwdManager().getViewFieldList(workId, swdDomain.getFormId());
-	
+
 			SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
 			SwfField[] swfFields = swfForms[0].getFields();
-	
+
 			InstanceInfoList instanceInfoList = new InstanceInfoList();
-	
+
+			String formId = swdDomain.getFormId();
+			String formName = swdDomain.getFormName();
+			String titleFieldId = swdDomain.getTitleFieldId();
+
 			if(swdRecords != null) {
 				IWInstanceInfo[] iWInstanceInfos = new IWInstanceInfo[swdRecords.length];
 	
@@ -1546,7 +1558,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 					WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
 		
-					WorkInfo workInfo = new SmartWorkInfo(swdRecord.getFormId(), swdRecord.getFormName(), type, groupInfo, categoryInfo);
+					WorkInfo workInfo = new SmartWorkInfo(formId, formName, type, groupInfo, categoryInfo);
 	
 					iWInstanceInfo.setWork(workInfo);
 					iWInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
@@ -1556,6 +1568,8 @@ public class InstanceServiceImpl implements IInstanceService {
 					List<FieldData> fieldDataList = new ArrayList<FieldData>();
 		
 					for(SwdDataField swdDataField : swdDataFields) {
+						if(swdDataField.getId().equals(titleFieldId))
+							iWInstanceInfo.setSubject(swdDataField.getValue());
 						for(SwfField swfField : swfFields) {
 							String formatType = swfField.getFormat().getType();
 							if(swdDataField.getDisplayOrder() > -1 && !formatType.equals("richEditor") && !formatType.equals("imageBox") && !formatType.equals("dataGrid")) {
@@ -2049,7 +2063,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			} else if(workType == SmartWork.TYPE_SCHEDULE) {
 				return null;
 			}
-	
+
 			return null;
 		}catch (Exception e){
 			// Exception Handling Required
@@ -2159,20 +2173,41 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+
 	@Override
 	public TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception {
+
 		try{
-			return null;
+			User user = SmartUtil.getCurrentUser();
+			TskTaskCond tskCond = new TskTaskCond();
+			tskCond.setExtendedProperties(new Property[] {new Property("recordId", instId)});
+			TskTask[] tskTasks = getTskManager().getTasks(user.getId(), tskCond, IManager.LEVEL_LITE);
+			TaskInstanceInfo[] taskInstanceInfos = null;
+			if(tskTasks != null) {
+				taskInstanceInfos = new TaskInstanceInfo[tskTasks.length];
+				IWInstanceInfo iWInstanceInfo = new IWInstanceInfo();
+				String processInstId = tskTasks[0].getProcessInstId();
+
+				TskTask lastSwTask = ModelConverter.getLastTskTaskByInstanceId(processInstId);
+
+				TaskInstanceInfo lastTask = ModelConverter.getTaskInstanceInfoByTskTask(iWInstanceInfo, null, lastSwTask);
+				iWInstanceInfo.setLastTask(lastTask);
+
+				for(int i=0; i<tskTasks.length; i++) {
+					TaskInstanceInfo taskInstanceInfo = ModelConverter.getTaskInstanceInfoByTskTask(iWInstanceInfo, null, tskTasks[i]);
+					taskInstanceInfos[i] = taskInstanceInfo;
+				}
+			}
+			return taskInstanceInfos;
 		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
+			return null;
 		}
+
 	}
+
 	@Override
-	public TaskInstanceInfo[] getInstanceRelatedWorksById(String instId) throws Exception {
-		
+	public InstanceInfoList getInstanceRelatedWorksById(String instId) throws Exception {
+
 		try{
 			User user = SmartUtil.getCurrentUser();
 			Map<String, String> refFormMap = getSwfManager().getReferenceFormIdSizeMap(user.getId(), instId);
@@ -2180,12 +2215,17 @@ public class InstanceServiceImpl implements IInstanceService {
 			Iterator iterator = refFormMap.entrySet().iterator();
 			while (iterator.hasNext()) {
 				Entry entry = (Entry)iterator.next();
-				String refFormId = CommonUtil.toNotNull(entry.getKey());
+				String myFormId = CommonUtil.toNotNull(entry.getKey());
+
 				SwdRecordCond swdRecordCond = new SwdRecordCond();
-				swdRecordCond.setFormId(refFormId);
+				swdRecordCond.setFormId(myFormId);
 				swdRecordCond.setReferencedRecordId(instId);
 				SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_LITE);
-				System.out.println(swdRecords.length);
+				if(swdRecords != null) {
+					for(SwdRecord swdRecord : swdRecords) {
+						
+					}
+				}
 			}
 			return null;
 		}catch (Exception e){

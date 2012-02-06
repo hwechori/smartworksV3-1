@@ -379,10 +379,10 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public TaskInstanceInfo[] getInstanceRelatedWorksById(String instId) throws Exception {
+	public InstanceInfoList getInstanceRelatedWorksById(String instId) throws Exception {
 		return instanceService.getInstanceRelatedWorksById(instId);
 	}
-	
+
 	/*
 	 * @Override >>>>>>> branch 'master' of
 	 * git@github.com:maninsoft/smartworksV3.git public String createFile(String

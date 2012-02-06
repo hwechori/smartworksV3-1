@@ -878,7 +878,7 @@ public class ModelConverter {
 			return null;
 		if (instanceInfo == null) 
 			instanceInfo = new InstanceInfo();
-		
+
 		String id = task.getObjId();
 		String subject = task.getTitle();
 		int type = WorkInstance.TYPE_TASK;
@@ -897,7 +897,7 @@ public class ModelConverter {
 		UserInfo owner = ModelConverter.getUserInfoByUserId(task.getCreationUser());
 		UserInfo lastModifier = ModelConverter.getUserInfoByUserId(task.getModificationUser()); 
 		LocalDate lastModifiedDate = new LocalDate(task.getModificationDate().getTime());
-		
+
 		instanceInfo.setId(id);
 		instanceInfo.setLastModifiedDate(lastModifiedDate);
 		instanceInfo.setLastModifier(lastModifier);
@@ -906,11 +906,16 @@ public class ModelConverter {
 		instanceInfo.setSubject(subject);
 		instanceInfo.setType(type);
 		instanceInfo.setWork(work);
-		if (task.getWorkSpaceId() != null)
+		if (task.getWorkSpaceId() != null) {
 			instanceInfo.setWorkSpace(new WorkSpaceInfo(task.getWorkSpaceId(), null));
-		
+		} else {
+			User user = SmartUtil.getCurrentUser();
+			instanceInfo.setWorkSpace(new WorkSpaceInfo(user.getId(), null));
+		}
+
 		return instanceInfo;
 	}
+
 	public static TaskInstanceInfo[] getTaskInstanceInfoArrayByTskTaskArray(WorkInstanceInfo workInstObj, TskTask[] swTasks) throws Exception {
 		if (CommonUtil.isEmpty(swTasks))
 			return null;

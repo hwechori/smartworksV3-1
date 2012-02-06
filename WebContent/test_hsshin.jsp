@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.server.engine.common.manager.IManager"%>
+<%@page import="net.smartworks.server.engine.common.model.Property"%>
+<%@page import="net.smartworks.server.engine.process.task.model.TskTaskCond"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.server.service.IInstanceService"%>
 <%@page import="net.smartworks.util.LocalDate"%>
@@ -138,21 +141,28 @@
 	//CompanyCalendar[] companyCalendars = smartworks.getCompanyCalendars(new LocalDate(), 3);
 	//workService.removeAFavoriteWork("pkg_ba32f6e9af594c9ea9cf921ffa2cadee");
 
-	//IInstanceService instanceService = (IInstanceService)SmartUtil.getBean("instanceServiceImpl", request);
+	IInstanceService instanceService = (IInstanceService)SmartUtil.getBean("instanceServiceImpl", request);
 
-	ISwdManager swdMgr = (ISwdManager)SmartUtil.getBean("swdManager", request);
+/* 	ITskManager tskMgr = (ITskManager)SmartUtil.getBean("tskManager", request);
+	TskTaskCond tskCond = new TskTaskCond();
+	tskCond.setForm("frm_98aa2e3d4f334536a441ff484ac37611");
+	tskCond.setExtendedProperties(new Property[] {new Property("referencedRecordId", "52fca4b2252dcd8d012534040dd00029")});
+	TskTask[] tasks = tskMgr.getTasks("", tskCond, IManager.LEVEL_LITE);
+
+	System.out.println(tasks.length); */
+
+/* 	ISwdManager swdMgr = (ISwdManager)SmartUtil.getBean("swdManager", request);
 
 	SwdRecordCond swdRecordCond = new SwdRecordCond();
-	swdRecordCond.setFormId("frm_50577f0f2fb9442d99a1e8565b23ef7d");
-	swdRecordCond.setReferencedRecordId("dr_52fca4b227fedf070128b418eced013a");
+	swdRecordCond.setFormId("frm_98aa2e3d4f334536a441ff484ac37611");
+	swdRecordCond.setReferencedRecordId("52fca4b2252dcd8d012534040dd00029");
 
-	SwdRecord[] swdRecords = swdMgr.getRecords("", swdRecordCond, null);
+	long totalSize = swdMgr.getRecordSize("hsshin@maninsoft.co.kr", swdRecordCond);  
 
-	System.out.println(swdRecords.length);
+	System.out.println(totalSize);
+	SwdRecord[] swdRecords = swdMgr.getRecords("", swdRecordCond, null); */
 
-	/* TaskInstanceInfo[] taskInstanceInfos = instanceService.getInstanceRelatedWorksById("dr_52fca4b22bae1977012c28b4058b00f7"); */
-	
-	
+	TaskInstanceInfo[] taskInstanceInfos = instanceService.getInstanceTaskHistoriesById("52fca4b22ca0dbd5012ca52c28ae0011");
 
 %>
 <textarea style="width:800px;height:400px;">
