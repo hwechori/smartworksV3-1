@@ -26,7 +26,13 @@
 <div class="js_work_report_view">
 
 	<!-- 컨텐츠 -->
-	<div class="form_title">
+	<div class="float_right margin_t2 margin_l10">
+		<%if(chartType.equals(ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_BAR]) 
+				|| chartType.equals(ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_COLUMN])){ %>
+			<div><fmt:message key="report.button.stacked_chart"/><input type="checkbox" name="chkStackedChart" class="js_change_stacked_chart"></div>
+		<%} %>
+	</div>
+	<div class="float_right">
 		<select name="selReportChartType" class="js_change_chart_type">
 			<option
 				value="<%=ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_COLUMN]%>"
@@ -77,10 +83,7 @@
 				<fmt:message key="report.chart.type.scatter" />
 			</option>
 		</select>
-		<%if(chartType.equals(ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_BAR]) 
-				|| chartType.equals(ChartReport.CHART_TYPES_STRING[ChartReport.CHART_TYPE_COLUMN])){ %>
-			<div><fmt:message key="report.button.stacked_chart"/><input type="checkbox" name="chkStackedChart" class="js_change_stacked_chart"></div>
-		<%} %>
+		
 	</div>
 	<div id="chart_target" class="form_contents js_work_report_view">
 	</div>
