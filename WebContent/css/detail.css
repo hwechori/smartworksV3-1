@@ -295,6 +295,8 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 
 /* Icon button style */
 .titleLineBtns{float:right;position:relative;top:-3px;}
+.txt_btn .titleLineBtns{margin-right:10px}
+.btnIconsManual{background: url("../images/bgBtnIcons.gif") 0 0 no-repeat;height:21px;display:inline-block;padding-left:22px}
 .btnIconsEdit{background: url("../images/bgBtnIcons.gif") 0 -21px no-repeat;height:21px;display:inline-block;padding-left:22px}
 .btnIconsCreate{background: url("../images/bgBtnIcons.gif") 0 -42px no-repeat;height:21px;display:inline-block;padding-left:22px}
 .btnIconsExcel{background: url("../images/bgBtnIcons.gif") 0 -63px no-repeat;height:21px;display:inline-block;padding-left:22px}
