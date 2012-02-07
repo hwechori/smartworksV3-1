@@ -824,19 +824,6 @@ $(function() {
 		return false;
 	});
 
-	$('a.js_pop_user_info').live('click', function(e) {
-		var input = $(e.target);
-		var left = input.parents('td:first').position().left;
-		var top = input.parents('td:first').position().top;
-		input.popupWindow({ 
-			width:600,
-			height:600,
-			top:top, 
-			left:left
-		}); 
-		return false;
-	});
-
 	$('a.js_todaypicker_button').live('click', function(e) {
 		var input = $(e.target).parent();
 		input.prev('.js_todaypicker').datepicker("show");

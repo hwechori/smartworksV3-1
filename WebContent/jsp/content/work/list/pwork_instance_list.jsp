@@ -175,15 +175,21 @@
 						<a href="<%=target%>" class="js_content_pwork_space"><%=lastTask.getName()%></a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space">
-							<div class="noti_pic js_content_pwork_space">
-								<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
-							</div>
-							<div class="noti_in">
-								<span class="t_name"><%=lastModifier.getLongName()%></span>
-								<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
-							</div>
-						</a>
+						<%
+						if(!SmartUtil.isBlankObject(lastModifier)){
+						%>
+							<a href="<%=target%>" class="js_content_pwork_space">
+								<div class="noti_pic js_content_pwork_space">
+									<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
+								</div>
+								<div class="noti_in">
+									<span class="t_name"><%=lastModifier.getLongName()%></span>
+									<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+								</div>
+							</a>
+						<%
+						}
+						%>
 					</td>
 				</tr>
 	<%

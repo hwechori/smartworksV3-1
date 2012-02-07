@@ -66,6 +66,7 @@
 				taskInstance = (TaskInstanceInfo) instance;
 			}
 			UserInfo owner = workInstance.getOwner();
+			String userDetailInfo = SmartUtil.getUserDetailInfo(owner);
 			SmartWorkInfo work = (SmartWorkInfo) workInstance.getWork();
 			String runningTaskName = "";
 			if (taskInstance != null)
@@ -152,7 +153,7 @@
 				<!-- 인스턴스 상태 및 시작자 사진표시 -->
 				<td class="pic">
 					<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>" />
-					<a href="user_space.sw?cid=<%=ownerContextId%>"><img class="profile_size_m" src="<%=owner.getMidPicture()%>" title="<%=owner.getLongName()%>" /></a>
+					<a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img class="profile_size_m" src="<%=owner.getMidPicture()%>"/></a>
 				</td>
 				<!-- 인스턴스 상태 및 시작자 사진표시 -->
 				

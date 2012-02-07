@@ -67,9 +67,17 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		usersHtml = '';
 		for(var i=0; i<users.length; i++) {
 			var separator = ', ';
+			var href = 'department_space.sw?cid=dp.sp.';
+			if(isEmailAddress(users[i].userId)){
+				href = 'user_space.sw?cid=us.sp.';
+			}else if(users[i].userId.substring(0,6) === "group_"){
+				href = 'group_space.sw?cid=gp.sp.';
+			}else if(users[i].userId.substring(0,5) === "dept_"){
+				href = 'department_space.sw?cid=dp.sp.';
+			}
 			if(i == users.length - 1)
 				separator = '';
-			usersHtml = usersHtml + '<a class="js_pop_user_info" href="pop_user_info.sw?userId=' + users[i].userId + '"><span>' + users[i].longName + separator + '</span></a>';
+			usersHtml = usersHtml + '<a href="' + href + users[i].userId + '"><span>' + users[i].longName + separator + '</span></a>';
 		}
 		$user.html(usersHtml);
 	}else{	
