@@ -35,7 +35,7 @@
 	// lastDate와 assignedOnly값을 가지고 현재 진행중인 모든 인스턴스리스트를 가져온다...
 	InstanceInfo[] instances = smartWorks.getMyRunningInstances(lastDate, 20, assignedOnly);
 	if (instances != null) {
-		// 인스턴스 갯수 만큼 리스를 그린다...
+		// 인스턴스 갯수 만큼 리스트를 그린다...
 		for (InstanceInfo instance : instances) {
 			String statusImage;
 			String statusTitle;
@@ -73,7 +73,7 @@
 				runningTaskName = taskInstance.getName();
 			String ownerContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 
-			String targetContent, taskContextId, workContextId, workListContextId, workTypeClass;
+			String targetContent, workContextId, workListContextId, workTypeClass;
 			// Work 타입별로 필요한 값들을 설정한다..
 			switch (work.getType()) {
 			
@@ -81,7 +81,6 @@
 			case SmartWork.TYPE_INFORMATION:
 				workTypeClass = "ico_iworks";
 				targetContent = "iwork_";
-				taskContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
 				workContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + workInstance.getId();
 				workListContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
 				break;
@@ -90,7 +89,6 @@
 			case SmartWork.TYPE_PROCESS:
 				workTypeClass = "ico_pworks";
 				targetContent = "pwork_";
-				taskContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
 				workContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + workInstance.getId();
 				workListContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
 				break;
@@ -99,7 +97,6 @@
 			case SmartWork.TYPE_SCHEDULE:
 				workTypeClass = "ico_sworks";
 				targetContent = "swork_";
-				taskContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
 				workContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
 				workListContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
 				break;
@@ -108,7 +105,6 @@
 			default:
 				workTypeClass = "";
 				targetContent = "";
-				taskContextId = "";
 				workContextId = "";
 				workListContextId = "";
 				break;
@@ -188,7 +184,7 @@
 					%>
 							<fmt:message key="content.sentence.itask_assigned">
 								<fmt:param>
-									<a href='<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>'>
+									<a class="js_content" href='<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>'>
 										<span class='t_woname'><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -200,7 +196,7 @@
 						%>
 							<fmt:message key="content.sentence.itask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span>
 									</a>
 								</fmt:param>
@@ -212,7 +208,7 @@
 						%>
 							<fmt:message key="content.sentence.ptask_assigned">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -224,7 +220,7 @@
 						%>
 							<fmt:message key="content.sentence.ptask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -236,7 +232,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_assigned">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -248,7 +244,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -260,7 +256,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -272,7 +268,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -295,7 +291,7 @@
 							for (TaskInstanceInfo assignedTask : assignedTasks) {
 								UserInfo assignee = assignedTask.getAssignee();
 								String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + assignee.getId();
-								String assignedContextId = taskContextId + assignee.getId();
+								String assignedContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + assignee.getId();
 								runningTaskName = assignedTask.getName();
 								if (firstRun) {
 									firstRun = false;
@@ -312,7 +308,7 @@
 										</a>
 									</fmt:param>
 									<fmt:param>
-										<a href="<%=targetContent%>task.sw?cid=<%=assignedContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+										<a href="<%=targetContent%>space.sw?cid=<%=assignedContextId%>&workId=<%=workInstance.getWorkSpace().getId()%>">
 											<span class="t_woname"><%=runningTaskName%></span> 
 										</a>
 									</fmt:param>
@@ -326,7 +322,7 @@
 						if (!SmartUtil.isBlankObject(forwardedTasks)) {
 							UserInfo forwardee = forwardedTasks[0].getAssignee();
 							String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + forwardee.getId();
-							String forwardedContextId = taskContextId + forwardee.getId();
+							String forwardedContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + forwardee.getId();
 							runningTaskName = forwardedTasks[0].getName();
 							if (assignedTasks != null) {
 						%>
@@ -360,11 +356,11 @@
 					}
 					%>
 					<br/>
-					<a href="<%=targetContent%>list.sw?cid=<%=workListContextId%>&wid=<%=cUser.getId()%>">
+					<a href="<%=targetContent%>list.sw?cid=<%=workListContextId%>" class="js_content">
 						<span class="<%=workTypeClass%>"></span>
 						<span class="t_date"><%=work.getFullpathName()%></span>
 					</a>
-					<a href="<%=targetContent%>space.sw?cid=<%=workContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+					<a href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId() %>" class="js_content">
 						<span class="t_bold"><%=workInstance.getSubject()%></span> 
 					</a>
 				</td>

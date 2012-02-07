@@ -899,8 +899,9 @@ $(function() {
 	});
 
 	$('a.js_view_my_running_instances').live('click',function(e) {
-		var input = $(e.target).addClass('current').siblings().removeClass('current');
-		var target =  input.parent().prev('ul');
+		var input = $(e.target);
+		input.addClass('current').siblings().removeClass('current');
+		var target = input.parents('.js_my_running_instance_list_page').find('table');  
 		$.ajax({
 			url : 'more_instance_list.sw',
 			data : {
@@ -917,8 +918,9 @@ $(function() {
 	});
 
 	$('a.js_view_assigned_instances').live('click',function(e) {
-		var input = $(e.target).addClass('current').siblings().removeClass('current');
-		var target =  input.parent().prev('ul');
+		var input = $(e.target);
+		input.addClass('current').siblings().removeClass('current');
+		var target = input.parents('.js_my_running_instance_list_page').find('table');  
 		$.ajax({
 			url : 'more_instance_list.sw',
 			data : {
