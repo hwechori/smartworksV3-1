@@ -5,8 +5,10 @@ import net.smartworks.model.community.User;
 public class UserInfo extends WorkSpaceInfo {
 
 	private int role = User.USER_ROLE_MEMBER;
-	private String position = "";
 	private DepartmentInfo department;
+	private String position = "";
+	private String phoneNo = "";
+	private String cellPhoneNo = "";
 
 	public int getRole() {
 		return role;
@@ -28,8 +30,19 @@ public class UserInfo extends WorkSpaceInfo {
 	}
 	public String getLongName(){
 		return position + " " + super.getName();
+	}	
+	public String getPhoneNo() {
+		return phoneNo;
 	}
-	
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+	public String getCellPhoneNo() {
+		return cellPhoneNo;
+	}
+	public void setCellPhoneNo(String cellPhoneNo) {
+		this.cellPhoneNo = cellPhoneNo;
+	}
 	public UserInfo(){
 		super();
 	}

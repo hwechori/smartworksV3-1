@@ -46,7 +46,7 @@
 	session.setAttribute("cid", cid);
 	session.removeAttribute("wid");
 	session.setAttribute("workInstance", instance);
-	
+		
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -129,13 +129,19 @@
 						<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 						<span class="form_space sw_error_message js_space_error_message" style="text-align:right; color: red"></span>
 
-				        <span class="btn_gray js_btn_modify">
-				        	<a href="" class="js_modify_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
-					            <span class="Btn01End"></span>
-				            </a>
-				   		</span>
+						<%
+						if(work.getEditPolicy().isEditableForMe(owner.getId())){
+						%>
+					        <span class="btn_gray js_btn_modify">
+					        	<a href="" class="js_modify_iwork_instance">
+						            <span class="Btn01Start"></span>
+						            <span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+						            <span class="Btn01End"></span>
+					            </a>
+					   		</span>
+					   	<%
+					   	}
+					   	%>
 				
 				        <span class="btn_gray js_btn_do_forward" style="display:none">
 				        	<a href="" class="js_forward_iwork_instance">
@@ -161,20 +167,26 @@
 				            </a>
 				   		</span>
 				
-						<span class="btn_gray space_l5 js_btn_delete">
-				        	<a href="" class="js_delete_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
-					            <span class="Btn01End"></span>
-					    	</a>
-				   		</span>
-				        <span class="btn_gray js_btn_save" style="display:none">
-				        	<a href="" class="js_save_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.save"/></span>
-					            <span class="Btn01End"></span>
-				            </a>
-				   		</span>
+						<%
+						if(work.getEditPolicy().isEditableForMe(owner.getId())){
+						%>
+							<span class="btn_gray space_l5 js_btn_delete">
+					        	<a href="" class="js_delete_iwork_instance">
+						            <span class="Btn01Start"></span>
+						            <span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
+						            <span class="Btn01End"></span>
+						    	</a>
+					   		</span>
+					        <span class="btn_gray js_btn_save" style="display:none">
+					        	<a href="" class="js_save_iwork_instance">
+						            <span class="Btn01Start"></span>
+						            <span class="Btn01Center"><fmt:message key="common.button.save"/></span>
+						            <span class="Btn01End"></span>
+					            </a>
+					   		</span>
+					   	<%
+					   	}
+					   	%>
 				
 						<span class="btn_gray space_l5 js_btn_cancel" style="display:none">
 				        	<a href="" class="js_cancel_iwork_instance">
@@ -192,8 +204,22 @@
 		<div class="portlet_b" style="display: block;"></div>
 	</div> 
 	<!-- 컨텐츠 레이아웃//-->
+<script type="text/javascript">
+	var iworkSpace = $('.js_iwork_space_page');
+	var workId = iworkSpace.attr("workId");
+	var instId = iworkSpace.attr("instId");
+	var formContent = iworkSpace.find('div.js_form_content');
+	new SmartWorks.GridLayout({
+		target : formContent,
+		mode : "view",
+		workId : workId,
+		recordId : instId,
+		onSuccess : function(){
+		}
+	});
+</script>
 
-	<jsp:include page="/jsp/content/work/space/space_instance_list.jsp">
-		<jsp:param value="<%=work.getId() %>" name="workId"/>
-		<jsp:param value="<%=instId %>" name="instId"/>
-	</jsp:include>	
+<jsp:include page="/jsp/content/work/space/space_instance_list.jsp">
+	<jsp:param value="<%=work.getId() %>" name="workId"/>
+	<jsp:param value="<%=instId %>" name="instId"/>
+</jsp:include>	

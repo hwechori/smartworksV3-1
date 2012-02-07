@@ -81,10 +81,12 @@
 				|| (spaceType == ISmartWorks.SPACE_TYPE_USER)){
 			%>
 				<input name="selWorkSpace" type="hidden" value="<%=wid%>">
+				<input name="selWorkSpaceType" type="hidden" value="<%=spaceType %>">
 			<%
 			}else if(spaceType == ISmartWorks.SPACE_TYPE_WORK_INSTANCE){
 			%>
 				<input name="selWorkSpace" type="hidden" value="<%=instId%>">
+				<input name="selWorkSpaceType" type="hidden" value="<%=spaceType %>">
 			<%
 			}else{
 			%>

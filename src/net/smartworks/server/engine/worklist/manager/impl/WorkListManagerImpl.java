@@ -51,6 +51,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		, task.tskprcinstid ");
 		queryBuffer.append("		, task.tskform ");
 		queryBuffer.append("		, task.isStartActivity ");
+		queryBuffer.append("		, task.tskWorkSpaceId ");//workSpaceId
 		queryBuffer.append("		, form.packageId ");
 		queryBuffer.append("		, pkg.name as packageName ");
 		queryBuffer.append("		, ctg.id as childCtgId ");
@@ -86,6 +87,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		, prcInst.prcDid ");
 		queryBuffer.append("		, prcInst.prcPrcId ");
 		queryBuffer.append("		, prcInst.prcCreateDate ");
+		queryBuffer.append("		, prcInst.prcWorkSpaceId "); //workSpaceId
 		queryBuffer.append("		, prcInstInfo.lastTask_tskobjid ");
 		queryBuffer.append("		, prcInstInfo.lastTask_tskname ");
 		queryBuffer.append("		, prcInstInfo.lastTask_tskcreateuser ");
@@ -97,6 +99,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		, prcInstInfo.lastTask_tskexecuteDate ");
 		queryBuffer.append("		, prcInstInfo.lastTask_tskduedate ");
 		queryBuffer.append("		, prcInstInfo.lastTask_tskform ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskWorkSpaceId "); //workSpaceId
 		queryBuffer.append("		, (select count(*) from tsktask where tskstatus='11' and tsktype='common' and tskprcInstId = prcInst.prcObjid) as lastTaskCount ");
 		queryBuffer.append("	from  ");
 		queryBuffer.append("		prcprcinst prcInst,  ");
@@ -113,6 +116,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("					, task.tskexecuteDate as lastTask_tskexecuteDate ");
 		queryBuffer.append("					, task.tskduedate as lastTask_tskduedate ");
 		queryBuffer.append("					, task.tskform as lastTask_tskform ");
+		queryBuffer.append("					, task.tskWorkSpaceId as lastTask_tskWorkSpaceId "); //workSpaceId
 		queryBuffer.append("			from ( ");
 		queryBuffer.append("					select tskprcinstId , max(tskCreatedate) as createDate  ");
 		queryBuffer.append("					from tsktask  ");
@@ -193,7 +197,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 				obj.setTskName((String)fields[j++]);     
 				obj.setTskPrcInstId((String)fields[j++]);
 				obj.setTskForm((String)fields[j++]);     
-				obj.setIsStartActivity((String)fields[j++]);     
+				obj.setIsStartActivity((String)fields[j++]); 
+				obj.setTskWorkSpaceId((String)fields[j++]);     
 				obj.setPackageId((String)fields[j++]);     
 				obj.setPackageName((String)fields[j++]);   
 				obj.setChildCtgId((String)fields[j++]);  
@@ -207,7 +212,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 				obj.setPrcCreateUser((String)fields[j++]);                      
 				obj.setPrcDid((String)fields[j++]);                             
 				obj.setPrcPrcId((String)fields[j++]); 
-				obj.setPrcCreateDate((Timestamp)fields[j++]);
+				obj.setPrcCreateDate((Timestamp)fields[j++]);                    
+				obj.setPrcWorkSpaceId((String)fields[j++]); 
 				obj.setLastTskObjId((String)fields[j++]);                       
 				obj.setLastTskName((String)fields[j++]);                        
 				obj.setLastTskCreateUser((String)fields[j++]);                  
@@ -218,7 +224,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 				obj.setLastTskAssignee((String)fields[j++]);                    
 				obj.setLastTskExecuteDate((Timestamp)fields[j++]);                 
 				obj.setLastTskDueDate((Timestamp)fields[j++]); 
-				obj.setLastTskForm((String)fields[j++]);                        
+				obj.setLastTskForm((String)fields[j++]);    
+				obj.setLastTskWorkSpaceId((String)fields[j++]);                    
 				int lastTaskCount = (Integer)fields[j] == null ? -1 : (Integer)fields[j];
 				obj.setLastTskCount(lastTaskCount == 0 ? 1 : lastTaskCount);
 				objList.add(obj);

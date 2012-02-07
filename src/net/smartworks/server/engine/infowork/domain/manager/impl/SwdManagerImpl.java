@@ -579,7 +579,12 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			} else if (type.equalsIgnoreCase("boolean")) {
 				query.setBoolean(param, CommonUtil.toBoolean(value));
 			} else if (type.equalsIgnoreCase("datetime")) {
-				query.setTimestamp(param, DateUtil.toDate(value, "yyyy-MM-dd HH:mm:ss.SSS"));
+				//TODO type이 datetime 으로 들어오는경우 날짜 포멧에 대한 정의 필요 - 임시로 if 문에서 ":"문자 포함여부로 데이터 포멧을 결정한다 변경필요
+				if (value.indexOf(":") != -1) {
+					query.setTimestamp(param, DateUtil.toDate(value, "yyyy-MM-dd HH:mm:ss.SSS"));
+				} else {
+					query.setTimestamp(param, DateUtil.toDate(value, "yyyy.MM.dd"));
+				}
 			} else if (type.equalsIgnoreCase("date")) {
 				query.setTimestamp(param, DateUtil.toDate(value));
 			} else if (type.equalsIgnoreCase("time")) {
@@ -742,8 +747,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				obj.setRecordId((String)fields[j++]);
 				j++;
 				obj.setDomainId(domain.getObjId());
-				obj.setFormId((String)fields[j++]);
-				obj.setFormName((String)fields[j++]);
+				//obj.setFormId((String)fields[j++]);
+				//obj.setFormName((String)fields[j++]);
 				obj.setCreationUser((String)fields[j++]);
 				obj.setCreationDate((Timestamp)fields[j++]);
 				obj.setModificationUser((String)fields[j++]);
@@ -875,7 +880,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		// 쿼리 생성
 		StringBuffer buf = new StringBuffer();
 		// select
-		buf.append("select obj.id, obj.domainId, domain.formId, domain.formName, obj.creator, obj.createdTime");
+		//buf.append("select obj.id, obj.domainId, domain.formId, domain.formName, obj.creator, obj.createdTime");
+		buf.append("select obj.id, obj.domainId, obj.creator, obj.createdTime");
 		buf.append(", obj.modifier, obj.modifiedTime");
 		String columnName;
 		if (!CommonUtil.isEmpty(fields)) {
@@ -896,7 +902,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		}
 		// from
 		buf.append(" from ").append(tableName).append(" obj");
-		buf.append(", swdomain domain");
+		//buf.append(", swdomain domain");
 		if (refFormId != null || refRecordId != null) {
 			buf.append(", swdataref");
 		}
@@ -909,10 +915,10 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				buf.append(" and swdataref.refformid = :refFormId");
 			if (refRecordId != null)
 				buf.append(" and swdataref.refrecordid = :refRecordId");
-			buf.append(" and obj.domainId = domain.id");
-		} else {
-			buf.append(" where obj.domainId = domain.id");
-			first = false;
+			//buf.append(" and obj.domainId = domain.id");
+		//} else {
+			//buf.append(" where obj.domainId = domain.id");
+			//first = false;
 		}
 		String recordId = cond.getRecordId();
 		String creationUser = cond.getCreationUser();
@@ -1025,13 +1031,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 					operValue = CommonUtil.toLikeString(f.getRightOperandValue());
 				} else {
 					operValue = f.getRightOperandValue();
-					if ((operType == null || operType.equalsIgnoreCase(Filter.OPERANDTYPE_STRING)) && 
-							paramTypeMap.containsKey(param))
+					if ((operType == null || operType.equalsIgnoreCase(Filter.OPERANDTYPE_STRING)) && paramTypeMap.containsKey(param))
 						operType = paramTypeMap.get(param);
-					if (operType == null) {
-						
-					} else if (operType.equalsIgnoreCase("datetime"))
-						operType = Filter.OPERANDTYPE_DATE;
 				}
 				if (operType == null || operType.equalsIgnoreCase(Filter.OPERANDTYPE_STRING)) {
 					query.setString(param, operValue);
@@ -1045,8 +1046,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 //					query.setDouble(param, CommonUtil.toDouble(operValue));
 				} else if (operType.equalsIgnoreCase(Filter.OPERANDTYPE_DATE)) {
 					query.setTimestamp(param, DateUtil.toDate(operValue));
-				} else if (operType.equalsIgnoreCase(Filter.OPERANDTYPE_DATE)) {
-					query.setTimestamp(param, DateUtil.toDate(operValue));
+				} else if (operType.equalsIgnoreCase(Filter.OPERANDTYPE_DATETIME)) {
+					query.setString(param, operValue);
 				} else if (operType.equalsIgnoreCase("number")) {
 					query.setDouble(param, Double.parseDouble(operValue));
 				} else if (operType.equalsIgnoreCase("boolean")) {

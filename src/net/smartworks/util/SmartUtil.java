@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.server.engine.security.model.Login;
 import net.smartworks.service.ISmartWorks;
@@ -328,6 +329,23 @@ public class SmartUtil {
 		user.setCompany("");
 		user.setUserLevel(User.USER_LEVEL_AMINISTRATOR);
 		return user;
+	}
+	
+	public static String getUserDetailInfo(UserInfo user){
+		String roleStr = (user.getRole() == User.USER_ROLE_LEADER) ? SmartMessage.getString("department.role.head") : SmartMessage.getString("department.role.member");
+		String info = "<span>" + user.getLongName() + "</span>";
+		if(!SmartUtil.isBlankObject(user.getDepartment())){
+			info = info + "<span>" + SmartMessage.getString("profile.title.department") + ": " + user.getDepartment().getName() + " (" + roleStr + ")</span>";
+		}
+		if(!SmartUtil.isBlankObject(user.getPhoneNo())){
+			info = info + "<span>" + SmartMessage.getString("profile.title.phone_no") + ": " + user.getPhoneNo() + "</span>";
+		}
+		if(!SmartUtil.isBlankObject(user.getCellPhoneNo())){		
+			info = info + "<span>" + SmartMessage.getString("profile.title.cell_phone_no") + ": " + user.getCellPhoneNo() + "</span>";
+		}
+		info = info + "<span>" + SmartMessage.getString("profile.title.email") + ": " + user.getId() + "</span>";
+		
+		return info;
 	}
 	
 	public static String getSubjectString(String userId){

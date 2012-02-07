@@ -30,7 +30,7 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	WorkSpace workSpace = (WorkSpace)session.getAttribute("workSpace");
-	String contextStr;
+	String contextStr = null;
 	if(SmartUtil.isBlankObject(workSpace)) contextStr = "";
 	else if(workSpace.getClass().equals(User.class)) contextStr = ISmartWorks.CONTEXT_USER_SPACE;
 	else if(workSpace.getClass().equals(Department.class)) contextStr = ISmartWorks.CONTEXT_DEPARTMENT_SPACE;
@@ -57,7 +57,8 @@
 	session.setAttribute("calendars", calendars);
 	
 	CompanyCalendar selectedCalendar = calendars[selectedIndex];
-	WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
+//	WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
+	WorkHourPolicy whp = new WorkHourPolicy();
 	selectedCalendar.setWorkHour(whp.getWorkHour(selectedCalendar.getDate().getDayOfWeek()));
 	
 	TaskInstanceInfo[][] tasksByWorkHours = smartWorks.getTaskInstancesByWorkHours(contextStr, workSpace.getId(), selectedCalendar.getDate(), 10); 
@@ -127,7 +128,7 @@
 <!--탭//-->
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet ">
+<div class="section_portlet js_space_dayly_page" contextId="<%=contextStr %>" spaceId="<%=workSpace.getId() %>" >
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>
@@ -138,11 +139,12 @@
 			<div class="contents_space">
 			
 				<%
+				String toDateStr = (new LocalDate(selectedCalendar.getDate().getTime() + LocalDate.ONE_DAY)).toLocalDateString2();
 				if(selectedCalendar.isHoliday() || selectedCalendar.getWorkHour().getWorkTime()==0){
 					String dayTitle = SmartMessage.getString("common.title.holiday") + selectedCalendar.toCompanyEventsString();
 				%>
 					<!-- 휴일시간 -->
-					<div class="space_section">
+					<div class="space_section js_space_dayly_work_hour" toDate="<%=toDateStr%>">
 	 					<div class="title"><%=dayTitle%></div>
 						<ul>
 							<%
@@ -162,9 +164,11 @@
 					<!-- 휴일시간 //-->
 				<%
 				}else{
+					String workStartStr = (new LocalDate(selectedCalendar.getDate().getTime() + selectedCalendar.getWorkHour().getStart())).toLocalDateString2();
+					String workEndStr = (new LocalDate(selectedCalendar.getDate().getTime() + selectedCalendar.getWorkHour().getEnd())).toLocalDateString2();
 				%>				
 					<!-- 근무시간 전 -->
-					<div class="space_section">
+					<div class="space_section  js_space_dayly_work_hour" toDate="<%=workStartStr%>">
 	 					<div class="title"><fmt:message key="common.title.before_work"/>( ~ <%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getStart())%>)</div>
 						<ul>
 							<%
@@ -184,7 +188,7 @@
 					<!-- 근무시간 전//-->
 	
 					<!-- 근무시간 -->
-					<div class="space_section margin_t10">
+					<div class="space_section margin_t10 js_space_dayly_work_hour" toDate="<%=workEndStr%>">
 						<div class="title"><fmt:message key="common.title.work_hour"/>(<%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getStart())%> ~ <%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getEnd())%>)</div>
 	
 						<ul>
@@ -205,7 +209,7 @@
 					<!-- 근무시간//-->
 	
 					<!-- 근무시간 후 -->
-					<div class="space_section margin_t10">
+					<div class="space_section margin_t10 js_space_dayly_work_hour" toDate="<%=toDateStr%>">
 						<div class="title_off"><fmt:message key="common.title.after_work"/>(<%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getEnd())%> ~ )</div>
 						<ul>
 							<%

@@ -9,6 +9,7 @@
 package net.smartworks.server.engine.infowork.form.manager;
 
 import java.util.List;
+import java.util.Map;
 
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.infowork.form.exception.SwfException;
@@ -25,5 +26,7 @@ public interface ISwfManager extends IManager {
 	public SwfForm[] getForms(String user, SwfFormCond cond, String level) throws SwfException;
 
 	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException;
+
+	public Map<String, String> getReferenceFormIdSizeMap(String user, String recordId) throws SwfException;
 
 }

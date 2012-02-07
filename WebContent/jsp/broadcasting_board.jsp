@@ -35,8 +35,9 @@
 %>
 
 <!-- Broadcasting Board -->
-
+<%-- 
 <b>[<fmt:message key="broadcasting.board.title" />] </b>
+ --%>
 <span id="divBroadcastingBoard"></span>
 
 <script type="text/javascript">

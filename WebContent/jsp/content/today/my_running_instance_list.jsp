@@ -17,6 +17,7 @@
  
 	// 현재사용자의 진행중인 업무들의 갯수(전체업무, 할당업무)를 가져온다.
 	RunningCounts runningCounts = smartWorks.getMyRunningInstancesCounts();
+	if(SmartUtil.isBlankObject(runningCounts)) runningCounts = new RunningCounts();
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />

@@ -1,3 +1,8 @@
+<%@page import="net.smartworks.server.engine.common.manager.IManager"%>
+<%@page import="net.smartworks.server.engine.common.model.Property"%>
+<%@page import="net.smartworks.server.engine.process.task.model.TskTaskCond"%>
+<%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
+<%@page import="net.smartworks.server.service.IInstanceService"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.model.calendar.CompanyCalendar"%>
 <%@page import="net.smartworks.server.service.IWorkService"%>
@@ -133,8 +138,31 @@
 	workService.addAFavoriteWork("pkg_ba32f6e9af594c9ea9cf921ffa2cadee");
 	*/
 
-	CompanyCalendar[] companyCalendars = smartworks.getCompanyCalendars(new LocalDate(), 3);
+	//CompanyCalendar[] companyCalendars = smartworks.getCompanyCalendars(new LocalDate(), 3);
 	//workService.removeAFavoriteWork("pkg_ba32f6e9af594c9ea9cf921ffa2cadee");
+
+	IInstanceService instanceService = (IInstanceService)SmartUtil.getBean("instanceServiceImpl", request);
+
+/* 	ITskManager tskMgr = (ITskManager)SmartUtil.getBean("tskManager", request);
+	TskTaskCond tskCond = new TskTaskCond();
+	tskCond.setForm("frm_98aa2e3d4f334536a441ff484ac37611");
+	tskCond.setExtendedProperties(new Property[] {new Property("referencedRecordId", "52fca4b2252dcd8d012534040dd00029")});
+	TskTask[] tasks = tskMgr.getTasks("", tskCond, IManager.LEVEL_LITE);
+
+	System.out.println(tasks.length); */
+
+/* 	ISwdManager swdMgr = (ISwdManager)SmartUtil.getBean("swdManager", request);
+
+	SwdRecordCond swdRecordCond = new SwdRecordCond();
+	swdRecordCond.setFormId("frm_98aa2e3d4f334536a441ff484ac37611");
+	swdRecordCond.setReferencedRecordId("52fca4b2252dcd8d012534040dd00029");
+
+	long totalSize = swdMgr.getRecordSize("hsshin@maninsoft.co.kr", swdRecordCond);  
+
+	System.out.println(totalSize);
+	SwdRecord[] swdRecords = swdMgr.getRecords("", swdRecordCond, null); */
+
+	TaskInstanceInfo[] taskInstanceInfos = instanceService.getInstanceTaskHistoriesById("52fca4b22ca0dbd5012ca52c28ae0011");
 
 %>
 <textarea style="width:800px;height:400px;">

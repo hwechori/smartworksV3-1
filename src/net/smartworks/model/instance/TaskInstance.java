@@ -21,6 +21,8 @@ public class TaskInstance extends Instance {
 	public final static int TYPE_APPROVAL_TASK_ASSIGNED = 41;
 	public final static int TYPE_APPROVAL_TASK_FORWARDED = 42;
 
+	public final static int TYPE_REMAINING_TASKS_SIZE = 99;
+	
 	private String name;
 	private int taskType=-1;
 	private WorkInstance workInstance;

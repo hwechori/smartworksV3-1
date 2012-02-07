@@ -34,7 +34,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 업무 설명 보기 -->
-<div class="contents_space">
+<div class="contents_space js_pwork_manual_page">
 
 	<!-- 업무 정의 -->
 	<div class=""><%if(!SmartUtil.isBlankObject(work.getDesc())) {%><%=work.getDesc()%><%}else{ %><fmt:message key="common.message.no_work_desc" /><%} %></div>
@@ -46,46 +46,43 @@
         <div class="proce_section">
         
 	        <!-- 방향 Prev -->
-	        <div class="float_left_nowidth"><a href=""><img class="proc_btn_prev"></a></div>
+	        <div class="float_left_nowidth"><a href="" class="js_manual_tasks_left" style="display:none"><img class="proc_btn_prev"></a></div>
 		
 			<!--  태스크 시작 -->
-			<div class="proce_space">
-
-				<%
-				if (tasks != null) {
-					for (SmartTaskInfo task : tasks) {
-						UserInfo assignedUser = task.getAssignedUser();
-						String assigningName = task.getAssigningName();
-				%>
-						<!-- 태스크 -->
-				
-						<div class="proc_task_yet float_left_nowidth padding_r10">
-							<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
-								<span class="pstart"></span> 
-								<span class="pcenter">
-									<div class="float_left_nowidth"><img align="bottom" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>"></div>
-									<div class="noti_in"><span><%=task.getName()%></span></div>
-									<div><span class="t_date"><%=task.getAssigningName()%></span></div>
-								</span> 
-								<span class="pend"></span> 
-							</a>
-						</div>
-						
-						 <!--화살표-->
-				        <div class="proc_arr_next float_left_nowidth padding_r10"></div>
-				        <!--화살표-->
-				        
-						<!-- 태스크 //-->
-				<%
+			<div class="proce_space js_manual_tasks_holder" style="overflow:hidden;width:92%">
+				<div class="js_manual_tasks" style="white-space:nowrap;position:absolute;">
+					<div class="proc_task_yet float_left_nowidth js_manual_task_placeholder" style="display:none"><span class="pcenter"></span></div>
+					<%
+					if (tasks != null) {
+						int count = 0;
+						for (SmartTaskInfo task : tasks) {
+							count++;
+							UserInfo assignedUser = task.getAssignedUser();
+							String assigningName = task.getAssigningName();
+					%>
+							<!-- 태스크 -->
+							<div class="proc_task_yet float_left_nowidth padding_r10 js_manual_task">
+								<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
+									<span class="pstart"></span> 
+									<span class="pcenter">
+										<div class="float_left_nowidth"><img align="bottom" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>"></div>
+										<div class="noti_in"><span><%=count%>) <%=task.getName()%></span></div>
+										<div><span class="t_date"><%=task.getAssigningName()%></span></div>
+									</span> 
+									<span class="pend"></span> 
+								</a>
+							</div>
+							<!-- 태스크 //-->
+					<%
+						}
 					}
-				}
-				%>
-
+					%>
+				</div>
 			</div>
 			<!--  태스크 시작// -->
 	
 			<!-- 방향 Next -->
-		    <div class="float_right"><a href=""><img class="proc_btn_next"></a></div>
+		    <div class="float_right"><a href="" class="js_manual_tasks_right" style="display:none"><img class="proc_btn_next"></a></div>
 	
 		</div>
 		<!--프로세스 영역//-->
@@ -107,7 +104,7 @@
 										<tbody>
 											<tr>
 												<td><img src="<%=form.getOrgImage() %>" width="349" height="289" /></td>
-												<td>Count=<%=i%><%=form.getDescription() %></td>
+												<%if(SmartUtil.isBlankObject(form.getDescription())){ %><td><fmt:message key="common.message.no_form_desc"/></td><%}else{ %><td><%=form.getDescription() %></td><%} %>
 											</tr>
 										</tbody>
 									</table>

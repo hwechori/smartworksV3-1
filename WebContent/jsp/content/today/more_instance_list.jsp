@@ -66,6 +66,7 @@
 				taskInstance = (TaskInstanceInfo) instance;
 			}
 			UserInfo owner = workInstance.getOwner();
+			String userDetailInfo = SmartUtil.getUserDetailInfo(owner);
 			SmartWorkInfo work = (SmartWorkInfo) workInstance.getWork();
 			String runningTaskName = "";
 			if (taskInstance != null)
@@ -131,11 +132,6 @@
 					statusImage = "images/ic_state_ing.jpg";
 					statusTitle = "content.status.returned";
 					break;
-				// 인스턴스가 지연반려된 경우....
-				case Instance.STATUS_RETURNED_DELAYED:
-					statusImage = "images/ic_state_ing.jpg";
-					statusTitle = "content.status.returned_delayed";
-					break;
 				// 기타 잘못되어 상태가 없는 경우..
 				default:
 					statusImage = "images/ic_state_ing.jpg";
@@ -157,7 +153,7 @@
 				<!-- 인스턴스 상태 및 시작자 사진표시 -->
 				<td class="pic">
 					<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>" />
-					<a href="user_space.sw?cid=<%=ownerContextId%>"><img class="profile_size_m" src="<%=owner.getMidPicture()%>" title="<%=owner.getLongName()%>" /></a>
+					<a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img class="profile_size_m" src="<%=owner.getMidPicture()%>"/></a>
 				</td>
 				<!-- 인스턴스 상태 및 시작자 사진표시 -->
 				

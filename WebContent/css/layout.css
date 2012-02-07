@@ -243,8 +243,9 @@ a .btn_all_works:hover,
 
 
 /* Contents*/
-#content, #board {margin:15px 10px 10px 240px; color:#454545; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
-#board {width:728px; height:20px;}
+#content {margin:15px 10px 10px 240px; color:#454545; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
+#board {margin:5px 10px 10px 240px; color:#ea1a1a; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
+#board {width:728px; height:20px;} /* #board color, #board top margin 변경-정일모 */
 
 /* UpLoad */
 #upload {width:100%; height:22px; margin: 0 2px; display:inline-block; position:relative;}
@@ -291,7 +292,7 @@ a .btn_all_works:hover,
 .up_board a.current:hover {background: url("../images/header_nico.png") no-repeat -563px -190px; font-weight:bold;}
 
 .up {border:1px solid #c7c7c7; padding:3px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
-.fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
+.fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:98%;} /* 한줄 input, text박스 쓸때 */
 .up_padding {padding:0; position:relative;}
 .up_width {width:450px;}
 
@@ -379,8 +380,6 @@ a .btn_all_works:hover,
 .js_form_by_report_type span{margin-left:20px}
 .js_form_by_report_type span select{margin-left:5px}
 
-
-
 .ico_posi {position:absolute; right:0; top:0;}
 
 .glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; height: 22px; border-top: 1px solid #c7c7c7;}
@@ -405,8 +404,17 @@ a .btn_all_works:hover,
 
 /* 테이블 - 고정 사이즈 */
 .table_nomal600 {position: relative;}
-.table_nomal600 table {width: 555px;}
+.table_nomal600 table {width: 555px; min-width:555px !important}
 .table_nomal600 table tr {height:32px}
+.boTb { border-top:1px solid #DCDFE0; border-bottom:1px solid #DCDFE0; clear:both}
+
+
+/* table Gray */
+.gray_style {clear: both}
+.gray_style table {border-collapse:collapse;}
+.gray_style td, .gray_style th {border:1px solid #d8d8d8; padding: 2px 8px;}
+.gray_style th {background-color:#f5f5f5; font-weight:normal; white-space:nowrap}
+.gray_style td { background-color:#FFF}
 
 /*라운드 포틀릿*/
 .section_portlet {background: url("../images/bg_portlet_b.jpg") no-repeat scroll 0 100% transparent; margin-bottom:10px; position:relative; width:100%; z-index:30;}
@@ -610,7 +618,7 @@ td.pic{width:85px}
 .t_gbold {color:#656565; font-weight:bold;}
 .t_name {color:#23579e; position: relative;}
 .t_woname {color:#23579e; font-weight:bold;}
-.t_date, .t_text_s11 {font-size:11px; color:#999897;}
+.t_date, .t_text_s11, .t_s11 {font-size:11px; color:#999897;}
 .t_white {font-size:12px; font-weight:normal;}
 .t_nowork { text-align:center; padding:8px 0 !important; color:#b2b2b2}
 .arr {font-size:10px; margin-right:2px;}
