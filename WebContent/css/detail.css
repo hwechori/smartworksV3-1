@@ -28,6 +28,8 @@
 .contents_space .det_title, .replay .det_title {padding:3px 0; overflow:hidden;} /* 타이틀 */
 .contents_space .area {padding:10px;}
 .contents_space .border {border:1px solid #c7c7c7; background-color:#FFF; padding:10px;}
+.contents_space_noBottomPadding{padding: 0 25px;overflow: hidden;margin-bottom:-1px}
+.contents_space .border_noTopLine{border:1px solid #c7c7c7;border-width:0 1px 1px 1px;background-color:#FFF; padding:10px;}
 
 
 
@@ -57,8 +59,8 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 
 /* 목록보기 부분 타이틀 */
 /*.list_title_space {background-color:#ededed; padding:7px 5px; overflow:hidden;}*/
-.list_title_space {padding:7px 0 0 0; overflow:hidden; clear:both}
-.list_title_space .title, .list_title {background: url("../images/iconTitle.gif") 0 2px no-repeat;font-size:14px;font-weight:bold; padding: 0 8px 0 20px; float:left;}
+.list_title_space,.default_title_space{padding:5px 0 0 0; overflow:hidden; clear:both}
+.list_title_space .title, .list_title,.default_title_space .title{background: url("../images/iconTitle.gif") 0 2px no-repeat;font-size:14px;font-weight:bold; padding: 0 8px 0 20px; float:left;}
 
 .list_contents { clear:both}
 .list_contents table {min-width:700px;}
@@ -73,6 +75,7 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 .list_contents table .tit_bg2 td {background-color:#FFF}
 .po_left{display:inline-block}
 .js_work_report_list_box{width:170px}
+.default_title_space{padding-bottom:3px}
 
 /* 새로 만들기 부분 타이틀 */
 .nmake_title_space {background-color:#F7F7F7; padding:5px; overflow:hidden;}
@@ -305,6 +308,7 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 
 /* Icon button style */
 .titleLineBtns{float:right;position:relative;top:-3px;}
+.titleLineOptions{float:left;position:relative;top:-3px;}
 .txt_btn .titleLineBtns{margin-right:10px}
 .btnIconsManual{background: url("../images/bgBtnIcons.gif") 0 0 no-repeat;height:21px;display:inline-block;padding-left:22px}
 .btnIconsEdit{background: url("../images/bgBtnIcons.gif") 0 -21px no-repeat;height:21px;display:inline-block;padding-left:22px}
@@ -312,8 +316,10 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .btnIconsExcel{background: url("../images/bgBtnIcons.gif") 0 -63px no-repeat;height:21px;display:inline-block;padding-left:22px}
 .btnIconsTail{background: url("../images/bgBtnIconsTail.gif") 100% 0 no-repeat;height:21px;display:inline-block;padding-right:5px;line-height:1.8}
 
-.borderGrayBox{margin:2px 0 25px 0;padding:3px;background-color:#f5f5f5;border:1px solid #d8d8d8;display:block;clear:both}
-.borderGrayBox1{margin:2px 0 0 0;padding:3px;background-color:#f5f5f5;border:1px solid #d8d8d8;display:block;clear:both}
 .borderGrayBox form,.borderGrayBox1 form{vertical-align:middle}
 .borderGrayBox .srch_wsize,.borderGrayBox1 .srch_wsize{margin:0}
 .borderGrayBox .list_contents{margin-top:4px;padding-bottom:5px;background-color:#fff}
+
+
+/* line style */
+.dotlineLeftGray{border-left:1px dashed #c2c2c2}

@@ -36,7 +36,8 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<form name="frmWorkReport" class="form_contents up js_validation_required js_work_report_edit_page" workId="<%=workId%>" reportId="<%=reportId%>">
+<div class="border_noTopLine">
+<form name="frmWorkReport" class="form_contents js_validation_required js_work_report_edit_page" workId="<%=workId%>" reportId="<%=reportId%>">
 	<table class="table_nomal js_report_title">
 		<tr style="display:none" class="js_work_report_name">
 			<th><fmt:message key="report.title.report_name" /><span class="essen_n"></span></th>
@@ -80,7 +81,7 @@
 		%>
 	</table>
 
-		<table class="table_nomal">
+		<table class="table_nomal js_form_by_report_type">
 		<tr class="js_report_search_filter">
 			<th><fmt:message key="report.title.search_filter" /></th>
 			<td colspan="4" class="">
@@ -108,7 +109,7 @@
 
 <!-- 등록 취소 버튼 -->
 <div class="glo_btn_space js_button_space">
-	<div class="float_right padding_r10">
+	<div class="float_right">
 		<span class="btn_gray js_button_save_as"> 
 			<a href="" class="js_work_report_saveas"> 
 				<span class="Btn01Start"></span> 
@@ -149,12 +150,14 @@
 	</div>
 
 	<form name="frmAccessPolicy" class="float_right padding_r10 js_validation_required">
-		<div class="float_right form_space">
-			<img class="bu_read"> 
+		<div class="float_right form_space">	
 			<select name="selAccessPolicy">
 				<option value="<%=AccessPolicy.LEVEL_PUBLIC%>"><fmt:message key="common.security.access.public"/></option>
 				<option value="<%=AccessPolicy.LEVEL_PRIVATE%>"><fmt:message key="common.security.access.private"/></option>
 			</select>
+		</div>
+		<div class="float_right form_space">
+			<span class="bu_read margin_t2"></span> 
 		</div>
 	</form>
 
@@ -163,6 +166,6 @@
 	
 	<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 	<span class="form_space sw_error_message js_report_error_message" style="text-align:right; color: red"></span>
-
+</div>
 </div>
 <!-- 등록 취소 버튼//-->
