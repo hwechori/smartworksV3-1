@@ -1332,7 +1332,9 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			Map<String, Object> frmAccessSpace = (Map<String, Object>)requestBody.get("frmAccessSpace");
 			String workSpaceId = (String)frmAccessSpace.get("selWorkSpace");
+			String workSpaceType = (String)frmAccessSpace.get("selWorkSpaceType");
 			task.setWorkSpaceId(workSpaceId);
+			task.setWorkSpaceType(workSpaceType);
 			
 			task.setDocument(taskDocument);
 			
@@ -1797,7 +1799,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					lastTaskInfo.setType(tskType);
 					lastTaskInfo.setWork(workInfo);
 					lastTaskInfo.setWorkInstance(pwInstInfo);
-					lastTaskInfo.setWorkSpace(new WorkSpaceInfo(prcInst.getLastTask_tskWorkSpace(), null));
+					lastTaskInfo.setWorkSpace(ModelConverter.getWorkSpaceInfo(prcInst.getLastTask_tskWorkSpaceType(), prcInst.getLastTask_tskWorkSpaceId()));
 					lastTaskInfo.setName(name);
 					lastTaskInfo.setTaskType(tskType);
 					lastTaskInfo.setAssignee(ModelConverter.getUserInfoByUserId(assignee));
@@ -1806,7 +1808,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					pwInstInfo.setLastTask(lastTaskInfo);//마지막 태스크
 				}
 				pwInstInfo.setLastTaskCount(prcInst.getLastTask_tskCount());
-				pwInstInfo.setWorkSpace(new WorkSpaceInfo(prcInst.getPrcWorkSpaceId(), null));
+				pwInstInfo.setWorkSpace(ModelConverter.getWorkSpaceInfo(prcInst.getPrcWorkSpaceType(), prcInst.getPrcWorkSpaceId()));
 				pWInstanceInfos[i] = pwInstInfo;
 			}
 	//		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));
@@ -1968,7 +1970,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					lastTaskInfo.setSubject(subject);
 					lastTaskInfo.setType(type);
 					lastTaskInfo.setWork(workInfo);
-					lastTaskInfo.setWorkSpace(new WorkSpaceInfo(prcInst.getWorkSpaceId(), null));
+					lastTaskInfo.setWorkSpace(ModelConverter.getWorkSpaceInfo(prcInst.getWorkSpaceType(), prcInst.getWorkSpaceId()));
 					lastTaskInfo.setName(name);
 					lastTaskInfo.setTaskType(type);
 					lastTaskInfo.setAssignee(ModelConverter.getUserInfoByUserId(assignee));
@@ -2004,7 +2006,7 @@ public class InstanceServiceImpl implements IInstanceService {
 						runningTaskInfo.setSubject(subject);
 						runningTaskInfo.setType(type);
 						runningTaskInfo.setWork(workInfo);
-						runningTaskInfo.setWorkSpace(new WorkSpaceInfo(runningTask.getWorkSpaceId(), null));
+						runningTaskInfo.setWorkSpace(ModelConverter.getWorkSpaceInfo(runningTask.getWorkSpaceType(), runningTask.getWorkSpaceId()));
 						runningTaskInfo.setName(name);
 						runningTaskInfo.setTaskType(type);
 						runningTaskInfo.setAssignee(ModelConverter.getUserInfoByUserId(assignee));
@@ -2012,7 +2014,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	//					pwInstInfo.setRunningTasks(new TaskInstanceInfo[]{runningTaskInfo});//실행중태스크
 					}
 				}
-				pwInstInfo.setWorkSpace(new WorkSpaceInfo(prcInst.getWorkSpaceId(), null));
+				pwInstInfo.setWorkSpace(ModelConverter.getWorkSpaceInfo(prcInst.getWorkSpaceType(), prcInst.getWorkSpaceId()));
 				pWInstanceInfos[i] = pwInstInfo;
 			}
 	//		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));

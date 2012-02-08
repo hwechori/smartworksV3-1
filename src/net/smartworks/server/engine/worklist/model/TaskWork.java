@@ -24,6 +24,7 @@ public class TaskWork {
 	private String tskForm;
 	private String isStartActivity;
 	private String tskWorkSpaceId;
+	private String tskWorkSpaceType;
 	private String packageId;  
 	private String packageName;
 	private String childCtgId;  
@@ -39,6 +40,7 @@ public class TaskWork {
 	private String prcPrcId; 
 	private Date prcCreateDate;
 	private String prcWorkSpaceId;
+	private String prcWorkSpaceType;
 	private String lastTskObjId;                       
 	private String lastTskName;                        
 	private String lastTskCreateUser;                  
@@ -51,6 +53,7 @@ public class TaskWork {
 	private Date lastTskDueDate; 
 	private String lastTskForm; 
 	private String lastTskWorkSpaceId;
+	private String lastTskWorkSpaceType;
 	private int lastTskCount;
 	
 	public String getTskObjId() {
@@ -292,6 +295,24 @@ public class TaskWork {
 	}
 	public void setLastTskWorkSpaceId(String lastTskWorkSpaceId) {
 		this.lastTskWorkSpaceId = lastTskWorkSpaceId;
+	}
+	public String getTskWorkSpaceType() {
+		return tskWorkSpaceType;
+	}
+	public void setTskWorkSpaceType(String tskWorkSpaceType) {
+		this.tskWorkSpaceType = tskWorkSpaceType;
+	}
+	public String getPrcWorkSpaceType() {
+		return prcWorkSpaceType;
+	}
+	public void setPrcWorkSpaceType(String prcWorkSpaceType) {
+		this.prcWorkSpaceType = prcWorkSpaceType;
+	}
+	public String getLastTskWorkSpaceType() {
+		return lastTskWorkSpaceType;
+	}
+	public void setLastTskWorkSpaceType(String lastTskWorkSpaceType) {
+		this.lastTskWorkSpaceType = lastTskWorkSpaceType;
 	}
 
 }

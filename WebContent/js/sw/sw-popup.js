@@ -36,6 +36,7 @@ smartPop = {
 	INFO : 'Info',
 	WARN : 'Warn',
 	ERROR: 'Error',
+	USERINFO_HEIGHT : 200,
 
 	overlay : function(target){
 		if(isEmpty($(target))) target = $(document.body);
@@ -49,6 +50,42 @@ smartPop = {
 	
 	closeOverlay : function(){
 		$("#sw_overlay_span").remove();
+	},
+	
+	closeUserInfo : function(){
+		smartPop.closeOverlay();
+		$('#sw_pop_user_info').hide();		
+	},
+
+	showUserInfo : function(input, top, left){
+		var userId = input.attr("userId");
+		var profile = input.attr("profile");
+		var userDetail = input.attr("userDetail");		
+		var popUserInfo = $('#sw_pop_user_info');
+		if(!isEmpty(popUserInfo)){
+			popUserInfo.show().css({"top": top + "px", "left": left + "px"});
+		}else{
+			$('<div id="sw_pop_user_info" style="z-index:10001; position:absolute; left:' + left + 'px; top:' + top +  'px; height:' + smartPop.USERINFO_HEIGHT +  'px;" class="pop_corner_all smart_pop_section">' + 
+						'<div class="js_user_information"></div>' +
+						 '<div class="glo_btn_space">' +
+						 	'<div class="float_right">' +
+						 		'<span class="btn_gray"> <a class="js_btn_close" href=""> <span class="Btn01Start"></span>' +
+						 			'<span class="Btn01Center">' + smartMessage.get('buttonClose') + '</span> <span class="Btn01End"></span>' +
+						 		'</a> </span>' +
+						 	'</div>' +
+						 '</div>' +
+					  '</div>').appendTo($(document.body));
+			popUserInfo = $('#sw_pop_user_info');
+		}
+		popUserInfo.find('.js_user_information').html(userDetail);
+//		$('#sw_pop_show_info .js_btn_close').die('click');
+//		$('#sw_pop_show_info .js_btn_close').live('click', function(){
+//			if ($.isFunction(onClose)) {
+//				onClose.apply();
+//			}
+//			smartPop.closeInfo();
+//			return false;
+//		});
 	},
 	
 	closeInfo : function(){

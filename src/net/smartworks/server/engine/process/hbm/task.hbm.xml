@@ -43,6 +43,7 @@
 		<property name="instVariable" column="tskInstVariable" type="text"/>
 		<property name="loopCounterInteger" column="tskLoopCnt" type="int"/>
 		<property name="workSpaceId" column="tskWorkSpaceId" type="string" length="100"/>
+		<property name="workSpaceType" column="tskWorkSpaceType" type="string" length="50"/>
 		<array name="extendedProperties" table="TskTaskExtProp">
 			<key column="tskObjId" foreign-key="FkTskTaskExtProp"/>
 			<list-index column="tskSeq"/>

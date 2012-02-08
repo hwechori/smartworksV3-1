@@ -36,55 +36,58 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<div class="list_title_space js_work_report_page" workId="<%=workId %>" reportId="<%=lastReportId%>" reportType="<%=lastReportType %>" chartType="<%=lastChartType%>">
-	<div class="title"><fmt:message key="report.title.report" /></div>
-	<div class="titleLineBtns">
-		<span class="po_left js_progress_span"></span>
-		
-		<div class="btnIconsEdit">
-			<a href="work_report_edit.sw" class="js_edit_work_report btnIconsTail"><fmt:message key="report.button.edit_report"/></a>
+<div class="js_work_report_page margin_t15" workId="<%=workId %>" reportId="<%=lastReportId%>" reportType="<%=lastReportType %>" chartType="<%=lastChartType%>">
+	<div class="list_title_space solid_line_sb">
+		<div class="title"><fmt:message key="report.title.report" /></div>
+		<div class="titleLineOptions">
+			<select name="selMyReportList" class="js_select_work_report" href="work_report_view.sw?workId=<%=workId%>&workType=<%=work.getType()%>">							
+				<option value="<%=Report.REPORT_ID_NONE %>" 
+					<%if(SmartUtil.isBlankObject(lastReportId) || lastReportId.equals(Report.REPORT_ID_NONE)){ %> selected <%} %>>
+					<fmt:message key="report.title.no_report" />
+				</option>
+				<%
+				Report[] infoReports = ChartReport.DEFAULT_CHARTS_INFORMATION;
+				if (infoReports != null) {
+					for (Report report : infoReports) {
+						String chartType = null;
+						if(report.getType() == Report.TYPE_CHART) chartType = ((ChartReport)report).getChartTypeInString();
+				%>
+						<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>
+							<%if(report.getId().equals(lastReportId)){ %> selected <%} %>>
+							<fmt:message key="<%=report.getName()%>" />
+						</option>
+				<%
+					}
+				}
+				ReportInfo[] reports = work.getReports();
+				if (reports != null) {
+					for (ReportInfo report : reports) {
+						String chartType = report.getChartTypeInString();
+						if(SmartUtil.isBlankObject(report.getId())) continue;
+				%>
+						<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>
+							<%if(report.getId().equals(lastReportId)){ %> selected <%} %>><%=report.getName()%>
+						</option>
+				<%
+					}
+				}
+				%>
+			</select>
+			
+		</div>
+		<div class="titleLineBtns">
+			<span class="po_left js_progress_span"></span>
+			
+			<div class="btnIconsEdit">
+				<a href="work_report_edit.sw" class="js_edit_work_report btnIconsTail"><fmt:message key="report.button.edit_report"/></a>
+			</div>
 		</div>
 	</div>
 	
-	<div class="borderGrayBox">
-		<select name="selMyReportList" class="js_select_work_report" href="work_report_view.sw?workId=<%=workId%>&workType=<%=work.getType()%>">							
-			<option value="<%=Report.REPORT_ID_NONE %>" 
-				<%if(SmartUtil.isBlankObject(lastReportId) || lastReportId.equals(Report.REPORT_ID_NONE)){ %> selected <%} %>>
-				<fmt:message key="report.title.no_report" />
-			</option>
-			<%
-			Report[] infoReports = ChartReport.DEFAULT_CHARTS_INFORMATION;
-			if (infoReports != null) {
-				for (Report report : infoReports) {
-					String chartType = null;
-					if(report.getType() == Report.TYPE_CHART) chartType = ((ChartReport)report).getChartTypeInString();
-			%>
-					<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>
-						<%if(report.getId().equals(lastReportId)){ %> selected <%} %>>
-						<fmt:message key="<%=report.getName()%>" />
-					</option>
-			<%
-				}
-			}
-			ReportInfo[] reports = work.getReports();
-			if (reports != null) {
-				for (ReportInfo report : reports) {
-					String chartType = report.getChartTypeInString();
-					if(SmartUtil.isBlankObject(report.getId())) continue;
-			%>
-					<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>
-						<%if(report.getId().equals(lastReportId)){ %> selected <%} %>><%=report.getName()%>
-					</option>
-			<%
-				}
-			}
-			%>
-		</select>
-		<div class="js_work_report_edit" style="display:none"></div>
-	</div>
-	<div class="">
+	<div>
 		<!-- 컨텐츠 -->
-		<div class="js_work_report_view" >
+		<div class="js_work_report_edit" style="display:none"></div>
+		<div class="js_work_report_view border_noTopLine" style="display:none">
 			<%
 			if(!SmartUtil.isBlankObject(lastReport)){
 			%>

@@ -62,6 +62,7 @@ public class TskTaskCond extends MisObjectCond{
 	public static final String A_FORMIN = "formIn";
 	public static final String A_FORMINS = "formIns";
 	public static final String A_WORKSPACEID = "workSpaceId";
+	public static final String A_WORKSPACETYPE = "workSpaceType";
 	
 	private String creationUser;
 	private String modificationUser;
@@ -97,6 +98,7 @@ public class TskTaskCond extends MisObjectCond{
 	private int loopCounter = -1;
 	private int step = -1;
 	private String workSpaceId;
+	private String workSpaceType;
 	
 	private String[] typeIns;
 	private String[] typeNotIns;
@@ -142,6 +144,7 @@ public class TskTaskCond extends MisObjectCond{
 		appendAttributeString(A_FROMREFTYPE, fromRefType, buf);
 		appendAttributeString(A_FROMREFID, fromRefId, buf);
 		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
+		appendAttributeString(A_WORKSPACETYPE , workSpaceType, buf);
 		appendAttributeString(A_STEP, step, buf);
 		return buf.toString();
 	}
@@ -198,6 +201,7 @@ public class TskTaskCond extends MisObjectCond{
 			Node fromRefType = attrMap.getNamedItem(A_FROMREFTYPE);
 			Node fromRefId = attrMap.getNamedItem(A_FROMREFID);
 			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
+			Node workSpaceType = attrMap.getNamedItem(A_WORKSPACETYPE);
 			Node loopCounter = attrMap.getNamedItem(A_LOOPCOUNTER);
 			Node step = attrMap.getNamedItem(A_STEP);
 			if (correlation != null)
@@ -250,6 +254,8 @@ public class TskTaskCond extends MisObjectCond{
 				obj.setFromRefId(fromRefId.getNodeValue());
 			if (workSpaceId != null)
 				obj.setWorkSpaceId(workSpaceId.getNodeValue());
+			if (workSpaceType != null)
+				obj.setWorkSpaceType(workSpaceType.getNodeValue());
 			if (step != null)
 				obj.setStep(Integer.parseInt(step.getNodeValue()));
 		}
@@ -646,5 +652,11 @@ public class TskTaskCond extends MisObjectCond{
 	}
 	public void setWorkSpaceId(String workSpaceId) {
 		this.workSpaceId = workSpaceId;
+	}
+	public String getWorkSpaceType() {
+		return workSpaceType;
+	}
+	public void setWorkSpaceType(String workSpaceType) {
+		this.workSpaceType = workSpaceType;
 	}
 }

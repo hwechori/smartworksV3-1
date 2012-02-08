@@ -37,6 +37,7 @@ public class PrcProcessInst extends MisObject {
 	public static final String A_ISSUBINSTANCE = "isSubInstance";
 	public static final String A_INSTVARIABLE = "instVariable";
 	public static final String A_WORKSPACEID = "workSpaceId";
+	public static final String A_WORKSPACETYPE = "workSpaceType";
 	
 	private String title;
 	private String type;
@@ -49,6 +50,7 @@ public class PrcProcessInst extends MisObject {
 	private String isSubInstance;
 	private String instVariable;
 	private String workSpaceId;
+	private String workSpaceType;
 
 	public PrcProcessInst() {
 		super();
@@ -69,6 +71,7 @@ public class PrcProcessInst extends MisObject {
 		appendAttributeString(A_PROCESSID, processId, buf);
 		appendAttributeString(A_ISSUBINSTANCE, isSubInstance, buf);
 		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
+		appendAttributeString(A_WORKSPACETYPE, workSpaceType, buf);
 		return buf.toString();
 	}
 	public String toElementsString(String tab) {
@@ -102,6 +105,7 @@ public class PrcProcessInst extends MisObject {
 			Node processId = attrMap.getNamedItem(A_PROCESSID);
 			Node isSubInstance = attrMap.getNamedItem(A_ISSUBINSTANCE);
 			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
+			Node workSpaceType = attrMap.getNamedItem(A_WORKSPACETYPE);
 			if (priority != null)
 				obj.setPriority(priority.getNodeValue());
 			if (type != null)
@@ -118,6 +122,8 @@ public class PrcProcessInst extends MisObject {
 				obj.setIsSubInstance(isSubInstance.getNodeValue());
 			if (workSpaceId != null)
 				obj.setWorkSpaceId(workSpaceId.getNodeValue());
+			if (workSpaceType != null)
+				obj.setWorkSpaceType(workSpaceType.getNodeValue());
 		}
 		
 		NodeList childNodeList = node.getChildNodes();
@@ -300,5 +306,11 @@ public class PrcProcessInst extends MisObject {
 	}
 	public void setWorkSpaceId(String workSpaceId) {
 		this.workSpaceId = workSpaceId;
+	}
+	public String getWorkSpaceType() {
+		return workSpaceType;
+	}
+	public void setWorkSpaceType(String workSpaceType) {
+		this.workSpaceType = workSpaceType;
 	}
 }

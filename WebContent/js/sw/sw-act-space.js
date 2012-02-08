@@ -104,4 +104,40 @@ $(function() {
 		target.hide().html('');
 		return false;
 	});
+	
+	var userInfoTimer = null;
+	$('a.js_pop_user_info').live('mouseenter', function(e){
+		if(userInfoTimer!=null){
+			clearTimeout(userInfoTimer);
+			userInfoTimer = null;
+		}
+		var input = $(e.target).parent();
+		var picture = input.find('img');
+		var top = picture.offset().top+ picture.height();
+		var scrollHeight = $(window).scrollTop() + window.innerHeight;
+		if((top+smartPop.USERINFO_HEIGHT) > scrollHeight) top = picture.offset().top - smartPop.USERINFO_HEIGHT;
+		var left = picture.offset().left + picture.width();
+		smartPop.showUserInfo(input, top, left);		
+	});
+
+	$('a.js_pop_user_info').live('mouseleave', function(e){
+		userInfoTimer = setTimeout(function(){
+			smartPop.closeUserInfo();
+			userInfoTimer = null;
+		}, 500);
+	});
+	
+	$('#sw_pop_user_info').live('mouseenter', function(e){
+		if(userInfoTimer!=null){
+			clearTimeout(userInfoTimer);
+			userInfoTimer = null;
+		}		
+	});
+
+	$('#sw_pop_user_info').live('mouseleave', function(e){
+		userInfoTimer = setTimeout(function(){
+			smartPop.closeUserInfo();
+			userInfoTimer = null;
+		}, 500);
+	});
 });
