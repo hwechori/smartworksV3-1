@@ -154,7 +154,7 @@
 			<div class="body_titl">
 				<div class="body_titl_iworks title"><%=work.getName()%></div>
 				<!-- 우측 버튼 -->
-				<div class="txt_btn"></div>
+				<div class="txt_btn"><%=work.getFullpathName() %></div>
 				<!-- 우측 버튼 //-->
 				<div class="solid_line"></div>
 			</div>

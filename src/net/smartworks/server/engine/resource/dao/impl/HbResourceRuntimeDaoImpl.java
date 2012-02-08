@@ -35,6 +35,8 @@ import net.smartworks.server.engine.resource.model.hb.HbWorkTypeModelList;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
@@ -45,6 +47,10 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 public class HbResourceRuntimeDaoImpl extends HibernateDaoSupport implements IResourceRuntimeDao {
 
+	@Autowired
+	public void anyMethod(SessionFactory sessionFactory) {
+		setSessionFactory(sessionFactory);
+	}
 	/* (non-Javadoc)
 	 * @see com.maninsoft.smart.server.dao.IResourceRuntimeDao#findFormByPackage(java.lang.String, int)
 	 */
