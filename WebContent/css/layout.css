@@ -128,6 +128,7 @@ li.js_content:hover .checkOption {display:block}
 .personal_info ul {position:absolute;}
 .personal_info li {float:left; vertical-align:bottom; margin-right:6px; color:#dddddd; line-height: 1.3em; } 
 .personal_info .pic {background: url("../images/pic_personal_info.jpg"); display:inline; width:66px; height:66px; position:relative;}
+.personal_info .setting {background: url("../images/nav_setting.png"); display:inline; width:66px; height:66px; position:relative;}
 
 /* nav_list*/
 .nav_list {width:226px;}
@@ -144,6 +145,8 @@ li.js_content:hover .checkOption {display:block}
 .ico_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
 .ico_faver {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px; display: inline-block;}
 .ico_faver.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px; display: inline-block;}
+.ico_b1dep {background: url("../images/nav_img.png") no-repeat 0 -348px transparent; display: inline-block; padding:0 0 0 13px}
+.ico_b2dep {background: url("../images/nav_img.png") no-repeat 0 -364px transparent; display: inline-block; padding:0 0 0 12px}
 
 
 /* nav_mail btn*/
@@ -194,7 +197,10 @@ a .btn_favorite:hover,
 a .btn_all_works:hover,
 .btn_all_works.current {background: url("../images/nav_img.png") no-repeat -201px -274px;}
 
-
+/* nav_admin btn */
+.btn_setting {background: url("../images/body_icon.png") no-repeat -547px 0 transparent; height:26px; width:26px; display: inline-block}
+.btn_appstore {background: url("../images/body_icon.png") no-repeat -574px 0 transparent; height:26px; width:26px; display: inline-block}
+.btn_builder {background: url("../images/body_icon.png") no-repeat -601px 0 transparent; height:26px; width:26px; display: inline-block}
 
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; min-height: 300px;}
@@ -210,31 +216,41 @@ a .btn_all_works:hover,
 
 
 /* 나의 커뮤니티, 나의 업무, 메일, 커뮤너티멤버 Hover */
+
 #my_works li, 
-#my_communities li {position:relative;}
-#my_mail li {position:relative;}
-#community_members li {position:relative;}
+#my_communities li,
+#my_mail li,
+#community_members li,
+#m_setting li {position:relative;}
+#m_setting {padding-top:5px}
 
 #my_works li a, 
-#my_communities li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-#my_mail li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-#community_members li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#my_communities li a,
+#my_mail li a,
+#community_members li a,
+#m_setting li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 
 #my_works li a:hover, 
-#my_communities li a:hover {display:block; background-color:#4e4e4e;}
-#my_mail li a:hover {display:block; background-color:#4e4e4e;}
-#community_members li a:hover {display:block; background-color:#4e4e4e;}
+#my_communities li a:hover,
+#my_mail li a:hover,
+#community_members li a:hover,
+#m_setting li a:hover {display:block; background-color:#4e4e4e;}
 
 #my_works .nav_subtitl_area, 
-#my_communities .nav_subtitl_area {display: inline; float: left; position: relative; width: 180px;}
-#my_mail .nav_subtitl_area {display: inline; float: left; position: relative; width: 180px;}
-#community_members .nav_subtitl_area {display: inline; float: left; position: relative; width: 180px;}
+#my_communities .nav_subtitl_area,
+#my_mail .nav_subtitl_area,
+#community_members .nav_subtitl_area,
+#m_setting .nav_subtitl_area, {display: inline; float: left; position: relative; width: 180px;}
 
-#my_works li .menu_2dep li a {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-#my_works li .menu_2dep li a:hover {display:block; background-color:#4e4e4e;}
+#my_works li .menu_2dep li a,
+#m_setting li .menu_2dep li a {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#my_works li .menu_2dep li a:hover,
+#m_setting li .menu_2dep li a:hover {display:block; background-color:#4e4e4e;}
 
-#my_works li .menu_2dep li div li a {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-#my_works li .menu_2dep li div li a:hover{display:block; background-color:#4e4e4e;}
+#my_works li .menu_2dep li div li a,
+#m_setting li .menu_2dep li div li a {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#my_works li .menu_2dep li div li a:hover,
+#m_setting li .menu_2dep li div li a:hover {display:block; background-color:#4e4e4e;}
 
 
 /*category link */
@@ -622,6 +638,7 @@ td.pic{width:85px}
 .t_woname {color:#23579e; font-weight:bold;}
 .t_date, .t_text_s11, .t_s11 {font-size:11px; color:#999897;}
 .t_white {font-size:12px; font-weight:normal;}
+.t_nav {font-size:14px; font-weight:bold; color:#FFF}
 .t_nowork { text-align:center; padding:8px 0 !important; color:#b2b2b2}
 .arr {font-size:10px; margin-right:2px;}
 

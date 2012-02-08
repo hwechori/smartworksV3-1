@@ -119,4 +119,8 @@
 	<definition name="my_profile" extends="layouts">
 		<put-attribute name="content" value="/jsp/content/my_profile.jsp" />
 	</definition>
+	<definition name="company_general" extends="layouts">
+		<put-attribute name="nav" value="/jsp/settings.jsp" />
+		<put-attribute name="content" value="/jsp/settings/company_general.jsp" />
+	</definition>
 </tiles-definitions>

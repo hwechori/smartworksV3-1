@@ -698,13 +698,13 @@ public class WorkServiceImpl implements IWorkService {
 							resultUsers = new ArrayList<Map<String,String>>();
 							if(values.length > 0 && refRecordIds.length > 0) {
 								for(int j=0; j<values.length; j++) {
-									Map<String, String> map = new HashMap<String, String>();
+									Map<String, String> map = new LinkedHashMap<String, String>();
 									map.put("userId", refRecordIds[j]);
 									map.put("longName", values[j]);
 									resultUsers.add(map);
 								}
 							} else {
-								Map<String, String> map = new HashMap<String, String>();
+								Map<String, String> map = new LinkedHashMap<String, String>();
 								map.put("userId", refRecordId);
 								map.put("longName", value);
 								resultUsers.add(map);

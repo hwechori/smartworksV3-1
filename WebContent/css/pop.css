@@ -71,6 +71,5 @@ a:hover .pop_btn_x {background-color:#e5e5e5;}
 .smartp_info {}
 .smartp_btn_space {background-color: #c7c7c7; height: 10px; padding: 5px 10px 8px;}
 .pop_ico_mail {background: url("../images/nav_img.png") no-repeat scroll 0 0 transparent; display: inline-block; height: 16px; width:18px;}
-.pop_ico_note {background: url("../images/nav_img.png") no-repeat scroll 0 0 transparent; display: inline-block; height: 16px; width:18px;}
-.pop_ico_replay {background: url("../images/nav_img.png") no-repeat scroll 0 0 transparent; display: inline-block; height: 16px; width:18px;}
+.pop_ico_message {background: url("../images/nav_img.png") no-repeat scroll 0 0 transparent; display: inline-block; height: 16px; width:18px;}
 .pop_ico_chat {background: url("../images/nav_img.png") no-repeat scroll 0 0 transparent; display: inline-block; height: 16px; width:18px;}
