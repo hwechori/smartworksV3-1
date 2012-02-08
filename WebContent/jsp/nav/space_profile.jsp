@@ -63,7 +63,7 @@
 	%>
 		<li><a href="<%=target %>"><img class="profile_size_66" src="<%=thisGroup.getOrgPicture()%>"></a></li>
 		<li><a href="<%=target %>"><%=thisGroup.getName()%><br /> <b><%=thisGroup.getDesc()%></b><br />
-			<fmt:message key="group.text.leader" /> : <%=thisGroup.getLeader().getLongName()%><br /></a>
+			<fmt:message key="group.role.leader" /> : <%=thisGroup.getLeader().getLongName()%><br /></a>
 		</li>
 	<%
 	// 부서인경우....
@@ -72,7 +72,7 @@
 	%>
 		<li><a href="<%=target %>"><img class="profile_size_66" src="<%=thisDepartment.getOrgPicture()%>"></a></li>
 		<li><a href="<%=target %>"><%=thisDepartment.getName()%><br /> <b><%=thisDepartment.getDesc()%></b><br />
-			<fmt:message key="department.text.head" /> : <%=thisDepartment.getHead() == null ? "" : thisDepartment.getHead().getLongName()%><br /></a>
+			<fmt:message key="department.role.head" /> : <%=thisDepartment.getHead() == null ? "" : thisDepartment.getHead().getLongName()%><br /></a>
 		</li>
 	<%
 	// 사용자인 경우....

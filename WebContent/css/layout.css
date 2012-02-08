@@ -298,6 +298,7 @@ a .btn_all_works:hover,
 
 .up_form {position:absolute;}
 .up_point {background: url("../images/up_point.gif") no-repeat left top; width:11px; height:7px;}
+.up_point_b {background: url("../images/up_point_b.gif") no-repeat left top; width:11px; height:7px;}
 .up_textarea {height:30px; width: 100%; vertical-align:top; border: 1px solid #c7c7c7;} /* 라인 포함된 textarea h50 */
 .input_1line_first { height:21px; padding-bottom: 5px; position:relative;} /* 한줄라인 input정보- 맨위줄*/
 .input_1line {overflow:hidden; width:100%; position:relative; margin:8px 0;} /* 한줄라인 input정보 */
@@ -315,6 +316,7 @@ a .btn_all_works:hover,
 .txt_btn a, .txt_btn a:focus, .txt_btn a:active, .txt_btn a:link, .txt_btn a:visited {text-decoration:none;}
 .txt_btn a:hover {text-decoration:underline; }
 .txt_btn_height {height:16px;}
+.txt_btn_height25{height:25px}
 
 
 /* 검색- 자동 완성어 list, layer_pop list */
@@ -377,8 +379,8 @@ a .btn_all_works:hover,
 .nomal {padding: 0 0 0 14px;}
 
 .js_report_title th,.js_form_by_report_type th{width:17%;font-weight:normal}
-.js_form_by_report_type span{margin-left:20px}
-.js_form_by_report_type span select{margin-left:5px}
+/*.js_form_by_report_type span{margin-left:20px}
+.js_form_by_report_type span select{margin-left:5px}*/
 
 .ico_posi {position:absolute; right:0; top:0;}
 

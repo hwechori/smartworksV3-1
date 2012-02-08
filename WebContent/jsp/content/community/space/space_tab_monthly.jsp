@@ -118,7 +118,7 @@
 
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_space_monthly_page">
+<div class="section_portlet js_space_monthly_page" contextId="<%=contextStr %>" spaceId="<%=workSpace.getId() %>" >
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>
@@ -144,8 +144,9 @@
 					String weekTitle = SmartMessage.getString("space.title."+ (i+1) + "week");
 					String titleClassStart = ((weekStart.getDayOfWeek()==Calendar.SUNDAY) ? "t_sunday" : (weekStart.getDayOfWeek()==Calendar.SATURDAY) ? "t_saturday" : "");
 					String titleClassEnd = ((weekEnd.getDayOfWeek()==Calendar.SUNDAY) ? "t_sunday" : (weekEnd.getDayOfWeek()==Calendar.SATURDAY) ? "t_saturday" : "");
+					String toDateStr = (new LocalDate(weekEnd.getTime() + LocalDate.ONE_DAY)).toLocalDateString2();
 				%>
-					<div class="space_section margin_t10" weekEnd="<%=weekEnd.toLocalDateSimpleString()%>">
+					<div class="space_section margin_t10 js_space_monthly_week" weekEnd="<%=weekEnd.toLocalDateSimpleString()%>" toDate="<%=toDateStr%>">
 						<%
 						if(weekStart.getTime() == weekEnd.getTime()){
 						%>

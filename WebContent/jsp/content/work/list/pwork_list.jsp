@@ -142,7 +142,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_pwork_list_page js_work_list_page">
+<div class="section_portlet js_pwork_list_page js_work_list_page" workId="<%=work.getId()%>">
 	<div class="portlet_t"><div class="portlet_tl"></div></div>
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
@@ -158,15 +158,16 @@
 			<!-- 타이틀 -->
 
 			<!-- 정의 영역-->
-			<div class="contents_space js_contents_space">
+			<div class="contents_space_noBottomPadding js_contents_space">
 
 				<!-- 버튼 영역-->
-				<div class="txt_btn solid_line_sb margin_t15">
-					<span class="po_left bu_work_explan">
+				<div class="txt_btn solid_line_sb default_title_space">
+					<div class="title">
 						<a class="js_view_work_manual" href="pwork_manual.sw?workId=<%=workId%>"><fmt:message key="common.button.view.work_manual" />▼</a>
 						<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
-					</span>
-					<span class="po_left"><a href="">프로세스 다이어그램보기▼</a></span>
+					</div>
+ 					<span class="po_left"><a href="">프로세스 다이어그램보기▼</a></span>
+					<span class="js_progress_span"></span>
 				</div>
 				<!-- 버튼 영역 //-->
 
@@ -174,7 +175,10 @@
 			<!-- 정의 영역-->
 
 			<div id="work_manual" style="display: none"></div>
-						
+
+
+
+
 			<!-- 목록보기 -->
 			<div class=" contents_space">
 				<div>
@@ -184,7 +188,7 @@
 				</div>
 
 				<!-- 목록보기 타이틀-->
-				<div class="list_title_space js_work_list_title">
+				<div class="list_title_space js_work_list_title margin_t15">
 					<div class="title"><fmt:message key="common.title.instance_list" /></div>
 					<div class="titleLineBtns">
 						<div class="btnIconsEdit">
@@ -195,7 +199,7 @@
 						</div>
 					</div>
 					
-					<div class="borderGrayBox1">
+					<div class="titleLineOptions">
 						<form name="frmSearchInstance" class="po_left">
 							<span class="js_progress_span"></span>
 							<div class="srch_wh srch_wsize">

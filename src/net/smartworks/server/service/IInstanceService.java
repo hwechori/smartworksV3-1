@@ -39,23 +39,17 @@ public interface IInstanceService {
 
 	public WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception;
 	
-	public TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate date, int workHourType, int maxSize) throws Exception;
-
 	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;
-
-	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;
 
 	public TaskInstanceInfo[][] getTaskInstancesByDates(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
 
-	public TaskInstanceInfo[] getTaskInstancesByWeek(String contextId, String spaceId, LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception;
-
 	public TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception;
 
-	public TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception;
+	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
 
 	public TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception;
 
-	public TaskInstanceInfo[] getInstanceRelatedWorksById(String instId) throws Exception;
+	public InstanceInfoList getInstanceRelatedWorksById(String instId) throws Exception;
 
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 

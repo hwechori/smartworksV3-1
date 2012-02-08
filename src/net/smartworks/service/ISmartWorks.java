@@ -183,23 +183,17 @@ public interface ISmartWorks {
 
 	public abstract WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception;
 
-	public abstract TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate date, int workHourType, int maxSize) throws Exception;
-
 	public abstract TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;
-
-	public abstract TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;
 
 	public abstract TaskInstanceInfo[][] getTaskInstancesByDates(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
 
-	public abstract TaskInstanceInfo[] getTaskInstancesByWeek(String contextId, String spaceId, LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception;
-
 	public abstract TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception;
 
-	public abstract TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception;
+	public abstract TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
 
 	public abstract TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception;
 
-	public abstract TaskInstanceInfo[] getInstanceRelatedWorksById(String instId) throws Exception;
+	public abstract InstanceInfoList getInstanceRelatedWorksById(String instId) throws Exception;
 
 	public abstract Report getReportById(String reportId) throws Exception;
 

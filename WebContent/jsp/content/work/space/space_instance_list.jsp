@@ -30,13 +30,13 @@
 	else if(workInstance.getClass().equals(ProcessWorkInstance.class)) contextStr = ISmartWorks.CONTEXT_PWORK_SPACE;
 	else if(workInstance.getClass().equals(InformationWorkInstance.class)) contextStr = ISmartWorks.CONTEXT_IWORK_SPACE;
 	
-	TaskInstanceInfo[] tasks = smartWorks.getTaskInstancesByFromDate(contextStr, workInstance.getId(), new LocalDate(), 20); 
+	TaskInstanceInfo[] tasks = smartWorks.getTaskInstancesByDate(contextStr, workInstance.getId(), new LocalDate(), null, 20); 
 	
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="js_space_instance_list_page">	
+<div class="js_space_instance_list_page"  contextId="<%=contextStr %>" spaceId="<%=workInstance.getId() %>">	
 	<!-- 댓글 영역 -->
 	<div class="gr_up_point posit_point"></div>
 	<!-- 댓글 목록 -->

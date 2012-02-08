@@ -338,19 +338,9 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate date, int workHourType, int maxSize) throws Exception {
-		// TODO Auto-generated method stub
-		return instanceService.getTaskInstancesByWorkHour(contextId, spaceId, date, workHourType, maxSize);
-	}
-	@Override
 	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return instanceService.getTaskInstancesByWorkHours(contextId, spaceId, date, maxSize);
-	}
-	@Override
-	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
-		// TODO Auto-generated method stub
-		return instanceService.getTaskInstancesByDate(contextId, spaceId, date, maxSize);
 	}
 	@Override
 	public TaskInstanceInfo[][] getTaskInstancesByDates(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
@@ -358,19 +348,14 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getTaskInstancesByDates(contextId, spaceId, fromDate, toDate, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByWeek(String contextId, String spaceId, LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
-		// TODO Auto-generated method stub
-		return instanceService.getTaskInstancesByWeek(contextId, spaceId, weekStart, weekEnd, maxSize);
-	}
-	@Override
 	public TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
 		return instanceService.getTaskInstancesByWeeks(contextId, spaceId, month, maxSize);
 	}
 	@Override
-	public TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate fromDate, int maxSize) throws Exception {
+	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		// TODO Auto-generated method stub
-		return instanceService.getTaskInstancesByFromDate(contextId, spaceId, fromDate, maxSize);
+		return instanceService.getTaskInstancesByDate(contextId, spaceId, fromDate, toDate, maxSize);
 	}	
 
 	@Override
@@ -379,10 +364,10 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public TaskInstanceInfo[] getInstanceRelatedWorksById(String instId) throws Exception {
+	public InstanceInfoList getInstanceRelatedWorksById(String instId) throws Exception {
 		return instanceService.getInstanceRelatedWorksById(instId);
 	}
-	
+
 	/*
 	 * @Override >>>>>>> branch 'master' of
 	 * git@github.com:maninsoft/smartworksV3.git public String createFile(String

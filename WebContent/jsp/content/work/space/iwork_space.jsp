@@ -219,8 +219,7 @@
 	});
 </script>
 
-
-	<jsp:include page="/jsp/content/work/space/space_instance_list.jsp">
-		<jsp:param value="<%=work.getId() %>" name="workId"/>
-		<jsp:param value="<%=instId %>" name="instId"/>
-	</jsp:include>	
+<jsp:include page="/jsp/content/work/space/space_instance_list.jsp">
+	<jsp:param value="<%=work.getId() %>" name="workId"/>
+	<jsp:param value="<%=instId %>" name="instId"/>
+</jsp:include>	

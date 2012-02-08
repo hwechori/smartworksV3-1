@@ -44,7 +44,7 @@
 		for(int i=0; i<tasksHistories.length; i++){
 			TaskInstanceInfo taskInstance = tasksHistories[i];
 			if(taskInstance.getType()<0){
-				String lastDateStr = (i>0) ? (new LocalDate(tasksHistories[i-1].getLastModifiedDate().getTime())).toLocalDateSimpleString() : ""; 
+				String lastDateStr = (i>0) ? (new LocalDate(tasksHistories[i-1].getLastModifiedDate().getTime())).toLocalDateString2() : ""; 
 	%>
 				<li class="t_nowork"><a href="" class="js_space_more_history" lastDate="<%=lastDateStr%>"><fmt:message key="common.message.more_work_task"><fmt:param><%=-taskInstance.getType() %></fmt:param></fmt:message></a></li>
 	<%
@@ -53,6 +53,7 @@
 			InstanceInfo workInstance = taskInstance.getWorkInstance();
 			SmartWorkInfo work = (SmartWorkInfo)workInstance.getWork();
 			UserInfo owner = workInstance.getOwner();
+			String userDetailInfo = SmartUtil.getUserDetailInfo(owner);
 			WorkSpaceInfo workSpace = workInstance.getWorkSpace();
 			String comClass = "";
 			if(SmartUtil.isBlankObject(workSpace)) workSpace = workInstance.getOwner();
@@ -83,7 +84,7 @@
 	%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a href="user_space.sw?cid=<%=ownerContextId%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
@@ -104,7 +105,7 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a href="user_space.sw?cid=<%=ownerContextId%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
@@ -125,7 +126,7 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a href="user_space.sw?cid=<%=ownerContextId%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
@@ -145,7 +146,7 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a href="user_space.sw?cid=<%=ownerContextId%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
@@ -165,7 +166,7 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a href="user_space.sw?cid=<%=ownerContextId%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
@@ -182,7 +183,7 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a href="user_space.sw?cid=<%=ownerContextId%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>

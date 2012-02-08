@@ -1,9 +1,6 @@
 package net.smartworks.model.instance.info;
 
 import net.smartworks.model.instance.SortingField;
-import net.smartworks.model.work.FormField;
-
-
 public class InstanceInfoList {
 	
 	public static final int TYPE_PROCESS_INSTANCE_LIST = 1;

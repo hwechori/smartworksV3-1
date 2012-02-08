@@ -1185,7 +1185,7 @@ public class SmartTest {
 		return SearchFilter.getMyRecentInstancesFilter(getUser1());
 	}
 
-	public static TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate date, int workHourType, int maxSize) throws Exception {
+	public static TaskInstanceInfo[] getTaskInstancesByWorkHour(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		return SmartTest.getAssignedTaskInstances();
 	}
 	public static TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
@@ -1204,7 +1204,7 @@ public class SmartTest {
 	public static TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception {
 		return new TaskInstanceInfo[][]{SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances()};
 	}
-	public static TaskInstanceInfo[] getTaskInstancesByFromDate(String contextId, String spaceId, LocalDate from, int maxSize) throws Exception {
+	public static TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		return SmartTest.getAssignedTaskInstances();
 	}
 	

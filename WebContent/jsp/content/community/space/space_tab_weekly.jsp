@@ -130,7 +130,7 @@
 
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_space_weekly_page">
+<div class="section_portlet js_space_weekly_page"  contextId="<%=contextStr %>" spaceId="<%=workSpace.getId() %>" >
 	<div class="portlet_t">
 		<div class="portlet_tl"></div>
 	</div>
@@ -149,9 +149,10 @@
 					String titleClass = "title";
 					if(calendars[i].isHoliday() || calendars[i].getDate().getDayOfWeek()==Calendar.SUNDAY) titleClass = "title t_sunday";
 					else if(calendars[i].getDate().getDayOfWeek()==Calendar.SATURDAY) titleClass = "title t_saturday";
+					String toDateStr = (new LocalDate(calendars[i].getDate().getTime() + LocalDate.ONE_DAY)).toLocalDateString2();
 				%>
 					<!-- 5일 -->					
-					<div class="space_section margin_t10">
+					<div class="space_section margin_t10 js_space_weekly_day" toDate="<%=toDateStr%>">
 						<div class="<%=titleClass%>"><%=calendars[i].getDate().toLocalDateLongString() + calendars[i].toCompanyEventsString()%></div>
 						<ul>
 							<%

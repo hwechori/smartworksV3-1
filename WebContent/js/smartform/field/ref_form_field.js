@@ -17,9 +17,11 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	var $entity = options.entity;
 	var $refForm = $entity.find('refForm');	
 	var $refFormField = $refForm.find('field');	
+	var refFormId = $refForm.attr('id');
+	var refFormFieldId = $refFormField.attr('id');
 	var refRecordId = (options.dataField && options.dataField.refRecordId) || '';
 	var value = (options.dataField && options.dataField.value) || '';
-	options.container.attr('refForm', $refForm.attr('id')).attr('refFormField', $refFormField.attr('id')).attr('refRecordId', refRecordId);
+	options.container.attr('refForm', refFormId).attr('refFormField', refFormFieldId).attr('refRecordId', refRecordId);
 
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
@@ -40,7 +42,7 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	
 	var $refForm = null;
 	if(readOnly){
-		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').text(value);
+		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"><a href="iwork_space.sw?cid=iw.sp.' + refRecordId + '&workId=' + refFormId + '" class="js_content"></a></div>').find('a').text(value);
 	}else{	
 		$refForm = $('<div class="form_value" style="width:' + valueWidth + '%"><div class="ico_fb_space"><input readonly="readonly" type="text" name="' + id + '"' + required + '><a href="" class="js_workitempicker_button"><span class="ico_fb_work"></span></a></div></div>');
 		$refForm.find('input').attr('value', value);

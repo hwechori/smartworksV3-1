@@ -161,14 +161,14 @@
 			<!-- 타이틀 -->
 
 			<!-- 컨텐츠 -->
-			<div class="contents_space js_content_div">
+			<div class="contents_space_noBottomPadding js_content_div">
 
 				<!-- 버튼 영역-->
-				<div class="txt_btn solid_line_sb margin_t15">
-					<span class="po_left bu_work_explan"> 
+				<div class="txt_btn solid_line_sb default_title_space">
+					<div class="title">
 						<a class="js_view_work_manual" href="iwork_manual.sw"><fmt:message key="common.button.view.work_manual" />▼</a>
 						<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
-					</span> 
+					</div> 
 					<span class="js_progress_span"></span>
 				</div>
 				<!-- 버튼 영역 //-->
@@ -191,7 +191,7 @@
 				<!-- 목록보기 -->
 				<div>
 					<!-- 목록보기 타이틀-->
-					<div class="list_title_space js_work_list_title">
+					<div class="list_title_space js_work_list_title margin_t15">
 						<div class="title"><fmt:message key="common.title.instance_list" /></div>
 						<div class="titleLineBtns">
 							<div class="btnIconsEdit">
@@ -205,7 +205,7 @@
 							</div>
 						</div>
 					
-						<div class="borderGrayBox1">
+						<div class="titleLineOptions">
 							<form name="frmSearchInstance" class="po_left">
 								<span class="js_progress_span"></span>
 								<div class="srch_wh srch_wsize">

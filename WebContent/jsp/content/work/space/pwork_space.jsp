@@ -40,6 +40,7 @@
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
 	ProcessWork work = (ProcessWork)instance.getWork();
+	workId = work.getId();
 	
 	TaskInstanceInfo[] taskHistories = instance.getTasks();
 
@@ -82,14 +83,18 @@
 	                <div class="po_right">
 	                	<a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a>
 	                </div>
-	                <div class="po_right"><a href="">프로세스 다이어그램보기▼</a></div>
+	                <div class="po_right"><a href="" class="js_view_instance_diagram"><fmt:message key="common.button.view_instance_diagram"/>▼</a></div>
+	                <div class="po_right" style="display:none"><a href="" class="js_close_instance_diagram"><fmt:message key="common.button.close_instance_diagram"/>▼</a></div>
 	            </div>
 	            <!-- 우측 버튼 -->
 		                    
                	<div class="solid_line"></div>
 			</div>
 			<!-- 타이틀 -->
-		 		            
+
+			<div class="define_space js_process_instance_viewer" style="display:none;height:512px;">
+			</div>
+					 		            
 			<!-- 프로세스 영역 -->
 			<div class="define_space">
 				<div class="proce_section">
@@ -247,7 +252,7 @@
 	}
 	if(tasks.length>0 && i<tasks.length && i>=0){
 		var task = $(tasks[i]);
-		instanceTasks.find('.js_instance_task_placeholder').remove().width(task.width()).show().insertBefore(task);
+		placeHolderTask.remove().width(task.width()).show().insertBefore(task);
 	}
 
 	var instanceLeft = pworkSpace.find('.js_instance_tasks_left');	
