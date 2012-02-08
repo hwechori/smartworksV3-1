@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.info.InstanceInfoList"%>
 <%@page import="net.smartworks.server.engine.common.manager.IManager"%>
 <%@page import="net.smartworks.server.engine.common.model.Property"%>
 <%@page import="net.smartworks.server.engine.process.task.model.TskTaskCond"%>
@@ -162,8 +163,16 @@
 	System.out.println(totalSize);
 	SwdRecord[] swdRecords = swdMgr.getRecords("", swdRecordCond, null); */
 
-	TaskInstanceInfo[] taskInstanceInfos = instanceService.getInstanceTaskHistoriesById("52fca4b22ca0dbd5012ca52c28ae0011");
+	//TaskInstanceInfo[] taskInstanceInfos = instanceService.getInstanceTaskHistoriesById("52fca4b22ca0dbd5012ca52c28ae0011");
+	//System.out.println(taskInstanceInfos);
+	//InstanceInfoList[] resultList = instanceService.getInstanceRelatedWorksById("52fca4b2265f233c012684fba2630068");
+	//System.out.println(resultList.length);
 
+	ISwfManager swfMgr = (ISwfManager)SmartUtil.getBean("swfManager", request);
+
+	int size = swfMgr.getReferenceFormSize("", "52fca4b2265f233c012684fba2630068");
+
+	System.out.println("size ::: " + size);
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>

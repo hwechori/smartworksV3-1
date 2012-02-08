@@ -364,7 +364,7 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public InstanceInfoList getInstanceRelatedWorksById(String instId) throws Exception {
+	public InstanceInfoList[] getInstanceRelatedWorksById(String instId) throws Exception {
 		return instanceService.getInstanceRelatedWorksById(instId);
 	}
 
