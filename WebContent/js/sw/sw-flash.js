@@ -134,7 +134,6 @@ function loadCallback(appName, height){
 		target = $(".js_chart_viewer");		
 	}
 	target.height(height);
-	//	parent.document.getElementById("diagramIframe").setAttribute("height",status);
 };
 
 function ganttProcessCallback(packId, packName, mode, msg){
