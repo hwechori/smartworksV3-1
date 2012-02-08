@@ -1,7 +1,7 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -819,6 +819,7 @@ public class WorkServiceImpl implements IWorkService {
 					txtFilterStringOperand = (String)valueMap.get("txtFilterStringOperand");
 					txtFilterDateOperand = (String)valueMap.get("txtFilterDateOperand");
 					txtFilterTimeOperand = (String)valueMap.get("txtFilterTimeOperand");
+
 					if(txtFilterStringOperand != null) {
 						txtFiltetRightOperandType = Filter.OPERANDTYPE_STRING;
 						condition.setRightOperand(txtFilterStringOperand);
@@ -947,6 +948,33 @@ public class WorkServiceImpl implements IWorkService {
 			e.printStackTrace();
 			// Exception Handling Required			
 		}
+	}
+
+	public String getRecentSomeDays(int someDays) throws Exception {
+		return new LocalDate(new LocalDate().getTime() - LocalDate.ONE_DAY*(someDays-1)).toGMTSimpleDateString();
+	}
+
+	public String getRecentSomeMonths(int someMonths) throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisMonth = new LocalDate().getMonth();
+		calendar.set(Calendar.MONTH, thisMonth - (someMonths-1));
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 
+	}
+
+	public String getThisWeek() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisDayOfWeek = new LocalDate().getFirstDayOfWeek();
+		calendar.set(Calendar.DAY_OF_WEEK, thisDayOfWeek-1);
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 	
+	}
+
+	public String getThisYear() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisYear = new LocalDate().getYear();
+		calendar.set(Calendar.YEAR, thisYear);
+		calendar.set(Calendar.MONTH, 0);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 	
 	}
 
 }

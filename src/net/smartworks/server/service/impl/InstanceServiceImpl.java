@@ -1503,16 +1503,10 @@ public class InstanceServiceImpl implements IInstanceService {
 			swdRecordCond.setOrders(new Order[]{new Order(columnName, isAsc)});
 
 			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
 
 			int currentPage = params.getCurrentPage();
-
-			if(previousPageSize != pageSize)
-				currentPage = 1;
-
-			previousPageSize = pageSize;
-
-			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
-				currentPage = 1;
+			if(currentPage == 0) currentPage = 1;
 
 			int totalPages = (int)totalCount % pageSize;
 
@@ -1536,8 +1530,17 @@ public class InstanceServiceImpl implements IInstanceService {
 				currentPage = result;
 			}
 
+
 			if (currentPage > 0)
 				swdRecordCond.setPageNo(currentPage-1);
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
 
 			swdRecordCond.setPageSize(pageSize);
 

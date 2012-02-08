@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.server.service.impl.WorkServiceImpl"%>
 <%@page import="net.smartworks.model.instance.info.InstanceInfoList"%>
 <%@page import="net.smartworks.server.engine.common.manager.IManager"%>
 <%@page import="net.smartworks.server.engine.common.model.Property"%>
@@ -168,11 +169,27 @@
 	//InstanceInfoList[] resultList = instanceService.getInstanceRelatedWorksById("52fca4b2265f233c012684fba2630068");
 	//System.out.println(resultList.length);
 
-	ISwfManager swfMgr = (ISwfManager)SmartUtil.getBean("swfManager", request);
+/* 	ISwfManager swfMgr = (ISwfManager)SmartUtil.getBean("swfManager", request);
 
 	int size = swfMgr.getReferenceFormSize("", "52fca4b2265f233c012684fba2630068");
 
-	System.out.println("size ::: " + size);
+	System.out.println("size ::: " + size); */
+	
+	
+	WorkServiceImpl workServiceImpl = (WorkServiceImpl)SmartUtil.getBean("workServiceImpl", request);
+	
+	String a = workServiceImpl.getRecentSomeDays(5);
+
+	String b = workServiceImpl.getRecentSomeMonths(5);
+
+	String c = workServiceImpl.getThisWeek();
+
+	String d = workServiceImpl.getThisYear();
+
+	System.out.println(a);
+	System.out.println(b);
+	System.out.println(c);
+	System.out.println(d);
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>
