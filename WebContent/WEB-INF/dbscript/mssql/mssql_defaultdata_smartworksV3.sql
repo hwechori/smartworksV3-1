@@ -208,7 +208,7 @@ INSERT INTO sworgdept (id, companyid, parentid, type, name, description, domaini
 
 -- user
 INSERT INTO sworguser (id, companyid, deptid, roleid, authid, empno, name, type, pos, email, passwd, lang, stdtime, picture, domainid, workitemid, createdtime, creator) VALUES ('PROCESS', NULL, NULL, NULL, 'USER', NULL, '시작', 'SYSTEM', '프로세스', NULL, '1', NULL, NULL, NULL, NULL, NULL, getdate(), 'admin');
-INSERT INTO sworguser (id, companyid, deptid, roleid, authid, empno, name, type, pos, email, passwd, lang, stdtime, picture, domainid, workitemid, createdtime, creator) VALUES ('admin@maninsoft.co.kr', 'Maninsoft', NULL, NULL, 'ADMINISTRATOR', NULL, '관리자', 'SYSTEM', '시스템', NULL, '1', NULL, NULL, NULL, NULL, NULL, getdate(), 'admin');
+INSERT INTO sworguser (id, companyid, deptid, roleid, authid, empno, name, type, pos, email, passwd, lang, stdtime, picture, domainid, workitemid, createdtime, creator, locale, timeZone) VALUES ('admin@maninsoft.co.kr', 'Maninsoft', 'Maninsoft', 'DEPT LEADER', 'ADMINISTRATOR', NULL, '관리자', 'SYSTEM', '시스템', NULL, '1', NULL, NULL, NULL, NULL, NULL, getdate(), 'admin', 'ko', 'Asia/Seoul');
 
 -- role
 INSERT INTO sworgrole (id, companyid, name, description, domainid, workitemid, createdtime, creator) VALUES ('ADMINISTRATOR', NULL, '시스템 관리자', '시스템 관리자', 'md_cc8ba6fe661b45e0b6dd5a8ffd21b091', NULL, getdate(), 'admin');
