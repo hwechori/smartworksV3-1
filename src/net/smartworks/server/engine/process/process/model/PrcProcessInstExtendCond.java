@@ -25,6 +25,8 @@ public class PrcProcessInstExtendCond {
 	private String prcTitle;
 	private String prcDid;
 	private String prcPrcid;
+	private String prcWorkSpaceId;
+	private String prcWorkSapceType;
 	private String lastTask_tskObjId;
 	private String lastTask_tskName;
 	private String lastTask_tskCreateUser;
@@ -195,5 +197,17 @@ public class PrcProcessInstExtendCond {
 	}
 	public void setLastTask_count(int lastTask_count) {
 		this.lastTask_count = lastTask_count;
+	}
+	public String getPrcWorkSpaceId() {
+		return prcWorkSpaceId;
+	}
+	public void setPrcWorkSpaceId(String prcWorkSpaceId) {
+		this.prcWorkSpaceId = prcWorkSpaceId;
+	}
+	public String getPrcWorkSapceType() {
+		return prcWorkSapceType;
+	}
+	public void setPrcWorkSapceType(String prcWorkSapceType) {
+		this.prcWorkSapceType = prcWorkSapceType;
 	}
 }

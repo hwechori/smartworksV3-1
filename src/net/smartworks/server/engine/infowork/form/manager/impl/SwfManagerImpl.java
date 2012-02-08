@@ -21,7 +21,6 @@ import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.SmartUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
-import net.smartworks.server.engine.infowork.domain.model.SwdField;
 import net.smartworks.server.engine.infowork.form.exception.SwfException;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
@@ -204,25 +203,52 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 	}
 
 	@Override
-	public Map<String, String> getReferenceFormIdSizeMap(String user, String recordId) throws SwfException {
+	public Map<String, Integer> getReferenceFormIdSizeMap(String user, String recordId) throws SwfException {
 		if (recordId == null)
 			return null;
 
-		String hql = "select myformid, count(id) as myformsize from swdataref where refrecordid = '" + recordId + "' group by myformid";
+		StringBuffer buff = new StringBuffer();
+		buff.append("select myformid, count(id) as myformsize");
+		buff.append(" from swdataref");
+		buff.append(" where refrecordid = :recordId");
+		buff.append(" group by myformid");
 
-		Query query = this.getSession().createQuery(hql);
-	
-		List<SwdField> list = query.list();
-	
+		Query query = this.getSession().createSQLQuery(buff.toString());
+
+		query.setString("recordId", recordId);
+
+		List list = query.list();
+
 		if (list == null || list.isEmpty())
 			return null;
 
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Integer> map = new HashMap<String, Integer>();
 		for (Object obj : list) {
 			Object[] fields = (Object[])obj;
-			map.put((String)fields[0], (String)fields[1]);
+			map.put((String)fields[0], (Integer)fields[1]);
 		}
 		return map;
+	}
+
+	@Override
+	public int getReferenceFormSize(String user, String recordId) throws SwfException {
+		if (recordId == null)
+			return 0;
+
+		StringBuffer buff = new StringBuffer();
+		buff.append("select count(id) as myformsize");
+		buff.append(" from swdataref");
+		buff.append(" where refrecordid = :recordId");
+
+		Query query = this.getSession().createSQLQuery(buff.toString());
+
+		query.setString("recordId", recordId);
+
+		int referenceFormSize = 0;
+		if(query.uniqueResult() != null)
+			referenceFormSize = (Integer)query.uniqueResult();
+
+		return referenceFormSize;
 	}
 
 }
