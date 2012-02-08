@@ -119,7 +119,7 @@ function loadCallback(appName, height){
 	console.log("loadCallback Called!!! status=" + height);
 	var target = $(".js_process_instance_viewer");
 	if(appName === APPNAME_SMART_BUILDER){
-		target = $(".js_smart_builder");
+		target = $(".js_smart_workbench_editor");
 	}else if(appName === APPNAME_DIAGRAM_VIEWER){
 		target = $(".js_process_diagram_viewer");		
 	}else if(appName === APPNAME_INSTANCE_VIEWER){
