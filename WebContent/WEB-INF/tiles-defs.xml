@@ -120,7 +120,35 @@
 		<put-attribute name="content" value="/jsp/content/my_profile.jsp" />
 	</definition>
 	<definition name="company_general" extends="layouts">
-		<put-attribute name="nav" value="/jsp/settings.jsp" />
-		<put-attribute name="content" value="/jsp/settings/company_general.jsp" />
+		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/company_general.jsp" />
+	</definition>
+	<definition name="company_mailing" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/company_mailing.jsp" />
+	</definition>
+	<definition name="company_work_hour" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/company_work_hour.jsp" />
+	</definition>
+	<definition name="company_calendar" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/company_calendar.jsp" />
+	</definition>
+	<definition name="organization_management" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/organization_management.jsp" />
+	</definition>
+	<definition name="approval_line" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/approval_line.jsp" />
+	</definition>
+	<definition name="webservice_management" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/webservice_management.jsp" />
+	</definition>
+	<definition name="externalform_management" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/externalform_management.jsp" />
 	</definition>
 </tiles-definitions>
