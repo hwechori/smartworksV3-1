@@ -40,6 +40,7 @@
 	User owner = instance.getOwner();
 	WorkSpace workSpace = instance.getWorkSpace();
 	ProcessWork work = (ProcessWork)instance.getWork();
+	workId = work.getId();
 	
 	TaskInstanceInfo[] taskHistories = instance.getTasks();
 
@@ -251,7 +252,7 @@
 	}
 	if(tasks.length>0 && i<tasks.length && i>=0){
 		var task = $(tasks[i]);
-		instanceTasks.find('.js_instance_task_placeholder').remove().width(task.width()).show().insertBefore(task);
+		placeHolderTask.remove().width(task.width()).show().insertBefore(task);
 	}
 
 	var instanceLeft = pworkSpace.find('.js_instance_tasks_left');	
