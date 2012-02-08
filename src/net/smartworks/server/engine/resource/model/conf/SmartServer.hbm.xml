@@ -1,0 +1,286 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.resource.model.hb" default-lazy="false">
+
+	<class name="HbCategoryModel" table="SWCategory">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="parentId" column="parentId" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="dispOrder" column="dispOrder" type="int"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+	
+	<class name="HbPackageModel" table="SWPackage">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="latestDeployedYn" column="latestDeployedYn" type="string" length="1"/>
+		<property name="categoryId" column="categoryId" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="type" column="type" type="string" length="20"/>
+		<property name="status" column="status" type="string" length="30"/>
+		<property name="creator" column="creator" type="string" length="30"/>
+		<property name="createdTime" column="createdTime" type="timestamp"/>
+		<property name="modifier" column="modifier" type="string" length="30"/>
+		<property name="modifiedTime" column="modifiedTime" type="timestamp"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+	
+	<class name="HbProcessModel" table="SWProcess">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="processId" column="processId" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="status" column="status" type="string" length="30"/>
+		<property name="publishMode" column="publishMode" type="string" length="10"/>
+		<property name="creator" column="creator" type="string" length="30"/>
+		<property name="createdTime" column="createdTime" type="timestamp"/>
+		<property name="modifier" column="modifier" type="string" length="30"/>
+		<property name="modifiedTime" column="modifiedTime" type="timestamp"/>
+		<property name="keyword" column="keyword" type="string" length="255"/>
+		<property name="ownerDept" column="ownerDept" type="string" length="30"/>
+		<property name="owner" column="owner" type="string" length="30"/>
+		<property name="encoding" column="encoding" type="string" length="15"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+	<class name="HbProcessContent" table="SWProcess">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="processId" column="processId" type="string" length="50"/>
+		<property name="content" column="content" type="text"/>
+	</class>
+	
+	<class name="HbFormModel" table="SWForm">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="formId" column="formId" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="type" column="type" type="string" length="15"/>
+		<property name="status" column="status" type="string" length="30"/>
+		<property name="creator" column="creator" type="string" length="30"/>
+		<property name="createdTime" column="createdTime" type="timestamp"/>
+		<property name="modifier" column="modifier" type="string" length="30"/>
+		<property name="modifiedTime" column="modifiedTime" type="timestamp"/>
+		<property name="keyword" column="keyword" type="string" length="255"/>
+		<property name="ownerDept" column="ownerDept" type="string" length="30"/>
+		<property name="owner" column="owner" type="string" length="30"/>
+		<property name="encoding" column="encoding" type="string" length="15"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+	<class name="HbFormContent" table="SWForm">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="formId" column="formId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="content" column="content" type="text"/>
+	</class>
+	
+	<class name="HbWorkTypeModel" table="SWWorkType">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="formUid" column="formUid" type="string" length="50"/>
+		<property name="stepCount" column="stepCount" type="int"/>
+		<property name="type" column="type" type="string" length="30"/>
+		<property name="duration" column="duration" type="int"/>
+		
+		<set name="performerLineSet" table="SWWorkTypePerformerLine" lazy="false">
+			<key column="workTypeId" />
+			<composite-element class="HbWorkTypePerformerLineModel">
+				<property name="step" column="step" type="int"/>
+				<property name="performerType" column="performerType" type="int"/>
+				<property name="performer" column="performer" type="string" length="30"/>
+			</composite-element>
+		</set>
+	</class>
+	
+	<class name="HbWorkTypeHistoryModel" table="SWWorkTypeHistory">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="userId" column="userId" type="string" length="30"/>
+		<property name="formId" column="formId" type="string" length="50"/>
+		<property name="executedTime" column="executedTime" type="timestamp"/>
+	</class>
+	
+	<class name="HbWorkHistoryModel" table="SWWorkHistory">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="assigned"/>
+		</id>
+		<property name="userId" column="userId" type="string" length="30"/>
+		<property name="type" column="type" type="string" length="20"/>
+		<property name="formId" column="formId" type="string" length="50"/>
+		<property name="title" column="title" type="string" length="4000"/>
+		<property name="executedTime" column="executedTime" type="timestamp"/>
+	</class>
+	
+	<class name="HbOrgCompanyModel" table="SWOrgCompany">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="assigned"/>
+		</id>
+		<property name="name" column="name" type="string" length="50"/>
+		<property name="address" column="address" type="string" length="4000"/>
+	</class>
+		
+	<class name="HbOrgDeptModel" table="SWOrgDept">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="assigned"/>
+		</id>
+		<property name="companyId" column="companyId" type="string" length="50"/>
+		<property name="parentId" column="parentId" type="string" length="50"/>
+		<property name="type" column="type" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="50"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+
+	<class name="HbOrgRoleModel" table="SWOrgRole">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="assigned"/>
+		</id>
+		<property name="companyId" column="companyId" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="50"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+	
+	<class name="HbOrgUserModel" table="SWOrgUser">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="assigned"/>
+		</id>
+		<property name="companyId" column="companyId" type="string" length="50"/>
+		<property name="deptId" column="deptId" type="string" length="50"/>
+		<property name="roleId" column="roleId" type="string" length="50"/>
+		<property name="authId" column="authId" type="string" length="50"/>
+		<property name="empNo" column="empNo" type="string" length="50"/>
+		<property name="passwd" column="passwd" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="50"/>
+		<property name="type" column="type" type="string" length="50"/>
+		<property name="position" column="pos" type="string" length="30"/>
+		<property name="email" column="email" type="string" length="100"/>
+		<property name="lang" column="lang" type="string" length="20"/>
+		<property name="stdTime" column="stdTime" type="string" length="20"/>
+		<property name="picture" column="picture" type="string" length="50"/>
+	</class>
+	
+	<class name="HbOrgContactModel" table="SWOrgContact">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="name" column="name" type="string" length="50"/>
+		<property name="companyId" column="companyId" type="string" length="50"/>
+		<property name="deptId" column="deptId" type="string" length="50"/>
+		<property name="pos" column="pos" type="string" length="50"/>
+		<property name="email" column="email" type="string" length="255"/>
+		<property name="telephone" column="telephone" type="string" length="50"/>
+	</class>
+		
+	<class name="HbAbsenteeModel" table="SWAbsentee">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="absentee" column="absentee" type="string" length="30"/>
+		<property name="startDate" column="startDate" type="timestamp"/>
+		<property name="endDate" column="endDate" type="timestamp"/>
+		<property name="entrustYn" column="entrustYn" type="string" length="1"/>
+		<property name="entruster" column="entruster" type="string" length="30"/>
+		<property name="reason" column="reason" type="string" length="4000"/>
+		<property name="registeredTime" column="registeredTime" type="timestamp"/>
+	</class>
+		
+	<class name="HbDocumentModel" table="SWDocument">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="assigned"/>
+		</id>
+		<property name="title" column="title" type="string" length="255"/>
+		<property name="code" column="code" type="string" length="255"/>
+		<property name="ownerDept" column="ownerDept" type="string" length="50"/>
+		<property name="ownerUser" column="ownerUser" type="string" length="50"/>
+		<property name="fileGroupId" column="fileGroupId" type="string" length="50"/>
+		<property name="refType" column="refType" type="int"/>
+		<property name="refId" column="refId" type="string" length="50"/>
+	</class>
+		
+	<class name="HbFileModel" table="SWFile">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="assigned"/>
+		</id>
+		<property name="fileName" column="fileName" type="string" length="255"/>
+		<property name="filePath" column="filePath" type="string" length="500"/>
+		<property name="type" column="type" type="string" length="255"/>
+		<property name="fileSize" column="fileSize" type="long"/>
+		<property name="writtenTime" column="writtenTime" type="timestamp"/>
+	</class>
+	
+	<class name="HbScheduleModel" table="SWSchedule">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="userId" column="userId" type="string" length="30"/>
+		<property name="title" column="title" type="string" length="255"/>
+		<property name="startDate" column="startDate" type="date"/>
+		<property name="endDate" column="endDate" type="date"/>
+		<property name="type" column="type" type="string" length="50"/>
+		<property name="place" column="place" type="string" length="255"/>
+		<property name="fromTime" column="fromTime" type="time"/>
+		<property name="toTime" column="toTime" type="time"/>
+		<property name="referencer" column="referencer" type="string" length="4000"/>
+		<property name="content" column="content" type="string" length="4000"/>
+		<property name="alertType" column="alertType" type="string" length="50"/>
+	</class>
+		
+	<class name="HbGadgetModel" table="SWGadget">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="userId" column="userId" type="string" length="30"/>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="type" column="type" type="string" length="50"/>
+		<property name="formId" column="formId" type="string" length="50"/>
+		<property name="query" column="query" type="string" length="4000"/>
+		<property name="className" column="className" type="string" length="255"/>
+		<property name="location" column="location" type="string" length="255"/>
+		<property name="createdTime" column="createdTime" type="timestamp"/>
+		<property name="enabledYn" column="enabledYn" type="string" length="1"/>
+		<property name="content" column="content" type="text"/>
+	</class>
+	
+	<class name="HbAuthResourceModel" table="SWAuthResource">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="resourceId" column="resourceId" type="string" length="50"/>
+		<property name="type" column="type" type="int"/>
+		<property name="mode" column="mode" type="string" length="1"/>
+		<property name="permission" column="permission" type="string" length="20"/>
+		<property name="creator" column="creator" type="string" length="30"/>
+		<property name="createdTime" column="createdTime" type="timestamp"/>
+		<property name="modifier" column="modifier" type="string" length="30"/>
+		<property name="modifiedTime" column="modifiedTime" type="timestamp"/>
+	</class>
+	
+	<class name="HbAuthUserModel" table="SWAuthUser">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="resourceId" column="resourceId" type="string" length="20"/>
+		<property name="mode" column="mode" type="string" length="1"/>
+		<property name="userId" column="userId" type="string" length="30"/>
+		<property name="type" column="type" type="string" length="20"/>
+	</class>
+		
+</hibernate-mapping>

@@ -27,6 +27,7 @@ public class PrcProcessInstExtend {
 	private String prcDid;
 	private String prcPrcId;
 	private String prcWorkSpaceId;
+	private String prcWorkSpaceType;
 	private String lastTask_tskObjId;
 	private String lastTask_tskName;
 	private String lastTask_tskCreateUser;
@@ -38,7 +39,8 @@ public class PrcProcessInstExtend {
 	private Date lastTask_tskExecuteDate;
 	private Date lastTask_tskDueDate;
 	private String lastTask_tskForm;
-	private String lastTask_tskWorkSpace;
+	private String lastTask_tskWorkSpaceId;
+	private String lastTask_tskWorkSpaceType;
 	
 	private int lastTask_tskCount;
 	
@@ -204,10 +206,22 @@ public class PrcProcessInstExtend {
 	public void setLastTask_tskCount(int lastTask_tskCount) {
 		this.lastTask_tskCount = lastTask_tskCount;
 	}
-	public String getLastTask_tskWorkSpace() {
-		return lastTask_tskWorkSpace;
+	public String getLastTask_tskWorkSpaceId() {
+		return lastTask_tskWorkSpaceId;
 	}
-	public void setLastTask_tskWorkSpace(String lastTask_tskWorkSpace) {
-		this.lastTask_tskWorkSpace = lastTask_tskWorkSpace;
+	public void setLastTask_tskWorkSpaceId(String lastTask_tskWorkSpaceId) {
+		this.lastTask_tskWorkSpaceId = lastTask_tskWorkSpaceId;
+	}
+	public String getPrcWorkSpaceType() {
+		return prcWorkSpaceType;
+	}
+	public void setPrcWorkSpaceType(String prcWorkSpaceType) {
+		this.prcWorkSpaceType = prcWorkSpaceType;
+	}
+	public String getLastTask_tskWorkSpaceType() {
+		return lastTask_tskWorkSpaceType;
+	}
+	public void setLastTask_tskWorkSpaceType(String lastTask_tskWorkSpaceType) {
+		this.lastTask_tskWorkSpaceType = lastTask_tskWorkSpaceType;
 	}
 }

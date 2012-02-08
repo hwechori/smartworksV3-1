@@ -23,6 +23,7 @@
 		<property name="isSubInstance" column="isSubInstance" type="string" length="50"/>
 		<property name="instVariable" column="prcInstVariable" type="text"/>
 		<property name="workSpaceId" column="prcWorkSpaceId" type="string" length="100"/>
+		<property name="workSpaceType" column="prcWorkSpaceType" type="string" length="50"/>
 		<array name="extendedProperties" table="PrcPrcInstExtProp">
 			<key column="prcObjId" foreign-key="FkPrcPrcInstExtProp"/>
 			<list-index column="prcSeq"/>

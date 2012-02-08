@@ -22,6 +22,7 @@ public class TskTaskExtend {
 	private String tskprcInstId;
 	private String isStartActivity;
 	private String tskWorkSpaceId;
+	private String tskWorkSpaceType;
 	private String parentCtgId;
 	private String parentCtg;
 	private String subCtgId;
@@ -110,6 +111,12 @@ public class TskTaskExtend {
 	}
 	public void setTskWorkSpaceId(String tskWorkSpaceId) {
 		this.tskWorkSpaceId = tskWorkSpaceId;
+	}
+	public String getTskWorkSpaceType() {
+		return tskWorkSpaceType;
+	}
+	public void setTskWorkSpaceType(String tskWorkSpaceType) {
+		this.tskWorkSpaceType = tskWorkSpaceType;
 	}
 	public String getParentCtgId() {
 		return parentCtgId;
