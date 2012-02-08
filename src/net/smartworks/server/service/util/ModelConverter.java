@@ -705,7 +705,14 @@ public class ModelConverter {
 				}
 			}
 		}
-
+		String packageStatus = pkg.getStatus();
+		boolean isRunningPackage = false;
+		if (packageStatus.equalsIgnoreCase("DEPLOYED")) {
+			isRunningPackage = true;
+		} else if (packageStatus.equalsIgnoreCase("CHECKED-OUT") || packageStatus.equalsIgnoreCase("CHECKED-IN")) {
+			isRunningPackage = false;
+		}
+		workInfo.setRunning(isRunningPackage);
 		return workInfo;
 	}	
 	
@@ -1199,6 +1206,28 @@ public class ModelConverter {
 		Map<String, WorkCategory> pkgCtgPathMap = getPkgCtgMapByPackage(pkg);
 		smartWork.setMyCategory(pkgCtgPathMap.get("category"));
 		smartWork.setMyGroup(pkgCtgPathMap.get("group"));
+		
+		String packageStatus = pkg.getStatus();
+		boolean isRunningPackage = false;
+		boolean isEditingPackage = false;
+		User editingUser = null;
+		LocalDate editingStartDate = null;
+		if (packageStatus.equalsIgnoreCase("DEPLOYED")) {
+			isRunningPackage = true;
+			isEditingPackage = false;
+		} else if (packageStatus.equalsIgnoreCase("CHECKED-OUT") ) {
+			isRunningPackage = false;
+			isEditingPackage = true;
+			editingUser = getUserByUserId(pkg.getModificationUser());
+			editingStartDate = new LocalDate(pkg.getModificationDate().getTime());
+		} else if (packageStatus.equalsIgnoreCase("CHECKED-IN")) {
+			isRunningPackage = false;
+			isEditingPackage = false;
+		}
+		smartWork.setRunning(isRunningPackage);
+		smartWork.setEditing(isEditingPackage);
+		smartWork.setEditingUser(editingUser);
+		smartWork.setEditingStartDate(editingStartDate);
 		
 		return smartWork;
 	}
