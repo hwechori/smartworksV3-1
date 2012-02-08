@@ -298,6 +298,7 @@ a .btn_all_works:hover,
 
 .up_form {position:absolute;}
 .up_point {background: url("../images/up_point.gif") no-repeat left top; width:11px; height:7px;}
+.up_point_b {background: url("../images/up_point_b.gif") no-repeat left top; width:11px; height:7px;}
 .up_textarea {height:30px; width: 100%; vertical-align:top; border: 1px solid #c7c7c7;} /* 라인 포함된 textarea h50 */
 .input_1line_first { height:21px; padding-bottom: 5px; position:relative;} /* 한줄라인 input정보- 맨위줄*/
 .input_1line {overflow:hidden; width:100%; position:relative; margin:8px 0;} /* 한줄라인 input정보 */
