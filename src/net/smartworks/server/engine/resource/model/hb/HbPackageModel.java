@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.resource.manager.SmartServerManager;
 import net.smartworks.server.engine.resource.model.IPackageModel;
 import net.smartworks.server.engine.resource.util.XmlUtil;
@@ -152,8 +153,13 @@ public class HbPackageModel implements IPackageModel, Serializable {
 		this.creator = creator;
 		
 		creatorName = null;
-		if(this.creator != null)
-			this.creatorName = SmartServerManager.getInstance().getOrganManager().getUserDispName(this.creator);
+		try {
+			if(this.creator != null)
+				this.creatorName = SwManagerFactory.getInstance().getSwoManager().getUserDispName(this.creator);
+			//this.creatorName = SmartServerManager.getInstance().getOrganManager().getUserDispName(this.creator);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	public String getCreatorName() {		
 		return this.creatorName;
@@ -166,8 +172,13 @@ public class HbPackageModel implements IPackageModel, Serializable {
 		this.modifier = modifier;
 		
 		modifierName = null;
-		if(this.modifier != null)
-			this.modifierName = SmartServerManager.getInstance().getOrganManager().getUserDispName(this.modifier);
+		try {
+			if(this.modifier != null)
+				this.modifierName = SwManagerFactory.getInstance().getSwoManager().getUserDispName(this.modifier);
+			//this.modifierName = SmartServerManager.getInstance().getOrganManager().getUserDispName(this.modifier);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	public String getModifierName() {
 		return modifierName;
