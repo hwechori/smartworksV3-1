@@ -202,6 +202,16 @@ a .btn_all_works:hover,
 .btn_appstore {background: url("../images/body_icon.png") no-repeat -574px 0 transparent; height:26px; width:26px; display: inline-block}
 .btn_builder {background: url("../images/body_icon.png") no-repeat -601px 0 transparent; height:26px; width:26px; display: inline-block}
 
+/* nav_builder btn*/
+a .btn_cate_add {background: url("../images/nav_img.png") no-repeat -112px -344px transparent; height:25px;  width:26px; display: inline-block; float:right;}
+a .btn_cate_add:hover,
+.btn_cate_add.current {background: url("../images/nav_img.png") no-repeat -112px -379px;}
+
+a .btn_apps {background: url("../images/nav_img.png") no-repeat -157px -344px transparent; height:25px;  width:26px; display: inline-block; float:right;}
+a .btn_apps:hover,
+.btn_apps.current {background: url("../images/nav_img.png") no-repeat -157px -379px;}
+
+
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; min-height: 300px;}
 .navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:5px 10px 0;}
