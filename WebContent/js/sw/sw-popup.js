@@ -36,7 +36,7 @@ smartPop = {
 	INFO : 'Info',
 	WARN : 'Warn',
 	ERROR: 'Error',
-	USERINFO_HEIGHT : 200,
+	USERINFO_HEIGHT : 150,
 
 	overlay : function(target){
 		if(isEmpty($(target))) target = $(document.body);
@@ -57,7 +57,7 @@ smartPop = {
 		$('#sw_pop_user_info').hide();		
 	},
 
-	showUserInfo : function(input, top, left){
+	showUserInfo : function(input, top, left, directionUp){
 		var userId = input.attr("userId");
 		var profile = input.attr("profile");
 		var userDetail = input.attr("userDetail");		
@@ -65,19 +65,35 @@ smartPop = {
 		if(!isEmpty(popUserInfo)){
 			popUserInfo.show().css({"top": top + "px", "left": left + "px"});
 		}else{
-			$('<div id="sw_pop_user_info" style="z-index:10001; position:absolute; left:' + left + 'px; top:' + top +  'px; height:' + smartPop.USERINFO_HEIGHT +  'px;" class="pop_corner_all smart_pop_section">' + 
-						'<div class="js_user_information"></div>' +
-						 '<div class="glo_btn_space">' +
-						 	'<div class="float_right">' +
-						 		'<span class="btn_gray"> <a class="js_btn_close" href=""> <span class="Btn01Start"></span>' +
-						 			'<span class="Btn01Center">' + smartMessage.get('buttonClose') + '</span> <span class="Btn01End"></span>' +
-						 		'</a> </span>' +
-						 	'</div>' +
-						 '</div>' +
-					  '</div>').appendTo($(document.body));
+			$('<div id="sw_pop_user_info" style="z-index:10001; position:absolute; left:' + left + 'px; top:' + top +  'px; height:' + smartPop.USERINFO_HEIGHT +  'px;">' +
+					'<div class="up_point" style="left: 10px; top: 1px; position: relative;display:none;"></div>' + 
+					'<div class="pop_corner_all smart_userinfo_section">' + 
+						'<div class="pop_contents">' + 
+							'<img src="' + profile + '" class="profile_size_110 float_left">' + 
+							' <div class="pop_notice_section js_user_information"></div>' +
+						'</div>' +
+						'<div class="smartp_btn_space">' +
+							'<div class="float_right">' +
+								'<a href="" class="js_send_mail_to_user" userId="' + userId + '"><img class="pop_ico_mail"></a>' +
+								'<a href="" class="js_send_message_to_user" userId="' + userId + '"><img class="pop_ico_note"></a>' + 
+								'<a href="" class="js_request_chat_to_user" userId="' + userId + '"><img class="pop_ico_chat"></a>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+					'<div class="up_point_b" style="left: 10px; position: relative;display:none;"></div>' +
+			'</div>').appendTo($(document.body));
+
 			popUserInfo = $('#sw_pop_user_info');
 		}
 		popUserInfo.find('.js_user_information').html(userDetail);
+		if(directionUp){
+			popUserInfo.find('.up_point_b').hide();
+			popUserInfo.find('.up_point').show();
+		}else{
+			popUserInfo.find('.up_point').hide();
+			popUserInfo.find('.up_point_b').show();
+		}
+
 //		$('#sw_pop_show_info .js_btn_close').die('click');
 //		$('#sw_pop_show_info .js_btn_close').live('click', function(){
 //			if ($.isFunction(onClose)) {

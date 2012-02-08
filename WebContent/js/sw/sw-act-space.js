@@ -115,9 +115,13 @@ $(function() {
 		var picture = input.find('img');
 		var top = picture.offset().top+ picture.height();
 		var scrollHeight = $(window).scrollTop() + window.innerHeight;
-		if((top+smartPop.USERINFO_HEIGHT) > scrollHeight) top = picture.offset().top - smartPop.USERINFO_HEIGHT;
-		var left = picture.offset().left + picture.width();
-		smartPop.showUserInfo(input, top, left);		
+		var directionUp = true;
+		if((top+smartPop.USERINFO_HEIGHT) > scrollHeight){
+			top = picture.offset().top - smartPop.USERINFO_HEIGHT;
+			directionUp = false;
+		}
+		var left = picture.offset().left + picture.width()/2;
+		smartPop.showUserInfo(input, top, left, directionUp);		
 	});
 
 	$('a.js_pop_user_info').live('mouseleave', function(e){
