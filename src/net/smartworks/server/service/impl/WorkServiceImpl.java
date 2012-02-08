@@ -703,6 +703,11 @@ public class WorkServiceImpl implements IWorkService {
 									map.put("longName", values[j]);
 									resultUsers.add(map);
 								}
+							} else {
+								Map<String, String> map = new HashMap<String, String>();
+								map.put("userId", refRecordId);
+								map.put("longName", value);
+								resultUsers.add(map);
 							}
 						}
 						swdDataField.setUsers(resultUsers);
