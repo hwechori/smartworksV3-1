@@ -31,33 +31,20 @@
 	<div class="personal_info">
 		<ul>
 			<li class="setting"></li>
-			<li class="margin_t25"><span class="t_nav"><fmt:message key="settings.title.settings"/></span></li>
+			<li class="margin_t25"><span class="t_nav">스마트 빌더</span></li>
 		</ul>
 	</div>
 	<!-- Nav Title//-->
 	<!-- Nav List -->
 	<div class="nav_list">
-		<div class="navi_list">
-			<div id="m_setting">
-				<!-- 내부 메뉴 -->
-				<ul>
-					<li>
-						<a href=""><span class="ico_b1dep"><fmt:message key="settings.title.company_information"/></span></a>
-						<div class="menu_2dep">
-							<ul>
-								<li><a href="company_general.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.general"/></span></a></li>
-								<li><a href="company_mailing.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.mailing"/></span></a></li>
-								<li><a href="company_work_houre.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.work_hour"/></span></a></li>
-								<li><a href="company_calendar.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.calendar"/></span></a></li>
-							</ul>
-						</div>
-					</li>
-					<li><a href="organization_management.sw" class="js_content"><span class="ico_b1dep"><fmt:message key="settings.title.organization_information"/></span></a></li>
-					<li><a href="approval_line.sw" class="js_content"><span class="ico_b1dep"><fmt:message key="settings.title.approval_information"/></span></a></li>
-					<li><a href="webservice_management.sw" class="js_content"><span class="ico_b1dep"><fmt:message key="settings.title.wservice_information"/></span></a></li>
-					<li><a href="externalform_management.sw" class="js_content"><span class="ico_b1dep"><fmt:message key="settings.title.eform_information"/></span></a></li>
-				</ul>
-				<!--내부메뉴//-->
+		<div class="navi_list">		
+			<div class="categ_link">
+				<a title="앱스토어에서 내려받기" href=""><span class="btn_apps"></span></a>
+				<a title="카테고리 추가" href=""><span class="btn_cate_add"></span></a>
+			</div>
+
+			<div id="all_works">
+				<jsp:include page="/jsp/nav/all_works.jsp"></jsp:include>
 			</div>
 		</div>
 	</div>

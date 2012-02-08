@@ -15,7 +15,7 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 
 	// 서버에 카테고리아이디(루트를 의미하는 "")를 가지고 하위의 모든 업무카테고리들을 가져온다... 
-	WorkInfo[] workCategories = smartWorks.getMyAllWorksByCategoryId("");
+	WorkInfo[] workCategories = smartWorks.getAllWorksByCategoryId("");
 %>
 
 <ul>
@@ -25,7 +25,7 @@
 	%>
 			<!--  *** js_drill_down : sw_act_work.js에서 이클래스의 클릭이벤트를 받아서 트리구조르 드릴다운할수 있게 한다.. -->
 			<li class="js_drill_down">
-				<a href="my_worklist_by_category.sw" categoryId="<%=workCategory.getId()%>">
+				<a href="worklist_by_category.sw" categoryId="<%=workCategory.getId()%>">
 					<span class="ico_cworks"></span>
 					<span class="nav_subtitl_area"><%=workCategory.getName()%></span>
 				</a>

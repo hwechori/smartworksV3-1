@@ -92,8 +92,7 @@
 			</div>
 			<!-- 타이틀 -->
 
-			<div class="define_space js_process_instance_viewer" style="display:none;height:512px;">
-			</div>
+			<div class="define_space js_process_instance_viewer" style="display:none;height:512px;"></div>
 					 		            
 			<!-- 프로세스 영역 -->
 			<div class="define_space">

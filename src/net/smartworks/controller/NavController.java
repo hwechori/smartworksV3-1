@@ -33,69 +33,51 @@ public class NavController {
 	}
 
 	@RequestMapping("/community_members.sw")
-	public ModelAndView communityMembers(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ModelAndView communityMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/nav/community_members.jsp",
-				"");
+		return SmartUtil.returnMnv(request, "jsp/nav/community_members.jsp", "");
 	}
 
 	@RequestMapping("/members_by_community")
-	public ModelAndView membersByCommunity(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView membersByCommunity(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/nav/members_by_community.jsp",
-				"");
+		return SmartUtil.returnMnv(request, "jsp/nav/members_by_community.jsp", "");
 	}
 
 	@RequestMapping("/my_all_works")
-	public ModelAndView myAllWorks(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView myAllWorks(HttpServletRequest request, HttpServletResponse response) {
 		
-		SmartUtil.publishMessage("broadcasting", "BCAST", new String[]{"좋은하루입니다. ㅎㅎㅎ", "내일은 일요일입니다. 절대 토요일이 아닙니다. ㅋㅋ"} );
-		return SmartUtil.returnMnv(request, "jsp/nav/my_all_works.jsp",
-				"");
+		return SmartUtil.returnMnv(request, "jsp/nav/my_all_works.jsp", "");
 	}
 
 	@RequestMapping("/my_departments")
-	public ModelAndView myDepartments(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView myDepartments(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/nav/my_departments.jsp",
-				"");
+		return SmartUtil.returnMnv(request, "jsp/nav/my_departments.jsp", "");
 	}
 
 	@RequestMapping("/my_favorite_works")
-	public ModelAndView myFavoriteWorks(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView myFavoriteWorks(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/nav/my_favorite_works.jsp",
-				"");
+		return SmartUtil.returnMnv(request, "jsp/nav/my_favorite_works.jsp", "");
 	}
 
 	@RequestMapping("/my_groups")
-	public ModelAndView myGroups(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView myGroups(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/nav/my_groups.jsp",
-				"");
+		return SmartUtil.returnMnv(request, "jsp/nav/my_groups.jsp", "");
 	}
 
 	@RequestMapping("/my_recent_instances")
-	public ModelAndView myRecentInstances(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView myRecentInstances(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/nav/my_recent_instances.jsp",
-				"");
+		return SmartUtil.returnMnv(request, "jsp/nav/my_recent_instances.jsp", "");
 	}
 
-	@RequestMapping("/worklist_by_category")
-	public ModelAndView worklistByCategory(HttpServletRequest request,
-			HttpServletResponse response) {
+	@RequestMapping("/my_worklist_by_category")
+	public ModelAndView myWorklistByCategory(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/nav/worklist_by_category.jsp",
-				"");
+		return SmartUtil.returnMnv(request, "jsp/nav/my_worklist_by_category.jsp", "");
 	}
 
 	@RequestMapping(value = "/add_a_favorite_work", method = RequestMethod.GET)

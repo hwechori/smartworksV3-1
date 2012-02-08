@@ -151,4 +151,12 @@
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
 		<put-attribute name="content" value="/jsp/content/settings/externalform_management.jsp" />
 	</definition>
+	<definition name="builder_home" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
+		<put-attribute name="content" value="/jsp/content/builder/builder_home.jsp" />
+	</definition>
+	<definition name="smart_builder" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
+		<put-attribute name="content" value="/jsp/content/builder/smart_builder.jsp" />
+	</definition>
 </tiles-definitions>
