@@ -1,5 +1,8 @@
 package net.smartworks.model.instance;
 
+import java.util.List;
+import java.util.Map;
+
 public class FieldData {
 
 	public static final int SIZE_DATETIME = 16;
@@ -10,8 +13,14 @@ public class FieldData {
 	private String fieldType;
 	private String value;
 	private String symbol;
-	private String[] fileNames;
+	private List<Map<String, String>> fileNames;
 
+	public List<Map<String, String>> getFileNames() {
+		return fileNames;
+	}
+	public void setFileNames(List<Map<String, String>> fileNames) {
+		this.fileNames = fileNames;
+	}
 	public FieldData() {
 		super();
 	}
@@ -38,12 +47,6 @@ public class FieldData {
 	}
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
-	}
-	public String[] getFileNames() {
-		return fileNames;
-	}
-	public void setFileNames(String[] fileNames) {
-		this.fileNames = fileNames;
 	}
 	public FieldData(String fieldId, String fieldType, String value){
 		super();

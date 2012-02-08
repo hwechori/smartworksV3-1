@@ -197,7 +197,10 @@ a .btn_favorite:hover,
 a .btn_all_works:hover,
 .btn_all_works.current {background: url("../images/nav_img.png") no-repeat -201px -274px;}
 
-
+/* nav_admin btn */
+.btn_setting {background: url("../images/body_icon.png") no-repeat -547px 0 transparent; height:26px; width:26px; display: inline-block}
+.btn_appstore {background: url("../images/body_icon.png") no-repeat -574px 0 transparent; height:26px; width:26px; display: inline-block}
+.btn_builder {background: url("../images/body_icon.png") no-repeat -601px 0 transparent; height:26px; width:26px; display: inline-block}
 
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; min-height: 300px;}
