@@ -3,6 +3,7 @@ package net.smartworks.server.engine.resource.model.hb;
 import java.io.Serializable;
 import java.util.Date;
 
+import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.resource.manager.SmartServerManager;
 import net.smartworks.server.engine.resource.model.IFormModel;
 import net.smartworks.server.engine.resource.util.XmlUtil;
@@ -231,9 +232,13 @@ public class HbFormModel implements IFormModel, Serializable {
 	 */
 	public void setCreator(String creator) {
 		this.creator = creator;
-		
-		if(this.creator != null)
-			this.creatorName = SmartServerManager.getInstance().getOrganManager().getUserDispName(this.creator);
+		try {
+			if(this.creator != null)
+				this.creatorName = SwManagerFactory.getInstance().getSwoManager().getUserDispName(this.creator);
+			//this.creatorName = SmartServerManager.getInstance().getOrganManager().getUserDispName(this.creator);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -269,9 +274,13 @@ public class HbFormModel implements IFormModel, Serializable {
 	 */
 	public void setModifier(String modifier) {
 		this.modifier = modifier;
-		
-		if(this.modifier != null)
-			this.modifierName = SmartServerManager.getInstance().getOrganManager().getUserDispName(this.modifier);		
+		try {
+			if(this.modifier != null)
+				this.modifierName = SwManagerFactory.getInstance().getSwoManager().getUserDispName(this.modifier);
+				//this.modifierName = SmartServerManager.getInstance().getOrganManager().getUserDispName(this.modifier);		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

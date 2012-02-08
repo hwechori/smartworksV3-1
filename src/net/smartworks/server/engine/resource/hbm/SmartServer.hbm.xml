@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.resource.model.hb" default-lazy="false">
+
+	<class name="HbCategoryModel" table="SWCategory">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="parentId" column="parentId" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="dispOrder" column="dispOrder" type="int"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+	
+	<class name="HbPackageModel" table="SWPackage">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="latestDeployedYn" column="latestDeployedYn" type="string" length="1"/>
+		<property name="categoryId" column="categoryId" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="type" column="type" type="string" length="20"/>
+		<property name="status" column="status" type="string" length="30"/>
+		<property name="creator" column="creator" type="string" length="30"/>
+		<property name="createdTime" column="createdTime" type="timestamp"/>
+		<property name="modifier" column="modifier" type="string" length="30"/>
+		<property name="modifiedTime" column="modifiedTime" type="timestamp"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+	
+	<class name="HbProcessModel" table="SWProcess">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="processId" column="processId" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="status" column="status" type="string" length="30"/>
+		<property name="publishMode" column="publishMode" type="string" length="10"/>
+		<property name="creator" column="creator" type="string" length="30"/>
+		<property name="createdTime" column="createdTime" type="timestamp"/>
+		<property name="modifier" column="modifier" type="string" length="30"/>
+		<property name="modifiedTime" column="modifiedTime" type="timestamp"/>
+		<property name="keyword" column="keyword" type="string" length="255"/>
+		<property name="ownerDept" column="ownerDept" type="string" length="30"/>
+		<property name="owner" column="owner" type="string" length="30"/>
+		<property name="encoding" column="encoding" type="string" length="15"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+	<class name="HbProcessContent" table="SWProcess">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="processId" column="processId" type="string" length="50"/>
+		<property name="content" column="content" type="text"/>
+	</class>
+	
+	<class name="HbFormModel" table="SWForm">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="formId" column="formId" type="string" length="50"/>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="type" column="type" type="string" length="15"/>
+		<property name="status" column="status" type="string" length="30"/>
+		<property name="creator" column="creator" type="string" length="30"/>
+		<property name="createdTime" column="createdTime" type="timestamp"/>
+		<property name="modifier" column="modifier" type="string" length="30"/>
+		<property name="modifiedTime" column="modifiedTime" type="timestamp"/>
+		<property name="keyword" column="keyword" type="string" length="255"/>
+		<property name="ownerDept" column="ownerDept" type="string" length="30"/>
+		<property name="owner" column="owner" type="string" length="30"/>
+		<property name="encoding" column="encoding" type="string" length="15"/>
+		<property name="description" column="description" type="string" length="4000"/>
+	</class>
+	<class name="HbFormContent" table="SWForm">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="packageId" column="packageId" type="string" length="50"/>
+		<property name="formId" column="formId" type="string" length="50"/>
+		<property name="version" column="version" type="int"/>
+		<property name="content" column="content" type="text"/>
+	</class>
+	
+	<class name="HbWorkTypeModel" table="SWWorkType">
+		<id name="id" column="id" type="string" length="50">
+			<generator class="uuid.hex"/>
+		</id>
+		<property name="name" column="name" type="string" length="255"/>
+		<property name="formUid" column="formUid" type="string" length="50"/>
+		<property name="stepCount" column="stepCount" type="int"/>
+		<property name="type" column="type" type="string" length="30"/>
+		<property name="duration" column="duration" type="int"/>
+		
+		<set name="performerLineSet" table="SWWorkTypePerformerLine" lazy="false">
+			<key column="workTypeId" />
+			<composite-element class="HbWorkTypePerformerLineModel">
+				<property name="step" column="step" type="int"/>
+				<property name="performerType" column="performerType" type="int"/>
+				<property name="performer" column="performer" type="string" length="30"/>
+			</composite-element>
+		</set>
+	</class>
+
+		
+</hibernate-mapping>

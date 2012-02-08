@@ -4,6 +4,6 @@
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
 		<wb-resource deploy-path="/" source-path="/WebContent"/>
 		<property name="java-output-path" value="/smartworksV3/build/classes"/>
-		<property name="context-root" value="smartworksV3"/>
+        <property name="context-root" value="smartworksV3"/>
 	</wb-module>
 </project-modules>

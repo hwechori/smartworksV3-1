@@ -27,6 +27,8 @@ import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.monitoring.manager.IMonManager;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
+import net.smartworks.server.engine.resource.manager.IResourceDesigntimeManager;
+import net.smartworks.server.engine.resource.manager.IResourceRuntimeManager;
 import net.smartworks.server.engine.worklist.manager.impl.WorkListManagerImpl;
 
 import org.apache.commons.logging.Log;
@@ -55,6 +57,8 @@ public class SwManagerFactory {
 	private ISchManager schManager;
 	private ISwcManager swcManager;
 	private ISctManager sctManager;
+	private IResourceDesigntimeManager designtimeManager;
+	private IResourceRuntimeManager runtimeManager;
 
 	private WorkListManagerImpl workListManager;
 
@@ -191,6 +195,18 @@ public class SwManagerFactory {
 	}
 	public void setSctManager(ISctManager sctManager) {
 		this.sctManager = sctManager;
+	}
+	public IResourceDesigntimeManager getDesigntimeManager() {
+		return designtimeManager;
+	}
+	public void setDesigntimeManager(IResourceDesigntimeManager designtimeManager) {
+		this.designtimeManager = designtimeManager;
+	}
+	public IResourceRuntimeManager getRuntimeManager() {
+		return runtimeManager;
+	}
+	public void setRuntimeManager(IResourceRuntimeManager runtimeManager) {
+		this.runtimeManager = runtimeManager;
 	}
 
 //	public IChtManager getChtManager() {

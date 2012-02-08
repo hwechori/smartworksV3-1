@@ -118,7 +118,7 @@
 				        								&& ( 	task.getStatus()==TaskInstance.STATUS_RUNNING
 				        									 || task.getStatus()==TaskInstance.STATUS_DELAYED_RUNNING) ) ? "edit" : "view";
 				        			boolean isSelectable = ((task.getStatus()==TaskInstance.STATUS_RUNNING||task.getStatus()==TaskInstance.STATUS_DELAYED_RUNNING)
-				        										&& !task.getAssignee().equals(cUser.getId())) ? false : true;
+				        										&& !task.getAssignee().getId().equals(cUser.getId())) ? false : true;
 				        			if(task.getStatus() == TaskInstance.STATUS_RETURNED)
 				        				statusClass = "proc_task_returned";
 				        			else if(task.getStatus() == TaskInstance.STATUS_RUNNING)

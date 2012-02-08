@@ -52,6 +52,8 @@ import net.smartworks.server.engine.resource.util.convert.Xml2Obj;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.w3c.dom.Element;
 
@@ -63,6 +65,10 @@ import org.w3c.dom.Element;
  */
 public class HbResourceDesigntimeDaoImpl extends HibernateDaoSupport implements IResourceDesigntimeDao {
 
+	@Autowired
+	public void anyMethod(SessionFactory sessionFactory) {
+		setSessionFactory(sessionFactory);
+	}
 	/**
 	 * 프로세스 템플릿 파일
 	 */
