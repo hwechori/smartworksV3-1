@@ -755,6 +755,8 @@ public class ModelConverter {
 		userInfo.setSmallPictureName(userExtend.getSmallPictureName());
 		userInfo.setPosition(userExtend.getPosition());
 		userInfo.setRole(userExtend.getRoleId().equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
+		userInfo.setCellPhoneNo(userExtend.getCellPhoneNo());
+		userInfo.setPhoneNo(userExtend.getPhoneNo());
 		return userInfo;
 	}
 
