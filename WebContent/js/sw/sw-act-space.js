@@ -116,8 +116,9 @@ $(function() {
 		var top = picture.offset().top+ picture.height();
 		var scrollHeight = $(window).scrollTop() + window.innerHeight;
 		var directionUp = true;
-		if((top+smartPop.USERINFO_HEIGHT) > scrollHeight){
-			top = picture.offset().top - smartPop.USERINFO_HEIGHT;
+		var popUserInfo = $('#sw_pop_user_info');
+		if((top+popUserInfo.height()) > scrollHeight){
+			top = picture.offset().top;
 			directionUp = false;
 		}
 		var left = picture.offset().left + picture.width()/2;
@@ -128,7 +129,7 @@ $(function() {
 		userInfoTimer = setTimeout(function(){
 			smartPop.closeUserInfo();
 			userInfoTimer = null;
-		}, 500);
+		}, 300);
 	});
 	
 	$('#sw_pop_user_info').live('mouseenter', function(e){
@@ -142,6 +143,6 @@ $(function() {
 		userInfoTimer = setTimeout(function(){
 			smartPop.closeUserInfo();
 			userInfoTimer = null;
-		}, 500);
+		}, 300);
 	});
 });

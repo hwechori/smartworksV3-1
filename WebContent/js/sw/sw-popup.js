@@ -36,7 +36,6 @@ smartPop = {
 	INFO : 'Info',
 	WARN : 'Warn',
 	ERROR: 'Error',
-	USERINFO_HEIGHT : 150,
 
 	overlay : function(target){
 		if(isEmpty($(target))) target = $(document.body);
@@ -63,9 +62,9 @@ smartPop = {
 		var userDetail = input.attr("userDetail");		
 		var popUserInfo = $('#sw_pop_user_info');
 		if(!isEmpty(popUserInfo)){
-			popUserInfo.show().css({"top": top + "px", "left": left + "px"});
+			popUserInfo.show();
 		}else{
-			$('<div id="sw_pop_user_info" style="z-index:10001; position:absolute; left:' + left + 'px; top:' + top +  'px; height:' + smartPop.USERINFO_HEIGHT +  'px;">' +
+			$('<div id="sw_pop_user_info" style="z-index:10001; position:absolute; left:' + left + 'px; top:' + top + 'px;">' +
 					'<div class="up_point" style="left: 10px; top: 1px; position: relative;display:none;"></div>' + 
 					'<div class="pop_corner_all smart_userinfo_section">' + 
 						'<div class="pop_contents">' + 
@@ -75,8 +74,8 @@ smartPop = {
 						'<div class="smartp_btn_space">' +
 							'<div class="float_right">' +
 								'<a href="" class="js_send_mail_to_user" userId="' + userId + '"><img class="pop_ico_mail"></a>' +
-								'<a href="" class="js_send_message_to_user" userId="' + userId + '"><img class="pop_ico_note"></a>' + 
-								'<a href="" class="js_request_chat_to_user" userId="' + userId + '"><img class="pop_ico_chat"></a>' +
+								'<a href="" class="js_leave_message_for_user" userId="' + userId + '"><img class="pop_ico_note"></a>' + 
+								'<a href="" class="js_start_chat_with_user" userId="' + userId + '"><img class="pop_ico_chat"></a>' +
 							'</div>' +
 						'</div>' +
 					'</div>' +
@@ -84,6 +83,22 @@ smartPop = {
 			'</div>').appendTo($(document.body));
 
 			popUserInfo = $('#sw_pop_user_info');
+
+			$('#sw_pop_user_info .js_send_mail_to_user').live('click', function(){
+				alert('Send mail to user!!');
+				popUserInfo.hide();
+				return false;
+			});
+			$('#sw_pop_user_info .js_leave_message_for_user').live('click', function(){
+				alert('Leave message for user!!');
+				popUserInfo.hide();
+				return false;
+			});
+			$('#sw_pop_user_info .js_start_chat_with_user').live('click', function(){
+				alert('Start chat with user!!');
+				popUserInfo.hide();
+				return false;
+			});
 		}
 		popUserInfo.find('.js_user_information').html(userDetail);
 		if(directionUp){
@@ -93,15 +108,10 @@ smartPop = {
 			popUserInfo.find('.up_point').hide();
 			popUserInfo.find('.up_point_b').show();
 		}
+		if(!directionUp)
+			top = top - popUserInfo.height();
+		popUserInfo.css({"top": top + "px", "left": left + "px"});
 
-//		$('#sw_pop_show_info .js_btn_close').die('click');
-//		$('#sw_pop_show_info .js_btn_close').live('click', function(){
-//			if ($.isFunction(onClose)) {
-//				onClose.apply();
-//			}
-//			smartPop.closeInfo();
-//			return false;
-//		});
 	},
 	
 	closeInfo : function(){
