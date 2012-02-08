@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.UserInfo;
-import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
@@ -1436,6 +1435,22 @@ public class InstanceServiceImpl implements IInstanceService {
 			swdRecordCond.setFormId(swdDomain.getFormId());
 			swdRecordCond.setDomainId(swdDomain.getObjId());
 
+			String filterId = params.getFilterId();
+
+			LocalDate priviousDate = new LocalDate(new LocalDate().getTime() - LocalDate.ONE_DAY*7);
+
+			if(filterId != null) {
+				if(filterId.equals(SearchFilter.FILTER_ALL_INSTANCES)) {
+				} else if(filterId.equals(SearchFilter.FILTER_MY_INSTANCES)) {
+					swdRecordCond.addFilter(new Filter("=", FormField.ID_LAST_MODIFIER, Filter.OPERANDTYPE_STRING, user.getId()));
+				} else if(filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES)) {
+					swdRecordCond.addFilter(new Filter(">=", FormField.ID_LAST_MODIFIED_DATE, Filter.OPERANDTYPE_DATE, priviousDate.toGMTSimpleDateString()));
+				} else if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) {
+					swdRecordCond.addFilter(new Filter("=", FormField.ID_LAST_MODIFIER, Filter.OPERANDTYPE_STRING, user.getId()));
+					swdRecordCond.addFilter(new Filter(">=", FormField.ID_LAST_MODIFIED_DATE, Filter.OPERANDTYPE_DATE, priviousDate.toGMTSimpleDateString()));
+				}
+			}
+
 			String searchKey = params.getSearchKey();
 			SortingField sf = params.getSortingField();
 			SearchFilter searchFilter = params.getSearchFilter();
@@ -1451,62 +1466,63 @@ public class InstanceServiceImpl implements IInstanceService {
 					String formFieldType = leftOperand.getType();
 					String operator = condition.getOperator();
 					String rightOperand = (String)condition.getRightOperand();
-	
+
+					filter.setLeftOperandType(formFieldType);
 					filter.setLeftOperandValue(tableColName);
 					filter.setOperator(operator);
 					filter.setRightOperandType(formFieldType);
 					filter.setRightOperandValue(rightOperand);
 					filterList.add(filter);
 				}
-	
+
 				Filter[] filters = new Filter[filterList.size()];
 				filterList.toArray(filters);
 	
 				swdRecordCond.setFilter(filters);
 			}
-	
+
 			if(!CommonUtil.isEmpty(searchKey))
 				swdRecordCond.setSearchKey(searchKey);
-	
+
 			long totalCount = getSwdManager().getRecordSize(user.getId(), swdRecordCond);
-	
+
 			String columnName = "";
 			boolean isAsc;
-	
+
 			if (sf != null) {
-				columnName  = CommonUtil.toDefault(sf.getFieldId(), FormField.ID_CREATED_DATE);
+				columnName  = CommonUtil.toDefault(sf.getFieldId(), FormField.ID_LAST_MODIFIED_DATE);
 				isAsc = sf.isAscending();
 			} else {
-				columnName = FormField.ID_CREATED_DATE;
+				columnName = FormField.ID_LAST_MODIFIED_DATE;
 				isAsc = false;
 			}
 			SortingField sortingField = new SortingField();
 			sortingField.setFieldId(columnName);
 			sortingField.setAscending(isAsc);
-	
+
 			swdRecordCond.setOrders(new Order[]{new Order(columnName, isAsc)});
-	
+
 			int pageSize = params.getPageSize();
-			
+
 			int currentPage = params.getCurrentPage();
-	
+
 			if(previousPageSize != pageSize)
 				currentPage = 1;
-	
+
 			previousPageSize = pageSize;
-	
+
 			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
 				currentPage = 1;
-	
+
 			int totalPages = (int)totalCount % pageSize;
-	
+
 			if(totalPages == 0)
 				totalPages = (int)totalCount / pageSize;
 			else
 				totalPages = (int)totalCount / pageSize + 1;
-	
+
 			int result = 0;
-	
+
 			if(params.getPagingAction() != 0) {
 				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
 					result = (((currentPage - 1) / 10) * 10) + 11;
@@ -1615,16 +1631,17 @@ public class InstanceServiceImpl implements IInstanceService {
 											value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
 									} else if(formatType.equals(FormField.TYPE_FILE)) { 
 										List<IFileModel> fileList = getDocManager().findFileGroup(value);
-										List<String> fileNameList = new ArrayList<String>();
-										int j = 0;
-										for(IFileModel fileModel : fileList) {
-											fileModel = fileList.get(j);
+										List<Map<String, String>> fileNameList = new ArrayList<Map<String,String>>();
+										for(int j=0; j<fileList.size(); j++) {
+											Map<String, String> fileNameMap = new LinkedHashMap<String, String>();
+											IFileModel fileModel = fileList.get(j);
 											String fileName = fileModel.getFileName();
-											fileNameList.add(fileName);
+											String filePath = fileModel.getFilePath();
+											fileNameMap.put("fileName", fileName);
+											fileNameMap.put("filePath", filePath);
+											fileNameList.add(fileNameMap);
 										}
-										String[] fileNames = new String[fileNameList.size()];
-										fileNameList.toArray(fileNames);
-										fieldData.setFileNames(fileNames);
+										fieldData.setFileNames(fileNameList);
 									}
 									fieldData.setValue(value);
 									fieldDataList.add(fieldData);
@@ -1686,6 +1703,23 @@ public class InstanceServiceImpl implements IInstanceService {
 			//임시로 프로세스 다이어그램아이디 필드를 이용하고 프로세스인스턴스가 생성되는 시점(업무 시작, 처리 개발 완료)에 패키지 아이디 컬럼을 추가해 그곳에서 조회하는걸로 변경한다
 			PrcProcessInstCond prcInstCond = new PrcProcessInstCond();
 			prcInstCond.setPackageId(workId);
+
+			String filterId = params.getFilterId();
+
+			LocalDate priviousDate = new LocalDate(new LocalDate().getTime() - LocalDate.ONE_DAY*7);
+
+			if(filterId != null) {
+				if(filterId.equals(SearchFilter.FILTER_ALL_INSTANCES)) {
+				} else if(filterId.equals(SearchFilter.FILTER_MY_INSTANCES)) {
+					prcInstCond.addFilter(new Filter("=", FormField.ID_LAST_MODIFIER, Filter.OPERANDTYPE_STRING, user.getId()));
+				} else if(filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES)) {
+					prcInstCond.addFilter(new Filter(">=", FormField.ID_LAST_MODIFIED_DATE, Filter.OPERANDTYPE_DATE, priviousDate.toGMTSimpleDateString()));
+				} else if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) {
+					prcInstCond.addFilter(new Filter("=", FormField.ID_LAST_MODIFIER, Filter.OPERANDTYPE_STRING, user.getId()));
+					prcInstCond.addFilter(new Filter(">=", FormField.ID_LAST_MODIFIED_DATE, Filter.OPERANDTYPE_DATE, priviousDate.toGMTSimpleDateString()));
+				}
+			}
+
 			long totalCount = getPrcManager().getProcessInstExtendsSize(user.getId(), prcInstCond);
 			
 			int pageCount = params.getPageSize();
@@ -2290,16 +2324,17 @@ public class InstanceServiceImpl implements IInstanceService {
 												value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
 										} else if(formatType.equals(FormField.TYPE_FILE)) { 
 											List<IFileModel> fileList = getDocManager().findFileGroup(value);
-											List<String> fileNameList = new ArrayList<String>();
-											int j = 0;
-											for(IFileModel fileModel : fileList) {
-												fileModel = fileList.get(j);
+											List<Map<String, String>> fileNameList = new ArrayList<Map<String,String>>();
+											for(int j=0; j<fileList.size(); j++) {
+												Map<String, String> fileNameMap = new LinkedHashMap<String, String>();
+												IFileModel fileModel = fileList.get(j);
 												String fileName = fileModel.getFileName();
-												fileNameList.add(fileName);
+												String filePath = fileModel.getFilePath();
+												fileNameMap.put("fileName", fileName);
+												fileNameMap.put("filePath", filePath);
+												fileNameList.add(fileNameMap);
 											}
-											String[] fileNames = new String[fileNameList.size()];
-											fileNameList.toArray(fileNames);
-											fieldData.setFileNames(fileNames);
+											fieldData.setFileNames(fileNameList);
 										}
 										fieldData.setValue(value);
 										fieldDataList.add(fieldData);
