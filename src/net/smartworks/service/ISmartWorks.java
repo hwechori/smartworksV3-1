@@ -101,6 +101,8 @@ public interface ISmartWorks {
 	public final static String CONTEXT_PREFIX_PWORK_TASK = "pw.ts.";
 	public final static String CONTEXT_PREFIX_SWORK_TASK = "sw.ts.";
 
+	public final static String CONTEXT_PREFIX_BUILDER_SPACE = "bd.sp.";
+
 	public abstract InstanceInfo[] getMyRunningInstances(LocalDate lastInstanceDate, int requestSize, boolean assignedOnly) throws Exception;
 	
 	public abstract RunningCounts getMyRunningInstancesCounts() throws Exception;
@@ -124,6 +126,8 @@ public interface ISmartWorks {
 	public abstract SmartWorkInfo[] getMyFavoriteWorks() throws Exception;
 
 	public abstract WorkInfo[] getMyAllWorksByCategoryId(String categoryId) throws Exception;
+
+	public abstract WorkInfo[] getAllWorksByCategoryId(String categoryId) throws Exception;
 
 	public abstract InstanceInfo[] getMyRecentInstances() throws Exception;
 

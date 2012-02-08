@@ -249,6 +249,11 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
+	public WorkInfo[] getAllWorksByCategoryId(String categoryId) throws Exception {
+		return workService.getAllWorksByCategoryId(categoryId);
+	}
+
+	@Override
 	public InstanceInfo[] getMyRunningInstances(LocalDate lastInstanceDate, int requestSize, boolean assignedOnly) throws Exception {
 		return instanceService.getMyRunningInstances(lastInstanceDate, requestSize, assignedOnly);
 	}

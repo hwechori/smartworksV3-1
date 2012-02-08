@@ -226,6 +226,65 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
+	public WorkInfo[] getAllWorksByCategoryId(String categoryId) throws Exception {
+
+		try{
+			//categoryId 가 null 이라면 root 카테고리 밑의 1 level 의 카테고리를 리턴한다
+			//categoryId 가 넘어오면 카테고리안에 속한 2 level 카테고리(group) 와 work(package)를 리턴한다
+	
+			User user = SmartUtil.getCurrentUser();
+			CtgCategoryCond ctgCond = new CtgCategoryCond();
+			ctgCond.setCompanyId(user.getCompanyId());
+			
+			if (CommonUtil.isEmpty(categoryId)) {
+				//1 level category
+				ctgCond.setParentId(CtgCategory.ROOTCTGID);
+				CtgCategory[] ctgs = getCtgManager().getCategorys(user.getId(), ctgCond, IManager.LEVEL_LITE);
+				return (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgCategoryArray(ctgs);
+			
+			} else {
+				ctgCond.setParentId(categoryId);
+				
+				PkgPackageCond pkgCond = new PkgPackageCond();
+				pkgCond.setCompanyId(user.getCompanyId());
+				pkgCond.setCategoryId(categoryId);
+				pkgCond.setStatus("DEPLOYED");
+	
+				CtgCategory[] ctgs = getCtgManager().getCategorys(user.getId(), ctgCond, IManager.LEVEL_LITE);
+				WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgCategoryArray(ctgs);
+				
+				PkgPackage[] pkgs = getPkgManager().getPackages(user.getId(), pkgCond, IManager.LEVEL_LITE);
+				WorkInfo[] workPkgs = (SmartWorkInfo[])ModelConverter.getSmartWorkInfoArrayByPkgPackageArray(pkgs);
+	
+				int workCtgsSize = workCtgs == null? 0 : workCtgs.length;
+				int pkgPkgsSize = workPkgs == null? 0 : workPkgs.length;
+				
+				WorkInfo[] resultWork = new WorkInfo[workCtgsSize + pkgPkgsSize];
+				
+				//System.arraycopy(workCtgs, 0, resultWork, 0, workCtgsSize);  
+				//System.arraycopy(pkgPkgs, 0, resultWork, workCtgsSize, pkgPkgsSize);
+				
+				List<WorkInfo> workList = new ArrayList<WorkInfo>();
+				for (int i = 0; i < workCtgsSize; i++) {
+					workList.add(workCtgs[i]);
+				}
+				for (int i = 0; i < pkgPkgsSize; i++) {
+					workList.add(workPkgs[i]);
+				}
+	
+				workList.toArray(resultWork);
+	
+				return resultWork;
+			}
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
 	public SmartWorkInfo[] searchWork(String key) throws Exception {
 
 		try{

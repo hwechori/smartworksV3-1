@@ -257,7 +257,7 @@ function updateNoticeCount(message){
 		<div class="pop_admin">
 			<a href="company_general.sw"><span class="btn_setting" title="<fmt:message key='header.global_menu.settings'/>" ></span></a>
 			<a href="http://appstore.smartworks.net" target="_blank"><span class="btn_appstore" title="<fmt:message key='header.global_menu.appstore'/>"></span></a>
-			<a href="smart_builder.sw"><span class="btn_builder" title="<fmt:message key='header.global_menu.smartbuilder'/>"></span></a>
+			<a href="builder_home.sw"><span class="btn_builder" title="<fmt:message key='header.global_menu.smartbuilder'/>"></span></a>
 		</div>
 	<%
 	}

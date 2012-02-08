@@ -21,6 +21,8 @@ public interface IWorkService {
 
 	public WorkInfo[] getMyAllWorksByCategoryId(String categoryId) throws Exception;
 
+	public WorkInfo[] getAllWorksByCategoryId(String categoryId) throws Exception;
+
 	public SmartWorkInfo[] getMyFavoriteWorks() throws Exception;
 
 	public SmartWorkInfo[] searchWork(String key) throws Exception;
