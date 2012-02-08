@@ -27,6 +27,8 @@ public interface ISwfManager extends IManager {
 
 	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException;
 
-	public Map<String, String> getReferenceFormIdSizeMap(String user, String recordId) throws SwfException;
+	public int getReferenceFormSize(String user, String recordId) throws SwfException;
+
+	public Map<String, Integer> getReferenceFormIdSizeMap(String user, String recordId) throws SwfException;
 
 }

@@ -9,14 +9,12 @@
 package net.smartworks.server.service.util;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import commonj.sdo.Sequence;
-
+import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
@@ -102,13 +100,13 @@ import net.smartworks.server.engine.process.xpdl.util.ProcessModelHelper;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Activities;
 import net.smartworks.server.engine.process.xpdl.xpdl2.Activity;
 import net.smartworks.server.engine.process.xpdl.xpdl2.PackageType;
-import net.smartworks.server.engine.process.xpdl.xpdl2.Performer;
-import net.smartworks.server.engine.process.xpdl.xpdl2.Performers;
 import net.smartworks.server.engine.process.xpdl.xpdl2.ProcessType1;
 import net.smartworks.server.engine.process.xpdl.xpdl2.WorkflowProcesses;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartUtil;
+
+import commonj.sdo.Sequence;
 
 public class ModelConverter {
 	
@@ -895,13 +893,15 @@ public class ModelConverter {
 			status = Instance.STATUS_PLANNED;
 		}
 		UserInfo owner = ModelConverter.getUserInfoByUserId(task.getCreationUser());
+		LocalDate createdDate = new LocalDate(task.getCreationDate().getTime());
 		UserInfo lastModifier = ModelConverter.getUserInfoByUserId(task.getModificationUser()); 
 		LocalDate lastModifiedDate = new LocalDate(task.getModificationDate().getTime());
 
 		instanceInfo.setId(id);
+		instanceInfo.setOwner(owner);
+		instanceInfo.setCreatedDate(createdDate);
 		instanceInfo.setLastModifiedDate(lastModifiedDate);
 		instanceInfo.setLastModifier(lastModifier);
-		instanceInfo.setOwner(owner);
 		instanceInfo.setStatus(status);
 		instanceInfo.setSubject(subject);
 		instanceInfo.setType(type);
@@ -955,6 +955,7 @@ public class ModelConverter {
 		} else if(tskType.equals(TskTask.TASKTYPE_APPROVAL)) {
 			type = TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED;
 		}
+
 		String assignee = swTask.getAssignee();
 		String performer = swTask.getAssignee();
 		String formId = swTask.getForm();
@@ -1680,7 +1681,6 @@ public class ModelConverter {
 
 		workInstance.setTasks(getTaskInstanceInfoArrayByTskTaskArray(iwInstInfo, tasks));
 		workInstance.setNumberOfSubInstances(-1);
-
 		return workInstance;
 	}
 
@@ -1689,9 +1689,15 @@ public class ModelConverter {
 			return null;
 		if (informationWorkInstance == null)
 			informationWorkInstance = new InformationWorkInstance();
-		
+
 		getWorkInstanceBySwdRecord(userId, informationWorkInstance, swdRecord);
+
+		int numberOfRelatedWorks = getSwfManager().getReferenceFormSize("", swdRecord.getRecordId());
 		
+		informationWorkInstance.setNumberOfRelatedWorks(numberOfRelatedWorks);
+		informationWorkInstance.setApprovalWork(false);
+		informationWorkInstance.setApprovalLine(new ApprovalLine());
+
 		return informationWorkInstance;
 	}
 	
