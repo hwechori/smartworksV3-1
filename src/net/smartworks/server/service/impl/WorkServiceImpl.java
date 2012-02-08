@@ -248,7 +248,7 @@ public class WorkServiceImpl implements IWorkService {
 				PkgPackageCond pkgCond = new PkgPackageCond();
 				pkgCond.setCompanyId(user.getCompanyId());
 				pkgCond.setCategoryId(categoryId);
-				pkgCond.setStatus("DEPLOYED");
+				//pkgCond.setStatus("DEPLOYED");
 	
 				CtgCategory[] ctgs = getCtgManager().getCategorys(user.getId(), ctgCond, IManager.LEVEL_LITE);
 				WorkInfo[] workCtgs = (WorkCategoryInfo[])ModelConverter.getWorkCategoryInfoArrayByCtgCategoryArray(ctgs);
