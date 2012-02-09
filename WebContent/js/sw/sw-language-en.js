@@ -34,6 +34,8 @@ smartMessage.bundle['en'] = {
 	alarmPolicy30m : "30 Minutes Ahead",
 	alarmPolicy1h : "1 Hour Ahead",
 	alarmPolicy1d : "1 Day Ahead",
+	trueText : "True",
+	falseText : "False",
 	setMyProfileSucceed : "My Profile has been updated successfully.",
 	setMyProfileError : "Error has been occured while updating this Profile Information. Please contact the Administrator!",
 	createIWorkSucceed : "New Information Work has been created successfully. Do you want to locate the page?",

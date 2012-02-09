@@ -34,6 +34,8 @@ smartMessage.bundle['ko'] = {
 	alarmPolicy30m : "30분전",
 	alarmPolicy1h : "한시간전",
 	alarmPolicy1d : "하루전",
+	trueText : "예",
+	falseText : "아니오",
 	setMyProfileSucceed : "개인정보수정이 정상적으로 완료되었습니다.",
 	setMyProfileError : "개인정보수정하는 중 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	createIWorkSucceed : "새로운 업무항목 정상적으로 생성되었습니다. 해당 항목페이지로 이동하시겠습니까?",
