@@ -35,7 +35,7 @@
         <!-- 오늘에 대한 날짜 이벤트 시간을 표시하는 곳 -->
         <div class="redStroke">
         	<span class="redTabContent">
-        		<%=today.toLocalDateString()%>
+        		<span class="js_now_date_string"><%=today.toLocalDateString()%></span>
         		<span class="t_lightOrange">
 				<%
 				// 오늘에 대한 회사 이벤트들이 있으면 나타낼 준비를 한다.....
@@ -69,7 +69,7 @@
 			 	}
 			 	%>
 				</span> 
-				<%=today.toLocalTimeString()%>
+				<span class="js_now_time_string"><%=today.toLocalTimeString()%></span>
         		<span class="rightCap"></span>
         	</span>
         	<div class="redStrokeRightCap"></div>

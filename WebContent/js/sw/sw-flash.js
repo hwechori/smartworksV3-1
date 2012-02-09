@@ -111,7 +111,7 @@ function loadChartViewer(target, params){
 };
 
 function selectActivity(act) {
-	alert("selectActivity Called!!! act=" + act);
+	console.log("selectActivity Called!!! act=" + act);
 	parent.selectActivity(act);
 };
 
@@ -137,11 +137,11 @@ function loadCallback(appName, height){
 };
 
 function ganttProcessCallback(packId, packName, mode, msg){
-	alert("ganttProcessCallback Called!!! packId=" + packId + ", packName=" + packName + ", mode=" + mode + ", msg=" + msg);
+	console.log("ganttProcessCallback Called!!! packId=" + packId + ", packName=" + packName + ", mode=" + mode + ", msg=" + msg);
 };
 
 function dateCallback(startDate, endDate){
-	alert("dateCallback Called!!! startDate=" + startDate + ", endDate=" + endDate);
+	console.log("dateCallback Called!!! startDate=" + startDate + ", endDate=" + endDate);
 	var dueDate = startDate +" ~ "+ endDate;
 	parent.document.getElementById('dueDateDiv').innerHTML = dueDate;
 	parent.viewChartStartDate();
@@ -149,12 +149,12 @@ function dateCallback(startDate, endDate){
 };
 
 function pagingCallback(totalPages, currentPage){
-	alert("pagingCallback Called!!! totalPages=" + totalPages + ", currentPage=" + currentPage);
+	console.log("pagingCallback Called!!! totalPages=" + totalPages + ", currentPage=" + currentPage);
 	parent.pagingVchart(totalPages, currentPage);
 };
 
 function fullScreenCallback(param){
-	alert("fullScreenCallback Called!!! param=" + param);
+	console.log("fullScreenCallback Called!!! param=" + param);
 	//if(param == 'NormalScreen'){
 		parent.openerRefresh();
 	//}

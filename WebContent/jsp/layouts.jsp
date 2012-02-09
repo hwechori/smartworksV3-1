@@ -1,3 +1,4 @@
+<%@page import="java.util.TimeZone"%>
 <%@page import="net.smartworks.model.community.WorkSpace"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="org.claros.commons.configuration.PropertyFile"%>
@@ -72,7 +73,8 @@ currentUser = {
 	midPicture : "<%=currentUser.getMidPicture()%>",
 	orgPicture : "<%=currentUser.getOrgPicture()%>",
 	locale : "<%=currentUser.getLocale()%>",
-	timeZone : "<%=currentUser.getTimeZone()%>"
+	timeZone : "<%=currentUser.getTimeZone()%>",
+	timeOffset : "<%=currentUser.getTimeOffsetInHour()%>"
 };
 </script>
 

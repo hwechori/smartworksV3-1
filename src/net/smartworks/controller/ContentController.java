@@ -74,4 +74,11 @@ public class ContentController {
 		return SmartUtil.returnMnv(request,
 				"jsp/content/empty_content.jsp", "");
 	}
+	@RequestMapping("/localdate_string")
+	public ModelAndView localdate_string(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/today/localdate_string.jsp", "");
+	}
 }

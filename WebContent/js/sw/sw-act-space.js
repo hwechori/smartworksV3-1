@@ -1,5 +1,24 @@
 $(function() {
 	
+	var timeOffset = (new Date()).getTimezoneOffset()/60 + parseInt(currentUser.timeOffset);
+	var today = new Date();
+	today.setTime(today.getTime() + timeOffset*60*60*1000);
+	function updateNowString(){
+		var now = new Date();
+		now.setTime(now.getTime() + timeOffset*60*60*1000);
+		if(!(today.getFullYear() == now.getFullYear() && today.getMonth() == now.getMonth() && today.getDate() == now.getDate())){
+			$.ajax({url : "localdate_string.sw", success : function(data, status, jqXHR) {
+					$('.js_now_date_string').html(data);
+				}
+			});
+		}	
+		$('.js_now_time_string').html(now.format("TT h:MM:ss"));		
+		setTimeout(function(){
+			updateNowString();
+		}, 1000);
+	};
+	updateNowString();
+
 	$('a.js_space_tab_index').live('click',function(e) {
 		var input = $(e.target).parents('a:first');
 		if(isEmpty(input)) input = $(e.target);
