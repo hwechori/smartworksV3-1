@@ -15,6 +15,7 @@ import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.filter.Condition;
+import net.smartworks.model.filter.ConditionOperator;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.info.RequestParams;
@@ -807,6 +808,7 @@ public class WorkServiceImpl implements IWorkService {
 			String txtFilterDateOperand = null;
 			String txtFilterTimeOperand = null;
 			String txtFiltetRightOperandType = null;
+			String rightOperand = null;
 	
 			List<Condition> conditionList = new ArrayList<Condition>();
 	
@@ -820,14 +822,52 @@ public class WorkServiceImpl implements IWorkService {
 					txtFilterDateOperand = (String)valueMap.get("txtFilterDateOperand");
 					txtFilterTimeOperand = (String)valueMap.get("txtFilterTimeOperand");
 
-					if(txtFilterStringOperand != null) {
-						txtFiltetRightOperandType = Filter.OPERANDTYPE_STRING;
-						condition.setRightOperand(txtFilterStringOperand);
-					} else if(txtFilterDateOperand != null || txtFilterTimeOperand != null) {
-						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
-						condition.setRightOperand(txtFilterDateOperand + " " + txtFilterTimeOperand);
-					}
 	
+					if(selFilterOperator.equals(ConditionOperator.RECENT_DAYS.getId())) {
+						rightOperand = this.getRecentSomeDays(5);
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.TODAY.getId())) {
+						rightOperand = this.getRecentSomeDays(1);
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_WEEK.getId())) {
+						rightOperand = this.getThisWeek();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_MONTH.getId())) {
+						rightOperand = this.getRecentSomeMonths(1);
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_QUARTER.getId())) {
+						rightOperand = this.getThisQuarter();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_HALF_YEAR.getId())) {
+						rightOperand = this.getThisHalfYear();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_YEAR.getId())) {
+						rightOperand = this.getThisYear();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_DAYS.getId())) {
+						rightOperand = this.getRecentSomeDays(Integer.parseInt(txtFilterTimeOperand));
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_MONTHS.getId())) {
+						rightOperand = this.getRecentSomeMonths(Integer.parseInt(txtFilterTimeOperand));
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(txtFilterStringOperand != null) {
+						rightOperand = txtFilterStringOperand;
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_STRING;
+					} else if(txtFilterDateOperand != null){
+						rightOperand = txtFilterDateOperand;
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					}
+
+					condition.setRightOperand(rightOperand);
 					condition.setLeftOperand(new FormField(selFilterLeftOperand, null, txtFiltetRightOperandType));
 					condition.setOperator(selFilterOperator);
 					conditionList.add(condition);
@@ -975,6 +1015,41 @@ public class WorkServiceImpl implements IWorkService {
 		calendar.set(Calendar.MONTH, 0);
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
 		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 	
+	}
+
+	public String getThisQuarter() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisMonth = new LocalDate().getMonth();
+		int thisQuarter = thisMonth / 3;
+		if(thisQuarter == 0)
+			thisMonth = 0;
+		else if(thisQuarter == 1)
+			thisMonth = 3;
+		else if(thisQuarter == 2)
+			thisMonth = 6;
+		else if(thisQuarter == 3)
+			thisMonth = 9;
+
+		calendar.set(Calendar.MONTH, thisMonth);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 
+	}
+
+	public String getThisHalfYear() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisMonth = new LocalDate().getMonth();
+		int thisHalfYear = thisMonth / 6;
+		if(thisHalfYear == 0)
+			thisMonth = 0;
+		else if(thisHalfYear == 1)
+			thisMonth = 6;
+
+		calendar.set(Calendar.MONTH, thisMonth);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 
+
 	}
 
 }

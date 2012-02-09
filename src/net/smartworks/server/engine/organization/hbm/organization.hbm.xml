@@ -139,6 +139,16 @@
 		<property name="creationDate" column="createdTime" type="timestamp"/>
 		<property name="modificationUser" column="modifier" type="string" length="50"/>
 		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+		<array name="swoGroupMembers" table="SWOrgGroupMember">
+			<key column="groupId" />
+			<list-index column="userId"></list-index>
+			<composite-element class="net.smartworks.server.engine.organization.model.SwoGroupMember">
+				<property name="joinType" type="string" length="1"/>
+				<property name="joinStatus" type="string" length="1"/>
+				<property name="joinDate" column="joinTime" type="timestamp"/>
+				<property name="outDate" column="outTime" type="timestamp"/>
+			</composite-element>
+		</array>
 	</class>
 
 	<class name="SwoGroupMember" table="SWOrgGroupMember">

@@ -19,6 +19,7 @@ import java.util.Map;
 import net.smartworks.model.community.User;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.SizeMap;
@@ -2421,6 +2422,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				query.setTimestamp(SwoGroup.A_MODIFICATIONUSER, obj.getModificationDate());
 				query.setTimestamp(SwoGroup.A_MODIFICATIONDATE, obj.getModificationDate());
 				query.setString(SwoGroup.A_ID, obj.getId());
+				query.executeUpdate();
 			}
 		} catch (Exception e) {
 			logger.error(e, e);
@@ -2472,6 +2474,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		String modificationUser = null;
 		Date modificationDate = null;
 		String nameLike = null;
+		SwoGroupMember[] swoGroupMembers = null;
 
 		if (cond != null) {
 			id = cond.getId();
@@ -2485,9 +2488,15 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			modificationUser = cond.getModificationUser();
 			modificationDate = cond.getModificationDate();
 			nameLike = cond.getNameLike();
+			swoGroupMembers = cond.getSwoGroupMembers();
 		}
 		buf.append(" from SwoGroup obj");
 		buf.append(" where obj.id is not null");
+		if (swoGroupMembers != null && swoGroupMembers.length != 0) {
+			for (int i=0; i<swoGroupMembers.length; i++) {
+				buf.append(" left join obj.swoGroupMembers as groupMember").append(i);
+			}
+		}
 		//TODO 시간 검색에 대한 확인 필요
 		if (cond != null) {
 			if (id != null)
@@ -2512,6 +2521,29 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				buf.append(" and obj.modificationUser = :modificationUser");
 			if (modificationDate != null)
 				buf.append(" and obj.modificationDate = :modificationDate");
+			if (swoGroupMembers != null && swoGroupMembers.length != 0) {
+				for (int i=0; i<swoGroupMembers.length; i++) {
+					SwoGroupMember swoGroupMember = swoGroupMembers[i];
+					String groupId = swoGroupMember.getGroupId();
+					String userId = swoGroupMember.getUserId();
+					String joinType = swoGroupMember.getJoinType();
+					String joinStatus = swoGroupMember.getJoinStatus();
+					Date joinDate = swoGroupMember.getJoinDate();
+					Date outDate = swoGroupMember.getOutDate();
+					if (groupId != null)
+						buf.append(" and groupMember").append(i).append(".groupId = :groupId").append(i);
+					if (userId != null)
+						buf.append(" and groupMember").append(i).append(".userId = :userId").append(i);
+					if (joinType != null)
+						buf.append(" and groupMember").append(i).append(".joinType = :joinType").append(i);
+					if (joinStatus != null)
+						buf.append(" and groupMember").append(i).append(".joinStatus = :joinStatus").append(i);
+					if (joinDate != null)
+						buf.append(" and groupMember").append(i).append(".joinDate >= :joinDate").append(i);
+					if (outDate != null)
+						buf.append(" and groupMember").append(i).append(".outDate >= :outDate").append(i);
+				}
+			}
 		}
 
 		this.appendOrderQuery(buf, "obj", cond);
@@ -2540,6 +2572,30 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				query.setString("modificationUser", modificationUser);
 			if (modificationDate != null)
 				query.setTimestamp("modificationDate", modificationDate);
+			if (swoGroupMembers != null && swoGroupMembers.length != 0) {
+				for (int i=0; i<swoGroupMembers.length; i++) {
+					SwoGroupMember swoGroupMember = swoGroupMembers[i];
+					String groupId = swoGroupMember.getGroupId();
+					String userId = swoGroupMember.getUserId();
+					String joinType = swoGroupMember.getJoinType();
+					String joinStatus = swoGroupMember.getJoinStatus();
+					Date joinDate = swoGroupMember.getJoinDate();
+					Date outDate = swoGroupMember.getOutDate();
+					
+					if (groupId != null)
+						query.setString("groupId"+i, groupId);
+					if (userId != null)
+						query.setString("userId"+i, userId);
+					if (joinType != null)
+						query.setString("joinType"+i, joinType);
+					if (joinStatus != null)
+						query.setString("joinStatus"+i, joinStatus);
+					if (joinDate != null)
+						query.setTimestamp("joinDate"+i, joinDate);
+					if (outDate != null)
+						query.setTimestamp("outDate"+i, outDate);
+				}
+			}
 		}
 		return query;
 	}

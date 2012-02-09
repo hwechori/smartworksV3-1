@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.server.engine.organization.model.SwoGroup"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="net.smartworks.server.engine.organization.model.SwoGroupMember"%>
+<%@page import="net.smartworks.server.engine.organization.model.SwoGroupCond"%>
 <%@page import="net.smartworks.server.service.impl.WorkServiceImpl"%>
 <%@page import="net.smartworks.model.instance.info.InstanceInfoList"%>
 <%@page import="net.smartworks.server.engine.common.manager.IManager"%>
@@ -176,7 +180,7 @@
 	System.out.println("size ::: " + size); */
 	
 	
-	WorkServiceImpl workServiceImpl = (WorkServiceImpl)SmartUtil.getBean("workServiceImpl", request);
+/* 	WorkServiceImpl workServiceImpl = (WorkServiceImpl)SmartUtil.getBean("workServiceImpl", request);
 	
 	String a = workServiceImpl.getRecentSomeDays(5);
 
@@ -185,11 +189,41 @@
 	String c = workServiceImpl.getThisWeek();
 
 	String d = workServiceImpl.getThisYear();
+	
+	String e = workServiceImpl.getThisQuarter();
+
+	String f = workServiceImpl.getThisHalfYear();
 
 	System.out.println(a);
 	System.out.println(b);
 	System.out.println(c);
 	System.out.println(d);
+	System.out.println(e);
+	System.out.println(f); */
+
+	User user = SmartUtil.getCurrentUser();
+	ISwoManager swoMgr = (ISwoManager)SmartUtil.getBean("swoManager", request);
+
+	SwoGroup swoGroupCond = new SwoGroup();
+	swoGroupCond.setCompanyId(user.getCompanyId());
+	swoGroupCond.setName("산악동호회");
+	swoGroupCond.setGroupLeader(user.getId());
+	swoGroupCond.setGroupType("111");
+	swoGroupCond.setStatus("222");
+	swoGroupCond.setDescription("맨인소프트 사내 산악동호회입니다.");
+	List<SwoGroupMember> list = new ArrayList<SwoGroupMember>();
+	SwoGroupMember swoGroupMember = new SwoGroupMember();
+	swoGroupMember.setUserId(user.getId());
+	swoGroupMember.setJoinType("111");
+	swoGroupMember.setJoinStatus("2222");
+	swoGroupMember.setJoinDate(new LocalDate());
+	list.add(swoGroupMember);
+
+	SwoGroupMember[] swoGroupMembers = new SwoGroupMember[list.size()];
+	list.toArray(swoGroupMembers);
+	swoGroupCond.setSwoGroupMembers(swoGroupMembers);
+	swoMgr.setGroup("", swoGroupCond, IManager.LEVEL_ALL);
+
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>
