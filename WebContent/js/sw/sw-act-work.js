@@ -288,7 +288,7 @@ $(function() {
 					else
 						manualRight.show();		
 					
-					pworkManual.find('a.js_select_task_manual:first img').click();
+					pworkManual.find('a.js_select_task_manual:first span:first').click();
 					
 					smartPop.closeProgress();
 				},
@@ -363,12 +363,12 @@ $(function() {
 		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]);
 			if(task.position().left>tasksRight && i>1){
-				$(tasks[i-1]).find('img').click();
+				$(tasks[i-1]).find('span:first').click();
 				break;
 			}
 		}
 		if(tasks.length>0 && i==tasks.length){
-			$(tasks[tasks.length-1]).find('img').click();
+			$(tasks[tasks.length-1]).find('span:first').click();
 		}
 
 		return false;
@@ -424,7 +424,7 @@ $(function() {
 		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]);
 			if(task.position().left+left>=0 ){
-				$(tasks[i]).find('img').click();
+				$(tasks[i]).find('span:first').click();
 				break;
 			}
 		}
@@ -435,37 +435,7 @@ $(function() {
 	$('a.js_select_task_instance').live("click", function(e){
 		smartPop.progressCenter();
 		var input = $(e.target).parents('a');
-		var pworkSpace = input.parents('.js_pwork_space_page');
-		var workId = pworkSpace.attr("workId");
-		var formId = input.attr("formId");
-		var formMode = input.attr("formMode");
-		var instId = input.attr("taskInstId");
-		var formContent = $('div.js_form_content');
-		new SmartWorks.GridLayout({
-			target : formContent,
-			mode : formMode,
-			workId : workId,
-			formId : formId,
-			taskInstId : instId,
-			onSuccess : function(){
-				smartPop.closeProgress();																
-			},
-			onError : function(){
-				smartPop.closeProgress();
-				
-			}
-		});
-		if(formMode==="edit"){
-			pworkSpace.find('.js_btn_complete').show();
-			pworkSpace.find('.js_btn_return').show();
-			pworkSpace.find('.js_btn_reassign').show();
-			pworkSpace.find('.js_btn_temp_save').show();
-		}else{
-			pworkSpace.find('.js_btn_complete').hide();
-			pworkSpace.find('.js_btn_return').hide();
-			pworkSpace.find('.js_btn_reassign').hide();
-			pworkSpace.find('.js_btn_temp_save').hide();			
-		}
+		clickOnTask(input);
 		return false;
 	});
 
@@ -522,12 +492,12 @@ $(function() {
 		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]);
 			if(task.position().left>tasksRight && i>1){
-				$(tasks[i-1]).find('img').click();
+				$(tasks[i-1]).find('span:first').click();
 				break;
 			}
 		}
 		if(tasks.length>0 && i==tasks.length){
-			$(tasks[tasks.length-1]).find('img').click();
+			$(tasks[tasks.length-1]).find('span:first').click();
 		}
 
 		return false;
@@ -583,7 +553,7 @@ $(function() {
 		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]);
 			if(task.position().left+left>=0 ){
-				$(tasks[i]).find('img').click();
+				$(tasks[i]).find('span:first').click();
 				break;
 			}
 		}
@@ -825,6 +795,263 @@ $(function() {
 				}
 			});
 			
+		},
+		function(){
+			return false;
+		});
+		return false;
+	});
+
+	$('a.js_perform_task_instance').live('click', function(e){
+		var input = $(e.target).parents('a.js_perform_task_instance');
+		var pworkSpace = input.parents('.js_pwork_space_page');
+		var workId = pworkSpace.attr("workId");
+		var instId = pworkSpace.attr("instId");
+		var formContent = pworkSpace.find('div.js_form_content');
+		var taskInstId = formContent.attr("taskInstId");
+		// iwork_instance 에 있는 활성화되어 있는 모든 입력화면들을 validation하여 이상이 없으면 submit를 진행한다...
+		if (!SmartWorks.GridLayout.validate(formContent.find('form.js_validation_required'), $('.js_space_error_message'))) return false;
+		
+		smartPop.confirm(smartMessage.get("performConfirmation"), function(){
+			var forms = formContent.find('form');
+			var paramsJson = {};
+			paramsJson['workId'] = workId;
+			paramsJson['instanceId'] = instId;
+			paramsJson['taskInstId'] = taskInstId;
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				
+				// 폼이 스마트폼이면 formId와 formName 값을 전달한다...
+				if(form.attr('name') === 'frmSmartForm'){
+					paramsJson['formId'] = form.attr('formId');
+					paramsJson['formName'] = form.attr('formName');
+				}
+				
+				// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+			}
+			console.log(JSON.stringify(paramsJson));
+			var url = "perform_task_instance.sw";
+			
+			// 서비스요청 프로그래스바를 나타나게 한다....
+			var progressSpan = pworkSpace.find('.js_progress_span');
+			smartPop.progressCont(progressSpan);
+			
+			// perform_task_instance.sw서비스를 요청한다..
+			$.ajax({
+				url : url,
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					
+					// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.INFO, smartMessage.get("performTaskInstanceSucceed"), function(){
+						document.location.href = "pwork_list.sw?cid=pw.li." + workId;
+						return;
+					});
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("performTaskInstanceError"), function(){
+						return;
+					});
+					
+				}
+			});
+		},
+		function(){
+			return false;
+		});
+		return false;
+	});
+
+	$('a.js_return_task_instance').live('click', function(e){
+		var input = $(e.target).parents('a.js_return_task_instance');
+		var pworkSpace = input.parents('.js_pwork_space_page');
+		var workId = pworkSpace.attr("workId");
+		var instId = pworkSpace.attr("instId");
+		var formContent = pworkSpace.find('div.js_form_content');
+		var taskInstId = formContent.attr("taskInstId");
+		
+		smartPop.confirm(smartMessage.get("returnConfirmation"), function(){
+			var forms = formContent.find('form');
+			var paramsJson = {};
+			paramsJson['workId'] = workId;
+			paramsJson['instanceId'] = instId;
+			paramsJson['taskInstId'] = taskInstId;
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				
+				// 폼이 스마트폼이면 formId와 formName 값을 전달한다...
+				if(form.attr('name') === 'frmSmartForm'){
+					paramsJson['formId'] = form.attr('formId');
+					paramsJson['formName'] = form.attr('formName');
+				}
+				
+				// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+			}
+			console.log(JSON.stringify(paramsJson));
+			var url = "return_task_instance.sw";
+			
+			// 서비스요청 프로그래스바를 나타나게 한다....
+			var progressSpan = pworkSpace.find('.js_progress_span');
+			smartPop.progressCont(progressSpan);
+			
+			// perform_task_instance.sw서비스를 요청한다..
+			$.ajax({
+				url : url,
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					
+					// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.INFO, smartMessage.get("returnTaskInstanceSucceed"), function(){
+						document.location.href = "pwork_list.sw?cid=pw.li." + workId;
+						return;
+					});
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("returnTaskInstanceError"), function(){
+						return;
+					});
+					
+				}
+			});
+		},
+		function(){
+			return false;
+		});
+		return false;
+	});
+
+	$('a.js_temp_save_task_instance').live('click', function(e){
+		var input = $(e.target).parents('a.js_temp_save_task_instance');
+		var pworkSpace = input.parents('.js_pwork_space_page');
+		var workId = pworkSpace.attr("workId");
+		var instId = pworkSpace.attr("instId");
+		var formContent = pworkSpace.find('div.js_form_content');
+		var taskInstId = formContent.attr("taskInstId");
+		
+		smartPop.confirm(smartMessage.get("tempSaveConfirmation"), function(){
+			var forms = formContent.find('form');
+			var paramsJson = {};
+			paramsJson['workId'] = workId;
+			paramsJson['instanceId'] = instId;
+			paramsJson['taskInstId'] = taskInstId;
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				
+				// 폼이 스마트폼이면 formId와 formName 값을 전달한다...
+				if(form.attr('name') === 'frmSmartForm'){
+					paramsJson['formId'] = form.attr('formId');
+					paramsJson['formName'] = form.attr('formName');
+				}
+				
+				// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+			}
+			console.log(JSON.stringify(paramsJson));
+			var url = "temp_save_task_instance.sw";
+			
+			// 서비스요청 프로그래스바를 나타나게 한다....
+			var progressSpan = pworkSpace.find('.js_progress_span');
+			smartPop.progressCont(progressSpan);
+			
+			// perform_task_instance.sw서비스를 요청한다..
+			$.ajax({
+				url : url,
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					
+					// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.INFO, smartMessage.get("tempSaveTaskInstanceSucceed"), function(){
+						return;
+					});
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("tempSaveTaskInstanceError"), function(){
+						return;
+					});
+					
+				}
+			});
+		},
+		function(){
+			return false;
+		});
+		return false;
+	});
+
+	$('a.js_reassign_task_instance').live('click', function(e){
+		var input = $(e.target).parents('a.js_reassign_task_instance');
+		var pworkSpace = input.parents('.js_pwork_space_page');
+		var workId = pworkSpace.attr("workId");
+		var instId = pworkSpace.attr("instId");
+		var formContent = pworkSpace.find('div.js_form_content');
+		var taskInstId = formContent.attr("taskInstId");
+		
+		smartPop.confirm(smartMessage.get("reassignConfirmation"), function(){
+			var forms = formContent.find('form');
+			var paramsJson = {};
+			paramsJson['workId'] = workId;
+			paramsJson['instanceId'] = instId;
+			paramsJson['taskInstId'] = taskInstId;
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				
+				// 폼이 스마트폼이면 formId와 formName 값을 전달한다...
+				if(form.attr('name') === 'frmSmartForm'){
+					paramsJson['formId'] = form.attr('formId');
+					paramsJson['formName'] = form.attr('formName');
+				}
+				
+				// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+			}
+			console.log(JSON.stringify(paramsJson));
+			var url = "reassign_task_instance.sw";
+			
+			// 서비스요청 프로그래스바를 나타나게 한다....
+			var progressSpan = pworkSpace.find('.js_progress_span');
+			smartPop.progressCont(progressSpan);
+			
+			// perform_task_instance.sw서비스를 요청한다..
+			$.ajax({
+				url : url,
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					
+					// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.INFO, smartMessage.get("reassignTaskInstanceSucceed"), function(){
+						document.location.href = "pwork_list.sw?cid=pw.li." + workId;
+						return;
+					});
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.closeProgress();
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("reassignTaskInstanceError"), function(){
+						return;
+					});
+					
+				}
+			});
 		},
 		function(){
 			return false;

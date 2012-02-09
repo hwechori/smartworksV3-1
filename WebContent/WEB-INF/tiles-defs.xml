@@ -95,18 +95,6 @@
 		<put-attribute name="content"
 			value="/jsp/content/work/space/mail_space.jsp" />
 	</definition>
-	<definition name="pwork_task" extends="layouts">
-		<put-attribute name="content"
-			value="/jsp/content/work/task/pwork_task.jsp" />
-	</definition>
-	<definition name="iwork_task" extends="layouts">
-		<put-attribute name="content"
-			value="/jsp/content/work/task/iwork_task.jsp" />
-	</definition>
-	<definition name="swork_task" extends="layouts">
-		<put-attribute name="content"
-			value="/jsp/content/work/task/swork_task.jsp" />
-	</definition>
 	<definition name="department_space" extends="layouts">
 		<put-attribute name="content" value="/jsp/content/community/space/department_space.jsp" />
 	</definition>

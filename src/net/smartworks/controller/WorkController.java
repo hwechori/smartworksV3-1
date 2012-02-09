@@ -49,7 +49,7 @@ public class WorkController extends ExceptionInterceptor {
 			HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/iwork_list.jsp", "");
+				"jsp/content/work/list/iwork_list.jsp", "iwork_list.tiles");
 	}
 
 	@RequestMapping("/iwork_manual")
@@ -65,7 +65,7 @@ public class WorkController extends ExceptionInterceptor {
 			HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/pwork_list.jsp", "");
+				"jsp/content/work/list/pwork_list.jsp", "pwork_list.tiles");
 	}
 
 	@RequestMapping("/pwork_manual")
@@ -81,7 +81,7 @@ public class WorkController extends ExceptionInterceptor {
 			HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/swork_list.jsp", "");
+				"jsp/content/work/list/swork_list.jsp", "swork_list.tiles");
 	}
 
 	@RequestMapping("/board_list")

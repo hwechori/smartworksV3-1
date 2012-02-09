@@ -7,6 +7,8 @@ $(function() {
 		var now = new Date();
 		now.setTime(now.getTime() + timeOffset*60*60*1000);
 		if(!(today.getFullYear() == now.getFullYear() && today.getMonth() == now.getMonth() && today.getDate() == now.getDate())){
+			today = new Date();
+			today.setTime(today.getTime() + timeOffset*60*60*1000);
 			$.ajax({url : "localdate_string.sw", success : function(data, status, jqXHR) {
 					$('.js_now_date_string').html(data);
 				}
