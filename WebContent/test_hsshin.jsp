@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.server.engine.common.model.SmartServerConstant"%>
+<%@page import="net.smartworks.server.engine.common.util.id.IDCreator"%>
 <%@page import="net.smartworks.server.engine.organization.model.SwoGroup"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="net.smartworks.server.engine.organization.model.SwoGroupMember"%>
@@ -203,26 +205,38 @@
 
 	User user = SmartUtil.getCurrentUser();
 	ISwoManager swoMgr = (ISwoManager)SmartUtil.getBean("swoManager", request);
-
+/* 
 	SwoGroup swoGroupCond = new SwoGroup();
+	swoGroupCond.setId("group_586ac2d927654b7d99ba45afd5203f01");
 	swoGroupCond.setCompanyId(user.getCompanyId());
-	swoGroupCond.setName("산악동호회");
+	swoGroupCond.setName("산악동호회11");
 	swoGroupCond.setGroupLeader(user.getId());
-	swoGroupCond.setGroupType("111");
-	swoGroupCond.setStatus("222");
-	swoGroupCond.setDescription("맨인소프트 사내 산악동호회입니다.");
+	swoGroupCond.setGroupType("1");
+	swoGroupCond.setStatus("2");
+	swoGroupCond.setDescription("맨인소프트 사내 산악동호회11입니다.");
 	List<SwoGroupMember> list = new ArrayList<SwoGroupMember>();
 	SwoGroupMember swoGroupMember = new SwoGroupMember();
-	swoGroupMember.setUserId(user.getId());
-	swoGroupMember.setJoinType("111");
-	swoGroupMember.setJoinStatus("2222");
-	swoGroupMember.setJoinDate(new LocalDate());
-	list.add(swoGroupMember);
+	swoGroupMember.setUserId("cccc@maninsoft.co.kr");
+	swoGroupMember.setJoinType("1");
+	swoGroupMember.setJoinStatus("2");
+	swoGroupMember.setJoinDate(new LocalDate()); */
+/* 	list.add(swoGroupMember);
 
 	SwoGroupMember[] swoGroupMembers = new SwoGroupMember[list.size()];
 	list.toArray(swoGroupMembers);
-	swoGroupCond.setSwoGroupMembers(swoGroupMembers);
-	swoMgr.setGroup("", swoGroupCond, IManager.LEVEL_ALL);
+	swoGroupCond.setSwoGroupMembers(swoGroupMembers); */
+
+	SwoGroupMember swoGroupMember = new SwoGroupMember();
+	swoGroupMember.setUserId("zzzzz@maninsoft.co.kr");
+	swoGroupMember.setJoinType("1");
+	swoGroupMember.setJoinStatus("2");
+	swoGroupMember.setJoinDate(new LocalDate());
+	SwoGroup swoGroup = swoMgr.getGroup(user.getId(), "group_586ac2d927654b7d99ba45afd5203f01", IManager.LEVEL_ALL);
+	swoGroup.addGroupMember(swoGroupMember);
+
+	swoMgr.setGroup(user.getId(), swoGroup, IManager.LEVEL_ALL);
+
+	//swoMgr.createGroup(user.getId(), swoGroupCond);
 
 %>
 <textarea style="width:800px;height:400px;">
