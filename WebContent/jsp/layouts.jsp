@@ -40,6 +40,7 @@
 				System.out.println(((Login) auth.getPrincipal()).getPosition() + " " + ((Login) auth.getPrincipal()).getName() + " 님이 접속하였습니다.");
 				System.out.println("ID : " + ((Login) auth.getPrincipal()).getId());
 				System.out.println("DEPT : " + ((Login) auth.getPrincipal()).getDepartment());
+				System.out.println("ROLE : " + ((Login) auth.getPrincipal()).getAuthId());
 				System.out.println("ConnectTime : " + (new LocalDate()).toString() ); 
 				System.out.println("-------------------------------------------");
 				request.getSession().setAttribute("loginId", ((Login) auth.getPrincipal()).getId());

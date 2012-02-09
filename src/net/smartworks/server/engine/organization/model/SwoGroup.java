@@ -36,6 +36,8 @@ public class SwoGroup extends SwoObject {
 	public static final String A_STATUS = "status";
 	public static final String A_DESCRIPTION = "description";
 	public static final String A_PICTUTRE = "picture";
+	public static final String A_GROUP_MEMBER = "swoGroupMember";
+	public static final String A_GROUP_MEMBERS = "swoGroupMembers";
 
 	private String groupLeader;
 	private String groupType;
@@ -94,8 +96,14 @@ public class SwoGroup extends SwoObject {
 		return buf.toString();
 	}
 	public String toElementsString(String tab, boolean lite) {
+		
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toElementsString(tab, lite));
+		if (lite) {
+			appendElementsString(null, A_GROUP_MEMBER, getSwoGroupMembers(), tab, lite, buf);
+		} else {
+			appendElementsString(A_GROUP_MEMBERS, A_GROUP_MEMBER, getSwoGroupMembers(), tab, lite, buf);
+		}
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {

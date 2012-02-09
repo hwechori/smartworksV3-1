@@ -1,7 +1,7 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +15,7 @@ import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.filter.Condition;
+import net.smartworks.model.filter.ConditionOperator;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.info.RequestParams;
@@ -866,6 +867,7 @@ public class WorkServiceImpl implements IWorkService {
 			String txtFilterDateOperand = null;
 			String txtFilterTimeOperand = null;
 			String txtFiltetRightOperandType = null;
+			String rightOperand = null;
 	
 			List<Condition> conditionList = new ArrayList<Condition>();
 	
@@ -878,14 +880,53 @@ public class WorkServiceImpl implements IWorkService {
 					txtFilterStringOperand = (String)valueMap.get("txtFilterStringOperand");
 					txtFilterDateOperand = (String)valueMap.get("txtFilterDateOperand");
 					txtFilterTimeOperand = (String)valueMap.get("txtFilterTimeOperand");
-					if(txtFilterStringOperand != null) {
-						txtFiltetRightOperandType = Filter.OPERANDTYPE_STRING;
-						condition.setRightOperand(txtFilterStringOperand);
-					} else if(txtFilterDateOperand != null || txtFilterTimeOperand != null) {
-						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
-						condition.setRightOperand(txtFilterDateOperand + " " + txtFilterTimeOperand);
-					}
+
 	
+					if(selFilterOperator.equals(ConditionOperator.RECENT_DAYS.getId())) {
+						rightOperand = this.getRecentSomeDays(5);
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.TODAY.getId())) {
+						rightOperand = this.getRecentSomeDays(1);
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_WEEK.getId())) {
+						rightOperand = this.getThisWeek();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_MONTH.getId())) {
+						rightOperand = this.getRecentSomeMonths(1);
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_QUARTER.getId())) {
+						rightOperand = this.getThisQuarter();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_HALF_YEAR.getId())) {
+						rightOperand = this.getThisHalfYear();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_YEAR.getId())) {
+						rightOperand = this.getThisYear();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_DAYS.getId())) {
+						rightOperand = this.getRecentSomeDays(Integer.parseInt(txtFilterTimeOperand));
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_MONTHS.getId())) {
+						rightOperand = this.getRecentSomeMonths(Integer.parseInt(txtFilterTimeOperand));
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					} else if(txtFilterStringOperand != null) {
+						rightOperand = txtFilterStringOperand;
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_STRING;
+					} else if(txtFilterDateOperand != null){
+						rightOperand = txtFilterDateOperand;
+						txtFiltetRightOperandType = Filter.OPERANDTYPE_DATE;
+					}
+
+					condition.setRightOperand(rightOperand);
 					condition.setLeftOperand(new FormField(selFilterLeftOperand, null, txtFiltetRightOperandType));
 					condition.setOperator(selFilterOperator);
 					conditionList.add(condition);
@@ -1006,6 +1047,68 @@ public class WorkServiceImpl implements IWorkService {
 			e.printStackTrace();
 			// Exception Handling Required			
 		}
+	}
+
+	public String getRecentSomeDays(int someDays) throws Exception {
+		return new LocalDate(new LocalDate().getTime() - LocalDate.ONE_DAY*(someDays-1)).toGMTSimpleDateString();
+	}
+
+	public String getRecentSomeMonths(int someMonths) throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisMonth = new LocalDate().getMonth();
+		calendar.set(Calendar.MONTH, thisMonth - (someMonths-1));
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 
+	}
+
+	public String getThisWeek() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisDayOfWeek = new LocalDate().getFirstDayOfWeek();
+		calendar.set(Calendar.DAY_OF_WEEK, thisDayOfWeek-1);
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 	
+	}
+
+	public String getThisYear() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisYear = new LocalDate().getYear();
+		calendar.set(Calendar.YEAR, thisYear);
+		calendar.set(Calendar.MONTH, 0);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 	
+	}
+
+	public String getThisQuarter() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisMonth = new LocalDate().getMonth();
+		int thisQuarter = thisMonth / 3;
+		if(thisQuarter == 0)
+			thisMonth = 0;
+		else if(thisQuarter == 1)
+			thisMonth = 3;
+		else if(thisQuarter == 2)
+			thisMonth = 6;
+		else if(thisQuarter == 3)
+			thisMonth = 9;
+
+		calendar.set(Calendar.MONTH, thisMonth);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 
+	}
+
+	public String getThisHalfYear() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		int thisMonth = new LocalDate().getMonth();
+		int thisHalfYear = thisMonth / 6;
+		if(thisHalfYear == 0)
+			thisMonth = 0;
+		else if(thisHalfYear == 1)
+			thisMonth = 6;
+
+		calendar.set(Calendar.MONTH, thisMonth);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+		return new LocalDate(calendar.getTime().getTime()).toGMTSimpleDateString(); 
+
 	}
 
 }

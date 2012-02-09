@@ -1462,7 +1462,10 @@ public class InstanceServiceImpl implements IInstanceService {
 	
 					FormField leftOperand = condition.getLeftOperand();
 					String formFieldId = leftOperand.getId();
-					String tableColName = getSwdManager().getTableColName(swdDomain.getObjId(), formFieldId);
+					String tableColName = formFieldId;
+					if(!formFieldId.equals(FormField.ID_OWNER) && !formFieldId.equals(FormField.ID_CREATED_DATE) && !formFieldId.equals(FormField.ID_LAST_MODIFIER) && !formFieldId.equals(FormField.ID_LAST_MODIFIED_DATE))
+						tableColName = getSwdManager().getTableColName(swdDomain.getObjId(), formFieldId);
+
 					String formFieldType = leftOperand.getType();
 					String operator = condition.getOperator();
 					String rightOperand = (String)condition.getRightOperand();
@@ -1503,16 +1506,10 @@ public class InstanceServiceImpl implements IInstanceService {
 			swdRecordCond.setOrders(new Order[]{new Order(columnName, isAsc)});
 
 			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
 
 			int currentPage = params.getCurrentPage();
-
-			if(previousPageSize != pageSize)
-				currentPage = 1;
-
-			previousPageSize = pageSize;
-
-			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
-				currentPage = 1;
+			if(currentPage == 0) currentPage = 1;
 
 			int totalPages = (int)totalCount % pageSize;
 
@@ -1536,8 +1533,17 @@ public class InstanceServiceImpl implements IInstanceService {
 				currentPage = result;
 			}
 
+
 			if (currentPage > 0)
 				swdRecordCond.setPageNo(currentPage-1);
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
 
 			swdRecordCond.setPageSize(pageSize);
 
@@ -2053,7 +2059,10 @@ public class InstanceServiceImpl implements IInstanceService {
 			}
 	//		instanceInfoList.setInstanceDatas(ModelConverter.getPWInstanceInfoArrayByPrcProcessInstArray(prcInsts));
 			instanceInfoList.setInstanceDatas(pWInstanceInfos);
-			
+
+			if((int)totalCount == 0)
+				currentPage = 0;
+
 			instanceInfoList.setPageSize(pageCount);
 			instanceInfoList.setTotalPages((int)totalCount);
 			instanceInfoList.setCurrentPage(currentPage);
