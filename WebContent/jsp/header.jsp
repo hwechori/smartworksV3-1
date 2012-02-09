@@ -250,6 +250,18 @@ function updateNoticeCount(message){
 	</div>
 	<!-- 도움말 연결  //-->
 
+	<%
+	if(cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR || cUser.getUserLevel() == User.USER_LEVEL_SYSMANAGER){
+	%>
+		<!-- 관리자 권한이 있는 사용자에게 제공되는 시스템설정, 스마트빌더, 앱스토어 버튼들  -->
+		<div class="pop_admin">
+			<a href="company_general.sw"><span class="btn_setting" title="<fmt:message key='header.global_menu.settings'/>" ></span></a>
+			<a href="http://appstore.smartworks.net" target="_blank"><span class="btn_appstore" title="<fmt:message key='header.global_menu.appstore'/>"></span></a>
+			<a href="builder_home.sw"><span class="btn_builder" title="<fmt:message key='header.global_menu.smartbuilder'/>"></span></a>
+		</div>
+	<%
+	}
+	%>
 	<!-- 개인정보수정 및 로그아웃 영역  -->
 	<div>
 		<a href="" onclick="$(this).parent().next('div').toggle(); return false;"><%=cUser.getLongName()%>▼ </a>

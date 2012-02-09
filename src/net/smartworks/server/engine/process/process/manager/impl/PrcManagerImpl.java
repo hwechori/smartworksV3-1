@@ -600,7 +600,7 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		queryBuffer.append(" 						, task.tskduedate as lastTask_tskduedate ");
 		queryBuffer.append(" 						, task.tskform as lastTask_tskform ");
 		queryBuffer.append(" 						, task.tskWorkSpaceId as lastTask_tskWorkSpaceId ");
-		queryBuffer.append(" 						, task.tskWorkSpaceId as lastTask_tskWorkSpaceType ");
+		queryBuffer.append(" 						, task.tskWorkSpaceType as lastTask_tskWorkSpaceType ");
 		queryBuffer.append(" 				from ( ");
 		queryBuffer.append(" 						select tskprcinstId , max(tskCreatedate) as createDate  ");
 		queryBuffer.append(" 						from tsktask  ");

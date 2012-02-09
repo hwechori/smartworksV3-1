@@ -70,6 +70,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="schManager" ref="schManager"/>
 		<beans:property name="swcManager" ref="swcManager"/>
 		<beans:property name="sctManager" ref="sctXPathManager"/>
+		
+		<beans:property name="designtimeManager" ref="resourceDesigntimeManager"/>
+		<beans:property name="runtimeManager" ref="resourceRuntimeManager"/>
 
 		<!-- beans:property name="chtManager" ref="chtManager"/>
 		<beans:property name="lcsManager" ref="lcsManager"/>
@@ -83,5 +86,26 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<beans:bean id="itmManager" class="net.smartworks.server.engine.common.menuitem.manager.impl.ItmManagerImpl"/>
 	<beans:bean id="workListManager" class="net.smartworks.server.engine.worklist.manager.impl.WorkListManagerImpl"/>
 	<beans:bean id="swcManager" class="net.smartworks.server.engine.config.manager.impl.SwcManagerImpl"/>
+	
+	
+	<beans:bean id="resourceDesigntimeDao" class="net.smartworks.server.engine.resource.dao.impl.HbResourceDesigntimeDaoImpl">
+		<beans:property name="processTemplateFile">
+			<beans:value>${processTemplate.fileDirectory}</beans:value>
+		</beans:property>
+		<beans:property name="ganttTemplateFile">
+			<beans:value>${ganttTemplate.fileDirectory}</beans:value>
+		</beans:property>
+	</beans:bean>
+	<beans:bean id="resourceDesigntimeManager" class="net.smartworks.server.engine.resource.manager.impl.ResourceDesigntimeManagerImpl">
+		<beans:property name="resourceDesigntimeDao" ref="resourceDesigntimeDao" />
+	</beans:bean>
+
+	<beans:bean id="resourceRuntimeDao" class="net.smartworks.server.engine.resource.dao.impl.HbResourceRuntimeDaoImpl">
+	</beans:bean>
+	<beans:bean id="resourceRuntimeManager" class="net.smartworks.server.engine.resource.manager.impl.ResourceRuntimeManagerImpl">
+		<beans:property name="resourceRuntimeDao" ref="resourceRuntimeDao" />
+	</beans:bean>
+	
+	
 	
 </beans:beans>

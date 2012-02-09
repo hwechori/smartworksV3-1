@@ -1,5 +1,9 @@
 package net.smartworks.model.community;
 
+import java.util.TimeZone;
+
+import net.smartworks.util.LocalDate;
+
 public class User extends WorkSpace {
 
 	public static final int USER_LEVEL_EXTERNAL_USER = 0;
@@ -119,5 +123,10 @@ public class User extends WorkSpace {
 	
 	public String getEmailAddressShown(){
 		return this.getLongName() + " <" + super.getId() + ">";
+	}
+	
+	public int getTimeOffsetInHour(){
+		if(timeZone==null) return 0;
+		return TimeZone.getTimeZone(timeZone).getRawOffset()/LocalDate.ONE_HOUR;
 	}
 }

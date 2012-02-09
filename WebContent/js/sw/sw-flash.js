@@ -111,7 +111,7 @@ function loadChartViewer(target, params){
 };
 
 function selectActivity(act) {
-	alert("selectActivity Called!!! act=" + act);
+	console.log("selectActivity Called!!! act=" + act);
 	parent.selectActivity(act);
 };
 
@@ -119,7 +119,7 @@ function loadCallback(appName, height){
 	console.log("loadCallback Called!!! status=" + height);
 	var target = $(".js_process_instance_viewer");
 	if(appName === APPNAME_SMART_BUILDER){
-		target = $(".js_smart_builder");
+		target = $(".js_smart_workbench_editor");
 	}else if(appName === APPNAME_DIAGRAM_VIEWER){
 		target = $(".js_process_diagram_viewer");		
 	}else if(appName === APPNAME_INSTANCE_VIEWER){
@@ -134,15 +134,14 @@ function loadCallback(appName, height){
 		target = $(".js_chart_viewer");		
 	}
 	target.height(height);
-	//	parent.document.getElementById("diagramIframe").setAttribute("height",status);
 };
 
 function ganttProcessCallback(packId, packName, mode, msg){
-	alert("ganttProcessCallback Called!!! packId=" + packId + ", packName=" + packName + ", mode=" + mode + ", msg=" + msg);
+	console.log("ganttProcessCallback Called!!! packId=" + packId + ", packName=" + packName + ", mode=" + mode + ", msg=" + msg);
 };
 
 function dateCallback(startDate, endDate){
-	alert("dateCallback Called!!! startDate=" + startDate + ", endDate=" + endDate);
+	console.log("dateCallback Called!!! startDate=" + startDate + ", endDate=" + endDate);
 	var dueDate = startDate +" ~ "+ endDate;
 	parent.document.getElementById('dueDateDiv').innerHTML = dueDate;
 	parent.viewChartStartDate();
@@ -150,12 +149,12 @@ function dateCallback(startDate, endDate){
 };
 
 function pagingCallback(totalPages, currentPage){
-	alert("pagingCallback Called!!! totalPages=" + totalPages + ", currentPage=" + currentPage);
+	console.log("pagingCallback Called!!! totalPages=" + totalPages + ", currentPage=" + currentPage);
 	parent.pagingVchart(totalPages, currentPage);
 };
 
 function fullScreenCallback(param){
-	alert("fullScreenCallback Called!!! param=" + param);
+	console.log("fullScreenCallback Called!!! param=" + param);
 	//if(param == 'NormalScreen'){
 		parent.openerRefresh();
 	//}

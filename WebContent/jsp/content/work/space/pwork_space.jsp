@@ -92,8 +92,7 @@
 			</div>
 			<!-- 타이틀 -->
 
-			<div class="define_space js_process_instance_viewer" style="display:none;height:512px;">
-			</div>
+			<div class="define_space js_process_instance_viewer" style="display:none;height:512px;"></div>
 					 		            
 			<!-- 프로세스 영역 -->
 			<div class="define_space">
@@ -118,7 +117,7 @@
 				        								&& ( 	task.getStatus()==TaskInstance.STATUS_RUNNING
 				        									 || task.getStatus()==TaskInstance.STATUS_DELAYED_RUNNING) ) ? "edit" : "view";
 				        			boolean isSelectable = ((task.getStatus()==TaskInstance.STATUS_RUNNING||task.getStatus()==TaskInstance.STATUS_DELAYED_RUNNING)
-				        										&& !task.getAssignee().equals(cUser.getId())) ? false : true;
+				        										&& !task.getAssignee().getId().equals(cUser.getId())) ? false : true;
 				        			if(task.getStatus() == TaskInstance.STATUS_RETURNED)
 				        				statusClass = "proc_task_returned";
 				        			else if(task.getStatus() == TaskInstance.STATUS_RUNNING)

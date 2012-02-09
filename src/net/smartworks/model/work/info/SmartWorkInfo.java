@@ -4,6 +4,7 @@ public class SmartWorkInfo extends WorkInfo {
 
 	private WorkCategoryInfo myGroup = null;
 	private WorkCategoryInfo myCategory = null;
+	private boolean isRunning;
 	private boolean favorite = false;
 	
 	public String getFullpathName(){
@@ -22,7 +23,12 @@ public class SmartWorkInfo extends WorkInfo {
 	public void setMyCategory(WorkCategoryInfo myCategory) {
 		this.myCategory = myCategory;
 	}
-
+	public boolean isRunning() {
+		return isRunning;
+	}
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
 	public boolean isFavorite() {
 		return favorite;
 	}

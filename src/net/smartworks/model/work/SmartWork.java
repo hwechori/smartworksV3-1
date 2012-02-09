@@ -31,6 +31,10 @@ public class SmartWork extends Work {
 	private SearchFilterInfo[] searchFilters;
 	private User lastModifier;
 	private LocalDate lastModifiedDate;
+	private boolean isRunning;
+	private boolean isEditing;
+	private User editingUser;
+	private LocalDate editingStartDate;
 
 	public String getFullpathName() {
 		return this.myCategory.getName() + ((this.myGroup != null && this.myGroup.getId() != null) ? " > " + this.myGroup.getName() : "") + " > "
@@ -107,6 +111,38 @@ public class SmartWork extends Work {
 
 	public void setLastModifiedDate(LocalDate lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
+
+	public boolean isEditing() {
+		return isEditing;
+	}
+
+	public void setEditing(boolean isEditing) {
+		this.isEditing = isEditing;
+	}
+
+	public User getEditingUser() {
+		return editingUser;
+	}
+
+	public void setEditingUser(User editingUser) {
+		this.editingUser = editingUser;
+	}
+
+	public LocalDate getEditingStartDate() {
+		return editingStartDate;
+	}
+
+	public void setEditingStartDate(LocalDate editingStartDate) {
+		this.editingStartDate = editingStartDate;
 	}
 
 	public SmartWork() {

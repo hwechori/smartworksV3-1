@@ -1,3 +1,7 @@
+<%@ page contentType="text/xml; charset=UTF-8" %>
+<%@page import="net.smartworks.server.engine.resource.util.lang.ExceptionUtil"%>
+<%@page import="net.smartworks.server.engine.resource.model.IFormModelList"%>
+<%@page import="net.smartworks.server.engine.resource.model.enums.FormFieldEnum"%>
 <%@page import="net.smartworks.server.engine.authority.model.SwaResource"%>
 <%@page import="net.smartworks.server.engine.authority.model.SwaResourceCond"%>
 <%@page import="net.smartworks.server.engine.authority.manager.ISwaManager"%>
@@ -35,7 +39,6 @@
 <%@page import="net.smartworks.server.engine.resource.model.IFormModel"%>
 <%@page import="net.smartworks.server.engine.resource.model.IFormFieldDef"%>
 <%@page import="net.smartworks.server.engine.resource.model.IFormDef"%>
-<%@ page contentType="text/xml; charset=UTF-8" %>
 <%@page import="java.util.Date"%>
 <%@ page import="org.apache.commons.logging.LogFactory"%>
 <%@ page import="java.util.Set"%>
@@ -374,6 +377,14 @@
 		
 		return SwManagerFactory.getInstance().getCtgManager().getCategorys(user, cond, IManager.LEVEL_LITE);
 	}
+	public static void removeMenuItemsByPackageId(String userId, String packageId) throws Exception {
+		if (CommonUtil.isEmpty(packageId))
+			return;
+		SwManagerFactory.getInstance().getItmManager().removeMenuItem(userId, packageId);
+	}
+	
+	
+	
 %>
 <%
 	response.setHeader("Pragma", "no-cache");
@@ -389,7 +400,8 @@
 	String compId = StringUtil.toNotNull(request.getParameter("compId"));
 	
 	StringBuffer buffer = new StringBuffer();
-	IResourceDesigntimeManager rscMgr = SmartServerManager.getInstance().getResourceDesigntimeManager();
+	//IResourceDesigntimeManager rscMgr = SmartServerManager.getInstance().getResourceDesigntimeManager();
+	IResourceDesigntimeManager rscMgr = SwManagerFactory.getInstance().getDesigntimeManager();
 	
 	try {
 		// 에러 - 메소드 이름이 없음
@@ -414,980 +426,690 @@
 			buffer.append(res.toString("Result", null));
 			
 		} else if (method.equals("getPackages")) {
-	PkgPackageCond cond = new PkgPackageCond();
-	String nameLike = CommonUtil.toNull(request.getParameter("nameLike"));
-	String type = CommonUtil.toNull(request.getParameter("type"));
-	cond.setNameLike(nameLike);
-	cond.setType(type);
-	
-	long size = SwManagerFactory.getInstance().getPkgManager().getPackageSize(userId, cond);
-	
-	int pageSize = CommonUtil.toInt(CommonUtil.toDefault(request.getParameter("pageSize"), "-1"));
-	int pageNo = CommonUtil.toInt(CommonUtil.toDefault(request.getParameter("pageNo"), "-1"));
-	cond.setPageSize(pageSize);
-	cond.setPageNo(pageNo);
-	
-	PkgPackage[] pkgs = getPackagesWithCategoryInfo(compId, userId, cond);
-	
-	Result res = new Result();
-	res.setStatus("OK");
-	res.setTotalSize(size);
-	if (!CommonUtil.isEmpty(pkgs)) {
-		BaseObjects objs = new BaseObjects();
-		objs.setObjects(pkgs);
-		res.setObjString(objs.toString("packages", "\t"));
-	}
-	buffer.append(res.toString("Result", null));
-	
+			PkgPackageCond cond = new PkgPackageCond();
+			String nameLike = CommonUtil.toNull(request.getParameter("nameLike"));
+			String type = CommonUtil.toNull(request.getParameter("type"));
+			cond.setNameLike(nameLike);
+			cond.setType(type);
+			
+			long size = SwManagerFactory.getInstance().getPkgManager().getPackageSize(userId, cond);
+			
+			int pageSize = CommonUtil.toInt(CommonUtil.toDefault(request.getParameter("pageSize"), "-1"));
+			int pageNo = CommonUtil.toInt(CommonUtil.toDefault(request.getParameter("pageNo"), "-1"));
+			cond.setPageSize(pageSize);
+			cond.setPageNo(pageNo);
+			
+			PkgPackage[] pkgs = getPackagesWithCategoryInfo(compId, userId, cond);
+			
+			Result res = new Result();
+			res.setStatus("OK");
+			res.setTotalSize(size);
+			if (!CommonUtil.isEmpty(pkgs)) {
+				BaseObjects objs = new BaseObjects();
+				objs.setObjects(pkgs);
+				res.setObjString(objs.toString("packages", "\t"));
+			}
+			buffer.append(res.toString("Result", null));
+			
 		} else if (method.equals("getPackageListByCategory")) {
-	// listType = 0 : 전체 보기, 1: 배치된 것만 보기, 2 : 최신 버전만 보기
-	String listType = StringUtil.toNotNull(request.getParameter("listType"));
-	String categoryId = CommonUtil.toNull(request.getParameter("categoryId"));
-	String packageName = StringUtil.toNotNull(request.getParameter("packageName"));
-	String pageCountStr = StringUtil.toNotNull(request.getParameter("pageCount"));
-	String recordCountStr = StringUtil.toNotNull(request.getParameter("recordCount"));
-	
-	int pageCount = this.getCount(pageCountStr);
-	int recordCount = this.getCount(recordCountStr);
-	int showType = this.getCount(listType);
-	
-	IPackageModelList pkgList = null;
-	StringBuffer workGroupStr = new StringBuffer();
-
-	if (categoryId != null) {
-		if(showType == 2) {
-	pkgList = rscMgr.searchLatestPackageList(userId, categoryId);
-	
-		} else {
-	if(!"".equals(packageName)) {
-		Map<String, Object> condition = new HashMap<String, Object>();
-		condition.put(PackageFieldEnum.categoryId.name(), categoryId);
+			// listType = 0 : 전체 보기, 1: 배치된 것만 보기, 2 : 최신 버전만 보기
+			String listType = StringUtil.toNotNull(request.getParameter("listType"));
+			String categoryId = CommonUtil.toNull(request.getParameter("categoryId"));
+			String packageName = StringUtil.toNotNull(request.getParameter("packageName"));
+			String pageCountStr = StringUtil.toNotNull(request.getParameter("pageCount"));
+			String recordCountStr = StringUtil.toNotNull(request.getParameter("recordCount"));
+			
+			int pageCount = this.getCount(pageCountStr);
+			int recordCount = this.getCount(recordCountStr);
+			int showType = this.getCount(listType);
+			
+			IPackageModelList pkgList = null;
+			StringBuffer workGroupStr = new StringBuffer();
 		
-		// 패키지 이름이 검색 조건에 포함
-		if(!"".equals(packageName))
-	condition.put(PackageFieldEnum.name.name(), packageName);
+			if (categoryId != null) {
+				if(showType == 2) {
+					pkgList = rscMgr.searchLatestPackageList(userId, categoryId);
+				} else {
+					if(!"".equals(packageName)) {
+						Map<String, Object> condition = new HashMap<String, Object>();
+						condition.put(PackageFieldEnum.categoryId.name(), categoryId);
+						
+						// 패키지 이름이 검색 조건에 포함
+						if(!"".equals(packageName))
+							condition.put(PackageFieldEnum.name.name(), packageName);
+						
+						// 배치된 것만 보기
+						if (showType == 1)
+							condition.put(PackageFieldEnum.status.name(), IPackageModel.STATUS_DEPLOYED);
+						
+						pkgList = rscMgr.searchPackageByCondition(userId, condition, null, pageCount, recordCount);
+					} else {
+						//pkgList = rscMgr.searchLatestPackageList(userId, categoryId);
+						Map<String, Object> searchCond = new HashMap<String, Object>();
+						searchCond.put(PackageFieldEnum.categoryId.name(), categoryId);
+				
+						Map<String, String> ordCond = new HashMap<String, String>();
+						ordCond.put(PackageFieldEnum.name.name(), "asc");
+				
+						pkgList = rscMgr.searchPackageByCondition(userId, searchCond, ordCond, pageCount, recordCount);
+						
+						//List workGroupList = SmartServerManager.getInstance().getCategoryManager().findChildren(userId, categoryId);
+						CtgCategory[] workGroupList = findChildren(compId, userId, categoryId);
+						
+						if (workGroupList != null && workGroupList.length > 0) {
+							for (int i = 0; i < workGroupList.length; i++) {
+								CtgCategory obj = (CtgCategory) workGroupList[i];
+								// 배치된 것만 보기
+								if (showType == 1) {
+									Map<String, Object> condition = new HashMap<String, Object>();
+									condition.put(PackageFieldEnum.status.name(), IPackageModel.STATUS_DEPLOYED);
+									condition.put(PackageFieldEnum.categoryId.name(), obj.getObjId());
+									pkgList = rscMgr.searchPackageByCondition(userId, condition, null, pageCount, recordCount);
+									if(pkgList.getTotalCount() >0) {
+										String temp = StringUtils.replace(obj.toString(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
+										workGroupStr.append(temp);
+									}
+								} else {
+									String temp = StringUtils.replace(obj.toString(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
+									workGroupStr.append(temp);
+								}
+							}
+						} 
+					}
+				}
+			}
+			
+			if (pkgList == null)
+				pkgList = new HbPackageModelList();
+			
+			buffer.append(pkgList);
 		
-		// 배치된 것만 보기
-		if (showType == 1)
-	condition.put(PackageFieldEnum.status.name(), IPackageModel.STATUS_DEPLOYED);
-		
-		pkgList = rscMgr.searchPackageByCondition(userId, condition, null, pageCount, recordCount);
-	} else {
-		//pkgList = rscMgr.searchLatestPackageList(userId, categoryId);
-		Map<String, Object> searchCond = new HashMap<String, Object>();
-		searchCond.put(PackageFieldEnum.categoryId.name(), categoryId);
-
-		Map<String, String> ordCond = new HashMap<String, String>();
-		ordCond.put(PackageFieldEnum.name.name(), "asc");
-
-		pkgList = rscMgr.searchPackageByCondition(userId, searchCond, ordCond, pageCount, recordCount);
-		
-		//List workGroupList = SmartServerManager.getInstance().getCategoryManager().findChildren(userId, categoryId);
-		CtgCategory[] workGroupList = findChildren(compId, userId, categoryId);
-		
-		if (workGroupList != null && workGroupList.length > 0) {
-	for (int i = 0; i < workGroupList.length; i++) {
-		CtgCategory obj = (CtgCategory) workGroupList[i];
-		// 배치된 것만 보기
-		if (showType == 1) {
-	Map<String, Object> condition = new HashMap<String, Object>();
-	condition.put(PackageFieldEnum.status.name(), IPackageModel.STATUS_DEPLOYED);
-	condition.put(PackageFieldEnum.categoryId.name(), obj.getObjId());
-	pkgList = rscMgr.searchPackageByCondition(userId, condition, null, pageCount, recordCount);
-	if(pkgList.getTotalCount() >0) {
-		String temp = StringUtils.replace(obj.toString(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
-		workGroupStr.append(temp);
-	}
-		} else {
-	String temp = StringUtils.replace(obj.toString(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
-	workGroupStr.append(temp);
-		}
-	}
-	
-		} 
-	}
-		}
-	}
-	
-	if (pkgList == null)
-		pkgList = new HbPackageModelList();
-	
-	buffer.append(pkgList);
-
-	buffer.replace(buffer.indexOf("</Result>"), buffer.indexOf("</Result>")+9, workGroupStr.toString());
-	buffer.append("</Result>");
-	
+			buffer.replace(buffer.indexOf("</Result>"), buffer.indexOf("</Result>")+9, workGroupStr.toString());
+			buffer.append("</Result>");
+			
 		// 카테고리 아이디로 패키지 리스트를 가져온다.
 		} else if(method.equals("getGroupPackageList")) {
-	String parentCatId = CommonUtil.toNull(request.getParameter("parentCatId"));
-	//List workGroupList = SmartServerManager.getInstance().getCategoryManager().findChildren(userId, parentCatId);
-	CtgCategory[] workGroupList = findChildren(compId, userId, parentCatId);
-	buffer.append(this.convertGroupList(workGroupList));
+			String parentCatId = CommonUtil.toNull(request.getParameter("parentCatId"));
+			//List workGroupList = SmartServerManager.getInstance().getCategoryManager().findChildren(userId, parentCatId);
+			CtgCategory[] workGroupList = findChildren(compId, userId, parentCatId);
+			buffer.append(this.convertGroupList(workGroupList));
 		// 카테고리 아이디로 패키지 리스트를 가져온다.
 		} else if(method.equals("getFormListByCategory")) {
-	String categoryId = CommonUtil.toNull(request.getParameter("categoryId"));
-	List frmList = SmartServerManager.getInstance().getResourceRuntimeManager().findLatestFormByCategory(userId, categoryId, IFormModel.TYPE_SINGLE);
-	buffer.append(this.convertFormList(frmList));
-		// 패키지 아이디, 버전으로 패키지 정보를 조회
+			String categoryId = CommonUtil.toNull(request.getParameter("categoryId"));
+			List frmList = SmartServerManager.getInstance().getResourceRuntimeManager().findLatestFormByCategory(userId, categoryId, IFormModel.TYPE_SINGLE);
+			buffer.append(this.convertFormList(frmList));
+				// 패키지 아이디, 버전으로 패키지 정보를 조회
 		} else if(method.equals("getPackage")) {
-	String packageId = request.getParameter("packageId");
-	IPackageModel pkg = rscMgr.retrievePackage(userId, packageId, 1);
-	buffer.append("<Result status=\"OK\">");
-	if(pkg != null)
-		buffer.append(pkg.toString());
-	buffer.append("</Result>");
+			String packageId = request.getParameter("packageId");
+			IPackageModel pkg = rscMgr.retrievePackage(userId, packageId, 1);
+			buffer.append("<Result status=\"OK\">");
+			if(pkg != null)
+				buffer.append(pkg.toString());
+			buffer.append("</Result>");
 
 		// 프로세스가 체크인 상태이면 무조건 마지막 버전을 찾는다. 프로세스가 체크아웃 상태이고 체크아웃 사용자가 userId와 동일하면 체크아웃된 버전 (즉 최종 버전)을 찾고 그렇지 않다면 체크인된 버전 중 최신버전을 찾는다.
 		} else if(method.equals("loadProcess")) {
-	String processId = request.getParameter("processId");
-	String diagramStr = rscMgr.retrieveProcessContent(userId, processId, 1);
-	buffer.append(diagramStr);
+			String processId = request.getParameter("processId");
+			String diagramStr = rscMgr.retrieveProcessContent(userId, processId, 1);
+			buffer.append(diagramStr);
 	
 		// 프로세스 인스턴스 맵 정보
 		} else if(method.equals("loadPrcInstMap")) {
-	String prcInstId = StringUtil.toNotNull(request.getParameter("prcInstId"));
-	String instMapStr = SwManagerFactory.getInstance().getMonManager().monitor(null, prcInstId, null);
-	buffer.append(instMapStr);
+			String prcInstId = StringUtil.toNotNull(request.getParameter("prcInstId"));
+			String instMapStr = SwManagerFactory.getInstance().getMonManager().monitor(null, prcInstId, null);
+			buffer.append(instMapStr);
 	
 		// 패키지 아이디로 프로세스 아이디, 버전, 이름등 메타정보를 찾는다.
 		} else if(method.equals("getProcessInfoByPackage")) {
-	String packageId = request.getParameter("packageId");
-	IProcessModel prcModel = rscMgr.retrieveProcessByPackage(userId, packageId, 1);			
-	buffer.append(this.convert(prcModel));
+			String packageId = request.getParameter("packageId");
+			IProcessModel prcModel = rscMgr.retrieveProcessByPackage(userId, packageId, 1);			
+			buffer.append(this.convert(prcModel));
 	
 		// 패키지 아이디로 프로세스(XML)를 찾는다.
 		} else if(method.equals("loadProcessByPackage")) {
-	String packageId = request.getParameter("packageId");
-	IProcessModel prcModel = rscMgr.retrieveProcessByPackage(userId, packageId, 1);
-	String diagramStr = rscMgr.retrieveProcessContent(userId, prcModel.getProcessId());
-	buffer.append(diagramStr);
+			String packageId = request.getParameter("packageId");
+			IProcessModel prcModel = rscMgr.retrieveProcessByPackage(userId, packageId, 1);
+			String diagramStr = rscMgr.retrieveProcessContent(userId, prcModel.getProcessId());
+			buffer.append(diagramStr);
 	
 		// 프로세스 XML 저장
 		} else if(method.equals("saveProcessContent")) {
-
-		 String processId = request.getParameter("processId");
-		 String processContent = request.getParameter("processContent");
-
-		 System.out.println("processId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+processId);
-		 System.out.println("processContent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+processContent);
-	// 프로세스 validation 체크
-	ProcessModelHelper.load(processContent);
-	rscMgr.updateProcessContent(userId, processId, 1, processContent);
-	buffer.append("<Result status=\"OK\"/>");
 	
-		// 프로세스 메타 정보 저장
+			String processId = request.getParameter("processId");
+			String processContent = request.getParameter("processContent");
+			
+			System.out.println("processId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+processId);
+			System.out.println("processContent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+processContent);
+			// 프로세스 validation 체크
+			ProcessModelHelper.load(processContent);
+			rscMgr.updateProcessContent(userId, processId, 1, processContent);
+			buffer.append("<Result status=\"OK\"/>");
+			
+				// 프로세스 메타 정보 저장
 		} else if(method.equals("saveProcessMeta")) {
-	String processId = request.getParameter("processId");
-	String name = request.getParameter("name");			
-	String keyword = request.getParameter("keyword");
-	String ownerDept = request.getParameter("ownerDept");
-	String owner = request.getParameter("owner");
-	String description = request.getParameter("description");
-
-	IProcessModel prc = rscMgr.retrieveProcess(userId, processId, 1);
-	if(name != null && !name.equals("null")) 
-		prc.setName(name);
-	
-	if(keyword != null && !keyword.equals("null")) 
-		prc.setKeyword(keyword);
-	
-	if(ownerDept != null && !ownerDept.equals("null")) 
-		prc.setOwnerDept(ownerDept);			
-
-	if(owner != null && !owner.equals("null")) 
-		prc.setOwner(owner);
-	
-	if(description != null && !description.equals("null")) 
-		prc.setDescription(description);
-	
-	rscMgr.updateProcess(userId, prc);
-	buffer.append("<Result status=\"OK\"/>");
+			String processId = request.getParameter("processId");
+			String name = request.getParameter("name");			
+			String keyword = request.getParameter("keyword");
+			String ownerDept = request.getParameter("ownerDept");
+			String owner = request.getParameter("owner");
+			String description = request.getParameter("description");
+		
+			IProcessModel prc = rscMgr.retrieveProcess(userId, processId, 1);
+			if(name != null && !name.equals("null")) 
+				prc.setName(name);
+			
+			if(keyword != null && !keyword.equals("null")) 
+				prc.setKeyword(keyword);
+			
+			if(ownerDept != null && !ownerDept.equals("null")) 
+				prc.setOwnerDept(ownerDept);			
+		
+			if(owner != null && !owner.equals("null")) 
+				prc.setOwner(owner);
+			
+			if(description != null && !description.equals("null")) 
+				prc.setDescription(description);
+			
+			rscMgr.updateProcess(userId, prc);
+			buffer.append("<Result status=\"OK\"/>");
 		
 		// 패키지 아이디, 버전으로  패키지에 소속된 모든 폼을 찾는다.
 		} else if(method.equals("getFormList")) {
-	String packageId = request.getParameter("packageId");
-	List<IFormModel> formList = rscMgr.findFormByPackage(userId, packageId, 1);
-	buffer.append(this.convert(formList));
-	
+			String packageId = request.getParameter("packageId");
+			List<IFormModel> formList = rscMgr.findFormByPackage(userId, packageId, 1);
+			buffer.append(this.convert(formList));
+			
 		// 패키지 아이디, 버전으로  패키지에 소속된 모든 단위업무 폼을 찾는다.
 		} else if(method.equals("getSingleFormList")) {
-	String packageId = request.getParameter("packageId");
-	List<IFormModel> formList = rscMgr.findSingleFormByPackage(userId, packageId, 1);
-	buffer.append(this.convert(formList));
+			String packageId = request.getParameter("packageId");
+			List<IFormModel> formList = rscMgr.findSingleFormByPackage(userId, packageId, 1);
+			buffer.append(this.convert(formList));
 		// 패키지 아이디, 버전으로  패키지에 소속된 모든 단위업무 폼을 찾는다.
 		} else if(method.equals("getSingleFormListByCategory")) {
-	String categoryId = request.getParameter("categoryId");
-	List frmList = SmartServerManager.getInstance().getResourceDesigntimeManager().findLatestFormByCategory(categoryId, IFormModel.TYPE_SINGLE);
-	buffer.append(this.convert(frmList));			
+			String categoryId = request.getParameter("categoryId");
+			List frmList = SmartServerManager.getInstance().getResourceDesigntimeManager().findLatestFormByCategory(categoryId, IFormModel.TYPE_SINGLE);
+			buffer.append(this.convert(frmList));			
 		// 프로세스 아이디, 버전으로 프로세스에 소속된 모든 프로세스 업무 폼을 찾는다.
 		} else if(method.equals("getProcessFormList")) {
-	String processId = request.getParameter("processId");
-	List<IFormModel> formList = rscMgr.findFormByProcess(userId, processId, 1);
-	buffer.append(this.convert(formList));
+			String processId = request.getParameter("processId");
+			List<IFormModel> formList = rscMgr.findFormByProcess(userId, processId, 1);
+			buffer.append(this.convert(formList));
 	
 		// 프로세스 아이디, 버전으로 프로세스에 소속된 모든 프로세스 업무 폼을 찾는다.
 		} else if(method.equals("getProcessFormListByForm")) {
-	String formId = request.getParameter("formId");
-	IFormModel frm = rscMgr.retrieveLatestForm(userId, formId);
-	if (frm != null) {
-		List<IFormModel> formList = rscMgr.findFormByPackage(userId, frm.getPackageId(), 1);
-		if (formList.size() > 1)
-	buffer.append(this.convert(formList));
-	}
+			String formId = request.getParameter("formId");
+			IFormModel frm = rscMgr.retrieveLatestForm(userId, formId);
+			if (frm != null) {
+				List<IFormModel> formList = rscMgr.findFormByPackage(userId, frm.getPackageId(), 1);
+				if (formList.size() > 1)
+			buffer.append(this.convert(formList));
+			}
 	
 		// 워크타입 아이디로 연결된 업무 폼을 찾는다.
 		} else if(method.equals("getFormByWorkType")) {
-	String workTypeId = request.getParameter("workTypeId");
-	IWorkTypeModel workType = rscMgr.retrieveWorkType(userId, workTypeId);
-	String formContents = rscMgr.retrieveFormContent(userId, workType.getFormUid());
-	buffer.append(formContents == null ? "<Form/>" : formContents);
+			String workTypeId = request.getParameter("workTypeId");
+			IWorkTypeModel workType = rscMgr.retrieveWorkType(userId, workTypeId);
+			String formContents = rscMgr.retrieveFormContent(userId, workType.getFormUid());
+			buffer.append(formContents == null ? "<Form/>" : formContents);
 	
 		// 특정 폼의 필드 리스트를 찾는다.
 		} else if(method.equals("getFormFieldList")) {
-	String packageId = request.getParameter("packageId");
-	List<IFormDef> formList = rscMgr.findFormFieldByPackage(userId, packageId, 1);
-	buffer.append(this.convertField(formList));
+			String packageId = request.getParameter("packageId");
+			List<IFormDef> formList = rscMgr.findFormFieldByPackage(userId, packageId, 1);
+			buffer.append(this.convertField(formList));
 		// 폼 컨텐츠 로딩
 		} else if(method.equals("loadFormContent")) {
-	String formId = request.getParameter("formId");
-	String formContent = rscMgr.retrieveFormContent(userId, formId, 1);
-	if (formContent == null || formContent.length() == 0) {
-		buffer.append("<Result status=\"OK\">").append("</Result>");
-	} else {
-		buffer.append(CommonUtil.toNotNull(formContent));
-	}
+			String formId = request.getParameter("formId");
+			String formContent = rscMgr.retrieveFormContent(userId, formId, 1);
+			if (formContent == null || formContent.length() == 0) {
+				buffer.append("<Result status=\"OK\">").append("</Result>");
+			} else {
+				buffer.append(CommonUtil.toNotNull(formContent));
+			}
 		} else if(method.equals("getPackage")) {
-	String packageId = request.getParameter("packageId");
-	IPackageModel pkg = rscMgr.retrievePackage(userId, packageId, 1);
-	buffer.append("<Result status=\"OK\">");
-	if(pkg != null)
-		buffer.append(pkg.toString());
-	buffer.append("</Result>");
+			String packageId = request.getParameter("packageId");
+			IPackageModel pkg = rscMgr.retrievePackage(userId, packageId, 1);
+			buffer.append("<Result status=\"OK\">");
+			if(pkg != null)
+				buffer.append(pkg.toString());
+			buffer.append("</Result>");
 
 		// 폼 조회
 		} else if (method.equals("getForm")) {
-	String formId = request.getParameter("formId");
-	IFormModel formModel = rscMgr.retrieveForm(userId, formId, 1);
-	buffer.append("<Result status=\"OK\">");
-	if(formModel != null)
-		buffer.append(formModel.toString());
-	buffer.append("</Result>");
-	
+			String formId = request.getParameter("formId");
+			IFormModel formModel = rscMgr.retrieveForm(userId, formId, 1);
+			buffer.append("<Result status=\"OK\">");
+			if(formModel != null)
+				buffer.append(formModel.toString());
+			buffer.append("</Result>");
+			
 		// 폼 로딩
 		} else if (method.equals("loadForm")) {
-	String formId = request.getParameter("formId");
-	IFormModel formModel = rscMgr.retrieveForm(userId, formId, 1);
-	buffer.append(formModel);
-	
+			String formId = request.getParameter("formId");
+			IFormModel formModel = rscMgr.retrieveForm(userId, formId, 1);
+			buffer.append(formModel);
+			
 		// 폼 저장
 		} else if(method.equals("saveFormContent")) {
-	String formId = request.getParameter("formId");
-	String formContent = request.getParameter("formContent");
-	System.out.println("formId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formId);
-	System.out.println("formContent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formContent);
-	rscMgr.updateFormContent(userId, formId, 1, formContent);
-	buffer.append("<Result status=\"OK\"/>");
+			String formId = request.getParameter("formId");
+			String formContent = request.getParameter("formContent");
+			System.out.println("formId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formId);
+			System.out.println("formContent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formContent);
+			rscMgr.updateFormContent(userId, formId, 1, formContent);
+			buffer.append("<Result status=\"OK\"/>");
 
 		// 폼 이름 변경
 		} else if(method.equals("renameForm")) {
-	String formId = request.getParameter("formId");
-	String formName = request.getParameter("formName");
-	rscMgr.updateFormName(userId, formId, 1, formName);
-	buffer.append("<Result status=\"OK\"/>");
-	
+			String formId = request.getParameter("formId");
+			String formName = request.getParameter("formName");
+			rscMgr.updateFormName(userId, formId, 1, formName);
+			buffer.append("<Result status=\"OK\"/>");
+			
 		// 프로세스 이름 변경
 		} else if(method.equals("renameProcess")) {
-	String processId = request.getParameter("processId");
-	String processName = request.getParameter("processName");
-	rscMgr.updateProcessName(userId, processId, 1, processName);
-	buffer.append("<Result status=\"OK\"/>");
-	
+			String processId = request.getParameter("processId");
+			String processName = request.getParameter("processName");
+			rscMgr.updateProcessName(userId, processId, 1, processName);
+			buffer.append("<Result status=\"OK\"/>");
+			
 		// 폼 타입을 변경
 		} else if(method.equals("changeFormType")) {
-	String formId = request.getParameter("formId");
-	String type = request.getParameter("type");
-	IFormModel form = rscMgr.retrieveForm(userId, formId, 1);
-	form.setType(type);
-	rscMgr.updateForm(userId, form);
+			String formId = request.getParameter("formId");
+			String type = request.getParameter("type");
+			IFormModel form = rscMgr.retrieveForm(userId, formId, 1);
+			form.setType(type);
+			rscMgr.updateForm(userId, form);
 	
 		// 폼 메타 정보 저장
 		} else if(method.equals("saveForm")) {
-	// TODO 수정 필요
-	String formId = request.getParameter("formId");
-	
-	String name = StringUtil.toNotNull(request.getParameter("name"));
-	String keyword = StringUtil.toNotNull(request.getParameter("keyword"));
-	String ownerDept = StringUtil.toNotNull(request.getParameter("ownerDept"));
-	String owner = StringUtil.toNotNull(request.getParameter("owner"));
-	String description = StringUtil.toNotNull(request.getParameter("description"));
-	String type = StringUtil.toNotNull(request.getParameter("type"));
-	
-	IFormModel form = rscMgr.retrieveForm(userId, formId, 1);
-	if(!name.equals("")) 
-		form.setName(name);
-	
-	if(!keyword.equals("")) 
-		form.setKeyword(keyword);
-	
-	if(!ownerDept.equals("")) 
-		form.setOwnerDept(ownerDept);			
-
-	if(!owner.equals("")) 
-		form.setOwner(owner);
-	
-	if(!description.equals("")) 
-		form.setDescription(description);
-
-	if(!type.equals("")) 
-		form.setType(type);
-	
-	rscMgr.updateForm(userId, form);			
-	buffer.append("<Result status=\"OK\"/>");
-	
+			// TODO 수정 필요
+			String formId = request.getParameter("formId");
+			
+			String name = StringUtil.toNotNull(request.getParameter("name"));
+			String keyword = StringUtil.toNotNull(request.getParameter("keyword"));
+			String ownerDept = StringUtil.toNotNull(request.getParameter("ownerDept"));
+			String owner = StringUtil.toNotNull(request.getParameter("owner"));
+			String description = StringUtil.toNotNull(request.getParameter("description"));
+			String type = StringUtil.toNotNull(request.getParameter("type"));
+			
+			IFormModel form = rscMgr.retrieveForm(userId, formId, 1);
+			if(!name.equals("")) 
+				form.setName(name);
+			
+			if(!keyword.equals("")) 
+				form.setKeyword(keyword);
+			
+			if(!ownerDept.equals("")) 
+				form.setOwnerDept(ownerDept);			
+		
+			if(!owner.equals("")) 
+				form.setOwner(owner);
+			
+			if(!description.equals("")) 
+				form.setDescription(description);
+		
+			if(!type.equals("")) 
+				form.setType(type);
+			
+			rscMgr.updateForm(userId, form);			
+			buffer.append("<Result status=\"OK\"/>");
+			
 		// 워크 타입 정보 로드
 		} else if(method.equals("loadWorkType")) {
-	String formId = request.getParameter("formId");
-	
-	IWorkTypeModel workType = rscMgr.retrieveWorkTypeByForm(userId, formId, 1);
-	
-	buffer.append("<Result status=\"OK\">");
-	if(workType != null)
-		buffer.append(workType.toString());
-	buffer.append("</Result>");
-		
+			String formId = request.getParameter("formId");
+			
+			IWorkTypeModel workType = rscMgr.retrieveWorkTypeByForm(userId, formId, 1);
+			
+			buffer.append("<Result status=\"OK\">");
+			if(workType != null)
+				buffer.append(workType.toString());
+			buffer.append("</Result>");
+				
 		// 워크 타입 정보 저장
 		} else if(method.equals("saveWorkType")) {
-	String formId = request.getParameter("formId");
-	
-	IWorkTypeModel workType = rscMgr.retrieveWorkTypeByForm(userId, formId, 1);
-	String stepCountStr = request.getParameter("stepCount");			
-	String typeStr = request.getParameter("type");
-	String durationStr = request.getParameter("duration");
-	// 사용자는 '|'로 구분, userId1|userId2|userId3
-	String performers = request.getParameter("performers");
-	
-	int stepCount = 1;
-	
-	if(stepCountStr != null && !stepCountStr.equals("null"))
-		stepCount = Integer.parseInt(stepCountStr);
-	
-	workType.setStepCount(stepCount);
-	
-	if(typeStr != null && !typeStr.equals("null"))
-		workType.setType(typeStr);
-	
-	if(durationStr != null && !durationStr.equals("null")) 
-		workType.setDuration(Integer.parseInt(durationStr));
-	
-	if(performers != null && !performers.equals("null"))
-		this.setPerformers(workType, performers);
-	
-	rscMgr.updateWorkType(userId, workType);
+			String formId = request.getParameter("formId");
+			
+			IWorkTypeModel workType = rscMgr.retrieveWorkTypeByForm(userId, formId, 1);
+			String stepCountStr = request.getParameter("stepCount");			
+			String typeStr = request.getParameter("type");
+			String durationStr = request.getParameter("duration");
+			// 사용자는 '|'로 구분, userId1|userId2|userId3
+			String performers = request.getParameter("performers");
+			
+			int stepCount = 1;
+			
+			if(stepCountStr != null && !stepCountStr.equals("null"))
+				stepCount = Integer.parseInt(stepCountStr);
+			
+			workType.setStepCount(stepCount);
+			
+			if(typeStr != null && !typeStr.equals("null"))
+				workType.setType(typeStr);
+			
+			if(durationStr != null && !durationStr.equals("null")) 
+				workType.setDuration(Integer.parseInt(durationStr));
+			
+			if(performers != null && !performers.equals("null"))
+				this.setPerformers(workType, performers);
+			
+			rscMgr.updateWorkType(userId, workType);
 	
 		// 패키지 체크아웃
 		} else if(method.equals("checkOutPackage")) {
-	String packageId = request.getParameter("packageId");
-	rscMgr.checkOutPackage(userId, packageId, 1);
-	buffer.append("<Result status=\"OK\"/>");
+			String packageId = request.getParameter("packageId");
+			rscMgr.checkOutPackage(userId, packageId, 1);
+			buffer.append("<Result status=\"OK\"/>");
 		
 		// 패키지 체크인
 		} else if(method.equals("checkInPackage")) {
-	String packageId = request.getParameter("packageId");
-	rscMgr.checkInPackage(userId, packageId, 1);
-	buffer.append("<Result status=\"OK\"/>");
-	
+			String packageId = request.getParameter("packageId");
+			rscMgr.checkInPackage(userId, packageId, 1);
+			buffer.append("<Result status=\"OK\"/>");
+			
 		// 패키지 배치
 		} else if(method.equals("deployPackage")) {
 			
-	String packageId = request.getParameter("packageId");
-	String type = CommonUtil.toNotNull(request.getParameter("type"));
-	//default 권한
-	String receId = null;
-	Date date = new Date();
-	if (packageId != null) {
-		if (type.equals("SINGLE")){
-			ISwfManager swfMgr = SwManagerFactory.getInstance().getSwfManager();
-			SwfFormCond swfCond = new SwfFormCond();
-			swfCond.setPackageId(packageId);
-			SwfForm[] swfObj = swfMgr.getForms(userId, swfCond, "all");
-			if (swfObj != null) {
-			receId = swfObj[0].getId();
+			String packageId = request.getParameter("packageId");
+			String type = CommonUtil.toNotNull(request.getParameter("type"));
+			//default 권한
+			String receId = null;
+			Date date = new Date();
+			if (packageId != null) {
+				if (type.equals("SINGLE")){
+					ISwfManager swfMgr = SwManagerFactory.getInstance().getSwfManager();
+					SwfFormCond swfCond = new SwfFormCond();
+					swfCond.setPackageId(packageId);
+					SwfForm[] swfObj = swfMgr.getForms(userId, swfCond, "all");
+					if (swfObj != null) {
+					receId = swfObj[0].getId();
+					}
+				} else {
+					IResourceDesigntimeManager rscMgr1 = SmartServerManager.getInstance().getResourceDesigntimeManager();
+					IProcessModel prcModel = rscMgr1.retrieveProcessByPackage(userId, packageId, 1);
+					if (prcModel != null) {
+					receId = prcModel.getProcessId();
+					}
+				}
+				if (receId != null) {
+					ISwaManager swaMgr = SwManagerFactory.getInstance().getSwaManager();
+					SwaResourceCond swaCond = new SwaResourceCond();
+					swaCond.setResourceId(receId);
+					SwaResource[] swaObj = swaMgr.getResources(userId, swaCond, "all");
+					if (swaObj == null){
+						SwaResource swaobjs = new SwaResource();
+						//R
+						swaobjs.setResourceId(receId);
+						swaobjs.setType(0);
+						swaobjs.setMode("R");
+						swaobjs.setPermission("PUB_ALL");
+						swaobjs.setCreationUser(userId);
+						swaobjs.setModificationUser(userId);
+						swaobjs.setCompanyId(compId);
+						swaobjs.setCreationDate(date);
+						swaobjs.setModificationDate(date);
+						SwManagerFactory.getInstance().getSwaManager().setResource(userId, swaobjs, null);
+						//W
+						SwaResource swaobjs1 = new SwaResource();
+						swaobjs1.setResourceId(receId);
+						swaobjs1.setType(0);
+						swaobjs1.setMode("W");
+						swaobjs1.setPermission("PUB_ALL");
+						swaobjs1.setCreationUser(userId);
+						swaobjs1.setModificationUser(userId);
+						swaobjs1.setCompanyId(compId);
+						swaobjs1.setCreationDate(date);
+						swaobjs1.setModificationDate(date);
+						SwManagerFactory.getInstance().getSwaManager().setResource(userId, swaobjs1, null);
+						//M
+						SwaResource swaobjs2 = new SwaResource();
+						swaobjs2.setResourceId(receId);
+						swaobjs2.setType(0);
+						swaobjs2.setMode("M");
+						swaobjs2.setPermission("PUB_NO");
+						swaobjs2.setCreationUser(userId);
+						swaobjs2.setModificationUser(userId);
+						swaobjs2.setCompanyId(compId);
+						swaobjs2.setCreationDate(date);
+						swaobjs2.setModificationDate(date);
+						SwManagerFactory.getInstance().getSwaManager().setResource(userId, swaobjs2, null);
+						//D
+						SwaResource swaobjs3 = new SwaResource();
+						swaobjs3.setResourceId(receId);
+						swaobjs3.setType(0);
+						swaobjs3.setMode("D");
+						swaobjs3.setPermission("PUB_NO");
+						swaobjs3.setCreationUser(userId);
+						swaobjs3.setModificationUser(userId);
+						swaobjs3.setCompanyId(compId);
+						swaobjs3.setCreationDate(date);
+						swaobjs3.setModificationDate(date);
+						SwManagerFactory.getInstance().getSwaManager().setResource(userId, swaobjs3, null);
+					}
+				}
 			}
-		} else {
-			IResourceDesigntimeManager rscMgr1 = SmartServerManager.getInstance().getResourceDesigntimeManager();
-			IProcessModel prcModel = rscMgr1.retrieveProcessByPackage(userId, packageId, 1);
-			if (prcModel != null) {
-			receId = prcModel.getProcessId();
+			try{
+				SwManagerFactory.getInstance().getDesigntimeManager().deployPackage(userId, compId, packageId, 1);
+				//SmartBpmsEngine.getInstance().getDeploymentManager().deployPackage(userId, compId, packageId, 1);
+				buffer.append("<Result status=\"OK\"/>");
+			}catch(Exception e){
+				buffer.append("<Result status=\"OK\" deployCheck=\"FAIL\" />");
 			}
-		}
-		if (receId != null) {
-			ISwaManager swaMgr = SwManagerFactory.getInstance().getSwaManager();
-			SwaResourceCond swaCond = new SwaResourceCond();
-			swaCond.setResourceId(receId);
-			SwaResource[] swaObj = swaMgr.getResources(userId, swaCond, "all");
-			if (swaObj == null){
-				SwaResource swaobjs = new SwaResource();
-				//R
-				swaobjs.setResourceId(receId);
-				swaobjs.setType(0);
-				swaobjs.setMode("R");
-				swaobjs.setPermission("PUB_ALL");
-				swaobjs.setCreationUser(userId);
-				swaobjs.setModificationUser(userId);
-				swaobjs.setCompanyId(compId);
-				swaobjs.setCreationDate(date);
-				swaobjs.setModificationDate(date);
-				SwManagerFactory.getInstance().getSwaManager().setResource(userId, swaobjs, null);
-				//W
-				SwaResource swaobjs1 = new SwaResource();
-				swaobjs1.setResourceId(receId);
-				swaobjs1.setType(0);
-				swaobjs1.setMode("W");
-				swaobjs1.setPermission("PUB_ALL");
-				swaobjs1.setCreationUser(userId);
-				swaobjs1.setModificationUser(userId);
-				swaobjs1.setCompanyId(compId);
-				swaobjs1.setCreationDate(date);
-				swaobjs1.setModificationDate(date);
-				SwManagerFactory.getInstance().getSwaManager().setResource(userId, swaobjs1, null);
-				//M
-				SwaResource swaobjs2 = new SwaResource();
-				swaobjs2.setResourceId(receId);
-				swaobjs2.setType(0);
-				swaobjs2.setMode("M");
-				swaobjs2.setPermission("PUB_NO");
-				swaobjs2.setCreationUser(userId);
-				swaobjs2.setModificationUser(userId);
-				swaobjs2.setCompanyId(compId);
-				swaobjs2.setCreationDate(date);
-				swaobjs2.setModificationDate(date);
-				SwManagerFactory.getInstance().getSwaManager().setResource(userId, swaobjs2, null);
-				//D
-				SwaResource swaobjs3 = new SwaResource();
-				swaobjs3.setResourceId(receId);
-				swaobjs3.setType(0);
-				swaobjs3.setMode("D");
-				swaobjs3.setPermission("PUB_NO");
-				swaobjs3.setCreationUser(userId);
-				swaobjs3.setModificationUser(userId);
-				swaobjs3.setCompanyId(compId);
-				swaobjs3.setCreationDate(date);
-				swaobjs3.setModificationDate(date);
-				SwManagerFactory.getInstance().getSwaManager().setResource(userId, swaobjs3, null);
-			}
-		}
-	}
-	try{
-		SmartBpmsEngine.getInstance().getDeploymentManager().deployPackage(userId, compId, packageId, 1);
-		buffer.append("<Result status=\"OK\"/>");
-	}catch(Exception e){
-		buffer.append("<Result status=\"OK\" deployCheck=\"FAIL\" />");
-	}
 	
 		// 패키지 배치 해제
 		} else if(method.equals("undeployPackage")) {
-	String packageId = request.getParameter("packageId");
-	SmartBpmsEngine.getInstance().getDeploymentManager().undeployPackage(userId, packageId, 1);
-	buffer.append("<Result status=\"OK\"/>");
+			String packageId = request.getParameter("packageId");
+			SwManagerFactory.getInstance().getDesigntimeManager().undeployPackage(userId, packageId, 1);
+			//SmartBpmsEngine.getInstance().getDeploymentManager().undeployPackage(userId, packageId, 1);
+			buffer.append("<Result status=\"OK\"/>");
 	
 		// 패키지 로드
 		} else if(method.equals("loadPackage")) {
-	String packageId = request.getParameter("packageId");
-	IPackageModel packageModel = rscMgr.retrievePackage(userId, packageId, 1);
-	buffer.append(convert(packageModel));
+			String packageId = request.getParameter("packageId");
+			IPackageModel packageModel = rscMgr.retrievePackage(userId, packageId, 1);
+			buffer.append(convert(packageModel));
 	
 		// 풀 패키지(프로세스, 폼 메타정보 포함) 로드
 		} else if(method.equals("loadFullPackage")) {
-	String packageId = request.getParameter("packageId");
-	
-	IPackageModel packageModel = rscMgr.retrievePackage(userId, packageId, 1);
-	IProcessModel processModel = rscMgr.retrieveProcessByPackage(userId, packageId, 1);
-	
-	buffer.append("<Result status=\"OK\">");
-	buffer.append("<fullPackage>");
-	buffer.append(packageModel);
-	
-	if(processModel != null)
-		buffer.append(processModel.toString());
-	else
-		buffer.append("<Process/>");
-	buffer.append("<forms>");
-	
-	for(IFormModel form : rscMgr.findFormByPackage(userId, packageId, 1))
-		buffer.append(form.toString());
-	
-	buffer.append("</forms>");
-	buffer.append("</fullPackage>");
-	buffer.append("</Result>");
-	
+			String packageId = request.getParameter("packageId");
+			
+			IPackageModel packageModel = rscMgr.retrievePackage(userId, packageId, 1);
+			IProcessModel processModel = rscMgr.retrieveProcessByPackage(userId, packageId, 1);
+			
+			buffer.append("<Result status=\"OK\">");
+			buffer.append("<fullPackage>");
+			buffer.append(packageModel);
+			
+			if(processModel != null)
+				buffer.append(processModel.toString());
+			else
+				buffer.append("<Process/>");
+			buffer.append("<forms>");
+			
+			for(IFormModel form : rscMgr.findFormByPackage(userId, packageId, 1))
+				buffer.append(form.toString());
+			
+			buffer.append("</forms>");
+			buffer.append("</fullPackage>");
+			buffer.append("</Result>");
+			
 		// 패키지에 폼 생성
 		} else if(method.equals("createForm")) {
-	String packageId = request.getParameter("packageId");
-	String type = CommonUtil.toNull(request.getParameter("type"));
-	if (type == null)
-		type = IFormModel.TYPE_NONE;
-	String formName = request.getParameter("formName");
-	IFormModel formModel = rscMgr.createForm(userId, packageId, 1, type, formName);
-	buffer.append(convert(formModel));
-	
-		// 패키지에 폼 복사
-		} else if (method.equals("cloneForm")) {
-	String formId = request.getParameter("formId");
-	String toPkgId = request.getParameter("toPackageId");
-	String newFormName = request.getParameter("newFormName");
-	IFormModel form = rscMgr.cloneForm(userId, formId, 1, toPkgId, 1, newFormName);
-	buffer.append(convert(form));
+			String packageId = request.getParameter("packageId");
+			String type = CommonUtil.toNull(request.getParameter("type"));
+			if (type == null)
+				type = IFormModel.TYPE_NONE;
+			String formName = request.getParameter("formName");
+			IFormModel formModel = rscMgr.createForm(userId, packageId, 1, type, formName);
+			buffer.append(convert(formModel));
+			
+				// 패키지에 폼 복사
+				} else if (method.equals("cloneForm")) {
+			String formId = request.getParameter("formId");
+			String toPkgId = request.getParameter("toPackageId");
+			String newFormName = request.getParameter("newFormName");
+			IFormModel form = rscMgr.cloneForm(userId, formId, 1, toPkgId, 1, newFormName);
+			buffer.append(convert(form));
 	
 		// 패키지 복사
 		} else if (method.equals("clonePackage")) {
-	String categoryId = CommonUtil.toNull(request.getParameter("categoryId"));
-	String packageId = CommonUtil.toNull(request.getParameter("packageId"));
-	
-	IPackageModel pkg = rscMgr.clonePackage(userId, categoryId, packageId, 1);
-	
-	buffer.append("<Result status=\"OK\">");
-	buffer.append(pkg);
-	buffer.append("</Result>");
-	
+			String categoryId = CommonUtil.toNull(request.getParameter("categoryId"));
+			String packageId = CommonUtil.toNull(request.getParameter("packageId"));
+			
+			IPackageModel pkg = rscMgr.clonePackage(userId, categoryId, packageId, 1);
+			
+			buffer.append("<Result status=\"OK\">");
+			buffer.append(pkg);
+			buffer.append("</Result>");
+			
 		// 패키지에 프로세스 생성
 		} else if (method.equals("createProcess")) {
-	String packageId = request.getParameter("packageId");
-	String prcName = request.getParameter("processName");
-	IProcessModel prcModel = rscMgr.createProcess(userId, packageId, 1, prcName);
-	buffer.append(convert(prcModel));
-	
+			String packageId = request.getParameter("packageId");
+			String prcName = request.getParameter("processName");
+			IProcessModel prcModel = rscMgr.createProcess(userId, packageId, 1, prcName);
+			buffer.append(convert(prcModel));
+			
 		// 패키지에 폼 생성
 		} else if(method.equals("deleteForm")) {
-	String formId = request.getParameter("formId");
-	rscMgr.deleteForm(userId, formId, 1);			
-	buffer.append("<Result status=\"OK\"/>");
-	
+			String formId = request.getParameter("formId");
+			rscMgr.deleteForm(userId, formId, 1);			
+			buffer.append("<Result status=\"OK\"/>");
+			
 		// 프로세스 삭제
 		} else if(method.equals("deleteProcess")) {
-	String prcId = request.getParameter("processId");
-	rscMgr.deleteProcess(userId, prcId, 1);
-	buffer.append("<Result status=\"OK\"/>");
+			String prcId = request.getParameter("processId");
+			rscMgr.deleteProcess(userId, prcId, 1);
+			buffer.append("<Result status=\"OK\"/>");
 	
 		// 패키지 삭제
 		} else if(method.equals("deletePackage")) {
-	String packageId = request.getParameter("packageId");
-	IPackageModel pkgInfo = SmartServerManager.getInstance().getResourceDesigntimeManager().retrieveLatestPackage(userId, packageId);
-	String status = CommonUtil.toNull(pkgInfo.getStatus());
-	if(status.equals(IPackageModel.STATUS_DEPLOYED)) {
-		buffer.append("<Result status=\"DEPLOYED\"/>");
-	} else {
-		rscMgr.deletePackage(userId, packageId, 1);
-		SmartApi.removeMenuItemsByPackageId(userId, packageId);
-		buffer.append("<Result status=\"OK\"/>");
-	}
-	try {
-		StringBuffer filePath = new StringBuffer(SmartApi.swSystemImagesPath()).append("/workDef/").append(packageId);
-		FileUtil.deleteAll(filePath.toString());
-	} catch (Exception e) {
-		
-	}
-	
+			String packageId = request.getParameter("packageId");
+			IPackageModel pkgInfo = SmartServerManager.getInstance().getResourceDesigntimeManager().retrieveLatestPackage(userId, packageId);
+			String status = CommonUtil.toNull(pkgInfo.getStatus());
+			if(status.equals(IPackageModel.STATUS_DEPLOYED)) {
+				buffer.append("<Result status=\"DEPLOYED\"/>");
+			} else {
+				rscMgr.deletePackage(userId, packageId, 1);
+				removeMenuItemsByPackageId(userId, packageId);
+				buffer.append("<Result status=\"OK\"/>");
+			}
+			try {
+				//StringBuffer filePath = new StringBuffer(SmartApi.swSystemImagesPath()).append("/workDef/").append(packageId);
+				//FileUtil.deleteAll(filePath.toString());
+			} catch (Exception e) {
+				
+			}
+			
 		// 패키지 생성
 		} else if (method.equals("createPackage")) {
-	String categoryId = request.getParameter("categoryId");
-	String name = request.getParameter("name");
-	String type = request.getParameter("type");
-	String desc = request.getParameter("desc");
-	
-	IPackageModel pkg = null;
-	if (CommonUtil.isEmpty(type))
-		pkg = rscMgr.createPackage(userId, categoryId, name, desc);
-	else {
-		pkg = rscMgr.createPackage(userId, categoryId, type, name, desc);
-		pkg.setType(type);
-	}
-	
-	buffer.append("<Result status=\"OK\">");
-	buffer.append(pkg);
-	buffer.append("</Result>");
-	
+			String categoryId = request.getParameter("categoryId");
+			String name = request.getParameter("name");
+			String type = request.getParameter("type");
+			String desc = request.getParameter("desc");
+			
+			IPackageModel pkg = null;
+			if (CommonUtil.isEmpty(type))
+				pkg = rscMgr.createPackage(userId, categoryId, name, desc);
+			else {
+				pkg = rscMgr.createPackage(userId, categoryId, type, name, desc);
+				pkg.setType(type);
+			}
+			
+			buffer.append("<Result status=\"OK\">");
+			buffer.append(pkg);
+			buffer.append("</Result>");
+			
 		// 패키지 이름 및 설명 변경
 		} else if(method.equals("renamePackage")) {
-	String packageId = request.getParameter("packageId");
-	String categoryId = CommonUtil.toNull(request.getParameter("categoryId"));
-	String name = CommonUtil.toNull(request.getParameter("name"));
-	String desc = CommonUtil.toNull(request.getParameter("desc"));
-	String objId = CommonUtil.toNull(request.getParameter("objId"));
-	
-	IPackageModel pkg = rscMgr.retrievePackage(userId, packageId, 1);
-	if (name != null)
-		pkg.setName(name);
-	if (desc != null)
-		pkg.setDescription(desc);
-	if (!CommonUtil.isEmpty(categoryId))
-		pkg.setCategoryId(categoryId);
-	rscMgr.updatePackage(userId, pkg);
-	
-	buffer.append("<Result status=\"OK\">");
-	buffer.append(pkg);
-	buffer.append("</Result>");
-	
+			String packageId = request.getParameter("packageId");
+			String categoryId = CommonUtil.toNull(request.getParameter("categoryId"));
+			String name = CommonUtil.toNull(request.getParameter("name"));
+			String desc = CommonUtil.toNull(request.getParameter("desc"));
+			String objId = CommonUtil.toNull(request.getParameter("objId"));
+			
+			IPackageModel pkg = rscMgr.retrievePackage(userId, packageId, 1);
+			if (name != null)
+				pkg.setName(name);
+			if (desc != null)
+				pkg.setDescription(desc);
+			if (!CommonUtil.isEmpty(categoryId))
+				pkg.setCategoryId(categoryId);
+			rscMgr.updatePackage(userId, pkg);
+			
+			buffer.append("<Result status=\"OK\">");
+			buffer.append(pkg);
+			buffer.append("</Result>");
+			
 		// 모든 사용자를 찾는다.
 		} else if(method.equals("findAllUsers")) {
-	List<IOrgUserModel> userList = SmartServerManager.getInstance().getOrganManager().findUserByDept(userId, null);
-	buffer.append(this.convertUser(userList));
-	
+			List<IOrgUserModel> userList = SmartServerManager.getInstance().getOrganManager().findUserByDept(userId, null);
+			buffer.append(this.convertUser(userList));
+			
 		// 폼 매핑시 프로세스에 소속된 모든 폼 리스트
 		} else if(method.equals("getProcessFormList")) {
-	String processId = request.getParameter("processId");
-	List<IFormModel> formList = SmartServerManager.getInstance().getResourceDesigntimeManager().findFormByProcess(userId, processId, 1);
-	buffer.append(this.convert(formList));
-	
+			String processId = request.getParameter("processId");
+			List<IFormModel> formList = SmartServerManager.getInstance().getResourceDesigntimeManager().findFormByProcess(userId, processId, 1);
+			buffer.append(this.convert(formList));
+			
 		// 단위 업무 검색
 		} else if(method.equals("searchSingleFormList")) {
-	int pageCount = StringUtil.getIntValue(request.getParameter("pageCount"), 0);
-	int recordCount = StringUtil.getIntValue(request.getParameter("recordCount"), 0);
-	Map<String, Object> condition = new HashMap<String, Object>();
-	condition.put(FormFieldEnum.type.name(), IFormModel.TYPE_SINGLE);
-	IFormModelList list = SmartServerManager.getInstance().getResourceDesigntimeManager().searchFormByCondition(userId, condition, pageCount, recordCount);
-	buffer.append(list);
-	
+			int pageCount = StringUtil.getIntValue(request.getParameter("pageCount"), 0);
+			int recordCount = StringUtil.getIntValue(request.getParameter("recordCount"), 0);
+			Map<String, Object> condition = new HashMap<String, Object>();
+			condition.put(FormFieldEnum.type.name(), IFormModel.TYPE_SINGLE);
+			IFormModelList list = SmartServerManager.getInstance().getResourceDesigntimeManager().searchFormByCondition(userId, condition, pageCount, recordCount);
+			buffer.append(list);
+			
 		// 패키지의 카테고리를 이동한다.
 		} else if(method.equals("movePackageCategory")) {
-	String toCategoryId = request.getParameter("toCategoryId");
-	String packageId = request.getParameter("packageId");
-	SmartServerManager.getInstance().getResourceRuntimeManager().doMovePackageCategory(userId, packageId, toCategoryId);
-	buffer.append("<Result status=\"OK\"/>");
+			String toCategoryId = request.getParameter("toCategoryId");
+			String packageId = request.getParameter("packageId");
+			SmartServerManager.getInstance().getResourceRuntimeManager().doMovePackageCategory(userId, packageId, toCategoryId);
+			buffer.append("<Result status=\"OK\"/>");
 		// 최근 작업 패키지 목록
 		} else if(method.equals("getRecentPackageList")) {
-	Map lastPkgCond = new HashMap();
-	lastPkgCond.put("modifier", userId);
-	Map lastPkgOrder = new HashMap();
-	lastPkgOrder.put("modifiedTime", "desc");
-	IPackageModelList lastPkgModelList = SmartServerManager.getInstance().getResourceDesigntimeManager().searchPackageByCondition(userId, lastPkgCond, lastPkgOrder, 0, 10);
-	buffer.append("<Result status=\"OK\">");
-	if (lastPkgModelList != null)
-	{
-		List lastPkgList = lastPkgModelList.getPackageModelList();
-		if (lastPkgList != null && !lastPkgList.isEmpty()) {
-	for (Iterator lastPkgItr = lastPkgList.iterator(); lastPkgItr.hasNext();)
-	{
-		IPackageModel lastPkg = (IPackageModel)lastPkgItr.next();
-		buffer.append(lastPkg);
-	}
-		}
-	}
-	buffer.append("</Result>");
-//		} else if(method.equals("reOrderCcategory")) {
-//			String categoryId = request.getParameter("categoryId");
-//			boolean upDown = CommonUtil.toBoolean(request.getParameter("upDown"));
-//			SmartServerManager.getInstance().getCategoryManager().doReorderCategory(userId, categoryId, upDown);
-	
-//			buffer.append("<Result status=\"OK\">");
-//			buffer.append("</Result>");
-
+			Map lastPkgCond = new HashMap();
+			lastPkgCond.put("modifier", userId);
+			Map lastPkgOrder = new HashMap();
+			lastPkgOrder.put("modifiedTime", "desc");
+			IPackageModelList lastPkgModelList = SmartServerManager.getInstance().getResourceDesigntimeManager().searchPackageByCondition(userId, lastPkgCond, lastPkgOrder, 0, 10);
+			buffer.append("<Result status=\"OK\">");
+			if (lastPkgModelList != null)
+			{
+				List lastPkgList = lastPkgModelList.getPackageModelList();
+				if (lastPkgList != null && !lastPkgList.isEmpty()) {
+			for (Iterator lastPkgItr = lastPkgList.iterator(); lastPkgItr.hasNext();)
+			{
+				IPackageModel lastPkg = (IPackageModel)lastPkgItr.next();
+				buffer.append(lastPkg);
+			}
+				}
+			}
+			buffer.append("</Result>");
 		} else if(method.equals("getEventDays")) {
-	
-	String companyId = request.getParameter("companyId");
-	Date fromDate = DateUtil.toDate(request.getParameter("fromDate"), "yyyyMMdd");
-	Date toDate = DateUtil.toDate(request.getParameter("toDate"), "yyyyMMdd");
-	
-	SwwEventdayCond cond = new SwwEventdayCond();
-	cond.setCompanyId(companyId);
-	cond.setSearchMode(true);
-	cond.setSearchFromDate(fromDate);
-	cond.setSearchToDate(toDate);
-	
-	SwwEventday[] eventdays = SmartApi.getEventdays(userId, cond, "all");
-	
-	buffer.append(convertEventDay(eventdays));
-		
-		} else if(method.equals("getPublishedWorkHours")) {
-	String companyId = request.getParameter("companyId");
-	Date fromDate = DateUtil.toDate(request.getParameter("fromDate"), "yyyyMMdd");
-	Date toDate = DateUtil.toDate(request.getParameter("toDate"), "yyyyMMdd");
-	
-	SwwWorkhour workhour = SmartApi.getPublishedWorkhour(userId, companyId);
-	
-	buffer.append(convertWorkHour(workhour));
-	
+			throw new Exception("method : getEventDays - Not Include From V2");
 		} else if(method.equals("getWorkCalendar")) {
-	String companyId = request.getParameter("companyId");
-	Date fromDate = DateUtil.toDate(request.getParameter("fromDate"), "yyyyMMdd");
-	Date toDate = DateUtil.toDate(request.getParameter("toDate"), "yyyyMMdd");
-	
-	SwwWorkhour[] workhours = SmartApi.getValidWorkhoursByFromTo(companyId, userId, fromDate, toDate);
-	
-	SwwEventdayCond cond = new SwwEventdayCond();
-	cond.setCompanyId(companyId);
-	cond.setSearchMode(true);
-	cond.setSearchFromDate(fromDate);
-	cond.setSearchToDate(toDate);
-	
-	SwwEventday[] eventdays = SmartApi.getEventdays(userId, cond, "all");
-	
-	buffer.append(convertWorkCalendar(workhours, eventdays));
-	
+			throw new Exception("method : getWorkCalendar - Not Include From V2");
 		} else if(method.equals("getApprovalLineDefs")) {
-	String companyId = request.getParameter("companyId");		
-		
-	AprApprovalLineDefCond lineDefCond = new AprApprovalLineDefCond();
-	lineDefCond.setCompanyId(companyId);
-	
-	AprApprovalLineDef[] lineDefs = SmartApi.getApprovalLineDefs(userId, lineDefCond, "all");
-	buffer.append(convertApprovalLineDef(lineDefs));
-		
-	
+			throw new Exception("method : getApprovalLineDefs - Not Include From V2");
 		} else if(method.equals("retrieveRootCategory")) {
-	//ICategoryModel category = catMgr.retrievePkgRootCategory(userId);
-	CtgCategory category = SmartApi.getPkgRootCategory(compId, userId);
-	buffer.append(convert(category));
-		
+			throw new Exception("method : retrieveRootCategory - Not Include From V2");
 		} else if(method.equals("retrieveParentCategory")) {
-	String categoryId = request.getParameter("categoryId");
-	//ICategoryModel category = catMgr.retrieveParentCategory(userId, categoryId);
-	CtgCategory category = SmartApi.getParentCategory(compId, userId, categoryId);
-	buffer.append(convert(category));
-		
+			throw new Exception("method : retrieveParentCategory - Not Include From V2");
 		} else if(method.equals("retrieveCategory")) {
-	String categoryId = request.getParameter("categoryId");
-	//ICategoryModel category = catMgr.retrieveCategory(userId, categoryId);
-	CtgCategory category = SmartApi.getCategory(compId, userId, categoryId);
-	buffer.append(convert(category));
-	
+			throw new Exception("method : retrieveCategory - Not Include From V2");
 		} else if(method.equals("retrieveChildrenByCategoryId")) {
-	String categoryId = request.getParameter("categoryId");
-	//List<ICategoryModel> categoryList = catMgr.findChildren(userId, categoryId, null);
-	CtgCategory[] categoryList = SmartApi.findChildren(compId, userId, categoryId);
-	buffer.append(convert(categoryList));
-	
+			throw new Exception("method : retrieveChildrenByCategoryId - Not Include From V2");
 		} else if(method.equals("retrievePackageByCategoryId")) {
-	String categoryId = request.getParameter("categoryId");
-
-	PkgPackageCond packageCond = new PkgPackageCond();
-	//packageCond.setStatus("DEPLOYED");
-	packageCond.setCategoryId(categoryId);
-	packageCond.setOrders(new Order[] {new Order("name", true)});
-	PkgPackage[] packages = SmartApi.getPackagesWithCategoryInfo(compId, userId, packageCond);
-	buffer.append(convert(packages));
-	
+			throw new Exception("method : retrievePackageByCategoryId - Not Include From V2");
 		} else if(method.equals("deployGanttProcessContent")) {
-	//userId, compId
-	String packId = request.getParameter("packId");
-	String packVer = request.getParameter("packVer");
-	String processContent = request.getParameter("processContent");
-	SmartApi.deployGanttProcessContent(userId, processContent);
-	
+			throw new Exception("method : deployGanttProcessContent - Not Include From V2");
 		} else if(method.equals("webServiceList")) {
-	//userId, objId(단위)
-	//userId, companyId(전체)
-	String objId = request.getParameter("objId");
-	String companyId = request.getParameter("companyId");
-	compId = request.getParameter("compId");
-	
-	SwManagerFactory factory = SwManagerFactory.getInstance();
-	IWebManager webMgr = factory.getWebManager();
-	WebWebServiceCond cond = new WebWebServiceCond();
-	WebWebService[] webService = null;
-	
-	if(objId != null) {
-		cond.setObjId(objId);
-		webService = webMgr.getWebServices(userId, cond, "all");	
-	} else if(compId != null) {
-		cond.setCompanyId(compId);
-		webService = webMgr.getWebServices(userId, cond, "all");
-	}
-	
-	StringBuffer buffers = new StringBuffer();
-	StringBuffer inparmeter = new StringBuffer();
-	StringBuffer outparmeter = new StringBuffer();
-	
-	if(webService != null) {
-		
-		buffer.append(" <Result status=\"OK\">");
-		buffer.append(" <webServiceList size=\""+webService.length+"\"> ");
-		
-		for (int j=0; j<webService.length; j++) {
-			String webcompanyId = webService[j].getCompanyId();
-			String serviceAddress = webService[j].getWebServiceAddress();
-			String serviceName = webService[j].getWebServiceName();
-			String wsdlAddress = webService[j].getWsdlAddress();
-			String portName = webService[j].getPortName();
-			String webobjId = webService[j].getObjId();
-			String opName = webService[j].getOperationName();
-			String description = webService[j].getDescription();
-			
-			buffers.append(" <webService compId=\""+ webcompanyId +"\" objId=\""+webobjId+"\" webServiceName=\""+serviceName+"\" webServiceAddress=\""+serviceAddress+"\" wsdlAddress=\""+wsdlAddress+"\" portName=\""+portName+"\" operationName=\""+opName+"\"> ");
-			buffers.append(" <description><![CDATA[ ");
-			buffers.append(description);
-			buffers.append(" ]]></description> ");	
-			
-			WebWebServiceParameter[] params = webService[j].getWebServiceParameters();
-			
-			int incount=0;
-			int outcount=0;
-			
-			List count = new ArrayList();
-			for(int u=0; u<params.length; u++) {
-				String type = params[u].getType();
-				if(type.equals("I")) {
-					count.add(type);
-				incount = count.size();
-				}
-			}			
-			if(params != null) {					
-				boolean inFirst = true;
-				boolean outFirst = true;
-				for(int i=0; i<params.length; i++) {
-				String type = params[i].getType();
-				
-				if(type.equalsIgnoreCase("I")){
-					String inputName = params[i].getParameterName();
-					String inputType = params[i].getParameterType();
-					String variable = params[i].getVariableName();
-					if(inFirst){
-						buffers.append("<webServiceInputParameters>");
-					}
-						buffers.append("<webServiceInputParameter inputName=\"" +inputName+"\" inputType=\""+inputType+"\" inputVariableName=\""+variable+"\">");
-						buffers.append("</webServiceInputParameter>");
-					
-					if((incount-1) == i) {//0:1 //1:1
-						buffers.append("</webServiceInputParameters>");
-					}
-					inFirst = false;	
-				} else if(type.equalsIgnoreCase("O")) {
-					String outputName = params[i].getParameterName();
-					String outputType = params[i].getParameterType();
-					String variable = params[i].getVariableName();
-					if(outFirst){
-						buffers.append("<webServiceOutputParameters>");
-					}	
-						buffers.append("<webServiceOutputParameter outputName=\"" +outputName+"\" outputType=\""+outputType+"\" outputVariableName=\""+variable+"\">");
-						buffers.append("</webServiceOutputParameter>");	
-					if(params.length-1 == i) {//4-1:3
-						buffers.append("</webServiceOutputParameters>");
-					}
-					outFirst = false;
-				}
-					}
-					buffers.append("</webService>");
-				}
-			}
-		buffer.append(buffers.toString());
-		buffer.append("</webServiceList>");
-		buffer.append("</Result>");
-	}
-		// 에러 - 지원하지 않는 메소드
+			throw new Exception("method : webServiceList - Not Include From V2");
 		} else if(method.equals("webAppServiceList") ) {
-			String objId = request.getParameter("objId");
-			compId = request.getParameter("compId");
-			
-			SwManagerFactory factory = SwManagerFactory.getInstance();
-			IWebManager webMgr = factory.getWebManager();
-			WebWebAppServiceCond cond = new WebWebAppServiceCond();
-			WebWebAppService[] webAppService = null;
-			
-			if(objId != null) {
-				cond.setObjId(objId);
-				webAppService = webMgr.getWebAppServices(userId, cond, "all");	
-			} else if(compId != null) {
-				cond.setCompanyId(compId);
-				webAppService = webMgr.getWebAppServices(userId, cond, "all");
-			}
-			
-			StringBuffer buffers = new StringBuffer();
-			StringBuffer inparmeter = new StringBuffer();
-			StringBuffer outparmeter = new StringBuffer();
-			
-			if(webAppService != null) {
-				
-				buffer.append(" <Result status=\"OK\">");
-				buffer.append(" <webAppServiceList size=\""+webAppService.length+"\"> ");
-				
-				for (int j=0; j<webAppService.length; j++) {
-					String webcompanyId = webAppService[j].getCompanyId();
-					String serviceUrl = webAppService[j].getWebAppServiceUrl();
-					String serviceName = webAppService[j].getWebAppServiceName();
-					String modifyMethod = webAppService[j].getModifyMethod();
-					String viewMethod = webAppService[j].getViewMethod();
-					String webobjId = webAppService[j].getObjId();
-					String description = webAppService[j].getDescription();
-					
-					buffers.append(" <webAppService compId=\""+ webcompanyId +"\" objId=\""+webobjId+"\" webAppServiceName=\""+serviceName+"\" webAppServiceUrl=\""+serviceUrl+"\"  modifyMethod=\""+modifyMethod+"\" viewMethod=\""+viewMethod+"\"> ");
-					buffers.append(" <description><![CDATA[ ");
-					buffers.append(description);
-					buffers.append(" ]]></description> ");	
-					
-					WebWebAppServiceParameter[] params = webAppService[j].getWebAppServiceParameters();
-					
-					if (!CommonUtil.isEmpty(params)) {
-						List<WebWebAppServiceParameter> viewParamList = new ArrayList<WebWebAppServiceParameter>();
-						List<WebWebAppServiceParameter> editParamList = new ArrayList<WebWebAppServiceParameter>();
-						List<WebWebAppServiceParameter> returnParamList = new ArrayList<WebWebAppServiceParameter>();
-						
-						for(int u = 0; u < params.length; u++) {
-							String type = params[u].getType();
-							if(type.equals("M")) {
-								editParamList.add(params[u]);
-							} else if (type.equals("V")) {
-								viewParamList.add(params[u]);
-							} else if (type.equals("R")) {
-								returnParamList.add(params[u]);
-							}
-						}	
-						
-						if (CommonUtil.isEmpty(editParamList)) {
-							buffers.append("<webAppServiceModifyParameters/>");
-						} else {
-							buffers.append("<webAppServiceModifyParameters>");
-							for (int i = 0; i < editParamList.size(); i++) {
-								WebWebAppServiceParameter appServiceParam = editParamList.get(i);
-								String modifyName = appServiceParam.getParameterName();
-								String modifyType = appServiceParam.getParameterType();
-								String modifyVariable = appServiceParam.getVariableName();
-								buffers.append("<webAppServiceModifyParameter modifyName=\"" +modifyName+"\" modifyType=\""+modifyType+"\" modifyVariableName=\""+modifyVariable+"\">");
-								buffers.append("</webAppServiceModifyParameter>");
-								
-							}
-							buffers.append("</webAppServiceModifyParameters>");
-						}
-
-						if (CommonUtil.isEmpty(viewParamList)) {
-							buffers.append("<webAppServiceViewParameters/>");
-						} else {
-							buffers.append("<webAppServiceViewParameters>");
-							for (int i = 0; i < viewParamList.size(); i++) {
-								WebWebAppServiceParameter appServiceParam = viewParamList.get(i);
-								String viewName = appServiceParam.getParameterName();
-								String viewType = appServiceParam.getParameterType();
-								String viewVariable = appServiceParam.getVariableName();
-								buffers.append("<webAppServiceViewParameter viewName=\"" +viewName+"\" viewType=\""+viewType+"\" viewVariableName=\""+viewVariable+"\">");
-								buffers.append("</webAppServiceViewParameter>");	
-							}
-							buffers.append("</webAppServiceViewParameters>");
-						}
-
-						if (CommonUtil.isEmpty(returnParamList)) {
-							buffers.append("<webAppServiceReturnParameters/>");
-						} else {
-							buffers.append("<webAppServiceReturnParameters>");
-							for (int i = 0; i < returnParamList.size(); i++) {
-								WebWebAppServiceParameter appServiceParam = returnParamList.get(i);
-								String returnName = appServiceParam.getParameterName();
-								String returnType = appServiceParam.getParameterType();
-								String returnVariable = appServiceParam.getVariableName();
-								buffers.append("<webAppServiceReturnParameter returnName=\"" +returnName+"\" returnType=\""+returnType+"\" returnVariableName=\""+returnVariable+"\">");
-								buffers.append("</webAppServiceReturnParameter>");	
-							}
-							buffers.append("</webAppServiceReturnParameters>");
-						}
-						
-					}	
-					buffers.append("</webAppService>");
-					
-				}
-				buffer.append(buffers.toString());
-				buffer.append("</webAppServiceList>");
-				buffer.append("</Result>");
-			}
-			
+			throw new Exception("method : webAppServiceList - Not Include From V2");
 		} else {
-	buffer.append("<Result status=\"Failed\"><message>Invalid method! Not found method parameter</message><trace/></Result>");
+			// 에러 - 지원하지 않는 메소드
+			buffer.append("<Result status=\"Failed\"><message>Invalid method! Not found method parameter</message><trace/></Result>");
 		}
 		System.out.println("###########################" + method + "#######################################");
 		System.out.println(buffer.toString());
