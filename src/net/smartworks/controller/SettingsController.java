@@ -20,6 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SettingsController {
 	
+	@RequestMapping("/settings_home")
+	public ModelAndView settings(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/home.jsp", "settings_home.tiles");
+	}
+
 	@RequestMapping("/company_general")
 	public ModelAndView companyGeneral(HttpServletRequest request, HttpServletResponse response) {
 
