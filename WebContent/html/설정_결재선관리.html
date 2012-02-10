@@ -23,7 +23,7 @@
 			<ul class="portlet_r" style="display: block;">
 				<!-- 타이틀 -->
 				<div class="body_titl">
-					<div class="body_titl_iworks title_noico">회사 달력</div>
+					<div class="body_titl_iworks title_noico">결재선 관리</div>
 					<div class="solid_line"></div>
 				</div>
 				<!-- 타이틀 -->
@@ -31,18 +31,9 @@
 				<div class="contents_space">
 					<!-- 타이틀 영역 -->
 					<div class="list_title_space">
-						<div class="title">회사 달력 목록</div>
+						<div class="title">결재선 목록</div>
 						<!-- 우측버튼 -->
 						<div class="titleLineBtns">
-							<div class="po_left">
-								<select name="">
-									<option>전 체</option>
-									<option>2010년도</option>
-									<option>2011년도</option>
-									<option>2012년도</option>
-									<option>2013년도</option>
-								</select>
-							</div>
 							<div class="btnIconsCreate"> <a class="btnIconsTail" href="">추가하기</a> </div>
 						</div>
 						<!-- 우측버튼 //-->
@@ -51,44 +42,68 @@
 					<!-- 추가하기 테이블 -->
 					<div class="form_wrap up up_padding margin_b2 clear">
 						<div class="form_title">
-							<div class="ico_iworks title_noico">행사일/휴일 추가</div>
+							<div class="ico_iworks title_noico">결재선 추가</div>
 							<div class="solid_line clear"></div>
 						</div>
 						<div class="form_layout  margin_b10">
 							<table>
 								<tbody>
 									<tr>
-										<th width="15%">이 름<span class="essen_n"></span></th>
-										<td width="35%"><input class="fieldline" type="text" title="" value="" /></td>
-										<th width="15%">구 분</th>
-										<td width="35%"><select name="select3" id="select">
-												<option>휴 일</option>
+										<th width="20%">결재선 이름 <span class="essen_n"></span></th>
+										<td colspan="3" width="80%" ><input name="" type="text" class="fieldline"/>
+										</td>
+									</tr>
+									<tr>
+										<th>설 명</th>
+										<td colspan="3"><textarea name="" id="" cols="" rows="3" class="fieldline"></textarea>
+										</td>
+									</tr>
+									<tr>
+										<th>결재레벨 <span class="essen_n"></span></th>
+										<td colspan="3"><select>
+												<option>3 단 </option>
 											</select>
 										</td>
 									</tr>
 									<tr>
-										<th>시작일자<span class="essen_n"></span></th>
-										<td><input class="fieldline space_data" type="text" value="2010.11.10">
-											<a class="" href=""> <span class="ico_fb_time po_ico_time"></span> </a> </td>
-										<th>종료일자<span class="essen_n"></span></th>
-										<td><input class="fieldline space_data" type="text" value="2010.11.10">
-											<a class="" href=""> <span class="ico_fb_time po_ico_time"></span> </a> </td>
+										<th>결재 단계 이름</th>
+										<td width="26%"><input name="input" type="text" class="fieldline"/></td>
+										<td width="26%"><input name="input2" type="text" class="fieldline"/></td>
+										<td width="26%"><input name="input3" type="text" class="fieldline"/></td>
 									</tr>
 									<tr>
-										<th>관련자</th>
-										<td colspan="3"><div class="ico_fb_space">
-												<div class="fieldline">
-													<div class="user_sel_area"></div>
-													<input class="" type="text" href="community_name.sw">
-													<div class="js_srch_x"></div>
-												</div>
-												<div class="js_community_list srch_list_nowid" style="display: none"></div>
-												<span class="js_community_popup"></span> <a class="js_userpicker_button" href=""> <span class="ico_fb_users"></span> </a> </div></td>
-									</tr>
-									<tr>
-										<th>설 명</th>
-										<td colspan="3"><textarea class="fieldline" name="" id="" cols="" rows="5"></textarea>
+										<th>결재자</th>
+										<td><select name="select" id="select">
+												<option>기안시 지정</option>
+											</select>
 										</td>
+										<td><select name="select2" id="select2">
+												<option>기안시 지정</option>
+											</select></td>
+										<td><select name="select3" id="select3">
+												<option>기안시 지정</option>
+											</select></td>
+									</tr>
+									<tr>
+										<th>평균 소요시간</th>
+										<td><input name="" type="text" class="fieldline" style="width:30px"/>
+											일
+											<input name="" type="text" class="fieldline" style="width:20px"/>
+											시간
+											<input name="" type="text" class="fieldline" style="width:20px"/>
+											분 </td>
+										<td><input name="input4" type="text" class="fieldline" style="width:30px"/>
+											일
+											<input name="input4" type="text" class="fieldline" style="width:20px"/>
+											시간
+											<input name="input4" type="text" class="fieldline" style="width:20px"/>
+											분 </td>
+										<td><input name="input5" type="text" class="fieldline" style="width:30px"/>
+											일
+											<input name="input5" type="text" class="fieldline" style="width:20px"/>
+											시간
+											<input name="input5" type="text" class="fieldline" style="width:20px"/>
+											분 </td>
 									</tr>
 								</tbody>
 							</table>
@@ -104,63 +119,40 @@
 					<div class="list_contents">
 						<div>
 							<table>
-								<colgroup>
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								</colgroup>
 								<tbody>
 									<tr class="tit_bg">
-										<th class="r_line">시작일자</th>
-										<th class="r_line">종료일자</th>
-										<th class="r_line">구 분</th>
-										<th class="r_line">이 름</th>
-										<th class="r_line">설 명</th>
-										<th class="r_line">관련자</th>
-										<th>처 리</th>
+										<th width="28%" class="r_line">결재선 이름</th>
+										<th width="27%" class="r_line">설 명</th>
+										<th width="27%" class="r_line">결재 레벨</th>
+										<th width="18%">처 리</th>
 									</tr>
 									<tr>
-										<td>2012.01.22</td>
-										<td>2012.01.24</td>
-										<td>휴일</td>
-										<td>설날</td>
-										<td>20112년 설날(구정)입니다.모두모두 새해 많이받으세요~</td>
-										<td>맨인소프트</td>
-										<td><input type="button" class="btn_s_modi"/>
+										<td>연구소 라인결재</td>
+										<td>&nbsp;</td>
+										<td>2단</td>
+										<td class="text_align_c"><input type="button" class="btn_s_modi"/>
+											<input type="button" class="btn_s_del"/>
+										</td>
+									</tr>
+									<tr>
+										<td>3단 결재</td>
+										<td>검토-승인-확인</td>
+										<td>3단</td>
+										<td class="text_align_c"><input type="button" class="btn_s_modi"/>
 											<input type="button" class="btn_s_del"/></td>
 									</tr>
 									<tr>
-										<td><p>2011.06.06</p></td>
-										<td>2011.06.06</td>
-										<td>휴일</td>
-										<td> 현충일</td>
-										<td>공휴일</td>
-										<td>맨인소프트</td>
-										<td><input type="button" class="btn_s_modi"/>
+										<td>1단</td>
+										<td>&nbsp;</td>
+										<td>1단</td>
+										<td class="text_align_c"><input type="button" class="btn_s_modi"/>
 											<input type="button" class="btn_s_del"/></td>
 									</tr>
 									<tr>
-										<td>2011.04.22</td>
-										<td>2011.04.23</td>
-										<td>행사일</td>
-										<td>사내 춘계 워크샵</td>
-										<td>사내 춘계 워크샵 진행 : 2011-04-23, 강촌</td>
-										<td>맨인소프트</td>
-										<td><input type="button" class="btn_s_modi"/>
-											<input type="button" class="btn_s_del"/></td>
-									</tr>
-									<tr>
-										<td>2011.07.13</td>
-										<td>2011.07.03</td>
-										<td>행사일</td>
-										<td>창립기념일</td>
-										<td>창립 5주년</td>
-										<td>맨인소프트</td>
-										<td><input type="button" class="btn_s_modi"/>
+										<td>2단 결재</td>
+										<td>검토-최종승인</td>
+										<td>2단</td>
+										<td class="text_align_c"><input type="button" class="btn_s_modi"/>
 											<input type="button" class="btn_s_del"/></td>
 									</tr>
 								</tbody>

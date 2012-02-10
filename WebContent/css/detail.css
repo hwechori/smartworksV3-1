@@ -316,7 +316,11 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .btnIconsEdit{background: url("../images/bgBtnIcons.gif") 0 -21px no-repeat;height:21px;display:inline-block;padding-left:22px}
 .btnIconsCreate{background: url("../images/bgBtnIcons.gif") 0 -42px no-repeat;height:21px;display:inline-block;padding-left:22px}
 .btnIconsExcel{background: url("../images/bgBtnIcons.gif") 0 -63px no-repeat;height:21px;display:inline-block;padding-left:22px}
+.btnIconStart{background: url("../images/bgBtnIcons.gif") 0 -84px no-repeat;height:21px;display:inline-block;padding-left:5px}
 .btnIconsTail{background: url("../images/bgBtnIconsTail.gif") 100% 0 no-repeat;height:21px;display:inline-block;padding-right:5px;line-height:1.8}
+
+.btn_s_modi {background: url("../images/btn_modi.gif") 0 0; height:21px; width:40px; display:inline-block;}
+.btn_s_del {background: url("../images/bt_delete.gif") 0 0; height:21px; width:40px; display:inline-block;}
 
 .borderGrayBox form,.borderGrayBox1 form{vertical-align:middle}
 .borderGrayBox .srch_wsize,.borderGrayBox1 .srch_wsize{margin:0}
