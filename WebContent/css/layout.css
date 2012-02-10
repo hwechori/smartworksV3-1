@@ -318,7 +318,7 @@ a .btn_apps:hover,
 .up_board a.current:hover {background: url("../images/header_nico.png") no-repeat -563px -190px; font-weight:bold;}
 
 .up {border:1px solid #c7c7c7; padding:3px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
-.fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:98%;} /* 한줄 input, text박스 쓸때 */
+.fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
 .up_padding {padding:0; position:relative;}
 .up_width {width:450px;}
 
@@ -401,7 +401,7 @@ a .btn_apps:hover,
 .form_space {padding-right:3px;}
 .ico_space { padding-right:26px; position:relative;}
 .btn_space { padding-right:72px; position:relative;}
-.space_data {text-align:center; margin-right:5px; width:65px;}
+.space_data {text-align:center; margin-right:5px; width:70px;}
 .nomal {padding: 0 0 0 14px;}
 
 .js_report_title th,.js_form_by_report_type th{width:17%;font-weight:normal}
@@ -433,7 +433,7 @@ a .btn_apps:hover,
 .table_nomal600 {position: relative;}
 .table_nomal600 table {width: 555px; min-width:555px !important}
 .table_nomal600 table tr {height:32px}
-.boTb { border-top:1px solid #DCDFE0; border-bottom:1px solid #DCDFE0; clear:both; padding:10px 0;}
+.boTb { border-top:1px solid #DCDFE0; border-bottom:1px solid #DCDFE0; clear:both; padding:10px 0; margin:2px 0}
 
 
 /* table Gray */
@@ -652,7 +652,7 @@ td.pic{width:85px}
 .arr {font-size:10px; margin-right:2px;}
 
 /* Line Style */
-.solid_line { border-top:2px solid #999999; width:100%; clear:both}
+.solid_line { border-top:2px solid #999999; width:100%}
 .table_line { border-top:2px solid #e5e5e5; width:100%;}
 .solid_line_s { border-top:1px solid #c7c7c7; width:100%;}
 .solid_line_sb { border-bottom:1px solid #c7c7c7; width:100%;}
