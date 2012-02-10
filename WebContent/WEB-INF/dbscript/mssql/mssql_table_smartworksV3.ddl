@@ -98,6 +98,7 @@ CREATE TABLE SWOrgGroupMember (
 	joinStatus	varchar(1),
 	joinTime	datetime,
 	outTime 	datetime,
+	memberSeq	int,
 	primary key (groupId, userId)
 );
 
