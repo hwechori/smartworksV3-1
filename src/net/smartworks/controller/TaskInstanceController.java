@@ -64,25 +64,25 @@ public class TaskInstanceController {
 
 		return SmartUtil.returnMnv(request, "jsp/content/community/space/more_space_task_histories.jsp", "");
 	}
-
+	//처리
 	@RequestMapping(value = "/perform_task_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void performTaskInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		smartworks.performTaskInstance(requestBody, request);
 	}
-
+	//반려
 	@RequestMapping(value = "/return_task_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void returnTaskInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		smartworks.returnTaskInstance(requestBody, request);
 	}
-
+	//위임
 	@RequestMapping(value = "/reassign_task_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void reassignTaskInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		smartworks.reassignTaskInstance(requestBody, request);
 	}
-
+	//저장
 	@RequestMapping(value = "/temp_save_task_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void tempSaveTaskInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {

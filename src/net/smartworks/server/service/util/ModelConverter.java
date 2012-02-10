@@ -1590,6 +1590,8 @@ public class ModelConverter {
 		TskTaskCond tskCond = new TskTaskCond();
 		tskCond.setProcessInstId(prcInst.getObjId());
 		tskCond.setTypeNotIns(TskTask.NOTUSERTASKTYPES);
+
+		tskCond.setOrders(new Order[] {new Order(TskTask.A_CREATIONDATE, true)});
 		
 		TskTask[] tasks = getTskManager().getTasks("", tskCond, IManager.LEVEL_LITE);
 		
