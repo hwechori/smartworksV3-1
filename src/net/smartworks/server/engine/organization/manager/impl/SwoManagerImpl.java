@@ -19,11 +19,11 @@ import java.util.Map;
 import net.smartworks.model.community.User;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.manager.IManager;
-import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.SizeMap;
 import net.smartworks.server.engine.common.util.id.IDCreator;
+import net.smartworks.server.engine.infowork.domain.exception.SwdException;
 import net.smartworks.server.engine.organization.exception.SwoException;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoAuthority;
@@ -50,10 +50,17 @@ import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartMessage;
 
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.hibernate.dialect.Dialect;
+import org.hibernate.dialect.PostgreSQLDialect;
+import org.hibernate.dialect.SQLServerDialect;
+import org.hibernate.engine.SessionFactoryImplementor;
+import org.springframework.util.StringUtils;
 
 public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 
 	private Map<String, SwoUser> userCache = new Hashtable<String, SwoUser>();
+	private String dbType;
 
 	public SwoManagerImpl() {
 		super();
@@ -2491,12 +2498,12 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			swoGroupMembers = cond.getSwoGroupMembers();
 		}
 		buf.append(" from SwoGroup obj");
-		buf.append(" where obj.id is not null");
 		if (swoGroupMembers != null && swoGroupMembers.length != 0) {
 			for (int i=0; i<swoGroupMembers.length; i++) {
 				buf.append(" left join obj.swoGroupMembers as groupMember").append(i);
 			}
 		}
+		buf.append(" where obj.id is not null");
 		//TODO 시간 검색에 대한 확인 필요
 		if (cond != null) {
 			if (id != null)
@@ -2700,6 +2707,40 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 
 		query.executeUpdate();
 
+	}
+
+	public String getDbType() {
+		if (dbType == null) {
+			SessionFactory sf = getSessionFactory();
+			SessionFactoryImplementor sfi = (SessionFactoryImplementor)sf;
+			Dialect dialect = sfi.getDialect();
+			if (dialect instanceof PostgreSQLDialect) {
+				dbType = "postgresql";
+			} else if (dialect instanceof SQLServerDialect) {
+				dbType = "sqlserver";
+			} else {
+				dbType = "oracle";
+			}
+		}
+		return dbType;
+	}
+	public void setDbType(String dbType) {
+		this.dbType = dbType;
+	}
+
+	public void addTableColumn(String user, String table, String column, String type) throws SwdException {
+		if (table == null || column == null || type == null)
+			return;
+		if (this.getDbType().equalsIgnoreCase("sqlserver"))
+			type = StringUtils.replace(type, "timestamp", "datetime");
+		StringBuffer buf = new StringBuffer("alter table ").append(table);
+		buf.append(" add ").append(column).append(CommonUtil.SPACE).append(type);
+		try {
+			Query query = this.createSqlQuery(buf.toString(), null);
+			query.executeUpdate();
+		} catch (Exception e) {
+			throw new SwdException(e);
+		}
 	}
 
 }

@@ -119,8 +119,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public Group setGroup(HttpServletRequest request) throws Exception {
-		return communityService.setGroup(request);
+	public String setGroup(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return communityService.setGroup(requestBody, request);
 	}
 
 	@Override

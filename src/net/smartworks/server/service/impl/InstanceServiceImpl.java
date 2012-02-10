@@ -11,8 +11,11 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.smartworks.model.community.Community;
 import net.smartworks.model.community.User;
+import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
@@ -78,6 +81,7 @@ import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
+import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
@@ -85,6 +89,7 @@ import net.smartworks.util.SmartMessage;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -107,6 +112,13 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	private ISwoManager getSwoManager() {
 		return SwManagerFactory.getInstance().getSwoManager();
+	}
+
+	ICommunityService communityService;
+	
+	@Autowired
+	public void setCommunityService(ICommunityService communityService) {
+		this.communityService = communityService;
 	}
 
 	/*
@@ -177,8 +189,14 @@ public class InstanceServiceImpl implements IInstanceService {
 					int type = WorkInstance.TYPE_INFORMATION;
 					boardInstanceInfo.setType(type);
 					boardInstanceInfo.setStatus(WorkInstance.STATUS_COMPLETED);
-					boardInstanceInfo.setWorkSpace(null);
-	
+					String workSpaceId = swdRecord.getWorkSpaceId();
+					if(workSpaceId == null)
+						workSpaceId = user.getId();
+
+					WorkSpaceInfo workSpaceInfo = communityService.getWorkSpaceInfoById(workSpaceId);
+
+					boardInstanceInfo.setWorkSpace(workSpaceInfo);
+
 					WorkCategoryInfo groupInfo = null;
 					if (!CommonUtil.isEmpty(swdRecordExtends[0].getSubCtgId()))
 						groupInfo = new WorkCategoryInfo(swdRecordExtends[0].getSubCtgId(), swdRecordExtends[0].getSubCtg());

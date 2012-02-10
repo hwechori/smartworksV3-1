@@ -1,5 +1,7 @@
 package net.smartworks.server.service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.community.Department;
@@ -24,13 +26,15 @@ public interface ICommunityService {
 
 	public abstract GroupInfo[] getMyGroups() throws Exception;
 
-	public abstract Group setGroup(HttpServletRequest request) throws Exception;
+	public abstract String setGroup(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract Department getDepartmentById(String departmentId) throws Exception;
 
 	public abstract DepartmentInfo[] getMyDepartments() throws Exception;
 
 	public abstract WorkSpace getWorkSpaceById(String workSpaceId) throws Exception;
+
+	public abstract WorkSpaceInfo getWorkSpaceInfoById(String workSpaceId) throws Exception;
 
 	public abstract UserInfo[] getAvailableChatter() throws Exception;
 

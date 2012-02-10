@@ -126,7 +126,9 @@
 	</class>
 
 	<class name="SwoGroup" table="SWOrgGroup">
-		<id name="id" type="string" length="50" unsaved-value="undefined" />
+		<id name="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
 		<property name="companyId" type="string" length="50"/>
 		<property name="name" type="string" length="50"/>
 		<property name="groupLeader" type="string" length="50"/>

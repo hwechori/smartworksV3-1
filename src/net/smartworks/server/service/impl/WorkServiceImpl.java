@@ -719,93 +719,105 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception {
 
-		String workId = request.getParameter("workId");
-		String recordId = request.getParameter("recordId");
-		String taskInstId = request.getParameter("taskInstId");
+		try {
+			String workId = request.getParameter("workId");
+			String recordId = request.getParameter("recordId");
+			String taskInstId = request.getParameter("taskInstId");
 
-		SwdRecord swdRecord = null;
-		SwfFormCond swfFormCond = new SwfFormCond();
-		swfFormCond.setPackageId(workId);
+			SwdRecord swdRecord = null;
+			SwfFormCond swfFormCond = new SwfFormCond();
+			swfFormCond.setPackageId(workId);
+			SwfForm[] swfForms = null;
+			String formId = null;
 
-		SwfForm[] swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
-		SwfField[] swfFields = swfForms[0].getFields();
+			if(recordId != null) {
+				swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
+				formId = swfForms[0].getId();
+				SwdRecordCond swdRecordCond = new SwdRecordCond();
+				swdRecordCond.setRecordId(recordId);
+				swdRecordCond.setFormId(formId);
+				swdRecord = getSwdManager().getRecord("", swdRecordCond, IManager.LEVEL_ALL);
+			} else if(taskInstId != null) {
+				TskTaskCond tskTaskCond = new TskTaskCond();
+				tskTaskCond.setObjId(taskInstId);
+				TskTask[] tskTasks = getTskManager().getTasks("", tskTaskCond, null);
+				formId = tskTasks[0].getForm();
+				String tskDocument = tskTasks[0].getDocument();
+				swdRecord = (SwdRecord)SwdRecord.toObject(tskDocument);
+				swfFormCond.setId(formId);
+				swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
+			}
 
-		if(recordId != null) {
-			SwdRecordCond swdRecordCond = new SwdRecordCond();
-			swdRecordCond.setFormId(swfForms[0].getId());
-			swdRecordCond.setRecordId(recordId);
-			swdRecord = getSwdManager().getRecord("", swdRecordCond, null);
-		} else if(taskInstId != null) {
-			TskTaskCond tskTaskCond = new TskTaskCond();
-			tskTaskCond.setObjId(taskInstId);
-			TskTask[] tskTasks = getTskManager().getTasks("", tskTaskCond, null);
-			String tskDocument = tskTasks[0].getDocument();
-			swdRecord = (SwdRecord)SwdRecord.toObject(tskDocument);
-		}
+			SwfField[] swfFields = swfForms[0].getFields();
 
-		SwdDataField[] swdDataFields = swdRecord.getDataFields();
-		for(SwdDataField swdDataField : swdDataFields) {
-			for(SwfField swfField : swfFields) {
-				if(swdDataField.getId().equals(swfField.getId())) {
-					String formatType = swfField.getFormat().getType();
-					String value = swdDataField.getValue();
-					String refRecordId = swdDataField.getRefRecordId();
-					List<Map<String, String>> resultUsers = null;
-					if(formatType.equals(FormField.TYPE_USER)) {
-						if(value != null && refRecordId != null) {
-							String[] values = value.split(";");
-							String[] refRecordIds = refRecordId.split(";");
-							resultUsers = new ArrayList<Map<String,String>>();
-							if(values.length > 0 && refRecordIds.length > 0) {
-								for(int j=0; j<values.length; j++) {
+			SwdDataField[] swdDataFields = swdRecord.getDataFields();
+			for(SwdDataField swdDataField : swdDataFields) {
+				for(SwfField swfField : swfFields) {
+					if(swdDataField.getId().equals(swfField.getId())) {
+						String formatType = swfField.getFormat().getType();
+						String value = swdDataField.getValue();
+						String refRecordId = swdDataField.getRefRecordId();
+						List<Map<String, String>> resultUsers = null;
+						if(formatType.equals(FormField.TYPE_USER)) {
+							if(value != null && refRecordId != null) {
+								String[] values = value.split(";");
+								String[] refRecordIds = refRecordId.split(";");
+								resultUsers = new ArrayList<Map<String,String>>();
+								if(values.length > 0 && refRecordIds.length > 0) {
+									for(int j=0; j<values.length; j++) {
+										Map<String, String> map = new LinkedHashMap<String, String>();
+										map.put("userId", refRecordIds[j]);
+										map.put("longName", values[j]);
+										resultUsers.add(map);
+									}
+								} else {
 									Map<String, String> map = new LinkedHashMap<String, String>();
-									map.put("userId", refRecordIds[j]);
-									map.put("longName", values[j]);
+									map.put("userId", refRecordId);
+									map.put("longName", value);
 									resultUsers.add(map);
 								}
-							} else {
-								Map<String, String> map = new LinkedHashMap<String, String>();
-								map.put("userId", refRecordId);
-								map.put("longName", value);
-								resultUsers.add(map);
+							}
+							swdDataField.setUsers(resultUsers);
+						} else if(formatType.equals(FormField.TYPE_DATE)) {
+							if(value != null) {
+								try {
+									LocalDate localDate = LocalDate.convertGMTSimpleStringToLocalDate(value);
+									if(localDate != null)
+										value = LocalDate.convertGMTSimpleStringToLocalDate(value).toLocalDateSimpleString();
+								} catch (Exception e) {
+								}
+							}
+						} else if(formatType.equals(FormField.TYPE_TIME)) {
+							if(value != null) {
+								try {
+									LocalDate localDate = LocalDate.convertGMTTimeStringToLocalDate(value);
+									if(localDate != null)
+										value = LocalDate.convertGMTTimeStringToLocalDate(value).toLocalTimeShortString();
+								} catch (Exception e) {
+								}
+							}
+						} else if(formatType.equals(FormField.TYPE_DATETIME)) {
+							if(value != null) {
+								try {
+									LocalDate localDate = LocalDate.convertGMTStringToLocalDate(value);
+									if(localDate != null)
+										value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
+								} catch (Exception e) {
+								}
 							}
 						}
-						swdDataField.setUsers(resultUsers);
-					} else if(formatType.equals(FormField.TYPE_DATE)) {
-						if(value != null) {
-							try {
-								LocalDate localDate = LocalDate.convertGMTSimpleStringToLocalDate(value);
-								if(localDate != null)
-									value = LocalDate.convertGMTSimpleStringToLocalDate(value).toLocalDateSimpleString();
-							} catch (Exception e) {
-							}
-						}
-					} else if(formatType.equals(FormField.TYPE_TIME)) {
-						if(value != null) {
-							try {
-								LocalDate localDate = LocalDate.convertGMTTimeStringToLocalDate(value);
-								if(localDate != null)
-									value = LocalDate.convertGMTTimeStringToLocalDate(value).toLocalTimeShortString();
-							} catch (Exception e) {
-							}
-						}
-					} else if(formatType.equals(FormField.TYPE_DATETIME)) {
-						if(value != null) {
-							try {
-								LocalDate localDate = LocalDate.convertGMTStringToLocalDate(value);
-								if(localDate != null)
-									value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
-							} catch (Exception e) {
-							}
-						}
+						swdDataField.setValue(value);
 					}
-					swdDataField.setValue(value);
 				}
 			}
+	
+			return swdRecord;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-
-		return swdRecord;
 	}
+
 	@Override
 	public RequestParams setInstanceListParams(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 

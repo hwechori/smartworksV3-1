@@ -16,6 +16,7 @@ import java.util.Map;
 
 import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.community.Department;
+import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.community.info.DepartmentInfo;
@@ -80,6 +81,8 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoDepartmentExtend;
+import net.smartworks.server.engine.organization.model.SwoGroup;
+import net.smartworks.server.engine.organization.model.SwoGroupMember;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
@@ -1141,6 +1144,90 @@ public class ModelConverter {
 		return department;
 	}
 
+	public static GroupInfo getGroupInfoByGroupId(String groupId) throws Exception {
+		if (CommonUtil.isEmpty(groupId))
+			return null;
+		User cUser = SmartUtil.getCurrentUser();
+		SwoGroup swoGroup = getSwoManager().getGroup(cUser.getId(), groupId, IManager.LEVEL_ALL);
+		return getGroupInfoBySwoGroup(null, swoGroup);
+	}
+
+	public static GroupInfo getGroupInfoBySwoGroup(GroupInfo groupInfo, SwoGroup swoGroup) throws Exception {
+		if (swoGroup == null)
+			return null;
+		if (groupInfo == null) 
+			groupInfo = new GroupInfo();
+
+		groupInfo.setId(swoGroup.getId());
+		groupInfo.setName(swoGroup.getName());
+		groupInfo.setDesc(swoGroup.getDescription());
+
+		String picture = CommonUtil.toNotNull(swoGroup.getPicture());
+		if(!picture.equals("")) {
+			String extension = picture.lastIndexOf(".") > 0 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+			String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+			groupInfo.setSmallPictureName(pictureId + "_small" + "." + extension);
+		} else {
+			groupInfo.setSmallPictureName(picture);
+		}
+
+		return groupInfo;
+	}
+
+	public static Group getGroupByGroupId(String groupId) throws Exception {
+		if (CommonUtil.isEmpty(groupId))
+			return null;
+		User cUser = SmartUtil.getCurrentUser();
+		SwoGroup swoGroup = getSwoManager().getGroup(cUser.getId(), groupId, IManager.LEVEL_ALL);
+
+		return getGroupBySwoGroup(null, swoGroup);
+	}
+
+	public static Group getGroupBySwoGroup(Group group, SwoGroup swoGroup) throws Exception {
+		if (swoGroup == null)
+			return null;
+		if (group == null)
+			group = new Group();
+
+		group.setId(swoGroup.getId());
+		group.setName(swoGroup.getName());
+		group.setDesc(swoGroup.getDescription());
+		group.setPublic(swoGroup.equals("O") ? true : false);
+		//group.setContinue(swoGroup.getStatus().equals("C") ? true : false);
+		User leader = getUserByUserId(swoGroup.getGroupLeader());
+		if(leader != null)
+			group.setLeader(leader);
+
+		User owner = getUserByUserId(swoGroup.getCreationUser());
+		if(owner != null)
+			group.setOwner(owner);
+
+		List<UserInfo> groupMemberList = new ArrayList<UserInfo>();
+		SwoGroupMember[] swoGroupMembers = swoGroup.getSwoGroupMembers();
+		if(swoGroupMembers != null) {
+			for(SwoGroupMember swoGroupMember : swoGroupMembers) {
+				UserInfo groupMember = getUserInfoByUserId(swoGroupMember.getUserId());
+				groupMemberList.add(groupMember);
+			}
+			UserInfo[] groupMembers = new UserInfo[groupMemberList.size()];
+			groupMemberList.toArray(groupMembers);
+			group.setMembers(groupMembers);
+		}
+
+		String picture = CommonUtil.toNotNull(swoGroup.getPicture());
+		if(!picture.equals("")) {
+			String extension = picture.lastIndexOf(".") > 0 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+			String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+			group.setBigPictureName(pictureId + "_big" + "." + extension);
+			group.setSmallPictureName(pictureId + "_small" + "." + extension);
+		} else {
+			group.setBigPictureName(picture);
+			group.setSmallPictureName(picture);
+		}
+
+		return group;
+
+	}
 	public static Work getWorkByCtgCategory(Work work, CtgCategory ctg) throws Exception {
 		if (ctg == null)
 			return null;

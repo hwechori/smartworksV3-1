@@ -139,7 +139,7 @@ public interface ISmartWorks {
 
 	public abstract Group getGroupById(String groupId) throws Exception;
 
-	public abstract Group setGroup(HttpServletRequest request) throws Exception;
+	public abstract String setGroup(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract User getUserById(String userId) throws Exception;
 
