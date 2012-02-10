@@ -381,7 +381,7 @@ a .btn_apps:hover,
 
 .form_title {padding:10px;}
 .form_title .title {font-weight:bold; font-size:14px; padding:0 0 0 19px; position:absolute;} /* 타이틀 우측으로 아이콘이 있을때 */
-.form_title .title_noico  {font-weight:bold; font-size:14px; font-family:'돋움',Dotum, Arial, sans-serif; padding: 0 0 0 19px;} /* 타이틀 우측으로 아이콘이 없을때 */
+.form_title .title_noico  {font-weight:bold; font-size:14px; font-family:'돋움',Dotum, Arial, sans-serif; padding: 0 0 0 19px; margin-bottom:2px} /* 타이틀 우측으로 아이콘이 없을때 */
 .form_contents {padding:0 20px 10px; text-align: center;}
 /* .form_contents table tr {height:30px;} */
 .form_contents table .before_icon {padding:2px 10px 2px 0;}
@@ -419,22 +419,21 @@ a .btn_apps:hover,
 .posit_memo {left:225px; top:1px; position:relative; z-index:20;}
 .posit_board {left:285px; top:1px; position:relative; z-index:20;}
 
-
-/* 테이블 */
-.table_nomal {position: relative;}
-.table_nomal table tr {height:32px}
 .essen {border-left:2px solid #ef972b; border-top:1px solid #c7c7c7; border-right:1px solid #c7c7c7; border-bottom:1px solid #c7c7c7;}
 .essen_r {border-right:2px solid #ef972b; margin-right: 5px;}
 .essen_n {background: url("../images/body_icon.png") no-repeat scroll 0 -452px transparent; width:15px; height:18px; display: inline-block; float: right;}
 .essen_gn {background: url("../images/body_icon.png") no-repeat scroll 0 -453px transparent; padding: 0 0 0 12px;}
 .space_tit {padding: 0 0 0 14px;}
 
+/* Table - Nomal */
+.table_nomal {position: relative;}
+.table_nomal table tr {height:32px}
 
-/* 테이블 - 고정 사이즈 */
+/* Table - Fix 600px */
 .table_nomal600 {position: relative;}
 .table_nomal600 table {width: 555px; min-width:555px !important}
 .table_nomal600 table tr {height:32px}
-.boTb { border-top:1px solid #DCDFE0; border-bottom:1px solid #DCDFE0; clear:both}
+.boTb { border-top:1px solid #DCDFE0; border-bottom:1px solid #DCDFE0; clear:both; padding:10px 0;}
 
 
 /* table Gray */
@@ -653,7 +652,7 @@ td.pic{width:85px}
 .arr {font-size:10px; margin-right:2px;}
 
 /* Line Style */
-.solid_line { border-top:2px solid #999999; width:100%;}
+.solid_line { border-top:2px solid #999999; width:100%; clear:both}
 .table_line { border-top:2px solid #e5e5e5; width:100%;}
 .solid_line_s { border-top:1px solid #c7c7c7; width:100%;}
 .solid_line_sb { border-bottom:1px solid #c7c7c7; width:100%;}

@@ -7,6 +7,8 @@
 .form_label {float:left;}
 .form_value {display:inline-block;}
 
+.form_layout table td {padding:3px 10px;}
+
 /* input 사이즈, form, 상세필터 공용 */
 
 
