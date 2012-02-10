@@ -7,6 +7,9 @@
 .form_label {float:left;}
 .form_value {display:inline-block;}
 
+.form_layout table td,
+.form_layout table th {padding:3px 10px;}
+
 /* input 사이즈, form, 상세필터 공용 */
 
 
@@ -33,6 +36,7 @@
 
 
 .ico_fb_space {padding-right: 28px; position: relative;} /* 아이콘이 들어가 있는 영역 */
+.btn_fb_space {padding-right: 65px; position: relative;} /* 버튼4자 들어가 있는 영역 */
 .ico_fb_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
 .ico_fb_users {background: url("../images/btn_s_persons.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
 .ico_fb_date {background: url("../images/btn_s_calendar.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
@@ -40,6 +44,9 @@
 .ico_fb_work {background: url("../images/btn_s_work.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
 .ico_fb_depart {background: url("../images/btn_s_depart.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
 .ico_fb_group {background: url("../images/btn_s_group.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
+
+.po_ico_time {display:inline-block; right:auto; top:auto}
+.po_rbtn {position: absolute; right: 0; top: 0;}
 
 /* 상세필터 */
 .inputline {border:1px solid #c7c7c7; left:0px; margin-right:2px; width:170px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left;} /* 상세필터 input line*/

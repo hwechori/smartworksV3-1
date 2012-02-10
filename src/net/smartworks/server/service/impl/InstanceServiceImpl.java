@@ -1,6 +1,7 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -90,10 +91,13 @@ import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class InstanceServiceImpl implements IInstanceService {
+	protected final Log logger = LogFactory.getLog(getClass());
 
 	private ITskManager getTskManager() {
 		return SwManagerFactory.getInstance().getTskManager();
@@ -2393,5 +2397,381 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+	private String executeTask(Map<String, Object> requestBody, HttpServletRequest request, String action) throws Exception {
+		User cuser = SmartUtil.getCurrentUser();
+		String userId = null;
+		if (cuser != null)
+			userId = cuser.getId();
+		
+		if (action == null || action.equalsIgnoreCase("EXECUTE") || action.equalsIgnoreCase("RETURN") || action.equalsIgnoreCase("SAVE")) {
+			
+			/*{
+			workId=pkg_cf3b0087995f4f99a41c93e2fe95b22d, 
+			instanceId=402880eb35426e06013542712d7c0002, 
+			taskInstId=402880eb35426e060135427135d20004, 
+			formId=frm_5aeb1a53f9cf439dbe83693be9e27624, 
+			formName=승인자 결재, 
+			frmSmartForm={
+				8=승인자 의견, 
+				12={
+					users=[
+						{
+							id=kmyu@maninsoft.co.kr, 
+							name=연구소장 유광민
+						}
+					]
+				}, 
+				16={users=[{id=kmyu@maninsoft.co.kr, name=연구소장 유광민}]}, 
+				76={users=[{id=kmyu@maninsoft.co.kr, name=연구소장 유광민}]}
+			}
+			}*/
+		
 
+			if (logger.isInfoEnabled()) {
+				logger.info(action + " Task Start [processInstanceId : " + (String)requestBody.get("instanceId") + ", " + (String)requestBody.get("formName") + "( taskId : " + (String)requestBody.get("taskInstId") + ") ] by " + userId);
+			}
+			//태스크인스턴스 아이디를 이용하여 저장 되어 있는 태스크를 조회 하고 실행 가능 여부를 판단한다
+			String taskInstId = (String)requestBody.get("taskInstId");
+			if (CommonUtil.isEmpty(taskInstId))
+				throw new Exception(action +" TaskId Is Null");
+			TskTask task = getTskManager().getTask(userId, taskInstId, IManager.LEVEL_ALL);
+			if (task == null)
+				throw new Exception("Not Exist Task : taskId = " + taskInstId);
+			if (!task.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN))
+				throw new Exception("Task Is Not Executable(" + action + ") Status : taskId = " + taskInstId +" (status - " + task.getStatus() + ")");
+			if (!task.getAssignee().equalsIgnoreCase(userId)) 
+				throw new Exception("Task is Not Executable(" + action + ") Assignee : taskId = " + taskInstId + " (assignee - " + task.getAssignee() + " But performer - " + userId + ")");
+			
+			//태스크에 사용자가 입력한 업무 데이터를 셋팅한다
+			String formId = (String)requestBody.get("formId");
+			SwfForm form = getSwfManager().getForm(userId, formId);
+			SwfField[] formFields = form.getFields();
+			List domainFieldList = new ArrayList();
+			
+			for (SwfField field: formFields) {
+				SwdField domainField = new SwdField();
+				domainField.setFormFieldId(field.getId());
+				domainField.setFormFieldName(field.getName());
+				domainField.setFormFieldType(field.getSystemType());
+				domainField.setArray(field.isArray());
+				domainField.setSystemField(field.isSystem());
+				domainFieldList.add(domainField);
+			}
+			SwdField[] domainFields = new SwdField[domainFieldList.size()];
+			domainFieldList.toArray(domainFields);
+			
+			SwdRecord recordObj = getSwdRecordByRequestBody(userId, domainFields, requestBody, request);
+			String taskDocument = null;
+			if (recordObj != null)
+				taskDocument = recordObj.toString();
+			task.setDocument(taskDocument);
+			if (logger.isInfoEnabled()) {
+				logger.info(action + " Task [processInstanceId : " + (String)requestBody.get("instanceId") + ", " + (String)requestBody.get("formName") + "( taskId : " + (String)requestBody.get("taskInstId") + "), document : " + recordObj.toString() + " ] ");
+			}
+			//태스크의 실제 완료 시간을 입력한다
+			if (task.getRealStartDate() == null)
+				task.setRealStartDate(new LocalDate(new Date().getTime()));
+			task.setRealEndDate(new LocalDate(new Date().getTime()));
+			//태스크를 실행한다
+			
+			if (action.equalsIgnoreCase("save")) {
+				getTskManager().setTask(userId, task, IManager.LEVEL_ALL);
+			} else {
+				getTskManager().executeTask(userId, task, action);
+			}
+			if (logger.isInfoEnabled()) {
+				logger.info(action + " Task Done [processInstanceId : " + (String)requestBody.get("instanceId") + ", " + (String)requestBody.get("formName") + "( taskId : " + (String)requestBody.get("taskInstId") + ")] ");
+			}
+			return taskInstId;
+		}  else if (action.equalsIgnoreCase("delegate")) {
+			String taskInstId = "";
+			String delegateUserId = "";
+			if (CommonUtil.isEmpty(taskInstId) || CommonUtil.isEmpty(delegateUserId))
+				return null;
+			
+			TskTask task = getTskManager().getTask(userId, taskInstId, IManager.LEVEL_ALL);
+			
+			if (task == null || !task.getAssignee().equalsIgnoreCase(userId))
+				throw new Exception("Task("+taskInstId+") Is Null Or Mismatch Between AssigneeId("+task.getAssignee()+") And PerformerId("+userId+")");
+			
+			task.setAssignee(delegateUserId);
+			
+			if (logger.isInfoEnabled())
+				logger.info("Delegate Task "+ task.getName() +"("+taskInstId+") From " + userId + " To " + delegateUserId);
+			getTskManager().setTask(userId, task, IManager.LEVEL_ALL);
+			return taskInstId;
+		}
+		return null;
+	}
+	@Override
+	public String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return executeTask(requestBody, request, "execute");
+// execute, return, delegate, save 함수를 한곳(executeTask(Map<String, Object> requestBody, HttpServletRequest request, String action))으로 모으기전 execute 소스 - 테스트 진행 후 한곳으로 합쳐지는게 불가능하다면 이전으로 돌리기 위해 주석 처리함
+//		/*{
+//			workId=pkg_cf3b0087995f4f99a41c93e2fe95b22d, 
+//			instanceId=402880eb35426e06013542712d7c0002, 
+//			taskInstId=402880eb35426e060135427135d20004, 
+//			formId=frm_5aeb1a53f9cf439dbe83693be9e27624, 
+//			formName=승인자 결재, 
+//			frmSmartForm={
+//				8=승인자 의견, 
+//				12={
+//					users=[
+//						{
+//							id=kmyu@maninsoft.co.kr, 
+//							name=연구소장 유광민
+//						}
+//					]
+//				}, 
+//				16={users=[{id=kmyu@maninsoft.co.kr, name=연구소장 유광민}]}, 
+//				76={users=[{id=kmyu@maninsoft.co.kr, name=연구소장 유광민}]}
+//			}
+//		}*/
+//		
+//		try {
+//			
+//			User cuser = SmartUtil.getCurrentUser();
+//			String userId = null;
+//			if (cuser != null)
+//				userId = cuser.getId();
+//
+//			if (logger.isInfoEnabled()) {
+//				logger.info("ExecuteTask Task Start [processInstanceId : " + (String)requestBody.get("instanceId") + ", " + (String)requestBody.get("formName") + "( taskId : " + (String)requestBody.get("taskInstId") + ") ] by " + userId);
+//			}
+//			//태스크인스턴스 아이디를 이용하여 저장 되어 있는 태스크를 조회 하고 실행 가능 여부를 판단한다
+//			String taskInstId = (String)requestBody.get("taskInstId");
+//			if (CommonUtil.isEmpty(taskInstId))
+//				throw new Exception("ExecuteTaskId Is Null");
+//			TskTask task = getTskManager().getTask(userId, taskInstId, IManager.LEVEL_ALL);
+//			if (task == null)
+//				throw new Exception("Not Exist Task Object(data) : taskId = " + taskInstId);
+//			if (!task.getStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN))
+//				throw new Exception("Task Is Not Executable Status : taskId = " + taskInstId +" (status - " + task.getStatus() + ")");
+//			if (!task.getAssignee().equalsIgnoreCase(userId)) 
+//				throw new Exception("Task is Not Executable Assignee : taskId = " + taskInstId + " (assignee - " + task.getAssignee() + " But performer - " + userId + ")");
+//			
+//			//태스크에 사용자가 입력한 업무 데이터를 셋팅한다
+//			String formId = (String)requestBody.get("formId");
+//			SwfForm form = getSwfManager().getForm(userId, formId);
+//			SwfField[] formFields = form.getFields();
+//			List domainFieldList = new ArrayList();
+//			
+//			for (SwfField field: formFields) {
+//				SwdField domainField = new SwdField();
+//				domainField.setFormFieldId(field.getId());
+//				domainField.setFormFieldName(field.getName());
+//				domainField.setFormFieldType(field.getSystemType());
+//				domainField.setArray(field.isArray());
+//				domainField.setSystemField(field.isSystem());
+//				domainFieldList.add(domainField);
+//			}
+//			SwdField[] domainFields = new SwdField[domainFieldList.size()];
+//			domainFieldList.toArray(domainFields);
+//			
+//			SwdRecord recordObj = getSwdRecordByRequestBody(userId, domainFields, requestBody, request);
+//			String taskDocument = null;
+//			if (recordObj != null)
+//				taskDocument = recordObj.toString();
+//			task.setDocument(taskDocument);
+//			if (logger.isInfoEnabled()) {
+//				logger.info("ExecuteTask Task [processInstanceId : " + (String)requestBody.get("instanceId") + ", " + (String)requestBody.get("formName") + "( taskId : " + (String)requestBody.get("taskInstId") + "), document : " + recordObj.toString() + " ] ");
+//			}
+//			//태스크의 실제 완료 시간을 입력한다
+//			if (task.getRealStartDate() == null)
+//				task.setRealStartDate(new LocalDate(new Date().getTime()));
+//			task.setRealEndDate(new LocalDate(new Date().getTime()));
+//			//태스크를 실행한다
+//			TskTask executedTask = getTskManager().executeTask(userId, task, "execute");
+//			String prcInstId = executedTask.getProcessInstId();
+//			if (logger.isInfoEnabled()) {
+//				logger.info("ExecuteTask Task Done [processInstanceId : " + (String)requestBody.get("instanceId") + ", " + (String)requestBody.get("formName") + "( taskId : " + (String)requestBody.get("taskInstId") + ")] ");
+//			}
+//			return prcInstId;
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			throw e;
+//		}
+	}
+	@Override
+	public String returnTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return executeTask(requestBody, request, "return");
+	}
+	@Override
+	public String reassignTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return executeTask(requestBody, request, "delegate");
+	}
+	@Override
+	public String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return executeTask(requestBody, request, "save");
+	}
+	public String startProcessWorkInstance_temp_needtodelete(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		/*{
+			"workId":"pkg_cf3b0087995f4f99a41c93e2fe95b22d",
+			"formId":"frm_c19b1fe4bceb4732acbb8a4cd2a57474",
+			"formName":"기안품의",
+			"frmSmartForm":
+				{
+					"4":
+						{
+							"users":
+								[
+									{
+										"id":"kmyu@maninsoft.co.kr",
+										"name":"\n\t\t\t\t\t\t\t\t연구소장 유광민\n\t\t\t\t\t\t\t"
+									}
+								]
+						},
+					"16":
+						{
+							"users":
+								[
+									{
+										"id":"kmyu@maninsoft.co.kr",
+										"name":"\n\t\t\t\t\t\t\t\t연구소장 유광민\n\t\t\t\t\t\t\t"
+									}
+								]
+						},
+					"92":"1",
+					"535":"1"
+				},
+			"frmScheduleWork":
+				{
+				},
+			"frmAccessSpace":
+				{
+					"selWorkSpace":"kmyu@maninsoft.co.kr",
+					"selWorkSpaceType": 4(ISmartWorks.java 에 정의 되어 있음), 
+					"selAccessLevel":"3",
+					"txtAccessableUsers":
+						{
+							"users":
+								[
+								]
+						}
+				}
+			}*/
+
+		try{
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			if (cuser != null)
+				userId = cuser.getId();
+			
+			//패키지 정보로 프로세스 정보를 얻는다.
+			String packageId = (String)requestBody.get("workId");
+			String formId = (String)requestBody.get("formId");
+			PrcProcessCond cond = new PrcProcessCond();
+			cond.setDiagramId(packageId);
+			PrcProcess[] prcs = getPrcManager().getProcesses(userId, cond, IManager.LEVEL_LITE);
+			if (prcs == null || prcs.length != 1)
+				throw new PrcException("Start Process Is Null Or More then 1");
+			PrcProcess prc = prcs[0];
+			String processId = prc.getProcessId();
+			
+			//패키지 정보로 프로세스 첫번째 taskdef를 찾는다
+			Property[] extProps = new Property[] {new Property("processId", processId), new Property("startActivity", "true")};
+			TskTaskDefCond taskCond = new TskTaskDefCond();
+			taskCond.setExtendedProperties(extProps);
+			TskTaskDef[] taskDefs = getTskManager().getTaskDefs(userId, taskCond, IManager.LEVEL_LITE);
+			if (CommonUtil.isEmpty(taskDefs))
+				throw new Exception(new StringBuffer("No start activity. -> processId:").append(processId).toString());
+			TskTaskDef taskDef = taskDefs[0];
+			String taskDefId = taskDef.getObjId();
+			
+			//넘어온 frmSamrtForm 정보로 레코드를 생성한다
+			SwfForm form = getSwfManager().getForm(userId, formId);
+			SwfField[] formFields = form.getFields();
+			List domainFieldList = new ArrayList();
+			
+			//제목으로 사용할 필드 (필수>단문>첫번째)
+			List requiredFieldIdList = new ArrayList();
+			List textInputFieldIdList = new ArrayList();
+			for (SwfField field: formFields) {
+				//제목으로 사용할 필드 (필수>단문>첫번째)
+				if (field.isRequired() && field.getFormat().getType().equals("textInput"))
+					requiredFieldIdList.add(field.getId());
+				//제목으로 사용할 필드 (필수>단문>첫번째)
+				if (field.getFormat().getType().equals("textInput"))
+					textInputFieldIdList.add(field.getId());
+				SwdField domainField = new SwdField();
+				domainField.setFormFieldId(field.getId());
+				domainField.setFormFieldName(field.getName());
+				domainField.setFormFieldType(field.getSystemType());
+				domainField.setArray(field.isArray());
+				domainField.setSystemField(field.isSystem());
+				domainFieldList.add(domainField);
+			}
+			SwdField[] domainFields = new SwdField[domainFieldList.size()];
+			domainFieldList.toArray(domainFields);
+			
+			SwdRecord recordObj = getSwdRecordByRequestBody(userId, domainFields, requestBody, request);
+			String taskDocument = null;
+			if (recordObj != null)
+				taskDocument = recordObj.toString();
+			
+			//TODO 참조자, 전자결재, 연결업무 정보를 셋팅한다
+			
+			String title = null;
+			if (requiredFieldIdList.size() != 0) {
+				for (int i = 0; i < requiredFieldIdList.size(); i++) {
+					String temp = recordObj.getDataFieldValue((String)requiredFieldIdList.get(i));
+					if (!CommonUtil.isEmpty(temp)) {
+						title = temp;
+						break;
+					}
+				}
+			} else {
+				for (int i = 0; i < textInputFieldIdList.size(); i++) {
+					String temp = recordObj.getDataFieldValue((String)textInputFieldIdList.get(i));
+					if (!CommonUtil.isEmpty(temp)) {
+						title = temp;
+						break;
+					}
+					
+				}
+			}
+			
+			//태스크를 생성하여 실행한다
+			TskTask task = new TskTask();
+			task.setType(taskDef.getType());
+			task.setName(taskDef.getName());
+			task.setTitle(CommonUtil.toDefault(title, taskDef.getName() + "(No Title) - " + new LocalDate()));
+			task.setAssignee(userId);
+			task.setAssigner(userId);
+			task.setForm(taskDef.getForm());
+			task.setDef(taskDef.getObjId());
+			task.setIsStartActivity("true");
+			
+			Map<String, Object> frmAccessSpace = (Map<String, Object>)requestBody.get("frmAccessSpace");
+			String workSpaceId = (String)frmAccessSpace.get("selWorkSpace");
+			String workSpaceType = (String)frmAccessSpace.get("selWorkSpaceType");
+			task.setWorkSpaceId(workSpaceId);
+			task.setWorkSpaceType(workSpaceType);
+			
+			task.setDocument(taskDocument);
+			
+			//date to localdate - Date now = new Date();
+			LocalDate now = new LocalDate();
+			task.setExpectStartDate(new LocalDate(now.getTime()));
+			task.setRealStartDate(new LocalDate(now.getTime()));
+			//date to localdate - Date expectEndDate = new Date();
+			LocalDate expectEndDate = new LocalDate();
+			if (taskDef != null &&  !CommonUtil.isEmpty(taskDef.getDueDate())) {
+				//dueDate 는 분단위로 설정이 되어 있다
+				expectEndDate.setTime(new LocalDate(now.getTime() + ((Long.parseLong(taskDef.getDueDate())) * 60 * 1000)).getTime());
+			} else {
+				expectEndDate.setTime(new LocalDate(now.getTime() + 1800000).getTime());
+			}
+			task.setExpectEndDate(expectEndDate);
+			task = getTskManager().executeTask(userId, task, "execute");
+			
+			return task.getProcessInstId();
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			throw e;			
+			// Exception Handling Required			
+		}
+	}
 }

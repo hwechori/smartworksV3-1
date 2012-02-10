@@ -64,5 +64,12 @@ public interface IInstanceService {
 	public String setMemoInstance(HttpServletRequest request) throws Exception;
 
 	public String setBoardInstance(HttpServletRequest request) throws Exception;
+	
+	public String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception ;
 
+	public String returnTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception ;
+
+	public String reassignTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception ;
+
+	public String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception ;
 }

@@ -524,4 +524,28 @@ public class SmartWorks implements ISmartWorks {
 		workService.removeAFavoriteWork(request.getParameter("workId"));		
 	}
 
+	@Override
+	public String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		String instanceId = instanceService.performTaskInstance(requestBody, request);
+		return instanceId;
+	}
+
+	@Override
+	public String returnTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		String instanceId = instanceService.returnTaskInstance(requestBody, request);
+		return instanceId;
+	}
+
+	@Override
+	public String reassignTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		String instanceId = instanceService.reassignTaskInstance(requestBody, request);
+		return instanceId;
+	}
+
+	@Override
+	public String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		String instanceId = instanceService.tempSaveTaskInstance(requestBody, request);
+		return instanceId;
+	}
+
 }
