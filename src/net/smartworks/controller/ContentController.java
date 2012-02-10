@@ -21,64 +21,48 @@ import org.springframework.web.servlet.ModelAndView;
 public class ContentController {
 	
 	@RequestMapping("/home")
-	public ModelAndView home(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/home.jsp",
-				"home.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/home.jsp", "home.tiles");
 	}
 
 	@RequestMapping("/smartcaster")
-	public ModelAndView smartcaster(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView smartcaster(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/smartcaster.jsp",
-				"smartcaster.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/smartcaster.jsp", "smartcaster.tiles");
 	}
 
 	@RequestMapping("/dashboard")
-	public ModelAndView dashboard(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/dashboard.jsp",
-				"dashboard.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/dashboard.jsp", "dashboard.tiles");
 	}
 
 	@RequestMapping("/my_profile")
-	public ModelAndView myProfile(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView myProfile(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/my_profile.jsp",
-				"my_profile.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/my_profile.jsp", "my_profile.tiles");
 	}
 
 	@RequestMapping("/more_instance_list")
-	public ModelAndView moreInstanceList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView moreInstanceList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/today/more_instance_list.jsp",
-				"");
+		return SmartUtil.returnMnv(request, "jsp/content/today/more_instance_list.jsp", "");
 	}
 	@RequestMapping("/start_work")
-	public ModelAndView startWork(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView startWork(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/upload/start_work.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/upload/start_work.jsp", "");
 	}
 
 	@RequestMapping("/empty_content")
-	public ModelAndView emptyContent(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView emptyContent(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/empty_content.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/empty_content.jsp", "");
 	}
 	@RequestMapping("/localdate_string")
-	public ModelAndView localdate_string(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView localdate_string(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/today/localdate_string.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/today/localdate_string.jsp", "");
 	}
 }

@@ -34,6 +34,8 @@ smartMessage.bundle['en'] = {
 	alarmPolicy30m : "30 Minutes Ahead",
 	alarmPolicy1h : "1 Hour Ahead",
 	alarmPolicy1d : "1 Day Ahead",
+	trueText : "True",
+	falseText : "False",
 	setMyProfileSucceed : "My Profile has been updated successfully.",
 	setMyProfileError : "Error has been occured while updating this Profile Information. Please contact the Administrator!",
 	createIWorkSucceed : "New Information Work has been created successfully. Do you want to locate the page?",
@@ -60,12 +62,18 @@ smartMessage.bundle['en'] = {
 	removeIWorkInstanceError : "Error has been occured while deleting Instance data. Please contact the Administrator!",
 	forwardIWorkInstanceSucceed : "Instance data has been forwarded successfully...",
 	forwardIWorkInstanceError : "Error has been occured while forwarding Instance data. Please contact the Administrator!",
+	performTaskInstanceSucceed : "Task Instance has been performed successfully...",
+	performTaskInstanceError : "Error has been occured while performing Task Instance. Please contact the Administrator!",
+	returnTaskInstanceSucceed : "Task Instance has been returned successfully...",
+	returnTaskInstanceError : "Error has been occured while returning Task Instance. Please contact the Administrator!",
 	iworkListError : "Error has been occured while loading work list. Please contact the Administrator!",
 	setIworkFilterError : "Error has been occured while saving search filter. Please contact the Administrator!",
 	
 	removeConfirmation : "Do you really want to remove?",
 	saveConfirmation : "Do you really want to save changes? ",
 	forwardConfirmation : "Do you really want to forward this instance data? ",
+	performConfirmation : "Do you really want to perform this task instance? ",
+	returnConfirmation : "Do you really want to return this task instance? ",
 
 	spaceOverDateSeleted : "Future date has been selected. Please select today or before!",
 			

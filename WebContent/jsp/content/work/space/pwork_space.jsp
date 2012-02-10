@@ -196,28 +196,28 @@
 					<span class="form_space sw_error_message js_space_error_message" style="text-align:right; color: red"></span>
 
 					<span class="btn_gray space_l5 js_btn_complete" style="display:none">
-			        	<a href="" class="js_complete_pwork_instance">
+			        	<a href="" class="js_perform_task_instance">
 				            <span class="Btn01Start"></span>
 				            <span class="Btn01Center"><fmt:message key="common.button.complete"/></span>
 				            <span class="Btn01End"></span>
 				    	</a>
 			   		</span>
 					<span class="btn_gray space_l5 js_btn_return" style="display:none">
-			        	<a href="" class="js_return_pwork_instance">
+			        	<a href="" class="js_return_task_instance">
 				            <span class="Btn01Start"></span>
 				            <span class="Btn01Center"><fmt:message key="common.button.return"/></span>
 				            <span class="Btn01End"></span>
 				    	</a>
 			   		</span>
 					<span class="btn_gray space_l5 js_btn_reassign" style="display:none">
-			        	<a href="" class="js_reassign_pwork_instance">
+			        	<a href="" class="js_reassign_task_instance">
 				            <span class="Btn01Start"></span>
 				            <span class="Btn01Center"><fmt:message key="common.button.reassign"/></span>
 				            <span class="Btn01End"></span>
 				    	</a>
 			   		</span>
 					<span class="btn_gray space_l5 js_btn_temp_save" style="display:none">
-			        	<a href="" class="js_temp_save_pwork_instance">
+			        	<a href="" class="js_temp_save_task_instance">
 				            <span class="Btn01Start"></span>
 				            <span class="Btn01Center"><fmt:message key="common.button.temp_save"/></span>
 				            <span class="Btn01End"></span>
@@ -234,7 +234,43 @@
 <!-- 컨텐츠 레이아웃//-->
 <script type="text/javascript">
 
+	function clickOnTask(input){
+		var pworkSpace = input.parents('.js_pwork_space_page');
+		var workId = pworkSpace.attr("workId");
+		var formId = input.attr("formId");
+		var formMode = input.attr("formMode");
+		var instId = input.attr("taskInstId");
+		var formContent = $('div.js_form_content');
+		new SmartWorks.GridLayout({
+			target : formContent,
+			mode : formMode,
+			workId : workId,
+			formId : formId,
+			taskInstId : instId,
+			onSuccess : function(){
+				formContent.attr('taskInstId', instId);
+				smartPop.closeProgress();																
+			},
+			onError : function(){
+				smartPop.closeProgress();
+				
+			}
+		});
+		if(formMode==="edit"){
+			pworkSpace.find('.js_btn_complete').show();
+			pworkSpace.find('.js_btn_return').show();
+			pworkSpace.find('.js_btn_reassign').show();
+			pworkSpace.find('.js_btn_temp_save').show();
+		}else{
+			pworkSpace.find('.js_btn_complete').hide();
+			pworkSpace.find('.js_btn_return').hide();
+			pworkSpace.find('.js_btn_reassign').hide();
+			pworkSpace.find('.js_btn_temp_save').hide();			
+		}
+	}
+	
 	var pworkSpace = $('.js_pwork_space_page');
+	var taskInstId = pworkSpace.attr('taskInstId');
 	var instanceTasksHolder = pworkSpace.find(".js_instance_tasks_holder");
 	var instanceTasks = instanceTasksHolder.find(".js_instance_tasks");
 	var placeHolderTask = instanceTasks.find('.js_instance_task_placeholder').hide();
@@ -244,14 +280,47 @@
 
 	var tasksRight = instanceTasksHolder.width();
 	var tasks = instanceTasks.find(".js_instance_task");
-	for(var i=0; i<tasks.length; i++){
-		var task = $(tasks[i]);
-		if(task.position().left+task.width()>tasksRight)
-			break;
-	}
-	if(tasks.length>0 && i<tasks.length && i>=0){
-		var task = $(tasks[i]);
-		placeHolderTask.remove().width(task.width()).show().insertBefore(task);
+	var selectedTask = $(tasks[0]);
+	if(isEmpty(taskInstId)){
+		for(var i=0; i<tasks.length; i++){
+			var task = $(tasks[i]);
+			if(task.position().left+task.width()>tasksRight)
+				break;
+		}
+		if(tasks.length>0 && i<tasks.length && i>=0){
+			var task = $(tasks[i]);
+			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
+		}
+	}else{
+		for(var i=0; i<tasks.length; i++){
+			var task = $(tasks[i]).find('a');
+			if(task.attr('taskInstId') === taskInstId)
+				break;
+		}
+		var selectedIndex = i;
+		if(selectedIndex<tasks.length)
+			selectedTask = $(tasks[selectedIndex]);
+		if(selectedIndex<tasks.length && selectedTask.position().left+selectedTask.width()>tasksRight){
+			left = tasksRight - selectedTask.position().left+selectedTask.width();
+			for(var j=0; j<tasks.length; j++){
+				var task = $(tasks[j]);
+				if(task.position().left+left>=0){
+					left=-task.position().left;
+					tasksRight = taskRight + left;
+					break;
+				}
+			}
+			for(var k=0; k<tasks.length; k++){
+				var task = $(tasks[k]);
+				if(task.position().left+task.width()+left>tasksRight)
+					break;
+			}
+			if(tasks.length>0 && k<tasks.length && k>=0){
+				var task = $(tasks[k]);
+				placeHolderTask.remove().width(task.width()).show().insertBefore(task);
+			}
+			instanceTasks.css({"left": left + "px"});
+		}
 	}
 
 	var instanceLeft = pworkSpace.find('.js_instance_tasks_left');	
@@ -264,7 +333,9 @@
 	if(remainingWidth <= instanceTasksHolder.width())
 		instanceRight.hide();
 	else
-		instanceRight.show();		
+		instanceRight.show();
+	
+	if(!isEmpty(selectedTask)) clickOnTask(selectedTask.find('a'));
 		
 </script>
 
