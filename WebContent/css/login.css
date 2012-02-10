@@ -1,0 +1,92 @@
+@charset "utf-8";
+/* CSS Document */
+*{ margin:0; padding:0
+}
+#wrap {
+    background: url("../images/lo_wrap_bg.gif") repeat-x scroll 0 0 transparent; 
+	height:100%; 
+	min-width:1000px; 
+	margin:0; z-index:1; 
+	position:relative;}
+
+/* Header */
+#lo_header {
+           background: url("../images/lo_top_bg.gif") repeat-x scroll 0 0 transparent; 
+           height:92px; 
+		   min-width:100%; 
+		   z-index:40; 
+		   position:relative;
+}
+.lo_logo {
+	display:block; 
+	position:absolute; 
+	top:15px; 
+	left:30px;
+	width:189px; 
+	height:43px; 
+	float:left;
+}
+
+.lo_email {
+	position:absolute;
+	width: 320px;
+	height: 20px;
+	margin-left: 610px;
+	margin-top: 30px;
+	top: 2px;
+	font-family: "돋움";
+	font-size: 12px
+}	  
+.lo_btn {
+	position:absolute;
+	left:932px;
+	top:32px;
+	width:45px;
+	height:20px;
+}
+.lo_checkbox {
+	position:absolute;
+	left:931px;
+	top:55px;
+	height:13px;
+	color:#FFF; font-size:11px
+}
+
+/* Contents */
+#lo_contents {
+    position: relative;
+    text-align: center;
+}
+.lo_title {
+	position:absolute;
+	left:355px;
+	top:111px;
+}
+.lo_img {
+	position:absolute;
+	left:257px;
+	top:191px;
+	width: 513px;
+	height: 430px;
+}
+
+/* Footer */
+#footer{
+	position:absolute;
+	top:662px;
+	left: 358px;
+} 
+.login_flogo {
+    border-top-color: #D3D3D3;
+    border-top-width: 1px;
+    height: 29px;
+    margin: auto;
+    padding-top: 20px;
+    text-align: center;
+    width: 820px;
+	top: 118px;
+	top: 118px;
+	left: 9px;
+	left: 11px;
+	width: 982px;
+}

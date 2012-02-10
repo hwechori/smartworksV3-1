@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
+<%@page import="net.smartworks.server.engine.common.model.util.IdGen"%>
+<%@page import="net.smartworks.server.engine.organization.model.SwoDepartment"%>
+<%@page import="net.smartworks.server.engine.common.manager.IManager"%>
 <%@page import="net.smartworks.server.engine.process.process.model.PrcProcessInstExtend"%>
 <%@page import="net.smartworks.server.engine.process.process.manager.impl.PrcManagerImpl"%>
 <%@page import="net.smartworks.model.instance.WorkInstance"%>
@@ -43,15 +47,19 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-/* 		long size = SwManagerFactory.getInstance().getPrcManager().getProcessInstExtendsSize("kmyu@maninsoft.co.kr","pkg_e4e0150049fd4a44828dd01c797ee07e");
-		
-		PrcProcessInstExtend[] works = SwManagerFactory.getInstance().getPrcManager().getProcessInstExtends("kmyu@maninsoft.co.kr", 10, 0, "pkg_e4e0150049fd4a44828dd01c797ee07e");
-		System.out.println(size);
-		System.out.println(works.length);
-		System.out.println(works[0].getPrcTitle()); */
-			
+	SwoDepartment dept = new SwoDepartment();
+	
+	String newId = CommonUtil.newId();
+	dept.setName("test dept");
+	dept.setParentId("test Parent Id");
+	
+	SwManagerFactory.getInstance().getSwoManager().setDepartment("kmyu@maninsoft.co.k", dept, IManager.LEVEL_ALL);		
+	
+
+
 %>
 <textarea style="width:800px;height:400px;">
+<%=newId %>
 <%-- <%= works[0].getPrcTitle() %> --%>
 </textarea>
 </body>
