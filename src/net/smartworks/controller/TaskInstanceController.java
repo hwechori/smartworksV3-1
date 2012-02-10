@@ -17,6 +17,7 @@ import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TaskInstanceController {
+	ISmartWorks smartworks;
 
+	@Autowired
+	public void setSmartworks(ISmartWorks smartworks) {
+		this.smartworks = smartworks;
+	}
+	
 	@RequestMapping("/new_iwork")
 	public ModelAndView newIwork(HttpServletRequest request, HttpServletResponse response) {
 
@@ -68,25 +75,25 @@ public class TaskInstanceController {
 	@RequestMapping(value = "/perform_task_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void performTaskInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		smartworks.performTaskInstance(requestBody, request);
+		smartworks.performTaskInstance(requestBody, request);
 	}
 	//반려
 	@RequestMapping(value = "/return_task_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void returnTaskInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		smartworks.returnTaskInstance(requestBody, request);
+		smartworks.returnTaskInstance(requestBody, request);
 	}
 	//위임
 	@RequestMapping(value = "/reassign_task_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void reassignTaskInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		smartworks.reassignTaskInstance(requestBody, request);
+		smartworks.reassignTaskInstance(requestBody, request);
 	}
 	//저장
 	@RequestMapping(value = "/temp_save_task_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void tempSaveTaskInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		smartworks.tempSaveTaskInstance(requestBody, request);
+		smartworks.tempSaveTaskInstance(requestBody, request);
 	}
 
 }
