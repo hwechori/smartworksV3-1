@@ -30,6 +30,8 @@
 .contents_space .border {border:1px solid #c7c7c7; background-color:#FFF; padding:10px;}
 .contents_space_noBottomPadding{padding: 0 25px;overflow: hidden;margin-bottom:-1px}
 .contents_space .border_noTopLine{border:1px solid #c7c7c7;border-width:0 1px 1px 1px;background-color:#FFF; padding:10px;}
+.contents_space table td,
+.contents_space table th { padding:3px 10px} 
 
 
 
@@ -59,20 +61,20 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 
 /* 목록보기 부분 타이틀 */
 /*.list_title_space {background-color:#ededed; padding:7px 5px; overflow:hidden;}*/
-.list_title_space,.default_title_space{padding:5px 0 0 0; overflow:hidden; clear:both}
-.list_title_space .title, .list_title,.default_title_space .title{background: url("../images/iconTitle.gif") 0 2px no-repeat;font-size:14px;font-weight:bold; padding: 0 8px 0 20px; float:left;}
+.list_title_space,.default_title_space {padding:5px 0 0 0; overflow:hidden; clear:both}
+.list_title_space .title, .list_title, .default_title_space .title {background: url("../images/iconTitle.gif") 0 2px no-repeat;font-size:14px;font-weight:bold; padding: 0 8px 0 20px; float:left;}
 
 .list_contents { clear:both}
 .list_contents table {min-width:700px;}
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0; height:32px}
 .list_contents table tr .end, .list_contents table td .end {border-bottom: 0 none}
-.list_contents table .r_line {border-right:1px solid #cccccc;}
 .list_contents table .tit_bg {background: url("../images/bg_thGradient.gif") 0 100% repeat-x}
 .list_contents table .tit_bg th{border-bottom:1px solid #ccc;border-top:2px solid #7f7f7f}
 .list_contents table th {text-align:center; padding:5px 5px 0;}
 .list_contents table td {padding-left:10px; }
 .list_contents table.tit_bg2 th {background-color:#F5F5F5; font-weight:normal}
 .list_contents table .tit_bg2 td {background-color:#FFF}
+.r_line {border-right:1px solid #cccccc;}
 .po_left{display:inline-block}
 .js_work_report_list_box{width:170px}
 .default_title_space{padding-bottom:3px}
