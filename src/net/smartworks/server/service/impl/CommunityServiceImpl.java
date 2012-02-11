@@ -1,7 +1,11 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,14 +19,20 @@ import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.searcher.model.SchUser;
 import net.smartworks.server.engine.common.searcher.model.SchWorkspace;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.id.IDCreator;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
+import net.smartworks.server.engine.organization.model.SwoGroup;
+import net.smartworks.server.engine.organization.model.SwoGroupCond;
+import net.smartworks.server.engine.organization.model.SwoGroupMember;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.util.ModelConverter;
+import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
@@ -30,6 +40,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CommunityServiceImpl implements ICommunityService {
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -113,12 +124,29 @@ public class CommunityServiceImpl implements ICommunityService {
 	@Override
 	public GroupInfo[] getMyGroups() throws Exception {
 		try{
-			return SmartTest.getMyGroups();
+			List<GroupInfo> groupInfoList = new ArrayList<GroupInfo>();
+			User user = SmartUtil.getCurrentUser();
+			SwoGroupCond swoGroupCond = new SwoGroupCond();
+
+			SwoGroupMember swoGroupMember = new SwoGroupMember();
+			swoGroupMember.setUserId(user.getId());
+			SwoGroupMember[] swoGroupMembers = new SwoGroupMember[1];
+			swoGroupMembers[0] = swoGroupMember;
+			swoGroupCond.setSwoGroupMembers(swoGroupMembers);
+			SwoGroup[] swoGroups = SwManagerFactory.getInstance().getSwoManager().getGroups(user.getId(), swoGroupCond, IManager.LEVEL_ALL);
+			if(swoGroups != null) {
+				for(SwoGroup swoGroup : swoGroups) {
+					GroupInfo groupInfo = ModelConverter.getGroupInfoByGroupId(swoGroup.getId());
+					groupInfoList.add(groupInfo);
+				}
+				GroupInfo[] groupInfos = new GroupInfo[groupInfoList.size()];
+				groupInfoList.toArray(groupInfos);
+				return groupInfos;
+			}
+			return null;
 		}catch (Exception e){
-			// Exception Handling Required
 			e.printStackTrace();
 			return null;			
-			// Exception Handling Required			
 		}
 	}
 
@@ -131,131 +159,126 @@ public class CommunityServiceImpl implements ICommunityService {
 	@Override
 	public Group getGroupById(String groupId) throws Exception {
 		try{
-			return SmartTest.getGroupById(groupId);
+			if (CommonUtil.isEmpty(groupId))
+				return null;
+			return ModelConverter.getGroupByGroupId(groupId);
 		}catch (Exception e){
-			// Exception Handling Required
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
+			return null;
 		}
 	}
 
-	public Group setGroup(HttpServletRequest request) throws Exception {
+	public String setGroup(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		User user = SmartUtil.getCurrentUser();
 
 		try{
-			/*Map<String, Object> frmNewGroupProfile = (Map<String, Object>)requestBody.get("frmNewGroupProfile");
+			Map<String, Object> frmNewGroupProfile = (Map<String, Object>)requestBody.get("frmNewGroupProfile");
 	
 			Set<String> keySet = frmNewGroupProfile.keySet();
 			Iterator<String> itr = keySet.iterator();
 	
-			List<String> users = null;
+			List<Map<String, String>> users = null;
 			List<Map<String, String>> files = null;
 			String groupId = null;
 			String txtGroupName = null;
 			String txtaGroupDesc = null;
 			String selGroupProfileType = null;
 			String txtGroupLeader = null;
-			String txtGroupMembers = null;
-	
-			String txtUserProfilePhoneNo = null;
-			String txtUserProfileCellNo = null;
-			String profileFileId = null;
-			String profileFileName = null;
-			String txtUserProfilePicture = null;
-	
+			String imgGroupProfile = null;
+			String groupUserId = null;
+			String groupFileId = null;
+			String groupFileName = null;
+
 			while (itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmNewGroupProfile.get(fieldId);
 				if (fieldValue instanceof LinkedHashMap) {
 					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
-					users = (ArrayList)valueMap.get("users");
-					groupId = (String)valueMap.get("groupId");
-					files = (ArrayList<Map<String,String>>)valueMap.get("files");
-				} else if(fieldValue instanceof String) {
-					if(fieldId.equals("txtUserProfileUserId"))
-						txtUserProfileUserId = (String)frmMyProfileSetting.get("txtUserProfileUserId");
-					else if(fieldId.equals("pwUserProfilePW"))
-						pwUserProfilePW = (String)frmMyProfileSetting.get("pwUserProfilePW");
-						//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW);
-					else if(fieldId.equals("selUserProfileLocale"))
-						selUserProfileLocale = (String)frmMyProfileSetting.get("selUserProfileLocale");
-					else if(fieldId.equals("selUserProfileTimeZone"))
-						selUserProfileTimeZone = (String)frmMyProfileSetting.get("selUserProfileTimeZone");
-					else if(fieldId.equals("txtUserProfileEmail"))
-						txtUserProfileEmail = (String)frmMyProfileSetting.get("txtUserProfileEmail");
-					else if(fieldId.equals("txtUserProfilePhoneNo"))
-						txtUserProfilePhoneNo = (String)frmMyProfileSetting.get("txtUserProfilePhoneNo");
-					else if(fieldId.equals("txtUserProfileCellNo"))
-						txtUserProfileCellNo = (String)frmMyProfileSetting.get("txtUserProfileCellNo");
+					if(fieldId.equals("txtGroupMembers")) {
+						users = (ArrayList<Map<String,String>>)valueMap.get("users");
+					} else if(fieldId.equals("imgGroupProfile")) {
+						files = (ArrayList<Map<String,String>>)valueMap.get("files");
+					}
+				} else if(fieldValue instanceof String) {					
+					if(fieldId.equals("groupId")) {
+						groupId = (String)frmNewGroupProfile.get("groupId");
+					} else if(fieldId.equals("txtGroupName")) {
+						txtGroupName = (String)frmNewGroupProfile.get("txtGroupName");
+					} else if(fieldId.equals("txtaGroupDesc")) {
+						txtaGroupDesc = (String)frmNewGroupProfile.get("txtaGroupDesc");
+					} else if(fieldId.equals("selGroupProfileType")) {
+						selGroupProfileType = (String)frmNewGroupProfile.get("selGroupProfileType");
+						if(selGroupProfileType.equals(Group.GROUP_TYPE_OPEN))
+							selGroupProfileType = "O";
+						else
+							selGroupProfileType = "C";
+					} else if(fieldId.equals("txtGroupLeader")) {
+						txtGroupLeader = (String)frmNewGroupProfile.get("txtGroupLeader");
+					}
 				}
 			}
-	
-			SwoUser user = getSwoManager().getUser(txtUserProfileUserId, txtUserProfileUserId, null);
-	
-			if(!users.isEmpty()) {
-				for(int i=0; i < files.subList(0, files.size()).size(); i++) {
-					Map<String, String> file = files.get(i);
+
+			SwoGroup swoGroup = null;
+
+			if(groupId != null) {
+				swoGroup = SwManagerFactory.getInstance().getSwoManager().getGroup(user.getId(), groupId, IManager.LEVEL_ALL);
+			} else {
+				swoGroup = new SwoGroup();
+				swoGroup.setId(IDCreator.createId(SmartServerConstant.GROUP_APPR));
+			}
+
+			if(users != null) {
+				SwoGroupMember swoGroupMember = new SwoGroupMember();
+				swoGroupMember.setUserId(txtGroupLeader);
+				swoGroupMember.setJoinType("I");
+				swoGroupMember.setJoinStatus("P");
+				swoGroupMember.setJoinDate(new LocalDate());
+				swoGroup.addGroupMember(swoGroupMember);
+				for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+					Map<String, String> userMap = users.get(i);
+					groupUserId = userMap.get("id");
+					if(!txtGroupLeader.equals(groupUserId)) {
+						swoGroupMember = new SwoGroupMember();
+						swoGroupMember.setUserId(groupUserId);
+						swoGroupMember.setJoinType("I");
+						swoGroupMember.setJoinStatus("P");
+						swoGroupMember.setJoinDate(new LocalDate());
+						swoGroup.addGroupMember(swoGroupMember);
+					}
 				}
 			}
+
 			if(!files.isEmpty()) {
 				for(int i=0; i < files.subList(0, files.size()).size(); i++) {
-					Map<String, String> file = files.get(i);
-					profileFileId = file.get("fileId");
-					profileFileName = file.get("fileName");
-					txtUserProfilePicture = getDocManager().insertProfilesFile(profileFileId, profileFileName, txtUserProfileUserId);
-					user.setPicture(txtUserProfilePicture);
+					Map<String, String> fileMap = files.get(i);
+					groupFileId = fileMap.get("fileId");
+					groupFileName = fileMap.get("fileName");
+					imgGroupProfile = SwManagerFactory.getInstance().getDocManager().insertProfilesFile(groupFileId, groupFileName, swoGroup.getId());
+					swoGroup.setPicture(imgGroupProfile);
 				}
 			}
-	
-			//pwUserProfilePW = DigestUtils.md5Hex(pwUserProfilePW); -- md5 password 암호화
-			user.setPassword(pwUserProfilePW);
-			user.setLocale(selUserProfileLocale);
-			user.setTimeZone(selUserProfileTimeZone);
-			user.setEmail(txtUserProfileEmail);
-			user.setExtensionNo(txtUserProfilePhoneNo);
-			user.setMobileNo(txtUserProfileCellNo);
-			try {
-				getSwoManager().setUser(txtUserProfileUserId, user, null);
-				UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
-		        Authentication authentication = authenticationManager.authenticate(authRequest);
-		        SecurityContext securityContext = new SecurityContextImpl();
-		        securityContext.setAuthentication(authentication);
-		        SecurityContextHolder.setContext(securityContext);
-		        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}*/
-			
-			String groupName = request.getParameter("groupName");
-			String groupDesc = request.getParameter("groupDesc");
-			String groupLeader = request.getParameter("groupLeader");
-			String groupOwner = request.getParameter("groupOwner");
-			String[] groupMembers = request.getParameterValues("groupMembers");
-	
-			boolean isPublic = Boolean.getBoolean(request.getParameter("isPublic"));
-			Group group = new Group();
-			group.setName(groupName);
-			group.setDesc(groupDesc);
-			User leader = new User();
-			leader.setId(groupLeader);
-			group.setLeader(leader);
-			User owner = new User();
-			owner.setId(groupOwner);
-			group.setOwner(owner);
-			group.setPublic(isPublic);
-	
-			List list = new ArrayList();
-			for(String str : groupMembers) {
-				list.add(str);
-			}
-	
-			return new Group("group1", groupName, new UserInfo[]{ SmartTest.getUserInfo1(), SmartTest.getUserInfo2(), SmartTest.getUserInfo3() }, leader);
-		}catch (Exception e){
-			// Exception Handling Required
+
+			swoGroup.setCompanyId(user.getCompanyId());
+			swoGroup.setName(txtGroupName);
+			swoGroup.setDescription(txtaGroupDesc);
+			swoGroup.setStatus("C");
+			swoGroup.setGroupType(selGroupProfileType);
+			swoGroup.setGroupLeader(txtGroupLeader);
+
+			SwManagerFactory.getInstance().getSwoManager().setGroup(user.getId(), swoGroup, IManager.LEVEL_ALL);
+
+			groupId = swoGroup.getId();
+
+			if (CommonUtil.isEmpty(groupId))
+				return null;
+			return groupId;
+
+		} catch(Exception e) {
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
+			return null;
 		}
+
 	}
 
 	/*
@@ -448,11 +471,42 @@ public class CommunityServiceImpl implements ICommunityService {
 					Department department = this.getDepartmentById(workSpaceId);
 					return department;
 				} else if(type.equals("group")) {
-					Group group = new Group();
+					Group group = this.getGroupById(workSpaceId);
 					return group;
 				}
 			}
+
+			return null;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public WorkSpaceInfo getWorkSpaceInfoById(String workSpaceId) throws Exception {
+
+		try{
+			if (CommonUtil.isEmpty(workSpaceId))
+				return null;
+			
+			String type = SwManagerFactory.getInstance().getSwoManager().getTypeByWorkspaceId(workSpaceId);
 	
+			if(type != null) {
+				if(type.equals("user")) {
+					UserInfo userInfo = ModelConverter.getUserInfoByUserId(workSpaceId);
+					return userInfo;
+				} else if(type.equals("department")) {
+					DepartmentInfo departmentInfo = ModelConverter.getDepartmentInfoByDepartmentId(workSpaceId);
+					return departmentInfo;
+				} else if(type.equals("group")) {
+					GroupInfo groupInfo = ModelConverter.getGroupInfoByGroupId(workSpaceId);
+					return groupInfo;
+				}
+			}
+
 			return null;
 		}catch (Exception e){
 			// Exception Handling Required

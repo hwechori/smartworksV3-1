@@ -140,7 +140,7 @@ public interface ISmartWorks {
 
 	public abstract Group getGroupById(String groupId) throws Exception;
 
-	public abstract Group setGroup(HttpServletRequest request) throws Exception;
+	public abstract String setGroup(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract User getUserById(String userId) throws Exception;
 
@@ -263,5 +263,13 @@ public interface ISmartWorks {
 	public abstract CompanyCalendar getCompanyCalendarById(String id) throws Exception;
 	
 	public abstract void setCompanyCalendar(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract String returnTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract String reassignTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
 }

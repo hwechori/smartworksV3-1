@@ -41,7 +41,9 @@ public class SwdRecord extends BaseObject {
 	public static final String A_MODIFICATIONUSER = "modifier";
 	public static final String A_MODIFICATIONDATE = "modifiedTime";
 	public static final String A_DATAFIELD = "DataField";
-	
+	public static final String A_WORKSPACEID = "workSpaceId";
+	public static final String A_WORKSPACETYPE = "workSpaceType";
+
 	private String domainId;
 	private String recordId;
 	private String formId;
@@ -51,6 +53,8 @@ public class SwdRecord extends BaseObject {
 	private Date creationDate;
 	private String modificationUser;
 	private Date modificationDate;
+	private String workSpaceId;
+	private String workSpaceType;
 
 	private SwdDataField[] dataFields;
 	private Map<String, SwdDataField> dataFieldMap;
@@ -78,6 +82,8 @@ public class SwdRecord extends BaseObject {
 		appendAttributeString(A_CREATIONDATE, creationDate, buf);
 		appendAttributeString(A_MODIFICATIONUSER, modificationUser, buf);
 		appendAttributeString(A_MODIFICATIONDATE, modificationDate, buf);
+		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
+		appendAttributeString(A_WORKSPACETYPE, workSpaceType, buf);
 		return buf.toString();
 	}
 	public String toElementsString(String tab, boolean lite) {
@@ -109,6 +115,8 @@ public class SwdRecord extends BaseObject {
 			Node creationDate = attrMap.getNamedItem(A_CREATIONDATE);
 			Node modificationUser = attrMap.getNamedItem(A_MODIFICATIONUSER);
 			Node modificationDate = attrMap.getNamedItem(A_MODIFICATIONDATE);
+			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
+			Node workSpaceType = attrMap.getNamedItem(A_WORKSPACETYPE);
 			if (domainId != null)
 				obj.setDomainId(domainId.getNodeValue());
 			if (recordId != null)
@@ -125,6 +133,10 @@ public class SwdRecord extends BaseObject {
 				obj.setModificationUser(modificationUser.getNodeValue());
 			if (modificationDate != null)
 				obj.setModificationDate(DateUtil.toDate(modificationDate.getNodeValue()));
+			if (workSpaceId != null)
+				obj.setWorkSpaceId(workSpaceId.getNodeValue());
+			if (workSpaceType != null)
+				obj.setWorkSpaceType(workSpaceType.getNodeValue());
 		}
 		
 		// elements 값 설정
@@ -364,6 +376,19 @@ public class SwdRecord extends BaseObject {
 	}
 	public void setFormName(String formName) {
 		this.formName = formName;
+	}
+
+	public String getWorkSpaceId() {
+		return workSpaceId;
+	}
+	public void setWorkSpaceId(String workSpaceId) {
+		this.workSpaceId = workSpaceId;
+	}
+	public String getWorkSpaceType() {
+		return workSpaceType;
+	}
+	public void setWorkSpaceType(String workSpaceType) {
+		this.workSpaceType = workSpaceType;
 	}
 
 }

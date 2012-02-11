@@ -9,9 +9,13 @@ public class Group extends WorkSpace {
 	public static final String GROUP_TYPE_OPEN = "Open";
 	public static final String GROUP_TYPE_CLOSED = "Closed";
 	public static final String GROUP_TYPE_DEFAULT = GROUP_TYPE_OPEN;
+	//public static final String GROUP_STATUS_CONTINUE = "Continue";
+	//public static final String GROUP_STATUS_SUSPEND = "Suspend";
+	//public static final String GROUP_STATUS_DEFAULT = GROUP_STATUS_CONTINUE;
 
 	private String	desc = null;
 	private boolean	isPublic = false;
+	//private boolean isContinue = false;
 	private User	leader = null;
 	private UserInfo[] 	members = null;
 	private User	owner = null;
@@ -35,6 +39,12 @@ public class Group extends WorkSpace {
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
 	}
+//	public boolean isContinue() {
+//		return isContinue;
+//	}
+//	public void setContinue(boolean isContinue) {
+//		this.isContinue = isContinue;
+//	}
 	public User getLeader() {
 		return leader;
 	}

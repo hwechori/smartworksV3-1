@@ -401,7 +401,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		SwdRecordCond cond = new SwdRecordCond();
 		cond.setDomainId(domainId);
 		cond.setRecordId(recordId);
-		
+
 		SwdRecord obj = getRecord(user, cond, level);
 		return obj;
 	}
@@ -670,6 +670,14 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				size = Long.parseLong(sizeObj.toString());
 			} 
 			return size;
+		} catch (SQLGrammarException e) {
+			if(e.getSQLState().equals("42S22")) {
+				SwdDomain domain = getDomain(user, cond);
+				this.addTableColumn("", domain.getTableName(), "workspaceId", "varchar(100)");
+				this.addTableColumn("", domain.getTableName(), "workspaceType", "varchar(50)");
+				return getRecordSize(user, cond);
+			}
+			return 0;
 		} catch (Exception e) {
 			throw new SwdException(e);
 		}
@@ -705,7 +713,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			throw new SwdException(e);
 		}
 	}
-	private SwdDomain getDomain(String user, SwdRecordCond cond) throws Exception {
+	private SwdDomain getDomain(String user, SwdRecordCond cond) throws SwdException {
 		String domainId = cond.getDomainId();
 		String formId = cond.getFormId();
 		if (domainId == null && formId == null)
@@ -730,11 +738,12 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 	}
 	public SwdRecord[] getRecords(String user, SwdRecordCond cond, String level) throws SwdException {
 		Query query = null;
+		SwdDomain domain = null;
 		try {
 			List<SwdField> selectedFieldList = new ArrayList<SwdField>();
 			if (level == null)
 				level = LEVEL_LITE;
-			SwdDomain domain = getDomain(user, cond);
+			domain = getDomain(user, cond);
 			query = this.appendQuery(user, cond, domain, selectedFieldList, null, null, null);
 			List list = query.list();
 			if (list == null || list.isEmpty())
@@ -753,6 +762,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				obj.setCreationDate((Timestamp)fields[j++]);
 				obj.setModificationUser((String)fields[j++]);
 				obj.setModificationDate((Timestamp)fields[j++]);
+				obj.setWorkSpaceId((String)fields[j++]);
+				obj.setWorkSpaceType((String)fields[j++]);
 				objList.add(obj);
 				if (CommonUtil.isEmpty(selectedFieldList))
 					continue;
@@ -825,6 +836,11 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			objList.toArray(objs);
 			return objs;
 		} catch (SQLGrammarException e) {
+			if(e.getSQLState().equals("42S22")) {
+				this.addTableColumn("", domain.getTableName(), "workspaceId", "varchar(100)");
+				this.addTableColumn("", domain.getTableName(), "workspaceType", "varchar(50)");
+				return this.getRecords(user, cond, level);
+			}
 			if (query != null)
 				logger.error("Query: " + query.getQueryString());
 			throw new SwdException(e);
@@ -834,6 +850,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 	}
 	private Query appendQuery(String user, SwdRecordCond cond, SwdDomain domain, List<SwdField> selectedFieldList, String funcField,
 			String preQuery, String postQuery) throws Exception {
+
 		if (cond == null)
 			throw new SwdException("Cond object is null.");
 		Filter[] fs = cond.getFilter();
@@ -882,7 +899,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		// select
 		//buf.append("select obj.id, obj.domainId, domain.formId, domain.formName, obj.creator, obj.createdTime");
 		buf.append("select obj.id, obj.domainId, obj.creator, obj.createdTime");
-		buf.append(", obj.modifier, obj.modifiedTime");
+		buf.append(", obj.modifier, obj.modifiedTime, obj.workspaceId, obj.workspaceType");
 		String columnName;
 		if (!CommonUtil.isEmpty(fields)) {
 			int order = 0;
@@ -2040,6 +2057,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			ConnectionUtil.close(con);
 		}
 	}
+	@Override
 	public void addTableColumn(String user, String table, String column, String type) throws SwdException {
 		if (table == null || column == null || type == null)
 			return;

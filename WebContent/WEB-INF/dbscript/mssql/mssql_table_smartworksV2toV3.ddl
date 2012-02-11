@@ -21,7 +21,9 @@ ALTER TABLE tsktask add tskFromRefId varchar(100);
 
 -- workspaceid column add
 ALTER TABLE TskTask add tskWorkspaceId varchar(100);
+ALTER TABLE TskTask add tskWorkSpaceType varchar(50);
 ALTER TABLE PrcprcInst add prcWorkspaceId varchar(100);
+ALTER TABLE PrcprcInst add prcWorkSpaceType varchar(50);
 
 -- 자료실 테이블 명 변경
 sp_rename dt_e2f7c08e0375498499b9a303ef212f53, SWAttachment

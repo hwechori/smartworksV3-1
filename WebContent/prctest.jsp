@@ -1,3 +1,5 @@
+<%@page import="org.apache.commons.logging.LogFactory"%>
+<%@page import="org.apache.commons.logging.Log"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.server.engine.common.model.util.IdGen"%>
 <%@page import="net.smartworks.server.engine.organization.model.SwoDepartment"%>
@@ -47,19 +49,15 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-	SwoDepartment dept = new SwoDepartment();
-	
-	String newId = CommonUtil.newId();
-	dept.setName("test dept");
-	dept.setParentId("test Parent Id");
-	
-	SwManagerFactory.getInstance().getSwoManager().setDepartment("kmyu@maninsoft.co.k", dept, IManager.LEVEL_ALL);		
-	
 
+	Log logger = LogFactory.getLog(getClass());
+	
+	out.print(logger);
+	
+	logger.info("teeeeeeeeeeeeeeeeeeeee");
 
 %>
 <textarea style="width:800px;height:400px;">
-<%=newId %>
 <%-- <%= works[0].getPrcTitle() %> --%>
 </textarea>
 </body>
