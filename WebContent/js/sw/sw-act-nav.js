@@ -292,5 +292,5 @@ $(function() {
 		smartPop.createGroup();
 		return false;
 	});
-
+	
 });

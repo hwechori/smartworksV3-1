@@ -17,6 +17,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
+import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
@@ -45,7 +46,9 @@ import net.smartworks.server.service.IDocFileService;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.IMailService;
 import net.smartworks.server.service.INoticeService;
+import net.smartworks.server.service.ISettingsService;
 import net.smartworks.server.service.IWorkService;
+import net.smartworks.server.service.impl.SettingsServiceImpl;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 
@@ -62,6 +65,7 @@ public class SmartWorks implements ISmartWorks {
 	IWorkService workService;
 	IMailService mailService;
 	IDocFileService docFileService;
+	ISettingsService settingsService;
 
 	@Autowired
 	public void setCommunityService(ICommunityService communityService) {
@@ -96,6 +100,11 @@ public class SmartWorks implements ISmartWorks {
 	@Autowired
 	public void setDocFileService(IDocFileService docFileService) {
 		this.docFileService = docFileService;
+	}
+
+	@Autowired
+	public void setSettingsService(ISettingsService settingsService) {
+		this.settingsService = settingsService;
 	}
 
 	@Override
@@ -484,6 +493,7 @@ public class SmartWorks implements ISmartWorks {
 		return workService.getRecord(request);
 	}
 
+	@Override
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		docFileService.downloadFile(request, response);
 
@@ -522,6 +532,46 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public void removeAFavoriteWork(HttpServletRequest request) throws Exception {
 		workService.removeAFavoriteWork(request.getParameter("workId"));		
+	}
+
+	@Override
+	public CompanyGeneral getCompanyGeneral() throws Exception {
+		return settingsService.getCompanyGeneral();
+	}
+
+	@Override
+	public void setCompanyGeneral(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setCompanyGeneral(requestBody, request);
+	}
+	
+	@Override
+	public WorkHourPolicy[] getWorkHourPolicies() throws Exception {
+		return settingsService.getWorkHourPolicies();
+	}
+	
+	@Override
+	public WorkHourPolicy getWorkHourPolicyById(String id) throws Exception {
+		return settingsService.getWorkHourPolicyById(id);
+	}
+	
+	@Override
+	public void setWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setWorkHourPolicy(requestBody, request);
+	}
+	
+	@Override
+	public CompanyCalendar[] getCompanyCalendars() throws Exception {
+		return settingsService.getCompanyCalendars();
+	}
+	
+	@Override
+	public CompanyCalendar getCompanyCalendarById(String id) throws Exception {
+		return settingsService.getCompanyCalendarById(id);
+	}
+	
+	@Override
+	public void setCompanyCalendar(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setCompanyCalendar(requestBody, request);
 	}
 
 }

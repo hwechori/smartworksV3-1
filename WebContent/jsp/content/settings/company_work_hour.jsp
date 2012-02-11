@@ -8,7 +8,6 @@
 	session.removeAttribute("wid");
 	
 %>
-
 		<!-- 컨텐츠 레이아웃-->
 		<div class="section_portlet">
 			<div class="portlet_t">
@@ -45,36 +44,37 @@
 						<div class="form_wrap up up_padding margin_b2 clear">
 							<div class="form_title">
 								<div class="ico_iworks title_noico">근무시간정책 추가</div>
-								<div class="solid_line"></div>
+								<div class="solid_line clear"></div>
 							</div>
 
 							<div class="form_layout  margin_b10">
 								<table>
 									<colgroup>
-										<col widtd="50px" />
-										<col widtd="40%" />
-										<col widtd="50px" />
-										<col widtd="40%" />
+										<col widtd="15%" />
+										<col widtd="35%" />
+										<col widtd="15%" />
+										<col widtd="35%" />
 									</colgroup>
 									<tbody>
 										<tr>
-											<td class="r_line">적용일자</td>
+											<th>적용일자</th>
 											<td colspan="3"><input class="fieldline space_data"
-												type="text" value="2010.11.10">
+												type="text" value="2010.11.10"> <a class="" href="">
+														<span class="ico_fb_time po_ico_time"></span> </a>
 											</td>
 										</tr>
 										<tr>
-											<td class="r_line">주 시작일자</td>
-											<td class="r_line"><select>
+											<th>주 시작일자</th>
+											<td><select>
 													<option>월요일</option>
 											</select></td>
-											<td class="r_line">주근무일</td>
+											<th>주근무일</th>
 											<td><select>
 													<option>5일</option>
 											</select></td>
 										</tr>
 										<tr>
-											<td class="r_line">월요일</td>
+											<th>월요일</th>
 											<td colspan="3">근무시작 <select>
 													<option>오전 8:30</option>
 											</select> 근무종료 <select>
@@ -82,7 +82,7 @@
 											</select></td>
 										</tr>
 										<tr>
-											<td class="r_line">화요일</td>
+											<th>화요일</th>
 											<td colspan="3">근무시작 <select name="select">
 													<option>오전 8:30</option>
 											</select> 근무종료 <select name="select2">
@@ -91,7 +91,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td class="r_line">수요일</td>
+											<th>수요일</th>
 											<td colspan="3">근무시작 <select name="select3">
 													<option>오전 8:30</option>
 											</select> 근무종료 <select name="select3">
@@ -100,7 +100,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td class="r_line">목요일</td>
+											<th>목요일</th>
 											<td colspan="3">근무시작 <select name="select4">
 													<option>오전 8:30</option>
 											</select> 근무종료 <select name="select4">
@@ -109,7 +109,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td class="end r_line">금요일</td>
+											<th class="end">금요일</th>
 											<td colspan="3" class="end">근무시작 <select name="select5">
 													<option>오전 8:30</option>
 											</select> 근무종료 <select name="select5">
@@ -178,9 +178,8 @@
 											<td>08:30~<br /> 18:00</td>
 											<td>&nbsp;</td>
 											<td>&nbsp;</td>
-											<td>
-												<div>편집</div>
-												<div>삭제</div></td>
+											<td><input type="button" class="btn_s_modi" /> <input
+												type="button" class="btn_s_del" /></td>
 										</tr>
 
 									</tbody>

@@ -17,6 +17,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
+import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
@@ -247,4 +248,20 @@ public interface ISmartWorks {
 
 	public abstract void removeAFavoriteWork(HttpServletRequest request) throws Exception;
 
+	public abstract CompanyGeneral getCompanyGeneral() throws Exception;
+
+	public abstract void setCompanyGeneral(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract WorkHourPolicy[] getWorkHourPolicies() throws Exception;
+	
+	public abstract WorkHourPolicy getWorkHourPolicyById(String id) throws Exception;
+	
+	public abstract void setWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract CompanyCalendar[] getCompanyCalendars() throws Exception;
+	
+	public abstract CompanyCalendar getCompanyCalendarById(String id) throws Exception;
+	
+	public abstract void setCompanyCalendar(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
 }

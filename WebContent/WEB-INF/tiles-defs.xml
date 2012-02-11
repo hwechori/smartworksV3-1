@@ -115,10 +115,6 @@
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
 		<put-attribute name="content" value="/jsp/content/settings/company_general.jsp" />
 	</definition>
-	<definition name="company_mailing" extends="layouts">
-		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
-		<put-attribute name="content" value="/jsp/content/settings/company_mailing.jsp" />
-	</definition>
 	<definition name="company_work_hour" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
 		<put-attribute name="content" value="/jsp/content/settings/company_work_hour.jsp" />

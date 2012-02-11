@@ -38,6 +38,8 @@ smartMessage.bundle['ko'] = {
 	falseText : "아니오",
 	setMyProfileSucceed : "개인정보수정이 정상적으로 완료되었습니다.",
 	setMyProfileError : "개인정보수정하는 중 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	setCompanyGeneralSucceed : "회사일반정보수정이 정상적으로 완료되었습니다.",
+	setCompanyGeneralError : "회사일반정보수정하는 중 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	createIWorkSucceed : "새로운 업무항목 정상적으로 생성되었습니다. 해당 항목페이지로 이동하시겠습니까?",
 	createIWorkError : "새로운 항목생성 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	startPWorkSucceed : "새로운 프로세스가 정상적으로 시작되었습니다. 해당 프로세스페이지로 이동하시겠습니까?",

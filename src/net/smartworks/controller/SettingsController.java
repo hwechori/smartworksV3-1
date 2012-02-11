@@ -11,8 +11,10 @@ package net.smartworks.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SettingsController {
 	
+	ISmartWorks smartworks;
+
+	@Autowired
+	public void setSmartworks(ISmartWorks smartworks) {
+		this.smartworks = smartworks;
+	}
+
 	@RequestMapping("/settings_home")
 	public ModelAndView settings(HttpServletRequest request, HttpServletResponse response) {
 
@@ -30,12 +39,6 @@ public class SettingsController {
 	public ModelAndView companyGeneral(HttpServletRequest request, HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request, "jsp/content/settings/company_general.jsp", "company_general.tiles");
-	}
-
-	@RequestMapping("/company_mailing")
-	public ModelAndView companyMailing(HttpServletRequest request, HttpServletResponse response) {
-
-		return SmartUtil.returnMnv(request, "jsp/content/settings/company_mailing.jsp", "company_mailing.tiles");
 	}
 
 	@RequestMapping("/company_work_hour")

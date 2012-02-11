@@ -17,6 +17,7 @@ import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TaskInstanceController {
+
+	ISmartWorks smartworks;
+
+	@Autowired
+	public void setSmartworks(ISmartWorks smartworks) {
+		this.smartworks = smartworks;
+	}
 
 	@RequestMapping("/new_iwork")
 	public ModelAndView newIwork(HttpServletRequest request, HttpServletResponse response) {
