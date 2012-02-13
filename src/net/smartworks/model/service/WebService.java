@@ -4,11 +4,6 @@ import net.smartworks.model.BaseObject;
 
 public class WebService extends BaseObject{
 	
-	public class Variable{
-		String name;
-		String elementName;
-		String elementType;
-	};
 	private String desc;
 	private String wsdlUri;
 	private String port;

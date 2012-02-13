@@ -131,13 +131,13 @@
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
 		<put-attribute name="content" value="/jsp/content/settings/approval_line.jsp" />
 	</definition>
-	<definition name="webservice_management" extends="layouts">
+	<definition name="web_service" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
-		<put-attribute name="content" value="/jsp/content/settings/webservice_management.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/web_service.jsp" />
 	</definition>
-	<definition name="externalform_management" extends="layouts">
+	<definition name="external_form" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
-		<put-attribute name="content" value="/jsp/content/settings/externalform_management.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/external_form.jsp" />
 	</definition>
 	<definition name="builder_home" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />

@@ -75,7 +75,7 @@
 					<div class="title"><fmt:message key="settings.title.webservice.list"/></div>
 					<!-- 우측버튼 -->
 					<div class="titleLineBtns">
-						<div class="btnIconsCreate js_new_web_service"> <a class="btnIconsTail" href=""><fmt:message key="settings.title.webservice.add_new"/></a> </div>
+						<div class="btnIconsCreate"> <a class="btnIconsTail js_new_web_service" href=""><fmt:message key="common.button.add_new"/></a> </div>
 					</div>
 					<!-- 우측버튼 //-->
 				</div>

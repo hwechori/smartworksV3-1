@@ -72,16 +72,16 @@ public class SettingsController {
 		return SmartUtil.returnMnv(request, "jsp/content/settings/approval_line.jsp", "approval_line.tiles");
 	}
 
-	@RequestMapping("/webservice_management")
+	@RequestMapping("/web_service")
 	public ModelAndView webserviceManagement(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/settings/webservice_management.jsp", "webservice_management.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/settings/web_service.jsp", "web_service.tiles");
 	}
 
-	@RequestMapping("/externalform_management")
+	@RequestMapping("/external_form")
 	public ModelAndView externalformManagement(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/settings/externalform_management.jsp", "externalform_management.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/settings/external_form.jsp", "external_form.tiles");
 	}
 
 	@RequestMapping(value = "/set_company_general", method = RequestMethod.POST)
