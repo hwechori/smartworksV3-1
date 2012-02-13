@@ -1,137 +1,191 @@
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
+<%@page import="net.smartworks.model.service.WebService"%>
+<%@page import="net.smartworks.model.RecordList"%>
+<%@page import="net.smartworks.model.community.User"%>
+<%@page import="net.smartworks.model.instance.info.RequestParams"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
+	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다..
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	RequestParams params = (RequestParams)request.getAttribute("requestParams");
+	if(SmartUtil.isBlankObject(params)){
+		params = new RequestParams();
+	}
+	User cUser = SmartUtil.getCurrentUser();
 	
-	session.setAttribute("cid", ISmartWorks.CONTEXT_DASHBOARD);
-	session.removeAttribute("wid");
+	RecordList recordList = smartWorks.getWebServiceList(params);
+	int pageSize = recordList.getPageSize();
+	int totalPages = recordList.getTotalPages();
+	int currentPage = recordList.getCurrentPage();
+	WebService[] webServices = (WebService[])recordList.getRecords();
 	
 %>
-	<!-- 컨텐츠 레이아웃-->
-	<div class="section_portlet">
-		<div class="portlet_t">
-			<div class="portlet_tl"></div>
-		</div>
-		<div class="portlet_l" style="display: block;">
-			<ul class="portlet_r" style="display: block;">
-				<!-- 타이틀 -->
-				<div class="body_titl">
-					<div class="body_titl_iworks title_noico">웹서비스 관리</div>
-					<div class="solid_line"></div>
+<script type="text/javascript">
+
+	selectListParam = function(progressSpan, isGray){
+		var webService = $('.js_web_service_page');
+		var forms = webService.find('form:visible');
+		var paramsJson = {};
+		paramsJson["href"] = "jsp/content/settings/web_service.jsp";
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+		}
+		grogressSpan = webService.find('span.js_progress_span:first');
+		smartPop.progressCont(progressSpan);
+		console.log(JSON.stringify(paramsJson));
+		var url = "set_instance_list_params.sw";
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				$('#content').html(data);
+				smartPop.closeProgress();
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('webServiceListError'));
+			}
+		});
+	};
+</script>
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
+
+<!-- 컨텐츠 레이아웃-->
+<div class="section_portlet js_web_service_page">
+	<div class="portlet_t"><div class="portlet_tl"></div></div>
+	<div class="portlet_l" style="display: block;">
+		<ul class="portlet_r" style="display: block;">
+			<!-- 타이틀 -->
+			<div class="body_titl">
+				<div class="body_titl_iworks title_noico"><fmt:message key="settings.title.webservice.setting"/></div>
+				<div class="solid_line"></div>
+			</div>
+			<!-- 타이틀 -->
+			<!-- 컨텐츠 -->
+			<div class="contents_space">
+				<!-- 타이틀 영역 -->
+				<div class="list_title_space">
+					<div class="title"><fmt:message key="settings.title.webservice.list"/></div>
+					<!-- 우측버튼 -->
+					<div class="titleLineBtns">
+						<div class="btnIconsCreate js_new_web_service"> <a class="btnIconsTail" href=""><fmt:message key="settings.title.webservice.add_new"/></a> </div>
+					</div>
+					<!-- 우측버튼 //-->
 				</div>
-				<!-- 타이틀 -->
-				<!-- 컨텐츠 -->
-				<div class="contents_space">
-					<!-- 타이틀 영역 -->
-					<div class="list_title_space">
-						<div class="title">웹서비스 목록</div>
-						<!-- 우측버튼 -->
-						<div class="titleLineBtns">
-							<div class="btnIconsCreate"> <a class="btnIconsTail" href="">추가하기</a> </div>
-						</div>
-						<!-- 우측버튼 //-->
+				<!-- 타이틀 영역// -->
+				<!-- 추가하기 테이블 -->
+				<div class="js_new_web_service"></div>
+				<!-- 추가하기 테이블 //-->
+				<!-- 웹서비스 목록 -->
+				<div class="list_contents">
+					<div>
+						<table>
+							<tbody>
+								<tr class="tit_bg">
+									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.name"/></th>
+									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.desc"/></th>
+									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.wsdl_uri"/></th>
+									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.port"/></th>
+									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.operation"/></th>
+									<th width="16%"></th>
+								</tr>
+								<%
+								if(!SmartUtil.isBlankObject(webServices)){
+									for(WebService webService : webServices){	
+								%>								
+										<tr class="js_edit_web_service" serviceId=<%=CommonUtil.toNotNull(webService.getId()) %>>
+											<td><a href=""><%=webService.getName() %></a></td>
+											<td><a href=""><%=webService.getName() %></a></td>
+											<td><a href=""><%=webService.getName() %></a></td>
+											<td><a href=""><%=webService.getName() %></a></td>
+											<td><a href=""><%=webService.getName() %></a></td>
+											<td><%if(!SmartUtil.isBlankObject(webService.getId())){ %><a href="" class="js_delete_web_service">X</a><%} %></td>
+										</tr>
+								<%
+									}
+								}else{
+								%>
+									<tr><fmt:message key="common.message.no_instance"/></tr>
+								<%
+								}
+								%>
+							</tbody>
+						</table>
+						<!-- Paging -->
+						<form name="frmWebServiceListPaging">
+							<!-- 페이징 -->
+							<div class="paginate">
+								<%
+								if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
+									boolean isFirst10Pages = (currentPage <= 10) ? true : false;
+									boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true : false;
+									int startPage = ((currentPage - 1) / 10) * 10 + 1;
+									int endPage = isLast10Pages ? totalPages : startPage + 9;
+									if (!isFirst10Pages) {
+								%>
+										<a class="pre_end js_select_paging" href="" title="<fmt:message key='common.title.first_page'/>">
+											<span class="spr"></span>
+											<input name="hdnPrevEnd" type="hidden" value="false"> 
+										</a>		
+										<a class="pre js_select_paging" href="" title="<fmt:message key='common.title.prev_10_pages'/> ">
+											<span class="spr"></span>
+											<input name="hdnPrev10" type="hidden" value="false">
+										</a>
+									<%
+									}
+									for (int num = startPage; num <= endPage; num++) {
+										if (num == currentPage) {
+									%>
+											<strong><%=num%></strong>
+											<input name="hdnCurrentPage" type="hidden" value="<%=num%>"/>
+										<%
+										} else {
+										%>
+											<a class="num js_select_current_page" href=""><%=num%></a>
+										<%
+										}
+									}
+									if (!isLast10Pages) {
+									%>
+										<a class="next js_select_paging" title="<fmt:message key='common.title.next_10_pages'/> ">
+											<span class="spr"></span>
+											<input name="hdnNext10" type="hidden" value="false"/>
+										</a>
+										<a class="next_end js_select_paging" title="<fmt:message key='common.title.last_page'/> ">
+											<span class="spr"><input name="hdnNextEnd" type="hidden" value="false"/></span> 
+										</a>
+								<%
+									}
+								}
+								%>
+								<span class="js_progress_span"></span>
+							</div>
+							
+							<div class="num_box">
+								<span class="js_progress_span"></span>
+								<select class="js_select_page_size" name="selPageSize" title="<fmt:message key='common.title.count_in_page'/>">
+									<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
+									<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
+									<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
+									<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
+								</select>
+							</div>
+							<!-- 페이징 //-->
+						</form>
 					</div>
-					<!-- 타이틀 영역// -->
-					<!-- 추가하기 테이블 -->
-					<div class="form_wrap up up_padding margin_b2 clear">
-						<div class="form_title">
-							<div class="ico_iworks title_noico">웹서비스 추가</div>
-							<div class="solid_line clear"></div>
-						</div>
-						<div class="form_layout  margin_b10">
-							<table>
-								<tbody>
-									<tr>
-										<th width="20%">서비스 이름 <span class="essen_n"></span></th>
-										<td width="80%" ><input name="" type="text" class="fieldline"/>										</td>
-									</tr>
-									<tr>
-										<th>WDSL URI<span class="essen_n"></span></th>
-										<td>
-											<div class="btn_fb_space">
-												<input class="fieldline" type="text" >
-														<div class="btnIconStart po_rbtn">
-																<a class="btnIconsTail" href="">불러오기</a>
-															</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th>포 트<span class="essen_n"></span></th>
-										<td><select>
-												<option> - </option>
-											</select>										</td>
-									</tr>
-									<tr>
-										<th>오퍼레이션<span class="essen_n"></span></th>
-										<td><select name="select">
-											<option> - </option>
-										</select></td>
-									</tr>
-									<tr>
-										<th>입력 변수들</th>
-										<td>&nbsp;</td>
-									</tr>
-									<tr>
-										<th>반환 변수들</th>
-										<td>&nbsp;</td>
-									</tr>
-									<tr>
-										<th>설 명</th>
-										<td><textarea name="textarea" id="textarea" cols="" rows="3" class="fieldline"></textarea></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<!-- 버튼영역 -->
-						<div class="glo_btn_space">
-							<div class="float_right"> <span class="btn_gray"> <span class="Btn01Start"></span> <span class="Btn01Center">저장</span> <span class="Btn01End"></span> </span> <span class="btn_gray"> <span class="Btn01Start"></span> <span class="Btn01Center">취소</span> <span class="Btn01End"></span> </span> </div>
-						</div>
-						<!-- 버튼영역 //-->
-					</div>
-					<!-- 추가하기 테이블 //-->
-					<!-- 근무정책 목록 -->
-					<div class="list_contents">
-						<div>
-							<table>
-								<tbody>
-									<tr class="tit_bg">
-										<th width="16%" class="r_line">서비스 이름</th>
-										<th width="16%" class="r_line">설 명</th>
-										<th width="16%" class="r_line">WSDL URI</th>
-										<th width="16%" class="r_line">포트</th>
-										<th width="16%" class="r_line">오퍼레이션</th>
-										<th width="16%">처 리</th>
-									</tr>
-									<tr>
-										<td>리스트가 없습니다</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-										<td class="text_align_c">&nbsp;</td>
-									</tr>
-								</tbody>
-							</table>
-							<!-- Paging -->
-							<form name="frmInstanceListPaging">
-								<div class="paginate"> <strong>1</strong>
-									<input type="hidden" value="1" name="hdnCurrentPage">
-									<a class="num js_select_current_page" href="">2</a> <a class="num js_select_current_page" href="">3</a> <a class="num js_select_current_page" href="">4</a> <a class="num js_select_current_page" href="">5</a> <a class="num js_select_current_page" href="">6</a> <a class="num js_select_current_page" href="">7</a> <a class="num js_select_current_page" href="">8</a> <a class="num js_select_current_page" href="">9</a> <a class="num js_select_current_page" href="">10</a> <a class="next js_select_paging" title="다음 10개 페이지 "> <span class="spr"></span>
-									<input type="hidden" value="false" name="hdnNext10">
-									</a> <a class="next_end js_select_paging" title="마지막 페이지 "> <span class="spr">
-									<input type="hidden" value="false" name="hdnNextEnd">
-									</span> </a> <span class="js_progress_span"></span> </div>
-							</form>
-							<!-- Paging//-->
-						</div>
-					</div>
-					<!-- 근무정책 목록 //-->
 				</div>
-				<!-- 컨텐츠 //-->
-			</ul>
-		</div>
-		<div class="portlet_b" style="display: block;"></div>
+				<!-- 근무정책 목록 //-->
+			</div>
+			<!-- 컨텐츠 //-->
+		</ul>
 	</div>
-	<!-- 컨텐츠 레이아웃//-->
+	<div class="portlet_b" style="display: block;"></div>
+</div>
+<!-- 컨텐츠 레이아웃//-->

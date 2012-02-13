@@ -110,6 +110,195 @@ $(function() {
 		return false;
 	});
 
+	$('a.js_new_approval_line').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_approval_line_page').find('div.js_new_approval_line');
+		$.ajax({
+			url : "edit_approval_line.sw",
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('.js_edit_approval_line').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_approval_line_page').find('div.js_new_approval_line');
+		var lineId = input.parents('.js_edit_approval_line').attr('lineId');
+		$.ajax({
+			url : "edit_approval_line.sw?lineId=" + lineId,
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('.js_delete_approval_line').live('click', function(e) {
+		var input = $(e.target);
+		
+		smartPop.confirm(smartMessage.get("removeConfirmation"), function(){
+			var lineId = input.parents('.js_edit_approval_line').attr('lineId');
+			var paramsJson = {};
+			paramsJson['lineId'] = lineId;
+			console.log(JSON.stringify(paramsJson));
+			$.ajax({
+				url : "remove_approval_line.sw",
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get('removeApprovalLineSucceed'), function(){
+						document.location.href = "approval_line.sw";					
+					});					
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("removeApprovalLineError"), function(){
+					});
+					
+				}
+				
+			});
+		});
+		return false;
+	});
+
+	$('select.js_approval_line_level').live('change', function(e) {
+		var input = $(e.target);
+		var approvalLevel = parseInt(input.attr('value'));
+		var approvalLine = input.parents('.js_approval_line_page');
+		var approvalLevelNames = approvalLine.find('.js_approval_level_name').hide();
+		var approverTypes = approvalLine.find('.js_approver_type').hide();
+		var approvalMeanTimes = approvalLine.find('.js_approval_mean_time').hide();
+		for(var i=0; i<approvalLevel; i++){
+			if(approvalLevelNames.length>i) $(approvalLevelNames[i]).show().width(80/approvalLevel + '%');
+			if(approverTypes.length>i) $(approverTypes[i]).show();
+			if(approvalMeanTimes.length>i) $(approvalMeanTimes[i]).show();
+		}
+		return false;
+	});
+
+	$('select.js_approval_approver_type').live('change', function(e) {
+		var input = $(e.target);
+		if(input.attr('value') === '2')
+			input.next('.js_type_userField').show();
+		else
+			input.next('.js_type_userField').hide();
+		return false;
+	});
+
+	$('a.js_new_web_service').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_web_service_page').find('div.js_new_web_service');
+		$.ajax({
+			url : "edit_web_service.sw",
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('.js_edit_web_service').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_web_service_page').find('div.js_new_web_service');
+		var serviceId = input.parents('.js_edit_web_service').attr('serviceId');
+		$.ajax({
+			url : "edit_web_service.sw?serviceId=" + serviceId,
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('.js_delete_web_service').live('click', function(e) {
+		var input = $(e.target);
+		
+		smartPop.confirm(smartMessage.get("removeConfirmation"), function(){
+			var serviceId = input.parents('.js_edit_web_service').attr('serviceId');
+			var paramsJson = {};
+			paramsJson['serviceId'] = serviceId;
+			console.log(JSON.stringify(paramsJson));
+			$.ajax({
+				url : "remove_web_service.sw",
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get('removeWebServiceSucceed'), function(){
+						document.location.href = "web_service.sw";					
+					});					
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("removeWebServiceError"), function(){
+					});
+					
+				}
+				
+			});
+		});
+		return false;
+	});
+
+	$('a.js_new_external_form').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_external_form_page').find('div.js_new_external_form');
+		$.ajax({
+			url : "edit_external_form.sw",
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('.js_edit_external_form').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_external_form_page').find('div.js_new_external_form');
+		var formId = input.parents('.js_edit_external_form').attr('formId');
+		$.ajax({
+			url : "edit_external_form.sw?formId=" + formId,
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('.js_delete_external_form').live('click', function(e) {
+		var input = $(e.target);
+		
+		smartPop.confirm(smartMessage.get("removeConfirmation"), function(){
+			var formId = input.parents('.js_edit_external_form').attr('formId');
+			var paramsJson = {};
+			paramsJson['formId'] = formId;
+			console.log(JSON.stringify(paramsJson));
+			$.ajax({
+				url : "remove_external_form.sw",
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get('removeExternalFormSucceed'), function(){
+						document.location.href = "external_form.sw";					
+					});					
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("removeExternalFormError"), function(){
+					});
+					
+				}
+				
+			});
+		});
+		return false;
+	});
+
 	$('select.js_first_day_of_week').live('change', function(e) {
 		var input = $(e.target);
 		var editWorkHour = input.parents('.js_edit_work_hour_page');

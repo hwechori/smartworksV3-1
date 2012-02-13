@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.RecordList;
+import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
@@ -37,6 +38,8 @@ import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
+import net.smartworks.model.service.ExternalForm;
+import net.smartworks.model.service.WebService;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -584,6 +587,66 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		settingsService.removeCompanyEvent(requestBody, request);
+	}
+		
+	@Override
+	public RecordList getApprovalLineList(RequestParams params) throws Exception {
+		return settingsService.getApprovalLineList(params);
+	}
+	
+	@Override
+	public ApprovalLine getApprovalLineById(String id) throws Exception {
+		return settingsService.getApprovalLineById(id);
+	}
+	
+	@Override
+	public void setApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setApprovalLine(requestBody, request);
+	}
+		
+	@Override
+	public void removeApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.removeApprovalLine(requestBody, request);
+	}
+		
+	@Override
+	public RecordList getWebServiceList(RequestParams params) throws Exception {
+		return settingsService.getWebServiceList(params);
+	}
+	
+	@Override
+	public WebService getWebServiceById(String id) throws Exception {
+		return settingsService.getWebServiceById(id);
+	}
+	
+	@Override
+	public void setWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setWebService(requestBody, request);
+	}
+		
+	@Override
+	public void removeWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.removeWebService(requestBody, request);
+	}
+		
+	@Override
+	public RecordList getExternalFormList(RequestParams params) throws Exception {
+		return settingsService.getExternalFormList(params);
+	}
+	
+	@Override
+	public ExternalForm getExternalFormById(String id) throws Exception {
+		return settingsService.getExternalFormById(id);
+	}
+	
+	@Override
+	public void setExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setExternalForm(requestBody, request);
+	}
+		
+	@Override
+	public void removeExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.removeExternalForm(requestBody, request);
 	}
 		
 	@Override

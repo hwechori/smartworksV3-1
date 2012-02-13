@@ -5,7 +5,7 @@ import net.smartworks.model.BaseObject;
 public class ApprovalLine extends BaseObject{
 	
 	private String desc;
-	private int approvalLevel;
+	private int approvalLevel=3;
 	private Approval[] approvals;
 	
 	public String getDesc() {

@@ -5,11 +5,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.RecordList;
+import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.service.ExternalForm;
+import net.smartworks.model.service.WebService;
 
 public interface ISettingsService {
 
@@ -32,5 +35,29 @@ public interface ISettingsService {
 	public abstract void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
 	public abstract void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract RecordList getApprovalLineList(RequestParams params) throws Exception;
+	
+	public abstract ApprovalLine getApprovalLineById(String id) throws Exception;
+	
+	public abstract void setApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract void removeApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract RecordList getWebServiceList(RequestParams params) throws Exception;
+	
+	public abstract WebService getWebServiceById(String id) throws Exception;
+	
+	public abstract void setWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract void removeWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract RecordList getExternalFormList(RequestParams params) throws Exception;
+	
+	public abstract ExternalForm getExternalFormById(String id) throws Exception;
+	
+	public abstract void setExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract void removeExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
 }
