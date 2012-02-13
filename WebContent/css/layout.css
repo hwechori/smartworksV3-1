@@ -211,7 +211,6 @@ a .btn_apps {background: url("../images/nav_img.png") no-repeat -157px -344px tr
 a .btn_apps:hover,
 .btn_apps.current {background: url("../images/nav_img.png") no-repeat -157px -379px;}
 
-
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; min-height: 300px;}
 .navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:5px 10px 0;}
@@ -376,7 +375,7 @@ a .btn_apps:hover,
 
 
 /* 입력폼 */
-.form_wrap {background: none repeat scroll 0 0 #FFFFFF; height:100%; }
+.form_wrap {background: none repeat scroll 0 0 #FFFFFF; height:100%; overflow:hidden}
 .form_wrap .input_check {float:left; margin-left:5px;}
 
 .form_title {padding:10px;}
@@ -437,10 +436,10 @@ a .btn_apps:hover,
 
 
 /* table Gray */
-.gray_style {clear: both}
+.gray_style {}
 .gray_style table {border-collapse:collapse;}
 .gray_style td, .gray_style th {border:1px solid #d8d8d8; padding: 2px 8px;}
-.gray_style th {background-color:#f5f5f5; font-weight:normal; white-space:nowrap}
+.gray_style th {background-color:#f5f5f5; font-weight: bold; white-space:nowrap}
 .gray_style td { background-color:#FFF}
 
 /*라운드 포틀릿*/
@@ -650,6 +649,8 @@ td.pic{width:85px}
 .t_nav {font-size:14px; font-weight:bold; color:#FFF}
 .t_nowork { text-align:center; padding:8px 0 !important; color:#b2b2b2}
 .arr {font-size:10px; margin-right:2px;}
+.t_location {font-size:11px; color:#999897; position:relative; top:24px; margin-left:10px}
+.bul_dot {background: url("../images/dot_a.gif") no-repeat scroll left 9px transparent; font-size: 12px; font-weight: bold; padding: 0 0 5px 10px; vertical-align: top;}
 
 /* Line Style */
 .solid_line { border-top:2px solid #999999; width:100%}
