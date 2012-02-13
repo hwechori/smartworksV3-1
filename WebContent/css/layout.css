@@ -121,7 +121,7 @@ li.js_content:hover .checkOption {display:block}
 /*global Menu */
 .global_menu {position:absolute; right:10px; top:11px;  font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
 .global_menu div { float:left; margin-left:8px;}
-.global_menu .pop {border:1px solid #acacac; border-top:none; background:hsla(300,2%,25%,0.9); position:absolute; top:23px; right:0; padding:8px; z-index:39;}
+.global_menu .pop {border:1px solid #acacac; border-top:none; background:hsla(300,2%,25%,0.9); background-color:#414041; position:absolute; top:23px; right:0; padding:8px; z-index:39;}
 .global_menu .pop_admin {position:absolute; top:23px; right:0; z-index:38;}
 
 /*Personal Info*/
