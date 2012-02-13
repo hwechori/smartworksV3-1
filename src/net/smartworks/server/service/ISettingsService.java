@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.RecordList;
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.instance.info.RequestParams;
@@ -24,10 +25,12 @@ public interface ISettingsService {
 	
 	public abstract void removeWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
-	public abstract RecordList getCompanyCalendarList(RequestParams params) throws Exception;
+	public abstract RecordList getCompanyEventList(RequestParams params) throws Exception;
 	
-	public abstract CompanyCalendar getCompanyCalendarById(String id) throws Exception;
+	public abstract CompanyEvent getCompanyEventById(String id) throws Exception;
 	
-	public abstract void setCompanyCalendar(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	public abstract void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
 }

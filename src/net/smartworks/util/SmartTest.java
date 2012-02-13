@@ -638,7 +638,7 @@ public class SmartTest {
 	
 	public static CompanyEvent getCompanyEvent1(){
 		CompanyEvent event = new CompanyEvent("companyevent1", "창립기념일");
-		event.setIsHoliday(false);
+		event.setHoliday(false);
 		event.setPlannedStart(new LocalDate());
 		event.setPlannedEnd(new LocalDate());
 		return event;
@@ -646,7 +646,7 @@ public class SmartTest {
 	
 	public static CompanyEvent getCompanyEvent2(){
 		CompanyEvent event = new CompanyEvent("companyevent2", "크리스마스");
-		event.setIsHoliday(true);
+		event.setHoliday(true);
 		event.setPlannedStart(new LocalDate());
 		LocalDate date1 = new LocalDate();
 		date1.setGMTDate(date1.getGMTDate() + LocalDate.ONE_DAY*2);

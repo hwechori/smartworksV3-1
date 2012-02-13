@@ -9,16 +9,16 @@ public class CompanyEvent extends BaseObject {
 	public static final String EVENT_TYPE_HOLIDAY = "1";
 	public static final String EVENT_TYPE_EVENTDAY = "2";
 
-	private Boolean 		isHoliday;
+	private boolean 		holiday;
 	private Community[]		relatedUsers;
 	private LocalDate		plannedStart;
 	private LocalDate		plannedEnd;
 
-	public Boolean getIsHoliday() {
-		return isHoliday;
+	public boolean isHoliday() {
+		return holiday;
 	}
-	public void setIsHoliday(Boolean isHoliday) {
-		this.isHoliday = isHoliday;
+	public void setHoliday(boolean holiday) {
+		this.holiday = holiday;
 	}
 	public Community[] getRelatedUsers() {
 		return relatedUsers;
