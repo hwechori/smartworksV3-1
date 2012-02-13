@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.RecordList;
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
@@ -17,6 +19,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
+import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
@@ -45,7 +48,9 @@ import net.smartworks.server.service.IDocFileService;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.IMailService;
 import net.smartworks.server.service.INoticeService;
+import net.smartworks.server.service.ISettingsService;
 import net.smartworks.server.service.IWorkService;
+import net.smartworks.server.service.impl.SettingsServiceImpl;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 
@@ -62,6 +67,7 @@ public class SmartWorks implements ISmartWorks {
 	IWorkService workService;
 	IMailService mailService;
 	IDocFileService docFileService;
+	ISettingsService settingsService;
 
 	@Autowired
 	public void setCommunityService(ICommunityService communityService) {
@@ -96,6 +102,11 @@ public class SmartWorks implements ISmartWorks {
 	@Autowired
 	public void setDocFileService(IDocFileService docFileService) {
 		this.docFileService = docFileService;
+	}
+
+	@Autowired
+	public void setSettingsService(ISettingsService settingsService) {
+		this.settingsService = settingsService;
 	}
 
 	@Override
@@ -484,6 +495,7 @@ public class SmartWorks implements ISmartWorks {
 		return workService.getRecord(request);
 	}
 
+	@Override
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		docFileService.downloadFile(request, response);
 
@@ -524,6 +536,56 @@ public class SmartWorks implements ISmartWorks {
 		workService.removeAFavoriteWork(request.getParameter("workId"));		
 	}
 
+	@Override
+	public CompanyGeneral getCompanyGeneral() throws Exception {
+		return settingsService.getCompanyGeneral();
+	}
+
+	@Override
+	public void setCompanyGeneral(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setCompanyGeneral(requestBody, request);
+	}
+	
+	@Override
+	public RecordList getWorkHourPolicyList(RequestParams params) throws Exception {
+		return settingsService.getWorkHourPolicyList(params);
+	}
+	
+	@Override
+	public WorkHourPolicy getWorkHourPolicyById(String id) throws Exception {
+		return settingsService.getWorkHourPolicyById(id);
+	}
+	
+	@Override
+	public void setWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setWorkHourPolicy(requestBody, request);
+	}
+	
+	@Override
+	public void removeWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.removeWorkHourPolicy(requestBody, request);
+	}
+	
+	@Override
+	public RecordList getCompanyEventList(RequestParams params) throws Exception {
+		return settingsService.getCompanyEventList(params);
+	}
+	
+	@Override
+	public CompanyEvent getCompanyEventById(String id) throws Exception {
+		return settingsService.getCompanyEventById(id);
+	}
+	
+	@Override
+	public void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setCompanyEvent(requestBody, request);
+	}
+		
+	@Override
+	public void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.removeCompanyEvent(requestBody, request);
+	}
+		
 	@Override
 	public String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		String instanceId = instanceService.performTaskInstance(requestBody, request);

@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.RecordList;
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
@@ -17,6 +19,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
+import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
@@ -246,6 +249,26 @@ public interface ISmartWorks {
 	public abstract void addAFavoriteWork(HttpServletRequest request) throws Exception;
 
 	public abstract void removeAFavoriteWork(HttpServletRequest request) throws Exception;
+
+	public abstract CompanyGeneral getCompanyGeneral() throws Exception;
+
+	public abstract void setCompanyGeneral(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract RecordList getWorkHourPolicyList(RequestParams params) throws Exception;
+	
+	public abstract WorkHourPolicy getWorkHourPolicyById(String id) throws Exception;
+	
+	public abstract void setWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract void removeWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract RecordList getCompanyEventList(RequestParams params) throws Exception;
+	
+	public abstract CompanyEvent getCompanyEventById(String id) throws Exception;
+	
+	public abstract void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	

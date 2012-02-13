@@ -193,7 +193,7 @@ public class CalendarServiceImpl implements ICalendarService {
 						}
 						companyEvent.setId(id);
 						companyEvent.setName(name);
-						companyEvent.setIsHoliday(isHoliDay);
+						companyEvent.setHoliday(isHoliDay);
 						companyEvent.setPlannedStart(plannedStart);
 						companyEvent.setPlannedEnd(plannedEnd);
 						companyEventList.add(companyEvent);

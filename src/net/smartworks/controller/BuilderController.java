@@ -23,7 +23,7 @@ public class BuilderController {
 	@RequestMapping("/builder_home")
 	public ModelAndView builderHome(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/builder/builder_home.jsp", "builder_home.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/builder/home.jsp", "builder_home.tiles");
 	}
 
 	@RequestMapping("/smart_builder")
