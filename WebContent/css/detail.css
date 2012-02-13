@@ -61,7 +61,8 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 
 /* 목록보기 부분 타이틀 */
 /*.list_title_space {background-color:#ededed; padding:7px 5px; overflow:hidden;}*/
-.list_title_space,.default_title_space {padding:5px 0 0 0; overflow:hidden; clear:both}
+.default_title_space{padding-bottom:3px !important} /* Case in No right Button */
+.list_title_space,.default_title_space {padding:5px 0 0 0; overflow:hidden; clear:both} /* Case in right Button */
 .list_title_space .title, .list_title, .default_title_space .title {background: url("../images/iconTitle.gif") 0 2px no-repeat;font-size:14px;font-weight:bold; padding: 0 8px 0 20px; float:left;}
 
 .list_contents { clear:both}
@@ -77,7 +78,6 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 .r_line {border-right:1px solid #cccccc;}
 .po_left{display:inline-block}
 .js_work_report_list_box{width:170px}
-.default_title_space{padding-bottom:3px}
 
 /* 새로 만들기 부분 타이틀 */
 .nmake_title_space {background-color:#F7F7F7; padding:5px; overflow:hidden;}
@@ -239,6 +239,8 @@ display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
 .tab_adm li.current div { background-position: right -23px;}
 .tab_adm li div a { display: inline-block; line-height: 26px; padding: 0 12px 0 10px; color:#a4a4a4;}
 .tab_adm li.current div a { color: #d36d6e; font-weight: bold;}
+.tab_adm li div.end { background-position: right -46px;}
+.tab_adm li.current div.end { background-position: right -69px;}
 
 /* Tab - text */
 .tab_text {height: 22px; padding: 30px 0 0 130px} 
@@ -338,6 +340,7 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .current .btn_set_adm {background-position:-185px -501px}
 .btn_app_shar {background: url("../images/body_icon.png") no-repeat -226px -485px transparent; height:12px;  width:16px; display: inline-block}
 .current .btn_app_shar {background-position:-226px -501px}
+.btn_app_shar_go {background: url("../images/body_icon.png") no-repeat -277px -485px transparent; height:12px;  width:16px; display: inline-block}
 
 .borderGrayBox form,.borderGrayBox1 form{vertical-align:middle}
 .borderGrayBox .srch_wsize,.borderGrayBox1 .srch_wsize{margin:0}

@@ -432,7 +432,7 @@ a .btn_apps:hover,
 .table_nomal600 {position: relative;}
 .table_nomal600 table {width: 555px; min-width:555px !important}
 .table_nomal600 table tr {height:32px}
-.boTb { border-top:1px solid #DCDFE0; border-bottom:1px solid #DCDFE0; clear:both; padding:10px 0; margin:2px 0}
+.boTb { border-top:1px solid #DCDFE0; border-bottom:1px solid #DCDFE0; clear:both; padding:10px 0}
 
 
 /* table Gray */
