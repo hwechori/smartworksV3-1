@@ -754,7 +754,8 @@ public class InstanceServiceImpl implements IInstanceService {
 			key Set : formId
 			key Set : formName
 			*/
-			Map<String, Object> smartFormInfoMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+			Map<String, Object> frmSmartFormMap = (Map<String, Object>)requestBody.get("frmSmartForm");
+			Map<String, Object> frmAccessSpaceMap = (Map<String, Object>)requestBody.get("frmAccessSpace");
 	
 			String domainId = null; // domainId 가 없어도 내부 서버에서 폼아이디로 검색하여 저장
 			String formId = (String)requestBody.get("formId");
@@ -783,7 +784,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				fieldInfoMap.put(field.getFormFieldId(), field);
 			}
 	
-			Set<String> keySet = smartFormInfoMap.keySet();
+			Set<String> keySet = frmSmartFormMap.keySet();
 			Iterator<String> itr = keySet.iterator();
 			
 	//		SwdField[] fieldDatas = new SwdField[keySet.size()];
@@ -798,17 +799,35 @@ public class InstanceServiceImpl implements IInstanceService {
 				String refForm = null;
 				String refFormField = null;
 				String refRecordId = null;
-				Object fieldValue = smartFormInfoMap.get(fieldId);
+				Object fieldValue = frmSmartFormMap.get(fieldId);
 				if (fieldValue instanceof LinkedHashMap) {
 					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
 					groupId = (String)valueMap.get("groupId");
 					refForm = (String)valueMap.get("refForm");
 					users = (ArrayList<Map<String,String>>)valueMap.get("users");
-	
+
 					if(!CommonUtil.isEmpty(groupId)) {
 						files = (ArrayList<Map<String,String>>)valueMap.get("files");
-						if(files != null && files.size() > 0)
+						String workType = "";
+						String servletPath = request.getServletPath();
+						if(servletPath.equals("/upload_new_picture.sw"))
+							workType = "Pictures";
+						else
+							workType = "Files";
+						if(files != null && files.size() > 0) {
 							value = groupId;
+							try {
+								for(int i=0; i < files.subList(0, files.size()).size(); i++) {
+									Map<String, String> file = files.get(i);
+									String fileId = file.get("fileId");
+									String fileName = file.get("fileName");
+									String fileSize = file.get("fileSize");
+									getDocManager().insertFiles(workType, groupId, fileId, fileName, fileSize);
+								}
+							} catch (Exception e) {
+								throw new DocFileException("file upload fail...");
+							}
+						}	
 					} else if(!CommonUtil.isEmpty(refForm)) {
 						refFormField = (String)valueMap.get("refFormField");
 						refRecordId = (String)valueMap.get("refRecordId");
@@ -836,7 +855,7 @@ public class InstanceServiceImpl implements IInstanceService {
 						value = resultValue;
 					}
 				} else if(fieldValue instanceof String) {
-					value = (String)smartFormInfoMap.get(fieldId);
+					value = (String)frmSmartFormMap.get(fieldId);
 					type = fieldInfoMap.get(fieldId).getFormFieldType();
 					if(!value.equals("")) {
 						if(formId.equals(SmartForm.ID_MEMO_MANAGEMENT)) {
@@ -857,7 +876,7 @@ public class InstanceServiceImpl implements IInstanceService {
 							value = LocalDate.convertLocalTimeStringToLocalDate(value).toGMTTimeString();
 					}
 				} else if(fieldValue instanceof Integer) {
-					value = (Integer)smartFormInfoMap.get(fieldId) + "";
+					value = (Integer)frmSmartFormMap.get(fieldId) + "";
 				}
 				if (CommonUtil.isEmpty(value))
 					continue;
@@ -870,14 +889,8 @@ public class InstanceServiceImpl implements IInstanceService {
 				fieldData.setValue(value);
 	
 				fieldDataList.add(fieldData);
-				
+
 			}
-			String workType = "";
-			String servletPath = request.getServletPath();
-			if(servletPath.equals("/upload_new_picture.sw"))
-				workType = "Pictures";
-			else
-				workType = "Files";
 	
 			SwdDataField[] fieldDatas = new SwdDataField[fieldDataList.size()];
 			fieldDataList.toArray(fieldDatas);
@@ -888,29 +901,54 @@ public class InstanceServiceImpl implements IInstanceService {
 			obj.setFormVersion(formVersion);
 			obj.setDataFields(fieldDatas);
 			obj.setRecordId(instanceId);
-	
-			String returnInstanceId = getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
-	
-			if(files != null && files.size() > 0) {
-				try {
-					for(int i=0; i < files.subList(0, files.size()).size(); i++) {
-						Map<String, String> file = files.get(i);
-						String fileId = file.get("fileId");
-						String fileName = file.get("fileName");
-						String fileSize = file.get("fileSize");
-						getDocManager().insertFiles(workType, groupId, fileId, fileName, fileSize);
+
+			keySet = frmAccessSpaceMap.keySet();
+			itr = keySet.iterator();
+
+			String workSpaceId = null;
+			String workSpaceType = null;
+			String accessLevel = null;
+			String accessValue = null;
+
+			while (itr.hasNext()) {
+				String fieldId = (String)itr.next();
+				Object fieldValue = frmAccessSpaceMap.get(fieldId);
+				if (fieldValue instanceof LinkedHashMap) {
+					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+					users = (ArrayList<Map<String,String>>)valueMap.get("users");
+					if(!CommonUtil.isEmpty(users)) {
+						String symbol = ";";
+						if(users.size() == 1) {
+							accessValue = users.get(0).get("id");
+						} else {
+							accessValue = "";
+							for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+								Map<String, String> user = users.get(i);
+								accessValue += user.get("id") + symbol;
+							}
+						}
 					}
-				} catch (Exception e) {
-					throw new DocFileException("file upload fail...");
+				} else if(fieldValue instanceof String) {
+					if(fieldId.equals("selWorkSpace")) {
+						workSpaceId = (String)fieldValue;
+					/* TO-DO } else if(fieldId.equals("selWorkSpaceType")) {
+						workSpaceType = (String)fieldValue;*/
+					} else if(fieldId.equals("selAccessLevel")) {
+						accessLevel = (String)fieldValue;
+					}
 				}
 			}
-	
-			return returnInstanceId;
+
+			obj.setWorkSpaceId(workSpaceId);
+			obj.setWorkSpaceType(workSpaceType);
+			obj.setAccessLevel(accessLevel);
+			obj.setAccessValue(accessValue);
+
+			return getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
+
 		}catch (Exception e){
-			// Exception Handling Required
 			e.printStackTrace();
 			return null;			
-			// Exception Handling Required			
 		}
 	}
 
@@ -1595,8 +1633,14 @@ public class InstanceServiceImpl implements IInstanceService {
 					int type = WorkInstance.TYPE_INFORMATION;
 					iWInstanceInfo.setType(type);
 					iWInstanceInfo.setStatus(WorkInstance.STATUS_COMPLETED);
-					iWInstanceInfo.setWorkSpace(null);
-		
+					String workSpaceId = swdRecord.getWorkSpaceId();
+					if(workSpaceId == null)
+						workSpaceId = user.getId();
+
+					WorkSpaceInfo workSpaceInfo = communityService.getWorkSpaceInfoById(workSpaceId);
+
+					iWInstanceInfo.setWorkSpace(workSpaceInfo);
+
 					WorkCategoryInfo groupInfo = null;
 					if (!CommonUtil.isEmpty(swdRecordExtends[0].getSubCtgId()))
 						groupInfo = new WorkCategoryInfo(swdRecordExtends[0].getSubCtgId(), swdRecordExtends[0].getSubCtg());

@@ -43,6 +43,8 @@ public class SwdRecord extends BaseObject {
 	public static final String A_DATAFIELD = "DataField";
 	public static final String A_WORKSPACEID = "workSpaceId";
 	public static final String A_WORKSPACETYPE = "workSpaceType";
+	public static final String A_ACCESSLEVEL = "accessLevel";
+	public static final String A_ACCESSVALUE = "accessValue";
 
 	private String domainId;
 	private String recordId;
@@ -55,6 +57,8 @@ public class SwdRecord extends BaseObject {
 	private Date modificationDate;
 	private String workSpaceId;
 	private String workSpaceType;
+	private String accessLevel;
+	private String accessValue;
 
 	private SwdDataField[] dataFields;
 	private Map<String, SwdDataField> dataFieldMap;
@@ -83,7 +87,8 @@ public class SwdRecord extends BaseObject {
 		appendAttributeString(A_MODIFICATIONUSER, modificationUser, buf);
 		appendAttributeString(A_MODIFICATIONDATE, modificationDate, buf);
 		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
-		appendAttributeString(A_WORKSPACETYPE, workSpaceType, buf);
+		appendAttributeString(A_ACCESSLEVEL, accessLevel, buf);
+		appendAttributeString(A_ACCESSVALUE, accessValue, buf);
 		return buf.toString();
 	}
 	public String toElementsString(String tab, boolean lite) {
@@ -117,6 +122,8 @@ public class SwdRecord extends BaseObject {
 			Node modificationDate = attrMap.getNamedItem(A_MODIFICATIONDATE);
 			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
 			Node workSpaceType = attrMap.getNamedItem(A_WORKSPACETYPE);
+			Node accessLevel = attrMap.getNamedItem(A_ACCESSLEVEL);
+			Node accessValue = attrMap.getNamedItem(A_ACCESSVALUE);
 			if (domainId != null)
 				obj.setDomainId(domainId.getNodeValue());
 			if (recordId != null)
@@ -137,6 +144,10 @@ public class SwdRecord extends BaseObject {
 				obj.setWorkSpaceId(workSpaceId.getNodeValue());
 			if (workSpaceType != null)
 				obj.setWorkSpaceType(workSpaceType.getNodeValue());
+			if (accessLevel != null)
+				obj.setAccessLevel(accessLevel.getNodeValue());
+			if (accessValue != null)
+				obj.setAccessValue(accessValue.getNodeValue());
 		}
 		
 		// elements 값 설정
@@ -389,6 +400,19 @@ public class SwdRecord extends BaseObject {
 	}
 	public void setWorkSpaceType(String workSpaceType) {
 		this.workSpaceType = workSpaceType;
+	}
+
+	public String getAccessLevel() {
+		return accessLevel;
+	}
+	public void setAccessLevel(String accessLevel) {
+		this.accessLevel = accessLevel;
+	}
+	public String getAccessValue() {
+		return accessValue;
+	}
+	public void setAccessValue(String accessValue) {
+		this.accessValue = accessValue;
 	}
 
 }
