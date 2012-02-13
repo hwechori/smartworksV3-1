@@ -376,7 +376,11 @@ public class LocalDate extends Date{
 		}
 		return timeZoneNames;
 	}
-	
+
+	public static String getDayLocalString(int day){
+		if(day< Calendar.SUNDAY || day > Calendar.SATURDAY) return "";
+		return SmartMessage.getString("calendar.title.day." + day);
+	}
 	private boolean isToday(){
 		if(getLocalDateOnly(this).getTime() == getLocalDateOnly(new LocalDate(localNow)).getTime())
 			return true;

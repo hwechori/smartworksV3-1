@@ -14,11 +14,25 @@
 %>
 <script type="text/javascript">
 
-	// 개인정보프로파일 수정하기 버튼을 클릭하면, 
-	// 모든정보를 JSON형식으로 Serialize해서 서버의 update_my_profile.sw 서비스를 호출하여 수정한다.
+	// 회사일반정보프로파일 수정하기 버튼을 클릭하면, 
+	// 모든정보를 JSON형식으로 Serialize해서 서버의 set_company_general.sw 서비스를 호출하여 수정한다.
 	function submitForms(e) {
 		var companyGeneral = $('.js_company_general_page');
-		if (SmartWorks.GridLayout.validate(companyGeneral.find('form.js_validation_required'), $('.js_profile_error_message'))) {
+		var mailHost = companyGeneral.find('input[name="txtMailHost"]');
+		if(!isEmpty(mailHost) && mailHost.attr('value') !== ""){
+			companyGeneral.find('input[name="txtMailAccount"]').addClass('required');
+			var mailPassword = companyGeneral.find('input[name="pasMailPassword"]').addClass('required');
+			var mailPasswordConfirm = companyGeneral.find('input[name="pasMailPasswordConfirm"]').addClass('required');
+			if(mailPassword.attr('value') !== mailPasswordConfirm.attr('value')){
+				companyGeneral.find('.js_profile_error_message').html(smartMessage.get('mailPasswordConfirmError'));
+				return;
+			}
+		}else{
+			companyGeneral.find('input[name="txtMailAccount"]').removeClass('required').attr('value', '');
+			companyGeneral.find('input[name="pasMailPassword"]').removeClass('required').attr('value', '');
+			companyGeneral.find('input[name="pasMailPasswordConfirm"]').removeClass('required').attr('value', '');		
+		}
+		if (SmartWorks.GridLayout.validate(companyGeneral.find('form.js_validation_required'), companyGeneral.find('.js_profile_error_message'))) {
 			var forms = companyGeneral.find('form');
 			var paramsJson = {};
 			for(var i=0; i<forms.length; i++){

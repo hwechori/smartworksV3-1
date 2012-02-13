@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.RecordList;
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Department;
@@ -545,8 +546,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 	
 	@Override
-	public WorkHourPolicy[] getWorkHourPolicies() throws Exception {
-		return settingsService.getWorkHourPolicies();
+	public RecordList getWorkHourPolicyList(RequestParams params) throws Exception {
+		return settingsService.getWorkHourPolicyList(params);
 	}
 	
 	@Override
@@ -560,8 +561,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 	
 	@Override
-	public CompanyCalendar[] getCompanyCalendars() throws Exception {
-		return settingsService.getCompanyCalendars();
+	public void removeWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.removeWorkHourPolicy(requestBody, request);
+	}
+	
+	@Override
+	public RecordList getCompanyCalendarList(RequestParams params) throws Exception {
+		return settingsService.getCompanyCalendarList(params);
 	}
 	
 	@Override

@@ -43,56 +43,7 @@
 					</div>
 					<!-- 타이틀 영역// -->
 					<!-- 추가하기 테이블 -->
-					<div class="form_wrap up up_padding margin_b2 clear">
-						<div class="form_title">
-							<div class="ico_iworks title_noico">행사일/휴일 추가</div>
-							<div class="solid_line clear"></div>
-						</div>
-						<div class="form_layout  margin_b10">
-							<table>
-								<tbody>
-									<tr>
-										<th width="15%">이 름<span class="essen_n"></span></th>
-										<td width="35%"><input class="fieldline" type="text" title="" value="" /></td>
-										<th width="15%">구 분</th>
-										<td width="35%"><select name="select3" id="select">
-												<option>휴 일</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<th>시작일자<span class="essen_n"></span></th>
-										<td><input class="fieldline space_data" type="text" value="2010.11.10">
-											<a class="" href=""> <span class="ico_fb_time po_ico_time"></span> </a> </td>
-										<th>종료일자<span class="essen_n"></span></th>
-										<td><input class="fieldline space_data" type="text" value="2010.11.10">
-											<a class="" href=""> <span class="ico_fb_time po_ico_time"></span> </a> </td>
-									</tr>
-									<tr>
-										<th>관련자</th>
-										<td colspan="3"><div class="ico_fb_space">
-												<div class="fieldline">
-													<div class="user_sel_area"></div>
-													<input class="" type="text" href="community_name.sw">
-													<div class="js_srch_x"></div>
-												</div>
-												<div class="js_community_list srch_list_nowid" style="display: none"></div>
-												<span class="js_community_popup"></span> <a class="js_userpicker_button" href=""> <span class="ico_fb_users"></span> </a> </div></td>
-									</tr>
-									<tr>
-										<th>설 명</th>
-										<td colspan="3"><textarea class="fieldline" name="" id="" cols="" rows="5"></textarea>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<!-- 버튼영역 -->
-						<div class="glo_btn_space">
-							<div class="float_right"> <span class="btn_gray"> <span class="Btn01Start"></span> <span class="Btn01Center">저장</span> <span class="Btn01End"></span> </span> <span class="btn_gray"> <span class="Btn01Start"></span> <span class="Btn01Center">취소</span> <span class="Btn01End"></span> </span> </div>
-						</div>
-						<!-- 버튼영역 //-->
-					</div>
+					<div class="js_new_company_calendar"></div>
 					<!-- 추가하기 테이블 //-->
 					<!-- 근무정책 목록 -->
 					<div class="list_contents">

@@ -1,224 +1,237 @@
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
+<%@page import="net.smartworks.model.calendar.WorkHour"%>
+<%@page import="net.smartworks.model.RecordList"%>
+<%@page import="net.smartworks.model.instance.info.RequestParams"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="net.smartworks.util.LocalDate"%>
+<%@page import="net.smartworks.model.calendar.WorkHourPolicy"%>
+<%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
+	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다..
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
-	
-	session.setAttribute("cid", ISmartWorks.CONTEXT_DASHBOARD);
-	session.removeAttribute("wid");
-	
+	RequestParams params = (RequestParams)request.getAttribute("requestParams");
+	if(SmartUtil.isBlankObject(params)){
+		params = new RequestParams();
+	}
+	User cUser = SmartUtil.getCurrentUser();
+
+	RecordList recordList = smartWorks.getWorkHourPolicyList(params);
+	int pageSize = recordList.getPageSize();
+	int totalPages = recordList.getTotalPages();
+	int currentPage = recordList.getCurrentPage();
+	WorkHourPolicy[] workHourPolicies = (WorkHourPolicy[])recordList.getRecords();
+
 %>
-		<!-- 컨텐츠 레이아웃-->
-		<div class="section_portlet">
-			<div class="portlet_t">
-				<div class="portlet_tl"></div>
+<script type="text/javascript">
+
+	selectListParam = function(progressSpan, isGray){
+		var companyWorkHour = $('.js_company_work_hour_page');
+		var forms = companyWorkHour.find('form:visible');
+		var paramsJson = {};
+		paramsJson["href"] = "jsp/content/settings/company_work_hour.jsp";
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+		}
+		grogressSpan = companyWorkHour.find('span.js_progress_span:first');
+		smartPop.progressCont(progressSpan);
+		console.log(JSON.stringify(paramsJson));
+		var url = "set_instance_list_params.sw";
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				$('#content').html(data);
+				smartPop.closeProgress();
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('workHourListError'));
+			}
+		});
+	};
+</script>
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
+
+<!-- 컨텐츠 레이아웃-->
+<div class="section_portlet js_company_work_hour_page">
+	<div class="portlet_t"><div class="portlet_tl"></div></div>
+	<div class="portlet_l" style="display: block;">
+		<ul class="portlet_r" style="display: block;">
+
+			<!-- 타이틀 -->
+			<div class="body_titl">
+				<div class="body_titl_iworks title_noico"><fmt:message key="settings.title.company.work_hour_policy"/></div>
+				<div class="solid_line"></div>
 			</div>
-			<div class="portlet_l" style="display: block;">
-				<ul class="portlet_r" style="display: block;">
+			<!-- 타이틀 -->
 
-					<!-- 타이틀 -->
-					<div class="body_titl">
-						<div class="body_titl_iworks title_noico">근무시간 정책</div>
-						<div class="solid_line"></div>
+			<!-- 컨텐츠 -->
+			<div class="contents_space">
+
+				<!-- 타이틀 영역 -->
+				<div class="list_title_space">
+					<div class="title"><fmt:message key="settings.title.company.work_hour_list"/></div>
+					<!-- 우측버튼 -->
+					<div class="titleLineBtns">
+						<div class="btnIconsCreate">
+							<a class="btnIconsTail js_new_work_hour" href=""><fmt:message key="common.button.add_new"/></a>
+						</div>
 					</div>
-					<!-- 타이틀 -->
+					<!-- 우측버튼 //-->
+				</div>
+				<!-- 타이틀 영역// -->
 
-					<!-- 컨텐츠 -->
-					<div class="contents_space">
+				<!-- 추가하기 테이블 -->
+				<div class="js_new_work_hour"></div>
 
-						<!-- 타이틀 영역 -->
-						<div class="list_title_space">
-							<div class="title">근무시간정책 목록</div>
+				<!-- 근무정책 목록 -->
+				<div class="list_contents">
+					<div>
+						<table>
+							<colgroup>
+								<col width="" />
+								<col width="" />
+								<col width="" />
+								<col width="" />
+								<col width="" />
+								<col width="" />
+								<col width="" />
+								<col width="" />
+								<col width="" />
+								<col width="" />
+								<col width="" />
+							</colgroup>
+							<tbody>
+								<tr class="tit_bg">
+									<th class="r_line"><fmt:message key="settings.title.work_hour.valid_from"/></th>
+									<th class="r_line"><fmt:message key="settings.title.work_hour.first_day_of_week"/></th>
+									<th class="r_line"><fmt:message key="settings.title.work_hour.working_days"/></th>
+									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.MONDAY) %></th>
+									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.TUESDAY) %></th>
+									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.WEDNESDAY) %></th>
+									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.THURSDAY) %></th>
+									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.FRIDAY) %></th>
+									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.SATURDAY) %></th>
+									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.SUNDAY) %></th>
+									<th></th>
+								</tr>
+								<%
+								if(!SmartUtil.isBlankObject(workHourPolicies)){
+									for(WorkHourPolicy whp : workHourPolicies){	
+										WorkHour[] workHours = whp.getWorkHours();
+								%>
+											<tr class="js_edit_work_hour" policyId=<%=CommonUtil.toNotNull(whp.getId()) %>>
+												<th><a href=""><%=whp.getValidFrom().toLocalDateSimpleString() %></a></th>
+												<th><a href=""><%=LocalDate.getDayLocalString(whp.getFirstDayOfWeek()) %></a></th>
+												<th><a href=""><%=whp.getWorkingDays() %> <fmt:message key="calendar.title.days"/></a></th>
+												<%
+												if(!SmartUtil.isBlankObject(workHours) && workHours.length==7){
+													for(WorkHour workHour : workHours){
+														if(workHour.getWorkTime()!= 0){
+												%>													
+															<th><a href=""><%=LocalDate.convertTimeToString(workHour.getStart()) %> ~ <%=LocalDate.convertTimeToString(workHour.getEnd()) %></a></th>
+														<%
+														}else{
+														%>
+															<th><a href=""><fmt:message key="settings.title.work_hour.none"/></a></th>
+												<%
+														}
+													}
+												}else{
+												%>
+													<th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+												<%
+												}
+												%>
+												<td><%if(!SmartUtil.isBlankObject(whp.getId())){ %><a href="" class="js_delete_work_hour">X</a><%} %></td>
+											</tr>
+										</a>
+								<%
+									}
+								}
+								%>
 
-							<!-- 우측버튼 -->
-							<div class="titleLineBtns">
-								<div class="btnIconsCreate">
-									<a class="btnIconsTail" href="">추가하기</a>
-								</div>
+							</tbody>
+						</table>
+
+						<form name="frmWorkHourListPaging">
+							<!-- 페이징 -->
+							<div class="paginate">
+								<%
+								if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
+									boolean isFirst10Pages = (currentPage <= 10) ? true : false;
+									boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true : false;
+									int startPage = ((currentPage - 1) / 10) * 10 + 1;
+									int endPage = isLast10Pages ? totalPages : startPage + 9;
+									if (!isFirst10Pages) {
+								%>
+										<a class="pre_end js_select_paging" href="" title="<fmt:message key='common.title.first_page'/>">
+											<span class="spr"></span>
+											<input name="hdnPrevEnd" type="hidden" value="false"> 
+										</a>		
+										<a class="pre js_select_paging" href="" title="<fmt:message key='common.title.prev_10_pages'/> ">
+											<span class="spr"></span>
+											<input name="hdnPrev10" type="hidden" value="false">
+										</a>
+									<%
+									}
+									for (int num = startPage; num <= endPage; num++) {
+										if (num == currentPage) {
+									%>
+											<strong><%=num%></strong>
+											<input name="hdnCurrentPage" type="hidden" value="<%=num%>"/>
+										<%
+										} else {
+										%>
+											<a class="num js_select_current_page" href=""><%=num%></a>
+										<%
+										}
+									}
+									if (!isLast10Pages) {
+									%>
+										<a class="next js_select_paging" title="<fmt:message key='common.title.next_10_pages'/> ">
+											<span class="spr"></span>
+											<input name="hdnNext10" type="hidden" value="false"/>
+										</a>
+										<a class="next_end js_select_paging" title="<fmt:message key='common.title.last_page'/> ">
+											<span class="spr"><input name="hdnNextEnd" type="hidden" value="false"/></span> 
+										</a>
+								<%
+									}
+								}
+								%>
+								<span class="js_progress_span"></span>
 							</div>
-							<!-- 우측버튼 //-->
-						</div>
-						<!-- 타이틀 영역// -->
-
-						<!-- 추가하기 테이블 -->
-						<div class="form_wrap up up_padding margin_b2 clear">
-							<div class="form_title">
-								<div class="ico_iworks title_noico">근무시간정책 추가</div>
-								<div class="solid_line clear"></div>
+							
+							<div class="num_box">
+								<span class="js_progress_span"></span>
+								<select class="js_select_page_size" name="selPageSize" title="<fmt:message key='common.title.count_in_page'/>">
+									<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
+									<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
+									<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
+									<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
+								</select>
 							</div>
-
-							<div class="form_layout  margin_b10">
-								<table>
-									<colgroup>
-										<col widtd="15%" />
-										<col widtd="35%" />
-										<col widtd="15%" />
-										<col widtd="35%" />
-									</colgroup>
-									<tbody>
-										<tr>
-											<th>적용일자</th>
-											<td colspan="3"><input class="fieldline space_data"
-												type="text" value="2010.11.10"> <a class="" href="">
-														<span class="ico_fb_time po_ico_time"></span> </a>
-											</td>
-										</tr>
-										<tr>
-											<th>주 시작일자</th>
-											<td><select>
-													<option>월요일</option>
-											</select></td>
-											<th>주근무일</th>
-											<td><select>
-													<option>5일</option>
-											</select></td>
-										</tr>
-										<tr>
-											<th>월요일</th>
-											<td colspan="3">근무시작 <select>
-													<option>오전 8:30</option>
-											</select> 근무종료 <select>
-													<option>오후 6:00</option>
-											</select></td>
-										</tr>
-										<tr>
-											<th>화요일</th>
-											<td colspan="3">근무시작 <select name="select">
-													<option>오전 8:30</option>
-											</select> 근무종료 <select name="select2">
-													<option>오후 6:00</option>
-											</select>
-											</td>
-										</tr>
-										<tr>
-											<th>수요일</th>
-											<td colspan="3">근무시작 <select name="select3">
-													<option>오전 8:30</option>
-											</select> 근무종료 <select name="select3">
-													<option>오후 6:00</option>
-											</select>
-											</td>
-										</tr>
-										<tr>
-											<th>목요일</th>
-											<td colspan="3">근무시작 <select name="select4">
-													<option>오전 8:30</option>
-											</select> 근무종료 <select name="select4">
-													<option>오후 6:00</option>
-											</select>
-											</td>
-										</tr>
-										<tr>
-											<th class="end">금요일</th>
-											<td colspan="3" class="end">근무시작 <select name="select5">
-													<option>오전 8:30</option>
-											</select> 근무종료 <select name="select5">
-													<option>오후 6:00</option>
-											</select>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-
-							<!-- 버튼영역 -->
-							<div class="glo_btn_space">
-								<div class="float_right">
-									<span class="btn_gray"> <span class="Btn01Start"></span>
-										<span class="Btn01Center">저장</span> <span class="Btn01End"></span>
-									</span> <span class="btn_gray"> <span class="Btn01Start"></span>
-										<span class="Btn01Center">삭제</span> <span class="Btn01End"></span>
-									</span>
-								</div>
-							</div>
-							<!-- 버튼영역 //-->
-
-						</div>
-						<!-- 추가하기 테이블 //-->
-
-						<!-- 근무정책 목록 -->
-						<div class="list_contents">
-							<div>
-								<table>
-									<colgroup>
-										<col width="" />
-										<col width="" />
-										<col width="" />
-										<col width="" />
-										<col width="" />
-										<col width="" />
-										<col width="" />
-										<col width="" />
-										<col width="" />
-										<col width="" />
-										<col width="" />
-									</colgroup>
-									<tbody>
-										<tr class="tit_bg">
-											<th class="r_line">적용 시작일</th>
-											<th class="r_line">주 시작일</th>
-											<th class="r_line">주 근무일</th>
-											<th class="r_line">월요일</th>
-											<th class="r_line">화요일</th>
-											<th class="r_line">수요일</th>
-											<th class="r_line">목요일</th>
-											<th class="r_line">금요일</th>
-											<th class="r_line">토요일</th>
-											<th class="r_line">일요일</th>
-											<th>처 리</th>
-										</tr>
-										<tr>
-											<td>2007.01.01</td>
-											<td>월요일</td>
-											<td>5일</td>
-											<td>08:30~<br /> 18:00</td>
-											<td>08:30~<br /> 18:00</td>
-											<td>08:30~<br /> 18:00</td>
-											<td>08:30~<br /> 18:00</td>
-											<td>08:30~<br /> 18:00</td>
-											<td>&nbsp;</td>
-											<td>&nbsp;</td>
-											<td><input type="button" class="btn_s_modi" /> <input
-												type="button" class="btn_s_del" /></td>
-										</tr>
-
-									</tbody>
-								</table>
-
-								<!-- Paging -->
-								<form name="frmInstanceListPaging">
-									<div class="paginate">
-										<strong>1</strong> <input type="hidden" value="1"
-											name="hdnCurrentPage"> <a
-											class="num js_select_current_page" href="">2</a> <a
-											class="num js_select_current_page" href="">3</a> <a
-											class="num js_select_current_page" href="">4</a> <a
-											class="num js_select_current_page" href="">5</a> <a
-											class="num js_select_current_page" href="">6</a> <a
-											class="num js_select_current_page" href="">7</a> <a
-											class="num js_select_current_page" href="">8</a> <a
-											class="num js_select_current_page" href="">9</a> <a
-											class="num js_select_current_page" href="">10</a> <a
-											class="next js_select_paging" title="다음 10개 페이지 "> <span
-												class="spr"></span> <input type="hidden" value="false"
-												name="hdnNext10">
-										</a> <a class="next_end js_select_paging" title="마지막 페이지 "> <span
-												class="spr"> <input type="hidden" value="false"
-													name="hdnNextEnd">
-											</span> </a> <span class="js_progress_span"></span>
-									</div>
-								</form>
-								<!-- Paging//-->
-							</div>
-
-						</div>
-						<!-- 근무정책 목록 //-->
-
+							<!-- 페이징 //-->
+						</form>
 					</div>
-					<!-- 컨텐츠 //-->
 
-				</ul>
+				</div>
+				<!-- 근무정책 목록 //-->
+
 			</div>
-			<div class="portlet_b" style="display: block;"></div>
-		</div>
-		<!-- 컨텐츠 레이아웃//-->
+			<!-- 컨텐츠 //-->
+
+		</ul>
+	</div>
+	<div class="portlet_b" style="display: block;"></div>
+</div>
+<!-- 컨텐츠 레이아웃//-->
