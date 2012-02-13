@@ -500,7 +500,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				query.setString("id", obj.getRecordId());
 			} else {
 				buf.append("insert into ").append(tableName).append(" (");
-				buf.append("id, domainId, creator, createdTime, modifier, modifiedTime");
+				buf.append("id, domainId, creator, createdTime, modifier, modifiedTime, workSpaceId, workSpaceType, accessLevel, accessValue");
 				if (!CommonUtil.isEmpty(dataFields)) {
 					for (SwdDataField dataField : dataFields) {
 						fieldId = dataField.getId();
@@ -513,7 +513,11 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 								colName.equalsIgnoreCase("creator") || 
 								colName.equalsIgnoreCase("createdTime") || 
 								colName.equalsIgnoreCase("modifier") || 
-								colName.equalsIgnoreCase("modifiedTime")) {
+								colName.equalsIgnoreCase("modifiedTime") ||
+								colName.equalsIgnoreCase("workSpaceId") ||
+								colName.equalsIgnoreCase("workSpaceType") ||
+								colName.equalsIgnoreCase("accessLevel") ||
+								colName.equalsIgnoreCase("accessValue")) {
 							fieldMap.remove(fieldId);
 							continue;
 						}
@@ -521,7 +525,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 						buf.append(", ").append(colName);
 					}
 				}
-				buf.append(") values (:id, :domainId, :creator, :createdTime, :modifier, :modifiedTime");
+				buf.append(") values (:id, :domainId, :creator, :createdTime, :modifier, :modifiedTime, :workSpaceId, :workSpaceType, :accessLevel, :accessValue");
 				if (!CommonUtil.isEmpty(dataFields)) {
 					int i = 0;
 					String param;
@@ -542,13 +546,26 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				query.setTimestamp("createdTime", obj.getCreationDate());
 				query.setString("modifier", obj.getModificationUser());
 				query.setTimestamp("modifiedTime", obj.getModificationDate());
+				query.setString("workSpaceId", obj.getWorkSpaceId());
+				query.setString("workSpaceType", obj.getWorkSpaceType());
+				query.setString("accessLevel", obj.getAccessLevel());
+				query.setString("accessValue", obj.getAccessValue());
 				this.setQueryParameters(query, paramMap);
 			}
-			
+
 			query.executeUpdate();
 
 			return obj.getRecordId();
 
+		} catch (SQLGrammarException e) {
+			if(e.getSQLState().equals("42S22")) {
+				this.addTableColumn("", domain.getTableName(), "workspaceId", "varchar(100)");
+				this.addTableColumn("", domain.getTableName(), "workspaceType", "varchar(50)");
+				this.addTableColumn("", domain.getTableName(), "accessLevel", "varchar(1)");
+				this.addTableColumn("", domain.getTableName(), "accessValue", "varchar(4000)");
+				return setRecord(user, obj, level);
+			}
+			throw new SwdException(e);
 		} catch (Exception e) {
 			throw new SwdException(e);
 		}
@@ -675,9 +692,11 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				SwdDomain domain = getDomain(user, cond);
 				this.addTableColumn("", domain.getTableName(), "workspaceId", "varchar(100)");
 				this.addTableColumn("", domain.getTableName(), "workspaceType", "varchar(50)");
+				this.addTableColumn("", domain.getTableName(), "accessLevel", "varchar(1)");
+				this.addTableColumn("", domain.getTableName(), "accessValue", "varchar(4000)");
 				return getRecordSize(user, cond);
 			}
-			return 0;
+			throw new SwdException(e);
 		} catch (Exception e) {
 			throw new SwdException(e);
 		}
@@ -764,6 +783,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				obj.setModificationDate((Timestamp)fields[j++]);
 				obj.setWorkSpaceId((String)fields[j++]);
 				obj.setWorkSpaceType((String)fields[j++]);
+				obj.setAccessLevel((String)fields[j++]);
+				obj.setAccessValue((String)fields[j++]);
 				objList.add(obj);
 				if (CommonUtil.isEmpty(selectedFieldList))
 					continue;
@@ -839,6 +860,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			if(e.getSQLState().equals("42S22")) {
 				this.addTableColumn("", domain.getTableName(), "workspaceId", "varchar(100)");
 				this.addTableColumn("", domain.getTableName(), "workspaceType", "varchar(50)");
+				this.addTableColumn("", domain.getTableName(), "accessLevel", "varchar(1)");
+				this.addTableColumn("", domain.getTableName(), "accessValue", "varchar(4000)");
 				return this.getRecords(user, cond, level);
 			}
 			if (query != null)
@@ -899,7 +922,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		// select
 		//buf.append("select obj.id, obj.domainId, domain.formId, domain.formName, obj.creator, obj.createdTime");
 		buf.append("select obj.id, obj.domainId, obj.creator, obj.createdTime");
-		buf.append(", obj.modifier, obj.modifiedTime, obj.workspaceId, obj.workspaceType");
+		buf.append(", obj.modifier, obj.modifiedTime, obj.workspaceId, obj.workspaceType, obj.accessLevel, obj.accessValue");
 		String columnName;
 		if (!CommonUtil.isEmpty(fields)) {
 			int order = 0;
@@ -2059,17 +2082,23 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 	}
 	@Override
 	public void addTableColumn(String user, String table, String column, String type) throws SwdException {
-		if (table == null || column == null || type == null)
-			return;
-		if (this.getDbType().equalsIgnoreCase("sqlserver"))
-			type = StringUtils.replace(type, "timestamp", "datetime");
-		StringBuffer buf = new StringBuffer("alter table ").append(table);
-		buf.append(" add ").append(column).append(CommonUtil.SPACE).append(type);
 		try {
+			if(table == null || column == null || type == null)
+				return;
+			if(this.getDbType().equalsIgnoreCase("sqlserver"))
+				type = StringUtils.replace(type, "timestamp", "datetime");
+	
+			StringBuffer buf = new StringBuffer("select ").append(column).append(" from ").append(table);
 			Query query = this.createSqlQuery(buf.toString(), null);
-			query.executeUpdate();
+			if(query.getQueryString() != null) {
+				buf = new StringBuffer("alter table ").append(table);
+				buf.append(" add ").append(column).append(CommonUtil.SPACE).append(type);
+
+				query = this.createSqlQuery(buf.toString(), null);
+				query.executeUpdate();
+			}
 		} catch (Exception e) {
-			throw new SwdException(e);
+			return;
 		}
 	}
 	public ISwfManager getSwfManager() {

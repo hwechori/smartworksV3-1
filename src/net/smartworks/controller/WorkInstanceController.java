@@ -138,8 +138,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	public @ResponseBody Map<String, Object> createNewIwork(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		String workId = (String)requestBody.get("workId");
+		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace") + "&workId=" + workId);
+		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + workSpaceId + "&workId=" + workId);
 		return map;
 	}
 
@@ -148,8 +149,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	public @ResponseBody Map<String, Object> uploadNewPicture(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		// TO DO : Exception handler
+		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + workSpaceId);
 		return map;
 	}
 
@@ -158,8 +160,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	public @ResponseBody Map<String, Object> startNewPwork(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.startProcessWorkInstance(requestBody, request);
 		// TO DO : Exception handler
+		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "pwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		map.put("href", "pwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceId + "&wid=" + workSpaceId);
 		return map;
 	}
 
@@ -168,8 +171,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	public @ResponseBody Map<String, Object> uploadNewFile(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		// TO DO : Exception handler
+		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "file_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_FILE_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		map.put("href", "file_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_FILE_SPACE + instanceId + "&wid=" + workSpaceId);
 		return map;
 	}
 
@@ -177,8 +181,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody Map<String, Object> createNewEvent(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
+		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "event_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_EVENT_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		map.put("href", "event_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_EVENT_SPACE + instanceId + "&wid=" + workSpaceId);
 		return map;
 	}
 
@@ -187,8 +192,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	public @ResponseBody Map<String, Object> createNewMemo(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		// TO DO : Exception handler
+		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "memo_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_MEMO_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		map.put("href", "memo_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_MEMO_SPACE + instanceId + "&wid=" + workSpaceId);
 		return map;
 	}
 
@@ -197,8 +203,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	public @ResponseBody Map<String, Object> createNewBoard(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		// TO DO : Exception handler
+		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "board_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_BOARD_SPACE + instanceId + "&wid=" + request.getParameter("selWorkSpace"));
+		map.put("href", "board_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_BOARD_SPACE + instanceId + "&wid=" + workSpaceId);
 		return map;
 	}
 

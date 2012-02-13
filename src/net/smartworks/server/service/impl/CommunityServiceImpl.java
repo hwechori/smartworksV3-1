@@ -598,9 +598,20 @@ public class CommunityServiceImpl implements ICommunityService {
 
 	@Override
 	public CommunityInfo[] getMyCommunities() throws Exception {
-		
+
 		try{
-			return SmartTest.getMyCommunities();
+			DepartmentInfo[] departmentInfos = getMyDepartments();
+			GroupInfo[] groupInfos = getMyGroups();
+			int departmentInfosLength = departmentInfos.length;
+			int groupInfosLength = groupInfos.length;
+			CommunityInfo[] communityInfos = new CommunityInfo[departmentInfosLength + groupInfosLength];
+			for(int i=0; i<departmentInfosLength; i++) {
+				communityInfos[i] = departmentInfos[i];
+			}
+			for(int j=0; j<groupInfosLength; j++) {
+				communityInfos[departmentInfosLength+j] = groupInfos[j];
+			}
+			return communityInfos;
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
