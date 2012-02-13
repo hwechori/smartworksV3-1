@@ -334,7 +334,7 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	public Work getWorkById(String workId) throws Exception {
-		
+
 		try{
 			if (CommonUtil.isEmpty(workId))
 				return null;
@@ -354,7 +354,7 @@ public class WorkServiceImpl implements IWorkService {
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
-			return null;			
+			return null;
 			// Exception Handling Required			
 		}
 	}
