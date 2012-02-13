@@ -1,133 +1,214 @@
+<%@page import="net.smartworks.model.community.Community"%>
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
+<%@page import="net.smartworks.model.calendar.CompanyEvent"%>
+<%@page import="net.smartworks.model.RecordList"%>
+<%@page import="net.smartworks.model.community.User"%>
+<%@page import="net.smartworks.model.instance.info.RequestParams"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
+	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다..
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	RequestParams params = (RequestParams)request.getAttribute("requestParams");
+	if(SmartUtil.isBlankObject(params)){
+		params = new RequestParams();
+	}
+	User cUser = SmartUtil.getCurrentUser();
 	
-	session.setAttribute("cid", ISmartWorks.CONTEXT_DASHBOARD);
-	session.removeAttribute("wid");
+	RecordList recordList = smartWorks.getCompanyEventList(params);
+	int pageSize = recordList.getPageSize();
+	int totalPages = recordList.getTotalPages();
+	int currentPage = recordList.getCurrentPage();
+	CompanyEvent[] companyEvents = (CompanyEvent[])recordList.getRecords();
 	
 %>
-	<!-- 컨텐츠 레이아웃-->
-	<div class="section_portlet">
-		<div class="portlet_t">
-			<div class="portlet_tl"></div>
-		</div>
-		<div class="portlet_l" style="display: block;">
-			<ul class="portlet_r" style="display: block;">
-				<!-- 타이틀 -->
-				<div class="body_titl">
-					<div class="body_titl_iworks title_noico">회사 달력</div>
-					<div class="solid_line"></div>
+<script type="text/javascript">
+
+	selectListParam = function(progressSpan, isGray){
+		var companyEvent = $('.js_company_event_page');
+		var forms = companyEvent.find('form:visible');
+		var paramsJson = {};
+		paramsJson["href"] = "jsp/content/settings/company_event.jsp";
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+		}
+		grogressSpan = companyEvent.find('span.js_progress_span:first');
+		smartPop.progressCont(progressSpan);
+		console.log(JSON.stringify(paramsJson));
+		var url = "set_instance_list_params.sw";
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				$('#content').html(data);
+				smartPop.closeProgress();
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				smartPop.closeProgress();
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('companyEventListError'));
+			}
+		});
+	};
+</script>
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
+
+<!-- 컨텐츠 레이아웃-->
+<div class="section_portlet js_company_event_page">
+	<div class="portlet_t"><div class="portlet_tl"></div></div>
+	<div class="portlet_l" style="display: block;">
+		<ul class="portlet_r" style="display: block;">
+			<!-- 타이틀 -->
+			<div class="body_titl">
+				<div class="body_titl_iworks title_noico"><fmt:message key="settings.title.company.event_setting"/></div>
+				<div class="solid_line"></div>
+			</div>
+			<!-- 타이틀 -->
+			<!-- 컨텐츠 -->
+			<div class="contents_space">
+				<!-- 타이틀 영역 -->
+				<div class="list_title_space">
+					<div class="title"><fmt:message key="settings.title.company.event_list"/></div>
+					<!-- 우측버튼 -->
+					<div class="titleLineBtns">
+						<div class="btnIconsCreate">
+							<a class="btnIconsTail js_new_company_event" href=""><fmt:message key="common.button.add_new"/></a>
+						</div>
+					</div>
+					<!-- 우측버튼 //-->
 				</div>
-				<!-- 타이틀 -->
-				<!-- 컨텐츠 -->
-				<div class="contents_space">
-					<!-- 타이틀 영역 -->
-					<div class="list_title_space">
-						<div class="title">회사 달력 목록</div>
-						<!-- 우측버튼 -->
-						<div class="titleLineBtns">
-							<div class="po_left">
-								<select name="">
-									<option>전 체</option>
-									<option>2010년도</option>
-									<option>2011년도</option>
-									<option>2012년도</option>
-									<option>2013년도</option>
+				<!-- 타이틀 영역// -->
+				<!-- 추가하기 테이블 -->
+				<div class="js_new_company_event"></div>
+				<!-- 추가하기 테이블 //-->
+				<!-- 근무정책 목록 -->
+				<div class="list_contents">
+					<div>
+						<table>
+							<colgroup>
+							<col width="" />
+							<col width="" />
+							<col width="" />
+							<col width="" />
+							<col width="" />
+							<col width="" />
+							<col width="" />
+							</colgroup>
+							<tbody>
+								<tr class="tit_bg">
+									<th class="r_line"><fmt:message key="settings.title.company_event.name"/></th>
+									<th class="r_line"><fmt:message key="settings.title.company_event.start_date"/></th>
+									<th class="r_line"><fmt:message key="settings.title.company_event.end_date"/></th>
+									<th class="r_line"><fmt:message key="settings.title.company_event.is_holiday"/></th>
+									<th class="r_line"><fmt:message key="settings.title.company_event.related_users"/></th>
+									<th></th>
+								</tr>
+								<%
+								if(!SmartUtil.isBlankObject(companyEvents)){
+									for(CompanyEvent event : companyEvents){	
+								%>
+										<tr class="js_edit_company_event" eventId=<%=CommonUtil.toNotNull(event.getId()) %>>
+											<th><a href=""><%=event.getName() %></a></th>
+											<th><a href=""><%=event.getPlannedStart().toLocalDateSimpleString() %></a></th>
+											<th><a href=""><%=event.getPlannedEnd().toLocalDateSimpleString() %></a></th>
+											<th><a href=""><%if(event.isHoliday()){%><fmt:message key="common.title.boolean.true"/><%}else{ %><fmt:message key="common.title.boolean.true"/><%} %></a></th>
+											<%
+											String relatedUsers = "";
+											if(!SmartUtil.isBlankObject(event.getRelatedUsers())){
+												int count = 0;
+												for(Community com : event.getRelatedUsers()){
+													if(com.getClass().equals(User.class))
+														relatedUsers = relatedUsers + ((User)com).getLongName();
+													else
+														relatedUsers = relatedUsers + com.getName();
+													if(count < event.getRelatedUsers().length)
+														relatedUsers = relatedUsers + ", ";
+												}
+											}
+											%>
+											<th><a href=""><%=relatedUsers%></a></th>
+											<td><%if(!SmartUtil.isBlankObject(event.getId())){ %><a href="" class="js_delete_company_event">X</a><%} %></td>
+										</tr>
+									</a>
+								<%
+									}
+								}
+								%>
+							</tbody>
+						</table>
+
+						<form name="frmCompanyEventListPaging">
+							<!-- 페이징 -->
+							<div class="paginate">
+								<%
+								if (currentPage > 0 && totalPages > 0 && currentPage <= totalPages) {
+									boolean isFirst10Pages = (currentPage <= 10) ? true : false;
+									boolean isLast10Pages = (((currentPage - 1)  / 10) == ((totalPages - 1) / 10)) ? true : false;
+									int startPage = ((currentPage - 1) / 10) * 10 + 1;
+									int endPage = isLast10Pages ? totalPages : startPage + 9;
+									if (!isFirst10Pages) {
+								%>
+										<a class="pre_end js_select_paging" href="" title="<fmt:message key='common.title.first_page'/>">
+											<span class="spr"></span>
+											<input name="hdnPrevEnd" type="hidden" value="false"> 
+										</a>		
+										<a class="pre js_select_paging" href="" title="<fmt:message key='common.title.prev_10_pages'/> ">
+											<span class="spr"></span>
+											<input name="hdnPrev10" type="hidden" value="false">
+										</a>
+									<%
+									}
+									for (int num = startPage; num <= endPage; num++) {
+										if (num == currentPage) {
+									%>
+											<strong><%=num%></strong>
+											<input name="hdnCurrentPage" type="hidden" value="<%=num%>"/>
+										<%
+										} else {
+										%>
+											<a class="num js_select_current_page" href=""><%=num%></a>
+										<%
+										}
+									}
+									if (!isLast10Pages) {
+									%>
+										<a class="next js_select_paging" title="<fmt:message key='common.title.next_10_pages'/> ">
+											<span class="spr"></span>
+											<input name="hdnNext10" type="hidden" value="false"/>
+										</a>
+										<a class="next_end js_select_paging" title="<fmt:message key='common.title.last_page'/> ">
+											<span class="spr"><input name="hdnNextEnd" type="hidden" value="false"/></span> 
+										</a>
+								<%
+									}
+								}
+								%>
+								<span class="js_progress_span"></span>
+							</div>
+							
+							<div class="num_box">
+								<span class="js_progress_span"></span>
+								<select class="js_select_page_size" name="selPageSize" title="<fmt:message key='common.title.count_in_page'/>">
+									<option <%if (pageSize == 10) {%> selected <%}%>>10</option>
+									<option <%if (pageSize == 20) {%> selected <%}%>>20</option>
+									<option <%if (pageSize == 30) {%> selected <%}%>>30</option>
+									<option <%if (pageSize == 50) {%> selected <%}%>>50</option>
 								</select>
 							</div>
-							<div class="btnIconsCreate"> <a class="btnIconsTail" href="">추가하기</a> </div>
-						</div>
-						<!-- 우측버튼 //-->
+							<!-- 페이징 //-->
+						</form>
 					</div>
-					<!-- 타이틀 영역// -->
-					<!-- 추가하기 테이블 -->
-					<div class="js_new_company_calendar"></div>
-					<!-- 추가하기 테이블 //-->
-					<!-- 근무정책 목록 -->
-					<div class="list_contents">
-						<div>
-							<table>
-								<colgroup>
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								</colgroup>
-								<tbody>
-									<tr class="tit_bg">
-										<th class="r_line">시작일자</th>
-										<th class="r_line">종료일자</th>
-										<th class="r_line">구 분</th>
-										<th class="r_line">이 름</th>
-										<th class="r_line">설 명</th>
-										<th class="r_line">관련자</th>
-										<th>처 리</th>
-									</tr>
-									<tr>
-										<td>2012.01.22</td>
-										<td>2012.01.24</td>
-										<td>휴일</td>
-										<td>설날</td>
-										<td>20112년 설날(구정)입니다.모두모두 새해 많이받으세요~</td>
-										<td>맨인소프트</td>
-										<td><input type="button" class="btn_s_modi"/>
-											<input type="button" class="btn_s_del"/></td>
-									</tr>
-									<tr>
-										<td><p>2011.06.06</p></td>
-										<td>2011.06.06</td>
-										<td>휴일</td>
-										<td> 현충일</td>
-										<td>공휴일</td>
-										<td>맨인소프트</td>
-										<td><input type="button" class="btn_s_modi"/>
-											<input type="button" class="btn_s_del"/></td>
-									</tr>
-									<tr>
-										<td>2011.04.22</td>
-										<td>2011.04.23</td>
-										<td>행사일</td>
-										<td>사내 춘계 워크샵</td>
-										<td>사내 춘계 워크샵 진행 : 2011-04-23, 강촌</td>
-										<td>맨인소프트</td>
-										<td><input type="button" class="btn_s_modi"/>
-											<input type="button" class="btn_s_del"/></td>
-									</tr>
-									<tr>
-										<td>2011.07.13</td>
-										<td>2011.07.03</td>
-										<td>행사일</td>
-										<td>창립기념일</td>
-										<td>창립 5주년</td>
-										<td>맨인소프트</td>
-										<td><input type="button" class="btn_s_modi"/>
-											<input type="button" class="btn_s_del"/></td>
-									</tr>
-								</tbody>
-							</table>
-							<!-- Paging -->
-							<form name="frmInstanceListPaging">
-								<div class="paginate"> <strong>1</strong>
-									<input type="hidden" value="1" name="hdnCurrentPage">
-									<a class="num js_select_current_page" href="">2</a> <a class="num js_select_current_page" href="">3</a> <a class="num js_select_current_page" href="">4</a> <a class="num js_select_current_page" href="">5</a> <a class="num js_select_current_page" href="">6</a> <a class="num js_select_current_page" href="">7</a> <a class="num js_select_current_page" href="">8</a> <a class="num js_select_current_page" href="">9</a> <a class="num js_select_current_page" href="">10</a> <a class="next js_select_paging" title="다음 10개 페이지 "> <span class="spr"></span>
-									<input type="hidden" value="false" name="hdnNext10">
-									</a> <a class="next_end js_select_paging" title="마지막 페이지 "> <span class="spr">
-									<input type="hidden" value="false" name="hdnNextEnd">
-									</span> </a> <span class="js_progress_span"></span> </div>
-							</form>
-							<!-- Paging//-->
-						</div>
-					</div>
-					<!-- 근무정책 목록 //-->
 				</div>
-				<!-- 컨텐츠 //-->
-			</ul>
-		</div>
-		<div class="portlet_b" style="display: block;"></div>
+				<!-- 근무정책 목록 //-->
+			</div>
+			<!-- 컨텐츠 //-->
+		</ul>
 	</div>
-	<!-- 컨텐츠 레이아웃//-->
+	<div class="portlet_b" style="display: block;"></div>
+</div>
+<!-- 컨텐츠 레이아웃//-->

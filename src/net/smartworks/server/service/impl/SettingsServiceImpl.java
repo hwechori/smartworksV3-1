@@ -6,10 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.RecordList;
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.server.service.ISettingsService;
+import net.smartworks.util.SmartTest;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -99,10 +102,12 @@ public class SettingsServiceImpl implements ISettingsService {
 	}
 	
 	@Override
-	public RecordList getCompanyCalendarList(RequestParams params) throws Exception {
+	public RecordList getCompanyEventList(RequestParams params) throws Exception {
 
 		try{
-			return new RecordList();
+			RecordList recordList = new RecordList();
+			recordList.setRecords(new CompanyEvent[]{SmartTest.getCompanyEvent1(), SmartTest.getCompanyEvent2()});
+			return recordList;
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -112,10 +117,10 @@ public class SettingsServiceImpl implements ISettingsService {
 	}
 
 	@Override
-	public CompanyCalendar getCompanyCalendarById(String id) throws Exception {
+	public CompanyEvent getCompanyEventById(String id) throws Exception {
 
 		try{
-			return new CompanyCalendar();
+			return new CompanyEvent();
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -125,7 +130,7 @@ public class SettingsServiceImpl implements ISettingsService {
 	}
 
 	@Override
-	public void setCompanyCalendar(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+	public void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
 		}catch (Exception e){
@@ -134,4 +139,16 @@ public class SettingsServiceImpl implements ISettingsService {
 			// Exception Handling Required			
 		}
 	}
+	
+	@Override
+	public void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
 }

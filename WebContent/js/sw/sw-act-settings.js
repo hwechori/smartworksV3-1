@@ -55,6 +55,61 @@ $(function() {
 		return false;
 	});
 
+	$('a.js_new_company_event').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_company_event_page').find('div.js_new_company_event');
+		$.ajax({
+			url : "edit_company_event.sw",
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('.js_edit_company_event').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_company_event_page').find('div.js_new_company_event');
+		var eventId = input.parents('.js_edit_company_event').attr('eventId');
+		$.ajax({
+			url : "edit_company_event.sw?eventId=" + eventId,
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('.js_delete_company_event').live('click', function(e) {
+		var input = $(e.target);
+		
+		smartPop.confirm(smartMessage.get("removeConfirmation"), function(){
+			var eventId = input.parents('.js_edit_company_event').attr('eventId');
+			var paramsJson = {};
+			paramsJson['eventId'] = eventId;
+			console.log(JSON.stringify(paramsJson));
+			$.ajax({
+				url : "remove_company_event.sw",
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get('removeCompanyEventSucceed'), function(){
+						document.location.href = "company_event.sw";					
+					});					
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("removeCompanyEventError"), function(){
+					});
+					
+				}
+				
+			});
+		});
+		return false;
+	});
+
 	$('select.js_first_day_of_week').live('change', function(e) {
 		var input = $(e.target);
 		var editWorkHour = input.parents('.js_edit_work_hour_page');

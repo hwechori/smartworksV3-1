@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.RecordList;
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
@@ -566,18 +567,23 @@ public class SmartWorks implements ISmartWorks {
 	}
 	
 	@Override
-	public RecordList getCompanyCalendarList(RequestParams params) throws Exception {
-		return settingsService.getCompanyCalendarList(params);
+	public RecordList getCompanyEventList(RequestParams params) throws Exception {
+		return settingsService.getCompanyEventList(params);
 	}
 	
 	@Override
-	public CompanyCalendar getCompanyCalendarById(String id) throws Exception {
-		return settingsService.getCompanyCalendarById(id);
+	public CompanyEvent getCompanyEventById(String id) throws Exception {
+		return settingsService.getCompanyEventById(id);
 	}
 	
 	@Override
-	public void setCompanyCalendar(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-		settingsService.setCompanyCalendar(requestBody, request);
+	public void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setCompanyEvent(requestBody, request);
+	}
+		
+	@Override
+	public void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.removeCompanyEvent(requestBody, request);
 	}
 		
 	@Override

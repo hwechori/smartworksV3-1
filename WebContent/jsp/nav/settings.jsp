@@ -47,7 +47,7 @@
 							<ul>
 								<li><a href="company_general.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.general"/></span></a></li>
 								<li><a href="company_work_hour.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.work_hour"/></span></a></li>
-								<li><a href="company_calendar.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.calendar"/></span></a></li>
+								<li><a href="company_event.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.event"/></span></a></li>
 							</ul>
 						</div>
 					</li>

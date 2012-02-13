@@ -54,16 +54,10 @@ public class SettingsController {
 		return SmartUtil.returnMnv(request, "jsp/content/settings/company_work_hour.jsp", "company_work_hour.tiles");
 	}
 
-	@RequestMapping("/edit_work_hour")
-	public ModelAndView editWorkHour(HttpServletRequest request, HttpServletResponse response) {
-
-		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_work_hour.jsp", "edit_work_hour.tiles");
-	}
-
-	@RequestMapping("/company_calendar")
+	@RequestMapping("/company_event")
 	public ModelAndView companyCalendar(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/settings/company_calendar.jsp", "company_calendar.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/settings/company_event.jsp", "company_event.tiles");
 	}
 
 	@RequestMapping("/organization_management")
@@ -96,6 +90,12 @@ public class SettingsController {
 		smartworks.setCompanyGeneral(requestBody, request);
 	}
 	
+	@RequestMapping("/edit_work_hour")
+	public ModelAndView editWorkHour(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_work_hour.jsp", "edit_work_hour.tiles");
+	}
+
 	@RequestMapping(value = "/create_work_hour_policy", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void createWorkHourPolicy(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -112,6 +112,30 @@ public class SettingsController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void removeHorkHourPolicy(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		smartworks.removeWorkHourPolicy(requestBody, request);
+	}
+	
+	@RequestMapping("/edit_company_event")
+	public ModelAndView editCompanyEvent(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_company_event.jsp", "edit_company_event.tiles");
+	}
+
+	@RequestMapping(value = "/create_company_event", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createCompanyEvent(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setCompanyEvent(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_company_event", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void setCompanyEvent(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setCompanyEvent(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/remove_company_event", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void removeCompanyEvent(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeCompanyEvent(requestBody, request);
 	}
 	
 }

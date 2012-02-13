@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.Community"%>
 <%@page import="net.smartworks.model.calendar.CompanyEvent"%>
 <%@page import="net.smartworks.model.calendar.CompanyCalendar"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
@@ -39,7 +40,10 @@
 					paramsJson['formName'] = form.attr('formName');
 				}
 				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-			}
+/* 				paramsJson[form.attr('name')] = merge3Objects(form.serializeObject(), 
+						SmartWorks.GridLayout.serializeObject(form), 
+						SmartWorks.FormRuntime.UserFieldBuilder.serializeObject(form.find('.js_related_users')));
+ */			}
 			console.log(JSON.stringify(paramsJson));
 			
 			var url = "set_company_event.sw";
@@ -101,22 +105,22 @@
 			<tbody>
 				<tr>
 					<th width="15%"><fmt:message key="settings.title.company_event.name"/><span class="essen_n"></span></th>
-					<td width="35%"><input name="txtEventName" class="fieldline" type="text" value="<%=event.getName() %>" /></td>
+					<td width="35%"><input name="txtEventName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(event.getName()) %>" /></td>
 					<th width="15%"><fmt:message key="settings.title.company_event.is_holiday"/></th>
-					<td width="35%"><input name="chkIsHoliday" type="checkbox" <%if(event.getIsHoliday()){ %>checked<%} %>></td>
+					<td width="35%"><input name="chkIsHoliday" type="checkbox" <%if(event.isHoliday()){ %>checked<%} %>></td>
 				</tr>
 				<tr>
 					<th><fmt:message key="settings.title.company_event.start_date"/><span class="essen_n"></span></th>
 					<td>
 						<div class="ico_fb_space form_date_input">
-							<input name="datStartDate" class="fieldline js_todaypicker" readonly="readonly" type="text" value="<%=event.getPlannedStart().toLocalDateSimpleString()%>">
+							<input name="datStartDate" class="fieldline js_todaypicker required" readonly="readonly" type="text" value="<%=event.getPlannedStart().toLocalDateSimpleString()%>">
 							<a href="" class="js_todaypicker_button"><span class="ico_fb_date"></span></a>
 						</div>
 					</td>					
 					<th><fmt:message key="settings.title.company_event.end_date"/><span class="essen_n"></span></th>
 					<td>
 						<div class="ico_fb_space form_date_input">
-							<input name="datEndDate" class="fieldline js_todaypicker" readonly="readonly" type="text" value="<%=event.getPlannedEnd().toLocalDateSimpleString()%>">
+							<input name="datEndDate" class="fieldline js_todaypicker required" readonly="readonly" type="text" value="<%=event.getPlannedEnd().toLocalDateSimpleString()%>">
 							<a href="" class="js_todaypicker_button"><span class="ico_fb_date"></span></a>
 						</div>					
 					</td>
@@ -124,15 +128,37 @@
 				<tr>
 					<th><fmt:message key="settings.title.company_event.related_users"/></th>
 					<td colspan="3">
-						<div class="ico_fb_space">
-							<div class="fieldline">
-								<div class="user_sel_area"></div>
-								<input class="" type="text" href="community_name.sw">
-								<div class="js_srch_x"></div>
+						<div class="js_type_userField" fieldId="usrRelatedUsers" multiUsers="true">
+							<div class="ico_fb_space form_value" >
+								<div class="fieldline js_community_names">
+									<div class="js_selected_communities user_sel_area">
+										<%
+										if(!SmartUtil.isBlankObject(event.getRelatedUsers())){
+											for(Community community : event.getRelatedUsers()){
+												String comName = "";
+												if(community.getClass().equals(User.class)){
+													comName = ((User)community).getLongName();
+												}else{
+													comName = community.getName();
+												}
+										%>
+												<span>
+													<span class='js_community_item user_select' comId="<%=community.getId()%>"><%=comName %><span class='btn_x_gr'>
+														<a class='js_remove_community' href=''> x</a>
+													</span></span>
+												</span>"									
+										<%
+											}
+										}
+										%>
+									</div>
+									<input class="js_auto_complete" href="community_name.sw" type="text">
+									<div class="js_srch_x"></div>
+								</div>
+								<div class="js_community_list srch_list_nowid" style="display: none"></div>
+								<span class="js_community_popup"></span>
+								<a href="" class="js_userpicker_button"><span class="ico_fb_users"></span></a>
 							</div>
-							<div class="js_community_list srch_list_nowid" style="display: none"></div>
-							<span class="js_community_popup"></span>
-							<a class="js_userpicker_button" href=""> <span class="ico_fb_users"></span> </a>
 						</div>
 					</td>
 				</tr>
