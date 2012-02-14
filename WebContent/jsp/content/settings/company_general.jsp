@@ -125,23 +125,23 @@
 						<tbody>
 							<tr>
 								<td><fmt:message key="settings.title.company.mail_host"/></td>
-								<td><input name="txtMailHost" class="fieldline" type="text"/></td>
+								<td><input name="txtMailHost" class="fieldline" type="text" value="<%=companyGeneral.getSendMailHost()%>" /></td>
 							</tr>
 							<tr>
 								<td><fmt:message key="settings.title.company.send_mail_account"/></td>
-								<td><input name="txtMailAccount" class="fieldline" type="text"/></td>
+								<td><input name="txtMailAccount" class="fieldline" type="text" value="<%=companyGeneral.getSendMailAccount()%>" /></td>
 							</tr>
 							<tr>
 								<td><fmt:message key="settings.title.company.send_mail_password"/></td>
-								<td><input name="pasMailPassword" class="fieldline" type="password"/></td>
+								<td><input name="pasMailPassword" class="fieldline" type="password" value="<%=companyGeneral.getSendMailPassword()%>" /></td>
 							</tr>
 							<tr>
 								<td><fmt:message key="settings.title.company.send_mail_password_confirm"/></td>
-								<td><input name="pasMailPasswordConfirm" class="fieldline" type="password"/></td>
+								<td><input name="pasMailPasswordConfirm" class="fieldline" type="password" value="<%=companyGeneral.getSendMailPassword()%>" /></td>
 							</tr>
 							<tr>
 								<td><fmt:message key="settings.title.company.mail_notification"></fmt:message></td>
-								<td><input name="chkMailNotification" type="checkbox"/></td>
+								<td><input name="chkMailNotification" type="checkbox" <% if(companyGeneral.isSendMailNotification() == true){out.println("checked");} %> /></td>
 							</tr>
 							<tr>
 								<td><fmt:message key="settings.title.company.test_after_saving"/></td>

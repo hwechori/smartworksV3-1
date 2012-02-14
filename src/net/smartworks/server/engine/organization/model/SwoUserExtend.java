@@ -13,10 +13,11 @@ public class SwoUserExtend {
 		super();
 	}
 	
-	public SwoUserExtend(String id, String name, String companyId, String companyName, String departmentId, String departmentName, String departmentDesc, String locale,
+	public SwoUserExtend(String id, String name, String password, String companyId, String companyName, String departmentId, String departmentName, String departmentDesc, String locale,
 			String timeZone, String pictureName, String position, String roleId, String authId, String employeeId, String email, String phoneNo, String cellPhoneNo) {
 		this.id = id;
 		this.name = name;
+		this.password = password;
 		this.companyId = companyId;
 		this.companyName = companyName;
 		this.departmentId = departmentId;
@@ -36,6 +37,8 @@ public class SwoUserExtend {
 
 	private String id = null;
 	private String name = null;
+	private String password = null;
+
 	private String companyId = null;
 	private String companyName = null;
 	private String departmentId = null;
@@ -115,6 +118,12 @@ public class SwoUserExtend {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getCompanyName() {
 		return companyName;

@@ -292,29 +292,30 @@ public class SmartUtil {
 		Authentication authentication = securityContext.getAuthentication();
 		if(authentication != null) {
 			Object principal = authentication.getPrincipal();
-			Login login = (Login)(principal instanceof Login ? principal : null);
-			User user = new User();
-			if(login != null) {
-				user.setId(login.getId());
-				user.setName(login.getName());
-				user.setPassword(login.getPassword());
-				user.setCompanyId(login.getCompanyId());
-				user.setCompany(login.getCompany());
-				user.setDepartmentId(login.getDepartmentId());
-				user.setDepartment(login.getDepartment());
-				user.setPosition(login.getPosition());
-				user.setBigPictureName(login.getBigPictureName());
-				user.setSmallPictureName(login.getSmallPictureName());
-				user.setLocale(login.getLocale());
-				user.setTimeZone(login.getTimeZone());
-				user.setRole(login.getRole());
-				user.setUserLevel(login.getUserLevel());
-				user.setPhoneNo(login.getPhoneNo());
-				user.setCellPhoneNo(login.getCellPhoneNo());
-				user.setEmployeeId(login.getEmpNo());
+			if(!principal.equals("anonymousUser")) {
+				Login login = (Login)(principal instanceof Login ? principal : null);
+				User user = new User();
+				if(login != null) {
+					user.setId(login.getId());
+					user.setName(login.getName());
+					user.setPassword(login.getPassword());
+					user.setCompanyId(login.getCompanyId());
+					user.setCompany(login.getCompany());
+					user.setDepartmentId(login.getDepartmentId());
+					user.setDepartment(login.getDepartment());
+					user.setPosition(login.getPosition());
+					user.setBigPictureName(login.getBigPictureName());
+					user.setSmallPictureName(login.getSmallPictureName());
+					user.setLocale(login.getLocale());
+					user.setTimeZone(login.getTimeZone());
+					user.setRole(login.getRole());
+					user.setUserLevel(login.getUserLevel());
+					user.setPhoneNo(login.getPhoneNo());
+					user.setCellPhoneNo(login.getCellPhoneNo());
+					user.setEmployeeId(login.getEmpNo());
+				}
+				return user;
 			}
-			return user;
-
 		}
 		return null;
 	}
