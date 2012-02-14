@@ -156,7 +156,12 @@
 										</a>
 								<%
 									}
+								}else{
+								%>
+									<tr><fmt:message key="common.message.no_instance"/></tr>
+								<%
 								}
+
 								%>
 
 							</tbody>

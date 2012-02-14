@@ -40,10 +40,7 @@
 					paramsJson['formName'] = form.attr('formName');
 				}
 				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
-/* 				paramsJson[form.attr('name')] = merge3Objects(form.serializeObject(), 
-						SmartWorks.GridLayout.serializeObject(form), 
-						SmartWorks.FormRuntime.UserFieldBuilder.serializeObject(form.find('.js_related_users')));
- */			}
+ 			}
 			console.log(JSON.stringify(paramsJson));
 			
 			var url = "set_company_event.sw";

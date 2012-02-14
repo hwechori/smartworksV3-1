@@ -216,6 +216,17 @@ $(function() {
 		var categoryId = input[0].getAttribute("categoryId");
 		var groupId = input[0].getAttribute("groupId");
 		var departmentId = input[0].getAttribute("departmentId");
+		var comlistByDepart = input.parents('.js_comlist_by_depart_page');
+		if(!isEmpty(comlistByDepart)){
+			var editMember = comlistByDepart.parents('.js_organization_management_page').find('.js_edit_member');
+			$.ajax({
+				url : "edit_department.sw?departId=" + departmentId,
+				success : function(data, status, jqXHR) {
+					editMember.html(data).slideDown();;
+				}			
+			});
+			
+		}
 		if (url == 'undefined' || (isEmpty(categoryId) && isEmpty(groupId) && isEmpty(departmentId))) {
 			return false;
 		}

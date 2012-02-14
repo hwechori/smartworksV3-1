@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.RecordList;
+import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
@@ -37,6 +38,8 @@ import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
+import net.smartworks.model.service.ExternalForm;
+import net.smartworks.model.service.WebService;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -269,6 +272,38 @@ public interface ISmartWorks {
 	public abstract void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract RecordList getApprovalLineList(RequestParams params) throws Exception;
+	
+	public abstract ApprovalLine getApprovalLineById(String id) throws Exception;
+	
+	public abstract void setApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract RecordList getExternalFormList(RequestParams params) throws Exception;
+	
+	public abstract ExternalForm getExternalFormById(String id) throws Exception;
+	
+	public abstract void setExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void setMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract RecordList getWebServiceList(RequestParams params) throws Exception;
+	
+	public abstract WebService getWebServiceById(String id) throws Exception;
+	
+	public abstract void setWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	

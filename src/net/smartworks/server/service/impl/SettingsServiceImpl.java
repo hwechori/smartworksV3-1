@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.RecordList;
+import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
 import net.smartworks.model.calendar.WorkHourPolicy;
@@ -19,10 +20,10 @@ import net.smartworks.model.community.User;
 import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
-import net.smartworks.model.work.FormField;
+import net.smartworks.model.service.ExternalForm;
+import net.smartworks.model.service.WebService;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
-import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.config.model.SwcWorkHour;
 import net.smartworks.server.engine.config.model.SwcWorkHourCond;
@@ -507,6 +508,200 @@ public class SettingsServiceImpl implements ISettingsService {
 	
 	@Override
 	public void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public RecordList getApprovalLineList(RequestParams params) throws Exception {
+
+		try{
+			RecordList recordList = new RecordList();
+			recordList.setRecords(new ApprovalLine[]{});
+			return recordList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}		
+	}
+
+	@Override
+	public ApprovalLine getApprovalLineById(String id) throws Exception {
+
+		try{
+			return new ApprovalLine();
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}		
+	}
+
+	@Override
+	public void setApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void removeApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public RecordList getWebServiceList(RequestParams params) throws Exception {
+
+		try{
+			RecordList recordList = new RecordList();
+			recordList.setRecords(new WebService[]{});
+			return recordList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}		
+	}
+
+	@Override
+	public WebService getWebServiceById(String id) throws Exception {
+
+		try{
+			return new WebService();
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}		
+	}
+
+	@Override
+	public void setWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void removeWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public RecordList getExternalFormList(RequestParams params) throws Exception {
+
+		try{
+			RecordList recordList = new RecordList();
+			recordList.setRecords(new ExternalForm[]{});
+			return recordList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}		
+	}
+
+	@Override
+	public ExternalForm getExternalFormById(String id) throws Exception {
+
+		try{
+			return new ExternalForm();
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}		
+	}
+
+	@Override
+	public void setExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void removeExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void setMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void removeMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
 		}catch (Exception e){

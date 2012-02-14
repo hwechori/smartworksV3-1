@@ -8,11 +8,13 @@
 
 package net.smartworks.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
@@ -72,16 +74,16 @@ public class SettingsController {
 		return SmartUtil.returnMnv(request, "jsp/content/settings/approval_line.jsp", "approval_line.tiles");
 	}
 
-	@RequestMapping("/webservice_management")
+	@RequestMapping("/web_service")
 	public ModelAndView webserviceManagement(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/settings/webservice_management.jsp", "webservice_management.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/settings/web_service.jsp", "web_service.tiles");
 	}
 
-	@RequestMapping("/externalform_management")
+	@RequestMapping("/external_form")
 	public ModelAndView externalformManagement(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request, "jsp/content/settings/externalform_management.jsp", "externalform_management.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/settings/external_form.jsp", "external_form.tiles");
 	}
 
 	@RequestMapping(value = "/set_company_general", method = RequestMethod.POST)
@@ -136,6 +138,137 @@ public class SettingsController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void removeCompanyEvent(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		smartworks.removeCompanyEvent(requestBody, request);
+	}
+	
+	@RequestMapping("/edit_approval_line")
+	public ModelAndView editApprovalLine(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_approval_line.jsp", "edit_approval_line.tiles");
+	}
+
+	@RequestMapping(value = "/create_approval_line", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createApprovalLine(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setApprovalLine(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_approval_line", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void setApprovalLine(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setApprovalLine(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/remove_approval_line", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void removeApprovalLine(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeApprovalLine(requestBody, request);
+	}
+	
+	@RequestMapping("/edit_web_service")
+	public ModelAndView editWebService(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_web_service.jsp", "edit_web_service.tiles");
+	}
+
+	@RequestMapping(value = "/create_web_service", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createWebService(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setWebService(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_web_service", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void setWebService(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setWebService(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/remove_web_service", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void removeWebService(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeWebService(requestBody, request);
+	}
+	
+	@RequestMapping("/edit_external_form")
+	public ModelAndView editExternalForm(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_external_form.jsp", "edit_external_form.tiles");
+	}
+
+	@RequestMapping(value = "/create_external_form", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createExternalForm(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setExternalForm(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_external_form", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void setExternalForm(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setExternalForm(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/remove_external_form", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void removeExternalForm(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeExternalForm(requestBody, request);
+	}
+	
+	@RequestMapping("/comlist_by_depart")
+	public ModelAndView comlistByDepart(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/comlist_by_depart.jsp", "");
+	}
+
+	@RequestMapping("/edit_member")
+	public ModelAndView editMember(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_member.jsp", "");
+	}
+
+	@RequestMapping(value = "/create_member", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createMember(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setMember(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_member", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void setMember(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setMember(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/remove_member", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void removeMember(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeMember(requestBody, request);
+	}
+	
+	@RequestMapping("/edit_department")
+	public ModelAndView editDepartment(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_department.jsp", "");
+	}
+
+	@RequestMapping(value = "/create_department", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createDepartment(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setDepartment(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_department", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void setDepartment(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setDepartment(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/remove_department", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void removeDepartment(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeDepartment(requestBody, request);
+	}
+
+	@RequestMapping(value = "/check_id_duplication", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody void checkIdDuplication(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	}
 	
 }
