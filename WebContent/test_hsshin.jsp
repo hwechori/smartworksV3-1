@@ -244,6 +244,7 @@
 	GroupInfo[] groupInfo = communityService.getMyGroups();
 	System.out.println(groupInfo); */
 
+	System.out.println(new LocalDate());
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>

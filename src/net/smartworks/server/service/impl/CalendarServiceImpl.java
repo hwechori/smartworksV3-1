@@ -631,7 +631,7 @@ public class CalendarServiceImpl implements ICalendarService {
 			SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
 			swcWorkHourCond.setCompanyId(cUser.getCompanyId());
 	
-			swcWorkHourCond.setOrders(new Order[]{new Order("validFromDate", false)});
+			swcWorkHourCond.setOrders(new Order[]{new Order("validFromDate", false), new Order("modificationDate", false)});
 	
 			SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
 	
