@@ -146,6 +146,7 @@
 				WorkHour[] workHours = workHourPolicy.getWorkHours();
 				for(int i=1; i<8; i++){
 					WorkHour workHour = workHours[i-1];
+					if(workHour != null) {
 				%>
 					<tr class="js_work_hour" <%if(i<workHourPolicy.getFirstDayOfWeek() || i>=workHourPolicy.getFirstDayOfWeek()+workHourPolicy.getWorkingDays()){ %> style="display:none"<%} %>>
 						<th class="end"><%=LocalDate.getDayLocalString(i) %></th>
@@ -163,6 +164,7 @@
 						</td>
 					</tr>
 				<%
+					}
 				}
 				%>
 			</tbody>

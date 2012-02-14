@@ -634,42 +634,53 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 
 	public String insertProfilesFile(String fileId, String fileName, String communityId) throws DocFileException {
 
-		//this.setFileDirectory(SmartConfUtil.getInstance().getImageServerDirectory());
-		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
-		this.setFileDirectory(OSValidator.getImageDirectory());
-		
-		if (fileName.indexOf(File.separator) > 1)
-			fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
-
-		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-
-		User user = SmartUtil.getCurrentUser();
-
-		File repository = this.getFileRepository(user.getCompanyId(), "Profiles");
-
-		String communityPictureId = communityId + "." + extension;
-		String bigId = communityId + "_big";
-		String smallId = communityId + "_small";
-		String originId = communityId + "_origin";
-
-		String tempFile = this.getFileDirectory() + "/SmartFiles/" + user.getCompanyId() + "/" + "Temps" + "/" + fileId + "." + extension;
-		String realFile1 = repository.getAbsolutePath() + "/" + bigId + "." + extension;
-		String realFile2 = repository.getAbsolutePath() + "/" + smallId + "." + extension;
-		String realFile = repository.getAbsolutePath() + "/" + originId + "." + extension;
-
 		try {
+			//this.setFileDirectory(SmartConfUtil.getInstance().getImageServerDirectory());
+			//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
+			this.setFileDirectory(OSValidator.getImageDirectory());
+			
+			if (fileName.indexOf(File.separator) > 1)
+				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+	
+			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+	
+			User user = SmartUtil.getCurrentUser();
+	
+			File repository = this.getFileRepository(user.getCompanyId(), "Profiles");
+	
+			String communityPictureId = communityId + "." + extension;
+			String bigId = null;
+			String smallId = null;
+			String originId = null;
+			String realFile1 = null;
+			String realFile2 = null;
+			String tempFile = this.getFileDirectory() + "/SmartFiles/" + user.getCompanyId() + "/" + "Temps" + "/" + fileId + "." + extension;
+
+			if(communityId.equals(user.getCompanyId())) {
+				originId = communityId;
+			} else {
+				bigId = communityId + "_big";
+				smallId = communityId + "_small";
+				originId = communityId + "_origin";
+				realFile1 = repository.getAbsolutePath() + "/" + bigId + "." + extension;
+				realFile2 = repository.getAbsolutePath() + "/" + smallId + "." + extension;
+				Thumbnail.createImage(tempFile, realFile1, "big", extension);
+				Thumbnail.createImage(tempFile, realFile2, "small", extension);
+			}
+			String realFile = repository.getAbsolutePath() + "/" + originId + "." + extension;
+
 			FileInputStream is = new FileInputStream(new File(tempFile));
-			Thumbnail.createImage(tempFile, realFile1, "big", extension);
-			Thumbnail.createImage(tempFile, realFile2, "small", extension);
 			FileOutputStream os = new FileOutputStream(new File(realFile));
 			IOUtils.copy(is, os);
 			is.close();
 			os.close();
+
+			return communityPictureId;
 		} catch (Exception e) {
-			throw new DocFileException("Failed to copy file [" + tempFile + "]!");
+			e.printStackTrace();
+			return null;
 		}
 
-		return communityPictureId;
 	}
 
 	public void insertFiles(String workType, String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException {

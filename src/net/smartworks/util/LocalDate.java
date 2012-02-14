@@ -276,6 +276,12 @@ public class LocalDate extends Date{
 		return df.parse(yyyyMMddHHmm);					
 	}
 
+	public static Date convertTimeStringToDate(String HHmm) throws Exception{
+		if(SmartUtil.isBlankObject(HHmm)) return null;
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return df.parse("1900-01-01 " + HHmm + ":00");
+	}
+
 	public static LocalDate convertLocalStringToLocalDate(String yyyyMMddHHmmssSSS) throws Exception{
 		if(SmartUtil.isBlankObject(yyyyMMddHHmmssSSS) || yyyyMMddHHmmssSSS.length() < 21) return null;
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");

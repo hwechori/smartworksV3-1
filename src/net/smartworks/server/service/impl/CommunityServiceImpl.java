@@ -170,9 +170,8 @@ public class CommunityServiceImpl implements ICommunityService {
 
 	public String setGroup(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		User user = SmartUtil.getCurrentUser();
-
 		try{
+			User user = SmartUtil.getCurrentUser();
 			Map<String, Object> frmNewGroupProfile = (Map<String, Object>)requestBody.get("frmNewGroupProfile");
 	
 			Set<String> keySet = frmNewGroupProfile.keySet();

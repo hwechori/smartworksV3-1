@@ -114,13 +114,13 @@
 									<th class="r_line"><fmt:message key="settings.title.work_hour.valid_from"/></th>
 									<th class="r_line"><fmt:message key="settings.title.work_hour.first_day_of_week"/></th>
 									<th class="r_line"><fmt:message key="settings.title.work_hour.working_days"/></th>
+									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.SUNDAY) %></th>
 									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.MONDAY) %></th>
 									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.TUESDAY) %></th>
 									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.WEDNESDAY) %></th>
 									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.THURSDAY) %></th>
 									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.FRIDAY) %></th>
 									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.SATURDAY) %></th>
-									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.SUNDAY) %></th>
 									<th></th>
 								</tr>
 								<%
@@ -135,11 +135,11 @@
 												<%
 												if(!SmartUtil.isBlankObject(workHours) && workHours.length==7){
 													for(WorkHour workHour : workHours){
-														if(workHour.getWorkTime()!= 0){
+														if(workHour != null) {
 												%>													
 															<th><a href=""><%=LocalDate.convertTimeToString(workHour.getStart()) %> ~ <%=LocalDate.convertTimeToString(workHour.getEnd()) %></a></th>
 														<%
-														}else{
+														} else {
 														%>
 															<th><a href=""><fmt:message key="settings.title.work_hour.none"/></a></th>
 												<%
