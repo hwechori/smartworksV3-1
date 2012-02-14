@@ -11,25 +11,66 @@
 	User cUser = SmartUtil.getCurrentUser();
 	
 	String departId = request.getParameter("departId");
+	String parentId = request.getParameter("parentId");
 	Department department = (SmartUtil.isBlankObject(departId)) ? new Department() : smartWorks.getDepartmentById(departId);
+	Department parentDepart = (SmartUtil.isBlankObject(parentId)) ? new Department() : smartWorks.getDepartmentById(parentId);
 	
 %>
+<script type="text/javascript">
+
+	// 근무시간정책을 수정하기 버튼을 클릭하면, 
+	// 모든정보를 JSON형식으로 Serialize해서 서버의 set_work_hour_policy.sw 서비스를 호출하여 수정한다.
+	function submitForms(e) {
+		var editDepartment = $('.js_edit_department_page');
+		if (SmartWorks.GridLayout.validate(editDepartment.find('form.js_validation_required'), editDepartment.find('.js_profile_error_message'))) {
+			var forms = editDepartment.find('form');
+			var paramsJson = {};
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				if(form.attr('name') === 'frmSmartForm'){
+					paramsJson['formId'] = form.attr('formId');
+					paramsJson['formName'] = form.attr('formName');
+				}
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+			}
+			console.log(JSON.stringify(paramsJson));
+			
+			var url = "set_department.sw";
+			var departId = editDepartment.attr('departId'); 
+			var confirmMessage = smartMessage.get("saveConfirmation");
+			if(isEmpty(departId)){
+				url = "create_department.sw";
+				confirmMessage = smartMessage.get("createConfirmation")
+			}
+			smartPop.confirm( confirmMessage, function(){
+				var progressSpan = editDepartment.find('.js_progress_span');
+				smartPop.progressCont(progressSpan);
+				$.ajax({
+					url : url,
+					contentType : 'application/json',
+					type : 'POST',
+					data : JSON.stringify(paramsJson),
+					success : function(data, status, jqXHR) {
+						// 사용자정보 수정이 정상적으로 완료되었으면, 현재 페이지에 그대로 있는다.
+						smartPop.closeProgress();
+						smartPop.showInfo(smartPop.INFORM, isEmpty(departId) ? smartMessage.get('createDepartmentSucceed') : smartMessage.get('setDepartmentSucceed'), function(){
+							document.location.href = "organization_management.sw";					
+						});
+					},
+					error : function(e) {
+						smartPop.closeProgress();
+						smartPop.showInfo(smartPop.ERROR, isEmpty(departId) ? smartMessage.get('createDepartmentError') : smartMessage.get('setDepartmentError'));
+					}
+				});
+			});
+		}
+	};
+
+</script>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="js_edit_department">
-	<!-- 회사정보 -->
-	<div class="gray_style table_nomal600">
-		<table>
-			<tbody>
-				<tr>
-					<th class="text_align_c"><fmt:message key="profile.title.company"/></th>
-					<td><%=CommonUtil.toNotNull(cUser.getCompany()) %></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<!-- 회사정보//-->
+<div class="js_edit_department_page" departId="<%=departId %>" parentId="<%=parentId%>">
 
 	<!-- 부서추가 -->
 	<!-- 타이틀 영역 -->
@@ -49,41 +90,64 @@
 		</div>
 		<!-- 타이틀 영역 //-->
 		
-		<div class="boTb">
+		<form name="frmEditDepartment" class="boTb js_validation_required">
 			<table class="margin_t10">
 				<tbody>
 					<tr>
 						<%
 						String parentName = (SmartUtil.isBlankObject(department.getParent())) ? "" : department.getParent().getName();
+						if(SmartUtil.isBlankObject(departId) && !SmartUtil.isBlankObject(parentDepart)) parentName = parentDepart.getName(); 
 						%>
 						<td width="20%" ><fmt:message key="settings.title.department.parent_name"/></td>
-						<td width="80%"><input readonly class="fieldline" type="text" value="<%=parentName %>" /></td>
+						<td width="80%">
+							<input name="txtParentName" readonly type="text" value="<%=parentName %>" />
+							<input name="hdnParentId" type="hidden" value="<%=CommonUtil.toNotNull(parentId) %>" />
+						</td>	
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.department"/></td>
-						<td><input class="fieldline" type="text" title="" value="<%=CommonUtil.toNotNull(department.getName()) %>" /></td>
+						<td><fmt:message key="profile.title.department"/><span class="essen_n"></span></td>
+						<td><input name="txtDepartmentName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(department.getName()) %>" /></td>
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		</form>
 	
 		<!-- Btn -->
 		<div class="text_align_r margin_t8">
+			<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
+			<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
+			<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
+			<span class="js_progress_span"></span>
 			<span class="btn_gray">
-				<span class="Btn01Start"></span>
-				<%
-				if(SmartUtil.isBlankObject(departId)){
-				%>
-					<span class="Btn01Center"><fmt:message key="common.button.create"/></span>
-				<%
-				}else{
-				%>
-					<span class="Btn01Center"><fmt:message key="common.button.save"/></span>
-				<%
-				}
-				%>
-				<span class="Btn01End"></span>
+				<a href="" onclick='submitForms(); return false;'>
+					<span class="Btn01Start"></span>
+					<%
+					if(SmartUtil.isBlankObject(departId)){
+					%>
+						<span class="Btn01Center"><fmt:message key="common.button.add_new"/></span>
+					<%
+					}else{
+					%>
+						<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+					<%
+					}
+					%>
+					<span class="Btn01End"></span>
+				</a>
 			</span>
+			<%
+			if(!SmartUtil.isBlankObject(departId)){
+			%>
+				<span class="btn_gray">
+					<a href="" class="js_delete_department">
+						<span class="Btn01Start"></span>
+							<span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
+						<span class="Btn01End"></span>
+					</a>
+				</span>
+			<%
+			}
+			%>
 		</div>
 		<!-- Btn //-->
 	</div>

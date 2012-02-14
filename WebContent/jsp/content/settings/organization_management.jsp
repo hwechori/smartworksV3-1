@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
@@ -29,13 +30,26 @@
 					<table>
 						<tbody>
 							<tr>
+								<td><jsp:include page="/jsp/content/settings/comlist_by_depart.jsp"></jsp:include></td>
 								<td>
-									<div>
-										<jsp:include page="/jsp/content/settings/comlist_by_depart.jsp"></jsp:include>
+									<div class="text_align_r">
+										<span class="btnIconsCreate"><a class="btnIconsTail js_new_department" href=""><fmt:message key="settings.button.add_department"/></a></span>
+										<span class="btnIconsCreate"><a class="btnIconsTail js_new_member" href=""><fmt:message key="settings.button.add_member"/></a></span></div>
+									<!-- 상단 우측 버튼//-->
+					
+									<!-- 회사정보 -->
+									<div class="gray_style table_nomal600">
+										<table>
+											<tbody>
+												<tr>
+													<th class="text_align_c"><fmt:message key="profile.title.company"/></th>
+													<td><%=CommonUtil.toNotNull(cUser.getCompany()) %></td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
-								</td>
-								<td class="js_edit_member">
-									<jsp:include page="/jsp/content/settings/edit_department.jsp"></jsp:include>
+									<!-- 회사정보//-->
+									<div class="js_edit_member"></div>									
 								</td>
 							</tr>
 						</tbody>

@@ -299,6 +299,125 @@ $(function() {
 		return false;
 	});
 
+	$('a.js_new_department').live('click', function(e) {
+		var input = $(e.target);
+		var organizationManagement = input.parents('.js_organization_management_page');
+		var parentId = organizationManagement.find('.js_edit_department_page').attr('departId');
+		if(isEmpty(parentId)) parentId = currentUser.companyId;
+		var target = organizationManagement.find('.js_edit_member');
+		$.ajax({
+			url : "edit_department.sw?parentId=" + parentId,
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('a.js_delete_department').live('click', function(e) {
+		var input = $(e.target);
+		
+		smartPop.confirm(smartMessage.get("removeConfirmation"), function(){
+			var departId = input.parents('.js_edit_department_page').attr('departId');
+			var paramsJson = {};
+			paramsJson['departmentId'] = departId;
+			console.log(JSON.stringify(paramsJson));
+			$.ajax({
+				url : "remove_department.sw",
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get('removeDepartmentSucceed'), function(){
+						document.location.href = "organization_management.sw";					
+					});					
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("removeDepartmentError"), function(){
+					});
+					
+				}
+				
+			});
+		});
+		return false;
+	});
+
+	$('a.js_new_member').live('click', function(e) {
+		var input = $(e.target);
+		var organizationManagement = input.parents('.js_organization_management_page');
+		var departId = organizationManagement.find('.js_edit_department_page').attr('departId');
+		if(isEmpty(departId)) departId = currentUser.companyId;
+		var target = organizationManagement.find('.js_edit_member');
+		$.ajax({
+			url : "edit_member.sw?departId=" + departId,
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown(500);
+			}			
+		});
+		return false;
+	});
+
+	$('a.js_delete_member').live('click', function(e) {
+		var input = $(e.target);
+		
+		smartPop.confirm(smartMessage.get("removeConfirmation"), function(){
+			var userId = input.parents('.js_edit_member_page').attr('userId');
+			var paramsJson = {};
+			paramsJson['userId'] = userId;
+			console.log(JSON.stringify(paramsJson));
+			$.ajax({
+				url : "remove_member.sw",
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get('removeMemberSucceed'), function(){
+						document.location.href = "organization_management.sw";					
+					});					
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("removeMemberError"), function(){
+					});
+					
+				}
+				
+			});
+		});
+		return false;
+	});
+	
+	$('a.js_check_id_duplication').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_edit_member_page').find('input[name="txtMemberId"]');
+		var userId = target.attr('value');
+		$.ajax({
+			url : "check_id_duplication.sw",
+			data : {
+				userId : userId
+			},
+			success : function(data, status, jqXHR) {
+				smartPop.showInfo(smartPop.INFORM, smartMessage.get('usableUserId'));
+				target.addClass('sw_dup_checked').attr('readonly', true);
+				input.hide().siblings().show();;
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				smartPop.showInfo(smartPop.WARN, smartMessage.get('duplicatedUserId'));
+			}
+		});
+		return false;
+	});
+
+	$('a.js_change_id').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_edit_member_page').find('input[name="txtMemberId"]');
+		target.removeClass('sw_dup_checked').attr('readonly', false);
+		input.hide().siblings().show();;
+		return false;
+	});
+
 	$('select.js_first_day_of_week').live('change', function(e) {
 		var input = $(e.target);
 		var editWorkHour = input.parents('.js_edit_work_hour_page');

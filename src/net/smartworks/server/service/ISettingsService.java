@@ -60,4 +60,12 @@ public interface ISettingsService {
 	
 	public abstract void removeExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
+	public abstract void setMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract void removeMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
 }

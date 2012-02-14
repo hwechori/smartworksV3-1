@@ -304,4 +304,48 @@ public class SettingsServiceImpl implements ISettingsService {
 		}
 	}
 	
+	@Override
+	public void setMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void removeMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+	
 }

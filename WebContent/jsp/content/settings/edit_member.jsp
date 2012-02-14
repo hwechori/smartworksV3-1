@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.util.LocaleInfo"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.model.community.User"%>
@@ -11,25 +12,70 @@
 	User cUser = SmartUtil.getCurrentUser();
 	
 	String userId = request.getParameter("userId");
+	String departId = request.getParameter("departId");
 	User user = (SmartUtil.isBlankObject(userId)) ? new User() : smartWorks.getUserById(userId);
+	Department department = (SmartUtil.isBlankObject(departId)) ? new Department() : smartWorks.getDepartmentById(departId);
 	
 %>
+<script type="text/javascript">
+
+	// 근무시간정책을 수정하기 버튼을 클릭하면, 
+	// 모든정보를 JSON형식으로 Serialize해서 서버의 set_work_hour_policy.sw 서비스를 호출하여 수정한다.
+	function submitForms(e) {
+		var editMember = $('.js_edit_member_page');
+		if(!editMember.find('input[name="txtMemberId"]').hasClass('sw_dup_checked')){
+			smartPop.showInfo(smartPop.ERROR, smartMessage.get('duplicationCheckError'));
+			return;
+		}
+		if (SmartWorks.GridLayout.validate(editMember.find('form.js_validation_required'), editMember.find('.js_profile_error_message'))) {
+			var forms = editMember.find('form');
+			var paramsJson = {};
+			for(var i=0; i<forms.length; i++){
+				var form = $(forms[i]);
+				if(form.attr('name') === 'frmSmartForm'){
+					paramsJson['formId'] = form.attr('formId');
+					paramsJson['formName'] = form.attr('formName');
+				}
+				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+			}
+			console.log(JSON.stringify(paramsJson));
+			
+			var url = "set_member.sw";
+			var userId = editMember.attr('userId'); 
+			var confirmMessage = smartMessage.get("saveConfirmation");
+			if(isEmpty(userId)){
+				url = "create_member.sw";
+				confirmMessage = smartMessage.get("createConfirmation")
+			}
+			smartPop.confirm( confirmMessage, function(){
+				var progressSpan = editMember.find('.js_progress_span');
+				smartPop.progressCont(progressSpan);
+				$.ajax({
+					url : url,
+					contentType : 'application/json',
+					type : 'POST',
+					data : JSON.stringify(paramsJson),
+					success : function(data, status, jqXHR) {
+						// 사용자정보 수정이 정상적으로 완료되었으면, 현재 페이지에 그대로 있는다.
+						smartPop.closeProgress();
+						smartPop.showInfo(smartPop.INFORM, isEmpty(userId) ? smartMessage.get('createMemberSucceed') : smartMessage.get('setMemberSucceed'), function(){
+							document.location.href = "organization_management.sw";					
+						});
+					},
+					error : function(e) {
+						smartPop.closeProgress();
+						smartPop.showInfo(smartPop.ERROR, isEmpty(userId) ? smartMessage.get('createMemberError') : smartMessage.get('setMemberError'));
+					}
+				});
+			});
+		}
+	};
+
+</script>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="js_edit_member_page" userId="<%=userId%>">
-	<!-- 회사정보 -->
-	<div class="gray_style table_nomal600">
-		<table>
-			<tbody>
-				<tr>
-					<th class="text_align_c"><fmt:message key="profile.title.company"/></th>
-					<td><%=CommonUtil.toNotNull(cUser.getCompany()) %></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<!-- 회사정보//-->
+<div class="js_edit_member_page" userId="<%=userId%>" departId="<%=departId%>">
 
 	<!-- 사용자추가 -->
 	<!-- 타이틀 영역 -->
@@ -49,37 +95,49 @@
 		</div>
 		<!-- 타이틀 영역 //-->
 		
-		<div class="boTb">
+		<form name="frmEditMember" class="boTb js_validation_required">
 			<table class="margin_t10">
 				<tbody>
 					<tr>
 						<td width="20%" ><fmt:message key="profile.title.department"/></td>
-						<td width="80%"><%=CommonUtil.toNotNull(user.getDepartment()) %></td>
+						<%
+						if(!SmartUtil.isBlankObject(departId)){
+						%>
+							<td width="80%"><%=CommonUtil.toNotNull(department.getName()) %></td>
+							<input name="hdnDepartmentId" type="hidden" value="<%=CommonUtil.toNotNull(department.getId())%>">
+						<%
+						}else{
+						%>
+							<td width="80%"><%=CommonUtil.toNotNull(user.getDepartment()) %></td>
+						<%
+						}
+						%>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.user_name"/></td>
+						<td><fmt:message key="profile.title.user_name"/><span class="essen_n"></span></td>
 						<td><input name="txtMemberName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(user.getName()) %>" /></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.user_id"/></td>
+						<td><fmt:message key="profile.title.user_id"/><span class="essen_n"></span></td>
 						<td>
-						<input name="txtMemberId" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(user.getId()) %>" />
-						<div class="txt_btn float_left">※ Email을 입력 하세요</div>
+						<input name="txtMemberId" <%if(!SmartUtil.isBlankObject(userId)){ %>class="fieldline sw_dup_checked required email" readonly<%}else{ %>class="fieldline required email" <%} %> type="text" value="<%=CommonUtil.toNotNull(user.getId()) %>" />
+						<div class="txt_btn float_left"><fmt:message key="settings.sentence.use_email"/></div>
 						
 						<div class="float_right margin_t2">
 							<div class="btnIconStart">
-								<a class="btnIconsTail" href="">중복확인</a>
+								<a class="btnIconsTail js_check_id_duplication" href="" <%if(!SmartUtil.isBlankObject(userId)){%>style="display:none"<%} %>><fmt:message key="settings.button.duplication_check"/></a>
+								<a class="btnIconsTail js_change_id" href="" <%if(SmartUtil.isBlankObject(userId)){%>style="display:none"<%} %>><fmt:message key="settings.button.change_id"/></a>
 							</div>
 						</div>
 						</td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.password"/></td>
-						<td><input name="pasMemberPassword" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(user.getPassword()) %>" /></td>
+						<td><fmt:message key="profile.title.password"/><span class="essen_n"></span></td>
+						<td><input name="pasMemberPassword" class="fieldline required" type="password" value="<%=CommonUtil.toNotNull(user.getPassword()) %>" /></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.password_confirm"/></td>
-						<td><input name="pasMemberPasswordConfirm" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(user.getPassword()) %>" /></td>
+						<td><fmt:message key="profile.title.password_confirm"/><span class="essen_n"></span></td>
+						<td><input name="pasMemberPasswordConfirm" class="fieldline required" type="password" value="<%=CommonUtil.toNotNull(user.getPassword()) %>" /></td>
 					</tr>
 					<tr>
 						<td><fmt:message key="profile.title.employee_id"/></td>
@@ -110,8 +168,8 @@
 					<tr>
 						<td><fmt:message key="profile.title.locale"/></td>
 						<td><select name="selMemberLocale">
-							<option <%if(user.getLocale().equals(LocaleInfo.LOCALE_KOREAN)){ %>selected<%} %> value="<%=LocaleInfo.LOCALE_KOREAN%>"><fmt:message key="common.title.locale.ko"/></option>
-							<option <%if(user.getLocale().equals(LocaleInfo.LOCALE_ENGLISH)){ %>selected<%} %> value="<%=LocaleInfo.LOCALE_ENGLISH%>"><fmt:message key="common.title.locale.en"/></option>
+							<option <%if(!SmartUtil.isBlankObject(user.getLocale()) && user.getLocale().equals(LocaleInfo.LOCALE_KOREAN)){ %>selected<%} %> value="<%=LocaleInfo.LOCALE_KOREAN%>"><fmt:message key="common.title.locale.ko"/></option>
+							<option <%if(!SmartUtil.isBlankObject(user.getLocale()) && user.getLocale().equals(LocaleInfo.LOCALE_ENGLISH)){ %>selected<%} %> value="<%=LocaleInfo.LOCALE_ENGLISH%>"><fmt:message key="common.title.locale.en"/></option>
 						</select></td>
 					</tr>
 					<tr>
@@ -124,25 +182,44 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		</form>
 		
 		<!-- Btn -->
 		<div class="text_align_r margin_t8">
+			<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
+			<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
+			<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
+			<span class="js_progress_span"></span>
 			<span class="btn_gray">
-				<span class="Btn01Start"></span>
-				<%
-				if(SmartUtil.isBlankObject(userId)){
-				%>
-					<span class="Btn01Center"><fmt:message key="common.button.create"/></span>
-				<%
-				}else{
-				%>
-					<span class="Btn01Center"><fmt:message key="common.button.save"/></span>
-				<%
-				}
-				%>
-				<span class="Btn01End"></span>
+				<a href="" onclick='submitForms(); return false;'>
+					<span class="Btn01Start"></span>
+					<%
+					if(SmartUtil.isBlankObject(userId)){
+					%>
+						<span class="Btn01Center"><fmt:message key="common.button.add_new"/></span>
+					<%
+					}else{
+					%>
+						<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+					<%
+					}
+					%>
+					<span class="Btn01End"></span>
+				</a>
 			</span>
+			<%
+			if(!SmartUtil.isBlankObject(userId)){
+			%>
+				<span class="btn_gray">
+					<a href="" class="js_delete_member">
+						<span class="Btn01Start"></span>
+							<span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
+						<span class="Btn01End"></span>
+					</a>
+				</span>
+			<%
+			}
+			%>
 		</div>
 		<!-- Btn //-->
 	</div>

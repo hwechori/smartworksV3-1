@@ -650,6 +650,26 @@ public class SmartWorks implements ISmartWorks {
 	}
 		
 	@Override
+	public void setMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setMember(requestBody, request);
+	}
+		
+	@Override
+	public void removeMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.removeMember(requestBody, request);
+	}
+		
+	@Override
+	public void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.setDepartment(requestBody, request);
+	}
+		
+	@Override
+	public void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		settingsService.removeDepartment(requestBody, request);
+	}
+		
+	@Override
 	public String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		String instanceId = instanceService.performTaskInstance(requestBody, request);
 		return instanceId;

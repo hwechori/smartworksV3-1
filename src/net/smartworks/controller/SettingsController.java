@@ -8,11 +8,13 @@
 
 package net.smartworks.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.SmartUtil;
 
@@ -222,10 +224,51 @@ public class SettingsController {
 		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_member.jsp", "");
 	}
 
+	@RequestMapping(value = "/create_member", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createMember(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setMember(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_member", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void setMember(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setMember(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/remove_member", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void removeMember(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeMember(requestBody, request);
+	}
+	
 	@RequestMapping("/edit_department")
 	public ModelAndView editDepartment(HttpServletRequest request, HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_department.jsp", "");
 	}
 
+	@RequestMapping(value = "/create_department", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createDepartment(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setDepartment(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_department", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void setDepartment(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setDepartment(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/remove_department", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void removeDepartment(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeDepartment(requestBody, request);
+	}
+
+	@RequestMapping(value = "/check_id_duplication", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody void checkIdDuplication(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	}
+	
 }
