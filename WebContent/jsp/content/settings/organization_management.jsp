@@ -25,21 +25,16 @@
 			
 			<!-- 컨텐츠 -->
 			<div class="contents_space">
-
-				<!-- 상단 우측버튼 -->					
-				<div class="text_align_r"><fmt:message key="profile.title.department"/> "<span class="t_bold">맨인소프트</span>"에 <span class="btnIconsCreate"><a class="btnIconsTail" href=""><fmt:message key="settings.button.add_department"/></a></span> <span class="btnIconsCreate"><a class="btnIconsTail" href=""><fmt:message key="settings.button.add_member"/></a></span></div>
-				<!-- 상단 우측 버튼//-->
-				
-				<div class="boTb">
+				<div>
 					<table>
 						<tbody>
 							<tr>
-								<td class="end">
+								<td>
 									<div>
-										<jsp:include page="/jsp/popup/pop_userlist_by_depart.jsp"></jsp:include>
+										<jsp:include page="/jsp/content/settings/comlist_by_depart.jsp"></jsp:include>
 									</div>
 								</td>
-								<td class="end js_edit_member">
+								<td class="js_edit_member">
 									<jsp:include page="/jsp/content/settings/edit_department.jsp"></jsp:include>
 								</td>
 							</tr>

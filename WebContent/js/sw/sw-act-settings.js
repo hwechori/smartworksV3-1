@@ -342,4 +342,19 @@ $(function() {
 		
 		return false;
 	});
+	
+	$('.js_organization_member').live('click', function(e){
+		var input = $(e.target);
+		var organizationManagement = input.parents('.js_organization_management_page');
+		var target = organizationManagement.find('.js_edit_member');
+		var userId = input.attr('userId');
+		$.ajax({
+			url : "edit_member.sw?userId=" + userId,
+			success : function(data, status, jqXHR) {
+				target.html(data).slideDown();;
+			}			
+		});
+		
+		return false;
+	});
 });

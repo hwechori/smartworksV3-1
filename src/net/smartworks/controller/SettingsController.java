@@ -210,4 +210,22 @@ public class SettingsController {
 		smartworks.removeExternalForm(requestBody, request);
 	}
 	
+	@RequestMapping("/comlist_by_depart")
+	public ModelAndView comlistByDepart(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/comlist_by_depart.jsp", "");
+	}
+
+	@RequestMapping("/edit_member")
+	public ModelAndView editMember(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_member.jsp", "");
+	}
+
+	@RequestMapping("/edit_department")
+	public ModelAndView editDepartment(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_department.jsp", "");
+	}
+
 }
