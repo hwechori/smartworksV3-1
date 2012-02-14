@@ -33,6 +33,7 @@
 		if (SmartWorks.GridLayout.validate(editApprovalLine.find('form.js_validation_required'), editApprovalLine.find('.js_profile_error_message'))) {
 			var forms = editApprovalLine.find('form');
 			var paramsJson = {};
+			paramsJson['approvalLineId'] = editApprovalLine.attr('lineId');
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				if(form.attr('name') === 'frmSmartForm'){

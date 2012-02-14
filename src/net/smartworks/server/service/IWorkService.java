@@ -10,6 +10,7 @@ import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
+import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;

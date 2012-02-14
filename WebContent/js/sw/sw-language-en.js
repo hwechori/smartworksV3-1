@@ -116,7 +116,10 @@ smartMessage.bundle['en'] = {
 	approvalLineListError : "Error has been occured while loading Approval Line list. Please contact the Administrator!",
 	webServiceListError : "Error has been occured while loading Web Service list. Please contact the Administrator!",
 	externalFormListError : "Error has been occured while loading External Form list. Please contact the Administrator!",
-	setIworkFilterError : "Error has been occured while saving search filter. Please contact the Administrator!",
+	setFilterSucceed : "Search Filter has been changed successfully...",
+	setFilterError : "Error has been occured while changing Search Filter. Please contact the Administrator!",
+	setWorkSettingsSucceed : "Work Settings has been changed successfully...",
+	setWorkSettingsError : "Error has been occured while changing Work Settings. Please contact the Administrator!",
 	mailPasswordConfirmError : "Send Mail Password confirmation error. Please retry password confirmation",
 	duplicationCheckError : "ID Duplication check has not been performed. Please perform the ID Duplication Check and retry it again",
 	

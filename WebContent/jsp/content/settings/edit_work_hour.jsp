@@ -31,6 +31,7 @@
 		if (SmartWorks.GridLayout.validate(editWorkHour.find('form.js_validation_required'), editWorkHour.find('.js_profile_error_message'))) {
 			var forms = editWorkHour.find('form');
 			var paramsJson = {};
+			paramsJson['policyId'] = editWorkHour.attr('policyId');
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				if(form.attr('name') === 'frmSmartForm'){
