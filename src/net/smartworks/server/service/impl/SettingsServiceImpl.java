@@ -999,8 +999,10 @@ public class SettingsServiceImpl implements ISettingsService {
 			}
 
 			getSwoManager().setUser(userId, swoUser, IManager.LEVEL_ALL);
+			if(!setUserId.equals(""))
+				getSwoManager().getUserExtend(userId, swoUser.getId(), false);
 		} catch(Exception e) {
-			e.printStackTrace();			
+			e.printStackTrace();
 		}
 	}
 	
@@ -1060,6 +1062,8 @@ public class SettingsServiceImpl implements ISettingsService {
 			}
 
 			getSwoManager().setDepartment(userId, swoDepartment, IManager.LEVEL_ALL);
+			if(!departmentId.equals(""))
+				getSwoManager().getDepartmentExtend(userId, departmentId, false);
 		} catch(Exception e) {
 			e.printStackTrace();			
 		}

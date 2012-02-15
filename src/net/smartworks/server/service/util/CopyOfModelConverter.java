@@ -602,7 +602,7 @@ public class CopyOfModelConverter {
 	public static UserInfo getUserInfoByUserId(String userId) throws Exception {
 		if (CommonUtil.isEmpty(userId))
 			return null;
-		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
+		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId, true);
 		return getUserInfoBySwoUserExtend(null, userExtend);
 	}
 	public static UserInfo getUserInfoBySwoUserExtend(UserInfo userInfo, SwoUserExtend userExtend) throws Exception {
@@ -844,7 +844,7 @@ public class CopyOfModelConverter {
 	public static User getUserByUserId(String userId) throws Exception {
 		if (CommonUtil.isEmpty(userId))
 			return null;
-		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
+		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId, true);
 		return getUserBySwoUserExtend(null, userExtend);
 	}
 	public static User getUserBySwoUserExtend(User user, SwoUserExtend userExtend) throws Exception {
@@ -852,7 +852,7 @@ public class CopyOfModelConverter {
 			return null;
 		if (user == null)
 			user = new User();
-		
+
 		user.setId(userExtend.getId());
 		user.setName(userExtend.getName());
 		user.setDepartment(userExtend.getDepartmentName());

@@ -2057,8 +2057,10 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		return user != null ? (user.getPosition() + " " + user.getName()) : null;
 	}
 
+	private static SizeMap userMap = new SizeMap(100);
+
 	@Override
-	public SwoUserExtend getUserExtend(String userId, String id) throws SwoException {
+	public SwoUserExtend getUserExtend(String userId, String id, boolean isMemory) throws SwoException {
 
 		//user cache 를 사용하여 메모리에서 조회한후 없으면 데이터베이스에서 조회한다.
 		//유저 정보를 가져오는 횟수가 너무 많아서 부하를 줄여야 한다
@@ -2084,6 +2086,11 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			userExtend.setCellPhoneNo("031-714-5714");
 
 			return userExtend;
+		}
+
+		if(isMemory == true) {
+			if (userMap.containsKey(id))
+				return (SwoUserExtend)userMap.get(id);
 		}
 
 		SwoUserExtend userExtend = new SwoUserExtend();
@@ -2130,6 +2137,9 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		if(timeZone.equals(""))
 			timeZone = LocalDate.TIMEZONE_SEOUL;
 		userExtend.setTimeZone(timeZone);
+
+		if (userExtend != null)
+			userMap.put(id, userExtend);
 
 		return userExtend;
 	}
@@ -2209,10 +2219,11 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 	private static SizeMap departmentMap = new SizeMap(100);
 
 	@Override
-	public SwoDepartmentExtend getDepartmentExtend(String userId, String departmentId) throws SwoException {
+	public SwoDepartmentExtend getDepartmentExtend(String userId, String departmentId, boolean isMemory) throws SwoException {
 
-		if (departmentMap.containsKey(departmentId)) {
-			return (SwoDepartmentExtend)departmentMap.get(departmentId);
+		if(isMemory == true) {
+			if(departmentMap.containsKey(departmentId))
+				return (SwoDepartmentExtend)departmentMap.get(departmentId);
 		}
 
 		SwoDepartmentExtend departmentExtend = new SwoDepartmentExtend();
@@ -2242,6 +2253,9 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		String headId = (String)query.uniqueResult();
 
 		departmentExtend.setHeadId(headId);
+
+		if (departmentExtend != null)
+			departmentMap.put(departmentId, departmentExtend);
 
 		return departmentExtend;
 	}

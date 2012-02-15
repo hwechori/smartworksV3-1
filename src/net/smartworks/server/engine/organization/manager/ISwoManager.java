@@ -115,11 +115,11 @@ public interface ISwoManager {
 
 	public SwoUser[] getUsers(String userId, SwoUserCond cond, String level) throws SwoException;
 	
-	public SwoUserExtend getUserExtend(String userId, String id) throws SwoException;
+	public SwoUserExtend getUserExtend(String userId, String id, boolean isMemory) throws SwoException;
 	
 	public SwoUserExtend[] getUsersExtend(String userId, String[] ids) throws SwoException;
 
-	public SwoDepartmentExtend getDepartmentExtend(String userId, String departmentId) throws SwoException;
+	public SwoDepartmentExtend getDepartmentExtend(String userId, String departmentId, boolean isMemory) throws SwoException;
 
 	public SwoUserExtend[] getUsersOfDepartment(String userId, String departmentId) throws SwoException;
 
