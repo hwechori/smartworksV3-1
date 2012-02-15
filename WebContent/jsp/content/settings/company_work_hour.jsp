@@ -96,19 +96,6 @@
 				<div class="list_contents">
 					<div>
 						<table>
-							<colgroup>
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-								<col width="" />
-							</colgroup>
 							<tbody>
 								<tr class="tit_bg">
 									<th class="r_line"><fmt:message key="settings.title.work_hour.valid_from"/></th>
@@ -129,25 +116,25 @@
 										WorkHour[] workHours = whp.getWorkHours();
 								%>
 											<tr class="js_edit_work_hour" policyId=<%=CommonUtil.toNotNull(whp.getId()) %>>
-												<th><a href=""><%=whp.getValidFrom().toLocalDateSimpleString() %></a></th>
-												<th><a href=""><%=LocalDate.getDayLocalString(whp.getFirstDayOfWeek()) %></a></th>
-												<th><a href=""><%=whp.getWorkingDays() %> <fmt:message key="calendar.title.days"/></a></th>
+												<td><a href=""><%=whp.getValidFrom().toLocalDateSimpleString() %></a></td>
+												<td><a href=""><%=LocalDate.getDayLocalString(whp.getFirstDayOfWeek()) %></a></td>
+												<td><a href=""><%=whp.getWorkingDays() %> <fmt:message key="calendar.title.days"/></a></td>
 												<%
 												if(!SmartUtil.isBlankObject(workHours) && workHours.length==7){
 													for(WorkHour workHour : workHours){
 														if(workHour != null) {
 												%>													
-															<th><a href=""><%=LocalDate.convertTimeToString(workHour.getStart()) %> ~ <%=LocalDate.convertTimeToString(workHour.getEnd()) %></a></th>
+															<td><a href=""><%=LocalDate.convertTimeToString(workHour.getStart()) %> ~ <%=LocalDate.convertTimeToString(workHour.getEnd()) %></a></td>
 														<%
 														} else {
 														%>
-															<th><a href=""><fmt:message key="settings.title.work_hour.none"/></a></th>
+															<td><a href=""><fmt:message key="settings.title.work_hour.none"/></a></td>
 												<%
 														}
 													}
 												}else{
 												%>
-													<th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+													<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 												<%
 												}
 												%>

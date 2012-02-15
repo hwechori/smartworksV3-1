@@ -100,14 +100,12 @@
 		<table>
 			<colgroup>
 				<col widtd="15%" />
-				<col widtd="35%" />
-				<col widtd="15%" />
-				<col widtd="35%" />
+				<col widtd="85%" />
 			</colgroup>
 			<tbody>
 				<tr>
-					<th><fmt:message key="settings.title.work_hour.valid_from"/></th>
-					<td colspan="3">
+					<td><fmt:message key="settings.title.work_hour.valid_from"/></td>
+					<td>
 						<div class="ico_fb_space form_date_input">
 							<%
 							String validFrom = (workHourPolicy.getValidFrom().getTime()!=0) ? workHourPolicy.getValidFrom().toLocalDateSimpleString() : "";
@@ -118,7 +116,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.work_hour.first_day_of_week"/></th>
+					<td><fmt:message key="settings.title.work_hour.first_day_of_week"/></td>
 					<td>
 						<select name="selFirstDayOfWeek" class="js_first_day_of_week">
 							<%
@@ -132,7 +130,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.work_hour.working_days"/></th>
+					<td><fmt:message key="settings.title.work_hour.working_days"/></td>
 					<td>
 						<select name="selWorkingDays" class="js_working_days">
 							<option <%if(workHourPolicy.getWorkingDays() == 4){ %>selected<%} %> value="4">4 <fmt:message key="calendar.title.days"/></option>
@@ -146,25 +144,24 @@
 				WorkHour[] workHours = workHourPolicy.getWorkHours();
 				for(int i=1; i<8; i++){
 					WorkHour workHour = workHours[i-1];
-					if(workHour != null) {
+					if(workHour == null) workHour = new WorkHour();
 				%>
 					<tr class="js_work_hour" <%if(i<workHourPolicy.getFirstDayOfWeek() || i>=workHourPolicy.getFirstDayOfWeek()+workHourPolicy.getWorkingDays()){ %> style="display:none"<%} %>>
-						<th class="end"><%=LocalDate.getDayLocalString(i) %></th>
-						<td colspan="3" class="end">
-							<span><fmt:message key="settings.title.work_hour.start"/></span>
-							<div class="ico_fb_space form_time_input">
+						<td class="end"><%=LocalDate.getDayLocalString(i) %></td>
+						<td class="end">
+							<span class="float_left mr5"><fmt:message key="settings.title.work_hour.start"/></span>
+							<div class="ico_fb_space form_time_input float_left mr10">
 								<input name="timWorkStart" class="fieldline js_timepicker workStart" readonly="readonly" type="text" value="<%=LocalDate.convertTimeToString(workHour.getStart()) %>">
 								<a href="" class="js_timepicker_button"><span class="ico_fb_time"></span></a>
 							</div>
-							<span><fmt:message key="settings.title.work_hour.end"/></span>
-							<div class="ico_fb_space form_time_input">
+							<span class="float_left mr5"><fmt:message key="settings.title.work_hour.end"/></span>
+							<div class="ico_fb_space form_time_input float_left mr10">
 								<input name="timWorkEnd" class="fieldline js_timepicker workEnd" readonly="readonly" type="text" name="" value="<%=LocalDate.convertTimeToString(workHour.getEnd()) %>">
 								<a href="" class="js_timepicker_button"><span class="ico_fb_time"></span></a>
 							</div>
 						</td>
 					</tr>
 				<%
-					}
 				}
 				%>
 			</tbody>

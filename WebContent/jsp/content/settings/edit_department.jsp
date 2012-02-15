@@ -13,8 +13,8 @@
 	String departId = request.getParameter("departId");
 	String parentId = request.getParameter("parentId");
 	Department department = (SmartUtil.isBlankObject(departId)) ? new Department() : smartWorks.getDepartmentById(departId);
+	if(SmartUtil.isBlankObject(parentId) && !SmartUtil.isBlankObject(department.getParent())) parentId = department.getParent().getId();	
 	Department parentDepart = (SmartUtil.isBlankObject(parentId)) ? new Department() : smartWorks.getDepartmentById(parentId);
-	
 %>
 <script type="text/javascript">
 

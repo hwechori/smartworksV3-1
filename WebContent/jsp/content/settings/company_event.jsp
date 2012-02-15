@@ -90,15 +90,6 @@
 				<div class="list_contents">
 					<div>
 						<table>
-							<colgroup>
-							<col width="" />
-							<col width="" />
-							<col width="" />
-							<col width="" />
-							<col width="" />
-							<col width="" />
-							<col width="" />
-							</colgroup>
 							<tbody>
 								<tr class="tit_bg">
 									<th class="r_line"><fmt:message key="settings.title.company_event.name"/></th>
@@ -113,10 +104,10 @@
 									for(CompanyEvent event : companyEvents){	
 								%>
 										<tr class="js_edit_company_event" eventId=<%=CommonUtil.toNotNull(event.getId()) %>>
-											<th><a href=""><%=event.getName() %></a></th>
-											<th><a href=""><%=event.getPlannedStart().toLocalDateSimpleString() %></a></th>
-											<th><a href=""><%=event.getPlannedEnd().toLocalDateSimpleString() %></a></th>
-											<th><a href=""><%if(event.isHoliday()){%><fmt:message key="common.title.boolean.true"/><%}else{ %><fmt:message key="common.title.boolean.false"/><%} %></a></th>
+											<td><a href=""><%=event.getName() %></a></td>
+											<td><a href=""><%=event.getPlannedStart().toLocalDateSimpleString() %></a></td>
+											<td><a href=""><%=event.getPlannedEnd().toLocalDateSimpleString() %></a></td>
+											<td><a href=""><%if(event.isHoliday()){%><fmt:message key="common.title.boolean.true"/><%}else{ %><fmt:message key="common.title.boolean.false"/><%} %></a></td>
 											<%
 											String relatedUsers = "";
 											if(!SmartUtil.isBlankObject(event.getRelatedUsers())){
@@ -132,7 +123,7 @@
 												}
 											}
 											%>
-											<th><a href=""><%=relatedUsers%></a></th>
+											<td><a href=""><%=relatedUsers%></a></td>
 											<td><%if(!SmartUtil.isBlankObject(event.getId())){ %><a href="" class="js_delete_company_event">X</a><%} %></td>
 										</tr>
 									</a>
