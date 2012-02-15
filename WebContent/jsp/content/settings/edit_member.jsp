@@ -30,6 +30,7 @@
 		if (SmartWorks.GridLayout.validate(editMember.find('form.js_validation_required'), editMember.find('.js_profile_error_message'))) {
 			var forms = editMember.find('form');
 			var paramsJson = {};
+			paramsJson['userId'] = editMember.attr('userId');
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				if(form.attr('name') === 'frmSmartForm'){
