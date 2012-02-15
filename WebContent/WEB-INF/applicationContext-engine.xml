@@ -70,7 +70,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="schManager" ref="schManager"/>
 		<beans:property name="swcManager" ref="swcManager"/>
 		<beans:property name="sctManager" ref="sctXPathManager"/>
-		
+		<beans:property name="webServiceManager" ref="webServiceManager"/>
+		<beans:property name="externalFormManager" ref="externalFormManager"/>
+
 		<beans:property name="designtimeManager" ref="resourceDesigntimeManager"/>
 		<beans:property name="runtimeManager" ref="resourceRuntimeManager"/>
 
@@ -86,8 +88,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<beans:bean id="itmManager" class="net.smartworks.server.engine.common.menuitem.manager.impl.ItmManagerImpl"/>
 	<beans:bean id="workListManager" class="net.smartworks.server.engine.worklist.manager.impl.WorkListManagerImpl"/>
 	<beans:bean id="swcManager" class="net.smartworks.server.engine.config.manager.impl.SwcManagerImpl"/>
-	
-	
+	<beans:bean id="webServiceManager" class="net.smartworks.server.engine.config.webservice.manager.impl.WebServiceManagerImpl"/>
+	<beans:bean id="externalFormManager" class="net.smartworks.server.engine.config.externalform.manager.impl.ExternalFormManagerImpl"/>
+
 	<beans:bean id="resourceDesigntimeDao" class="net.smartworks.server.engine.resource.dao.impl.HbResourceDesigntimeDaoImpl">
 		<beans:property name="processTemplateFile">
 			<beans:value>${processTemplate.fileDirectory}</beans:value>

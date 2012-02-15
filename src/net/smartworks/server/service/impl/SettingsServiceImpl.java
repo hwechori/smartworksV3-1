@@ -31,6 +31,8 @@ import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
 import net.smartworks.server.engine.config.model.SwcWorkHour;
 import net.smartworks.server.engine.config.model.SwcWorkHourCond;
+import net.smartworks.server.engine.config.webservice.manager.IWebServiceManager;
+import net.smartworks.server.engine.config.webservice.model.WebServiceCond;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoCompany;
@@ -53,6 +55,9 @@ public class SettingsServiceImpl implements ISettingsService {
 	}
 	private ISwcManager getSwcManager() {
 		return SwManagerFactory.getInstance().getSwcManager();
+	}
+	private IWebServiceManager getWebServiceManager() {
+		return SwManagerFactory.getInstance().getWebServiceManager();
 	}
 
 	ICommunityService communityService;
@@ -556,10 +561,10 @@ public class SettingsServiceImpl implements ISettingsService {
 			} else {
 				return null;
 			}
-		}catch (Exception e){
+		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
-		}		
+		}
 	}
 
 	@Override
@@ -736,17 +741,88 @@ public class SettingsServiceImpl implements ISettingsService {
 	
 	@Override
 	public RecordList getWebServiceList(RequestParams params) throws Exception {
-
-		try{
+		return null;
+		/*try {
 			RecordList recordList = new RecordList();
-			recordList.setRecords(new WebService[]{});
-			return recordList;
-		}catch (Exception e){
-			// Exception Handling Required
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+
+			WebServiceCond webServiceCond = new WebServiceCond();
+			webServiceCond.setCompanyId(companyId);
+
+			long totalCount = getWebServiceManager().getWebServiceSize(userId, webServiceCond);
+
+			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
+
+			int currentPage = params.getCurrentPage();
+			if(currentPage == 0) currentPage = 1;
+
+			int totalPages = (int)totalCount % pageSize;
+
+			if(totalPages == 0)
+				totalPages = (int)totalCount / pageSize;
+			else
+				totalPages = (int)totalCount / pageSize + 1;
+
+			if (currentPage > 0)
+				swcEventDayCond.setPageNo(currentPage-1);
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
+
+			swcEventDayCond.setPageSize(pageSize);
+
+			swcEventDayCond.setOrders(new Order[]{new Order("startDay", false)});
+			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(userId, swcEventDayCond, IManager.LEVEL_ALL);
+
+			if(swcEventDays != null) {
+				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
+				for(SwcEventDay swcEventDay : swcEventDays) {
+					CompanyEvent companyEvent = new CompanyEvent();
+					boolean isHoliDay = swcEventDay.getType().equals(CompanyEvent.EVENT_TYPE_HOLIDAY) ? true : false;
+					LocalDate plannedStart = new LocalDate(swcEventDay.getStartDay().getTime());
+					LocalDate plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
+					String id = swcEventDay.getObjId();
+					String name = swcEventDay.getName();
+					if(swcEventDay.getReltdPerson() != null) {
+						List<Community> userList = new ArrayList<Community>();
+						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
+						if(reltdUsers != null && reltdUsers.length > 0) {
+							for(String reltdUser : reltdUsers) {
+								Object obj = communityService.getWorkSpaceById(reltdUser);
+								userList.add((Community)obj);
+							}
+						}
+						Community[] relatedUsers = new Community[userList.size()];
+						userList.toArray(relatedUsers);
+						companyEvent.setRelatedUsers(relatedUsers);
+					}
+					companyEvent.setId(id);
+					companyEvent.setName(name);
+					companyEvent.setHoliday(isHoliDay);
+					companyEvent.setPlannedStart(plannedStart);
+					companyEvent.setPlannedEnd(plannedEnd);
+					companyEventList.add(companyEvent);
+				}
+				CompanyEvent[] companyEvents = new CompanyEvent[companyEventList.size()];
+				companyEventList.toArray(companyEvents);
+
+				recordList.setRecords(companyEvents);
+				recordList.setPageSize(pageSize);
+				recordList.setTotalPages(totalPages);
+				recordList.setCurrentPage(currentPage);
+				recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
+				return recordList;
+			} else {
+				return null;
+			}
+		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
-			// Exception Handling Required			
-		}		
+		}*/
 	}
 
 	@Override
