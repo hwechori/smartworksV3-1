@@ -119,17 +119,17 @@
 		<table>
 			<tbody>
 				<tr>
-					<th width="20%"><fmt:message key="settings.title.webservice.name"/><span class="essen_n"></span></th>
+					<td width="20%"><fmt:message key="settings.title.webservice.name"/><span class="essen_n"></span></td>
 					<td colspan="3" width="80%" ><input name="txtWebServiceName" type="text" class="fieldline required" value="<%=CommonUtil.toNotNull(webService.getName())%>"/>
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.webservice.desc"/></th>
+					<td><fmt:message key="settings.title.webservice.desc"/></td>
 					<td colspan="3"><textarea name="txtaWebServiceDesc" rows="3" class="fieldline"><%=CommonUtil.toNotNull(webService.getDesc()) %></textarea>
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.webservice.wsdl_uri"/><span class="essen_n"></span></th>
+					<td><fmt:message key="settings.title.webservice.wsdl_uri"/><span class="essen_n"></span></td>
 					<td>
 						<div class="btn_fb_space">
 							<input name="txtWebServiceWSDL" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(webService.getWsdlUri())%>">
@@ -138,7 +138,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.webservice.port"/></th>
+					<td><fmt:message key="settings.title.webservice.port"/></td>
 					<td>
 						<select>
 							<option></option>
@@ -146,7 +146,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.webservice.operation"/></th>
+					<td><fmt:message key="settings.title.webservice.operation"/></td>
 					<td>
 						<select name="select">
 							<option> - </option>
@@ -154,7 +154,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.webservice.input_variables"/><span class="essen_n"></span></th>
+					<td><fmt:message key="settings.title.webservice.input_variables"/><span class="essen_n"></span></td>
 					<td>
 						<table style="width:100%">
 							<tr>
@@ -181,7 +181,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.webservice.return_variables"/><span class="essen_n"></span></th>
+					<td><fmt:message key="settings.title.webservice.return_variables"/><span class="essen_n"></span></td>
 					<td>
 						<table style="width:100%">
 							<tr>

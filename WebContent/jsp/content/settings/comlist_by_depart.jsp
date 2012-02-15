@@ -35,7 +35,7 @@
 						<span class="dep">
 												
 							<a href="" class="js_organization_member" userId="<%=user.getId()%>">
-								<img src="<%=user.getMinPicture() %>" class="profile_size_s"><span class="<%=iconType%>"></span><%=user.getLongName()%>
+								<img src="<%=user.getMinPicture() %>" class="profile_size_s mr5"><span class="<%=iconType%>"></span><%=user.getLongName()%>
 							</a>
 						</span>
 					</li>

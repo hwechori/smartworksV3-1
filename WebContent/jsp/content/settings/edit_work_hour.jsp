@@ -149,13 +149,13 @@
 					<tr class="js_work_hour" <%if(i<workHourPolicy.getFirstDayOfWeek() || i>=workHourPolicy.getFirstDayOfWeek()+workHourPolicy.getWorkingDays()){ %> style="display:none"<%} %>>
 						<td class="end"><%=LocalDate.getDayLocalString(i) %></td>
 						<td class="end">
-							<span class="float_left margin_r5"><fmt:message key="settings.title.work_hour.start"/></span>
-							<div class="ico_fb_space form_time_input float_left margin_r10">
+							<span class="float_left mr5"><fmt:message key="settings.title.work_hour.start"/></span>
+							<div class="ico_fb_space form_time_input float_left mr10">
 								<input name="timWorkStart" class="fieldline js_timepicker workStart" readonly="readonly" type="text" value="<%=LocalDate.convertTimeToString(workHour.getStart()) %>">
 								<a href="" class="js_timepicker_button"><span class="ico_fb_time"></span></a>
 							</div>
-							<span class="float_left margin_r5"><fmt:message key="settings.title.work_hour.end"/></span>
-							<div class="ico_fb_space form_time_input float_left margin_r10">
+							<span class="float_left mr5"><fmt:message key="settings.title.work_hour.end"/></span>
+							<div class="ico_fb_space form_time_input float_left mr10">
 								<input name="timWorkEnd" class="fieldline js_timepicker workEnd" readonly="readonly" type="text" name="" value="<%=LocalDate.convertTimeToString(workHour.getEnd()) %>">
 								<a href="" class="js_timepicker_button"><span class="ico_fb_time"></span></a>
 							</div>

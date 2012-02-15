@@ -102,17 +102,17 @@
 		<table>
 			<tbody>
 				<tr>
-					<th width="20%"><fmt:message key="settings.title.approval.name"/><span class="essen_n"></span></th>
+					<td width="20%"><fmt:message key="settings.title.approval.name"/><span class="essen_n"></span></td>
 					<td colspan="3" width="80%" ><input name="txtApprovalLineName" type="text" class="fieldline required" value="<%=CommonUtil.toNotNull(approvalLine.getName())%>"/>
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.approval.desc"/></th>
+					<td><fmt:message key="settings.title.approval.desc"/></td>
 					<td colspan="3"><textarea name="txtaApprovalLineDesc" rows="3" class="fieldline"><%=CommonUtil.toNotNull(approvalLine.getDesc()) %></textarea>
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.approval.level"/></span></th>
+					<td><fmt:message key="settings.title.approval.level"/></span></td>
 					<td colspan="3">
 						<select name="selApprovalLineLevel" class="js_approval_line_level">
 							<option value="2" <%if(approvalLine.getApprovalLevel() == 2){ %>selected<%} %>>2<fmt:message key="settings.title.approval_level"/></option>
@@ -123,7 +123,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.approval.level_name"/><span class="essen_n"></span></th>
+					<td><fmt:message key="settings.title.approval.level_name"/><span class="essen_n"></span></td>
 					<%
 					if(approvalLine.getApprovalLevel()!=0){
 						int widthVal = 80/approvalLine.getApprovalLevel();
@@ -139,7 +139,7 @@
 					%>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.approval.approver"/></span></th>
+					<td><fmt:message key="settings.title.approval.approver"/></span></td>
 					<%
 					if(approvalLine.getApprovalLevel()!=0){
 						int widthVal = 80/approvalLine.getApprovalLevel();
@@ -185,7 +185,7 @@
 					%>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.approval.mean_time"/><span class="essen_n"></span></th>
+					<td><fmt:message key="settings.title.approval.mean_time"/><span class="essen_n"></span></td>
 					<%
 					if(approvalLine.getApprovalLevel()!=0){
 						int widthVal = 80/approvalLine.getApprovalLevel();
