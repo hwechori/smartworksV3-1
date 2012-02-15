@@ -2249,6 +2249,18 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
+	public TaskInstanceInfo[] getCastTaskInstancesByDate(LocalDate fromDate, int maxSize) throws Exception {
+		try{
+			return SmartTest.getTaskInstancesByDate(null, null, null, null, maxSize);
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
 	public TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception {
 
 		try{

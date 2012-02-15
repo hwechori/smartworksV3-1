@@ -102,6 +102,7 @@ public class MailInstanceInfo extends InstanceInfo {
 
 	public MailInstanceInfo() {
 		super();
+		super.setType(Instance.TYPE_MAIL);
 	}
 
 	public MailInstanceInfo(String id, String subject, UserInfo sender,

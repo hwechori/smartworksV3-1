@@ -39,12 +39,12 @@ smartPop = {
 
 	overlay : function(target){
 		if(isEmpty($(target))) target = $(document.body);
-		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:' + scrollWidth() + 'px; height:' + scrollHeight() + 'px; z-index:10000; display:block; opacity:0.2"></span>').appendTo($(target));
+		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:' + $(document).width() + 'px; height:' + $(document).height() + 'px; z-index:10000; display:block; opacity:0.2"></span>').appendTo($(target));
 	},
 	
 	overlayDark : function(target){
 		if(isEmpty($(target))) target = $(document.body);
-		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:' + scrollWidth() + 'px; height:' + scrollHeight() + 'px; z-index:10000; display:block; opacity:0.5"></span>').appendTo($(target));
+		$('<span id="sw_overlay_span" style="position:absolute; top:0; left:0; background-color:#000000; width:' + $(document).width() + 'px; height:' + $(document).height() + 'px; z-index:10000; display:block; opacity:0.5"></span>').appendTo($(target));
 	},
 	
 	closeOverlay : function(){

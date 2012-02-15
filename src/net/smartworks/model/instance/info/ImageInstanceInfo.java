@@ -29,7 +29,8 @@ public class ImageInstanceInfo extends WorkInstanceInfo {
 	}
 
 	public ImageInstanceInfo(String id, String subject, WorkInfo work, UserInfo owner, LocalDate lastModifiedDate){
-		super(id, subject, Instance.TYPE_IMAGE, owner, owner, lastModifiedDate);
+		super(id, subject, owner, owner, lastModifiedDate);
+		super.setType(Instance.TYPE_IMAGE);
 	}
 
 }

@@ -24,7 +24,7 @@ public class BoardInstance extends WorkInstance {
 	
 	public BoardInstance(){
 		super();
-		super.setType(Instance.TYPE_EVENT);
+		super.setType(Instance.TYPE_BOARD);
 	}
 
 	public BoardInstance(String id, String subject, Work work, User owner, LocalDate lastModifiedDate){

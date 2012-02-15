@@ -120,7 +120,6 @@ function scrollHeight(){
 
 function scrollWidth(){
 	return document.body.scrollWidth;
-	window.scro
 };
 
 var dateFormat = function () {

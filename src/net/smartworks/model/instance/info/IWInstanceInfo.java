@@ -21,7 +21,7 @@ public class IWInstanceInfo extends WorkInstanceInfo {
 		super();
 	}	
 	public IWInstanceInfo(String id, String name, WorkInfo work, UserInfo owner, UserInfo lastModifier, LocalDate lastModifiedDate){
-		super(id, name, Instance.TYPE_WORK, owner, lastModifier, lastModifiedDate);
+		super(id, name, owner, lastModifier, lastModifiedDate);
 		super.setWork(work);
 	}
 	

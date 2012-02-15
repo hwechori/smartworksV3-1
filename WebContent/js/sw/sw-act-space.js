@@ -68,6 +68,7 @@ $(function() {
 		var spaceWeekly = input.parents('.js_space_weekly_page');
 		var spaceMonthly = input.parents('.js_space_monthly_page');
 		var spaceInstanceList = input.parents('.js_space_instance_list_page');
+		var smartcaster = input.parents('.js_smartcaster_page');
 		var spacePage = [];
 		var toDate = "";
 		if(!isEmpty(spaceDayly)){
@@ -81,6 +82,21 @@ $(function() {
 			toDate = input.parents('.js_space_monthly_week').attr('toDate');
 		}else if(!isEmpty(spaceInstanceList)){
 			spacePage = spaceInstanceList;
+		}else if(!isEmpty(smartcaster)){
+			$.ajax({
+				url : "more_smartcast.sw",
+				data : {
+					fromDate : fromDate,
+					maxSize : 20
+				},
+				success : function(data, status, jqXHR) {
+					input.parents('li:first').remove();
+					target.append(data);
+				},
+				error : function(xhr, ajaxOptions, thrownError){
+				}
+			});
+			return false;
 		}
 		
 		var contextId = spacePage.attr('contextId');

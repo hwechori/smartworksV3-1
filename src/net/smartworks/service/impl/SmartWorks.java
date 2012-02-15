@@ -386,6 +386,12 @@ public class SmartWorks implements ISmartWorks {
 	}	
 
 	@Override
+	public TaskInstanceInfo[] getCastTaskInstancesByDate(LocalDate fromDate, int maxSize) throws Exception {
+		// TODO Auto-generated method stub
+		return instanceService.getCastTaskInstancesByDate(fromDate, maxSize);
+	}	
+
+	@Override
 	public TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception {
 		return instanceService.getInstanceTaskHistoriesById(instId);
 	}

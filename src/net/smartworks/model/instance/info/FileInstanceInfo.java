@@ -36,7 +36,8 @@ public class FileInstanceInfo extends WorkInstanceInfo {
 	}
 
 	public FileInstanceInfo(String id, String subject, WorkInfo work, UserInfo owner, LocalDate lastModifiedDate){
-		super(id, subject, Instance.TYPE_FILE, owner, owner, lastModifiedDate);
+		super(id, subject, owner, owner, lastModifiedDate);
+		super.setType(Instance.TYPE_FILE);
 	}
 
 }

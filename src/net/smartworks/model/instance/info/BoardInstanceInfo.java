@@ -23,10 +23,11 @@ public class BoardInstanceInfo extends WorkInstanceInfo {
 	}
 	public BoardInstanceInfo(){
 		super();
-		super.setType(Instance.TYPE_EVENT);
+		super.setType(Instance.TYPE_BOARD);
 	}
 
 	public BoardInstanceInfo(String id, String subject, UserInfo owner, LocalDate lastModifiedDate){
-			super(id, subject, Instance.TYPE_BOARD,  owner, owner, lastModifiedDate);
+		super(id, subject,  owner, owner, lastModifiedDate);
+		super.setType(Instance.TYPE_BOARD);
 	}
 }

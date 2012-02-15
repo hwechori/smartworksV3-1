@@ -1,6 +1,7 @@
 package net.smartworks.model.instance.info;
 
 import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.instance.Instance;
 import net.smartworks.util.LocalDate;
 
 public class WorkInstanceInfo extends InstanceInfo {
@@ -10,10 +11,11 @@ public class WorkInstanceInfo extends InstanceInfo {
 
 	public WorkInstanceInfo(){
 		super();
+		super.setType(Instance.TYPE_WORK);
 	}	
-	public WorkInstanceInfo(String id, String subject, int type, UserInfo owner, UserInfo lastModifier,
+	public WorkInstanceInfo(String id, String subject, UserInfo owner, UserInfo lastModifier,
 			LocalDate lastModifiedDate) {
-		super(id, subject, type, owner, lastModifier, lastModifiedDate);
+		super(id, subject, Instance.TYPE_WORK, owner, lastModifier, lastModifiedDate);
 	}
 	
 	public TaskInstanceInfo getLastTask() {

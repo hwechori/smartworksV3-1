@@ -51,6 +51,7 @@ public class TaskInstanceInfo extends InstanceInfo {
 	}
 	public TaskInstanceInfo(){
 		super();
+		super.setType(Instance.TYPE_TASK);
 	}
 	
 	public TaskInstanceInfo(String id, String name, int taskType, UserInfo owner,

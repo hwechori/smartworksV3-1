@@ -35,6 +35,7 @@ public class AsyncMessageInstance extends Instance {
 
 	public AsyncMessageInstance() {
 		super();
+		super.setType(Instance.TYPE_ASYNC_MESSAGE);
 	}
 
 	public AsyncMessageInstance(String id, User sender, LocalDate sendDate,

@@ -71,6 +71,12 @@ public class TaskInstanceController {
 
 		return SmartUtil.returnMnv(request, "jsp/content/community/space/more_space_task_histories.jsp", "");
 	}
+
+	@RequestMapping("/more_smartcast")
+	public ModelAndView moreSmartcast(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/more_smartcast.jsp", "");
+	}
 	//처리
 	@RequestMapping(value = "/perform_task_instance", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)

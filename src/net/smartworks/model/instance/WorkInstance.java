@@ -29,6 +29,7 @@ public class WorkInstance extends Instance {
 	}
 	public WorkInstance() {
 		super();
+		super.setType(Instance.TYPE_WORK);
 	}
 
 	public WorkInstance(String id, String subject, Work work, User owner, User lastModifier,

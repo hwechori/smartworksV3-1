@@ -60,6 +60,7 @@ public class CommentInstance extends Instance {
 
 	public CommentInstance() {
 		super();
+		super.setType(Instance.TYPE_COMMENT);
 	}
 
 	public CommentInstance(String id, int commentType, String comment,

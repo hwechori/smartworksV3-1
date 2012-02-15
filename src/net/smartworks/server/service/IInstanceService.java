@@ -47,6 +47,8 @@ public interface IInstanceService {
 
 	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception;
 
+	public TaskInstanceInfo[] getCastTaskInstancesByDate(LocalDate fromDate, int maxSize) throws Exception;
+
 	public TaskInstanceInfo[] getInstanceTaskHistoriesById(String instId) throws Exception;
 
 	public InstanceInfoList[] getInstanceRelatedWorksById(String instId) throws Exception;

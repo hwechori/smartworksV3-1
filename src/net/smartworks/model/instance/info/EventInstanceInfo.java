@@ -42,6 +42,7 @@ public class EventInstanceInfo extends WorkInstanceInfo {
 	}
 
 	public EventInstanceInfo(String id, String subject, UserInfo owner, LocalDate lastModifiedDate){
-			super(id, subject, Instance.TYPE_EVENT, owner, owner, lastModifiedDate);
+			super(id, subject, owner, owner, lastModifiedDate);
+			super.setType(Instance.TYPE_EVENT);
 	}
 }

@@ -55,6 +55,7 @@ public class CommentInstanceInfo extends InstanceInfo {
 
 	public CommentInstanceInfo() {
 		super();
+		super.setType(Instance.TYPE_COMMENT);
 	}
 
 	public CommentInstanceInfo(String id, int commentType, String comment,

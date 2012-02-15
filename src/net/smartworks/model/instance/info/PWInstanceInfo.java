@@ -11,7 +11,7 @@ public class PWInstanceInfo extends WorkInstanceInfo {
 		super();
 	}
 	public PWInstanceInfo(String id, String subject, WorkInfo work, UserInfo owner, UserInfo lastModifier, LocalDate lastModifiedDate, TaskInstanceInfo lastTas) {
-		super(id, subject, Instance.TYPE_WORK, owner, lastModifier, lastModifiedDate);
+		super(id, subject, owner, lastModifier, lastModifiedDate);
 		super.setWork(work);
 	}
 	

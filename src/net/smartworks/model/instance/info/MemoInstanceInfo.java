@@ -22,7 +22,8 @@ public class MemoInstanceInfo extends WorkInstanceInfo {
 	}
 
 	public MemoInstanceInfo(String id, String subject, WorkInfo work, UserInfo owner, LocalDate lastModifiedDate){
-		super(id, subject, Instance.TYPE_MEMO, owner, owner, lastModifiedDate);
+		super(id, subject, owner, owner, lastModifiedDate);
+		super.setType(Instance.TYPE_MEMO);
 	}
 
 }

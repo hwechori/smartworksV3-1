@@ -77,6 +77,7 @@ public class TaskInstance extends Instance {
 
 	public TaskInstance() {
 		super();
+		super.setType(Instance.TYPE_TASK);
 	}
 
 	public TaskInstance(String id, String name, int taskType, User owner,

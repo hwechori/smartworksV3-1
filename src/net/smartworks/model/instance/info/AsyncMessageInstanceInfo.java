@@ -36,6 +36,7 @@ public class AsyncMessageInstanceInfo extends InstanceInfo {
 
 	public AsyncMessageInstanceInfo() {
 		super();
+		super.setType(Instance.TYPE_ASYNC_MESSAGE);
 	}
 
 	public AsyncMessageInstanceInfo(String id, UserInfo sender, LocalDate sendDate,

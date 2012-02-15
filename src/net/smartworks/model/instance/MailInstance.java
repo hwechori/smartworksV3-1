@@ -121,6 +121,7 @@ public class MailInstance extends Instance {
 
 	public MailInstance() {
 		super();
+		super.setType(Instance.TYPE_MAIL);
 	}
 
 	public MailInstance(String id, String subject, User sender,
