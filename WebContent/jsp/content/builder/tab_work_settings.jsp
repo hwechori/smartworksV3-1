@@ -128,7 +128,7 @@
 					%>
 						<!-- 보이는 항목,안보이는 항목 설정-->
 						<div class="clear">
-							<div class="left40 gray_style">
+							<div class="left40 gray_style h_auto">
 								<table>
 									<tr>
 										<th width="15%"><fmt:message key="builder.title.key_field"/></th>
