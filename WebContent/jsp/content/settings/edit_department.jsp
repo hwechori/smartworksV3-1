@@ -25,6 +25,7 @@
 		if (SmartWorks.GridLayout.validate(editDepartment.find('form.js_validation_required'), editDepartment.find('.js_profile_error_message'))) {
 			var forms = editDepartment.find('form');
 			var paramsJson = {};
+			paramsJson['departmentId'] = editDepartment.attr('departId');
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				if(form.attr('name') === 'frmSmartForm'){

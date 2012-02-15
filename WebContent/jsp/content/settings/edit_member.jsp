@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.util.LocalDate"%>
+<%@page import="net.smartworks.model.KeyMap"%>
 <%@page import="net.smartworks.model.community.Department"%>
 <%@page import="net.smartworks.util.LocaleInfo"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
@@ -15,7 +17,10 @@
 	String departId = request.getParameter("departId");
 	User user = (SmartUtil.isBlankObject(userId)) ? new User() : smartWorks.getUserById(userId);
 	Department department = (SmartUtil.isBlankObject(departId)) ? new Department() : smartWorks.getDepartmentById(departId);
-	
+
+	// 사용가능한 타임존들을 가져와서, 타임존 선택박스에 리스트로 보여준다.
+	KeyMap[] timeZoneNames = LocalDate.getAvailableTimeZoneNames(cUser.getLocale());
+
 %>
 <script type="text/javascript">
 
@@ -30,6 +35,7 @@
 		if (SmartWorks.GridLayout.validate(editMember.find('form.js_validation_required'), editMember.find('.js_profile_error_message'))) {
 			var forms = editMember.find('form');
 			var paramsJson = {};
+			paramsJson['userId'] = editMember.attr('userId');
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				if(form.attr('name') === 'frmSmartForm'){
@@ -166,11 +172,33 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.locale"/></td>
-						<td><select name="selMemberLocale">
-							<option <%if(!SmartUtil.isBlankObject(user.getLocale()) && user.getLocale().equals(LocaleInfo.LOCALE_KOREAN)){ %>selected<%} %> value="<%=LocaleInfo.LOCALE_KOREAN%>"><fmt:message key="common.title.locale.ko"/></option>
-							<option <%if(!SmartUtil.isBlankObject(user.getLocale()) && user.getLocale().equals(LocaleInfo.LOCALE_ENGLISH)){ %>selected<%} %> value="<%=LocaleInfo.LOCALE_ENGLISH%>"><fmt:message key="common.title.locale.en"/></option>
-						</select></td>
+						<td><fmt:message key="profile.title.locale" /><span class="essen_n"></span></td>
+						<td>
+							<select name="selMemberLocale">
+								<%
+								for (String locale : LocaleInfo.supportingLocales) {
+									String strKey = "common.title.locale." + locale;
+								%>
+									<option value="<%=locale%>" <%if (user.getLocale().equals(locale)) {%> selected <%}%>><fmt:message key="<%=strKey%>" /></option>
+								<%
+								}
+								%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><fmt:message key="profile.title.timezone" /><span class="essen_n"></span></td>
+						<td>
+							<select name="selMemberTimeZone">
+								<%
+								for (KeyMap timeZoneName : timeZoneNames) {
+								%>
+									<option value="<%=timeZoneName.getId()%>" <%if (user.getTimeZone().equals(timeZoneName.getId())) {%> selected <%}%>><%=timeZoneName.getKey()%></option>
+								<%
+								}
+								%>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<td><fmt:message key="profile.title.phone_no"/></td>

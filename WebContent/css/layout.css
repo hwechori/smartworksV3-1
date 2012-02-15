@@ -415,7 +415,7 @@ a .btn_apps:hover,
 
 .ico_posi {position:absolute; right:0; top:0;}
 
-.glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; height: 22px; border-top: 1px solid #c7c7c7;}
+.glo_btn_space {padding:8px 0; margin:0 10px; height: 22px; border-top: 1px solid #c7c7c7;}
 .glo_btn_space .btn_finish {float:right; padding-right:10px;}
 
 .posit_works {left:15px; top:1px; position:relative; z-index:20;}
@@ -443,10 +443,10 @@ a .btn_apps:hover,
 
 /* table Gray */
 .gray_style {}
-.gray_style table {border-collapse:collapse;}
-.gray_style td, .gray_style th {border:1px solid #d8d8d8; padding: 2px 8px;}
+.gray_style table {border-collapse:collapse; border:1px solid #d8d8d8;}
+.gray_style th {border:1px solid #d8d8d8; padding: 2px 8px;}
 .gray_style th {background-color:#f5f5f5; font-weight: bold; white-space:nowrap}
-.gray_style td { background-color:#FFF}
+.gray_style td { background-color:#FFF; border-bottom:none}
 
 /*라운드 포틀릿*/
 .section_portlet {background: url("../images/bg_portlet_b.jpg") no-repeat scroll 0 100% transparent; margin-bottom:10px; position:relative; width:100%; z-index:30;}
