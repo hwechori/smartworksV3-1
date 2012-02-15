@@ -116,7 +116,7 @@
 											<th><a href=""><%=event.getName() %></a></th>
 											<th><a href=""><%=event.getPlannedStart().toLocalDateSimpleString() %></a></th>
 											<th><a href=""><%=event.getPlannedEnd().toLocalDateSimpleString() %></a></th>
-											<th><a href=""><%if(event.isHoliday()){%><fmt:message key="common.title.boolean.true"/><%}else{ %><fmt:message key="common.title.boolean.true"/><%} %></a></th>
+											<th><a href=""><%if(event.isHoliday()){%><fmt:message key="common.title.boolean.true"/><%}else{ %><fmt:message key="common.title.boolean.false"/><%} %></a></th>
 											<%
 											String relatedUsers = "";
 											if(!SmartUtil.isBlankObject(event.getRelatedUsers())){
@@ -126,8 +126,9 @@
 														relatedUsers = relatedUsers + ((User)com).getLongName();
 													else
 														relatedUsers = relatedUsers + com.getName();
-													if(count < event.getRelatedUsers().length)
+													if(count != event.getRelatedUsers().length - 1)
 														relatedUsers = relatedUsers + ", ";
+													count++;
 												}
 											}
 											%>

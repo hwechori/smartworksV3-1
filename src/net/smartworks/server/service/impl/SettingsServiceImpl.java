@@ -16,7 +16,10 @@ import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
 import net.smartworks.model.calendar.WorkHourPolicy;
+import net.smartworks.model.community.Community;
+import net.smartworks.model.community.Department;
 import net.smartworks.model.community.User;
+import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
@@ -25,17 +28,22 @@ import net.smartworks.model.service.WebService;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.config.manager.ISwcManager;
+import net.smartworks.server.engine.config.model.SwcEventDay;
+import net.smartworks.server.engine.config.model.SwcEventDayCond;
 import net.smartworks.server.engine.config.model.SwcWorkHour;
 import net.smartworks.server.engine.config.model.SwcWorkHourCond;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoCompany;
 import net.smartworks.server.engine.organization.model.SwoConfig;
+import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.ISettingsService;
+import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,6 +54,13 @@ public class SettingsServiceImpl implements ISettingsService {
 	}
 	private ISwcManager getSwcManager() {
 		return SwManagerFactory.getInstance().getSwcManager();
+	}
+
+	ICommunityService communityService;
+	
+	@Autowired
+	public void setCommunityService(ICommunityService communityService) {
+		this.communityService = communityService;
 	}
 
 	/*
@@ -82,10 +97,8 @@ public class SettingsServiceImpl implements ISettingsService {
 			companyGeneral.setTestAfterSaving(true);
 			return companyGeneral;
 		} catch(Exception e){
-			// Exception Handling Required
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
+			return null;
 		}		
 	}
 
@@ -93,7 +106,6 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void setCompanyGeneral(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-
 			User user = SmartUtil.getCurrentUser();
 			String userId = user.getId();
 			String companyId = user.getCompanyId();
@@ -153,7 +165,6 @@ public class SettingsServiceImpl implements ISettingsService {
 			swoConfig.setPassword(pasMailPassword);
 			swoConfig.setActivity(isActivity);
 			getSwoManager().setConfig(userId, swoConfig, IManager.LEVEL_ALL);
-
 		} catch(Exception e) {
 			e.printStackTrace();			
 		}
@@ -163,14 +174,15 @@ public class SettingsServiceImpl implements ISettingsService {
 	public RecordList getWorkHourPolicyList(RequestParams params) throws Exception {
 
 		try{
-
 			RecordList recordList = new RecordList();
-			User cUser = SmartUtil.getCurrentUser();
+			User user = SmartUtil.getCurrentUser();
+			String userId = user.getId();
+			String companyId = user.getCompanyId();
 
 			SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
-			swcWorkHourCond.setCompanyId(cUser.getCompanyId());
+			swcWorkHourCond.setCompanyId(companyId);
 
-			long totalCount = getSwcManager().getWorkhourSize(cUser.getId(), swcWorkHourCond);
+			long totalCount = getSwcManager().getWorkhourSize(userId, swcWorkHourCond);
 
 			int pageSize = params.getPageSize();
 			if(pageSize == 0) pageSize = 20;
@@ -194,7 +206,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			swcWorkHourCond.setPageSize(pageSize);
 
 			swcWorkHourCond.setOrders(new Order[]{new Order("modificationDate", false)});
-			SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
+			SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(userId, swcWorkHourCond, IManager.LEVEL_ALL); 
 			List<WorkHourPolicy> workHourPolicyList = new ArrayList<WorkHourPolicy>();
 
 			if(swcWorkHours != null) {
@@ -279,8 +291,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			} else {
 				return null;
 			}
-
-		 }catch(Exception e) {
+		 } catch(Exception e) {
 			e.printStackTrace();
 			return null;			
 		}		
@@ -291,7 +302,6 @@ public class SettingsServiceImpl implements ISettingsService {
 	public WorkHourPolicy getWorkHourPolicyById(String id) throws Exception {
 
 		try {
-
 			User user = SmartUtil.getCurrentUser();
 			SwcWorkHour swcWorkHour = getSwcManager().getWorkhour(user.getId(), id, IManager.LEVEL_ALL);
 			WorkHourPolicy workHourPolicy = new WorkHourPolicy();
@@ -362,9 +372,8 @@ public class SettingsServiceImpl implements ISettingsService {
 			} else {
 				workHourPolicy = new WorkHourPolicy();
 			}
-
 			return workHourPolicy;
-		}catch (Exception e){
+		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
 		}		
@@ -374,14 +383,13 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void setWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-
 			User user = SmartUtil.getCurrentUser();
 			String userId = user.getId();
 			String companyId = user.getCompanyId();
 
 			Map<String, Object> frmEditWorkHour = (Map<String, Object>)requestBody.get("frmEditWorkHour");
 
-			String objId = (String)requestBody.get("objId");
+			String policyId = (String)requestBody.get("policyId");
 
 			Set<String> keySet = frmEditWorkHour.keySet();
 			Iterator<String> itr = keySet.iterator();
@@ -395,8 +403,8 @@ public class SettingsServiceImpl implements ISettingsService {
 			Date endTime = null;
 
 			SwcWorkHour swcWorkHour = null;
-			if(objId != null)
-				swcWorkHour = getSwcManager().getWorkhour(userId, objId, IManager.LEVEL_ALL);
+			if(policyId != null)
+				swcWorkHour = getSwcManager().getWorkhour(userId, policyId, IManager.LEVEL_ALL);
 			else
 				swcWorkHour = new SwcWorkHour();
 
@@ -449,8 +457,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			swcWorkHour.setCompanyId(companyId);
 			swcWorkHour.setType("0");
 			getSwcManager().setWorkhour(userId, swcWorkHour, IManager.LEVEL_ALL);
-
-		}catch (Exception e){
+		} catch(Exception e) {
 			e.printStackTrace();
 			return;
 		}
@@ -459,39 +466,145 @@ public class SettingsServiceImpl implements ISettingsService {
 	@Override
 	public void removeWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			// Exception Handling Required			
+		try {
+
+			User user = SmartUtil.getCurrentUser();
+			String policyId = (String)requestBody.get("policyId");
+			if(policyId == null)
+				return;
+
+			getSwcManager().removeWorkhour(user.getId(), policyId);
+
+		} catch(Exception e) {
+			e.printStackTrace();			
 		}
 	}
 	
 	@Override
 	public RecordList getCompanyEventList(RequestParams params) throws Exception {
 
-		try{
+		try {
 			RecordList recordList = new RecordList();
-			recordList.setRecords(new CompanyEvent[]{SmartTest.getCompanyEvent1(), SmartTest.getCompanyEvent2()});
-			return recordList;
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+
+			SwcEventDayCond swcEventDayCond = new SwcEventDayCond();
+			swcEventDayCond.setCompanyId(companyId);
+
+			long totalCount = getSwcManager().getEventdaySize(userId, swcEventDayCond);
+
+			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
+
+			int currentPage = params.getCurrentPage();
+			if(currentPage == 0) currentPage = 1;
+
+			int totalPages = (int)totalCount % pageSize;
+
+			if(totalPages == 0)
+				totalPages = (int)totalCount / pageSize;
+			else
+				totalPages = (int)totalCount / pageSize + 1;
+
+			if (currentPage > 0)
+				swcEventDayCond.setPageNo(currentPage-1);
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
+
+			swcEventDayCond.setPageSize(pageSize);
+
+			swcEventDayCond.setOrders(new Order[]{new Order("modificationDate", false)});
+			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(userId, swcEventDayCond, IManager.LEVEL_ALL);
+
+			if(swcEventDays != null) {
+				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
+				for(SwcEventDay swcEventDay : swcEventDays) {
+					CompanyEvent companyEvent = new CompanyEvent();
+					boolean isHoliDay = swcEventDay.getType().equals(CompanyEvent.EVENT_TYPE_HOLIDAY) ? true : false;
+					LocalDate plannedStart = new LocalDate(swcEventDay.getStartDay().getTime());
+					LocalDate plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
+					String id = swcEventDay.getObjId();
+					String name = swcEventDay.getName();
+					if(swcEventDay.getReltdPerson() != null) {
+						List<Community> userList = new ArrayList<Community>();
+						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
+						if(reltdUsers != null && reltdUsers.length > 0) {
+							for(String reltdUser : reltdUsers) {
+								Object obj = communityService.getWorkSpaceById(reltdUser);
+								userList.add((Community)obj);
+							}
+						}
+						Community[] relatedUsers = new Community[userList.size()];
+						userList.toArray(relatedUsers);
+						companyEvent.setRelatedUsers(relatedUsers);
+					}
+					companyEvent.setId(id);
+					companyEvent.setName(name);
+					companyEvent.setHoliday(isHoliDay);
+					companyEvent.setPlannedStart(plannedStart);
+					companyEvent.setPlannedEnd(plannedEnd);
+					companyEventList.add(companyEvent);
+				}
+				CompanyEvent[] companyEvents = new CompanyEvent[companyEventList.size()];
+				companyEventList.toArray(companyEvents);
+
+				recordList.setRecords(companyEvents);
+				recordList.setPageSize(pageSize);
+				recordList.setTotalPages(totalPages);
+				recordList.setCurrentPage(currentPage);
+				recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
+				return recordList;
+			} else {
+				return null;
+			}
 		}catch (Exception e){
-			// Exception Handling Required
 			e.printStackTrace();
 			return null;			
-			// Exception Handling Required			
 		}		
 	}
 
 	@Override
 	public CompanyEvent getCompanyEventById(String id) throws Exception {
 
-		try{
-			return new CompanyEvent();
-		}catch (Exception e){
-			// Exception Handling Required
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			SwcEventDay swcEventDay = getSwcManager().getEventday(userId, id, IManager.LEVEL_ALL);
+
+			if(swcEventDay != null) {
+				CompanyEvent companyEvent = new CompanyEvent();
+				boolean isHoliDay = swcEventDay.getType().equals(CompanyEvent.EVENT_TYPE_HOLIDAY) ? true : false;
+				LocalDate plannedStart = new LocalDate(swcEventDay.getStartDay().getTime());
+				LocalDate plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
+				String name = swcEventDay.getName();
+				if(swcEventDay.getReltdPerson() != null) {
+					List<Community> userList = new ArrayList<Community>();
+					String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
+					if(reltdUsers != null && reltdUsers.length > 0) {
+						for(String reltdUser : reltdUsers) {
+							Object obj = communityService.getWorkSpaceById(reltdUser);
+							userList.add((Community)obj);
+						}
+					}
+					Community[] relatedUsers = new Community[userList.size()];
+					userList.toArray(relatedUsers);
+					companyEvent.setRelatedUsers(relatedUsers);
+				}
+				companyEvent.setId(id);
+				companyEvent.setName(name);
+				companyEvent.setHoliday(isHoliDay);
+				companyEvent.setPlannedStart(plannedStart);
+				companyEvent.setPlannedEnd(plannedEnd);
+				return companyEvent;
+			} else {
+				return null;
+			}
+		} catch(Exception e) {
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
+			return null;
 		}		
 	}
 
