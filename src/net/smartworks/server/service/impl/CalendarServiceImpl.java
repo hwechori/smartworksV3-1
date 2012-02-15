@@ -161,7 +161,7 @@ public class CalendarServiceImpl implements ICalendarService {
 				swcEventDayCond.setSearchDay(searchDay);
 				SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
 	
-				List<Community> userList = new ArrayList<Community>();
+				
 				if(swcEventDays != null) {
 					CompanyEvent[] companyEvents = new CompanyEvent[swcEventDays.length];
 					List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
@@ -173,19 +173,22 @@ public class CalendarServiceImpl implements ICalendarService {
 						String id = swcEventDay.getObjId();
 						String name = swcEventDay.getName();
 						if(swcEventDay.getReltdPerson() != null) {
+							List<Community> userList = new ArrayList<Community>();
 							String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
-							for(String reltdUser : reltdUsers) {
-								if(reltdUser.equals(cUser.getId())) {
-									User relatedUser = ModelConverter.getUserByUserId(reltdUser);
-									if(relatedUser != null)
-										userList.add(relatedUser);
-								} else if(reltdUser.equals(cUser.getDepartmentId())) {
-									Department relatedUser = ModelConverter.getDepartmentByDepartmentId(reltdUser);
-									if(relatedUser != null)
-										userList.add(relatedUser);
+							if(reltdUsers != null && reltdUsers.length > 0) {
+								for(String reltdUser : reltdUsers) {
+									if(reltdUser.equals(cUser.getId())) {
+										User relatedUser = ModelConverter.getUserByUserId(reltdUser);
+										if(relatedUser != null)
+											userList.add(relatedUser);
+									} else if(reltdUser.equals(cUser.getDepartmentId())) {
+										Department relatedUser = ModelConverter.getDepartmentByDepartmentId(reltdUser);
+										if(relatedUser != null)
+											userList.add(relatedUser);
+									}
+		// TO DO					else if(reltdUser.getClass().equals(Group.class))
+		// TO DO						userList.add(ModelConverter.getGroupByGroupId(reltdUser));
 								}
-	// TO DO					else if(reltdUser.getClass().equals(Group.class))
-	// TO DO						userList.add(ModelConverter.getGroupByGroupId(reltdUser));
 							}
 							Community[] relatedUsers = new Community[userList.size()];
 							userList.toArray(relatedUsers);

@@ -15,4 +15,6 @@ public interface IBuilderService {
 	public abstract void stopWorkEditing(String workId) throws Exception;
 
 	public abstract void setWorkSettings(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 }

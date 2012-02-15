@@ -120,6 +120,8 @@ smartMessage.bundle['en'] = {
 	setFilterError : "Error has been occured while changing Search Filter. Please contact the Administrator!",
 	setWorkSettingsSucceed : "Work Settings has been changed successfully...",
 	setWorkSettingsError : "Error has been occured while changing Work Settings. Please contact the Administrator!",
+	publishWorkSucceed : "Work has been published to Appstore successfully...",
+	publishWorkError : "Error has been occured while publishing Work to Appstore. Please contact the Administrator!",
 	mailPasswordConfirmError : "Send Mail Password confirmation error. Please retry password confirmation",
 	duplicationCheckError : "ID Duplication check has not been performed. Please perform the ID Duplication Check and retry it again",
 	
@@ -129,6 +131,7 @@ smartMessage.bundle['en'] = {
 	forwardConfirmation : "Do you really want to forward this instance data? ",
 	performConfirmation : "Do you really want to perform this task instance? ",
 	returnConfirmation : "Do you really want to return this task instance? ",
+	publishConfirmation : "Do you really want to publish this work to Appstore? ",
 
 	spaceOverDateSeleted : "Future date has been selected. Please select today or before!",
 			

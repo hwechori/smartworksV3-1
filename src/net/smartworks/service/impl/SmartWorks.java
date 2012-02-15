@@ -725,4 +725,9 @@ public class SmartWorks implements ISmartWorks {
 	public void setWorkSettings(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		builderService.setWorkSettings(requestBody, request);
 	}
+	
+	@Override
+	public void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		builderService.publishWorkToStore(requestBody, request);
+	}
 }

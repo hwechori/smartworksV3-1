@@ -12,9 +12,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.smartworks.model.community.Community;
 import net.smartworks.model.community.User;
-import net.smartworks.model.community.WorkSpace;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.Condition;
@@ -90,9 +88,9 @@ import net.smartworks.util.SmartMessage;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -902,47 +900,49 @@ public class InstanceServiceImpl implements IInstanceService {
 			obj.setDataFields(fieldDatas);
 			obj.setRecordId(instanceId);
 
-			keySet = frmAccessSpaceMap.keySet();
-			itr = keySet.iterator();
-
-			String workSpaceId = null;
-			String workSpaceType = null;
-			String accessLevel = null;
-			String accessValue = null;
-
-			while (itr.hasNext()) {
-				String fieldId = (String)itr.next();
-				Object fieldValue = frmAccessSpaceMap.get(fieldId);
-				if (fieldValue instanceof LinkedHashMap) {
-					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
-					users = (ArrayList<Map<String,String>>)valueMap.get("users");
-					if(!CommonUtil.isEmpty(users)) {
-						String symbol = ";";
-						if(users.size() == 1) {
-							accessValue = users.get(0).get("id");
-						} else {
-							accessValue = "";
-							for(int i=0; i < users.subList(0, users.size()).size(); i++) {
-								Map<String, String> user = users.get(i);
-								accessValue += user.get("id") + symbol;
+			if(frmAccessSpaceMap != null) {
+				keySet = frmAccessSpaceMap.keySet();
+				itr = keySet.iterator();
+	
+				String workSpaceId = null;
+				String workSpaceType = null;
+				String accessLevel = null;
+				String accessValue = null;
+	
+				while (itr.hasNext()) {
+					String fieldId = (String)itr.next();
+					Object fieldValue = frmAccessSpaceMap.get(fieldId);
+					if (fieldValue instanceof LinkedHashMap) {
+						Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+						users = (ArrayList<Map<String,String>>)valueMap.get("users");
+						if(!CommonUtil.isEmpty(users)) {
+							String symbol = ";";
+							if(users.size() == 1) {
+								accessValue = users.get(0).get("id");
+							} else {
+								accessValue = "";
+								for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+									Map<String, String> user = users.get(i);
+									accessValue += user.get("id") + symbol;
+								}
 							}
 						}
-					}
-				} else if(fieldValue instanceof String) {
-					if(fieldId.equals("selWorkSpace")) {
-						workSpaceId = (String)fieldValue;
-					/* TO-DO } else if(fieldId.equals("selWorkSpaceType")) {
-						workSpaceType = (String)fieldValue;*/
-					} else if(fieldId.equals("selAccessLevel")) {
-						accessLevel = (String)fieldValue;
+					} else if(fieldValue instanceof String) {
+						if(fieldId.equals("selWorkSpace")) {
+							workSpaceId = (String)fieldValue;
+						/* TO-DO } else if(fieldId.equals("selWorkSpaceType")) {
+							workSpaceType = (String)fieldValue;*/
+						} else if(fieldId.equals("selAccessLevel")) {
+							accessLevel = (String)fieldValue;
+						}
 					}
 				}
+	
+				obj.setWorkSpaceId(workSpaceId);
+				obj.setWorkSpaceType(workSpaceType);
+				obj.setAccessLevel(accessLevel);
+				obj.setAccessValue(accessValue);
 			}
-
-			obj.setWorkSpaceId(workSpaceId);
-			obj.setWorkSpaceType(workSpaceType);
-			obj.setAccessLevel(accessLevel);
-			obj.setAccessValue(accessValue);
 
 			return getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
 
@@ -1592,7 +1592,6 @@ public class InstanceServiceImpl implements IInstanceService {
 				}
 				currentPage = result;
 			}
-
 
 			if (currentPage > 0)
 				swdRecordCond.setPageNo(currentPage-1);

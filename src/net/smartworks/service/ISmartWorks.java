@@ -324,4 +324,6 @@ public interface ISmartWorks {
 
 	public abstract void setWorkSettings(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
+	public abstract void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
 }
