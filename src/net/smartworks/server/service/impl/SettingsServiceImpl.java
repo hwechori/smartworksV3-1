@@ -27,6 +27,7 @@ import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WebService;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
@@ -310,6 +311,7 @@ public class SettingsServiceImpl implements ISettingsService {
 				int firstDayOfWeek = Integer.parseInt(swcWorkHour.getStartDayOfWeek()); 
 				int workingDays = swcWorkHour.getWorkingDays();
 
+				workHourPolicy.setId(id);
 				workHourPolicy.setValidFrom(new LocalDate(swcWorkHour.getValidFromDate().getTime()));
 				if(swcWorkHour.getValidToDate() != null)
 					workHourPolicy.setValidTo(new LocalDate(swcWorkHour.getValidToDate().getTime()));
@@ -403,7 +405,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			Date endTime = null;
 
 			SwcWorkHour swcWorkHour = null;
-			if(policyId != null)
+			if(!policyId.equals(""))
 				swcWorkHour = getSwcManager().getWorkhour(userId, policyId, IManager.LEVEL_ALL);
 			else
 				swcWorkHour = new SwcWorkHour();
@@ -459,7 +461,6 @@ public class SettingsServiceImpl implements ISettingsService {
 			getSwcManager().setWorkhour(userId, swcWorkHour, IManager.LEVEL_ALL);
 		} catch(Exception e) {
 			e.printStackTrace();
-			return;
 		}
 	}
 
@@ -467,14 +468,11 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void removeWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-
 			User user = SmartUtil.getCurrentUser();
 			String policyId = (String)requestBody.get("policyId");
-			if(policyId == null)
+			if(policyId.equals(""))
 				return;
-
 			getSwcManager().removeWorkhour(user.getId(), policyId);
-
 		} catch(Exception e) {
 			e.printStackTrace();			
 		}
@@ -515,7 +513,7 @@ public class SettingsServiceImpl implements ISettingsService {
 
 			swcEventDayCond.setPageSize(pageSize);
 
-			swcEventDayCond.setOrders(new Order[]{new Order("modificationDate", false)});
+			swcEventDayCond.setOrders(new Order[]{new Order("startDay", false)});
 			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(userId, swcEventDayCond, IManager.LEVEL_ALL);
 
 			if(swcEventDays != null) {
@@ -612,21 +610,79 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
-		}catch (Exception e){
-			// Exception Handling Required
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+
+			Map<String, Object> frmEditCompanyEvent = (Map<String, Object>)requestBody.get("frmEditCompanyEvent");
+			String eventId = (String)requestBody.get("eventId");
+
+			Set<String> keySet = frmEditCompanyEvent.keySet();
+			Iterator<String> itr = keySet.iterator();
+
+			String txtEventName = null;
+			Date datStartDate = null;
+			Date datEndDate = null;
+			List<Map<String, String>> users = null;
+
+			SwcEventDay swcEventDay = null;
+			if(!eventId.equals(""))
+				swcEventDay = getSwcManager().getEventday(userId, eventId, IManager.LEVEL_ALL);
+			else
+				swcEventDay = new SwcEventDay();
+
+			swcEventDay.setType(CompanyEvent.EVENT_TYPE_EVENTDAY);
+			swcEventDay.setCompanyId(companyId);
+
+			while (itr.hasNext()) {
+				String fieldId = (String)itr.next();
+				Object fieldValue = frmEditCompanyEvent.get(fieldId);
+				if(fieldValue instanceof LinkedHashMap) {
+					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+					if(fieldId.equals("usrRelatedUsers"))
+						users = (ArrayList<Map<String,String>>)valueMap.get("users");
+
+					if(!CommonUtil.isEmpty(users)) {
+						String relatedId = "";
+						String symbol = ";";
+						for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+							Map<String, String> user = users.get(i);
+							relatedId += user.get("id") + symbol;
+						}
+						swcEventDay.setReltdPerson(relatedId);
+					}
+				} else if(fieldValue instanceof String) {	
+					if(fieldId.equals("txtEventName")) {
+						txtEventName = (String)frmEditCompanyEvent.get("txtEventName");
+						swcEventDay.setName(txtEventName);
+					} else if(fieldId.equals("chkIsHoliday")) {
+						swcEventDay.setType(CompanyEvent.EVENT_TYPE_HOLIDAY);
+					} else if(fieldId.equals("datStartDate")) {
+						datStartDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datStartDate")).getTime());
+						swcEventDay.setStartDay(datStartDate);
+					} else if(fieldId.equals("datEndDate")) {
+						datEndDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datEndDate")).getTime());
+						swcEventDay.setEndDay(datEndDate);
+					}
+				}
+			}
+			getSwcManager().setEventday(userId, swcEventDay, IManager.LEVEL_ALL);
+		} catch(Exception e) {
 			e.printStackTrace();
-			// Exception Handling Required			
 		}
 	}
 	
 	@Override
 	public void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			// Exception Handling Required			
+		try {
+			User user = SmartUtil.getCurrentUser();
+			String eventId = (String)requestBody.get("eventId");
+			if(eventId.equals(""))
+				return;
+			getSwcManager().removeEventday(user.getId(), eventId);
+		} catch(Exception e) {
+			e.printStackTrace();			
 		}
 	}
 	
@@ -806,6 +862,16 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+			Map<String, Object> frmCompanyGeneral = (Map<String, Object>)requestBody.get("frmEditDepartment");
+
+			String policyId = (String)requestBody.get("policyId");
+
+			Set<String> keySet = frmCompanyGeneral.keySet();
+			Iterator<String> itr = keySet.iterator();
+
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
