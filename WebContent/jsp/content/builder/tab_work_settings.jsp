@@ -128,7 +128,7 @@
 					%>
 						<!-- 보이는 항목,안보이는 항목 설정-->
 						<div class="clear">
-							<div class="left40 gray_style h_auto">
+							<div class="left40 gray_style">
 								<table>
 									<tr>
 										<th width="15%"><fmt:message key="builder.title.key_field"/></th>
@@ -269,19 +269,19 @@
 						</table>
 					</div>
 					<!-- 권한 //-->
-				</div>
+					
 				<!-- 목록 //-->
 			</div>
 			<!-- 컨텐츠 //-->
-		</ul>
-	</div>
-	<div class="portlet_b" style="display: block;"></div>
+			
 			<!-- 버튼영역 -->
 			<div class="glo_btn_space">
+			
 				<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 				<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 				<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 				<span class="js_progress_span"></span>
+				
 				<div class="float_right">
 					<span class="btn_gray"> 
 						<a href="" onclick='submitForms(); return false;'>
@@ -293,5 +293,16 @@
 				</div>
 			</div>
 			<!-- 버튼영역 //-->
+			
+		</ul>		
+		
+		
+		</div>
+		
+		
+			
+			<div class="portlet_b" style="display: block;"></div>
+			
+	</div>
 </div>
 <!-- 컨텐츠 레이아웃//-->

@@ -293,10 +293,11 @@
 					</span>
 				</div>
 				<!-- 하단 버튼 영역 //-->
-			</div>
+			
 			<!-- 컨텐츠 //-->
 		</ul>
+		</div>
+		<div class="portlet_b" style="display: block;"></div>
 	</div>
-	<div class="portlet_b" style="display: block;"></div>
 </div>
 <!-- 컨텐츠 레이아웃//-->
