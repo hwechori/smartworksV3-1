@@ -38,10 +38,9 @@
 	<!-- 하단버튼영역 -->
 	<div class="smartp_btn_space">
 		<div class="float_right">
-			<img class="pop_ico_mail"> 
-			<img class="pop_ico_note"> 
-			<img class="pop_ico_replay"> 
-			<img class="pop_ico_chat">
+			<a href=""><span class="pop_ico_mail"></span></a>
+			<a href=""><span class="pop_ico_message"></span></a>
+			<a href=""><span class="pop_ico_chat"></span></a>
 		</div>
 	</div>
 	<!-- 하단버튼영역 //-->
