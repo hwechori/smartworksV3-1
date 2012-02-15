@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.smartworks.model.RecordList;
 import net.smartworks.model.approval.ApprovalLine;
-import net.smartworks.model.calendar.CompanyCalendar;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.company.CompanyGeneral;
@@ -67,5 +66,7 @@ public interface ISettingsService {
 	public abstract void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
 	public abstract void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void checkIdDuplication(HttpServletRequest request) throws Exception;
 	
 }

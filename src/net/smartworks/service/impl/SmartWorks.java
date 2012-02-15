@@ -40,7 +40,6 @@ import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WebService;
-import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -55,7 +54,6 @@ import net.smartworks.server.service.IMailService;
 import net.smartworks.server.service.INoticeService;
 import net.smartworks.server.service.ISettingsService;
 import net.smartworks.server.service.IWorkService;
-import net.smartworks.server.service.impl.SettingsServiceImpl;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 
@@ -676,7 +674,12 @@ public class SmartWorks implements ISmartWorks {
 	public void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		settingsService.removeDepartment(requestBody, request);
 	}
-		
+
+	@Override
+	public void checkIdDuplication(HttpServletRequest request) throws Exception {
+		settingsService.checkIdDuplication(request);
+	}
+
 	@Override
 	public String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		String instanceId = instanceService.performTaskInstance(requestBody, request);
@@ -730,4 +733,5 @@ public class SmartWorks implements ISmartWorks {
 	public void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		builderService.publishWorkToStore(requestBody, request);
 	}
+
 }

@@ -6,10 +6,10 @@
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
  */
 
-package net.smartworks.server.engine.config.externalform.model;
+package net.smartworks.server.engine.config.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
-import net.smartworks.server.engine.common.model.MisObjectCond;
+import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
 
@@ -19,25 +19,26 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class ExternalFormParameterCond extends MisObjectCond {
+
+public class SwcExternalFormParameter extends MisObject {
 
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(ExternalFormParameterCond.class);
-	
-	protected static final String PREFIX = "Web";
-	private static final String NAME = CommonUtil.toName(ExternalFormParameterCond.class, PREFIX);
-	
+	private static Log logger = LogFactory.getLog(SwcExternalFormParameter.class);
+
+	protected static final String PREFIX = "Swc";
+	private static final String NAME = CommonUtil.toName(SwcExternalFormParameter.class, PREFIX);
+
 	public static final String A_PARAMETERNAME = "parameterName";
 	public static final String A_PARAMETERTYPE = "parameterType";
 	public static final String A_VARIABLENAME = "variableName";
 	public static final String A_TYPE = "type";
-	
+
 	private String parameterName;
 	private String parameterType;
 	private String variableName;
 	private String type;
 	
-	public ExternalFormParameterCond() {
+	public SwcExternalFormParameter() {
 		super();
 	}
 	public String toString(String name, String tab) {
@@ -63,14 +64,14 @@ public class ExternalFormParameterCond extends MisObjectCond {
 		if (node == null)
 			return null;
 		
-		ExternalFormParameterCond obj = null;
-		if (baseObj == null || !(baseObj instanceof ExternalFormParameterCond))
-			obj = new ExternalFormParameterCond();
+		SwcExternalFormParameter obj = null;
+		if (baseObj == null || !(baseObj instanceof SwcExternalFormParameter))
+			obj = new SwcExternalFormParameter();
 		else
-			obj = (ExternalFormParameterCond)baseObj;
+			obj = (SwcExternalFormParameter)baseObj;
 		
 		//부모 attributes, elements 값 설정
-		MisObjectCond.toObject(node, obj);
+		BaseObject.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
@@ -97,20 +98,20 @@ public class ExternalFormParameterCond extends MisObjectCond {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static ExternalFormParameterCond[] add(ExternalFormParameterCond[] objs, ExternalFormParameterCond obj) {
+	public static SwcExternalFormParameter[] add(SwcExternalFormParameter[] objs, SwcExternalFormParameter obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		ExternalFormParameterCond[] newObjs = new ExternalFormParameterCond[size+1];
+		SwcExternalFormParameter[] newObjs = new SwcExternalFormParameter[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static ExternalFormParameterCond[] remove(ExternalFormParameterCond[] objs, ExternalFormParameterCond obj) {
+	public static SwcExternalFormParameter[] remove(SwcExternalFormParameter[] objs, SwcExternalFormParameter obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -118,7 +119,7 @@ public class ExternalFormParameterCond extends MisObjectCond {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		ExternalFormParameterCond[] newObjs = new ExternalFormParameterCond[size-1];
+		SwcExternalFormParameter[] newObjs = new SwcExternalFormParameter[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -128,7 +129,7 @@ public class ExternalFormParameterCond extends MisObjectCond {
 		}
 		return newObjs;
 	}
-	public static ExternalFormParameterCond[] left(ExternalFormParameterCond[] objs, ExternalFormParameterCond obj) {
+	public static SwcExternalFormParameter[] left(SwcExternalFormParameter[] objs, SwcExternalFormParameter obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -140,7 +141,7 @@ public class ExternalFormParameterCond extends MisObjectCond {
 		}
 		if (idx < 1)
 			return objs;
-		ExternalFormParameterCond[] newObjs = new ExternalFormParameterCond[objs.length];
+		SwcExternalFormParameter[] newObjs = new SwcExternalFormParameter[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -153,7 +154,7 @@ public class ExternalFormParameterCond extends MisObjectCond {
 		}
 		return newObjs;
 	}
-	public static ExternalFormParameterCond[] right(ExternalFormParameterCond[] objs, ExternalFormParameterCond obj) {
+	public static SwcExternalFormParameter[] right(SwcExternalFormParameter[] objs, SwcExternalFormParameter obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -165,7 +166,7 @@ public class ExternalFormParameterCond extends MisObjectCond {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		ExternalFormParameterCond[] newObjs = new ExternalFormParameterCond[objs.length];
+		SwcExternalFormParameter[] newObjs = new SwcExternalFormParameter[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];

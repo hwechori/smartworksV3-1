@@ -6,7 +6,7 @@
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
  */
 
-package net.smartworks.server.engine.config.webservice.model;
+package net.smartworks.server.engine.config.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.MisObject;
@@ -19,13 +19,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class WebServiceParameter extends MisObject {
+public class SwcWebServiceParameter extends MisObject {
 
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(WebServiceParameter.class);
+	private static Log logger = LogFactory.getLog(SwcWebServiceParameter.class);
 	
-	protected static final String PREFIX = "Web";
-	private static final String NAME = CommonUtil.toName(WebServiceParameter.class, PREFIX);
+	protected static final String PREFIX = "Swc";
+	private static final String NAME = CommonUtil.toName(SwcWebServiceParameter.class, PREFIX);
 	
 	public static final String A_PARAMETERNAME = "parameterName";
 	public static final String A_PARAMETERTYPE = "parameterType";
@@ -37,7 +37,7 @@ public class WebServiceParameter extends MisObject {
 	private String parameterType;
 	private String variableName;
 	
-	public WebServiceParameter() {
+	public SwcWebServiceParameter() {
 		super();
 	}
 	public  String toString(String name, String tab) {
@@ -59,11 +59,11 @@ public class WebServiceParameter extends MisObject {
 		if (node == null)
 			return null;
 		
-		WebServiceParameter obj = null;
-		if (node == null || !(baseObj instanceof WebServiceParameter))
-			obj = new WebServiceParameter();
+		SwcWebServiceParameter obj = null;
+		if (node == null || !(baseObj instanceof SwcWebServiceParameter))
+			obj = new SwcWebServiceParameter();
 		else
-			obj = (WebServiceParameter)baseObj;
+			obj = (SwcWebServiceParameter)baseObj;
 		MisObject.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
@@ -91,20 +91,20 @@ public class WebServiceParameter extends MisObject {
 				return null;
 			return toObject(doc.getDocumentElement(), null);
 		}
-	public static WebServiceParameter[] add(WebServiceParameter[] objs, WebServiceParameter obj) {
+	public static SwcWebServiceParameter[] add(SwcWebServiceParameter[] objs, SwcWebServiceParameter obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		WebServiceParameter[] newObjs = new WebServiceParameter[size+1];
+		SwcWebServiceParameter[] newObjs = new SwcWebServiceParameter[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static WebServiceParameter[] remove(WebServiceParameter[] objs, WebServiceParameter obj) {
+	public static SwcWebServiceParameter[] remove(SwcWebServiceParameter[] objs, SwcWebServiceParameter obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -112,7 +112,7 @@ public class WebServiceParameter extends MisObject {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		WebServiceParameter[] newObjs = new WebServiceParameter[size-1];
+		SwcWebServiceParameter[] newObjs = new SwcWebServiceParameter[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -122,7 +122,7 @@ public class WebServiceParameter extends MisObject {
 		}
 		return newObjs;
 	}
-	public static WebServiceParameter[] left(WebServiceParameter[] objs, WebServiceParameter obj) {
+	public static SwcWebServiceParameter[] left(SwcWebServiceParameter[] objs, SwcWebServiceParameter obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -134,7 +134,7 @@ public class WebServiceParameter extends MisObject {
 		}
 		if (idx < 1)
 			return objs;
-		WebServiceParameter[] newObjs = new WebServiceParameter[objs.length];
+		SwcWebServiceParameter[] newObjs = new SwcWebServiceParameter[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -147,7 +147,7 @@ public class WebServiceParameter extends MisObject {
 		}
 		return newObjs;
 	}
-	public static WebServiceParameter[] right(WebServiceParameter[] objs, WebServiceParameter obj) {
+	public static SwcWebServiceParameter[] right(SwcWebServiceParameter[] objs, SwcWebServiceParameter obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -159,7 +159,7 @@ public class WebServiceParameter extends MisObject {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		WebServiceParameter[] newObjs = new WebServiceParameter[objs.length];
+		SwcWebServiceParameter[] newObjs = new SwcWebServiceParameter[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];

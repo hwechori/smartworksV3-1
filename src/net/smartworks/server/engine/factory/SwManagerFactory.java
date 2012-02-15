@@ -15,9 +15,7 @@ import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
 import net.smartworks.server.engine.common.script.manager.ISctManager;
 import net.smartworks.server.engine.common.searcher.manager.ISchManager;
-import net.smartworks.server.engine.config.externalform.manager.IExternalFormManager;
 import net.smartworks.server.engine.config.manager.ISwcManager;
-import net.smartworks.server.engine.config.webservice.manager.IWebServiceManager;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
@@ -61,8 +59,6 @@ public class SwManagerFactory {
 	private ISctManager sctManager;
 	private IResourceDesigntimeManager designtimeManager;
 	private IResourceRuntimeManager runtimeManager;
-	private IWebServiceManager webServiceManager;
-	private IExternalFormManager externalFormManager;
 
 	private WorkListManagerImpl workListManager;
 
@@ -211,18 +207,6 @@ public class SwManagerFactory {
 	}
 	public void setRuntimeManager(IResourceRuntimeManager runtimeManager) {
 		this.runtimeManager = runtimeManager;
-	}
-	public IWebServiceManager getWebServiceManager() {
-		return webServiceManager;
-	}
-	public void setWebServiceManager(IWebServiceManager webServiceManager) {
-		this.webServiceManager = webServiceManager;
-	}
-	public IExternalFormManager getExternalFormManager() {
-		return externalFormManager;
-	}
-	public void setExternalFormManager(IExternalFormManager externalFormManager) {
-		this.externalFormManager = externalFormManager;
 	}
 
 //	public IChtManager getChtManager() {

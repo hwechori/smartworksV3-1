@@ -6,6 +6,10 @@ import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.config.exception.SwcException;
 import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
+import net.smartworks.server.engine.config.model.SwcExternalForm;
+import net.smartworks.server.engine.config.model.SwcExternalFormCond;
+import net.smartworks.server.engine.config.model.SwcWebService;
+import net.smartworks.server.engine.config.model.SwcWebServiceCond;
 import net.smartworks.server.engine.config.model.SwcWorkHour;
 import net.smartworks.server.engine.config.model.SwcWorkHourCond;
 
@@ -33,8 +37,26 @@ public interface ISwcManager extends IManager {
 	public long getEventdaySize(String user, SwcEventDayCond cond) throws SwcException;
 	public SwcEventDay[] getEventdays(String user, SwcEventDayCond cond, String level) throws SwcException;
 
-	// ExternalForm
-
 	// WebService
+	public SwcWebService getWebService(String userId, String objId, String level) throws SwcException;
+	public SwcWebService getWebService(String userId, SwcWebServiceCond cond, String level) throws SwcException;
+	public void setWebService(String userId, SwcWebService obj, String level) throws SwcException;
+	public void createWebService(String userId, SwcWebService obj) throws SwcException;
+	public void removeWebService(String userId, String objId) throws SwcException;
+	public void removeWebService(String userId, SwcWebServiceCond cond) throws SwcException;
+	public long getWebServiceSize(String userId, SwcWebServiceCond cond) throws SwcException;
+	public SwcWebService[] getWebServices(String userId, SwcWebServiceCond cond, String level) throws SwcException;
+	public void removeWebServices(String userId, String packageId) throws SwcException;
+
+	// ExternalForm
+	public SwcExternalForm getExternalForm(String userId, String objId, String level) throws SwcException;
+	public SwcExternalForm getExternalForm(String userId, SwcExternalFormCond cond, String level) throws SwcException;
+	public void setExternalForm(String userId, SwcExternalForm obj, String level) throws SwcException;
+	public void createExternalForm(String userId, SwcExternalForm obj) throws SwcException;
+	public void removeExternalForm(String userId, String objId) throws SwcException;
+	public void removeExternalForm(String userId, SwcExternalFormCond cond) throws SwcException;
+	public long getExternalFormSize(String userId, SwcExternalFormCond cond) throws SwcException;
+	public SwcExternalForm[] getExternalForms(String userId, SwcExternalFormCond cond, String level) throws SwcException;
+	public void removeExternalForms(String userId, String packageId) throws SwcException;
 
 }

@@ -267,6 +267,7 @@ public class SettingsController {
 	@RequestMapping(value = "/check_id_duplication", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody void checkIdDuplication(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.checkIdDuplication(request);
 	}
 	
 }

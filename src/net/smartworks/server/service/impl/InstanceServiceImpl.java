@@ -930,14 +930,14 @@ public class InstanceServiceImpl implements IInstanceService {
 					} else if(fieldValue instanceof String) {
 						if(fieldId.equals("selWorkSpace")) {
 							workSpaceId = (String)fieldValue;
-						/* TO-DO } else if(fieldId.equals("selWorkSpaceType")) {
-							workSpaceType = (String)fieldValue;*/
+						} else if(fieldId.equals("selWorkSpaceType")) {
+							workSpaceType = (String)fieldValue;
 						} else if(fieldId.equals("selAccessLevel")) {
 							accessLevel = (String)fieldValue;
 						}
 					}
 				}
-	
+
 				obj.setWorkSpaceId(workSpaceId);
 				obj.setWorkSpaceType(workSpaceType);
 				obj.setAccessLevel(accessLevel);

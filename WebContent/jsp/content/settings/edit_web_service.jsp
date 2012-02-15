@@ -18,27 +18,12 @@
 	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다..
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
-	
+
 	String serviceId = request.getParameter("serviceId");
 	WebService webService = new WebService();
 	if(!SmartUtil.isBlankObject(serviceId)){
 		webService =  smartWorks.getWebServiceById(serviceId);
 	}
-	Variable var1 = new Variable();
-	var1.setName("인스턴스이름");
-	var1.setElementName("instId1");
-	var1.setElementType("string");
-	Variable var2 = new Variable();
-	var2.setName("");
-	var2.setElementName("instId2");
-	var2.setElementType("string");
-	Variable var3 = new Variable();
-	var3.setName("");
-	var3.setElementName("instId3");
-	var3.setElementType("string");
-	
-	webService.setInputVariables(new Variable[]{var1, var2, var3});
-	webService.setReturnVariables(new Variable[]{var1, var2, var3});
 	
 %>
 <script type="text/javascript">
