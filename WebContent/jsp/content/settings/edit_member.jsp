@@ -151,8 +151,8 @@
 						<td><fmt:message key="profile.title.role"/></td>
 						<td>
 							<select name="selMemberRole">
-								<option <%if(user.getRole()==User.USER_ROLE_MEMBER){ %>selected<%} %> value="<%=User.USER_ROLE_MEMBER %>"><fmt:message key="department.role.head"/></option>
-								<option <%if(user.getRole()==User.USER_ROLE_LEADER){ %>selected<%} %> value="<%=User.USER_ROLE_LEADER %>"><fmt:message key="department.role.member"/></option>
+								<option <%if(user.getRole()==User.USER_ROLE_LEADER){ %>selected<%} %> value="<%=User.USER_ROLE_LEADER %>"><fmt:message key="department.role.head"/></option>
+								<option <%if(user.getRole()==User.USER_ROLE_MEMBER){ %>selected<%} %> value="<%=User.USER_ROLE_MEMBER %>"><fmt:message key="department.role.member"/></option>
 							</select>
 						</td>
 					</tr>
