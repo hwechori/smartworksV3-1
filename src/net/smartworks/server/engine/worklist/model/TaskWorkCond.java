@@ -22,9 +22,15 @@ public class TaskWorkCond extends Cond{
 	private String tskAssignee; 
 	private Date taskLastModifyDate;
 	private Date tskCreateDate;
+	private Date tskExecuteDate;
+	private Date tskExecuteDateFrom;
+	private Date tskExecuteDateTo;
 	private String tskName;     
 	private String tskPrcInstId;
-	private String tskForm;     
+	private String tskForm;    
+	private String isStartActivity;
+	private String tskWorkSpaceId;
+	private String tskWorkSpaceType; 
 	private String packageId;   
 	private String childCtgId;  
 	private String childCtgName;
@@ -99,6 +105,24 @@ public class TaskWorkCond extends Cond{
 	public void setTskCreateDate(Date tskCreateDate) {
 		this.tskCreateDate = tskCreateDate;
 	}
+	public Date getTskExecuteDate() {
+		return tskExecuteDate;
+	}
+	public void setTskExecuteDate(Date tskExecuteDate) {
+		this.tskExecuteDate = tskExecuteDate;
+	}
+	public Date getTskExecuteDateFrom() {
+		return tskExecuteDateFrom;
+	}
+	public void setTskExecuteDateFrom(Date tskExecuteDateFrom) {
+		this.tskExecuteDateFrom = tskExecuteDateFrom;
+	}
+	public Date getTskExecuteDateTo() {
+		return tskExecuteDateTo;
+	}
+	public void setTskExecuteDateTo(Date tskExecuteDateTo) {
+		this.tskExecuteDateTo = tskExecuteDateTo;
+	}
 	public String getTskName() {
 		return tskName;
 	}
@@ -116,6 +140,24 @@ public class TaskWorkCond extends Cond{
 	}
 	public void setTskForm(String tskForm) {
 		this.tskForm = tskForm;
+	}
+	public String getIsStartActivity() {
+		return isStartActivity;
+	}
+	public void setIsStartActivity(String isStartActivity) {
+		this.isStartActivity = isStartActivity;
+	}
+	public String getTskWorkSpaceId() {
+		return tskWorkSpaceId;
+	}
+	public void setTskWorkSpaceId(String tskWorkSpaceId) {
+		this.tskWorkSpaceId = tskWorkSpaceId;
+	}
+	public String getTskWorkSpaceType() {
+		return tskWorkSpaceType;
+	}
+	public void setTskWorkSpaceType(String tskWorkSpaceType) {
+		this.tskWorkSpaceType = tskWorkSpaceType;
 	}
 	public String getPackageId() {
 		return packageId;

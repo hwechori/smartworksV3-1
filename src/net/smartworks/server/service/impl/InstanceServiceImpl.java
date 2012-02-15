@@ -1,6 +1,7 @@
 package net.smartworks.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,7 +45,11 @@ import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.common.util.StringUtil;
+import net.smartworks.server.engine.config.manager.ISwcManager;
+import net.smartworks.server.engine.config.model.SwcWorkHour;
+import net.smartworks.server.engine.config.model.SwcWorkHourCond;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.docfile.model.IFileModel;
@@ -78,11 +84,13 @@ import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
 import net.smartworks.server.engine.process.task.model.TskTaskDef;
 import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
+import net.smartworks.server.engine.worklist.manager.IWorkListManager;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
+import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartMessage;
 import net.smartworks.util.SmartTest;
@@ -114,6 +122,12 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	private ISwoManager getSwoManager() {
 		return SwManagerFactory.getInstance().getSwoManager();
+	}
+	private ISwcManager getSwcManager() {
+		return SwManagerFactory.getInstance().getSwcManager();
+	}
+	private IWorkListManager getWlmManager() {
+		return SwManagerFactory.getInstance().getWorkListManager();
 	}
 
 	ICommunityService communityService;
@@ -2203,10 +2217,221 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+	private Map getLongTimeByTodayWorkHour(SwcWorkHour workHour) throws Exception {
+		//type = start, end
+		long workStartTime = 30600000;//오전 8시30분의 밀리세컨드
+		long workEndTime = 64800000;//오후 6시00분의 밀리세컨드
+		
+		if (workHour != null) {
+			Calendar now = Calendar.getInstance();
+			Calendar tempDate = Calendar.getInstance();
+			Date startDate = null;
+			Date endDate = null;
+			int day = now.get(Calendar.DAY_OF_WEEK);
+			switch (day) {  
+			   case 1 :
+				   // "일" ;
+				   startDate = workHour.getSunStartTime();
+				   endDate = workHour.getSunEndTime();
+				   tempDate.setTime(startDate);
+				   workStartTime = (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   tempDate.setTime(endDate);
+				   workEndTime =  (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   break ;
+			   case 2 :
+				   // "월" ;
+				   startDate = workHour.getMonStartTime();
+				   endDate = workHour.getMonEndTime();
+				   tempDate.setTime(startDate);
+				   workStartTime = (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   tempDate.setTime(endDate);
+				   workEndTime =  (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   break ;
+			   case 3 :
+				   // "화" ;
+				   startDate = workHour.getTueStartTime();
+				   endDate = workHour.getTueEndTime();
+				   tempDate.setTime(startDate);
+				   workStartTime = (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   tempDate.setTime(endDate);
+				   workEndTime =  (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   break ;
+			   case 4 :
+				   // "수" ;
+				   startDate = workHour.getWedStartTime();
+				   endDate = workHour.getWedEndTime();
+				   tempDate.setTime(startDate);
+				   workStartTime = (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   tempDate.setTime(endDate);
+				   workEndTime =  (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   break ;
+			  
+			   case 5 :
+				   // "목" ;
+				   startDate = workHour.getThuStartTime();
+				   endDate = workHour.getThuEndTime();
+				   tempDate.setTime(startDate);
+				   workStartTime = (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   tempDate.setTime(endDate);
+				   workEndTime =  (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   break ;
+			   case 6 :
+				   // "금" ;
+				   startDate = workHour.getFriStartTime();
+				   endDate = workHour.getFriEndTime();
+				   tempDate.setTime(startDate);
+				   workStartTime = (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   tempDate.setTime(endDate);
+				   workEndTime =  (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   break ;
+			   case 7 :
+				   // "토" ;  
+				   startDate = workHour.getSatStartTime();
+				   endDate = workHour.getSatEndTime();
+				   tempDate.setTime(startDate);
+				   workStartTime = (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+				   tempDate.setTime(endDate);
+				   workEndTime =  (tempDate.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (tempDate.get(Calendar.MINUTE) * 60 * 1000) 
+						   + (tempDate.get(Calendar.SECOND) * 1000) + (tempDate.get(Calendar.MILLISECOND));
+			  }
+		}
+		Map resultMap = new HashMap();
+		resultMap.put("startTime", workStartTime);
+		resultMap.put("endTime", workEndTime);
+		return resultMap;
+	}
+	
+	private TaskWork[] getTaskWorkByFromToDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, String cycle, int maxSize) throws Exception {
+		User cuser = SmartUtil.getCurrentUser();
+		String userId = null;
+		String companyId = null;
+		if (cuser != null) {
+			userId = cuser.getId();
+			companyId = cuser.getCompanyId();
+		}
+		if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
+			return null;
+		
+		//해당 날짜의 인스턴스를 조회 한다
+		//사용자 공간(contextId = us.sp) 일경우는 task의 assignee(owner)가 spaceId 인것들을 조회 하고 
+		//이외의 것들(부서, 그룹... 등의 공간) 일경우는 task의 spaceId 가 spaceId 인것을을 조회 한다
+		TaskWorkCond taskWorkCond = new TaskWorkCond();
+		if (contextId.equalsIgnoreCase("us.sp")) {
+			taskWorkCond.setTskAssignee(spaceId);
+		} else {
+			taskWorkCond.setTskWorkSpaceId(spaceId);
+		}
+		
+		Date tempFromDate = new Date();
+		Date tempToDate = new Date();
+		tempFromDate.setTime(fromDate.getLocalTime());
+		tempToDate.setTime(toDate.getLocalTime());
+		
+		tempFromDate = DateUtil.toFromDate(tempFromDate, cycle);
+		tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
+		
+		tempToDate = DateUtil.toToDate(tempToDate, cycle);
+		tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+		
+		taskWorkCond.setTskExecuteDateFrom(tempFromDate);
+		taskWorkCond.setTskExecuteDateTo(tempToDate);
+		
+		taskWorkCond.setPageNo(0);
+		taskWorkCond.setPageSize(maxSize);
+		
+		TaskWork[] tasks = getWlmManager().getTaskWorkList(userId, taskWorkCond);
+		
+		return tasks;
+	}
+	
 	@Override
 	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception {
 		try{
-			return SmartTest.getTaskInstancesByWorkHours(contextId, spaceId, date, maxSize);
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String companyId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				companyId = cuser.getCompanyId();
+			}
+			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
+				return null;
+			
+			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, date, date, DateUtil.CYCLE_DAY, maxSize);
+			if (tasks == null)
+				return null;
+			//회사 워크아워 정책을 조회 한다
+			SwcWorkHourCond workHourCond = new SwcWorkHourCond();
+			workHourCond.setCompanyId(companyId);
+			SwcWorkHour[] workHours = getSwcManager().getWorkhours(userId, workHourCond, IManager.LEVEL_LITE);
+			Map workHourTimeMap = null;
+			if (workHours == null || workHours.length == 0) {
+				workHourTimeMap = getLongTimeByTodayWorkHour(null);
+			} else {
+				workHourTimeMap = getLongTimeByTodayWorkHour(workHours[0]);
+			}
+			//업무 시간 전, 업무시간, 업무시간 후로 인스턴스를 분류 한다
+			
+			List beforeWorkTimeList = new ArrayList();
+			List workTimeList = new ArrayList();
+			List afterWorkTimeList = new ArrayList();
+			for (int i = 0; i < tasks.length; i++) {
+				TaskWork task = tasks[i];
+				Date executeDate = task.getTaskLastModifyDate();
+				LocalDate localExecuteDate = new LocalDate(executeDate.getTime());
+				
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(new Date(localExecuteDate.getLocalDate()));
+				
+				long executeTime = (cal.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (cal.get(Calendar.MINUTE) * 60 * 1000) 
+				   + (cal.get(Calendar.SECOND) * 1000) + (cal.get(Calendar.MILLISECOND));
+				
+				if (executeTime < (Long)workHourTimeMap.get("startTime")) {
+					beforeWorkTimeList.add(task);
+				} else if (executeTime < (Long)workHourTimeMap.get("endTime") && executeTime > (Long)workHourTimeMap.get("startTime")) {
+					workTimeList.add(task);
+				} else {
+					afterWorkTimeList.add(task);
+				}
+			}
+			
+			TaskInstanceInfo[] beforeTaskInstanceInfo = null;
+			TaskInstanceInfo[] taskInstanceInfo = null;
+			TaskInstanceInfo[] afterInstanceInfo = null;
+			
+			if (beforeWorkTimeList.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[beforeWorkTimeList.size()];
+				beforeWorkTimeList.toArray(taskArray);
+				beforeTaskInstanceInfo = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}
+			if (workTimeList.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[workTimeList.size()];
+				workTimeList.toArray(taskArray);
+				taskInstanceInfo = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}
+			if (afterWorkTimeList.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[afterWorkTimeList.size()];
+				afterWorkTimeList.toArray(taskArray);
+				afterInstanceInfo = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}	
+			
+			//리턴타입으로 생성후 리턴한다
+			
+			return new TaskInstanceInfo[][]{beforeTaskInstanceInfo, taskInstanceInfo, afterInstanceInfo};
+			
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -2217,7 +2442,121 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public TaskInstanceInfo[][] getTaskInstancesByDates(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		try{
-			return SmartTest.getTaskInstancesByDates(contextId, spaceId, fromDate, toDate, maxSize);
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String companyId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				companyId = cuser.getCompanyId();
+			}
+			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
+				return null;
+			
+			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, fromDate, toDate, DateUtil.CYCLE_DAY, maxSize);
+
+			//회사 워크아워 정책을 조회 한다
+			SwcWorkHourCond workHourCond = new SwcWorkHourCond();
+			workHourCond.setCompanyId(companyId);
+			SwcWorkHour[] workHours = getSwcManager().getWorkhours(userId, workHourCond, IManager.LEVEL_LITE);
+			
+			int startOfWeek = 2;
+			if (workHours != null && workHours.length != 0)
+				startOfWeek = Integer.parseInt(workHours[0].getStartDayOfWeek());
+			
+			Map<Integer, Integer> dayOfWeekMappingMap = new HashMap<Integer, Integer>();
+			int weekNum = startOfWeek;
+			for (int i = 1; i <= 7; i++) {
+				dayOfWeekMappingMap.put(weekNum, i);
+				if (weekNum == 7) {
+					weekNum = 1;
+				} else {
+					weekNum = weekNum + 1;
+				}
+			}
+			List instanceInfoList1 = new ArrayList();
+			List instanceInfoList2 = new ArrayList();
+			List instanceInfoList3 = new ArrayList();
+			List instanceInfoList4 = new ArrayList();
+			List instanceInfoList5 = new ArrayList();
+			List instanceInfoList6 = new ArrayList();
+			List instanceInfoList7 = new ArrayList();
+
+			for (int i = 0; i < tasks.length; i++) {
+				Date executeDate = tasks[i].getTaskLastModifyDate();
+				LocalDate temp = new LocalDate(executeDate.getTime());
+			
+				switch (dayOfWeekMappingMap.get(temp.getDayOfWeek())) {
+				case 1:
+					instanceInfoList1.add(tasks[i]);
+					break;
+				case 2:
+					instanceInfoList2.add(tasks[i]);
+					break;
+				case 3:
+					instanceInfoList3.add(tasks[i]);
+					break;
+				case 4:
+					instanceInfoList4.add(tasks[i]);
+					break;
+				case 5:
+					instanceInfoList5.add(tasks[i]);
+					break;
+				case 6:
+					instanceInfoList6.add(tasks[i]);
+					break;
+				case 7:
+					instanceInfoList7.add(tasks[i]);
+					break;
+				}
+			}
+
+			TaskInstanceInfo[] instanceInfo1 = null;
+			TaskInstanceInfo[] instanceInfo2 = null;
+			TaskInstanceInfo[] instanceInfo3 = null;
+			TaskInstanceInfo[] instanceInfo4 = null;
+			TaskInstanceInfo[] instanceInfo5 = null;
+			TaskInstanceInfo[] instanceInfo6 = null;
+			TaskInstanceInfo[] instanceInfo7 = null;
+			
+	
+			if (instanceInfoList1.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[instanceInfoList1.size()];
+				instanceInfoList1.toArray(taskArray);
+				instanceInfo1 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}
+			if (instanceInfoList2.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[instanceInfoList2.size()];
+				instanceInfoList2.toArray(taskArray);
+				instanceInfo2 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}
+			if (instanceInfoList3.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[instanceInfoList3.size()];
+				instanceInfoList3.toArray(taskArray);
+				instanceInfo3 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}
+			if (instanceInfoList4.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[instanceInfoList4.size()];
+				instanceInfoList4.toArray(taskArray);
+				instanceInfo4 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}
+			if (instanceInfoList5.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[instanceInfoList5.size()];
+				instanceInfoList5.toArray(taskArray);
+				instanceInfo5 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}
+			if (instanceInfoList6.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[instanceInfoList6.size()];
+				instanceInfoList6.toArray(taskArray);
+				instanceInfo6 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}
+			if (instanceInfoList7.size() != 0) {
+				TaskWork[] taskArray = new TaskWork[instanceInfoList7.size()];
+				instanceInfoList7.toArray(taskArray);
+				instanceInfo7 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+			}
+//			return new TaskInstanceInfo[][]{monInstanceInfo, tueInstanceInfo, wedInstanceInfo, thuInstanceInfo, friInstanceInfo, satInstanceInfo, sunInstanceInfo};
+			return new TaskInstanceInfo[][]{instanceInfo1, instanceInfo2, instanceInfo3, instanceInfo4, instanceInfo5, instanceInfo6, instanceInfo7};
+			
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -2228,7 +2567,46 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public TaskInstanceInfo[][] getTaskInstancesByWeeks(String contextId, String spaceId, LocalDate month, int maxSize) throws Exception {
 		try{
-			return SmartTest.getTaskInstancesByWeeks(contextId, spaceId, month, maxSize);
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String companyId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				companyId = cuser.getCompanyId();
+			}
+			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
+				return null;
+			
+			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, month, month, DateUtil.CYCLE_MONTH, maxSize);	
+			
+			Date temp = new Date(month.getLocalTime());
+			temp = DateUtil.toToDate(temp, DateUtil.CYCLE_MONTH);
+			LocalDate endOfLocalDate = new LocalDate(temp.getTime() - TimeZone.getDefault().getRawOffset());
+			int endOfWeek = endOfLocalDate.getWeekOfMonth(1);
+			
+			Map<Integer, List<TaskWork>> weekMappingMap = new HashMap<Integer, List<TaskWork>>();
+			
+			for (int i = 0; i < endOfWeek; i++) {
+				List<TaskWork> tempList = new ArrayList<TaskWork>();
+				weekMappingMap.put(i, tempList);
+			}
+			for (int i = 0; i < tasks.length; i++) {
+				TaskWork task = tasks[i];
+				Date executeDate = tasks[i].getTaskLastModifyDate();
+				LocalDate tempExecuteDate = new LocalDate(executeDate.getTime());
+				int weekOfMonth = tempExecuteDate.getWeekOfMonth(1);
+				weekMappingMap.get(weekOfMonth-1).add(task);
+			}
+			
+			TaskInstanceInfo[][] result = new TaskInstanceInfo[endOfWeek][];
+			for (int i : weekMappingMap.keySet()) {
+				List taskWorksList = weekMappingMap.get(i);
+				TaskWork[] taskWorks = new TaskWork[taskWorksList.size()];
+				taskWorksList.toArray(taskWorks);
+				result[i] = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskWorks);
+			}
+			
+			return result;
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -2659,174 +3037,5 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		return executeTask(requestBody, request, "save");
-	}
-	public String startProcessWorkInstance_temp_needtodelete(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-		/*{
-			"workId":"pkg_cf3b0087995f4f99a41c93e2fe95b22d",
-			"formId":"frm_c19b1fe4bceb4732acbb8a4cd2a57474",
-			"formName":"기안품의",
-			"frmSmartForm":
-				{
-					"4":
-						{
-							"users":
-								[
-									{
-										"id":"kmyu@maninsoft.co.kr",
-										"name":"\n\t\t\t\t\t\t\t\t연구소장 유광민\n\t\t\t\t\t\t\t"
-									}
-								]
-						},
-					"16":
-						{
-							"users":
-								[
-									{
-										"id":"kmyu@maninsoft.co.kr",
-										"name":"\n\t\t\t\t\t\t\t\t연구소장 유광민\n\t\t\t\t\t\t\t"
-									}
-								]
-						},
-					"92":"1",
-					"535":"1"
-				},
-			"frmScheduleWork":
-				{
-				},
-			"frmAccessSpace":
-				{
-					"selWorkSpace":"kmyu@maninsoft.co.kr",
-					"selWorkSpaceType": 4(ISmartWorks.java 에 정의 되어 있음), 
-					"selAccessLevel":"3",
-					"txtAccessableUsers":
-						{
-							"users":
-								[
-								]
-						}
-				}
-			}*/
-
-		try{
-			User cuser = SmartUtil.getCurrentUser();
-			String userId = null;
-			if (cuser != null)
-				userId = cuser.getId();
-			
-			//패키지 정보로 프로세스 정보를 얻는다.
-			String packageId = (String)requestBody.get("workId");
-			String formId = (String)requestBody.get("formId");
-			PrcProcessCond cond = new PrcProcessCond();
-			cond.setDiagramId(packageId);
-			PrcProcess[] prcs = getPrcManager().getProcesses(userId, cond, IManager.LEVEL_LITE);
-			if (prcs == null || prcs.length != 1)
-				throw new PrcException("Start Process Is Null Or More then 1");
-			PrcProcess prc = prcs[0];
-			String processId = prc.getProcessId();
-			
-			//패키지 정보로 프로세스 첫번째 taskdef를 찾는다
-			Property[] extProps = new Property[] {new Property("processId", processId), new Property("startActivity", "true")};
-			TskTaskDefCond taskCond = new TskTaskDefCond();
-			taskCond.setExtendedProperties(extProps);
-			TskTaskDef[] taskDefs = getTskManager().getTaskDefs(userId, taskCond, IManager.LEVEL_LITE);
-			if (CommonUtil.isEmpty(taskDefs))
-				throw new Exception(new StringBuffer("No start activity. -> processId:").append(processId).toString());
-			TskTaskDef taskDef = taskDefs[0];
-			String taskDefId = taskDef.getObjId();
-			
-			//넘어온 frmSamrtForm 정보로 레코드를 생성한다
-			SwfForm form = getSwfManager().getForm(userId, formId);
-			SwfField[] formFields = form.getFields();
-			List domainFieldList = new ArrayList();
-			
-			//제목으로 사용할 필드 (필수>단문>첫번째)
-			List requiredFieldIdList = new ArrayList();
-			List textInputFieldIdList = new ArrayList();
-			for (SwfField field: formFields) {
-				//제목으로 사용할 필드 (필수>단문>첫번째)
-				if (field.isRequired() && field.getFormat().getType().equals("textInput"))
-					requiredFieldIdList.add(field.getId());
-				//제목으로 사용할 필드 (필수>단문>첫번째)
-				if (field.getFormat().getType().equals("textInput"))
-					textInputFieldIdList.add(field.getId());
-				SwdField domainField = new SwdField();
-				domainField.setFormFieldId(field.getId());
-				domainField.setFormFieldName(field.getName());
-				domainField.setFormFieldType(field.getSystemType());
-				domainField.setArray(field.isArray());
-				domainField.setSystemField(field.isSystem());
-				domainFieldList.add(domainField);
-			}
-			SwdField[] domainFields = new SwdField[domainFieldList.size()];
-			domainFieldList.toArray(domainFields);
-			
-			SwdRecord recordObj = getSwdRecordByRequestBody(userId, domainFields, requestBody, request);
-			String taskDocument = null;
-			if (recordObj != null)
-				taskDocument = recordObj.toString();
-			
-			//TODO 참조자, 전자결재, 연결업무 정보를 셋팅한다
-			
-			String title = null;
-			if (requiredFieldIdList.size() != 0) {
-				for (int i = 0; i < requiredFieldIdList.size(); i++) {
-					String temp = recordObj.getDataFieldValue((String)requiredFieldIdList.get(i));
-					if (!CommonUtil.isEmpty(temp)) {
-						title = temp;
-						break;
-					}
-				}
-			} else {
-				for (int i = 0; i < textInputFieldIdList.size(); i++) {
-					String temp = recordObj.getDataFieldValue((String)textInputFieldIdList.get(i));
-					if (!CommonUtil.isEmpty(temp)) {
-						title = temp;
-						break;
-					}
-					
-				}
-			}
-			
-			//태스크를 생성하여 실행한다
-			TskTask task = new TskTask();
-			task.setType(taskDef.getType());
-			task.setName(taskDef.getName());
-			task.setTitle(CommonUtil.toDefault(title, taskDef.getName() + "(No Title) - " + new LocalDate()));
-			task.setAssignee(userId);
-			task.setAssigner(userId);
-			task.setForm(taskDef.getForm());
-			task.setDef(taskDef.getObjId());
-			task.setIsStartActivity("true");
-			
-			Map<String, Object> frmAccessSpace = (Map<String, Object>)requestBody.get("frmAccessSpace");
-			String workSpaceId = (String)frmAccessSpace.get("selWorkSpace");
-			String workSpaceType = (String)frmAccessSpace.get("selWorkSpaceType");
-			task.setWorkSpaceId(workSpaceId);
-			task.setWorkSpaceType(workSpaceType);
-			
-			task.setDocument(taskDocument);
-			
-			//date to localdate - Date now = new Date();
-			LocalDate now = new LocalDate();
-			task.setExpectStartDate(new LocalDate(now.getTime()));
-			task.setRealStartDate(new LocalDate(now.getTime()));
-			//date to localdate - Date expectEndDate = new Date();
-			LocalDate expectEndDate = new LocalDate();
-			if (taskDef != null &&  !CommonUtil.isEmpty(taskDef.getDueDate())) {
-				//dueDate 는 분단위로 설정이 되어 있다
-				expectEndDate.setTime(new LocalDate(now.getTime() + ((Long.parseLong(taskDef.getDueDate())) * 60 * 1000)).getTime());
-			} else {
-				expectEndDate.setTime(new LocalDate(now.getTime() + 1800000).getTime());
-			}
-			task.setExpectEndDate(expectEndDate);
-			task = getTskManager().executeTask(userId, task, "execute");
-			
-			return task.getProcessInstId();
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			throw e;			
-			// Exception Handling Required			
-		}
 	}
 }

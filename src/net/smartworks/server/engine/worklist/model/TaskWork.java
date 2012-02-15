@@ -19,6 +19,7 @@ public class TaskWork {
 	private String tskAssignee; 
 	private Date taskLastModifyDate;
 	private Date tskCreateDate;
+	private Date tskExecuteDate;
 	private String tskName;     
 	private String tskPrcInstId;
 	private String tskForm;
@@ -97,6 +98,12 @@ public class TaskWork {
 	}
 	public void setTskCreateDate(Date tskCreateDate) {
 		this.tskCreateDate = tskCreateDate;
+	}
+	public Date getTskExecuteDate() {
+		return tskExecuteDate;
+	}
+	public void setTskExecuteDate(Date tskExecuteDate) {
+		this.tskExecuteDate = tskExecuteDate;
 	}
 	public String getTskName() {
 		return tskName;

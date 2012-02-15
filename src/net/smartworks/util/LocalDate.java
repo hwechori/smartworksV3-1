@@ -111,7 +111,13 @@ public class LocalDate extends Date{
 		cal.setMinimalDaysInFirstWeek(7);
 		return cal.get(Calendar.WEEK_OF_MONTH);		
 	}
-	
+	public int getWeekOfMonth(int minimalDaysInFirstWeek){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date(this.getLocalDate()));
+		cal.setFirstDayOfWeek(this.firstDayOfWeek);
+		cal.setMinimalDaysInFirstWeek(minimalDaysInFirstWeek);
+		return cal.get(Calendar.WEEK_OF_MONTH);		
+	}
 	public int getWeekOfYear(){
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(this.getLocalDate()));
