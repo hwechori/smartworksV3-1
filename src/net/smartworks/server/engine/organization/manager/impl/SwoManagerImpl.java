@@ -47,6 +47,7 @@ import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserCond;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.LocaleInfo;
 import net.smartworks.util.SmartMessage;
 
 import org.hibernate.Query;
@@ -2056,8 +2057,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		return user != null ? (user.getPosition() + " " + user.getName()) : null;
 	}
 
-	private static SizeMap userMap = new SizeMap(100);
-
 	@Override
 	public SwoUserExtend getUserExtend(String userId, String id) throws SwoException {
 
@@ -2074,8 +2073,8 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			userExtend.setDepartmentName("System");
 			userExtend.setDepartmentDesc("System");
 			userExtend.setPosition("ADMIN");
-			userExtend.setLocale("ko");
-			userExtend.setTimeZone("Asia/Seoul");
+			userExtend.setLocale(LocaleInfo.LOCALE_DEFAULT);
+			userExtend.setTimeZone(LocalDate.TIMEZONE_SEOUL);
 			userExtend.setPictureName("");
 			userExtend.setRoleId("DEPT LEADER");
 			userExtend.setAuthId("ADMINISTRATOR");
@@ -2085,10 +2084,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			userExtend.setCellPhoneNo("031-714-5714");
 
 			return userExtend;
-		}
-
-		if (userMap.containsKey(id)) {
-			return (SwoUserExtend)userMap.get(id);
 		}
 
 		SwoUserExtend userExtend = new SwoUserExtend();
@@ -2126,8 +2121,15 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			userExtend.setSmallPictureName(picture);
 		}
 
-		if (userExtend != null)
-			userMap.put(id, userExtend);
+		String locale = CommonUtil.toNotNull(userExtend.getLocale());
+		if(locale.equals(""))
+			locale = LocaleInfo.LOCALE_DEFAULT;
+		userExtend.setLocale(locale);
+
+		String timeZone = CommonUtil.toNotNull(userExtend.getTimeZone());
+		if(timeZone.equals(""))
+			timeZone = LocalDate.TIMEZONE_SEOUL;
+		userExtend.setTimeZone(timeZone);
 
 		return userExtend;
 	}
@@ -2188,8 +2190,8 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		userExtend.setDepartmentId("");
 		userExtend.setDepartmentName("");
 		userExtend.setPosition("");
-		userExtend.setLocale("ko");
-		userExtend.setTimeZone("Asia/Seoul");
+		userExtend.setLocale(LocaleInfo.LOCALE_DEFAULT);
+		userExtend.setTimeZone(LocalDate.TIMEZONE_SEOUL);
 		userExtend.setPictureName("");
 		userExtend.setRoleId("");
 		userExtend.setAuthId("");
@@ -2241,9 +2243,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 
 		departmentExtend.setHeadId(headId);
 
-		if (departmentExtend != null)
-			userMap.put(departmentId, departmentExtend);
-
 		return departmentExtend;
 	}
 
@@ -2287,6 +2286,16 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				swoUserExtends[i].setBigPictureName(picture);
 				swoUserExtends[i].setSmallPictureName(picture);
 			}
+
+			String locale = CommonUtil.toNotNull(swoUserExtends[i].getLocale());
+			if(locale.equals(""))
+				locale = LocaleInfo.LOCALE_DEFAULT;
+			swoUserExtends[i].setLocale(locale);
+
+			String timeZone = CommonUtil.toNotNull(swoUserExtends[i].getTimeZone());
+			if(timeZone.equals(""))
+				timeZone = LocalDate.TIMEZONE_SEOUL;
+			swoUserExtends[i].setTimeZone(timeZone);
 
 			i++;
 		}

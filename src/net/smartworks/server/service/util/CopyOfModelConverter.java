@@ -857,14 +857,7 @@ public class CopyOfModelConverter {
 		user.setName(userExtend.getName());
 		user.setDepartment(userExtend.getDepartmentName());
 		user.setPosition(userExtend.getPosition());
-		String locale = userExtend.getLocale();
-		if (locale == null)
-			locale = "ko";
-		if (locale.equalsIgnoreCase("kor"))
-			locale = "ko";
-		if (locale.equalsIgnoreCase("eng"))
-			locale = "en";
-		user.setLocale(locale);
+		user.setLocale(userExtend.getLocale());
 		user.setBigPictureName(userExtend.getPictureName());
 		user.setSmallPictureName(userExtend.getPictureName());
 		user.setCompany(userExtend.getCompanyName());
