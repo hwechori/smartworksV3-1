@@ -2480,33 +2480,35 @@ public class InstanceServiceImpl implements IInstanceService {
 			List instanceInfoList5 = new ArrayList();
 			List instanceInfoList6 = new ArrayList();
 			List instanceInfoList7 = new ArrayList();
-
-			for (int i = 0; i < tasks.length; i++) {
-				Date executeDate = tasks[i].getTaskLastModifyDate();
-				LocalDate temp = new LocalDate(executeDate.getTime());
 			
-				switch (dayOfWeekMappingMap.get(temp.getDayOfWeek())) {
-				case 1:
-					instanceInfoList1.add(tasks[i]);
-					break;
-				case 2:
-					instanceInfoList2.add(tasks[i]);
-					break;
-				case 3:
-					instanceInfoList3.add(tasks[i]);
-					break;
-				case 4:
-					instanceInfoList4.add(tasks[i]);
-					break;
-				case 5:
-					instanceInfoList5.add(tasks[i]);
-					break;
-				case 6:
-					instanceInfoList6.add(tasks[i]);
-					break;
-				case 7:
-					instanceInfoList7.add(tasks[i]);
-					break;
+			if (tasks != null && tasks.length != 0) {
+				for (int i = 0; i < tasks.length; i++) {
+					Date executeDate = tasks[i].getTaskLastModifyDate();
+					LocalDate temp = new LocalDate(executeDate.getTime());
+					
+					switch (dayOfWeekMappingMap.get(temp.getDayOfWeek())) {
+					case 1:
+						instanceInfoList1.add(tasks[i]);
+						break;
+					case 2:
+						instanceInfoList2.add(tasks[i]);
+						break;
+					case 3:
+						instanceInfoList3.add(tasks[i]);
+						break;
+					case 4:
+						instanceInfoList4.add(tasks[i]);
+						break;
+					case 5:
+						instanceInfoList5.add(tasks[i]);
+						break;
+					case 6:
+						instanceInfoList6.add(tasks[i]);
+						break;
+					case 7:
+						instanceInfoList7.add(tasks[i]);
+						break;
+					}
 				}
 			}
 
