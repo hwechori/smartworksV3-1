@@ -720,5 +720,9 @@ public class SmartWorks implements ISmartWorks {
 	public void stopWorkEditing(String workId) throws Exception {
 		builderService.stopWorkEditing(workId);
 	}
-		
+	
+	@Override
+	public void setWorkSettings(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		builderService.setWorkSettings(requestBody, request);
+	}
 }

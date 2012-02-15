@@ -1,4 +1,6 @@
+<%@page import="java.util.Locale"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String type = (String)request.getAttribute("type");
 %>
@@ -21,11 +23,13 @@
 	%>
 </script>
 <html>
+<fmt:setLocale value="<%=java.util.Locale.getDefault().getLanguage() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="css/default.css" type="text/css" rel="stylesheet" /></link>
 		<link href="css/login.css" type="text/css" rel="stylesheet" /></link>
-		<title>스마트웍스닷넷</title>
+		<title><fmt:message key="login.head.title"/></title>
 	</head>
 	<body class="welcome">
 		<div id="wrap">
@@ -39,8 +43,8 @@
 				<form class="lo_idpass" action="j_spring_security_check" method="post">
 					<input id="j_username" name="j_username" maxlength="50" type="text" class="loginInput" />
 					<input id="j_password" name="j_password" maxlength="50" type="password" class="loginInput" />
-					<input type="submit" value="Login" class="btnWelcomeLogin" ><img src="images/login_btn.gif" />
-					<div class="lo_checkbox">Remember Me? <input id="_spring_security_remember_me" type="checkbox" style="margin-right: 3px;" value="on" tabindex="3" name="_spring_security_remember_me" /></div>
+					<input type="submit" value="<fmt:message key="login.button.login"/>" class="btnWelcomeLogin">
+					<div class="lo_checkbox"><fmt:message key="login.title.remember_me"/> <input id="_spring_security_remember_me" type="checkbox" style="margin-right: 3px;" value="on" tabindex="3" name="_spring_security_remember_me" /></div>
 				</form>
 			</div>
 			<!-- Header //-->
@@ -52,7 +56,7 @@
 			<!-- Footer -->
 			<div id="footer">
 				<div class="login_flogo1">
-					<span class="bottomText">Copyright <span onclick="clickBlank()">ⓒ </span>2010-2012 <b>Maninsoft,</b>Inc. All Rights Reserved. </span>
+					<span class="bottomText">Copyright <span onclick="clickBlank()">ⓒ </span>2010-2012 <b>Maninsoft,</b> Inc. All Rights Reserved. </span>
 				</div>
 			</div>
 			<!-- End of Footer -->

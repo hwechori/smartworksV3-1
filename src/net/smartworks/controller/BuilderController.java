@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -123,10 +124,8 @@ public class BuilderController {
 
 	@RequestMapping(value = "/set_work_settings", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public ModelAndView setWorkSettings(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String workId = (String)requestBody.get("workId");
-		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
-		ModelAndView mnv = new ModelAndView();
-		return mnv;
+	public @ResponseBody void setWorkSettings(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setWorkSettings(requestBody, request);
 	}
+	
 }

@@ -322,4 +322,6 @@ public interface ISmartWorks {
 
 	public abstract void stopWorkEditing(String workId) throws Exception;
 
+	public abstract void setWorkSettings(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
 }

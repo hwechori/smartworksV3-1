@@ -34,7 +34,8 @@
 		if (SmartWorks.GridLayout.validate(tabWorkSettings.find('form.js_validation_required'), tabWorkSettings.find('.js_profile_error_message'))) {
 			var forms = tabWorkSettings.find('form');
 			var paramsJson = {};
-			paramsJson['workId'] = tabWorkSettings.attr('workId');
+			var workId = tabWorkSettings.attr('workId');
+			paramsJson['workId'] = workId
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				if(form.attr('name') === 'frmSmartForm'){
@@ -59,7 +60,7 @@
 						// 사용자정보 수정이 정상적으로 완료되었으면, 현재 페이지에 그대로 있는다.
 						smartPop.closeProgress();
 						smartPop.showInfo(smartPop.INFORM, smartMessage.get('setWorkSettingsSucceed'), function(){
-							document.location.href = "tab_work_settings.sw";					
+							document.location.href = "tab_work_settings.sw?cid=bd.sp."+ workId;					
 						});
 					},
 					error : function(e) {
