@@ -150,7 +150,6 @@ mark, rp, rt, ruby, summary, time {
 /*.float_left_nowidth{float:left;}*/
 .float_right {float:right;}
 
-.center {text-align:center;}
 .clear {display:block; clear:both;}
 
 .space_r2 {margin-right:2px !important}
@@ -188,7 +187,7 @@ mark, rp, rt, ruby, summary, time {
 .margin_l10 {margin-left:10px !important}
 
 .text_align_l {text-align:left !important}
-.text_align_c {text-align:center !important}
+.text_align_c, .center {text-align:center !important}
 .text_align_r {text-align:right !important}
 
 .li_height13 {line-height: 13px;}

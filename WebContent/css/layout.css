@@ -121,7 +121,7 @@ li.js_content:hover .checkOption {display:block}
 /*global Menu */
 .global_menu {position:absolute; right:10px; top:11px;  font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
 .global_menu div { float:left; margin-left:8px;}
-.global_menu .pop {border:1px solid #acacac; border-top:none; background:hsla(300,2%,25%,0.9); background-color:#414041; position:absolute; top:23px; right:0; padding:8px; z-index:39;}
+.global_menu .pop {border:1px solid #acacac; border-top:none; background-color:#414041; position:absolute; top:23px; right:0; padding:8px; z-index:39;}
 .global_menu .pop_admin {position:absolute; top:23px; right:0; z-index:38;}
 
 /*Personal Info*/
@@ -226,7 +226,7 @@ a .btn_apps:hover,
 
 
 /* 나의 커뮤니티, 나의 업무, 메일, 커뮤너티멤버 Hover */
-
+#all_works li, 
 #my_works li, 
 #my_communities li,
 #my_mail li,
@@ -234,29 +234,34 @@ a .btn_apps:hover,
 #m_setting li {position:relative;}
 #m_setting {padding-top:5px}
 
+#all_works li a,
 #my_works li a, 
 #my_communities li a,
 #my_mail li a,
 #community_members li a,
 #m_setting li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 
+#all_works li a:hover, 
 #my_works li a:hover, 
 #my_communities li a:hover,
 #my_mail li a:hover,
 #community_members li a:hover,
 #m_setting li a:hover {display:block; background-color:#4e4e4e;}
 
+#all_works .nav_subtitl_area, 
 #my_works .nav_subtitl_area, 
 #my_communities .nav_subtitl_area,
 #my_mail .nav_subtitl_area,
 #community_members .nav_subtitl_area,
 #m_setting .nav_subtitl_area, {display: inline; float: left; position: relative; width: 180px;}
 
+#all_works li .menu_2dep li a,
 #my_works li .menu_2dep li a,
 #m_setting li .menu_2dep li a {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 #my_works li .menu_2dep li a:hover,
 #m_setting li .menu_2dep li a:hover {display:block; background-color:#4e4e4e;}
 
+#all_works li .menu_2dep li div li a,
 #my_works li .menu_2dep li div li a,
 #m_setting li .menu_2dep li div li a {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 #my_works li .menu_2dep li div li a:hover,
