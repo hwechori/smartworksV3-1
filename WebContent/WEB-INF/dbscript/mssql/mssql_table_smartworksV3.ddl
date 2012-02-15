@@ -1136,7 +1136,7 @@ CREATE TABLE sweventday(
 	createdtime datetime,
 	modifier varchar(50),
 	modifiedtime datetime NULL,
-	reltdperson varchar(300),
+	reltdperson varchar(4000),
 	primary key (objid)
 )
 ;

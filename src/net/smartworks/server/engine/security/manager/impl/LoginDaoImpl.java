@@ -18,6 +18,7 @@ import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.security.manager.LoginDao;
 import net.smartworks.server.engine.security.model.Login;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.LocaleInfo;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.SqlParameter;
@@ -97,14 +98,19 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			login.setCellPhoneNo(rs.getString("mobileNo"));
 			login.setPhoneNo(rs.getString("internalNo"));
 			login.setType(rs.getString("type"));
-			login.setLocale(rs.getString("lang"));
 			login.setPosition(rs.getString("pos"));
 			login.setAuthId(rs.getString("authId"));
 			login.setEmail(rs.getString("email"));
 			login.setPassword(rs.getString("passwd"));
 			login.setLocale(rs.getString("locale"));
-			String timeZone = rs.getString("timeZone");
-			if(timeZone == null || timeZone == "")
+
+			String locale = CommonUtil.toNotNull(login.getLocale());
+			if(locale.equals(""))
+				locale = LocaleInfo.LOCALE_DEFAULT;
+			login.setLocale(locale);
+
+			String timeZone = CommonUtil.toNotNull(rs.getString("timeZone"));
+			if(timeZone.equals(""))
 				timeZone = LocalDate.TIMEZONE_SEOUL;
 			login.setTimeZone(timeZone);
 			String picture = CommonUtil.toNotNull(rs.getString("picture"));

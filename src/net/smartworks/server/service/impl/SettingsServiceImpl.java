@@ -17,9 +17,7 @@ import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Community;
-import net.smartworks.model.community.Department;
 import net.smartworks.model.community.User;
-import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
@@ -41,9 +39,7 @@ import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.ISettingsService;
-import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
-import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -851,7 +847,7 @@ public class SettingsServiceImpl implements ISettingsService {
 
 			Set<String> keySet = frmEditMember.keySet();
 			Iterator<String> itr = keySet.iterator();
-			
+
 			String hdnDepartmentId = null;
 			String txtMemberName = null;
 			String txtMemberId = null;
@@ -861,12 +857,12 @@ public class SettingsServiceImpl implements ISettingsService {
 			String selMemberRole = null;
 			String selMemberUserLevel = null;
 			String selMemberLocale = null;
+			String selMemberTimeZone = null;
 			String txtMemberPhoneNo = null;
 			String txtMemberCellPhoneNo = null;
 
 			SwoUser swoUser = null;
-			//if(!setUserId.equals("")) { TO-DO
-			if(setUserId != null) {
+			if(!setUserId.equals("")) {
 				swoUser = getSwoManager().getUser(userId, setUserId, IManager.LEVEL_ALL);
 				if(swoUser.getDomainId() == null || swoUser.getDomainId() == "")
 					swoUser.setDomainId("frm_user_SYSTEM");
@@ -913,6 +909,9 @@ public class SettingsServiceImpl implements ISettingsService {
 					} else if(fieldId.equals("selMemberLocale")) {
 						selMemberLocale = (String)frmEditMember.get("selMemberLocale");
 						swoUser.setLocale(selMemberLocale);
+					} else if(fieldId.equals("selMemberTimeZone")) {
+						selMemberTimeZone = (String)frmEditMember.get("selMemberTimeZone");
+						swoUser.setTimeZone(selMemberTimeZone);
 					} else if(fieldId.equals("txtMemberPhoneNo")) {
 						txtMemberPhoneNo = (String)frmEditMember.get("txtMemberPhoneNo");
 						swoUser.setExtensionNo(txtMemberPhoneNo);
@@ -956,13 +955,12 @@ public class SettingsServiceImpl implements ISettingsService {
 
 			Set<String> keySet = frmEditDepartment.keySet();
 			Iterator<String> itr = keySet.iterator();
-			
+
 			String hdnParentId = null;
 			String txtDepartmentName = null;
 
 			SwoDepartment swoDepartment = null;
-			//if(!departmentId.equals("")) { TO-DO
-			if(departmentId != null) {
+			if(!departmentId.equals("")) {
 				swoDepartment = getSwoManager().getDepartment(userId, departmentId, IManager.LEVEL_ALL);
 			} else {
 				swoDepartment = new SwoDepartment();
