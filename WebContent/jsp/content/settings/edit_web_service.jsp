@@ -50,6 +50,7 @@
 		if (SmartWorks.GridLayout.validate(editWebService.find('form.js_validation_required'), editWebService.find('.js_profile_error_message'))) {
 			var forms = editWebService.find('form');
 			var paramsJson = {};
+			paramsJson['serviceId'] = editWebService.attr('serviceId');
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				if(form.attr('name') === 'frmSmartForm'){

@@ -40,11 +40,13 @@ import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WebService;
+import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
+import net.smartworks.server.service.IBuilderService;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IDocFileService;
@@ -71,6 +73,7 @@ public class SmartWorks implements ISmartWorks {
 	IMailService mailService;
 	IDocFileService docFileService;
 	ISettingsService settingsService;
+	IBuilderService builderService;
 
 	@Autowired
 	public void setCommunityService(ICommunityService communityService) {
@@ -110,6 +113,11 @@ public class SmartWorks implements ISmartWorks {
 	@Autowired
 	public void setSettingsService(ISettingsService settingsService) {
 		this.settingsService = settingsService;
+	}
+
+	@Autowired
+	public void setBuilderService(IBuilderService builderService) {
+		this.builderService = builderService;
 	}
 
 	@Override
@@ -693,4 +701,33 @@ public class SmartWorks implements ISmartWorks {
 		return instanceId;
 	}
 
+	@Override
+	public void startWorkService(String workId) throws Exception {
+		builderService.startWorkService(workId);
+	}
+		
+	@Override
+	public void stopWorkService(String workId) throws Exception {
+		builderService.stopWorkService(workId);
+	}
+		
+	@Override
+	public void startWorkEditing(String workId) throws Exception {
+		builderService.startWorkEditing(workId);
+	}
+		
+	@Override
+	public void stopWorkEditing(String workId) throws Exception {
+		builderService.stopWorkEditing(workId);
+	}
+	
+	@Override
+	public void setWorkSettings(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		builderService.setWorkSettings(requestBody, request);
+	}
+	
+	@Override
+	public void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		builderService.publishWorkToStore(requestBody, request);
+	}
 }

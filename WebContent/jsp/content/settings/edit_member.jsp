@@ -10,7 +10,7 @@
 	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 현재사용자 정보도 가져온다..
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
-	
+
 	String userId = request.getParameter("userId");
 	String departId = request.getParameter("departId");
 	User user = (SmartUtil.isBlankObject(userId)) ? new User() : smartWorks.getUserById(userId);

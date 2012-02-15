@@ -52,6 +52,7 @@
 		if (SmartWorks.GridLayout.validate(editExternalForm.find('form.js_validation_required'), editExternalForm.find('.js_profile_error_message'))) {
 			var forms = editExternalForm.find('form');
 			var paramsJson = {};
+			paramsJson['formId'] = editExternalForm.attr('formId');
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				if(form.attr('name') === 'frmSmartForm'){

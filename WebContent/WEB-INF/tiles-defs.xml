@@ -147,4 +147,16 @@
 		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
 		<put-attribute name="content" value="/jsp/content/builder/smart_builder.jsp" />
 	</definition>
+	<definition name="tab_workbench" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
+		<put-attribute name="content" value="/jsp/content/builder/tab_workbench.jsp" />
+	</definition>
+	<definition name="tab_work_settings" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
+		<put-attribute name="content" value="/jsp/content/builder/tab_work_settings.jsp" />
+	</definition>
+	<definition name="tab_work_sharing" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
+		<put-attribute name="content" value="/jsp/content/builder/tab_work_sharing.jsp" />
+	</definition>
 </tiles-definitions>

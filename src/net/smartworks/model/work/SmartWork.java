@@ -29,6 +29,8 @@ public class SmartWork extends Work {
 	private ReportInfo[] reports;
 	private String lastFilterId;
 	private SearchFilterInfo[] searchFilters;
+	private User creater;
+	private LocalDate createdDate;
 	private User lastModifier;
 	private LocalDate lastModifiedDate;
 	private boolean isRunning;
@@ -96,51 +98,51 @@ public class SmartWork extends Work {
 	public void setReports(ReportInfo[] reports) {
 		this.reports = reports;
 	}
-
+	public User getCreater() {
+		return creater;
+	}
+	public void setCreater(User creater) {
+		this.creater = creater;
+	}
+	public LocalDate getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(LocalDate createdDate) {
+		this.createdDate = createdDate;
+	}
 	public User getLastModifier() {
 		return lastModifier;
 	}
-
 	public void setLastModifier(User lastModifier) {
 		this.lastModifier = lastModifier;
 	}
-
 	public LocalDate getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-
 	public void setLastModifiedDate(LocalDate lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
-
 	public boolean isRunning() {
 		return isRunning;
 	}
-
 	public void setRunning(boolean isRunning) {
 		this.isRunning = isRunning;
 	}
-
 	public boolean isEditing() {
 		return isEditing;
 	}
-
 	public void setEditing(boolean isEditing) {
 		this.isEditing = isEditing;
 	}
-
 	public User getEditingUser() {
 		return editingUser;
 	}
-
 	public void setEditingUser(User editingUser) {
 		this.editingUser = editingUser;
 	}
-
 	public LocalDate getEditingStartDate() {
 		return editingStartDate;
 	}
-
 	public void setEditingStartDate(LocalDate editingStartDate) {
 		this.editingStartDate = editingStartDate;
 	}

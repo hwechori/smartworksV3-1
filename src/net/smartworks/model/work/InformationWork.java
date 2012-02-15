@@ -4,6 +4,7 @@ public class InformationWork extends SmartWork {
 
 	private SmartForm form;
 	private FormField keyField;
+	private boolean keyDuplicatable;
 	private FormField[] displayFields;
 	private String helpUrl;
 	private String manualFilePath;
@@ -20,6 +21,12 @@ public class InformationWork extends SmartWork {
 	}
 	public void setKeyField(FormField keyField) {
 		this.keyField = keyField;
+	}
+	public boolean isKeyDuplicatable() {
+		return keyDuplicatable;
+	}
+	public void setKeyDuplicatable(boolean keyDuplicatable) {
+		this.keyDuplicatable = keyDuplicatable;
 	}
 	public FormField[] getDisplayFields() {
 		return displayFields;

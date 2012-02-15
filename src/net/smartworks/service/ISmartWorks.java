@@ -40,6 +40,7 @@ import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WebService;
+import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -313,4 +314,16 @@ public interface ISmartWorks {
 	
 	public abstract String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
+	public abstract void startWorkService(String workId) throws Exception;
+
+	public abstract void stopWorkService(String workId) throws Exception;
+
+	public abstract void startWorkEditing(String workId) throws Exception;
+
+	public abstract void stopWorkEditing(String workId) throws Exception;
+
+	public abstract void setWorkSettings(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
 }
