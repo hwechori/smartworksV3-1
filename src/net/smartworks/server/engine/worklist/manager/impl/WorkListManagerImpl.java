@@ -38,6 +38,10 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		int pageNo = cond.getPageNo();
 		int pageSize = cond.getPageSize();
 		
+		String worksSpaceId = cond.getTskWorkSpaceId();
+		Date executionDateFrom = cond.getTskExecuteDateFrom();
+		Date executionDateTo = cond.getTskExecuteDateTo();
+		
 		queryBuffer.append("from ");
 		queryBuffer.append("( ");
 		queryBuffer.append("	select task.tskobjId ");
@@ -71,9 +75,16 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		on ctg.parentId = ctg2.id ");
 		queryBuffer.append("	where tsktype not in ('and','route','SUBFLOW','xor') ");
 		queryBuffer.append("	and task.tskform = form.formid ");
-		queryBuffer.append("	and task.tskassignee = :tskAssignee ");
+		if (!CommonUtil.isEmpty(tskAssignee))
+			queryBuffer.append("	and task.tskassignee = :tskAssignee ");
 		if (!CommonUtil.isEmpty(tskStatus))
-			queryBuffer.append("	and task.tskstatus = :tskStatus ");	
+			queryBuffer.append("	and task.tskstatus = :tskStatus ");
+		if (!CommonUtil.isEmpty(worksSpaceId))
+			queryBuffer.append("	and task.tskWorkSpaceId = :worksSpaceId ");
+		if (executionDateFrom != null)
+			queryBuffer.append("	and task.tskExecuteDate >= :executionDateFrom ");
+		if (executionDateTo != null)
+			queryBuffer.append("	and task.tskExecuteDate <= :executionDateTo ");
 		queryBuffer.append(") taskInfo ");
 		//queryBuffer.append("left outer join ");
 		queryBuffer.append("join ");
@@ -150,6 +161,12 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 			query.setString("tskStatus", tskStatus);
 		if (lastInstanceDate != null)
 			query.setTimestamp("lastInstanceDate", lastInstanceDate);
+		if (!CommonUtil.isEmpty(worksSpaceId))
+			query.setString("worksSpaceId", worksSpaceId);
+		if (executionDateFrom != null)
+			query.setTimestamp("executionDateFrom", executionDateFrom);
+		if (executionDateTo != null)
+			query.setTimestamp("executionDateTo", executionDateTo);
 		
 		return query;
 	}

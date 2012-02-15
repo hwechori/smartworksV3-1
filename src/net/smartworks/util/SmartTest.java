@@ -1196,7 +1196,7 @@ public class SmartTest {
 		return SmartTest.getAssignedTaskInstances();
 	}
 	public static TaskInstanceInfo[][] getTaskInstancesByDates(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
-		return new TaskInstanceInfo[][]{SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances()};
+		return new TaskInstanceInfo[][]{SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances(), SmartTest.getAssignedTaskInstances()};
 	}
 	public static TaskInstanceInfo[] getTaskInstancesByWeek(String contextId, String spaceId, LocalDate weekStart, LocalDate weekEnd, int maxSize) throws Exception {
 		return SmartTest.getAssignedTaskInstances();

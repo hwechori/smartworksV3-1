@@ -1,3 +1,13 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.TimeZone"%>
+<%@page import="net.smartworks.server.engine.common.util.DateUtil"%>
+<%@page import="net.smartworks.util.LocalDate"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
+<%@page import="net.smartworks.server.engine.config.model.SwcWorkHour"%>
 <%@page import="org.apache.commons.logging.LogFactory"%>
 <%@page import="org.apache.commons.logging.Log"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
@@ -49,16 +59,21 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
+	Map<String, List> map = new HashMap<String, List>();
 
-	Log logger = LogFactory.getLog(getClass());
-	
-	out.print(logger);
-	
-	logger.info("teeeeeeeeeeeeeeeeeeeee");
+	for (int i = 0; i < 10 ; i++) {
+		List temp = new ArrayList();
+		map.put("1", temp);
+	}
+	List temp2 = new ArrayList();
 
+	map.get("1").add("123");
+	map.get("1").add("123");
+	map.get("1").add("123");
+	
+	out.println(map);
+	
 %>
-<textarea style="width:800px;height:400px;">
-<%-- <%= works[0].getPrcTitle() %> --%>
-</textarea>
+
 </body>
 </html>
