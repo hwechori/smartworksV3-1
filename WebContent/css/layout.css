@@ -130,6 +130,7 @@ li.js_content:hover .checkOption {display:block}
 .personal_info li {float:left; vertical-align:bottom; margin-right:6px; color:#dddddd; line-height: 1.3em; } 
 .personal_info .pic {background: url("../images/pic_personal_info.jpg"); display:inline; width:66px; height:66px; position:relative;}
 .personal_info .setting {background: url("../images/nav_setting.png"); display:inline; width:66px; height:66px; position:relative;}
+.personal_info .builder {background: url("../images/nav_builder.png"); display:inline; width:72px; height:75px; position:relative;}
 
 /* nav_list*/
 .nav_list {width:226px;}

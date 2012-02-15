@@ -30,7 +30,7 @@
 	<!-- Nav Title -->
 	<div class="personal_info">
 		<ul>
-			<li class="setting"></li>
+			<li class="builder"></li>
 			<li class="margin_t25"><span class="t_nav">스마트 빌더</span></li>
 		</ul>
 	</div>

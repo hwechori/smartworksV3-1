@@ -101,7 +101,7 @@
 			        <!-- 방향 Prev -->
 	        		<div class="float_left_nowidth"><a href="" class="js_instance_tasks_left" style="display:none"><img class="proc_btn_prev"></a></div>
 			        
-			        <div class="proc_task_completed float_left_nowidth padding_r10"> 시작 </div>
+			        <div class="proc_start_compl float_left_nowidth padding_r10"> 시작 </div>
 			        <div class="proc_arr_next float_left_nowidth padding_r10"></div>
 			        
 			        <!-- 태스크 시작-->
