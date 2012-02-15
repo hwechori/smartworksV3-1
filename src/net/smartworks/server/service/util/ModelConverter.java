@@ -748,7 +748,7 @@ public class ModelConverter {
 	public static UserInfo getUserInfoByUserId(String userId) throws Exception {
 		if (CommonUtil.isEmpty(userId))
 			return null;
-		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
+		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId, true);
 		return getUserInfoBySwoUserExtend(null, userExtend);
 	}
 
@@ -1022,7 +1022,7 @@ public class ModelConverter {
 	public static User getUserByUserId(String userId) throws Exception {
 		if (CommonUtil.isEmpty(userId))
 			return null;
-		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
+		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId, true);
 		return getUserBySwoUserExtend(null, userExtend);
 	}
 	public static User getUserBySwoUserExtend(User user, SwoUserExtend userExtend) throws Exception {
@@ -1057,7 +1057,7 @@ public class ModelConverter {
 		if (CommonUtil.isEmpty(departmentId))
 			return null;
 		User cUser = SmartUtil.getCurrentUser();
-		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
+		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId, true);
 		return getDepartmentInfoBySwoUserExtend(null, departmentExtend);
 	}
 
@@ -1079,7 +1079,7 @@ public class ModelConverter {
 		if (CommonUtil.isEmpty(departmentId))
 			return null;
 		User cUser = SmartUtil.getCurrentUser();
-		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
+		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId, true);
 		return getDepartmentBySwoDepartment(null, departmentExtend);
 	}
 

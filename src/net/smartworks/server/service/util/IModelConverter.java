@@ -140,7 +140,7 @@ public class IModelConverter {
 
 		if (CommonUtil.isEmpty(userId))
 			return null;
-		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
+		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId, true);
 		if (userExtend == null)
 			return null;
 
@@ -207,7 +207,7 @@ public class IModelConverter {
 
 		if (CommonUtil.isEmpty(userId))
 			return null;
-		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
+		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId, true);
 		if (userExtend == null)
 			return null;
 

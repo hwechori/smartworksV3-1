@@ -582,7 +582,7 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	public void setMyProfile(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
+		try {
 			Map<String, Object> frmMyProfileSetting = (Map<String, Object>)requestBody.get("frmMyProfileSetting");
 	
 			Set<String> keySet = frmMyProfileSetting.keySet();
@@ -656,6 +656,7 @@ public class WorkServiceImpl implements IWorkService {
 		        securityContext.setAuthentication(authentication);
 		        SecurityContextHolder.setContext(securityContext);
 		        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+		        getSwoManager().getUserExtend(txtUserProfileUserId, txtUserProfileUserId, false);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -1,3 +1,5 @@
+ALTER TABLE SWEventday alter column reltdperson varchar(4000);
+
 ALTER TABLE SWDataRef alter column refRecordId varchar(4000);
 
 -- TO-DO : user_field 추가 시 컬럼 길이 4000으로 변경

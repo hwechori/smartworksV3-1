@@ -53,8 +53,8 @@ public class CommunityServiceImpl implements ICommunityService {
 
 		try{
 			User user = SmartUtil.getCurrentUser();
-	
-			SwoUserExtend userExtend = SwManagerFactory.getInstance().getSwoManager().getUserExtend(user.getId(), user.getId());
+
+			SwoUserExtend userExtend = SwManagerFactory.getInstance().getSwoManager().getUserExtend(user.getId(), user.getId(), true);
 			String myDeptId = userExtend.getDepartmentId();
 			List<SwoDepartment> deptList = new ArrayList<SwoDepartment>();
 			getDeptTreeByDeptId(deptList, myDeptId);
