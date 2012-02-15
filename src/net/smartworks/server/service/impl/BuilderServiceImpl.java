@@ -64,4 +64,15 @@ public class BuilderServiceImpl implements IBuilderService {
 			// Exception Handling Required			
 		}
 	}
+
+	@Override
+	public void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
 }

@@ -128,4 +128,10 @@ public class BuilderController {
 		smartworks.setWorkSettings(requestBody, request);
 	}
 	
+	@RequestMapping(value = "/publish_work_to_store", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody void publishWorkToStore(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.publishWorkToStore(requestBody, request);
+	}
+	
 }
