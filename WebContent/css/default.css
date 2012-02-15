@@ -149,11 +149,6 @@ mark, rp, rt, ruby, summary, time {
 .float_left {float:left}
 /*.float_left_nowidth{float:left;}*/
 .float_right {float:right;}
-.center {text-align:center;}
-
-.h_auto th, .h_auto td { height:auto}
-.w_auto { width:auto}
-
 .clear {display:block; clear:both;}
 
 .space_r2 {margin-right:2px !important}
@@ -166,6 +161,7 @@ mark, rp, rt, ruby, summary, time {
 .padding_l20 {padding-left:20px !important}
 .padding_l10 {padding-left:10px !important}
 
+.padding_r3 { padding-right:3px !important}
 .padding_r5 { padding-right:5px !important}
 .padding_r10 { padding-right:10px !important}
 .padding_r30 { padding-right:30px !important}
@@ -193,8 +189,11 @@ mark, rp, rt, ruby, summary, time {
 .text_align_l {text-align:left !important}
 .text_align_c {text-align:center !important}
 .text_align_r {text-align:right !important}
+.center {text-align:center;}
 
 .li_height13 {line-height: 13px;}
 
 .posi_ab {position:absolute;}
+
+.vt {vertical-align:top}
 

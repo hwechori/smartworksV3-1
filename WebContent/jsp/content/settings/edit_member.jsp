@@ -99,16 +99,16 @@
 			<table class="margin_t10">
 				<tbody>
 					<tr>
-						<td width="20%" ><fmt:message key="profile.title.department"/></td>
+						<td width="22%" ><fmt:message key="profile.title.department"/></td>
 						<%
 						if(!SmartUtil.isBlankObject(departId)){
 						%>
-							<td width="80%"><%=CommonUtil.toNotNull(department.getName()) %></td>
+							<td width="78%"><%=CommonUtil.toNotNull(department.getName()) %></td>
 							<input name="hdnDepartmentId" type="hidden" value="<%=CommonUtil.toNotNull(department.getId())%>">
 						<%
 						}else{
 						%>
-							<td width="80%"><%=CommonUtil.toNotNull(user.getDepartment()) %></td>
+							<td width="78%"><%=CommonUtil.toNotNull(user.getDepartment()) %></td>
 						<%
 						}
 						%>
@@ -120,15 +120,19 @@
 					<tr>
 						<td><fmt:message key="profile.title.user_id"/><span class="essen_n"></span></td>
 						<td>
-						<input name="txtMemberId" <%if(!SmartUtil.isBlankObject(userId)){ %>class="fieldline sw_dup_checked required email" readonly<%}else{ %>class="fieldline required email" <%} %> type="text" value="<%=CommonUtil.toNotNull(user.getId()) %>" />
-						<div class="txt_btn float_left"><fmt:message key="settings.sentence.use_email"/></div>
 						
-						<div class="float_right margin_t2">
-							<div class="btnIconStart">
+						<div class="btn_fb_space5">
+						
+								<input name="txtMemberId" <%if(!SmartUtil.isBlankObject(userId)){ %>class="sw_dup_checked fieldline required email" readonly<%}else{ %>class="fieldline required email" <%} %> type="text" value="<%=CommonUtil.toNotNull(user.getId()) %>" />
+								
+								<div class="btnIconStart ico_posi">
 								<a class="btnIconsTail js_check_id_duplication" href="" <%if(!SmartUtil.isBlankObject(userId)){%>style="display:none"<%} %>><fmt:message key="settings.button.duplication_check"/></a>
 								<a class="btnIconsTail js_change_id" href="" <%if(SmartUtil.isBlankObject(userId)){%>style="display:none"<%} %>><fmt:message key="settings.button.change_id"/></a>
-							</div>
+								</div>
 						</div>
+						
+						<div class="t_s11 float_left"><fmt:message key="settings.sentence.use_email"/></div>
+						
 						</td>
 					</tr>
 					<tr>
