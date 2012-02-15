@@ -29,7 +29,7 @@ public class SwcWorkHourCond extends MisObjectCond {
 	}
 	
 	private static final long serialVersionUID = 1L;
-	protected static final String PREFIX = "Sww";
+	protected static final String PREFIX = "Swc";
 
 	private static Log logger = LogFactory.getLog(SwcWorkHourCond.class);
 	private static final String NAME = CommonUtil.toName(SwcWorkHourCond.class, PREFIX);

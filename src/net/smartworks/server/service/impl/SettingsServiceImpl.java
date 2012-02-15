@@ -22,6 +22,7 @@ import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.service.ExternalForm;
+import net.smartworks.model.service.Variable;
 import net.smartworks.model.service.WebService;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
@@ -29,10 +30,11 @@ import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
+import net.smartworks.server.engine.config.model.SwcWebService;
+import net.smartworks.server.engine.config.model.SwcWebServiceCond;
+import net.smartworks.server.engine.config.model.SwcWebServiceParameter;
 import net.smartworks.server.engine.config.model.SwcWorkHour;
 import net.smartworks.server.engine.config.model.SwcWorkHourCond;
-import net.smartworks.server.engine.config.webservice.manager.IWebServiceManager;
-import net.smartworks.server.engine.config.webservice.model.WebServiceCond;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoCompany;
@@ -55,9 +57,6 @@ public class SettingsServiceImpl implements ISettingsService {
 	}
 	private ISwcManager getSwcManager() {
 		return SwManagerFactory.getInstance().getSwcManager();
-	}
-	private IWebServiceManager getWebServiceManager() {
-		return SwManagerFactory.getInstance().getWebServiceManager();
 	}
 
 	ICommunityService communityService;
@@ -606,7 +605,7 @@ public class SettingsServiceImpl implements ISettingsService {
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
-		}		
+		}
 	}
 
 	@Override
@@ -741,17 +740,17 @@ public class SettingsServiceImpl implements ISettingsService {
 	
 	@Override
 	public RecordList getWebServiceList(RequestParams params) throws Exception {
-		return null;
-		/*try {
+
+		try {
 			RecordList recordList = new RecordList();
 			User cUser = SmartUtil.getCurrentUser();
 			String userId = cUser.getId();
 			String companyId = cUser.getCompanyId();
 
-			WebServiceCond webServiceCond = new WebServiceCond();
-			webServiceCond.setCompanyId(companyId);
+			SwcWebServiceCond swcWebServiceCond = new SwcWebServiceCond();
+			swcWebServiceCond.setCompanyId(companyId);
 
-			long totalCount = getWebServiceManager().getWebServiceSize(userId, webServiceCond);
+			long totalCount = getSwcManager().getWebServiceSize(userId, swcWebServiceCond);
 
 			int pageSize = params.getPageSize();
 			if(pageSize == 0) pageSize = 20;
@@ -767,49 +766,64 @@ public class SettingsServiceImpl implements ISettingsService {
 				totalPages = (int)totalCount / pageSize + 1;
 
 			if (currentPage > 0)
-				swcEventDayCond.setPageNo(currentPage-1);
+				swcWebServiceCond.setPageNo(currentPage-1);
 
 			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
 				currentPage = 1;
 
-			swcEventDayCond.setPageSize(pageSize);
+			swcWebServiceCond.setPageSize(pageSize);
 
-			swcEventDayCond.setOrders(new Order[]{new Order("startDay", false)});
-			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(userId, swcEventDayCond, IManager.LEVEL_ALL);
+			//swcWebServiceCond.setOrders(new Order[]{new Order("webServiceName", true)});
+			SwcWebService[] swcWebServices = getSwcManager().getWebServices(userId, swcWebServiceCond, IManager.LEVEL_ALL);
 
-			if(swcEventDays != null) {
-				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
-				for(SwcEventDay swcEventDay : swcEventDays) {
-					CompanyEvent companyEvent = new CompanyEvent();
-					boolean isHoliDay = swcEventDay.getType().equals(CompanyEvent.EVENT_TYPE_HOLIDAY) ? true : false;
-					LocalDate plannedStart = new LocalDate(swcEventDay.getStartDay().getTime());
-					LocalDate plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
-					String id = swcEventDay.getObjId();
-					String name = swcEventDay.getName();
-					if(swcEventDay.getReltdPerson() != null) {
-						List<Community> userList = new ArrayList<Community>();
-						String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
-						if(reltdUsers != null && reltdUsers.length > 0) {
-							for(String reltdUser : reltdUsers) {
-								Object obj = communityService.getWorkSpaceById(reltdUser);
-								userList.add((Community)obj);
+			if(swcWebServices != null) {
+				List<WebService> webServiceList = new ArrayList<WebService>();
+				for(SwcWebService swcWebService : swcWebServices) {
+					WebService webService = new WebService();
+					String id = swcWebService.getObjId();
+					String name = swcWebService.getWebServiceName();
+					String desc = swcWebService.getDescription();
+					String wsdlUri = swcWebService.getWsdlAddress();
+					String port = swcWebService.getPortName();
+					String operation = swcWebService.getOperationName();
+					SwcWebServiceParameter[] swcWebServiceParameters = swcWebService.getSwcWebServiceParameters();
+					if(swcWebServiceParameters != null) {
+						List<Variable> inputVariableList = new ArrayList<Variable>();
+						List<Variable> returnVariableList = new ArrayList<Variable>();
+						for(SwcWebServiceParameter swcWebServiceParameter : swcWebServiceParameters) {
+							Variable variable = new Variable();
+							String type = swcWebServiceParameter.getType();
+							if(type.equals("I")) {
+								variable.setName(swcWebServiceParameter.getVariableName());
+								variable.setElementName(swcWebServiceParameter.getParameterName());
+								variable.setElementType(swcWebServiceParameter.getParameterType());
+								inputVariableList.add(variable);
+							} else if(type.equals("O")) {
+								variable.setName(swcWebServiceParameter.getVariableName());
+								variable.setElementName(swcWebServiceParameter.getParameterName());
+								variable.setElementType(swcWebServiceParameter.getParameterType());
+								returnVariableList.add(variable);
 							}
 						}
-						Community[] relatedUsers = new Community[userList.size()];
-						userList.toArray(relatedUsers);
-						companyEvent.setRelatedUsers(relatedUsers);
+						Variable[] inputVariables = new Variable[inputVariableList.size()];
+						inputVariableList.toArray(inputVariables);
+						webService.setInputVariables(inputVariables);
+						Variable[] returnVariables = new Variable[returnVariableList.size()];
+						returnVariableList.toArray(returnVariables);
+						webService.setReturnVariables(returnVariables);
 					}
-					companyEvent.setId(id);
-					companyEvent.setName(name);
-					companyEvent.setHoliday(isHoliDay);
-					companyEvent.setPlannedStart(plannedStart);
-					companyEvent.setPlannedEnd(plannedEnd);
-					companyEventList.add(companyEvent);
+					webService.setId(id);
+					webService.setName(name);
+					webService.setDesc(desc);
+					webService.setWsdlUri(wsdlUri);
+					webService.setPort(port);
+					webService.setOperation(operation);
+					webServiceList.add(webService);
 				}
-				CompanyEvent[] companyEvents = new CompanyEvent[companyEventList.size()];
-				companyEventList.toArray(companyEvents);
+				WebService[] webServices = new WebService[webServiceList.size()];
+				webServiceList.toArray(webServices);
 
-				recordList.setRecords(companyEvents);
+				recordList.setRecords(webServices);
 				recordList.setPageSize(pageSize);
 				recordList.setTotalPages(totalPages);
 				recordList.setCurrentPage(currentPage);
@@ -822,44 +836,146 @@ public class SettingsServiceImpl implements ISettingsService {
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
-		}*/
+		}
 	}
 
 	@Override
 	public WebService getWebServiceById(String id) throws Exception {
 
-		try{
-			return new WebService();
-		}catch (Exception e){
-			// Exception Handling Required
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			SwcWebService swcWebService = getSwcManager().getWebService(userId, id, IManager.LEVEL_ALL);
+
+			if(swcWebService != null) {
+				WebService webService = new WebService();
+				String name = swcWebService.getWebServiceName();
+				String desc = swcWebService.getDescription();
+				String wsdlUri = swcWebService.getWsdlAddress();
+				String port = swcWebService.getPortName();
+				String operation = swcWebService.getOperationName();
+				SwcWebServiceParameter[] swcWebServiceParameters = swcWebService.getSwcWebServiceParameters();
+				if(swcWebServiceParameters != null) {
+					List<Variable> inputVariableList = new ArrayList<Variable>();
+					List<Variable> returnVariableList = new ArrayList<Variable>();
+					for(SwcWebServiceParameter swcWebServiceParameter : swcWebServiceParameters) {
+						Variable variable = new Variable();
+						String type = swcWebServiceParameter.getType();
+						if(type.equals("I")) {
+							variable.setName(swcWebServiceParameter.getVariableName());
+							variable.setElementName(swcWebServiceParameter.getParameterName());
+							variable.setElementType(swcWebServiceParameter.getParameterType());
+							inputVariableList.add(variable);
+						} else if(type.equals("O")) {
+							variable.setName(swcWebServiceParameter.getVariableName());
+							variable.setElementName(swcWebServiceParameter.getParameterName());
+							variable.setElementType(swcWebServiceParameter.getParameterType());
+							returnVariableList.add(variable);
+						}
+					}
+					Variable[] inputVariables = new Variable[inputVariableList.size()];
+					inputVariableList.toArray(inputVariables);
+					webService.setInputVariables(inputVariables);
+					Variable[] returnVariables = new Variable[returnVariableList.size()];
+					returnVariableList.toArray(returnVariables);
+					webService.setReturnVariables(returnVariables);
+				}
+				webService.setId(id);
+				webService.setName(name);
+				webService.setDesc(desc);
+				webService.setWsdlUri(wsdlUri);
+				webService.setPort(port);
+				webService.setOperation(operation);
+				return webService;
+			} else {
+				return null;
+			}
+		} catch(Exception e) {
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}		
+			return null;
+		}
 	}
 
 	@Override
 	public void setWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+
+			Map<String, Object> frmEditCompanyEvent = (Map<String, Object>)requestBody.get("frmEditCompanyEvent");
+			String eventId = (String)requestBody.get("eventId");
+
+			Set<String> keySet = frmEditCompanyEvent.keySet();
+			Iterator<String> itr = keySet.iterator();
+
+			String txtEventName = null;
+			Date datStartDate = null;
+			Date datEndDate = null;
+			List<Map<String, String>> users = null;
+
+			SwcEventDay swcEventDay = null;
+			if(!eventId.equals("")) {
+				swcEventDay = getSwcManager().getEventday(userId, eventId, IManager.LEVEL_ALL);
+			} else {
+				swcEventDay = new SwcEventDay();
+				swcEventDay.setType(CompanyEvent.EVENT_TYPE_EVENTDAY);
+				swcEventDay.setCompanyId(companyId);
+			}
+
+			while (itr.hasNext()) {
+				String fieldId = (String)itr.next();
+				Object fieldValue = frmEditCompanyEvent.get(fieldId);
+				if(fieldValue instanceof LinkedHashMap) {
+					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+					if(fieldId.equals("usrRelatedUsers"))
+						users = (ArrayList<Map<String,String>>)valueMap.get("users");
+
+					if(!CommonUtil.isEmpty(users)) {
+						String relatedId = "";
+						String symbol = ";";
+						for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+							Map<String, String> user = users.get(i);
+							relatedId += user.get("id") + symbol;
+						}
+						swcEventDay.setReltdPerson(relatedId);
+					}
+				} else if(fieldValue instanceof String) {	
+					if(fieldId.equals("txtEventName")) {
+						txtEventName = (String)frmEditCompanyEvent.get("txtEventName");
+						swcEventDay.setName(txtEventName);
+					} else if(fieldId.equals("chkIsHoliday")) {
+						swcEventDay.setType(CompanyEvent.EVENT_TYPE_HOLIDAY);
+					} else if(fieldId.equals("datStartDate")) {
+						datStartDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datStartDate")).getTime());
+						swcEventDay.setStartDay(datStartDate);
+					} else if(fieldId.equals("datEndDate")) {
+						datEndDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datEndDate")).getTime());
+						swcEventDay.setEndDay(datEndDate);
+					}
+				}
+			}
+			getSwcManager().setEventday(userId, swcEventDay, IManager.LEVEL_ALL);
+		} catch(Exception e) {
 			e.printStackTrace();
-			// Exception Handling Required			
 		}
 	}
-	
+
 	@Override
 	public void removeWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			// Exception Handling Required			
+		try {
+			User user = SmartUtil.getCurrentUser();
+			String serviceId = (String)requestBody.get("serviceId");
+			if(serviceId.equals(""))
+				return;
+			getSwcManager().removeWebService(user.getId(), serviceId);
+		} catch(Exception e) {
+			e.printStackTrace();			
 		}
 	}
-	
+
 	@Override
 	public RecordList getExternalFormList(RequestParams params) throws Exception {
 
@@ -1081,6 +1197,12 @@ public class SettingsServiceImpl implements ISettingsService {
 		} catch(Exception e) {
 			e.printStackTrace();			
 		}
+	}
+
+	@Override
+	public void checkIdDuplication(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

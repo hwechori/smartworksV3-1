@@ -850,8 +850,9 @@ public class WorkServiceImpl implements IWorkService {
 			Map<String, Object> frmInstanceListPaging = (Map<String, Object>)requestBody.get("frmInstanceListPaging");
 			Map<String, Object> frmWorkHourListPaging = (Map<String, Object>)requestBody.get("frmWorkHourListPaging");
 			Map<String, Object> frmCompanyEventListPaging = (Map<String, Object>)requestBody.get("frmCompanyEventListPaging");
+			Map<String, Object> frmWebServiceListPaging = (Map<String, Object>)requestBody.get("frmWebServiceListPaging");
 
-			Map<String, Object> existListPaging = null;
+			Map<String, Object> existListPaging = new LinkedHashMap<String, Object>();
 
 			if(frmInstanceListPaging != null)
 				existListPaging = frmInstanceListPaging;
@@ -859,6 +860,8 @@ public class WorkServiceImpl implements IWorkService {
 				existListPaging = frmWorkHourListPaging;
 			else if(frmCompanyEventListPaging != null)
 				existListPaging = frmCompanyEventListPaging;
+			else if(frmWebServiceListPaging != null)
+				existListPaging = frmWebServiceListPaging;
 
 			String hdnCurrentPage = (String)existListPaging.get("hdnCurrentPage");
 			String selPageSize = (String)existListPaging.get("selPageSize");

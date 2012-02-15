@@ -6,10 +6,10 @@
  * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
  */
 
-package net.smartworks.server.engine.config.externalform.model;
+package net.smartworks.server.engine.config.model;
 
 import net.smartworks.server.engine.common.model.BaseObject;
-import net.smartworks.server.engine.common.model.MisObject;
+import net.smartworks.server.engine.common.model.MisObjectCond;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
 
@@ -21,31 +21,31 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
-public class ExternalForm extends MisObject {
+public class SwcExternalFormCond extends MisObjectCond {
 
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(ExternalForm.class);
+	private static Log logger = LogFactory.getLog(SwcExternalFormCond.class);
 	
-	protected static final String PREFIX = "Web";
-	private static final String NAME = CommonUtil.toName(ExternalForm.class, PREFIX);
+	protected static final String PREFIX = "Swc";
+	private static final String NAME = CommonUtil.toName(SwcExternalFormCond.class, PREFIX);
 	
-	public static final String A_EXTERNALFORMNAME = "webAppServiceName";
-	public static final String A_EXTERNALFORMURL = "webAppServiceUrl";
+	public static final String A_EXTERNALFORMNAME = "externalFormName";
+	public static final String A_EXTERNALFORMURL = "externalFormUrl";
 	public static final String A_MODIFYMETHOD = "modifyMethod";
 	public static final String A_VIEWMETHOD = "viewMethod";
 	public static final String A_DESCRIPTION = "description";
-	public static final String A_EXTERNALFORMPARAMETERS = "webAppServiceParameters";
-	public static final String A_EXTERNALFORMPARAMETER = "webAppServiceParameter";
+	public static final String A_EXTERNALFORMPARAMETERS = "externalFormParameters";
+	public static final String A_EXTERNALFORMPARAMETER = "externalFormParameter";
 	
-	private String webAppServiceName;
-	private String webAppServiceUrl;
+	private String externalFormName;
+	private String externalFormUrl;
 	private String modifyMethod;
 	private String viewMethod;
 	private String description;
 	
-	private ExternalFormParameter[] webAppServiceParameters;
+	private SwcExternalFormParameter[] swcExternalFormParameters;
 	
-	public ExternalForm() {
+	public SwcExternalFormCond() {
 		super();
 	}
 	public String toString(String name, String tab) {
@@ -61,8 +61,8 @@ public class ExternalForm extends MisObject {
 	public String toAttributesString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.toAttributesString());
-		appendAttributeString(A_EXTERNALFORMNAME, webAppServiceName, buf);
-		appendAttributeString(A_EXTERNALFORMURL, webAppServiceUrl, buf);
+		appendAttributeString(A_EXTERNALFORMNAME, externalFormName, buf);
+		appendAttributeString(A_EXTERNALFORMURL, externalFormUrl, buf);
 		appendAttributeString(A_MODIFYMETHOD, modifyMethod, buf);
 		appendAttributeString(A_VIEWMETHOD, viewMethod, buf);
 		return buf.toString();
@@ -78,27 +78,27 @@ public class ExternalForm extends MisObject {
 		if (node == null)
 			return null;
 		
-		ExternalForm obj = null;
-		if (baseObj == null || !(baseObj instanceof ExternalForm))
-			obj = new ExternalForm();
+		SwcExternalFormCond obj = null;
+		if (baseObj == null || !(baseObj instanceof SwcExternalFormCond))
+			obj = new SwcExternalFormCond();
 		else
-			obj = (ExternalForm)baseObj;
+			obj = (SwcExternalFormCond)baseObj;
 		
 		//부모 attributes, elements 값 설정
-		MisObject.toObject(node, obj);
+		MisObjectCond.toObject(node, obj);
 		
 		NamedNodeMap attrMap = node.getAttributes();
 		if (attrMap != null) {
-			Node webAppServiceName = attrMap.getNamedItem(A_EXTERNALFORMNAME);
-			Node webAppServiceUrl = attrMap.getNamedItem(A_EXTERNALFORMURL);
+			Node externalFormName = attrMap.getNamedItem(A_EXTERNALFORMNAME);
+			Node externalFormUrl = attrMap.getNamedItem(A_EXTERNALFORMURL);
 			Node modifyMethod = attrMap.getNamedItem(A_MODIFYMETHOD);
 			Node viewMethod = attrMap.getNamedItem(A_VIEWMETHOD);
 			Node description = attrMap.getNamedItem(A_DESCRIPTION);
 
-			if (webAppServiceName != null)
-				obj.setExternalFormName(webAppServiceName.getNodeValue());
-			if (webAppServiceUrl != null)
-				obj.setExternalFormUrl(webAppServiceUrl.getNodeValue());
+			if (externalFormName != null)
+				obj.setExternalFormName(externalFormName.getNodeValue());
+			if (externalFormUrl != null)
+				obj.setExternalFormUrl(externalFormUrl.getNodeValue());
 			if (modifyMethod != null)
 				obj.setModifyMethod(modifyMethod.getNodeValue());
 			if (viewMethod != null)
@@ -115,7 +115,7 @@ public class ExternalForm extends MisObject {
 			if (childNode.getNodeType() != Node.ELEMENT_NODE || childNode.getNodeName() == null)
 				continue;
 			if (childNode.getNodeName().equals("A_EXTERNALFORMPARAMETER")) {
-				obj.addExfExternalFormParameter((ExternalFormParameter)ExternalFormParameter.toObject(childNode, null));
+				obj.addExfExternalFormParameter((SwcExternalFormParameter)SwcExternalFormParameter.toObject(childNode, null));
 			}
 		}
 		return obj;
@@ -128,20 +128,20 @@ public class ExternalForm extends MisObject {
 			return null;
 		return toObject(doc.getDocumentElement(), null);
 	}
-	public static ExternalForm[] add(ExternalForm[] objs, ExternalForm obj) {
+	public static SwcExternalFormCond[] add(SwcExternalFormCond[] objs, SwcExternalFormCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
 		if (objs != null)
 			size = objs.length;
-		ExternalForm[] newObjs = new ExternalForm[size+1];
+		SwcExternalFormCond[] newObjs = new SwcExternalFormCond[size+1];
 		int i;
 		for (i=0; i<size; i++)
 			newObjs[i] = objs[i];
 		newObjs[i] = obj;
 		return newObjs;
 	}
-	public static ExternalForm[] remove(ExternalForm[] objs, ExternalForm obj) {
+	public static SwcExternalFormCond[] remove(SwcExternalFormCond[] objs, SwcExternalFormCond obj) {
 		if (obj == null)
 			return objs;
 		int size = 0;
@@ -149,7 +149,7 @@ public class ExternalForm extends MisObject {
 			size = objs.length;
 		if (size == 0)
 			return objs;
-		ExternalForm[] newObjs = new ExternalForm[size-1];
+		SwcExternalFormCond[] newObjs = new SwcExternalFormCond[size-1];
 		int i;
 		int j = 0;
 		for (i=0; i<size; i++) {
@@ -159,7 +159,7 @@ public class ExternalForm extends MisObject {
 		}
 		return newObjs;
 	}
-	public static ExternalForm[] left(ExternalForm[] objs, ExternalForm obj) {
+	public static SwcExternalFormCond[] left(SwcExternalFormCond[] objs, SwcExternalFormCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -171,7 +171,7 @@ public class ExternalForm extends MisObject {
 		}
 		if (idx < 1)
 			return objs;
-		ExternalForm[] newObjs = new ExternalForm[objs.length];
+		SwcExternalFormCond[] newObjs = new SwcExternalFormCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx-1];
@@ -184,7 +184,7 @@ public class ExternalForm extends MisObject {
 		}
 		return newObjs;
 	}
-	public static ExternalForm[] right(ExternalForm[] objs, ExternalForm obj) {
+	public static SwcExternalFormCond[] right(SwcExternalFormCond[] objs, SwcExternalFormCond obj) {
 		if (objs == null || objs.length == 0 || obj == null)
 			return objs;
 		int idx = -1;
@@ -196,7 +196,7 @@ public class ExternalForm extends MisObject {
 		}
 		if (idx == -1 || idx+1 == objs.length)
 			return objs;
-		ExternalForm[] newObjs = new ExternalForm[objs.length];
+		SwcExternalFormCond[] newObjs = new SwcExternalFormCond[objs.length];
 		for (int i=0; i<objs.length; i++) {
 			if (i == idx) {
 				newObjs[i] = objs[idx+1];
@@ -217,25 +217,25 @@ public class ExternalForm extends MisObject {
 			return null;
 		}
 	}
-	public void addExfExternalFormParameter(ExternalFormParameter webAppServiceParameter) {
-		if (webAppServiceParameter == null)
+	public void addExfExternalFormParameter(SwcExternalFormParameter swcExternalFormParameter) {
+		if (swcExternalFormParameter == null)
 			return;
-		this.setExternalFormParameters(ExternalFormParameter.add(this.getExternalFormParameters(), webAppServiceParameter));
+		this.setExternalFormParameters(SwcExternalFormParameter.add(this.getExternalFormParameters(), swcExternalFormParameter));
 	}
 	public String getExternalFormName() {
-		return webAppServiceName;
+		return externalFormName;
 	}
 
-	public void setExternalFormName(String webAppServiceName) {
-		this.webAppServiceName = webAppServiceName;
+	public void setExternalFormName(String externalFormName) {
+		this.externalFormName = externalFormName;
 	}
 
 	public String getExternalFormUrl() {
-		return webAppServiceUrl;
+		return externalFormUrl;
 	}
 
-	public void setExternalFormUrl(String webAppServiceUrl) {
-		this.webAppServiceUrl = webAppServiceUrl;
+	public void setExternalFormUrl(String externalFormUrl) {
+		this.externalFormUrl = externalFormUrl;
 	}
 
 	public String getModifyMethod() {
@@ -262,12 +262,13 @@ public class ExternalForm extends MisObject {
 		this.description = description;
 	}
 
-	public ExternalFormParameter[] getExternalFormParameters() {
-		return webAppServiceParameters;
+	public SwcExternalFormParameter[] getExternalFormParameters() {
+		return swcExternalFormParameters;
 	}
 
 	public void setExternalFormParameters(
-			ExternalFormParameter[] webAppServiceParameters) {
-		this.webAppServiceParameters = webAppServiceParameters;
+			SwcExternalFormParameter[] externalFormParameters) {
+		this.swcExternalFormParameters = externalFormParameters;
 	}
+
 }

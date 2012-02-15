@@ -21,7 +21,7 @@ public class SwcEventDayCond extends MisObjectCond {
 	}
 
 	private static final long serialVersionUID = 1L;
-	protected static final String PREFIX = "Sww";
+	protected static final String PREFIX = "Swc";
 
 	private static Log logger = LogFactory.getLog(SwcEventDayCond.class);
 	private static final String NAME = CommonUtil.toName(SwcEventDayCond.class, PREFIX);

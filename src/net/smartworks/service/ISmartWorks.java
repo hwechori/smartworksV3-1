@@ -40,7 +40,6 @@ import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WebService;
-import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -299,6 +298,8 @@ public interface ISmartWorks {
 	public abstract void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void checkIdDuplication(HttpServletRequest request) throws Exception;
 
 	public abstract RecordList getWebServiceList(RequestParams params) throws Exception;
 	
