@@ -26,9 +26,16 @@
 
 	WorkInstance workInstance = (WorkInstance)session.getAttribute("workInstance");
 	String contextStr=null;
+	String workListHref = "";
+	String workListContext = "";
 	if(SmartUtil.isBlankObject(workInstance)) contextStr = "";
-	else if(workInstance.getClass().equals(ProcessWorkInstance.class)) contextStr = ISmartWorks.CONTEXT_PWORK_SPACE;
-	else if(workInstance.getClass().equals(InformationWorkInstance.class)) contextStr = ISmartWorks.CONTEXT_IWORK_SPACE;
+	else if(workInstance.getClass().equals(ProcessWorkInstance.class)){
+		contextStr = ISmartWorks.CONTEXT_PWORK_SPACE;
+		workListHref = "pwork_list.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + workInstance.getWork().getId();;
+	}else if(workInstance.getClass().equals(InformationWorkInstance.class)){
+		contextStr = ISmartWorks.CONTEXT_IWORK_SPACE;
+		workListHref = "iwork_list.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + workInstance.getWork().getId();
+	}
 	
 	TaskInstanceInfo[] tasks = smartWorks.getTaskInstancesByDate(contextStr, workInstance.getId(), new LocalDate(), null, 20); 
 	
@@ -81,7 +88,7 @@
 	<!-- 목록 버튼 -->
 	<div class="" style=" text-align:center">
 		<div class="btn_gray" >
-	    	<a href="" class="js_goto_iwork_list"> 
+	    	<a href="<%=workListHref%>" class="js_content"> 
 	    		<span class="Btn01Start"></span> 
 	    		<span class="Btn01Center"><fmt:message key="common.button.list"/></span> 
 	    		<span class="Btn01End"></span>

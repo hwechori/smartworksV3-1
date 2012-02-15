@@ -90,6 +90,7 @@
 			<%
 			}else{
 			%>
+				<input name="selWorkSpaceType" type="hidden" value="<%=spaceType %>">
 				<select name="selWorkSpace">
 					<option  value="<%=cUser.getId()%>"><fmt:message key="common.upload.space.self" /></option>
 					<optgroup label="<fmt:message key="common.upload.space.department"/>">

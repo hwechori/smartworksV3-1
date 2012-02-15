@@ -21,6 +21,31 @@ function loadMyProfileField() {
 	}
 };
 
+function loadCompanyLogoField() {
+	var companyLogoFields = $('div.js_company_logo_field');
+	if(!isEmpty(companyLogoFields)) {
+		for(var i=0; i<companyLogoFields.length; i++) {
+			var companyLogoField = $(companyLogoFields[i]);
+			
+			var imgSource = companyLogoField.attr('imgSource');
+			var gridRow = SmartWorks.GridLayout.newGridRow();
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			companyLogoField.html(gridTable.html(gridRow));
+
+			SmartWorks.FormRuntime.ImageBoxBuilder.buildEx({
+				container: gridRow,
+				fieldId: "imgCompanyLogo",
+				fieldName: "picture profile",
+				imgSource: imgSource,
+				columns: 1,
+				pictureWidth: 130,
+				pictureHeight: 35,
+				required: false
+			});
+		}		
+	}
+};
+
 function loadCheckScheduleFields() {
 	var checkScheduleFields = $('div.js_check_schedule_fields');
 	if(!isEmpty(checkScheduleFields)) {

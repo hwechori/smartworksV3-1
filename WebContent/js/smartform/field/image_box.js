@@ -37,7 +37,7 @@ SmartWorks.FormRuntime.ImageBoxBuilder.build = function(config) {
 		required = ' class="form_value" ';
 	}
 	
-	var picSize = 'style="min-height:20px;width:' + ((picWidth) ? picWidth : 300) + 'px;' + ((picHeight) ? ('height="' + picHeight + 'px;"') : '"' );
+	var picSize = 'style="min-height:20px;width:' + ((picWidth) ? picWidth : 300) + 'px;' + ((picHeight) ? ('height:' + picHeight + 'px;"') : '"' );
 	var src = (isBlank(imgSource)) ? '' : ' src="' + imgSource + '" ';
 	var $image = $('<div ' + required + ' style="width:' + valueWidth + '%"><img class="form_value js_auto_picture" ' + picSize + src + '></img><div>');
 	var $label = null;

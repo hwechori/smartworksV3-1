@@ -53,8 +53,8 @@ public class CommunityServiceImpl implements ICommunityService {
 
 		try{
 			User user = SmartUtil.getCurrentUser();
-	
-			SwoUserExtend userExtend = SwManagerFactory.getInstance().getSwoManager().getUserExtend(user.getId(), user.getId());
+
+			SwoUserExtend userExtend = SwManagerFactory.getInstance().getSwoManager().getUserExtend(user.getId(), user.getId(), true);
 			String myDeptId = userExtend.getDepartmentId();
 			List<SwoDepartment> deptList = new ArrayList<SwoDepartment>();
 			getDeptTreeByDeptId(deptList, myDeptId);
@@ -170,9 +170,8 @@ public class CommunityServiceImpl implements ICommunityService {
 
 	public String setGroup(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		User user = SmartUtil.getCurrentUser();
-
 		try{
+			User user = SmartUtil.getCurrentUser();
 			Map<String, Object> frmNewGroupProfile = (Map<String, Object>)requestBody.get("frmNewGroupProfile");
 	
 			Set<String> keySet = frmNewGroupProfile.keySet();
@@ -598,9 +597,20 @@ public class CommunityServiceImpl implements ICommunityService {
 
 	@Override
 	public CommunityInfo[] getMyCommunities() throws Exception {
-		
+
 		try{
-			return SmartTest.getMyCommunities();
+			DepartmentInfo[] departmentInfos = getMyDepartments();
+			GroupInfo[] groupInfos = getMyGroups();
+			int departmentInfosLength = departmentInfos.length;
+			int groupInfosLength = groupInfos.length;
+			CommunityInfo[] communityInfos = new CommunityInfo[departmentInfosLength + groupInfosLength];
+			for(int i=0; i<departmentInfosLength; i++) {
+				communityInfos[i] = departmentInfos[i];
+			}
+			for(int j=0; j<groupInfosLength; j++) {
+				communityInfos[departmentInfosLength+j] = groupInfos[j];
+			}
+			return communityInfos;
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();

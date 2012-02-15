@@ -3,9 +3,10 @@ package net.smartworks.model.calendar;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.smartworks.model.BaseObject;
 import net.smartworks.util.LocalDate;
 
-public class WorkHourPolicy {
+public class WorkHourPolicy extends BaseObject{
 
 	public final static WorkHour[] DEFAULT_WORKHOURS = new WorkHour[]{
 							new WorkHour(0, 0, 0),

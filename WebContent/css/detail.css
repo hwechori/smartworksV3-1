@@ -3,9 +3,9 @@
 
 
 /* 본문- 타이틀 아이콘*/
-.body_titl { padding:0 15px 10px;} /* 본문 페이지 타이틀*/
-.body_titl .title {font-size: 14px; font-weight: bold; height: 52px; position: absolute;}  /* 타이틀 우측으로 아이콘이 있을때 */
-.body_titl .title_noico {font-size: 14px; font-weight: bold; height:29px}  /* 타이틀 우측으로 아이콘이 없을때 */
+.body_titl { padding:0 15px 10px; overflow: hidden;} /* 본문 페이지 타이틀*/
+.body_titl .title {font-size: 16px; font-weight: bold; height: 29px; float:left}  /* 타이틀 우측으로 아이콘이 있을때 */
+.body_titl .title_noico {font-size: 16px; font-weight: bold; height:29px}  /* 타이틀 우측으로 아이콘이 없을때 */
 .body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding: 28px 0 4px 0; text-align: right} /* 타이틀 우측으로 버튼 */
 .body_titl .txt_btn .pho_user {width:22px;}
 
@@ -61,23 +61,23 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 
 /* 목록보기 부분 타이틀 */
 /*.list_title_space {background-color:#ededed; padding:7px 5px; overflow:hidden;}*/
-.list_title_space,.default_title_space {padding:5px 0 0 0; overflow:hidden; clear:both}
+.default_title_space{padding-bottom:3px !important} /* Case in No right Button */
+.list_title_space,.default_title_space {padding:5px 0 0 0; overflow:hidden; clear:both} /* Case in right Button */
 .list_title_space .title, .list_title, .default_title_space .title {background: url("../images/iconTitle.gif") 0 2px no-repeat;font-size:14px;font-weight:bold; padding: 0 8px 0 20px; float:left;}
 
 .list_contents { clear:both}
 .list_contents table {min-width:700px;}
-.list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE0; height:32px}
+.list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE}
 .list_contents table tr .end, .list_contents table td .end {border-bottom: 0 none}
 .list_contents table .tit_bg {background: url("../images/bg_thGradient.gif") 0 100% repeat-x}
 .list_contents table .tit_bg th{border-bottom:1px solid #ccc;border-top:2px solid #7f7f7f}
 .list_contents table th {text-align:center; padding:5px 5px 0;}
 .list_contents table td {padding-left:10px; }
-.list_contents table.tit_bg2 th {background-color:#F5F5F5; font-weight:normal}
+.list_contents table .tit_bg2 th {background-color:#F5F5F5; font-weight:normal}
 .list_contents table .tit_bg2 td {background-color:#FFF}
 .r_line {border-right:1px solid #cccccc;}
 .po_left{display:inline-block}
 .js_work_report_list_box{width:170px}
-.default_title_space{padding-bottom:3px}
 
 /* 새로 만들기 부분 타이틀 */
 .nmake_title_space {background-color:#F7F7F7; padding:5px; overflow:hidden;}
@@ -231,6 +231,17 @@ display: inline-block; height: 16px; width: 16px; position:relative; right:5px;}
 .tab li .intab a { display: inline-block; line-height: 32px; padding: 0 8px; color:#FFF;}
 .tab li.current .intab a { color: #000000; font-weight: bold;}
 
+/* 탭 설정페이지 */
+.tab_adm {height: 23px; position: relative; top: 30px; z-index: 31; margin-left:5px}
+.tab_adm li { background: url("../images/bg_tab_a_l.gif") no-repeat scroll 0 0 transparent; float: left; height: 23px;}
+.tab_adm li.current { background-position: left -23px;}
+.tab_adm li div { background: url("../images/bg_tab_a_r.gif") no-repeat scroll right top transparent; display: block; float: left; height: 23px;}
+.tab_adm li.current div { background-position: right -23px;}
+.tab_adm li div a { display: inline-block; line-height: 26px; padding: 0 12px 0 10px; color:#a4a4a4;}
+.tab_adm li.current div a { color: #d36d6e; font-weight: bold;}
+.tab_adm li div.end { background-position: right -46px;}
+.tab_adm li.current div.end { background-position: right -69px;}
+
 /* Tab - text */
 .tab_text {height: 22px; padding: 30px 0 0 130px} 
 .tab_text li {float: right; font-size:11px; color:#dddddd} 
@@ -322,6 +333,15 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .btn_s_modi {background: url("../images/btn_modi.gif") 0 0; height:21px; width:40px; display:inline-block;}
 .btn_s_del {background: url("../images/bt_delete.gif") 0 0; height:21px; width:40px; display:inline-block;}
 
+/* Icon in builder Tab*/
+.btn_wo_adm {background: url("../images/body_icon.png") no-repeat -149px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
+.current .btn_wo_adm {background-position:-149px -501px}
+.btn_set_adm {background: url("../images/body_icon.png") no-repeat -185px -485px transparent; height:12px;  width:17px; display: inline-block; padding-right:5px}
+.current .btn_set_adm {background-position:-185px -501px}
+.btn_app_shar {background: url("../images/body_icon.png") no-repeat -226px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
+.current .btn_app_shar {background-position:-226px -501px}
+.btn_app_shar_go {background: url("../images/body_icon.png") no-repeat -277px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
+
 .borderGrayBox form,.borderGrayBox1 form{vertical-align:middle}
 .borderGrayBox .srch_wsize,.borderGrayBox1 .srch_wsize{margin:0}
 .borderGrayBox .list_contents{margin-top:4px;padding-bottom:5px;background-color:#fff}
@@ -329,3 +349,23 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 
 /* line style */
 .dotlineLeftGray{border-left:1px dashed #c2c2c2}
+
+
+/* 3단구성 */
+.left40 { float:left; width:40%;}
+.mid20 { float:left; width:20%; vertical-align:middle; margin-top:20px}
+.right40 { float:right; width:40%;}
+.left40 table, .right40 table { width:100% ; min-width:inherit}
+
+/* 2단구성 - 업무설명 */
+.left_im { position:absolute; width:208px}
+.right_auto {display: block; padding-left:213px; width:auto}
+.left_im table, .right_auto table { width:100% ; min-width:inherit}
+
+/* 2단구성 - 사용자 가이드 */
+.left_im2 { position:absolute; width:315px}
+.right_auto2 { display: block; padding-left:320px; width:auto}
+.left_im2 table, .right_auto2 table { width:100% ; min-width:inherit}
+
+
+

@@ -14,6 +14,12 @@ import net.smartworks.server.engine.config.exception.SwcException;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
+import net.smartworks.server.engine.config.model.SwcExternalForm;
+import net.smartworks.server.engine.config.model.SwcExternalFormCond;
+import net.smartworks.server.engine.config.model.SwcExternalFormParameter;
+import net.smartworks.server.engine.config.model.SwcWebService;
+import net.smartworks.server.engine.config.model.SwcWebServiceCond;
+import net.smartworks.server.engine.config.model.SwcWebServiceParameter;
 import net.smartworks.server.engine.config.model.SwcWorkHour;
 import net.smartworks.server.engine.config.model.SwcWorkHourCond;
 import net.smartworks.util.LocalDate;
@@ -634,6 +640,503 @@ public class SwcManagerImpl extends AbstractManager implements ISwcManager {
 			logger.error(e, e);
 			throw new SwcException(e);
 		}
+	}
+
+	public SwcWebService getWebService(String userId, String objId, String level) throws SwcException {
+		try {
+			if (level == null)
+				level = LEVEL_ALL;
+			if (level.equals(LEVEL_ALL)) {
+				SwcWebService obj = (SwcWebService)this.get(SwcWebService.class, objId);
+				return obj;
+			} else {
+				SwcWebServiceCond cond = new SwcWebServiceCond();
+				cond.setObjId(objId);
+				return getWebService(userId, cond, level);
+			}
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+	public SwcWebService getWebService(String userId, SwcWebServiceCond cond, String level) throws SwcException {
+		if (level == null)
+			level = LEVEL_ALL;
+		cond.setPageSize(2);
+		SwcWebService[] webServiceLists = getWebServices(userId, cond, level);
+		if (CommonUtil.isEmpty(webServiceLists))
+			return null;
+		try {
+			if (webServiceLists.length != 1)
+				throw new SwcException("More than 1 Object");
+		} catch (SwcException e) {
+			logger.error(e, e);
+			throw e;
+		}
+		return webServiceLists[0];
+	}
+	public void setWebService(String userId, SwcWebService obj, String level) throws SwcException {
+		if (level == null)
+			level = LEVEL_ALL;
+		try {
+			if (level.equals(LEVEL_ALL)){
+				fill(userId, obj);
+				set(obj);
+			} else {
+				StringBuffer buf = new StringBuffer();
+				buf.append(" update SwcWebService set ");
+				buf.append(" webServiceName=:webServiceName, webServiceAddress=:webServiceAddress, wsdlAddress=:wsdlAddress ");
+				buf.append(", portName=:portName, A_OPERATIONNAME=:A_OPERATIONNAME, A_DESCRIPTION=:A_DESCRIPTION, ");
+				buf.append(" where objId=:objId ");
+				Query query = this.getSession().createQuery(buf.toString());
+				query.setString(SwcWebService.A_WEBSERVICENAME, obj.getWebServiceName());
+				query.setString(SwcWebService.A_WEBSERVICEADDRESS, obj.getWebServiceAddress());
+				query.setString(SwcWebService.A_WSDLADDRESS, obj.getWsdlAddress());
+				query.setString(SwcWebService.A_PORTNAME, obj.getPortName());
+				query.setString(SwcWebService.A_OPERATIONNAME, obj.getOperationName());
+				query.setString(SwcWebService.A_DESCRIPTION, obj.getDescription());
+				query.setString(SwcWebService.A_OBJID, obj.getObjId());
+			}
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+	public void createWebService(String userId, SwcWebService obj) throws SwcException {
+		try {
+			fill(userId, obj);
+			create(obj);
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+	public void removeWebService(String userId, String objId) throws SwcException {
+		try {
+			remove(SwcWebService.class, objId);
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+	public void removeWebService(String userId, SwcWebServiceCond cond) throws SwcException {
+		SwcWebService obj = getWebService(userId, cond, null);
+		if (obj == null)
+			return;
+		removeWebService(userId, obj.getObjId());
+	}
+	private Query appendQuery(StringBuffer buf, SwcWebServiceCond cond) throws Exception {
+		String objId = null;
+		String webServiceName = null;
+		String webServiceAddress = null;
+		String wsdlAddress = null;
+		String portName = null;
+		String operationName = null;
+		String description = null;
+		SwcWebServiceParameter[] webServices =null;
+		
+		if (cond != null) {
+			objId = cond.getObjId();
+			webServiceName = cond.getWebServiceName();
+			webServiceAddress = cond.getWebServiceAddress();
+			wsdlAddress = cond.getWsdlAddress();
+			portName = cond.getPortName();
+			operationName = cond.getOperationName();
+			description = cond.getDescription();
+		}
+		buf.append(" from SwcWebService obj");
+		if (webServices != null && webServices.length != 0) {
+			for (int i=0; i<webServices.length; i++) {
+				buf.append(" left join obj.swcWebServiceParameters as webserviceParameter").append(i);
+			}
+		}
+		buf.append(" where obj.id is not null");
+		if (cond != null) {
+			if (objId != null)
+				buf.append(" and obj.objId = :objId");
+			if (webServiceName != null)
+				buf.append(" and obj.webServiceName = :webServiceName");
+			if (webServiceAddress != null)
+				buf.append(" and obj.webServiceAddress = :webServiceAddress");
+			if (wsdlAddress != null)
+				buf.append(" and obj.wsdlAddress = :wsdlAddress");
+			if (portName != null)
+				buf.append(" and obj.portName = :portName");
+			if (operationName != null)
+				buf.append(" and obj.operationName = :operationName");
+			if (description != null)
+				buf.append(" and obj.description = :description");
+			if (webServices != null && webServices.length != 0) {
+				for (int i=0; i<webServices.length; i++) {
+					SwcWebServiceParameter webservice = webServices[i];
+					String parameterName = webservice.getParameterName();
+					String parameterType = webservice.getParameterType();
+					String variableName = webservice.getVariableName();
+					String type = webservice.getType();
+					if (variableName != null)
+						buf.append(" and webservice").append(i).append(".variableName = :variableName").append(i);
+					if (parameterName != null)
+						buf.append(" and webservice").append(i).append(".parameterName = :parameterName").append(i);
+					if (parameterType != null)
+						buf.append(" and webservice").append(i).append(".parameterType = :parameterType").append(i);
+					if (type != null)
+						buf.append(" and webservice").append(i).append(".type = :type").append(i);
+				}
+			}
+		}
+		this.appendOrderQuery(buf, "obj", cond);
+		
+		Query query = this.createQuery(buf.toString(), cond);
+		
+		if (cond != null) {
+			if (objId != null)
+				query.setString("objId", objId);
+			if (webServiceName != null)
+				query.setString("webServiceName", webServiceName);
+			if (webServiceAddress != null)
+				query.setString("webServiceAddress", webServiceAddress);
+			if (wsdlAddress != null)
+				query.setString("wsdlAddress", wsdlAddress);
+			if (portName != null)
+				query.setString("portName", portName);
+			if (operationName != null)
+				query.setString("operationName", operationName);
+			if (description != null)
+				query.setString("description", description);
+			if (webServices != null && webServices.length != 0) {
+				for (int i=0; i<webServices.length; i++) {
+					SwcWebServiceParameter webService = webServices[i];
+					String parameterName = webService.getParameterName();
+					String parameterType = webService.getParameterType();
+					String variableName = webService.getVariableName();
+					String type = webService.getType();
+					
+					if (parameterName != null)
+						query.setString("parameterName"+i, parameterName);
+					if (parameterType != null)
+						query.setString("parameterType"+i, parameterType);
+					if (variableName != null)
+						query.setString("variableName"+i, variableName);
+					if (type != null)
+						query.setString("type"+i, type);
+				}
+			}
+		}
+		return query;
+	}
+	public long getWebServiceSize(String userId, SwcWebServiceCond cond) throws SwcException {
+		try {
+			StringBuffer buf = new StringBuffer();
+			buf.append("select");
+			buf.append(" count(obj) ");
+			Query query = this.appendQuery(buf, cond);
+			List  list = query.list();
+
+			long count = ((Long)list.get(0)).longValue();
+			return count;
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+	public SwcWebService[] getWebServices(String userId, SwcWebServiceCond cond, String level) throws SwcException {
+		try {
+			if (level == null)
+				level = LEVEL_ALL;
+			StringBuffer buf = new StringBuffer();
+			buf.append(" select ");
+			if(level.equals(LEVEL_ALL)) {
+				buf.append(" obj ");
+			} else {
+				buf.append(" obj.objId, obj.webServiceName, obj.webServiceAddress, obj.wsdlAddress, obj.portName ");
+				buf.append(", obj.operationName,  obj.description ");
+			}
+			Query query = this.appendQuery(buf, cond);
+			List list = query.list();
+			if (list == null || list.isEmpty())
+				return null;
+			if (!level.equals(LEVEL_ALL)) {
+				List objList = new ArrayList();
+				for (Iterator itr = list.iterator(); itr.hasNext();) {
+					Object[] fields = (Object[]) itr.next();
+					SwcWebService obj = new SwcWebService();
+					int j = 0;
+					obj.setObjId((String)fields[j++]);
+					obj.setWebServiceName((String)fields[j++]);
+					obj.setWebServiceAddress((String)fields[j++]);
+					obj.setWsdlAddress((String)fields[j++]);
+					obj.setPortName(((String)fields[j++]));	
+					obj.setOperationName((String)fields[j++]);
+					obj.setDescription(((String)fields[j++]));
+					objList.add(obj);
+				}
+				list = objList;
+			}
+			SwcWebService[] objs = new SwcWebService[list.size()];
+			list.toArray(objs);
+			return objs;
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+	
+	public void removeWebServices(String userId, String packageId) throws SwcException {
+		if (CommonUtil.isEmpty(packageId))
+			return;
+		String hql = "delete from SwcWebServiceParameter where objId = '" + packageId + "'";
+		Query query = this.getSession().createQuery(hql);
+		query.executeUpdate();
+	}
+
+	public SwcExternalForm getExternalForm(String userId, String objId, String level) throws SwcException {
+		try {
+			if (level == null)
+				level = LEVEL_ALL;
+			if (level.equals(LEVEL_ALL)) {
+				SwcExternalForm obj = (SwcExternalForm) this.get(SwcExternalForm.class, objId);
+				return obj;
+			} else {
+				SwcExternalFormCond cond = new SwcExternalFormCond();
+				cond.setObjId(objId);
+				return getExternalForm(userId, cond, level);
+			}
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+
+	public SwcExternalForm getExternalForm(String userId, SwcExternalFormCond cond, String level) throws SwcException {
+		if (level == null)
+			level = LEVEL_ALL;
+		cond.setPageSize(2);
+		SwcExternalForm[] webAppServiceLists = getExternalForms(userId, cond, level);
+		if (CommonUtil.isEmpty(webAppServiceLists))
+			return null;
+		try {
+			if (webAppServiceLists.length != 1)
+				throw new SwcException("More than 1 Object");
+		} catch (SwcException e) {
+			logger.error(e, e);
+			throw e;
+		}
+		return webAppServiceLists[0];
+	}
+
+	public void setExternalForm(String userId, SwcExternalForm obj, String level) throws SwcException {
+		if (level == null)
+			level = LEVEL_ALL;
+		try {
+			if (level.equals(LEVEL_ALL)) {
+				fill(userId, obj);
+				set(obj);
+			} else {
+				StringBuffer buf = new StringBuffer();
+				buf.append(" update SwcExternalForm set ");
+				buf.append(" webAppServiceName=:webAppServiceName, webAppServiceUrl=:webAppServiceUrl, modifyMethod=:modifyMethod ");
+				buf.append(", viewMethod=:viewMethod, A_DESCRIPTION=:A_DESCRIPTION, ");
+				buf.append(" where objId=:objId ");
+				Query query = this.getSession().createQuery(buf.toString());
+				query.setString(SwcExternalForm.A_EXTERNALFORMNAME, obj.getWebAppServiceName());
+				query.setString(SwcExternalForm.A_EXTERNALFORMURL, obj.getWebAppServiceUrl());
+				query.setString(SwcExternalForm.A_MODIFYMETHOD, obj.getModifyMethod());
+				query.setString(SwcExternalForm.A_VIEWMETHOD, obj.getViewMethod());
+				query.setString(SwcExternalForm.A_DESCRIPTION, obj.getDescription());
+				query.setString(SwcExternalForm.A_OBJID, obj.getObjId());
+			}
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+
+	}
+
+	public void createExternalForm(String userId, SwcExternalForm obj) throws SwcException {
+		try {
+			fill(userId, obj);
+			create(obj);
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+
+	public void removeExternalForm(String userId, String objId) throws SwcException {
+		try {
+			remove(SwcExternalForm.class, objId);
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+
+	}
+
+	public void removeExternalForm(String userId, SwcExternalFormCond cond) throws SwcException {
+		SwcExternalForm obj = getExternalForm(userId, cond, null);
+		if (obj == null)
+			return;
+		removeExternalForm(userId, obj.getObjId());
+
+	}
+
+	private Query appendQuery(StringBuffer buf, SwcExternalFormCond cond) throws Exception {
+		String objId = null;
+		String webAppServiceName = null;
+		String webAppServiceUrl = null;
+		String modifyMethod = null;
+		String viewMethod = null;
+		String description = null;
+		SwcExternalFormParameter[] webAppServiceParameters = null;
+
+		if (cond != null) {
+			objId = cond.getObjId();
+			webAppServiceName = cond.getExternalFormName();
+			webAppServiceUrl = cond.getExternalFormUrl();
+			modifyMethod = cond.getModifyMethod();
+			viewMethod = cond.getViewMethod();
+			description = cond.getDescription();
+		}
+
+		buf.append(" from SwcExternalForm obj ");
+		if (webAppServiceParameters != null && webAppServiceParameters.length != 0) {
+			for (int i = 0; i < webAppServiceParameters.length; i++) {
+				buf.append(" left join obj.swcExternalFormParameters as webappserviceParameter").append(i);
+			}
+		}
+		buf.append(" where obj.id is not null ");
+		if (cond != null) {
+			if (objId != null)
+				buf.append(" and obj.objId = :objId ");
+			if (webAppServiceName != null)
+				buf.append(" and obj.webAppServiceName = :webAppServiceName ");
+			if (webAppServiceUrl != null)
+				buf.append(" and obj.webAppServiceUrl = :webAppServiceUrl ");
+			if (modifyMethod != null)
+				buf.append(" and obj.modifyMethod = :modifyMethod ");
+			if (viewMethod != null)
+				buf.append(" and obj.viewMethod = :viewMethod ");
+			if (description != null)
+				buf.append(" and obj.description = :description ");
+			if (webAppServiceParameters != null && webAppServiceParameters.length != 0) {
+				for (int i = 0; i < webAppServiceParameters.length; i++) {
+					SwcExternalFormParameter webparameter = webAppServiceParameters[i];
+					String parameterName = webparameter.getParameterName();
+					String parameterType = webparameter.getParameterType();
+					String variableName = webparameter.getVariableName();
+					String type = webparameter.getType();
+					if (variableName != null)
+						buf.append(" and webparameter").append(i).append(".variableName = :variableName").append(i);
+					if (parameterName != null)
+						buf.append(" and webparameter").append(i).append(".parameterName = :parameterName").append(i);
+					if (parameterType != null)
+						buf.append(" and webparameter").append(i).append(".parameterType = :parameterType").append(i);
+					if (type != null)
+						buf.append(" and webparameter").append(i).append(".type = :type").append(i);
+				}
+			}
+		}
+		this.appendOrderQuery(buf, "obj", cond);
+
+		Query query = this.createQuery(buf.toString(), cond);
+
+		if (cond != null) {
+			if (objId != null)
+				query.setString("objId", objId);
+			if (webAppServiceName != null)
+				query.setString("webAppServiceName", webAppServiceName);
+			if (webAppServiceUrl != null)
+				query.setString("webAppServiceUrl", webAppServiceUrl);
+			if (modifyMethod != null)
+				query.setString("modifyMethod", modifyMethod);
+			if (viewMethod != null)
+				query.setString("viewMethod", viewMethod);
+			if (description != null)
+				query.setString("description", description);
+			if (webAppServiceParameters != null && webAppServiceParameters.length != 0) {
+				for (int i = 0; i < webAppServiceParameters.length; i++) {
+					SwcExternalFormParameter webparameter = webAppServiceParameters[i];
+					String parameterName = webparameter.getParameterName();
+					String parameterType = webparameter.getParameterType();
+					String variableName = webparameter.getVariableName();
+					String type = webparameter.getType();
+					if (parameterName != null)
+						query.setString("parameterName" + i, parameterName);
+					if (parameterType != null)
+						query.setString("parameterType" + i, parameterType);
+					if (variableName != null)
+						query.setString("variableName" + i, variableName);
+					if (type != null)
+						query.setString("type" + i, type);
+				}
+			}
+		}
+		return query;
+	}
+
+	public long getExternalFormSize(String userId, SwcExternalFormCond cond) throws SwcException {
+		try {
+			StringBuffer buf = new StringBuffer();
+			buf.append("select");
+			buf.append(" count(obj) ");
+			Query query = this.appendQuery(buf, cond);
+			List list = query.list();
+
+			long count = ((Long) list.get(0)).longValue();
+			return count;
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+
+	public SwcExternalForm[] getExternalForms(String userId, SwcExternalFormCond cond, String level) throws SwcException {
+		try {
+			if (level == null)
+				level = LEVEL_ALL;
+			StringBuffer buf = new StringBuffer();
+			buf.append(" select ");
+			if (level.equals(LEVEL_ALL)) {
+				buf.append(" obj ");
+			} else {
+				buf.append(" obj.objId, obj.webAppServiceName, obj.webAppServiceUrl, obj.modifyMethod, obj.viewMethod ");
+				buf.append(", obj.description ");
+			}
+			Query query = this.appendQuery(buf, cond);
+			List list = query.list();
+			if (list == null || list.isEmpty())
+				return null;
+			if (!level.equals(LEVEL_ALL)) {
+				List objList = new ArrayList();
+				for (Iterator itr = list.iterator(); itr.hasNext();) {
+					Object[] fields = (Object[]) itr.next();
+					SwcExternalForm obj = new SwcExternalForm();
+					int j = 0;
+					obj.setObjId((String) fields[j++]);
+					obj.setWebAppServiceName((String) fields[j++]);
+					obj.setWebAppServiceUrl((String) fields[j++]);
+					obj.setModifyMethod((String) fields[j++]);
+					obj.setViewMethod(((String) fields[j++]));
+					obj.setDescription(((String) fields[j++]));
+					objList.add(obj);
+				}
+				list = objList;
+			}
+			SwcExternalForm[] objs = new SwcExternalForm[list.size()];
+			list.toArray(objs);
+			return objs;
+		} catch (Exception e) {
+			logger.error(e, e);
+			throw new SwcException(e);
+		}
+	}
+
+	public void removeExternalForms(String userId, String packageId) throws SwcException {
+		if (CommonUtil.isEmpty(packageId))
+			return;
+		String hql = "delete from SwcExternalFormParameter where objId = '" + packageId + "'";
+		Query query = this.getSession().createQuery(hql);
+		query.executeUpdate();
 	}
 
 }

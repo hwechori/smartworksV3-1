@@ -73,9 +73,9 @@ smartPop = {
 						'</div>' +
 						'<div class="smartp_btn_space">' +
 							'<div class="float_right">' +
-								'<a href="" class="js_send_mail_to_user" userId="' + userId + '"><img class="pop_ico_mail"></a>' +
-								'<a href="" class="js_leave_message_for_user" userId="' + userId + '"><img class="pop_ico_note"></a>' + 
-								'<a href="" class="js_start_chat_with_user" userId="' + userId + '"><img class="pop_ico_chat"></a>' +
+								'<a href="" class="js_send_mail_to_user" userId="' + userId + '"><span class="pop_ico_mail"></span></a>' +
+								'<a href="" class="js_leave_message_for_user" userId="' + userId + '"><span class="pop_ico_message"></span></a>' + 
+								'<a href="" class="js_start_chat_with_user" userId="' + userId + '"><span class="pop_ico_chat"></span></a>' +
 							'</div>' +
 						'</div>' +
 					'</div>' +

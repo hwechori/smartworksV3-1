@@ -6,7 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.RecordList;
+import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.calendar.CompanyCalendar;
+import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
@@ -17,6 +20,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
+import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
@@ -34,6 +38,8 @@ import net.smartworks.model.notice.Notice;
 import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
+import net.smartworks.model.service.ExternalForm;
+import net.smartworks.model.service.WebService;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -185,7 +191,7 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
 
-	public abstract WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception;
+	public abstract WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception; // hsshin
 
 	public abstract TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;
 
@@ -247,6 +253,60 @@ public interface ISmartWorks {
 
 	public abstract void removeAFavoriteWork(HttpServletRequest request) throws Exception;
 
+	public abstract CompanyGeneral getCompanyGeneral() throws Exception;
+
+	public abstract void setCompanyGeneral(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract RecordList getWorkHourPolicyList(RequestParams params) throws Exception;
+	
+	public abstract WorkHourPolicy getWorkHourPolicyById(String id) throws Exception;
+	
+	public abstract void setWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract void removeWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
+	public abstract RecordList getCompanyEventList(RequestParams params) throws Exception;
+	
+	public abstract CompanyEvent getCompanyEventById(String id) throws Exception;
+	
+	public abstract void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract RecordList getApprovalLineList(RequestParams params) throws Exception;
+	
+	public abstract ApprovalLine getApprovalLineById(String id) throws Exception;
+	
+	public abstract void setApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract RecordList getExternalFormList(RequestParams params) throws Exception;
+	
+	public abstract ExternalForm getExternalFormById(String id) throws Exception;
+	
+	public abstract void setExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void setMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void checkIdDuplication(HttpServletRequest request) throws Exception;
+
+	public abstract RecordList getWebServiceList(RequestParams params) throws Exception;
+	
+	public abstract WebService getWebServiceById(String id) throws Exception;
+	
+	public abstract void setWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
 	public abstract String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
 	public abstract String returnTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
@@ -255,4 +315,16 @@ public interface ISmartWorks {
 	
 	public abstract String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
+	public abstract void startWorkService(String workId) throws Exception;
+
+	public abstract void stopWorkService(String workId) throws Exception;
+
+	public abstract void startWorkEditing(String workId) throws Exception;
+
+	public abstract void stopWorkEditing(String workId) throws Exception;
+
+	public abstract void setWorkSettings(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
 }

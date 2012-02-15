@@ -122,6 +122,7 @@ li.js_content:hover .checkOption {display:block}
 .global_menu {position:absolute; right:10px; top:11px;  font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
 .global_menu div { float:left; margin-left:8px;}
 .global_menu .pop {border:1px solid #acacac; border-top:none; background-color:#414041; position:absolute; top:23px; right:0; padding:8px; z-index:39;}
+.global_menu .pop_admin {position:absolute; top:23px; right:0; z-index:38;}
 
 /*Personal Info*/
 .personal_info {background: url("../images/personal_info_bg.jpg")repeat-x scroll 0 0; padding:11px 22px; height:79px; width:182px;}
@@ -129,6 +130,7 @@ li.js_content:hover .checkOption {display:block}
 .personal_info li {float:left; vertical-align:bottom; margin-right:6px; color:#dddddd; line-height: 1.3em; } 
 .personal_info .pic {background: url("../images/pic_personal_info.jpg"); display:inline; width:66px; height:66px; position:relative;}
 .personal_info .setting {background: url("../images/nav_setting.png"); display:inline; width:66px; height:66px; position:relative;}
+.personal_info .builder {background: url("../images/nav_builder.png"); display:inline; width:72px; height:75px; position:relative;}
 
 /* nav_list*/
 .nav_list {width:226px;}
@@ -211,7 +213,6 @@ a .btn_apps {background: url("../images/nav_img.png") no-repeat -157px -344px tr
 a .btn_apps:hover,
 .btn_apps.current {background: url("../images/nav_img.png") no-repeat -157px -379px;}
 
-
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; min-height: 300px;}
 .navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:5px 10px 0;}
@@ -226,7 +227,7 @@ a .btn_apps:hover,
 
 
 /* 나의 커뮤니티, 나의 업무, 메일, 커뮤너티멤버 Hover */
-
+#all_works li, 
 #my_works li, 
 #my_communities li,
 #my_mail li,
@@ -234,29 +235,34 @@ a .btn_apps:hover,
 #m_setting li {position:relative;}
 #m_setting {padding-top:5px}
 
+#all_works li a,
 #my_works li a, 
 #my_communities li a,
 #my_mail li a,
 #community_members li a,
 #m_setting li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 
+#all_works li a:hover, 
 #my_works li a:hover, 
 #my_communities li a:hover,
 #my_mail li a:hover,
 #community_members li a:hover,
 #m_setting li a:hover {display:block; background-color:#4e4e4e;}
 
+#all_works .nav_subtitl_area, 
 #my_works .nav_subtitl_area, 
 #my_communities .nav_subtitl_area,
 #my_mail .nav_subtitl_area,
 #community_members .nav_subtitl_area,
 #m_setting .nav_subtitl_area, {display: inline; float: left; position: relative; width: 180px;}
 
+#all_works li .menu_2dep li a,
 #my_works li .menu_2dep li a,
 #m_setting li .menu_2dep li a {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 #my_works li .menu_2dep li a:hover,
 #m_setting li .menu_2dep li a:hover {display:block; background-color:#4e4e4e;}
 
+#all_works li .menu_2dep li div li a,
 #my_works li .menu_2dep li div li a,
 #m_setting li .menu_2dep li div li a {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 #my_works li .menu_2dep li div li a:hover,
@@ -376,7 +382,7 @@ a .btn_apps:hover,
 
 
 /* 입력폼 */
-.form_wrap {background: none repeat scroll 0 0 #FFFFFF; height:100%; }
+.form_wrap {background: none repeat scroll 0 0 #FFFFFF; height:100%; overflow:hidden}
 .form_wrap .input_check {float:left; margin-left:5px;}
 
 .form_title {padding:10px;}
@@ -408,7 +414,7 @@ a .btn_apps:hover,
 /*.js_form_by_report_type span{margin-left:20px}
 .js_form_by_report_type span select{margin-left:5px}*/
 
-.ico_posi {position:absolute; right:0; top:0;}
+.ico_posi {position:absolute; right:0; top:0;} /* Icon Position Right */
 
 .glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; height: 22px; border-top: 1px solid #c7c7c7;}
 .glo_btn_space .btn_finish {float:right; padding-right:10px;}
@@ -433,15 +439,15 @@ a .btn_apps:hover,
 .table_nomal600 {position: relative;}
 .table_nomal600 table {width: 555px; min-width:555px !important}
 .table_nomal600 table tr {height:32px}
-.boTb { border-top:1px solid #DCDFE0; border-bottom:1px solid #DCDFE0; clear:both; padding:10px 0; margin:2px 0}
+.boTb { border-top:1px solid #DCDFE0; border-bottom:1px solid #DCDFE0; clear:both; padding:10px 0}
 
 
 /* table Gray */
-.gray_style {clear: both}
-.gray_style table {border-collapse:collapse;}
-.gray_style td, .gray_style th {border:1px solid #d8d8d8; padding: 2px 8px;}
-.gray_style th {background-color:#f5f5f5; font-weight:normal; white-space:nowrap}
-.gray_style td { background-color:#FFF}
+.gray_style {}
+.gray_style table {border-collapse:collapse; border:1px solid #d8d8d8;}
+.gray_style th {border:1px solid #d8d8d8; padding: 2px 8px;}
+.gray_style th {background-color:#f5f5f5; font-weight: bold; white-space:nowrap}
+.gray_style td { background-color:#FFF; border-bottom:none}
 
 /*라운드 포틀릿*/
 .section_portlet {background: url("../images/bg_portlet_b.jpg") no-repeat scroll 0 100% transparent; margin-bottom:10px; position:relative; width:100%; z-index:30;}
@@ -650,6 +656,8 @@ td.pic{width:85px}
 .t_nav {font-size:14px; font-weight:bold; color:#FFF}
 .t_nowork { text-align:center; padding:8px 0 !important; color:#b2b2b2}
 .arr {font-size:10px; margin-right:2px;}
+.t_location {font-size:11px; color:#999897; position:relative; top:24px; margin-left:10px}
+.bul_dot {background: url("../images/dot_a.gif") no-repeat scroll left 9px transparent; font-size: 12px; font-weight: bold; padding: 0 0 5px 10px; vertical-align: top;}
 
 /* Line Style */
 .solid_line { border-top:2px solid #999999; width:100%}
@@ -668,3 +676,4 @@ td.pic{width:85px}
 
 
 .js_notice_icons_area .js_progress_icon{position:relative;top:4px}
+

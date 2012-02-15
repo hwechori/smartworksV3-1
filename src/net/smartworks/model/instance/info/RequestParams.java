@@ -9,9 +9,10 @@ public class RequestParams {
 	public static final int PAGING_ACTION_NEXTEND = 2;
 	public static final int PAGING_ACTION_PREV10 = 3;
 	public static final int PAGING_ACTION_PREVEND = 4;
+	public static final int DEFAULT_PAGE_SIZE = 20;
 	
-	private int pageSize;
-	private int currentPage;
+	private int pageSize=DEFAULT_PAGE_SIZE;
+	private int currentPage=1;
 	private int pagingAction;
 	private SortingField sortingField;
 	private String searchKey;

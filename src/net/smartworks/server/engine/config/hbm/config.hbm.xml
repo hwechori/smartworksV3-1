@@ -47,4 +47,68 @@
 		<property name="modificationUser" column="modifier" type="string" length="50"/>
 		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
 	</class>
+
+	<class name="SwcWebService" table="SwWebService">
+		<id name="objId" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="webServiceName" type="string" length="100"/>
+		<property name="webServiceAddress" type="string" length="100"/>
+		<property name="wsdlAddress"  type="string" length="100"/>
+		<property name="portName"  type="string" length="100"/>
+		<property name="operationName"  type="string" length="100"/>
+		<property name="description"  type="string" length="100"/>
+		<property name="companyId"  type="string" length="100"/>
+		<array name="swcWebServiceParameters" table="SwWebServiceParameter">
+			<key column="objId" foreign-key="FkWebService"/>
+			<list-index column="webSeq"/>
+			<composite-element class="SwcWebServiceParameter">
+				<property name="VariableName" type="string" length="150"/>
+				<property name="ParameterName" type="string" length="255"/>
+				<property name="ParameterType" type="string" length="150"/>
+				<property name="type" type="string" length="50"/>
+			</composite-element>
+		</array>
+	</class>
+	<class name="SwcWebServiceParameter" table="SwWebServiceParameter">
+		<id name="objId" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="variableName" type="string" length="150"/>
+		<property name="parameterName" type="string" length="255"/>
+		<property name="parameterType" type="string" length="150"/>
+		<property name="type" type="string" length="50"/>
+	</class>
+
+	<class name="SwcExternalForm" table="SwWebAppService">
+		<id name="objId" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="webAppServiceName" type="string" length="100"/>
+		<property name="webAppServiceUrl" type="string" length="100"/>
+		<property name="modifyMethod"  type="string" length="100"/>
+		<property name="viewMethod"  type="string" length="100"/>
+		<property name="description"  type="string" length="100"/>
+		<property name="companyId"  type="string" length="100"/>
+		<array name="swcExternalFormParameters" table="SwWebAppServiceParameter">
+			<key column="objId" foreign-key="FkWebService"/>
+			<list-index column="webSeq"/>
+			<composite-element class="SwcExternalFormParameter">
+				<property name="variableName" type="string" length="150"/>
+				<property name="parameterName" type="string" length="255"/>
+				<property name="parameterType" type="string" length="150"/>
+				<property name="type" type="string" length="50"/>
+			</composite-element>
+		</array>
+	</class>
+	<class name="SwcExternalFormParameter" table="SwWebAppServiceParameter">
+		<id name="objId" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="variableName" type="string" length="150"/>
+		<property name="parameterName" type="string" length="255"/>
+		<property name="parameterType" type="string" length="150"/>
+		<property name="type" type="string" length="50"/>
+	</class>
+
 </hibernate-mapping>

@@ -82,6 +82,7 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoDepartmentExtend;
 import net.smartworks.server.engine.organization.model.SwoGroup;
+import net.smartworks.server.engine.organization.model.SwoGroupCond;
 import net.smartworks.server.engine.organization.model.SwoGroupMember;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
@@ -872,7 +873,7 @@ public class ModelConverter {
 	public static UserInfo getUserInfoByUserId(String userId) throws Exception {
 		if (CommonUtil.isEmpty(userId))
 			return null;
-		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
+		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId, true);
 		return getUserInfoBySwoUserExtend(null, userExtend);
 	}
 
@@ -1146,7 +1147,7 @@ public class ModelConverter {
 	public static User getUserByUserId(String userId) throws Exception {
 		if (CommonUtil.isEmpty(userId))
 			return null;
-		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId);
+		SwoUserExtend userExtend = getSwoManager().getUserExtend(userId, userId, true);
 		return getUserBySwoUserExtend(null, userExtend);
 	}
 	public static User getUserBySwoUserExtend(User user, SwoUserExtend userExtend) throws Exception {
@@ -1157,6 +1158,7 @@ public class ModelConverter {
 
 		user.setId(userExtend.getId());
 		user.setName(userExtend.getName());
+		user.setPassword(userExtend.getPassword());
 		user.setCompanyId(userExtend.getCompanyId());
 		user.setCompany(userExtend.getCompanyName());
 		user.setDepartmentId(userExtend.getDepartmentId());
@@ -1167,7 +1169,7 @@ public class ModelConverter {
 		user.setLocale(userExtend.getLocale());
 		user.setCompany(userExtend.getCompanyName());
 		user.setTimeZone(userExtend.getTimeZone());
-		user.setUserLevel(userExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
+		user.setUserLevel(userExtend.getAuthId().equals("EXTERNALUSER") ? User.USER_LEVEL_EXTERNAL_USER : userExtend.getAuthId().equals("USER") ? User.USER_LEVEL_INTERNAL_USER : userExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_SYSMANAGER);
 		user.setRole(userExtend.getRoleId().equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
 		user.setEmployeeId(userExtend.getEmployeeId());
 		user.setPhoneNo(userExtend.getPhoneNo());
@@ -1180,7 +1182,7 @@ public class ModelConverter {
 		if (CommonUtil.isEmpty(departmentId))
 			return null;
 		User cUser = SmartUtil.getCurrentUser();
-		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
+		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId, true);
 		return getDepartmentInfoBySwoUserExtend(null, departmentExtend);
 	}
 
@@ -1202,7 +1204,7 @@ public class ModelConverter {
 		if (CommonUtil.isEmpty(departmentId))
 			return null;
 		User cUser = SmartUtil.getCurrentUser();
-		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId);
+		SwoDepartmentExtend departmentExtend = getSwoManager().getDepartmentExtend(cUser.getId(), departmentId, true);
 		return getDepartmentBySwoDepartment(null, departmentExtend);
 	}
 
@@ -1239,7 +1241,7 @@ public class ModelConverter {
 				member.setId(swoUserExtend.getId());
 				member.setName(swoUserExtend.getName());
 				member.setPosition(swoUserExtend.getPosition());
-				member.setRole(swoUserExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
+				member.setRole(swoUserExtend.getAuthId().equals("EXTERNALUSER") ? User.USER_LEVEL_EXTERNAL_USER : swoUserExtend.getAuthId().equals("USER") ? User.USER_LEVEL_INTERNAL_USER : swoUserExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_SYSMANAGER);
 				member.setSmallPictureName(swoUserExtend.getSmallPictureName());
 				member.setDepartment(new DepartmentInfo(swoUserExtend.getDepartmentId(), swoUserExtend.getDepartmentName(), swoUserExtend.getDepartmentDesc()));
 				userInfoList.add(member);
@@ -1303,54 +1305,64 @@ public class ModelConverter {
 		if (CommonUtil.isEmpty(groupId))
 			return null;
 		User cUser = SmartUtil.getCurrentUser();
+		SwoGroupCond swoGroupCond = new SwoGroupCond();
+		swoGroupCond.setOrders(new Order[]{new Order("groupLeader", false)});
 		SwoGroup swoGroup = getSwoManager().getGroup(cUser.getId(), groupId, IManager.LEVEL_ALL);
 
 		return getGroupBySwoGroup(null, swoGroup);
 	}
 
 	public static Group getGroupBySwoGroup(Group group, SwoGroup swoGroup) throws Exception {
-		if (swoGroup == null)
-			return null;
-		if (group == null)
-			group = new Group();
-
-		group.setId(swoGroup.getId());
-		group.setName(swoGroup.getName());
-		group.setDesc(swoGroup.getDescription());
-		group.setPublic(swoGroup.equals("O") ? true : false);
-		//group.setContinue(swoGroup.getStatus().equals("C") ? true : false);
-		User leader = getUserByUserId(swoGroup.getGroupLeader());
-		if(leader != null)
-			group.setLeader(leader);
-
-		User owner = getUserByUserId(swoGroup.getCreationUser());
-		if(owner != null)
-			group.setOwner(owner);
-
-		List<UserInfo> groupMemberList = new ArrayList<UserInfo>();
-		SwoGroupMember[] swoGroupMembers = swoGroup.getSwoGroupMembers();
-		if(swoGroupMembers != null) {
-			for(SwoGroupMember swoGroupMember : swoGroupMembers) {
-				UserInfo groupMember = getUserInfoByUserId(swoGroupMember.getUserId());
-				groupMemberList.add(groupMember);
+		try {
+			if (swoGroup == null)
+				return null;
+			if (group == null)
+				group = new Group();
+	
+			group.setId(swoGroup.getId());
+			group.setName(swoGroup.getName());
+			group.setDesc(swoGroup.getDescription());
+			group.setPublic(swoGroup.equals("O") ? true : false);
+			//group.setContinue(swoGroup.getStatus().equals("C") ? true : false);
+			User leader = getUserByUserId(swoGroup.getGroupLeader());
+			if(leader != null)
+				group.setLeader(leader);
+	
+			User owner = getUserByUserId(swoGroup.getCreationUser());
+			if(owner != null)
+				group.setOwner(owner);
+	
+			List<UserInfo> groupMemberList = new ArrayList<UserInfo>();
+			SwoGroupMember[] swoGroupMembers = swoGroup.getSwoGroupMembers();
+			if(swoGroupMembers != null) {
+				groupMemberList.add(getUserInfoByUserId(swoGroup.getGroupLeader()));
+				for(SwoGroupMember swoGroupMember : swoGroupMembers) {
+					if(!swoGroupMember.getUserId().equals(swoGroup.getGroupLeader())) {
+						UserInfo groupMember = getUserInfoByUserId(swoGroupMember.getUserId());
+						groupMemberList.add(groupMember);
+					}
+				}
+				UserInfo[] groupMembers = new UserInfo[groupMemberList.size()];
+				groupMemberList.toArray(groupMembers);
+				group.setMembers(groupMembers);
 			}
-			UserInfo[] groupMembers = new UserInfo[groupMemberList.size()];
-			groupMemberList.toArray(groupMembers);
-			group.setMembers(groupMembers);
-		}
+	
+			String picture = CommonUtil.toNotNull(swoGroup.getPicture());
+			if(!picture.equals("")) {
+				String extension = picture.lastIndexOf(".") > 0 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
+				String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
+				group.setBigPictureName(pictureId + "_big" + "." + extension);
+				group.setSmallPictureName(pictureId + "_small" + "." + extension);
+			} else {
+				group.setBigPictureName(picture);
+				group.setSmallPictureName(picture);
+			}
 
-		String picture = CommonUtil.toNotNull(swoGroup.getPicture());
-		if(!picture.equals("")) {
-			String extension = picture.lastIndexOf(".") > 0 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
-			String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
-			group.setBigPictureName(pictureId + "_big" + "." + extension);
-			group.setSmallPictureName(pictureId + "_small" + "." + extension);
-		} else {
-			group.setBigPictureName(picture);
-			group.setSmallPictureName(picture);
+			return group;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-
-		return group;
 
 	}
 	public static Work getWorkByCtgCategory(Work work, CtgCategory ctg) throws Exception {

@@ -17,13 +17,13 @@
 
 .pop_list_area li .dep:hover {display:block; background-color:#fffccd;}
 
-.pop_list_area li .menu_2dep li .dep {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+.pop_list_area li .menu_2dep li .dep {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 .pop_list_area li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
 
-.pop_list_area li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 44px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+.pop_list_area li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 .pop_list_area li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
 
-.pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 54px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+.pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 44px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 .pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
 
 
@@ -69,7 +69,12 @@ a:hover .pop_btn_x {background-color:#e5e5e5;}
 .use_pic { float:left;}
 .smartp_name { font-weight:bold; color:#3B5998;}
 .smartp_info {}
-.smartp_btn_space {background-color: #c7c7c7; height: 10px; padding: 5px 10px 8px;}
-.pop_ico_mail {background: url("../images/nav_img.png") no-repeat scroll 0 0 transparent; display: inline-block; height: 16px; width:18px;}
-.pop_ico_message {background: url("../images/nav_img.png") no-repeat scroll 0 0 transparent; display: inline-block; height: 16px; width:18px;}
-.pop_ico_chat {background: url("../images/nav_img.png") no-repeat scroll 0 0 transparent; display: inline-block; height: 16px; width:18px;}
+.smartp_btn_space {background-color: #c7c7c7; height: 19px; padding: 4px 5px 2px;}
+.pop_ico_chat {background: url("../images/nav_img.png") no-repeat scroll -151px 0 transparent; display: inline-block; height: 19px; width:20px;}
+.pop_ico_mail {background: url("../images/nav_img.png") no-repeat scroll -177px 0 transparent; display: inline-block; height: 19px; width:20px;}
+.pop_ico_message {background: url("../images/nav_img.png") no-repeat scroll -202px 0 transparent; display: inline-block; height: 19px; width:20px;}
+
+a .pop_ico_chat:hover { background-position:-151px -34px}
+a .pop_ico_mail:hover { background-position:-177px -34px}
+a .pop_ico_message:hover { background-position:-202px -34px}
+

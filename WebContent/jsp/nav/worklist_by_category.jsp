@@ -29,7 +29,7 @@
 	if (works != null) {
 		for (WorkInfo work : works) {
 			workContext = ISmartWorks.CONTEXT_PREFIX_BUILDER_SPACE + work.getId();
-			targetContent = "smart_builder.sw";
+			targetContent = "tab_workbench.sw";
 			if (work.getType() == SmartWork.TYPE_PROCESS) {
 				iconType = "ico_pworks";
 			} else if (work.getType() == SmartWork.TYPE_INFORMATION) {

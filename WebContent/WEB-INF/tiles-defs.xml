@@ -107,21 +107,21 @@
 	<definition name="my_profile" extends="layouts">
 		<put-attribute name="content" value="/jsp/content/my_profile.jsp" />
 	</definition>
+	<definition name="settings_home" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/home.jsp" />
+	</definition>
 	<definition name="company_general" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
 		<put-attribute name="content" value="/jsp/content/settings/company_general.jsp" />
-	</definition>
-	<definition name="company_mailing" extends="layouts">
-		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
-		<put-attribute name="content" value="/jsp/content/settings/company_mailing.jsp" />
 	</definition>
 	<definition name="company_work_hour" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
 		<put-attribute name="content" value="/jsp/content/settings/company_work_hour.jsp" />
 	</definition>
-	<definition name="company_calendar" extends="layouts">
+	<definition name="company_event" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
-		<put-attribute name="content" value="/jsp/content/settings/company_calendar.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/company_event.jsp" />
 	</definition>
 	<definition name="organization_management" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
@@ -131,20 +131,32 @@
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
 		<put-attribute name="content" value="/jsp/content/settings/approval_line.jsp" />
 	</definition>
-	<definition name="webservice_management" extends="layouts">
+	<definition name="web_service" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
-		<put-attribute name="content" value="/jsp/content/settings/webservice_management.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/web_service.jsp" />
 	</definition>
-	<definition name="externalform_management" extends="layouts">
+	<definition name="external_form" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/settings.jsp" />
-		<put-attribute name="content" value="/jsp/content/settings/externalform_management.jsp" />
+		<put-attribute name="content" value="/jsp/content/settings/external_form.jsp" />
 	</definition>
 	<definition name="builder_home" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
-		<put-attribute name="content" value="/jsp/content/builder/builder_home.jsp" />
+		<put-attribute name="content" value="/jsp/content/builder/home.jsp" />
 	</definition>
 	<definition name="smart_builder" extends="layouts">
 		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
 		<put-attribute name="content" value="/jsp/content/builder/smart_builder.jsp" />
+	</definition>
+	<definition name="tab_workbench" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
+		<put-attribute name="content" value="/jsp/content/builder/tab_workbench.jsp" />
+	</definition>
+	<definition name="tab_work_settings" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
+		<put-attribute name="content" value="/jsp/content/builder/tab_work_settings.jsp" />
+	</definition>
+	<definition name="tab_work_sharing" extends="layouts">
+		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
+		<put-attribute name="content" value="/jsp/content/builder/tab_work_sharing.jsp" />
 	</definition>
 </tiles-definitions>

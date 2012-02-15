@@ -44,11 +44,3 @@
 		<div class="portlet_b" style="display: block;"></div>
 	</div> 
 <!-- 컨텐츠 레이아웃//-->
-<script type="text/javascript">
-	var smartBuilderSpace = $('.js_smart_builder_space_page');
-	var workId = smartBuilderSpace.attr("workId");
-	var target = smartBuilderSpace.find('.js_smart_workbench_editor');
-	loadSmartBuilder( target,{
-		packageId : workId
-	});
-</script>
