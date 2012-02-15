@@ -852,26 +852,31 @@ public class WorkServiceImpl implements IWorkService {
 
 			Map<String, Object> existListPaging = null;
 
-			if(frmInstanceListPaging != null) {
-				String hdnCurrentPage = (String)frmInstanceListPaging.get("hdnCurrentPage");
-				String selPageSize = (String)frmInstanceListPaging.get("selPageSize");
-				boolean hdnNext10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNext10"));
-				boolean hdnNextEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnNextEnd"));
-				boolean hdnPrev10 = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrev10"));
-				boolean hdnPrevEnd = Boolean.parseBoolean((String)frmInstanceListPaging.get("hdnPrevEnd"));
-				if(hdnCurrentPage != null)
-					requestParams.setCurrentPage(Integer.parseInt(hdnCurrentPage));
-				if(selPageSize != null)
-					requestParams.setPageSize(Integer.parseInt(selPageSize));
-				if(hdnNext10)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXT10);
-				else if(hdnNextEnd)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXTEND);
-				else if(hdnPrev10)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREV10);
-				else if(hdnPrevEnd)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
-			}
+			if(frmInstanceListPaging != null)
+				existListPaging = frmInstanceListPaging;
+			else if(frmWorkHourListPaging != null)
+				existListPaging = frmWorkHourListPaging;
+			else if(frmCompanyEventListPaging != null)
+				existListPaging = frmCompanyEventListPaging;
+
+			String hdnCurrentPage = (String)existListPaging.get("hdnCurrentPage");
+			String selPageSize = (String)existListPaging.get("selPageSize");
+			boolean hdnNext10 = Boolean.parseBoolean((String)existListPaging.get("hdnNext10"));
+			boolean hdnNextEnd = Boolean.parseBoolean((String)existListPaging.get("hdnNextEnd"));
+			boolean hdnPrev10 = Boolean.parseBoolean((String)existListPaging.get("hdnPrev10"));
+			boolean hdnPrevEnd = Boolean.parseBoolean((String)existListPaging.get("hdnPrevEnd"));
+			if(hdnCurrentPage != null)
+				requestParams.setCurrentPage(Integer.parseInt(hdnCurrentPage));
+			if(selPageSize != null)
+				requestParams.setPageSize(Integer.parseInt(selPageSize));
+			if(hdnNext10)
+				requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXT10);
+			else if(hdnNextEnd)
+				requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXTEND);
+			else if(hdnPrev10)
+				requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREV10);
+			else if(hdnPrevEnd)
+				requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
 
 			/*Map<String, Object> frmWorkHourListPaging = (Map<String, Object>)requestBody.get("frmWorkHourListPaging");
 			if(frmWorkHourListPaging != null) {
