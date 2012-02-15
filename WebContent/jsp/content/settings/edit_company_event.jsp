@@ -102,20 +102,20 @@
 		<table>
 			<tbody>
 				<tr>
-					<th width="15%"><fmt:message key="settings.title.company_event.name"/><span class="essen_n"></span></th>
+					<td width="15%"><fmt:message key="settings.title.company_event.name"/><span class="essen_n"></span></td>
 					<td width="35%"><input name="txtEventName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(event.getName()) %>" /></td>
-					<th width="15%"><fmt:message key="settings.title.company_event.is_holiday"/></th>
+					<td width="15%"><fmt:message key="settings.title.company_event.is_holiday"/></td>
 					<td width="35%"><input name="chkIsHoliday" type="checkbox" <%if(event.isHoliday()){ %>checked<%} %>></td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.company_event.start_date"/><span class="essen_n"></span></th>
+					<td><fmt:message key="settings.title.company_event.start_date"/><span class="essen_n"></span></td>
 					<td>
 						<div class="ico_fb_space form_date_input">
 							<input name="datStartDate" class="fieldline js_todaypicker required" readonly="readonly" type="text" value="<%=event.getPlannedStart().toLocalDateSimpleString()%>">
 							<a href="" class="js_todaypicker_button"><span class="ico_fb_date"></span></a>
 						</div>
 					</td>					
-					<th><fmt:message key="settings.title.company_event.end_date"/><span class="essen_n"></span></th>
+					<td><fmt:message key="settings.title.company_event.end_date"/><span class="essen_n"></span></td>
 					<td>
 						<div class="ico_fb_space form_date_input">
 							<input name="datEndDate" class="fieldline js_todaypicker required" readonly="readonly" type="text" value="<%=event.getPlannedEnd().toLocalDateSimpleString()%>">
@@ -124,7 +124,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.company_event.related_users"/></th>
+					<td><fmt:message key="settings.title.company_event.related_users"/></td>
 					<td colspan="3">
 						<div class="js_type_userField" fieldId="usrRelatedUsers" multiUsers="true">
 							<div class="ico_fb_space form_value" >

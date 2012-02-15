@@ -1033,6 +1033,7 @@ public class ModelConverter {
 
 		user.setId(userExtend.getId());
 		user.setName(userExtend.getName());
+		user.setPassword(userExtend.getPassword());
 		user.setCompanyId(userExtend.getCompanyId());
 		user.setCompany(userExtend.getCompanyName());
 		user.setDepartmentId(userExtend.getDepartmentId());
@@ -1043,7 +1044,7 @@ public class ModelConverter {
 		user.setLocale(userExtend.getLocale());
 		user.setCompany(userExtend.getCompanyName());
 		user.setTimeZone(userExtend.getTimeZone());
-		user.setUserLevel(userExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
+		user.setUserLevel(userExtend.getAuthId().equals("EXTERNALUSER") ? User.USER_LEVEL_EXTERNAL_USER : userExtend.getAuthId().equals("USER") ? User.USER_LEVEL_INTERNAL_USER : userExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_SYSMANAGER);
 		user.setRole(userExtend.getRoleId().equals("DEPT LEADER") ? User.USER_ROLE_LEADER : User.USER_ROLE_MEMBER);
 		user.setEmployeeId(userExtend.getEmployeeId());
 		user.setPhoneNo(userExtend.getPhoneNo());
@@ -1115,7 +1116,7 @@ public class ModelConverter {
 				member.setId(swoUserExtend.getId());
 				member.setName(swoUserExtend.getName());
 				member.setPosition(swoUserExtend.getPosition());
-				member.setRole(swoUserExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_DEFAULT);
+				member.setRole(swoUserExtend.getAuthId().equals("EXTERNALUSER") ? User.USER_LEVEL_EXTERNAL_USER : swoUserExtend.getAuthId().equals("USER") ? User.USER_LEVEL_INTERNAL_USER : swoUserExtend.getAuthId().equals("ADMINISTRATOR") ? User.USER_LEVEL_AMINISTRATOR : User.USER_LEVEL_SYSMANAGER);
 				member.setSmallPictureName(swoUserExtend.getSmallPictureName());
 				member.setDepartment(new DepartmentInfo(swoUserExtend.getDepartmentId(), swoUserExtend.getDepartmentName(), swoUserExtend.getDepartmentDesc()));
 				userInfoList.add(member);

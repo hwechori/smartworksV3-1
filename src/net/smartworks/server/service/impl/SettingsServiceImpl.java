@@ -27,6 +27,7 @@ import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WebService;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
@@ -36,6 +37,8 @@ import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoCompany;
 import net.smartworks.server.engine.organization.model.SwoConfig;
+import net.smartworks.server.engine.organization.model.SwoDepartment;
+import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.ISettingsService;
 import net.smartworks.server.service.util.ModelConverter;
@@ -310,6 +313,7 @@ public class SettingsServiceImpl implements ISettingsService {
 				int firstDayOfWeek = Integer.parseInt(swcWorkHour.getStartDayOfWeek()); 
 				int workingDays = swcWorkHour.getWorkingDays();
 
+				workHourPolicy.setId(id);
 				workHourPolicy.setValidFrom(new LocalDate(swcWorkHour.getValidFromDate().getTime()));
 				if(swcWorkHour.getValidToDate() != null)
 					workHourPolicy.setValidTo(new LocalDate(swcWorkHour.getValidToDate().getTime()));
@@ -403,11 +407,13 @@ public class SettingsServiceImpl implements ISettingsService {
 			Date endTime = null;
 
 			SwcWorkHour swcWorkHour = null;
-			if(policyId != null)
+			if(!policyId.equals("")) {
 				swcWorkHour = getSwcManager().getWorkhour(userId, policyId, IManager.LEVEL_ALL);
-			else
+			} else {
 				swcWorkHour = new SwcWorkHour();
-
+				swcWorkHour.setCompanyId(companyId);
+				swcWorkHour.setType("0");
+			}
 			while (itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditWorkHour.get(fieldId);
@@ -454,12 +460,9 @@ public class SettingsServiceImpl implements ISettingsService {
 					}
 				}
 			}
-			swcWorkHour.setCompanyId(companyId);
-			swcWorkHour.setType("0");
 			getSwcManager().setWorkhour(userId, swcWorkHour, IManager.LEVEL_ALL);
 		} catch(Exception e) {
 			e.printStackTrace();
-			return;
 		}
 	}
 
@@ -467,14 +470,11 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void removeWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-
 			User user = SmartUtil.getCurrentUser();
 			String policyId = (String)requestBody.get("policyId");
-			if(policyId == null)
+			if(policyId.equals(""))
 				return;
-
 			getSwcManager().removeWorkhour(user.getId(), policyId);
-
 		} catch(Exception e) {
 			e.printStackTrace();			
 		}
@@ -515,7 +515,7 @@ public class SettingsServiceImpl implements ISettingsService {
 
 			swcEventDayCond.setPageSize(pageSize);
 
-			swcEventDayCond.setOrders(new Order[]{new Order("modificationDate", false)});
+			swcEventDayCond.setOrders(new Order[]{new Order("startDay", false)});
 			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(userId, swcEventDayCond, IManager.LEVEL_ALL);
 
 			if(swcEventDays != null) {
@@ -612,21 +612,79 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void setCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
-		}catch (Exception e){
-			// Exception Handling Required
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+
+			Map<String, Object> frmEditCompanyEvent = (Map<String, Object>)requestBody.get("frmEditCompanyEvent");
+			String eventId = (String)requestBody.get("eventId");
+
+			Set<String> keySet = frmEditCompanyEvent.keySet();
+			Iterator<String> itr = keySet.iterator();
+
+			String txtEventName = null;
+			Date datStartDate = null;
+			Date datEndDate = null;
+			List<Map<String, String>> users = null;
+
+			SwcEventDay swcEventDay = null;
+			if(!eventId.equals("")) {
+				swcEventDay = getSwcManager().getEventday(userId, eventId, IManager.LEVEL_ALL);
+			} else {
+				swcEventDay = new SwcEventDay();
+				swcEventDay.setType(CompanyEvent.EVENT_TYPE_EVENTDAY);
+				swcEventDay.setCompanyId(companyId);
+			}
+
+			while (itr.hasNext()) {
+				String fieldId = (String)itr.next();
+				Object fieldValue = frmEditCompanyEvent.get(fieldId);
+				if(fieldValue instanceof LinkedHashMap) {
+					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+					if(fieldId.equals("usrRelatedUsers"))
+						users = (ArrayList<Map<String,String>>)valueMap.get("users");
+
+					if(!CommonUtil.isEmpty(users)) {
+						String relatedId = "";
+						String symbol = ";";
+						for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+							Map<String, String> user = users.get(i);
+							relatedId += user.get("id") + symbol;
+						}
+						swcEventDay.setReltdPerson(relatedId);
+					}
+				} else if(fieldValue instanceof String) {	
+					if(fieldId.equals("txtEventName")) {
+						txtEventName = (String)frmEditCompanyEvent.get("txtEventName");
+						swcEventDay.setName(txtEventName);
+					} else if(fieldId.equals("chkIsHoliday")) {
+						swcEventDay.setType(CompanyEvent.EVENT_TYPE_HOLIDAY);
+					} else if(fieldId.equals("datStartDate")) {
+						datStartDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datStartDate")).getTime());
+						swcEventDay.setStartDay(datStartDate);
+					} else if(fieldId.equals("datEndDate")) {
+						datEndDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datEndDate")).getTime());
+						swcEventDay.setEndDay(datEndDate);
+					}
+				}
+			}
+			getSwcManager().setEventday(userId, swcEventDay, IManager.LEVEL_ALL);
+		} catch(Exception e) {
 			e.printStackTrace();
-			// Exception Handling Required			
 		}
 	}
 	
 	@Override
 	public void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			// Exception Handling Required			
+		try {
+			User user = SmartUtil.getCurrentUser();
+			String eventId = (String)requestBody.get("eventId");
+			if(eventId.equals(""))
+				return;
+			getSwcManager().removeEventday(user.getId(), eventId);
+		} catch(Exception e) {
+			e.printStackTrace();			
 		}
 	}
 	
@@ -784,43 +842,166 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void setMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			// Exception Handling Required			
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+			Map<String, Object> frmEditMember = (Map<String, Object>)requestBody.get("frmEditMember");
+
+			String setUserId = (String)requestBody.get("userId");
+
+			Set<String> keySet = frmEditMember.keySet();
+			Iterator<String> itr = keySet.iterator();
+			
+			String hdnDepartmentId = null;
+			String txtMemberName = null;
+			String txtMemberId = null;
+			String pasMemberPassword = null;
+			String txtMemberEmployeeId = null;
+			String txtMemberPosition = null;
+			String selMemberRole = null;
+			String selMemberUserLevel = null;
+			String selMemberLocale = null;
+			String txtMemberPhoneNo = null;
+			String txtMemberCellPhoneNo = null;
+
+			SwoUser swoUser = null;
+			//if(!setUserId.equals("")) { TO-DO
+			if(setUserId != null) {
+				swoUser = getSwoManager().getUser(userId, setUserId, IManager.LEVEL_ALL);
+				if(swoUser.getDomainId() == null || swoUser.getDomainId() == "")
+					swoUser.setDomainId("frm_user_SYSTEM");
+				if(swoUser.getRetiree() == null || swoUser.getRetiree() == "")
+					swoUser.setRetiree("N");
+			} else {
+				swoUser = new SwoUser();
+				swoUser.setCompanyId(companyId);
+				swoUser.setType("BASIC");
+				swoUser.setDomainId("frm_user_SYSTEM");
+				swoUser.setRetiree("N");
+			}
+
+			while (itr.hasNext()) {
+				String fieldId = (String)itr.next();
+				Object fieldValue = frmEditMember.get(fieldId);
+				if(fieldValue instanceof String) {
+					if(fieldId.equals("hdnDepartmentId")) {
+						hdnDepartmentId = (String)frmEditMember.get("hdnDepartmentId");
+						swoUser.setDeptId(hdnDepartmentId);
+					} else if(fieldId.equals("txtMemberName")) {
+						txtMemberName = (String)frmEditMember.get("txtMemberName");
+						swoUser.setName(txtMemberName);
+					} else if(fieldId.equals("txtMemberId")) {
+						txtMemberId = (String)frmEditMember.get("txtMemberId");
+						swoUser.setId(txtMemberId);
+						swoUser.setEmail(txtMemberId);
+					} else if(fieldId.equals("pasMemberPassword")) {
+						pasMemberPassword = (String)frmEditMember.get("pasMemberPassword");
+						//pasMemberPassword = DigestUtils.md5Hex(pasMemberPassword);
+						swoUser.setPassword(pasMemberPassword);
+					} else if(fieldId.equals("txtMemberEmployeeId")) {
+						txtMemberEmployeeId = (String)frmEditMember.get("txtMemberEmployeeId");
+						swoUser.setEmpNo(txtMemberEmployeeId);
+					} else if(fieldId.equals("txtMemberPosition")) {
+						txtMemberPosition = (String)frmEditMember.get("txtMemberPosition");
+						swoUser.setPosition(txtMemberPosition);
+					} else if(fieldId.equals("selMemberRole")) {
+						selMemberRole = (String)frmEditMember.get("selMemberRole");
+						swoUser.setRoleId(selMemberRole.equals(User.USER_ROLE_LEADER) ? "DEPT LEADER" : "DEPT MEMBER");
+					} else if(fieldId.equals("selMemberUserLevel")) {
+						selMemberUserLevel = (String)frmEditMember.get("selMemberUserLevel");
+						swoUser.setAuthId(selMemberUserLevel.equals(User.USER_LEVEL_EXTERNAL_USER) ? "EXTERNALUSER" : selMemberUserLevel.equals(User.USER_LEVEL_INTERNAL_USER) ? "USER" : selMemberUserLevel.equals(User.USER_LEVEL_AMINISTRATOR) ? "ADMINISTRATOR" : "OPERATOR");
+					} else if(fieldId.equals("selMemberLocale")) {
+						selMemberLocale = (String)frmEditMember.get("selMemberLocale");
+						swoUser.setLocale(selMemberLocale);
+					} else if(fieldId.equals("txtMemberPhoneNo")) {
+						txtMemberPhoneNo = (String)frmEditMember.get("txtMemberPhoneNo");
+						swoUser.setExtensionNo(txtMemberPhoneNo);
+					} else if(fieldId.equals("txtMemberCellPhoneNo")) {
+						txtMemberCellPhoneNo = (String)frmEditMember.get("txtMemberCellPhoneNo");
+						swoUser.setMobileNo(txtMemberCellPhoneNo);
+					}
+				}
+			}
+
+			getSwoManager().setUser(userId, swoUser, IManager.LEVEL_ALL);
+		} catch(Exception e) {
+			e.printStackTrace();			
 		}
 	}
 	
 	@Override
 	public void removeMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			// Exception Handling Required			
+		try {
+			User user = SmartUtil.getCurrentUser();
+			String userId = (String)requestBody.get("userId");
+			if(userId.equals(""))
+				return;
+			getSwoManager().removeUser(user.getId(), userId);
+		} catch(Exception e) {
+			e.printStackTrace();			
 		}
 	}
-	
+
 	@Override
 	public void setDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			// Exception Handling Required			
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+			Map<String, Object> frmEditDepartment = (Map<String, Object>)requestBody.get("frmEditDepartment");
+
+			String departmentId = (String)requestBody.get("departmentId");
+
+			Set<String> keySet = frmEditDepartment.keySet();
+			Iterator<String> itr = keySet.iterator();
+			
+			String hdnParentId = null;
+			String txtDepartmentName = null;
+
+			SwoDepartment swoDepartment = null;
+			//if(!departmentId.equals("")) { TO-DO
+			if(departmentId != null) {
+				swoDepartment = getSwoManager().getDepartment(userId, departmentId, IManager.LEVEL_ALL);
+			} else {
+				swoDepartment = new SwoDepartment();
+				swoDepartment.setCompanyId(companyId);
+				swoDepartment.setType("BASIC");
+				swoDepartment.setDomainId("frm_dept_SYSTEM");
+			}
+
+			while (itr.hasNext()) {
+				String fieldId = (String)itr.next();
+				Object fieldValue = frmEditDepartment.get(fieldId);
+				if(fieldValue instanceof String) {
+					if(fieldId.equals("hdnParentId")) {
+						hdnParentId = (String)frmEditDepartment.get("hdnParentId");
+						swoDepartment.setParentId(hdnParentId);
+					} else if(fieldId.equals("txtDepartmentName")) {
+						txtDepartmentName = (String)frmEditDepartment.get("txtDepartmentName");
+						swoDepartment.setName(txtDepartmentName);
+					}
+				}
+			}
+
+			getSwoManager().setDepartment(userId, swoDepartment, IManager.LEVEL_ALL);
+		} catch(Exception e) {
+			e.printStackTrace();			
 		}
 	}
-	
+
 	@Override
 	public void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			// Exception Handling Required			
+		try {
+			User user = SmartUtil.getCurrentUser();
+			String departmentId = (String)requestBody.get("departmentId");
+			if(departmentId.equals(""))
+				return;
+			getSwoManager().removeDepartment(user.getId(), departmentId);
+		} catch(Exception e) {
+			e.printStackTrace();			
 		}
 	}
 	

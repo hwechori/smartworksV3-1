@@ -17,13 +17,13 @@
 
 .pop_list_area li .dep:hover {display:block; background-color:#fffccd;}
 
-.pop_list_area li .menu_2dep li .dep {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+.pop_list_area li .menu_2dep li .dep {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 .pop_list_area li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
 
-.pop_list_area li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 44px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+.pop_list_area li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 .pop_list_area li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
 
-.pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 54px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+.pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 44px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 .pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
 
 
