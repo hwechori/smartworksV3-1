@@ -23,6 +23,7 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.Variable;
+import net.smartworks.model.service.WSDLDetail;
 import net.smartworks.model.service.WebService;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
@@ -44,6 +45,7 @@ import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.ISettingsService;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -973,6 +975,18 @@ public class SettingsServiceImpl implements ISettingsService {
 			getSwcManager().removeWebService(user.getId(), serviceId);
 		} catch(Exception e) {
 			e.printStackTrace();			
+		}
+	}
+
+	@Override
+	public WSDLDetail getWsdlDetailFromUri(String wsdlUri) throws Exception {
+
+		try {
+			// TO DO
+			return SmartTest.getWsdlDetailFromUri(wsdlUri);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 

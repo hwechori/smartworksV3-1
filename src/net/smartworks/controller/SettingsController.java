@@ -168,6 +168,12 @@ public class SettingsController {
 		return SmartUtil.returnMnv(request, "jsp/content/settings/edit_web_service.jsp", "edit_web_service.tiles");
 	}
 
+	@RequestMapping("/wsdl_detail")
+	public ModelAndView wsdlDetail(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/settings/wsdl_detail.jsp", "");
+	}
+
 	@RequestMapping(value = "/create_web_service", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody void createWebService(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {

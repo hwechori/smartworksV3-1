@@ -11,6 +11,7 @@ import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.service.ExternalForm;
+import net.smartworks.model.service.WSDLDetail;
 import net.smartworks.model.service.WebService;
 
 public interface ISettingsService {
@@ -51,6 +52,8 @@ public interface ISettingsService {
 	
 	public abstract void removeWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
+	public abstract WSDLDetail getWsdlDetailFromUri(String wsdlUri) throws Exception;
+
 	public abstract RecordList getExternalFormList(RequestParams params) throws Exception;
 	
 	public abstract ExternalForm getExternalFormById(String id) throws Exception;

@@ -418,6 +418,74 @@ $(function() {
 		return false;
 	});
 
+	$('a.js_fetch_webservice_wsdl').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_webservice_wsdl:first input');
+		var wsdlUri = target.attr('value');
+		$.ajax({
+			url : "wsdl_detail.sw",
+			data : {
+				wsdlUri : wsdlUri
+			},
+			success : function(data, status, jqXHR) {
+				smartPop.showInfo(smartPop.INFORM, smartMessage.get('fetchWsdlSucceed'));
+				target.addClass('sw_fetched').attr('readonly', true);
+				input.hide().siblings().show();
+				var tbody = input.parents('.js_edit_webservice_tbody');
+				tbody.find('tr.js_wsdl_detail').remove();
+				$(data).appendTo(tbody);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('fetchWsdlError'));
+			}
+		});
+		return false;
+	});
+
+	$('a.js_change_webservice_wsdl').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_webservice_wsdl:first input');
+		target.removeClass('sw_fetched').attr('readonly', false);
+		input.hide().siblings().show();;
+		return false;
+	});
+
+	$('select.js_webservice_port').live('change', function(e) {
+		var input = $(e.target);
+		var tbody = input.parents('.js_edit_webservice_tbody');
+		var selectedPort = input.find('option:selected').attr('index');
+		$.ajax({
+			url : "wsdl_detail.sw",
+			data : {
+				selectedPort : selectedPort
+			},
+			success : function(data, status, jqXHR) {
+				tbody.find('tr.js_wsdl_detail').remove();
+				$(data).appendTo(tbody);
+			}
+		});
+		return false;
+	});
+
+	$('select.js_webservice_operation').live('change', function(e) {
+		var input = $(e.target);
+		var tbody = input.parents('.js_edit_webservice_tbody');
+		var selectedPort = tbody.find('select.js_webservice_port:first').find('option:selected').attr('index');
+		var selectedOperation = input.find('option:selected').attr('index');
+		$.ajax({
+			url : "wsdl_detail.sw",
+			data : {
+				selectedPort : selectedPort,
+				selectedOperation : selectedOperation
+			},
+			success : function(data, status, jqXHR) {
+				tbody.find('tr.js_wsdl_detail').remove();
+				$(data).appendTo(tbody);
+			}
+		});
+		return false;
+	});
+
 	$('select.js_first_day_of_week').live('change', function(e) {
 		var input = $(e.target);
 		var editWorkHour = input.parents('.js_edit_work_hour_page');

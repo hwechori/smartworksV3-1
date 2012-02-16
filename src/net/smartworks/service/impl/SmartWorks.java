@@ -39,6 +39,7 @@ import net.smartworks.model.notice.NoticeBox;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.service.ExternalForm;
+import net.smartworks.model.service.WSDLDetail;
 import net.smartworks.model.service.WebService;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
@@ -640,7 +641,11 @@ public class SmartWorks implements ISmartWorks {
 	public void removeWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		settingsService.removeWebService(requestBody, request);
 	}
-		
+	
+	@Override
+	public WSDLDetail getWsdlDetailFromUri(String wsdlUri) throws Exception {
+		return settingsService.getWsdlDetailFromUri(wsdlUri);
+	}
 	@Override
 	public RecordList getExternalFormList(RequestParams params) throws Exception {
 		return settingsService.getExternalFormList(params);
