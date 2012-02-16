@@ -1111,9 +1111,6 @@
 			// 에러 - 지원하지 않는 메소드
 			buffer.append("<Result status=\"Failed\"><message>Invalid method! Not found method parameter</message><trace/></Result>");
 		}
-		System.out.println("###########################" + method + "#######################################");
-		System.out.println(buffer.toString());
-		System.out.println("###########################" + method + " END #######################################");
 	} catch (Throwable e) {
 		buffer.append("<Result status=\"Failed\">");
 		buffer.append("<message>");
