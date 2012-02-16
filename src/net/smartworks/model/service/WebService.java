@@ -53,6 +53,7 @@ public class WebService extends BaseObject{
 	
 	public WSDLDetail getWSDLDetail(){
 		WSDLOperation operation = new WSDLOperation();
+		operation.setOperation(this.operation);
 		operation.setInputVariables(inputVariables);
 		operation.setReturnVariables(returnVariables);
 		

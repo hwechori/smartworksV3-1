@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.service.WSDLOperation"%>
 <%@page import="net.smartworks.model.service.WSDLPort"%>
 <%@page import="net.smartworks.model.service.WSDLDetail"%>
 <%@page import="net.smartworks.model.service.Variable"%>
@@ -23,29 +24,36 @@
 	
 	String serviceId = request.getParameter("serviceId");
 	String wsdlUri = request.getParameter("wsdlUri");
+	String selectedPortStr = request.getParameter("selectedPort");
+	String selectedOperationStr = request.getParameter("selectedOperation");
+	int selectedPort = (SmartUtil.isBlankObject(selectedPortStr)) ? 0 : Integer.parseInt(selectedPortStr);
+	int selectedOperation = (SmartUtil.isBlankObject(selectedOperationStr)) ? 0 : Integer.parseInt(selectedOperationStr);
 	
 	WSDLDetail wsdlDetail = new WSDLDetail();
-	if(!SmartUtil.isBlankObject(wsdlUri)) wsdlDetail = smartWorks.getWsdlDetailFromUri(wsdlUri);
-	else if(!SmartUtil.isBlankObject(serviceId)){
+	if(!SmartUtil.isBlankObject(wsdlUri)){
+		if(SmartUtil.isBlankObject(wsdlDetail) || !wsdlUri.equals(wsdlDetail.getWsdlUri())) wsdlDetail = smartWorks.getWsdlDetailFromUri(wsdlUri);
+	}else if(!SmartUtil.isBlankObject(serviceId)){
 		WebService webService = (WebService)session.getAttribute("webService");
 		wsdlDetail = webService.getWSDLDetail();
+	}else{
+		wsdlDetail = (WSDLDetail)session.getAttribute("wsdlDetail");
 	}
+	session.setAttribute("wsdlDetail", wsdlDetail);		
 	
 %>
-</script>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<tr>
+<tr class="js_wsdl_detail">
 	<td><fmt:message key="settings.title.webservice.port"/></td>
 	<td>
-		<select name="selWebServicePort">
+		<select name="selWebServicePort" class="js_webservice_port">
 			<%
 			WSDLPort[] ports = wsdlDetail.getPorts();
 			if(!SmartUtil.isBlankObject(ports) && ports.length>0){
-				for(WSDLPort port : ports){
+				for(int i=0; i<ports.length; i++){
 			%>
-					<option><%=port.getPort() %></option>
+					<option <%if(i==selectedPort){%>selected<%} %> index="<%=i %>" value="<%=ports[i].getPort()%>"> <%=ports[i].getPort() %></option>
 			<%
 				}
 			}
@@ -53,27 +61,35 @@
 		</select>
 	</td>
 </tr>
-<tr>
+<tr class="js_wsdl_detail">
 	<td><fmt:message key="settings.title.webservice.operation"/></td>
 	<td>
-		<select name="selWebServiceOperation">
+		<select name="selWebServiceOperation" class="js_webservice_operation">
 			<%
-			if(!SmartUtil.isBlankObject(ports) && ports.length==1){
-				WSDLOperation[] operations = ports[0].getOperations();
+			if(!SmartUtil.isBlankObject(ports) && ports.length>selectedPort){
+				WSDLOperation[] operations = ports[selectedPort].getOperations();
 				if(!SmartUtil.isBlankObject(operations) && operations.length>0){
-					for(WSDLOperation operation : operations){
+					for(int i=0; i<operations.length; i++){
 				
 			%>
-					<option><%=operations[] %></option>
+						<option <%if(i==selectedOperation){%>selected<%} %> index="<%=i%>" value="<%=operations[i].getOperation()%>"><%=operations[i].getOperation() %></option>
 			<%
+					}
+				}
 			}
 			%>
 		</select>
 	</td>
 </tr>
-<tr>
+<tr class="js_wsdl_detail">
+	<%
+	boolean inputVarExisting = ((!SmartUtil.isBlankObject(ports) && ports.length>selectedPort) 
+								&& (!SmartUtil.isBlankObject(ports[selectedPort].getOperations()) && ports[selectedPort].getOperations().length>selectedOperation)
+								&& (!SmartUtil.isBlankObject(ports[selectedPort].getOperations()[selectedOperation].getInputVariables()) && ports[selectedPort].getOperations()[selectedOperation].getInputVariables().length>0))
+								? true : false;
+	%>
 	<td><fmt:message key="settings.title.webservice.input_variables"/>
-		<%if(wsdlDetail.getInputVariables()!=null && wsdlDetail.getInputVariables().length>0){%><span class="essen_n"></span><%} %>
+		<%if(inputVarExisting){%><span class="essen_n"></span><%} %>
 	</td>
 	<td>
 		<table style="width:100%">
@@ -83,8 +99,8 @@
 				<th style="width:33%"><fmt:message key="settings.title.variable.element_type"/></th>
 			</tr>
 			<%
-			if(wsdlDetail.getInputVariables()!=null && wsdlDetail.getInputVariables().length>0){
-				Variable[] inputVariables = wsdlDetail.getInputVariables();
+			if(inputVarExisting){
+				Variable[] inputVariables = ports[selectedPort].getOperations()[selectedOperation].getInputVariables();
 				for(int count=1; count<inputVariables.length+1; count++){
 					Variable inputVariable = inputVariables[count-1]; 
 			%>
@@ -100,9 +116,15 @@
 		</table>
 	</td>
 </tr>
-<tr>
+<tr class="js_wsdl_detail">
+	<%
+	boolean returnVarExisting = ((!SmartUtil.isBlankObject(ports) && ports.length>selectedPort) 
+								&& (!SmartUtil.isBlankObject(ports[selectedPort].getOperations()) && ports[selectedPort].getOperations().length>selectedOperation)
+								&& (!SmartUtil.isBlankObject(ports[selectedPort].getOperations()[selectedOperation].getReturnVariables()) && ports[selectedPort].getOperations()[selectedOperation].getReturnVariables().length>0))
+								? true : false;
+	%>
 	<td><fmt:message key="settings.title.webservice.return_variables"/>
-		<%if(wsdlDetail.getReturnVariables()!=null && wsdlDetail.getReturnVariables().length>0){ %><span class="essen_n"></span><%} %>
+		<%if(returnVarExisting){ %><span class="essen_n"></span><%} %>
 	</td>
 	<td>
 		<table style="width:100%">
@@ -112,8 +134,8 @@
 				<th style="width:33%"><fmt:message key="settings.title.variable.element_type"/></th>
 			</tr>
 			<%
-			if(wsdlDetail.getReturnVariables()!=null && wsdlDetail.getReturnVariables().length>0){
-				Variable[] returnVariables = wsdlDetail.getReturnVariables();
+			if(returnVarExisting){
+				Variable[] returnVariables = ports[selectedPort].getOperations()[selectedOperation].getReturnVariables();
 				for(int count=1; count<returnVariables.length+1; count++){
 					Variable returnVariable = returnVariables[count-1]; 
 			%>

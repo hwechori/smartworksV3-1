@@ -45,6 +45,7 @@ import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.ISettingsService;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -982,7 +983,7 @@ public class SettingsServiceImpl implements ISettingsService {
 
 		try {
 			// TO DO
-			return new WSDLDetail();
+			return SmartTest.getWsdlDetailFromUri(wsdlUri);
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;

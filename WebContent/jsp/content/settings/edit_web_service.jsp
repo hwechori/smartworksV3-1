@@ -32,6 +32,10 @@
 	// 모든정보를 JSON형식으로 Serialize해서 서버의 set_work_hour_policy.sw 서비스를 호출하여 수정한다.
 	function submitForms(e) {
 		var editWebService = $('.js_edit_web_service_page');
+		if(!editWebService.find('input[name="txtWebServiceWSDL"]').hasClass('sw_fetched')){
+			smartPop.showInfo(smartPop.ERROR, smartMessage.get('wsdlNotFetchedError'));
+			return;
+		}
 		if (SmartWorks.GridLayout.validate(editWebService.find('form.js_validation_required'), editWebService.find('.js_profile_error_message'))) {
 			var forms = editWebService.find('form');
 			var paramsJson = {};
@@ -102,7 +106,7 @@
 
 	<form name="frmEditWebService" class="form_layout margin_b10 js_validation_required">
 		<table>
-			<tbody>
+			<tbody class="js_edit_webservice_tbody">
 				<tr>
 					<td width="20%"><fmt:message key="settings.title.webservice.name"/><span class="essen_n"></span></td>
 					<td colspan="3" width="80%" ><input name="txtWebServiceName" type="text" class="fieldline required" value="<%=CommonUtil.toNotNull(webService.getName())%>"/>
@@ -125,9 +129,7 @@
 						</div>
 					</td>
 				</tr>
-				<span class="js_wsdl_detail">
-					<jsp:include page="/jsp/content/settings/wsdl_detail.jsp"><jsp:param value="<%=CommonUtil.toNotNull(serviceId) %>" name="serviceId"/></jsp:include>
-				</span>
+				<jsp:include page="/jsp/content/settings/wsdl_detail.jsp"><jsp:param value="<%=CommonUtil.toNotNull(serviceId) %>" name="serviceId"/></jsp:include>
 			</tbody>
 		</table>
 	</form>

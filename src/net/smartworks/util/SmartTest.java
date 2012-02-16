@@ -42,6 +42,10 @@ import net.smartworks.model.notice.NoticeMessage;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
+import net.smartworks.model.service.Variable;
+import net.smartworks.model.service.WSDLDetail;
+import net.smartworks.model.service.WSDLOperation;
+import net.smartworks.model.service.WSDLPort;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
 import net.smartworks.model.work.ProcessWork;
@@ -1208,6 +1212,38 @@ public class SmartTest {
 		return SmartTest.getAssignedTaskInstances();
 	}
 	
+	public static WSDLDetail getWsdlDetailFromUri(String wsdlUri) throws Exception{
+		Variable[] inputVariables = new Variable[]{new Variable()};
+		Variable[] returnVariables = new Variable[]{new Variable()};
+		WSDLOperation operation1 = new WSDLOperation();
+		operation1.setOperation("operation 1");
+		operation1.setInputVariables(inputVariables);
+		operation1.setReturnVariables(returnVariables);
+		WSDLOperation operation2 = new WSDLOperation();
+		operation2.setOperation("operation 2");
+		operation2.setInputVariables(inputVariables);
+		operation2.setReturnVariables(returnVariables);
+		WSDLOperation operation3 = new WSDLOperation();
+		operation3.setOperation("operation 3");
+		operation3.setInputVariables(inputVariables);
+		operation3.setReturnVariables(returnVariables);
+		WSDLOperation operation4 = new WSDLOperation();
+		operation4.setOperation("operation 4");
+		operation4.setInputVariables(inputVariables);
+		operation4.setReturnVariables(returnVariables);
+		
+		WSDLPort port1 = new WSDLPort();
+		port1.setPort("port 1");
+		port1.setOperations(new WSDLOperation[]{operation1, operation2});
+		WSDLPort port2 = new WSDLPort();
+		port2.setPort("port 2");
+		port2.setOperations(new WSDLOperation[]{operation3, operation4});
+		
+		WSDLDetail wsdlDetail = new WSDLDetail();
+		wsdlDetail.setWsdlUri(wsdlUri);
+		wsdlDetail.setPorts(new WSDLPort[]{port1, port2});
+		return wsdlDetail;
+	}
 	
 	public static Data getReportData() throws Exception{
 		Data reportData = new Data();
