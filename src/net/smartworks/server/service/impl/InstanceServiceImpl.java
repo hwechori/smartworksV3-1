@@ -2388,26 +2388,27 @@ public class InstanceServiceImpl implements IInstanceService {
 			List beforeWorkTimeList = new ArrayList();
 			List workTimeList = new ArrayList();
 			List afterWorkTimeList = new ArrayList();
-			for (int i = 0; i < tasks.length; i++) {
-				TaskWork task = tasks[i];
-				Date executeDate = task.getTaskLastModifyDate();
-				LocalDate localExecuteDate = new LocalDate(executeDate.getTime());
-				
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(new Date(localExecuteDate.getLocalDate()));
-				
-				long executeTime = (cal.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (cal.get(Calendar.MINUTE) * 60 * 1000) 
-				   + (cal.get(Calendar.SECOND) * 1000) + (cal.get(Calendar.MILLISECOND));
-				
-				if (executeTime < (Long)workHourTimeMap.get("startTime")) {
-					beforeWorkTimeList.add(task);
-				} else if (executeTime < (Long)workHourTimeMap.get("endTime") && executeTime > (Long)workHourTimeMap.get("startTime")) {
-					workTimeList.add(task);
-				} else {
-					afterWorkTimeList.add(task);
+			if (tasks != null & tasks.length != 0) {
+				for (int i = 0; i < tasks.length; i++) {
+					TaskWork task = tasks[i];
+					Date executeDate = task.getTaskLastModifyDate();
+					LocalDate localExecuteDate = new LocalDate(executeDate.getTime());
+					
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(new Date(localExecuteDate.getLocalDate()));
+					
+					long executeTime = (cal.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000) + (cal.get(Calendar.MINUTE) * 60 * 1000) 
+					   + (cal.get(Calendar.SECOND) * 1000) + (cal.get(Calendar.MILLISECOND));
+					
+					if (executeTime < (Long)workHourTimeMap.get("startTime")) {
+						beforeWorkTimeList.add(task);
+					} else if (executeTime < (Long)workHourTimeMap.get("endTime") && executeTime > (Long)workHourTimeMap.get("startTime")) {
+						workTimeList.add(task);
+					} else {
+						afterWorkTimeList.add(task);
+					}
 				}
 			}
-			
 			TaskInstanceInfo[] beforeTaskInstanceInfo = null;
 			TaskInstanceInfo[] taskInstanceInfo = null;
 			TaskInstanceInfo[] afterInstanceInfo = null;
