@@ -22,9 +22,9 @@
 	String serviceId = request.getParameter("serviceId");
 	WebService webService = new WebService();
 	if(!SmartUtil.isBlankObject(serviceId)){
-		webService =  smartWorks.getWebServiceById(serviceId);
+		webService =  smartWorks.getWebServiceById(serviceId);		
+		session.setAttribute("webService", webService);
 	}
-	
 %>
 <script type="text/javascript">
 
@@ -116,82 +116,18 @@
 				<tr>
 					<td><fmt:message key="settings.title.webservice.wsdl_uri"/><span class="essen_n"></span></td>
 					<td>
-						<div class="btn_fb_space">
-							<input name="txtWebServiceWSDL" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(webService.getWsdlUri())%>">
-							<div class="btnIconStart po_rbtn"><a class="btnIconsTail js_fetch_webservice_wsdl" href=""><fmt:message key="settings.button.wsdl.fetch"/></a></div>
+						<div class="btn_fb_space js_webservice_wsdl">
+							<input name="txtWebServiceWSDL" <%if(!SmartUtil.isBlankObject(webService.getWsdlUri())){ %>readonly<%} %> class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(webService.getWsdlUri())%>">
+							<div class="btnIconStart po_rbtn">
+								<a class="btnIconsTail js_fetch_webservice_wsdl" <%if(!SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.fetch"/></a>
+								<a class="btnIconsTail js_change_webservice_wsdl" <%if(SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.change"/></a>
+							</div>
 						</div>
 					</td>
 				</tr>
-				<tr>
-					<td><fmt:message key="settings.title.webservice.port"/></td>
-					<td>
-						<select>
-							<option></option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><fmt:message key="settings.title.webservice.operation"/></td>
-					<td>
-						<select name="select">
-							<option> - </option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><fmt:message key="settings.title.webservice.input_variables"/><span class="essen_n"></span></td>
-					<td>
-						<table style="width:100%">
-							<tr>
-								<th style="width:33%"><fmt:message key="settings.title.variable.name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_type"/></th>
-							</tr>
-							<%
-							if(webService.getInputVariables()!=null && webService.getInputVariables().length>0){
-								Variable[] inputVariables = webService.getInputVariables();
-								for(int count=1; count<inputVariables.length+1; count++){
-									Variable inputVariable = inputVariables[count-1]; 
-							%>
-									<tr>
-										<th><input class="fieldline required" name="txtInputVariableName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(inputVariable.getName())%>"></th>
-										<th><input readonly name="txtInputElementName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(inputVariable.getElementName())%>"></th>
-										<th><input readonly name="txtInputElementType<%=count %>" type="text" value="<%=CommonUtil.toNotNull(inputVariable.getElementType())%>"></th>
-									</tr>				
-							<%
-								}
-							}
-							%>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td><fmt:message key="settings.title.webservice.return_variables"/><span class="essen_n"></span></td>
-					<td>
-						<table style="width:100%">
-							<tr>
-								<th style="width:33%"><fmt:message key="settings.title.variable.name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_type"/></th>
-							</tr>
-							<%
-							if(webService.getReturnVariables()!=null && webService.getReturnVariables().length>0){
-								Variable[] returnVariables = webService.getReturnVariables();
-								for(int count=1; count<returnVariables.length+1; count++){
-									Variable returnVariable = returnVariables[count-1]; 
-							%>
-									<tr>
-										<th><input class="fieldline required" name="txtReturnVariableName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(returnVariable.getName())%>"></th>
-										<th><input readonly name="txtReturnElementName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(returnVariable.getElementName())%>"></th>
-										<th><input readonly name="txtReturnElementType<%=count %>" type="text" value="<%=CommonUtil.toNotNull(returnVariable.getElementType())%>"></th>
-									</tr>				
-							<%
-								}
-							}
-							%>
-						</table>
-					</td>
-				</tr>
+				<span class="js_wsdl_detail">
+					<jsp:include page="/jsp/content/settings/wsdl_detail.jsp"><jsp:param value="<%=CommonUtil.toNotNull(serviceId) %>" name="serviceId"/></jsp:include>
+				</span>
 			</tbody>
 		</table>
 	</form>

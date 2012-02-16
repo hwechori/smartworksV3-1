@@ -418,6 +418,36 @@ $(function() {
 		return false;
 	});
 
+	$('a.js_fetch_webservice_wsdl').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_webservice_wsdl input');
+		var wsdlUri = target.attr('value');
+		$.ajax({
+			url : "wsdl_detail.sw",
+			data : {
+				wsdlUri : wsdlUri
+			},
+			success : function(data, status, jqXHR) {
+				smartPop.showInfo(smartPop.INFORM, smartMessage.get('fetchWsdlSucceed'));
+				target.addClass('sw_fetched').attr('readonly', true);
+				input.hide().siblings().show();
+				input.parents('.js_edit_web_service_page').find('.js_wsdl_detail').html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('fetchWsdlError'));
+			}
+		});
+		return false;
+	});
+
+	$('a.js_change_webservice_wsdl').live('click', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_webservice_wsdl input');
+		target.removeClass('sw_fetched').attr('readonly', false);
+		input.hide().siblings().show();;
+		return false;
+	});
+
 	$('select.js_first_day_of_week').live('change', function(e) {
 		var input = $(e.target);
 		var editWorkHour = input.parents('.js_edit_work_hour_page');

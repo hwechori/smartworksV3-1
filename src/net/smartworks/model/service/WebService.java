@@ -50,4 +50,19 @@ public class WebService extends BaseObject{
 	
 	public WebService(){
 	}
+	
+	public WSDLDetail getWSDLDetail(){
+		WSDLOperation operation = new WSDLOperation();
+		operation.setInputVariables(inputVariables);
+		operation.setReturnVariables(returnVariables);
+		
+		WSDLPort port = new WSDLPort();
+		port.setPort(this.port);
+		port.setOperations(new WSDLOperation[]{operation});
+		
+		WSDLDetail wsdlDetail = new WSDLDetail();
+		wsdlDetail.setWsdlUri(wsdlUri);
+		wsdlDetail.setPorts(new WSDLPort[]{port});
+		return wsdlDetail;
+	}
 }

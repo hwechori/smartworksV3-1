@@ -23,6 +23,7 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.Variable;
+import net.smartworks.model.service.WSDLDetail;
 import net.smartworks.model.service.WebService;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
@@ -973,6 +974,18 @@ public class SettingsServiceImpl implements ISettingsService {
 			getSwcManager().removeWebService(user.getId(), serviceId);
 		} catch(Exception e) {
 			e.printStackTrace();			
+		}
+	}
+
+	@Override
+	public WSDLDetail getWsdlDetailFromUri(String wsdlUri) throws Exception {
+
+		try {
+			// TO DO
+			return new WSDLDetail();
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 
