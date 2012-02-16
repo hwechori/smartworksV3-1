@@ -74,10 +74,10 @@
 	<%
 	String prevWeekHref = "space_tab_dayly.sw?startDate=" 
 			+ (new LocalDate(startDate.getTime()-LocalDate.ONE_DAY*7)).toLocalDateSimpleString()
-			+ "selectedIndex=0";
+			+ "&selectedIndex=0";
 	String prevDayHref = "space_tab_dayly.sw?startDate=" 
 			+ (new LocalDate(startDate.getTime()-LocalDate.ONE_DAY)).toLocalDateSimpleString()
-			+ "selectedIndex=0";
+			+ "&selectedIndex=0";
 	%>
 	<a href="<%=prevWeekHref %>" class="btn_arr_prev2 js_space_tab_index"></a> 
 	<a href="<%=prevDayHref %>" class="btn_arr_prev js_space_tab_index"></a>
@@ -102,10 +102,10 @@
 	<%
 	String nextDayHref = "space_tab_dayly.sw?startDate=" 
 			+ (new LocalDate(startDate.getTime()+LocalDate.ONE_DAY)).toLocalDateSimpleString()
-			+ "selectedIndex=6";
+			+ "&selectedIndex=6";
 	String nextWeekHref = "space_tab_dayly.sw?startDate="
 			+ (new LocalDate(startDate.getTime()+LocalDate.ONE_DAY*7)).toLocalDateSimpleString()
-			+ "selectedIndex=6";
+			+ "&selectedIndex=6";
 	%>
 	<%
 	if(!endDate.isSameDate(today)){
