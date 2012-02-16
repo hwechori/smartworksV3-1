@@ -155,9 +155,10 @@
 					<td>
 						<table style="width:100%">
 							<tr>
-								<th style="width:33%"><fmt:message key="settings.title.variable.name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_type"/></th>
+								<th style="width:30%"><fmt:message key="settings.title.variable.name"/></th>
+								<th style="width:30%"><fmt:message key="settings.title.variable.element_name"/></th>
+								<th style="width:30%"><fmt:message key="settings.title.variable.element_type"/></th>
+								<th style="width:10%"><a href="" class=""> + </a></th>
 							</tr>
 							<%
 							if(externalForm.getEditVariables()!=null && externalForm.getEditVariables().length>0){
@@ -167,8 +168,9 @@
 							%>
 									<tr>
 										<th><input class="fieldline required" name="txtInputVariableName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(editVariable.getName())%>"></th>
-										<th><input readonly name="txtInputElementName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(editVariable.getElementName())%>"></th>
-										<th><input readonly name="txtInputElementType<%=count %>" type="text" value="<%=CommonUtil.toNotNull(editVariable.getElementType())%>"></th>
+										<th><input class="fieldline required" name="txtInputElementName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(editVariable.getElementName())%>"></th>
+										<th><input class="fieldline required" name="txtInputElementType<%=count %>" type="text" value="<%=CommonUtil.toNotNull(editVariable.getElementType())%>"></th>
+										<th></th>
 									</tr>				
 							<%
 								}
@@ -182,9 +184,10 @@
 					<td>
 						<table style="width:100%">
 							<tr>
-								<th style="width:33%"><fmt:message key="settings.title.variable.name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_type"/></th>
+								<th style="width:30%"><fmt:message key="settings.title.variable.name"/></th>
+								<th style="width:30%"><fmt:message key="settings.title.variable.element_name"/></th>
+								<th style="width:30%"><fmt:message key="settings.title.variable.element_type"/></th>
+								<th style="width:10%"><a href="" class=""> + </a></th>
 							</tr>
 							<%
 							if(externalForm.getViewVariables()!=null && externalForm.getViewVariables().length>0){
@@ -194,8 +197,9 @@
 							%>
 									<tr>
 										<th><input class="fieldline required" name="txtViewVariableName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(viewVariable.getName())%>"></th>
-										<th><input readonly name="txtViewElementName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(viewVariable.getElementName())%>"></th>
-										<th><input readonly name="txtViewElementType<%=count %>" type="text" value="<%=CommonUtil.toNotNull(viewVariable.getElementType())%>"></th>
+										<th><input class="fieldline required" name="txtViewElementName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(viewVariable.getElementName())%>"></th>
+										<th><input class="fieldline required" name="txtViewElementType<%=count %>" type="text" value="<%=CommonUtil.toNotNull(viewVariable.getElementType())%>"></th>
+										<th></th>
 									</tr>				
 							<%
 								}
@@ -209,9 +213,10 @@
 					<td>
 						<table style="width:100%">
 							<tr>
-								<th style="width:33%"><fmt:message key="settings.title.variable.name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_name"/></th>
-								<th style="width:33%"><fmt:message key="settings.title.variable.element_type"/></th>
+								<th style="width:30%"><fmt:message key="settings.title.variable.name"/></th>
+								<th style="width:30%"><fmt:message key="settings.title.variable.element_name"/></th>
+								<th style="width:30%"><fmt:message key="settings.title.variable.element_type"/></th>
+								<th style="width:10%"><a href="" class=""> + </a></th>
 							</tr>
 							<%
 							if(externalForm.getReturnVariables()!=null && externalForm.getReturnVariables().length>0){
@@ -221,8 +226,9 @@
 							%>
 									<tr>
 										<th><input class="fieldline required" name="txtReturnVariableName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(returnVariable.getName())%>"></th>
-										<th><input readonly name="txtReturnElementName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(returnVariable.getElementName())%>"></th>
-										<th><input readonly name="txtReturnElementType<%=count %>" type="text" value="<%=CommonUtil.toNotNull(returnVariable.getElementType())%>"></th>
+										<th><input class="fieldline required" name="txtReturnElementName<%=count %>" type="text" value="<%=CommonUtil.toNotNull(returnVariable.getElementName())%>"></th>
+										<th><input class="fieldline required" name="txtReturnElementType<%=count %>" type="text" value="<%=CommonUtil.toNotNull(returnVariable.getElementType())%>"></th>
+										<th></th>
 									</tr>				
 							<%
 								}

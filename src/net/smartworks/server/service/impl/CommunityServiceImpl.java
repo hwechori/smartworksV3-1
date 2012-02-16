@@ -602,7 +602,7 @@ public class CommunityServiceImpl implements ICommunityService {
 			DepartmentInfo[] departmentInfos = getMyDepartments();
 			GroupInfo[] groupInfos = getMyGroups();
 			int departmentInfosLength = departmentInfos.length;
-			int groupInfosLength = groupInfos.length;
+			int groupInfosLength = groupInfos == null ? 0 : groupInfos.length;
 			CommunityInfo[] communityInfos = new CommunityInfo[departmentInfosLength + groupInfosLength];
 			for(int i=0; i<departmentInfosLength; i++) {
 				communityInfos[i] = departmentInfos[i];
