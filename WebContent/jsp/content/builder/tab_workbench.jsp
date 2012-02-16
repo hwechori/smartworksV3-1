@@ -86,8 +86,6 @@
 
 				<table>
 					<%
-					work.setRunning(false);
-					work.setEditing(true);
 					String serviceStatus = (work.isRunning()) ? 
 							SmartMessage.getString("builder.title.service_started") : 
 							SmartMessage.getString("builder.title.service_stopped");							
