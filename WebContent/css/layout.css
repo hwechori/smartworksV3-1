@@ -283,7 +283,7 @@ a .btn_apps:hover,
 /* UpLoad */
 #upload {width:100%; height:22px; margin: 0 2px; display:inline-block; position:relative;}
 #upload div a:hover, #upload div a:focus, #upload div a:active, #upload div a:link, #upload div a:visited {color: #333333; text-decoration:none;}
-#upload div {float:left; padding-right:9px;}
+#upload div {float:left; padding-right:15px;}
 
 .up_wrap {position:relative; margin: 0 3px 10px;}
 .detail_up_wrap {margin:0 15px 15px;} /* 상세보기 페이지의 up_wrap */ 
@@ -304,15 +304,15 @@ a .btn_apps:hover,
 .up_works .current, 
 .up_works a.current:hover {background: url("../images/header_nico.png") no-repeat -4px -190px; font-weight:bold;}
 
-.up_pic a {background: url("../images/header_nico.png") no-repeat -146px -155px; height:22px; padding:4px 0 3px 28px; display:block;}
-.up_pic a:hover,
-.up_pic .current, 
-.up_pic a.current:hover {background: url("../images/header_nico.png") no-repeat -146px -190px; font-weight:bold;}
-
-.up_file a {background: url("../images/header_nico.png") no-repeat -677px -155px; height:22px; padding:4px 0 3px 28px; display:block;}
+.up_file a {background: url("../images/header_nico.png") no-repeat -151px -155px; height:22px; padding:4px 0 3px 25px; display:block;}
 .up_file a:hover,
 .up_file .current, 
-.up_file a.current:hover {background: url("../images/header_nico.png") no-repeat -677px -190px; font-weight:bold;}
+.up_file a.current:hover {background: url("../images/header_nico.png") no-repeat -151px -190px; font-weight:bold;}
+
+.up_pic a {background: url("../images/header_nico.png") no-repeat -677px -155px; height:22px; padding:4px 0 3px 34px; display:block;}
+.up_pic a:hover,
+.up_pic .current, 
+.up_pic a.current:hover {background: url("../images/header_nico.png") no-repeat -677px -190px; font-weight:bold;}
 
 .up_event a {background: url("../images/header_nico.png") no-repeat -279px -155px; height:22px; padding:4px 0 3px 22px; display:block;}
 .up_event a:hover,
