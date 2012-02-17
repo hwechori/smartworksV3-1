@@ -641,7 +641,7 @@ public class CalendarServiceImpl implements ICalendarService {
 			SwcWorkHour swcWorkHour = new SwcWorkHour();
 			if(swcWorkHours != null) {
 				for(int i=0; i<swcWorkHours.length; i++) {
-					if((new LocalDate(swcWorkHour.getValidFromDate().getTime())).getLocalTime() <= new LocalDate().getTime()) {
+					if((new LocalDate(swcWorkHours[i].getValidFromDate().getTime())).getLocalTime() <= new LocalDate().getTime()) {
 						swcWorkHour = swcWorkHours[i];
 						break;
 					}

@@ -150,9 +150,9 @@
 					%>					
 							<td class="js_approver_type required" <%if(approvalLine.getApprovalLevel()<count){ %>style="display:none"<%} %>>
 								<select name="selLevelApproverType<%=count %>" class="js_approval_approver_type">
+									<option <%if(approval.getApproverType()== Approval.APPROVER_CHOOSE_ON_RUNNING){ %>selected<%} %> value="<%=Approval.APPROVER_CHOOSE_ON_RUNNING%>"><fmt:message key="settings.title.approver.on_draft"/></option>
 									<option <%if(approval.getApproverType()== Approval.APPROVER_MY_BOSS){ %>selected<%} %> value="<%=Approval.APPROVER_MY_BOSS%>"><fmt:message key="settings.title.approver.team_leader"/></option>
 									<option <%if(approval.getApproverType()== Approval.APPROVER_CHOOSE_USER){ %>selected<%} %> value="<%=Approval.APPROVER_CHOOSE_USER%>"><fmt:message key="settings.title.approver.select_user"/></option>
-									<option <%if(approval.getApproverType()== Approval.APPROVER_CHOOSE_ON_RUNNING){ %>selected<%} %> value="<%=Approval.APPROVER_CHOOSE_ON_RUNNING%>"><fmt:message key="settings.title.approver.on_draft"/></option>
 								</select>
 								<div class="js_type_userField" fieldId="usrLevelApprover<%=count %>" multiUsers="false" <%if(approval.getApproverType()!=Approval.APPROVER_CHOOSE_USER){ %>style="display:none"<%} %>>
 									<div class="ico_fb_space form_value" >
