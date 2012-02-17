@@ -199,7 +199,7 @@
 								<th style="width:30%"><fmt:message key="settings.title.variable.name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_type"/></th>
-								<th style="width:10%"><a href="" class=""> + </a></th>
+								<th style="width:10%"><a href="" class="js_add_variable_item"> + </a></th>
 							</tr>
 							<tr style="display:none">
 								<th><input class="fieldline required" name="txtViewVariableName" type="text" value=""></th>
@@ -256,7 +256,7 @@
 								<th style="width:30%"><fmt:message key="settings.title.variable.name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_type"/></th>
-								<th style="width:10%"><a href="" class=""> + </a></th>
+								<th style="width:10%"><a href="" class="js_add_variable_item"> + </a></th>
 							</tr>
 							<tr style="display:none">
 								<th><input class="fieldline required" name="txtReturnVariableName" type="text" value=""></th>
