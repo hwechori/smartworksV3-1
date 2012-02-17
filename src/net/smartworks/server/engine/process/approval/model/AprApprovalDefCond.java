@@ -21,12 +21,14 @@ public class AprApprovalDefCond extends MisObjectCond {
 		public static final String A_TYPE = "type";
 		public static final String A_APRNAME = "aprName";
 		public static final String A_ARPPERSON = "aprPerson";
+		public static final String A_DUEDATE = "dueDate";
 		public static final String A_LEVEL = "level";
 		public static final String A_ISAPPROVALLINENULL = "isApprovalLineNull";
 		
 		private String type;
 		private String aprName;
 		private String aprPerson;
+		private String dueDate;
 		private String level;
 		private boolean isApprovalLineNull;
 		
@@ -43,6 +45,7 @@ public class AprApprovalDefCond extends MisObjectCond {
 			buf.append(super.toAttributesString());
 			appendAttributeString(A_APRNAME, aprName, buf);
 			appendAttributeString(A_ARPPERSON, aprPerson, buf);
+			appendAttributeString(A_DUEDATE, dueDate, buf);
 			appendAttributeString(A_LEVEL, level, buf);
 			appendAttributeString(A_TYPE, type, buf);
 			appendAttributeString(A_ISAPPROVALLINENULL, isApprovalLineNull, buf);
@@ -64,6 +67,7 @@ public class AprApprovalDefCond extends MisObjectCond {
 			if (attrMap != null) {
 				Node aprName = attrMap.getNamedItem(A_APRNAME);
 				Node aprPerson = attrMap.getNamedItem(A_ARPPERSON);
+				Node dueDate = attrMap.getNamedItem(A_DUEDATE);
 				Node level = attrMap.getNamedItem(A_LEVEL);
 				Node type = attrMap.getNamedItem(A_TYPE);
 				Node isApprovalLineNull = attrMap.getNamedItem(A_ISAPPROVALLINENULL);
@@ -71,6 +75,8 @@ public class AprApprovalDefCond extends MisObjectCond {
 					obj.setAprName(aprName.getNodeValue());
 				if (aprPerson != null)
 					obj.setAprPerson(aprPerson.getNodeValue());
+				if (dueDate != null)
+					obj.setDueDate(dueDate.getNodeValue());
 				if (level != null)
 					obj.setLevel(level.getNodeValue());
 				if (type != null)
@@ -178,30 +184,31 @@ public class AprApprovalDefCond extends MisObjectCond {
 				return null;
 			}
 		}
+
 		public String getAprName() {
 			return aprName;
 		}
-
 		public void setAprName(String aprName) {
 			this.aprName = aprName;
 		}
-
 		public String getAprPerson() {
 			return aprPerson;
 		}
-
 		public void setAprPerson(String aprPerson) {
 			this.aprPerson = aprPerson;
 		}
-
+		public String getDueDate() {
+			return dueDate;
+		}
+		public void setDueDate(String dueDate) {
+			this.dueDate = dueDate;
+		}
 		public String getLevel() {
 			return level;
 		}
-
 		public void setLevel(String level) {
 			this.level = level;
 		}
-
 		public String getType() {
 			return type;
 		}
@@ -215,6 +222,4 @@ public class AprApprovalDefCond extends MisObjectCond {
 			this.isApprovalLineNull = isApprovalLineNull;
 		}
 
-	
-		
 }

@@ -399,11 +399,13 @@ $(function() {
 				userId : userId
 			},
 			success : function(data, status, jqXHR) {
+				console.log("success");
 				smartPop.showInfo(smartPop.INFORM, smartMessage.get('usableUserId'));
 				target.addClass('sw_dup_checked').attr('readonly', true);
 				input.hide().siblings().show();;
 			},
 			error : function(xhr, ajaxOptions, thrownError){
+				console.log("error");
 				smartPop.showInfo(smartPop.WARN, smartMessage.get('duplicatedUserId'));
 			}
 		});
@@ -544,4 +546,26 @@ $(function() {
 		
 		return false;
 	});
+
+	$('a.js_add_variable_item').live('click', function(e){
+		var input = $(e.target);
+		var newItem = input.parents('tr:first').next('tr').clone();
+		newItem.show();
+		var itemTable = input.parents('table:first');
+		newItem.appendTo(itemTable);
+		if(itemTable.find('tr').length == 3)
+			itemTable.parents('tr:first').find('span.essen_n').show();
+		return false;
+	});
+
+	$('a.js_remove_variable_item').live('click', function(e){
+		var input = $(e.target);
+		var itemTable = input.parents('table:first');
+		input.parents('tr:first').remove();
+		if(itemTable.find('tr').length == 2){
+			itemTable.parents('tr:first').find('span.essen_n').hide();
+		}
+		return false;
+	});
+
 });

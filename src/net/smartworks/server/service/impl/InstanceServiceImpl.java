@@ -90,7 +90,6 @@ import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
-import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartMessage;
 import net.smartworks.util.SmartTest;
@@ -1699,8 +1698,6 @@ public class InstanceServiceImpl implements IInstanceService {
 											}
 											value = resultUser;
 										}
-									} else if(formatType.equals(FormField.TYPE_USERS)) {
-										// TO-DO Multi User 의 경우
 									} else if(formatType.equals(FormField.TYPE_CURRENCY)) {
 										String symbol = swfField.getFormat().getCurrency();
 										fieldData.setSymbol(symbol);
@@ -2943,8 +2940,6 @@ public class InstanceServiceImpl implements IInstanceService {
 												}
 												value = resultUser;
 											}
-										} else if(formatType.equals(FormField.TYPE_USERS)) {
-											// TO-DO Multi User 의 경우
 										} else if(formatType.equals(FormField.TYPE_CURRENCY)) {
 											String symbol = swfField.getFormat().getCurrency();
 											fieldData.setSymbol(symbol);

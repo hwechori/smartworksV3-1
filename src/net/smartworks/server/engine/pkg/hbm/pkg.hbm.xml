@@ -7,9 +7,9 @@
 		</id>
 		<property name="name" type="string" length="100"/>
 		<property name="creationUser" column="creator" type="string" length="50"/>
-		<property name="creationDate" column="createdTime" type="date"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
 		<property name="modificationUser" column="modifier" type="string" length="50"/>
-		<property name="modificationDate" column="modifiedTime" type="date"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
 		<property name="description" type="text"/>
 		<property name="status" type="string" length="30"/>
 		<property name="categoryId" type="string" length="50"/>

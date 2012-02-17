@@ -1574,7 +1574,7 @@ public class ModelConverter {
 		
 		return new SearchFilterInfo[]{new SearchFilterInfo("","")};
 	}
-	
+
 	public static SearchFilter[] getSearchFilterArrayByPkgPackage(String userId, PkgPackage pkg) throws Exception {
 		if (pkg == null)
 			return null;

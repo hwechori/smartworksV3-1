@@ -15,6 +15,9 @@ ALTER TABLE tsktask add isStartActivity varchar(10);
 ALTER TABLE tsktask add tskFromRefType varchar(50);
 ALTER TABLE tsktask add tskFromRefId varchar(100);
 
+-- 결재라인정의에 평균 소요시간 컬럼 추가
+ALTER TABLE apraprdef add dueDate varchar(100);
+
 -- TO-DO : mode -> authmode 
 
 -- TO-DO : tsktask : tskWorkspaceId, prcprcinst : prcWorkspaceId

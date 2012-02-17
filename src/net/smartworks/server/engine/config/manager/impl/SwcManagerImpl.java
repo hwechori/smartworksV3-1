@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import javax.wsdl.Definition;
+import javax.wsdl.PortType;
+import javax.wsdl.factory.WSDLFactory;
+import javax.wsdl.xml.WSDLReader;
+import javax.xml.namespace.QName;
 
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.manager.IManager;
@@ -1137,6 +1144,32 @@ public class SwcManagerImpl extends AbstractManager implements ISwcManager {
 		String hql = "delete from SwcExternalFormParameter where objId = '" + packageId + "'";
 		Query query = this.getSession().createQuery(hql);
 		query.executeUpdate();
+	}
+
+	@Override
+	public PortType[] getPortTypes(String wsdlUri) throws SwcException {
+		List<PortType> portTypeList = null;
+		Map portTypeMap = null;
+		try {
+	    	WSDLFactory factory = WSDLFactory.newInstance();
+	        WSDLReader reader = factory.newWSDLReader();
+	        Definition definition = reader.readWSDL(wsdlUri);
+	        portTypeMap = definition.getPortTypes();
+
+			for (Iterator iter = portTypeMap.keySet().iterator(); iter.hasNext();) {
+				if(portTypeList == null) portTypeList = new ArrayList<PortType>();
+			    QName qName = (QName)iter.next();
+			    PortType portType = (PortType)portTypeMap.get(qName);
+			    //portList.add(portType.getQName().getLocalPart());
+			    portTypeList.add(portType);
+			}
+			PortType[] portTypes = new PortType[portTypeList.size()];
+			portTypeList.toArray(portTypes);
+			return portTypes;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

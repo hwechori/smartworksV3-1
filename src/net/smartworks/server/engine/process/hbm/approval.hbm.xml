@@ -71,6 +71,7 @@
 				<property name="type" type="string"/>
 				<property name="aprName" type="string" length="150"/>
 				<property name="aprPerson" type="string" length="50"/>
+				<property name="dueDate" type="string" length="100"/>
 				<property name="level" type="string" length="50"/>
 				<property name="creationUser" column="creator" type="string" length="50"/>
 				<property name="creationDate" column="createdTime" type="timestamp"/>

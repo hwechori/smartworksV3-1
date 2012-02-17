@@ -2,6 +2,8 @@ package net.smartworks.server.engine.config.manager;
 
 import java.util.Date;
 
+import javax.wsdl.PortType;
+
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.config.exception.SwcException;
 import net.smartworks.server.engine.config.model.SwcEventDay;
@@ -47,6 +49,7 @@ public interface ISwcManager extends IManager {
 	public long getWebServiceSize(String userId, SwcWebServiceCond cond) throws SwcException;
 	public SwcWebService[] getWebServices(String userId, SwcWebServiceCond cond, String level) throws SwcException;
 	public void removeWebServices(String userId, String packageId) throws SwcException;
+	public PortType[] getPortTypes(String wsdlUri) throws SwcException;
 
 	// ExternalForm
 	public SwcExternalForm getExternalForm(String userId, String objId, String level) throws SwcException;

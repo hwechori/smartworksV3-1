@@ -64,7 +64,9 @@
 				
 				<!-- 진행중인 업무목록 및 더보기 버튼 -->
 				<div class="solid_line"></div>
-				<table><jsp:include page="/jsp/content/today/more_instance_list.jsp" /></table>
+				<table class="js_instance_list_table">
+					<jsp:include page="/jsp/content/today/more_instance_list.jsp" />
+				</table>
 				<!-- 진행중인 업무목록 및 더보기 버튼 //-->
 				<!-- 더보기 버튼 -->
 				<%if(runningCounts.getTotal() > 20){ %>
