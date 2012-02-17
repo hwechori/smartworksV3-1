@@ -1546,24 +1546,26 @@ public class ModelConverter {
 		
 		TskTaskDef[] tskDefs = getTskManager().getTaskDefs(userId, tskDefCond, IManager.LEVEL_ALL);
 		List smartTaskInfoList = new ArrayList();
-		for (TskTaskDef taskDef: tskDefs) {
-			String actId = taskDef.getExtendedPropertyValue("activityId");
-			String isStartActivityStr = taskDef.getExtendedPropertyValue("startActivity");
-			boolean isStartActivity = CommonUtil.toBoolean(isStartActivityStr);
-			SmartTaskInfo smartTaskInfo = new SmartTaskInfo();
-			smartTaskInfo.setAssigningName((String)activityPerformerMap.get(actId));
-			smartTaskInfo.setId(actId);
-			smartTaskInfo.setName(taskDef.getName());
-			smartTaskInfo.setStartTask(isStartActivity);
-			
-			SmartFormInfo formInfo = new SmartFormInfo();
-			formInfo.setDescription(taskDef.getDescription());
-			formInfo.setId(taskDef.getForm());
-			formInfo.setName(taskDef.getName());
-			formInfo.setMinImageName("minImageName");
-			formInfo.setOrgImageName("orgImageName");
-			smartTaskInfo.setForm(formInfo);
-			smartTaskInfoList.add(smartTaskInfo);
+		if (tskDefs != null) {
+			for (TskTaskDef taskDef: tskDefs) {
+				String actId = taskDef.getExtendedPropertyValue("activityId");
+				String isStartActivityStr = taskDef.getExtendedPropertyValue("startActivity");
+				boolean isStartActivity = CommonUtil.toBoolean(isStartActivityStr);
+				SmartTaskInfo smartTaskInfo = new SmartTaskInfo();
+				smartTaskInfo.setAssigningName((String)activityPerformerMap.get(actId));
+				smartTaskInfo.setId(actId);
+				smartTaskInfo.setName(taskDef.getName());
+				smartTaskInfo.setStartTask(isStartActivity);
+				
+				SmartFormInfo formInfo = new SmartFormInfo();
+				formInfo.setDescription(taskDef.getDescription());
+				formInfo.setId(taskDef.getForm());
+				formInfo.setName(taskDef.getName());
+				formInfo.setMinImageName("minImageName");
+				formInfo.setOrgImageName("orgImageName");
+				smartTaskInfo.setForm(formInfo);
+				smartTaskInfoList.add(smartTaskInfo);
+			}
 		}
 		SmartTaskInfo[] smartTaskInfoArray = new SmartTaskInfo[smartTaskInfoList.size()];
 		smartTaskInfoList.toArray(smartTaskInfoArray);
