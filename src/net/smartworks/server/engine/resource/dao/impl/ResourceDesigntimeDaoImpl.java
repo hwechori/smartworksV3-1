@@ -16,6 +16,7 @@ import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.SmartUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
+import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomainCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdField;
@@ -76,7 +77,8 @@ public class ResourceDesigntimeDaoImpl extends HbResourceDesigntimeDaoImpl {
 						String formId = domain.getFormId();
 						SwdDomainCond dcond = new SwdDomainCond();
 						dcond.setFormId(formId);
-						SwdDomain ndomain = SwManagerFactory.getInstance().getSwdManager().getDomain(userId, dcond, IManager.LEVEL_ALL);
+						ISwdManager swdManager = SwManagerFactory.getInstance().getSwdManager();
+						SwdDomain ndomain = swdManager.getDomain(userId, dcond, IManager.LEVEL_ALL);
 						if (ndomain != null) {
 							boolean changed = false;
 							
@@ -99,7 +101,7 @@ public class ResourceDesigntimeDaoImpl extends HbResourceDesigntimeDaoImpl {
 								changed = true;
 							}
 							if (changed)
-								SwManagerFactory.getInstance().getSwdManager().setDomain(userId, ndomain, IManager.LEVEL_ALL);
+								swdManager.mergeDomain(userId, ndomain, IManager.LEVEL_ALL);
 						}
 					}
 				}

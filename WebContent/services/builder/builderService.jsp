@@ -691,7 +691,8 @@
 		// 폼 저장
 		} else if(method.equals("saveFormContent")) {
 			String formId = request.getParameter("formId");
-			String formContent = request.getParameter("formContent");
+			//String formContent = request.getParameter("formContent");
+			String formContent = new String(request.getParameter("formContent").getBytes("ISO-8859-1"), "UTF-8");
 			System.out.println("formId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formId);
 			System.out.println("formContent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formContent);
 			rscMgr.updateFormContent(userId, formId, 1, formContent);

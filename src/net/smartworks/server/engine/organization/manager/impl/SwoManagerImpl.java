@@ -2079,6 +2079,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	private static SizeMap userExtendMap = new SizeMap(100);
 	@Override
 	public SwoUserExtend getUserExtend(String userId, String id, boolean isMemory) throws SwoException {
 
@@ -2106,11 +2107,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			userExtend.setCellPhoneNo("031-714-5714");
 
 			return userExtend;
-		}
-
-		if(isMemory == true) {
-			if (userMap.containsKey(id))
-				return (SwoUserExtend)userMap.get(id);
 		}
 
 		SwoUserExtend userExtend = new SwoUserExtend();
@@ -2157,9 +2153,6 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		if(timeZone.equals(""))
 			timeZone = LocalDate.TIMEZONE_SEOUL;
 		userExtend.setTimeZone(timeZone);
-
-		if (userExtend != null)
-			userMap.put(id, userExtend);
 
 		return userExtend;
 	}

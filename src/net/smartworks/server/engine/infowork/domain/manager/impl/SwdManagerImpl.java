@@ -144,6 +144,13 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			throw new SwdException(e);
 		}
 	}
+	public void mergeDomain(String user, SwdDomain obj, String level) throws SwdException {
+		try {
+			merge(obj);
+		} catch (Exception e) {
+			throw new SwdException(e);
+		}
+	}
 	public void removeDomain(String user, String objId) throws SwdException {
 		try {
 			remove(SwdDomain.class, objId);

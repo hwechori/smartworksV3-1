@@ -162,6 +162,13 @@ public abstract class AbstractManager extends HibernateDaoSupport implements IMa
 			set(objs[i]);
 		return objs;
 	}
+	protected Object merge(Object obj) throws Exception {
+		if (obj == null)
+			return null;
+		this.getHibernateTemplate().merge(obj);
+		this.getHibernateTemplate().flush();
+		return obj;
+	}
 	protected Object set(Object obj) throws Exception {
 		if (obj == null)
 			return null;
