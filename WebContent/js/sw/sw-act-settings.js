@@ -399,11 +399,13 @@ $(function() {
 				userId : userId
 			},
 			success : function(data, status, jqXHR) {
+				console.log("success");
 				smartPop.showInfo(smartPop.INFORM, smartMessage.get('usableUserId'));
 				target.addClass('sw_dup_checked').attr('readonly', true);
 				input.hide().siblings().show();;
 			},
 			error : function(xhr, ajaxOptions, thrownError){
+				console.log("error");
 				smartPop.showInfo(smartPop.WARN, smartMessage.get('duplicatedUserId'));
 			}
 		});

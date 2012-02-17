@@ -1224,6 +1224,7 @@ CREATE TABLE apraprdef(
 	type varchar(255),
 	aprname varchar(150),
 	aprperson varchar(50),
+	dueDate varchar(100),
 	level varchar(50),
 	creator varchar(50),
 	createdtime datetime NULL,
@@ -1232,7 +1233,6 @@ CREATE TABLE apraprdef(
 	defseq int NOT NULL,
 	constraint apraprdef_pkey primary key (objid, defseq),
 	constraint fkaprapprovaldef foreign key (objid) references apraprlinedef (objid)
-
 );
 
 

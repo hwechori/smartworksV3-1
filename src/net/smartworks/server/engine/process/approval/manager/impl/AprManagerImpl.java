@@ -707,13 +707,14 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 				buf.append(" and obj.aprDescription = :aprDescription");
 			if (aprLevel != null)
 				buf.append(" and obj.aprLevel = :aprLevel");
-			
+
 			if (approvalDefs != null && approvalDefs.length != 0) {
 				for (int i=0; i<approvalDefs.length; i++) {
 					AprApprovalDef approvalDef = approvalDefs[i];
 					String type = approvalDef.getType();
 					String aprName = approvalDef.getAprName();
 					String aprPerson = approvalDef.getAprPerson();
+					String dueDate = approvalDef.getDueDate();
 					String level = approvalDef.getLevel();
 					if (type != null)
 						buf.append(" and approvalDef").append(i).append(".type = :type").append(i);
@@ -721,6 +722,8 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 						buf.append(" and approvalDef").append(i).append(".aprName = :aprName").append(i);
 					if (aprPerson != null)
 						buf.append(" and approvalDef").append(i).append(".aprPerson = :aprPerson").append(i);
+					if (dueDate != null)
+						buf.append(" and approvalDef").append(i).append(".dueDate = :dueDate").append(i);
 					if (level != null)
 						buf.append(" and approvalDef").append(i).append(".level = :level").append(i);
 				}
@@ -754,12 +757,12 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 				query.setString("aprLevel", aprLevel);
 			if (approvalDefs != null && approvalDefs.length != 0) {
 				for (int i=0; i<approvalDefs.length; i++) {
-					AprApprovalDef menuItem = approvalDefs[i];
-					String type = menuItem.getType();
-					String aprName = menuItem.getAprName();
-					String aprPerson = menuItem.getAprPerson();
-					String level = menuItem.getLevel();
-					
+					AprApprovalDef aprApprovalDef = approvalDefs[i];
+					String type = aprApprovalDef.getType();
+					String aprName = aprApprovalDef.getAprName();
+					String aprPerson = aprApprovalDef.getAprPerson();
+					String dueDate = aprApprovalDef.getDueDate();
+					String level = aprApprovalDef.getLevel();
 
 					if (type != null)
 						query.setString("type"+i, type);
@@ -767,6 +770,8 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 						query.setString("aprName"+i, aprName);
 					if (aprPerson != null)
 						query.setString("aprPerson"+i, aprPerson);
+					if (dueDate != null)
+						query.setString("dueDate"+i, dueDate);
 					if (level != null)
 						query.setString("level"+i, level);
 				}

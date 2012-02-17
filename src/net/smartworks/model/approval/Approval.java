@@ -3,10 +3,10 @@ package net.smartworks.model.approval;
 import net.smartworks.model.community.User;
 
 public class Approval{
-	
-	public static final int APPROVER_MY_BOSS = 1;
-	public static final int APPROVER_CHOOSE_USER = 2;
-	public static final int APPROVER_CHOOSE_ON_RUNNING = 3;
+
+	public static final int APPROVER_CHOOSE_ON_RUNNING = 1;
+	public static final int APPROVER_MY_BOSS = 2;
+	public static final int APPROVER_CHOOSE_USER = 3;
 
 	private String name;
 	private int approverType;

@@ -26,7 +26,6 @@
 	if(!SmartUtil.isBlankObject(formId)){
 		externalForm =  smartWorks.getExternalFormById(formId);
 	}
-	
 %>
 <script type="text/javascript">
 
@@ -112,7 +111,7 @@
 				</tr>
 				<tr>
 					<td><fmt:message key="settings.title.externalform.desc"/></td>
-					<td colspan="3"><textarea name="txtaExternalFormDesc" rows="3" class="fieldline"><%=CommonUtil.toNotNull(externalForm.getDesc()) %></textarea>
+					<td colspan="3"><textarea name="txtExternalFormDesc" rows="3" class="fieldline"><%=CommonUtil.toNotNull(externalForm.getDesc()) %></textarea>
 					</td>
 				</tr>
 				<tr>
