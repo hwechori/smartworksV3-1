@@ -18,7 +18,6 @@ public class FormField extends BaseObject{
 
 	public static final String TYPE_TEXT = "textInput"; //string
 	public static final String TYPE_USER = "userField"; //user
-	public static final String TYPE_USERS = "usersField"; //users
 	public static final String TYPE_FILE = "fileField"; //file
 	public static final String TYPE_OTHER_WORK = "refFormField"; // work
 	public static final String TYPE_RICHTEXT_EDITOR = "richEditor"; //string
@@ -28,11 +27,20 @@ public class FormField extends BaseObject{
 	public static final String TYPE_COMBO = "comboBox"; // string
 	public static final String TYPE_IMAGE = "imageBox"; // string
 	public static final String TYPE_CHECK_BOX = "checkBox"; // boolean
+	public static final String TYPE_RADIO_BUTTON = "radioButton"; // text
 	public static final String TYPE_EMAIL = "emailIDInput"; // string
 	public static final String TYPE_DATE = "dateChooser"; //date
 	public static final String TYPE_TIME = "timeField"; //time
 	public static final String TYPE_DATETIME = "dateTimeChooser"; //datetime
 	public static final String TYPE_DATA_GRID = "dataGrid"; //
+	public static final String[] FORM_FIELD_TYPES_ALL = new String[] {
+		TYPE_TEXT, TYPE_USER, TYPE_FILE, TYPE_OTHER_WORK, TYPE_RICHTEXT_EDITOR, TYPE_NUMBER, TYPE_CURRENCY, TYPE_PERCENT,
+		TYPE_COMBO, TYPE_IMAGE, TYPE_CHECK_BOX, TYPE_RADIO_BUTTON, TYPE_EMAIL, TYPE_DATE, TYPE_TIME, TYPE_DATETIME, TYPE_DATA_GRID
+	};
+	public static final String[] FORM_FIELD_TYPES_VARIABLE = new String[] {
+		TYPE_TEXT, TYPE_USER, TYPE_FILE, TYPE_NUMBER, TYPE_CURRENCY, TYPE_PERCENT, TYPE_COMBO, TYPE_CHECK_BOX,
+		TYPE_CURRENCY, TYPE_PERCENT, TYPE_RADIO_BUTTON, TYPE_EMAIL, TYPE_DATE, TYPE_TIME, TYPE_DATETIME
+	};
 
 	public static final FormField FIELD_STATUS = new FormField(ID_STATUS, "", TYPE_COMBO);
 	public static final FormField FIELD_SUBJECT = new FormField(ID_SUBJECT, "", TYPE_TEXT);
@@ -71,7 +79,7 @@ public class FormField extends BaseObject{
 	
 	public String getPageName(){
 		if(this.type == null) return null;
-		if(type.equals(TYPE_TEXT) || type.equals(TYPE_RICHTEXT_EDITOR) || type.equals(TYPE_COMBO) || type.equals(TYPE_IMAGE) || type.equals(TYPE_EMAIL)){
+		if(type.equals(TYPE_TEXT) || type.equals(TYPE_RICHTEXT_EDITOR) || type.equals(TYPE_COMBO) || type.equals(TYPE_IMAGE) || type.equals(TYPE_EMAIL) || type.equals(TYPE_RADIO_BUTTON)){
 			return "string_field";
 		}else if(type.equals(TYPE_USER)){
 			return "user_field";
