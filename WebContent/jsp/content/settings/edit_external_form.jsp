@@ -26,7 +26,6 @@
 	if(!SmartUtil.isBlankObject(formId)){
 		externalForm =  smartWorks.getExternalFormById(formId);
 	}
-
 %>
 <script type="text/javascript">
 
@@ -143,8 +142,25 @@
 								<th style="width:30%"><fmt:message key="settings.title.variable.name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_type"/></th>
-								<th style="width:10%"><a href="" class=""> + </a></th>
+								<th style="width:10%"><a href="" class="js_add_variable_item"> + </a></th>
 							</tr>
+							<tr style="display:none">
+								<th><input class="fieldline required" name="txtEditVariableName" type="text" value=""></th>
+								<th><input class="fieldline required" name="txtEditElementName" type="text" value=""></th>
+								<th><select class="fieldline required" name="selEditElementType">
+										<%
+										for(int i=0; i<FormField.FORM_FIELD_TYPES_VARIABLE.length; i++){
+											String elementType = FormField.FORM_FIELD_TYPES_VARIABLE[i];
+											String elementTypeName = FormField.FORM_FIELD_TYPE_NAMES_VARIABLE[i];
+										%>
+											<option value="<%=elementType%>"><%=elementTypeName%></option>
+										<%
+										}
+										%>
+									</select>
+								</th>
+								<th><a href="" class="js_remove_variable_item"> - </a></th>
+							</tr>				
 							<%
 							if(externalForm.getEditVariables()!=null && externalForm.getEditVariables().length>0){
 								Variable[] editVariables = externalForm.getEditVariables();
@@ -158,13 +174,15 @@
 												<%
 												for(int i=0; i<FormField.FORM_FIELD_TYPES_VARIABLE.length; i++){
 													String elementType = FormField.FORM_FIELD_TYPES_VARIABLE[i];
+													String elementTypeName = FormField.FORM_FIELD_TYPE_NAMES_VARIABLE[i];
 												%>
-													<option value="<%=elementType%>" <%if(elementType.equals(editVariable.getElementType())){ %>selected<%} %>><fmt:message key="field.type.<%=elementType%>"/></option>
+													<option value="<%=elementType%>" <%if(elementType.equals(editVariable.getElementType())){ %>selected<%} %>><%=elementTypeName %></option>
 												<%
 												}
 												%>
 											</select>
 										</th>
+										<th><a href="" class="js_remove_variable_item"> - </a></th>
 									</tr>				
 							<%
 								}
@@ -181,8 +199,25 @@
 								<th style="width:30%"><fmt:message key="settings.title.variable.name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_type"/></th>
-								<th style="width:10%"><a href="" class=""> + </a></th>
+								<th style="width:10%"><a href="" class="js_add_variable_item"> + </a></th>
 							</tr>
+							<tr style="display:none">
+								<th><input class="fieldline required" name="txtViewVariableName" type="text" value=""></th>
+								<th><input class="fieldline required" name="txtViewElementName" type="text" value=""></th>
+								<th><select class="fieldline required" name="selViewElementType">
+										<%
+										for(int i=0; i<FormField.FORM_FIELD_TYPES_VARIABLE.length; i++){
+											String elementType = FormField.FORM_FIELD_TYPES_VARIABLE[i];
+											String elementTypeName = FormField.FORM_FIELD_TYPE_NAMES_VARIABLE[i];
+										%>
+											<option value="<%=elementType%>"><%=elementTypeName%></option>
+										<%
+										}
+										%>
+									</select>
+								</th>
+								<th><a href="" class="js_remove_variable_item"> - </a></th>
+							</tr>				
 							<%
 							if(externalForm.getViewVariables()!=null && externalForm.getViewVariables().length>0){
 								Variable[] viewVariables = externalForm.getViewVariables();
@@ -196,13 +231,15 @@
 												<%
 												for(int i=0; i<FormField.FORM_FIELD_TYPES_VARIABLE.length; i++){
 													String elementType = FormField.FORM_FIELD_TYPES_VARIABLE[i];
+													String elementTypeName = FormField.FORM_FIELD_TYPE_NAMES_VARIABLE[i];
 												%>
-													<option value="<%=elementType%>" <%if(elementType.equals(viewVariable.getElementType())){ %>selected<%} %>><fmt:message key="field.type.<%=elementType %>"/></option>
+													<option value="<%=elementType%>" <%if(elementType.equals(viewVariable.getElementType())){ %>selected<%} %>><%=elementTypeName %></option>
 												<%
 												}
 												%>
 											</select>
 										</th>
+										<th><a href="" class="js_remove_variable_item"> - </a></th>
 									</tr>				
 							<%
 								}
@@ -219,8 +256,25 @@
 								<th style="width:30%"><fmt:message key="settings.title.variable.name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_name"/></th>
 								<th style="width:30%"><fmt:message key="settings.title.variable.element_type"/></th>
-								<th style="width:10%"><a href="" class=""> + </a></th>
+								<th style="width:10%"><a href="" class="js_add_variable_item"> + </a></th>
 							</tr>
+							<tr style="display:none">
+								<th><input class="fieldline required" name="txtReturnVariableName" type="text" value=""></th>
+								<th><input class="fieldline required" name="txtReturnElementName" type="text" value=""></th>
+								<th><select class="fieldline required" name="selReturnElementType">
+										<%
+										for(int i=0; i<FormField.FORM_FIELD_TYPES_VARIABLE.length; i++){
+											String elementType = FormField.FORM_FIELD_TYPES_VARIABLE[i];
+											String elementTypeName = FormField.FORM_FIELD_TYPE_NAMES_VARIABLE[i];
+										%>
+											<option value="<%=elementType%>"><%=elementTypeName%></option>
+										<%
+										}
+										%>
+									</select>
+								</th>
+								<th><a href="" class="js_remove_variable_item"> - </a></th>
+							</tr>				
 							<%
 							if(externalForm.getReturnVariables()!=null && externalForm.getReturnVariables().length>0){
 								Variable[] returnVariables = externalForm.getReturnVariables();
@@ -234,14 +288,15 @@
 												<%
 												for(int i=0; i<FormField.FORM_FIELD_TYPES_VARIABLE.length; i++){
 													String elementType = FormField.FORM_FIELD_TYPES_VARIABLE[i];
+													String elementTypeName = FormField.FORM_FIELD_TYPE_NAMES_VARIABLE[i];
 												%>
-													<option value="<%=elementType%>" <%if(elementType.equals(returnVariable.getElementType())){ %>selected<%} %>><fmt:message key="field.type.<%=elementType %>"/></option>
+													<option value="<%=elementType%>" <%if(elementType.equals(returnVariable.getElementType())){ %>selected<%} %>><%=elementTypeName %></option>
 												<%
 												}
 												%>
 											</select>
 										</th>
-										<th></th>
+										<th><a href="" class="js_remove_variable_item"> - </a></th>
 									</tr>				
 							<%
 								}

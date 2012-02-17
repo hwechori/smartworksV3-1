@@ -1,6 +1,7 @@
 package net.smartworks.model.work;
 
 import net.smartworks.model.BaseObject;
+import net.smartworks.util.SmartMessage;
 
 public class FormField extends BaseObject{
 	
@@ -40,6 +41,14 @@ public class FormField extends BaseObject{
 	public static final String[] FORM_FIELD_TYPES_VARIABLE = new String[] {
 		TYPE_TEXT, TYPE_USER, TYPE_FILE, TYPE_NUMBER, TYPE_CURRENCY, TYPE_PERCENT, TYPE_COMBO, TYPE_CHECK_BOX,
 		TYPE_CURRENCY, TYPE_PERCENT, TYPE_RADIO_BUTTON, TYPE_EMAIL, TYPE_DATE, TYPE_TIME, TYPE_DATETIME
+	};	
+	private static final String PREFIX = "field.type.";
+	public static final String[] FORM_FIELD_TYPE_NAMES_VARIABLE = new String[] {
+		SmartMessage.getString(PREFIX+TYPE_TEXT), SmartMessage.getString(PREFIX+TYPE_USER), SmartMessage.getString(PREFIX+TYPE_FILE),
+		SmartMessage.getString(PREFIX+TYPE_NUMBER), SmartMessage.getString(PREFIX+TYPE_CURRENCY), SmartMessage.getString(PREFIX+TYPE_PERCENT),
+		SmartMessage.getString(PREFIX+TYPE_COMBO), SmartMessage.getString(PREFIX+TYPE_CHECK_BOX), SmartMessage.getString(PREFIX+TYPE_CURRENCY),
+		SmartMessage.getString(PREFIX+TYPE_PERCENT), SmartMessage.getString(PREFIX+TYPE_RADIO_BUTTON), SmartMessage.getString(PREFIX+TYPE_EMAIL),
+		SmartMessage.getString(PREFIX+TYPE_DATE), SmartMessage.getString(PREFIX+TYPE_TIME), SmartMessage.getString(PREFIX+TYPE_DATETIME)
 	};
 
 	public static final FormField FIELD_STATUS = new FormField(ID_STATUS, "", TYPE_COMBO);
