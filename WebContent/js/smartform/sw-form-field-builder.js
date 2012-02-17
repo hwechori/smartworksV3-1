@@ -148,6 +148,14 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 		});
 		return;	
 	case "imageBox":
+		SmartWorks.FormRuntime.ImageBoxBuilder.build({
+			mode : mode, // view or edit
+			container : $target,
+			entity : $entity,
+			dataField : dataField,
+			layoutInstance : layoutInstance
+		});
+		return;	
 	case "dataGrid":
 	case "numericStepper":
 	case "textArea":
