@@ -144,7 +144,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 			<!-- 진행중인 업무 아이템 -->
-			<tr class="working_br js_more_instance_item" dateValue="<%=workInstance.getLastModifiedDate().toLocalDateValue()%>">
+			<tr class="working_br js_more_instance_item" dateValue="<%=workInstance.getLastModifiedDate().toLocalDateString2()%>">
 			
 				<!-- 인스턴스 상태 및 시작자 사진표시 -->
 				<td class="pic">
