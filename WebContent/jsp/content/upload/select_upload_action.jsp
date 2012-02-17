@@ -22,7 +22,7 @@
 	<div class="up_works up_icon_list">
 		<a class="current" href="start_work.sw"><fmt:message key='common.upload.work' /></a>
 	</div>
-	<div class="up_file up_icon_list">
+	<div class="up_pic up_icon_list">
 		<a href="new_picture.sw"><fmt:message key='common.upload.picture' /> </a>
 	</div>
 	<div class="up_file up_icon_list">

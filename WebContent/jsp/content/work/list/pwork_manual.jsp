@@ -69,7 +69,7 @@
 								<!-- 태스크 -->
 								<li class="proc_task not_yet js_manual_task">
 									<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
-											<img src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>">
+											<img class="float_left" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>">
 											<div class="noti_in_s"><%=count%>) <%=task.getName()%>
 												<div class="t_date"><%=task.getAssigningName()%></div>
 											</div>
