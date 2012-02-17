@@ -1,14 +1,14 @@
 @charset "utf-8";
 /* CSS Document */
 
-.form_layout {padding:0 10px;}
+.form_layout {padding:10px;}
 .form_col { padding:3px 10px;}
 .form_row {}
 .form_label {float:left;}
-.form_value {display:inline-block;}
+.form_value, .form_value a span {display:inline-block; color: #868686}
 
 .form_layout table td,
-.form_layout table th {padding:3px 10px;}
+.form_layout table th {padding:3px 10px; border-bottom: 1px solid #ececec}
 
 /* input 사이즈, form, 상세필터 공용 */
 
