@@ -359,6 +359,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			taskCond.setTskAssignee(user.getId());
 			taskCond.setPageNo(0);
 			taskCond.setPageSize(requestSize);
+			taskCond.setPrcStatus(PrcProcessInst.PROCESSINSTSTATUS_RUNNING);
 			
 			taskCond.setOrders(new Order[]{new Order("tskCreatedate", false)});
 			
@@ -1698,8 +1699,6 @@ public class InstanceServiceImpl implements IInstanceService {
 											}
 											value = resultUser;
 										}
-									} else if(formatType.equals(FormField.TYPE_USERS)) {
-										// TO-DO Multi User 의 경우
 									} else if(formatType.equals(FormField.TYPE_CURRENCY)) {
 										String symbol = swfField.getFormat().getCurrency();
 										fieldData.setSymbol(symbol);
@@ -2314,7 +2313,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		return resultMap;
 	}
 	
-	private TaskWork[] getTaskWorkByFromToDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, String cycle, int maxSize) throws Exception {
+	private TaskWork[] getTaskWorkByFromToDate(String contextId, String spaceId, Date fromDate, Date toDate, int maxSize) throws Exception {
 		User cuser = SmartUtil.getCurrentUser();
 		String userId = null;
 		String companyId = null;
@@ -2335,23 +2334,12 @@ public class InstanceServiceImpl implements IInstanceService {
 			taskWorkCond.setTskWorkSpaceId(spaceId);
 		}
 		
-		Date tempFromDate = new Date();
-		Date tempToDate = new Date();
-		tempFromDate.setTime(fromDate.getLocalTime());
-		tempToDate.setTime(toDate.getLocalTime());
+		taskWorkCond.setTskExecuteDateFrom(fromDate);
+		taskWorkCond.setTskExecuteDateTo(toDate);
 		
-		tempFromDate = DateUtil.toFromDate(tempFromDate, cycle);
-		tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
-		
-		tempToDate = DateUtil.toToDate(tempToDate, cycle);
-		tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
-		
-		taskWorkCond.setTskExecuteDateFrom(tempFromDate);
-		taskWorkCond.setTskExecuteDateTo(tempToDate);
-		
-		taskWorkCond.setPageNo(0);
-		taskWorkCond.setPageSize(maxSize);
-		
+//		taskWorkCond.setPageNo(0);
+//		taskWorkCond.setPageSize(maxSize);
+
 		TaskWork[] tasks = getWlmManager().getTaskWorkList(userId, taskWorkCond);
 		
 		return tasks;
@@ -2370,7 +2358,20 @@ public class InstanceServiceImpl implements IInstanceService {
 			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
 				return null;
 			
-			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, date, date, DateUtil.CYCLE_DAY, maxSize);
+			
+			Date tempFromDate = new Date();
+			Date tempToDate = new Date();
+			tempFromDate.setTime(date.getLocalTime());
+			tempToDate.setTime(date.getLocalTime());
+			
+			tempFromDate = DateUtil.toFromDate(tempFromDate, DateUtil.CYCLE_DAY);
+			tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
+			
+			tempToDate = DateUtil.toToDate(tempToDate, DateUtil.CYCLE_DAY);
+			tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+			
+			
+			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);
 			if (tasks == null)
 				return null;
 			//회사 워크아워 정책을 조회 한다
@@ -2385,9 +2386,9 @@ public class InstanceServiceImpl implements IInstanceService {
 			}
 			//업무 시간 전, 업무시간, 업무시간 후로 인스턴스를 분류 한다
 			
-			List beforeWorkTimeList = new ArrayList();
-			List workTimeList = new ArrayList();
-			List afterWorkTimeList = new ArrayList();
+			List<TaskWork> beforeWorkTimeList = new ArrayList<TaskWork>();
+			List<TaskWork> workTimeList = new ArrayList<TaskWork>();
+			List<TaskWork> afterWorkTimeList = new ArrayList<TaskWork>();
 			if (tasks != null & tasks.length != 0) {
 				for (int i = 0; i < tasks.length; i++) {
 					TaskWork task = tasks[i];
@@ -2417,16 +2418,50 @@ public class InstanceServiceImpl implements IInstanceService {
 				TaskWork[] taskArray = new TaskWork[beforeWorkTimeList.size()];
 				beforeWorkTimeList.toArray(taskArray);
 				beforeTaskInstanceInfo = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (beforeTaskInstanceInfo != null && beforeTaskInstanceInfo.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = beforeTaskInstanceInfo[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					beforeTaskInstanceInfo = tempTaskInstanceInfo;
+				}
 			}
 			if (workTimeList.size() != 0) {
 				TaskWork[] taskArray = new TaskWork[workTimeList.size()];
 				workTimeList.toArray(taskArray);
 				taskInstanceInfo = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (taskInstanceInfo != null && taskInstanceInfo.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = taskInstanceInfo[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					taskInstanceInfo = tempTaskInstanceInfo;
+				}
+				
 			}
 			if (afterWorkTimeList.size() != 0) {
 				TaskWork[] taskArray = new TaskWork[afterWorkTimeList.size()];
 				afterWorkTimeList.toArray(taskArray);
 				afterInstanceInfo = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (afterInstanceInfo != null && afterInstanceInfo.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = afterInstanceInfo[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					afterInstanceInfo = tempTaskInstanceInfo;
+				}
 			}	
 			
 			//리턴타입으로 생성후 리턴한다
@@ -2452,8 +2487,19 @@ public class InstanceServiceImpl implements IInstanceService {
 			}
 			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
 				return null;
+
+			Date tempFromDate = new Date();
+			Date tempToDate = new Date();
+			tempFromDate.setTime(fromDate.getLocalTime());
+			tempToDate.setTime(toDate.getLocalTime());
 			
-			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, fromDate, toDate, DateUtil.CYCLE_DAY, maxSize);
+			tempFromDate = DateUtil.toFromDate(tempFromDate, DateUtil.CYCLE_DAY);
+			tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
+			
+			tempToDate = DateUtil.toToDate(tempToDate, DateUtil.CYCLE_DAY);
+			tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+			
+			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);
 
 			//회사 워크아워 정책을 조회 한다
 			SwcWorkHourCond workHourCond = new SwcWorkHourCond();
@@ -2526,36 +2572,114 @@ public class InstanceServiceImpl implements IInstanceService {
 				TaskWork[] taskArray = new TaskWork[instanceInfoList1.size()];
 				instanceInfoList1.toArray(taskArray);
 				instanceInfo1 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (instanceInfo1 != null && instanceInfo1.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = instanceInfo1[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					instanceInfo1 = tempTaskInstanceInfo;
+				}
+				
 			}
 			if (instanceInfoList2.size() != 0) {
 				TaskWork[] taskArray = new TaskWork[instanceInfoList2.size()];
 				instanceInfoList2.toArray(taskArray);
 				instanceInfo2 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (instanceInfo2 != null && instanceInfo2.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = instanceInfo2[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					instanceInfo2 = tempTaskInstanceInfo;
+				}
 			}
 			if (instanceInfoList3.size() != 0) {
 				TaskWork[] taskArray = new TaskWork[instanceInfoList3.size()];
 				instanceInfoList3.toArray(taskArray);
 				instanceInfo3 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (instanceInfo3 != null && instanceInfo3.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = instanceInfo3[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					instanceInfo3 = tempTaskInstanceInfo;
+				}
 			}
 			if (instanceInfoList4.size() != 0) {
 				TaskWork[] taskArray = new TaskWork[instanceInfoList4.size()];
 				instanceInfoList4.toArray(taskArray);
 				instanceInfo4 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (instanceInfo4 != null && instanceInfo4.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = instanceInfo4[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					instanceInfo4 = tempTaskInstanceInfo;
+				}
 			}
 			if (instanceInfoList5.size() != 0) {
 				TaskWork[] taskArray = new TaskWork[instanceInfoList5.size()];
 				instanceInfoList5.toArray(taskArray);
 				instanceInfo5 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (instanceInfo5 != null && instanceInfo5.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = instanceInfo5[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					instanceInfo5 = tempTaskInstanceInfo;
+				}
 			}
 			if (instanceInfoList6.size() != 0) {
 				TaskWork[] taskArray = new TaskWork[instanceInfoList6.size()];
 				instanceInfoList6.toArray(taskArray);
 				instanceInfo6 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (instanceInfo6 != null && instanceInfo6.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = instanceInfo6[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					instanceInfo6 = tempTaskInstanceInfo;
+				}
 			}
 			if (instanceInfoList7.size() != 0) {
 				TaskWork[] taskArray = new TaskWork[instanceInfoList7.size()];
 				instanceInfoList7.toArray(taskArray);
 				instanceInfo7 = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskArray);
+				
+				if (instanceInfo7 != null && instanceInfo7.length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int i = 0; i < maxSize; i++) {
+						tempTaskInstanceInfo[i] = instanceInfo7[i];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					instanceInfo7 = tempTaskInstanceInfo;
+				}
 			}
 //			return new TaskInstanceInfo[][]{monInstanceInfo, tueInstanceInfo, wedInstanceInfo, thuInstanceInfo, friInstanceInfo, satInstanceInfo, sunInstanceInfo};
 			return new TaskInstanceInfo[][]{instanceInfo1, instanceInfo2, instanceInfo3, instanceInfo4, instanceInfo5, instanceInfo6, instanceInfo7};
@@ -2580,7 +2704,19 @@ public class InstanceServiceImpl implements IInstanceService {
 			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
 				return null;
 			
-			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, month, month, DateUtil.CYCLE_MONTH, maxSize);	
+
+			Date tempFromDate = new Date();
+			Date tempToDate = new Date();
+			tempFromDate.setTime(month.getLocalTime());
+			tempToDate.setTime(month.getLocalTime());
+			
+			tempFromDate = DateUtil.toFromDate(tempFromDate, DateUtil.CYCLE_MONTH);
+			tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
+			
+			tempToDate = DateUtil.toToDate(tempToDate, DateUtil.CYCLE_MONTH);
+			tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+			
+			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);	
 			
 			Date temp = new Date(month.getLocalTime());
 			temp = DateUtil.toToDate(temp, DateUtil.CYCLE_MONTH);
@@ -2607,6 +2743,17 @@ public class InstanceServiceImpl implements IInstanceService {
 				TaskWork[] taskWorks = new TaskWork[taskWorksList.size()];
 				taskWorksList.toArray(taskWorks);
 				result[i] = (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskWorks);
+
+				if (result[i] != null && result[i].length > maxSize) {
+					TaskInstanceInfo[] tempTaskInstanceInfo = new TaskInstanceInfo[maxSize + 1];
+					for (int j = 0; j < maxSize; j++) {
+						tempTaskInstanceInfo[j] = result[i][j];
+					}
+					TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+					moreInstance.setType(-21);
+					tempTaskInstanceInfo[maxSize] = moreInstance;
+					result[i] = tempTaskInstanceInfo;
+				}
 			}
 			
 			return result;
@@ -2620,7 +2767,28 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		try{
-			return SmartTest.getTaskInstancesByDate(contextId, spaceId, fromDate, toDate, maxSize);
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String companyId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				companyId = cuser.getCompanyId();
+			}
+			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
+				return null;
+			
+			Date tempFromDate = new Date();
+			Date tempToDate = new Date();
+			tempFromDate.setTime(fromDate.getLocalTime());
+			tempToDate.setTime(toDate.getLocalTime());
+			
+			tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
+			tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+			
+			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);
+
+			return (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);
+			
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -2773,8 +2941,6 @@ public class InstanceServiceImpl implements IInstanceService {
 												}
 												value = resultUser;
 											}
-										} else if(formatType.equals(FormField.TYPE_USERS)) {
-											// TO-DO Multi User 의 경우
 										} else if(formatType.equals(FormField.TYPE_CURRENCY)) {
 											String symbol = swfField.getFormat().getCurrency();
 											fieldData.setSymbol(symbol);

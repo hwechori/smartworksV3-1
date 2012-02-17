@@ -34,6 +34,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		String tskAssignee = cond.getTskAssignee();
 		//assingnedOnly 값이 true 라면 실행중인(11) 태스크만 조회를 한다.
 		String tskStatus =  cond.getTskStatus();
+		String prcStatus = cond.getPrcStatus();
 		Date lastInstanceDate = cond.getLastInstanceDate();
 		int pageNo = cond.getPageNo();
 		int pageSize = cond.getPageSize();
@@ -140,7 +141,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		) prcInstInfo	 ");
 		queryBuffer.append("	where ");
 		queryBuffer.append("		prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid ");
-		queryBuffer.append("		and prcInst.prcStatus != 3 ");
+		if (!CommonUtil.isEmpty(prcStatus))
+			queryBuffer.append("		and prcInst.prcStatus = :prcStatus ");
 		queryBuffer.append(") prcInstInfo ");
 		queryBuffer.append("on taskInfo.tskPrcInstId = prcInstInfo.prcObjId ");
 		if (lastInstanceDate != null)
@@ -167,6 +169,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 			query.setTimestamp("executionDateFrom", executionDateFrom);
 		if (executionDateTo != null)
 			query.setTimestamp("executionDateTo", executionDateTo);
+		if (!CommonUtil.isEmpty(prcStatus)) 
+			query.setString("prcStatus", prcStatus);
 		
 		return query;
 	}

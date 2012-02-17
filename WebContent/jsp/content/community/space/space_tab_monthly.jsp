@@ -57,10 +57,10 @@
 	<%
 	String prevYearHref = "space_tab_monthly.sw?startDate=" 
 			+ (LocalDate.convertLocalMonthWithDiffMonth(startMonth, -12)).toLocalDateSimpleString()
-			+ "selectedIndex=0";
+			+ "&selectedIndex=0";
 	String prevMonthHref = "space_tab_monthly.sw?startDate=" 
 			+ (LocalDate.convertLocalMonthWithDiffMonth(startMonth, -1)).toLocalDateSimpleString()
-			+ "selectedIndex=0";
+			+ "&selectedIndex=0";
 	%>
 	<a href="<%=prevYearHref %>" class="btn_arr_prev2 js_space_tab_index"></a> 
 	<a href="<%=prevMonthHref %>" class="btn_arr_prev js_space_tab_index"></a>
@@ -90,10 +90,10 @@
 	<%
 	String nextMonthHref = "space_tab_monthly.sw?startDate=" 
 			+ LocalDate.convertLocalMonthWithDiffMonth(startMonth, 1).toLocalDateSimpleString()
-			+ "selectedIndex=11";
+			+ "&selectedIndex=11";
 	String nextYearHref = "space_tab_monthly.sw?startDate=" 
 			+ LocalDate.convertLocalMonthWithDiffMonth(startMonth, 12).toLocalDateSimpleString()
-			+ "selectedIndex=11";
+			+ "&selectedIndex=11";
 	%>
 	<%
 	if(endMonth.getTime() < thisMonth.getTime()){
