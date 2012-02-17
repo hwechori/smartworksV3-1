@@ -110,6 +110,8 @@ public interface ISwoManager {
 
 	public long getUserSize(String userId, SwoUserCond cond) throws SwoException;
 
+	public boolean isExistId(String userId) throws SwoException;
+
 	//사원찾기
 	public SwoUser[] getSearchUsers(String userId, SwoUserCond cond, String level) throws SwoException;
 

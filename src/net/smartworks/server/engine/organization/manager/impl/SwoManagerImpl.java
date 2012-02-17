@@ -1032,12 +1032,19 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		}
 	}
 
+	private static SizeMap userMap = new SizeMap(100);
+
 	public SwoUser getUser(String userId, String id, String level) throws SwoException {
 		try {
+			if (userMap.containsKey(id))
+				return (SwoUser)userMap.get(id);
 			if (level == null)
 				level = LEVEL_ALL;
 			if (level.equals(LEVEL_ALL)) {
 				SwoUser obj = (SwoUser)this.get(SwoUser.class, id);
+				if (obj == null)
+					return null;
+				userMap.put(obj.getId(), obj);
 				return obj;
 			} else {
 				SwoUserCond cond = new SwoUserCond();
@@ -1045,6 +1052,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				SwoUser[] objs = this.getUsers(userId, cond, level);
 				if (objs == null || objs.length == 0)
 					return null;
+				userMap.put(objs[0].getId(), objs[0]);
 				return objs[0];
 			}
 		} catch (Exception e) {
@@ -2057,7 +2065,19 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		return user != null ? (user.getPosition() + " " + user.getName()) : null;
 	}
 
-	private static SizeMap userMap = new SizeMap(100);
+	@Override
+	public boolean isExistId(String userId) throws SwoException {
+
+		try {
+			SwoUser user = (SwoUser)this.getHibernateTemplate().get(SwoUser.class, userId);
+			if(user != null)
+				return true;
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	@Override
 	public SwoUserExtend getUserExtend(String userId, String id, boolean isMemory) throws SwoException {
@@ -2384,13 +2404,17 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 
 	}
 
+	private static SizeMap groupMap = new SizeMap(100);
 	@Override
 	public SwoGroup getGroup(String user, String id, String level) throws SwoException {
 		try {
+			if (groupMap.containsKey(id))
+				return (SwoGroup)groupMap.get(id);
 			if (level == null)
 				level = LEVEL_ALL;
 			if (level.equals(LEVEL_ALL)) {
 				SwoGroup obj = (SwoGroup)this.get(SwoGroup.class, id);
+				groupMap.put(obj.getId(), obj);
 				return obj;
 			} else {
 				SwoGroupCond cond = new SwoGroupCond();
@@ -2398,6 +2422,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				SwoGroup[] objs = this.getGroups(user, cond, level);
 				if (objs == null || objs.length == 0)
 					return null;
+				groupMap.put(objs[0].getId(), objs[0]);
 				return objs[0];
 			}
 		} catch (Exception e) {

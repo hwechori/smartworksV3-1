@@ -26,23 +26,7 @@
 	if(!SmartUtil.isBlankObject(formId)){
 		externalForm =  smartWorks.getExternalFormById(formId);
 	}
-	Variable var1 = new Variable();
-	var1.setName("인스턴스이름");
-	var1.setElementName("instId1");
-	var1.setElementType("string");
-	Variable var2 = new Variable();
-	var2.setName("");
-	var2.setElementName("instId2");
-	var2.setElementType("string");
-	Variable var3 = new Variable();
-	var3.setName("");
-	var3.setElementName("instId3");
-	var3.setElementType("string");
-	
-	externalForm.setEditVariables(new Variable[]{var1, var2, var3});
-	externalForm.setViewVariables(new Variable[]{var1, var2, var3});
-	externalForm.setReturnVariables(new Variable[]{var1, var2, var3});
-	
+
 %>
 <script type="text/javascript">
 
@@ -128,7 +112,7 @@
 				</tr>
 				<tr>
 					<td><fmt:message key="settings.title.externalform.desc"/></td>
-					<td colspan="3"><textarea name="txtaExternalFormDesc" rows="3" class="fieldline"><%=CommonUtil.toNotNull(externalForm.getDesc()) %></textarea>
+					<td colspan="3"><textarea name="txtExternalFormDesc" rows="3" class="fieldline"><%=CommonUtil.toNotNull(externalForm.getDesc()) %></textarea>
 					</td>
 				</tr>
 				<tr>

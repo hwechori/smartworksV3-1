@@ -104,7 +104,7 @@ public class CalendarServiceImpl implements ICalendarService {
 				if(swcWorkHours != null) {
 					for(int j=0; j<swcWorkHours.length; j++) {
 						swcWorkHour = swcWorkHours[j];
-						if((new LocalDate(swcWorkHour.getValidFromDate().getTime())).getTime() <= fromDate.getTime()) {
+						if((new LocalDate(swcWorkHour.getValidFromDate().getTime())).getLocalTime() <= fromDate.getTime()) {
 							swcWorkHour = swcWorkHours[j];
 							break;
 						}
@@ -149,19 +149,18 @@ public class CalendarServiceImpl implements ICalendarService {
 					start = startCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + startCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
 					end = endCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + endCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
 					workTime = end - start;
-	
+
 					companyCalendar.setWorkHour(new WorkHour(start, end, workTime));
 				} else {
 					companyCalendar.setWorkHour(new WorkHourPolicy().getWorkHour(dayOfWeek));
 				}
-	
+
 				companyCalendar.setDate(fromDate);
 				fromDateString = fromDate.toGMTDateString();
 				searchDay = new SimpleDateFormat("yyyy-MM-dd").parse(fromDateString);
 				swcEventDayCond.setSearchDay(searchDay);
 				SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
-	
-				
+
 				if(swcEventDays != null) {
 					CompanyEvent[] companyEvents = new CompanyEvent[swcEventDays.length];
 					List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
@@ -634,7 +633,7 @@ public class CalendarServiceImpl implements ICalendarService {
 			SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
 			swcWorkHourCond.setCompanyId(cUser.getCompanyId());
 	
-			swcWorkHourCond.setOrders(new Order[]{new Order("validFromDate", false), new Order("modificationDate", false)});
+			swcWorkHourCond.setOrders(new Order[]{new Order("validFromDate", false)});
 	
 			SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
 	
@@ -642,12 +641,12 @@ public class CalendarServiceImpl implements ICalendarService {
 			SwcWorkHour swcWorkHour = new SwcWorkHour();
 			if(swcWorkHours != null) {
 				for(int i=0; i<swcWorkHours.length; i++) {
-					if((new LocalDate(swcWorkHours[i].getValidFromDate().getTime())).getTime() <= new LocalDate().getTime()) {
+					if((new LocalDate(swcWorkHour.getValidFromDate().getTime())).getLocalTime() <= new LocalDate().getTime()) {
 						swcWorkHour = swcWorkHours[i];
 						break;
 					}
 				}
-	
+
 				int firstDayOfWeek = Integer.parseInt(swcWorkHour.getStartDayOfWeek()); 
 				int workingDays = swcWorkHour.getWorkingDays();
 				
