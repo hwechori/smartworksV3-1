@@ -2066,6 +2066,20 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 	}
 
 	@Override
+	public boolean isExistId(String userId) throws SwoException {
+
+		try {
+			SwoUser user = (SwoUser)this.getHibernateTemplate().get(SwoUser.class, userId);
+			if(user != null)
+				return true;
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
 	public SwoUserExtend getUserExtend(String userId, String id, boolean isMemory) throws SwoException {
 
 		//user cache 를 사용하여 메모리에서 조회한후 없으면 데이터베이스에서 조회한다.

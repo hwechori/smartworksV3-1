@@ -3,6 +3,7 @@ package net.smartworks.model.community;
 import java.util.TimeZone;
 
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.LocaleInfo;
 
 public class User extends WorkSpace {
 
@@ -22,8 +23,8 @@ public class User extends WorkSpace {
 	private int	userLevel = USER_LEVEL_DEFAULT;
 	private int role = USER_ROLE_MEMBER;
 	private String position;
-	private String locale;
-	private String timeZone;
+	private String locale = LocaleInfo.LOCALE_DEFAULT;
+	private String timeZone = LocalDate.TIMEZONE_SEOUL; 
 	private String departmentId;
 	private String department;
 	private String employeeId;

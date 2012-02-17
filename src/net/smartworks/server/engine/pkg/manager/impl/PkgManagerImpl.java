@@ -1,5 +1,6 @@
 package net.smartworks.server.engine.pkg.manager.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -385,15 +386,15 @@ public class PkgManagerImpl extends AbstractManager implements IPkgManager {
 					obj.setObjId((String)fields[j++]);
 					obj.setName((String)fields[j++]);
 					obj.setStatus((String)fields[j++]);
-					obj.setCreationUser(((String)fields[j++]));
-					obj.setCreationDate(((Date)fields[j++]));
-					obj.setModificationUser(((String)fields[j++]));
-					obj.setModificationDate(((Date)fields[j++]));
-					obj.setPackageId(((String)fields[j++]));
+					obj.setCreationUser((String)fields[j++]);
+					obj.setCreationDate((Timestamp)fields[j++]);
+					obj.setModificationUser((String)fields[j++]);
+					obj.setModificationDate((Timestamp)fields[j++]);
+					obj.setPackageId((String)fields[j++]);
 					obj.setVersion(CommonUtil.toInt(fields[j++]));
-					obj.setLatestDeployedYn(((String)fields[j++]));
-					obj.setCategoryId(((String)fields[j++]));
-					obj.setType(((String)fields[j++]));
+					obj.setLatestDeployedYn((String)fields[j++]);
+					obj.setCategoryId((String)fields[j++]);
+					obj.setType((String)fields[j++]);
 					objList.add(obj);
 				}
 				list = objList;

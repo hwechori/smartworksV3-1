@@ -10,8 +10,16 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.wsdl.Input;
+import javax.wsdl.Message;
+import javax.wsdl.Operation;
+import javax.wsdl.Output;
+import javax.wsdl.Part;
+import javax.wsdl.PortType;
+import javax.xml.namespace.QName;
 
 import net.smartworks.model.RecordList;
+import net.smartworks.model.approval.Approval;
 import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.calendar.CompanyEvent;
 import net.smartworks.model.calendar.WorkHour;
@@ -24,6 +32,8 @@ import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.Variable;
 import net.smartworks.model.service.WSDLDetail;
+import net.smartworks.model.service.WSDLOperation;
+import net.smartworks.model.service.WSDLPort;
 import net.smartworks.model.service.WebService;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Order;
@@ -31,6 +41,9 @@ import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
+import net.smartworks.server.engine.config.model.SwcExternalForm;
+import net.smartworks.server.engine.config.model.SwcExternalFormCond;
+import net.smartworks.server.engine.config.model.SwcExternalFormParameter;
 import net.smartworks.server.engine.config.model.SwcWebService;
 import net.smartworks.server.engine.config.model.SwcWebServiceCond;
 import net.smartworks.server.engine.config.model.SwcWebServiceParameter;
@@ -42,13 +55,19 @@ import net.smartworks.server.engine.organization.model.SwoCompany;
 import net.smartworks.server.engine.organization.model.SwoConfig;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoUser;
+import net.smartworks.server.engine.process.approval.manager.IAprManager;
+import net.smartworks.server.engine.process.approval.model.AprApprovalDef;
+import net.smartworks.server.engine.process.approval.model.AprApprovalDefCond;
+import net.smartworks.server.engine.process.approval.model.AprApprovalLineDef;
+import net.smartworks.server.engine.process.approval.model.AprApprovalLineDefCond;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.ISettingsService;
+import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
-import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -59,6 +78,9 @@ public class SettingsServiceImpl implements ISettingsService {
 	}
 	private ISwcManager getSwcManager() {
 		return SwManagerFactory.getInstance().getSwcManager();
+	}
+	private IAprManager getAprManager() {
+		return SwManagerFactory.getInstance().getAprManager();
 	}
 
 	ICommunityService communityService;
@@ -79,9 +101,9 @@ public class SettingsServiceImpl implements ISettingsService {
 	public CompanyGeneral getCompanyGeneral() throws Exception {
 
 		try {
-			User user = SmartUtil.getCurrentUser();
-			String userId = user.getId();
-			String companyId = user.getCompanyId();
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
 			SwoCompany swoCompany = getSwoManager().getCompany(userId, companyId, IManager.LEVEL_ALL);
 			SwoConfig swoConfig = getSwoManager().getConfig(userId, companyId, IManager.LEVEL_ALL);
 			String id = swoCompany.getId();
@@ -111,10 +133,10 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void setCompanyGeneral(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-			User user = SmartUtil.getCurrentUser();
-			String userId = user.getId();
-			String companyId = user.getCompanyId();
-			String companyName = user.getCompany();
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+			String companyName = cUser.getCompany();
 
 			Map<String, Object> frmCompanyGeneral = (Map<String, Object>)requestBody.get("frmCompanyGeneral");
 	
@@ -155,8 +177,8 @@ public class SettingsServiceImpl implements ISettingsService {
 					Map<String, String> fileMap = files.get(i);
 					companyFileId = fileMap.get("fileId");
 					companyFileName = fileMap.get("fileName");
-					imgCompanyLogo = SwManagerFactory.getInstance().getDocManager().insertProfilesFile(companyFileId, companyFileName, user.getCompanyId());
-					getSwoManager().setLogo(user.getId(), user.getCompanyId(), imgCompanyLogo);
+					imgCompanyLogo = SwManagerFactory.getInstance().getDocManager().insertProfilesFile(companyFileId, companyFileName, companyId);
+					getSwoManager().setLogo(userId, companyId, imgCompanyLogo);
 				}
 			}
 
@@ -178,11 +200,11 @@ public class SettingsServiceImpl implements ISettingsService {
 	@Override
 	public RecordList getWorkHourPolicyList(RequestParams params) throws Exception {
 
-		try{
+		try {
 			RecordList recordList = new RecordList();
-			User user = SmartUtil.getCurrentUser();
-			String userId = user.getId();
-			String companyId = user.getCompanyId();
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
 
 			SwcWorkHourCond swcWorkHourCond = new SwcWorkHourCond();
 			swcWorkHourCond.setCompanyId(companyId);
@@ -307,8 +329,8 @@ public class SettingsServiceImpl implements ISettingsService {
 	public WorkHourPolicy getWorkHourPolicyById(String id) throws Exception {
 
 		try {
-			User user = SmartUtil.getCurrentUser();
-			SwcWorkHour swcWorkHour = getSwcManager().getWorkhour(user.getId(), id, IManager.LEVEL_ALL);
+			User cUser = SmartUtil.getCurrentUser();
+			SwcWorkHour swcWorkHour = getSwcManager().getWorkhour(cUser.getId(), id, IManager.LEVEL_ALL);
 			WorkHourPolicy workHourPolicy = new WorkHourPolicy();
 
 			if(swcWorkHour != null) {
@@ -389,9 +411,9 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void setWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-			User user = SmartUtil.getCurrentUser();
-			String userId = user.getId();
-			String companyId = user.getCompanyId();
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
 
 			Map<String, Object> frmEditWorkHour = (Map<String, Object>)requestBody.get("frmEditWorkHour");
 
@@ -472,16 +494,16 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void removeWorkHourPolicy(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-			User user = SmartUtil.getCurrentUser();
+			User cUser = SmartUtil.getCurrentUser();
 			String policyId = (String)requestBody.get("policyId");
 			if(policyId.equals(""))
 				return;
-			getSwcManager().removeWorkhour(user.getId(), policyId);
+			getSwcManager().removeWorkhour(cUser.getId(), policyId);
 		} catch(Exception e) {
 			e.printStackTrace();			
 		}
 	}
-	
+
 	@Override
 	public RecordList getCompanyEventList(RequestParams params) throws Exception {
 
@@ -680,11 +702,11 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void removeCompanyEvent(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-			User user = SmartUtil.getCurrentUser();
+			User cUser = SmartUtil.getCurrentUser();
 			String eventId = (String)requestBody.get("eventId");
 			if(eventId.equals(""))
 				return;
-			getSwcManager().removeEventday(user.getId(), eventId);
+			getSwcManager().removeEventday(cUser.getId(), eventId);
 		} catch(Exception e) {
 			e.printStackTrace();			
 		}
@@ -693,29 +715,159 @@ public class SettingsServiceImpl implements ISettingsService {
 	@Override
 	public RecordList getApprovalLineList(RequestParams params) throws Exception {
 
-		try{
+		try {
 			RecordList recordList = new RecordList();
-			recordList.setRecords(new ApprovalLine[]{});
-			return recordList;
-		}catch (Exception e){
-			// Exception Handling Required
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+
+			AprApprovalLineDefCond approvalLineDefCond = new AprApprovalLineDefCond();
+			approvalLineDefCond.setCompanyId(companyId);
+
+			long totalCount = getAprManager().getApprovalLineDefSize(userId, approvalLineDefCond);
+
+			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
+
+			int currentPage = params.getCurrentPage();
+			if(currentPage == 0) currentPage = 1;
+
+			int totalPages = (int)totalCount % pageSize;
+
+			if(totalPages == 0)
+				totalPages = (int)totalCount / pageSize;
+			else
+				totalPages = (int)totalCount / pageSize + 1;
+
+			if (currentPage > 0)
+				approvalLineDefCond.setPageNo(currentPage-1);
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
+
+			approvalLineDefCond.setPageSize(pageSize);
+
+			//swcWebServiceCond.setOrders(new Order[]{new Order("webServiceName", true)});
+			AprApprovalLineDef[] approvalLineDefs = getAprManager().getApprovalLineDefs(userId, approvalLineDefCond, IManager.LEVEL_ALL);
+
+			if(approvalLineDefs != null) {
+				List<ApprovalLine> approvalLineList = new ArrayList<ApprovalLine>();
+				for(AprApprovalLineDef approvalLineDef : approvalLineDefs) {
+					ApprovalLine approvalLine = new ApprovalLine();
+					String id = approvalLineDef.getObjId();
+					String name = approvalLineDef.getAprLineName();
+					String desc = CommonUtil.toNotNull(approvalLineDef.getDescription());
+					int approvalLevel = Integer.parseInt(approvalLineDef.getAprLevel());
+					approvalLine.setId(id);
+					approvalLine.setName(name);
+					approvalLine.setDesc(desc);
+					approvalLine.setApprovalLevel(approvalLevel);
+					AprApprovalDef[] approvalDefs = approvalLineDef.getApprovalDefs();
+					if(approvalDefs != null) {
+						List<Approval> approvalList = new ArrayList<Approval>();
+						for(AprApprovalDef approvalDef : approvalDefs) {
+							Approval approval = new Approval();
+							approval.setName(approvalDef.getAprName());
+							approval.setApproverType(Integer.parseInt(approvalDef.getType()));
+							approval.setApprover(ModelConverter.getUserByUserId(approvalDef.getAprPerson()));
+							String dueDate = approvalDef.getDueDate();
+							int meanTimeDays = 0;
+							int meanTimeHours = 0;
+							int meanTimeMinutes = 30;
+							int daysToMinutes = 60 * 24;
+							int hoursToMinutes = 60;
+							if(dueDate != null) {
+								int meanTime = Integer.parseInt(dueDate);
+								meanTimeDays = meanTime / daysToMinutes;
+								meanTime = meanTime % daysToMinutes;
+								meanTimeHours = meanTime / hoursToMinutes;
+								meanTimeMinutes = meanTime % hoursToMinutes;
+							}
+							approval.setMeanTimeDays(meanTimeDays);
+							approval.setMeanTimeHours(meanTimeHours);
+							approval.setMeanTimeMinutes(meanTimeMinutes);
+							approvalList.add(approval);
+						}
+						Approval[] approvals = new Approval[approvalList.size()];
+						approvalList.toArray(approvals);
+						approvalLine.setApprovals(approvals);
+					}
+					approvalLineList.add(approvalLine);
+				}
+				ApprovalLine[] approvalLines = new ApprovalLine[approvalLineList.size()];
+				approvalLineList.toArray(approvalLines);
+
+				recordList.setRecords(approvalLines);
+				recordList.setPageSize(pageSize);
+				recordList.setTotalPages(totalPages);
+				recordList.setCurrentPage(currentPage);
+				recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
+				return recordList;
+			} else {
+				return null;
+			}
+		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
-			// Exception Handling Required			
-		}		
+		}
 	}
 
 	@Override
 	public ApprovalLine getApprovalLineById(String id) throws Exception {
 
-		try{
-			return new ApprovalLine();
-		}catch (Exception e){
-			// Exception Handling Required
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			AprApprovalLineDef approvalLineDef = getAprManager().getApprovalLineDef(userId, id, IManager.LEVEL_ALL);
+
+			if(approvalLineDef != null) {
+				ApprovalLine approvalLine = new ApprovalLine();
+				String name = approvalLineDef.getAprLineName();
+				String desc = CommonUtil.toNotNull(approvalLineDef.getDescription());
+				int approvalLevel = Integer.parseInt(approvalLineDef.getAprLevel());
+				approvalLine.setId(id);
+				approvalLine.setName(name);
+				approvalLine.setDesc(desc);
+				approvalLine.setApprovalLevel(approvalLevel);
+				AprApprovalDef[] approvalDefs = approvalLineDef.getApprovalDefs();
+				if(approvalDefs != null) {
+					List<Approval> approvalList = new ArrayList<Approval>();
+					for(AprApprovalDef approvalDef : approvalDefs) {
+						Approval approval = new Approval();
+						approval.setName(approvalDef.getAprName());
+						approval.setApproverType(Integer.parseInt(approvalDef.getType()));
+						approval.setApprover(ModelConverter.getUserByUserId(approvalDef.getAprPerson()));
+						String dueDate = approvalDef.getDueDate();
+						int meanTimeDays = 0;
+						int meanTimeHours = 0;
+						int meanTimeMinutes = 30;
+						int daysToMinutes = 60 * 24;
+						int hoursToMinutes = 60;
+						if(dueDate != null) {
+							int meanTime = Integer.parseInt(dueDate);
+							meanTimeDays = meanTime / daysToMinutes;
+							meanTime = meanTime % daysToMinutes;
+							meanTimeHours = meanTime / hoursToMinutes;
+							meanTimeMinutes = meanTime % hoursToMinutes;
+						}
+						approval.setMeanTimeDays(meanTimeDays);
+						approval.setMeanTimeHours(meanTimeHours);
+						approval.setMeanTimeMinutes(meanTimeMinutes);
+						approvalList.add(approval);
+					}
+					Approval[] approvals = new Approval[approvalList.size()];
+					approvalList.toArray(approvals);
+					approvalLine.setApprovals(approvals);
+				}
+				return approvalLine;
+			} else {
+				return null;
+			}
+		} catch(Exception e) {
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}		
+			return null;
+		}
 	}
 
 	@Override
@@ -732,14 +884,17 @@ public class SettingsServiceImpl implements ISettingsService {
 	@Override
 	public void removeApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String lineId = (String)requestBody.get("lineId");
+			if(lineId.equals(""))
+				return;
+			getAprManager().removeApprovalLineDef(cUser.getId(), lineId);
+		} catch(Exception e) {
 			e.printStackTrace();
-			// Exception Handling Required			
 		}
 	}
-	
+
 	@Override
 	public RecordList getWebServiceList(RequestParams params) throws Exception {
 
@@ -788,6 +943,12 @@ public class SettingsServiceImpl implements ISettingsService {
 					String wsdlUri = swcWebService.getWsdlAddress();
 					String port = swcWebService.getPortName();
 					String operation = swcWebService.getOperationName();
+					webService.setId(id);
+					webService.setName(name);
+					webService.setDesc(desc);
+					webService.setWsdlUri(wsdlUri);
+					webService.setPort(port);
+					webService.setOperation(operation);
 					SwcWebServiceParameter[] swcWebServiceParameters = swcWebService.getSwcWebServiceParameters();
 					if(swcWebServiceParameters != null) {
 						List<Variable> inputVariableList = new ArrayList<Variable>();
@@ -814,12 +975,6 @@ public class SettingsServiceImpl implements ISettingsService {
 						returnVariableList.toArray(returnVariables);
 						webService.setReturnVariables(returnVariables);
 					}
-					webService.setId(id);
-					webService.setName(name);
-					webService.setDesc(desc);
-					webService.setWsdlUri(wsdlUri);
-					webService.setPort(port);
-					webService.setOperation(operation);
 					webServiceList.add(webService);
 				}
 				WebService[] webServices = new WebService[webServiceList.size()];
@@ -856,6 +1011,12 @@ public class SettingsServiceImpl implements ISettingsService {
 				String wsdlUri = swcWebService.getWsdlAddress();
 				String port = swcWebService.getPortName();
 				String operation = swcWebService.getOperationName();
+				webService.setId(id);
+				webService.setName(name);
+				webService.setDesc(desc);
+				webService.setWsdlUri(wsdlUri);
+				webService.setPort(port);
+				webService.setOperation(operation);
 				SwcWebServiceParameter[] swcWebServiceParameters = swcWebService.getSwcWebServiceParameters();
 				if(swcWebServiceParameters != null) {
 					List<Variable> inputVariableList = new ArrayList<Variable>();
@@ -882,12 +1043,6 @@ public class SettingsServiceImpl implements ISettingsService {
 					returnVariableList.toArray(returnVariables);
 					webService.setReturnVariables(returnVariables);
 				}
-				webService.setId(id);
-				webService.setName(name);
-				webService.setDesc(desc);
-				webService.setWsdlUri(wsdlUri);
-				webService.setPort(port);
-				webService.setOperation(operation);
 				return webService;
 			} else {
 				return null;
@@ -906,59 +1061,76 @@ public class SettingsServiceImpl implements ISettingsService {
 			String userId = cUser.getId();
 			String companyId = cUser.getCompanyId();
 
-			Map<String, Object> frmEditCompanyEvent = (Map<String, Object>)requestBody.get("frmEditCompanyEvent");
-			String eventId = (String)requestBody.get("eventId");
+			Map<String, Object> frmEditWebService = (Map<String, Object>)requestBody.get("frmEditWebService");
+			String serviceId = (String)requestBody.get("serviceId");
 
-			Set<String> keySet = frmEditCompanyEvent.keySet();
+			Set<String> keySet = frmEditWebService.keySet();
 			Iterator<String> itr = keySet.iterator();
 
-			String txtEventName = null;
-			Date datStartDate = null;
-			Date datEndDate = null;
-			List<Map<String, String>> users = null;
+			String txtWebServiceName = null;
+			String txtaWebServiceDesc = null;
+			String txtWebServiceWSDL = null;
+			String txtWebServiceAddress = null;
+			String selWebServicePort = null;
+			String selWebServiceOperation = null;
 
-			SwcEventDay swcEventDay = null;
-			if(!eventId.equals("")) {
-				swcEventDay = getSwcManager().getEventday(userId, eventId, IManager.LEVEL_ALL);
+			List<Map<String, String>> inputVariables = null;
+			List<Map<String, String>> returnVariables = null;
+
+			SwcWebService swcWebService = null;
+			if(!serviceId.equals("")) {
+				swcWebService = getSwcManager().getWebService(userId, serviceId, IManager.LEVEL_ALL);
 			} else {
-				swcEventDay = new SwcEventDay();
-				swcEventDay.setType(CompanyEvent.EVENT_TYPE_EVENTDAY);
-				swcEventDay.setCompanyId(companyId);
+				swcWebService = new SwcWebService();
+				swcWebService.setCompanyId(companyId);
 			}
 
 			while (itr.hasNext()) {
 				String fieldId = (String)itr.next();
-				Object fieldValue = frmEditCompanyEvent.get(fieldId);
+				Object fieldValue = frmEditWebService.get(fieldId);
 				if(fieldValue instanceof LinkedHashMap) {
-					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
-					if(fieldId.equals("usrRelatedUsers"))
-						users = (ArrayList<Map<String,String>>)valueMap.get("users");
-
-					if(!CommonUtil.isEmpty(users)) {
-						String relatedId = "";
-						String symbol = ";";
-						for(int i=0; i < users.subList(0, users.size()).size(); i++) {
-							Map<String, String> user = users.get(i);
-							relatedId += user.get("id") + symbol;
-						}
-						swcEventDay.setReltdPerson(relatedId);
+					/*Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+					if(fieldId.equals("variables")) {
+						inputVariables = (ArrayList<Map<String,String>>)valueMap.get("inputVariables");
+						returnVariables = (ArrayList<Map<String,String>>)valueMap.get("returnVariables");
 					}
+					if(!CommonUtil.isEmpty(inputVariables)) {
+						SwcWebServiceParameter[] swcWebServiceParameters = new SwcWebServiceParameter[inputVariables.size()];
+						for(int i=0; i < inputVariables.subList(0, inputVariables.size()).size(); i++) {
+							Map<String, String> inputVariablesMap = inputVariables.get(i);
+							SwcWebServiceParameter swcWebServiceParameter = new SwcWebServiceParameter();
+							String variableName = inputVariablesMap.get("variableName");
+							String elementName = inputVariablesMap.get("elementName");
+							String elementType = inputVariablesMap.get("elementType");
+							swcWebServiceParameter.setVariableName(variableName);
+							swcWebServiceParameter.setParameterName(elementName);
+							swcWebServiceParameter.setParameterType(elementType);
+							swcWebServiceParameters[i] = swcWebServiceParameter;
+						}
+						swcWebService.setSwcWebServiceParameters(swcWebServiceParameters);
+					}*/
 				} else if(fieldValue instanceof String) {	
-					if(fieldId.equals("txtEventName")) {
-						txtEventName = (String)frmEditCompanyEvent.get("txtEventName");
-						swcEventDay.setName(txtEventName);
-					} else if(fieldId.equals("chkIsHoliday")) {
-						swcEventDay.setType(CompanyEvent.EVENT_TYPE_HOLIDAY);
-					} else if(fieldId.equals("datStartDate")) {
-						datStartDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datStartDate")).getTime());
-						swcEventDay.setStartDay(datStartDate);
-					} else if(fieldId.equals("datEndDate")) {
-						datEndDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datEndDate")).getTime());
-						swcEventDay.setEndDay(datEndDate);
+					if(fieldId.equals("txtWebServiceName")) {
+						txtWebServiceName = (String)frmEditWebService.get("txtWebServiceName");
+						swcWebService.setWebServiceName(txtWebServiceName);
+					} else if(fieldId.equals("txtaWebServiceDesc")) {
+						txtaWebServiceDesc = (String)frmEditWebService.get("txtaWebServiceDesc");
+						swcWebService.setDescription(txtaWebServiceDesc);
+					} else if(fieldId.equals("txtWebServiceWSDL")) {
+						txtWebServiceWSDL = (String)frmEditWebService.get("txtWebServiceWSDL");
+						txtWebServiceAddress = txtWebServiceWSDL.replaceAll("\\?wsdl", "");
+						swcWebService.setWsdlAddress(txtWebServiceWSDL);
+						swcWebService.setWebServiceAddress(txtWebServiceAddress);
+					} else if(fieldId.equals("selWebServicePort")) {
+						selWebServicePort = (String)frmEditWebService.get("selWebServicePort");
+						swcWebService.setPortName(selWebServicePort);
+					} else if(fieldId.equals("selWebServiceOperation")) {
+						selWebServiceOperation = (String)frmEditWebService.get("selWebServiceOperation");
+						swcWebService.setOperationName(selWebServiceOperation);
 					}
 				}
 			}
-			getSwcManager().setEventday(userId, swcEventDay, IManager.LEVEL_ALL);
+			getSwcManager().setWebService(userId, swcWebService, IManager.LEVEL_ALL);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -968,13 +1140,13 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void removeWebService(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-			User user = SmartUtil.getCurrentUser();
+			User cUser = SmartUtil.getCurrentUser();
 			String serviceId = (String)requestBody.get("serviceId");
 			if(serviceId.equals(""))
 				return;
-			getSwcManager().removeWebService(user.getId(), serviceId);
+			getSwcManager().removeWebService(cUser.getId(), serviceId);
 		} catch(Exception e) {
-			e.printStackTrace();			
+			e.printStackTrace();
 		}
 	}
 
@@ -982,8 +1154,97 @@ public class SettingsServiceImpl implements ISettingsService {
 	public WSDLDetail getWsdlDetailFromUri(String wsdlUri) throws Exception {
 
 		try {
-			// TO DO
-			return SmartTest.getWsdlDetailFromUri(wsdlUri);
+			WSDLDetail wsdlDetail = new WSDLDetail();
+			wsdlDetail.setWsdlUri(wsdlUri);
+			List<WSDLPort> wsdlPortList = new ArrayList<WSDLPort>();
+			PortType[] portTypes = getSwcManager().getPortTypes(wsdlUri);
+			if(portTypes != null) {
+				for(PortType portType : portTypes) {
+					WSDLPort wsdlPort = new WSDLPort();
+					String port = portType.getQName().getLocalPart();
+					wsdlPort.setPort(port);
+					List<Operation> operationList = portType.getOperations();
+					List<WSDLOperation> wsdlOperationList = new ArrayList<WSDLOperation>();
+					if(operationList != null && operationList.size() != 0) {
+						for(int i=0; i<operationList.size(); i++) {
+							Operation operation = operationList.get(i);
+							if(operation != null) {
+								WSDLOperation wsdlOperation = new WSDLOperation();
+								String operationName = operation.getName();
+								wsdlOperation.setOperation(operationName);
+								List<String> parameterOrdering = operation.getParameterOrdering();
+								Input input = operation.getInput();
+								Message inputMessage = input.getMessage();
+								List<Variable> inputVariableList = new ArrayList<Variable>();
+								if(inputMessage != null) {
+									Map inputPartsMap = inputMessage.getParts();
+									if(inputPartsMap != null) {
+										Set<String> inputSet = inputPartsMap.keySet();
+									    List<String> inputKeyList = new ArrayList<String>();
+									    for(String str : inputSet){
+									    	inputKeyList.add(str);
+									    }
+									    if(parameterOrdering != null) {
+											for(String parameter : parameterOrdering){
+										    	for(String key : inputKeyList) {
+													Variable inputVariable = new Variable();
+									    			Part part = (Part)inputPartsMap.get(key);
+											    	String inputElementName = part.getName();
+											    	String inputElemnetType = "";
+											    	QName qName = part.getTypeName();
+											    	if(parameter.equals(inputElementName)) {
+												    	inputElemnetType = qName.getLocalPart();
+												    	inputVariable.setElementName(inputElementName);
+												    	inputVariable.setElementType(inputElemnetType);
+												    	inputVariableList.add(inputVariable);
+											    	}
+										    	}
+									    	}
+									    }
+										Variable[] inputVariables = new Variable[inputVariableList.size()];
+										inputVariableList.toArray(inputVariables);
+										wsdlOperation.setInputVariables(inputVariables);
+									}
+								}
+								Output output = operation.getOutput();
+								Message outputMessage = output.getMessage();
+								List<Variable> outputVariableList = new ArrayList<Variable>();
+								if(outputMessage != null) {
+									Map outputPartsMap = outputMessage.getParts();
+									if(outputPartsMap != null) {
+										Set<String> outputSet = outputPartsMap.keySet();
+									    List<String> outputKeyList = new ArrayList<String>();
+									    for(String str : outputSet){
+									    	outputKeyList.add(str);
+									    }
+								    	for(String key : outputKeyList) {
+											Variable outputVariable = new Variable();
+							    			Part part = (Part)outputPartsMap.get(key);
+									    	String outputElementName = part.getName();
+									    	String outputElemnetType = part.getTypeName().getLocalPart();
+									    	outputVariable.setElementName(outputElementName);
+									    	outputVariable.setElementType(outputElemnetType);
+									    	outputVariableList.add(outputVariable);
+								    	}
+										Variable[] outputVariables = new Variable[outputVariableList.size()];
+										outputVariableList.toArray(outputVariables);
+										wsdlOperation.setReturnVariables(outputVariables);
+									}
+								}
+								wsdlOperationList.add(wsdlOperation);
+							}
+							WSDLOperation[] wsdlOperations = new WSDLOperation[wsdlOperationList.size()];
+							wsdlOperationList.toArray(wsdlOperations);
+							wsdlPort.setOperations(wsdlOperations);
+						}
+					}
+					wsdlPortList.add(wsdlPort);
+				}
+				WSDLPort[] wsdlPorts = new WSDLPort[wsdlPortList.size()];
+				wsdlPortList.toArray(wsdlPorts);
+				wsdlDetail.setPorts(wsdlPorts);
+			}
+			return wsdlDetail;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
@@ -993,53 +1254,274 @@ public class SettingsServiceImpl implements ISettingsService {
 	@Override
 	public RecordList getExternalFormList(RequestParams params) throws Exception {
 
-		try{
+		try {
 			RecordList recordList = new RecordList();
-			recordList.setRecords(new ExternalForm[]{});
-			return recordList;
-		}catch (Exception e){
-			// Exception Handling Required
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+
+			SwcExternalFormCond swcExternalFormCond = new SwcExternalFormCond();
+			swcExternalFormCond.setCompanyId(companyId);
+
+			long totalCount = getSwcManager().getExternalFormSize(userId, swcExternalFormCond);
+
+			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
+
+			int currentPage = params.getCurrentPage();
+			if(currentPage == 0) currentPage = 1;
+
+			int totalPages = (int)totalCount % pageSize;
+
+			if(totalPages == 0)
+				totalPages = (int)totalCount / pageSize;
+			else
+				totalPages = (int)totalCount / pageSize + 1;
+
+			if (currentPage > 0)
+				swcExternalFormCond.setPageNo(currentPage-1);
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
+
+			swcExternalFormCond.setPageSize(pageSize);
+
+			//swcExternalFormCond.setOrders(new Order[]{new Order("webAppServiceName", true)});
+			SwcExternalForm[] swcExternalForms = getSwcManager().getExternalForms(userId, swcExternalFormCond, IManager.LEVEL_ALL);
+
+			if(swcExternalForms != null) {
+				List<ExternalForm> externalFormList = new ArrayList<ExternalForm>();
+				for(SwcExternalForm swcExternalForm : swcExternalForms) {
+					ExternalForm externalForm = new ExternalForm();
+					String id = swcExternalForm.getObjId();
+					String name = swcExternalForm.getWebAppServiceName();
+					String desc = swcExternalForm.getDescription();
+					String url = swcExternalForm.getWebAppServiceUrl();
+					String editMethod = swcExternalForm.getModifyMethod();
+					String viewMethod = swcExternalForm.getViewMethod();
+					externalForm.setId(id);
+					externalForm.setName(name);
+					externalForm.setDesc(desc);
+					externalForm.setUrl(url);
+					externalForm.setEditMethod(editMethod);
+					externalForm.setViewMethod(viewMethod);
+					SwcExternalFormParameter[] swcExternalFormParameters = swcExternalForm.getSwcExternalFormParameters();
+					if(swcExternalFormParameters != null) {
+						List<Variable> editVariableList = new ArrayList<Variable>();
+						List<Variable> viewVariableList = new ArrayList<Variable>();
+						List<Variable> returnVariableList = new ArrayList<Variable>();
+						for(SwcExternalFormParameter swcExternalFormParameter : swcExternalFormParameters) {
+							Variable variable = new Variable();
+							String type = swcExternalFormParameter.getType();
+							if(type.equals("M")) {
+								variable.setName(swcExternalFormParameter.getVariableName());
+								variable.setElementName(swcExternalFormParameter.getParameterName());
+								variable.setElementType(swcExternalFormParameter.getParameterType());
+								editVariableList.add(variable);
+							} else if(type.equals("V")) {
+								variable.setName(swcExternalFormParameter.getVariableName());
+								variable.setElementName(swcExternalFormParameter.getParameterName());
+								variable.setElementType(swcExternalFormParameter.getParameterType());
+								viewVariableList.add(variable);
+							} else if(type.equals("R")) {
+								variable.setName(swcExternalFormParameter.getVariableName());
+								variable.setElementName(swcExternalFormParameter.getParameterName());
+								variable.setElementType(swcExternalFormParameter.getParameterType());
+								returnVariableList.add(variable);
+							}
+						}
+						Variable[] editVariables = new Variable[editVariableList.size()];
+						editVariableList.toArray(editVariables);
+						externalForm.setEditVariables(editVariables);
+						Variable[] viewVariables = new Variable[viewVariableList.size()];
+						viewVariableList.toArray(viewVariables);
+						externalForm.setViewVariables(viewVariables);
+						Variable[] returnVariables = new Variable[returnVariableList.size()];
+						returnVariableList.toArray(returnVariables);
+						externalForm.setReturnVariables(returnVariables);
+					}
+					externalFormList.add(externalForm);
+				}
+				ExternalForm[] externalForms = new ExternalForm[externalFormList.size()];
+				externalFormList.toArray(externalForms);
+
+				recordList.setRecords(externalForms);
+				recordList.setPageSize(pageSize);
+				recordList.setTotalPages(totalPages);
+				recordList.setCurrentPage(currentPage);
+				recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
+				return recordList;
+			} else {
+				return null;
+			}
+		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
-			// Exception Handling Required			
-		}		
+		}
 	}
 
 	@Override
 	public ExternalForm getExternalFormById(String id) throws Exception {
 
-		try{
-			return new ExternalForm();
-		}catch (Exception e){
-			// Exception Handling Required
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			SwcExternalForm swcExternalForm = getSwcManager().getExternalForm(userId, id, IManager.LEVEL_ALL);
+
+			if(swcExternalForm != null) {
+				ExternalForm externalForm = new ExternalForm();
+				String name = swcExternalForm.getWebAppServiceName();
+				String desc = swcExternalForm.getDescription();
+				String url = swcExternalForm.getWebAppServiceUrl();
+				String editMethod = swcExternalForm.getModifyMethod();
+				String viewMethod = swcExternalForm.getViewMethod();
+				externalForm.setId(id);
+				externalForm.setName(name);
+				externalForm.setDesc(desc);
+				externalForm.setUrl(url);
+				externalForm.setEditMethod(editMethod);
+				externalForm.setViewMethod(viewMethod);
+				SwcExternalFormParameter[] swcExternalFormParameters = swcExternalForm.getSwcExternalFormParameters();
+				if(swcExternalFormParameters != null) {
+					List<Variable> editVariableList = new ArrayList<Variable>();
+					List<Variable> viewVariableList = new ArrayList<Variable>();
+					List<Variable> returnVariableList = new ArrayList<Variable>();
+					for(SwcExternalFormParameter swcExternalFormParameter : swcExternalFormParameters) {
+						Variable variable = new Variable();
+						String type = swcExternalFormParameter.getType();
+						if(type.equals("M")) {
+							variable.setName(swcExternalFormParameter.getVariableName());
+							variable.setElementName(swcExternalFormParameter.getParameterName());
+							variable.setElementType(swcExternalFormParameter.getParameterType());
+							editVariableList.add(variable);
+						} else if(type.equals("V")) {
+							variable.setName(swcExternalFormParameter.getVariableName());
+							variable.setElementName(swcExternalFormParameter.getParameterName());
+							variable.setElementType(swcExternalFormParameter.getParameterType());
+							viewVariableList.add(variable);
+						} else if(type.equals("R")) {
+							variable.setName(swcExternalFormParameter.getVariableName());
+							variable.setElementName(swcExternalFormParameter.getParameterName());
+							variable.setElementType(swcExternalFormParameter.getParameterType());
+							returnVariableList.add(variable);
+						}
+					}
+					Variable[] editVariables = new Variable[editVariableList.size()];
+					editVariableList.toArray(editVariables);
+					externalForm.setEditVariables(editVariables);
+					Variable[] viewVariables = new Variable[viewVariableList.size()];
+					viewVariableList.toArray(viewVariables);
+					externalForm.setViewVariables(viewVariables);
+					Variable[] returnVariables = new Variable[returnVariableList.size()];
+					returnVariableList.toArray(returnVariables);
+					externalForm.setReturnVariables(returnVariables);
+				}
+				return externalForm;
+			} else {
+				return null;
+			}
+		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
-			// Exception Handling Required			
 		}		
 	}
 
 	@Override
 	public void setExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+
+			Map<String, Object> frmEditExternalForm = (Map<String, Object>)requestBody.get("frmEditExternalForm");
+			String formId = (String)requestBody.get("formId");
+
+			Set<String> keySet = frmEditExternalForm.keySet();
+			Iterator<String> itr = keySet.iterator();
+
+			String txtExternalFormName = null;
+			String txtExternalFormDesc = null;
+			String txtExternalFormURL = null;
+			String txtEditMethod = null;
+			String txtViewMethod = null;
+
+			List<Map<String, String>> editVariables = null;
+			List<Map<String, String>> viewVariables = null;
+			List<Map<String, String>> returnVariables = null;
+
+			SwcExternalForm swcExternalForm = null;
+			if(!formId.equals("")) {
+				swcExternalForm = getSwcManager().getExternalForm(userId, formId, IManager.LEVEL_ALL);
+			} else {
+				swcExternalForm = new SwcExternalForm();
+				swcExternalForm.setCompanyId(companyId);
+			}
+
+			while (itr.hasNext()) {
+				String fieldId = (String)itr.next();
+				Object fieldValue = frmEditExternalForm.get(fieldId);
+				if(fieldValue instanceof LinkedHashMap) {
+					/*Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+					if(fieldId.equals("variables")) {
+						inputVariables = (ArrayList<Map<String,String>>)valueMap.get("inputVariables");
+						returnVariables = (ArrayList<Map<String,String>>)valueMap.get("returnVariables");
+					}
+					if(!CommonUtil.isEmpty(inputVariables)) {
+						SwcWebServiceParameter[] swcWebServiceParameters = new SwcWebServiceParameter[inputVariables.size()];
+						for(int i=0; i < inputVariables.subList(0, inputVariables.size()).size(); i++) {
+							Map<String, String> inputVariablesMap = inputVariables.get(i);
+							SwcWebServiceParameter swcWebServiceParameter = new SwcWebServiceParameter();
+							String variableName = inputVariablesMap.get("variableName");
+							String elementName = inputVariablesMap.get("elementName");
+							String elementType = inputVariablesMap.get("elementType");
+							swcWebServiceParameter.setVariableName(variableName);
+							swcWebServiceParameter.setParameterName(elementName);
+							swcWebServiceParameter.setParameterType(elementType);
+							swcWebServiceParameters[i] = swcWebServiceParameter;
+						}
+						swcWebService.setSwcWebServiceParameters(swcWebServiceParameters);
+					}*/
+				} else if(fieldValue instanceof String) {	
+					if(fieldId.equals("txtExternalFormName")) {
+						txtExternalFormName = (String)frmEditExternalForm.get("txtExternalFormName");
+						swcExternalForm.setWebAppServiceName(txtExternalFormName);
+					} else if(fieldId.equals("txtExternalFormDesc")) {
+						txtExternalFormDesc = (String)frmEditExternalForm.get("txtExternalFormDesc");
+						swcExternalForm.setDescription(txtExternalFormDesc);
+					} else if(fieldId.equals("txtExternalFormURL")) {
+						txtExternalFormURL = (String)frmEditExternalForm.get("txtExternalFormURL");
+						swcExternalForm.setWebAppServiceUrl(txtExternalFormURL);
+					} else if(fieldId.equals("txtEditMethod")) {
+						txtEditMethod = (String)frmEditExternalForm.get("txtEditMethod");
+						swcExternalForm.setModifyMethod(txtEditMethod);
+					} else if(fieldId.equals("txtViewMethod")) {
+						txtViewMethod = (String)frmEditExternalForm.get("txtViewMethod");
+						swcExternalForm.setViewMethod(txtViewMethod);
+					}
+				}
+			}
+			getSwcManager().setExternalForm(userId, swcExternalForm, IManager.LEVEL_ALL);
+		} catch(Exception e) {
 			e.printStackTrace();
-			// Exception Handling Required			
 		}
 	}
-	
+
 	@Override
 	public void removeExternalForm(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-		try{
-		}catch (Exception e){
-			// Exception Handling Required
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String formId = (String)requestBody.get("formId");
+			if(formId.equals(""))
+				return;
+			getSwcManager().removeExternalForm(cUser.getId(), formId);
+		} catch(Exception e) {
 			e.printStackTrace();
-			// Exception Handling Required			
 		}
 	}
-	
+
 	@Override
 	public void setMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
@@ -1140,11 +1622,11 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void removeMember(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-			User user = SmartUtil.getCurrentUser();
+			User cUser = SmartUtil.getCurrentUser();
 			String userId = (String)requestBody.get("userId");
 			if(userId.equals(""))
 				return;
-			getSwoManager().removeUser(user.getId(), userId);
+			getSwoManager().removeUser(cUser.getId(), userId);
 		} catch(Exception e) {
 			e.printStackTrace();			
 		}
@@ -1203,11 +1685,11 @@ public class SettingsServiceImpl implements ISettingsService {
 	public void removeDepartment(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try {
-			User user = SmartUtil.getCurrentUser();
+			User cUser = SmartUtil.getCurrentUser();
 			String departmentId = (String)requestBody.get("departmentId");
 			if(departmentId.equals(""))
 				return;
-			getSwoManager().removeDepartment(user.getId(), departmentId);
+			getSwoManager().removeDepartment(cUser.getId(), departmentId);
 		} catch(Exception e) {
 			e.printStackTrace();			
 		}
@@ -1215,8 +1697,13 @@ public class SettingsServiceImpl implements ISettingsService {
 
 	@Override
 	public void checkIdDuplication(HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
+
+		try {
+			boolean isExistId = getSwoManager().isExistId(request.getParameter("userId"));
+			if(isExistId) throw new DuplicateKeyException("duplicateKeyException");
+		} catch(Exception e) {
+			throw new DuplicateKeyException("duplicateKeyException");
+		}
 	}
-	
+
 }

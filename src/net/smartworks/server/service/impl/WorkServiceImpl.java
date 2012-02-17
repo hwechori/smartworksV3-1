@@ -381,7 +381,9 @@ public class WorkServiceImpl implements IWorkService {
 	}
 	public Work getInfortmationWorkById(String companyId, String userId, String workId) throws Exception {
 
-		try{
+		try {
+			InformationWork resultwork = new InformationWork();
+
 			SwfFormCond swfCond = new SwfFormCond();
 			swfCond.setPackageId(workId);
 			SwfForm[] swfForms = getSwfManager().getForms(userId, swfCond, IManager.LEVEL_ALL);
@@ -394,98 +396,132 @@ public class WorkServiceImpl implements IWorkService {
 	
 			List<FormField> resultList = new ArrayList<FormField>();
 			SwdField[] swdViewFields = getSwdManager().getViewFieldList(workId, formId);
-			for(SwdField swdViewField : swdViewFields) {
-				for(SwfField swfField : swfFields) {
-					String formatType = swfField.getFormat().getType();
-					if(swdViewField.getDisplayOrder() > -1 && !formatType.equals("richEditor") && !formatType.equals("imageBox") && !formatType.equals("dataGrid")) {
-						if(swdViewField.getFormFieldId().equals(swfField.getId())) {
-							FormField formField = new FormField();
-							formField.setId(swdViewField.getFormFieldId());
-							formField.setName(swdViewField.getFormFieldName());
-							formField.setType(formatType);
-							formField.setDisplayOrder(swdViewField.getDisplayOrder());
-							resultList.add(formField);
+
+			if(swdViewFields != null) {
+				for(SwdField swdViewField : swdViewFields) {
+					for(SwfField swfField : swfFields) {
+						String formatType = swfField.getFormat().getType();
+						if(swdViewField.getDisplayOrder() > -1 && !formatType.equals("richEditor") && !formatType.equals("imageBox") && !formatType.equals("dataGrid")) {
+							if(swdViewField.getFormFieldId().equals(swfField.getId())) {
+								FormField formField = new FormField();
+								formField.setId(swdViewField.getFormFieldId());
+								formField.setName(swdViewField.getFormFieldName());
+								formField.setType(formatType);
+								formField.setDisplayOrder(swdViewField.getDisplayOrder());
+								resultList.add(formField);
+							}
 						}
 					}
 				}
+	
+				FormField[] formFields = new FormField[resultList.size()];
+				resultList.toArray(formFields);
+	
+
+				resultwork.setDisplayFields(formFields);
 			}
-	
-			FormField[] formFields = new FormField[resultList.size()];
-			resultList.toArray(formFields);
-	
-			InformationWork resultwork = new InformationWork();
-			resultwork.setDisplayFields(formFields);
 	
 			//권한설정
 			ModelConverter.setPolicyToWork(resultwork, formId);
-	
+
 			PkgPackageCond pkgCond = new PkgPackageCond();
 			pkgCond.setCompanyId(companyId);
 			pkgCond.setPackageId(workId);
-	
+
 			PkgPackage pkg = getPkgManager().getPackage(userId, pkgCond, IManager.LEVEL_LITE);
-	
+
 			//상세필터
 			resultwork.setSearchFilters(ModelConverter.getSearchFilterInfoByPkgPackage(userId, pkg));
-			
-			String name = pkg.getName();
-			String typeStr = pkg.getType();
-			int type = typeStr.equals("PROCESS") ? SmartWork.TYPE_PROCESS : typeStr.equals("SINGLE") ? SmartWork.TYPE_INFORMATION : SmartWork.TYPE_SCHEDULE;
-			String description = pkg.getDescription();
-	
-			resultwork.setId(workId);
-			resultwork.setName(name);
-			resultwork.setType(type);
-			resultwork.setDesc(description);
-			resultwork.setLastModifier(ModelConverter.getUserByUserId(pkg.getModificationUser()));
-			resultwork.setLastModifiedDate(new LocalDate(pkg.getModificationDate().getTime()));
-	
-			Map<String, WorkCategory> pkgCtgInfoMap = ModelConverter.getPkgCtgMapByPackage(pkg);
-	
-			resultwork.setMyCategory(pkgCtgInfoMap.get("category"));
-			resultwork.setMyGroup(pkgCtgInfoMap.get("group"));
-	
+
+			if(pkg != null) {
+				String name = pkg.getName();
+				String typeStr = pkg.getType();
+				int type = typeStr.equals("PROCESS") ? SmartWork.TYPE_PROCESS : typeStr.equals("SINGLE") ? SmartWork.TYPE_INFORMATION : SmartWork.TYPE_SCHEDULE;
+				String description = pkg.getDescription();
+
+				resultwork.setId(workId);
+				resultwork.setName(name);
+				resultwork.setType(type);
+				resultwork.setDesc(description);
+				resultwork.setCreater(ModelConverter.getUserByUserId(pkg.getCreationUser()));
+				resultwork.setCreatedDate(new LocalDate(pkg.getCreationDate().getTime()));
+				resultwork.setLastModifier(ModelConverter.getUserByUserId(pkg.getModificationUser()));
+				resultwork.setLastModifiedDate(new LocalDate(pkg.getModificationDate().getTime()));
+
+				String packageStatus = pkg.getStatus();
+				boolean isRunningPackage = false;
+				boolean isEditingPackage = false;
+				User editingUser = null;
+				LocalDate editingStartDate = null;
+				if(packageStatus.equalsIgnoreCase("DEPLOYED")) {
+					isRunningPackage = true;
+					isEditingPackage = false; 
+				} else if(packageStatus.equalsIgnoreCase("CHECKED-OUT")) {
+					isRunningPackage = false;
+					isEditingPackage = true;
+					editingUser = ModelConverter.getUserByUserId(pkg.getModificationUser());
+					editingStartDate = new LocalDate(pkg.getModificationDate().getTime());
+				} else if(packageStatus.equalsIgnoreCase("CHECKED-IN")) {
+					isRunningPackage = false;
+					isEditingPackage = false;
+				}
+				resultwork.setRunning(isRunningPackage);
+				resultwork.setEditing(isEditingPackage);
+				resultwork.setEditingUser(editingUser);
+				resultwork.setEditingStartDate(editingStartDate);
+
+				Map<String, WorkCategory> pkgCtgInfoMap = ModelConverter.getPkgCtgMapByPackage(pkg);
+
+				if(pkgCtgInfoMap != null) {
+					resultwork.setMyCategory(pkgCtgInfoMap.get("category"));
+					resultwork.setMyGroup(pkgCtgInfoMap.get("group"));
+				}
+			}
+
 			SwdDomainCond swdDomainCond = new SwdDomainCond();
 			swdDomainCond.setFormId(formId);
 			SwdDomain swdDomain = getSwdManager().getDomain(userId, swdDomainCond, IManager.LEVEL_LITE); 
-	
-			SwdFieldCond swdFieldCond = new SwdFieldCond();
-			swdFieldCond.setDomainObjId(swdDomain.getObjId());
-			Order[] order = new Order[1];
-			order[0] = new Order();
-			order[0].setField("displayOrder");
-			order[0].setAsc(true);
-			swdFieldCond.setOrders(order);
-			SwdField[] swdFields = getSwdManager().getFields("", swdFieldCond, IManager.LEVEL_LITE);
-	
-			List<FormField> formFieldList = new ArrayList<FormField>();
-			for(SwdField swdField : swdFields) {
-				for(SwfField swfField : swfFields) {
-					String formatType = swfField.getFormat().getType();
-					if(swdField.getFormFieldId().equals(swfField.getId())) {
-						FormField formField = new FormField();
-						formField.setId(swdField.getFormFieldId());
-						formField.setName(swdField.getFormFieldName());
-						formField.setType(formatType);
-						formField.setDisplayOrder(swdField.getDisplayOrder());
-						formFieldList.add(formField);
+
+			if(swdDomain != null) {
+				SwdFieldCond swdFieldCond = new SwdFieldCond();
+				swdFieldCond.setDomainObjId(swdDomain.getObjId());
+				Order[] order = new Order[1];
+				order[0] = new Order();
+				order[0].setField("displayOrder");
+				order[0].setAsc(true);
+				swdFieldCond.setOrders(order);
+				SwdField[] swdFields = getSwdManager().getFields("", swdFieldCond, IManager.LEVEL_LITE);
+
+				if(swdFields != null) {
+					List<FormField> formFieldList = new ArrayList<FormField>();
+					for(SwdField swdField : swdFields) {
+						for(SwfField swfField : swfFields) {
+							String formatType = swfField.getFormat().getType();
+							if(swdField.getFormFieldId().equals(swfField.getId())) {
+								FormField formField = new FormField();
+								formField.setId(swdField.getFormFieldId());
+								formField.setName(swdField.getFormFieldName());
+								formField.setType(formatType);
+								formField.setDisplayOrder(swdField.getDisplayOrder());
+								formFieldList.add(formField);
+							}
+						}
+					}
+
+					FormField[] resultFormFields = new FormField[formFieldList.size()];
+					formFieldList.toArray(resultFormFields);
+
+					SmartForm smFrom = ModelConverter.getSmartFormBySwfFrom(null, swfForms[0]);
+					if(smFrom != null) {
+						smFrom.setFields(resultFormFields);
+						resultwork.setForm(smFrom);
 					}
 				}
 			}
-	
-			FormField[] resultFormFields = new FormField[formFieldList.size()];
-			formFieldList.toArray(resultFormFields);
-	
-			SmartForm smFrom = ModelConverter.getSmartFormBySwfFrom(null, swfForms[0]);
-			smFrom.setFields(resultFormFields);
-			resultwork.setForm(smFrom);
-	
 			return resultwork;
-		}catch (Exception e){
-			// Exception Handling Required
+		} catch(Exception e) {
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
+			return null;
 		}
 	}	
 
@@ -850,7 +886,9 @@ public class WorkServiceImpl implements IWorkService {
 			Map<String, Object> frmInstanceListPaging = (Map<String, Object>)requestBody.get("frmInstanceListPaging");
 			Map<String, Object> frmWorkHourListPaging = (Map<String, Object>)requestBody.get("frmWorkHourListPaging");
 			Map<String, Object> frmCompanyEventListPaging = (Map<String, Object>)requestBody.get("frmCompanyEventListPaging");
+			Map<String, Object> frmApprovalLineListPaging = (Map<String, Object>)requestBody.get("frmApprovalLineListPaging");
 			Map<String, Object> frmWebServiceListPaging = (Map<String, Object>)requestBody.get("frmWebServiceListPaging");
+			Map<String, Object> frmExternalFormListPaging = (Map<String, Object>)requestBody.get("frmExternalFormListPaging");
 
 			Map<String, Object> existListPaging = new LinkedHashMap<String, Object>();
 
@@ -860,8 +898,12 @@ public class WorkServiceImpl implements IWorkService {
 				existListPaging = frmWorkHourListPaging;
 			else if(frmCompanyEventListPaging != null)
 				existListPaging = frmCompanyEventListPaging;
+			else if(frmApprovalLineListPaging != null)
+				existListPaging = frmApprovalLineListPaging;
 			else if(frmWebServiceListPaging != null)
 				existListPaging = frmWebServiceListPaging;
+			else if(frmExternalFormListPaging != null)
+				existListPaging = frmExternalFormListPaging;
 
 			String hdnCurrentPage = (String)existListPaging.get("hdnCurrentPage");
 			String selPageSize = (String)existListPaging.get("selPageSize");

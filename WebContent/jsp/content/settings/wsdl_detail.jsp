@@ -49,12 +49,15 @@
 	<td>
 		<select name="selWebServicePort" class="js_webservice_port">
 			<%
-			WSDLPort[] ports = wsdlDetail.getPorts();
-			if(!SmartUtil.isBlankObject(ports) && ports.length>0){
-				for(int i=0; i<ports.length; i++){
+			WSDLPort[] ports = null;
+			if(wsdlDetail != null) {
+				ports = wsdlDetail.getPorts();
+				if(!SmartUtil.isBlankObject(ports) && ports.length>0){
+					for(int i=0; i<ports.length; i++){
 			%>
-					<option <%if(i==selectedPort){%>selected<%} %> index="<%=i %>" value="<%=ports[i].getPort()%>"> <%=ports[i].getPort() %></option>
+						<option <%if(i==selectedPort){%>selected<%} %> index="<%=i %>" value="<%=ports[i].getPort()%>"> <%=ports[i].getPort() %></option>
 			<%
+					}
 				}
 			}
 			%>

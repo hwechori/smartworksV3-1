@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.work.SmartForm"%>
 <%@page import="net.smartworks.model.security.EditPolicy"%>
 <%@page import="net.smartworks.model.security.WritePolicy"%>
 <%@page import="net.smartworks.model.security.AccessPolicy"%>
@@ -123,7 +124,10 @@
 					<%
 					if(work.getType() == SmartWork.TYPE_INFORMATION){
 						InformationWork informationWork = (InformationWork)work;
-						FormField[] formFields = informationWork.getForm().getFields();
+						SmartForm smartForm = informationWork.getForm();
+						FormField[] formFields = null;
+						if(smartForm != null)
+							formFields = smartForm.getFields();
 						FormField[] displayFields = informationWork.getDisplayFields();
 					%>
 						<!-- 보이는 항목,안보이는 항목 설정-->
@@ -135,7 +139,7 @@
 										<th width="85%" colspan="2"><fmt:message key="builder.title.display_fields"/></th>
 									</tr>
 									<%
-									if(!SmartUtil.isBlankObject(informationWork.getDisplayFields()) && informationWork.getDisplayFields().length>0){
+									if(!SmartUtil.isBlankObject(displayFields) && displayFields.length>0){
 										String keyId = (SmartUtil.isBlankObject(informationWork.getKeyField())) ? displayFields[0].getId() : informationWork.getKeyField().getId();
 										for(FormField formField : displayFields){									
 									%>

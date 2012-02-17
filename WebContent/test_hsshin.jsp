@@ -1,3 +1,17 @@
+<%@page import="net.smartworks.model.service.Variable"%>
+<%@page import="net.smartworks.model.service.WSDLOperation"%>
+<%@page import="net.smartworks.model.service.WSDLPort"%>
+<%@page import="net.smartworks.model.service.WSDLDetail"%>
+<%@page import="javax.xml.namespace.QName"%>
+<%@page import="javax.wsdl.Part"%>
+<%@page import="java.util.Set"%>
+<%@page import="javax.wsdl.Message"%>
+<%@page import="javax.wsdl.Output"%>
+<%@page import="javax.wsdl.Input"%>
+<%@page import="javax.wsdl.Operation"%>
+<%@page import="javax.wsdl.PortType"%>
+<%@page import="java.util.Map"%>
+<%@page import="net.smartworks.server.engine.config.manager.ISwcManager"%>
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>
 <%@page import="net.smartworks.server.service.ICommunityService"%>
 <%@page import="net.smartworks.server.engine.common.model.SmartServerConstant"%>
@@ -244,7 +258,6 @@
 	GroupInfo[] groupInfo = communityService.getMyGroups();
 	System.out.println(groupInfo); */
 
-	System.out.println(new LocalDate());
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>
