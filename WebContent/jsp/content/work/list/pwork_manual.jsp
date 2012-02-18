@@ -69,9 +69,8 @@
 								<!-- 태스크 -->
 								<li class="proc_task not_yet js_manual_task">
 									<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
-											<div><%=count%>) <%=task.getName()%>
+											<%=count%>) <%=task.getName()%>
 												<div class="t_date"><%=task.getAssigningName()%></div>
-											</div>
 									</a>
 								</li>
 								<!-- 태스크 //-->
