@@ -104,7 +104,7 @@ public class CalendarServiceImpl implements ICalendarService {
 				if(swcWorkHours != null) {
 					for(int j=0; j<swcWorkHours.length; j++) {
 						swcWorkHour = swcWorkHours[j];
-						if((new LocalDate(swcWorkHour.getValidFromDate().getTime())).getLocalTime() <= fromDate.getTime()) {
+						if((new LocalDate(swcWorkHours[j].getValidFromDate().getTime())).getLocalTime() <= fromDate.getTime()) {
 							swcWorkHour = swcWorkHours[j];
 							break;
 						}
@@ -634,7 +634,7 @@ public class CalendarServiceImpl implements ICalendarService {
 			swcWorkHourCond.setCompanyId(cUser.getCompanyId());
 	
 			swcWorkHourCond.setOrders(new Order[]{new Order("validFromDate", false)});
-	
+
 			SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(cUser.getId(), swcWorkHourCond, IManager.LEVEL_ALL); 
 	
 			WorkHourPolicy workHourPolicy = new WorkHourPolicy();
@@ -649,7 +649,7 @@ public class CalendarServiceImpl implements ICalendarService {
 
 				int firstDayOfWeek = Integer.parseInt(swcWorkHour.getStartDayOfWeek()); 
 				int workingDays = swcWorkHour.getWorkingDays();
-				
+
 				workHourPolicy.setValidFrom(new LocalDate(swcWorkHour.getValidFromDate().getTime()));
 				if(swcWorkHour.getValidToDate() != null)
 					workHourPolicy.setValidTo(new LocalDate(swcWorkHour.getValidToDate().getTime()));
@@ -666,7 +666,7 @@ public class CalendarServiceImpl implements ICalendarService {
 					Calendar startCalendar = Calendar.getInstance();
 					Calendar endCalendar = Calendar.getInstance();
 					int dayOfWeek = j;
-	
+
 					if(j > 7)
 						dayOfWeek = j % 7;
 	
@@ -705,14 +705,18 @@ public class CalendarServiceImpl implements ICalendarService {
 					start = startCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + startCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
 					end = endCalendar.get(Calendar.HOUR_OF_DAY) * LocalDate.ONE_HOUR + endCalendar.get(Calendar.MINUTE) * LocalDate.ONE_MINUTE;
 					workTime = end - start;
-	
+
 					workHours[dayOfWeek-1] = new WorkHour(start, end, workTime);
 				}
+				for(int i=0; i<workHours.length; i++) {
+					WorkHour workHour = workHours[i];
+					if(workHour == null)
+						workHour = new WorkHour();
+					workHours[i] = workHour;
+				}
 				workHourPolicy.setWorkHours(workHours);
-			} else {
-				workHourPolicy = new WorkHourPolicy();
 			}
-	
+
 			return workHourPolicy;
 		}catch (Exception e){
 			// Exception Handling Required

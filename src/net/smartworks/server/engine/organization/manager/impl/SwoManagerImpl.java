@@ -2080,8 +2080,14 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 	}
 
 	private static SizeMap userExtendMap = new SizeMap(100);
+
 	@Override
-	public SwoUserExtend getUserExtend(String userId, String id, boolean isMemory) throws SwoException {
+	public SwoUserExtend getUserExtend(String userId, String id, boolean inMemory) throws SwoException {
+
+		if(inMemory == true) {
+			if(userExtendMap.containsKey(id))
+				return (SwoUserExtend)userExtendMap.get(id);
+		}
 
 		//user cache 를 사용하여 메모리에서 조회한후 없으면 데이터베이스에서 조회한다.
 		//유저 정보를 가져오는 횟수가 너무 많아서 부하를 줄여야 한다
@@ -2153,6 +2159,9 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		if(timeZone.equals(""))
 			timeZone = LocalDate.TIMEZONE_SEOUL;
 		userExtend.setTimeZone(timeZone);
+
+		if (userExtend != null)
+			userExtendMap.put(id, userExtend);
 
 		return userExtend;
 	}
@@ -2232,9 +2241,9 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 	private static SizeMap departmentMap = new SizeMap(100);
 
 	@Override
-	public SwoDepartmentExtend getDepartmentExtend(String userId, String departmentId, boolean isMemory) throws SwoException {
+	public SwoDepartmentExtend getDepartmentExtend(String userId, String departmentId, boolean inMemory) throws SwoException {
 
-		if(isMemory == true) {
+		if(inMemory == true) {
 			if(departmentMap.containsKey(departmentId))
 				return (SwoDepartmentExtend)departmentMap.get(departmentId);
 		}

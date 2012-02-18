@@ -22,10 +22,12 @@
 			String iconType = null;
 			String workContext = null;
 			String targetContent = null;
+			String formId = "";
 			switch (work.getType()) {
 			case SmartWork.TYPE_PROCESS:
 				iconType = "ico_pworks";
 				targetContent = "start_pwork.sw";
+				formId = work.getStartFormId();
 				break;
 			case SmartWork.TYPE_INFORMATION:
 				iconType = "ico_iworks";
@@ -38,7 +40,7 @@
 			}
 	%>
 			<li>
-				<a href="<%=targetContent%>?workId=<%=work.getId()%>" workId="<%=work.getId() %>" class="js_select_work">
+				<a href="<%=targetContent%>?workId=<%=work.getId()%>" workId="<%=work.getId() %>" formId="<%=formId %>" class="js_select_work">
 					<span class="<%=iconType%>"></span>
 					<span class="nav_subtitl_area"><%=work.getFullpathName()%></span>
 				</a>

@@ -4,6 +4,7 @@ public class SmartWorkInfo extends WorkInfo {
 
 	private WorkCategoryInfo myGroup = null;
 	private WorkCategoryInfo myCategory = null;
+	private String startFormId;
 	private boolean isRunning;
 	private boolean favorite = false;
 	
@@ -22,6 +23,12 @@ public class SmartWorkInfo extends WorkInfo {
 	}
 	public void setMyCategory(WorkCategoryInfo myCategory) {
 		this.myCategory = myCategory;
+	}
+	public String getStartFormId() {
+		return startFormId;
+	}
+	public void setStartFormId(String startFormId) {
+		this.startFormId = startFormId;
 	}
 	public boolean isRunning() {
 		return isRunning;
