@@ -49,7 +49,7 @@
 		var url = "set_iwork_search_filter.sw";
 		if(isEmpty(filterId)){
 			url = "create_iwork_search_filter.sw";
-			searchFilter.find('input[name="txtNewFilterId"]').addClass('required');
+			searchFilter.find('input[name="txtNewFilterName"]').addClass('required');
 		}
 
 		if (!SmartWorks.GridLayout.validate(searchFilter.find('form.js_validation_required'), $('.js_filter_error_message'))) return;
@@ -58,8 +58,12 @@
 		var workId = iworkList.attr('workId');
 		var searchFilters = searchFilter.find('form[name="frmSearchFilter"]');
 		paramsJson['workId'] = workId;
-		if(!isEmpty(filterId))
-			paramsJson['filterId'] = filterId;
+		if(!isEmpty(filterId)) {
+			paramsJson['txtNewFilterName'] = searchFilter.find('input[name="txtNewFilterName"]').attr('value');
+			filterId = "";	
+		}
+		paramsJson['filterId'] = filterId;
+
 		if(!isEmpty(searchFilters)){
 			var searchFilterArray = new Array();
 			for(var i=0; i<searchFilters.length; i++){
@@ -69,6 +73,7 @@
 			}
 			paramsJson['frmSearchFilters'] = searchFilterArray;
 		}
+		console.log(JSON.stringify(paramsJson));
 		var progressSpan = searchFilter.find('span.js_progress_span:first');
 		smartPop.progressCont(progressSpan);
 		$.ajax({
@@ -99,7 +104,6 @@
 	saveSearchFilter = function(){
 		var searchFilter = $('.js_search_filter_page');
 		var filterId = searchFilter.attr('filterId');
-		if(isEmpty(filterId)) searchFilter.find('input[name="txtNewFilterId"]').removeClass('required');
 		saveAsSearchFilter(filterId);
 	};
 
@@ -125,7 +129,7 @@
 			}
 			paramsJson['frmSearchFilters'] = searchFilterArray;
 		}
-		if(isEmpty(progressSpan)) grogressSpan = iworkList.find('.js_search_filter').next('span.js_progress_span:first');
+		if(isEmpty(progressSpan)) grogressSpan = iworkList.find('.js_search_filter_page').next('span.js_progress_span:first');
 		getIntanceList(paramsJson, progressSpan, isGray);		
 	};
 </script>

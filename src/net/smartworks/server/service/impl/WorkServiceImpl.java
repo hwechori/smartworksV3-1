@@ -924,50 +924,6 @@ public class WorkServiceImpl implements IWorkService {
 			else if(hdnPrevEnd)
 				requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
 
-			/*Map<String, Object> frmWorkHourListPaging = (Map<String, Object>)requestBody.get("frmWorkHourListPaging");
-			if(frmWorkHourListPaging != null) {
-				String hdnCurrentPage = (String)frmWorkHourListPaging.get("hdnCurrentPage");
-				String selPageSize = (String)frmWorkHourListPaging.get("selPageSize");
-				boolean hdnNext10 = Boolean.parseBoolean((String)frmWorkHourListPaging.get("hdnNext10"));
-				boolean hdnNextEnd = Boolean.parseBoolean((String)frmWorkHourListPaging.get("hdnNextEnd"));
-				boolean hdnPrev10 = Boolean.parseBoolean((String)frmWorkHourListPaging.get("hdnPrev10"));
-				boolean hdnPrevEnd = Boolean.parseBoolean((String)frmWorkHourListPaging.get("hdnPrevEnd"));
-				if(hdnCurrentPage != null)
-					requestParams.setCurrentPage(Integer.parseInt(hdnCurrentPage));
-				if(selPageSize != null)
-					requestParams.setPageSize(Integer.parseInt(selPageSize));
-				if(hdnNext10)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXT10);
-				else if(hdnNextEnd)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXTEND);
-				else if(hdnPrev10)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREV10);
-				else if(hdnPrevEnd)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
-			}
-
-			Map<String, Object> frmCompanyEventListPaging = (Map<String, Object>)requestBody.get("frmCompanyEventListPaging");
-			if(frmCompanyEventListPaging != null) {
-				String hdnCurrentPage = (String)frmCompanyEventListPaging.get("hdnCurrentPage");
-				String selPageSize = (String)frmCompanyEventListPaging.get("selPageSize");
-				boolean hdnNext10 = Boolean.parseBoolean((String)frmCompanyEventListPaging.get("hdnNext10"));
-				boolean hdnNextEnd = Boolean.parseBoolean((String)frmCompanyEventListPaging.get("hdnNextEnd"));
-				boolean hdnPrev10 = Boolean.parseBoolean((String)frmCompanyEventListPaging.get("hdnPrev10"));
-				boolean hdnPrevEnd = Boolean.parseBoolean((String)frmCompanyEventListPaging.get("hdnPrevEnd"));
-				if(hdnCurrentPage != null)
-					requestParams.setCurrentPage(Integer.parseInt(hdnCurrentPage));
-				if(selPageSize != null)
-					requestParams.setPageSize(Integer.parseInt(selPageSize));
-				if(hdnNext10)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXT10);
-				else if(hdnNextEnd)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_NEXTEND);
-				else if(hdnPrev10)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREV10);
-				else if(hdnPrevEnd)
-					requestParams.setPagingAction(RequestParams.PAGING_ACTION_PREVEND);
-			}*/
-
 			List<Map<String, Object>> frmSearchFilters = (ArrayList<Map<String, Object>>)requestBody.get("frmSearchFilters");
 	
 			if(frmSearchFilters != null)

@@ -45,7 +45,7 @@
 
 
 <!-- 상세 필터 -->
-<div class="filter_group js_search_filter"  filterId="<%=filterId%>">
+<div class="filter_group js_search_filter_page" filterId="<%=filterId%>">
 	<table>
 		<tr>
 			<td>
@@ -276,7 +276,7 @@
 				<span class="form_space sw_error_message js_filter_error_message" style="text-align:right; color: red"></span>
 				<span class="js_progress_span"></span>
 				<span>
-					<input class="fieldline" style="width:160px;" type="text" name="txtNewFilterId"/>
+					<input class="fieldline" style="width:160px;" type="text" name="txtNewFilterName"/>
 				</span>
 				<span class="btn_wh">
 					<a href="" class="js_search_filter_saveas"><span class="Btn01Start"></span>
