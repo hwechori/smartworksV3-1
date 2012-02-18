@@ -84,7 +84,7 @@
 				<!--  태스크 시작// -->
 			</div>
 			<!-- 방향 Next -->
-		   <a href="" class="js_manual_tasks_right" style="display:none"><div class="proc_btn_next float_right" style="top:-97px"></div></a>
+		   <a href="" class="js_manual_tasks_right" ><div class="proc_btn_next float_right" style="top:-97px"></div></a>
 		  	<!-- 방향 Next //-->  
 		</div>
 		<!--프로세스 영역//-->
