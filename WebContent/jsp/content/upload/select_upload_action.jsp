@@ -19,13 +19,13 @@
 
 <!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
 <div id="upload" class="js_select_action">
-	<div class="up_works up_icon_list">
+	<div class="up_works ">
 		<a class="current" href="start_work.sw"><fmt:message key='common.upload.work' /></a>
 	</div>
-	<div class="up_pic up_icon_list">
+	<div class="up_pic ">
 		<a href="new_picture.sw"><fmt:message key='common.upload.picture' /> </a>
 	</div>
-	<div class="up_file up_icon_list">
+	<div class="up_file ">
 		<a href="new_file.sw"><fmt:message key='common.upload.file' /> </a>
 	</div>	
 	<%
@@ -34,13 +34,13 @@
 		&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE 
 		&& spaceType != ISmartWorks.SPACE_TYPE_USER) {
 	%>
-		<div class="up_event up_icon_list">
+		<div class="up_event ">
 			<a href="new_event.sw"><fmt:message key='common.upload.event' /></a>
 		</div>
 	<%
 	} 
 	%>
-	<div class="up_memo up_icon_list">
+	<div class="up_memo ">
 		<a href="new_memo.sw"><fmt:message key='common.upload.memo' /> </a>
 	</div>
 	<% 
