@@ -31,6 +31,7 @@
 					<span class="<%=iconType%>"></span>
 					<span class="nav_subtitl_area"><%=workCategory.getName()%></span>
 				</a>
+				<div class="checkOption"><div title="<fmt:message key='nav.works.my_favorite_works'/>" class="js_check_favorite_work ico_faver "></div></div>
 				<div class="menu_2dep" style="display: none"></div>
 			</li>
 	<%
