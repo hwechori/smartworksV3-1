@@ -988,31 +988,32 @@ public class SettingsServiceImpl implements ISettingsService {
 			}
 
 			List<AprApprovalDef> approvalDefList = new ArrayList<AprApprovalDef>();
-			for(int i=1; i<count+1; i++) {
-				AprApprovalDef approvalDef = new AprApprovalDef();
-				txtLevelName = (String)frmEditApprovalLine.get("txtLevelName"+i);
-				selLevelApproverType = (String)frmEditApprovalLine.get("selLevelApproverType"+i);
-				txtMeanTimeDays = (String)frmEditApprovalLine.get("txtMeanTimeDays"+i);
-				txtMeanTimeHours = (String)frmEditApprovalLine.get("txtMeanTimeHours"+i);
-				txtMeanTimeMinutes = (String)frmEditApprovalLine.get("txtMeanTimeMinutes"+i);
-				int dueDate = (Integer.parseInt(txtMeanTimeDays) * 24 * 60) + (Integer.parseInt(txtMeanTimeHours) * 60) + Integer.parseInt(txtMeanTimeMinutes);
-				dueDateString = dueDate + "";
-				Map<String, Object> valueMap = (Map<String, Object>)frmEditApprovalLine.get("usrLevelApprover"+i);
-				users = (ArrayList<Map<String,String>>)valueMap.get("users");
-				if(users.size() != 0) {
-					Map<String, String> userMap = users.get(0);
-					usrLevelApprover = userMap.get("id");
-					approvalDef.setAprPerson(usrLevelApprover);
+			if(count != 0) {
+				for(int i=1; i<count+1; i++) {
+					AprApprovalDef approvalDef = new AprApprovalDef();
+					txtLevelName = (String)frmEditApprovalLine.get("txtLevelName"+i);
+					selLevelApproverType = (String)frmEditApprovalLine.get("selLevelApproverType"+i);
+					txtMeanTimeDays = (String)frmEditApprovalLine.get("txtMeanTimeDays"+i);
+					txtMeanTimeHours = (String)frmEditApprovalLine.get("txtMeanTimeHours"+i);
+					txtMeanTimeMinutes = (String)frmEditApprovalLine.get("txtMeanTimeMinutes"+i);
+					int dueDate = (Integer.parseInt(txtMeanTimeDays) * 24 * 60) + (Integer.parseInt(txtMeanTimeHours) * 60) + Integer.parseInt(txtMeanTimeMinutes);
+					dueDateString = dueDate + "";
+					Map<String, Object> valueMap = (Map<String, Object>)frmEditApprovalLine.get("usrLevelApprover"+i);
+					users = (ArrayList<Map<String,String>>)valueMap.get("users");
+					if(users.size() != 0) {
+						Map<String, String> userMap = users.get(0);
+						usrLevelApprover = userMap.get("id");
+						approvalDef.setAprPerson(usrLevelApprover);
+					}
+					approvalDef.setAprName(txtLevelName);
+					approvalDef.setType(selLevelApproverType);
+					approvalDef.setDueDate(dueDateString);
+					approvalDefList.add(approvalDef);
 				}
-				approvalDef.setAprName(txtLevelName);
-				approvalDef.setType(selLevelApproverType);
-				approvalDef.setDueDate(dueDateString);
-				approvalDefList.add(approvalDef);
+				AprApprovalDef[] approvalDefs = new AprApprovalDef[approvalDefList.size()];
+				approvalDefList.toArray(approvalDefs);
+				approvalLineDef.setApprovalDefs(approvalDefs);
 			}
-			AprApprovalDef[] approvalDefs = new AprApprovalDef[approvalDefList.size()];
-			approvalDefList.toArray(approvalDefs);
-			approvalLineDef.setApprovalDefs(approvalDefs);
-
 			getAprManager().setApprovalLineDef(userId, approvalLineDef, IManager.LEVEL_ALL);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -1226,20 +1227,14 @@ public class SettingsServiceImpl implements ISettingsService {
 			Iterator<String> itr = keySet.iterator();
 
 			String txtWebServiceName = null;
-			String txtaWebServiceDesc = null;
+			String txtWebServiceDesc = null;
 			String txtWebServiceWSDL = null;
 			String txtWebServiceAddress = null;
 			String selWebServicePort = null;
 			String selWebServiceOperation = null;
-			String txtInputVariableName = null;
-			String txtInputElementName = null;
-			String txtInputElementType = null;
-			String txtReturnVariableName = null;
-			String txtReturnElementName = null;
-			String txtReturnElementType = null;
-			List<String> txtInputVariableNameList = null;
-			List<String> txtInputElementNameList = null;
-			List<String> txtInputElementTypeList = null;
+			String variableName = null;
+			String elementName = null;
+			String elementType = null;
 
 			SwcWebService swcWebService = null;
 			if(!serviceId.equals("")) {
@@ -1249,85 +1244,76 @@ public class SettingsServiceImpl implements ISettingsService {
 				swcWebService.setCompanyId(companyId);
 			}
 
-			List<SwcWebServiceParameter> singleInputWebServiceParameterList = new ArrayList<SwcWebServiceParameter>();
-			List<SwcWebServiceParameter> multiInputWebServiceParameterList = new ArrayList<SwcWebServiceParameter>();
+			int inputCount = 0;
+			int returnCount = 0;
 			while (itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditWebService.get(fieldId);
-				SwcWebServiceParameter swcWebServiceParameter = new SwcWebServiceParameter();
 				if(fieldValue instanceof String) {
-					if(fieldId.startsWith("txtInput")) {
-						if(fieldId.equals("txtInputVariableName")) {
-							txtInputVariableName = (String)frmEditWebService.get("txtInputVariableName");
-							txtInputElementName = (String)frmEditWebService.get("txtInputElementName");
-							txtInputElementType = (String)frmEditWebService.get("txtInputElementType");
-							swcWebServiceParameter.setVariableName(txtInputVariableName);
-							swcWebServiceParameter.setParameterName(txtInputElementName);
-							swcWebServiceParameter.setParameterType(txtInputElementType);
-							swcWebServiceParameter.setType("I");
-							singleInputWebServiceParameterList.add(swcWebServiceParameter);
-						}
-					} else if(fieldId.startsWith("txtReturn")) {
-						if(fieldId.equals("txtReturnVariableName")) {
-							txtReturnVariableName = (String)frmEditWebService.get("txtReturnVariableName");
-							txtReturnElementName = (String)frmEditWebService.get("txtReturnElementName");
-							txtReturnElementType = (String)frmEditWebService.get("txtReturnElementType");
-							swcWebServiceParameter.setVariableName(txtReturnVariableName);
-							swcWebServiceParameter.setParameterName(txtReturnElementName);
-							swcWebServiceParameter.setParameterType(txtReturnElementType);
-							swcWebServiceParameter.setType("O");
-							singleInputWebServiceParameterList.add(swcWebServiceParameter);
-						}
-					} else {
-						if(fieldId.equals("txtWebServiceName")) {
-							txtWebServiceName = (String)frmEditWebService.get("txtWebServiceName");
-							swcWebService.setWebServiceName(txtWebServiceName);
-						} else if(fieldId.equals("txtaWebServiceDesc")) {
-							txtaWebServiceDesc = (String)frmEditWebService.get("txtaWebServiceDesc");
-							swcWebService.setDescription(txtaWebServiceDesc);
-						} else if(fieldId.equals("txtWebServiceWSDL")) {
-							txtWebServiceWSDL = (String)frmEditWebService.get("txtWebServiceWSDL");
-							txtWebServiceAddress = txtWebServiceWSDL.replaceAll("\\?wsdl", "");
-							swcWebService.setWsdlAddress(txtWebServiceWSDL);
-							swcWebService.setWebServiceAddress(txtWebServiceAddress);
-						} else if(fieldId.equals("selWebServicePort")) {
-							selWebServicePort = (String)frmEditWebService.get("selWebServicePort");
-							swcWebService.setPortName(selWebServicePort);
-						} else if(fieldId.equals("selWebServiceOperation")) {
-							selWebServiceOperation = (String)frmEditWebService.get("selWebServiceOperation");
-							swcWebService.setOperationName(selWebServiceOperation);
+					if(fieldId.startsWith("txtInputVariableName")) {
+						if(!((String)fieldValue).equals("")) {
+							inputCount++;
 						}
 					}
-				} else if(fieldValue instanceof ArrayList) {
-					if(fieldId.equals("txtInputVariableName")) {
-						txtInputVariableNameList = (ArrayList<String>)frmEditWebService.get("txtInputVariableName");
-						txtInputElementNameList = (ArrayList<String>)frmEditWebService.get("txtInputElementName");
-						txtInputElementTypeList = (ArrayList<String>)frmEditWebService.get("txtInputElementType");
-						for(int i=0; i<txtInputVariableNameList.size(); i++) {
-							SwcWebServiceParameter inputWebServiceParameter = new SwcWebServiceParameter();
-							String inputVariableName = txtInputVariableNameList.get(i);
-							String inputElementName = txtInputElementNameList.get(i);
-							String inputElementType = txtInputElementTypeList.get(i);
-							if(!inputVariableName.equals("") && !inputElementName.equals("") && !inputElementType.equals("")) {
-								inputWebServiceParameter.setType("I");
-								inputWebServiceParameter.setVariableName(inputVariableName);
-								inputWebServiceParameter.setParameterName(inputElementName);
-								inputWebServiceParameter.setParameterType(inputElementType);
-								multiInputWebServiceParameterList.add(inputWebServiceParameter);
-							}
+					if(fieldId.startsWith("txtReturnVariableName")) {
+						if(!((String)fieldValue).equals("")) {
+							returnCount++;
 						}
-						SwcWebServiceParameter[] multiSwcWebServiceParameters = new SwcWebServiceParameter[multiInputWebServiceParameterList.size()];
-						multiInputWebServiceParameterList.toArray(multiSwcWebServiceParameters);
-						swcWebService.setSwcWebServiceParameters(multiSwcWebServiceParameters);
+					}
+					if(fieldId.equals("txtWebServiceName")) {
+						txtWebServiceName = (String)frmEditWebService.get("txtWebServiceName");
+						swcWebService.setWebServiceName(txtWebServiceName);
+					} else if(fieldId.equals("txtaWebServiceDesc")) {
+						txtWebServiceDesc = (String)frmEditWebService.get("txtaWebServiceDesc");
+						swcWebService.setDescription(txtWebServiceDesc);
+					} else if(fieldId.equals("txtWebServiceWSDL")) {
+						txtWebServiceWSDL = (String)frmEditWebService.get("txtWebServiceWSDL");
+						txtWebServiceAddress = txtWebServiceWSDL.replaceAll("\\?wsdl", "");
+						swcWebService.setWsdlAddress(txtWebServiceWSDL);
+						swcWebService.setWebServiceAddress(txtWebServiceAddress);
+					} else if(fieldId.equals("selWebServicePort")) {
+						selWebServicePort = (String)frmEditWebService.get("selWebServicePort");
+						swcWebService.setPortName(selWebServicePort);
+					} else if(fieldId.equals("selWebServiceOperation")) {
+						selWebServiceOperation = (String)frmEditWebService.get("selWebServiceOperation");
+						swcWebService.setOperationName(selWebServiceOperation);
 					}
 				}
 			}
-			if(singleInputWebServiceParameterList.size() > 0) {
-				SwcWebServiceParameter[] singleSwcWebServiceParameters = new SwcWebServiceParameter[singleInputWebServiceParameterList.size()];
-				singleInputWebServiceParameterList.toArray(singleSwcWebServiceParameters);
-				if(singleInputWebServiceParameterList.size() == 1) swcWebService.addWebWebServiceParameter(singleSwcWebServiceParameters[0]);
-				else swcWebService.setSwcWebServiceParameters(singleSwcWebServiceParameters);
+
+			List<SwcWebServiceParameter> webServiceParameterList = new ArrayList<SwcWebServiceParameter>();
+			if(inputCount != 0) {
+				for(int i=1; i<inputCount+1; i++) {
+					SwcWebServiceParameter webServiceParameter = new SwcWebServiceParameter();
+					variableName = (String)frmEditWebService.get("txtInputVariableName"+i);
+					elementName = (String)frmEditWebService.get("txtInputElementName"+i);
+					elementType = (String)frmEditWebService.get("txtInputElementType"+i);
+					webServiceParameter.setVariableName(variableName);
+					webServiceParameter.setParameterName(elementName);
+					webServiceParameter.setParameterType(elementType);
+					webServiceParameter.setType("I");
+					webServiceParameterList.add(webServiceParameter);
+				}
 			}
+			if(returnCount != 0) {
+				for(int i=1; i<returnCount+1; i++) {
+					SwcWebServiceParameter webServiceParameter = new SwcWebServiceParameter();
+					variableName = (String)frmEditWebService.get("txtReturnVariableName"+i);
+					elementName = (String)frmEditWebService.get("txtReturnElementName"+i);
+					elementType = (String)frmEditWebService.get("txtReturnElementType"+i);
+					webServiceParameter.setVariableName(variableName);
+					webServiceParameter.setParameterName(elementName);
+					webServiceParameter.setParameterType(elementType);
+					webServiceParameter.setType("O");
+					webServiceParameterList.add(webServiceParameter);
+				}
+			}
+			if(webServiceParameterList.size() != 0) {
+				SwcWebServiceParameter[] webServiceParameters = new SwcWebServiceParameter[webServiceParameterList.size()];
+				webServiceParameterList.toArray(webServiceParameters);
+				swcWebService.setSwcWebServiceParameters(webServiceParameters);
+			}
+
 			getSwcManager().setWebService(userId, swcWebService, IManager.LEVEL_ALL);
 		} catch(Exception e) {
 			e.printStackTrace();
