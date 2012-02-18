@@ -1,5 +1,5 @@
 
-#lo_wrap {background: url("../images/lo_wrap_bg.gif") repeat-x scroll 0 0 transparent; height:100%; min-width:970px; min-height:680px; margin:0; z-index:1; position:relative}
+#lo_wrap {background: url("../images/lo_wrap_bg.gif") repeat-x scroll 0 0 transparent; height:100%; min-width:970px; margin:0; z-index:1; position:relative}
 
 /* Header */
 #lo_header {background: url("../images/lo_top_bg.gif") repeat-x scroll 0 0 transparent; height:65px; padding:16px 40px}
