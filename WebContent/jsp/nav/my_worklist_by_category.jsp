@@ -48,12 +48,12 @@
 			// 카테고리가 아닌경우는 업무이니, 클릭하면 업무목록공간으로 이동하게 한다...
 			if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
-				<li class="<%=classType%>">
+				<li class="fvrt_item">
 					
 					<a href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
 						<span class="<%=iconType%>"></span><%=work.getName()%><span></span>
 					</a>
-					<div class="checkOption"><div title="<fmt:message key='nav.works.my_favorite_works'/>" class="js_check_favorite_work ico_faver <%if(((SmartWorkInfo)work).isFavorite()){ %> checked <%} %>" workId="<%=work.getId() %>" ></div></div>
+					<div class="checkOption"><div title="<fmt:message key='nav.works.my_favorite_works'/>" class="js_check_favorite_work ico_fvrt <%if(((SmartWorkInfo)work).isFavorite()){ %> checked <%} %>" workId="<%=work.getId() %>" ></div></div>
 				</li>
 				
 			<%
