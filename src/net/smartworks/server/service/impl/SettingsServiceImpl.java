@@ -1665,15 +1665,9 @@ public class SettingsServiceImpl implements ISettingsService {
 			String txtEditMethod = null;
 			String txtViewMethod = null;
 
-			String txtInputVariableName = null;
-			String txtInputElementName = null;
-			String txtInputElementType = null;
-			String txtReturnVariableName = null;
-			String txtReturnElementName = null;
-			String txtReturnElementType = null;
-			List<String> txtInputVariableNameList = null;
-			List<String> txtInputElementNameList = null;
-			List<String> txtInputElementTypeList = null;
+			String variableName = null;
+			String elementName = null;
+			String elementType = null;
 
 			SwcExternalForm swcExternalForm = null;
 			if(!formId.equals("")) {
@@ -1683,87 +1677,6 @@ public class SettingsServiceImpl implements ISettingsService {
 				swcExternalForm.setCompanyId(companyId);
 			}
 
-			List<SwcWebServiceParameter> singleInputWebServiceParameterList = new ArrayList<SwcWebServiceParameter>();
-			List<SwcWebServiceParameter> multiInputWebServiceParameterList = new ArrayList<SwcWebServiceParameter>();
-			
-			/*while (itr.hasNext()) {
-				String fieldId = (String)itr.next();
-				Object fieldValue = frmEditExternalForm.get(fieldId);
-				SwcWebServiceParameter swcWebServiceParameter = new SwcWebServiceParameter();
-				if(fieldValue instanceof String) {
-					if(fieldId.startsWith("txtInput")) {
-						if(fieldId.equals("txtInputVariableName")) {
-							txtInputVariableName = (String)frmEditWebService.get("txtInputVariableName");
-							txtInputElementName = (String)frmEditWebService.get("txtInputElementName");
-							txtInputElementType = (String)frmEditWebService.get("txtInputElementType");
-							swcWebServiceParameter.setVariableName(txtInputVariableName);
-							swcWebServiceParameter.setParameterName(txtInputElementName);
-							swcWebServiceParameter.setParameterType(txtInputElementType);
-							swcWebServiceParameter.setType("I");
-							singleInputWebServiceParameterList.add(swcWebServiceParameter);
-						}
-					} else if(fieldId.startsWith("txtReturn")) {
-						if(fieldId.equals("txtReturnVariableName")) {
-							txtReturnVariableName = (String)frmEditWebService.get("txtReturnVariableName");
-							txtReturnElementName = (String)frmEditWebService.get("txtReturnElementName");
-							txtReturnElementType = (String)frmEditWebService.get("txtReturnElementType");
-							swcWebServiceParameter.setVariableName(txtReturnVariableName);
-							swcWebServiceParameter.setParameterName(txtReturnElementName);
-							swcWebServiceParameter.setParameterType(txtReturnElementType);
-							swcWebServiceParameter.setType("O");
-							singleInputWebServiceParameterList.add(swcWebServiceParameter);
-						}
-					} else {
-						if(fieldId.equals("txtWebServiceName")) {
-							txtWebServiceName = (String)frmEditWebService.get("txtWebServiceName");
-							swcWebService.setWebServiceName(txtWebServiceName);
-						} else if(fieldId.equals("txtaWebServiceDesc")) {
-							txtaWebServiceDesc = (String)frmEditWebService.get("txtaWebServiceDesc");
-							swcWebService.setDescription(txtaWebServiceDesc);
-						} else if(fieldId.equals("txtWebServiceWSDL")) {
-							txtWebServiceWSDL = (String)frmEditWebService.get("txtWebServiceWSDL");
-							txtWebServiceAddress = txtWebServiceWSDL.replaceAll("\\?wsdl", "");
-							swcWebService.setWsdlAddress(txtWebServiceWSDL);
-							swcWebService.setWebServiceAddress(txtWebServiceAddress);
-						} else if(fieldId.equals("selWebServicePort")) {
-							selWebServicePort = (String)frmEditWebService.get("selWebServicePort");
-							swcWebService.setPortName(selWebServicePort);
-						} else if(fieldId.equals("selWebServiceOperation")) {
-							selWebServiceOperation = (String)frmEditWebService.get("selWebServiceOperation");
-							swcWebService.setOperationName(selWebServiceOperation);
-						}
-					}
-				} else if(fieldValue instanceof ArrayList) {
-					if(fieldId.equals("txtInputVariableName")) {
-						txtInputVariableNameList = (ArrayList<String>)frmEditWebService.get("txtInputVariableName");
-						txtInputElementNameList = (ArrayList<String>)frmEditWebService.get("txtInputElementName");
-						txtInputElementTypeList = (ArrayList<String>)frmEditWebService.get("txtInputElementType");
-						for(int i=0; i<txtInputVariableNameList.size(); i++) {
-							SwcWebServiceParameter inputWebServiceParameter = new SwcWebServiceParameter();
-							String inputVariableName = txtInputVariableNameList.get(i);
-							String inputElementName = txtInputElementNameList.get(i);
-							String inputElementType = txtInputElementTypeList.get(i);
-							if(!inputVariableName.equals("") && !inputElementName.equals("") && !inputElementType.equals("")) {
-								inputWebServiceParameter.setType("I");
-								inputWebServiceParameter.setVariableName(inputVariableName);
-								inputWebServiceParameter.setParameterName(inputElementName);
-								inputWebServiceParameter.setParameterType(inputElementType);
-								multiInputWebServiceParameterList.add(inputWebServiceParameter);
-							}
-						}
-						SwcWebServiceParameter[] multiSwcWebServiceParameters = new SwcWebServiceParameter[multiInputWebServiceParameterList.size()];
-						multiInputWebServiceParameterList.toArray(multiSwcWebServiceParameters);
-						swcWebService.setSwcWebServiceParameters(multiSwcWebServiceParameters);
-					}
-				}
-			}
-			if(singleInputWebServiceParameterList.size() > 0) {
-				SwcWebServiceParameter[] singleSwcWebServiceParameters = new SwcWebServiceParameter[singleInputWebServiceParameterList.size()];
-				singleInputWebServiceParameterList.toArray(singleSwcWebServiceParameters);
-				if(singleInputWebServiceParameterList.size() == 1) swcWebService.addWebWebServiceParameter(singleSwcWebServiceParameters[0]);
-				else swcWebService.setSwcWebServiceParameters(singleSwcWebServiceParameters);
-			}
-			getSwcManager().setWebService(userId, swcWebService, IManager.LEVEL_ALL);*/
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
