@@ -182,7 +182,7 @@ $(function() {
 
 	$('select.js_approval_approver_type').live('change', function(e) {
 		var input = $(e.target);
-		if(input.attr('value') === '2')
+		if(input.attr('value') === '3')
 			input.next('.js_type_userField').show();
 		else
 			input.next('.js_type_userField').hide();
@@ -549,7 +549,16 @@ $(function() {
 
 	$('a.js_add_variable_item').live('click', function(e){
 		var input = $(e.target);
-		var newItem = input.parents('tr:first').next('tr').clone();
+		var hiddenItem = input.parents('tr:first').next('tr');
+		var varCount = parseInt(hiddenItem.attr('varCount')) + 1;
+		hiddenItem.attr('varCount', varCount);
+		var newItem = hiddenItem.clone();
+		var variableName = newItem.find('input.variableName');
+		variableName.attr('name', variableName.attr('name')+varCount);
+		var elementName = newItem.find('input.elementName');
+		elementName.attr('name', elementName.attr('name')+varCount);
+		var elementType = newItem.find('select.elementType');
+		elementType.attr('name', elementType.attr('name')+varCount);
 		newItem.show();
 		var itemTable = input.parents('table:first');
 		newItem.appendTo(itemTable);
