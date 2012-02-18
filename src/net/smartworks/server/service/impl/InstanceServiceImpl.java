@@ -391,6 +391,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			TaskWorkCond taskCond = new TaskWorkCond();
 			taskCond.setTskAssignee(user.getId());
 			taskCond.setLastInstanceDate(new LocalDate());
+			taskCond.setPrcStatus(PrcProcessInst.PROCESSINSTSTATUS_RUNNING);
 			
 			long totalTaskSize = SwManagerFactory.getInstance().getWorkListManager().getTaskWorkListSize(user.getId(), taskCond);
 			
@@ -2356,19 +2357,22 @@ public class InstanceServiceImpl implements IInstanceService {
 			}
 			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
 				return null;
-			
-			
-			Date tempFromDate = new Date();
-			Date tempToDate = new Date();
-			tempFromDate.setTime(date.getLocalTime());
-			tempToDate.setTime(date.getLocalTime());
-			
-			tempFromDate = DateUtil.toFromDate(tempFromDate, DateUtil.CYCLE_DAY);
-			tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
-			
-			tempToDate = DateUtil.toToDate(tempToDate, DateUtil.CYCLE_DAY);
-			tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
-			
+
+			Date tempFromDate = null;
+			Date tempToDate = null;
+			if (date != null) {
+				tempFromDate = new Date();
+				tempToDate = new Date();
+
+				tempFromDate.setTime(date.getLocalTime());
+				tempToDate.setTime(date.getLocalTime());
+				
+				tempFromDate = DateUtil.toFromDate(tempFromDate, DateUtil.CYCLE_DAY);
+				tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
+				
+				tempToDate = DateUtil.toToDate(tempToDate, DateUtil.CYCLE_DAY);
+				tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+			}
 			
 			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);
 			if (tasks == null)
@@ -2486,17 +2490,21 @@ public class InstanceServiceImpl implements IInstanceService {
 			}
 			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
 				return null;
-
-			Date tempFromDate = new Date();
-			Date tempToDate = new Date();
-			tempFromDate.setTime(fromDate.getLocalTime());
-			tempToDate.setTime(toDate.getLocalTime());
 			
-			tempFromDate = DateUtil.toFromDate(tempFromDate, DateUtil.CYCLE_DAY);
-			tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
-			
-			tempToDate = DateUtil.toToDate(tempToDate, DateUtil.CYCLE_DAY);
-			tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+			Date tempFromDate = null;
+			Date tempToDate = null;
+			if (fromDate != null) {
+				tempFromDate = new Date();
+				tempFromDate.setTime(fromDate.getLocalTime());
+				tempFromDate = DateUtil.toFromDate(tempFromDate, DateUtil.CYCLE_DAY);
+				tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
+			} 
+			if (toDate != null) {
+				tempToDate = new Date();
+				tempToDate.setTime(toDate.getLocalTime());
+				tempToDate = DateUtil.toToDate(tempToDate, DateUtil.CYCLE_DAY);
+				tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+			}
 			
 			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);
 
@@ -2704,16 +2712,22 @@ public class InstanceServiceImpl implements IInstanceService {
 				return null;
 			
 
-			Date tempFromDate = new Date();
-			Date tempToDate = new Date();
-			tempFromDate.setTime(month.getLocalTime());
-			tempToDate.setTime(month.getLocalTime());
-			
-			tempFromDate = DateUtil.toFromDate(tempFromDate, DateUtil.CYCLE_MONTH);
-			tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
-			
-			tempToDate = DateUtil.toToDate(tempToDate, DateUtil.CYCLE_MONTH);
-			tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+			Date tempFromDate = null;
+			Date tempToDate = null;
+			if (month != null) {
+				tempFromDate = new Date();
+				tempToDate = new Date();
+
+				tempFromDate.setTime(month.getLocalTime());
+				tempToDate.setTime(month.getLocalTime());
+				
+				tempFromDate = DateUtil.toFromDate(tempFromDate, DateUtil.CYCLE_MONTH);
+				tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
+				
+				tempToDate = DateUtil.toToDate(tempToDate, DateUtil.CYCLE_MONTH);
+				tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+				
+			}
 			
 			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);	
 			
@@ -2776,14 +2790,18 @@ public class InstanceServiceImpl implements IInstanceService {
 			if (CommonUtil.isEmpty(contextId) || CommonUtil.isEmpty(spaceId) || CommonUtil.isEmpty(companyId))
 				return null;
 			
-			Date tempFromDate = new Date();
-			Date tempToDate = new Date();
-			tempFromDate.setTime(fromDate.getLocalTime());
-			tempToDate.setTime(toDate.getLocalTime());
-			
-			tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
-			tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
-			
+			Date tempFromDate = null;
+			Date tempToDate = null;
+			if (fromDate != null) {
+				tempFromDate = new Date();
+				tempFromDate.setTime(fromDate.getLocalTime());
+				tempFromDate.setTime(tempFromDate.getTime() - TimeZone.getDefault().getRawOffset());
+			}
+			if (toDate != null) {
+				tempToDate = new Date();
+				tempToDate.setTime(toDate.getLocalTime());
+				tempToDate.setTime(tempToDate.getTime() - TimeZone.getDefault().getRawOffset());
+			}
 			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);
 
 			return (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);

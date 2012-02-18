@@ -66,5 +66,25 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<beans:property name="sessionFactory" ref="sessionFactory" />
 	</beans:bean>
-
+	<beans:bean id="smartTransactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<beans:property name="transactionManager" ref="transactionManager" />
+		<beans:property name="transactionAttributes">
+			<beans:props>
+				<beans:prop key="set*">PROPAGATION_REQUIRED</beans:prop>
+				<beans:prop key="create*">PROPAGATION_REQUIRED</beans:prop>
+				<beans:prop key="update*">PROPAGATION_REQUIRED</beans:prop>
+				<beans:prop key="delete*">PROPAGATION_REQUIRED</beans:prop>
+				<beans:prop key="check*">PROPAGATION_REQUIRED</beans:prop>
+				<beans:prop key="save*">PROPAGATION_REQUIRED</beans:prop>
+				<beans:prop key="do*">PROPAGATION_REQUIRED</beans:prop>
+				<beans:prop key="deploy">PROPAGATION_REQUIRED</beans:prop>
+				<beans:prop key="undeploy">PROPAGATION_REQUIRED</beans:prop>
+				<beans:prop key="get*">PROPAGATION_REQUIRED,readOnly</beans:prop>
+				<beans:prop key="find*">PROPAGATION_REQUIRED,readOnly</beans:prop>
+				<beans:prop key="retrieve*">PROPAGATION_REQUIRED,readOnly</beans:prop>
+				<beans:prop key="search*">PROPAGATION_REQUIRED,readOnly</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
 </beans:beans>

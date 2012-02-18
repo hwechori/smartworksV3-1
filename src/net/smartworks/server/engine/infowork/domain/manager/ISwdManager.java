@@ -35,6 +35,7 @@ public interface ISwdManager extends IManager {
 	public SwdDomain getDomain(String user, String objId, String level) throws SwdException;
 	public SwdDomain getDomain(String user, SwdDomainCond cond, String level) throws SwdException;
 	public void setDomain(String user, SwdDomain obj, String level) throws SwdException;
+	public void mergeDomain(String user, SwdDomain obj, String level) throws SwdException;
 	public void removeDomain(String user, String objId) throws SwdException;
 	public long getDomainSize(String user, SwdDomainCond cond) throws SwdException;
 	public SwdDomain[] getDomains(String user, SwdDomainCond cond, String level) throws SwdException;

@@ -1,4 +1,4 @@
-<%@ page contentType="text/xml; charset=UTF-8" %>
+<%@ page language="java" contentType="text/xml; charset=UTF-8" pageEncoding="UTF-8"%>  
 <%@page import="net.smartworks.server.engine.resource.util.lang.ExceptionUtil"%>
 <%@page import="net.smartworks.server.engine.resource.model.IFormModelList"%>
 <%@page import="net.smartworks.server.engine.resource.model.enums.FormFieldEnum"%>
@@ -50,7 +50,6 @@
 <%@page import="org.springframework.util.StringUtils"%>
 <%@page import="java.util.HashSet"%>
 <%@page import="java.util.ArrayList"%>
-
 <%!public int getCount(String pageCountStr) {
 		if(pageCountStr == null || pageCountStr.equals("") || pageCountStr.equals("null"))
 			return 1;
@@ -574,12 +573,10 @@
 	
 		// 프로세스 XML 저장
 		} else if(method.equals("saveProcessContent")) {
-	
 			String processId = request.getParameter("processId");
-			String processContent = request.getParameter("processContent");
-			
-			System.out.println("processId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+processId);
-			System.out.println("processContent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+processContent);
+			//String processContent = request.getParameter("processContent");
+			String processContent = new String(request.getParameter("processContent").getBytes("ISO-8859-1"), "UTF-8");
+
 			// 프로세스 validation 체크
 			ProcessModelHelper.load(processContent);
 			rscMgr.updateProcessContent(userId, processId, 1, processContent);
@@ -692,9 +689,8 @@
 		// 폼 저장
 		} else if(method.equals("saveFormContent")) {
 			String formId = request.getParameter("formId");
-			String formContent = request.getParameter("formContent");
-			System.out.println("formId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formId);
-			System.out.println("formContent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formContent);
+			//String formContent = request.getParameter("formContent");
+			String formContent = new String(request.getParameter("formContent").getBytes("ISO-8859-1"), "UTF-8");
 			rscMgr.updateFormContent(userId, formId, 1, formContent);
 			buffer.append("<Result status=\"OK\"/>");
 
@@ -938,7 +934,9 @@
 			String type = CommonUtil.toNull(request.getParameter("type"));
 			if (type == null)
 				type = IFormModel.TYPE_NONE;
-			String formName = request.getParameter("formName");
+			//String formName = request.getParameter("formName");
+			String formName = new String(request.getParameter("formName").getBytes("ISO-8859-1"), "UTF-8");
+			
 			IFormModel formModel = rscMgr.createForm(userId, packageId, 1, type, formName);
 			buffer.append(convert(formModel));
 			
