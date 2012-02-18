@@ -115,27 +115,27 @@
 				switch (taskInstance.getStatus()) {
 				// 인스턴스가 현재 진행중인 경우..
 				case Instance.STATUS_RUNNING:
-					statusImage = "images/ic_state_ing.jpg";
+					statusImage = "images/ic_status_running.jpg";
 					statusTitle = "content.status.running";
 					break;
 				// 인스턴스가 지연진행중인 경우....
 				case Instance.STATUS_DELAYED_RUNNING:
-					statusImage = "images/ic_state_ing.jpg";
+					statusImage = "images/ic_status_d_running.jpg";
 					statusTitle = "content.status.delayed_running";
 					break;
 				// 인스턴스가 반려된 경우...
 				case Instance.STATUS_RETURNED:
-					statusImage = "images/ic_state_ing.jpg";
+					statusImage = "images/ic_status_returned.jpg";
 					statusTitle = "content.status.returned";
 					break;
 				// 기타 잘못되어 상태가 없는 경우..
 				default:
-					statusImage = "images/ic_state_ing.jpg";
-					statusTitle = "content.status.running";
+					statusImage = "images/ic_status_not_yet.jpg";
+					statusTitle = "content.status.not_yet";
 				}
 			// 인스턴스가 할당태스크가 아닌경우....
 			} else {
-				statusImage = "images/ic_state_ing.jpg";
+				statusImage = "images/ic_status_running.jpg";
 				statusTitle = "content.status.running";
 			}
 %>

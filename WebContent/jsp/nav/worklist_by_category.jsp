@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.															-->
 <!-- Created Date	: 2011.9.													 				-->
 
+<%@page import="net.smartworks.model.work.info.WorkCategoryInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.model.work.info.WorkInfo"%>
@@ -31,13 +32,13 @@
 			workContext = ISmartWorks.CONTEXT_PREFIX_BUILDER_SPACE + work.getId();
 			targetContent = "tab_workbench.sw";
 			if (work.getType() == SmartWork.TYPE_PROCESS) {
-				iconType = "ico_pworks";
+				iconType = ((SmartWorkInfo)work).isRunning() ? "ico_pworks" : "ico_pworks_off";
 			} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
-				iconType = "ico_iworks";
+				iconType = ((SmartWorkInfo)work).isRunning() ? "ico_iworks" : "ico_iworks_off";
 			} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
-				iconType = "ico_sworks";
+				iconType = ((SmartWorkInfo)work).isRunning() ? "ico_sworks" : "ico_sworks_off";
 			} else if (work.getType() == WorkCategory.TYPE_CATEGORY) {
-				iconType = "ico_gworks";
+				iconType = ((WorkCategoryInfo)work).isRunning() ? "ico_gworks" : "ico_gworks_off";
 				targetContent = "worklist_by_category.sw";
 			}
 			

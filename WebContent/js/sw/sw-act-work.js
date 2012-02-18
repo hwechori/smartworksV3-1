@@ -98,11 +98,13 @@ $(function() {
 			var input = $(event.target).parents('li:first').children('a');
 			var formContent = $('#form_works').find('div.js_form_content');
 			var workId = input.attr('workId');
+			var formId = input.attr('formId');
 			new SmartWorks.GridLayout({
 				target : formContent,
 				mode : "edit",
 				requiredOnly : "true",
 				workId : workId,
+				formId : formId,
 				onSuccess : function(){
 					$('#form_works').show();
 					smartPop.closeProgress();					
