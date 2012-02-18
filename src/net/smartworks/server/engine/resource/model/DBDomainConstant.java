@@ -61,6 +61,14 @@ public class DBDomainConstant {
 	 */
 	public static final String COLUMNNAME_MODIFIER = "modifier";
 	
+	public static final String COLUMNNAME_WORKSPACEID = "workSpaceId";
+	
+	public static final String COLUMNNAME_WORKSPACETYPE = "workSpaceType";
+	
+	public static final String COLUMNNAME_ACCESSLEVEL = "accessLevel";//1
+	
+	public static final String COLUMNNAME_ACCESSVALUE = "accessValue";//4000
+	
 	/**
 	 * 도메인 정의의 테이블 이름
 	 */
@@ -145,10 +153,22 @@ public class DBDomainConstant {
 	 * 아이디 칼럼의 기본 사이즈
 	 */
 	public static final int COLUMNSIZE_ID = 50;	
+	
+	public static final int COLUMNSIZE_1 = 1;
+	
+	public static final int COLUMNSIZE_4000 = 4000;
+	
+	public static final int COLUMNSIZE_100 = 100;	
 	/**
 	 * 테이블 칼럼의 기본 컬럼 데이터 타입
 	 */
 	public static final String COLUMNDATATYPE_DEFAULT = new StringBuffer("VARCHAR(").append(String.valueOf(COLUMNSIZE_DEFAULT)).append(")").toString();
+	
+	public static final String COLUMNDATATYPE_1 = new StringBuffer("VARCHAR(").append(String.valueOf(COLUMNSIZE_1)).append(")").toString();
+	
+	public static final String COLUMNDATATYPE_100 = new StringBuffer("VARCHAR(").append(String.valueOf(COLUMNSIZE_100)).append(")").toString();
+	
+	public static final String COLUMNDATATYPE_4000 = new StringBuffer("VARCHAR(").append(String.valueOf(COLUMNSIZE_4000)).append(")").toString();
 	/**
 	 * 테이블 아이디 칼럼 타입
 	 */

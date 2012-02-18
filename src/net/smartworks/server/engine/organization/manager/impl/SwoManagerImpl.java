@@ -2368,32 +2368,37 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 	@Override
 	public String getTypeByWorkspaceId(String workSpaceId) throws SwoException {
 
-		StringBuffer buff = new StringBuffer();
-
-		buff.append(" select type  ");
-		buff.append(" from  ");
-		buff.append(" ( ");
-		buff.append(" 	select 'user' as type ");
-		buff.append(" 		, usr.id, usr.name ");
-		buff.append(" 	from sworguser usr ");
-		buff.append(" 	union ");
-		buff.append(" 	select 'department' as type ");
-		buff.append(" 		, dept.id, dept.name ");
-		buff.append(" 	from sworgdept dept ");
-		buff.append(" 	union ");
-		buff.append(" 	select 'group' as type ");
-		buff.append(" 		, grp.id, grp.name ");
-		buff.append(" 	from sworggroup grp ");
-		buff.append(" ) workspaceinfo ");
-		buff.append(" where workspaceinfo.id = :id ");
-
-		Query query = this.getSession().createSQLQuery(buff.toString());
-
-		query.setString("id", workSpaceId);
-
-		String type = (String)query.uniqueResult();
-
-		return type;
+		try {
+			StringBuffer buff = new StringBuffer();
+	
+			buff.append(" select type  ");
+			buff.append(" from  ");
+			buff.append(" ( ");
+			buff.append(" 	select 'user' as type ");
+			buff.append(" 		, usr.id, usr.name ");
+			buff.append(" 	from sworguser usr ");
+			buff.append(" 	union ");
+			buff.append(" 	select 'department' as type ");
+			buff.append(" 		, dept.id, dept.name ");
+			buff.append(" 	from sworgdept dept ");
+			buff.append(" 	union ");
+			buff.append(" 	select 'group' as type ");
+			buff.append(" 		, grp.id, grp.name ");
+			buff.append(" 	from sworggroup grp ");
+			buff.append(" ) workspaceinfo ");
+			buff.append(" where workspaceinfo.id = :id ");
+	
+			Query query = this.getSession().createSQLQuery(buff.toString());
+	
+			query.setString("id", workSpaceId);
+	
+			String type = (String)query.uniqueResult();
+	
+			return type;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 
 	}
 
