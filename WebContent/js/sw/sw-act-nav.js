@@ -277,7 +277,7 @@ $(function() {
 				smartPop.closeProgress();											
 			}
 		});		
-		return true;
+		return false;
 	});
 
 	$('.js_add_new_group').live('click', function(e){
