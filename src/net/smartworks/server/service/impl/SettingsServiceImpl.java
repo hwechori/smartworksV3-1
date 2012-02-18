@@ -57,7 +57,6 @@ import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.process.approval.manager.IAprManager;
 import net.smartworks.server.engine.process.approval.model.AprApprovalDef;
-import net.smartworks.server.engine.process.approval.model.AprApprovalDefCond;
 import net.smartworks.server.engine.process.approval.model.AprApprovalLineDef;
 import net.smartworks.server.engine.process.approval.model.AprApprovalLineDefCond;
 import net.smartworks.server.service.ICommunityService;
@@ -934,70 +933,92 @@ public class SettingsServiceImpl implements ISettingsService {
 	@Override
 	public void setApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
-/*		try{
+		try{
 			User cUser = SmartUtil.getCurrentUser();
 			String userId = cUser.getId();
 			String companyId = cUser.getCompanyId();
 
-			Map<String, Object> frmEditCompanyEvent = (Map<String, Object>)requestBody.get("frmEditCompanyEvent");
-			String eventId = (String)requestBody.get("lineId");
+			Map<String, Object> frmEditApprovalLine = (Map<String, Object>)requestBody.get("frmEditApprovalLine");
+			String approvalLineId = (String)requestBody.get("approvalLineId");
 
-			Set<String> keySet = frmEditCompanyEvent.keySet();
+			Set<String> keySet = frmEditApprovalLine.keySet();
 			Iterator<String> itr = keySet.iterator();
 
-			String txtEventName = null;
-			Date datStartDate = null;
-			Date datEndDate = null;
+			String txtApprovalLineName = null;
+			String txtaApprovalLineDesc = null;
+			String selApprovalLineLevel = null;
+			String txtLevelName = null;
+			String selLevelApproverType = null;
+			String txtMeanTimeDays = null;
+			String txtMeanTimeHours = null;
+			String txtMeanTimeMinutes = null;
+			String dueDateString = null;
+			String usrLevelApprover = null;
 			List<Map<String, String>> users = null;
 
-			SwcEventDay swcEventDay = null;
-			if(!eventId.equals("")) {
-				swcEventDay = getSwcManager().getEventday(userId, eventId, IManager.LEVEL_ALL);
+			AprApprovalLineDef approvalLineDef = null;
+			if(!approvalLineId.equals("")) {
+				approvalLineDef = getAprManager().getApprovalLineDef(userId, approvalLineId, IManager.LEVEL_ALL);
 			} else {
-				swcEventDay = new SwcEventDay();
-				swcEventDay.setType(CompanyEvent.EVENT_TYPE_EVENTDAY);
-				swcEventDay.setCompanyId(companyId);
+				approvalLineDef = new AprApprovalLineDef();
+				approvalLineDef.setCompanyId(companyId);
 			}
 
+			int count = 0;
 			while (itr.hasNext()) {
 				String fieldId = (String)itr.next();
-				Object fieldValue = frmEditCompanyEvent.get(fieldId);
-				if(fieldValue instanceof LinkedHashMap) {
-					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
-					if(fieldId.equals("usrRelatedUsers"))
-						users = (ArrayList<Map<String,String>>)valueMap.get("users");
-
-					if(!CommonUtil.isEmpty(users)) {
-						String relatedId = "";
-						String symbol = ";";
-						for(int i=0; i < users.subList(0, users.size()).size(); i++) {
-							Map<String, String> user = users.get(i);
-							relatedId += user.get("id") + symbol;
+				Object fieldValue = frmEditApprovalLine.get(fieldId);
+				if(fieldValue instanceof String) {
+					if(fieldId.startsWith("txtLevelName")) {
+						if(!((String)fieldValue).equals("")) {
+							count++;
 						}
-						swcEventDay.setReltdPerson(relatedId);
 					}
-				} else if(fieldValue instanceof String) {	
-					if(fieldId.equals("txtEventName")) {
-						txtEventName = (String)frmEditCompanyEvent.get("txtEventName");
-						swcEventDay.setName(txtEventName);
-					} else if(fieldId.equals("chkIsHoliday")) {
-						swcEventDay.setType(CompanyEvent.EVENT_TYPE_HOLIDAY);
-					} else if(fieldId.equals("datStartDate")) {
-						datStartDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datStartDate")).getTime());
-						swcEventDay.setStartDay(datStartDate);
-					} else if(fieldId.equals("datEndDate")) {
-						datEndDate = new LocalDate(LocalDate.convertLocalDateStringToLocalDate((String)frmEditCompanyEvent.get("datEndDate")).getTime());
-						swcEventDay.setEndDay(datEndDate);
+					if(fieldId.equals("txtApprovalLineName")) {
+						txtApprovalLineName = (String)frmEditApprovalLine.get("txtApprovalLineName");
+						approvalLineDef.setAprLineName(txtApprovalLineName);
+					} else if(fieldId.equals("txtaApprovalLineDesc")) {
+						txtaApprovalLineDesc = (String)frmEditApprovalLine.get("txtaApprovalLineDesc");
+						approvalLineDef.setAprDescription(txtaApprovalLineDesc);
+					} else if(fieldId.equals("selApprovalLineLevel")) {
+						selApprovalLineLevel = (String)frmEditApprovalLine.get("selApprovalLineLevel");
+						approvalLineDef.setAprLevel(selApprovalLineLevel);
 					}
 				}
 			}
-			getSwcManager().setEventday(userId, swcEventDay, IManager.LEVEL_ALL);
+
+			List<AprApprovalDef> approvalDefList = new ArrayList<AprApprovalDef>();
+			for(int i=1; i<count+1; i++) {
+				AprApprovalDef approvalDef = new AprApprovalDef();
+				txtLevelName = (String)frmEditApprovalLine.get("txtLevelName"+i);
+				selLevelApproverType = (String)frmEditApprovalLine.get("selLevelApproverType"+i);
+				txtMeanTimeDays = (String)frmEditApprovalLine.get("txtMeanTimeDays"+i);
+				txtMeanTimeHours = (String)frmEditApprovalLine.get("txtMeanTimeHours"+i);
+				txtMeanTimeMinutes = (String)frmEditApprovalLine.get("txtMeanTimeMinutes"+i);
+				int dueDate = (Integer.parseInt(txtMeanTimeDays) * 24 * 60) + (Integer.parseInt(txtMeanTimeHours) * 60) + Integer.parseInt(txtMeanTimeMinutes);
+				dueDateString = dueDate + "";
+				Map<String, Object> valueMap = (Map<String, Object>)frmEditApprovalLine.get("usrLevelApprover"+i);
+				users = (ArrayList<Map<String,String>>)valueMap.get("users");
+				if(users.size() != 0) {
+					Map<String, String> userMap = users.get(0);
+					usrLevelApprover = userMap.get("id");
+					approvalDef.setAprPerson(usrLevelApprover);
+				}
+				approvalDef.setAprName(txtLevelName);
+				approvalDef.setType(selLevelApproverType);
+				approvalDef.setDueDate(dueDateString);
+				approvalDefList.add(approvalDef);
+			}
+			AprApprovalDef[] approvalDefs = new AprApprovalDef[approvalDefList.size()];
+			approvalDefList.toArray(approvalDefs);
+			approvalLineDef.setApprovalDefs(approvalDefs);
+
+			getAprManager().setApprovalLineDef(userId, approvalLineDef, IManager.LEVEL_ALL);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}*/
 	}
-	
+
 	@Override
 	public void removeApprovalLine(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
