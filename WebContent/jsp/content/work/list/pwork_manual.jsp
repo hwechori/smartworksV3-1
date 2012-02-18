@@ -40,51 +40,54 @@
 	<div class="border">
 	
 		<!-- 업무 정의 -->
-		<div class=""><%if(!SmartUtil.isBlankObject(work.getDesc())) {%><%=work.getDesc()%><%}else{ %><fmt:message key="common.message.no_work_desc" /><%} %></div>
+		<!-- <div class=""><%if(!SmartUtil.isBlankObject(work.getDesc())) {%><%=work.getDesc()%><%}else{ %><fmt:message key="common.message.no_work_desc" /><%} %></div> -->
 		<!-- 업무 정의 //-->
 	
 		<!-- 프로세스 영역 -->
-        <div class="proce_section">
-        
-	        <!-- 방향 Prev -->
-	        <div class="float_left_nowidth"><a href="" class="js_manual_tasks_left" style="display:none"><img class="proc_btn_prev"></a></div>
+		<div class="define_space padding0" style="height:59px">
 		
-			<!--  태스크 시작 -->
-			<div class="proce_space js_manual_tasks_holder" style="overflow:hidden;width:92%">
-				<div class="js_manual_tasks" style="white-space:nowrap;position:absolute;">
-					<div class="proc_task_yet float_left_nowidth js_manual_task_placeholder" style="display:none"><span class="pcenter"></span></div>
-					<%
-					if (tasks != null) {
-						int count = 0;
-						for (SmartTaskInfo task : tasks) {
-							count++;
-							UserInfo assignedUser = task.getAssignedUser();
-							String assigningName = task.getAssigningName();
-					%>
-							<!-- 태스크 -->
-							<div class="proc_task_yet float_left_nowidth padding_r10 js_manual_task">
-								<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
-									<span class="pstart"></span> 
-									<span class="pcenter">
-										<div class="float_left_nowidth"><img align="bottom" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>"></div>
-										<div class="noti_in"><span><%=count%>) <%=task.getName()%></span></div>
-										<div><span class="t_date"><%=task.getAssigningName()%></span></div>
-									</span> 
-									<span class="pend"></span> 
-								</a>
-							</div>
-							<!-- 태스크 //-->
-					<%
+		 <!-- 방향 Prev -->
+		       <a href="" class="js_manual_tasks_left" style="display::block"><div class="proc_btn_prev float_left"></div></a>
+			<!-- 방향 Prev //-->
+			
+	        <div class="proce_section">
+	        
+				<!--  태스크 시작 -->
+				<div class="proce_space js_manual_tasks_holder" style="overflow:hidden; width:92%">
+					<div class="js_manual_tasks">
+						<ul><li class="proc_task not_yet js_manual_task_placeholder" style="display:none"></li></ul>
+						
+						<ul>
+						<%
+						if (tasks != null) {
+							int count = 0;
+							for (SmartTaskInfo task : tasks) {
+								count++;
+								UserInfo assignedUser = task.getAssignedUser();
+								String assigningName = task.getAssigningName();
+						%>
+								<!-- 태스크 -->
+								<li class="proc_task not_yet js_manual_task">
+									<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
+											<img class="float_left" src="<%if (assignedUser != null) {%><%=assignedUser.getMidPicture()%><%}%>">
+											<div class="noti_in_s"><%=count%>) <%=task.getName()%>
+												<div class="t_date"><%=task.getAssigningName()%></div>
+											</div>
+									</a>
+								</li>
+								<!-- 태스크 //-->
+						<%
+							}
 						}
-					}
-					%>
+						%>
+						</ul>
+					</div>
 				</div>
+				<!--  태스크 시작// -->
 			</div>
-			<!--  태스크 시작// -->
-	
 			<!-- 방향 Next -->
-		    <div class="float_right"><a href="" class="js_manual_tasks_right" style="display:none"><img class="proc_btn_next"></a></div>
-	
+		   <a href="" class="js_manual_tasks_right" style="display:none"><div class="proc_btn_next float_right" style="top:-97px"></div></a>
+		  	<!-- 방향 Next //-->  
 		</div>
 		<!--프로세스 영역//-->
 
@@ -95,7 +98,7 @@
 				SmartFormInfo form = tasks[i].getForm();
 				if(form!=null){
 		%>
-					<div class="js_task_manual padding_t5" id="<%=tasks[i].getId() %>" <%if(i!=0){ %>style="display:none"<%} %>>
+					<div class="js_task_manual" id="<%=tasks[i].getId() %>" <%if(i!=0){ %>style="display:none"<%} %>>
 						<div class="up_point posit_default"></div>
 						<div class="form_wrap up up_padding">
 							<div class="area">

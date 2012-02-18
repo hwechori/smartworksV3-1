@@ -3,7 +3,7 @@
 
 
 /* 본문- 타이틀 아이콘*/
-.body_titl { padding:0 15px 10px; overflow: hidden;} /* 본문 페이지 타이틀*/
+.body_titl { padding:0 15px 10px;} /* 본문 페이지 타이틀*/
 .body_titl .title {font-size: 16px; font-weight: bold; height: 29px; float:left}  /* 타이틀 우측으로 아이콘이 있을때 */
 .body_titl .title_noico {font-size: 16px; font-weight: bold; height:29px}  /* 타이틀 우측으로 아이콘이 없을때 */
 .body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding: 28px 0 4px 0; text-align: right} /* 타이틀 우측으로 버튼 */
@@ -23,7 +23,7 @@
 
 
 /* 본문 컨텐츠 */
-.define_space {padding: 0 25px; overflow: hidden;} /* 상하 여백이 필요 없을떄*/
+.define_space {padding: 0 25px; overflow: hidden;} /* 상하 여백이 필요 없을때 */
 .contents_space {padding: 0 25px 10px; overflow: hidden;}
 .contents_space .det_title, .replay .det_title {padding:3px 0; overflow:hidden;} /* 타이틀 */
 .contents_space .area {padding:10px;}
@@ -51,7 +51,7 @@
 .replay {margin:10px 15px 0;} /* 상세페이지에 댓글,업무,메모 입력 영역*/
 .list_replay {margin:0;} /* 댓글 목록 */
 .replay_input {margin-top:10px;} /* 댓글 입력 영역 */
-.list_replay li, .replay li, .space_section li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:2px 0;}
+.list_replay li, .replay li, .space_section li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:5px 0;}
 .list_replay .end, .replay .end {border-bottom: none; vertical-align: middle;}
 .repl_tinfo {background: url("../images/header_nico.png") no-repeat 4px -267px; padding:0 0 0 20px;}
 .repl_write {background: url("../images/header_nico.png") no-repeat 0 -411px; padding: 2px 0 1px 17px; font-size: 11px; color: #23579E;  margin-left: 5px;}
@@ -123,60 +123,24 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 	
 	
 /* 프로세스 */
-.proce_section { position:relative; height:47px;}
-.proce_space {height:47px; line-height:15px; margin:0 30px; position: absolute;}
-.proc_btn_prev {background: url("../images/proc_bg.png") no-repeat -70px 0 transparent; width:11px; height:19px; position:absolute; margin-top:14px;}
+.proce_section { position:relative; padding:0 25px;}
+.proce_space {line-height:15px}
+.proce_space li { float:left}
+.proc_btn_prev {background: url("../images/proc_bg.png") no-repeat -70px 0 transparent; width:11px; height:19px; position: relative; margin-top:21px;}
 a .proc_btn_prev:hover {background: url("../images/proc_bg.png") no-repeat -70px -28px transparent;}
-.proc_btn_next {background: url("../images/proc_bg.png") no-repeat -129px 0 transparent; width:11px; height:19px; margin-top: 14px; position: absolute; right:10px;}
+.proc_btn_next {background: url("../images/proc_bg.png") no-repeat -129px 0 transparent; width:11px; height:19px; top:-39px; position: relative; display: inline-block;}
 a .proc_btn_next:hover {background: url("../images/proc_bg.png") no-repeat -129px -28px; transparent;}
 
-.proc_arr_next {background: url("../images/proc_bg.png") no-repeat -86px -82px transparent; width:23px; height:10px; margin-top:19px;}
-.proc_start_compl {background: url("../images/proc_bg.png") no-repeat -13px -13px transparent; 
-					height: 29px; padding-top: 10px; text-align: center; vertical-align: middle; width: 39px;}
-.proc_start_compl .current { font-weight:bold;}
-.proc_start_yet {}
+.proc_arr_next {background: url("../images/proc_bg.png") no-repeat -86px -82px transparent; width:23px; height:10px; margin:26px 5px 0 0}
+.proc_start_compl {background: url("../images/proc_bg.png") no-repeat -11px -10px transparent; height:32px; padding-top: 15px; text-align: center; vertical-align: middle; width:44px; margin: 7px 5px 0 0;}
 
-.proc_task_completed {display:inline-block;}
-.proc_task_completed .pstart {background: url("../images/prc_task_coml_l.gif") no-repeat 0 0 transparent;
-			 float:left; height:47px; width:5px;}
-.proc_task_completed .pcenter {background: url("../images/prc_task_coml_c.gif") repeat-x 0 0 transparent;
-    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center; min-width:113px;}
-.proc_task_completed .pend {background: url("../images/prc_task_coml_r.gif") no-repeat 0 0 transparent;
-    		float:left; height:47px; width:5px;}
-			
-.proc_task_yet {display:inline-block;}
-.proc_task_yet .pstart {background: url("../images/prc_task_yet_l.gif") no-repeat 0 0 transparent;
-			 float:left; height:47px; width:5px;}
-.proc_task_yet .pcenter {background: url("../images/prc_task_yet_c.gif") repeat scroll 0 0 transparent;
-    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
-.proc_task_yet .pend {background: url("../images/prc_task_yet_r.gif") repeat scroll 0 0 transparent;
-    		float:left; height:47px; width:5px;}
-			
-.proc_task_returned {display:inline-block;}
-.proc_task_returned .pstart {background: url("../images/prc_task_rturn_l.gif") no-repeat 0 0 transparent;
-			 float:left; height:47px; width:5px;}
-.proc_task_returned .pcenter {background: url("../images/prc_task_rturn_c.gif") repeat-x 0 0 transparent;
-    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
-.proc_task_returned .pend {background: url("../images/prc_task_rturn_r.gif") no-repeat 0 0 transparent;
-    		float:left; height:47px; width:5px;}
-			
-.proc_task_running {display:inline-block;}
-.proc_task_running .pstart {background: url("../images/prc_task_ing_l.gif") no-repeat 0 0 transparent;
-			 float:left; height:47px; width:5px;}
-.proc_task_running .pcenter {background: url("../images/prc_task_ing_c.gif") repeat-x 0 0 transparent;
-    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
-.proc_task_running .pend {background: url("../images/prc_task_ing_r.gif") no-repeat 0 0 transparent;
-    		float:left; height:47px; width:5px;}
-			
-
-.proc_task_delayed {display:inline-block;}
-.proc_task_delayed .pstart {background: url("../images/prc_task_dlay_l.gif") no-repeat 0 0 transparent;
-			 float:left; height:47px; width:5px;}
-.proc_task_delayed .pcenter {background: url("../images/prc_task_dlay_c.gif") repeat-x 0 0 transparent;
-    		float:left; color:#454545; height:39px; padding-top:8px; text-align:center;}
-.proc_task_delayed .pend {background: url("../images/prc_task_dlay_r.gif") no-repeat 0 0 transparent;
-    		float:left; height:47px; width:5px;}
-			
+.proc_task {border: 1px solid #d2d2d2; border-radius: 6px; box-shadow: 1px 1px 5px #C7C7C7 inset; overflow: hidden; padding: 7px; width:150px; margin-right:5px; height:43px}
+.proc_task.completed {background-color: #e4e4e4} /* 완료 */			
+.proc_task.not_yet {background-color: #cfe2f3} /* 미처리 */
+.proc_task.returned {background-color: #dac8e2}	/* 반려 */	
+.proc_task.running {background-color: #daf3cc} /* 진행중 */
+.proc_task.delayed {background-color: #f8dede} /* 지연 */
+.proc_task.entrust {background-color: #ceeeee} /* 위임 */
 			
 /* 프로세스 포인트 위치 */
 .posit_default {left: 58px; position: relative; top: 1px; margin-top:5px; z-index: 20;}
@@ -334,13 +298,13 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .btn_s_del {background: url("../images/bt_delete.gif") 0 0; height:21px; width:40px; display:inline-block;}
 
 /* Icon in builder Tab*/
-.btn_wo_adm {background: url("../images/body_icon.png") no-repeat -149px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
+.btn_wo_adm {background: url("../images/body_icon.png") no-repeat -149px -485px transparent; height:12px;  width:16px; display: inline-block}
 .current .btn_wo_adm {background-position:-149px -501px}
-.btn_set_adm {background: url("../images/body_icon.png") no-repeat -185px -485px transparent; height:12px;  width:17px; display: inline-block; padding-right:5px}
+.btn_set_adm {background: url("../images/body_icon.png") no-repeat -185px -485px transparent; height:12px;  width:17px; display: inline-block}
 .current .btn_set_adm {background-position:-185px -501px}
-.btn_app_shar {background: url("../images/body_icon.png") no-repeat -226px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
+.btn_app_shar {background: url("../images/body_icon.png") no-repeat -226px -485px transparent; height:12px;  width:16px; display: inline-block}
 .current .btn_app_shar {background-position:-226px -501px}
-.btn_app_shar_go {background: url("../images/body_icon.png") no-repeat -277px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
+.btn_app_shar_go {background: url("../images/body_icon.png") no-repeat -277px -485px transparent; height:12px;  width:16px; display: inline-block}
 
 .borderGrayBox form,.borderGrayBox1 form{vertical-align:middle}
 .borderGrayBox .srch_wsize,.borderGrayBox1 .srch_wsize{margin:0}

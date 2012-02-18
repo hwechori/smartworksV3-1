@@ -77,11 +77,11 @@
 	            
 				<!-- 전자결재, 업무전달 버튼들 -->
 				<div class="txt_btn">
-	                <div class="po_right">
-	                	<a href=""><img src="images/btn_print.gif" title="<fmt:message key='common.button.print'/>" /></a>
+	                <div class="po_right ico_print">
+	                	<a href="" title="<fmt:message key='common.button.print'/>"></a>
 	                </div>
-	                <div class="po_right">
-	                	<a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a>
+	                <div class="po_right ico_mail">
+	                	<a href="" title="<fmt:message key='common.button.email'/>"></a>
 	                </div>
 	                <div class="po_right"><a href="" class="js_view_instance_diagram"><fmt:message key="common.button.view_instance_diagram"/>▼</a></div>
 	                <div class="po_right" style="display:none"><a href="" class="js_close_instance_diagram"><fmt:message key="common.button.close_instance_diagram"/>▼</a></div>
@@ -92,66 +92,65 @@
 			</div>
 			<!-- 타이틀 -->
 
-			<div class="define_space js_process_instance_viewer" style="display:none;height:512px;"></div>
+			<div class="define_space js_process_instance_viewer" style="display:none; height:512px;"></div>
 					 		            
 			<!-- 프로세스 영역 -->
-			<div class="define_space">
+			<div class="define_space" style="height:59px">
+			
+				<!-- 방향 Prev -->
+	        		<a href="" class="js_instance_tasks_left" style="display:block"><div class="proc_btn_prev float_left"></div></a>
+	        	<!-- 방향 Prev //-->
+	        	
 				<div class="proce_section">
-			    
-			        <!-- 방향 Prev -->
-	        		<div class="float_left_nowidth"><a href="" class="js_instance_tasks_left" style="display:none"><img class="proc_btn_prev"></a></div>
-			        
-			        <div class="proc_start_compl float_left_nowidth padding_r10"> 시작 </div>
-			        <div class="proc_arr_next float_left_nowidth padding_r10"></div>
+			        <div class="proc_start_compl float_left"> 시작 </div>
+			        <div class="proc_arr_next float_left"></div>
 			        
 			        <!-- 태스크 시작-->
-			        <div class="proce_space js_instance_tasks_holder" style="overflow:hidden;width:92%;backgroud-color:yellow;">			        
-						<div class="js_instance_tasks" style="white-space:nowrap;position:absolute;">
-							<div class="proc_task_yet float_left_nowidth js_instance_task_placeholder" style="display:none"><span class="pcenter"></span></div>
+			        <div class="proce_space js_instance_tasks_holder">			        
+						<div class="js_instance_tasks">
+							<ul><li class="proc_task not_yet js_instance_task_placeholder" style="display:none"></li></ul>
+							
+							<ul>
 				        	<%
 				        	if(!SmartUtil.isBlankObject(taskHistories)){	
 				        		for(int i=0; i<taskHistories.length; i++){
 				        			TaskInstanceInfo task = taskHistories[i];
-				        			String statusClass = "proc_task_yet";
+				        			String statusClass = "proc_task not_yet";
 				        			String formMode = (task.getAssignee().getId().equals(cUser.getId()) 
 				        								&& ( 	task.getStatus()==TaskInstance.STATUS_RUNNING
 				        									 || task.getStatus()==TaskInstance.STATUS_DELAYED_RUNNING) ) ? "edit" : "view";
 				        			boolean isSelectable = ((task.getStatus()==TaskInstance.STATUS_RUNNING||task.getStatus()==TaskInstance.STATUS_DELAYED_RUNNING)
 				        										&& !task.getAssignee().getId().equals(cUser.getId())) ? false : true;
 				        			if(task.getStatus() == TaskInstance.STATUS_RETURNED)
-				        				statusClass = "proc_task_returned";
+				        				statusClass = "proc_task returned";
 				        			else if(task.getStatus() == TaskInstance.STATUS_RUNNING)
-				        				statusClass = "proc_task_running";
+				        				statusClass = "proc_task running";
 				        			else if(task.getStatus() == TaskInstance.STATUS_DELAYED_RUNNING)
-				        				statusClass = "proc_task_delayed";
+				        				statusClass = "proc_task delayed";
 				        			else if(task.getStatus() == TaskInstance.STATUS_COMPLETED)
-				        				statusClass = "proc_task_completed";
+				        				statusClass = "proc_task completed";
 				        			else
-				        				statusClass = "proc_task_not_yet";				        				
+				        				statusClass = "proc_task not_yet";				        				
 				        		
 				        	%>
 			            			<!-- 태스크 --> 
-						            <div class="<%=statusClass %> float_left_nowidth padding_r10 js_instance_task">
+						            <li class="<%=statusClass %> js_instance_task">
 						                <a <%if(isSelectable){ %> href="" class="js_select_task_instance" <%} %> formId="<%=task.getFormId() %>" taskInstId="<%=task.getId()%>" formMode=<%=formMode %>>
-							                <span class="pstart"></span>
-							                <span class="pcenter">
 							                    <!-- task 정보 -->
-							                    <div class="float_left_nowidth"><img align="bottom" src="<%=task.getOwner().getMinPicture()%>" class="profile_size_s"></div>
-							                    <div class="noti_in">
-								                    <span><%=i+1%>) <%=task.getName() %></span>
+							                    <img src="<%=task.getOwner().getMinPicture()%>" class="noti_pic profile_size_s">
+							                    <div class="noti_in_s">
+								                    <%=i+1%>) <%=task.getName() %>
 								                    <div class="t_date"><%=task.getLastModifiedDate().toLocalString() %></div>
 							                    </div>
 							                    <!-- task 정보 //-->
-							                </span>
-							                <span class="pend"></span>
 						                </a>
-						            </div>
+						            </li>
 				            		<!-- 태스크 //--> 
 			            			<%
 			            			if(i<taskHistories.length-1){
 			            			%>
 							            <!--화살표-->
-							            <li class="proc_arr_next float_left_nowidth padding_r10"></li>
+							            <li class="proc_arr_next float_left"></li>
 							            <!--화살표-->
 							        <%
 							        }
@@ -160,20 +159,23 @@
 				        		}
 				        	}
 			            	%>
+			            	</ul>
 			        	</div>
 			        </div>
 			        <!-- 태스크 시작//-->
 			        
-			        <!-- 방향 Next -->
-		    		<div class="float_right"><a href="" class="js_instance_tasks_right" style="display:none"><img class="proc_btn_next"></a></div>
-			
 				</div>
+				
+				<!-- 방향 Next -->
+	    		<a href="" class="js_instance_tasks_right" style="display:block"><div class="proc_btn_next float_right"></div></a>
+	    		<!-- 방향 Next //-->
 			</div>
 			<!--프로세스 영역//-->
 				
 			<!-- 상세보기 컨텐츠 -->
-			<div class="contents_space">				            
-		       <div class="list_contents js_form_content">      
+			<div class="contents_space">
+				<div class="up_point posit_default"></div>
+				<div class="form_wrap up up_padding js_form_content">
 		       </div>
 			</div>
 	

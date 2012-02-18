@@ -196,7 +196,8 @@ public class SettingsServiceImpl implements ISettingsService {
 			e.printStackTrace();			
 		}
 	}
-	
+
+	int previousPageSize = 0;
 	@Override
 	public RecordList getWorkHourPolicyList(RequestParams params) throws Exception {
 
@@ -224,11 +225,31 @@ public class SettingsServiceImpl implements ISettingsService {
 			else
 				totalPages = (int)totalCount / pageSize + 1;
 
-			if (currentPage > 0)
-				swcWorkHourCond.setPageNo(currentPage-1);
+			int result = 0;
+
+			if(params.getPagingAction() != 0) {
+				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+					result = (((currentPage - 1) / 10) * 10) + 11;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+					result = totalPages;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+					result = ((currentPage - 1) / 10) * 10;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+					result = 1;
+				}
+				currentPage = result;
+			}
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
 
 			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
 				currentPage = 1;
+
+			if (currentPage > 0)
+				swcWorkHourCond.setPageNo(currentPage-1);
 
 			swcWorkHourCond.setPageSize(pageSize);
 
@@ -531,11 +552,31 @@ public class SettingsServiceImpl implements ISettingsService {
 			else
 				totalPages = (int)totalCount / pageSize + 1;
 
-			if (currentPage > 0)
-				swcEventDayCond.setPageNo(currentPage-1);
+			int result = 0;
+
+			if(params.getPagingAction() != 0) {
+				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+					result = (((currentPage - 1) / 10) * 10) + 11;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+					result = totalPages;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+					result = ((currentPage - 1) / 10) * 10;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+					result = 1;
+				}
+				currentPage = result;
+			}
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
 
 			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
 				currentPage = 1;
+
+			if (currentPage > 0)
+				swcEventDayCond.setPageNo(currentPage-1);
 
 			swcEventDayCond.setPageSize(pageSize);
 
@@ -739,15 +780,35 @@ public class SettingsServiceImpl implements ISettingsService {
 			else
 				totalPages = (int)totalCount / pageSize + 1;
 
-			if (currentPage > 0)
-				approvalLineDefCond.setPageNo(currentPage-1);
+			int result = 0;
+
+			if(params.getPagingAction() != 0) {
+				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+					result = (((currentPage - 1) / 10) * 10) + 11;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+					result = totalPages;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+					result = ((currentPage - 1) / 10) * 10;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+					result = 1;
+				}
+				currentPage = result;
+			}
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
 
 			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
 				currentPage = 1;
 
+			if (currentPage > 0)
+				approvalLineDefCond.setPageNo(currentPage-1);
+
 			approvalLineDefCond.setPageSize(pageSize);
 
-			//swcWebServiceCond.setOrders(new Order[]{new Order("webServiceName", true)});
+			approvalLineDefCond.setOrders(new Order[]{new Order("modificationDate", false)});
 			AprApprovalLineDef[] approvalLineDefs = getAprManager().getApprovalLineDefs(userId, approvalLineDefCond, IManager.LEVEL_ALL);
 
 			if(approvalLineDefs != null) {
@@ -978,11 +1039,31 @@ public class SettingsServiceImpl implements ISettingsService {
 			else
 				totalPages = (int)totalCount / pageSize + 1;
 
-			if (currentPage > 0)
-				swcWebServiceCond.setPageNo(currentPage-1);
+			int result = 0;
+
+			if(params.getPagingAction() != 0) {
+				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+					result = (((currentPage - 1) / 10) * 10) + 11;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+					result = totalPages;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+					result = ((currentPage - 1) / 10) * 10;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+					result = 1;
+				}
+				currentPage = result;
+			}
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
 
 			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
 				currentPage = 1;
+
+			if (currentPage > 0)
+				swcWebServiceCond.setPageNo(currentPage-1);
 
 			swcWebServiceCond.setPageSize(pageSize);
 
@@ -1147,32 +1228,34 @@ public class SettingsServiceImpl implements ISettingsService {
 				swcWebService.setCompanyId(companyId);
 			}
 
-			SwcWebServiceParameter swcWebServiceParameter = new SwcWebServiceParameter();
-
-			List<SwcWebServiceParameter> swcWebServiceParameterList = new ArrayList<SwcWebServiceParameter>();
+			List<SwcWebServiceParameter> singleInputWebServiceParameterList = new ArrayList<SwcWebServiceParameter>();
+			List<SwcWebServiceParameter> multiInputWebServiceParameterList = new ArrayList<SwcWebServiceParameter>();
 			while (itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditWebService.get(fieldId);
+				SwcWebServiceParameter swcWebServiceParameter = new SwcWebServiceParameter();
 				if(fieldValue instanceof String) {
 					if(fieldId.startsWith("txtInput")) {
 						if(fieldId.equals("txtInputVariableName")) {
 							txtInputVariableName = (String)frmEditWebService.get("txtInputVariableName");
 							txtInputElementName = (String)frmEditWebService.get("txtInputElementName");
 							txtInputElementType = (String)frmEditWebService.get("txtInputElementType");
-							swcWebServiceParameter.setName(txtInputVariableName);
+							swcWebServiceParameter.setVariableName(txtInputVariableName);
 							swcWebServiceParameter.setParameterName(txtInputElementName);
 							swcWebServiceParameter.setParameterType(txtInputElementType);
 							swcWebServiceParameter.setType("I");
+							singleInputWebServiceParameterList.add(swcWebServiceParameter);
 						}
 					} else if(fieldId.startsWith("txtReturn")) {
 						if(fieldId.equals("txtReturnVariableName")) {
 							txtReturnVariableName = (String)frmEditWebService.get("txtReturnVariableName");
 							txtReturnElementName = (String)frmEditWebService.get("txtReturnElementName");
 							txtReturnElementType = (String)frmEditWebService.get("txtReturnElementType");
-							swcWebServiceParameter.setName(txtReturnVariableName);
+							swcWebServiceParameter.setVariableName(txtReturnVariableName);
 							swcWebServiceParameter.setParameterName(txtReturnElementName);
 							swcWebServiceParameter.setParameterType(txtReturnElementType);
 							swcWebServiceParameter.setType("O");
+							singleInputWebServiceParameterList.add(swcWebServiceParameter);
 						}
 					} else {
 						if(fieldId.equals("txtWebServiceName")) {
@@ -1206,19 +1289,24 @@ public class SettingsServiceImpl implements ISettingsService {
 							String inputElementType = txtInputElementTypeList.get(i);
 							if(!inputVariableName.equals("") && !inputElementName.equals("") && !inputElementType.equals("")) {
 								inputWebServiceParameter.setType("I");
-								inputWebServiceParameter.setName(inputVariableName);
+								inputWebServiceParameter.setVariableName(inputVariableName);
 								inputWebServiceParameter.setParameterName(inputElementName);
 								inputWebServiceParameter.setParameterType(inputElementType);
-								swcWebServiceParameterList.add(swcWebServiceParameter);
+								multiInputWebServiceParameterList.add(inputWebServiceParameter);
 							}
 						}
-						SwcWebServiceParameter[] multiSwcWebServiceParameters = new SwcWebServiceParameter[swcWebServiceParameterList.size()];
-						swcWebServiceParameterList.toArray(multiSwcWebServiceParameters);
+						SwcWebServiceParameter[] multiSwcWebServiceParameters = new SwcWebServiceParameter[multiInputWebServiceParameterList.size()];
+						multiInputWebServiceParameterList.toArray(multiSwcWebServiceParameters);
 						swcWebService.setSwcWebServiceParameters(multiSwcWebServiceParameters);
 					}
 				}
 			}
-
+			if(singleInputWebServiceParameterList.size() > 0) {
+				SwcWebServiceParameter[] singleSwcWebServiceParameters = new SwcWebServiceParameter[singleInputWebServiceParameterList.size()];
+				singleInputWebServiceParameterList.toArray(singleSwcWebServiceParameters);
+				if(singleInputWebServiceParameterList.size() == 1) swcWebService.addWebWebServiceParameter(singleSwcWebServiceParameters[0]);
+				else swcWebService.setSwcWebServiceParameters(singleSwcWebServiceParameters);
+			}
 			getSwcManager().setWebService(userId, swcWebService, IManager.LEVEL_ALL);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -1367,11 +1455,31 @@ public class SettingsServiceImpl implements ISettingsService {
 			else
 				totalPages = (int)totalCount / pageSize + 1;
 
-			if (currentPage > 0)
-				swcExternalFormCond.setPageNo(currentPage-1);
+			int result = 0;
+
+			if(params.getPagingAction() != 0) {
+				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+					result = (((currentPage - 1) / 10) * 10) + 11;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+					result = totalPages;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+					result = ((currentPage - 1) / 10) * 10;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+					result = 1;
+				}
+				currentPage = result;
+			}
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
 
 			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
 				currentPage = 1;
+
+			if (currentPage > 0)
+				swcExternalFormCond.setPageNo(currentPage-1);
 
 			swcExternalFormCond.setPageSize(pageSize);
 
@@ -1536,9 +1644,15 @@ public class SettingsServiceImpl implements ISettingsService {
 			String txtEditMethod = null;
 			String txtViewMethod = null;
 
-			List<Map<String, String>> editVariables = null;
-			List<Map<String, String>> viewVariables = null;
-			List<Map<String, String>> returnVariables = null;
+			String txtInputVariableName = null;
+			String txtInputElementName = null;
+			String txtInputElementType = null;
+			String txtReturnVariableName = null;
+			String txtReturnElementName = null;
+			String txtReturnElementType = null;
+			List<String> txtInputVariableNameList = null;
+			List<String> txtInputElementNameList = null;
+			List<String> txtInputElementTypeList = null;
 
 			SwcExternalForm swcExternalForm = null;
 			if(!formId.equals("")) {
@@ -1548,53 +1662,91 @@ public class SettingsServiceImpl implements ISettingsService {
 				swcExternalForm.setCompanyId(companyId);
 			}
 
-			while (itr.hasNext()) {
+			List<SwcWebServiceParameter> singleInputWebServiceParameterList = new ArrayList<SwcWebServiceParameter>();
+			List<SwcWebServiceParameter> multiInputWebServiceParameterList = new ArrayList<SwcWebServiceParameter>();
+			
+			/*while (itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditExternalForm.get(fieldId);
-				if(fieldValue instanceof LinkedHashMap) {
-					/*Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
-					if(fieldId.equals("variables")) {
-						inputVariables = (ArrayList<Map<String,String>>)valueMap.get("inputVariables");
-						returnVariables = (ArrayList<Map<String,String>>)valueMap.get("returnVariables");
-					}
-					if(!CommonUtil.isEmpty(inputVariables)) {
-						SwcWebServiceParameter[] swcWebServiceParameters = new SwcWebServiceParameter[inputVariables.size()];
-						for(int i=0; i < inputVariables.subList(0, inputVariables.size()).size(); i++) {
-							Map<String, String> inputVariablesMap = inputVariables.get(i);
-							SwcWebServiceParameter swcWebServiceParameter = new SwcWebServiceParameter();
-							String variableName = inputVariablesMap.get("variableName");
-							String elementName = inputVariablesMap.get("elementName");
-							String elementType = inputVariablesMap.get("elementType");
-							swcWebServiceParameter.setVariableName(variableName);
-							swcWebServiceParameter.setParameterName(elementName);
-							swcWebServiceParameter.setParameterType(elementType);
-							swcWebServiceParameters[i] = swcWebServiceParameter;
+				SwcWebServiceParameter swcWebServiceParameter = new SwcWebServiceParameter();
+				if(fieldValue instanceof String) {
+					if(fieldId.startsWith("txtInput")) {
+						if(fieldId.equals("txtInputVariableName")) {
+							txtInputVariableName = (String)frmEditWebService.get("txtInputVariableName");
+							txtInputElementName = (String)frmEditWebService.get("txtInputElementName");
+							txtInputElementType = (String)frmEditWebService.get("txtInputElementType");
+							swcWebServiceParameter.setVariableName(txtInputVariableName);
+							swcWebServiceParameter.setParameterName(txtInputElementName);
+							swcWebServiceParameter.setParameterType(txtInputElementType);
+							swcWebServiceParameter.setType("I");
+							singleInputWebServiceParameterList.add(swcWebServiceParameter);
 						}
-						swcWebService.setSwcWebServiceParameters(swcWebServiceParameters);
-					}*/
-				} else if(fieldValue instanceof String) {	
-					if(fieldId.equals("txtExternalFormName")) {
-						txtExternalFormName = (String)frmEditExternalForm.get("txtExternalFormName");
-						swcExternalForm.setWebAppServiceName(txtExternalFormName);
-					} else if(fieldId.equals("txtExternalFormDesc")) {
-						txtExternalFormDesc = (String)frmEditExternalForm.get("txtExternalFormDesc");
-						swcExternalForm.setDescription(txtExternalFormDesc);
-					} else if(fieldId.equals("txtExternalFormURL")) {
-						txtExternalFormURL = (String)frmEditExternalForm.get("txtExternalFormURL");
-						swcExternalForm.setWebAppServiceUrl(txtExternalFormURL);
-					} else if(fieldId.equals("txtEditMethod")) {
-						txtEditMethod = (String)frmEditExternalForm.get("txtEditMethod");
-						swcExternalForm.setModifyMethod(txtEditMethod);
-					} else if(fieldId.equals("txtViewMethod")) {
-						txtViewMethod = (String)frmEditExternalForm.get("txtViewMethod");
-						swcExternalForm.setViewMethod(txtViewMethod);
+					} else if(fieldId.startsWith("txtReturn")) {
+						if(fieldId.equals("txtReturnVariableName")) {
+							txtReturnVariableName = (String)frmEditWebService.get("txtReturnVariableName");
+							txtReturnElementName = (String)frmEditWebService.get("txtReturnElementName");
+							txtReturnElementType = (String)frmEditWebService.get("txtReturnElementType");
+							swcWebServiceParameter.setVariableName(txtReturnVariableName);
+							swcWebServiceParameter.setParameterName(txtReturnElementName);
+							swcWebServiceParameter.setParameterType(txtReturnElementType);
+							swcWebServiceParameter.setType("O");
+							singleInputWebServiceParameterList.add(swcWebServiceParameter);
+						}
+					} else {
+						if(fieldId.equals("txtWebServiceName")) {
+							txtWebServiceName = (String)frmEditWebService.get("txtWebServiceName");
+							swcWebService.setWebServiceName(txtWebServiceName);
+						} else if(fieldId.equals("txtaWebServiceDesc")) {
+							txtaWebServiceDesc = (String)frmEditWebService.get("txtaWebServiceDesc");
+							swcWebService.setDescription(txtaWebServiceDesc);
+						} else if(fieldId.equals("txtWebServiceWSDL")) {
+							txtWebServiceWSDL = (String)frmEditWebService.get("txtWebServiceWSDL");
+							txtWebServiceAddress = txtWebServiceWSDL.replaceAll("\\?wsdl", "");
+							swcWebService.setWsdlAddress(txtWebServiceWSDL);
+							swcWebService.setWebServiceAddress(txtWebServiceAddress);
+						} else if(fieldId.equals("selWebServicePort")) {
+							selWebServicePort = (String)frmEditWebService.get("selWebServicePort");
+							swcWebService.setPortName(selWebServicePort);
+						} else if(fieldId.equals("selWebServiceOperation")) {
+							selWebServiceOperation = (String)frmEditWebService.get("selWebServiceOperation");
+							swcWebService.setOperationName(selWebServiceOperation);
+						}
+					}
+				} else if(fieldValue instanceof ArrayList) {
+					if(fieldId.equals("txtInputVariableName")) {
+						txtInputVariableNameList = (ArrayList<String>)frmEditWebService.get("txtInputVariableName");
+						txtInputElementNameList = (ArrayList<String>)frmEditWebService.get("txtInputElementName");
+						txtInputElementTypeList = (ArrayList<String>)frmEditWebService.get("txtInputElementType");
+						for(int i=0; i<txtInputVariableNameList.size(); i++) {
+							SwcWebServiceParameter inputWebServiceParameter = new SwcWebServiceParameter();
+							String inputVariableName = txtInputVariableNameList.get(i);
+							String inputElementName = txtInputElementNameList.get(i);
+							String inputElementType = txtInputElementTypeList.get(i);
+							if(!inputVariableName.equals("") && !inputElementName.equals("") && !inputElementType.equals("")) {
+								inputWebServiceParameter.setType("I");
+								inputWebServiceParameter.setVariableName(inputVariableName);
+								inputWebServiceParameter.setParameterName(inputElementName);
+								inputWebServiceParameter.setParameterType(inputElementType);
+								multiInputWebServiceParameterList.add(inputWebServiceParameter);
+							}
+						}
+						SwcWebServiceParameter[] multiSwcWebServiceParameters = new SwcWebServiceParameter[multiInputWebServiceParameterList.size()];
+						multiInputWebServiceParameterList.toArray(multiSwcWebServiceParameters);
+						swcWebService.setSwcWebServiceParameters(multiSwcWebServiceParameters);
 					}
 				}
 			}
-			getSwcManager().setExternalForm(userId, swcExternalForm, IManager.LEVEL_ALL);
+			if(singleInputWebServiceParameterList.size() > 0) {
+				SwcWebServiceParameter[] singleSwcWebServiceParameters = new SwcWebServiceParameter[singleInputWebServiceParameterList.size()];
+				singleInputWebServiceParameterList.toArray(singleSwcWebServiceParameters);
+				if(singleInputWebServiceParameterList.size() == 1) swcWebService.addWebWebServiceParameter(singleSwcWebServiceParameters[0]);
+				else swcWebService.setSwcWebServiceParameters(singleSwcWebServiceParameters);
+			}
+			getSwcManager().setWebService(userId, swcWebService, IManager.LEVEL_ALL);*/
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	@Override

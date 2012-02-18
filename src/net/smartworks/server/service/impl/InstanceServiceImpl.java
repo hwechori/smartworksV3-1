@@ -1608,9 +1608,6 @@ public class InstanceServiceImpl implements IInstanceService {
 				currentPage = result;
 			}
 
-			if (currentPage > 0)
-				swdRecordCond.setPageNo(currentPage-1);
-
 			if(previousPageSize != pageSize)
 				currentPage = 1;
 
@@ -1618,6 +1615,9 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
 				currentPage = 1;
+
+			if (currentPage > 0)
+				swdRecordCond.setPageNo(currentPage-1);
 
 			swdRecordCond.setPageSize(pageSize);
 
