@@ -167,7 +167,6 @@
 						<a class="js_view_work_manual" href="pwork_manual.sw?workId=<%=workId%>"><fmt:message key="common.button.view.work_manual" />▼</a>
 						<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
 					</div>
- 					<span class="po_left"><a href="">프로세스 다이어그램보기▼</a></span>
 					<span class="js_progress_span"></span>
 				</div>
 				<!-- 버튼 영역 //-->

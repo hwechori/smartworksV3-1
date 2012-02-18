@@ -130,22 +130,27 @@
 				switch (instanceInfo.getStatus()) {
 				// 인스턴스가 현재 진행중인 경우..
 				case Instance.STATUS_RUNNING:
-					statusImage = "images/ic_state_ing.jpg";
+					statusImage = "images/ic_status_running.jpg";
 					statusTitle = "content.status.running";
 					break;
 				// 인스턴스가 지연진행중인 경우....
 				case Instance.STATUS_DELAYED_RUNNING:
-					statusImage = "images/ic_state_d_running.jpg";
+					statusImage = "images/ic_status_d_running.jpg";
 					statusTitle = "content.status.delayed_running";
 					break;
 				// 인스턴스가 반려된 경우...
 				case Instance.STATUS_RETURNED:
-					statusImage = "images/ic_state_returned.jpg";
+					statusImage = "images/ic_status_returned.jpg";
 					statusTitle = "content.status.returned";
+					break;
+				// 인스턴스가 완료된 경우...
+				case Instance.STATUS_COMPLETED:
+					statusImage = "images/ic_status_completed.jpg";
+					statusTitle = "content.status.completed";
 					break;
 				// 기타 잘못되어 상태가 없는 경우..
 				default:
-					statusImage = "images/ic_state_not_yet.jpg";
+					statusImage = "images/ic_status_not_yet.jpg";
 					statusTitle = "content.status.not_yet";
 				}
 			%>
@@ -153,7 +158,7 @@
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space">
 							<div class="noti_pic js_content_pwork_space">
-								<img src="<%=statusImage%>" title="<%=statusTitle%>"/>
+								<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>"/>
 							</div>
 						</a>
 					</td>

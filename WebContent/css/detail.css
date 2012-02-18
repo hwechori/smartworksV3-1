@@ -3,7 +3,7 @@
 
 
 /* 본문- 타이틀 아이콘*/
-.body_titl { padding:0 15px 10px;} /* 본문 페이지 타이틀*/
+.body_titl { padding:0 15px 10px; overflow: hidden;} /* 본문 페이지 타이틀*/
 .body_titl .title {font-size: 16px; font-weight: bold; height: 29px; float:left}  /* 타이틀 우측으로 아이콘이 있을때 */
 .body_titl .title_noico {font-size: 16px; font-weight: bold; height:29px}  /* 타이틀 우측으로 아이콘이 없을때 */
 .body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding: 28px 0 4px 0; text-align: right} /* 타이틀 우측으로 버튼 */
@@ -298,13 +298,13 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .btn_s_del {background: url("../images/bt_delete.gif") 0 0; height:21px; width:40px; display:inline-block;}
 
 /* Icon in builder Tab*/
-.btn_wo_adm {background: url("../images/body_icon.png") no-repeat -149px -485px transparent; height:12px;  width:16px; display: inline-block}
+.btn_wo_adm {background: url("../images/body_icon.png") no-repeat -149px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
 .current .btn_wo_adm {background-position:-149px -501px}
-.btn_set_adm {background: url("../images/body_icon.png") no-repeat -185px -485px transparent; height:12px;  width:17px; display: inline-block}
+.btn_set_adm {background: url("../images/body_icon.png") no-repeat -185px -485px transparent; height:12px;  width:17px; display: inline-block; padding-right:5px}
 .current .btn_set_adm {background-position:-185px -501px}
-.btn_app_shar {background: url("../images/body_icon.png") no-repeat -226px -485px transparent; height:12px;  width:16px; display: inline-block}
+.btn_app_shar {background: url("../images/body_icon.png") no-repeat -226px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
 .current .btn_app_shar {background-position:-226px -501px}
-.btn_app_shar_go {background: url("../images/body_icon.png") no-repeat -277px -485px transparent; height:12px;  width:16px; display: inline-block}
+.btn_app_shar_go {background: url("../images/body_icon.png") no-repeat -277px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
 
 .borderGrayBox form,.borderGrayBox1 form{vertical-align:middle}
 .borderGrayBox .srch_wsize,.borderGrayBox1 .srch_wsize{margin:0}

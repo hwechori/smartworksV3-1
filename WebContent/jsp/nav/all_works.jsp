@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.											 -->
 <!-- Created Date	: 2011.9.													 -->
 
+<%@page import="net.smartworks.model.work.info.WorkCategoryInfo"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.model.work.info.WorkInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
@@ -22,11 +23,12 @@
 	<%
 	if(workCategories != null){
 		for (WorkInfo workCategory : workCategories) {
+			String iconType = ((WorkCategoryInfo)workCategory).isRunning() ? "ico_cworks" : "ico_cworks_off";
 	%>
 			<!--  *** js_drill_down : sw_act_work.js에서 이클래스의 클릭이벤트를 받아서 트리구조르 드릴다운할수 있게 한다.. -->
 			<li class="js_drill_down">
 				<a href="worklist_by_category.sw" categoryId="<%=workCategory.getId()%>">
-					<span class="ico_cworks"></span>
+					<span class="<%=iconType%>"></span>
 					<span class="nav_subtitl_area"><%=workCategory.getName()%></span>
 				</a>
 				<div class="menu_2dep" style="display: none"></div>
