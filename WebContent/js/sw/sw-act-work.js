@@ -154,6 +154,12 @@ $(function() {
 			target.hide();
 	});
 	
+	$('select.js_select_work_space').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_upload_buttons_page').find('input[name="selWorkSpaceType"]');
+		target.attr('value', input.find('option:selected').attr('workSpaceType'));
+	});
+	
 	$('a.js_create_new_work').live('click', function(e) {
 		var input = $(e.target);
 		var target = input.parents('.js_iwork_list_page').find('div.js_new_work_form');
