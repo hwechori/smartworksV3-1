@@ -61,7 +61,10 @@
 			<!-- Header //-->
 	
 			<!-- Contents -->
-			<div id="lo_contents"><img src="images/lo_center_img.jpg" border="0" /></div>
+			<div id="lo_contents">
+			<div><img src="images/login_logoTitle.gif" border="0" /></div>
+			<div><img src="images/login_img.gif" border="0" /></div>
+			</div>
 			<!-- End of Contents -->
 	
 			<!-- Footer -->
