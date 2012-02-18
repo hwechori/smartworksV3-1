@@ -364,6 +364,42 @@ public class SmartUtil {
 		return (str == null || str.length()==0) ? true : false;
 	}
 	
+	private static final String SUBJECT_SMARTWORKS = "/smartworks";
+	private static final String SUBJECT_BROADCASTING = "/broadcasting";
+	private static final String MSG_TYPE_BROADCASTING = "BCAST";
+	private static final String MSG_TYPE_NOTICE_COUNT = "NCOUNT";
+	private static final String MSG_TYPE_AVAILABLE_CHATTERS = "ACHATTERS";
+	
+	public static void publishBcast(String[] messages){
+		publishMessage(SUBJECT_BROADCASTING, MSG_TYPE_BROADCASTING, messages);
+	}
+	
+	public static void publishAChatters(UserInfo[] users){
+
+		class UserInformation{
+			String userId;
+			String longName;
+			String minPicture;
+		}
+		
+		if(SmartUtil.isBlankObject(users)) return;
+		UserInformation[] userInfos = new UserInformation[users.length];
+		for(int i=0; i<users.length; i++){
+			UserInfo user = users[i];
+			UserInformation userInfo = new UserInformation();
+			userInfo.userId = user.getId();
+			userInfo.longName = user.getLongName();
+			userInfo.minPicture = user.getMinPicture();
+			userInfos[i] = userInfo;
+		}
+		
+		publishMessage(SUBJECT_BROADCASTING, MSG_TYPE_AVAILABLE_CHATTERS, userInfos);		
+	}
+	
+	public static void publishNoticeCount(String userId, int noticeType, int count){
+		publishMessage( SmartUtil.getSubjectString(userId), MSG_TYPE_NOTICE_COUNT, count );
+	}
+	
 	static Thread messageAgent = null;
 	static List<MessageModel> messageQueue = new LinkedList<MessageModel>();
 	
@@ -392,7 +428,7 @@ public class SmartUtil {
 									}
 								}
 								
-								String pubChannel = "/smartworks/Semiteq/" + message.channel; 
+								String pubChannel = SUBJECT_SMARTWORKS + "/" + SmartUtil.getCurrentUser().getCompanyId() + message.channel; 
 								Map<String, Object> data = new HashMap<String, Object>();
 								data.put("msgType", message.msgType);
 								data.put("sender", "smartServer");
@@ -413,69 +449,6 @@ public class SmartUtil {
 
 		messageQueue.add(new MessageModel(channel, msgType, message));
 	}
-	
-
-// 	var repeat1 = function() {
-//	 clearInterval(timer);
-//	 smartTalk.publishBcast(new Array(
-//	 " Hello, this is SmartWorks!! Welcome~~",
-//	 "오늘은 삼겹살데이 입니다. 점심시간에 가급적이면 많은 분들이 참석바랍니다.!!! from 경영기획본부"));
-//	 };
-//	 smartTalk.publishNoticeCount({
-//	 type : 0,
-//	 count : 0
-//	 });
-//	 smartTalk.publishNoticeCount({
-//	 type : 1,
-//	 count : 1
-//	 });
-//	 smartTalk.publishNoticeCount({
-//	 type : 2,
-//	 count : 2
-//	 });
-//	 smartTalk.publishNoticeCount({
-//	 type : 3,
-//	 count : 3
-//	 });
-//	 smartTalk.publishNoticeCount({
-//	 type : 4,
-//	 count : 4
-//	 });
-//	 smartTalk.publishNoticeCount({
-//	 type : 5,
-//	 count : 5
-//	 });
-//
-//	 setTimeout(function() {
-//		smartTalk.publish(swSubject.SMARTWORKS + swSubject.COMPANYID
-//				+ swSubject.BROADCASTING, {
-//			msgType : msgType.AVAILABLE_CHATTERS,
-//			sender : "smartworks.net",
-//			userInfos : new Array({
-//				userId : "ysjung@maninsoft.co.kr",
-//				longName : "대표이사 정윤식",
-//				minPicture : "images/no_user_picture_min.jpg"
-//			}, {
-//				userId : "jskim@maninsoft.co.kr",
-//				longName : "과장 김지숙",
-//				minPicture : "images/no_user_picture_min.jpg"
-//			}, {
-//				userId : "hsshin@maninsoft.co.kr",
-//				longName : "선임연구원 신현성",
-//				minPicture : "images/no_user_picture_min.jpg"
-//			}, {
-//				userId : "kmyu@maninsoft.co.kr",
-//				longName : "선임연구원 유광민",
-//				minPicture : "images/no_user_picture_min.jpg"
-//			}, {
-//				userId : "hjlee@maninsoft.co.kr",
-//				longName : "대리 이현정",
-//				minPicture : "images/no_user_picture_min.jpg"
-//			})
-//		});
-//	}, 5000);
-//	
-	
 }
 
 class MessageModel {

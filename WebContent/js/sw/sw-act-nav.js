@@ -188,8 +188,6 @@ $(function() {
 	});
 
 	$('.js_drill_down').live('click', function(e) {
-		if($(e.target).hasClass('js_checkbox')) return true;
-
 		var input = $(e.target).parents('li.js_drill_down:first').find('a');
 		var target = input.siblings('div');
 		if(input.hasClass('js_popup')) target = input.parent().siblings('div');
@@ -235,7 +233,7 @@ $(function() {
 					smartPop.closeProgress();											
 				}
 			});
-		}else{
+		}else if(!target.is(':visible')){
 			target.show();
 			target.siblings('li.js_drill_down').find('div').hide();
 			target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();

@@ -45,11 +45,19 @@
 			// 카테고리가 아닌경우는 업무이니, 클릭하면 업무목록공간으로 이동하게 한다...
 			if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
-				<li class="<%=classType%>">
+				<li class="fvrt_item">
 					
 					<a href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
 						<span class="<%=iconType%>"></span><%=work.getName()%><span></span>
 					</a>
+					<%
+					if(work.getProvidedBy()!=Work.PROVIDED_BY_SYSTEM){
+					%>
+						<div class="checkOption"><div title="<fmt:message key='common.button.delete'/>" class="js_check_favorite_work btn_im_x" workId="<%=work.getId() %>"></div></div>
+					<%
+					}
+					%>
+					
 				</li>
 				
 			<%

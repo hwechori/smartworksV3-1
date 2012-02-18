@@ -24,6 +24,7 @@
 	if(workCategories != null){
 		for (WorkInfo workCategory : workCategories) {
 			String iconType = ((WorkCategoryInfo)workCategory).isRunning() ? "ico_cworks" : "ico_cworks_off";
+			String classType = (workCategory.getProvidedBy()==Work.PROVIDED_BY_SYSTEM) ? "" : "fvrt_item";
 	%>
 			<!--  *** js_drill_down : sw_act_work.js에서 이클래스의 클릭이벤트를 받아서 트리구조르 드릴다운할수 있게 한다.. -->
 			<li class="js_drill_down">
@@ -31,9 +32,16 @@
 					<span class="<%=iconType%>"></span>
 					<span class="nav_subtitl_area"><%=workCategory.getName()%></span>
 				</a>
-				<div class="checkOption"><div title="<fmt:message key='nav.works.my_favorite_works'/>" class="js_check_favorite_work ico_faver "></div></div>
 				<div class="menu_2dep" style="display: none"></div>
-			</li>
+<%-- 				<%
+				if(workCategory.getProvidedBy()!=Work.PROVIDED_BY_SYSTEM){
+				%>
+					<div class="checkOption"><div title="<fmt:message key='nav.works.my_favorite_works'/>" class="js_check_favorite_work ico_faver "></div></div>
+					<div class="checkOption"><div title="<fmt:message key='common.button.delete'/>" class="js_check_favorite_work btn_im_x" workId="<%=workCategory.getId() %>"></div></div>
+				<%
+				}
+				%>
+ --%>			</li>
 	<%
 		}
 	}
