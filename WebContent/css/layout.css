@@ -142,6 +142,12 @@ li.js_content:hover .checkOption {display:block}
 .ico_sworks {background: url("../images/ico_swoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
 .ico_gworks {background: url("../images/ico_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
 .ico_iworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.ico_pworks_off {background: url("../images/ico_pwoks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.ico_cworks_off {background: url("../images/ico_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
+.ico_sworks_off {background: url("../images/ico_swoks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
+.ico_gworks_off {background: url("../images/ico_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
+.ico_iworks_off {background: url("../images/ico_iwoks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+
 .ico_stworks {background: url("../images/ico_stwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; height:17px;}
 
 .ico_depart {background: url("../images/ico_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
