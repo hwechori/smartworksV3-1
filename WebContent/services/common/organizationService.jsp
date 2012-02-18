@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.server.engine.resource.model.hb.HbOrgUserModel"%>
+<%@page import="net.smartworks.server.engine.resource.model.IOrgUserModel"%>
+<%@page import="net.smartworks.server.engine.organization.model.SwoUser"%>
+<%@page import="net.smartworks.server.engine.organization.model.SwoUserCond"%>
 <%@page import="net.smartworks.server.engine.resource.model.hb.HbOrgDeptModel"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.server.engine.resource.model.IOrgDeptModel"%>
@@ -51,6 +55,42 @@
 		str += "</Result>";
 		return str;
 	}
+	public String convertUser(SwoUser[] users, long totalSize) {
+		return convertUser(toUserModelList(users), totalSize);
+	}
+	public String convertUser(List<IOrgUserModel> userList, long totalSize) {
+		String str = "<Result status=\"OK\" totalSize=\""+totalSize+"\">";
+		for(IOrgUserModel user : userList)
+			str += user.toString();
+		str += "</Result>";
+		return str;
+	}
+	public List<IOrgUserModel> toUserModelList(SwoUser[] users) {
+		List<IOrgUserModel> list = new ArrayList<IOrgUserModel>();
+		if (CommonUtil.isEmpty(users))
+			return list;
+		for (SwoUser user : users)
+			list.add(toUserModel(user));
+		return list;
+	}
+	public IOrgUserModel toUserModel(SwoUser user) {
+		IOrgUserModel userModel = new HbOrgUserModel();
+		userModel.setAuthId(user.getAuthId());
+		userModel.setCompanyId(user.getCompanyId());
+		userModel.setDeptId(user.getDeptId());
+		userModel.setEmail(user.getEmail());
+		userModel.setEmpNo(user.getEmpNo());
+		userModel.setId(user.getId());
+		userModel.setLang(user.getLang());
+		userModel.setName(user.getName());
+		userModel.setPasswd(user.getPassword());
+		userModel.setPicture(user.getPicture());
+		userModel.setPosition(user.getPosition());
+		userModel.setRoleId(user.getRoleId());
+		userModel.setStdTime(user.getStdTime());
+		userModel.setType(user.getType());
+		return userModel;
+	}
 %>
 <%
 	response.setHeader("Pragma", "no-cache");
@@ -75,6 +115,16 @@
 			SwoDepartment[] depts = SwManagerFactory.getInstance().getSwoManager().getDepartments(userId, cond, IManager.LEVEL_LITE);
 			buffer.append(this.convertDept(depts));
 			
+		} else if(method.equals("findUserByDept")) {
+			String deptId = StringUtil.toNotNull(request.getParameter("deptId"));
+			SwoUserCond cond = new SwoUserCond();
+			cond.setDeptId(deptId);
+			long totalSize = SwManagerFactory.getInstance().getSwoManager().getUserSize(userId, cond);
+			cond.setOrders(new Order[] {new Order("name", true)});
+			SwoUser[] users = SwManagerFactory.getInstance().getSwoManager().getUsers(userId, cond, null);
+			buffer.append(this.convertUser(users, totalSize));
+			
+		// 루트 부서 조회
 		} else {
 			buffer.append("<Result status=\"Failed\"><message>Invalid method! Not found method parameter</message><trace/></Result>");
 		}

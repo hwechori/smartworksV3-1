@@ -59,20 +59,20 @@
 	return (Object) wac.getBean(beanName);
 }%>
 <%
-	Map<String, List> map = new HashMap<String, List>();
 
-	for (int i = 0; i < 10 ; i++) {
-		List temp = new ArrayList();
-		map.put("1", temp);
-	}
-	List temp2 = new ArrayList();
+	SwoUser user = SwManagerFactory.getInstance().getSwoManager().getUser("kmyu@maninsoft.co.kr", "kmyu@maninsoft.co.kr", IManager.LEVEL_ALL);
+	
 
-	map.get("1").add("123");
-	map.get("1").add("123");
-	map.get("1").add("123");
+
+	user.setName("À¯±¤¹Î2");
 	
-	out.println(map);
 	
+	SwManagerFactory.getInstance().getSwoManager().setUser("kmyu@maninsoft.co.kr", user, IManager.LEVEL_ALL);
+
+
+
+
+
 %>
 
 </body>

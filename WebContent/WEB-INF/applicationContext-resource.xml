@@ -1,0 +1,38 @@
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<beans:bean id="resourceDesigntimeDao" class="net.smartworks.server.engine.resource.dao.impl.ResourceDesigntimeDaoImpl">
+		<beans:property name="processTemplateFile">
+			<beans:value>${processTemplate.fileDirectory}</beans:value>
+		</beans:property>
+		<beans:property name="ganttTemplateFile">
+			<beans:value>${ganttTemplate.fileDirectory}</beans:value>
+		</beans:property>
+	</beans:bean>
+	<beans:bean id="resourceDesigntimeManager" class="net.smartworks.server.engine.resource.manager.impl.ResourceDesigntimeManagerImpl">
+		<beans:property name="resourceDesigntimeDao" ref="resourceDesigntimeDao" />
+	</beans:bean>
+
+	<beans:bean id="resourceRuntimeDao" class="net.smartworks.server.engine.resource.dao.impl.ResourceRuntimeDaoImpl">
+	</beans:bean>
+	<beans:bean id="resourceRuntimeManager" class="net.smartworks.server.engine.resource.manager.impl.ResourceRuntimeManagerImpl">
+		<beans:property name="resourceRuntimeDao" ref="resourceRuntimeDao" />
+	</beans:bean>
+	
+	<beans:bean id="smartServerFactory" class="net.smartworks.server.engine.resource.manager.SmartServerManager" factory-method="createInstance">
+		<beans:property name="domainManager" ref="domainManager"/>
+	</beans:bean>
+	
+	<beans:bean id="domainDdlDao" class="net.smartworks.server.engine.resource.dao.impl.HbDomainDdlDaoImpl">
+	</beans:bean>
+	
+	<beans:bean id="domainManager" class="net.smartworks.server.engine.resource.manager.impl.DBDomainManagerImpl">
+		<beans:property name="domainDdlDao" ref="domainDdlDao"/>
+	</beans:bean>
+	
+</beans:beans>

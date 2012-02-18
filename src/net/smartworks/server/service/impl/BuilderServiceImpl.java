@@ -69,7 +69,7 @@ public class BuilderServiceImpl implements IBuilderService {
 					receId = swfObj[0].getId();
 					}
 				} else {
-					IResourceDesigntimeManager rscMgr1 = SmartServerManager.getInstance().getResourceDesigntimeManager();
+					IResourceDesigntimeManager rscMgr1 = SwManagerFactory.getInstance().getDesigntimeManager();
 					IProcessModel prcModel = rscMgr1.retrieveProcessByPackage(userId, packageId, 1);
 					if (prcModel != null) {
 					receId = prcModel.getProcessId();

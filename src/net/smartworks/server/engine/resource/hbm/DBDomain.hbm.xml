@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="net.smartworks.server.engine.resource.model.hb" default-lazy="false">
+
+	<class name="HbDBDomain" table="SWDomain" lazy="false">
+	
+		<id name="id" column="id" type="string">
+			<generator class="assigned" />
+		</id>
+		<property name="companyId" column="companyId" type="string" length="100"/>
+		<property name="formId" column="formId" type="string" length="50"/>
+		<property name="formVersion" column="formVersion" type="int"/>
+		<property name="formName" column="formName" type="string" length="255"/>
+		<property name="tblOwner" column="tblOwner" type="string" length="50"/>
+		<property name="tblName" column="tblName" type="string" length="50"/>
+		<property name="keyColumn" column="keyColumn" type="string" length="50"/>
+		<property name="titleFieldId" column="titleFieldId" type="string" length="50"/>
+		<property name="masterId" column="masterId" type="string" length="50"/>
+		<property name="masterFieldId" column="masterFieldId" type="string" length="50"/>
+		<property name="systemDomainYn" column="systemDomainYn" type="string" length="1"/>
+		<property name="publishMode" column="publishMode" type="string" length="10"/>
+	</class>
+	
+	<class name="HbDBDomainField" table="SWDomainField">
+	
+		<id name="id" column="id" type="string">
+			<generator class="assigned" />
+		</id>	
+		
+		<property name="domainId" column="domainId" type="string" length="50"/>
+		<property name="formFieldId" column="formFieldId" type="string" length="50"/>
+		<property name="formFieldPath" column="formFieldPath" type="string" length="255"/>
+		<property name="formFieldName" column="formFieldName" type="string" length="255"/>
+		<property name="formFieldType" column="formFieldType" type="string" length="50"/>
+		<property name="tableColName" column="tableColName" type="string" length="50"/>
+		<property name="arrayYn" column="arrayYn" type="string" length="1"/>
+		<property name="refTblName" column="refTblName" type="string" length="50"/>
+		<property name="systemFieldYn" column="systemFieldYn" type="string" length="1"/>
+		<property name="dispOrder" column="dispOrder" type="int"/>
+		<property name="tableWidth" column="tableWidth" type="float"/>
+	</class>
+	
+</hibernate-mapping>
