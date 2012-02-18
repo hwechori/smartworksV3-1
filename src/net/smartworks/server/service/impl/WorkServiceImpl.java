@@ -41,6 +41,7 @@ import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemList;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItemListCond;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
+import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
@@ -66,6 +67,8 @@ import net.smartworks.server.engine.pkg.model.PkgPackageCond;
 import net.smartworks.server.engine.process.task.manager.ITskManager;
 import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.process.task.model.TskTaskCond;
+import net.smartworks.server.engine.process.task.model.TskTaskDef;
+import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
@@ -603,10 +606,28 @@ public class WorkServiceImpl implements IWorkService {
 				swfFormCond.setPackageId(workId);
 	
 			SwfForm[] swfForms = getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_ALL);
-			if(swfForms != null)
-				return swfForms[0].getObjString();
-			else
+			if(swfForms != null) {
+				if (swfForms.length == 1) {
+					return swfForms[0].getObjString();
+				} else {
+					//프로세스폼중에 시작 폼을 리턴한다
+					Property[] extProps = new Property[] {new Property("diagramId", workId), new Property("startActivity", "true")};
+					TskTaskDefCond taskCond = new TskTaskDefCond();
+					taskCond.setExtendedProperties(extProps);
+					TskTaskDef[] taskDefs = getTskManager().getTaskDefs(user.getId(), taskCond, IManager.LEVEL_ALL);
+					if (CommonUtil.isEmpty(taskDefs))
+						throw new Exception(new StringBuffer("No start activity. -> packageId :").append(workId).toString());
+					TskTaskDef taskDef = taskDefs[0];
+					SwfForm processStartForm = getSwfManager().getForm(user.getId(), taskDef.getForm());
+					if (processStartForm != null) {
+						return processStartForm.getObjString();
+					} else {
+						return null;
+					}
+				}
+			} else {
 				return null;
+			}
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -614,7 +635,6 @@ public class WorkServiceImpl implements IWorkService {
 			// Exception Handling Required			
 		}
 	}
-
 	@Override
 	public void setMyProfile(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
@@ -782,6 +802,8 @@ public class WorkServiceImpl implements IWorkService {
 				String tskDocument = tskTasks[0].getDocument();
 				swdRecord = (SwdRecord)SwdRecord.toObject(tskDocument);
 				swfFormCond.setId(formId);
+				if (formId.equalsIgnoreCase("SYSTEMFORM"))
+					swfFormCond.setPackageId(null);
 				swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
 			}
 

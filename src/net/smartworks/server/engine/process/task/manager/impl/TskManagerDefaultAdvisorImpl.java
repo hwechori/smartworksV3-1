@@ -12,6 +12,8 @@ import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.MisUtil;
+import net.smartworks.server.engine.infowork.form.model.SwfForm;
+import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.process.link.manager.ILnkManager;
 import net.smartworks.server.engine.process.link.model.LnkCondition;
 import net.smartworks.server.engine.process.link.model.LnkLink;
@@ -97,41 +99,98 @@ public class TskManagerDefaultAdvisorImpl extends AbstractTskManagerAdvisor {
 		} else {
 			obj.setObjId(CommonUtil.newId());
 		}
-		String title = obj.getTitle();
-		String priority = obj.getPriority();
-		String dId = obj.getExtendedPropertyValue("diagramId");
-		String pId = obj.getExtendedPropertyValue("processId");
-		String dVer = obj.getExtendedPropertyValue("diagramVersion");
-		String superTaskId = obj.getExtendedPropertyValue("superTaskId");
-		String parentPrcInstId = obj.getExtendedPropertyValue("parentPrcInstId");
-		String parentTskDefId = obj.getExtendedPropertyValue("parentTskDefId");
-		
-		String pType = obj.getExtendedPropertyValue("processInstType");
-		
-		//TODO 패키지 정보에서 이름을 가져온다(정보관리 업무, 프로세스업무)
-		String pName = this.getProcessName(dId, dVer, pId);
 		
 		PrcProcessInst prcInst = new PrcProcessInst();
-		if (preDefinedPrcInstId != null)
-			prcInst.setObjId(preDefinedPrcInstId);
-		prcInst.setStatus(CommonUtil.toDefault((String)MisUtil.processInstStatusMap().get("started"), "started"));
-		prcInst.setTitle(title);
-		prcInst.setPriority(priority);
-		prcInst.setDiagramId(dId);//packageId
-		prcInst.setDiagramVersion(dVer);
-		prcInst.setProcessId(pId);
-		prcInst.setName(pName);
-		prcInst.setType(pType);
-		prcInst.setExtendedPropertyValue("superTaskId", superTaskId);
-		if (!CommonUtil.isEmpty(parentPrcInstId)) {
-			prcInst.setIsSubInstance("TRUE");
-			prcInst.setExtendedPropertyValue("parentPrcInstId", parentPrcInstId);
-			prcInst.setExtendedPropertyValue("parentTskDefId", parentTskDefId);
+		String type = obj.getType();
+		if (type.equalsIgnoreCase(TskTask.TASKTYPE_SINGLE)) {
+
+			String packageId = null;
+			if (obj.getForm() != null) {
+				SwfForm swForm = getSwfManager().getForm(user, obj.getForm());
+				if (swForm != null)
+					packageId = swForm.getPackageId();
+			}
+			if (preDefinedPrcInstId != null)
+				prcInst.setObjId(preDefinedPrcInstId);
+			prcInst.setStatus(CommonUtil.toDefault((String)MisUtil.processInstStatusMap().get("started"), "started"));
+			prcInst.setPriority(obj.getPriority());
+			prcInst.setTitle(obj.getTitle());
+			prcInst.setName(obj.getName());
+			prcInst.setDiagramId(packageId);//packageId
+			prcInst.setDiagramVersion("1");
+			prcInst.setProcessId(obj.getExtendedPropertyValue("domainId"));
+			prcInst.setType(PrcProcessInst.PROCESSINSTTYPE_INFORMATION);
+			prcInst.setPackageId(packageId);
+			prcInst.setExtendedPropertyValue("formId", obj.getForm());
+			prcInst.setExtendedPropertyValue("recordId", obj.getExtendedPropertyValue("recordId"));
+			
+		} else {
+			String title = obj.getTitle();
+			String priority = obj.getPriority();
+			String dId = obj.getExtendedPropertyValue("diagramId");
+			String pId = obj.getExtendedPropertyValue("processId");
+			String dVer = obj.getExtendedPropertyValue("diagramVersion");
+			String superTaskId = obj.getExtendedPropertyValue("superTaskId");
+			String parentPrcInstId = obj.getExtendedPropertyValue("parentPrcInstId");
+			String parentTskDefId = obj.getExtendedPropertyValue("parentTskDefId");
+			
+			//String pType = obj.getExtendedPropertyValue("processInstType");
+			String pType = PrcProcessInst.PROCESSINSTTYPE_PROCESS;
+			//TODO 패키지 정보에서 이름을 가져온다(정보관리 업무, 프로세스업무)
+			String pName = this.getProcessName(dId, dVer, pId);
+			if (preDefinedPrcInstId != null)
+				prcInst.setObjId(preDefinedPrcInstId);
+			prcInst.setStatus(CommonUtil.toDefault((String)MisUtil.processInstStatusMap().get("started"), "started"));
+			prcInst.setTitle(title);
+			prcInst.setPriority(priority);
+			prcInst.setDiagramId(dId);//packageId
+			prcInst.setPackageId(dId);
+			prcInst.setDiagramVersion(dVer);
+			prcInst.setProcessId(pId);
+			prcInst.setName(pName);
+			prcInst.setType(pType);
+			prcInst.setExtendedPropertyValue("superTaskId", superTaskId);
+			if (!CommonUtil.isEmpty(parentPrcInstId)) {
+				prcInst.setIsSubInstance("TRUE");
+				prcInst.setExtendedPropertyValue("parentPrcInstId", parentPrcInstId);
+				prcInst.setExtendedPropertyValue("parentTskDefId", parentTskDefId);
+			}
 		}
+		
+//		String title = obj.getTitle();
+//		String priority = obj.getPriority();
+//		String dId = obj.getExtendedPropertyValue("diagramId");
+//		String pId = obj.getExtendedPropertyValue("processId");
+//		String dVer = obj.getExtendedPropertyValue("diagramVersion");
+//		String superTaskId = obj.getExtendedPropertyValue("superTaskId");
+//		String parentPrcInstId = obj.getExtendedPropertyValue("parentPrcInstId");
+//		String parentTskDefId = obj.getExtendedPropertyValue("parentTskDefId");
+//		
+//		String pType = obj.getExtendedPropertyValue("processInstType");
+//		//TODO 패키지 정보에서 이름을 가져온다(정보관리 업무, 프로세스업무)
+//		String pName = this.getProcessName(dId, dVer, pId);
+//		PrcProcessInst prcInst = new PrcProcessInst();
+//		if (preDefinedPrcInstId != null)
+//			prcInst.setObjId(preDefinedPrcInstId);
+//		prcInst.setStatus(CommonUtil.toDefault((String)MisUtil.processInstStatusMap().get("started"), "started"));
+//		prcInst.setTitle(title);
+//		prcInst.setPriority(priority);
+//		prcInst.setDiagramId(dId);//packageId
+//		prcInst.setDiagramVersion(dVer);
+//		prcInst.setProcessId(pId);
+//		prcInst.setName(pName);
+//		prcInst.setType(pType);
+//		prcInst.setExtendedPropertyValue("superTaskId", superTaskId);
+//		if (!CommonUtil.isEmpty(parentPrcInstId)) {
+//			prcInst.setIsSubInstance("TRUE");
+//			prcInst.setExtendedPropertyValue("parentPrcInstId", parentPrcInstId);
+//			prcInst.setExtendedPropertyValue("parentTskDefId", parentTskDefId);
+//		}
+		prcInst.setWorkSpaceType(obj.getWorkSpaceType());
 		prcInst.setWorkSpaceId(obj.getWorkSpaceId());
 		getPrcManager().setProcessInst(user, prcInst, null);
 		if (logger.isInfoEnabled()) {
-			logger.info("Set Process Instance [ " + title + " ( " + pName + " Process : " + pId + " , Process Instance Id : " + prcInst.getObjId() + " ) ]");
+			logger.info("Set Process Instance [ " + prcInst.getTitle() + " ( " + prcInst.getName() + " Process : " + prcInst.getProcessId() + " , Process Instance Id : " + prcInst.getObjId() + " ) ]");
 		}
 		
 		obj.setProcessInstId(prcInst.getObjId());

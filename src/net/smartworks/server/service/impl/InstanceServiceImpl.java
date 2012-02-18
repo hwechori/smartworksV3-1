@@ -1861,7 +1861,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				pwInstInfo.setOwner(ModelConverter.getUserInfoByUserId(prcInst.getPrcCreateUser()));
 				int status = -1;
 				if (prcInst.getPrcStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING)) {
-					status = Instance.STATUS_COMPLETED;
+					status = Instance.STATUS_RUNNING;
 				} else if (prcInst.getPrcStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_COMPLETE)) {
 					status = Instance.STATUS_COMPLETED;
 				}
