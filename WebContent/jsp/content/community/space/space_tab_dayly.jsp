@@ -57,8 +57,7 @@
 	session.setAttribute("calendars", calendars);
 	
 	CompanyCalendar selectedCalendar = calendars[selectedIndex];
-//	WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
-	WorkHourPolicy whp = new WorkHourPolicy();
+	WorkHourPolicy whp = smartWorks.getCompanyWorkHourPolicy();
 	selectedCalendar.setWorkHour(whp.getWorkHour(selectedCalendar.getDate().getDayOfWeek()));
 	
 	TaskInstanceInfo[][] tasksByWorkHours = smartWorks.getTaskInstancesByWorkHours(contextStr, workSpace.getId(), selectedCalendar.getDate(), 10); 
