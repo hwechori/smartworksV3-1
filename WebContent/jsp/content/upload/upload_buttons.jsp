@@ -26,6 +26,7 @@
 
 	String cid = (String)session.getAttribute("cid");
 	String wid = (String)session.getAttribute("wid");
+	if(SmartUtil.isBlankObject(wid)) wid = cUser.getId();
 
 	// cid를 가지고 현재 공간의 타입을 가져온다.
 	int spaceType = SmartUtil.getSpaceTypeFromContentContext(cid);
@@ -90,16 +91,16 @@
 			<%
 			}else{
 			%>
-				<input name="selWorkSpaceType" type="hidden" value="<%=spaceType %>">
-				<select name="selWorkSpace">
-					<option  value="<%=cUser.getId()%>"><fmt:message key="common.upload.space.self" /></option>
+				<input name="selWorkSpaceType" type="hidden" value="<%=ISmartWorks.SPACE_TYPE_USER %>">
+				<select name="selWorkSpace" class="js_select_work_space">
+					<option  selected value="<%=cUser.getId()%>" workSpaceType="<%=ISmartWorks.SPACE_TYPE_USER%>"><fmt:message key="common.upload.space.self" /></option>
 					<optgroup label="<fmt:message key="common.upload.space.department"/>">
 						<%
 						// 현재사용자가 속해있는 부서들을 선택하는 옵션들을 구성한다..
 						for (CommunityInfo community : communities) {
 							if (community.getClass().equals(DepartmentInfo.class)) {
 						%>
-								<option value="<%=community.getId()%>"><%=community.getName()%></option>
+								<option value="<%=community.getId()%>"  workSpaceType="<%=ISmartWorks.SPACE_TYPE_DEPARTMENT%>"><%=community.getName()%></option>
 						<%
 							}
 						}
@@ -111,7 +112,7 @@
 						for (CommunityInfo community : communities) {
 							if (community.getClass().equals(GroupInfo.class)) {
 						%>
-								<option value="<%=community.getId()%>"><%=community.getName()%></option>
+								<option value="<%=community.getId()%>"  workSpaceType="<%=ISmartWorks.SPACE_TYPE_GROUP%>"><%=community.getName()%></option>
 						<%
 							}
 						}
