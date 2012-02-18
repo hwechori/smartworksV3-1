@@ -28,11 +28,11 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="css/default.css" type="text/css" rel="stylesheet" /></link>
-		<link href="css/login.css" type="text/css" rel="stylesheet" /></link>
+		<link href="css/login_r.css" type="text/css" rel="stylesheet" /></link>
 		<title><fmt:message key="login.head.title"/></title>
 	</head>
-	<body class="welcome">
-		<div id="wrap">
+	<body>
+		<div id="lo_wrap">
 	
 			<!-- Header -->
 			<div id="lo_header">
@@ -40,24 +40,42 @@
 					<a title="Smartworks.net" href="http://www.smartworks.net"><img src="images/lo_logo_f.gif" /></a>
 				</div>
 	
-				<form class="lo_idpass" action="j_spring_security_check" method="post">
-					<input id="j_username" name="j_username" maxlength="50" type="text" class="loginInput" />
-					<input id="j_password" name="j_password" maxlength="50" type="password" class="loginInput" />
-					<input type="submit" value="<fmt:message key="login.button.login"/>" class="btnWelcomeLogin">
-					<div class="lo_checkbox"><fmt:message key="login.title.remember_me"/> <input id="_spring_security_remember_me" type="checkbox" style="margin-right: 3px;" value="on" tabindex="3" name="_spring_security_remember_me" /></div>
-				</form>
+				<div class="lo_idp t_wh" action="j_spring_security_check" method="post">
+				
+					<div class="float_left mr7" >
+					<div class="mb2">이메일</div>
+					<input id="j_username" name="j_username" maxlength="50" type="text" style="height:21px; width:142px"/>
+					</div>
+					
+					<div class="float_left">
+					<div class="mb2">비밀번호</div>
+					<input id="j_password" name="j_password" maxlength="50" type="password" style="height:21px; width:142px"/>
+					</div>
+					
+					<input class="float_right btn_login" type="submit" value="<fmt:message key="login.button.login"/>">
+					
+					
+					<div class="lo_checkbox clear"><fmt:message key="login.title.remember_me"/> <input id="_spring_security_remember_me" type="checkbox" style="margin-right: 3px;" value="on" tabindex="3" name="_spring_security_remember_me" /></div>
+				</div>
 			</div>
 			<!-- Header //-->
 	
 			<!-- Contents -->
-			<div id="lo_contents"><img src="images/lo_center_img.jpg" border="0" /></div>
+			<div id="lo_contents">
+			<div><img src="images/login_logoTitle.gif" border="0" /></div>
+			<div><img src="images/login_img.gif" border="0" /></div>
+			</div>
 			<!-- End of Contents -->
 	
 			<!-- Footer -->
 			<div id="footer">
-				<div class="login_flogo1">
-					<span class="bottomText">Copyright <span onclick="clickBlank()">ⓒ </span>2010-2012 <b>Maninsoft,</b> Inc. All Rights Reserved. </span>
-				</div>
+					<span class="bottom_text">
+					Copyright
+					<span onclick="clickBlank()">ⓒ</span>
+					2010
+					<b>Maninsoft,</b>
+					Inc. All Rights Reserved.
+					</span>
 			</div>
 			<!-- End of Footer -->
 		</div>

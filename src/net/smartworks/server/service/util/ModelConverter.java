@@ -14,6 +14,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.StringUtils;
+
 import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
@@ -305,8 +307,19 @@ public class ModelConverter {
 		
 		workInstanceInfo.setLastTask(lastTask);
 		workInstanceInfo.setLastTaskCount(task.getLastTskCount());
-		
-		workInstanceInfo.setId(task.getPrcObjId());
+		if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON)) {
+			workInstanceInfo.setId(task.getPrcObjId());
+		} else if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE)) {
+			String singleWorkInfos = task.getTskDef();
+			String recordId = null;
+			String domainId = null;
+			if (!CommonUtil.isEmpty(singleWorkInfos)) {
+				String[] singleWorkInfo = StringUtils.tokenizeToStringArray(singleWorkInfos, "|");	
+				domainId = singleWorkInfo[0];
+				recordId = singleWorkInfo[1];
+			}
+			workInstanceInfo.setId(recordId);
+		}
 		workInstanceInfo.setSubject(task.getPrcTitle());
 		workInstanceInfo.setType(Instance.TYPE_WORK);
 		workInstanceInfo.setWork(workInfo);

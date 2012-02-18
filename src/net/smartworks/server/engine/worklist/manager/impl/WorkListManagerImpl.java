@@ -57,6 +57,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("		, task.tskform ");
 		queryBuffer.append("		, task.isStartActivity ");
 		queryBuffer.append("		, task.tskWorkSpaceId ");//workSpaceId
+		queryBuffer.append("		, task.tskDef ");//workSpaceId
 		queryBuffer.append("		, form.packageId ");
 		queryBuffer.append("		, pkg.name as packageName ");
 		queryBuffer.append("		, ctg.id as childCtgId ");
@@ -220,6 +221,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 				obj.setTskForm((String)fields[j++]);     
 				obj.setIsStartActivity((String)fields[j++]); 
 				obj.setTskWorkSpaceId((String)fields[j++]);     
+				obj.setTskDef((String)fields[j++]);     
 				obj.setPackageId((String)fields[j++]);     
 				obj.setPackageName((String)fields[j++]);   
 				obj.setChildCtgId((String)fields[j++]);  
