@@ -577,8 +577,6 @@
 			//String processContent = request.getParameter("processContent");
 			String processContent = new String(request.getParameter("processContent").getBytes("ISO-8859-1"), "UTF-8");
 
-			System.out.println("processId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+processId);
-			System.out.println("processContent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+processContent);
 			// 프로세스 validation 체크
 			ProcessModelHelper.load(processContent);
 			rscMgr.updateProcessContent(userId, processId, 1, processContent);
@@ -693,8 +691,6 @@
 			String formId = request.getParameter("formId");
 			//String formContent = request.getParameter("formContent");
 			String formContent = new String(request.getParameter("formContent").getBytes("ISO-8859-1"), "UTF-8");
-			System.out.println("formId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formId);
-			System.out.println("formContent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+formContent);
 			rscMgr.updateFormContent(userId, formId, 1, formContent);
 			buffer.append("<Result status=\"OK\"/>");
 
@@ -938,7 +934,9 @@
 			String type = CommonUtil.toNull(request.getParameter("type"));
 			if (type == null)
 				type = IFormModel.TYPE_NONE;
-			String formName = request.getParameter("formName");
+			//String formName = request.getParameter("formName");
+			String formName = new String(request.getParameter("formName").getBytes("ISO-8859-1"), "UTF-8");
+			
 			IFormModel formModel = rscMgr.createForm(userId, packageId, 1, type, formName);
 			buffer.append(convert(formModel));
 			

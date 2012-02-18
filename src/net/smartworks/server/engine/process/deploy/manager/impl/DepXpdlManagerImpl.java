@@ -686,6 +686,17 @@ public class DepXpdlManagerImpl implements IDepManager {
 //				map.setExtendedProperties(mapExtProps);
 //				
 //				getLnkManager().setMap(user, map);
+				
+				if (event != null) {
+					taskDef.setType("route");
+				} else if ("XOR".equals(route.getGatewayType())) {
+					taskDef.setType("xor");
+				} else if ("AND".equals(route.getGatewayType())) {
+					taskDef.setType("and");
+				} else if ("OR".equals(route.getGatewayType())) {
+					taskDef.setType("or");
+				}
+				
 			}
 			
 			getTskManager().setTaskDef(user, taskDef, null);
