@@ -510,6 +510,11 @@ public class HbDomainDdlDaoImpl extends HibernateDaoSupport implements IDomainDd
 			sb.append(DBDomainConstant.COLUMNNAME_CREATEDTIME).append(" ").append(DBDomainConstant.COLUMNDATATYPE_DATETIME).append(", ");
 			sb.append(DBDomainConstant.COLUMNNAME_MODIFIER).append(" ").append(DBDomainConstant.COLUMNDATATYPE_ID).append(", ");
 			sb.append(DBDomainConstant.COLUMNNAME_MODIFIEDTIME).append(" ").append(DBDomainConstant.COLUMNDATATYPE_DATETIME).append(", ");
+			sb.append(DBDomainConstant.COLUMNNAME_WORKSPACEID).append(" ").append(DBDomainConstant.COLUMNDATATYPE_100).append(", ");
+			sb.append(DBDomainConstant.COLUMNNAME_WORKSPACETYPE).append(" ").append(DBDomainConstant.COLUMNDATATYPE_ID).append(", ");
+			sb.append(DBDomainConstant.COLUMNNAME_ACCESSLEVEL).append(" ").append(DBDomainConstant.COLUMNDATATYPE_1).append(", ");
+			sb.append(DBDomainConstant.COLUMNNAME_ACCESSVALUE).append(" ").append(DBDomainConstant.COLUMNDATATYPE_4000).append(", ");
+			
 		} else {
 			sb.append(DBDomainConstant.COLUMNNAME_RECORDID).append(" ").append(DBDomainConstant.COLUMNDATATYPE_ID).append(", ");
 			sb.append(DBDomainConstant.COLUMNNAME_DOMAINID).append(" ").append(DBDomainConstant.COLUMNDATATYPE_ID).append(", ");
@@ -519,6 +524,10 @@ public class HbDomainDdlDaoImpl extends HibernateDaoSupport implements IDomainDd
 			sb.append(DBDomainConstant.COLUMNNAME_CREATEDTIME).append(" ").append(DBDomainConstant.COLUMNDATATYPE_TIMESTAMP).append(", ");
 			sb.append(DBDomainConstant.COLUMNNAME_MODIFIER).append(" ").append(DBDomainConstant.COLUMNDATATYPE_ID).append(", ");
 			sb.append(DBDomainConstant.COLUMNNAME_MODIFIEDTIME).append(" ").append(DBDomainConstant.COLUMNDATATYPE_TIMESTAMP).append(", ");
+			sb.append(DBDomainConstant.COLUMNNAME_WORKSPACEID).append(" ").append(DBDomainConstant.COLUMNDATATYPE_100).append(", ");
+			sb.append(DBDomainConstant.COLUMNNAME_WORKSPACETYPE).append(" ").append(DBDomainConstant.COLUMNDATATYPE_ID).append(", ");
+			sb.append(DBDomainConstant.COLUMNNAME_ACCESSLEVEL).append(" ").append(DBDomainConstant.COLUMNDATATYPE_1).append(", ");
+			sb.append(DBDomainConstant.COLUMNNAME_ACCESSVALUE).append(" ").append(DBDomainConstant.COLUMNDATATYPE_4000).append(", ");
 		}
 		
 		for (Iterator<IDBDomainField> fieldItr = domain.getDomainFieldMap().values().iterator(); fieldItr.hasNext();) {
