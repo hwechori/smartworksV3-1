@@ -147,8 +147,8 @@
 	 					<div class="title"><%=dayTitle%></div>
 						<ul>
 							<%
-							if(!SmartUtil.isBlankObject(tasksByWorkHours) && tasksByWorkHours.length ==1 && !SmartUtil.isBlankObject(tasksByWorkHours[0])){
-								session.setAttribute("taskHistories", tasksByWorkHours[0]);
+							if(!SmartUtil.isBlankObject(tasksByWorkHours) && tasksByWorkHours.length ==3 && !SmartUtil.isBlankObject(tasksByWorkHours[2])){
+								session.setAttribute("taskHistories", tasksByWorkHours[2]);
 							%>
 								<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
 							<%

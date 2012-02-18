@@ -31,6 +31,7 @@ public class TaskWorkCond extends Cond{
 	private String isStartActivity;
 	private String tskWorkSpaceId;
 	private String tskWorkSpaceType; 
+	private String tskDef;
 	private String packageId;   
 	private String childCtgId;  
 	private String childCtgName;
@@ -55,6 +56,7 @@ public class TaskWorkCond extends Cond{
 	private Date lastTskDueDate; 
 	private String lastTskForm;                        
 	private String lastTskCount;
+	private String lastTskDef;
 	private LocalDate lastInstanceDate; 
 	
 	public LocalDate getLastInstanceDate() {
@@ -302,6 +304,18 @@ public class TaskWorkCond extends Cond{
 	}
 	public void setLastTskCount(String lastTskCount) {
 		this.lastTskCount = lastTskCount;
+	}
+	public String getTskDef() {
+		return tskDef;
+	}
+	public void setTskDef(String tskDef) {
+		this.tskDef = tskDef;
+	}
+	public String getLastTskDef() {
+		return lastTskDef;
+	}
+	public void setLastTskDef(String lastTskDef) {
+		this.lastTskDef = lastTskDef;
 	}
 
 

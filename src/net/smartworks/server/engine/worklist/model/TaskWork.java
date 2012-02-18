@@ -26,6 +26,7 @@ public class TaskWork {
 	private String isStartActivity;
 	private String tskWorkSpaceId;
 	private String tskWorkSpaceType;
+	private String tskDef;
 	private String packageId;  
 	private String packageName;
 	private String childCtgId;  
@@ -55,6 +56,7 @@ public class TaskWork {
 	private String lastTskForm; 
 	private String lastTskWorkSpaceId;
 	private String lastTskWorkSpaceType;
+	private String lastTskDef;
 	private int lastTskCount;
 	
 	public String getTskObjId() {
@@ -321,5 +323,16 @@ public class TaskWork {
 	public void setLastTskWorkSpaceType(String lastTskWorkSpaceType) {
 		this.lastTskWorkSpaceType = lastTskWorkSpaceType;
 	}
-
+	public String getTskDef() {
+		return tskDef;
+	}
+	public void setTskDef(String tskDef) {
+		this.tskDef = tskDef;
+	}
+	public String getLastTskDef() {
+		return lastTskDef;
+	}
+	public void setLastTskDef(String lastTskDef) {
+		this.lastTskDef = lastTskDef;
+	}
 }
