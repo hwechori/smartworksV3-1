@@ -782,6 +782,8 @@ public class WorkServiceImpl implements IWorkService {
 				String tskDocument = tskTasks[0].getDocument();
 				swdRecord = (SwdRecord)SwdRecord.toObject(tskDocument);
 				swfFormCond.setId(formId);
+				if (formId.equalsIgnoreCase("SYSTEMFORM"))
+					swfFormCond.setPackageId(null);
 				swfForms = getSwfManager().getForms("", swfFormCond, IManager.LEVEL_ALL);
 			}
 
