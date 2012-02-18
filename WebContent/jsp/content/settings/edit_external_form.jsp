@@ -208,7 +208,7 @@
 							int viewVarCount = (externalForm.getViewVariables()==null) ? 0 : externalForm.getViewVariables().length;
 							%>
 							<tr style="display:none" varCount="<%=viewVarCount%>">
-								<th><input class="fieldline required variablName" name="txtViewVariableName" type="text" value=""></th>
+								<th><input class="fieldline required variableName" name="txtViewVariableName" type="text" value=""></th>
 								<th><input class="fieldline required elementName" name="txtViewElementName" type="text" value=""></th>
 								<th><select class="fieldline required elementType" name="selViewElementType">
 										<%

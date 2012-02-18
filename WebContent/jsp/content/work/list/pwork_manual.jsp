@@ -69,9 +69,8 @@
 								<!-- 태스크 -->
 								<li class="proc_task not_yet js_manual_task">
 									<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
-											<div><%=count%>) <%=task.getName()%>
+											<%=count%>) <%=task.getName()%>
 												<div class="t_date"><%=task.getAssigningName()%></div>
-											</div>
 									</a>
 								</li>
 								<!-- 태스크 //-->
@@ -85,7 +84,7 @@
 				<!--  태스크 시작// -->
 			</div>
 			<!-- 방향 Next -->
-		   <a href="" class="js_manual_tasks_right" style="display:none"><div class="proc_btn_next float_right" style="top:-97px"></div></a>
+		   <a href="" class="js_manual_tasks_right" ><div class="proc_btn_next float_right" style="top:-97px"></div></a>
 		  	<!-- 방향 Next //-->  
 		</div>
 		<!--프로세스 영역//-->

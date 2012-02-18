@@ -216,8 +216,8 @@ a .btn_apps:hover,
 .btn_apps.current {background: url("../images/nav_img.png") no-repeat -157px -379px;}
 
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
-.navi_list {border:2px solid #363636; border-top:none; min-height: 300px;}
-.navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:5px 10px 0;}
+.navi_list {border:2px solid #363636; border-top:none; padding-bottom: 10px; }
+.navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:4px 10px 4px;}
 .navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
 .navi_list.coummi {min-height: 200px;}
 
@@ -531,8 +531,8 @@ a .btn_apps:hover,
 
 .noti_pic {float:left; margin-right: 5px;}
 .noti_in_bodytitle {word-wrap: break-word; text-align:left; padding:9px 0 0 58px;} /* Body Title로 들어갈 때 */
-.noti_in { margin-left:35px}
-.noti_in_s { margin-left:25px}
+.noti_in { margin-left:35px; line-height: 16px;}
+.noti_in_s { margin-left:25px; line-height: 16px;}
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
 .noti_tit {background: url("../images/ico_notice_s.gif") no-repeat scroll 8px 2px transparent;
 		    padding:0 0 0 23px; display:block; font-weight:bold;}
