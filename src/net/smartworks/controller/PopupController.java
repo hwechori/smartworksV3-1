@@ -67,4 +67,40 @@ public class PopupController {
 
 		return SmartUtil.returnMnv(request, "jsp/popup/pop_new_group.jsp", "");
 	}
+
+	@RequestMapping("/pop_new_category")
+	public ModelAndView popNewCategory(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_new_category.jsp", "");
+	}
+
+	@RequestMapping("/pop_change_category_name")
+	public ModelAndView popChangeCategoryName(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_change_category_name.jsp", "");
+	}
+
+	@RequestMapping("/pop_new_work_definition")
+	public ModelAndView popNewWorkDefinition(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_new_work_definition.jsp", "");
+	}
+
+	@RequestMapping("/pop_change_work_definition")
+	public ModelAndView popChangeWorkDefinition(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_change_work_definition.jsp", "");
+	}
+
+	@RequestMapping("/pop_copy_work_definition")
+	public ModelAndView popCopyWorkDefinition(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_copy_work_definition.jsp", "");
+	}
+
+	@RequestMapping("/pop_download_from_appstore")
+	public ModelAndView popDownloadFromAppstore(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_download_from_appstore.jsp", "");
+	}
 }

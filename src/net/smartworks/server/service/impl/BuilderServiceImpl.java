@@ -207,4 +207,59 @@ public class BuilderServiceImpl implements IBuilderService {
 			// Exception Handling Required			
 		}
 	}
+
+	@Override
+	public void createNewCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void setCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void removeCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void createNewWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void setWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
 }

@@ -65,4 +65,102 @@ $(function() {
 		return false;
 	});
 	
+	$('a.js_add_work_category').live('click', function(e) {
+		smartPop.createWorkCategory('', '', '');
+		return false;
+	});
+	
+	$('.js_text_work_category').live('click', function(e) {
+		var input = $(e.target);
+		var categoryId = input.attr('categoryId');
+		var categoryName = input.attr('categoryName');
+		var categoryDesc = input.attr('categoryDesc');
+		smartPop.createWorkCategory(categoryId, categoryName, categoryDesc);
+		return false;
+	});
+	
+	$('.js_remove_work_category').live('click', function(e) {
+		var input = $(e.target);
+		var categoryId = input.attr('categoryId');
+		var categoryName = input.attr('categoryName');
+		var paramsJson = {};
+		paramsJson['categoryId'] = categoryId;
+		smartPop.confirm("[" + categoryName + "]" + smartMessage.get("removeConfirmation"), 
+			function(){
+				$.ajax({
+					url : "remove_category.sw",
+					contentType : 'application/json',
+					type : 'POST',
+					data : JSON.stringify(paramsJson),
+					success : function(data, status, jqXHR) {
+	 					smartPop.showInfo(smartPop.INFORM, smartMessage.get('removeCategorySucceed'), function(){
+							document.location.href = document.location.href;
+	 						smartPop.close();
+	  					});
+					},
+					error : function() {
+	 					smartPop.showInfo(smartPop.ERROR, smartMessage.get('removeCategoryError'), function(){
+	 						smartPop.close();
+	  					});
+					}					
+				});
+			},
+			function(){
+			});
+
+		return false;
+	});
+	
+	$('.js_add_work_definition').live('click', function(e) {
+		var input = $(e.target);
+		var parentId = input.attr('parentId');
+		var parentName = input.attr('parentName');
+		smartPop.createWorkDefinition(parentId, parentName, "", "", "", "", "", "");
+		return false;
+	});
+	
+	$('.js_change_work_definition').live('click', function(e) {
+		var input = $(e.target);
+		var workId = input.attr('workId');
+		var workName = input.attr('workName');
+		var workTypeName = input.attr('workTypeName');
+		var workDesc = input.attr('workDesc');
+		var categoryId = input.attr('categoryId');
+		var groupId = input.attr('groupId');
+		smartPop.createWorkDefinition("", "", workId, workName, workTypeName, workDesc, categoryId, groupId);
+		return false;
+	});
+	
+	$('.js_remove_work_definition').live('click', function(e) {
+		var input = $(e.target);
+		var workId = input.attr('workId');
+		var workName = input.attr('workName');
+		var paramsJson = {};
+		paramsJson['workId'] = workId;
+		smartPop.confirm("[" + workName + "]" + smartMessage.get("removeConfirmation"), 
+			function(){
+				$.ajax({
+					url : "remove_work_definition.sw",
+					contentType : 'application/json',
+					type : 'POST',
+					data : JSON.stringify(paramsJson),
+					success : function(data, status, jqXHR) {
+	 					smartPop.showInfo(smartPop.INFORM, smartMessage.get('removeWorkDefinitionSucceed'), function(){
+							document.location.href = document.location.href;
+	 						smartPop.close();
+	  					});
+					},
+					error : function() {
+	 					smartPop.showInfo(smartPop.ERROR, smartMessage.get('removeWorkDefinitionError'), function(){
+	 						smartPop.close();
+	  					});
+					}					
+				});
+			},
+			function(){
+			});
+
+		return false;
+	});
+	
 });

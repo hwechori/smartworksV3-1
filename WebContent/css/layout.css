@@ -111,13 +111,23 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .srch_wh .nav_input {width:155px; background-color: #FFF; color: #999897; padding: 2px 0 0 1px;}
 .srch_wh button, .srch_wh .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
-
-
 	
 /*Left Navigation*/	
 #nav {background-color:#6b6b6b;float:left;width:226px;height:100%; z-index:30;}
 li.fvrt_item .checkOption {display:none; position:absolute; margin-top:-21px; margin-left:195px}
 li.fvrt_item:hover .checkOption {display:block}
+
+li.ctgr_action_item .ctgr_action {display:none; position:absolute; margin-top:-21px; margin-left:180px}
+li.ctgr_action_item:hover .ctgr_action {display:block}
+
+li.group_action_item .group_action {display:none; position:absolute; margin-top:-21px; margin-left:180px}
+li.group_action_item:hover .group_action {display:block}
+
+li.work_action_item .work_action {display:none; position:absolute; margin-top:-21px; margin-left:195px}
+li.work_action_item:hover .work_action {display:block}
+
+tr.list_action_item .list_action {display:none;}
+tr.list_action_item:hover .list_action {display:block; cursor:pointer;}
 
 
 /*global Menu */

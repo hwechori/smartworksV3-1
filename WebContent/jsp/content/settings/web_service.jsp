@@ -100,13 +100,13 @@
 								if(!SmartUtil.isBlankObject(webServices)){
 									for(WebService webService : webServices){	
 								%>								
-										<tr class="js_edit_web_service" serviceId=<%=CommonUtil.toNotNull(webService.getId()) %>>
+										<tr class="js_edit_web_service list_action_item" serviceId=<%=CommonUtil.toNotNull(webService.getId()) %>>
 											<td><a href=""><%=webService.getName() %></a></td>
 											<td><a href=""><%=webService.getDesc() %></a></td>
 											<td><a href=""><%=webService.getWsdlUri() %></a></td>
 											<td><a href=""><%=webService.getPort() %></a></td>
 											<td><a href=""><%=webService.getOperation() %></a></td>
-											<td><%if(!SmartUtil.isBlankObject(webService.getId())){ %><a href="" class="js_delete_web_service">X</a><%} %></td>
+											<td><%if(!SmartUtil.isBlankObject(webService.getId())){ %><div class="list_action"><div title="<fmt:message key='common.button.delete'/>" class="js_delete_web_service"> X </div></div><%} %></td>
 										</tr>
 								<%
 									}

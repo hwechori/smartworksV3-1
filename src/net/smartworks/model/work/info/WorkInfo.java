@@ -6,6 +6,7 @@ import net.smartworks.model.work.Work;
 public class WorkInfo extends BaseObject {
 	
 	private int type;
+	private String desc;
 	private int providedBy = Work.PROVIDED_BY_USER;
 	
 	public int getProvidedBy() {
@@ -19,6 +20,12 @@ public class WorkInfo extends BaseObject {
 	}
 	public void setType(int type) {
 		this.type = type;
+	}
+	public String getDesc() {
+		return desc;
+	}
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 	public WorkInfo(){
 		super();

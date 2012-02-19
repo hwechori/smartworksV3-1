@@ -1,6 +1,6 @@
 
-<!-- Name 			: pop_create_group.jsp									 -->
-<!-- Description	: 새로운 커뮤너티 그룹을 생성하는 팝업화면 						 -->
+<!-- Name 			: pop_new_category.jsp									 -->
+<!-- Description	: 새로운 업무카테고리를 생성하는 팝업화면 						 -->
 <!-- Author			: Maninsoft, Inc.										 -->
 <!-- Created Date	: 2011.9.												 -->
 
@@ -19,16 +19,22 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
+	String categoryId = request.getParameter("categoryId");
+	String categoryName = request.getParameter("categoryName");
+	String categoryDesc = request.getParameter("categoryDesc");
+	
 %>
 <script type="text/javascript">
 
 	// 개인정보프로파일 수정하기 버튼을 클릭하면, 
 	// 모든정보를 JSON형식으로 Serialize해서 서버의 update_my_profile.sw 서비스를 호출하여 수정한다.
 	function submitForms(e) {
-		var newGroup = $('.js_new_group_page');
-		if (SmartWorks.GridLayout.validate(newGroup.find('form.js_validation_required'), $('.js_pop_error_message'))) {
-			var forms = newGroup.find('form');
+		var newCategory = $('.js_new_category_page');
+		if (SmartWorks.GridLayout.validate(newCategory.find('form.js_validation_required'), $('.js_pop_error_message'))) {
+			var forms = newCategory.find('form');
+			var categoryId = newCategory.attr('categoryId');
 			var paramsJson = {};
+			if(!isEmpty(categoryId)) paramsJson['categoryId'] = categoryId;
 			for(var i=0; i<forms.length; i++){
 				var form = $(forms[i]);
 				if(form.attr('name') === 'frmSmartForm'){
@@ -38,9 +44,10 @@
 				paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 			}
 			console.log(JSON.stringify(paramsJson));
-			var progressSpan = newGroup.find('.js_progress_span');
+			var progressSpan = newCategory.find('.js_progress_span');
 			smartPop.progressCont(progressSpan);
-			var url = "create_new_group.sw";
+			var url = "create_new_category.sw";
+			if(!isEmpty(categoryId)) url = "set_category.sw"
 			$.ajax({
 				url : url,
 				contentType : 'application/json',
@@ -49,14 +56,14 @@
 				success : function(data, status, jqXHR) {
 					// 사용자정보 수정이 정상적으로 완료되었으면, 현재 페이지에 그대로 있는다.
 					smartPop.closeProgress();
- 					smartPop.showInfo(smartPop.INFORM, smartMessage.get('createGroupSucceed'), function(){
+ 					smartPop.showInfo(smartPop.INFORM, isEmpty(categoryId) ? smartMessage.get('createCategorySucceed') : smartMessage.get('setCategorySucceed'), function(){
+						document.location.href = document.location.href;
  						smartPop.close();
- 						document.location.href = data.href;
- 					});
+  					});
 				},
 				error : function(e) {
 					smartPop.closeProgress();
-					smartPop.showInfo(smartPop.ERROR, smartMessage.get('createGroupError'));
+					smartPop.showInfo(smartPop.ERROR, isEmpty(categoryId) ? smartMessage.get('createCategoryError') : smartMessage.get('setCategoryError'));
 				}
 			});
 		}
@@ -68,11 +75,21 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--  전체 레이아웃 -->
-<div class="pop_corner_all js_new_group_page">
+<div class="pop_corner_all js_new_category_page" categoryId="<%=CommonUtil.toNotNull(categoryId)%>" categoryName="<%=CommonUtil.toNotNull(categoryName)%>" categoryDesc="<%=CommonUtil.toNotNull(categoryDesc)%>">
 
 	<!-- 팝업 타이틀 -->
 	<div class="form_title">
-		<div class="pop_title"><fmt:message key="group.title.new_group"></fmt:message></div>
+		<%
+		if(SmartUtil.isBlankObject(categoryId)){
+		%>
+			<div class="pop_title"><fmt:message key="builder.title.new_category"></fmt:message></div>
+		<%
+		}else{
+		%>
+			<div class="pop_title"><fmt:message key="builder.title.text_category"></fmt:message></div>
+		<%
+		}
+		%>
 		<div class="txt_btn">
 			<div class="btn_x">
 				<a href="" onclick="smartPop.close();return false;">X</a>
@@ -82,59 +99,19 @@
 	</div>
 	<!-- 팝업 타이틀 //-->
 	<!-- 컨텐츠 -->
-	<form name="frmNewGroupProfile" class="js_validation_required">
+	<form name="frmNewWorkCategroy" class="js_validation_required">
 		<div class="contents_space">
-			<div><fmt:message key="group.title.picture" />
-				<span class="photo_section">			
-					<!--  *** js_group_profile_field : sw_act_work.js에서 화면로딩이 완료되면 이 클래스로 찾아서,  	-->
-					<!--      현재 커뮤너티 그룹의 사진을 보여주고, 다른 사진을 올리줄 있도록하는 기능을 제공한다. 			-->
-					<div class="js_group_profile_field js_auto_load_group_profile"></div>
-					<div class="t_text_s11"><fmt:message key="profile.title.size_desc"/></div>
-				</span>					
-			</div>
 			<table>
 				<tr>
-				</tr>
-				<tr>
-					<td><fmt:message key="group.title.name" /><span class="essen_n"></span></td>
+					<td><fmt:message key="builder.title.category_name" /><span class="essen_n"></span></td>
 					<td>
-						<input name="txtGroupName" class="fieldline required" type="text">		
+						<input name="txtCategoryName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(categoryName)%>">		
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="group.title.desc" /></td>
+					<td><fmt:message key="common.title.desc" /></td>
 					<td>
-						<textarea name="txtaGroupDesc" class="fieldline" rows="4"></textarea>	
-					</td>
-				</tr>
-				<tr>
-					<td><fmt:message key="group.title.type" /></td>
-					<td>
-						<select name="selGroupProfileType">
-							<option value="<%=Group.GROUP_TYPE_OPEN %>" selected><fmt:message key="group.title.type_open" /></option>
-							<option value="<%=Group.GROUP_TYPE_CLOSED %>"><fmt:message key="group.title.type_closed" /></option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><fmt:message key="group.title.leader" /></td>
-					<td>
-						<div><img src="<%=SmartUtil.getCurrentUser().getMinPicture()%>" class="profile_size_s"/><input name="txtGroupLeader" type="hidden" class=""  value="<%=SmartUtil.getCurrentUser().getId() %>"><%=SmartUtil.getCurrentUser().getLongName() %></div>
-					</td>
-				</tr>
-				<tr>
-					<td><fmt:message key="group.title.members" /></td>
-					<td class="js_type_userField" fieldId="txtGroupMembers" multiUsers="true">
-						<div class="form_value">
-							<div>
-								<div class="fieldline js_community_names">
-									<div class="js_selected_communities user_sel_area"></div>
-									<input class="js_auto_complete" href="community_name.sw" type="text">
-									<div class="js_srch_x"></div>
-								</div>
-								<div class="js_community_list commu_list" style="display: none"></div>
-							</div>
-						</div>
+						<textarea name="txtaCategoryDesc" class="fieldline" rows="4"><%=CommonUtil.toNotNull(categoryDesc) %></textarea>	
 					</td>
 				</tr>
 			</table>
@@ -151,12 +128,22 @@
 			<span class="btn_gray">
 				<a href="" onclick='submitForms(); return false;'>
 					<span class="Btn01Start"></span>
-					<span class="Btn01Center"><fmt:message key="common.button.create"/></span>
+					<%
+					if(SmartUtil.isBlankObject(categoryId)){
+					%>
+						<span class="Btn01Center"><fmt:message key="common.button.create"/></span>
+					<%
+					}else{
+					%>
+						<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+					<%
+					}
+					%>
 					<span class="Btn01End"></span>
 				</a> 
 			</span>
 			 <span class="btn_gray space_l5"> 
-				 <a href="" class="js_close_new_group"> 
+				 <a href="" class="js_close_new_category"> 
 				 	<span class="Btn01Start"></span>
 				 	<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>
 				 	<span class="Btn01End"></span> 

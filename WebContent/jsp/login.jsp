@@ -1,26 +1,10 @@
 <%@page import="java.util.Locale"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%
-	String type = (String)request.getAttribute("type");
-%>
 <script type="text/javascript">
-	<%
-	if(type.equals("failedLogin")) {
-	%>
-		alert("로그인 정보가 일치하지 않습니다. 정확한 정보를 입력하세요.");
-	<%
-	} else if(type.equals("logout")) {
-	%>
-		alert("로그아웃이 정상적으로 처리되었습니다.");
-	<%
-	} else if(type.equals("expiredSession")) {
-	%>
-		alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.");
-		top.document.location.href = "login.sw";
-	<%
-	}
-	%>
+	var currentUser = {
+		locale : "<%=java.util.Locale.getDefault().getLanguage()%>"
+	};
 </script>
 <html>
 <fmt:setLocale value="<%=java.util.Locale.getDefault().getLanguage() %>" scope="request" />
@@ -28,7 +12,14 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="css/default.css" type="text/css" rel="stylesheet" /></link>
+		<link href="css/pop.css" type="text/css" rel="stylesheet" /></link>
 		<link href="css/login_r.css" type="text/css" rel="stylesheet" /></link>
+		<script type="text/javascript" src="js/jquery/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="js/sw/sw-language.js"></script>
+		<script type="text/javascript" src="js/sw/sw-language-ko.js"></script>
+		<script type="text/javascript" src="js/sw/sw-language-en.js"></script>
+		<script type="text/javascript" src="js/sw/sw-util.js"></script>
+		<script type="text/javascript" src='js/sw/sw-popup.js'></script>
 		<title><fmt:message key="login.head.title"/></title>
 	</head>
 	<body>
@@ -40,15 +31,15 @@
 					<a title="Smartworks.net" href="http://www.smartworks.net"><img src="images/lo_logo_f.gif" /></a>
 				</div>
 	
-				<div class="lo_idp t_wh" action="j_spring_security_check" method="post">
+				<form class="lo_idp t_wh" action="j_spring_security_check" method="post">
 				
 					<div class="float_left mr7" >
-					<div class="mb2">이메일</div>
+					<div class="mb2"><fmt:message key="profile.title.email"/></div>
 					<input id="j_username" name="j_username" maxlength="50" type="text" style="height:21px; width:142px"/>
 					</div>
 					
 					<div class="float_left">
-					<div class="mb2">비밀번호</div>
+					<div class="mb2"><fmt:message key="profile.title.password"/></div>
 					<input id="j_password" name="j_password" maxlength="50" type="password" style="height:21px; width:142px"/>
 					</div>
 					
@@ -56,7 +47,7 @@
 					
 					
 					<div class="lo_checkbox clear"><fmt:message key="login.title.remember_me"/> <input id="_spring_security_remember_me" type="checkbox" style="margin-right: 3px;" value="on" tabindex="3" name="_spring_security_remember_me" /></div>
-				</div>
+				</form>
 			</div>
 			<!-- Header //-->
 	
@@ -69,15 +60,41 @@
 	
 			<!-- Footer -->
 			<div id="footer">
-					<span class="bottom_text">
-					Copyright
-					<span onclick="clickBlank()">ⓒ</span>
-					2010
-					<b>Maninsoft,</b>
-					Inc. All Rights Reserved.
-					</span>
+					<span class="bottom_text">Copyright <span onclick="clickBlank()">ⓒ</span> 2009-2012 <b>Maninsoft,</b> Inc. All Rights Reserved.</span>
 			</div>
 			<!-- End of Footer -->
 		</div>
 	</body>
 </html>
+<%
+	String type = (String)request.getAttribute("type");
+%>
+<script type="text/javascript">
+$(function() {
+	<%
+	if(type.equals("failedLogin")) {
+	%>
+		smartPop.showInfo(smartPop.ERROR, smartMessage.get('illegalAcountError'));
+	<%
+	} else if(type.equals("logout")) {
+	%>
+		smartPop.showInfo(smartPop.INFO, smartMessage.get('logoutSucceed'));
+	<%
+	} else if(type.equals("expiredSession")) {
+	%>
+		top.document.location.href = "login.sw";			
+		smartPop.showInfo(smartPop.WARN, smartMessage.get('sessionTimeouted'));
+	<%
+	}
+	%>
+	
+    $(document).keypress(function (e) {
+        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+            $('input[type="submit"]').click();
+            return false;
+        } else {
+            return true;
+        }
+    });
+});
+</script>

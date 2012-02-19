@@ -277,7 +277,7 @@ smartPop = {
 							var comId = input.attr('userId');
 							var comName = input.text();
 							selectionProc(comId, comName);
-							$.modal.close();
+							smartPop.close();
 							target.html('');
 							return false;
 						});
@@ -292,7 +292,7 @@ smartPop = {
 								var comName = selection.attr("comName");
 								selectionProc(comId, comName);
 							}
-							$.modal.close();
+							smartPop.close();
 							target.html('');
 							return false;
 						});
@@ -334,11 +334,11 @@ smartPop = {
 								workId : workId,
 								onSuccess : function(){
 									$('#form_works').show();
-									$.modal.close();
+									smartPop.close();
 									target.html('');											
 								},
 								onError : function(){
-									$.modal.close();
+									smartPop.close();
 									target.html('');											
 								}
 							});
@@ -377,7 +377,7 @@ smartPop = {
 							inputTarget.removeClass('sw_error');
 							$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 						}
-						$.modal.close();
+						smartPop.close();
 						return false;
 					});
 				}
@@ -392,7 +392,7 @@ smartPop = {
 				overlayCss: {backgroundColor:"#000"},
 				containerCss:{
 					height:500,
-					width:800
+					width:600
 				},
 				overlayClose: false,
 				onShow: function(dialog){
@@ -400,11 +400,91 @@ smartPop = {
 					loadNewGroupFields();
 					$('.js_close_new_group').die('click');
 					$('.js_close_new_group').live( 'click', function(e){
-						$.modal.close();
+						smartPop.close();
+						return false;
+					});
+				}
+			});
+		});
+	},
+
+	createWorkCategory : function(categoryId, categoryName, categoryDesc){
+		$.get("pop_new_category.sw?categoryId="+ categoryId + "&categoryName=" + categoryName + "&categoryDesc=" + categoryDesc, function(data){
+			$(data).modal({
+				opacity: 10,
+				overlayCss: {backgroundColor:"#000"},
+				containerCss:{
+					height:200,
+					width:460
+				},
+				overlayClose: false,
+				onShow: function(dialog){
+					$('.js_close_new_category').die('click');
+					$('.js_close_new_category').live( 'click', function(e){
+						smartPop.close();
+						return false;
+					});
+				}
+			});
+		});
+	},
+
+	createWorkDefinition : function(parentId, parentName, workId, workName, workTypeName, workDesc, categoryId, groupId){
+		var url = "pop_new_work_definition.sw?parentId="+parentId+"&parentName="+parentName + "&workId=" + workId 
+						+ "&workName=" + workName + "&workTypeName=" + workTypeNmae + "&workDesc=" + workDesc + "&categoryId=" + categoryId + "&groupId=" + groupId;
+		$.get( url, function(data){
+			$(data).modal({
+				opacity: 10,
+				overlayCss: {backgroundColor:"#000"},
+				containerCss:{
+					height:300,
+					width:560
+				},
+				overlayClose: false,
+				onShow: function(dialog){
+					$('.js_close_new_work').die('click');
+					$('.js_close_new_work').live( 'click', function(e){
+						smartPop.close();
+						return false;
+					});
+				}
+			});
+		});
+	},
+
+	downloadFromAppstore : function(formId, target){
+		if(isEmpty(formId) || isEmpty(target)) return;
+		$.get("pop_download_from_appstore.sw", {formId: formId}, function(data){
+			$(data).modal({
+				opacity: 50,
+				overlayCss: {backgroundColor:"#000"},
+				containerCss:{
+					height:500,
+					width:800
+				},
+				overlayClose: false,
+				onShow: function(dialog){
+					$('.js_pop_select_work_item').die('click');
+					$('.js_pop_select_work_item').live( 'click', function(e){
+						var input = $(e.target);
+						var recordId = input.attr('instId');
+						var fieldId = target.attr('refFormField');
+						var keyField = input.parents('tbody').find('tr.js_instance_list_header').find('th[fieldId="'+fieldId+'"]');
+						var keyPos = keyField.prevAll('th').length;
+						var value = $(input.parents('tr').find('td')[keyPos]).find('a').text();
+						target.attr('refRecordId', recordId);
+						var inputTarget = target.find('input');
+						inputTarget[0].value = value;
+						if(inputTarget.hasClass('sw_required') && inputTarget.hasClass('sw_error')){
+							inputTarget.removeClass('sw_error');
+							$('form.js_validation_required').validate({ showErrors: showErrors}).form();
+						}
+						smartPop.close();
 						return false;
 					});
 				}
 			});
 		});
 	}
+	
 };

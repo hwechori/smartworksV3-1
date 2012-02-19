@@ -745,4 +745,29 @@ public class SmartWorks implements ISmartWorks {
 		builderService.publishWorkToStore(requestBody, request);
 	}
 
+	@Override
+	public void createNewCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		builderService.createNewCategory(requestBody, request);
+	}
+	
+	@Override
+	public void setCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		builderService.setCategory(requestBody, request);
+	}
+
+	@Override
+	public void removeCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		builderService.removeCategory(requestBody, request);
+	}
+
+	@Override
+	public void createNewWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		builderService.createNewWorkDefinition(requestBody, request);
+	}
+
+	@Override
+	public void setWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		builderService.setWorkDefinition(requestBody, request);
+	}
+
 }

@@ -13,7 +13,6 @@ public class Work extends BaseObject{
 	public static final int PROVIDED_BY_APPSTORE = 1;
 	public static final int PROVIDED_BY_SYSTEM = 2;
 	
-	
 	private int 	type=-1; 
 	private int 	providedBy;
 	private String 	desc;

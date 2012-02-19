@@ -66,7 +66,7 @@
 					<a href="<%=targetContent%>" categoryId="<%=work.getId()%>">
 						<span class="<%=iconType%>"></span><span><%=work.getName()%></span>
 					</a>
-					<div style="display: none"></div>
+					<div class="js_drill_down_target" style="display: none"></div>
 				</li>
 	<%
 			}

@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.															-->
 <!-- Created Date	: 2011.9.													 				-->
 
+<%@page import="net.smartworks.util.SmartMessage"%>
 <%@page import="net.smartworks.model.work.info.WorkCategoryInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.model.community.User"%>
@@ -45,15 +46,25 @@
 			// 카테고리가 아닌경우는 업무이니, 클릭하면 업무목록공간으로 이동하게 한다...
 			if (work.getType() != WorkCategory.TYPE_CATEGORY) {
 	%>
-				<li class="fvrt_item">
+				<li class="work_action_item">
 					
 					<a href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
 						<span class="<%=iconType%>"></span><%=work.getName()%><span></span>
 					</a>
 					<%
 					if(work.getProvidedBy()!=Work.PROVIDED_BY_SYSTEM){
+						SmartWorkInfo smartWork = (SmartWorkInfo)work;
+						String categoryId = (SmartUtil.isBlankObject(smartWork.getMyCategory())) ? "" : smartWork.getMyCategory().getId();
+						String groupId = (SmartUtil.isBlankObject(smartWork.getMyGroup())) ? "" : smartWork.getMyGroup().getId();
+						String workTypeName = "";
+						if(work.getType() == SmartWork.TYPE_INFORMATION) workTypeName = SmartMessage.getString("common.title.information_work");
+						else if(work.getType() == SmartWork.TYPE_PROCESS) workTypeName = SmartMessage.getString("common.title.process_work");
+						else if(work.getType() == SmartWork.TYPE_SCHEDULE) workTypeName = SmartMessage.getString("common.title.schedule_work");
 					%>
-						<div class="checkOption"><div title="<fmt:message key='common.button.delete'/>" class="js_check_favorite_work btn_im_x" workId="<%=work.getId() %>"></div></div>
+						<span class="work_action">
+							<span title="<fmt:message key='builder.button.remove_work'/>" class="js_remove_work_work_definition btn_im_x" workId="<%=work.getId() %>" workName="<%=smartWork.getFullpathName()%>"></span>
+							<span title="<fmt:message key='builder.button.change_work'/>" class="js_change_work_work_definition btn_im_x" workId="<%=work.getId() %>" workName="<%=work.getName()%>" workTypeName="<%=workTypeName %>" workDesc="<%=work.getDesc()%>" categoryId="<%=categoryId%>" groupId="<%=groupId%>"></span>
+						</span>
 					<%
 					}
 					%>
@@ -66,11 +77,22 @@
 			} else {
 			%>
 				<!--  *** js_drill_down : sw_act_work.js에서 이클래스의 클릭이벤트를 받아서 트리구조르 드릴다운할수 있게 한다.. -->
-				<li class="js_drill_down">
+				<li class="js_drill_down group_action_item">
 					<a href="<%=targetContent%>" categoryId="<%=work.getId()%>">
 						<span class="<%=iconType%>"></span><span><%=work.getName()%></span>
 					</a>
-					<div style="display: none"></div>
+					<%
+					if(work.getProvidedBy()!=Work.PROVIDED_BY_SYSTEM){
+					%>
+						<span class="group_action">
+							<span title="<fmt:message key='builder.button.remove_group'/>" class="js_remove_work_category btn_im_x" categoryId="<%=work.getId() %>" categoryName="<%=work.getName()%>"></span>
+							<span title="<fmt:message key='builder.button.text_group'/>" class="js_text_work_category btn_im_x" categoryId="<%=work.getId() %>" categoryName="<%=work.getName()%>" categoryDesc="<%=work.getDesc()%>"></span>
+							<span title="<fmt:message key='builder.button.add_work'/>" class="js_add_work_definition btn_im_x" parentId="<%=work.getId() %>" parentName="<%=((WorkCategoryInfo)work).getFullPathName()%>"></span>
+						</span>
+					<%
+					}
+					%>
+					<div class="js_drill_down_target" style="display: none"></div>
 				</li>
 	<%
 			}
