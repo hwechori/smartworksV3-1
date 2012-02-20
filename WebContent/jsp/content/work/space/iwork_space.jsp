@@ -60,13 +60,13 @@
             	<div class="body_titl_pic js_form_header">		
                     <div class="">
                         <div class="noti_pic mb5 mr7"><img class="profile_size_m" src="<%=instance.getOwner().getMidPicture() %>" /></div>
-                        <div class="noti_in_bodytitle">
+                        <div class="noti_in_bodytitle mb5">
                             <span class="t_name"><%=instance.getOwner().getLongName()%></span>
                             <%if(workSpace != null && !workSpace.getId().equals(owner.getId())){ %><span class="arr">▶</span><span class="ico_division_s"><%=workSpace.getName() %></span><%} %>
                             <span class="t_date"><%=instance.getCreatedDate().toLocalString() %></span>
                             <div class="">
-                           		<span class="title_picico"><%=instance.getSubject()%></span>
-                            	<div class="ico_iworks t_date"><%=work.getFullpathName() %></div> 
+                           		<span class="title_picico float_left mr7"><%=instance.getSubject()%></span>
+                            	<span class="ico_iworks t_date"><%=work.getFullpathName() %></span> 
                             </div>
                         </div>
                     </div>
@@ -77,18 +77,18 @@
 		            </div>
 		            
 					<!-- 전자결재, 업무전달 버튼들 -->
-					<div class="txt_btn">
+					<div class="txt_btn image_posi">
 		                <div class="po_right">
 		                	<a href=""><img src="images/btn_print.gif" title="<fmt:message key='common.button.print'/>" /></a>
 		                </div>
 		                <div class="po_right">
 		                	<a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a>
 		                </div>
-						<div class="po_right image_posi">
+						<div class="po_right">
 							<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
 						</div>
-						<div class="po_right image_posi">
-							<a href="" class="js_toggle_forward_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
+						<div class="po_right">
+							<a href="" class="js_toggle_forward_btn"><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
 						</div>
 					</div>
 					<!-- 전자결재, 업무전달 버튼들 //-->

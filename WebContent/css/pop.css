@@ -12,7 +12,7 @@
 
 
 /* Layer popup list */
-.pop_list_area {border: 1px solid #c7c7c7; text-align: left; background-color: #FFF; margin-top: 1px; -webkit-box-shadow: 0px 2px 10px #505050; font-size: 11px;}
+.pop_list_area {border: 1px solid #c7c7c7; text-align: left; background-color: #FFF; margin-top: 1px; font-size: 11px;}
 .pop_list_area li .dep {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 
 .pop_list_area li .dep:hover {display:block; background-color:#fffccd;}

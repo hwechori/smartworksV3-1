@@ -59,12 +59,12 @@
 			<!-- 타이틀 -->
 			<div class="body_titl_pic">		
 	                <div class="noti_pic mr7 mb5"><img src="<%=instance.getOwner().getMidPicture() %>"  class="profile_size_m"/></div>
-	                <div class="noti_in_bodytitle">
+	                <div class="noti_in_bodytitle mb5">
 	                    <span class="t_name"><%=instance.getOwner().getLongName()%></span>
 	                    <span class="t_date"><%=instance.getCreatedDate().toLocalString()%></span>
 	                    <div class="">
-	                    	<span class="title_picico"><%=instance.getSubject()%></span>
-	                    	<div class="ico_pworks t_date"> <%=work.getFullpathName() %></div> 
+	                    	<span class="title_picico float_left mr7"><%=instance.getSubject()%></span>
+	                    	<span class="ico_pworks t_date"> <%=work.getFullpathName() %></span> 
 	                    </div>
 	                </div>
 		                    
@@ -74,7 +74,7 @@
 	            </div>
 	            
 				<!-- 전자결재, 업무전달 버튼들 -->
-				<div class="txt_btn">
+				<div class="txt_btn image_posi">
 	                <div class="po_right ico_print">
 	                	<a href="" title="<fmt:message key='common.button.print'/>"></a>
 	                </div>

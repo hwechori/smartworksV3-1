@@ -146,6 +146,7 @@ mark, rp, rt, ruby, summary, time {
 .float_left {float:left}
 /* .float_left_nowidth {float:left;} */
 .float_right {float:right;}
+.fn {float:none}
 .clear {display:block; clear:both;}
 
 .space_r2 {margin-right:2px !important}
