@@ -167,8 +167,6 @@ $(function() {
 		var input = $(e.target);
 		var target = input.parents('.js_new_work_definition_page').find('.js_work_group_target');
 		var categoryId = input.find('option:selected').attr('value');
-		console.log('target=', target , 'categoryId=', categoryId);
-		alert('in');
 		$.ajax({
 			url : "group_options_by_category.sw",
 			data : {

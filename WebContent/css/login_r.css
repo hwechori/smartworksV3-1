@@ -17,3 +17,15 @@
 /* Footer */
 #footer {border-top:1px solid #D3D3D3; height: 29px; margin:0 30px; padding-top: 20px; text-align: center;} 
 .bottom_text {color: #989898; font-size: 11px;}
+
+/* Btn (layout.css ม฿บน ตส) */
+.btn_gray {display:inline-block;}
+.btn_gray .Btn01Start {background: url("../images/btn_gr_left.jpg") repeat scroll 0 0 transparent;
+			 float:left; height:22px; width:5px;}
+.btn_gray .Btn01Center {background: url("../images/btn_gr_center.jpg") repeat scroll 0 0 transparent;
+    		float:left; color:#fff; height:20px; padding:2px 3px 0; text-align:center; font-weight:bold;}
+.btn_gray .Btn01End {background: url("../images/btn_gr_right.jpg") repeat scroll 0 0 transparent;
+    		float:left; height:22px; width:5px;}
+			
+/* Bottom Btn Section */
+.glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; border-top: 1px solid #c7c7c7; overflow: hidden}
