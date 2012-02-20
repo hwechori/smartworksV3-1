@@ -98,21 +98,21 @@
 		<div class="solid_line clear"></div>
 	</div>
 
-	<form name="frmEditApprovalLine" class="form_layout margin_b10 js_validation_required">
+	<form name="frmEditApprovalLine" class="form_layout con margin_b10 js_validation_required">
 		<table>
 			<tbody>
 				<tr>
-					<td width="20%"><fmt:message key="settings.title.approval.name"/><span class="essen_n"></span></td>
+					<th width="20%"><fmt:message key="settings.title.approval.name"/><span class="essen_n"></span></th>
 					<td colspan="3" width="80%" ><input name="txtApprovalLineName" type="text" class="fieldline required" value="<%=CommonUtil.toNotNull(approvalLine.getName())%>"/>
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.approval.desc"/></td>
+					<th><fmt:message key="settings.title.approval.desc"/></th>
 					<td colspan="3"><textarea name="txtaApprovalLineDesc" rows="3" class="fieldline"><%=CommonUtil.toNotNull(approvalLine.getDesc()) %></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.approval.level"/></span></td>
+					<th><fmt:message key="settings.title.approval.level"/></span></th>
 					<td colspan="3">
 						<select name="selApprovalLineLevel" class="js_approval_line_level">
 							<option value="2" <%if(approvalLine.getApprovalLevel() == 2){ %>selected<%} %>>2<fmt:message key="settings.title.approval_level"/></option>
@@ -123,7 +123,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.approval.level_name"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.approval.level_name"/><span class="essen_n"></span></th>
 					<%
 					if(approvalLine.getApprovalLevel()!=0){
 						int widthVal = 80/approvalLine.getApprovalLevel();
@@ -139,7 +139,7 @@
 					%>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.approval.approver"/></span></td>
+					<th><fmt:message key="settings.title.approval.approver"/></span></th>
 					<%
 					if(approvalLine.getApprovalLevel()!=0){
 						int widthVal = 80/approvalLine.getApprovalLevel();
@@ -185,7 +185,7 @@
 					%>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.approval.mean_time"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.approval.mean_time"/><span class="essen_n"></span></th>
 					<%
 					if(approvalLine.getApprovalLevel()!=0){
 						int widthVal = 80/approvalLine.getApprovalLevel();

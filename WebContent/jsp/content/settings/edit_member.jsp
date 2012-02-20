@@ -105,7 +105,7 @@
 			<table class="margin_t10">
 				<tbody>
 					<tr>
-						<td width="22%" ><fmt:message key="profile.title.department"/></td>
+						<th width="22%" ><fmt:message key="profile.title.department"/></th>
 						<%
 						if(!SmartUtil.isBlankObject(departId)){
 						%>
@@ -120,11 +120,11 @@
 						%>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.user_name"/><span class="essen_n"></span></td>
+						<th><fmt:message key="profile.title.user_name"/><span class="essen_n"></span></th>
 						<td><input name="txtMemberName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(user.getName()) %>" /></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.user_id"/><span class="essen_n"></span></td>
+						<th><fmt:message key="profile.title.user_id"/><span class="essen_n"></span></th>
 						<td>
 						
 						<div class="btn_fb_space5">
@@ -142,23 +142,23 @@
 						</td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.password"/><span class="essen_n"></span></td>
+						<th><fmt:message key="profile.title.password"/><span class="essen_n"></span></th>
 						<td><input name="pasMemberPassword" class="fieldline required" type="password" value="<%=CommonUtil.toNotNull(user.getPassword()) %>" /></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.password_confirm"/><span class="essen_n"></span></td>
+						<th><fmt:message key="profile.title.password_confirm"/><span class="essen_n"></span></th>
 						<td><input name="pasMemberPasswordConfirm" class="fieldline required" type="password" value="<%=CommonUtil.toNotNull(user.getPassword()) %>" /></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.employee_id"/></td>
+						<th><fmt:message key="profile.title.employee_id"/></th>
 						<td><input name="txtMemberEmployeeId" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(user.getEmployeeId()) %>" /></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.position"/></td>
+						<th><fmt:message key="profile.title.position"/></th>
 						<td><input name="txtMemberPosition" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(user.getPosition()) %>" /></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.role"/></td>
+						<th><fmt:message key="profile.title.role"/></th>
 						<td>
 							<select name="selMemberRole">
 								<option <%if(user.getRole()==User.USER_ROLE_LEADER){ %>selected<%} %> value="<%=User.USER_ROLE_LEADER %>"><fmt:message key="department.role.head"/></option>
@@ -167,7 +167,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.user_level"/></td>
+						<th><fmt:message key="profile.title.user_level"/></th>
 						<td><select name="selMemberUserLevel">
 							<option <%if(user.getUserLevel()==User.USER_LEVEL_INTERNAL_USER){ %>selected<%} %> value="<%=User.USER_LEVEL_INTERNAL_USER%>"><fmt:message key="organization.user_level.internal_user"/></option>
 							<option <%if(user.getUserLevel()==User.USER_LEVEL_SYSMANAGER){ %>selected<%} %> value="<%=User.USER_LEVEL_SYSMANAGER%>"><fmt:message key="organization.user_level.system_user"/></option>
@@ -176,7 +176,7 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.locale" /><span class="essen_n"></span></td>
+						<th><fmt:message key="profile.title.locale" /><span class="essen_n"></span></th>
 						<td>
 							<select name="selMemberLocale">
 								<%
@@ -191,7 +191,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.timezone" /><span class="essen_n"></span></td>
+						<th><fmt:message key="profile.title.timezone" /><span class="essen_n"></span></th>
 						<td>
 							<select name="selMemberTimeZone">
 								<%
@@ -205,11 +205,11 @@
 						</td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.phone_no"/></td>
+						<th><fmt:message key="profile.title.phone_no"/></th>
 						<td><input name="txtMemberPhoneNo" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(user.getPhoneNo()) %>" /></td>
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.cell_phone_no"/></td>
+						<th><fmt:message key="profile.title.cell_phone_no"/></th>
 						<td><input name="txtMemberCellPhoneNo" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(user.getCellPhoneNo()) %>" /></td>
 					</tr>
 				</tbody>

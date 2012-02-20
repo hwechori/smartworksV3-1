@@ -101,41 +101,41 @@
 		<div class="solid_line clear"></div>
 	</div>
 
-	<form name="frmEditExternalForm" class="form_layout margin_b10 js_validation_required">
+	<form name="frmEditExternalForm" class="form_layout con margin_b10 js_validation_required">
 		<table>
 			<tbody>
 				<tr>
-					<td width="20%"><fmt:message key="settings.title.externalform.name"/><span class="essen_n"></span></td>
+					<th width="20%"><fmt:message key="settings.title.externalform.name"/><span class="essen_n"></span></th>
 					<td colspan="3" width="80%" ><input name="txtExternalFormName" type="text" class="fieldline required" value="<%=CommonUtil.toNotNull(externalForm.getName())%>"/>
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.externalform.desc"/></td>
+					<th><fmt:message key="settings.title.externalform.desc"/></th>
 					<td colspan="3"><textarea name="txtExternalFormDesc" rows="3" class="fieldline"><%=CommonUtil.toNotNull(externalForm.getDesc()) %></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.externalform.url"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.externalform.url"/><span class="essen_n"></span></th>
 					<td>
-						<div class="btn_fb_space">
+						
 							<input name="txtExternalFormURL" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(externalForm.getUrl())%>">
-						</div>
+						
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.externalform.edit_method"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.externalform.edit_method"/><span class="essen_n"></span></th>
 					<td>
 						<input name="txtEditMethod" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(externalForm.getEditMethod())%>">
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.externalform.view_method"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.externalform.view_method"/><span class="essen_n"></span></th>
 					<td>
 						<input name="txtViewMethod" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(externalForm.getViewMethod())%>">
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.externalform.edit_variables"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.externalform.edit_variables"/><span class="essen_n"></span></th>
 					<td>
 						<table style="width:100%">
 							<tr>
@@ -195,7 +195,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.externalform.view_variables"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.externalform.view_variables"/><span class="essen_n"></span></th>
 					<td>
 						<table style="width:100%">
 							<tr>
@@ -255,7 +255,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.externalform.return_variables"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.externalform.return_variables"/><span class="essen_n"></span></th>
 					<td>
 						<table style="width:100%">
 							<tr>

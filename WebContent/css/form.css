@@ -4,8 +4,10 @@
 .form_layout {padding:10px;}
 .form_col { padding:3px 10px;}
 .form_row {}
-.form_label {float:left;}
-.form_value, .form_value a span {display:inline-block; color: #868686}
+.form_label, .form_value {float:left;}
+.form_value, .form_value a span,
+.form_layout.con td, .boTb td {color: #868686}
+.form_layout.con th, .boTb th {font-weight:normal; color: #454545}
 
 .form_layout table td,
 .form_layout table th {padding:3px 10px; border-bottom: none}
