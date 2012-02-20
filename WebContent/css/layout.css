@@ -145,7 +145,7 @@ tr.list_action_item:hover .list_action {display:block; cursor:pointer;}
 .personal_info .builder {background: url("../images/nav_builder.png"); display:inline; width:72px; height:75px; position:relative;}
 
 /* nav_list*/
-.nav_list {width:226px; border-bottom:1px solid #969696}
+.nav_list {width:226px; border-bottom:1px solid #7a7a7a}
 .nav_current {color:#fcab4c; text-decoration:underline;}
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; padding-bottom: 10px; background-color:#6b6b6b}
