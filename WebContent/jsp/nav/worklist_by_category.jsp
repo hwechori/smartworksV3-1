@@ -62,8 +62,8 @@
 						else if(work.getType() == SmartWork.TYPE_SCHEDULE) workTypeName = SmartMessage.getString("common.title.schedule_work");
 					%>
 						<span class="work_action">
-							<span title="<fmt:message key='builder.button.remove_work'/>" class="js_remove_work_work_definition btn_im_x" workId="<%=work.getId() %>" workName="<%=smartWork.getFullpathName()%>"></span>
-							<span title="<fmt:message key='builder.button.change_work'/>" class="js_change_work_work_definition btn_im_x" workId="<%=work.getId() %>" workName="<%=work.getName()%>" workTypeName="<%=workTypeName %>" workDesc="<%=work.getDesc()%>" categoryId="<%=categoryId%>" groupId="<%=groupId%>"></span>
+							<span title="<fmt:message key='builder.button.remove_work'/>" class="js_remove_work_definition btn_im_x" workId="<%=work.getId() %>" workName="<%=smartWork.getFullpathName()%>"></span>
+							<span title="<fmt:message key='builder.button.change_work'/>" class="js_change_work_definition btn_im_x" workId="<%=work.getId() %>" workName="<%=work.getName()%>" workTypeName="<%=workTypeName %>" workDesc="<%=work.getDesc()%>" categoryId="<%=categoryId%>" groupId="<%=groupId%>"></span>
 						</span>
 					<%
 					}

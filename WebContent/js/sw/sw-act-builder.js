@@ -163,4 +163,22 @@ $(function() {
 		return false;
 	});
 	
+	$('.js_select_work_category').live('change', function(e) {
+		var input = $(e.target);
+		var target = input.parents('.js_new_work_definition_page').find('.js_work_group_target');
+		var categoryId = input.find('option:selected').attr('value');
+		console.log('target=', target , 'categoryId=', categoryId);
+		alert('in');
+		$.ajax({
+			url : "group_options_by_category.sw",
+			data : {
+				categoryId : categoryId
+			},
+			success : function(data, status, jqXHR) {
+				target.html(data);
+			}			
+		});
+		return false;
+	});
+	
 });
