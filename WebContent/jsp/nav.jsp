@@ -40,6 +40,12 @@
 				<jsp:include page="/jsp/nav/community_members.jsp" />
 			</div>
 	<%
+		}else{
+	%>
+			<div class="nav_list">
+				<jsp:include page="/jsp/nav/user_wall.jsp" />
+			</div>	
+	<%
 		}
 	// 커뮤너티공간이 아니면서 워크스페이스가 없거나 워크스페이스가 현재 사용자이면,
 	// 나의 업무, 나의 커뮤너티, 메일 함들을 보여준다....
