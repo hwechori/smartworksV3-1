@@ -181,7 +181,7 @@ mark, rp, rt, ruby, summary, time {
 .margin_b2 {margin-bottom:2px !important}
 .mb2 {margin-bottom:2px !important}
 .mb3 {margin-bottom:3px !important}
-.margin_b5 {margin-bottom:5px !important}
+.margin_b5, .mb5 {margin-bottom:5px !important}
 .margin_b10 {margin-bottom:10px !important}
 .mr5 {margin-right:5px !important}
 .mr7 {margin-right:7px !important}

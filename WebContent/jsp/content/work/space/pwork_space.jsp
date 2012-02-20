@@ -58,13 +58,13 @@
 	    <ul class="portlet_r" style="display: block;">		            
 			<!-- 타이틀 -->
 			<div class="body_titl_pic">		
-	                <div class="noti_pic mr7"><img src="<%=instance.getOwner().getMidPicture() %>"  class="profile_size_m"/></div>
+	                <div class="noti_pic mr7 mb5"><img src="<%=instance.getOwner().getMidPicture() %>"  class="profile_size_m"/></div>
 	                <div class="noti_in_bodytitle">
 	                    <span class="t_name"><%=instance.getOwner().getLongName()%></span>
 	                    <span class="t_date"><%=instance.getCreatedDate().toLocalString()%></span>
 	                    <div class="">
 	                    	<span class="title_picico"><%=instance.getSubject()%></span>
-	                    	<span class="ico_pworks t_date"> <%=work.getFullpathName() %></span> 
+	                    	<div class="ico_pworks t_date"> <%=work.getFullpathName() %></div> 
 	                    </div>
 	                </div>
 		                    

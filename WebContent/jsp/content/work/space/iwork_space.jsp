@@ -59,20 +59,20 @@
 		    <ul class="portlet_r" style="display: block;">		    		            
             	<div class="body_titl_pic js_form_header">		
                     <div class="">
-                        <div class="noti_pic"><img class="profile_size_m" src="<%=instance.getOwner().getMidPicture() %>" /></div>
+                        <div class="noti_pic mb5 mr7"><img class="profile_size_m" src="<%=instance.getOwner().getMidPicture() %>" /></div>
                         <div class="noti_in_bodytitle">
                             <span class="t_name"><%=instance.getOwner().getLongName()%></span>
                             <%if(workSpace != null && !workSpace.getId().equals(owner.getId())){ %><span class="arr">▶</span><span class="ico_division_s"><%=workSpace.getName() %></span><%} %>
                             <span class="t_date"><%=instance.getCreatedDate().toLocalString() %></span>
                             <div class="">
-                            	<span class="ico_iworks t_date"><%=work.getFullpathName() %></span> 
-                            	<span class="title_picico"><%=instance.getSubject()%></span>
+                           		<span class="title_picico"><%=instance.getSubject()%></span>
+                            	<div class="ico_iworks t_date"><%=work.getFullpathName() %></div> 
                             </div>
                         </div>
                     </div>
 		                    
 		            <!-- 우측 버튼-->
-		            <div class="txt_btn">
+		            <div class="txt_btn t_s11">
 		                <div class="po_right"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
 		            </div>
 		            
@@ -93,7 +93,7 @@
 					</div>
 					<!-- 전자결재, 업무전달 버튼들 //-->
 		                    
-                	<div class="solid_line"></div>
+                	<div class="solid_line clear"></div>
                 </div>
 		            <!-- 타이틀 -->
 		            
