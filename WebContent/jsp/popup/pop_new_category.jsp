@@ -112,7 +112,7 @@
 				<tr>
 					<td><fmt:message key="common.title.desc" /></td>
 					<td>
-						<textarea name="txtaCategoryDesc" class="fieldline" rows="4"><%=CommonUtil.toNotNull(categoryDesc) %></textarea>	
+						<textarea name="txtCategoryDesc" class="fieldline" rows="4"><%=CommonUtil.toNotNull(categoryDesc) %></textarea>	
 					</td>
 				</tr>
 			</table>
