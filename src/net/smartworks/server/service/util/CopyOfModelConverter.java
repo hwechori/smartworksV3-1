@@ -50,6 +50,7 @@ import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.common.collection.model.ColList;
 import net.smartworks.server.engine.common.collection.model.ColListCond;
+import net.smartworks.server.engine.common.collection.model.ColObject;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
@@ -983,7 +984,7 @@ public class CopyOfModelConverter {
 		if (list == null)
 			return null;
 		
-		LnkObject[] filterItemArray = list.getItems();
+		ColObject[] filterItemArray = list.getItems();
 		
 		if (CommonUtil.isEmpty(filterItemArray))
 			return null;
@@ -991,7 +992,7 @@ public class CopyOfModelConverter {
 		List<SearchFilter> filterList = new ArrayList<SearchFilter>();
 		for (int i = 0; i < filterItemArray.length; i++) {
 
-			LnkObject filterItem = filterItemArray[i];
+			ColObject filterItem = filterItemArray[i];
 			
 			String name = filterItem.getLabel();
 			String conditionStr = filterItem.getExpression();
