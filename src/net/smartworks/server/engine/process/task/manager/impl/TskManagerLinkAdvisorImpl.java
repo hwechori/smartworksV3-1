@@ -57,7 +57,6 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 	private static Pattern pattern = Pattern.compile("\\{\\$[^$]+\\}");
 	
 	public void postExecuteTask(String user, TskTask obj, String action) throws Exception {
-		System.out.println("LinkAdvisor postExecuteTask");
 
 		postMapping(user, obj, action);
 		
@@ -1166,7 +1165,6 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		
 	}
 	public void preExecuteTask(String user, TskTask obj, String action) throws Exception {
-		System.out.println("LnkAdvisor preExecuteTask");
 //		if (action != null && action.equalsIgnoreCase("return"))
 //			return;
 		

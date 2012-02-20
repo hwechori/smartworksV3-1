@@ -62,6 +62,7 @@ import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.common.collection.model.ColList;
 import net.smartworks.server.engine.common.collection.model.ColListCond;
+import net.smartworks.server.engine.common.collection.model.ColObject;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.menuitem.manager.IItmManager;
 import net.smartworks.server.engine.common.menuitem.model.ItmMenuItem;
@@ -90,7 +91,6 @@ import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
-import net.smartworks.server.engine.process.link.model.LnkObject;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
@@ -1586,8 +1586,55 @@ public class ModelConverter {
 		return smartTaskInfoArray;
 	}
 	public static SearchFilterInfo[] getSearchFilterInfoByPkgPackage(String userId, PkgPackage pkg) throws Exception {
+		if (pkg == null)
+			return null;
 		
-		return new SearchFilterInfo[]{new SearchFilterInfo("","")};
+		ColListCond listCond = new ColListCond();
+		String pkgType = pkg.getType();
+		if (pkgType.equalsIgnoreCase("PROCESS") || pkgType.equalsIgnoreCase("GANTT")) {
+			//processinst.cond.admin@maninsoft.co.kr
+			listCond.setType("processinst.cond." + userId);
+		} else {
+			//record.cond.admin@maninsoft.co.kr
+			listCond.setType("record.cond." + userId);
+		}
+		String resourceId = getResourceIdByPkgPackage(pkg);
+		if (CommonUtil.isEmpty(resourceId))
+			return null;
+		listCond.setCorrelation(resourceId);
+
+		ColList filterList = getColManager().getList(userId, listCond, IManager.LEVEL_ALL);
+
+		return getSearchFilterInfoArrayByColList(pkgType, filterList);
+	}
+
+	public static SearchFilterInfo[] getSearchFilterInfoArrayByColList(String type, ColList list) throws Exception {
+		if (list == null)
+			return null;
+
+		ColObject[] filterItemArray = list.getItems();
+
+		if (CommonUtil.isEmpty(filterItemArray))
+			return null;
+
+		List<SearchFilterInfo> filterInfoList = new ArrayList<SearchFilterInfo>();
+		for (int i = 0; i < filterItemArray.length; i++) {
+
+			ColObject filterItem = filterItemArray[i];
+
+			String id = filterItem.getRef();
+			String name = filterItem.getLabel();
+
+			SearchFilterInfo searchFilterInfo = new SearchFilterInfo();
+			searchFilterInfo.setId(id);
+			searchFilterInfo.setName(name);
+
+			filterInfoList.add(searchFilterInfo);
+		}
+		SearchFilterInfo[] searchFilterInfos = new SearchFilterInfo[filterInfoList.size()];
+		filterInfoList.toArray(searchFilterInfos);
+		
+		return searchFilterInfos;
 	}
 
 	public static SearchFilter[] getSearchFilterArrayByPkgPackage(String userId, PkgPackage pkg) throws Exception {
@@ -1616,7 +1663,7 @@ public class ModelConverter {
 		if (list == null)
 			return null;
 		
-		LnkObject[] filterItemArray = list.getItems();
+		ColObject[] filterItemArray = list.getItems();
 		
 		if (CommonUtil.isEmpty(filterItemArray))
 			return null;
@@ -1624,8 +1671,9 @@ public class ModelConverter {
 		List<SearchFilter> filterList = new ArrayList<SearchFilter>();
 		for (int i = 0; i < filterItemArray.length; i++) {
 
-			LnkObject filterItem = filterItemArray[i];
-			
+			ColObject filterItem = filterItemArray[i];
+
+			String id = filterItem.getRef();
 			String name = filterItem.getLabel();
 			String conditionStr = filterItem.getExpression();
 			Condition[] conditions = null;
@@ -1660,7 +1708,7 @@ public class ModelConverter {
 			}
 			
 			SearchFilter searchFilter = new SearchFilter();
-			searchFilter.setId(name);
+			searchFilter.setId(id);
 			searchFilter.setName(name);
 			searchFilter.setConditions(conditions);
 			
@@ -1671,7 +1719,74 @@ public class ModelConverter {
 		
 		return searchFilter;
 	}
-	
+
+	public static SearchFilter getSearchFilterByFilterId(String filterId) throws Exception {
+		User cUser = SmartUtil.getCurrentUser();
+		String userId = cUser.getId();
+
+		ColObject colObject = new ColObject();
+		colObject.setRef(filterId);
+
+		ColObject[] colObjects = new ColObject[1];
+		colObjects[0] = colObject;
+
+		ColListCond colListCond = new ColListCond();
+		colListCond.setItems(colObjects);
+		ColList colList = getColManager().getList(userId, colListCond, IManager.LEVEL_ALL);
+
+		if (colList == null)
+			return null;
+		
+		ColObject filterItem = colList.getItems()[0];
+
+		if (filterItem == null)
+			return null;
+
+		String type = "SINGLE";
+		String id = filterItem.getRef();
+		String name = filterItem.getLabel();
+		String conditionStr = filterItem.getExpression();
+
+		Condition[] conditions = null;
+		if (!CommonUtil.isEmpty(conditionStr)) {
+			Filter[] filters = null;
+			if (type.equalsIgnoreCase("PROCESS") || type.equalsIgnoreCase("GANTT")) {
+				PrcProcessInstCond prcCond = (PrcProcessInstCond)PrcProcessInstCond.toObject(conditionStr);
+				if (prcCond == null)
+					return null;
+				filters = prcCond.getFilter();
+			} else {
+				SwdRecordCond recCond = (SwdRecordCond)SwdRecordCond.toObject(conditionStr);
+				if (recCond == null)
+					return null;
+				filters = recCond.getFilter();
+			}
+			if (filters == null)
+				return null;
+			Condition[] condArray = new Condition[filters.length];
+			for (int i=0; i<filters.length; i++) {
+				Filter filter = filters[i];
+				String leftOperType = filter.getLeftOperandType();
+				String leftOperValue = filter.getLeftOperandValue();
+				String rightOperType = filter.getRightOperandType();
+				String rightOperValue = filter.getRightOperandValue();
+				String operator = filter.getOperator();
+
+				Condition cond = new Condition(new FormField(leftOperValue, null, leftOperType) , operator, new FormField(rightOperValue, null, rightOperType));
+				condArray[i] = cond;
+			}
+			conditions = condArray;
+		}
+
+		SearchFilter searchFilter = new SearchFilter();
+		searchFilter.setId(id);
+		searchFilter.setName(name);
+		searchFilter.setConditions(conditions);
+
+		return searchFilter;
+		
+	}
+
 	public static String getResourceIdByPkgPackage(PkgPackage pkg) throws Exception {
 		if (pkg == null)
 			return null;

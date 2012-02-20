@@ -14,15 +14,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.smartworks.model.report.ChartReport;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
-import net.smartworks.service.impl.SmartWorks;
-import net.smartworks.util.SmartMessage;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -184,8 +180,7 @@ public class WorkController extends ExceptionInterceptor {
 	@RequestMapping(value = "/set_iwork_search_filter", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public ModelAndView setIworkSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
-		String filterId = "";
+		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
 		String workId = (String)requestBody.get("workId");
 		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
 		ModelAndView mnv = new ModelAndView();
@@ -197,8 +192,7 @@ public class WorkController extends ExceptionInterceptor {
 	@RequestMapping(value = "/create_iwork_search_filter", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public ModelAndView createIworkSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
-		String filterId = "";
+		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
 		String workId = (String)requestBody.get("workId");
 		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
 		ModelAndView mnv = new ModelAndView();
