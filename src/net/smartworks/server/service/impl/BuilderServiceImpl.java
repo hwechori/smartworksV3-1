@@ -8,6 +8,8 @@ import net.smartworks.model.community.User;
 import net.smartworks.server.engine.authority.manager.ISwaManager;
 import net.smartworks.server.engine.authority.model.SwaResource;
 import net.smartworks.server.engine.authority.model.SwaResourceCond;
+import net.smartworks.server.engine.category.manager.ICtgManager;
+import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
@@ -210,8 +212,31 @@ public class BuilderServiceImpl implements IBuilderService {
 
 	@Override
 	public void createNewCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-
+		//{frmNewWorkCategroy={txtCategoryName=test, txtCategoryDesc=}}
 		try{
+			Map<String, Object> frmNewWorkCategory = (Map<String, Object>)requestBody.get("frmNewWorkCategroy");
+			
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String compId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				compId = cuser.getCompanyId();
+			}
+
+			//String parentCategoryId = request.getParameter("parentCategoryId");
+			String parentCategoryId = "_PKG_ROOT_";
+			String name = (String)frmNewWorkCategory.get("txtCategoryName");
+			String desc = (String)frmNewWorkCategory.get("txtCategoryDesc");
+		
+			CtgCategory ctg = new CtgCategory();
+			ctg.setCompanyId(compId);
+			ctg.setName(name);
+			ctg.setDescription(desc);
+			ctg.setParentId(parentCategoryId);
+			ctg.setDisplayOrder(1);
+			//ICategoryModel category = catMgr.createCategory(userId, parentCategoryId, name, desc);
+			CtgCategory category = SwManagerFactory.getInstance().getCtgManager().createCategory(userId, ctg);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -221,8 +246,30 @@ public class BuilderServiceImpl implements IBuilderService {
 
 	@Override
 	public void setCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-
+		//{categoryId=402880eb359835ed013598367d080001, frmNewWorkCategroy={txtCategoryName=test a, txtCategoryDesc=a}}
 		try{
+			Map<String, Object> frmNewWorkCategory = (Map<String, Object>)requestBody.get("frmNewWorkCategroy");
+			
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String compId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				compId = cuser.getCompanyId();
+			}
+
+			String categoryId = (String)requestBody.get("categoryId");
+			String name = (String)frmNewWorkCategory.get("txtCategoryName");
+			String desc = (String)frmNewWorkCategory.get("txtCategoryDesc");
+			
+			ICtgManager categoryMgr = SwManagerFactory.getInstance().getCtgManager();
+			CtgCategory category = categoryMgr.getCategory(userId, categoryId, IManager.LEVEL_ALL);
+			if (category == null)
+				return;
+			category.setName(name);
+			category.setDescription(desc);
+			//ICategoryModel category = catMgr.createCategory(userId, parentCategoryId, name, desc);
+			categoryMgr.setCategory(userId, category, IManager.LEVEL_ALL);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -232,8 +279,28 @@ public class BuilderServiceImpl implements IBuilderService {
 
 	@Override
 	public void removeCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-
+		//{categoryId=402880eb359835ed013598367d080001}
 		try{
+			String categoryId = (String)requestBody.get("categoryId");
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String compId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				compId = cuser.getCompanyId();
+			}
+			
+			//삭제하기 전에 실행되고 있는 패키지가 속한 카테고리는 삭제 할수 없다
+			PkgPackageCond cond = new PkgPackageCond();
+			cond.setCompanyId(compId);
+			cond.setCategoryId(categoryId);
+			long pkgCount = getPkgManager().getPackageSize(userId, cond);
+			
+			if (pkgCount > 0)
+				throw new Exception("Delete Category(" +categoryId+ ") failed - Exist Sub Packages!" );
+			
+			ICtgManager categoryMgr = SwManagerFactory.getInstance().getCtgManager();
+			categoryMgr.removeCategory(userId, categoryId);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -243,8 +310,8 @@ public class BuilderServiceImpl implements IBuilderService {
 
 	@Override
 	public void createNewWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-
 		try{
+			System.out.println(requestBody);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -254,8 +321,8 @@ public class BuilderServiceImpl implements IBuilderService {
 
 	@Override
 	public void setWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-
 		try{
+			System.out.println(requestBody);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
