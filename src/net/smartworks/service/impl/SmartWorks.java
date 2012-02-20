@@ -512,6 +512,11 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
+	public String setIWorkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return workService.setIWorkSearchFilter(requestBody, request);
+	}
+
+	@Override
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		docFileService.downloadFile(request, response);
 

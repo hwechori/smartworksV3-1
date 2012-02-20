@@ -4,7 +4,6 @@ import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.MisObjectCond;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
-import net.smartworks.server.engine.process.link.model.LnkObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,7 +27,7 @@ public class ColListCond extends MisObjectCond {
 	private String type;
 	private String typeLike;
 	
-	private LnkObject[] items;
+	private ColObject[] items;
 	
 	public ColListCond() {
 		super();
@@ -151,12 +150,12 @@ public class ColListCond extends MisObjectCond {
 				Node[] nodes = getNodes(childNode);
 				if (nodes == null || nodes.length == 0)
 					continue;
-				LnkObject[] objs = new LnkObject[nodes.length];
+				ColObject[] objs = new ColObject[nodes.length];
 				for (int j=0; j<nodes.length; j++)
-					objs[j] = (LnkObject)LnkObject.toObject(nodes[j], null);
+					objs[j] = (ColObject)ColObject.toObject(nodes[j], null);
 				obj.setItems(objs);
 			} else if (childNode.getNodeName().equals(A_ITEM)) {
-				obj.addItem((LnkObject)LnkObject.toObject(childNode, null));
+				obj.addItem((ColObject)ColObject.toObject(childNode, null));
 			}
 		}
 		return obj;
@@ -195,16 +194,16 @@ public class ColListCond extends MisObjectCond {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public LnkObject[] getItems() {
+	public ColObject[] getItems() {
 		return items;
 	}
-	public void setItems(LnkObject[] items) {
+	public void setItems(ColObject[] items) {
 		this.items = items;
 	}
-	public void addItem(LnkObject item) {
+	public void addItem(ColObject item) {
 		if (item == null)
 			return;
-		this.setItems(LnkObject.add(this.getItems(), item));
+		this.setItems(ColObject.add(this.getItems(), item));
 	}
 	public String getTypeLike() {
 		return typeLike;

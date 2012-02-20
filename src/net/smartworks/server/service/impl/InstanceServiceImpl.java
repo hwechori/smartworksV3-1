@@ -42,6 +42,7 @@ import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Filter;
+import net.smartworks.server.engine.common.model.Filters;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
@@ -1510,24 +1511,6 @@ public class InstanceServiceImpl implements IInstanceService {
 			swdRecordCond.setFormId(swdDomain.getFormId());
 			swdRecordCond.setDomainId(swdDomain.getObjId());
 
-			String filterId = params.getFilterId();
-
-			LocalDate priviousDate = new LocalDate(new LocalDate().getTime() - LocalDate.ONE_DAY*7);
-
-			if(filterId != null) {
-				if(filterId.equals(SearchFilter.FILTER_ALL_INSTANCES)) {
-				} else if(filterId.equals(SearchFilter.FILTER_MY_INSTANCES)) {
-					swdRecordCond.addFilter(new Filter("=", FormField.ID_LAST_MODIFIER, Filter.OPERANDTYPE_STRING, user.getId()));
-				} else if(filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES)) {
-					swdRecordCond.addFilter(new Filter(">=", FormField.ID_LAST_MODIFIED_DATE, Filter.OPERANDTYPE_DATE, priviousDate.toGMTSimpleDateString()));
-				} else if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) {
-					swdRecordCond.addFilter(new Filter("=", FormField.ID_LAST_MODIFIER, Filter.OPERANDTYPE_STRING, user.getId()));
-					swdRecordCond.addFilter(new Filter(">=", FormField.ID_LAST_MODIFIED_DATE, Filter.OPERANDTYPE_DATE, priviousDate.toGMTSimpleDateString()));
-				}
-			}
-
-			String searchKey = params.getSearchKey();
-			SortingField sf = params.getSortingField();
 			SearchFilter searchFilter = params.getSearchFilter();
 			List<Filter> filterList = new ArrayList<Filter>();
 			if(searchFilter != null) {
@@ -1555,15 +1538,57 @@ public class InstanceServiceImpl implements IInstanceService {
 
 				Filter[] filters = new Filter[filterList.size()];
 				filterList.toArray(filters);
-	
+
 				swdRecordCond.setFilter(filters);
 			}
 
+			String filterId = params.getFilterId();
+
+			LocalDate priviousDate = new LocalDate(new LocalDate().getTime() - LocalDate.ONE_DAY*7);
+
+			if(filterId != null) {
+				if(filterId.equals(SearchFilter.FILTER_ALL_INSTANCES)) {
+				} else if(filterId.equals(SearchFilter.FILTER_MY_INSTANCES)) {
+					swdRecordCond.addFilter(new Filter("=", FormField.ID_LAST_MODIFIER, Filter.OPERANDTYPE_STRING, user.getId()));
+				} else if(filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES)) {
+					swdRecordCond.addFilter(new Filter(">=", FormField.ID_LAST_MODIFIED_DATE, Filter.OPERANDTYPE_DATE, priviousDate.toGMTSimpleDateString()));
+				} else if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) {
+					swdRecordCond.addFilter(new Filter("=", FormField.ID_LAST_MODIFIER, Filter.OPERANDTYPE_STRING, user.getId()));
+					swdRecordCond.addFilter(new Filter(">=", FormField.ID_LAST_MODIFIED_DATE, Filter.OPERANDTYPE_DATE, priviousDate.toGMTSimpleDateString()));
+				} else {
+					searchFilter = ModelConverter.getSearchFilterByFilterId(filterId);
+					Condition[] conditions = searchFilter.getConditions();
+					Filters filters = new Filters();
+					filterList = new ArrayList<Filter>();
+					for(Condition condition : conditions) {
+						Filter filter = new Filter();
+						FormField leftOpeand = condition.getLeftOperand();
+						String operator = condition.getOperator();
+						FormField rightOperand = (FormField)condition.getRightOperand();
+						filter.setLeftOperandType(leftOpeand.getType());
+						filter.setLeftOperandValue(leftOpeand.getId());
+						filter.setOperator(operator);
+						filter.setRightOperandType(leftOpeand.getType());
+						filter.setRightOperandValue(rightOperand.getId());
+						filterList.add(filter);
+					}
+					Filter[] searchfilters = null;
+					if(filterList.size() != 0) {
+						searchfilters = new Filter[filterList.size()];
+						filterList.toArray(searchfilters);
+						filters.setFilter(searchfilters);
+					}
+					swdRecordCond.addFilters(filters);
+				}
+			}
+
+			String searchKey = params.getSearchKey();
 			if(!CommonUtil.isEmpty(searchKey))
 				swdRecordCond.setSearchKey(searchKey);
 
 			long totalCount = getSwdManager().getRecordSize(user.getId(), swdRecordCond);
 
+			SortingField sf = params.getSortingField();
 			String columnName = "";
 			boolean isAsc;
 
@@ -1740,13 +1765,13 @@ public class InstanceServiceImpl implements IInstanceService {
 				}
 				instanceInfoList.setInstanceDatas(iWInstanceInfos);
 			}
-	
+
 			instanceInfoList.setSortedField(sortingField);
 			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 			instanceInfoList.setPageSize(pageSize);
 			instanceInfoList.setTotalPages(totalPages);
 			instanceInfoList.setCurrentPage(currentPage);
-	
+
 			return instanceInfoList;
 		}catch (Exception e){
 			e.printStackTrace();

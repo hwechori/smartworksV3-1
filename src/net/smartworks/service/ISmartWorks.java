@@ -248,6 +248,8 @@ public interface ISmartWorks {
 
 	public abstract SwdRecord getRecord(HttpServletRequest request) throws Exception;
 
+	public abstract String setIWorkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
 	public abstract void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public abstract RequestParams setInstanceListParams(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;

@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="com.sun.xml.internal.txw2.Document"%>
 <%@page import="net.smartworks.model.work.ProcessWork"%>
 <%@page import="java.net.URLEncoder"%>
@@ -27,6 +28,7 @@
 	SmartWork work = (SmartWork)session.getAttribute("smartWork");
 	String workId = work.getId();
 
+	String filterName = "";
 	FormField[] fields = null;
 	SearchFilter filter = null;
 	if ((work != null) && (work.getType() == SmartWork.TYPE_INFORMATION)) {
@@ -39,6 +41,9 @@
 	}
 	if (work != null && !SmartUtil.isBlankObject(filterId))
 		filter = smartWorks.getSearchFilterById(filterId);
+	if(!filterId.equals(SearchFilter.FILTER_ALL_INSTANCES) && !filterId.equals(SearchFilter.FILTER_MY_INSTANCES) && !filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES) &&
+			!filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES) && !filterId.equals(SearchFilter.FILTER_MY_RUNNING_INSTANCES))
+		filterName = CommonUtil.toNotNull(filter.getName());
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -276,7 +281,7 @@
 				<span class="form_space sw_error_message js_filter_error_message" style="text-align:right; color: red"></span>
 				<span class="js_progress_span"></span>
 				<span>
-					<input class="fieldline" style="width:160px;" type="text" name="txtNewFilterName"/>
+					<input class="fieldline" style="width:160px;" type="text" name="txtNewFilterName" value="<%=filterName %>" />
 				</span>
 				<span class="btn_wh">
 					<a href="" class="js_search_filter_saveas"><span class="Btn01Start"></span>

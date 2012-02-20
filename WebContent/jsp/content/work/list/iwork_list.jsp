@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.model.report.ChartReport"%>
 <%@page import="net.smartworks.model.report.info.ReportInfo"%>
 <%@page import="net.smartworks.model.filter.info.SearchFilterInfo"%>
@@ -58,10 +59,10 @@
 		var workId = iworkList.attr('workId');
 		var searchFilters = searchFilter.find('form[name="frmSearchFilter"]');
 		paramsJson['workId'] = workId;
-		if(!isEmpty(filterId)) {
-			paramsJson['txtNewFilterName'] = searchFilter.find('input[name="txtNewFilterName"]').attr('value');
-			filterId = "";	
+		if(isEmpty(filterId)) {
+			filterId = "";
 		}
+		paramsJson['txtNewFilterName'] = searchFilter.find('input[name="txtNewFilterName"]').attr('value');
 		paramsJson['filterId'] = filterId;
 
 		if(!isEmpty(searchFilters)){
@@ -242,7 +243,7 @@
 										for (SearchFilterInfo filter : filters) {
 											if(SmartUtil.isBlankObject(filter.getId())) continue;
 									%>
-											<option value="<%=filter.getId()%>" <%if(filter.getId().equals(work.getLastFilterId())){%> selected <%} %>><%=filter.getName()%></option>
+											<option value="<%=filter.getId()%>" <%if(filter.getId().equals(work.getLastFilterId())){%> selected <%} %>><%=CommonUtil.toNotNull(filter.getName())%></option>
 									<%
 										}
 									}
