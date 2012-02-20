@@ -104,9 +104,7 @@
 		}
 		%>
 		<div class="txt_btn">
-			<div class="btn_x">
-				<a href="" onclick="smartPop.close();return false;">X</a>
-			</div>
+			<a href="" onclick="smartPop.close();return false;"><div class="btn_x"></a>
 		</div>
 		<div class="solid_line"></div>
 	</div>
@@ -208,11 +206,11 @@
 	<!-- 컨텐츠 //-->
 	<!-- 버튼 영역 -->
 	<div class="glo_btn_space">
+		<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
+		<span class="form_space sw_error_message js_pop_error_message" style="text-align:right; color: red"></span>
 		<div class="float_right padding_r10">
-			<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
-			<span class="form_space sw_error_message js_pop_error_message" style="text-align:right; color: red"></span>
 			<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
-			<span class="js_progress_span float_right"></span>
+			<span class="js_progress_span"></span>
 			<span class="btn_gray">
 				<a href="" onclick='submitForms(); return false;'>
 					<span class="Btn01Start"></span>
