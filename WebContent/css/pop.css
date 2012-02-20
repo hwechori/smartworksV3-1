@@ -57,12 +57,12 @@ a:hover .pop_btn_x {background-color:#e5e5e5;}
 
 
 /* Smart Pop */
-.pop_notice_section {padding-left: 75px; text-align: left; min-height: 35px;}
+.pop_notice_section {padding-left: 10px; text-align: left; color:#7d7d7d}
 .pop_message_h {padding:10px 0;}
 
-.ico_pop_Info {background: url("../images/body_icon.png") no-repeat scroll -547px -257px transparent; display: block; font-size: 14px; font-weight: bold; line-height: 20px; padding: 2px 0 0 33px; text-align: left; margin-bottom: 5px;}
-.ico_pop_Warn {background: url("../images/body_icon.png") no-repeat scroll -547px -227px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 3px 0 0 33px; text-align: left;}
-.ico_pop_Error {background: url("../images/body_icon.png") no-repeat scroll -547px -291px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 4px 0 0 33px; text-align: left;}
+.ico_pop_Info {background: url("../images/body_icon.png") no-repeat scroll -547px -257px transparent; display: block; font-size: 14px; font-weight: bold; line-height: 20px; padding: 2px 0 0 33px; text-align: left; margin-bottom: 10px}
+.ico_pop_Warn {background: url("../images/body_icon.png") no-repeat scroll -547px -227px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 3px 0 0 33px; text-align: left; margin-bottom: 10px}
+.ico_pop_Error {background: url("../images/body_icon.png") no-repeat scroll -547px -283px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 4px 0 0 33px; text-align: left; margin-bottom: 10px}
 
 
 /* Smart User Info */
