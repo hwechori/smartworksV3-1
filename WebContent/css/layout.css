@@ -438,7 +438,7 @@ a .btn_apps:hover,
 
 .ico_posi {position:absolute; right:0; top:0;} /* Icon Position Right */
 
-.glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; height: 22px; border-top: 1px solid #c7c7c7;}
+.glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; border-top: 1px solid #c7c7c7; overflow: hidden}
 .glo_btn_space .btn_finish {float:right; padding-right:10px;}
 
 .posit_works {left:15px; top:1px; position:relative; z-index:20;}
@@ -651,7 +651,7 @@ td.pic{width:85px}
 /* close btn */
 .btn_x, .btn_im_x {background: url("../images/btn_im_x_gr.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
     padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;} 
-a .btn_x:hover, a .btn_im__x:hover {background-color:#b6b6b6;}
+a .btn_x:hover, a .btn_im__x:hover {background-color:#d5d5d5;}
 
 .btn_right {left: 452px; position:relative;}
 .btn_x_gr {color:#c7c7c7; font-size:12px;}
