@@ -69,14 +69,14 @@
 				success : function(data, status, jqXHR) {
 					// 사용자정보 수정이 정상적으로 완료되었으면, 현재 페이지에 그대로 있는다.
 					smartPop.closeProgress();
- 					smartPop.showInfo(smartPop.INFORM, (isEmpty(workId) ? smartMessage.get('createWorkDefinitionSucceed') : smartMessage.get('setWorkDefinitionSucceed'), function(){
+ 					smartPop.showInfo(smartPop.INFORM, isEmpty(workId) ? smartMessage.get('createWorkDefinitionSucceed') : smartMessage.get('setWorkDefinitionSucceed'), function(){
 						document.location.href = document.location.href;
  						smartPop.close();
   					});
 				},
 				error : function(e) {
 					smartPop.closeProgress();
-					smartPop.showInfo(smartPop.ERROR, (isEmpty(workId) ? smartMessage.get('createWorkDefinitionError') : smartMessage.get('setWorkDefinitionError'));
+					smartPop.showInfo(smartPop.ERROR, isEmpty(workId) ? smartMessage.get('createWorkDefinitionError') : smartMessage.get('setWorkDefinitionError'));
 				}
 			});
 		}
@@ -152,7 +152,7 @@
 					<tr>
 						<td><fmt:message key="builder.title.category_name"/></td>
 						<td>
-							<select name="selWorkCategoryId">
+							<select name="selWorkCategoryId" class="js_select_work_category">
 								<%
 								if(!SmartUtil.isBlankObject(workCategories)){
 									for(WorkInfo category : workCategories){
@@ -169,10 +169,11 @@
 					<tr>
 						<td><fmt:message key="builder.title.group_name"/></td>
 						<td>
-							<select name="selWorkGroupId">
+							<select name="selWorkGroupId" class="js_work_group_target">
+								<option><fmt:message key="common.title.none"/></option>
 								<%
-								if(!SmartUtil.isBlankObject(groupId)){
-									WorkInfo[] groups = smartWorks.getAllWorksByCategoryId(groupId);
+								if(!SmartUtil.isBlankObject(categoryId)){
+									WorkInfo[] groups = smartWorks.getAllWorksByCategoryId(categoryId);
 									if(!SmartUtil.isBlankObject(groups)){
 										for(WorkInfo group : groups){
 											if(group.getType()!= WorkCategory.TYPE_CATEGORY) continue;

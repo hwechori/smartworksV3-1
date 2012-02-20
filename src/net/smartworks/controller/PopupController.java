@@ -103,4 +103,10 @@ public class PopupController {
 
 		return SmartUtil.returnMnv(request, "jsp/popup/pop_download_from_appstore.jsp", "");
 	}
+
+	@RequestMapping("/group_options_by_category")
+	public ModelAndView groupOptionsByCategory(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/group_options_by_category.jsp", "");
+	}
 }
