@@ -31,7 +31,7 @@
 	<div class="personal_info">
 		<ul>
 			<li class="builder"></li>
-			<li class="margin_t25"><span class="t_nav">스마트 빌더</span></li>
+			<li class="margin_t25"><span class="t_nav"><fmt:message key="header.global_menu.smartbuilder"/></span></li>
 		</ul>
 	</div>
 	<!-- Nav Title//-->
@@ -39,8 +39,8 @@
 	<div class="nav_list">
 		<div class="navi_list">		
 			<div class="categ_link">
-				<a title="앱스토어에서 내려받기" href=""><span class="btn_apps"></span></a>
-				<a title="카테고리 추가" href=""><span class="btn_cate_add"></span></a>
+				<a class="js_download_form_appstore" title="<fmt:message key='builder.button.download_from_appstore'/>" href=""><span class="btn_apps"></span></a>
+				<a class="js_add_work_category" title="<fmt:message key='builder.button.add_category'/>" href=""><span class="btn_cate_add"></span></a>
 			</div>
 
 			<div id="all_works">

@@ -9,7 +9,12 @@ public class Work extends BaseObject{
 	public final static int	TYPE_COMMENTS		= 3;
 	public final static int	TYPE_MAIL_MESSAGE	= 4;
 
+	public static final int PROVIDED_BY_USER = 0;
+	public static final int PROVIDED_BY_APPSTORE = 1;
+	public static final int PROVIDED_BY_SYSTEM = 2;
+	
 	private int 	type=-1; 
+	private int 	providedBy;
 	private String 	desc;
 	
 	public int getType() {
@@ -17,6 +22,12 @@ public class Work extends BaseObject{
 	}
 	public void setType(int type) {
 		this.type = type;
+	}
+	public int getProvidedBy() {
+		return providedBy;
+	}
+	public void setProvidedBy(int providedBy) {
+		this.providedBy = providedBy;
 	}
 	public String getDesc() {
 		return desc;

@@ -864,7 +864,6 @@ public class HbResourceDesigntimeDaoImpl extends HibernateDaoSupport implements 
 		IWorkTypeModel workTypeModel = this.retrieveWorkTypeByForm(form.getFormId(), form.getVersion());
 		if(workTypeModel != null)
 			this.getHibernateTemplate().delete(workTypeModel);
-		
 		// 2. 도메인 삭제
 		if(IFormModel.TYPE_SINGLE.equals(form.getType()))
 			SmartServerManager.getInstance().getDomainManager().undeployDomain(userId, form.getFormId(), form.getVersion());

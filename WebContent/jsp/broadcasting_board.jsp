@@ -40,6 +40,7 @@
  --%>
 <span id="divBroadcastingBoard"></span>
 
+<%-- 
 <script type="text/javascript">
 var messageArray = new Array();
 <%if (messages != null) {
@@ -52,3 +53,4 @@ var messageArray = new Array();
 %>
 updateBcastBoard(messageArray);
 </script>
+ --%>

@@ -8,7 +8,10 @@ import net.smartworks.model.community.User;
 import net.smartworks.server.engine.authority.manager.ISwaManager;
 import net.smartworks.server.engine.authority.model.SwaResource;
 import net.smartworks.server.engine.authority.model.SwaResourceCond;
+import net.smartworks.server.engine.category.manager.ICtgManager;
+import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
@@ -17,8 +20,10 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
+import net.smartworks.server.engine.process.process.model.PrcProcessInst;
 import net.smartworks.server.engine.resource.manager.IResourceDesigntimeManager;
 import net.smartworks.server.engine.resource.manager.SmartServerManager;
+import net.smartworks.server.engine.resource.model.IPackageModel;
 import net.smartworks.server.engine.resource.model.IProcessModel;
 import net.smartworks.server.service.IBuilderService;
 import net.smartworks.util.LocalDate;
@@ -201,6 +206,163 @@ public class BuilderServiceImpl implements IBuilderService {
 	public void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void createNewCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		//{frmNewWorkCategroy={txtCategoryName=test, txtCategoryDesc=}}
+		try{
+			Map<String, Object> frmNewWorkCategory = (Map<String, Object>)requestBody.get("frmNewWorkCategroy");
+			
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String compId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				compId = cuser.getCompanyId();
+			}
+
+			//String parentCategoryId = request.getParameter("parentCategoryId");
+			String parentCategoryId = "_PKG_ROOT_";
+			String name = (String)frmNewWorkCategory.get("txtCategoryName");
+			String desc = (String)frmNewWorkCategory.get("txtCategoryDesc");
+		
+			CtgCategory ctg = new CtgCategory();
+			ctg.setCompanyId(compId);
+			ctg.setName(name);
+			ctg.setDescription(desc);
+			ctg.setParentId(parentCategoryId);
+			ctg.setDisplayOrder(1);
+			//ICategoryModel category = catMgr.createCategory(userId, parentCategoryId, name, desc);
+			CtgCategory category = SwManagerFactory.getInstance().getCtgManager().createCategory(userId, ctg);
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void setCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		//{categoryId=402880eb359835ed013598367d080001, frmNewWorkCategroy={txtCategoryName=test a, txtCategoryDesc=a}}
+		try{
+			Map<String, Object> frmNewWorkCategory = (Map<String, Object>)requestBody.get("frmNewWorkCategroy");
+			
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String compId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				compId = cuser.getCompanyId();
+			}
+
+			String categoryId = (String)requestBody.get("categoryId");
+			String name = (String)frmNewWorkCategory.get("txtCategoryName");
+			String desc = (String)frmNewWorkCategory.get("txtCategoryDesc");
+			
+			ICtgManager categoryMgr = SwManagerFactory.getInstance().getCtgManager();
+			CtgCategory category = categoryMgr.getCategory(userId, categoryId, IManager.LEVEL_ALL);
+			if (category == null)
+				return;
+			category.setName(name);
+			category.setDescription(desc);
+			//ICategoryModel category = catMgr.createCategory(userId, parentCategoryId, name, desc);
+			categoryMgr.setCategory(userId, category, IManager.LEVEL_ALL);
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void removeCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		//{categoryId=402880eb359835ed013598367d080001}
+		try{
+			String categoryId = (String)requestBody.get("categoryId");
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String compId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				compId = cuser.getCompanyId();
+			}
+			
+			//삭제하기 전에 실행되고 있는 패키지가 속한 카테고리는 삭제 할수 없다
+			PkgPackageCond cond = new PkgPackageCond();
+			cond.setCompanyId(compId);
+			cond.setCategoryId(categoryId);
+			long pkgCount = getPkgManager().getPackageSize(userId, cond);
+			
+			if (pkgCount > 0)
+				throw new Exception("Delete Category(" +categoryId+ ") failed - Exist Sub Packages!" );
+			
+			ICtgManager categoryMgr = SwManagerFactory.getInstance().getCtgManager();
+			categoryMgr.removeCategory(userId, categoryId);
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void createNewWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		//{parentId=402880eb3598dd16013598dfb1d40001, frmNewWorkDefinition={txtWorkName=test info, chkWorkType=21, txtaWorkDesc=test info ...}}
+		try{
+			System.out.println(requestBody);
+			
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String compId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				compId = cuser.getCompanyId();
+			}
+			String categoryId = (String)requestBody.get("parentId");
+			Map<String, Object> frmNewWorkDefinition = (Map<String, Object>)requestBody.get("frmNewWorkDefinition");
+			String name = (String)frmNewWorkDefinition.get("txtWorkName");
+			String type = (String)frmNewWorkDefinition.get("chkWorkType");
+//			TYPE_INFORMATION = 21;
+//			TYPE_PROCESS = 22;
+//			TYPE_SCHEDULE = 23;
+			switch (Integer.parseInt(type)) {
+			
+			case 21 :
+				type = PrcProcessInst.PROCESSINSTTYPE_INFORMATION;
+				break;
+			case 22 :
+				type = PrcProcessInst.PROCESSINSTTYPE_PROCESS;
+				break;
+			case 23 :
+				type = PrcProcessInst.PROCESSINSTTYPE_SCHEDULE;
+				break;
+			}
+			String desc = (String)frmNewWorkDefinition.get("txtaWorkDesc");
+			
+			IPackageModel pkg = null;
+			if (CommonUtil.isEmpty(type))
+				pkg = SwManagerFactory.getInstance().getDesigntimeManager().createPackage(userId, categoryId, name, desc);
+			else {
+				pkg = SwManagerFactory.getInstance().getDesigntimeManager().createPackage(userId, categoryId, type, name, desc);
+			}
+			
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void setWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		try{
+			System.out.println(requestBody);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();

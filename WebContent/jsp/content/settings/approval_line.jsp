@@ -100,11 +100,11 @@
 								if(!SmartUtil.isBlankObject(approvalLines)){
 									for(ApprovalLine approvalLine : approvalLines){	
 								%>
-										<tr class="js_edit_approval_line" lineId=<%=CommonUtil.toNotNull(approvalLine.getId()) %>>
+										<tr class="js_edit_approval_line list_action_item" lineId=<%=CommonUtil.toNotNull(approvalLine.getId()) %>>
 											<td><a href=""><%=approvalLine.getName()%></a></td>
 											<td><a href=""><%=approvalLine.getDesc() %></a></td>
 											<td><a href=""><%=approvalLine.getApprovalLevel() %><fmt:message key="settings.title.approval_level"/></a></td>
-											<td><%if(!SmartUtil.isBlankObject(approvalLine.getId())){ %><a href="" class="js_delete_approval_line">X</a><%} %></td>
+											<td><%if(!SmartUtil.isBlankObject(approvalLine.getId())){ %><div class="list_action"><div title="<fmt:message key='common.button.delete'/>" class="js_delete_approval_line"> X </div></div><%} %></td>
 										</tr>
 								<%
 									}

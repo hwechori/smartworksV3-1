@@ -5,6 +5,9 @@
 // Created Date : 2011.11.
 
 smartMessage.bundle['en'] = {
+	illegalAcountError : 'Illegal Account or Password error. Please check and try it again !',
+	logoutSucceed : 'Logout has been completed successfully.',
+	sessionTimeouted : 'Session Timeout occured. Please login again !',
 	uploadFile : 'File Upload',
 	cancelUpload : 'Cancel',
 	uploadFailed : 'Failed',
@@ -122,6 +125,18 @@ smartMessage.bundle['en'] = {
 	setWorkSettingsError : "Error has been occured while changing Work Settings. Please contact the Administrator!",
 	publishWorkSucceed : "Work has been published to Appstore successfully...",
 	publishWorkError : "Error has been occured while publishing Work to Appstore. Please contact the Administrator!",
+	createCategorySucceed : "New Work Category has been created successfully...",
+	createCategoryError : "Error has been occured while creating new Work Category. Please contact the Administrator!",
+	setCategorySucceed : "Work Category has been removed successfully...",
+	setCategoryError : "Error has been occured while removing Work Category. Please contact the Administrator!",
+	removeCategorySucceed : "Work Category has been removed successfully...",
+	removeCategoryError : "Error has been occured while removing Work Category. Please contact the Administrator!",
+	createWorkDefinitionSucceed : "New Work Definition has been created successfully...",
+	createWorkDefinitionError : "Error has been occured while creating new Work Definition. Please contact the Administrator!",
+	setWorkDefintionSucceed : "Work Definition has been removed successfully...",
+	setWorkDefinitionError : "Error has been occured while removing Work Definition. Please contact the Administrator!",
+	removeWorkDefinitionSucceed : "Work Definition has been removed successfully...",
+	removeWorkDefinitionError : "Error has been occured while removing Work Definition. Please contact the Administrator!",
 	mailPasswordConfirmError : "Send Mail Password confirmation error. Please retry password confirmation",
 	duplicationCheckError : "ID Duplication check has not been performed. Please perform the ID Duplication Check and retry it again",
 	wsdlNotFetchedError : "Fetch WSDL has not been performed. Please perform the Fetch WSDL and retry it again",

@@ -29,7 +29,7 @@
 					<span class="ico_cworks"></span>
 					<span class="nav_subtitl_area"><%=workCategory.getName()%></span>
 				</a>
-				<div class="menu_2dep" style="display: none"></div>
+				<div class="menu_2dep js_drill_down_target" style="display: none"></div>
 			</li>
 	<%
 		}

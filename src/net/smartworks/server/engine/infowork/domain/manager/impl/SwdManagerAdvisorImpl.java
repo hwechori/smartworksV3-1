@@ -388,6 +388,9 @@ public class SwdManagerAdvisorImpl extends AbstractSwdManagerAdvisor {
 				task.setAssignee(user);
 				task.setAssignmentDate(new Date());
 				task.setForm(formId);
+				task.setDef(domainId + "|" + recordId);
+				task.setWorkSpaceId(obj.getWorkSpaceId());
+				task.setWorkSpaceType(obj.getWorkSpaceType());
 				task.setExtendedPropertyValue("superTaskId", superTaskId);
 				task.setExtendedPropertyValue("superForm", superForm);
 				task.setExtendedPropertyValue("superRecordId", superRecordId);

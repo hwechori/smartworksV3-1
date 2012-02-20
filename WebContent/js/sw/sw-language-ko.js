@@ -5,6 +5,9 @@
 // Created Date : 2011.11.
 
 smartMessage.bundle['ko'] = {
+	illegalAcountError : '로그인 계정이 없거나 암호가 잘못되었습니다. 확인 후 다시 시도하십시요!',
+	logoutSucceed : '정상적으로 로그아웃 되었습니다.',
+	sessionTimeouted : '로그인 후 사용하지 않은 시간이 오래 경과되었습니다. 다시 로그인 하시기 바랍니다 !',
 	uploadFile : '파일올리기',
 	cancelUpload : '취소',
 	uploadFailed : '실패',
@@ -128,6 +131,18 @@ smartMessage.bundle['ko'] = {
 	publishWorkError : "업무를 앱스토어에 공유하는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	fetchWsdlSucceed : "WSDL 가져오기를 정상적으로 실행되었습니다.",
 	fetchWsdlError : "WSDL 가져오기를 실행하는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	createCategorySucceed : "새로운 업무카테고리가 정상적으로 추가되었습니다.",
+	createCategoryError : "새로운 업무카테고리를 생성하는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	setCategorySucceed : "업무카테고리가 정상적으로 수정되었습니다.",
+	setCategoryError : "업무카테고리를 수정하는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	removeCategorySucceed : "업무카테고리가 정상적으로 삭제되었습니다.",
+	removeCategoryError : "업무카테고리를 삭제하는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	createWorkDefinitionSucceed : "새로운 업무정의가 정상적으로 추가되었습니다.",
+	createWorkDefinitionError : "새로운 업무정의를 생성하는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	removeWorkDefinitionSucceed : "업무정의가 정상적으로 삭제되었습니다.",
+	removeWorkDefinitionError : "업무정의를 삭제하는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	setWorkDefinitionSucceed : "업무정의가 정상적으로 수정되었습니다.",
+	setWorkDefinitionError : "업무정의를 수정하는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	mailPasswordConfirmError : "보내는메일 암호가 잘못입력되었습니다. 확인하여 다시 입력 바랍니다.",
 	duplicationCheckError : "아이디 중복확인이 되지 않았습니다. 중복확인을 실행한 후 다시 하시기 바랍니다.",
 	wsdlNotFetchedError : "WSDL 가져오기를 실행하지 않았습니다. WSDL 가져오기를 실행한 후 다시 하시기 바랍니다.",

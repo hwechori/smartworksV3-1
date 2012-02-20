@@ -331,7 +331,7 @@
 								<span class="<%=workTypeClass%>"></span>
 								<span class="t_date"><%=work.getFullpathName()%></span>
 							</a>
-							<a href="<%=targetContent%>space.sw?cid=<%=workContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+							<a href="<%=targetContent%>space.sw?cid=<%=workContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>&workId=<%=work.getId()%>">
 								<span class="t_bold"><%=workInstance.getSubject()%></span> 
 							</a>
 						</div>

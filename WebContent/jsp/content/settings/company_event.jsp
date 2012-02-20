@@ -103,7 +103,7 @@
 								if(!SmartUtil.isBlankObject(companyEvents)){
 									for(CompanyEvent event : companyEvents){	
 								%>
-										<tr class="js_edit_company_event" eventId=<%=CommonUtil.toNotNull(event.getId()) %>>
+										<tr class="js_edit_company_event list_action_item" eventId=<%=CommonUtil.toNotNull(event.getId()) %>>
 											<td><a href=""><%=event.getName() %></a></td>
 											<td><a href=""><%=event.getPlannedStart().toLocalDateSimpleString() %></a></td>
 											<td><a href=""><%=event.getPlannedEnd().toLocalDateSimpleString() %></a></td>
@@ -124,7 +124,7 @@
 											}
 											%>
 											<td><a href=""><%=relatedUsers%></a></td>
-											<td><%if(!SmartUtil.isBlankObject(event.getId())){ %><a href="" class="js_delete_company_event">X</a><%} %></td>
+											<td><%if(!SmartUtil.isBlankObject(event.getId())){ %><div class="list_action"><div title="<fmt:message key='common.button.delete'/>" class="js_delete_company_event"> X </div></div><%} %></td>
 										</tr>
 									</a>
 								<%

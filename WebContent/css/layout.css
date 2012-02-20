@@ -111,13 +111,23 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .srch_wh .nav_input {width:155px; background-color: #FFF; color: #999897; padding: 2px 0 0 1px;}
 .srch_wh button, .srch_wh .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
-
-
 	
 /*Left Navigation*/	
 #nav {background-color:#6b6b6b;float:left;width:226px;height:100%; z-index:30;}
-li.js_content .checkOption {display:none; position:absolute;margin-top:-21px;margin-left:195px}
-li.js_content:hover .checkOption {display:block}
+li.fvrt_item .checkOption {display:none; position:absolute; margin-top:-21px; margin-left:195px}
+li.fvrt_item:hover .checkOption {display:block}
+
+li.ctgr_action_item .ctgr_action {display:none; position:absolute; margin-top:-21px; margin-left:180px}
+li.ctgr_action_item:hover .ctgr_action {display:block}
+
+li.group_action_item .group_action {display:none; position:absolute; margin-top:-21px; margin-left:180px}
+li.group_action_item:hover .group_action {display:block}
+
+li.work_action_item .work_action {display:none; position:absolute; margin-top:-21px; margin-left:195px}
+li.work_action_item:hover .work_action {display:block}
+
+tr.list_action_item .list_action {display:none;}
+tr.list_action_item:hover .list_action {display:block; cursor:pointer;}
 
 
 /*global Menu */
@@ -153,8 +163,8 @@ li.js_content:hover .checkOption {display:block}
 .ico_depart {background: url("../images/ico_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
 .ico_group {background: url("../images/ico_group.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
 .ico_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
-.ico_faver {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px; display: inline-block;}
-.ico_faver.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px; display: inline-block;}
+.ico_fvrt {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
+.ico_fvrt.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
 .ico_b1dep {background: url("../images/nav_img.png") no-repeat 0 -348px transparent; display: inline-block; padding:0 0 0 13px}
 .ico_b2dep {background: url("../images/nav_img.png") no-repeat 0 -364px transparent; display: inline-block; padding:0 0 0 12px}
 
@@ -284,7 +294,7 @@ a .btn_apps:hover,
 
 /* Contents*/
 #content {margin:15px 10px 10px 240px; color:#454545; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
-#board {margin:5px 10px 10px 240px; color:#ea1a1a; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
+#board {margin:5px 10px 10px 240px; color:#ea1a1a; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; height:22px; z-index:20}
 
 /* UpLoad */
 #upload {width:100%; height:22px; margin: 0 2px; display:inline-block; position:relative;}
@@ -320,15 +330,15 @@ a .btn_apps:hover,
 .up_pic .current, 
 .up_pic a.current:hover {background: url("../images/header_nico.png") no-repeat -677px -190px; font-weight:bold;}
 
-.up_event a {background: url("../images/header_nico.png") no-repeat -279px -155px; height:22px; padding:4px 0 3px 22px; display:block;}
+.up_event a {background: url("../images/header_nico.png") no-repeat -278px -155px; height:22px; padding:4px 0 3px 22px; display:block;}
 .up_event a:hover,
 .up_event .current, 
-.up_event a.current:hover {background: url("../images/header_nico.png") no-repeat -279px -190px; font-weight:bold;}
+.up_event a.current:hover {background: url("../images/header_nico.png") no-repeat -278px -190px; font-weight:bold;}
 
-.up_memo a {background: url("../images/header_nico.png") no-repeat -425px -155px; height:22px; padding:4px 0 3px 23px; display:block;}
+.up_memo a {background: url("../images/header_nico.png") no-repeat -426px -155px; height:22px; padding:4px 0 3px 23px; display:block;}
 .up_memo a:hover,
 .up_memo .current, 
-.up_memo a.current:hover {background: url("../images/header_nico.png") no-repeat -425px -190px; font-weight:bold;}
+.up_memo a.current:hover {background: url("../images/header_nico.png") no-repeat -426px -190px; font-weight:bold;}
 
 .up_board a {background: url("../images/header_nico.png") no-repeat -563px -155px; height:22px; padding:4px 0 3px 28px; display:block;}
 .up_board a:hover,
@@ -428,14 +438,15 @@ a .btn_apps:hover,
 
 .ico_posi {position:absolute; right:0; top:0;} /* Icon Position Right */
 
-.glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; height: 22px; border-top: 1px solid #c7c7c7;}
+.glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; border-top: 1px solid #c7c7c7; overflow: hidden}
 .glo_btn_space .btn_finish {float:right; padding-right:10px;}
 
 .posit_works {left:15px; top:1px; position:relative; z-index:20;}
-.posit_file {left:95px; top:1px; position:relative; z-index:20;}
-.posit_event {left:165px; top:1px; position:relative; z-index:20;}
-.posit_memo {left:225px; top:1px; position:relative; z-index:20;}
-.posit_board {left:285px; top:1px; position:relative; z-index:20;}
+.posit_pic {left:95px; top:1px; position:relative; z-index:20;}
+.posit_file {left:165px; top:1px; position:relative; z-index:20;}
+.posit_event {left:228px; top:1px; position:relative; z-index:20;}
+.posit_memo {left:302px; top:1px; position:relative; z-index:20;}
+.posit_board {left:369px; top:1px; position:relative; z-index:20;}
 
 .essen {border-left:2px solid #ef972b; border-top:1px solid #c7c7c7; border-right:1px solid #c7c7c7; border-bottom:1px solid #c7c7c7;}
 .essen_r {border-right:2px solid #ef972b; margin-right: 5px;}
@@ -640,7 +651,7 @@ td.pic{width:85px}
 /* close btn */
 .btn_x, .btn_im_x {background: url("../images/btn_im_x_gr.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
     padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;} 
-.btn_x a:hover, .btn_im__x a:hover {background-color:#919191;}
+a .btn_x:hover, a .btn_im__x:hover {background-color:#d5d5d5;}
 
 .btn_right {left: 452px; position:relative;}
 .btn_x_gr {color:#c7c7c7; font-size:12px;}

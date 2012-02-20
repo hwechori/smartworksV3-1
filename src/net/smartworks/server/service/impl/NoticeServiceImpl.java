@@ -49,7 +49,7 @@ public class NoticeServiceImpl implements INoticeService {
 	public Notice[] getNoticesForMe() throws Exception {
 
 		try{
-			return SmartTest.getNoticesForMe();
+			return new Notice[] {};//SmartTest.getNoticesForMe();
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();

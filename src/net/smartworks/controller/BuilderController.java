@@ -134,4 +134,34 @@ public class BuilderController {
 		smartworks.publishWorkToStore(requestBody, request);
 	}
 	
+	@RequestMapping(value = "/create_new_category", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createNewCategory(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.createNewCategory(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_category", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody void setCategory(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setCategory(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/remove_category", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody void removeCategory(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeCategory(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/create_new_work_definition", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody void createNewWorkDefinition(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.createNewWorkDefinition(requestBody, request);
+	}
+	
+	@RequestMapping(value = "/set_work_definition", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody void setWorkDefinition(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.setWorkDefinition(requestBody, request);
+	}
+	
 }

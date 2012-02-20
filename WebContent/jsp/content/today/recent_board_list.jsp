@@ -53,8 +53,14 @@
 				<span class="title"><%=board.getSubject() %></span>
 				<span class="index">
 					<span class="t_name"><%=board.getOwner().getLongName() %></span> 
-					<span class="arr">▶</span>
-					<img src="<%=workSpaceIco%>"><%if(!workSpaceIco.equals("")){%><%=workSpace.getName() %><%} %>
+					<%
+					if(!workSpaceIco.equals("")){
+					%>
+						<span class="arr">▶</span>
+						<img src="<%=workSpaceIco%>"><%=workSpace.getName() %>
+					<%
+					}
+					%>
 					<span class="date t_date"><%=board.getLastModifiedDate().toLocalString() %></span>
 				</span>
 				<span class="info"></span>
@@ -81,8 +87,14 @@
 					<tr>
 						<td class="title"><a href="board_space.sw?cid=<%=boardContext%>"><%=board.getSubject()%></a> 
 							<span class="t_name"><%=board.getOwner().getLongName() %></span> 
-							<span class="arr">▶</span>
-							<img src="<%=workSpaceIco%>"><%if(!workSpaceIco.equals("")){%><%=workSpace.getName()%><%} %>
+							<%
+							if(!workSpaceIco.equals("")){
+							%>
+								<span class="arr">▶</span>
+								<img src="<%=workSpaceIco%>"><%=workSpace.getName()%>
+							<%
+							}
+							%>
 						</td>
 						<td class="date t_date"><%=board.getLastModifiedDate().toLocalString() %></td>
 					</tr>

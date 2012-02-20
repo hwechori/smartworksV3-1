@@ -26,7 +26,7 @@
 	// 모든정보를 JSON형식으로 Serialize해서 서버의 update_my_profile.sw 서비스를 호출하여 수정한다.
 	function submitForms(e) {
 		var newGroup = $('.js_new_group_page');
-		if (SmartWorks.GridLayout.validate(newGroup.find('form.js_validation_required'), $('.js_popup_error_message'))) {
+		if (SmartWorks.GridLayout.validate(newGroup.find('form.js_validation_required'), $('.js_pop_error_message'))) {
 			var forms = newGroup.find('form');
 			var paramsJson = {};
 			for(var i=0; i<forms.length; i++){
@@ -73,10 +73,8 @@
 	<!-- 팝업 타이틀 -->
 	<div class="form_title">
 		<div class="pop_title"><fmt:message key="group.title.new_group"></fmt:message></div>
-		<div class="txt_btn">
-			<div class="btn_x">
-				<a href="" onclick="$.modal.close();return false;">X</a>
-			</div>
+		<div class="txt_btn">			
+			<a href="" onclick="smartPop.close();return false;"><div class="btn_x"></div></a>
 		</div>
 		<div class="solid_line"></div>
 	</div>
@@ -84,72 +82,72 @@
 	<!-- 컨텐츠 -->
 	<form name="frmNewGroupProfile" class="js_validation_required">
 		<div class="contents_space">
-			<span class="table_nomal600 ">
-				<div><fmt:message key="group.title.picture" />
-					<span class="photo_section">			
-						<!--  *** js_group_profile_field : sw_act_work.js에서 화면로딩이 완료되면 이 클래스로 찾아서,  	-->
-						<!--      현재 커뮤너티 그룹의 사진을 보여주고, 다른 사진을 올리줄 있도록하는 기능을 제공한다. 			-->
-						<div class="js_group_profile_field js_auto_load_group_profile"></div>
-						<div class="t_text_s11"><fmt:message key="profile.title.size_desc"/></div>
-					</span>					
-				</div>
-				<table>
-					<tr>
-					</tr>
-					<tr>
-						<td><fmt:message key="group.title.name" /><span class="essen_n"></span></td>
-						<td>
-							<input name="txtGroupName" class="fieldline required" type="text">		
-						</td>
-					</tr>
-					<tr>
-						<td><fmt:message key="group.title.desc" /></td>
-						<td>
-							<textarea name="txtaGroupDesc" class="fieldline" rows="4"></textarea>	
-						</td>
-					</tr>
-					<tr>
-						<td><fmt:message key="group.title.type" /></td>
-						<td>
-							<select name="selGroupProfileType">
-								<option value="<%=Group.GROUP_TYPE_OPEN %>" selected><fmt:message key="group.title.type_open" /></option>
-								<option value="<%=Group.GROUP_TYPE_CLOSED %>"><fmt:message key="group.title.type_closed" /></option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><fmt:message key="group.title.leader" /></td>
-						<td>
-							<div><img src="<%=SmartUtil.getCurrentUser().getMinPicture()%>" class="profile_size_s"/><input name="txtGroupLeader" type="hidden" class=""  value="<%=SmartUtil.getCurrentUser().getId() %>"><%=SmartUtil.getCurrentUser().getLongName() %></div>
-						</td>
-					</tr>
-					<tr>
-						<td><fmt:message key="group.title.members" /></td>
-						<td class="js_type_userField" fieldId="txtGroupMembers" multiUsers="true">
-							<div class="form_value">
-								<div>
-									<div class="fieldline js_community_names">
-										<div class="js_selected_communities user_sel_area"></div>
-										<input class="js_auto_complete" href="community_name.sw" type="text">
-										<div class="js_srch_x"></div>
-									</div>
-									<div class="js_community_list commu_list" style="display: none"></div>
+			<div><fmt:message key="group.title.picture" />
+				<span class="photo_section">			
+					<!--  *** js_group_profile_field : sw_act_work.js에서 화면로딩이 완료되면 이 클래스로 찾아서,  	-->
+					<!--      현재 커뮤너티 그룹의 사진을 보여주고, 다른 사진을 올리줄 있도록하는 기능을 제공한다. 			-->
+					<div class="js_group_profile_field js_auto_load_group_profile"></div>
+					<div class="t_text_s11"><fmt:message key="profile.title.size_desc"/></div>
+				</span>					
+			</div>
+			<table>
+				<tr>
+				</tr>
+				<tr>
+					<td><fmt:message key="group.title.name" /><span class="essen_n"></span></td>
+					<td>
+						<input name="txtGroupName" class="fieldline required" type="text">		
+					</td>
+				</tr>
+				<tr>
+					<td><fmt:message key="group.title.desc" /></td>
+					<td>
+						<textarea name="txtaGroupDesc" class="fieldline" rows="4"></textarea>	
+					</td>
+				</tr>
+				<tr>
+					<td><fmt:message key="group.title.type" /></td>
+					<td>
+						<select name="selGroupProfileType">
+							<option value="<%=Group.GROUP_TYPE_OPEN %>" selected><fmt:message key="group.title.type_open" /></option>
+							<option value="<%=Group.GROUP_TYPE_CLOSED %>"><fmt:message key="group.title.type_closed" /></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><fmt:message key="group.title.leader" /></td>
+					<td>
+						<div><img src="<%=SmartUtil.getCurrentUser().getMinPicture()%>" class="profile_size_s"/><input name="txtGroupLeader" type="hidden" class=""  value="<%=SmartUtil.getCurrentUser().getId() %>"><%=SmartUtil.getCurrentUser().getLongName() %></div>
+					</td>
+				</tr>
+				<tr>
+					<td><fmt:message key="group.title.members" /></td>
+					<td class="js_type_userField" fieldId="txtGroupMembers" multiUsers="true">
+						<div class="form_value">
+							<div>
+								<div class="fieldline js_community_names">
+									<div class="js_selected_communities user_sel_area"></div>
+									<input class="js_auto_complete" href="community_name.sw" type="text">
+									<div class="js_srch_x"></div>
 								</div>
+								<div class="js_community_list commu_list" style="display: none"></div>
 							</div>
-						</td>
-					</tr>
-				</table>
-			</span>
+						</div>
+					</td>
+				</tr>
+			</table>
 		</form>
 	</div>
 	<!-- 컨텐츠 //-->
 	<!-- 버튼 영역 -->
 	<div class="glo_btn_space">
+	
+	<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
+		<div class="sw_error_message js_pop_error_message" style="color: red"></div>
+	<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
+	
 		<div class="float_right padding_r10">
-			<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
-			<span class="form_space sw_error_message js_pop_error_message" style="text-align:right; color: red"></span>
-			<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
-			<span class="js_progress_span float_right"></span>
+			<span class="js_progress_span"></span>
 			<span class="btn_gray">
 				<a href="" onclick='submitForms(); return false;'>
 					<span class="Btn01Start"></span>

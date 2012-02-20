@@ -101,13 +101,13 @@
 								if(!SmartUtil.isBlankObject(externalForms)){
 									for(ExternalForm externalForm : externalForms){	
 								%>								
-										<tr class="js_edit_external_form" formId=<%=CommonUtil.toNotNull(externalForm.getId()) %>>
+										<tr class="js_edit_external_form list_action_item" formId=<%=CommonUtil.toNotNull(externalForm.getId()) %>>
 											<td><a href=""><%=externalForm.getName() %></a></td>
 											<td><a href=""><%=externalForm.getDesc() %></a></td>
 											<td><a href=""><%=externalForm.getUrl() %></a></td>
 											<td><a href=""><%=externalForm.getEditMethod() %></a></td>
 											<td><a href=""><%=externalForm.getViewMethod() %></a></td>
-											<td><%if(!SmartUtil.isBlankObject(externalForm.getId())){ %><a href="" class="js_delete_external_form">X</a><%} %></td>
+											<td><%if(!SmartUtil.isBlankObject(externalForm.getId())){ %><div class="list_action"><div title="<fmt:message key='common.button.delete'/>" class="js_delete_external_form"> X </div></div><%} %></td>
 										</tr>
 								<%
 									}

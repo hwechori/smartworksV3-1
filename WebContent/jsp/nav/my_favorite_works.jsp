@@ -41,7 +41,7 @@
 				targetContent = "swork_list.sw";//"schedule_work_list.sw";
 			}
 			%>
-			<li class="js_content js_favorite_works">
+			<li class="fvrt_item js_favorite_works">
 				<a href="<%=targetContent%>?cid=<%=workContext%>" class="js_content" title="<%=work.getFullpathName()%>">
 					<span class="<%=iconType%>"></span>
 					<span><%=work.getName()%></span>

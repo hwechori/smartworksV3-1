@@ -115,7 +115,7 @@
 									for(WorkHourPolicy whp : workHourPolicies){	
 										WorkHour[] workHours = whp.getWorkHours();
 								%>
-											<tr class="js_edit_work_hour" policyId=<%=CommonUtil.toNotNull(whp.getId()) %>>
+											<tr class="js_edit_work_hour list_action_item" policyId=<%=CommonUtil.toNotNull(whp.getId()) %>>
 												<td><a href=""><%=whp.getValidFrom().toLocalDateSimpleString() %></a></td>
 												<td><a href=""><%=LocalDate.getDayLocalString(whp.getFirstDayOfWeek()) %></a></td>
 												<td><a href=""><%=whp.getWorkingDays() %> <fmt:message key="calendar.title.days"/></a></td>
@@ -138,9 +138,8 @@
 												<%
 												}
 												%>
-												<td><%if(!SmartUtil.isBlankObject(whp.getId())){ %><a href="" class="js_delete_work_hour">X</a><%} %></td>
+												<td><%if(!SmartUtil.isBlankObject(whp.getId())){ %><div class="list_action"><div title="<fmt:message key='common.button.delete'/>" class="js_delete_work_hour"> X </div></div><%} %></td>
 											</tr>
-										</a>
 								<%
 									}
 								}else{

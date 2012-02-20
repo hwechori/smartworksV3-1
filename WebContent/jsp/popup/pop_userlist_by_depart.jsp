@@ -53,7 +53,7 @@
 								<span><%=department.getName()%></span>
 							</a>
 						</span>
-						<div style="display: none" class="menu_2dep"></div>
+						<div style="display: none" class="menu_2dep js_drill_down_target"></div>
 					</li>
 		<%
 				}

@@ -334,4 +334,14 @@ public interface ISmartWorks {
 
 	public abstract void publishWorkToStore(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
+	public abstract void createNewCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void setCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void removeCategory(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void createNewWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void setWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
 }

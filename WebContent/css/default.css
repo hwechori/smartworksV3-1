@@ -44,9 +44,6 @@ body, button, select, input, textarea, sub {
 	 font-size: 12px;
 }
 
-input {
-	height:14px;
-}
 
 input.error {
 	border: 1px solid red;
@@ -177,15 +174,20 @@ mark, rp, rt, ruby, summary, time {
 .margin_t5 {margin-top:5px !important}
 .margin_t8 {margin-top:8px !important}
 .margin_t10 {margin-top:10px !important}
+.mt13 {margin-top:13px !important}
 .margin_t15 {margin-top:15px !important}
 .margin_t25 {margin-top:25px !important}
 .margin_t20 {margin-top:20px !important}
 .margin_b2 {margin-bottom:2px !important}
+.mb2 {margin-bottom:2px !important}
+.mb3 {margin-bottom:3px !important}
 .margin_b5 {margin-bottom:5px !important}
 .margin_b10 {margin-bottom:10px !important}
 .mr5 {margin-right:5px !important}
+.mr7 {margin-right:7px !important}
 .mr10 {margin-right:10px !important}
 .margin_l15 {margin-left:15px !important}
+.ml4 {margin-left:4px !important}
 .margin_l10 {margin-left:10px !important}
 
 .text_align_l {text-align:left !important}

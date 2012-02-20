@@ -38,10 +38,8 @@ import net.smartworks.util.LocalDate;
 public class TskManagerSubFlowAdvisorImpl extends AbstractTskManagerAdvisor {
 
 	public void preExecuteTask(String user, TskTask obj, String action) throws Exception {
-		System.out.println("SubFlowAdvisor preExecuteTask");
 	}
 	public void postExecuteTask(String user, TskTask obj, String action) throws Exception {
-		System.out.println("SubFlowAdvisor postExecuteTask");
 	}
 	public void preSetTask(String user, TskTask obj, String level) throws Exception {
 		if (!obj.getType().equalsIgnoreCase(CommonUtil.toDefault((String)MisUtil.taskDefTypeMap().get("subFlow"), "subFlow")))
