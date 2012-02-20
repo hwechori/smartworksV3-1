@@ -58,25 +58,23 @@
 	    <ul class="portlet_r" style="display: block;">		            
 			<!-- 타이틀 -->
 			<div class="body_titl_pic">		
-	            <div class="">
-	                <div class="noti_pic"><img src="<%=instance.getOwner().getMidPicture() %>"  class="profile_size_m"/></div>
-	                <div class="noti_in_bodytitle">
+	                <div class="noti_pic mr7 mb5"><img src="<%=instance.getOwner().getMidPicture() %>"  class="profile_size_m"/></div>
+	                <div class="noti_in_bodytitle mb5">
 	                    <span class="t_name"><%=instance.getOwner().getLongName()%></span>
 	                    <span class="t_date"><%=instance.getCreatedDate().toLocalString()%></span>
 	                    <div class="">
-	                    	<span class="ico_pworks t_date"><%=work.getFullpathName() %></span> 
-	                    	<span class="title_picico"><%=instance.getSubject()%></span>
+	                    	<span class="title_picico float_left mr7"><%=instance.getSubject()%></span>
+	                    	<span class="ico_pworks t_date"> <%=work.getFullpathName() %></span> 
 	                    </div>
 	                </div>
-	            </div>
 		                    
 	            <!-- 우측 버튼-->
 	            <div class="txt_btn">
-	                <div class="po_right"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
+	                <div class="po_right t_s11"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
 	            </div>
 	            
 				<!-- 전자결재, 업무전달 버튼들 -->
-				<div class="txt_btn">
+				<div class="txt_btn image_posi">
 	                <div class="po_right ico_print">
 	                	<a href="" title="<fmt:message key='common.button.print'/>"></a>
 	                </div>
@@ -88,7 +86,7 @@
 	            </div>
 	            <!-- 우측 버튼 -->
 		                    
-               	<div class="solid_line"></div>
+               	<div class="solid_line clear"></div>
 			</div>
 			<!-- 타이틀 -->
 

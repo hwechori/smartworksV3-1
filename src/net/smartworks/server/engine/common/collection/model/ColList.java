@@ -26,7 +26,7 @@ public class ColList extends MisObject {
 	private String correlation;
 	private String type;
 	
-	private LnkObject[] items;
+	private ColObject[] items;
 	
 	public ColList() {
 		super();
@@ -147,12 +147,12 @@ public class ColList extends MisObject {
 				Node[] nodes = getNodes(childNode);
 				if (nodes == null || nodes.length == 0)
 					continue;
-				LnkObject[] objs = new LnkObject[nodes.length];
+				ColObject[] objs = new ColObject[nodes.length];
 				for (int j=0; j<nodes.length; j++)
-					objs[j] = (LnkObject)LnkObject.toObject(nodes[j], null);
+					objs[j] = (ColObject)ColObject.toObject(nodes[j], null);
 				obj.setItems(objs);
 			} else if (childNode.getNodeName().equals(A_ITEM)) {
-				obj.addItem((LnkObject)LnkObject.toObject(childNode, null));
+				obj.addItem((ColObject)ColObject.toObject(childNode, null));
 			}
 		}
 		return obj;
@@ -190,27 +190,27 @@ public class ColList extends MisObject {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public LnkObject[] getItems() {
+	public ColObject[] getItems() {
 		return items;
 	}
-	public void setItems(LnkObject[] items) {
+	public void setItems(ColObject[] items) {
 		this.items = items;
 	}
-	public void addItem(LnkObject item) {
+	public void addItem(ColObject item) {
 		if (item == null)
 			return;
-		this.setItems(LnkObject.add(this.getItems(), item));
+		this.setItems(ColObject.add(this.getItems(), item));
 	}
-	public void removeItem(LnkObject item) {
+	public void removeItem(ColObject item) {
 		if (item == null)
 			return;
-		this.setItems(LnkObject.remove(this.getItems(), item));
+		this.setItems(ColObject.remove(this.getItems(), item));
 	}
 	public void removeItem(String ref) {
 		if (CommonUtil.isEmpty(ref) || CommonUtil.isEmpty(items))
 			return;
 		int length = items.length;
-		LnkObject item;
+		ColObject item;
 		for (int i=0; i<length; i++) {
 			item = items[i];
 			if (!ref.equals(item.getRef()))

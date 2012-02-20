@@ -294,7 +294,7 @@ a .btn_apps:hover,
 
 /* Contents*/
 #content {margin:15px 10px 10px 240px; color:#454545; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
-#board {margin:5px 10px 10px 240px; color:#ea1a1a; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; height:22px; z-index:20}
+#board {margin:5px 10px 10px 240px; color:#ea1a1a; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; height:18px; z-index:20}
 
 /* UpLoad */
 #upload {width:100%; height:22px; margin: 0 2px; display:inline-block; position:relative;}
@@ -366,7 +366,7 @@ a .btn_apps:hover,
 .txt_btn .ch_right {float:right; margin-left:4px;}
 
 .txt_btn .current { font-weight:bold;}
-.txt_btn .image_posi {position: relative; bottom:2px;} /* 우측 메뉴중 이미지가 올때 위치 조정 */
+.txt_btn.image_posi {position: relative; bottom:-12px;} /* 우측 메뉴중 이미지가 올때 위치 조정 */
 .txt_btn a, .txt_btn a:focus, .txt_btn a:active, .txt_btn a:link, .txt_btn a:visited {text-decoration:none;}
 .txt_btn a:hover {text-decoration:underline; }
 .txt_btn_height {height:16px;}
@@ -547,7 +547,7 @@ a .btn_apps:hover,
 #notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; padding:5px 0; clear:both;}
 
 .noti_pic {float:left; margin-right: 5px;}
-.noti_in_bodytitle {word-wrap: break-word; text-align:left; padding:9px 0 0 58px;} /* Body Title로 들어갈 때 */
+.noti_in_bodytitle {word-wrap: break-word; text-align:left; vertical-align:middle; float:left; line-height:16px; width:70%} /* Body Title로 들어갈 때 */
 .noti_in { margin-left:35px; line-height: 16px;}
 .noti_in_s { margin-left:25px; line-height: 16px;}
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
@@ -673,7 +673,8 @@ a .btn_x:hover, a .btn_im__x:hover {background-color:#d5d5d5;}
 .t_gbold {color:#656565; font-weight:bold;}
 .t_name {color:#23579e; position: relative;}
 .t_woname {color:#23579e; font-weight:bold;}
-.t_date, .t_text_s11, .t_s11 {font-size:11px; color:#999897;}
+.t_date, .t_text_s11, .t_s11,
+.t_date a, .t_text_s11 a, .t_s11 a {font-size:11px; color:#999897 !important;}
 .t_white {font-size:12px; font-weight:normal;}
 .t_nav {font-size:14px; font-weight:bold; color:#FFF}
 .t_nowork { text-align:center; padding:8px 0 !important; color:#b2b2b2}

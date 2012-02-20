@@ -10,7 +10,6 @@ import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
-import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -43,6 +42,8 @@ public interface IWorkService {
 	public String getFormXml(String formId, String workId) throws Exception;
 
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception;
+
+	public String setIWorkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public void setMyProfile(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 

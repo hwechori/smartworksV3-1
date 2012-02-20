@@ -146,6 +146,7 @@ mark, rp, rt, ruby, summary, time {
 .float_left {float:left}
 /* .float_left_nowidth {float:left;} */
 .float_right {float:right;}
+.fn {float:none}
 .clear {display:block; clear:both;}
 
 .space_r2 {margin-right:2px !important}
@@ -181,7 +182,7 @@ mark, rp, rt, ruby, summary, time {
 .margin_b2 {margin-bottom:2px !important}
 .mb2 {margin-bottom:2px !important}
 .mb3 {margin-bottom:3px !important}
-.margin_b5 {margin-bottom:5px !important}
+.margin_b5, .mb5 {margin-bottom:5px !important}
 .margin_b10 {margin-bottom:10px !important}
 .mr5 {margin-right:5px !important}
 .mr7 {margin-right:7px !important}

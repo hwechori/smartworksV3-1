@@ -1818,7 +1818,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			String txtMemberCellPhoneNo = null;
 
 			SwoUser swoUser = null;
-			if(!setUserId.equals("")) {
+			if(!setUserId.equals("") && !setUserId.equalsIgnoreCase("null") && setUserId != null) {
 				swoUser = getSwoManager().getUser(userId, setUserId, IManager.LEVEL_ALL);
 				if(swoUser.getDomainId() == null || swoUser.getDomainId() == "")
 					swoUser.setDomainId("frm_user_SYSTEM");
@@ -1918,7 +1918,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			String txtDepartmentName = null;
 
 			SwoDepartment swoDepartment = null;
-			if(!departmentId.equals("")) {
+			if(!departmentId.equals("") && !departmentId.equalsIgnoreCase("null") && departmentId != null) {
 				swoDepartment = getSwoManager().getDepartment(userId, departmentId, IManager.LEVEL_ALL);
 			} else {
 				swoDepartment = new SwoDepartment();
@@ -1942,7 +1942,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			}
 
 			getSwoManager().setDepartment(userId, swoDepartment, IManager.LEVEL_ALL);
-			if(!departmentId.equals(""))
+			if(!departmentId.equals("") && !departmentId.equalsIgnoreCase("null") && departmentId != null)
 				getSwoManager().getDepartmentExtend(userId, departmentId, false);
 		} catch(Exception e) {
 			e.printStackTrace();			

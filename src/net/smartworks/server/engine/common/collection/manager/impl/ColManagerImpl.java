@@ -12,12 +12,12 @@ import net.smartworks.server.engine.common.collection.model.ColList;
 import net.smartworks.server.engine.common.collection.model.ColListCond;
 import net.smartworks.server.engine.common.collection.model.ColMap;
 import net.smartworks.server.engine.common.collection.model.ColMapCond;
+import net.smartworks.server.engine.common.collection.model.ColObject;
 import net.smartworks.server.engine.common.collection.model.ColValue;
 import net.smartworks.server.engine.common.collection.model.ColValueCond;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
-import net.smartworks.server.engine.process.link.model.LnkObject;
 
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
@@ -560,7 +560,7 @@ public class ColManagerImpl extends AbstractManager implements IColManager {
 		String type = null;
 		String typeLike = null;
 		String status = null;
-		LnkObject[] lnkObjects = null;
+		ColObject[] colObjects = null;
 		if(cond != null){
 			objId = cond.getObjId();
 			creationUser = cond.getCreationUser();
@@ -569,11 +569,11 @@ public class ColManagerImpl extends AbstractManager implements IColManager {
 			type = cond.getType();
 			typeLike = cond.getTypeLike();
 			status = cond.getStatus();
-			lnkObjects = cond.getItems();
+			colObjects = cond.getItems();
 		}
 		buf.append(" from ColList obj");
-		if (lnkObjects != null && lnkObjects.length != 0) {
-			for (int i=0; i<lnkObjects.length; i++) {
+		if (colObjects != null && colObjects.length != 0) {
+			for (int i=0; i<colObjects.length; i++) {
 				buf.append(" left join obj.items as item").append(i);
 			}
 		}
@@ -593,13 +593,13 @@ public class ColManagerImpl extends AbstractManager implements IColManager {
 				buf.append(" and obj.type like :typeLike");
 			if(status != null)
 				buf.append(" and obj.status =:status");
-			if (lnkObjects != null && lnkObjects.length != 0) {
-				for (int i=0; i<lnkObjects.length; i++) {
-					LnkObject lnkObj = lnkObjects[i];
-					String lnkType = lnkObj.getType();
-					String ref = lnkObj.getRef();
-					String label = lnkObj.getLabel();
-					String expression = lnkObj.getExpression();
+			if (colObjects != null && colObjects.length != 0) {
+				for (int i=0; i<colObjects.length; i++) {
+					ColObject colObj = colObjects[i];
+					String lnkType = colObj.getType();
+					String ref = colObj.getRef();
+					String label = colObj.getLabel();
+					String expression = colObj.getExpression();
 					if (lnkType != null)
 						buf.append(" and item").append(i).append(".type = :lnkType").append(i);
 					if (ref != null)
@@ -629,13 +629,13 @@ public class ColManagerImpl extends AbstractManager implements IColManager {
 				query.setString("status", status);
 			if(typeLike != null)
 				query.setString("typeLike", CommonUtil.toLikeString(typeLike));
-			if (lnkObjects != null && lnkObjects.length != 0) {
-				for (int i=0; i<lnkObjects.length; i++) {
-					LnkObject lnkObj = lnkObjects[i];
-					String lnkType = lnkObj.getType();
-					String ref = lnkObj.getRef();
-					String label = lnkObj.getLabel();
-					String expression = lnkObj.getExpression();
+			if (colObjects != null && colObjects.length != 0) {
+				for (int i=0; i<colObjects.length; i++) {
+					ColObject colObj = colObjects[i];
+					String lnkType = colObj.getType();
+					String ref = colObj.getRef();
+					String label = colObj.getLabel();
+					String expression = colObj.getExpression();
 					if (lnkType != null)
 						query.setString("lnkType"+i, lnkType);
 					if (ref != null)
