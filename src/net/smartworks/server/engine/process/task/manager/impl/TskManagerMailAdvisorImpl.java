@@ -55,13 +55,10 @@ public class TskManagerMailAdvisorImpl extends AbstractTskManagerAdvisor {
 		super();
 	}
 	public void postExecuteTask(String user, TskTask obj, String action) throws Exception {
-		System.out.println("mailAdvisor postExecuteTask");
 	}
 	public void preExecuteTask(String user, TskTask obj, String action) throws Exception {
-		System.out.println("mailAdvisor preExecuteTask");
 	}
 	public void preSetTask(String user, TskTask obj, String level) throws Exception {
-		System.out.println("mailAdvisor preSetTask");
 		if (level != null && level.equals(IManager.LEVEL_LITE))
 			return;
 		try {
@@ -71,7 +68,6 @@ public class TskManagerMailAdvisorImpl extends AbstractTskManagerAdvisor {
 		}
 	}
 	public void postSetTask(String user, TskTask obj, String level) throws Exception {
-		System.out.println("mailAdvisor postSetTask");
 		if (level != null && level.equals(IManager.LEVEL_LITE))
 			return;
 		if (CommonUtil.toInt(obj.getExtendedPropertyValue(COUNTER), 0) > 0)

@@ -281,7 +281,6 @@ public class TskManagerDefaultAdvisorImpl extends AbstractTskManagerAdvisor {
 		return action;
 	}
 	public void preExecuteTask(String user, TskTask obj, String action) throws Exception {
-		System.out.println("DefaultAdvisor preExecuteTask");
 		// 업무의 상태가 taskExecutedStatusSet에 포함되었다면 실행 할수 없음
 		String objStatus = CommonUtil.toDefault((String)MisUtil.taskStatusMap().get(obj.getStatus()), obj.getStatus());
 		if (objStatus != null) {
