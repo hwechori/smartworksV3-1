@@ -11,6 +11,7 @@ import net.smartworks.server.engine.authority.model.SwaResourceCond;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
@@ -19,8 +20,10 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
+import net.smartworks.server.engine.process.process.model.PrcProcessInst;
 import net.smartworks.server.engine.resource.manager.IResourceDesigntimeManager;
 import net.smartworks.server.engine.resource.manager.SmartServerManager;
+import net.smartworks.server.engine.resource.model.IPackageModel;
 import net.smartworks.server.engine.resource.model.IProcessModel;
 import net.smartworks.server.service.IBuilderService;
 import net.smartworks.util.LocalDate;
@@ -310,8 +313,45 @@ public class BuilderServiceImpl implements IBuilderService {
 
 	@Override
 	public void createNewWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		//{parentId=402880eb3598dd16013598dfb1d40001, frmNewWorkDefinition={txtWorkName=test info, chkWorkType=21, txtaWorkDesc=test info ...}}
 		try{
 			System.out.println(requestBody);
+			
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String compId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				compId = cuser.getCompanyId();
+			}
+			String categoryId = (String)requestBody.get("parentId");
+			Map<String, Object> frmNewWorkDefinition = (Map<String, Object>)requestBody.get("frmNewWorkDefinition");
+			String name = (String)frmNewWorkDefinition.get("txtWorkName");
+			String type = (String)frmNewWorkDefinition.get("chkWorkType");
+//			TYPE_INFORMATION = 21;
+//			TYPE_PROCESS = 22;
+//			TYPE_SCHEDULE = 23;
+			switch (Integer.parseInt(type)) {
+			
+			case 21 :
+				type = PrcProcessInst.PROCESSINSTTYPE_INFORMATION;
+				break;
+			case 22 :
+				type = PrcProcessInst.PROCESSINSTTYPE_PROCESS;
+				break;
+			case 23 :
+				type = PrcProcessInst.PROCESSINSTTYPE_SCHEDULE;
+				break;
+			}
+			String desc = (String)frmNewWorkDefinition.get("txtaWorkDesc");
+			
+			IPackageModel pkg = null;
+			if (CommonUtil.isEmpty(type))
+				pkg = SwManagerFactory.getInstance().getDesigntimeManager().createPackage(userId, categoryId, name, desc);
+			else {
+				pkg = SwManagerFactory.getInstance().getDesigntimeManager().createPackage(userId, categoryId, type, name, desc);
+			}
+			
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
