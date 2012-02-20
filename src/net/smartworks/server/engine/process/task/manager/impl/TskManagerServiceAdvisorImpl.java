@@ -13,16 +13,12 @@ import net.smartworks.server.engine.process.task.model.TskTaskDef;
 public class TskManagerServiceAdvisorImpl extends AbstractTskManagerAdvisor {
 
 	public void postExecuteTask(String user, TskTask obj, String action) throws Exception {
-		System.out.println("ServiceAdvisor postExecuteTask");
 	}
 	public void preExecuteTask(String user, TskTask obj, String action) throws Exception {
-		System.out.println("ServiceAdvisor preExecuteTask");
 	}
 	public void preSetTask(String user, TskTask obj, String level) throws Exception {
-		System.out.println("ServiceAdvisor preSetTask");
 	}
 	public void postSetTask(String user, TskTask obj, String level) throws Exception {
-		System.out.println("ServiceAdvisor postSetTask");
 		if (!obj.getType().equalsIgnoreCase(CommonUtil.toDefault((String)MisUtil.taskDefTypeMap().get("service"), "SERVICE"))) 
 			return;
 //TODO webservice model 정의 필요
