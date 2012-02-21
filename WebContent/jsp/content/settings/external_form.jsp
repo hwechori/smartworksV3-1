@@ -90,12 +90,12 @@
 						<table>
 							<tbody>
 								<tr class="tit_bg">
-									<th width="16%" class="r_line"><fmt:message key="settings.title.externalform.name"/></th>
-									<th width="16%" class="r_line"><fmt:message key="settings.title.externalform.desc"/></th>
-									<th width="16%" class="r_line"><fmt:message key="settings.title.externalform.url"/></th>
-									<th width="16%" class="r_line"><fmt:message key="settings.title.externalform.edit_method"/></th>
-									<th width="16%" class="r_line"><fmt:message key="settings.title.externalform.view_method"/></th>
-									<th width="16%"></th>
+									<th class="r_line"><fmt:message key="settings.title.externalform.name"/></th>
+									<th class="r_line"><fmt:message key="settings.title.externalform.desc"/></th>
+									<th class="r_line"><fmt:message key="settings.title.externalform.url"/></th>
+									<th class="r_line"><fmt:message key="settings.title.externalform.edit_method"/></th>
+									<th class="r_line"><fmt:message key="settings.title.externalform.view_method"/></th>
+									<th width="20px"></th>
 								</tr>
 								<%
 								if(!SmartUtil.isBlankObject(externalForms)){

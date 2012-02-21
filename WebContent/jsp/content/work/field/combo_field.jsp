@@ -47,16 +47,16 @@
 <span class="str_field">
 	<select name="txtFilterStringOperand">
 		<option value="<%=Instance.STATUS_RUNNING%>" <%if((operandValue != null) && Integer.parseInt(operandValue) == Instance.STATUS_RUNNING){%> selected<%} %>>
-			<fmt:message key="filter.operand.status.running" />
+			<fmt:message key="content.status.running" />
 		</option>
 		<option value="<%=Instance.STATUS_DELAYED_RUNNING%>" <%if((operandValue != null) && Integer.parseInt(operandValue) == Instance.STATUS_DELAYED_RUNNING){%> selected<%} %>>
-			<fmt:message key="filter.operand.status.delayed_running" />
+			<fmt:message key="content.status.delayed_running" />
 		</option>
 		<option value="<%=Instance.STATUS_RETURNED%>" <%if((operandValue != null) && Integer.parseInt(operandValue) == Instance.STATUS_RETURNED){%> selected<%} %>>
-			<fmt:message key="filter.operand.status.returned" />
+			<fmt:message key="content.status.returned" />
 		</option>
 		<option value="<%=Instance.STATUS_COMPLETED%>" <%if((operandValue != null) && Integer.parseInt(operandValue) == Instance.STATUS_COMPLETED){%> selected<%} %>>
-			<fmt:message key="filter.operand.status.completed" />
+			<fmt:message key="content.status.completed" />
 		</option>
 	</select> 
 </span>
