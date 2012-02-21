@@ -44,6 +44,9 @@ body, button, select, input, textarea, sub {
 	 font-size: 12px;
 }
 
+select, input, textarea {color:#868686}
+
+
 
 input.error {
 	border: 1px solid red;

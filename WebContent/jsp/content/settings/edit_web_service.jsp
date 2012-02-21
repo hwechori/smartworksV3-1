@@ -104,21 +104,21 @@
 		<div class="solid_line clear"></div>
 	</div>
 
-	<form name="frmEditWebService" class="form_layout margin_b10 js_validation_required">
+	<form name="frmEditWebService" class="form_layout con margin_b10 js_validation_required">
 		<table>
 			<tbody class="js_edit_webservice_tbody">
 				<tr>
-					<td width="20%"><fmt:message key="settings.title.webservice.name"/><span class="essen_n"></span></td>
+					<th width="20%"><fmt:message key="settings.title.webservice.name"/><span class="essen_n"></span></th>
 					<td colspan="3" width="80%" ><input name="txtWebServiceName" type="text" class="fieldline required" value="<%=CommonUtil.toNotNull(webService.getName())%>"/>
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.webservice.desc"/></td>
+					<th><fmt:message key="settings.title.webservice.desc"/></th>
 					<td colspan="3"><textarea name="txtaWebServiceDesc" rows="3" class="fieldline"><%=CommonUtil.toNotNull(webService.getDesc()) %></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.webservice.wsdl_uri"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.webservice.wsdl_uri"/><span class="essen_n"></span></th>
 					<td>
 						<div class="btn_fb_space js_webservice_wsdl">
 							<input name="txtWebServiceWSDL" <%if(!SmartUtil.isBlankObject(webService.getWsdlUri())){ %>readonly<%} %> class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(webService.getWsdlUri())%>">

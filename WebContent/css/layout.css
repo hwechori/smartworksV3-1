@@ -143,7 +143,7 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .global_menu .pop_admin {position:absolute; top:23px; right:0; z-index:38;}
 
 /*Personal Info*/
-.personal_info {background: url("../images/personal_info_bg.jpg")repeat-x scroll 0 0; padding:11px 22px; height:79px; width:182px;}
+.personal_info {background: url("../images/personal_info_bg.jpg")repeat-x scroll 0 0; padding:11px 22px; height:80px; width:182px;}
 .personal_info ul {position:absolute;}
 .personal_info li {float:left; vertical-align:bottom; margin-right:6px; color:#dddddd; line-height: 1.3em; } 
 .personal_info .pic {background: url("../images/pic_personal_info.jpg"); display:inline; width:66px; height:66px; position:relative;}
@@ -151,8 +151,14 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .personal_info .builder {background: url("../images/nav_builder.png"); display:inline; width:72px; height:75px; position:relative;}
 
 /* nav_list*/
-.nav_list {width:226px;}
+.nav_list {width:226px; border-bottom:1px solid #7a7a7a}
 .nav_current {color:#fcab4c; text-decoration:underline;}
+.navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:38px; padding:7px 10px 10px;}
+.navi_list {border:2px solid #363636; border-top:none; padding-bottom: 10px; background-color:#6b6b6b}
+.navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:4px 10px 4px; height:17px}
+.navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
+.navi_list.coummi {min-height: 200px;}
+
 .ico_pworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
 .ico_cworks {background: url("../images/ico_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
 .ico_sworks {background: url("../images/ico_swoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-hieght:18px; float: left; height:17px;}
@@ -236,12 +242,6 @@ a .btn_cate_add:hover,
 a .btn_apps {background: url("../images/nav_img.png") no-repeat -157px -344px transparent; height:25px;  width:26px; display: inline-block; float:right;}
 a .btn_apps:hover,
 .btn_apps.current {background: url("../images/nav_img.png") no-repeat -157px -379px;}
-
-.navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:39px; padding:7px 10px 10px;}
-.navi_list {border:2px solid #363636; border-top:none; padding-bottom: 10px; }
-.navi_tit_mail {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:4px 10px 4px;}
-.navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
-.navi_list.coummi {min-height: 200px;}
 
 .arr_off {background: url("../images/arr_off.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}

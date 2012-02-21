@@ -101,7 +101,7 @@
 						</colgroup>
 						<tbody>
 							<tr>
-								<td rowspan="2"><fmt:message key="settings.title.company.logo_setting"/></td>
+								<th rowspan="2"><fmt:message key="settings.title.company.logo_setting"/></th>
 								<td>
 									<div class="js_company_logo_field js_company_logo" imgSource="<%=companyGeneral.getCompanyLogo()%>"></div>
 									<div class="t_s11" style="vertical-align:bottom"><fmt:message key="settings.title.company.logo_desc"/></div>

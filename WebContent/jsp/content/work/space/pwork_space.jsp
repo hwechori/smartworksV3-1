@@ -173,7 +173,7 @@
 			<!-- 상세보기 컨텐츠 -->
 			<div class="contents_space">
 				<div class="up_point posit_default"></div>
-				<div class="form_wrap up up_padding js_form_content">
+				<div class="form_wrap up up_padding form_read js_form_content">
 		       </div>
 			</div>
 	
