@@ -32,6 +32,10 @@
 	// 모든정보를 JSON형식으로 Serialize해서 서버의 set_work_hour_policy.sw 서비스를 호출하여 수정한다.
 	function submitForms(e) {
 		var tabWorkSettings = $('.js_tab_work_settings_page');
+		if(tabWorkSettings.find('.js_display_field_items tr').length==2){
+			smartPop.showInfo(smartPop.ERROR, smartMessage.get('noneDisplayFieldError'));			
+			return;
+		}
 		if (SmartWorks.GridLayout.validate(tabWorkSettings.find('form.js_validation_required'), tabWorkSettings.find('.js_profile_error_message'))) {
 			var forms = tabWorkSettings.find('form');
 			var paramsJson = {};
@@ -133,31 +137,44 @@
 						<!-- 보이는 항목,안보이는 항목 설정-->
 						<div class="clear">
 							<div class="left40 gray_style">
-								<table>
+								<table class="js_display_field_items">
 									<tr>
-										<th width="15%"><fmt:message key="builder.title.key_field"/></th>
-										<th width="85%" colspan="2"><fmt:message key="builder.title.display_fields"/></th>
+										<th width="10%"><fmt:message key="builder.title.key_field"/></th>
+										<th width="80%"><fmt:message key="builder.title.display_fields"/></th>
+										<th width="10%"><fmt:message key="builder.title.move_item"/></th>
+									</tr>
+									<tr class="list_action_item" style="display:none">
+										<td class="rdo_key_field" ><input type="radio"/></td>
+										<td class="js_input_display_field"></td>
+										<td class="btn_move_field" >
+											<span class="move_actions">
+												<span class="js_up_field_item" title="<fmt:message key="builder.button.move_up_item"/>"> ^ </span>
+												<span style="display:none" class="js_down_field_item" title="<fmt:message key="builder.button.move_down_item"/>"> v </span>
+												<span class="js_hide_field_item" title="<fmt:message key="builder.button.hide_item"/>"> - </span>
+											</span>
+										</td>
 									</tr>
 									<%
 									if(!SmartUtil.isBlankObject(displayFields) && displayFields.length>0){
 										String keyId = (SmartUtil.isBlankObject(informationWork.getKeyField())) ? displayFields[0].getId() : informationWork.getKeyField().getId();
+										int count = 0;;
 										for(FormField formField : displayFields){									
 									%>
-											<tr>
-												<td><input type="radio" name="rdoKeyField" value="<%=formField.getId() %>" <%if(keyId.equals(formField.getId())){%>checked<%} %> /></td>
-												<td style="width: 85%" <%if(keyId.equals(formField.getId())){%>class="t_bold"<%} %>><input name="hdnDisplayFields" type="hidden" value="<%=formField.getId()%>"/><%=formField.getName() %></td>
+											<tr class="list_action_item">
+												<td class="rdo_key_field" ><input type="radio" name="rdoKeyField" value="<%=formField.getId() %>" <%if(keyId.equals(formField.getId())){%>checked<%} %> /></td>
+												<td><input name="hdnDisplayFields" type="hidden" value="<%=formField.getId()%>" fieldName="<%=formField.getName() %>"/><%=formField.getName() %></td>
+												<td class="btn_move_field" >
+													<span class="move_actions">
+														<span <%if(count==0){ %>style="display:none"<%} %> class="js_up_field_item" title="<fmt:message key="builder.button.move_up_item"/>"> ^ </span>
+														<span <%if(count==displayFields.length-1){ %>style="display:none"<%} %> class="js_down_field_item" title="<fmt:message key="builder.button.move_down_item"/>"> v </span>
+														<span class="js_hide_field_item" title="<fmt:message key="builder.button.hide_item"/>"> - </span>
+													</span>
+												</td>
 											</tr>
 										<%
+											count++;
 										}
 										%>
-									<%
-									}else if(!SmartUtil.isBlankObject(formFields)){
-										FormField formField = formFields[0];
-									%>
-										<tr>
-											<td><input type="radio" name="rdoKeyField" value="<%=formField.getId() %>" checked /></td>
-											<td style="width: 85%" class="t_bold"><input name="hdnDisplayFields" type="hidden" value="<%=formField.getId()%>"/><%=formField.getName() %></td>
-										</tr>
 									<%
 									}
 									%>
@@ -165,9 +182,16 @@
 							</div>
 	
 							<div class="right40 gray_style">
-								<table>
+								<table class="js_hidden_field_items">
 									<tr>
-										<th><fmt:message key="builder.title.hidden_fields"/></th>
+										<th width="10%"><fmt:message key="builder.title.move_item"/></th>
+										<th width="90%"><fmt:message key="builder.title.hidden_fields"/></th>
+									</tr>
+									<tr class="list_action_item" style="display:none"> 
+										<td class="btn_move_field">
+											<span class="move_actions" title="<fmt:message key="builder.button.show_item"/>"><span class="js_show_field_item"> + </span></span>
+										</td>
+										<td></td>
 									</tr>
 									<%
 									if(!SmartUtil.isBlankObject(formFields) && formFields.length>0){
@@ -181,7 +205,10 @@
 											}
 											if(isDisplayField) continue;
 									%>
-											<tr>
+											<tr class="list_action_item" fieldId="<%=formField.getId()%>">
+												<td class="btn_move_field">
+													<span class="move_actions" title="<fmt:message key="builder.button.show_item"/>"><span class="js_show_field_item"> + </span></span>
+												</td>
 												<td><%=formField.getName()%></td>
 											</tr>
 									<%
@@ -195,23 +222,24 @@
 	
 						<div class=" clear padding_t20">
 							<table>
-								<tbody>
+								<tbody class="js_display_field_list">
 									<tr class="tit_bg">
 										<%
 										if(!SmartUtil.isBlankObject(informationWork.getDisplayFields()) && informationWork.getDisplayFields().length>0){
 											for(FormField formField : displayFields){									
 										%>					
-											<th width="16%" class="r_line"><%=formField.getName() %></th>
+											<th class="r_line"><%=formField.getName() %></th>
 										<%
 											}
 										}else if(!SmartUtil.isBlankObject(formFields)){
 											FormField formField = formFields[0];
 										%>
-											<th width="16%" class="r_line"><%=formField.getName() %></th>
+											<th class="r_line"><%=formField.getName() %></th>
 										<%
 										}
 										%>
-										<th width="16%" class="r_line"><fmt:message key='common.title.last_modifier' /> / <fmt:message key='common.title.last_modified_date' /></th>
+										<th class="r_line"><fmt:message key='common.title.last_modifier' /> / <fmt:message key='common.title.last_modified_date' /></th>
+										<th style="display:none" class="r_line"></th>
 									</tr>
 								</tbody>
 							</table>
@@ -272,41 +300,32 @@
 							</tr>
 						</table>
 					</div>
-					<!-- 권한 //-->
-					
+					<!-- 권한 //-->					
 				<!-- 목록 //-->
-			</div>
-			<!-- 컨텐츠 //-->
-			
-			<!-- 버튼영역 -->
-			<div class="glo_btn_space">
-			
-				<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
-				<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
-				<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
-				<span class="js_progress_span"></span>
-				
-				<div class="float_right">
-					<span class="btn_gray"> 
-						<a href="" onclick='submitForms(); return false;'>
-							<span class="Btn01Start"></span>
-							<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
-							<span class="Btn01End"></span>
-						</a>
-					</span> 
 				</div>
-			</div>
-			<!-- 버튼영역 //-->
-			
-		</ul>		
-		
-		
-		</div>
-		
-		
-			
-			<div class="portlet_b" style="display: block;"></div>
-			
+				<!-- 컨텐츠 //-->
+				
+				<!-- 버튼영역 -->
+				<div class="glo_btn_space">
+					<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
+					<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
+					<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
+					<span class="js_progress_span"></span>
+					
+					<div class="float_right">
+						<span class="btn_gray"> 
+							<a href="" onclick='submitForms(); return false;'>
+								<span class="Btn01Start"></span>
+								<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+								<span class="Btn01End"></span>
+							</a>
+						</span> 
+					</div>
+				</div>
+				<!-- 버튼영역 //-->
+			</ul>		
+		</div>	
+		<div class="portlet_b" style="display: block;"></div>
 	</div>
 </div>
 <!-- 컨텐츠 레이아웃//-->
