@@ -137,10 +137,10 @@ tr.list_action_item td.btn_move_field .move_actions{display:none;}
 tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:pointer;} 
 
 /* Setting keyOption */
-.keyOption {display:none; position:absolute; margin-top:-21px; margin-left:195px}
+.keyOption {display:none;}
 .keyOption a:hover {display:block}
-.ico_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:11px; width:21px}
-.ico_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:11px; width:21px}
+.ico_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
+.ico_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
 
 /*global Menu */
 .global_menu {position:absolute; right:10px; top:11px;  font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
