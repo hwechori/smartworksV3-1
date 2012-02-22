@@ -15,7 +15,7 @@
 <%@page import="net.smartworks.model.security.AccessPolicy"%>
 <%@page import="net.smartworks.model.work.InformationWork"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
-<%@page import="net.smartworks.model.work.Work"%>
+<%@page import="net.smartworks.model.work.Work"%> 
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
