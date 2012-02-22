@@ -144,7 +144,7 @@
 									}
 								}else{
 								%>
-									<tr><fmt:message key="common.message.no_instance"/></tr>
+									<tr><td><fmt:message key="common.message.no_instance"/></td></tr>
 								<%
 								}
 

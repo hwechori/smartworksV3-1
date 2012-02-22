@@ -59,9 +59,9 @@ public class FormField extends BaseObject{
 	public static final FormField FIELD_PROCESS_TYPE = new FormField(ID_PROCESS_TYPE, SmartMessage.getString("common.title.process_type"), TYPE_COMBO);
 
 	public static final FormField FIELD_OWNER = new FormField(ID_OWNER, SmartMessage.getString("common.title.owner"), TYPE_USER);
-	public static final FormField FIELD_CREATED_DATE = new FormField(ID_CREATED_DATE, SmartMessage.getString("common.title.created_date"), TYPE_DATETIME);
+	public static final FormField FIELD_CREATED_DATE = new FormField(ID_CREATED_DATE, SmartMessage.getString("common.title.created_date"), TYPE_DATE);
 	public static final FormField FIELD_LAST_MODIFIER = new FormField(ID_LAST_MODIFIER, SmartMessage.getString("common.title.last_modifier"), TYPE_USER);
-	public static final FormField FIELD_LAST_MODIFIED_DATE = new FormField(ID_LAST_MODIFIED_DATE, SmartMessage.getString("common.title.last_modified_date"), TYPE_DATETIME);
+	public static final FormField FIELD_LAST_MODIFIED_DATE = new FormField(ID_LAST_MODIFIED_DATE, SmartMessage.getString("common.title.last_modified_date"), TYPE_DATE);
 
 	public static final FormField[] DEFAULT_PROCESS_FIELDS = new FormField[] {
 		FIELD_STATUS, FIELD_SUBJECT, FIELD_TASK_NAME, FIELD_LAST_TASK, FIELD_PROCESS_TIME, FIELD_PROCESS_TYPE, 
