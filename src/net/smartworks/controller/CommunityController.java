@@ -74,6 +74,42 @@ public class CommunityController {
 		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_tab_monthly.jsp", "space_tab_monthly.tiles");
 	}
 
+	@RequestMapping("/space_work_list")
+	public ModelAndView spaceWorkList(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_work_list.jsp", "space_work_list.tiles");
+	}
+
+	@RequestMapping("/space_picture_list")
+	public ModelAndView spacePictureList(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_picture_list.jsp", "space_picture_list.tiles");
+	}
+
+	@RequestMapping("/space_file_list")
+	public ModelAndView spaceFileList(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_file_list.jsp", "space_file_list.tiles");
+	}
+
+	@RequestMapping("/space_event_list")
+	public ModelAndView spaceEventList(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_event_list.jsp", "space_event_list.tiles");
+	}
+
+	@RequestMapping("/space_board_list")
+	public ModelAndView spaceBoardList(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_board_list.jsp", "space_board_list.tiles");
+	}
+
+	@RequestMapping("/space_memo_list")
+	public ModelAndView spaceMemoList(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/community/space/space_memo_list.jsp", "space_memo_list.tiles");
+	}
+
 	@RequestMapping("/chatting_box")
 	public ModelAndView chattingBox(HttpServletRequest request, HttpServletResponse response) {
 

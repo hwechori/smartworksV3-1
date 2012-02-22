@@ -29,8 +29,9 @@ public class UserInfo extends WorkSpaceInfo {
 		this.department = department;
 	}
 	public String getLongName(){
-		return position + " " + super.getName();
-	}	
+		if(!position.equals("")) return position + " " + super.getName();
+		else return super.getName();
+	}
 	public String getPhoneNo() {
 		return phoneNo;
 	}
