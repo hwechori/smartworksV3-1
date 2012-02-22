@@ -89,14 +89,12 @@
                	<div class="solid_line clear"></div>
 			</div>
 			<!-- 타이틀 -->
-
-			<div class="define_space js_process_instance_viewer" style="display:none; height:512px;"></div>
 					 		            
 			<!-- 프로세스 영역 -->
-			<div class="define_space" style="height:59px">
+			<div class="define_space" style="height:59px;">
 			
 				<!-- 방향 Prev -->
-	        		<a href="" class="js_instance_tasks_left float_left" style="display:block"><div class="proc_btn_prev "></div></a>
+	        		<a href="" class="js_instance_tasks_left"><div class="proc_btn_prev" style="display:block"></div></a>
 	        	<!-- 방향 Prev //-->
 	        	
 				<div class="proce_section">
@@ -163,7 +161,7 @@
 				</div>
 				
 				<!-- 방향 Next -->
-	    		<a href="" class="js_instance_tasks_right float_right" style="display:block"><div class="proc_btn_next "></div></a>
+	    		<a href="" class="js_instance_tasks_right"><div class="proc_btn_next"  style="display:block"></div></a>
 	    		<!-- 방향 Next //-->
 			</div>
 			<!--프로세스 영역//-->
