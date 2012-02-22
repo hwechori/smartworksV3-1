@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.											 -->
 <!-- Created Date	: 2011.9.													 -->
 
+<%@page import="net.smartworks.model.work.FormField"%>
 <%@page import="java.net.URLDecoder"%>
 <%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.util.LocalDate"%>
@@ -44,6 +45,7 @@
 
 <!--  참거짓을 선택할 수 있는 선택박스 -->
 <span class="str_field">
+	<input name="hdnFieldType" type="hidden" value="<%=FormField.TYPE_CHECK_BOX %>"/>
 	<select name="txtFilterStringOperand">
 			<option value="true" <%if((operandValue != null) && operandValue.equals("true")){%> selected<%} %>>
 				<fmt:message key="filter.operand.true" />
