@@ -16,6 +16,12 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
+	String cid = request.getParameter("cid");
+	String wid = request.getParameter("wid");
+	session.setAttribute("cid", cid);
+	session.setAttribute("wid", wid);	
+	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
+	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -26,7 +32,7 @@
 		<!-- 내부 메뉴 -->
 		<ul>
 			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.all_items"/></span></a></li>
-			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.works"/></span></a></li>
+			<li><a href="space_work_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.works"/></span></a></li>
 			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.pictures"/></span></a></li>
 			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.files"/></span></a></li>
 			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.events"/></span></a></li>

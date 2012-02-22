@@ -553,7 +553,7 @@ a .btn_apps:hover,
 #notice li {border-bottom: 1px dashed #DCDFE0; vertical-align:middle; padding:5px 0; clear:both;}
 
 .noti_pic {float:left; margin-right: 5px;}
-.noti_in_bodytitle {word-wrap: break-word; text-align:left; vertical-align:middle; float:left; line-height:16px; width:70%} /* Body Title로 들어갈 때 */
+.noti_in_bodytitle {word-wrap: break-word; text-align:left; vertical-align:middle; float:left; line-height:16px; width:65%} /* Body Title로 들어갈 때 */
 .noti_in { margin-left:35px; line-height: 16px;}
 .noti_in_s { margin-left:25px; line-height: 16px;}
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/

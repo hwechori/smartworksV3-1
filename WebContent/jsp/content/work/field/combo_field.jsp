@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.											 -->
 <!-- Created Date	: 2011.9.													 -->
 
+<%@page import="net.smartworks.model.work.FormField"%>
 <%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.model.instance.Instance"%>
 <%@page import="java.net.URLDecoder"%>
@@ -32,6 +33,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--  좌측의 필드항목과 우측의 값을 계산하는 조건실행을 위한 오퍼레이터 선택박스 -->
+<input name="hdnFieldType" value="<%=FormField.TYPE_COMBO %>"/>
 <select name="selFilterOperator" class="selb_size_sec">
 	<%
 	for (KeyMap generalOper : generalOpers) {
@@ -43,7 +45,6 @@
 	}
 	%>
 </select>
-<!-- 내용 확인 필요   ############################# -->
 <span class="str_field">
 	<select name="txtFilterStringOperand">
 		<option value="<%=Instance.STATUS_RUNNING%>" <%if((operandValue != null) && Integer.parseInt(operandValue) == Instance.STATUS_RUNNING){%> selected<%} %>>
@@ -60,7 +61,6 @@
 		</option>
 	</select> 
 </span>
-<!-- 내용 확인 필요   ############################# //-->
 
 <!--  현재 콘디션을 삭제할 수 있는 샂제 버튼 -->
 <span class="btn_x_grb_posi">
