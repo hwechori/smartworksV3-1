@@ -44,16 +44,16 @@
 		<!-- 업무 정의 //-->
 	
 		<!-- 프로세스 영역 -->
-		<div class="define_space padding0" style="height:59px">
+		<div class="define_space" style="height:59px">
 		
 		 <!-- 방향 Prev -->
-		       <a href="" class="js_manual_tasks_left" style="display::block"><div class="proc_btn_prev float_left"></div></a>
+		       <a href="" class="js_manual_tasks_left" style="display:block"><div class="proc_btn_prev" style="margin: 22px 0 0 35px;"></div></a>
 			<!-- 방향 Prev //-->
 			
 	        <div class="proce_section">
 	        
 				<!--  태스크 시작 -->
-				<div class="proce_space js_manual_tasks_holder" style="overflow:hidden; width:92%">
+				<div class="proce_space js_manual_tasks_holder" style="overflow:hidden">
 					<div class="js_manual_tasks">
 						<ul><li class="proc_task not_yet js_manual_task_placeholder" style="display:none"></li></ul>
 						
@@ -84,7 +84,7 @@
 				<!--  태스크 시작// -->
 			</div>
 			<!-- 방향 Next -->
-		   <a href="" class="js_manual_tasks_right" ><div class="proc_btn_next float_right" style="top:-97px"></div></a>
+		   <a href="" class="js_manual_tasks_right" style="display:block"><div class="proc_btn_next" style="margin: 22px 35px 0 0"></div></a>
 		  	<!-- 방향 Next //-->  
 		</div>
 		<!--프로세스 영역//-->

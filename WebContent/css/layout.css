@@ -136,6 +136,12 @@ tr.list_action_item:hover td.rdo_key_field input{display:block;}
 tr.list_action_item td.btn_move_field .move_actions{display:none;} 
 tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:pointer;} 
 
+/* Setting keyOption */
+.keyOption {display:none;}
+.keyOption a:hover {display:block}
+.ico_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
+.ico_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
+
 /*global Menu */
 .global_menu {position:absolute; right:10px; top:11px;  font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
 .global_menu div { float:left; margin-left:8px;}
@@ -326,10 +332,10 @@ a .btn_apps:hover,
 .up_works .current, 
 .up_works a.current:hover {background: url("../images/header_nico.png") no-repeat -4px -190px; font-weight:bold;}
 
-.up_file a {background: url("../images/header_nico.png") no-repeat -151px -155px; height:22px; padding:4px 0 3px 25px; display:block;}
+.up_file a {background: url("../images/header_nico.png") no-repeat -147px -155px; height:22px; padding:4px 0 3px 25px; display:block;}
 .up_file a:hover,
 .up_file .current, 
-.up_file a.current:hover {background: url("../images/header_nico.png") no-repeat -151px -190px; font-weight:bold;}
+.up_file a.current:hover {background: url("../images/header_nico.png") no-repeat -147px -190px; font-weight:bold;}
 
 .up_pic a {background: url("../images/header_nico.png") no-repeat -677px -155px; height:22px; padding:4px 0 3px 34px; display:block;}
 .up_pic a:hover,

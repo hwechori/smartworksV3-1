@@ -2011,7 +2011,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 					list = objList;
 				}
 			} else {
-				sqlBuf.append(" select id, name, deptId, pos, roleId, picture, '' as description, 'u' as type from sworguser where deptId = '" + departmentId + "' ");
+				sqlBuf.append(" select id, name, deptId, pos, roleId, picture, '' as description, 'u' as type from sworguser where deptId = '" + departmentId + "' and type != 'SYSTEM'");
 				sqlBuf.append(" union ");
 				sqlBuf.append(" select id, name, '' as deptId, '' as pos, '' as roleId, '' as picture, description, 'd' as type from sworgDept where parentId = '" + departmentId + "'");
 				sqlBuf.append(" order by roleId asc, name asc ");

@@ -91,7 +91,7 @@
 			<!-- 타이틀 -->
 					 		            
 			<!-- 프로세스 영역 -->
-			<div class="define_space" style="height:59px;">
+			<div class="define_space" style="height:59px; padding: 0 45px;">
 			
 				<!-- 방향 Prev -->
 	        		<a href="" class="js_instance_tasks_left"><div class="proc_btn_prev" style="display:block"></div></a>

@@ -1841,7 +1841,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			String txtMemberEmployeeId = null;
 			String txtMemberPosition = null;
 			String selMemberRole = null;
-			String selMemberUserLevel = null;
+			int selMemberUserLevel;
 			String selMemberLocale = null;
 			String selMemberTimeZone = null;
 			String txtMemberPhoneNo = null;
@@ -1890,8 +1890,8 @@ public class SettingsServiceImpl implements ISettingsService {
 						selMemberRole = (String)frmEditMember.get("selMemberRole");
 						swoUser.setRoleId(selMemberRole.equals(User.USER_ROLE_LEADER) ? "DEPT LEADER" : "DEPT MEMBER");
 					} else if(fieldId.equals("selMemberUserLevel")) {
-						selMemberUserLevel = (String)frmEditMember.get("selMemberUserLevel");
-						swoUser.setAuthId(selMemberUserLevel.equals(User.USER_LEVEL_EXTERNAL_USER) ? "EXTERNALUSER" : selMemberUserLevel.equals(User.USER_LEVEL_INTERNAL_USER) ? "USER" : selMemberUserLevel.equals(User.USER_LEVEL_AMINISTRATOR) ? "ADMINISTRATOR" : "OPERATOR");
+						selMemberUserLevel = Integer.parseInt((String)frmEditMember.get("selMemberUserLevel"));
+						swoUser.setAuthId(selMemberUserLevel == User.USER_LEVEL_EXTERNAL_USER ? "EXTERNALUSER" : selMemberUserLevel == User.USER_LEVEL_INTERNAL_USER ? "USER" : selMemberUserLevel == User.USER_LEVEL_AMINISTRATOR ? "ADMINISTRATOR" : "OPERATOR");
 					} else if(fieldId.equals("selMemberLocale")) {
 						selMemberLocale = (String)frmEditMember.get("selMemberLocale");
 						swoUser.setLocale(selMemberLocale);
