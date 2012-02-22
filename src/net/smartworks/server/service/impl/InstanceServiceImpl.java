@@ -1978,6 +1978,85 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+
+	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = SmartTest.getWorkInstanceList1(params);
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {
 
 		try{

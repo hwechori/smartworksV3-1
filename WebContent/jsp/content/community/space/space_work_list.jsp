@@ -151,10 +151,7 @@
 			<!-- 목록보기 -->
 			<div class=" contents_space">
 				<div>
-<%-- 					<jsp:include page="/jsp/content/work/report/work_report.jsp">
-						<jsp:param value="<%=work.getLastReportId() %>" name="reportId"/>
-						<jsp:param value="test" name="reportId"/>
-					</jsp:include>
+<%--  					<jsp:include page="/jsp/content/work/report/work_report.jsp"/>
  --%>				</div>
 
 				<!-- 목록보기 타이틀-->
@@ -215,10 +212,8 @@
 				<!-- 목록 테이블 -->
  				<div class="list_contents">
 					<div id='work_instance_list_page'>
-<%-- 						<jsp:include page="/jsp/content/work/list/pwork_instance_list.jsp">
-							<jsp:param value="<%=spaceId%>" name="spaceId"/>
-						</jsp:include>
- --%>					</div>
+ 						<jsp:include page="/jsp/content/community/space/work_instance_list.jsp"/>
+					</div>
 				</div>
 				<!-- 목록 테이블 //-->
 
