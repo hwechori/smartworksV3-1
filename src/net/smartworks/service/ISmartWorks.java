@@ -155,7 +155,13 @@ public interface ISmartWorks {
 	public abstract WorkSpaceInfo[] searchCommunity(String key) throws Exception;
 
 	public abstract UserInfo[] searchCommunityMember(String communityId, String key) throws Exception;
-
+	
+	/*
+	 * 현재 스마트웍스에 접속되어 있는 유저들에 대한 정보를 리턴한다 (채팅가능 유져)
+	 * 채팅가능 유저목록의 갱신을 위하여 서버에서는 세션정보를 리스닝하고 있으면서 세션의 접속과 끊김 이벤트가
+	 * 발생하였을경우 SmartUtil의 publishAChatters 메소드를 호출하여 채팅 가능 유저 목록을 갱신시켜준다
+	 * (세션의 접속,끊김 이벤트를 받을수 있나?, publishAChatters 을 이용할때 세션정보에서 사용자의 회사아이디를 가져올수 있나?)
+	 */
 	public abstract UserInfo[] getAvailableChatter() throws Exception;
 
 	public abstract UserInfo[] searchAvailableChatter(String key) throws Exception;
@@ -219,13 +225,21 @@ public interface ISmartWorks {
 	public abstract void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract String startProcessWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
+	/**
+	 * @deprecated
+	 */
 	public abstract String setFileInstance(HttpServletRequest request) throws Exception;
-
+	/**
+	 * @deprecated
+	 */
 	public abstract String setEventInstance(HttpServletRequest request) throws Exception;
-
+	/**
+	 * @deprecated
+	 */
 	public abstract String setMemoInstance(HttpServletRequest request) throws Exception;
-
+	/**
+	 * @deprecated
+	 */
 	public abstract String setBoardInstance(HttpServletRequest request) throws Exception;
 
 	public abstract CommunityInfo[] getAllComsByDepartmentId(String departmentId, boolean departmentOnly) throws Exception;
