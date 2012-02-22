@@ -57,21 +57,16 @@
 	WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
 
 	return (Object) wac.getBean(beanName);
-}%>
+}
+	protected final Log logger = LogFactory.getLog(getClass());
+
+
+
+%>
 <%
 
-	SwoUser user = SwManagerFactory.getInstance().getSwoManager().getUser("kmyu@maninsoft.co.kr", "kmyu@maninsoft.co.kr", IManager.LEVEL_ALL);
-	
-
-
-	user.setName("À¯±¤¹Î2");
-	
-	
-	SwManagerFactory.getInstance().getSwoManager().setUser("kmyu@maninsoft.co.kr", user, IManager.LEVEL_ALL);
-
-
-
-
+	logger.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+	System.out.println("prctest");
 
 %>
 
