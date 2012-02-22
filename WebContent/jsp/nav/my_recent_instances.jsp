@@ -48,7 +48,7 @@
 			}
 	%>
 			<li>
-				<a href="<%=targetContent%>?cid=<%=instanceContext%>" class="js_content" title="<%=work.getFullpathName()%>">
+				<a href="<%=targetContent%>?cid=<%=instanceContext%>&workId=<%=work.getId()%>" class="js_content" title="<%=work.getFullpathName()%>">
 					<span class="ico_pe">
 						<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" width="20" height="20" border="0">
 					</span> 
