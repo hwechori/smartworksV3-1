@@ -29,6 +29,7 @@
 	<%
 	if(workCategories != null){
 		for (WorkInfo workCategory : workCategories) {
+			if(workCategory.getProvidedBy() == Work.PROVIDED_BY_SYSTEM || workCategory.getProvidedBy() == Work.PROVIDED_BY_APPSTORE) continue;
 			String iconType = ((WorkCategoryInfo)workCategory).isRunning() ? "ico_cworks" : "ico_cworks_off";
 	%>
 			<!--  *** js_drill_down : sw_act_work.js에서 이클래스의 클릭이벤트를 받아서 트리구조르 드릴다운할수 있게 한다.. -->
@@ -38,7 +39,7 @@
 					<span class="nav_subtitl_area"><%=workCategory.getName()%></span>
 				</a>
  				<%
-				if(workCategory.getProvidedBy()!=Work.PROVIDED_BY_SYSTEM && !((WorkCategoryInfo)workCategory).isRunning()){
+				if(!((WorkCategoryInfo)workCategory).isRunning()){
 				%>
 					<span class="ctgr_action">
 						<span title="<fmt:message key='builder.button.remove_category'/>" class="js_remove_work_category btn_im_x" categoryId="<%=workCategory.getId() %>" categoryName="<%=workCategory.getName()%>"></span>

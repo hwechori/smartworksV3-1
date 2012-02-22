@@ -34,9 +34,8 @@ public class ChartReport extends Report {
 		getChartPMeanMonthly(), getChartPMeanMonthlyByDepartment(), getChartPSumMonthly(), getChartPSumMonthlyByDepartment(), getChartPMaxMonthly(),
 		getChartPMaxMonthlyByDepartment(), getChartPMinMonthly(), getChartPMinMonthlyByDepartment() };
 
-	public static final ChartReport[] DEFAULT_CHARTS_PROCESS = new ChartReport[] { getChartPCntMonthly(), getChartPCntMonthlyByDepartment(),
-		getChartPMeanMonthly(), getChartPMeanMonthlyByDepartment(), getChartPSumMonthly(), getChartPSumMonthlyByDepartment(), getChartPMaxMonthly(),
-		getChartPMaxMonthlyByDepartment(), getChartPMinMonthly(), getChartPMinMonthlyByDepartment() };
+	public static final ChartReport[] DEFAULT_CHARTS_PROCESS = new ChartReport[] {};
+	public static final ChartReport[] DEFAULT_CHARTS_SCHEDULE = new ChartReport[] {};
 
 	private int chartType = -1;
 	private FormField xAxis;

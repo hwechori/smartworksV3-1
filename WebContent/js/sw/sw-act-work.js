@@ -162,8 +162,8 @@ $(function() {
 	
 	$('a.js_create_new_work').live('click', function(e) {
 		var input = $(e.target);
-		var target = input.parents('.js_iwork_list_page').find('div.js_new_work_form');
 		var url = input.attr('href');
+		var target = input.parents('.js_work_list_page').find('div.js_new_work_form');
 		$('a.js_search_filter_close').click();
 		$.ajax({
 			url : url,

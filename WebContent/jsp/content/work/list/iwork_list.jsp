@@ -160,27 +160,15 @@
 			<div class="body_titl">
 				<div class="body_titl_iworks title"><%=work.getName()%></div>
 				<!-- 우측 버튼 -->
-				<div class="txt_btn"><%=work.getFullpathName() %></div>
+				<div class="txt_btn">
+					<a class="js_view_work_manual" href="iwork_manual.sw"><fmt:message key="common.button.view.work_manual" />▼</a>
+					<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
+				</div>
+				<span class="js_progress_span"></span>
 				<!-- 우측 버튼 //-->
 				<div class="solid_line"></div>
 			</div>
 			<!-- 타이틀 -->
-
-			<!-- 컨텐츠 -->
-			<div class="contents_space_noBottomPadding js_content_div">
-
-				<!-- 버튼 영역-->
-				<div class="txt_btn solid_line_sb default_title_space">
-					<div class="title">
-						<a class="js_view_work_manual" href="iwork_manual.sw"><fmt:message key="common.button.view.work_manual" />▼</a>
-						<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
-					</div> 
-					<span class="js_progress_span"></span>
-				</div>
-				<!-- 버튼 영역 //-->
-
-			</div>
-			<!-- 컨텐츠 //-->
 
 			<!-- 업무매뉴얼 보기 -->
 			<div id="work_manual" style="display: none"></div>
@@ -204,7 +192,7 @@
 								<a href="search_filter.sw?workId=<%=workId%>" class="js_edit_search_filter btnIconsTail"><fmt:message key='filter.button.edit_search_filter' /></a>
 							</div>
 							<div class="btnIconsCreate">
-								<a href="new_iwork.sw?workId=<%=workId%>" class="js_create_new_work btnIconsTail" workId="<%=workId%>">새항목 등록하기</a>
+								<a href="new_iwork.sw?workId=<%=workId%>" class="js_create_new_work btnIconsTail" workId="<%=workId%>"><fmt:message key="common.button.add_new_iwork"/></a>
 							</div>
 							<div class="btnIconsExcel">
 								<a href="" class="btnIconsTail">엑셀로 등록하기</a>
@@ -219,7 +207,7 @@
 										<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
 								</div>
 							</form>
-							<form class="form_space po_left" name="frmIworkFilterName">
+							<form class="form_space po_left js_form_filter_name" name="frmIworkFilterName">
 								<select name="selFilterName" class="js_select_search_filter">
 									<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" 
 										<%if(SmartUtil.isBlankObject(work.getLastFilterId()) || SearchFilter.FILTER_ALL_INSTANCES.equals(work.getLastFilterId())){%> selected <%} %>>
