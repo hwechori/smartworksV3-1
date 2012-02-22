@@ -923,6 +923,10 @@ public class WorkServiceImpl implements IWorkService {
 				colListCond.setType(likType);
 				colListCond.setCorrelation(lnkCorr);
 				colList = getColManager().getList(userId, colListCond, IManager.LEVEL_ALL);
+			} else if(filterId.equals("") && !txtNewFilterName.equals("")) {
+				colList = new ColList();
+				colList.setType(likType);
+				colList.setCorrelation(lnkCorr);
 			} else {
 				colListCond.setType(likType);
 				colListCond.setCorrelation(lnkCorr);
@@ -941,49 +945,50 @@ public class WorkServiceImpl implements IWorkService {
 					txtFilterStringOperand = (String)filtersMap.get("txtFilterStringOperand");
 					txtFilterDateOperand = (String)filtersMap.get("txtFilterDateOperand");
 					txtFilterTimeOperand = (String)filtersMap.get("txtFilterTimeOperand");
-					if(txtFilterStringOperand != null) {
-						rightOperand = txtFilterStringOperand;
-						rightOperandType = FormField.TYPE_TEXT;
-					} else if(txtFilterDateOperand != null){
-						rightOperand = txtFilterDateOperand;
+
+					if(selFilterOperator.equals(ConditionOperator.RECENT_DAYS.getId())) {
+						rightOperand = this.getRecentSomeDays(5);
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
 						rightOperandType = FormField.TYPE_DATE;
-					} else {
-						if(selFilterOperator.equals(ConditionOperator.RECENT_DAYS.getId())) {
-							rightOperand = this.getRecentSomeDays(5);
-							selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-							rightOperandType = FormField.TYPE_DATE;
-						} else if(selFilterOperator.equals(ConditionOperator.TODAY.getId())) {
-							rightOperand = this.getRecentSomeDays(1);
-							selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-							rightOperandType = FormField.TYPE_DATE;
-						} else if(selFilterOperator.equals(ConditionOperator.THIS_WEEK.getId())) {
-							rightOperand = this.getThisWeek();
-							selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-							rightOperandType = FormField.TYPE_DATE;
-						} else if(selFilterOperator.equals(ConditionOperator.THIS_MONTH.getId())) {
-							rightOperand = this.getRecentSomeMonths(1);
-							selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-							rightOperandType = FormField.TYPE_DATE;
-						} else if(selFilterOperator.equals(ConditionOperator.THIS_QUARTER.getId())) {
-							rightOperand = this.getThisQuarter();
-							selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-							rightOperandType = FormField.TYPE_DATE;
-						} else if(selFilterOperator.equals(ConditionOperator.THIS_HALF_YEAR.getId())) {
-							rightOperand = this.getThisHalfYear();
-							selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-							rightOperandType = FormField.TYPE_DATE;
-						} else if(selFilterOperator.equals(ConditionOperator.THIS_YEAR.getId())) {
-							rightOperand = this.getThisYear();
-							selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-							rightOperandType = FormField.TYPE_DATE;
-						} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_DAYS.getId())) {
-							rightOperand = this.getRecentSomeDays(Integer.parseInt(txtFilterTimeOperand));
-							selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-							rightOperandType = FormField.TYPE_DATE;
-						} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_MONTHS.getId())) {
-							rightOperand = this.getRecentSomeMonths(Integer.parseInt(txtFilterTimeOperand));
-							selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-							rightOperandType = FormField.TYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.TODAY.getId())) {
+						rightOperand = this.getRecentSomeDays(1);
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						rightOperandType = FormField.TYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_WEEK.getId())) {
+						rightOperand = this.getThisWeek();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						rightOperandType = FormField.TYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_MONTH.getId())) {
+						rightOperand = this.getRecentSomeMonths(1);
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						rightOperandType = FormField.TYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_QUARTER.getId())) {
+						rightOperand = this.getThisQuarter();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						rightOperandType = FormField.TYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_HALF_YEAR.getId())) {
+						rightOperand = this.getThisHalfYear();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						rightOperandType = FormField.TYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.THIS_YEAR.getId())) {
+						rightOperand = this.getThisYear();
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						rightOperandType = FormField.TYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_DAYS.getId())) {
+						rightOperand = this.getRecentSomeDays(Integer.parseInt(txtFilterTimeOperand));
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						rightOperandType = FormField.TYPE_DATE;
+					} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_MONTHS.getId())) {
+						rightOperand = this.getRecentSomeMonths(Integer.parseInt(txtFilterTimeOperand));
+						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
+						rightOperandType = FormField.TYPE_DATE;
+					} else { 
+						if(txtFilterStringOperand != null) {
+							rightOperand = txtFilterStringOperand;
+							rightOperandType = FormField.TYPE_TEXT;
+						} else if(txtFilterDateOperand != null){
+							rightOperand = txtFilterDateOperand;
+							rightOperandType = FormField.TYPE_DATETIME;
 						}
 					}
 					filter.setLeftOperandType(rightOperandType);
@@ -1025,7 +1030,9 @@ public class WorkServiceImpl implements IWorkService {
 
 			getColManager().setList(userId, colList, IManager.LEVEL_ALL);
 
-			return null;
+			if(!filterId.equals("")) return filterId;
+			else return colObject.getRef();
+
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
@@ -1122,6 +1129,7 @@ public class WorkServiceImpl implements IWorkService {
 					Condition condition = new Condition();
 					selFilterLeftOperand = (String)valueMap.get("selFilterLeftOperand");
 					selFilterOperator = (String)valueMap.get("selFilterOperator");
+
 					txtFilterStringOperand = (String)valueMap.get("txtFilterStringOperand");
 					txtFilterDateOperand = (String)valueMap.get("txtFilterDateOperand");
 					txtFilterTimeOperand = (String)valueMap.get("txtFilterTimeOperand");
@@ -1162,13 +1170,14 @@ public class WorkServiceImpl implements IWorkService {
 						rightOperand = this.getRecentSomeMonths(Integer.parseInt(txtFilterTimeOperand));
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
 						txtFiltetRightOperandType = FormField.TYPE_DATE;
-					}
-					if(txtFilterStringOperand != null) {
-						rightOperand = txtFilterStringOperand;
-						txtFiltetRightOperandType = FormField.TYPE_TEXT;
-					} else if(txtFilterDateOperand != null){
-						rightOperand = txtFilterDateOperand;
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
+					} else {
+						if(txtFilterStringOperand != null) {
+							rightOperand = txtFilterStringOperand;
+							txtFiltetRightOperandType = FormField.TYPE_TEXT;
+						} else if(txtFilterDateOperand != null){
+							rightOperand = txtFilterDateOperand;
+							txtFiltetRightOperandType = FormField.TYPE_DATE;
+						}
 					}
 
 					condition.setLeftOperand(new FormField(selFilterLeftOperand, null, txtFiltetRightOperandType));

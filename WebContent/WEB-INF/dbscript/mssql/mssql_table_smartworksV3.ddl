@@ -846,6 +846,7 @@ CREATE TABLE prcprcinst (
     prcPackageId varchar(100),
     prcType varchar(100),
     prcWorkspaceId varchar(100),
+    prcWorkSpaceType varchar(50),
 	primary key(prcobjid)
 );
 
@@ -895,6 +896,7 @@ CREATE TABLE tsktask (
     tskFromRefType varchar(50),
     tskFromRefId varchar(100),
     tskWorkspaceId varchar(100),
+    tskWorkspaceType varchar(50),
 	primary key(tskobjid)
 );
 
