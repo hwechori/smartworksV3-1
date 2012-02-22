@@ -146,7 +146,8 @@ smartMessage.bundle['ko'] = {
 	mailPasswordConfirmError : "보내는메일 암호가 잘못입력되었습니다. 확인하여 다시 입력 바랍니다.",
 	duplicationCheckError : "아이디 중복확인이 되지 않았습니다. 중복확인을 실행한 후 다시 하시기 바랍니다.",
 	wsdlNotFetchedError : "WSDL 가져오기를 실행하지 않았습니다. WSDL 가져오기를 실행한 후 다시 하시기 바랍니다.",
-
+	noneDisplayFieldError : "보이는 항목이 존재하지 않습니다. 보이는 항목은 최소한 한개 이상이여야 합니다.",
+	
 	usableUserId : "사용가능한 사용자 아이디 입니다. 다른아이디로 변경하려면 아이디변경버튼을 클릭하십시요.",
 	duplicatedUserId : "이미사용중인 사용자 아이디 입니다. 다른아이디를 입력하시기 바랍니다.",
 

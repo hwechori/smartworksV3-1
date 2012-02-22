@@ -46,9 +46,12 @@
 					<fmt:message key="report.title.no_report" />
 				</option>
 				<%
-				Report[] infoReports = ChartReport.DEFAULT_CHARTS_INFORMATION;
-				if (infoReports != null) {
-					for (Report report : infoReports) {
+				Report[] defaultReports = null;
+				if(work.getType() == SmartWork.TYPE_INFORMATION) defaultReports =  ChartReport.DEFAULT_CHARTS_INFORMATION;
+				else if(work.getType() == SmartWork.TYPE_PROCESS) defaultReports =  ChartReport.DEFAULT_CHARTS_PROCESS;
+				else if(work.getType() == SmartWork.TYPE_SCHEDULE) defaultReports =  ChartReport.DEFAULT_CHARTS_SCHEDULE;
+				if (defaultReports != null) {
+					for (Report report : defaultReports) {
 						String chartType = null;
 						if(report.getType() == Report.TYPE_CHART) chartType = ((ChartReport)report).getChartTypeInString();
 				%>

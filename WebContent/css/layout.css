@@ -129,6 +129,12 @@ li.work_action_item:hover .work_action {display:block}
 tr.list_action_item .list_action {display:none;}
 tr.list_action_item:hover .list_action {display:block; cursor:pointer;}
 
+tr.list_action_item td.rdo_key_field input{display:none;} 
+tr.list_action_item td.rdo_key_field input:checked{display:block;} 
+tr.list_action_item:hover td.rdo_key_field input{display:block;} 
+
+tr.list_action_item td.btn_move_field .move_actions{display:none;} 
+tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:pointer;} 
 
 /*global Menu */
 .global_menu {position:absolute; right:10px; top:11px;  font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}

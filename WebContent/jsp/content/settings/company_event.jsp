@@ -97,7 +97,7 @@
 									<th class="r_line"><fmt:message key="settings.title.company_event.end_date"/></th>
 									<th class="r_line"><fmt:message key="settings.title.company_event.is_holiday"/></th>
 									<th class="r_line"><fmt:message key="settings.title.company_event.related_users"/></th>
-									<th></th>
+									<th width="20px"></th>
 								</tr>
 								<%
 								if(!SmartUtil.isBlankObject(companyEvents)){

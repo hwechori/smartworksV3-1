@@ -152,31 +152,18 @@
 			<div class="body_titl">
 				<div class="body_titl_pworks title"><%=work.getName()%></div>				
 				<!-- 우측 버튼 -->
-				<div class="txt_btn"></div>
+				<div class="txt_btn">
+					<a class="js_view_work_manual" href="pwork_manual.sw?workId=<%=workId%>"><fmt:message key="common.button.view.work_manual" />▼</a>
+					<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
+				</div>
+				<span class="js_progress_span"></span>
 				<!-- 우측 버튼 //-->
+
 				<div class="solid_line"></div>
 			</div>
 			<!-- 타이틀 -->
 
-			<!-- 정의 영역-->
-			<div class="contents_space_noBottomPadding js_contents_space">
-
-				<!-- 버튼 영역-->
-				<div class="txt_btn solid_line_sb default_title_space">
-					<div class="title">
-						<a class="js_view_work_manual" href="pwork_manual.sw?workId=<%=workId%>"><fmt:message key="common.button.view.work_manual" />▼</a>
-						<a style="display: none" class="js_view_work_manual" href=""><fmt:message key="common.button.close.work_manual" />▼</a>
-					</div>
-					<span class="js_progress_span"></span>
-				</div>
-				<!-- 버튼 영역 //-->
-
-			</div>
-			<!-- 정의 영역-->
-
 			<div id="work_manual" style="display: none"></div>
-
-
 
 
 			<!-- 목록보기 -->
@@ -195,7 +182,7 @@
 							<a href="search_filter.sw?workId=<%=workId%>" class="js_edit_search_filter btnIconsTail"><fmt:message key='filter.button.edit_search_filter' /></a>
 						</div>
 						<div class="btnIconsCreate">
-							<a href="new_pwork.sw?workId=<%=workId%>" class="js_create_new_work btnIconsTail" workId="<%=workId%>">새항목 등록하기</a>
+							<a href="start_pwork.sw?workId=<%=workId%>" class="js_create_new_work btnIconsTail" workId="<%=workId%>"><fmt:message key="common.button.start_new_pwork"/></a>
 						</div>
 					</div>
 					
@@ -208,7 +195,7 @@
 							</div>
 						</form>
 
-						<form class="form_space po_left" name="frmPworkFilterName">
+						<form class="form_space po_left js_form_filter_name" name="frmPworkFilterName">
 							<select name="selFilterName" class="js_select_filter" href="search_filter.sw?workId=<%=workId%>">
 								<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" selected>
 									<fmt:message key='filter.name.all_instances' />

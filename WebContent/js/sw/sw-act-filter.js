@@ -28,7 +28,7 @@ $(function() {
 		var input = $(e.target);
 		smartPop.progressCont(input.next('span:first'));
 		var target = $('#search_filter');
-		var url = input.attr('href') + "&filterId=" + $('form[name="frmIworkFilterName"]').children('select').attr('value');
+		var url = input.attr('href') + "&filterId=" + $('form.js_form_filter_name').children('select').attr('value');
 		$.ajax({
 			url : url,
 			data : {},
