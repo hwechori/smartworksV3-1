@@ -18,7 +18,7 @@
 	String iconType = null;
 %>
 
-<div class="js_comlist_by_depart_page">
+<form class="js_comlist_by_depart_page">
 	<ul>
 		<%
 		if (!SmartUtil.isBlankObject(communities)) {
@@ -32,8 +32,7 @@
 					}
 		%>
 					<li>
-						<span class="dep">
-												
+						<span class="dep">												
 							<a href="" class="js_organization_member" userId="<%=user.getId()%>">
 								<img src="<%=user.getMinPicture() %>" class="profile_size_s mr5"><span class="<%=iconType%>"></span><%=user.getLongName()%>
 							</a>
@@ -59,4 +58,4 @@
 		}
 		%>
 	</ul>
-</div>
+</form>
