@@ -91,10 +91,7 @@
 		}
 		%>
 		<div class="txt_btn">
-		<a href="" onclick="smartPop.close();return false;">
-			<div class="btn_x">
-			</div>
-			</a>
+			<a href="" onclick="smartPop.close();return false;"><div class="btn_x"></div></a>
 		</div>
 		<div class="solid_line"></div>
 	</div>

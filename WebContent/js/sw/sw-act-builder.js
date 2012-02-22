@@ -178,5 +178,105 @@ $(function() {
 		});
 		return false;
 	});
-	
+
+	$('.js_up_field_item').live('click', function(e) {
+		var input = $(e.target);
+		var selectedItem = input.parents('tr:first');
+		var prevs = selectedItem.prevAll('tr').length;
+		var nexts = selectedItem.nextAll('tr').length;
+		if(prevs>2){
+			var prevItem = selectedItem.prev('tr');
+			selectedItem.insertBefore(prevItem);
+			if(prevs==3){
+				prevItem.find('.js_up_field_item').show();
+				selectedItem.find('.js_up_field_item').hide();
+			}
+			if(nexts==0){
+				prevItem.find('.js_down_field_item').hide();
+				selectedItem.find('.js_down_field_item').show();				
+			}
+		}
+		var displayItemList = selectedItem.parents('.js_tab_work_settings_page').find('.js_display_field_list');
+		var itemList = displayItemList.find('th');
+		$(itemList[prevs-2]).insertBefore($(itemList[prevs-3]));
+		return false;
+	});
+
+	$('.js_down_field_item').live('click', function(e) {
+		var input = $(e.target);
+		var selectedItem = input.parents('tr:first');
+		var prevs = selectedItem.prevAll('tr').length;
+		var nexts = selectedItem.nextAll('tr').length;
+		if(nexts>0){
+			var nextItem = selectedItem.next('tr');
+			selectedItem.insertAfter(nextItem);
+			if(prevs==2){
+				nextItem.find('.js_up_field_item').hide();
+				selectedItem.find('.js_up_field_item').show();
+			}
+			if(nexts==1){
+				nextItem.find('.js_down_field_item').show();
+				selectedItem.find('.js_down_field_item').hide();				
+			}
+		}
+		var displayItemList = selectedItem.parents('.js_tab_work_settings_page').find('.js_display_field_list');
+		var itemList = displayItemList.find('th');
+		$(itemList[prevs-2]).insertAfter($(itemList[prevs-1]));
+		return false;
+	});
+
+	$('.js_hide_field_item').live('click', function(e) {
+		
+		var input = $(e.target);
+		var selectedItem = input.parents('tr:first');
+		var prevs = selectedItem.prevAll('tr').length;
+		var nexts = selectedItem.nextAll('tr').length;
+		var displayItemList = selectedItem.parents('.js_tab_work_settings_page').find('.js_display_field_list');
+		var hiddenFieldItems = selectedItem.parents('.js_tab_work_settings_page').find('.js_hidden_field_items');
+		var displayFieldItems = selectedItem.parents('.js_display_field_items');
+		if(prevs==2) selectedItem.next().find('.js_up_field_item').hide();
+		if(nexts==0) selectedItem.prev().find('.js_down_field_item').hide();
+		selectedItem.remove();
+		if(selectedItem.find('input[name="rdoKeyField"]').is(':checked')){
+			$(displayFieldItems.find('tr')[2]).find('input[name="rdoKeyField"]').attr('checked', true);
+		}
+		var itemList = displayItemList.find('th');
+		$(itemList[prevs-2]).remove();
+
+		var formField = selectedItem.find('input[name="hdnDisplayFields"]');
+		var fieldId = formField.attr('value');
+		var fieldName = formField.attr('fieldName');
+		var hiddenItem = $(hiddenFieldItems.find('tr')[1]).clone().show();
+		hiddenItem.attr('fieldId', fieldId);
+		hiddenItem.find('td:last').html(fieldName);
+		hiddenItem.appendTo(hiddenFieldItems);
+		return false;
+	});
+
+	$('.js_show_field_item').live('click', function(e) {
+
+		var input = $(e.target);
+		var selectedItem = input.parents('tr:first');
+		var displayItemList = selectedItem.parents('.js_tab_work_settings_page').find('.js_display_field_list');
+		var displayFieldItems = selectedItem.parents('.js_tab_work_settings_page').find('.js_display_field_items');
+		selectedItem.remove();
+		var fieldId = selectedItem.attr('fieldId');
+		var fieldName = selectedItem.find('td:last').html();
+		var displayItem = $(displayFieldItems.find('tr')[1]).clone().show();
+		displayItem.find('input[type="radio"]').attr('name', "rdoKeyField");
+		displayItem.find('.js_input_display_field').html('<input name="hdnDisplayFields" type="hidden" value="' + fieldId + '" fieldName="' + fieldName + '"/>' + fieldName);
+		displayItem.appendTo(displayFieldItems);
+
+		var displayItems = displayFieldItems.find('tr').length;
+		if(displayItems==3){
+			displayItem.find('input[name="rdoKeyField"]').attr('checked', true);
+			displayItem.find('.js_up_field_item').hide();
+		}else if(displayItems>3){
+			displayItem.prev().find('.js_down_field_item').show();
+		}
+		var itemList = displayItemList.find('th');
+		$(itemList[itemList.length-1]).clone().html(fieldName).show().insertBefore($(itemList[itemList.length-2]));
+		
+		return false;
+	});
 });

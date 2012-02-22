@@ -96,7 +96,7 @@
 		<div class="solid_line clear"></div>
 	</div>
 
-	<form name="frmEditWorkHour" class="form_layout margin_b10 js_validation_required">
+	<form name="frmEditWorkHour" class="form_layout con margin_b10 js_validation_required">
 		<table>
 			<colgroup>
 				<col widtd="15%" />
@@ -104,7 +104,7 @@
 			</colgroup>
 			<tbody>
 				<tr>
-					<td><fmt:message key="settings.title.work_hour.valid_from"/></td>
+					<th><fmt:message key="settings.title.work_hour.valid_from"/></th>
 					<td>
 						<div class="ico_fb_space form_date_input">
 							<%
@@ -116,7 +116,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.work_hour.first_day_of_week"/></td>
+					<th><fmt:message key="settings.title.work_hour.first_day_of_week"/></th>
 					<td>
 						<select name="selFirstDayOfWeek" class="js_first_day_of_week">
 							<%
@@ -130,7 +130,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.work_hour.working_days"/></td>
+					<th><fmt:message key="settings.title.work_hour.working_days"/></th>
 					<td>
 						<select name="selWorkingDays" class="js_working_days">
 							<option <%if(workHourPolicy.getWorkingDays() == 4){ %>selected<%} %> value="4">4 <fmt:message key="calendar.title.days"/></option>
@@ -147,7 +147,7 @@
 					if(workHour == null) workHour = new WorkHour();
 				%>
 					<tr class="js_work_hour" <%if(i<workHourPolicy.getFirstDayOfWeek() || i>=workHourPolicy.getFirstDayOfWeek()+workHourPolicy.getWorkingDays()){ %> style="display:none"<%} %>>
-						<td class="end"><%=LocalDate.getDayLocalString(i) %></td>
+						<th class="end"><%=LocalDate.getDayLocalString(i) %></th>
 						<td class="end">
 							<span class="float_left mr5"><fmt:message key="settings.title.work_hour.start"/></span>
 							<div class="ico_fb_space form_time_input float_left mr10">

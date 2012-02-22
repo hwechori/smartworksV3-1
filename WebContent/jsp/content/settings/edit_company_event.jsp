@@ -98,24 +98,24 @@
 		<div class="solid_line clear"></div>
 	</div>
 
-	<form name="frmEditCompanyEvent" class="form_layout margin_b10 js_validation_required">
+	<form name="frmEditCompanyEvent" class="form_layout con margin_b10 js_validation_required">
 		<table>
 			<tbody>
 				<tr>
-					<td width="15%"><fmt:message key="settings.title.company_event.name"/><span class="essen_n"></span></td>
+					<th width="15%"><fmt:message key="settings.title.company_event.name"/><span class="essen_n"></span></th>
 					<td width="35%"><input name="txtEventName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(event.getName()) %>" /></td>
-					<td width="15%"><fmt:message key="settings.title.company_event.is_holiday"/></td>
+					<th width="15%"><fmt:message key="settings.title.company_event.is_holiday"/></th>
 					<td width="35%"><input name="chkIsHoliday" type="checkbox" <%if(event.isHoliday()){ %>checked<%} %>></td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.company_event.start_date"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.company_event.start_date"/><span class="essen_n"></span></th>
 					<td>
 						<div class="ico_fb_space form_date_input">
 							<input name="datStartDate" class="fieldline js_todaypicker required" readonly="readonly" type="text" value="<%=event.getPlannedStart().toLocalDateSimpleString()%>">
 							<a href="" class="js_todaypicker_button"><span class="ico_fb_date"></span></a>
 						</div>
 					</td>					
-					<td><fmt:message key="settings.title.company_event.end_date"/><span class="essen_n"></span></td>
+					<th><fmt:message key="settings.title.company_event.end_date"/><span class="essen_n"></span></th>
 					<td>
 						<div class="ico_fb_space form_date_input">
 							<input name="datEndDate" class="fieldline js_todaypicker required" readonly="readonly" type="text" value="<%=event.getPlannedEnd().toLocalDateSimpleString()%>">
@@ -124,7 +124,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><fmt:message key="settings.title.company_event.related_users"/></td>
+					<th><fmt:message key="settings.title.company_event.related_users"/></th>
 					<td colspan="3">
 						<div class="js_type_userField" fieldId="usrRelatedUsers" multiUsers="true">
 							<div class="ico_fb_space form_value" >

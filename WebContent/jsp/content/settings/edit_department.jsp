@@ -99,14 +99,14 @@
 						String parentName = (SmartUtil.isBlankObject(department.getParent())) ? "" : department.getParent().getName();
 						if(SmartUtil.isBlankObject(departId) && !SmartUtil.isBlankObject(parentDepart)) parentName = parentDepart.getName(); 
 						%>
-						<td width="20%" ><fmt:message key="settings.title.department.parent_name"/></td>
+						<th width="20%" ><fmt:message key="settings.title.department.parent_name"/></th>
 						<td width="80%">
 							<input name="txtParentName" readonly type="text" value="<%=parentName %>" />
 							<input name="hdnParentId" type="hidden" value="<%=CommonUtil.toNotNull(parentId) %>" />
 						</td>	
 					</tr>
 					<tr>
-						<td><fmt:message key="profile.title.department"/><span class="essen_n"></span></td>
+						<th><fmt:message key="profile.title.department"/><span class="essen_n"></span></th>
 						<td><input name="txtDepartmentName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(department.getName()) %>" /></td>
 					</tr>
 				</tbody>

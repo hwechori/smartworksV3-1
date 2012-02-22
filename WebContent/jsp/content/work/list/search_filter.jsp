@@ -15,7 +15,7 @@
 <%@page import="net.smartworks.model.security.AccessPolicy"%>
 <%@page import="net.smartworks.model.work.InformationWork"%>
 <%@page import="net.smartworks.model.work.SmartWork"%>
-<%@page import="net.smartworks.model.work.Work"%>
+<%@page import="net.smartworks.model.work.Work"%> 
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="net.smartworks.service.ISmartWorks"%>
@@ -31,13 +31,15 @@
 	String filterName = "";
 	FormField[] fields = null;
 	SearchFilter filter = null;
-	if ((work != null) && (work.getType() == SmartWork.TYPE_INFORMATION)) {
+	if ((work != null) && (work.getClass().equals(InformationWork.class))) {
 		InformationWork informationWork = (InformationWork) work;
 		if (informationWork.getForm() != null) {
 			fields = informationWork.getForm().getFields();
 		}
-	} else {
-		fields = new FormField[] {};
+	} else if((work != null) && (work.getClass().equals(ProcessWork.class))) {
+		fields = FormField.DEFAULT_PROCESS_FIELDS;
+	} else{
+		fields = new FormField[] {};		
 	}
 	if (work != null && !SmartUtil.isBlankObject(filterId))
 		filter = smartWorks.getSearchFilterById(filterId);

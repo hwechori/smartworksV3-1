@@ -89,12 +89,12 @@
 						<table>
 							<tbody>
 								<tr class="tit_bg">
-									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.name"/></th>
-									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.desc"/></th>
-									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.wsdl_uri"/></th>
-									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.port"/></th>
-									<th width="16%" class="r_line"><fmt:message key="settings.title.webservice.operation"/></th>
-									<th width="16%"></th>
+									<th class="r_line"><fmt:message key="settings.title.webservice.name"/></th>
+									<th class="r_line"><fmt:message key="settings.title.webservice.desc"/></th>
+									<th class="r_line"><fmt:message key="settings.title.webservice.wsdl_uri"/></th>
+									<th class="r_line"><fmt:message key="settings.title.webservice.port"/></th>
+									<th class="r_line"><fmt:message key="settings.title.webservice.operation"/></th>
+									<th width="20px"></th>
 								</tr>
 								<%
 								if(!SmartUtil.isBlankObject(webServices)){

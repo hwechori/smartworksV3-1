@@ -96,7 +96,7 @@
 			<div class="define_space" style="height:59px">
 			
 				<!-- 방향 Prev -->
-	        		<a href="" class="js_instance_tasks_left" style="display:block"><div class="proc_btn_prev float_left"></div></a>
+	        		<a href="" class="js_instance_tasks_left float_left" style="display:block"><div class="proc_btn_prev "></div></a>
 	        	<!-- 방향 Prev //-->
 	        	
 				<div class="proce_section">
@@ -106,8 +106,6 @@
 			        <!-- 태스크 시작-->
 			        <div class="proce_space js_instance_tasks_holder">			        
 						<div class="js_instance_tasks">
-							<ul><li class="proc_task not_yet js_instance_task_placeholder" style="display:none"></li></ul>
-							
 							<ul>
 				        	<%
 				        	if(!SmartUtil.isBlankObject(taskHistories)){	
@@ -165,7 +163,7 @@
 				</div>
 				
 				<!-- 방향 Next -->
-	    		<a href="" class="js_instance_tasks_right" style="display:block"><div class="proc_btn_next float_right"></div></a>
+	    		<a href="" class="js_instance_tasks_right float_right" style="display:block"><div class="proc_btn_next "></div></a>
 	    		<!-- 방향 Next //-->
 			</div>
 			<!--프로세스 영역//-->
@@ -173,7 +171,7 @@
 			<!-- 상세보기 컨텐츠 -->
 			<div class="contents_space">
 				<div class="up_point posit_default"></div>
-				<div class="form_wrap up up_padding js_form_content">
+				<div class="form_wrap up up_padding form_read js_form_content">
 		       </div>
 			</div>
 	
@@ -273,7 +271,6 @@
 	var taskInstId = pworkSpace.attr('taskInstId');
 	var instanceTasksHolder = pworkSpace.find(".js_instance_tasks_holder");
 	var instanceTasks = instanceTasksHolder.find(".js_instance_tasks");
-	var placeHolderTask = instanceTasks.find('.js_instance_task_placeholder').hide();
 	var left = instanceTasks.position().left;
 	var width = instanceTasks.width();
 	var remainingWidth = width+left;
@@ -281,18 +278,22 @@
 	var tasksRight = instanceTasksHolder.width();
 	var tasks = instanceTasks.find(".js_instance_task");
 	var selectedTask = $(tasks[0]);
-	if(isEmpty(taskInstId)){
+	var instanceLeft = pworkSpace.find('.js_instance_tasks_left');	
+	var instanceRight = pworkSpace.find('.js_instance_tasks_right');
+	instanceRight.show();
+/* 	if(isEmpty(taskInstId)){
 		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]);
-			if(task.position().left+task.width()>tasksRight)
+			if(task.position().top>0)
 				break;
 		}
 		if(tasks.length>0 && i<tasks.length && i>=0){
-			var task = $(tasks[i]);
-			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
+			instanceRight.show();
+		}else{
+			instanceRight.hide();
 		}
 	}else{
-		for(var i=0; i<tasks.length; i++){
+ 		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]).find('a');
 			if(task.attr('taskInstId') === taskInstId)
 				break;
@@ -300,7 +301,7 @@
 		var selectedIndex = i;
 		if(selectedIndex<tasks.length)
 			selectedTask = $(tasks[selectedIndex]);
-		if(selectedIndex<tasks.length && selectedTask.position().left+selectedTask.width()>tasksRight){
+		if(selectedIndex<tasks.length && selectedTask.position().top>0){
 			left = tasksRight - selectedTask.position().left+selectedTask.width();
 			for(var j=0; j<tasks.length; j++){
 				var task = $(tasks[j]);
@@ -321,23 +322,17 @@
 			}
 			instanceTasks.css({"left": left + "px"});
 		}
-	}
+ 	}
 
-	var instanceLeft = pworkSpace.find('.js_instance_tasks_left');	
-	var instanceRight = pworkSpace.find('.js_instance_tasks_right');	
-	if(left<0)
+ 	if(left<0)
 		instanceLeft.show();
 	else
 		instanceLeft.hide();
-	remainingWidth = instanceTasks.width()+left;
-	if(remainingWidth <= instanceTasksHolder.width())
-		instanceRight.hide();
-	else
-		instanceRight.show();
 	
 	if(!isEmpty(selectedTask)) clickOnTask(selectedTask.find('a'));
 		
-</script>
+ */
+ </script>
 
 <jsp:include page="/jsp/content/work/space/space_instance_list.jsp">
 	<jsp:param value="<%=work.getId() %>" name="workId"/>

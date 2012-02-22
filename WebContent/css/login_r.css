@@ -6,7 +6,7 @@
 .lo_logo {display:block; width:189px; height:43px; float:left}
 .lo_idp {float:right; width:345px}
 .lo_idp input {padding:3px}
-.lo_checkbox {height:13px; color:#eeeeee; font-size:11px; text-align:left; padding-top:3px}
+.lo_checkbox {height:13px; color:#eeeeee; font-size:11px; text-align: right; padding-top:5px; width: 294px}
 .t_wh {font-size:11px; color:#eeeeee}
 
 /* Contents */

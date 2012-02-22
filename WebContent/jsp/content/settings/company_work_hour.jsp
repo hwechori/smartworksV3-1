@@ -108,7 +108,7 @@
 									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.THURSDAY) %></th>
 									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.FRIDAY) %></th>
 									<th class="r_line"><%=LocalDate.getDayLocalString(Calendar.SATURDAY) %></th>
-									<th></th>
+									<th width="20px"></th>
 								</tr>
 								<%
 								if(!SmartUtil.isBlankObject(workHourPolicies)){

@@ -51,18 +51,22 @@ public class FormField extends BaseObject{
 		SmartMessage.getString(PREFIX+TYPE_DATE), SmartMessage.getString(PREFIX+TYPE_TIME), SmartMessage.getString(PREFIX+TYPE_DATETIME)
 	};
 
-	public static final FormField FIELD_STATUS = new FormField(ID_STATUS, "", TYPE_COMBO);
-	public static final FormField FIELD_SUBJECT = new FormField(ID_SUBJECT, "", TYPE_TEXT);
-	public static final FormField FIELD_TASK_NAME = new FormField(ID_TASK_NAME, "", TYPE_TEXT);
-	public static final FormField FIELD_LAST_TASK = new FormField(ID_LAST_TASK, "", TYPE_TEXT);
-	public static final FormField FIELD_PROCESS_TIME = new FormField(ID_PROCESS_TIME, "", TYPE_TIME);
-	public static final FormField FIELD_PROCESS_TYPE = new FormField(ID_PROCESS_TYPE, "", TYPE_COMBO);
+	public static final FormField FIELD_STATUS = new FormField(ID_STATUS, SmartMessage.getString("common.title.status"), TYPE_COMBO);
+	public static final FormField FIELD_SUBJECT = new FormField(ID_SUBJECT, SmartMessage.getString("common.title.instance_subject"), TYPE_TEXT);
+	public static final FormField FIELD_TASK_NAME = new FormField(ID_TASK_NAME, SmartMessage.getString("common.title.task_name"), TYPE_TEXT);
+	public static final FormField FIELD_LAST_TASK = new FormField(ID_LAST_TASK, SmartMessage.getString("common.title.last_task"), TYPE_TEXT);
+	public static final FormField FIELD_PROCESS_TIME = new FormField(ID_PROCESS_TIME, SmartMessage.getString("common.title.process_time"), TYPE_TIME);
+	public static final FormField FIELD_PROCESS_TYPE = new FormField(ID_PROCESS_TYPE, SmartMessage.getString("common.title.process_type"), TYPE_COMBO);
 
-	public static final FormField FIELD_OWNER = new FormField(ID_OWNER, "", TYPE_USER);
-	public static final FormField FIELD_CREATED_DATE = new FormField(ID_CREATED_DATE, "", TYPE_DATETIME);
-	public static final FormField FIELD_LAST_MODIFIER = new FormField(ID_LAST_MODIFIER, "", TYPE_USER);
-	public static final FormField FIELD_LAST_MODIFIED_DATE = new FormField(ID_LAST_MODIFIED_DATE, "", TYPE_DATETIME);
+	public static final FormField FIELD_OWNER = new FormField(ID_OWNER, SmartMessage.getString("common.title.owner"), TYPE_USER);
+	public static final FormField FIELD_CREATED_DATE = new FormField(ID_CREATED_DATE, SmartMessage.getString("common.title.created_date"), TYPE_DATETIME);
+	public static final FormField FIELD_LAST_MODIFIER = new FormField(ID_LAST_MODIFIER, SmartMessage.getString("common.title.last_modifier"), TYPE_USER);
+	public static final FormField FIELD_LAST_MODIFIED_DATE = new FormField(ID_LAST_MODIFIED_DATE, SmartMessage.getString("common.title.last_modified_date"), TYPE_DATETIME);
 
+	public static final FormField[] DEFAULT_PROCESS_FIELDS = new FormField[] {
+		FIELD_STATUS, FIELD_SUBJECT, FIELD_TASK_NAME, FIELD_LAST_TASK, FIELD_PROCESS_TIME, FIELD_PROCESS_TYPE, 
+		FIELD_OWNER, FIELD_CREATED_DATE, FIELD_LAST_MODIFIER, FIELD_LAST_MODIFIED_DATE
+	};
 	private String type;
 	private int displayOrder;
 	

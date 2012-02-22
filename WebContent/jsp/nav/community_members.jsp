@@ -38,6 +38,22 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
+<div class="navi_list">
+	<div id="m_setting">
+		<!-- 내부 메뉴 -->
+		<ul>
+			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.all_items"/></span></a></li>
+			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.works"/></span></a></li>
+			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.pictures"/></span></a></li>
+			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.files"/></span></a></li>
+			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.events"/></span></a></li>
+			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.memos"/></span></a></li>
+			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.boards"/></span></a></li>
+		</ul>
+		<!--내부메뉴//-->
+	</div>
+</div>
+
 <!-- 커뮤너티 멤버와 검색박스가 있는 헤더  -->
 <ul class="navi_tit js_community_members" communityId="<%=communityId%>">
 

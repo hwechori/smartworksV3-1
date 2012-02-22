@@ -91,10 +91,10 @@
 						<table>
 							<tbody>
 								<tr class="tit_bg">
-									<th width="28%" class="r_line"><fmt:message key="settings.title.approval.name"/></th>
-									<th width="27%" class="r_line"><fmt:message key="settings.title.approval.desc"/></th>
-									<th width="27%" class="r_line"><fmt:message key="settings.title.approval.level"/></th>
-									<th width="18%"></th>
+									<th class="r_line"><fmt:message key="settings.title.approval.name"/></th>
+									<th class="r_line"><fmt:message key="settings.title.approval.desc"/></th>
+									<th class="r_line"><fmt:message key="settings.title.approval.level"/></th>
+									<th width="20px"></th>
 								</tr>
 								<%
 								if(!SmartUtil.isBlankObject(approvalLines)){

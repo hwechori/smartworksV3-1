@@ -30,6 +30,7 @@
 	<%
 	if (works != null) {
 		for (WorkInfo work : works) {
+			if(work.getProvidedBy() == Work.PROVIDED_BY_SYSTEM || work.getProvidedBy() == Work.PROVIDED_BY_APPSTORE) continue;
 			workContext = ISmartWorks.CONTEXT_PREFIX_BUILDER_SPACE + work.getId();
 			targetContent = "tab_workbench.sw";
 			if (work.getType() == SmartWork.TYPE_PROCESS) {
