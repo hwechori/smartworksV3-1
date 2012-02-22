@@ -144,7 +144,15 @@
 										<th width="10%"><fmt:message key="builder.title.move_item"/></th>
 									</tr>
 									<tr class="list_action_item" style="display:none">
-										<td class="rdo_key_field" ><input type="radio"/></td>
+										<td class="rdo_key_field" >
+										
+										
+										
+										<div class="keyOption">
+											<div class="ico_key" workid="" title=""></div>
+										</div>
+										
+										</td>
 										<td class="js_input_display_field"></td>
 										<td class="btn_move_field" >
 											<span class="move_actions">
