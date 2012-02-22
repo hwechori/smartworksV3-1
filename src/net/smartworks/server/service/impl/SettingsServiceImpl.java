@@ -106,13 +106,25 @@ public class SettingsServiceImpl implements ISettingsService {
 			String companyId = cUser.getCompanyId();
 			SwoCompany swoCompany = getSwoManager().getCompany(userId, companyId, IManager.LEVEL_ALL);
 			SwoConfig swoConfig = getSwoManager().getConfig(userId, companyId, IManager.LEVEL_ALL);
-			String id = swoCompany.getId();
-			String name = swoCompany.getName();
-			String logoName = getSwoManager().getLogo(userId, companyId);
-			String sendMailHost = swoConfig.getSmtpAddress();
-			String sendMailAccount = swoConfig.getUserId();
-			String sendMailPassword = swoConfig.getPassword();
-			boolean sendMailNotification = swoConfig.isActivity();
+			String id = "";
+			String name = "";
+			String logoName = "";
+			String sendMailHost = "";
+			String sendMailAccount = "";
+			String sendMailPassword = "";
+			boolean sendMailNotification = false;
+			if(swoCompany != null) {
+				id = swoCompany.getId();
+				name = swoCompany.getName();
+			}
+			logoName = CommonUtil.toNotNull(getSwoManager().getLogo(userId, companyId));
+			if(swoConfig != null) {
+				sendMailHost = swoConfig.getSmtpAddress();
+				sendMailAccount = swoConfig.getUserId();
+				sendMailPassword = swoConfig.getPassword();
+				sendMailNotification = swoConfig.isActivity();
+			}
+
 			CompanyGeneral companyGeneral = new CompanyGeneral();
 			companyGeneral.setId(id);
 			companyGeneral.setName(name);
@@ -257,6 +269,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			SwcWorkHour[] swcWorkHours = getSwcManager().getWorkhours(userId, swcWorkHourCond, IManager.LEVEL_ALL); 
 			List<WorkHourPolicy> workHourPolicyList = new ArrayList<WorkHourPolicy>();
 
+			WorkHourPolicy[] workHourPolicies = null;
 			if(swcWorkHours != null) {
 				for(int i=0; i<swcWorkHours.length; i++) {
 					SwcWorkHour swcWorkHour = swcWorkHours[i];
@@ -326,19 +339,19 @@ public class SettingsServiceImpl implements ISettingsService {
 					workHourPolicy.setWorkHours(workHours);
 					workHourPolicyList.add(workHourPolicy);
 				}
-				WorkHourPolicy[] workHourPolicies = new WorkHourPolicy[workHourPolicyList.size()];
-				workHourPolicyList.toArray(workHourPolicies);
-
-				recordList.setRecords(workHourPolicies);
-				recordList.setPageSize(pageSize);
-				recordList.setTotalPages(totalPages);
-				recordList.setCurrentPage(currentPage);
-				recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-
-				return recordList;
-			} else {
-				return null;
+				if(workHourPolicyList.size() != 0) {
+					workHourPolicies = new WorkHourPolicy[workHourPolicyList.size()];
+					workHourPolicyList.toArray(workHourPolicies);
+				}
 			}
+
+			recordList.setRecords(workHourPolicies);
+			recordList.setPageSize(pageSize);
+			recordList.setTotalPages(totalPages);
+			recordList.setCurrentPage(currentPage);
+			recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
+			return recordList;
 		 } catch(Exception e) {
 			e.printStackTrace();
 			return null;			
@@ -583,6 +596,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			swcEventDayCond.setOrders(new Order[]{new Order("startDay", false)});
 			SwcEventDay[] swcEventDays = getSwcManager().getEventdays(userId, swcEventDayCond, IManager.LEVEL_ALL);
 
+			CompanyEvent[] companyEvents = null;
 			if(swcEventDays != null) {
 				List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
 				for(SwcEventDay swcEventDay : swcEventDays) {
@@ -612,19 +626,18 @@ public class SettingsServiceImpl implements ISettingsService {
 					companyEvent.setPlannedEnd(plannedEnd);
 					companyEventList.add(companyEvent);
 				}
-				CompanyEvent[] companyEvents = new CompanyEvent[companyEventList.size()];
-				companyEventList.toArray(companyEvents);
-
-				recordList.setRecords(companyEvents);
-				recordList.setPageSize(pageSize);
-				recordList.setTotalPages(totalPages);
-				recordList.setCurrentPage(currentPage);
-				recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-
-				return recordList;
-			} else {
-				return null;
+				if(companyEventList.size() != 0) {
+					companyEvents = new CompanyEvent[companyEventList.size()];
+					companyEventList.toArray(companyEvents);
+				}
 			}
+			recordList.setRecords(companyEvents);
+			recordList.setPageSize(pageSize);
+			recordList.setTotalPages(totalPages);
+			recordList.setCurrentPage(currentPage);
+			recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
+			return recordList;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
@@ -639,12 +652,17 @@ public class SettingsServiceImpl implements ISettingsService {
 			String userId = cUser.getId();
 			SwcEventDay swcEventDay = getSwcManager().getEventday(userId, id, IManager.LEVEL_ALL);
 
+			Community[] relatedUsers = null;
+			String name = null;
+			boolean isHoliday = false;
+			LocalDate plannedStart = null;
+			LocalDate plannedEnd = null;
+			CompanyEvent companyEvent = new CompanyEvent();
 			if(swcEventDay != null) {
-				CompanyEvent companyEvent = new CompanyEvent();
-				boolean isHoliDay = swcEventDay.getType().equals(CompanyEvent.EVENT_TYPE_HOLIDAY) ? true : false;
-				LocalDate plannedStart = new LocalDate(swcEventDay.getStartDay().getTime());
-				LocalDate plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
-				String name = swcEventDay.getName();
+				isHoliday = swcEventDay.getType().equals(CompanyEvent.EVENT_TYPE_HOLIDAY) ? true : false;
+				plannedStart = new LocalDate(swcEventDay.getStartDay().getTime());
+				plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
+				name = swcEventDay.getName();
 				if(swcEventDay.getReltdPerson() != null) {
 					List<Community> userList = new ArrayList<Community>();
 					String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
@@ -654,19 +672,19 @@ public class SettingsServiceImpl implements ISettingsService {
 							userList.add((Community)obj);
 						}
 					}
-					Community[] relatedUsers = new Community[userList.size()];
-					userList.toArray(relatedUsers);
+					if(userList.size() != 0) {
+						relatedUsers = new Community[userList.size()];
+						userList.toArray(relatedUsers);
+					}
 					companyEvent.setRelatedUsers(relatedUsers);
 				}
-				companyEvent.setId(id);
-				companyEvent.setName(name);
-				companyEvent.setHoliday(isHoliDay);
-				companyEvent.setPlannedStart(plannedStart);
-				companyEvent.setPlannedEnd(plannedEnd);
-				return companyEvent;
-			} else {
-				return null;
 			}
+			companyEvent.setId(id);
+			companyEvent.setName(name);
+			companyEvent.setHoliday(isHoliday);
+			companyEvent.setPlannedStart(plannedStart);
+			companyEvent.setPlannedEnd(plannedEnd);
+			return companyEvent;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
@@ -811,6 +829,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			approvalLineDefCond.setOrders(new Order[]{new Order("modificationDate", false)});
 			AprApprovalLineDef[] approvalLineDefs = getAprManager().getApprovalLineDefs(userId, approvalLineDefCond, IManager.LEVEL_ALL);
 
+			ApprovalLine[] approvalLines = null;
 			if(approvalLineDefs != null) {
 				List<ApprovalLine> approvalLineList = new ArrayList<ApprovalLine>();
 				for(AprApprovalLineDef approvalLineDef : approvalLineDefs) {
@@ -855,19 +874,18 @@ public class SettingsServiceImpl implements ISettingsService {
 					}
 					approvalLineList.add(approvalLine);
 				}
-				ApprovalLine[] approvalLines = new ApprovalLine[approvalLineList.size()];
-				approvalLineList.toArray(approvalLines);
-
-				recordList.setRecords(approvalLines);
-				recordList.setPageSize(pageSize);
-				recordList.setTotalPages(totalPages);
-				recordList.setCurrentPage(currentPage);
-				recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-
-				return recordList;
-			} else {
-				return null;
+				if(approvalLineList.size() != 0) {
+					approvalLines = new ApprovalLine[approvalLineList.size()];
+					approvalLineList.toArray(approvalLines);
+				}
 			}
+			recordList.setRecords(approvalLines);
+			recordList.setPageSize(pageSize);
+			recordList.setTotalPages(totalPages);
+			recordList.setCurrentPage(currentPage);
+			recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
+			return recordList;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
@@ -882,8 +900,9 @@ public class SettingsServiceImpl implements ISettingsService {
 			String userId = cUser.getId();
 			AprApprovalLineDef approvalLineDef = getAprManager().getApprovalLineDef(userId, id, IManager.LEVEL_ALL);
 
+			Approval[] approvals = null;
+			ApprovalLine approvalLine = new ApprovalLine();
 			if(approvalLineDef != null) {
-				ApprovalLine approvalLine = new ApprovalLine();
 				String name = approvalLineDef.getAprLineName();
 				String desc = CommonUtil.toNotNull(approvalLineDef.getAprDescription());
 				int approvalLevel = Integer.parseInt(approvalLineDef.getAprLevel());
@@ -917,14 +936,14 @@ public class SettingsServiceImpl implements ISettingsService {
 						approval.setMeanTimeMinutes(meanTimeMinutes);
 						approvalList.add(approval);
 					}
-					Approval[] approvals = new Approval[approvalList.size()];
-					approvalList.toArray(approvals);
+					if(approvalList.size() != 0) {
+						approvals = new Approval[approvalList.size()];
+						approvalList.toArray(approvals);
+					}
 					approvalLine.setApprovals(approvals);
 				}
-				return approvalLine;
-			} else {
-				return null;
 			}
+			return approvalLine;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
@@ -1097,6 +1116,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			//swcWebServiceCond.setOrders(new Order[]{new Order("webServiceName", true)});
 			SwcWebService[] swcWebServices = getSwcManager().getWebServices(userId, swcWebServiceCond, IManager.LEVEL_ALL);
 
+			WebService[] webServices = null;
 			if(swcWebServices != null) {
 				List<WebService> webServiceList = new ArrayList<WebService>();
 				for(SwcWebService swcWebService : swcWebServices) {
@@ -1141,19 +1161,18 @@ public class SettingsServiceImpl implements ISettingsService {
 					}
 					webServiceList.add(webService);
 				}
-				WebService[] webServices = new WebService[webServiceList.size()];
-				webServiceList.toArray(webServices);
-
-				recordList.setRecords(webServices);
-				recordList.setPageSize(pageSize);
-				recordList.setTotalPages(totalPages);
-				recordList.setCurrentPage(currentPage);
-				recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-
-				return recordList;
-			} else {
-				return null;
+				if(webServiceList.size() != 0) {
+					webServices = new WebService[webServiceList.size()];
+					webServiceList.toArray(webServices);
+				}
 			}
+			recordList.setRecords(webServices);
+			recordList.setPageSize(pageSize);
+			recordList.setTotalPages(totalPages);
+			recordList.setCurrentPage(currentPage);
+			recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
+			return recordList;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
@@ -1168,8 +1187,10 @@ public class SettingsServiceImpl implements ISettingsService {
 			String userId = cUser.getId();
 			SwcWebService swcWebService = getSwcManager().getWebService(userId, id, IManager.LEVEL_ALL);
 
+			Variable[] inputVariables = null;
+			Variable[] returnVariables = null;
+			WebService webService = new WebService();
 			if(swcWebService != null) {
-				WebService webService = new WebService();
 				String name = swcWebService.getWebServiceName();
 				String desc = swcWebService.getDescription();
 				String wsdlUri = swcWebService.getWsdlAddress();
@@ -1200,17 +1221,19 @@ public class SettingsServiceImpl implements ISettingsService {
 							returnVariableList.add(variable);
 						}
 					}
-					Variable[] inputVariables = new Variable[inputVariableList.size()];
-					inputVariableList.toArray(inputVariables);
+					if(inputVariableList.size() != 0) {
+						inputVariables = new Variable[inputVariableList.size()];
+						inputVariableList.toArray(inputVariables);
+					}
 					webService.setInputVariables(inputVariables);
-					Variable[] returnVariables = new Variable[returnVariableList.size()];
-					returnVariableList.toArray(returnVariables);
+					if(returnVariableList.size() != 0) {
+						returnVariables = new Variable[returnVariableList.size()];
+						returnVariableList.toArray(returnVariables);
+					}
 					webService.setReturnVariables(returnVariables);
 				}
-				return webService;
-			} else {
-				return null;
 			}
+			return webService;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
@@ -1499,6 +1522,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			//swcExternalFormCond.setOrders(new Order[]{new Order("webAppServiceName", true)});
 			SwcExternalForm[] swcExternalForms = getSwcManager().getExternalForms(userId, swcExternalFormCond, IManager.LEVEL_ALL);
 
+			ExternalForm[] externalForms = null;
 			if(swcExternalForms != null) {
 				List<ExternalForm> externalFormList = new ArrayList<ExternalForm>();
 				for(SwcExternalForm swcExternalForm : swcExternalForms) {
@@ -1552,19 +1576,18 @@ public class SettingsServiceImpl implements ISettingsService {
 					}
 					externalFormList.add(externalForm);
 				}
-				ExternalForm[] externalForms = new ExternalForm[externalFormList.size()];
-				externalFormList.toArray(externalForms);
-
-				recordList.setRecords(externalForms);
-				recordList.setPageSize(pageSize);
-				recordList.setTotalPages(totalPages);
-				recordList.setCurrentPage(currentPage);
-				recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
-
-				return recordList;
-			} else {
-				return null;
+				if(externalFormList.size() != 0) {
+					externalForms = new ExternalForm[externalFormList.size()];
+					externalFormList.toArray(externalForms);
+				}
 			}
+			recordList.setRecords(externalForms);
+			recordList.setPageSize(pageSize);
+			recordList.setTotalPages(totalPages);
+			recordList.setCurrentPage(currentPage);
+			recordList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
+			return recordList;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
@@ -1579,8 +1602,11 @@ public class SettingsServiceImpl implements ISettingsService {
 			String userId = cUser.getId();
 			SwcExternalForm swcExternalForm = getSwcManager().getExternalForm(userId, id, IManager.LEVEL_ALL);
 
+			Variable[] editVariables = null;
+			Variable[] viewVariables = null;
+			Variable[] returnVariables = null;
+			ExternalForm externalForm = new ExternalForm();
 			if(swcExternalForm != null) {
-				ExternalForm externalForm = new ExternalForm();
 				String name = swcExternalForm.getWebAppServiceName();
 				String desc = swcExternalForm.getDescription();
 				String url = swcExternalForm.getWebAppServiceUrl();
@@ -1617,20 +1643,24 @@ public class SettingsServiceImpl implements ISettingsService {
 							returnVariableList.add(variable);
 						}
 					}
-					Variable[] editVariables = new Variable[editVariableList.size()];
-					editVariableList.toArray(editVariables);
+					if(editVariableList.size() != 0) {
+						editVariables = new Variable[editVariableList.size()];
+						editVariableList.toArray(editVariables);
+					}
 					externalForm.setEditVariables(editVariables);
-					Variable[] viewVariables = new Variable[viewVariableList.size()];
-					viewVariableList.toArray(viewVariables);
+					if(viewVariableList.size() != 0) {
+						viewVariables = new Variable[viewVariableList.size()];
+						viewVariableList.toArray(viewVariables);
+					}
 					externalForm.setViewVariables(viewVariables);
-					Variable[] returnVariables = new Variable[returnVariableList.size()];
-					returnVariableList.toArray(returnVariables);
+					if(returnVariableList.size() != 0) {
+						returnVariables = new Variable[returnVariableList.size()];
+						returnVariableList.toArray(returnVariables);
+					}
 					externalForm.setReturnVariables(returnVariables);
 				}
-				return externalForm;
-			} else {
-				return null;
 			}
+			return externalForm;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;			
