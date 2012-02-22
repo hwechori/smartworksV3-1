@@ -326,10 +326,10 @@ a .btn_apps:hover,
 .up_works .current, 
 .up_works a.current:hover {background: url("../images/header_nico.png") no-repeat -4px -190px; font-weight:bold;}
 
-.up_file a {background: url("../images/header_nico.png") no-repeat -151px -155px; height:22px; padding:4px 0 3px 25px; display:block;}
+.up_file a {background: url("../images/header_nico.png") no-repeat -147px -155px; height:22px; padding:4px 0 3px 25px; display:block;}
 .up_file a:hover,
 .up_file .current, 
-.up_file a.current:hover {background: url("../images/header_nico.png") no-repeat -151px -190px; font-weight:bold;}
+.up_file a.current:hover {background: url("../images/header_nico.png") no-repeat -147px -190px; font-weight:bold;}
 
 .up_pic a {background: url("../images/header_nico.png") no-repeat -677px -155px; height:22px; padding:4px 0 3px 34px; display:block;}
 .up_pic a:hover,
