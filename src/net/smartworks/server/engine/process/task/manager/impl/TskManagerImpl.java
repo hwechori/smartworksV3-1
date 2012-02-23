@@ -68,7 +68,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				buf.append(" name=:name, creationUser=:creationUser, creationDate=:creationDate");
 				buf.append(", modificationUser=:modificationUser, modificationDate=:modificationDate");
 				buf.append(", description=:description");
-				buf.append(", status=:status, correlation=:correlation, type=:type");
+				buf.append(", status=:status, correlation=:correlation, type=:type, refType=:refType");
 				buf.append(", processInstId=:processInstId, title=:title, priority=:priority");
 				buf.append(", document=:document, assigner=:assigner, assignee=:assignee, performer=:performer");
 				buf.append(", startDate=:startDate, assignmentDate=:assignmentDate, executionDate=:executionDate, dueDate=:dueDate");
@@ -88,6 +88,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				query.setString(MisObject.A_STATUS, obj.getStatus());
 				query.setString(TskTask.A_CORRELATION, obj.getCorrelation());
 				query.setString(TskTask.A_TYPE, obj.getType());
+				query.setString(TskTask.A_REFTYPE, obj.getRefType());
 				query.setString(TskTask.A_PROCESSINSTID, obj.getProcessInstId());
 				query.setString(TskTask.A_TITLE, obj.getTitle());
 				query.setString(TskTask.A_PRIORITY, obj.getPriority());
@@ -156,6 +157,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		String status = null;
 		String correlation = null;
 		String type = null;
+		String refType = null;
 		String processInstId = null;
 		String name = null;
 		String title = null;
@@ -203,6 +205,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			correlation = cond.getCorrelation();
 			status = cond.getStatus();
 			type = cond.getType();
+			refType = cond.getRefType();
 			processInstId = cond.getProcessInstId();
 			name = cond.getName();
 			title = cond.getTitle();
@@ -280,6 +283,8 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				buf.append(" and obj.correlation = :correlation");
 			if (type != null)
 				buf.append(" and obj.type = :type");
+			if (refType != null)
+				buf.append(" and obj.refType = :refType");
 			if (processInstId != null)
 				buf.append(" and obj.processInstId = :processInstId");
 			if (name != null)
@@ -480,6 +485,8 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				query.setString("correlation", correlation);
 			if (type != null)
 				query.setString("type", type);
+			if (refType != null)
+				query.setString("refType", refType);
 			if (processInstId != null)
 				query.setString("processInstId", processInstId);
 			if (name != null)
@@ -633,7 +640,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 				buf.append(" obj");
 			} else {
 				buf.append(" obj.objId, obj.name, obj.creationUser, obj.creationDate, obj.modificationUser");
-				buf.append(", obj.modificationDate, obj.status, obj.correlation, obj.type, obj.processInstId, obj.title");
+				buf.append(", obj.modificationDate, obj.status, obj.correlation, obj.type, obj.refType, obj.processInstId, obj.title");
 				buf.append(", obj.description, obj.priority, obj.document, obj.assigner, obj.assignee, obj.performer");
 				buf.append(", obj.startDate, obj.assignmentDate, obj.executionDate, obj.dueDate, obj.def, obj.form");
 				buf.append(", obj.expectStartDate, obj.expectEndDate, obj.realStartDate, obj.realEndDate");
@@ -659,6 +666,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 					obj.setStatus(((String)fields[j++]));
 					obj.setCorrelation(((String)fields[j++]));
 					obj.setType(((String)fields[j++]));
+					obj.setRefType(((String)fields[j++]));
 					obj.setProcessInstId(((String)fields[j++]));
 					obj.setTitle(((String)fields[j++]));
 					obj.setDescription(((String)fields[j++]));
@@ -731,7 +739,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 		int pageSize = cond.getPageSize();
 		
 		queryBuffer.append(" from ( ");
-		queryBuffer.append(" 	select tskobjid, tsktitle, tsktype, tskname, tskassignee, tskcreateDate, tskstatus , tskprcinstid, isStartActivity, tskWorkSpaceId, tskWorkSpaceType ");
+		queryBuffer.append(" 	select tskobjid, tsktitle, tsktype, tskreftype, tskname, tskassignee, tskcreateDate, tskstatus , tskprcinstid, isStartActivity, tskWorkSpaceId, tskWorkSpaceType ");
 		queryBuffer.append(" 	from tsktask ");
 		queryBuffer.append(" 	where (tsktask.tskstatus='11'  ");
 		queryBuffer.append(" 	and tsktask.tskassignee= :tskAssignee) ");
@@ -864,6 +872,7 @@ public class TskManagerImpl extends AbstractManager implements ITskManager{
 			obj.setTskObjId((String)fields[j++]);
 			obj.setTskTitle((String)fields[j++]);
 			obj.setTskType((String)fields[j++]);
+			obj.setTskRefType((String)fields[j++]);
 			obj.setTskName((String)fields[j++]);
 			obj.setTskAssignee((String)fields[j++]);
 			obj.setTskCreateDate((Timestamp)fields[j++]);

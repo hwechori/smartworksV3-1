@@ -23,6 +23,7 @@ public class TskTaskCond extends MisObjectCond{
 
 	public static final String A_CORRELATION = "correlation";
 	public static final String A_TYPE = "type";
+	public static final String A_REFTYPE = "refType";
 	public static final String A_PROCESSINSTID = "processInstId";
 	public static final String A_TITLE = "title";
 	public static final String A_TITLELIKE = "titleLike";
@@ -69,6 +70,7 @@ public class TskTaskCond extends MisObjectCond{
 	private String correlation;
 	
 	private String type;
+	private String refType;
 	private String processInstId;
 	private String title;
 	private String titleLike;
@@ -121,6 +123,7 @@ public class TskTaskCond extends MisObjectCond{
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_CORRELATION, correlation, buf);
 		appendAttributeString(A_TYPE, type, buf);
+		appendAttributeString(A_REFTYPE, refType, buf);
 		appendAttributeString(A_PROCESSINSTID, processInstId, buf);
 		appendAttributeString(A_PRIORITY, priority, buf);
 		appendAttributeString(A_ASSIGNER, assigner, buf);
@@ -179,6 +182,7 @@ public class TskTaskCond extends MisObjectCond{
 		if (attrMap != null) {
 			Node correlation = attrMap.getNamedItem(A_CORRELATION);
 			Node type = attrMap.getNamedItem(A_TYPE);
+			Node refType = attrMap.getNamedItem(A_REFTYPE);
 			Node processInstId = attrMap.getNamedItem(A_PROCESSINSTID);
 			Node priority = attrMap.getNamedItem(A_PRIORITY);
 			Node assigner = attrMap.getNamedItem(A_ASSIGNER);
@@ -208,6 +212,8 @@ public class TskTaskCond extends MisObjectCond{
 				obj.setCorrelation(correlation.getNodeValue());
 			if (type != null)
 				obj.setType(type.getNodeValue());
+			if (refType != null)
+				obj.setRefType(refType.getNodeValue());
 			if (processInstId != null)
 				obj.setProcessInstId(processInstId.getNodeValue());
 			if (priority != null)
@@ -484,6 +490,12 @@ public class TskTaskCond extends MisObjectCond{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getRefType() {
+		return refType;
+	}
+	public void setRefType(String refType) {
+		this.refType = refType;
 	}
 	public String getTitleLike() {
 		return titleLike;

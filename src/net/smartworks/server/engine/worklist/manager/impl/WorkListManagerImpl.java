@@ -8,6 +8,7 @@
 
 package net.smartworks.server.engine.worklist.manager.impl;
 
+import java.sql.Clob;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,7 @@ import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.util.LocalDate;
 
 import org.hibernate.Query;
+import org.hibernate.engine.jdbc.ClobProxy;
 
 public class WorkListManagerImpl extends AbstractManager implements IWorkListManager {
 	
@@ -36,6 +38,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		String tskStatus =  cond.getTskStatus();
 		String prcStatus = cond.getPrcStatus();
 		Date lastInstanceDate = cond.getLastInstanceDate();
+		String tskRefType = cond.getTskRefType();
 		int pageNo = cond.getPageNo();
 		int pageSize = cond.getPageSize();
 		
@@ -47,7 +50,9 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("( ");
 		queryBuffer.append("	select task.tskobjId ");
 		queryBuffer.append("		, task.tsktitle ");
+		queryBuffer.append("		, task.tskDoc ");
 		queryBuffer.append("		, task.tsktype ");
+		queryBuffer.append("		, task.tskReftype ");
 		queryBuffer.append("		, task.tskstatus ");
 		queryBuffer.append("		, task.tskassignee ");
 		queryBuffer.append("		, case when task.tskstatus='11' then task.tskassigndate else task.tskexecuteDate end as taskLastModifyDate ");
@@ -84,9 +89,9 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		if (!CommonUtil.isEmpty(worksSpaceId))
 			queryBuffer.append("	and task.tskWorkSpaceId = :worksSpaceId ");
 		if (executionDateFrom != null)
-			queryBuffer.append("	and task.tskExecuteDate >= :executionDateFrom ");
+			queryBuffer.append("	and task.tskExecuteDate > :executionDateFrom ");
 		if (executionDateTo != null)
-			queryBuffer.append("	and task.tskExecuteDate <= :executionDateTo ");
+			queryBuffer.append("	and task.tskExecuteDate < :executionDateTo ");
 		queryBuffer.append(") taskInfo ");
 		//queryBuffer.append("left outer join ");
 		queryBuffer.append("join ");
@@ -148,6 +153,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("on taskInfo.tskPrcInstId = prcInstInfo.prcObjId ");
 		if (lastInstanceDate != null)
 			queryBuffer.append("where taskInfo.tskCreateDate < :lastInstanceDate ");
+		if (tskRefType != null)
+			queryBuffer.append("where taskInfo.tskRefType = :tskRefType ");
 		
 		this.appendOrderQuery(queryBuffer, "taskInfo", cond);
 		//queryBuffer.append("order by taskInfo.tskCreatedate desc ");
@@ -172,6 +179,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 			query.setTimestamp("executionDateTo", executionDateTo);
 		if (!CommonUtil.isEmpty(prcStatus)) 
 			query.setString("prcStatus", prcStatus);
+		if (!CommonUtil.isEmpty(tskRefType)) 
+			query.setString("tskRefType", tskRefType);
 		
 		return query;
 	}
@@ -210,8 +219,13 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 				int j = 0;
 		
 				obj.setTskObjId((String)fields[j++]);    
-				obj.setTskTitle((String)fields[j++]);    
+				obj.setTskTitle((String)fields[j++]); 
+				Clob varData = (Clob)fields[j++];
+				long length=varData.length();
+				String tempCountStr=varData.getSubString(1, (int)length);
+				obj.setTskDoc(tempCountStr);
 				obj.setTskType((String)fields[j++]);     
+				obj.setTskRefType((String)fields[j++]);     
 				obj.setTskStatus((String)fields[j++]);   
 				obj.setTskAssignee((String)fields[j++]); 
 				obj.setTaskLastModifyDate((Timestamp)fields[j++]);
