@@ -93,6 +93,7 @@ currentUser = {
 <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" title="ui-theme" />
 <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
 <link href="css/fileuploader/fileuploader.css" type="text/css" rel="stylesheet"/>
+<link href="css/fullcalendar/fullcalendar.css" type="text/css" rel="stylesheet"/>
 <link href="smarteditor/css/default_kor.css" rel="stylesheet" type="text/css" />
 	
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -100,7 +101,7 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/jquery-1.6.2.min.js"></script>
 <!-- 
 <script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
--->
+ -->
  <script type="text/javascript" src="js/jquery/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.validate.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.effects.core.js"></script>
@@ -108,6 +109,8 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.widget.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.mouse.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.draggable.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.ui.resizable.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.slider.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.datepicker.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.ui.datepicker-ko.js"></script>
@@ -120,6 +123,10 @@ currentUser = {
 <script type="text/javascript" src="js/jquery/jquery.numberformatter-1.2.2.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.formatCurrency-1.4.0.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.simplemodal.1.4.2.min.js"></script>
+<!--
+<script type="text/javascript" src="js/jquery/gcal.js"></script>
+-->
+<script type="text/javascript" src="js/jquery/fullcalendar.min.js"></script>
 
 <script type="text/javascript" src="js/jstorage/jstorage.js"></script>
 <script type="text/javascript" src="js/faye/faye-browser-min.js"></script>
