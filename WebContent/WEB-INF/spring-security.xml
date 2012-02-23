@@ -14,6 +14,7 @@
 		<intercept-url pattern="/images/*.*" access="permitAll" />
 		<intercept-url pattern="/admin/**/*" access="hasRole('ADMINISTRATOR') and fullyAuthenticated" />
 		<form-login login-page="/login.sw" login-processing-url="/j_spring_security_check" default-target-url="/home.sw" authentication-failure-url="/login.sw?type=failedLogin" />
+		<remember-me key="smartworksV3"/>
 		<logout logout-url="/logout.sw" logout-success-url="/login.sw?type=logout" />
 		<session-management invalid-session-url="/login.sw?type=expiredSession" session-authentication-error-url="/login.sw?type=unauthorized">
 			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
