@@ -986,7 +986,21 @@ public class InstanceServiceImpl implements IInstanceService {
 				obj.setAccessLevel(accessLevel);
 				obj.setAccessValue(accessValue);
 			}
-
+			
+			//TODO 좋은방법이 멀까?
+			String servletPath = request.getServletPath();
+			if(servletPath.equals("/upload_new_picture.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_IMAGE);
+			} else if (servletPath.equals("/upload_new_file.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_FILE);
+			} else if (servletPath.equals("/create_new_event.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_EVENT);
+			} else if (servletPath.equals("/create_new_memo.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_MEMO);
+			} else if (servletPath.equals("/create_new_board.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_BOARD);
+			}
+			
 			return getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
 
 		}catch (Exception e){
@@ -2467,6 +2481,8 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 		taskWorkCond.setTskExecuteDateFrom(fromDate);
 		taskWorkCond.setTskExecuteDateTo(toDate);
+		
+		taskWorkCond.setOrders(new Order[]{new Order("tskcreatedate", true)});
 		
 //		taskWorkCond.setPageNo(0);
 //		taskWorkCond.setPageSize(maxSize);

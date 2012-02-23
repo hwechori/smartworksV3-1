@@ -13,7 +13,8 @@ import java.util.Date;
 public class TaskWork {
 
 	private String tskObjId;    
-	private String tskTitle;    
+	private String tskTitle;  
+	private String tskDoc;
 	private String tskType; 
 	private String tskRefType;
 	private String tskStatus;   
@@ -71,6 +72,12 @@ public class TaskWork {
 	}
 	public void setTskTitle(String tskTitle) {
 		this.tskTitle = tskTitle;
+	}
+	public String getTskDoc() {
+		return tskDoc;
+	}
+	public void setTskDoc(String tskDoc) {
+		this.tskDoc = tskDoc;
 	}
 	public String getTskType() {
 		return tskType;

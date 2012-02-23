@@ -8,6 +8,7 @@
 
 package net.smartworks.server.engine.worklist.manager.impl;
 
+import java.sql.Clob;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,7 @@ import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.util.LocalDate;
 
 import org.hibernate.Query;
+import org.hibernate.engine.jdbc.ClobProxy;
 
 public class WorkListManagerImpl extends AbstractManager implements IWorkListManager {
 	
@@ -48,6 +50,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("( ");
 		queryBuffer.append("	select task.tskobjId ");
 		queryBuffer.append("		, task.tsktitle ");
+		queryBuffer.append("		, task.tskDoc ");
 		queryBuffer.append("		, task.tsktype ");
 		queryBuffer.append("		, task.tskReftype ");
 		queryBuffer.append("		, task.tskstatus ");
@@ -86,9 +89,9 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		if (!CommonUtil.isEmpty(worksSpaceId))
 			queryBuffer.append("	and task.tskWorkSpaceId = :worksSpaceId ");
 		if (executionDateFrom != null)
-			queryBuffer.append("	and task.tskExecuteDate >= :executionDateFrom ");
+			queryBuffer.append("	and task.tskExecuteDate > :executionDateFrom ");
 		if (executionDateTo != null)
-			queryBuffer.append("	and task.tskExecuteDate <= :executionDateTo ");
+			queryBuffer.append("	and task.tskExecuteDate < :executionDateTo ");
 		queryBuffer.append(") taskInfo ");
 		//queryBuffer.append("left outer join ");
 		queryBuffer.append("join ");
@@ -216,7 +219,11 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 				int j = 0;
 		
 				obj.setTskObjId((String)fields[j++]);    
-				obj.setTskTitle((String)fields[j++]);    
+				obj.setTskTitle((String)fields[j++]); 
+				Clob varData = (Clob)fields[j++];
+				long length=varData.length();
+				String tempCountStr=varData.getSubString(1, (int)length);
+				obj.setTskDoc(tempCountStr);
 				obj.setTskType((String)fields[j++]);     
 				obj.setTskRefType((String)fields[j++]);     
 				obj.setTskStatus((String)fields[j++]);   
