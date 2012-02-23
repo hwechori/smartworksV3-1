@@ -14,13 +14,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.util.StringUtils;
-
 import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
+import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
@@ -33,8 +32,13 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
+import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.EventInstanceInfo;
+import net.smartworks.model.instance.info.FileInstanceInfo;
 import net.smartworks.model.instance.info.IWInstanceInfo;
+import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
+import net.smartworks.model.instance.info.MemoInstanceInfo;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.instance.info.WorkInstanceInfo;
@@ -113,6 +117,8 @@ import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartUtil;
+
+import org.springframework.util.StringUtils;
 
 import commonj.sdo.Sequence;
 
@@ -263,7 +269,54 @@ public class ModelConverter {
 	public static WorkInstanceInfo getWorkInstanceInfoByTaskWork(TaskWork task) throws Exception {
 		if (task == null)
 			return null;
-		WorkInstanceInfo workInstanceInfo = new WorkInstanceInfo();
+		WorkInstanceInfo workInstanceInfo = null;
+		
+		if (task.getTskType().equalsIgnoreCase("Instance.TYPE_BOARD")) {
+			BoardInstanceInfo tempWorkInstanceInfo = new BoardInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_BOARD);
+			
+			tempWorkInstanceInfo.setBriefContent("briefContent");
+			tempWorkInstanceInfo.setAttachment("attachment");
+			
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else if (task.getTskType().equalsIgnoreCase("Instance.TYPE_EVENT")) {
+			EventInstanceInfo tempWorkInstanceInfo = new EventInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_EVENT);
+			
+			tempWorkInstanceInfo.setContent("content");
+			tempWorkInstanceInfo.setRelatedUsers(new CommunityInfo[1]);
+			tempWorkInstanceInfo.setStart(new LocalDate());
+			tempWorkInstanceInfo.setEnd(new LocalDate());
+			
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else if (task.getTskType().equalsIgnoreCase("Instance.TYPE_FILE")) {
+			FileInstanceInfo tempWorkInstanceInfo = new FileInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_FILE);
+			
+			tempWorkInstanceInfo.setGroupId("groupId");
+			tempWorkInstanceInfo.setFileNames(new String[1]);
+			tempWorkInstanceInfo.setContent("content");
+			
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else if (task.getTskType().equalsIgnoreCase("Instance.TYPE_IMAGE")) {
+			ImageInstanceInfo tempWorkInstanceInfo = new ImageInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_IMAGE);
+
+			tempWorkInstanceInfo.setImgSource("imgSource");
+			tempWorkInstanceInfo.setContent("content");
+			
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else if (task.getTskType().equalsIgnoreCase("Instance.TYPE_MEMO")) {
+			MemoInstanceInfo tempWorkInstanceInfo = new MemoInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_MEMO);
+			
+			tempWorkInstanceInfo.setContent("content");
+			
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else {
+			workInstanceInfo = new WorkInstanceInfo();
+			workInstanceInfo.setType(Instance.TYPE_WORK);
+		}
 		
 		SmartWorkInfo workInfo = new SmartWorkInfo();
 		workInfo.setId(task.getPackageId());
@@ -321,7 +374,7 @@ public class ModelConverter {
 			workInstanceInfo.setId(recordId);
 		}
 		workInstanceInfo.setSubject(task.getPrcTitle());
-		workInstanceInfo.setType(Instance.TYPE_WORK);
+		//workInstanceInfo.setType(Instance.TYPE_WORK);
 		workInstanceInfo.setWork(workInfo);
 		workInstanceInfo.setWorkSpace(getWorkSpaceInfo(task.getPrcWorkSpaceType(), task.getPrcWorkSpaceId()));
 		workInstanceInfo.setStatus(task.getTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
