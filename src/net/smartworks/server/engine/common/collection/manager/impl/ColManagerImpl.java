@@ -596,12 +596,12 @@ public class ColManagerImpl extends AbstractManager implements IColManager {
 			if (colObjects != null && colObjects.length != 0) {
 				for (int i=0; i<colObjects.length; i++) {
 					ColObject colObj = colObjects[i];
-					String lnkType = colObj.getType();
+					String colType = colObj.getType();
 					String ref = colObj.getRef();
 					String label = colObj.getLabel();
 					String expression = colObj.getExpression();
-					if (lnkType != null)
-						buf.append(" and item").append(i).append(".type = :lnkType").append(i);
+					if (colType != null)
+						buf.append(" and item").append(i).append(".type = :type").append(i);
 					if (ref != null)
 						buf.append(" and item").append(i).append(".ref = :ref").append(i);
 					if (label != null)
@@ -632,12 +632,12 @@ public class ColManagerImpl extends AbstractManager implements IColManager {
 			if (colObjects != null && colObjects.length != 0) {
 				for (int i=0; i<colObjects.length; i++) {
 					ColObject colObj = colObjects[i];
-					String lnkType = colObj.getType();
+					String colType = colObj.getType();
 					String ref = colObj.getRef();
 					String label = colObj.getLabel();
 					String expression = colObj.getExpression();
-					if (lnkType != null)
-						query.setString("lnkType"+i, lnkType);
+					if (colType != null)
+						query.setString("type"+i, colType);
 					if (ref != null)
 						query.setString("ref"+i, ref);
 					if (label != null)

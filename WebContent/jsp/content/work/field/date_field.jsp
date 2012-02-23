@@ -39,7 +39,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--  좌측의 필드항목과 우측의 값을 계산하는 조건실행을 위한 오퍼레이터 선택박스 -->
-<input name="hdnFieldType" value="<%=FormField.TYPE_DATE %>"/>
+<input name="hdnFieldType" type="hidden" value="<%=FormField.TYPE_DATE %>"/>
 <select name="selFilterOperator" class="selb_size_sec js_select_filter_operator">
 	<%
 	String operType = "";

@@ -4,7 +4,6 @@ import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
-import net.smartworks.server.engine.process.link.model.LnkObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,7 +15,7 @@ public class ColList extends MisObject {
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(ColList.class);
 
-	protected static final String PREFIX = "Lnk";
+	protected static final String PREFIX = "Col";
 	private static final String NAME = CommonUtil.toName(ColList.class, PREFIX);
 	public static final String A_CORRELATION = "correlation";
 	public static final String A_TYPE = "type";

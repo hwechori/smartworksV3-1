@@ -114,14 +114,20 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.PackageType;
 import net.smartworks.server.engine.process.xpdl.xpdl2.ProcessType1;
 import net.smartworks.server.engine.process.xpdl.xpdl2.WorkflowProcesses;
 import net.smartworks.server.engine.worklist.model.TaskWork;
+import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.util.StringUtils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import commonj.sdo.Sequence;
 
+@Service
 public class ModelConverter {
 	
 	private static ISwoManager getSwoManager() {
@@ -154,6 +160,14 @@ public class ModelConverter {
 	private static IItmManager getItmManager() {
 		return SwManagerFactory.getInstance().getItmManager();
 	}
+
+	static IWorkService workService;
+
+	@Autowired
+	public static void setWorkService(IWorkService workService) {
+		ModelConverter.workService = workService;
+	}
+
 	private static PkgPackage getPkgPackageByPackageId(String packageId) throws Exception {
 		if (CommonUtil.isEmpty(packageId))
 			return null;
@@ -1798,7 +1812,7 @@ public class ModelConverter {
 
 		if (colList == null)
 			return null;
-		
+
 		ColObject filterItem = colList.getItems()[0];
 
 		if (filterItem == null)
@@ -1833,8 +1847,19 @@ public class ModelConverter {
 				String rightOperType = filter.getRightOperandType();
 				String rightOperValue = filter.getRightOperandValue();
 				String operator = filter.getOperator();
-
-				Condition cond = new Condition(new FormField(leftOperValue, null, leftOperType) , operator, new FormField(rightOperValue, null, rightOperType));
+				Object rightOperand = null;
+				if(rightOperType.equals(FormField.TYPE_USER)) {
+					rightOperand = getUserByUserId(rightOperValue);
+				} else if(rightOperType.equals(FormField.TYPE_OTHER_WORK)) {
+					rightOperand = workService.getWorkById(rightOperValue);
+				} else if(rightOperType.equals(FormField.TYPE_DATETIME)) {
+					rightOperand = LocalDate.convertGMTStringToLocalDate(rightOperValue);
+				} else if(rightOperType.equals(FormField.TYPE_DATE)) {
+					rightOperand = LocalDate.convertGMTSimpleStringToLocalDate(rightOperValue);
+				} else if(rightOperType.equals(FormField.TYPE_TIME)) {
+					rightOperand = LocalDate.convertGMTTimeStringToLocalDate(rightOperValue);
+				}
+				Condition cond = new Condition(new FormField(leftOperValue, null, leftOperType), operator, rightOperand);
 				condArray[i] = cond;
 			}
 			conditions = condArray;
