@@ -4,6 +4,8 @@
 <!-- Author			: Maninsoft, Inc.						 -->
 <!-- Created Date	: 2011.9.								 -->
 
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
+<%@page import="net.smartworks.model.instance.Instance"%>
 <%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.util.SmartTest"%>
 <%@page import="net.smartworks.model.work.ProcessWork"%>
@@ -43,7 +45,15 @@
 	workId = work.getId();
 	
 	TaskInstanceInfo[] taskHistories = instance.getTasks();
-
+	TaskInstanceInfo selectedTask = (SmartUtil.isBlankObject(taskHistories)) ? null : taskHistories[0];
+	if(!SmartUtil.isBlankObject(taskInstId)){
+		for(TaskInstanceInfo taskInstance : taskHistories){
+			if(taskInstance.getId().equals(taskInstId)){
+				selectedTask = taskInstance;
+				break;
+			}
+		}
+	}
 	session.setAttribute("cid", cid);
 	session.removeAttribute("wid");
 	session.setAttribute("workInstance", instance);
@@ -52,7 +62,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_pwork_space_page" workId="<%=workId%>" instId="<%=instId%>" taskInstId=<%=taskInstId %>>
+<div class="section_portlet js_pwork_space_page" workId="<%=workId%>" instId="<%=instId%>" taskInstId=<%=CommonUtil.toNotNull(taskInstId) %>>
     <div class="portlet_t"><div class="portlet_tl"></div></div>
     <div class="portlet_l" style="display: block;">
 	    <ul class="portlet_r" style="display: block;">		            
@@ -94,17 +104,16 @@
 			<div class="define_space" style="height:59px; padding: 0 45px;">
 			
 				<!-- 방향 Prev -->
-	        		<a href="" class="js_instance_tasks_left"><div class="proc_btn_prev" style="display:block"></div></a>
+        		<a href="" class="js_instance_tasks_left"><div class="proc_btn_prev" style="display:block"></div></a>
 	        	<!-- 방향 Prev //-->
 	        	
-				<div class="proce_section">
-			        <div class="proc_start_compl float_left"> 시작 </div>
-			        <div class="proc_arr_next float_left"></div>
+				<div class="proce_section js_instance_tasks_holder">
+			        <div class="proc_start_compl float_left js_task_start js_instance_task"><fmt:message key="process.task.start"/></div>
+			        <div class="proc_arr_next float_left js_instance_task_arrow"></div>
 			        
 			        <!-- 태스크 시작-->
-			        <div class="proce_space js_instance_tasks_holder">			        
-						<div class="js_instance_tasks">
-							<ul>
+			        <div class="proce_space js_instance_tasks">			        
+						<ul>
 				        	<%
 				        	if(!SmartUtil.isBlankObject(taskHistories)){	
 				        		for(int i=0; i<taskHistories.length; i++){
@@ -130,34 +139,33 @@
 			            			<!-- 태스크 --> 
 						            <li class="<%=statusClass %> js_instance_task">
 						                <a <%if(isSelectable){ %> href="" class="js_select_task_instance" <%} %> formId="<%=task.getFormId() %>" taskInstId="<%=task.getId()%>" formMode=<%=formMode %>>
-							                    <!-- task 정보 -->
-							                    <img src="<%=task.getOwner().getMinPicture()%>" class="noti_pic profile_size_s">
-							                    <div class="noti_in_s">
-								                    <%=i+1%>) <%=task.getName() %>
-								                    <div class="t_date"><%=task.getLastModifiedDate().toLocalString() %></div>
-							                    </div>
-							                    <!-- task 정보 //-->
+						                    <!-- task 정보 -->
+						                    <img src="<%=task.getOwner().getMinPicture()%>" class="noti_pic profile_size_s">
+						                    <div class="noti_in_s">
+							                    <%=i+1%>) <%=task.getName() %>
+							                    <div class="t_date"><%=task.getLastModifiedDate().toLocalString() %></div>
+						                    </div>
+						                    <!-- task 정보 //-->
 						                </a>
 						            </li>
 				            		<!-- 태스크 //--> 
-			            			<%
-			            			if(i<taskHistories.length-1){
-			            			%>
-							            <!--화살표-->
-							            <li class="proc_arr_next float_left"></li>
-							            <!--화살표-->
-							        <%
-							        }
-							        %>
+						            <!--화살표-->
+						            <li class="proc_arr_next float_left js_instance_task_arrow"></li>
+						            <!--화살표-->
 			            	<%
 				        		}
 				        	}
 			            	%>
-			            	</ul>
-			        	</div>
+		            	</ul>
 			        </div>
 			        <!-- 태스크 시작//-->
-			        
+           			<%
+           			if(taskHistories[taskHistories.length-1].getStatus() == Instance.STATUS_COMPLETED){
+           			%>
+				        <div class="proc_start_compl float_left js_task_stop js_instance_task"><fmt:message key="process.task.stop"/></div>
+			        <%
+			        }
+			        %>			        
 				</div>
 				
 				<!-- 방향 Next -->
@@ -168,9 +176,8 @@
 				
 			<!-- 상세보기 컨텐츠 -->
 			<div class="contents_space">
-				<div class="up_point posit_default"></div>
-				<div class="form_wrap up up_padding form_read js_form_content">
-		       </div>
+				<div class="up_point posit_default js_form_content_pointer"></div>
+				<div class="form_wrap up up_padding form_read js_form_content"></div>
 			</div>
 	
 			<!-- 버튼 영역 -->
@@ -236,7 +243,10 @@
 		var formId = input.attr("formId");
 		var formMode = input.attr("formMode");
 		var instId = input.attr("taskInstId");
-		var formContent = $('div.js_form_content');
+		var formContent = pworkSpace.find('div.js_form_content');
+		var formContentPointer = pworkSpace.find('div.js_form_content_pointer');
+		var selectedTask = input.parents('.js_instance_task');
+		formContentPointer.css({"left": selectedTask.position().left + selectedTask.outerWidth()/2 + "px"});
 		new SmartWorks.GridLayout({
 			target : formContent,
 			mode : formMode,
@@ -265,32 +275,39 @@
 		}
 	}
 	
+	var getTasksWidth = function(tasks, arrows){
+		var width = 0;
+		if(isEmpty(tasks) || isEmpty(arrows)) return width;
+		
+		for(var i=0; i<tasks.length; i++){
+			width = width + $(tasks[i]).outerWidth();
+		}
+		for(var j=0; j<arrows.length; j++)
+			width = width + $(arrows[j]).outerWidth() + 10;
+		return width;
+	};
+	
 	var pworkSpace = $('.js_pwork_space_page');
 	var taskInstId = pworkSpace.attr('taskInstId');
 	var instanceTasksHolder = pworkSpace.find(".js_instance_tasks_holder");
 	var instanceTasks = instanceTasksHolder.find(".js_instance_tasks");
-	var left = instanceTasks.position().left;
-	var width = instanceTasks.width();
-	var remainingWidth = width+left;
-
-	var tasksRight = instanceTasksHolder.width();
-	var tasks = instanceTasks.find(".js_instance_task");
-	var selectedTask = $(tasks[0]);
 	var instanceLeft = pworkSpace.find('.js_instance_tasks_left');	
 	var instanceRight = pworkSpace.find('.js_instance_tasks_right');
-	instanceRight.show();
-/* 	if(isEmpty(taskInstId)){
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().top>0)
-				break;
-		}
-		if(tasks.length>0 && i<tasks.length && i>=0){
+
+	var taskStart = instanceTasksHolder.find('.js_task_start');
+	var taskStop = instanceTasksHolder.find('.js_task_stop');
+	var tasks = instanceTasks.find(".js_instance_task");
+	var arrows = instanceTasksHolder.find('.js_instance_task_arrow');
+	var selectedTask = $(tasks[0]);
+	var viewWidth = instanceTasksHolder.width();
+	var tasksWidth = getTasksWidth(tasks, arrows);
+	if(isEmpty(taskInstId)){
+ 		instanceLeft.hide();
+		if(tasksWidth>viewWidth)
 			instanceRight.show();
-		}else{
+		else
 			instanceRight.hide();
-		}
-	}else{
+ 	}else{
  		for(var i=0; i<tasks.length; i++){
 			var task = $(tasks[i]).find('a');
 			if(task.attr('taskInstId') === taskInstId)
@@ -299,37 +316,29 @@
 		var selectedIndex = i;
 		if(selectedIndex<tasks.length)
 			selectedTask = $(tasks[selectedIndex]);
-		if(selectedIndex<tasks.length && selectedTask.position().top>0){
-			left = tasksRight - selectedTask.position().left+selectedTask.width();
-			for(var j=0; j<tasks.length; j++){
-				var task = $(tasks[j]);
-				if(task.position().left+left>=0){
-					left=-task.position().left;
-					tasksRight = taskRight + left;
-					break;
+		if(selectedIndex<tasks.length && selectedTask.position().top>=selectedTask.height()){
+			var width = 0;
+			for(var i=selectedIndex; i>=0; i--){
+				width = width + $(tasks[i]).outerWidth() + $(arrows[i]).outerWidth() + 10;
+				if(width>viewWidth) break;
+			}
+			if(i>-1){
+				for(var j=0; j<i+1; j++){
+					$(tasks[j]).hide();
+					$(arrows[j]).hide();
 				}
+				taskStart.hide();
 			}
-			for(var k=0; k<tasks.length; k++){
-				var task = $(tasks[k]);
-				if(task.position().left+task.width()+left>tasksRight)
-					break;
-			}
-			if(tasks.length>0 && k<tasks.length && k>=0){
-				var task = $(tasks[k]);
-				placeHolderTask.remove().width(task.width()).show().insertBefore(task);
-			}
-			instanceTasks.css({"left": left + "px"});
 		}
+		if(selectedIndex == tasks.length-1)
+			instanceRight.hide();
+		else
+			instanceRight.show();
+			
  	}
-
- 	if(left<0)
-		instanceLeft.show();
-	else
-		instanceLeft.hide();
 	
 	if(!isEmpty(selectedTask)) clickOnTask(selectedTask.find('a'));
 		
- */
  </script>
 
 <jsp:include page="/jsp/content/work/space/space_instance_list.jsp">

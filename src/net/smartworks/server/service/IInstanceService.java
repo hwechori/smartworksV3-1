@@ -37,6 +37,18 @@ public interface IInstanceService {
 
 	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 
+	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception;
+
+	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception;
+
+	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception;
+
+	public InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception;
+
+	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception;
+
+	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception;
+
 	public WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception;
 
 	public TaskInstanceInfo[][] getTaskInstancesByWorkHours(String contextId, String spaceId, LocalDate date, int maxSize) throws Exception;

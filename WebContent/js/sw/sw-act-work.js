@@ -265,36 +265,19 @@ $(function() {
 					}
 					var manualTasksHolder = pworkManual.find(".js_manual_tasks_holder");
 					var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-					var placeHolderTask = manualTasks.find('.js_manual_task_placeholder').hide();
-					var left = manualTasks.position().left;
-					var width = manualTasks.width();
-					var remainingWidth = width+left;
-
-					var tasksRight = manualTasksHolder.width();
-					var tasks = manualTasks.find(".js_manual_task");
-					for(var i=0; i<tasks.length; i++){
-						var task = $(tasks[i]);
-						if(task.position().left+task.width()>tasksRight)
+					var manualTasksRight = pworkManual.find('.js_manual_tasks_right');
+					pworkManual.find('.js_manual_tasks_left').hide();
+					for(var i=0; i<manualTasks.length; i++){
+						var manualTask = $(manualTasks[i]);
+						if(manualTask.position().top>=manualTask.height())
 							break;
 					}
-					if(tasks.length>0 && i<tasks.length && i>=0){
-						var task = $(tasks[i]);
-						placeHolderTask.remove().width(task.width()).show().insertBefore(task);
-					}
-
-					var manualLeft = pworkManual.find('.js_manual_tasks_left');	
-					var manualRight = pworkManual.find('.js_manual_tasks_right');	
-					if(left<0)
-						manualLeft.show();
+					if(i<manualTasks.length)
+						manualTasksRight.show();
 					else
-						manualLeft.hide();
-					remainingWidth = manualTasks.width()+left;
-					if(remainingWidth <= manualTasksHolder.width())
-						manualRight.hide();
-					else
-						manualRight.show();		
+						manualTasksRight.hide();
 					
-					pworkManual.find('a.js_select_task_manual:first span:first').click();
+					pworkManual.find('a.js_select_task_manual:first div:first').click();
 					
 					smartPop.closeProgress();
 				},
@@ -309,132 +292,111 @@ $(function() {
 	$('a.js_select_task_manual').live('click', function(e){
 		var input = $(e.target).parents('a.js_select_task_manual:first');
 		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
-		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-		var left = manualTasks.position().left;
+		
 		var target = $("#"+input.attr("taskId"));
 		var target_point = $(target).find("div.up_point:first");
-		target_point.css({"left": (input.position().left + left + input.width()/2 + 30) + "px"});
+		var selectedManualTask = input.parents('.js_manual_task');
+		target_point.css({"left": (selectedManualTask.position().left + selectedManualTask.outerWidth()/2) + "px"});
 		$(target).show().siblings('div.js_task_manual').hide();
 		return false;
 	});
 	
 	$('a.js_manual_tasks_right').live('click', function(e){
 		var input = $(e.target).parents('a:first');
-		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
-		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-		var placeHolderTask = manualTasks.find('.js_manual_task_placeholder').hide();
-		var left = manualTasks.position().left;
-		var width = manualTasks.width();
-		var remainingWidth = width+left;
-		if(remainingWidth>manualTasksHolder.width()){
-			remainingWidth = remainingWidth - manualTasksHolder.width();
-			if(remainingWidth>0 && remainingWidth<=manualTasksHolder.width()/2){
-				left = left - remainingWidth;
-			}else{
-				left = left - manualTasksHolder.width()/2;
-			}	
+		var pworkManual = input.parents('.js_pwork_manual_page');
+		var manualTasksHolder = pworkManual.find('.js_manual_tasks_holder');
+		var manualLeft = pworkManual.find('.js_manual_tasks_left');	
+		var manualRight = pworkManual.find('.js_manual_tasks_right');
+
+		var tasksVisible = manualTasksHolder.find(".js_manual_task:visible");
+		var viewWidth = manualTasksHolder.width();
+		var tasksOverflew = new Array();
+		for(var i=0; i<tasksVisible.length; i++){
+			var task  =$(tasksVisible[i]);
+			if(task.position().top>=task.height())
+				tasksOverflew.push(tasksVisible[i]);
 		}
-		
-		var tasks = manualTasks.find(".js_manual_task");
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+left>=0 )
-				break;
+		if(isEmpty(tasksOverflew) || tasksOverflew.length==0){
+			manualRight.hide();
+			return false;
 		}
-		if(tasks.length>0 && i<tasks.length)
-			left = -$(tasks[i]).position().left;
-		
-		var tasksRight = manualTasksHolder.width() - left;
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+task.width()>tasksRight)
-				break;
+
+		var overflewWidth = 0;
+		for(var i=0; i<tasksOverflew.length; i++){
+			overflewWidth = overflewWidth + $(tasksOverflew[i]).outerWidth() + 10;
+			if(overflewWidth>viewWidth/2) break;
 		}
-		if(tasks.length>0 && i<tasks.length && i>=0){
-			var task = $(tasks[i]);
-			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
+
+		for(var i=0; i<tasksVisible.length && overflewWidth>0; i++){
+			var task = $(tasksVisible[i]);
+			overflewWidth = overflewWidth - task.outerWidth() - 10;
+			task.hide();
 		}
-		manualTasks.css({"left": left + "px"});
-		var manualLeft = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_left');
-		if(left<0)
-			manualLeft.show();
-		else
+
+		var tasksHidden = manualTasksHolder.find(".js_manual_task:hidden");
+		if(isEmpty(tasksHidden))
 			manualLeft.hide();
-		remainingWidth = manualTasks.width()+left;
-		if(remainingWidth <= manualTasksHolder.width())
-			input.hide();
 		else
-			input.show();	
-
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left>tasksRight && i>1){
-				$(tasks[i-1]).find('span:first').click();
+			manualLeft.show();
+		
+		tasksVisible = manualTasksHolder.find(".js_manual_task:visible");
+		for(var i=0; i<tasksVisible.length; i++){
+			var task = $(tasksVisible[i]);
+			if(task.position().top>=task.height())
 				break;
-			}
 		}
-		if(tasks.length>0 && i==tasks.length){
-			$(tasks[tasks.length-1]).find('span:first').click();
+		if(tasksVisible.length==0 || i==tasksVisible.length){
+			manualRight.hide();
+		}else{
+			manualRight.show();
 		}
-
+		
+		if(tasksVisible.length>0)
+			$(tasksVisible[i-1]).find('div:first').click();
 		return false;
 	});
 	
 	$('a.js_manual_tasks_left').live('click', function(e){
+
 		var input = $(e.target).parents('a:first');
-		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
-		var manualTasks = manualTasksHolder.find(".js_manual_tasks");
-		var placeHolderTask = manualTasks.find('.js_manual_task_placeholder').hide();
-		var left = manualTasks.position().left;
-		var width = manualTasks.width();
-		var remainingWidth = -left;
-		if(remainingWidth>0){
-			if(remainingWidth<=manualTasksHolder.width()/2){
-				left = left + remainingWidth;
-			}else{
-				left = left + manualTasksHolder.width()/2;
-			}	
-		}
-		var tasks = manualTasks.find(".js_manual_task");
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+left>=0 )
-				break;
-		}
-		if(tasks.length>0 && i<tasks.length){
-			left = -$(tasks[i]).position().left;
-		}
-		var tasksRight = manualTasksHolder.width() - left;
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+task.width()>tasksRight)
-				break;
-		}
-		if(tasks.length>0 && i<tasks.length && i>=0){
-			var task = $(tasks[i]);
-			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
+		var pworkManual = input.parents('.js_pwork_manual_page');
+		var manualTasksHolder = pworkManual.find('.js_manual_tasks_holder');
+		var manualLeft = pworkManual.find('.js_manual_tasks_left');	
+		var manualRight = pworkManual.find('.js_manual_tasks_right');
+
+		var tasksHidden = manualTasksHolder.find(".js_manual_task:hidden");
+		var viewWidth = manualTasksHolder.width();
+		if(isEmpty(tasksHidden) || tasksHidden.length==0){
+			manualLeft.hide();
+			return false;
 		}
 
-		manualTasks.css({"left": left + "px"});
-		if(left<0)
-			input.show();
+		var hiddenWidth = 0;
+		for(var i=tasksHidden.length-1; i>=0; i--){
+			var task = $(tasksHidden[i]).show();
+			hiddenWidth = hiddenWidth + task.outerWidth() + 10;
+			if(hiddenWidth>viewWidth/2) break;
+		}
+
+		if(i>0)
+			manualLeft.show();
 		else
-			input.hide();
-		remainingWidth = manualTasks.width()+left;
-		var manualRight = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_right');
-		if(remainingWidth <= manualTasksHolder.width())
+			manualLeft.hide();
+		
+		tasksVisible = manualTasksHolder.find(".js_manual_task:visible");
+		for(var i=0; i<tasksVisible.length; i++){
+			var task = $(tasksVisible[i]);
+			if(task.position().top>=task.height())
+				break;
+		}
+		if(tasksVisible.length==0 || i==tasksVisible.length){
 			manualRight.hide();
-		else
+		}else{
 			manualRight.show();
-
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+left>=0 ){
-				$(tasks[i]).find('span:first').click();
-				break;
-			}
 		}
 
+		if(tasksVisible.length>0)
+			$(tasksVisible[0]).find('div:first').click();
 		return false;
 	});
 	
@@ -447,123 +409,105 @@ $(function() {
 
 	$('a.js_instance_tasks_right').live('click', function(e){
 		var input = $(e.target).parents('a:first');
-		var instanceTasksHolder = input.parents('.js_pwork_space_page').find('.js_instance_tasks_holder');
-		var instanceTasks = instanceTasksHolder.find(".js_instance_tasks");
-		var placeHolderTask = instanceTasks.find('.js_instance_task_placeholder').hide();
-		var left = instanceTasks.position().left;
-		var width = instanceTasks.width();
-		var remainingWidth = width+left;
-		if(remainingWidth>instanceTasksHolder.width()){
-			remainingWidth = remainingWidth - instanceTasksHolder.width();
-			if(remainingWidth>0 && remainingWidth<=instanceTasksHolder.width()/2){
-				left = left - remainingWidth;
-			}else{
-				left = left - instanceTasksHolder.width()/2;
-			}	
+		var pworkSpace = input.parents('.js_pwork_space_page');
+		var instanceTasksHolder = pworkSpace.find('.js_instance_tasks_holder');
+		var instanceLeft = pworkSpace.find('.js_instance_tasks_left');	
+		var instanceRight = pworkSpace.find('.js_instance_tasks_right');
+
+		var tasksVisible = instanceTasksHolder.find(".js_instance_task:visible");
+		var arrowsVisible = instanceTasksHolder.find('.js_instance_task_arrow:visible');
+		var viewWidth = instanceTasksHolder.width();
+		var tasksOverflew = new Array();
+		for(var i=0; i<tasksVisible.length; i++){
+			var task  =$(tasksVisible[i]);
+			if(task.position().top>=task.height())
+				tasksOverflew.push(tasksVisible[i]);
 		}
-		
-		var tasks = instanceTasks.find(".js_instance_task");
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+left>=0 )
-				break;
+		if(isEmpty(tasksOverflew) || tasksOverflew.length==0){
+			instanceRight.hide();
+			return false;
 		}
-		if(tasks.length>0 && i<tasks.length)
-			left = -$(tasks[i]).position().left;
-		
-		var tasksRight = instanceTasksHolder.width() - left;
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+task.width()>tasksRight){
-				break;
-			}
+
+		var overflewWidth = 0;
+		for(var i=0; i<tasksOverflew.length; i++){
+			overflewWidth = overflewWidth + $(tasksOverflew[i]).outerWidth() + $(arrowsVisible[0]).outerWidth() + 10;
+			if(overflewWidth>viewWidth/2) break;
 		}
-		if(tasks.length>0 && i<tasks.length && i>=0){
-			var task = $(tasks[i]);
-			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
+
+		for(var i=0; i<tasksVisible.length && overflewWidth>0; i++){
+			var task = $(tasksVisible[i]);
+			var arrow = $(arrowsVisible[i]);
+			overflewWidth = overflewWidth - task.outerWidth() - arrow.outerWidth() - 10;
+			task.hide();
+			arrow.hide();
 		}
-		
-		instanceTasks.css({"left": left + "px"});
-		var instanceLeft = input.parents('.js_pwork_space_page').find('.js_instance_tasks_left');
-		if(left<0)
-			instanceLeft.show();
-		else
+
+		var tasksHidden = instanceTasksHolder.find(".js_instance_task:hidden");
+		if(isEmpty(tasksHidden))
 			instanceLeft.hide();
-		remainingWidth = instanceTasks.width()+left;
-		if(remainingWidth <= instanceTasksHolder.width())
-			input.hide();
 		else
-			input.show();		
-
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left>tasksRight && i>1){
-				$(tasks[i-1]).find('span:first').click();
+			instanceLeft.show();
+		
+		tasksVisible = instanceTasksHolder.find(".js_instance_task:visible");
+		for(var i=0; i<tasksVisible.length; i++){
+			var task = $(tasksVisible[i]);
+			if(task.position().top>=task.height())
 				break;
-			}
 		}
-		if(tasks.length>0 && i==tasks.length){
-			$(tasks[tasks.length-1]).find('span:first').click();
+		if(tasksVisible.length==0 || i==tasksVisible.length){
+			instanceRight.hide();
+		}else{
+			instanceRight.show();
 		}
-
+		
+		if(tasksVisible.length>0)
+			$(tasksVisible[i-1]).find('img:first').click();
 		return false;
 	});
 	
 	$('a.js_instance_tasks_left').live('click', function(e){
-		var input = $(e.target).parents('a:first');
-		var instanceTasksHolder = input.parents('.js_pwork_space_page').find('.js_instance_tasks_holder');
-		var instanceTasks = instanceTasksHolder.find(".js_instance_tasks");
-		var placeHolderTask = instanceTasks.find('.js_instance_task_placeholder').hide();
-		var left = instanceTasks.position().left;
-		var width = instanceTasks.width();
-		var remainingWidth = -left;
-		if(remainingWidth>0){
-			if(remainingWidth<=instanceTasksHolder.width()/2){
-				left = left + remainingWidth;
-			}else{
-				left = left + instanceTasksHolder.width()/2;
-			}	
-		}
-		var tasks = instanceTasks.find(".js_instance_task");
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+left>=0 )
-				break;
-		}
-		if(tasks.length>0 && i<tasks.length){
-			left = -$(tasks[i]).position().left;
-		}
-		var tasksRight = instanceTasksHolder.width() - left;
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+task.width()>tasksRight)
-				break;
-		}
-		if(tasks.length>0 && i<tasks.length && i>=0){
-			var task = $(tasks[i]);
-			placeHolderTask.remove().width(task.width()).show().insertBefore(task);
-		}
-
-		instanceTasks.css({"left": left + "px"});
-		if(left<0)
-			input.show();
-		else
-			input.hide();
-		remainingWidth = instanceTasks.width()+left;
-		var instanceRight = input.parents('.js_pwork_space_page').find('.js_instance_tasks_right');
-		if(remainingWidth <= instanceTasksHolder.width())
-			instanceRight.hide();
-		else
-			instanceRight.show();
-
-		for(var i=0; i<tasks.length; i++){
-			var task = $(tasks[i]);
-			if(task.position().left+left>=0 ){
-				$(tasks[i]).find('span:first').click();
-				break;
-			}
-		}
 		
+		var input = $(e.target).parents('a:first');
+		var pworkSpace = input.parents('.js_pwork_space_page');
+		var instanceTasksHolder = pworkSpace.find('.js_instance_tasks_holder');
+		var instanceLeft = pworkSpace.find('.js_instance_tasks_left');	
+		var instanceRight = pworkSpace.find('.js_instance_tasks_right');
+
+		var tasksHidden = instanceTasksHolder.find(".js_instance_task:hidden");
+		var arrowsHidden = instanceTasksHolder.find('.js_instance_task_arrow:hidden');
+		var viewWidth = instanceTasksHolder.width();
+		if(isEmpty(tasksHidden) || tasksHidden.length==0){
+			instanceLeft.hide();
+			return false;
+		}
+
+		var hiddenWidth = 0;
+		for(var i=tasksHidden.length-1; i>=0; i--){
+			var task = $(tasksHidden[i]).show();
+			var arrow = $(arrowsHidden[i]).show();
+			hiddenWidth = hiddenWidth + task.outerWidth() + arrow.outerWidth() + 10;
+			if(hiddenWidth>viewWidth/2) break;
+		}
+
+		if(i>0)
+			instanceLeft.show();
+		else
+			instanceLeft.hide();
+		
+		tasksVisible = instanceTasksHolder.find(".js_instance_task:visible");
+		for(var i=0; i<tasksVisible.length; i++){
+			var task = $(tasksVisible[i]);
+			if(task.position().top>=task.height())
+				break;
+		}
+		if(tasksVisible.length==0 || i==tasksVisible.length){
+			instanceRight.hide();
+		}else{
+			instanceRight.show();
+		}
+
+		if(tasksVisible.length>0)
+			$(tasksVisible[0]).find('img:first').click();
 		return false;
 	});
 
