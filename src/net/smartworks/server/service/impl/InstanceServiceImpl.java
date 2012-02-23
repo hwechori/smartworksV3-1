@@ -257,7 +257,34 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public InstanceInfo[] getMyRecentInstances() throws Exception {
 		try{
-			return SmartTest.getMyRecentInstances();	
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			if (cuser != null)
+				userId = cuser.getId();
+			
+			TaskWorkCond cond = new TaskWorkCond();
+			cond.setTskAssignee(userId);
+			cond.setTskStatus(TskTask.TASKSTATUS_COMPLETE);
+			cond.setOrders(new Order[]{new Order("taskLastModifyDate", false)});
+			cond.setPageNo(0);
+			cond.setPageSize(50);
+			TaskWork[] tasks = getWlmManager().getTaskWorkList(userId, cond);
+			
+			List<InstanceInfo> InstanceInfoList = new ArrayList<InstanceInfo>();
+			List<String> prcInstIdList = new ArrayList<String>();
+			for (int i = 0; i < tasks.length; i++) {
+				TaskWork task = tasks[i];
+				if (InstanceInfoList.size() == 10)
+					break;
+				if (prcInstIdList.contains(task.getTskPrcInstId()))
+					continue;
+				prcInstIdList.add(task.getTskPrcInstId());
+				InstanceInfoList.add(ModelConverter.getWorkInstanceInfoByTaskWork(task));
+			}
+			InstanceInfo[] resultTasks = new InstanceInfo[InstanceInfoList.size()];
+			InstanceInfoList.toArray(resultTasks);
+			
+			return resultTasks;
 			
 //			User user = SmartUtil.getCurrentUser();
 //			if (CommonUtil.isEmpty(user.getCompanyId()) || CommonUtil.isEmpty(user.getId()))

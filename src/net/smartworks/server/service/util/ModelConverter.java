@@ -523,6 +523,15 @@ public class ModelConverter {
 				////////////////////////////////////////////
 				IWInstanceInfo instInfo = new IWInstanceInfo();
 				instInfo.setId(task.getPrcObjId());
+//				String singleWorkInfos = task.getTskDef();
+//				String recordId = null;
+//				String domainId = null;
+//				if (!CommonUtil.isEmpty(singleWorkInfos)) {
+//					String[] singleWorkInfo = StringUtils.tokenizeToStringArray(singleWorkInfos, "|");	
+//					domainId = singleWorkInfo[0];
+//					recordId = singleWorkInfo[1];
+//				}
+//				instInfo.setId(recordId);
 				instInfo.setSubject(task.getPrcTitle());
 				instInfo.setType(Instance.TYPE_WORK);
 				

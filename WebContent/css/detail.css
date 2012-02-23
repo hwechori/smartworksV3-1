@@ -123,12 +123,12 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 	
 	
 /* 프로세스 */
-.proce_section { position:relative; float: left; height: 59px; margin: 0 20px}
+.proce_section { position:relative; float: left; height: 59px; width:100%}
 .proce_space {line-height:15px}
 .proce_space li { float:left}
-.proc_btn_prev {background: url("../images/proc_bg.png") no-repeat -70px 0 transparent; width:11px; height:19px; position: absolute; left: 0; margin: 20px 0 0 20px;}
+.proc_btn_prev {background: url("../images/proc_bg.png") no-repeat -70px 0 transparent; width:11px; height:19px; position: absolute; left: 0; margin: 22px 0 0 20px;}
 a .proc_btn_prev:hover {background: url("../images/proc_bg.png") no-repeat -70px -28px transparent;}
-.proc_btn_next {background: url("../images/proc_bg.png") no-repeat -129px 0 transparent; width:11px; height:19px; position: absolute; right: 0; margin: 20px 20px 0 0}
+.proc_btn_next {background: url("../images/proc_bg.png") no-repeat -129px 0 transparent; width:11px; height:19px; position: absolute; right: 0; margin: 22px 20px 0 0}
 a .proc_btn_next:hover {background: url("../images/proc_bg.png") no-repeat -129px -28px; transparent;}
 
 .proc_arr_next {background: url("../images/proc_bg.png") no-repeat -86px -82px transparent; width:23px; height:10px; margin:26px 5px 26px 0}
