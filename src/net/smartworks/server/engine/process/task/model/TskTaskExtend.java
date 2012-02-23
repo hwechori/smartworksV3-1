@@ -15,6 +15,7 @@ public class TskTaskExtend {
 	private String tskObjId;
 	private String tskTitle;
 	private String tskType;
+	private String tskRefType;
 	private String tskName;
 	private String tskAssignee;
 	private Date tskCreateDate;
@@ -69,6 +70,12 @@ public class TskTaskExtend {
 	}
 	public void setTskType(String tskType) {
 		this.tskType = tskType;
+	}
+	public String getTskRefType() {
+		return tskRefType;
+	}
+	public void setTskRefType(String tskRefType) {
+		this.tskRefType = tskRefType;
 	}
 	public String getTskName() {
 		return tskName;

@@ -150,8 +150,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		// TO DO : Exception handler
 		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
+		String workId = (String)requestBody.get("workId");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + workSpaceId);
+		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + workSpaceId +"&workId=" + workId);
 		return map;
 	}
 

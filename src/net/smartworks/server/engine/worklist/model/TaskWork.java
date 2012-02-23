@@ -14,7 +14,8 @@ public class TaskWork {
 
 	private String tskObjId;    
 	private String tskTitle;    
-	private String tskType;     
+	private String tskType; 
+	private String tskRefType;
 	private String tskStatus;   
 	private String tskAssignee; 
 	private Date taskLastModifyDate;
@@ -76,6 +77,12 @@ public class TaskWork {
 	}
 	public void setTskType(String tskType) {
 		this.tskType = tskType;
+	}
+	public String getTskRefType() {
+		return tskRefType;
+	}
+	public void setTskRefType(String tskRefType) {
+		this.tskRefType = tskRefType;
 	}
 	public String getTskStatus() {
 		return tskStatus;

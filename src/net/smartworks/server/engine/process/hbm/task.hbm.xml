@@ -13,6 +13,7 @@
 		<property name="status" column="tskStatus" type="string" length="50" index="IxTskTask5"/>
 		<property name="correlation" column="tskCorr" type="string" length="50" index="IxTskTask6"/>
 		<property name="type" column="tskType" type="string" length="100" index="IxTskTask7"/>
+		<property name="refType" column="tskRefType" type="string" length="100" index="IxTskTask17"/>
 		<property name="processInstId" column="tskPrcInstId" type="string" length="50" index="IxTskTask8"/>
 		<property name="title" column="tskTitle" type="string" length="200"/>
 		<property name="description" column="tskDesc" type="text"/>
