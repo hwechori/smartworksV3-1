@@ -79,6 +79,8 @@ currentUser = {
 	timeZone : "<%=currentUser.getTimeZone()%>",
 	timeOffset : "<%=currentUser.getTimeOffsetInHour()%>"
 };
+
+
 </script>
 
 <link href="css/default.css" type="text/css" rel="stylesheet" />
@@ -134,7 +136,6 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-flash.js"></script>
 <script type="text/javascript" src="js/sw/sw-common.js"></script>
 
-<script type="text/javascript" src="http://localhost:8000/faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>
 <script type="text/javascript" src="js/sw/sw-report.js"></script>
