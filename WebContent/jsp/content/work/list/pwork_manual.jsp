@@ -55,8 +55,6 @@
 				<!--  태스크 시작 -->
 				<div class="proce_space js_manual_tasks_holder" style="overflow:hidden">
 					<div class="js_manual_tasks">
-						<ul><li class="proc_task not_yet js_manual_task_placeholder" style="display:none"></li></ul>
-						
 						<ul>
 						<%
 						if (tasks != null) {
@@ -69,8 +67,8 @@
 								<!-- 태스크 -->
 								<li class="proc_task not_yet js_manual_task">
 									<a class="js_select_task_manual" href="" taskId="<%=task.getId() %>"> 
-											<%=count%>) <%=task.getName()%>
-												<div class="t_date"><%=task.getAssigningName()%></div>
+										<div><%=count%>) <%=task.getName()%></div>
+										<div class="t_date"><%=task.getAssigningName()%></div>
 									</a>
 								</li>
 								<!-- 태스크 //-->
