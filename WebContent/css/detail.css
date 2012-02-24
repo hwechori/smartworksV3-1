@@ -71,8 +71,8 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 .list_contents table tr .end, .list_contents table td .end {border-bottom: 0 none}
 .list_contents table .tit_bg {background: url("../images/bg_thGradient.gif") 0 100% repeat-x}
 .list_contents table .tit_bg th{border-bottom:1px solid #ccc;border-top:2px solid #7f7f7f}
-.list_contents table th {text-align:center; padding:5px 5px 0;}
-.list_contents table td {padding-left:10px; }
+.list_contents table th {text-align:center}
+.list_contents table th, .list_contents table td {padding:3px 5px}
 .list_contents table .tit_bg2 th {background-color:#F5F5F5; font-weight:normal}
 .list_contents table .tit_bg2 td {background-color:#FFF}
 .r_line {border-right:1px solid #cccccc;}

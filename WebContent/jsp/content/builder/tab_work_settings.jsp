@@ -139,9 +139,9 @@
 							<div class="left40 gray_style">
 								<table class="js_display_field_items">
 									<tr>
-										<th width="10%"><fmt:message key="builder.title.key_field"/></th>
-										<th width="80%"><fmt:message key="builder.title.display_fields"/></th>
-										<th width="10%"><fmt:message key="builder.title.move_item"/></th>
+										<th width="45px"><fmt:message key="builder.title.key_field"/></th>
+										<th width="65%"><fmt:message key="builder.title.display_fields"/></th>
+										<th width="25%"><fmt:message key="builder.title.move_item"/></th>
 									</tr>
 									<tr class="list_action_item" style="display:none">
 										<td class="rdo_key_field" >
@@ -182,9 +182,9 @@
 												<td><input name="hdnDisplayFields" type="hidden" value="<%=formField.getId()%>" fieldName="<%=formField.getName() %>"/><%=formField.getName() %></td>
 												<td class="btn_move_field" >
 													<span class="move_actions">
-														<span <%if(count==0){ %>style="display:none"<%} %> class="js_up_field_item ico_up" title="<fmt:message key="builder.button.move_up_item"/>"><a href=""></a></span>
-														<span <%if(count==displayFields.length-1){ %>style="display:none"<%} %> class="js_down_field_item ico_down" title="<fmt:message key="builder.button.move_down_item"/>" ><a href=""></a></span>
-														<span class="js_hide_field_item ico_hide" title="<fmt:message key="builder.button.hide_item"/>"><a href=""></a></span>
+														<span <%if(count==0){ %>style="display:none"<%} %> class="js_up_field_item" title="<fmt:message key="builder.button.move_up_item"/>"><a href="" class="ico_up"></a></span>
+														<span <%if(count==displayFields.length-1){ %>style="display:none"<%} %> class="js_down_field_item ico_down" title="<fmt:message key="builder.button.move_down_item"/>" ><a href="" class="ico_down"></a></span>
+														<span class="js_hide_field_item ico_hide" title="<fmt:message key="builder.button.hide_item"/>"><a href="" class="ico_hide"></a></span>
 													</span>
 												</td>
 											</tr>
@@ -206,7 +206,7 @@
 									</tr>
 									<tr class="list_action_item" style="display:none"> 
 										<td class="btn_move_field">
-											<span class="move_actions" title="<fmt:message key="builder.button.show_item"/>"><span class="js_show_field_item"> + </span></span>
+											<span class="move_actions" title="<fmt:message key="builder.button.show_item"/>"><span class="js_show_field_item"><a href="" class="ico_show"></a></span></span>
 										</td>
 										<td></td>
 									</tr>
@@ -224,7 +224,7 @@
 									%>
 											<tr class="list_action_item" fieldId="<%=formField.getId()%>">
 												<td class="btn_move_field">
-													<span class="move_actions" title="<fmt:message key="builder.button.show_item"/>"><span class="js_show_field_item"> + </span></span>
+													<span class="move_actions" title="<fmt:message key="builder.button.show_item"/>"><span class="js_show_field_item"><a href="" class="ico_show"></a></span></span>
 												</td>
 												<td><%=formField.getName()%></td>
 											</tr>

@@ -236,14 +236,14 @@ a .btn_apps:hover,
 .btn_apps.current {background: url("../images/nav_img.png") no-repeat -157px -379px;}
 
 /* Icon Builder*/
-.ico_up a {background: url("../images/body_icon.png") no-repeat 0 -548px; width:13px; height:13px}
-.ico_up a:hover {background: url("../images/body_icon.png") no-repeat 0 -571px; width:13px; height:13px}
-.ico_down a {background: url("../images/body_icon.png") no-repeat -13px -548px; width:13px; height:13px}
-.ico_down a:hover {background: url("../images/body_icon.png") no-repeat -28px -571px; width:13px; height:13px}
-.ico_move_add a {background: url("../images/body_icon.png") no-repeat -28px -548px; width:13px; height:13px}
-.ico_move_add a:hover {background: url("../images/body_icon.png") no-repeat -28px -571px; width:13px; height:13px}
-.ico_hide a {background: url("../images/body_icon.png") no-repeat -41px -548px; width:13px; height:13px}
-.ico_hide a:hover {background: url("../images/body_icon.png") no-repeat -41px -571px; width:13px; height:13px}
+.ico_down {background: url("../images/body_icon.png") no-repeat 0 -548px; width:13px; height:13px; display: inline-block}
+a.ico_down:hover {background: url("../images/body_icon.png") no-repeat 0 -571px; width:13px; height:13px; display: inline-block}
+.ico_up {background: url("../images/body_icon.png") no-repeat -14px -548px; width:13px; height:13px; display: inline-block}
+a.ico_up:hover {background: url("../images/body_icon.png") no-repeat -14px -571px; width:13px; height:13px; display: inline-block}
+.ico_hide {background: url("../images/body_icon.png") no-repeat -28px -548px; width:13px; height:13px; display: inline-block}
+a.ico_hide:hover {background: url("../images/body_icon.png") no-repeat -28px -571px; width:13px; height:13px; display: inline-block}
+.ico_show {background: url("../images/body_icon.png") no-repeat -42px -548px; width:13px; height:13px; display: inline-block}
+a.ico_show:hover {background: url("../images/body_icon.png") no-repeat -42px -571px; width:13px; height:13px; display: inline-block}
 
 /* CheckOption Nav */
 li.fvrt_item .checkOption {display:none; position:absolute; margin-top:-21px; margin-left:195px}
@@ -364,6 +364,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .up_board a:hover,
 .up_board .current, 
 .up_board a.current:hover {background: url("../images/header_nico.png") no-repeat -563px -190px; font-weight:bold;}
+
 
 /* Table Format */
 .up {border:1px solid #c7c7c7; padding:3px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
