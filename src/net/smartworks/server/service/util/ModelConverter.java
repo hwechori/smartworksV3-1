@@ -130,12 +130,12 @@ import net.smartworks.util.SmartUtil;
 import org.springframework.util.StringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import commonj.sdo.Sequence;
 
-@Service
+@Component
 public class ModelConverter {
 	
 	private static ISwoManager getSwoManager() {
@@ -172,10 +172,10 @@ public class ModelConverter {
 		return SwManagerFactory.getInstance().getDocManager();
 	}
 
-	static IWorkService workService;
+	private static IWorkService workService;
 
-	@Autowired
-	public static void setWorkService(IWorkService workService) {
+	@Autowired(required=true)
+	public void setWorkService(IWorkService workService) {
 		ModelConverter.workService = workService;
 	}
 
@@ -1861,32 +1861,56 @@ public class ModelConverter {
 		return searchFilter;
 	}
 
-	public static SearchFilter getSearchFilterByFilterId(String filterId) throws Exception {
+	public static SearchFilter getSearchFilterByFilterId(String type, String workId, String filterId) throws Exception {
+		if(CommonUtil.isEmpty(workId) || CommonUtil.isEmpty(filterId))
+			return null;
 		User cUser = SmartUtil.getCurrentUser();
 		String userId = cUser.getId();
 
-		ColObject colObject = new ColObject();
-		colObject.setRef(filterId);
+		PkgPackageCond packageCond = new PkgPackageCond();
+		packageCond.setPackageId(workId);
+		PkgPackage pkgPackage = getPkgManager().getPackage(userId, packageCond, IManager.LEVEL_ALL);
 
-		ColObject[] colObjects = new ColObject[1];
-		colObjects[0] = colObject;
+		String lnkType = null;
+		String lnkCorr = null;
+		if(type.equalsIgnoreCase("PROCESS") || type.equalsIgnoreCase("GANTT")) {
+			lnkType = "processinst.cond." + userId;
+		} else {
+			lnkType = "record.cond." + userId;
+		}
+		lnkCorr = getResourceIdByPkgPackage(pkgPackage);
 
+		ColList colList = null;
+		ColObject[] colObjects = null;
+		List<ColObject> colObjectsList = new ArrayList<ColObject>();
 		ColListCond colListCond = new ColListCond();
-		colListCond.setItems(colObjects);
-		ColList colList = getColManager().getList(userId, colListCond, IManager.LEVEL_ALL);
+		colListCond.setType(lnkType);
+		colListCond.setCorrelation(lnkCorr);
 
-		if (colList == null)
+		colList = getColManager().getList(userId, colListCond, IManager.LEVEL_ALL);
+		if(colList != null) {
+			colObjects = colList.getItems();
+			if(!CommonUtil.isEmpty(colObjects)) {
+				for(int i=0; i<colObjects.length; i++) {
+					ColObject colObject = colObjects[i];
+					if(CommonUtil.toNotNull(colObject.getRef()).equals(filterId)) {
+						colObjectsList.add(colObject);
+					}
+				}
+			}
+		}
+		if(colObjectsList.size() > 0) {
+			colObjects = new ColObject[colObjectsList.size()];
+			colObjectsList.toArray(colObjects);
+		}
+
+		if (CommonUtil.isEmpty(colObjects) || colObjects.length != 1)
 			return null;
 
-		ColObject filterItem = colList.getItems()[0];
-
-		if (filterItem == null)
-			return null;
-
-		String type = "SINGLE";
-		String id = filterItem.getRef();
-		String name = filterItem.getLabel();
-		String conditionStr = filterItem.getExpression();
+		ColObject colObject = colObjects[0];
+		String id = colObject.getRef();
+		String name = colObject.getLabel();
+		String conditionStr = colObject.getExpression();
 
 		Condition[] conditions = null;
 		if (!CommonUtil.isEmpty(conditionStr)) {
@@ -1909,20 +1933,21 @@ public class ModelConverter {
 				Filter filter = filters[i];
 				String leftOperType = filter.getLeftOperandType();
 				String leftOperValue = filter.getLeftOperandValue();
-				String rightOperType = filter.getRightOperandType();
 				String rightOperValue = filter.getRightOperandValue();
 				String operator = filter.getOperator();
 				Object rightOperand = null;
-				if(rightOperType.equals(FormField.TYPE_USER)) {
+				if(leftOperType.equals(FormField.TYPE_USER)) {
 					rightOperand = getUserByUserId(rightOperValue);
-				} else if(rightOperType.equals(FormField.TYPE_OTHER_WORK)) {
+				} else if(leftOperType.equals(FormField.TYPE_OTHER_WORK)) {
 					rightOperand = workService.getWorkById(rightOperValue);
-				} else if(rightOperType.equals(FormField.TYPE_DATETIME)) {
+				} else if(leftOperType.equals(FormField.TYPE_DATETIME)) {
 					rightOperand = LocalDate.convertGMTStringToLocalDate(rightOperValue);
-				} else if(rightOperType.equals(FormField.TYPE_DATE)) {
-					rightOperand = LocalDate.convertGMTSimpleStringToLocalDate(rightOperValue);
-				} else if(rightOperType.equals(FormField.TYPE_TIME)) {
-					rightOperand = LocalDate.convertGMTTimeStringToLocalDate(rightOperValue);
+				} else if(leftOperType.equals(FormField.TYPE_DATE)) {
+					rightOperand = LocalDate.convertGMTSimple2StringToLocalDate(rightOperValue);
+				} else if(leftOperType.equals(FormField.TYPE_TIME)) {
+					rightOperand = LocalDate.convertGMTTimeStringToLocalDate2(rightOperValue);
+				} else {
+					rightOperand = (String)rightOperValue;
 				}
 				Condition cond = new Condition(new FormField(leftOperValue, null, leftOperType), operator, rightOperand);
 				condArray[i] = cond;
@@ -1965,7 +1990,7 @@ public class ModelConverter {
 			} else {
 				return form[0].getId();
 			}
-		} 
+		}
 		return null;
 	}
 	

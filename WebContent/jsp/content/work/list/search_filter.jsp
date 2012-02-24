@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.server.engine.infowork.form.model.SwfFormModel"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="com.sun.xml.internal.txw2.Document"%>
 <%@page import="net.smartworks.model.work.ProcessWork"%>
@@ -41,8 +42,14 @@
 	} else{
 		fields = new FormField[] {};		
 	}
-	if (work != null && !SmartUtil.isBlankObject(filterId))
-		filter = smartWorks.getSearchFilterById(filterId);
+	String workType = "";
+	if (work != null && !SmartUtil.isBlankObject(filterId)) {
+		if(work.getClass().equals(InformationWork.class))
+			workType = SwfFormModel.TYPE_SINGLE;
+		else if(work.getClass().equals(ProcessWork.class))
+			workType = SwfFormModel.TYPE_PROCESS;
+		filter = smartWorks.getSearchFilterById(workType, workId, filterId);
+	}
 	if(!filterId.equals(SearchFilter.FILTER_ALL_INSTANCES) && !filterId.equals(SearchFilter.FILTER_MY_INSTANCES) && !filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES) &&
 			!filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES) && !filterId.equals(SearchFilter.FILTER_MY_RUNNING_INSTANCES))
 		filterName = CommonUtil.toNotNull(filter.getName());

@@ -510,9 +510,9 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public SearchFilter getSearchFilterById(String filterId) throws Exception {
+	public SearchFilter getSearchFilterById(String workType, String workId, String filterId) throws Exception {
 		// TODO Auto-generated method stub
-		return workService.getSearchFilterById(filterId);
+		return workService.getSearchFilterById(workType, workId, filterId);
 	}
 
 	@Override
@@ -544,6 +544,11 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public String setIWorkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		return workService.setIWorkSearchFilter(requestBody, request);
+	}
+
+	@Override
+	public void removeIworkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		workService.removeIworkSearchFilter(requestBody, request);
 	}
 
 	@Override
