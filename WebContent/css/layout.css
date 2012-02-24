@@ -113,7 +113,7 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 /*Left Navigation*/	
 #nav {background-color:#6b6b6b;float:left;width:226px;height:100%; z-index:30;}
 
-li.ctgr_action_item .ctgr_action {display:none; position:absolute; margin-top:-21px; margin-left:180px}
+li.ctgr_action_item .ctgr_action {display:none; position:absolute; margin-top:-21px; margin-left:153px}
 li.ctgr_action_item:hover .ctgr_action {display:block}
 
 li.group_action_item .group_action {display:none; position:absolute; margin-top:-21px; margin-left:180px}
@@ -230,10 +230,16 @@ a .btn_all_works:hover,
 a .btn_cate_add {background: url("../images/nav_img.png") no-repeat -112px -344px transparent; height:25px;  width:26px; display: inline-block; float:right;}
 a .btn_cate_add:hover,
 .btn_cate_add.current {background: url("../images/nav_img.png") no-repeat -112px -379px;}
-
 a .btn_apps {background: url("../images/nav_img.png") no-repeat -157px -344px transparent; height:25px;  width:26px; display: inline-block; float:right;}
 a .btn_apps:hover,
 .btn_apps.current {background: url("../images/nav_img.png") no-repeat -157px -379px;}
+
+.btn_add_work_de {background: url("../images/nav_img.png") no-repeat 0 -393px transparent; height:19px;  width:19px; display: inline-block}
+.btn_add_work_de:hover {background: url("../images/nav_img.png") no-repeat 0 -417px transparent; height:19px;  width:19px; display: inline-block}
+.btn_text_work_ca {background: url("../images/nav_img.png") no-repeat -23px -393px transparent; height:19px;  width:19px; display: inline-block}
+.btn_text_work_ca:hover {background: url("../images/nav_img.png") no-repeat -23px -417px transparent; height:19px;  width:19px; display: inline-block}
+.btn_remove_work_ca {background: url("../images/nav_img.png") no-repeat -46px -393px transparent; height:19px;  width:19px; display: inline-block}
+.btn_remove_work_ca:hover {background: url("../images/nav_img.png") no-repeat -46px -417px transparent; height:19px;  width:19px; display: inline-block}
 
 /* Icon Builder*/
 .ico_down {background: url("../images/body_icon.png") no-repeat 0 -548px; width:13px; height:13px; display: inline-block}
