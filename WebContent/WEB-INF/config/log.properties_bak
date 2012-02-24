@@ -1,5 +1,6 @@
 # Priorities are: DEBUG, INFO, WARN, ERROR, or FATAL.
-log4j.rootCategory=INFO, common
+log4j.rootCategory=INFO
+
 #log4j.logger.org.claros=WARN, common
 #log4j.logger.org.claros.commons.configuration=DEBUG, stdout, configuration
 #log4j.logger.org.claros.commons.db=DEBUG, stdout, db
@@ -24,7 +25,7 @@ log4j.appender.exception.MaxBackupIndex=5
 log4j.appender.exception.layout=org.apache.log4j.HTMLLayout
 
 log4j.appender.common=org.apache.log4j.RollingFileAppender
-#log4j.appender.common.File=%logpath%/application_log.html
+log4j.appender.common.File=%logpath%/application_log.html
 log4j.appender.common.MaxFileSize=5000KB
 log4j.appender.common.MaxBackupIndex=5
 log4j.appender.common.layout=org.apache.log4j.HTMLLayout

@@ -74,7 +74,10 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormModel;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
+import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
+import net.smartworks.server.engine.organization.model.SwoUser;
+import net.smartworks.server.engine.organization.model.SwoUserCond;
 import net.smartworks.server.engine.process.process.exception.PrcException;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
@@ -271,6 +274,8 @@ public class InstanceServiceImpl implements IInstanceService {
 			cond.setPageNo(0);
 			cond.setPageSize(50);
 			TaskWork[] tasks = getWlmManager().getTaskWorkList(userId, cond);
+			if (tasks == null || tasks.length == 0)
+				return null;
 			
 			List<InstanceInfo> InstanceInfoList = new ArrayList<InstanceInfo>();
 			List<String> prcInstIdList = new ArrayList<String>();
@@ -989,7 +994,21 @@ public class InstanceServiceImpl implements IInstanceService {
 				obj.setAccessLevel(accessLevel);
 				obj.setAccessValue(accessValue);
 			}
-
+			
+			//TODO 좋은방법이 멀까?
+			String servletPath = request.getServletPath();
+			if(servletPath.equals("/upload_new_picture.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_IMAGE);
+			} else if (servletPath.equals("/upload_new_file.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_FILE);
+			} else if (servletPath.equals("/create_new_event.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_EVENT);
+			} else if (servletPath.equals("/create_new_memo.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_MEMO);
+			} else if (servletPath.equals("/create_new_board.sw")) {
+				obj.setExtendedAttributeValue("tskRefType", TskTask.TASKREFTYPE_BOARD);
+			}
+			
 			return getSwdManager().setRecord(userId, obj, IManager.LEVEL_ALL);
 
 		}catch (Exception e){
@@ -2022,6 +2041,85 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+
+	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = SmartTest.getWorkInstanceList1(params);
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception {
+		
+		try{
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			return instanceInfoList;
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {
 
 		try{
@@ -2398,13 +2496,24 @@ public class InstanceServiceImpl implements IInstanceService {
 		//이외의 것들(부서, 그룹... 등의 공간) 일경우는 task의 spaceId 가 spaceId 인것을을 조회 한다
 		TaskWorkCond taskWorkCond = new TaskWorkCond();
 		if (contextId.equalsIgnoreCase("us.sp")) {
-			taskWorkCond.setTskAssignee(spaceId);
+			
+			//커런트 유져와 공간아이디가 같다면
+			//assignee가 유져아이디 와 spaceid가 유져아이디인 테스크를 조회한다
+			//커런트 유져와 공간아이디가 같지 않다면
+			//spaceid가 공간아이디인 테스크를 조회한다
+			if (userId.equalsIgnoreCase(spaceId)) {
+				taskWorkCond.setTskAssigneeOrSpaceId(spaceId);
+			} else {
+				taskWorkCond.setTskWorkSpaceId(spaceId);
+			}
 		} else {
 			taskWorkCond.setTskWorkSpaceId(spaceId);
 		}
 		
 		taskWorkCond.setTskExecuteDateFrom(fromDate);
 		taskWorkCond.setTskExecuteDateTo(toDate);
+		
+		taskWorkCond.setOrders(new Order[]{new Order("tskcreatedate", true)});
 		
 //		taskWorkCond.setPageNo(0);
 //		taskWorkCond.setPageSize(maxSize);
@@ -2882,11 +2991,85 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
-
+	
+	private void addSubDepartmentUsers(String user, String parentDeptId, List<String> userList) throws Exception {
+		
+		ISwoManager swoMgr = SwManagerFactory.getInstance().getSwoManager();
+		SwoDepartmentCond deptCond = new SwoDepartmentCond();
+		deptCond.setParentId(parentDeptId);
+		SwoDepartment[] subDeptObjs = swoMgr.getDepartments(user, deptCond, IManager.LEVEL_LITE);
+		if (subDeptObjs == null)
+			return;
+		for (int i = 0; i < subDeptObjs.length; i++) {
+			SwoDepartment subDeptObj = subDeptObjs[i];
+			SwoUserCond userCond = new SwoUserCond();
+			userCond.setDeptId(subDeptObj.getId());
+			SwoUser[] teamUsers = swoMgr.getUsers(user, userCond, IManager.LEVEL_LITE);
+			if (teamUsers != null) {
+				for (int j = 0; j < teamUsers.length; j++) {
+					SwoUser teamUser = teamUsers[i];
+					String teamUserId = teamUser.getId();
+					
+					if (!userList.contains(teamUserId)); {
+						userList.add(teamUserId);
+					}
+				}
+			}
+			//재귀호출
+			addSubDepartmentUsers(user, subDeptObj.getId(), userList);
+		}	
+	}
+	
 	@Override
 	public TaskInstanceInfo[] getCastTaskInstancesByDate(LocalDate fromDate, int maxSize) throws Exception {
 		try{
-			return SmartTest.getTaskInstancesByDate(null, null, null, null, maxSize);
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String departmentId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				departmentId = cuser.getDepartmentId();	
+			}	
+			List<String> relatedUserIdArray = new ArrayList<String>();
+			relatedUserIdArray.add(userId);
+			
+			if (departmentId != null) {
+
+				SwoUserCond userCond = new SwoUserCond();
+				userCond.setDeptId(departmentId);
+				userCond.setRoleId("DEPT MEMBER");//모든 부서원들을 가져온다, 내 아디디는 무조건 포함되기 때문에 내가 부서장이면 나머지 부서원, 부서원이면 나머지 부서원을 가져온다
+				
+				SwoUser[] relatedUserObjs = getSwoManager().getUsers(userId, userCond, IManager.LEVEL_LITE);
+				if (relatedUserObjs != null) {
+					for (int i = 0; i < relatedUserObjs.length; i++) {
+						SwoUser relatedUserObj = relatedUserObjs[i];
+						if (!relatedUserObj.getId().equalsIgnoreCase(userId))
+							relatedUserIdArray.add(relatedUserObj.getId());//자기 부서원들을 array에 포함시킨다
+					}
+				}
+				//자기 하위부서의 사람들도 포함시킨다(재귀함수를 이용)
+				addSubDepartmentUsers(userId, departmentId, relatedUserIdArray);//userDeptId의 자식 부서들의 사용자들을 array에 추가시킨다
+			}
+			StringBuffer userSelectStr = new StringBuffer();
+			boolean isFirst = true;
+			for (int i = 0; i < relatedUserIdArray.size(); i++) {
+				if (isFirst) {
+					userSelectStr.append("'").append(relatedUserIdArray.get(i)).append("'");
+					isFirst = false;
+				} else {
+					userSelectStr.append(",'").append(relatedUserIdArray.get(i)).append("'");
+				}
+			}
+			
+			TaskWorkCond cond = new TaskWorkCond();
+			cond.setTskAssigneeIdIns(userSelectStr.toString());
+			cond.setTskAssignee(userId);
+			cond.setTskModifyDateFrom(fromDate);
+			cond.setOrders(new Order[]{new Order("tskcreatedate", false)});
+			
+			TaskWork[] tasks = getWlmManager().getCastWorkList(userId, cond);	
+			return ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);
+			//return SmartTest.getTaskInstancesByDate(null, null, null, null, maxSize);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();

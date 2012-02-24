@@ -359,6 +359,36 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
+	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
+		return instanceService.getWorkInstanceList(cid, params);
+	}
+
+	@Override
+	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {
+		return instanceService.getPictureInstanceList(cid, params);
+	}
+
+	@Override
+	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception {
+		return instanceService.getFileInstanceList(cid, params);
+	}
+
+	@Override
+	public InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception {
+		return instanceService.getEventInstanceList(cid, params);
+	}
+
+	@Override
+	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception {
+		return instanceService.getMemoInstanceList(cid, params);
+	}
+
+	@Override
+	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception {
+		return instanceService.getBoardInstanceList(cid, params);
+	}
+
+	@Override
 	public WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception {
 		return instanceService.getWorkInstanceById(workType, workId, instanceId);
 	}

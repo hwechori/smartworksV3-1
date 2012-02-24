@@ -35,7 +35,7 @@
 			<li><a href="space_work_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.works"/></span></a></li>
 			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.pictures"/></span></a></li>
 			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.files"/></span></a></li>
-			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.events"/></span></a></li>
+			<li><a href="space_event_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.events"/></span></a></li>
 			<li><a href="" class="js_content"><span class="ico_b1dep"><fmt:message key="space.title.memos"/></span></a></li>
 		</ul>
 		<!--내부메뉴//-->

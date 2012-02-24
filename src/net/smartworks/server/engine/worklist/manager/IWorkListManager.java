@@ -12,6 +12,8 @@ import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 
 public interface IWorkListManager {
+	public long getCastWorkListSize(String user, TaskWorkCond cond) throws Exception;
+	public TaskWork[] getCastWorkList(String user, TaskWorkCond cond) throws Exception;
 	public long getTaskWorkListSize(String user, TaskWorkCond cond) throws Exception;
 	public TaskWork[] getTaskWorkList(String user, TaskWorkCond cond) throws Exception;
 }

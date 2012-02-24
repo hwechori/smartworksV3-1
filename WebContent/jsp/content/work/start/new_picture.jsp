@@ -72,6 +72,7 @@ function submitForms(e) {
 						$frmSmartForm = formContent.children('form');
 						var forms = newPicture.find('form');
 						var paramsJson = {};
+						paramsJson['workId'] = workId;
 						for(var i=0; i<forms.length; i++){
 							var form = $(forms[i]);
 							if(form.attr('name') === 'frmSmartForm'){

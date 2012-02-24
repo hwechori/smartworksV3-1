@@ -71,8 +71,8 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 .list_contents table tr .end, .list_contents table td .end {border-bottom: 0 none}
 .list_contents table .tit_bg {background: url("../images/bg_thGradient.gif") 0 100% repeat-x}
 .list_contents table .tit_bg th{border-bottom:1px solid #ccc;border-top:2px solid #7f7f7f}
-.list_contents table th {text-align:center; padding:5px 5px 0;}
-.list_contents table td {padding-left:10px; }
+.list_contents table th {text-align:center}
+.list_contents table th, .list_contents table td {padding:3px 5px}
 .list_contents table .tit_bg2 th {background-color:#F5F5F5; font-weight:normal}
 .list_contents table .tit_bg2 td {background-color:#FFF}
 .r_line {border-right:1px solid #cccccc;}
@@ -298,13 +298,13 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .btn_s_del {background: url("../images/bt_delete.gif") 0 0; height:21px; width:40px; display:inline-block;}
 
 /* Icon in builder Tab*/
-.btn_wo_adm {background: url("../images/body_icon.png") no-repeat -149px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
+.btn_wo_adm {background: url("../images/body_icon.png") no-repeat -149px -485px transparent; height:14px;  width:16px; display: inline-block; padding-right:5px; vertical-align: middle}
 .current .btn_wo_adm {background-position:-149px -501px}
-.btn_set_adm {background: url("../images/body_icon.png") no-repeat -185px -485px transparent; height:12px;  width:17px; display: inline-block; padding-right:5px}
+.btn_set_adm {background: url("../images/body_icon.png") no-repeat -185px -485px transparent; height:14px;  width:17px; display: inline-block; padding-right:5px; vertical-align: middle}
 .current .btn_set_adm {background-position:-185px -501px}
-.btn_app_shar {background: url("../images/body_icon.png") no-repeat -226px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
-.current .btn_app_shar {background-position:-226px -501px}
-.btn_app_shar_go {background: url("../images/body_icon.png") no-repeat -277px -485px transparent; height:12px;  width:16px; display: inline-block; padding-right:5px}
+.btn_app_shar {background: url("../images/body_icon.png") no-repeat -225px -527px transparent; height:16px;  width:16px; display: inline-block; padding-right:5px; vertical-align: middle}
+.current .btn_app_shar {background-position:-225px -547px}
+.btn_app_shar_go {background: url("../images/body_icon.png") no-repeat -277px -527px transparent; height:16px;  width:16px; display: inline-block; padding-right:5px; vertical-align: middle}
 
 .borderGrayBox form,.borderGrayBox1 form{vertical-align:middle}
 .borderGrayBox .srch_wsize,.borderGrayBox1 .srch_wsize{margin:0}
