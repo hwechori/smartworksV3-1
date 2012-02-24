@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.report.Data;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
 import net.smartworks.util.SmartUtil;
@@ -253,4 +254,17 @@ public class WorkInstanceController extends ExceptionInterceptor {
 
 	}
 
+	@RequestMapping(value = "/get_event_", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getReportData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Data reportData = smartworks.getReportData(request);
+		// TO DO : Exception handler
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("xFieldName", reportData.getxFieldName());
+		map.put("yValueName", reportData.getyValueName());
+		map.put("groupNames", reportData.getGroupNames());
+		map.put("values", reportData.getValues());
+		return map;
+	}
+	
+	
 }
