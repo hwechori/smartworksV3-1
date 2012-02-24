@@ -113,13 +113,13 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 /*Left Navigation*/	
 #nav {background-color:#6b6b6b;float:left;width:226px;height:100%; z-index:30;}
 
-li.ctgr_action_item .ctgr_action {display:none; position:absolute; margin-top:-21px; margin-left:153px}
+li.ctgr_action_item .ctgr_action {display:none; position:absolute; margin-top:-21px; margin-left:165px}
 li.ctgr_action_item:hover .ctgr_action {display:block}
 
-li.group_action_item .group_action {display:none; position:absolute; margin-top:-21px; margin-left:180px}
+li.group_action_item .group_action {display:none; position:absolute; margin-top:-21px; margin-left:165px}
 li.group_action_item:hover .group_action {display:block}
 
-li.work_action_item .work_action {display:none; position:absolute; margin-top:-21px; margin-left:195px}
+li.work_action_item .work_action {display:none; position:absolute; margin-top:-21px; margin-left:185px}
 li.work_action_item:hover .work_action {display:block}
 
 tr.list_action_item .list_action {display:none;}
@@ -234,12 +234,12 @@ a .btn_apps {background: url("../images/nav_img.png") no-repeat -157px -344px tr
 a .btn_apps:hover,
 .btn_apps.current {background: url("../images/nav_img.png") no-repeat -157px -379px;}
 
-.btn_add_work_de {background: url("../images/nav_img.png") no-repeat 0 -393px transparent; height:19px;  width:19px; display: inline-block}
-.btn_add_work_de:hover {background: url("../images/nav_img.png") no-repeat 0 -417px transparent; height:19px;  width:19px; display: inline-block}
-.btn_text_work_ca,.btn_change_work_de" {background: url("../images/nav_img.png") no-repeat -23px -393px transparent; height:19px;  width:19px; display: inline-block}
-.btn_text_work_ca:hover, .btn_change_work_de:hover {background: url("../images/nav_img.png") no-repeat -23px -417px transparent; height:19px;  width:19px; display: inline-block}
-.btn_remove_work_ca, .btn_remove_work_de {background: url("../images/nav_img.png") no-repeat -46px -393px transparent; height:19px;  width:19px; display: inline-block}
-.btn_remove_work_ca:hover, .btn_remove_work_de:hover {background: url("../images/nav_img.png") no-repeat -46px -417px transparent; height:19px;  width:19px; display: inline-block}
+.btn_add_work_de {background: url("../images/nav_img.png") no-repeat 0 -393px transparent; height:15px;  width:12px; display: inline-block}
+.btn_add_work_de:hover {background: url("../images/nav_img.png") no-repeat 0 -417px transparent; height:15px;  width:15px; display: inline-block}
+.btn_text_work_ca, .btn_change_work_de {background: url("../images/nav_img.png") no-repeat -23px -393px transparent; height:15px;  width:17px; display: inline-block}
+.btn_text_work_ca:hover, .btn_change_work_de:hover {background: url("../images/nav_img.png") no-repeat -23px -417px transparent; height:15px;  width:17px; display: inline-block}
+.btn_remove_work_ca, .btn_remove_work_de {background: url("../images/nav_img.png") no-repeat -46px -393px transparent; height:15px;  width:12px; display: inline-block}
+.btn_remove_work_ca:hover, .btn_remove_work_de:hover {background: url("../images/nav_img.png") no-repeat -46px -417px transparent; height:15px;  width:12px; display: inline-block}
 
 /* Icon Builder*/
 .ico_down {background: url("../images/body_icon.png") no-repeat 0 -548px; width:13px; height:13px; display: inline-block}
