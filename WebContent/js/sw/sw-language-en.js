@@ -121,6 +121,8 @@ smartMessage.bundle['en'] = {
 	externalFormListError : "Error has been occured while loading External Form list. Please contact the Administrator!",
 	setFilterSucceed : "Search Filter has been changed successfully...",
 	setFilterError : "Error has been occured while changing Search Filter. Please contact the Administrator!",
+	removeFilterSucceed : "Filter has been deleted successfully...",
+	removeFilterError : "Error has been occured while deleting Filter. Please contact the Administrator!",
 	setWorkSettingsSucceed : "Work Settings has been changed successfully...",
 	setWorkSettingsError : "Error has been occured while changing Work Settings. Please contact the Administrator!",
 	publishWorkSucceed : "Work has been published to Appstore successfully...",

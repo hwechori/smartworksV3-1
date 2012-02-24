@@ -111,9 +111,35 @@ $(function() {
 	});	
 
 	$('a.js_search_filter_delete').live("click", function(e){
-		deleteSearchFilter();
+		smartPop.confirm(smartMessage.get("removeConfirmation"), function(){
+			var iworkList = $('.js_iwork_list_page');
+			var workId = iworkList.attr('workId');
+			var searchFilter = $('.js_search_filter_page');
+			var filterId = searchFilter.attr('filterId');
+
+			var paramsJson = {};
+			paramsJson['workId'] = workId;
+			paramsJson['filterId'] = filterId;
+			console.log(JSON.stringify(paramsJson));
+			$.ajax({
+				url : "remove_iwork_search_filter.sw",
+				contentType : 'application/json',
+				type : 'POST',
+				data : JSON.stringify(paramsJson),
+				success : function(data, status, jqXHR) {
+					smartPop.showInfo(smartPop.INFORM, smartMessage.get('removeFilterSucceed'), function(){
+						document.location.href = "iwork_list.sw?cid=iw.li." + workId;
+					});					
+				},
+				error : function(e) {
+					// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+					smartPop.showInfo(smartPop.ERROR, smartMessage.get("removeFilterError"), function(){
+					});
+				}
+			});
+		});
 		return false;
-	});	
+	});
 
 	$('a.js_search_filter_save').live("click", function(e){
 		saveSearchFilter();

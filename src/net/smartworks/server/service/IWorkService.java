@@ -33,7 +33,7 @@ public interface IWorkService {
 
 	public Report getReportById(String reportId) throws Exception;
 
-	public SearchFilter getSearchFilterById(String filterId) throws Exception;
+	public SearchFilter getSearchFilterById(String workType, String workId, String filterId) throws Exception;
 
 	public List<SwfFormFieldDef> findFormFieldByForm(String formId, boolean deployedCondition) throws SwfException, Exception;
 
@@ -44,6 +44,8 @@ public interface IWorkService {
 	public SwdRecord getRecord(HttpServletRequest request) throws Exception;
 
 	public String setIWorkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public void removeIworkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public void setMyProfile(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 

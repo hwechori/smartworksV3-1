@@ -897,6 +897,7 @@ CREATE TABLE tsktask (
     tskFromRefId varchar(100),
     tskWorkspaceId varchar(100),
     tskWorkspaceType varchar(50),
+    tskRefType varchar(100),
 	primary key(tskobjid)
 );
 

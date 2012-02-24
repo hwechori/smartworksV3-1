@@ -27,6 +27,7 @@ ALTER TABLE apraprdef add dueDate varchar(100);
 -- workspaceid column add
 ALTER TABLE TskTask add tskWorkspaceId varchar(100);
 ALTER TABLE TskTask add tskWorkSpaceType varchar(50);
+ALTER TABLE TskTask add tskRefType varchar(100);
 ALTER TABLE PrcprcInst add prcWorkspaceId varchar(100);
 ALTER TABLE PrcprcInst add prcWorkSpaceType varchar(50);
 

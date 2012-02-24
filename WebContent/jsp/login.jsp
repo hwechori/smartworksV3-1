@@ -46,7 +46,7 @@
 					<input class="float_right btn_login" type="submit" value="<fmt:message key="login.button.login"/>">
 					
 					
-					<div class="lo_checkbox clear"><fmt:message key="login.title.remember_me"/> <input id="_spring_security_remember_me" name="_spring_security_remember_me" type="checkbox" value="true" style="margin-right: 3px;" tabindex="3" /></div>
+					<div class="lo_checkbox clear"><fmt:message key="login.title.remember_me"/> <input name="_spring_security_remember_me" type="checkbox" value="true" style="margin-right: 3px;" tabindex="3" /></div>
 				</form>
 			</div>
 			<!-- Header //-->

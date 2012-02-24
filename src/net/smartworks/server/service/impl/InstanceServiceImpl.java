@@ -37,6 +37,7 @@ import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
+import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -69,6 +70,7 @@ import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
+import net.smartworks.server.engine.infowork.form.model.SwfFormModel;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
@@ -229,9 +231,9 @@ public class InstanceServiceImpl implements IInstanceService {
 					for(SwdDataField swdDataField : swdDataFields) {
 						String value = swdDataField.getValue();
 						if(swdDataField.getId().equals("0")) {
-							boardInstanceInfo.setSubject(value);
+							boardInstanceInfo.setSubject(StringUtil.subString(value, 0, 24, "..."));
 						} else if(swdDataField.getId().equals("1")) {
-							boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 44, "..."));
+							boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 40, "..."));
 						}
 					}
 					boardInstanceInfos[i] = boardInstanceInfo;
@@ -908,13 +910,14 @@ public class InstanceServiceImpl implements IInstanceService {
 									value = LocalDate.convertStringToLocalDate(value).toGMTDateString();
 							}
 						}
-						if(type.equals("datetime"))
+						if(type.equals("datetime")) {
 							if(value.length() == FieldData.SIZE_DATETIME)
 								value = LocalDate.convertLocalDateTimeStringToLocalDate(value).toGMTDateString();
 							else if(value.length() == FieldData.SIZE_DATE)
 								value = LocalDate.convertLocalDateStringToLocalDate(value).toGMTDateString();
-						else if(type.equals("time"))
-							value = LocalDate.convertLocalTimeStringToLocalDate(value).toGMTTimeString();
+						} else if(type.equals("time")) {
+							value = LocalDate.convertLocalTimeStringToLocalDate(value).toGMTTimeString2();
+						}
 					}
 				} else if(fieldValue instanceof Integer) {
 					value = (Integer)frmSmartFormMap.get(fieldId) + "";
@@ -1525,7 +1528,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			SwfFormCond swfFormCond = new SwfFormCond();
 			swfFormCond.setCompanyId(user.getCompanyId());
 			swfFormCond.setPackageId(workId);
-	
+
 			swdDomainCond.setFormId(getSwfManager().getForms(user.getId(), swfFormCond, IManager.LEVEL_LITE)[0].getId());
 
 			SwdDomain swdDomain = getSwdManager().getDomain(user.getId(), swdDomainCond, IManager.LEVEL_LITE);
@@ -1583,20 +1586,32 @@ public class InstanceServiceImpl implements IInstanceService {
 					swdRecordCond.addFilter(new Filter("=", FormField.ID_LAST_MODIFIER, Filter.OPERANDTYPE_STRING, user.getId()));
 					swdRecordCond.addFilter(new Filter(">=", FormField.ID_LAST_MODIFIED_DATE, Filter.OPERANDTYPE_DATE, priviousDate.toGMTSimpleDateString()));
 				} else {
-					searchFilter = ModelConverter.getSearchFilterByFilterId(filterId);
+					searchFilter = ModelConverter.getSearchFilterByFilterId(SwfFormModel.TYPE_SINGLE, workId, filterId);
 					Condition[] conditions = searchFilter.getConditions();
 					Filters filters = new Filters();
 					filterList = new ArrayList<Filter>();
 					for(Condition condition : conditions) {
 						Filter filter = new Filter();
-						FormField leftOpeand = condition.getLeftOperand();
+						FormField leftOperand = condition.getLeftOperand();
+						String lefOperandType = leftOperand.getType();
 						String operator = condition.getOperator();
-						FormField rightOperand = (FormField)condition.getRightOperand();
-						filter.setLeftOperandType(leftOpeand.getType());
-						filter.setLeftOperandValue(leftOpeand.getId());
+						Object rightOperand = condition.getRightOperand();
+						String rightOperandValue = "";
+						if(rightOperand instanceof User) {
+							rightOperandValue = ((User)rightOperand).getId();
+						} else if(rightOperand instanceof Work) {
+							rightOperandValue = ((Work)rightOperand).getId();
+						} else {
+							if(lefOperandType.equals(FormField.TYPE_DATETIME)) rightOperandValue = ((LocalDate)rightOperand).toGMTDateString();
+							else if(lefOperandType.equals(FormField.TYPE_DATE)) rightOperandValue = ((LocalDate)rightOperand).toGMTSimpleDateString2();
+							else if(lefOperandType.equals(FormField.TYPE_TIME)) rightOperandValue = ((LocalDate)rightOperand).toGMTTimeString2();
+							else rightOperandValue = (String)rightOperand;
+						}
+						filter.setLeftOperandType(lefOperandType);
+						filter.setLeftOperandValue(leftOperand.getId());
 						filter.setOperator(operator);
-						filter.setRightOperandType(leftOpeand.getType());
-						filter.setRightOperandValue(rightOperand.getId());
+						filter.setRightOperandType(lefOperandType);
+						filter.setRightOperandValue(rightOperandValue);
 						filterList.add(filter);
 					}
 					Filter[] searchfilters = null;
@@ -1778,6 +1793,8 @@ public class InstanceServiceImpl implements IInstanceService {
 											fileNameList.add(fileNameMap);
 										}
 										fieldData.setFileNames(fileNameList);
+									} else if(formatType.equals(FormField.TYPE_TEXT)) {
+										value = StringUtil.subString(value, 0, 24, "...");
 									}
 									fieldData.setValue(value);
 									fieldDataList.add(fieldData);
@@ -1800,7 +1817,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			instanceInfoList.setCurrentPage(currentPage);
 
 			return instanceInfoList;
-		}catch (Exception e){
+		} catch(Exception e){
 			e.printStackTrace();
 			return null;
 		}
