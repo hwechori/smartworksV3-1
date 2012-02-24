@@ -170,21 +170,21 @@
 									%>
 											<tr class="list_action_item">
 												<td class="rdo_key_field" >
-												<input type="radio" name="rdoKeyField" value="<%=formField.getId() %>" <%if(keyId.equals(formField.getId())){%>checked<%} %> />
+												<%-- <input type="radio" name="rdoKeyField" value="<%=formField.getId() %>" <%if(keyId.equals(formField.getId())){%>checked<%} %> /> --%>
 													
 													<!-- key Option -->
-													<!-- <div class="keyOption">
+													<div class="keyOption" >
 														<a href=""><div class="ico_key" workid="" title=""></div></a>
-													</div> -->
+													</div>
 										
 												</td>
 												
 												<td><input name="hdnDisplayFields" type="hidden" value="<%=formField.getId()%>" fieldName="<%=formField.getName() %>"/><%=formField.getName() %></td>
 												<td class="btn_move_field" >
 													<span class="move_actions">
-														<span <%if(count==0){ %>style="display:none"<%} %> class="js_up_field_item" title="<fmt:message key="builder.button.move_up_item"/>"> ^ </span>
-														<span <%if(count==displayFields.length-1){ %>style="display:none"<%} %> class="js_down_field_item" title="<fmt:message key="builder.button.move_down_item"/>"> v </span>
-														<span class="js_hide_field_item" title="<fmt:message key="builder.button.hide_item"/>"> - </span>
+														<span <%if(count==0){ %>style="display:none"<%} %> class="js_up_field_item ico_up" title="<fmt:message key="builder.button.move_up_item"/>"><a href=""></a></span>
+														<span <%if(count==displayFields.length-1){ %>style="display:none"<%} %> class="js_down_field_item ico_down" title="<fmt:message key="builder.button.move_down_item"/>" ><a href=""></a></span>
+														<span class="js_hide_field_item ico_hide" title="<fmt:message key="builder.button.hide_item"/>"><a href=""></a></span>
 													</span>
 												</td>
 											</tr>

@@ -63,8 +63,6 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .num_ic span { background: url("../images/header_nico.png") no-repeat scroll -357px -102px transparent !important;
 				display:inline-block; font-size:0; height:12px; line-height:0; overflow:hidden; position:absolute; right:0;  top:0; width:5px;}
 
-
-
 /*Top Menu*/
 .top_menu {z-index:40; position:absolute; width:238px; height:34px; top:0px; left:388px; background:url(../images/top_menu.png) no-repeat left top;}
 .top_menu ul {height:34px;}
@@ -114,8 +112,6 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 	
 /*Left Navigation*/	
 #nav {background-color:#6b6b6b;float:left;width:226px;height:100%; z-index:30;}
-li.fvrt_item .checkOption {display:none; position:absolute; margin-top:-21px; margin-left:195px}
-li.fvrt_item:hover .checkOption {display:block}
 
 li.ctgr_action_item .ctgr_action {display:none; position:absolute; margin-top:-21px; margin-left:180px}
 li.ctgr_action_item:hover .ctgr_action {display:block}
@@ -136,12 +132,6 @@ tr.list_action_item:hover td.rdo_key_field input{display:block;}
 tr.list_action_item td.btn_move_field .move_actions{display:none;} 
 tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:pointer;} 
 
-/* Setting keyOption */
-.keyOption {display:none;}
-.keyOption a:hover {display:block}
-.ico_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
-.ico_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
-
 /*global Menu */
 .global_menu {position:absolute; right:10px; top:11px;  font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5;}
 .global_menu div { float:left; margin-left:8px;}
@@ -156,7 +146,7 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .personal_info .setting {background: url("../images/nav_setting.png"); display:inline; width:66px; height:66px; position:relative;}
 .personal_info .builder {background: url("../images/nav_builder.png"); display:inline; width:72px; height:75px; position:relative;}
 
-/* nav_list*/
+/* Nav List*/
 .nav_list {width:226px; border-bottom:1px solid #7a7a7a}
 .nav_current {color:#fcab4c; text-decoration:underline;}
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:38px; padding:7px 10px 10px;}
@@ -181,13 +171,11 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .ico_depart {background: url("../images/ico_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
 .ico_group {background: url("../images/ico_group.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
 .ico_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
-.ico_fvrt {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
-.ico_fvrt.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
 .ico_b1dep {background: url("../images/nav_img.png") no-repeat 0 -348px transparent; display: inline-block; padding:0 0 0 13px}
 .ico_b2dep {background: url("../images/nav_img.png") no-repeat 0 -364px transparent; display: inline-block; padding:0 0 0 12px}
 
 
-/* nav_mail btn*/
+/* Nav Mail Btn*/
 .ico_mail_inbox {background: url("../images/nav_img.png") no-repeat 0 0 transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
 .ico_mail_sent {background: url("../images/nav_img.png") no-repeat 0 -24px transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
 .ico_mail_drafts {background: url("../images/nav_img.png") no-repeat 0 -46px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
@@ -207,7 +195,7 @@ a .btn_folder_add:hover,
 .btn_folder_add.current {background: url("../images/nav_img.png") no-repeat -25px -150px;}
 
 
-/* nav_community btn */ 
+/* Nav Community Btn */ 
 .btn_my_depart {background: url("../images/nav_img.png") no-repeat -115px -188px transparent; height:20px; width:43px; display: inline-block; float:right;}
 a .btn_my_depart:hover,
 .btn_my_depart.current {background: url("../images/nav_img.png") no-repeat -115px -217px;}
@@ -220,9 +208,7 @@ a .btn_my_group:hover,
  margin: 2px 5px 0 0;} 
  a .btn_my_group_add:hover {background: url("../images/nav_img.png") no-repeat -237px -219px ;} 
  
-
-
-/* nav_works btn */
+/* Nav Works Btn */
 .btn_recent {background: url("../images/nav_img.png") no-repeat -115px -246px transparent; height:20px; width:43px; display: inline-block; float:right;}
 a .btn_recent:hover,
 .btn_recent.current {background: url("../images/nav_img.png") no-repeat -115px -274px;}
@@ -235,12 +221,12 @@ a .btn_favorite:hover,
 a .btn_all_works:hover,
 .btn_all_works.current {background: url("../images/nav_img.png") no-repeat -201px -274px;}
 
-/* nav_admin btn */
+/* Navi Setting Btn */
 .btn_setting {background: url("../images/body_icon.png") no-repeat -547px 0 transparent; height:26px; width:26px; display: inline-block}
 .btn_appstore {background: url("../images/body_icon.png") no-repeat -574px 0 transparent; height:26px; width:26px; display: inline-block}
 .btn_builder {background: url("../images/body_icon.png") no-repeat -601px 0 transparent; height:26px; width:26px; display: inline-block}
 
-/* nav_builder btn*/
+/* Navi Builder Btn*/
 a .btn_cate_add {background: url("../images/nav_img.png") no-repeat -112px -344px transparent; height:25px;  width:26px; display: inline-block; float:right;}
 a .btn_cate_add:hover,
 .btn_cate_add.current {background: url("../images/nav_img.png") no-repeat -112px -379px;}
@@ -248,6 +234,28 @@ a .btn_cate_add:hover,
 a .btn_apps {background: url("../images/nav_img.png") no-repeat -157px -344px transparent; height:25px;  width:26px; display: inline-block; float:right;}
 a .btn_apps:hover,
 .btn_apps.current {background: url("../images/nav_img.png") no-repeat -157px -379px;}
+
+/* Icon Builder*/
+.ico_up a {background: url("../images/body_icon.png") no-repeat 0 -548px; width:13px; height:13px}
+.ico_up a:hover {background: url("../images/body_icon.png") no-repeat 0 -571px; width:13px; height:13px}
+.ico_down a {background: url("../images/body_icon.png") no-repeat -13px -548px; width:13px; height:13px}
+.ico_down a:hover {background: url("../images/body_icon.png") no-repeat -28px -571px; width:13px; height:13px}
+.ico_move_add a {background: url("../images/body_icon.png") no-repeat -28px -548px; width:13px; height:13px}
+.ico_move_add a:hover {background: url("../images/body_icon.png") no-repeat -28px -571px; width:13px; height:13px}
+.ico_hide a {background: url("../images/body_icon.png") no-repeat -41px -548px; width:13px; height:13px}
+.ico_hide a:hover {background: url("../images/body_icon.png") no-repeat -41px -571px; width:13px; height:13px}
+
+/* CheckOption Nav */
+li.fvrt_item .checkOption {display:none; position:absolute; margin-top:-21px; margin-left:195px}
+li.fvrt_item:hover .checkOption {display:block}
+.ico_fvrt {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
+.ico_fvrt.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
+
+/* KeyOption Setting */
+.list_action_item .keyOption {display:none;}
+.list_action_item:hover .keyOption {display:block}
+.ico_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
+.ico_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
 
 .arr_off {background: url("../images/arr_off.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
@@ -357,6 +365,7 @@ a .btn_apps:hover,
 .up_board .current, 
 .up_board a.current:hover {background: url("../images/header_nico.png") no-repeat -563px -190px; font-weight:bold;}
 
+/* Table Format */
 .up {border:1px solid #c7c7c7; padding:3px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
 .up_padding {padding:0; position:relative;}
