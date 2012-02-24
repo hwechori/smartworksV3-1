@@ -63,8 +63,8 @@
 						else if(work.getType() == SmartWork.TYPE_SCHEDULE) workTypeName = SmartMessage.getString("common.title.schedule_work");
 					%>
 						<span class="work_action">
-							<span title="<fmt:message key='builder.button.remove_work'/>" class="js_remove_work_definition btn_im_x" workId="<%=work.getId() %>" workName="<%=smartWork.getFullpathName()%>"></span>
-							<span title="<fmt:message key='builder.button.change_work'/>" class="js_change_work_definition btn_im_x" workId="<%=work.getId() %>" workName="<%=work.getName()%>" workTypeName="<%=workTypeName %>" workDesc="<%=work.getDesc()%>" categoryId="<%=categoryId%>" groupId="<%=groupId%>"></span>
+							<span title="<fmt:message key='builder.button.remove_work'/>" class="js_remove_work_definition btn_remove_work_de" workId="<%=work.getId() %>" workName="<%=smartWork.getFullpathName()%>"></span>
+							<span title="<fmt:message key='builder.button.change_work'/>" class="js_change_work_definition btn_change_work_de" workId="<%=work.getId() %>" workName="<%=work.getName()%>" workTypeName="<%=workTypeName %>" workDesc="<%=work.getDesc()%>" categoryId="<%=categoryId%>" groupId="<%=groupId%>"></span>
 						</span>
 					<%
 					}
@@ -86,9 +86,9 @@
 					if(work.getProvidedBy()!=Work.PROVIDED_BY_SYSTEM){
 					%>
 						<span class="group_action">
-							<span title="<fmt:message key='builder.button.remove_group'/>" class="js_remove_work_category btn_im_x" categoryId="<%=work.getId() %>" categoryName="<%=work.getName()%>"></span>
-							<span title="<fmt:message key='builder.button.text_group'/>" class="js_text_work_category btn_im_x" categoryId="<%=work.getId() %>" categoryName="<%=work.getName()%>" categoryDesc="<%=work.getDesc()%>"></span>
-							<span title="<fmt:message key='builder.button.add_work'/>" class="js_add_work_definition btn_im_x" parentId="<%=work.getId() %>" parentName="<%=((WorkCategoryInfo)work).getFullPathName()%>"></span>
+							<span title="<fmt:message key='builder.button.remove_group'/>" class="js_remove_work_category btn_remove_work_ca" categoryId="<%=work.getId() %>" categoryName="<%=work.getName()%>"></span>
+							<span title="<fmt:message key='builder.button.text_group'/>" class="js_text_work_category btn_text_work_ca" categoryId="<%=work.getId() %>" categoryName="<%=work.getName()%>" categoryDesc="<%=work.getDesc()%>"></span>
+							<span title="<fmt:message key='builder.button.add_work'/>" class="js_add_work_definition btn_add_work_de" parentId="<%=work.getId() %>" parentName="<%=((WorkCategoryInfo)work).getFullPathName()%>"></span>
 						</span>
 					<%
 					}

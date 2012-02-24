@@ -236,10 +236,10 @@ a .btn_apps:hover,
 
 .btn_add_work_de {background: url("../images/nav_img.png") no-repeat 0 -393px transparent; height:19px;  width:19px; display: inline-block}
 .btn_add_work_de:hover {background: url("../images/nav_img.png") no-repeat 0 -417px transparent; height:19px;  width:19px; display: inline-block}
-.btn_text_work_ca {background: url("../images/nav_img.png") no-repeat -23px -393px transparent; height:19px;  width:19px; display: inline-block}
-.btn_text_work_ca:hover {background: url("../images/nav_img.png") no-repeat -23px -417px transparent; height:19px;  width:19px; display: inline-block}
-.btn_remove_work_ca {background: url("../images/nav_img.png") no-repeat -46px -393px transparent; height:19px;  width:19px; display: inline-block}
-.btn_remove_work_ca:hover {background: url("../images/nav_img.png") no-repeat -46px -417px transparent; height:19px;  width:19px; display: inline-block}
+.btn_text_work_ca,.btn_change_work_de" {background: url("../images/nav_img.png") no-repeat -23px -393px transparent; height:19px;  width:19px; display: inline-block}
+.btn_text_work_ca:hover, .btn_change_work_de:hover {background: url("../images/nav_img.png") no-repeat -23px -417px transparent; height:19px;  width:19px; display: inline-block}
+.btn_remove_work_ca, .btn_remove_work_de {background: url("../images/nav_img.png") no-repeat -46px -393px transparent; height:19px;  width:19px; display: inline-block}
+.btn_remove_work_ca:hover, .btn_remove_work_de:hover {background: url("../images/nav_img.png") no-repeat -46px -417px transparent; height:19px;  width:19px; display: inline-block}
 
 /* Icon Builder*/
 .ico_down {background: url("../images/body_icon.png") no-repeat 0 -548px; width:13px; height:13px; display: inline-block}
