@@ -25,10 +25,13 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	String cid = (String)session.getAttribute("cid");
+	
+	
 	String wid = (String)session.getAttribute("wid");
 	if(SmartUtil.isBlankObject(wid)) wid = cUser.getId();
 
-	// cid를 가지고 현재 공간의 타입을 가져온다.
+	// cid를 가지고 현재 공간과 공간의 타입을 가져온다.
+	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
 	int spaceType = SmartUtil.getSpaceTypeFromContentContext(cid);
 	
 	// 호출하면서 설정된 Work ID와 Instance ID 를 가져온다..
@@ -81,7 +84,7 @@
 				|| (spaceType == ISmartWorks.SPACE_TYPE_GROUP)
 				|| (spaceType == ISmartWorks.SPACE_TYPE_USER)){
 			%>
-				<input name="selWorkSpace" type="hidden" value="<%=wid%>">
+				<input name="selWorkSpace" type="hidden" value="<%=spaceId%>">
 				<input name="selWorkSpaceType" type="hidden" value="<%=spaceType %>">
 			<%
 			}else if(spaceType == ISmartWorks.SPACE_TYPE_WORK_INSTANCE){

@@ -18,7 +18,7 @@
 	User currentUser = SmartUtil.getCurrentUser();
 
 	// 메일서버에서 현재사용자의 폴더정보들을 가져온다...
-	MailFolder[] folders = smartWorks.getMailFoldersById("");;
+	MailFolder[] folders = null;//smartWorks.getMailFoldersById("");;
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />

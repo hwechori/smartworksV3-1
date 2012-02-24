@@ -72,7 +72,10 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
+import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
+import net.smartworks.server.engine.organization.model.SwoUser;
+import net.smartworks.server.engine.organization.model.SwoUserCond;
 import net.smartworks.server.engine.process.process.exception.PrcException;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
@@ -269,6 +272,8 @@ public class InstanceServiceImpl implements IInstanceService {
 			cond.setPageNo(0);
 			cond.setPageSize(50);
 			TaskWork[] tasks = getWlmManager().getTaskWorkList(userId, cond);
+			if (tasks == null || tasks.length == 0)
+				return null;
 			
 			List<InstanceInfo> InstanceInfoList = new ArrayList<InstanceInfo>();
 			List<String> prcInstIdList = new ArrayList<String>();
@@ -2474,7 +2479,16 @@ public class InstanceServiceImpl implements IInstanceService {
 		//이외의 것들(부서, 그룹... 등의 공간) 일경우는 task의 spaceId 가 spaceId 인것을을 조회 한다
 		TaskWorkCond taskWorkCond = new TaskWorkCond();
 		if (contextId.equalsIgnoreCase("us.sp")) {
-			taskWorkCond.setTskAssignee(spaceId);
+			
+			//커런트 유져와 공간아이디가 같다면
+			//assignee가 유져아이디 와 spaceid가 유져아이디인 테스크를 조회한다
+			//커런트 유져와 공간아이디가 같지 않다면
+			//spaceid가 공간아이디인 테스크를 조회한다
+			if (userId.equalsIgnoreCase(spaceId)) {
+				taskWorkCond.setTskAssigneeOrSpaceId(spaceId);
+			} else {
+				taskWorkCond.setTskWorkSpaceId(spaceId);
+			}
 		} else {
 			taskWorkCond.setTskWorkSpaceId(spaceId);
 		}
@@ -2960,11 +2974,85 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
-
+	
+	private void addSubDepartmentUsers(String user, String parentDeptId, List<String> userList) throws Exception {
+		
+		ISwoManager swoMgr = SwManagerFactory.getInstance().getSwoManager();
+		SwoDepartmentCond deptCond = new SwoDepartmentCond();
+		deptCond.setParentId(parentDeptId);
+		SwoDepartment[] subDeptObjs = swoMgr.getDepartments(user, deptCond, IManager.LEVEL_LITE);
+		if (subDeptObjs == null)
+			return;
+		for (int i = 0; i < subDeptObjs.length; i++) {
+			SwoDepartment subDeptObj = subDeptObjs[i];
+			SwoUserCond userCond = new SwoUserCond();
+			userCond.setDeptId(subDeptObj.getId());
+			SwoUser[] teamUsers = swoMgr.getUsers(user, userCond, IManager.LEVEL_LITE);
+			if (teamUsers != null) {
+				for (int j = 0; j < teamUsers.length; j++) {
+					SwoUser teamUser = teamUsers[i];
+					String teamUserId = teamUser.getId();
+					
+					if (!userList.contains(teamUserId)); {
+						userList.add(teamUserId);
+					}
+				}
+			}
+			//재귀호출
+			addSubDepartmentUsers(user, subDeptObj.getId(), userList);
+		}	
+	}
+	
 	@Override
 	public TaskInstanceInfo[] getCastTaskInstancesByDate(LocalDate fromDate, int maxSize) throws Exception {
 		try{
-			return SmartTest.getTaskInstancesByDate(null, null, null, null, maxSize);
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			String departmentId = null;
+			if (cuser != null) {
+				userId = cuser.getId();
+				departmentId = cuser.getDepartmentId();	
+			}	
+			List<String> relatedUserIdArray = new ArrayList<String>();
+			relatedUserIdArray.add(userId);
+			
+			if (departmentId != null) {
+
+				SwoUserCond userCond = new SwoUserCond();
+				userCond.setDeptId(departmentId);
+				userCond.setRoleId("DEPT MEMBER");//모든 부서원들을 가져온다, 내 아디디는 무조건 포함되기 때문에 내가 부서장이면 나머지 부서원, 부서원이면 나머지 부서원을 가져온다
+				
+				SwoUser[] relatedUserObjs = getSwoManager().getUsers(userId, userCond, IManager.LEVEL_LITE);
+				if (relatedUserObjs != null) {
+					for (int i = 0; i < relatedUserObjs.length; i++) {
+						SwoUser relatedUserObj = relatedUserObjs[i];
+						if (!relatedUserObj.getId().equalsIgnoreCase(userId))
+							relatedUserIdArray.add(relatedUserObj.getId());//자기 부서원들을 array에 포함시킨다
+					}
+				}
+				//자기 하위부서의 사람들도 포함시킨다(재귀함수를 이용)
+				addSubDepartmentUsers(userId, departmentId, relatedUserIdArray);//userDeptId의 자식 부서들의 사용자들을 array에 추가시킨다
+			}
+			StringBuffer userSelectStr = new StringBuffer();
+			boolean isFirst = true;
+			for (int i = 0; i < relatedUserIdArray.size(); i++) {
+				if (isFirst) {
+					userSelectStr.append("'").append(relatedUserIdArray.get(i)).append("'");
+					isFirst = false;
+				} else {
+					userSelectStr.append(",'").append(relatedUserIdArray.get(i)).append("'");
+				}
+			}
+			
+			TaskWorkCond cond = new TaskWorkCond();
+			cond.setTskAssigneeIdIns(userSelectStr.toString());
+			cond.setTskAssignee(userId);
+			cond.setTskModifyDateFrom(fromDate);
+			cond.setOrders(new Order[]{new Order("tskcreatedate", false)});
+			
+			TaskWork[] tasks = getWlmManager().getCastWorkList(userId, cond);	
+			return ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);
+			//return SmartTest.getTaskInstancesByDate(null, null, null, null, maxSize);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();

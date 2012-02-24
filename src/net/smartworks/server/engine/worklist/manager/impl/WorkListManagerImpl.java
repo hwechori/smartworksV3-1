@@ -23,17 +23,239 @@ import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
 import net.smartworks.server.engine.worklist.manager.IWorkListManager;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
-import net.smartworks.util.LocalDate;
 
 import org.hibernate.Query;
-import org.hibernate.engine.jdbc.ClobProxy;
 
 public class WorkListManagerImpl extends AbstractManager implements IWorkListManager {
 	
-	
+	private Query appendCastQuery(StringBuffer queryBuffer , TaskWorkCond cond) throws Exception {
+		
+		String userIdIns = cond.getTskAssigneeIdIns();
+		String userId = cond.getTskAssignee();
+		Date fromDate = cond.getTskModifyDateFrom();
+		int pageNo = cond.getPageNo();
+		int pageSize = cond.getPageSize();
+		
+		queryBuffer.append(" from ");
+		queryBuffer.append(" (  ");
+		queryBuffer.append(" 	select task.tskobjId  ");
+		queryBuffer.append(" 		, task.tsktitle  ");
+		queryBuffer.append(" 		, task.tskDoc  ");
+		queryBuffer.append(" 		, task.tsktype  ");
+		queryBuffer.append(" 		, task.tskReftype  ");
+		queryBuffer.append(" 		, task.tskstatus  ");
+		queryBuffer.append(" 		, task.tskassignee  ");
+		queryBuffer.append(" 		, case when task.tskstatus='11' then task.tskassigndate else task.tskexecuteDate end as taskLastModifyDate  ");
+		queryBuffer.append(" 		, task.tskcreatedate  ");
+		queryBuffer.append(" 		, task.tskname  ");
+		queryBuffer.append(" 		, task.tskprcinstid  ");
+		queryBuffer.append(" 		, task.tskform  ");
+		queryBuffer.append(" 		, task.isStartActivity  ");
+		queryBuffer.append(" 		, task.tskWorkSpaceId  ");
+		queryBuffer.append(" 		, task.tskDef  ");
+		queryBuffer.append(" 		, form.packageId  ");
+		queryBuffer.append(" 		, pkg.name as packageName  ");
+		queryBuffer.append(" 		, ctg.id as childCtgId  ");
+		queryBuffer.append(" 		, ctg.name as childCtgName  ");
+		queryBuffer.append(" 		, case when ctg.parentId = '_PKG_ROOT_' then null else ctg2.id end as parentCtgId  ");
+		queryBuffer.append(" 		, case when ctg.parentId = '_PKG_ROOT_' then null else ctg2.name end as parentCtgName  ");
+		queryBuffer.append(" 	from  ");
+		queryBuffer.append(" 		( ");
+		queryBuffer.append(" 			select *  ");
+		queryBuffer.append(" 			from ( ");
+		queryBuffer.append(" 				select * from tsktask where tskassignee in (").append(userIdIns).append(") ");
+		queryBuffer.append(" 				and tsktype not in ('SUBFLOW','xor','route','and') ");
+		queryBuffer.append(" 				union all ");
+		queryBuffer.append(" 				select * from tsktask where tskprcinstid in ( ");
+		queryBuffer.append(" 					select prcobjid from prcprcinst where prccreateuser='").append(userId).append("' ");
+		queryBuffer.append(" 				) ");
+		queryBuffer.append(" 				and tskobjid not in ( ");
+		queryBuffer.append(" 					select tskobjid from tsktask where tskassignee in (").append(userIdIns).append(") ");
+		queryBuffer.append(" 					 ");
+		queryBuffer.append(" 				) ");
+		queryBuffer.append(" 				and tsktype not in ('SUBFLOW','xor','route','and') ");
+		queryBuffer.append(" 				and tskassignee != '' ");
+		queryBuffer.append(" 			) tsktask ");
+		if (fromDate != null)
+			queryBuffer.append(" 			where tsktask.tskModifyDate > :fromDate ");
+		queryBuffer.append(" 		) task,  ");
+		queryBuffer.append(" 		swform form  ");
+		queryBuffer.append(" 		left outer join  ");
+		queryBuffer.append(" 		swpackage pkg  ");
+		queryBuffer.append(" 		on form.packageId = pkg.packageId  ");
+		queryBuffer.append(" 		left outer join  ");
+		queryBuffer.append(" 		swcategory ctg  ");
+		queryBuffer.append(" 		on ctg.id = pkg.categoryId  ");
+		queryBuffer.append(" 		left outer join  ");
+		queryBuffer.append(" 		swcategory ctg2  ");
+		queryBuffer.append(" 		on ctg.parentId = ctg2.id  ");
+		queryBuffer.append(" 	where task.tskform = form.formid  ");
+		queryBuffer.append(" ) taskInfo  ");
+		queryBuffer.append(" join  ");
+		queryBuffer.append(" (  ");
+		queryBuffer.append(" 	select  ");
+		queryBuffer.append(" 		 prcInst.prcObjId  ");
+		queryBuffer.append(" 		, prcInst.prcTitle  ");
+		queryBuffer.append(" 		, prcInst.prcType  ");
+		queryBuffer.append(" 		, prcInst.prcStatus  ");
+		queryBuffer.append(" 		, prcInst.prcCreateUser  ");
+		queryBuffer.append(" 		, prcInst.prcDid  ");
+		queryBuffer.append(" 		, prcInst.prcPrcId  ");
+		queryBuffer.append(" 		, prcInst.prcCreateDate  ");
+		queryBuffer.append(" 		, prcInst.prcWorkSpaceId   ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskobjid  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskname  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskcreateuser  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskcreateDate  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskstatus  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tsktype  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tsktitle  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskassignee  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskexecuteDate  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskduedate  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskform  ");
+		queryBuffer.append(" 		, prcInstInfo.lastTask_tskWorkSpaceId   ");
+		queryBuffer.append(" 		, (select count(*) from tsktask where tskstatus='11' and tsktype='common' and tskprcInstId = prcInst.prcObjid) as lastTaskCount  ");
+		queryBuffer.append(" 	from   ");
+		queryBuffer.append(" 		prcprcinst prcInst,   ");
+		queryBuffer.append(" 		(  ");
+		queryBuffer.append(" 			select a.tskprcinstid as lastTask_tskprcinstid  ");
+		queryBuffer.append(" 					, task.tskobjid as lastTask_tskobjid  ");
+		queryBuffer.append(" 					, task.tskname as lastTask_tskname  ");
+		queryBuffer.append(" 					, task.tskcreateuser as lastTask_tskcreateuser  ");
+		queryBuffer.append(" 					, task.tskcreateDate as lastTask_tskcreateDate  ");
+		queryBuffer.append(" 					, task.tskstatus as lastTask_tskstatus  ");
+		queryBuffer.append(" 					, task.tsktype as lastTask_tsktype  ");
+		queryBuffer.append(" 					, task.tsktitle as lastTask_tsktitle  ");
+		queryBuffer.append(" 					, task.tskassignee as lastTask_tskassignee  ");
+		queryBuffer.append(" 					, task.tskexecuteDate as lastTask_tskexecuteDate  ");
+		queryBuffer.append(" 					, task.tskduedate as lastTask_tskduedate  ");
+		queryBuffer.append(" 					, task.tskform as lastTask_tskform  ");
+		queryBuffer.append(" 					, task.tskWorkSpaceId as lastTask_tskWorkSpaceId   ");
+		queryBuffer.append(" 			from (  ");
+		queryBuffer.append(" 					select tskprcinstId , max(tskCreatedate) as createDate   ");
+		queryBuffer.append(" 					from tsktask   ");
+		queryBuffer.append(" 					where tsktype not in ('and','route','SUBFLOW','xor')  ");
+		queryBuffer.append(" 					group by tskprcinstid  ");
+		queryBuffer.append(" 				  ) a,	  ");
+		queryBuffer.append(" 				  TskTask task		  ");
+		queryBuffer.append(" 			where   ");
+		queryBuffer.append(" 				a.createDate = task.tskcreatedate  ");
+		queryBuffer.append(" 		) prcInstInfo	  ");
+		queryBuffer.append(" 	where  ");
+		queryBuffer.append(" 		prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid  ");
+		queryBuffer.append(" ) prcInstInfo  ");
+		queryBuffer.append(" on taskInfo.tskPrcInstId = prcInstInfo.prcObjId  ");
+		
+		this.appendOrderQuery(queryBuffer, "taskInfo", cond);
+
+		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
+
+		if (fromDate != null)
+			query.setTimestamp("fromDate", fromDate);
+		
+		if (pageSize > 0|| pageNo >= 0) {
+			query.setFirstResult(pageNo * pageSize);
+			query.setMaxResults(pageSize);
+		}
+		return query;
+	}
+	public long getCastWorkListSize(String user, TaskWorkCond cond) throws Exception {
+		try {
+			StringBuffer buf = new StringBuffer();
+			buf.append("select");
+			buf.append(" count(*) ");
+			Query query = this.appendQuery(buf, cond);
+			List list = query.list();
+			
+			long count =((Integer)list.get(0)).longValue();
+			return count;
+		} catch (PrcException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new PrcException(e);
+		}
+	}
+	public TaskWork[] getCastWorkList(String user, TaskWorkCond cond) throws Exception {
+		try {
+
+			StringBuffer queryBuffer = new StringBuffer();
+			queryBuffer.append(" select taskInfo.*, ");
+			queryBuffer.append(" prcInstInfo.* ");
+			
+			Query query = this.appendCastQuery(queryBuffer, cond);
+		
+			List list = query.list();
+			if (list == null || list.isEmpty())
+				return null;
+			List objList = new ArrayList();
+			for (Iterator itr = list.iterator(); itr.hasNext();) {
+				Object[] fields = (Object[]) itr.next();
+				TaskWork obj = new TaskWork();
+				int j = 0;
+		
+				obj.setTskObjId((String)fields[j++]);    
+				obj.setTskTitle((String)fields[j++]); 
+				Clob varData = (Clob)fields[j++];
+				long length=varData.length();
+				String tempCountStr=varData.getSubString(1, (int)length);
+				obj.setTskDoc(tempCountStr);
+				obj.setTskType((String)fields[j++]);     
+				obj.setTskRefType((String)fields[j++]);     
+				obj.setTskStatus((String)fields[j++]);   
+				obj.setTskAssignee((String)fields[j++]); 
+				obj.setTaskLastModifyDate((Timestamp)fields[j++]);
+				obj.setTskCreateDate((Timestamp)fields[j++]);
+				obj.setTskName((String)fields[j++]);     
+				obj.setTskPrcInstId((String)fields[j++]);
+				obj.setTskForm((String)fields[j++]);     
+				obj.setIsStartActivity((String)fields[j++]); 
+				obj.setTskWorkSpaceId((String)fields[j++]);     
+				obj.setTskDef((String)fields[j++]);     
+				obj.setPackageId((String)fields[j++]);     
+				obj.setPackageName((String)fields[j++]);   
+				obj.setChildCtgId((String)fields[j++]);  
+				obj.setChildCtgName((String)fields[j++]);
+				obj.setParentCtgId((String)fields[j++]); 
+				obj.setParentCtgName((String)fields[j++]);
+				obj.setPrcObjId((String)fields[j++]);                           
+				obj.setPrcTitle((String)fields[j++]);                           
+				obj.setPrcType((String)fields[j++]);                            
+				obj.setPrcStatus((String)fields[j++]);                          
+				obj.setPrcCreateUser((String)fields[j++]);                      
+				obj.setPrcDid((String)fields[j++]);                             
+				obj.setPrcPrcId((String)fields[j++]); 
+				obj.setPrcCreateDate((Timestamp)fields[j++]);                    
+				obj.setPrcWorkSpaceId((String)fields[j++]); 
+				obj.setLastTskObjId((String)fields[j++]);                       
+				obj.setLastTskName((String)fields[j++]);                        
+				obj.setLastTskCreateUser((String)fields[j++]);                  
+				obj.setLastTskCreateDate((Timestamp)fields[j++]);                  
+				obj.setLastTskStatus((String)fields[j++]);                      
+				obj.setLastTskType((String)fields[j++]);                        
+				obj.setLastTskTitle((String)fields[j++]);                       
+				obj.setLastTskAssignee((String)fields[j++]);                    
+				obj.setLastTskExecuteDate((Timestamp)fields[j++]);                 
+				obj.setLastTskDueDate((Timestamp)fields[j++]); 
+				obj.setLastTskForm((String)fields[j++]);    
+				obj.setLastTskWorkSpaceId((String)fields[j++]);                    
+				int lastTaskCount = (Integer)fields[j] == null ? -1 : (Integer)fields[j];
+				obj.setLastTskCount(lastTaskCount == 0 ? 1 : lastTaskCount);
+				objList.add(obj);
+			}
+			list = objList;
+			TaskWork[] objs = new TaskWork[list.size()];
+			list.toArray(objs);
+			return objs;
+				
+		} catch (Exception e) {
+			throw new PrcException(e);
+		}
+	}
 	private Query appendQuery(StringBuffer queryBuffer , TaskWorkCond cond) throws Exception {
 		
 		String tskAssignee = cond.getTskAssignee();
+		String tskAssigneeOrTskSpaceId = cond.getTskAssigneeOrSpaceId();
 		//assingnedOnly 값이 true 라면 실행중인(11) 태스크만 조회를 한다.
 		String tskStatus =  cond.getTskStatus();
 		String prcStatus = cond.getPrcStatus();
@@ -84,6 +306,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("	and task.tskform = form.formid ");
 		if (!CommonUtil.isEmpty(tskAssignee))
 			queryBuffer.append("	and task.tskassignee = :tskAssignee ");
+		if (!CommonUtil.isEmpty(tskAssigneeOrTskSpaceId))
+			queryBuffer.append("	and (task.tskassignee = :tskAssigneeOrTskSpaceId or task.tskWorkSpaceId = :tskAssigneeOrTskSpaceId) ");
 		if (!CommonUtil.isEmpty(tskStatus))
 			queryBuffer.append("	and task.tskstatus = :tskStatus ");
 		if (!CommonUtil.isEmpty(worksSpaceId))
@@ -154,7 +378,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		if (lastInstanceDate != null)
 			queryBuffer.append("where taskInfo.tskCreateDate < :lastInstanceDate ");
 		if (tskRefType != null)
-			queryBuffer.append("where taskInfo.tskRefType = :tskRefType ");
+			queryBuffer.append("and taskInfo.tskRefType = :tskRefType ");
 		
 		this.appendOrderQuery(queryBuffer, "taskInfo", cond);
 		//queryBuffer.append("order by taskInfo.tskCreatedate desc ");
@@ -167,6 +391,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		}
 		if (!CommonUtil.isEmpty(tskAssignee))
 			query.setString("tskAssignee", tskAssignee);
+		if (!CommonUtil.isEmpty(tskAssigneeOrTskSpaceId))
+			query.setString("tskAssigneeOrTskSpaceId",tskAssigneeOrTskSpaceId);
 		if (!CommonUtil.isEmpty(tskStatus))
 			query.setString("tskStatus", tskStatus);
 		if (lastInstanceDate != null)
