@@ -15,7 +15,7 @@ public class ColListCond extends MisObjectCond {
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(ColListCond.class);
 
-	protected static final String PREFIX = "Lnk";
+	protected static final String PREFIX = "Col";
 	private static final String NAME = CommonUtil.toName(ColListCond.class, PREFIX);
 	public static final String A_CORRELATION = "correlation";
 	public static final String A_TYPE = "type";

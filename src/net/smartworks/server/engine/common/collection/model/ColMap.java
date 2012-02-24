@@ -15,7 +15,7 @@ public class ColMap extends MisObject {
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(ColMap.class);
 
-	protected static final String PREFIX = "Lnk";
+	protected static final String PREFIX = "Col";
 	private static final String NAME = CommonUtil.toName(ColMap.class, PREFIX);
 	public static final String A_TYPE = "type";
 	public static final String A_FROMTYPE = "fromType";

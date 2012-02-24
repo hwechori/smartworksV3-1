@@ -319,14 +319,14 @@ public class SwdManagerAdvisorImpl extends AbstractSwdManagerAdvisor {
 				
 				task.setObjId(null);
 				task.setStatus(null);
-				task.setCreationDate(null);
+				task.setCreationDate(new LocalDate());
 				task.setModificationDate(null);
 				task.setCreationUser(user);
 				task.setExecutionDate(null);
 				task.setDocument(obj.toString(null, null));
 				task.setAssigner(user);
 				task.setAssignee(user);
-				task.setAssignmentDate(new Date());
+				task.setAssignmentDate(new LocalDate());
 				if (approvalLine != null) {
 					task.setExtendedPropertyValue("approvalLine", approvalLine);
 				} else {
@@ -386,7 +386,7 @@ public class SwdManagerAdvisorImpl extends AbstractSwdManagerAdvisor {
 				task.setDocument(obj.toString(null, null));
 				task.setAssigner(user);
 				task.setAssignee(user);
-				task.setAssignmentDate(new Date());
+				task.setAssignmentDate(new LocalDate());
 				task.setForm(formId);
 				task.setDef(domainId + "|" + recordId);
 				task.setWorkSpaceId(obj.getWorkSpaceId());
@@ -451,6 +451,8 @@ public class SwdManagerAdvisorImpl extends AbstractSwdManagerAdvisor {
 			}
 			if (obj.getExtendedAttributeValue("extValues") != null && obj.getExtendedAttributeValue("extValues").length() != 0)
 				task.setExtendedAttributeValue("extValues", obj.getExtendedAttributeValue("extValues"));
+			if (obj.getExtendedAttributeValue("tskRefType") != null && obj.getExtendedAttributeValue("tskRefType").length() != 0)
+				task.setRefType(obj.getExtendedAttributeValue("tskRefType"));
 			this.getTskManager().executeTask(user, task, null);
 		}
 

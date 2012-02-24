@@ -8,19 +8,22 @@
 
 package net.smartworks.server.service.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.util.StringUtils;
+import java.util.TimeZone;
 
 import net.smartworks.model.approval.ApprovalLine;
+import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
 import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.WorkSpace;
+import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
@@ -33,8 +36,13 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
+import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.EventInstanceInfo;
+import net.smartworks.model.instance.info.FileInstanceInfo;
 import net.smartworks.model.instance.info.IWInstanceInfo;
+import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
+import net.smartworks.model.instance.info.MemoInstanceInfo;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.model.instance.info.WorkInstanceInfo;
@@ -72,8 +80,12 @@ import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.StringUtil;
+import net.smartworks.server.engine.docfile.manager.IDocFileManager;
+import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
+import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
@@ -110,12 +122,20 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.PackageType;
 import net.smartworks.server.engine.process.xpdl.xpdl2.ProcessType1;
 import net.smartworks.server.engine.process.xpdl.xpdl2.WorkflowProcesses;
 import net.smartworks.server.engine.worklist.model.TaskWork;
+import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.util.StringUtils;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import commonj.sdo.Sequence;
 
+@Service
 public class ModelConverter {
 	
 	private static ISwoManager getSwoManager() {
@@ -148,6 +168,17 @@ public class ModelConverter {
 	private static IItmManager getItmManager() {
 		return SwManagerFactory.getInstance().getItmManager();
 	}
+	private static IDocFileManager getDocManager() {
+		return SwManagerFactory.getInstance().getDocManager();
+	}
+
+	static IWorkService workService;
+
+	@Autowired
+	public static void setWorkService(IWorkService workService) {
+		ModelConverter.workService = workService;
+	}
+
 	private static PkgPackage getPkgPackageByPackageId(String packageId) throws Exception {
 		if (CommonUtil.isEmpty(packageId))
 			return null;
@@ -263,7 +294,108 @@ public class ModelConverter {
 	public static WorkInstanceInfo getWorkInstanceInfoByTaskWork(TaskWork task) throws Exception {
 		if (task == null)
 			return null;
-		WorkInstanceInfo workInstanceInfo = new WorkInstanceInfo();
+		User cUser = SmartUtil.getCurrentUser();
+		String userId = null;
+		String companyId = null;
+		if (cUser != null) {
+			userId = cUser.getId();
+			companyId = cUser.getCompanyId();
+		}
+		
+		WorkInstanceInfo workInstanceInfo = null;
+		
+		if (task.getTskRefType() != null && task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_BOARD)) {
+			BoardInstanceInfo tempWorkInstanceInfo = new BoardInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_BOARD);
+			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
+			String content = record.getDataFieldValue("1");
+			
+			tempWorkInstanceInfo.setBriefContent(StringUtil.subString(content, 0, 44, "..."));
+			tempWorkInstanceInfo.setAttachment("attachment");
+			
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else if (task.getTskRefType() != null && task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_EVENT)) {
+			EventInstanceInfo tempWorkInstanceInfo = new EventInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_EVENT);
+			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
+			
+			String content = record.getDataFieldValue("6");
+			String startDateStr = record.getDataFieldValue("1");
+			LocalDate startLocalDate = null;
+			String endDateStr = record.getDataFieldValue("2");
+			LocalDate endLocalDate = null;
+			SwdDataField relatedUsersField = record.getDataField("5");
+			CommunityInfo[] relatedUsers = null;
+			if (relatedUsersField != null) {
+				String usersRecordId = relatedUsersField.getRefRecordId();
+				String[] userIdArray = StringUtils.tokenizeToStringArray(usersRecordId, ";");
+				relatedUsers = new UserInfo[userIdArray.length];
+				for (int i = 0; i < userIdArray.length; i++) {
+					relatedUsers[i] = ModelConverter.getUserInfoByUserId(userIdArray[i]);
+				}
+			}
+			if (!CommonUtil.isEmpty(startDateStr)) {
+				Date startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:sss").parse(startDateStr);
+				startLocalDate = new LocalDate(startDate.getTime());
+			}
+			if (!CommonUtil.isEmpty(endDateStr)) {
+				Date endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:sss").parse(endDateStr);
+				endLocalDate = new LocalDate(endDate.getTime());
+			}
+			tempWorkInstanceInfo.setContent(content);
+			tempWorkInstanceInfo.setStart(startLocalDate);
+			tempWorkInstanceInfo.setEnd(endLocalDate);
+			tempWorkInstanceInfo.setRelatedUsers(relatedUsers);
+			
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else if (task.getTskRefType() != null && task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_FILE)) {
+			FileInstanceInfo tempWorkInstanceInfo = new FileInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_FILE);
+			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
+			String fileGroupId = record.getDataFieldValue("5");//TODO 첨부파일 파일 그룹아이디를 가져오기 위한 하드코딩
+			String content = record.getDataFieldValue("4");
+			
+			List<IFileModel> files = getDocManager().findFileGroup(fileGroupId);
+			tempWorkInstanceInfo.setGroupId(fileGroupId);
+			String[] fileNames = new String[files.size()];
+			for (int i = 0; i < files.size(); i++) {
+				String fileName = files.get(i).getFileName();
+				fileNames[i] = fileName;
+			}
+			tempWorkInstanceInfo.setFileNames(fileNames);
+			tempWorkInstanceInfo.setContent(content);
+			
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else if (task.getTskRefType() != null && task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_IMAGE)) {
+			ImageInstanceInfo tempWorkInstanceInfo = new ImageInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_IMAGE);
+
+			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
+			String fileGroupId = record.getDataFieldValue("5");//TODO 첨부파일 파일 그룹아이디를 가져오기 위한 하드코딩
+			String content = record.getDataFieldValue("4");
+			
+			List<IFileModel> files = getDocManager().findFileGroup(fileGroupId);
+			String imgSrc = "";
+			if (files != null && files.size() != 0) {
+				String filePath = files.get(0).getFilePath();
+				filePath = StringUtils.replace(filePath, "\\", "/");
+				imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+			}
+			tempWorkInstanceInfo.setImgSource(imgSrc);
+			tempWorkInstanceInfo.setContent(content);
+			
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else if (task.getTskRefType() != null && task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_MEMO)) {
+			MemoInstanceInfo tempWorkInstanceInfo = new MemoInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_MEMO);
+			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
+			String content = record.getDataFieldValue("4");
+			tempWorkInstanceInfo.setContent(content);
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else {
+			workInstanceInfo = new WorkInstanceInfo();
+			workInstanceInfo.setType(Instance.TYPE_WORK);
+		}
 		
 		SmartWorkInfo workInfo = new SmartWorkInfo();
 		workInfo.setId(task.getPackageId());
@@ -321,7 +453,7 @@ public class ModelConverter {
 			workInstanceInfo.setId(recordId);
 		}
 		workInstanceInfo.setSubject(task.getPrcTitle());
-		workInstanceInfo.setType(Instance.TYPE_WORK);
+		//workInstanceInfo.setType(Instance.TYPE_WORK);
 		workInstanceInfo.setWork(workInfo);
 		workInstanceInfo.setWorkSpace(getWorkSpaceInfo(task.getPrcWorkSpaceType(), task.getPrcWorkSpaceId()));
 		workInstanceInfo.setStatus(task.getTskStatus().equalsIgnoreCase(TskTask.TASKSTATUS_ASSIGN) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
@@ -1745,7 +1877,7 @@ public class ModelConverter {
 
 		if (colList == null)
 			return null;
-		
+
 		ColObject filterItem = colList.getItems()[0];
 
 		if (filterItem == null)
@@ -1780,8 +1912,19 @@ public class ModelConverter {
 				String rightOperType = filter.getRightOperandType();
 				String rightOperValue = filter.getRightOperandValue();
 				String operator = filter.getOperator();
-
-				Condition cond = new Condition(new FormField(leftOperValue, null, leftOperType) , operator, new FormField(rightOperValue, null, rightOperType));
+				Object rightOperand = null;
+				if(rightOperType.equals(FormField.TYPE_USER)) {
+					rightOperand = getUserByUserId(rightOperValue);
+				} else if(rightOperType.equals(FormField.TYPE_OTHER_WORK)) {
+					rightOperand = workService.getWorkById(rightOperValue);
+				} else if(rightOperType.equals(FormField.TYPE_DATETIME)) {
+					rightOperand = LocalDate.convertGMTStringToLocalDate(rightOperValue);
+				} else if(rightOperType.equals(FormField.TYPE_DATE)) {
+					rightOperand = LocalDate.convertGMTSimpleStringToLocalDate(rightOperValue);
+				} else if(rightOperType.equals(FormField.TYPE_TIME)) {
+					rightOperand = LocalDate.convertGMTTimeStringToLocalDate(rightOperValue);
+				}
+				Condition cond = new Condition(new FormField(leftOperValue, null, leftOperType), operator, rightOperand);
 				condArray[i] = cond;
 			}
 			conditions = condArray;

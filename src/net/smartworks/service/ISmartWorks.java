@@ -196,6 +196,18 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 	
+	public abstract InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception;
+	
+	public abstract InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception;
+	
+	public abstract InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception;
+	
+	public abstract InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception;
+	
+	public abstract InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception;
+	
+	public abstract InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception;
+	
 	public abstract InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
 
 	public abstract WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception; // hsshin
