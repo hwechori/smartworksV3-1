@@ -146,7 +146,7 @@
 									<tr class="list_action_item" style="display:none">
 										<td class="rdo_key_field" >
 										
-										
+										<input type="radio"/>
 										
 										<div class="keyOption">
 											<div class="ico_key" workid="" title=""></div>
@@ -169,7 +169,16 @@
 										for(FormField formField : displayFields){									
 									%>
 											<tr class="list_action_item">
-												<td class="rdo_key_field" ><input type="radio" name="rdoKeyField" value="<%=formField.getId() %>" <%if(keyId.equals(formField.getId())){%>checked<%} %> /></td>
+												<td class="rdo_key_field" >
+												<input type="radio" name="rdoKeyField" value="<%=formField.getId() %>" <%if(keyId.equals(formField.getId())){%>checked<%} %> />
+													
+													<!-- key Option -->
+													<!-- <div class="keyOption">
+														<a href=""><div class="ico_key" workid="" title=""></div></a>
+													</div> -->
+										
+												</td>
+												
 												<td><input name="hdnDisplayFields" type="hidden" value="<%=formField.getId()%>" fieldName="<%=formField.getName() %>"/><%=formField.getName() %></td>
 												<td class="btn_move_field" >
 													<span class="move_actions">
