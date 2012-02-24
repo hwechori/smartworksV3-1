@@ -21,11 +21,14 @@ public class TaskWorkCond extends Cond{
 	private String tskRefType;
 	private String tskStatus;   
 	private String tskAssignee; 
+	private String tskAssigneeIdIns;
+	private String tskAssigneeOrSpaceId;
 	private Date taskLastModifyDate;
 	private Date tskCreateDate;
 	private Date tskExecuteDate;
 	private Date tskExecuteDateFrom;
 	private Date tskExecuteDateTo;
+	private Date tskModifyDateFrom;
 	private String tskName;     
 	private String tskPrcInstId;
 	private String tskForm;    
@@ -102,6 +105,18 @@ public class TaskWorkCond extends Cond{
 	public void setTskAssignee(String tskAssignee) {
 		this.tskAssignee = tskAssignee;
 	}
+	public String getTskAssigneeIdIns() {
+		return tskAssigneeIdIns;
+	}
+	public void setTskAssigneeIdIns(String tskAssigneeIdIns) {
+		this.tskAssigneeIdIns = tskAssigneeIdIns;
+	}
+	public String getTskAssigneeOrSpaceId() {
+		return tskAssigneeOrSpaceId;
+	}
+	public void setTskAssigneeOrSpaceId(String tskAssigneeOrSpaceId) {
+		this.tskAssigneeOrSpaceId = tskAssigneeOrSpaceId;
+	}
 	public Date getTaskLastModifyDate() {
 		return taskLastModifyDate;
 	}
@@ -131,6 +146,12 @@ public class TaskWorkCond extends Cond{
 	}
 	public void setTskExecuteDateTo(Date tskExecuteDateTo) {
 		this.tskExecuteDateTo = tskExecuteDateTo;
+	}
+	public Date getTskModifyDateFrom() {
+		return tskModifyDateFrom;
+	}
+	public void setTskModifyDateFrom(Date tskModifyDateFrom) {
+		this.tskModifyDateFrom = tskModifyDateFrom;
 	}
 	public String getTskName() {
 		return tskName;
