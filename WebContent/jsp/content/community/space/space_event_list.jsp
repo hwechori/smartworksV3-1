@@ -31,7 +31,7 @@
 <jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_space_work_list_page js_event_list_page" spaceId="<%=spaceId%>">
+<div class="section_portlet js_space_work_list_page js_event_list_page" contextId="<%=cid%>" spaceId="<%=spaceId%>">
 	<div class="portlet_t"><div class="portlet_tl"></div></div>
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
@@ -47,10 +47,6 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-
-	var timeOffset = (new Date()).getTimezoneOffset()/60 + parseInt(currentUser.timeOffset);
-	var today = new Date();
-	today.setTime(today.getTime() + timeOffset*60*60*1000);	
 
 	var columnFormat =  {
 		    month: 'dddd',    // Mon
@@ -99,13 +95,38 @@ $(document).ready(function(){
 		    week:     '주',
 		    day:      '일'
 		},
-	    events: [
-	             {
-	                 title:  'My Event',
-	                 start:   '2012-02-24T09:30:00',
-	                 allDay: false
-	             }
-	         ],
+	    events: function(start, end, callback) {
+	        $.ajax({
+	            url: 'get_events_by_dates.sw',
+	            data: {
+	            	contextId: $('.js_event_list_page').attr('contextId'),
+	            	fromDate: start.format('yyyy.mm.dd'),
+	            	toDate: end.format('yyyy.mm.dd')
+	            },
+	            success: function(data) {
+	                var events = [];
+	                var eventInstances = data.events;
+ 	                if(!isEmpty(eventInstances)){
+		                for(var i=0; i<eventInstances.length; i++){
+		                	var event = eventInstances[i];
+		                	var ownerHtml = "";
+	                		ownerHtml = event.ownerPicture + '&' + event.ownerName + '&';
+
+	                		events.push({
+			                 	id: event.id,
+			            		title: ownerHtml + event.name,
+			                	start: new Date(event.start),
+			                 	end: new Date(event.end),
+			                 	allDay: false,
+			                 	editable: (event.ownerId === currentUser.userId) ? true : false,
+			                  	url: ""
+			            	});
+		                }
+	                }
+ 					callback(events);
+	            }
+	        });
+	    },
 		timeFormat: {
 		    agenda: 'H:mm{ - H:mm}',
 		    '': 'H(:mm)'
@@ -116,6 +137,14 @@ $(document).ready(function(){
 		eventClick: function(event, jsEvent, view){
 			
 		},
+	    eventRender: function(event, element) {
+	    	var title = $(element).find('.fc-event-title');
+	    	var titleText = title.html();
+	    	console.log('event=', event, ', element=', element, ', text=', titleText );
+	    	var tokens = titleText.split('&amp;');
+	    	var titleHtml = (tokens.length==3) ? '<img class="profile_size_s" src="' + tokens[0] + '" title="' + tokens[1] + '"/>  ' +  tokens[2] : tokens[0]; 
+	    	title.html(titleHtml);
+	    },
 		firstDay: 1,
 		weekMode: 'liquid',
 		columnFormat: columnFormat,
@@ -126,6 +155,7 @@ $(document).ready(function(){
 		dayNamesShort : dayNamesShort,
 		allDayText : "종일행사",
 		axisFormat : 'HH:mm',
+		aspectRatio : 1.8,
 		defaultEventMinutes : 30
 	});	
 });

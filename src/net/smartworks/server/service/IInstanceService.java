@@ -9,6 +9,7 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
@@ -43,7 +44,7 @@ public interface IInstanceService {
 
 	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception;
 
-	public InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception;
+	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception;
 
 	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception;
 

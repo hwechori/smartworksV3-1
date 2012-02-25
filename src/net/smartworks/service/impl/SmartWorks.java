@@ -374,8 +374,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception {
-		return instanceService.getEventInstanceList(cid, params);
+	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception {
+		return instanceService.getEventInstanceList(cid, fromDate, toDate);
 	}
 
 	@Override

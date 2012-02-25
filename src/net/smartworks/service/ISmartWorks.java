@@ -202,7 +202,7 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception;
 	
-	public abstract InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception;
+	public abstract EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception;
 	
 	public abstract InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception;
 	
