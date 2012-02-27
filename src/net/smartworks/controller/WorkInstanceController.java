@@ -14,9 +14,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.report.Data;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
+import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -253,4 +258,86 @@ public class WorkInstanceController extends ExceptionInterceptor {
 
 	}
 
+	@RequestMapping(value = "/get_events_by_dates", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody Map<String, Object> getEventsByDates(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String contextId = request.getParameter("contextId");
+		LocalDate fromDate = LocalDate.convertLocalDateStringToLocalDate(request.getParameter("fromDate"));
+		LocalDate toDate = LocalDate.convertLocalDateStringToLocalDate(request.getParameter("toDate"));
+		
+		EventInstanceInfo[] eventInstances = smartworks.getEventInstanceList(contextId, fromDate, toDate);
+		
+		class EventInfo{
+			String id;
+			String name;
+			String start;
+			String end;
+			String ownerId;
+			String ownerName;
+			String ownerPicture;
+			
+			public String getId() {
+				return id;
+			}
+			public void setId(String id) {
+				this.id = id;
+			}
+			public String getName() {
+				return name;
+			}
+			public void setName(String name) {
+				this.name = name;
+			}
+			public String getStart() {
+				return start;
+			}
+			public void setStart(String start) {
+				this.start = start;
+			}
+			public String getEnd() {
+				return end;
+			}
+			public void setEnd(String end) {
+				this.end = end;
+			}
+			public String getOwnerId() {
+				return ownerId;
+			}
+			public void setOwnerId(String ownerId) {
+				this.ownerId = ownerId;
+			}
+			public String getOwnerName() {
+				return ownerName;
+			}
+			public void setOwnerName(String ownerName) {
+				this.ownerName = ownerName;
+			}
+			public String getOwnerPicture() {
+				return ownerPicture;
+			}
+			public void setOwnerPicture(String ownerPicture) {
+				this.ownerPicture = ownerPicture;
+			}
+			public EventInfo(){
+			}
+		}
+		
+		EventInfo[] events = new EventInfo[eventInstances.length];
+		for(int i=0; i<eventInstances.length; i++){
+			EventInstanceInfo eventInstance = eventInstances[i];
+			EventInfo event = new EventInfo();
+			event.id = eventInstance.getId();
+			event.name = eventInstance.getSubject();
+			event.start = eventInstance.getStart().toLocalDateTimeSimpleString();
+			event.end = eventInstance.getEnd().toLocalDateTimeSimpleString();
+			event.ownerId = eventInstance.getOwner().getId();
+			event.ownerName = eventInstance.getOwner().getLongName();
+			event.ownerPicture = eventInstance.getOwner().getMinPicture();
+			events[i] = event;
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("events", events);
+		return map;
+	}
+	
 }

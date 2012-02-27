@@ -260,6 +260,7 @@ li.fvrt_item:hover .checkOption {display:block}
 /* KeyOption Setting */
 .list_action_item .keyOption {display:none;}
 .list_action_item:hover .keyOption {display:block}
+.list_action_item .keyOption.checked {display:block}
 .ico_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
 .ico_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
 

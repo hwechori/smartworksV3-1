@@ -41,7 +41,7 @@ SmartWorks.FormRuntime.TextInputBuilder.build = function(config) {
 		$text = $('<div class="form_value" style="width:' + valueWidth + '%"><textarea rows="' + multiLines + '" name="' + id + '"' + required + '></textarea></div>');
 		$text.find('textarea').attr('value', value);
 	}else{
-		$text = $('<div class="form_value" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + ' maxlength="120"></div>');
+		$text = $('<div class="form_value" style="width:' + valueWidth + '%"><input type="text" name="' + id + '"' + required + ' maxlength="125"></div>');
 		$text.find('input').attr('value', value);		
 	}
 	if ($graphic.attr('hidden') == 'true'){

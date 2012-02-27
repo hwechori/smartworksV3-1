@@ -9,14 +9,14 @@ $(function() {
 		if(e.which>=9 && e.which<=45) return;
 		var input = $(e.target);
 		var listWidth = input.parent().width();
-		var start_work = input.parents('div.js_start_work');
+		var startWork = input.parents('div.js_start_work_page');
 		var chatter_name = input.parents('div.js_chatter_names');
 		var communityId = input.parents('ul.js_community_members').attr('communityId');
 		var target;
 		if (!isEmpty(input[0].value))
-			input.next('div').removeClass('srch_ico').addClass('btn_im_x');
-		if (!isEmpty(start_work))
-			target = start_work.find('#upload_work_list');
+			input.next('div').removeClass('srch_ico').removeClass('srch_ico_w').addClass('btn_im_x');
+		if (!isEmpty(startWork))
+			target = startWork.find('#upload_work_list');
 		else if(!isEmpty(chatter_name))
 			target = chatter_name.siblings('div.js_chatter_list');
 		else
@@ -54,12 +54,12 @@ $(function() {
 		var input = $(e.target);
 		input[0].value = '';
 		requestedValue = "";
-		var start_work = input.parents('div.js_start_work');
+		var startWork = input.parents('div.js_start_work_page');
 		var user_name = input.parents('div.js_community_names');
 		var chatter_name = input.parents('div.js_chatter_names');
 		var target;
-		if (!isEmpty(start_work))
-			target = start_work.find('#upload_work_list');
+		if (!isEmpty(startWork))
+			target = startWork.find('#upload_work_list');
 		else if (!isEmpty(user_name))
 			target = user_name.next('div');
 		else if(!isEmpty(chatter_name))
@@ -67,7 +67,10 @@ $(function() {
 		else
 			target = input.parent().nextAll('div');
 		setTimeout(function() {
-			input.next('div').removeClass('btn_im_x').addClass('srch_ico');
+			if(!isEmpty(startWork))
+				input.next('div').removeClass('btn_im_x').addClass('srch_ico_w');
+			else
+				input.next('div').removeClass('btn_im_x').addClass('srch_ico');
 			target.html('').hide();
 		}, 500);
 	});
@@ -75,11 +78,11 @@ $(function() {
 	$('input.js_auto_complete').live('keydown', function(e) {
 		if(e.which == $.ui.keyCode.UP || e.which == $.ui.keyCode.DOWN  ){
 			var input = $(e.target);
-			var start_work = input.parents('div.js_start_work');
+			var startWork = input.parents('div.js_start_work_page');
 			var chatter_name = input.parents('div.js_chatter_names');
 
 			var target = input.parent().next('div');
-			if(!isEmpty(start_work)) target =  start_work.find('#upload_work_list');
+			if(!isEmpty(startWork)) target =  startWork.find('#upload_work_list');
 			else if(!isEmpty(chatter_name)) target = chatter_name.siblings('div.js_chatter_list');
 
 			var list = target.find('li');
@@ -99,11 +102,11 @@ $(function() {
 			}
 		}else if(e.which == $.ui.keyCode.ENTER){
 			var input = $(e.target);
-			var start_work = input.parents('div.js_start_work');
+			var startWork = input.parents('div.js_start_work_page');
 			var chatter_name = input.parents('div.js_chatter_names');
 
 			var target = input.parent().next('div');
-			if(!isEmpty(start_work)) target =  start_work.find('#upload_work_list');
+			if(!isEmpty(startWork)) target =  startWork.find('#upload_work_list');
 			else if(!isEmpty(chatter_name)) target = chatter_name.siblings('div.js_chatter_list');
 			target.find('.sw_hover:first a').click();
 			input.focusout();

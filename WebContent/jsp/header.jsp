@@ -42,7 +42,7 @@ function updateNoticeCount(message){
 	User cUser = SmartUtil.getCurrentUser();
 	String cid = request.getParameter("cid");
 	if (SmartUtil.isBlankObject(cid))
-		cid = ISmartWorks.CONTEXT_HOME;
+		cid = ISmartWorks.CONTEXT_PREFIX_HOME + cUser.getId();
 	String wid = request.getParameter("wid");
 	if (SmartUtil.isBlankObject(wid))
 		wid = cUser.getId();
@@ -54,7 +54,7 @@ function updateNoticeCount(message){
 <!-- 회사 로고 및 연결 링크 -->
 <div>
 	<a class="company_logo"
-		href="home.sw?cid=<%=ISmartWorks.CONTEXT_HOME%>"></a>
+		href="home.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_HOME + cUser.getId()%>"></a>
 </div>
 <!-- 회사 로고 및 연결 링크 //-->
 
@@ -171,61 +171,25 @@ function updateNoticeCount(message){
 	<ul>
 		<!--  홈메뉴  -->
 		<li class="idx1">
-		<%
-		if (cid.equals(ISmartWorks.CONTEXT_HOME)) {
-		%> 
 			<span>
-				<a class="current" href="home.sw?cid=<%=ISmartWorks.CONTEXT_HOME%>"><fmt:message key="header.top_menu.home" /></a>
+				<a href="home.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_HOME + cUser.getId()%>"><fmt:message key="header.top_menu.home" /></a>
 			</span> 
-		<%
-		} else {
-		%> 
-			<span>
-				<a href="home.sw?cid=<%=ISmartWorks.CONTEXT_HOME%>"><fmt:message key="header.top_menu.home" /></a>
-			</span> 
-		<%
-		}
-		%>
 		</li>
 		<!--  홈메뉴  //-->
 
 		<!--  스마트케스트 메뉴  -->
 		<li class="idx2">
-		<%
-		if (cid.equals(ISmartWorks.CONTEXT_SMARTCASTER)) {
-		%> 
-			<span>
-				<a class="current href="smartcaster.sw?cid=<%=ISmartWorks.CONTEXT_SMARTCASTER%>"><fmt:message key="header.top_menu.smartcaster" /></a>
-			</span> 
-		<%
- 		} else {
- 		%> 
  			<span>
- 				<a href="smartcaster.sw?cid=<%=ISmartWorks.CONTEXT_SMARTCASTER%>"><fmt:message key="header.top_menu.smartcaster" /></a> 
+ 				<a href="smartcaster.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_SMARTCASTER + cUser.getId()%>"><fmt:message key="header.top_menu.smartcaster" /></a> 
  			</span> 
- 		<%
- 		}
- 		%>
 		</li>
 		<!--  스마트케스트 메뉴 // -->
 
 		<!--  대시보드 메뉴  -->
 		<li class="idx3">
-		<%
-		if (cid.equals(ISmartWorks.CONTEXT_DASHBOARD)) {
-		%> 
-			<span>
-				<a class="current" href="dashboard.sw?cid=<%=ISmartWorks.CONTEXT_DASHBOARD%>"><fmt:message key="header.top_menu.dashboard" /></a> 
-			</span> 
-		<%
- 		} else {
- 		%> 
  			<span>
- 				<a href="dashboard.sw?cid=<%=ISmartWorks.CONTEXT_DASHBOARD%>"><fmt:message key="header.top_menu.dashboard" /></a> 
+ 				<a href="dashboard.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_DASHBOARD + cUser.getId()%>"><fmt:message key="header.top_menu.dashboard" /></a> 
  			</span> 
- 		<%
- 		}
- 		%>
 		</li>
 		<!--  대시보드 메뉴  //-->
 	</ul>
@@ -273,7 +237,7 @@ function updateNoticeCount(message){
 	<div class="pop" style="display: none">
 		<ul>
 			<li><a
-				href="my_profile.sw?cid=<%=ISmartWorks.CONTEXT_MYPROFILE%>"><fmt:message
+				href="my_profile.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_MYPROFILE + cUser.getId()%>"><fmt:message
 						key="header.global_menu.edit_my_profile" /> </a>
 			</li>
 			<li><a href="logout.sw"><fmt:message key="header.global_menu.logout" />

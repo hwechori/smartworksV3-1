@@ -287,4 +287,17 @@ $(function() {
 		return false;
 	});
 	
+	$('span.js_collapse_detail').live('click', function(e){
+		var input = $(e.target);
+		if(!input.hasClass('js_collapse_detail')) return;
+		if(input.hasClass('arr_on')){
+			input.removeClass('arr_on').addClass('arr_off');
+			input.parent().next().hide();
+		}else{
+			input.removeClass('arr_off').addClass('arr_on');
+			input.parent().next().show();			
+		}
+		return false;
+	});
+	
 });

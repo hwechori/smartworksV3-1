@@ -2,6 +2,11 @@ ALTER TABLE SWEventday alter column reltdperson varchar(4000);
 
 ALTER TABLE SWDataRef alter column refRecordId varchar(4000);
 
+
+ALTER TABLE prcprcinst alter column prctitle varchar(255); --prctitle의 컬럼사이즈를 text_input의 컬럼사이즈인 255로 변경
+ALTER TABLE tsktask alter column tsktitle varchar(255); --tsktitle의 컬럼사이즈를 text_input의 컬럼사이즈인 255로 변경
+
+
 -- TO-DO : user_field 추가 시 컬럼 길이 4000으로 변경
 
 -- SWOrgUser locale, timeZone column add

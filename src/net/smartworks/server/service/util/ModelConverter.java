@@ -430,7 +430,7 @@ public class ModelConverter {
 		lastTask.setWorkInstance(workInstanceInfo);
 		lastTask.setAssignee(getUserInfoByUserId(task.getLastTskAssignee()));
 		lastTask.setPerformer(getUserInfoByUserId(task.getLastTskAssignee()));
-		lastTask.setSubject(task.getPrcTitle());
+		lastTask.setSubject(StringUtil.subString(task.getPrcTitle(), 0, 30, "..."));
 		lastTask.setWork(workInfo);
 		lastTask.setWorkSpace(getWorkSpaceInfo(task.getLastTskWorkSpaceType(), task.getLastTskWorkSpaceId()));
 		lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
@@ -453,7 +453,7 @@ public class ModelConverter {
 			}
 			workInstanceInfo.setId(recordId);
 		}
-		workInstanceInfo.setSubject(task.getPrcTitle());
+		workInstanceInfo.setSubject(StringUtil.subString(task.getPrcTitle(), 0, 30, "..."));
 		//workInstanceInfo.setType(Instance.TYPE_WORK);
 		workInstanceInfo.setWork(workInfo);
 		workInstanceInfo.setWorkSpace(getWorkSpaceInfo(task.getPrcWorkSpaceType(), task.getPrcWorkSpaceId()));
@@ -2216,7 +2216,7 @@ public class ModelConverter {
 		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdRecord.getDomainId(), IManager.LEVEL_LITE);
 		String titleField = swdDomain.getTitleFieldId();
 		String title = swdRecord.getDataFieldValue(titleField);
-		instance.setSubject(title);
+		instance.setSubject(StringUtil.subString(title, 0, 40, "..."));
 		instance.setCreatedDate(new LocalDate(swdRecord.getCreationDate().getTime()));
 
 		instance.setLastModifier(getUserByUserId(swdRecord.getModificationUser()));

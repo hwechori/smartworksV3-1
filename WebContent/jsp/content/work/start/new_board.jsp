@@ -113,22 +113,18 @@ function submitForms() {
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
-<div class="up_wrap js_new_board_page" workId="<%=SmartWork.ID_NOTICE_MANAGEMENT%>">
-	<div class="up_point posit_board"></div>
-	<div class="form_wrap up up_padding">
-
-		<!-- 폼- 확장 -->
-		<form name="frmNewBoard" class="form_title js_validation_required">
-			<!-- 새로운 공지를 등록하기 위한 입력화면을 스마트폼을 이용하여 자동으로 그린다.. -->
-			<!-- js_new_board_fields :  js/sw/sw-formFields.js 에서 loadNewBoardFields()가 찾아서 공지입력화면을 이곳에 그려준다.. -->
-			<div class="js_new_board_fields" boardNameTitle="<fmt:message key='common.upload.board.name'/>" boardDetailsTitle="<fmt:message key='common.upload.board.details'/>" boardFilesTitle="<fmt:message key='common.upload.board.files'/>">
-			</div>
-		</form>
-		<div class="js_hidden_form_content" style="display:none">
+<div class="js_new_board_page" workId="<%=SmartWork.ID_NOTICE_MANAGEMENT%>">
+	<!-- 폼- 확장 -->
+	<form name="frmNewBoard" class="form_title js_validation_required">
+		<!-- 새로운 공지를 등록하기 위한 입력화면을 스마트폼을 이용하여 자동으로 그린다.. -->
+		<!-- js_new_board_fields :  js/sw/sw-formFields.js 에서 loadNewBoardFields()가 찾아서 공지입력화면을 이곳에 그려준다.. -->
+		<div class="js_new_board_fields" boardNameTitle="<fmt:message key='common.upload.board.name'/>" boardDetailsTitle="<fmt:message key='common.upload.board.details'/>" boardFilesTitle="<fmt:message key='common.upload.board.files'/>">
 		</div>
-		<!-- 새공지를 등록하기위한 완료 버튼과 취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
-			<jsp:param value="<%=SmartWork.ID_NOTICE_MANAGEMENT%>" name="workId"/>
-		</jsp:include>
+	</form>
+	<div class="js_hidden_form_content" style="display:none">
 	</div>
+	<!-- 새공지를 등록하기위한 완료 버튼과 취소 버튼 -->
+	<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+		<jsp:param value="<%=SmartWork.ID_NOTICE_MANAGEMENT%>" name="workId"/>
+	</jsp:include>
 </div>

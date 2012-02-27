@@ -16,16 +16,18 @@
 
 	int spaceType = SmartUtil.getSpaceTypeFromContentContext((String)session.getAttribute("cid"));
 %>
+<fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
+<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
 <div id="upload" class="js_select_action">
-	<div class="up_works ">
+	<div class="up_works up_icon_list">
 		<a class="current" href="start_work.sw"><fmt:message key='common.upload.work' /></a>
 	</div>
-	<div class="up_pic ">
+	<div class="up_pic up_icon_list">
 		<a href="new_picture.sw"><fmt:message key='common.upload.picture' /> </a>
 	</div>
-	<div class="up_file ">
+	<div class="up_file up_icon_list">
 		<a href="new_file.sw"><fmt:message key='common.upload.file' /> </a>
 	</div>	
 	<%
@@ -34,13 +36,13 @@
 		&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE 
 		&& spaceType != ISmartWorks.SPACE_TYPE_USER) {
 	%>
-		<div class="up_event ">
+		<div class="up_event up_icon_list">
 			<a href="new_event.sw"><fmt:message key='common.upload.event' /></a>
 		</div>
 	<%
 	} 
 	%>
-	<div class="up_memo ">
+	<div class="up_memo up_icon_list">
 		<a href="new_memo.sw"><fmt:message key='common.upload.memo' /> </a>
 	</div>
 	<% 
@@ -59,7 +61,12 @@
 <!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 
 <!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-<div class="js_upload_form" id="upload_form_box">
-	<jsp:include page="/jsp/content/upload/start_work.jsp" />
+<div class="up_wrap">
+	<div class="up_point posit_works js_up_pointer"></div>
+	<div class="js_start_work_form">
+		<jsp:include page="/jsp/content/upload/start_work.jsp" />
+	</div>
+	<div class="form_wrap up up_padding js_upload_form" style="display:none">
+	</div>
 </div>
 <!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->

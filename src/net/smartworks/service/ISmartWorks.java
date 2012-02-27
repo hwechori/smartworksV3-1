@@ -76,9 +76,18 @@ public interface ISmartWorks {
 	public final static int SPACE_TYPE_USER = 4;
 	public final static int SPACE_TYPE_GROUP = 5;
 	public final static int SPACE_TYPE_DEPARTMENT = 6;
-	
+	public final static int SPACE_TYPE_AWORK_LIST = 21;
+	public final static int SPACE_TYPE_IMAGE_LIST = 22;
+	public final static int SPACE_TYPE_FILE_LIST = 23;
+	public final static int SPACE_TYPE_EVENT_LIST = 24;
+	public final static int SPACE_TYPE_MEMO_LIST = 25;
+	public final static int SPACE_TYPE_BOARD_LIST = 26;	
 
 	public final static int CONTEXT_PREFIX_LENGTH = 6;
+	public final static String CONTEXT_PREFIX_HOME = "sf.hm.";
+	public final static String CONTEXT_PREFIX_SMARTCASTER = "sf.sc.";
+	public final static String CONTEXT_PREFIX_DASHBOARD = "sf.db.";
+	public final static String CONTEXT_PREFIX_MYPROFILE = "sf.pf.";
 	public final static String CONTEXT_PREFIX_USER_SPACE = "us.sp.";
 	public final static String CONTEXT_PREFIX_GROUP_SPACE = "gp.sp.";
 	public final static String CONTEXT_PREFIX_DEPARTMENT_SPACE = "dp.sp.";
@@ -202,7 +211,7 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception;
 	
-	public abstract InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception;
+	public abstract EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception;
 	
 	public abstract InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception;
 	
