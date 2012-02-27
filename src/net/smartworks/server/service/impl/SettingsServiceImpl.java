@@ -830,8 +830,8 @@ public class SettingsServiceImpl implements ISettingsService {
 			AprApprovalLineDef[] approvalLineDefs = getAprManager().getApprovalLineDefs(userId, approvalLineDefCond, IManager.LEVEL_ALL);
 
 			ApprovalLine[] approvalLines = null;
+			List<ApprovalLine> approvalLineList = new ArrayList<ApprovalLine>();
 			if(approvalLineDefs != null) {
-				List<ApprovalLine> approvalLineList = new ArrayList<ApprovalLine>();
 				for(AprApprovalLineDef approvalLineDef : approvalLineDefs) {
 					ApprovalLine approvalLine = new ApprovalLine();
 					String id = approvalLineDef.getObjId();
@@ -843,20 +843,20 @@ public class SettingsServiceImpl implements ISettingsService {
 					approvalLine.setDesc(desc);
 					approvalLine.setApprovalLevel(approvalLevel);
 					AprApprovalDef[] approvalDefs = approvalLineDef.getApprovalDefs();
-					if(approvalDefs != null) {
+					if(!CommonUtil.isEmpty(approvalDefs)) {
 						List<Approval> approvalList = new ArrayList<Approval>();
 						for(AprApprovalDef approvalDef : approvalDefs) {
 							Approval approval = new Approval();
 							approval.setName(approvalDef.getAprName());
 							approval.setApproverType(Integer.parseInt(approvalDef.getType()));
 							approval.setApprover(ModelConverter.getUserByUserId(approvalDef.getAprPerson()));
-							String dueDate = approvalDef.getDueDate();
+							String dueDate = CommonUtil.toNotNull(approvalDef.getDueDate());
 							int meanTimeDays = 0;
 							int meanTimeHours = 0;
 							int meanTimeMinutes = 30;
 							int daysToMinutes = 60 * 24;
 							int hoursToMinutes = 60;
-							if(dueDate != null) {
+							if(!dueDate.equals("")) {
 								int meanTime = Integer.parseInt(dueDate);
 								meanTimeDays = meanTime / daysToMinutes;
 								meanTime = meanTime % daysToMinutes;

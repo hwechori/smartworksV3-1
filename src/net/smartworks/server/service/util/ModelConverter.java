@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import net.smartworks.model.approval.Approval;
 import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
@@ -103,6 +104,11 @@ import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
+import net.smartworks.server.engine.process.approval.manager.IAprManager;
+import net.smartworks.server.engine.process.approval.model.AprApproval;
+import net.smartworks.server.engine.process.approval.model.AprApprovalCond;
+import net.smartworks.server.engine.process.approval.model.AprApprovalLine;
+import net.smartworks.server.engine.process.approval.model.AprApprovalLineCond;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
@@ -170,6 +176,9 @@ public class ModelConverter {
 	}
 	private static IDocFileManager getDocManager() {
 		return SwManagerFactory.getInstance().getDocManager();
+	}
+	private static IAprManager getAprManager() {
+		return SwManagerFactory.getInstance().getAprManager();
 	}
 
 	private static IWorkService workService;
@@ -1485,10 +1494,13 @@ public class ModelConverter {
 			User owner = getUserByUserId(swoGroup.getCreationUser());
 			if(owner != null)
 				group.setOwner(owner);
-	
+
+			LocalDate openDate = new LocalDate(swoGroup.getCreationDate().getTime());
+			group.setOpenDate(openDate);
+
 			List<UserInfo> groupMemberList = new ArrayList<UserInfo>();
 			SwoGroupMember[] swoGroupMembers = swoGroup.getSwoGroupMembers();
-			if(swoGroupMembers != null) {
+			if(!CommonUtil.isEmpty(swoGroupMembers)) {
 				groupMemberList.add(getUserInfoByUserId(swoGroup.getGroupLeader()));
 				for(SwoGroupMember swoGroupMember : swoGroupMembers) {
 					if(!swoGroupMember.getUserId().equals(swoGroup.getGroupLeader())) {
@@ -1499,8 +1511,9 @@ public class ModelConverter {
 				UserInfo[] groupMembers = new UserInfo[groupMemberList.size()];
 				groupMemberList.toArray(groupMembers);
 				group.setMembers(groupMembers);
+				group.setNumberOfGroupMember(groupMembers.length);
 			}
-	
+
 			String picture = CommonUtil.toNotNull(swoGroup.getPicture());
 			if(!picture.equals("")) {
 				String extension = picture.lastIndexOf(".") > 0 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
@@ -2266,6 +2279,66 @@ public class ModelConverter {
 		return workInstance;
 	}
 
+	public static InformationWorkInstance getApprovalWorkInformationByInstanceId(InformationWorkInstance informationWorkInstance, String instanceId) throws Exception {
+		if (CommonUtil.isEmpty(instanceId))
+			return null;
+
+		User cUser = SmartUtil.getCurrentUser();
+		AprApprovalLineCond approvalLineCond = new AprApprovalLineCond();
+		Property[] extProps = new Property[] {new Property("recordId", instanceId)};
+		approvalLineCond.setExtendedProperties(extProps);
+		AprApprovalLine aprApprovalLine = getAprManager().getApprovalLine(cUser.getId(), approvalLineCond, IManager.LEVEL_ALL);
+
+		boolean isApprovalWork = false;
+		ApprovalLine approvalLine = new ApprovalLine();
+		Approval[] approvals = null;
+		if(aprApprovalLine != null) {
+			isApprovalWork = true;
+			AprApproval[] aprApprovals = aprApprovalLine.getApprovals();
+			List<Approval> approvalList = new ArrayList<Approval>();
+			if(!CommonUtil.isEmpty(aprApprovals)) {
+				for(AprApproval aprApproval : aprApprovals) {
+					Approval approval = new Approval();
+					approval.setName(aprApproval.getName());
+					approval.setApproverType(Integer.parseInt(CommonUtil.toNotNull(aprApproval.getType())));
+					approval.setApprover(getUserByUserId(aprApproval.getApprover()));
+					String dueDate = CommonUtil.toNotNull(aprApproval.getDueDate());
+					int meanTimeDays = 0;
+					int meanTimeHours = 0;
+					int meanTimeMinutes = 30;
+					int daysToMinutes = 60 * 24;
+					int hoursToMinutes = 60;
+					if(!dueDate.equals("")) {
+						int meanTime = Integer.parseInt(dueDate);
+						meanTimeDays = meanTime / daysToMinutes;
+						meanTime = meanTime % daysToMinutes;
+						meanTimeHours = meanTime / hoursToMinutes;
+						meanTimeMinutes = meanTime % hoursToMinutes;
+					}
+					approval.setMeanTimeDays(meanTimeDays);
+					approval.setMeanTimeHours(meanTimeHours);
+					approval.setMeanTimeMinutes(meanTimeMinutes);
+					approvalList.add(approval);
+				}
+				if(approvalList.size() > 0) {
+					approvals = new Approval[approvalList.size()];
+					approvalList.toArray(approvals);
+				}
+			}
+
+			String desc = aprApprovalLine.getDescription();
+			int approvalLevel = approvalList.size();
+
+			approvalLine.setDesc(desc);
+			approvalLine.setApprovalLevel(approvalLevel);
+			approvalLine.setApprovals(approvals);
+		}
+		informationWorkInstance.setApprovalWork(isApprovalWork);
+		informationWorkInstance.setApprovalLine(approvalLine);
+
+		return informationWorkInstance;
+	}
+
 	public static InformationWorkInstance getInformationWorkInstanceBySwdRecord(String userId, InformationWorkInstance informationWorkInstance, SwdRecord swdRecord) throws Exception {
 		if (swdRecord == null)
 			return null;
@@ -2275,10 +2348,10 @@ public class ModelConverter {
 		getWorkInstanceBySwdRecord(userId, informationWorkInstance, swdRecord);
 
 		int numberOfRelatedWorks = getSwfManager().getReferenceFormSize("", swdRecord.getRecordId());
-		
+
 		informationWorkInstance.setNumberOfRelatedWorks(numberOfRelatedWorks);
-		informationWorkInstance.setApprovalWork(false);
-		informationWorkInstance.setApprovalLine(new ApprovalLine());
+
+		getApprovalWorkInformationByInstanceId(informationWorkInstance, swdRecord.getRecordId());
 
 		return informationWorkInstance;
 	}

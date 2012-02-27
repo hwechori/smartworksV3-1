@@ -19,6 +19,7 @@ import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.server.engine.common.manager.IManager;
+import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.searcher.model.SchUser;
 import net.smartworks.server.engine.common.searcher.model.SchWorkspace;
@@ -133,6 +134,7 @@ public class CommunityServiceImpl implements ICommunityService {
 			SwoGroupMember[] swoGroupMembers = new SwoGroupMember[1];
 			swoGroupMembers[0] = swoGroupMember;
 			swoGroupCond.setSwoGroupMembers(swoGroupMembers);
+			swoGroupCond.setOrders(new Order[]{new Order("name", true)});
 			SwoGroup[] swoGroups = SwManagerFactory.getInstance().getSwoManager().getGroups(user.getId(), swoGroupCond, IManager.LEVEL_ALL);
 			if(swoGroups != null) {
 				for(SwoGroup swoGroup : swoGroups) {

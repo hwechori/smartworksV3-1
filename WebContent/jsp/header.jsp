@@ -240,7 +240,7 @@ function updateNoticeCount(message){
 				href="my_profile.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_MYPROFILE + cUser.getId()%>"><fmt:message
 						key="header.global_menu.edit_my_profile" /> </a>
 			</li>
-			<li><a href="logout.sw"><fmt:message key="header.global_menu.logout" />
+			<li><a href="logout"><fmt:message key="header.global_menu.logout" />
 			</a>
 			</li>
 		</ul>

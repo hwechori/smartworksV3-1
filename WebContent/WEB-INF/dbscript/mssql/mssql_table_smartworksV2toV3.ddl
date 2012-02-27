@@ -23,6 +23,10 @@ ALTER TABLE tsktask add tskFromRefId varchar(100);
 -- 결재라인정의에 평균 소요시간 컬럼 추가
 ALTER TABLE apraprdef add dueDate varchar(100);
 
+ALTER TABLE aprapr add aprDueDate varchar(100);
+
+
+
 -- TO-DO : mode -> authmode 
 
 -- TO-DO : tsktask : tskWorkspaceId, prcprcinst : prcWorkspaceId
