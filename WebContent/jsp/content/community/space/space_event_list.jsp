@@ -90,10 +90,10 @@ $(document).ready(function(){
 		},
 		editable: true,
 		buttonText : {
-		    today:    '오늘',
-		    month:    '월',
-		    week:     '주',
-		    day:      '일'
+		    today:   smartMessage.get('todayText'),
+		    month:    smartMessage.get('monthText'),
+		    week:     smartMessage.get('weekText'),
+		    day:      smartMessage.get('dayText')
 		},
 	    events: function(start, end, callback) {
 	        $.ajax({
@@ -152,7 +152,7 @@ $(document).ready(function(){
 		monthNamesShort : monthNamesShort,
 		dayNames : dayNames,
 		dayNamesShort : dayNamesShort,
-		allDayText : "종일행사",
+		allDayText : smartMessage.get('wholeDayText'),
 		axisFormat : 'HH:mm',
 		aspectRatio : 1.8,
 		defaultEventMinutes : 30
