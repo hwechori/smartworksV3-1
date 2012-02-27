@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
+<%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -62,8 +63,10 @@
 		String target = "group_space.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + thisGroup.getId(); 
 	%>
 		<li><a href="<%=target %>"><img class="profile_size_66" src="<%=thisGroup.getOrgPicture()%>"></a></li>
-		<li><a href="<%=target %>"><%=thisGroup.getName()%><br /> <b><%=thisGroup.getDesc()%></b><br />
-			<fmt:message key="group.role.leader" /> : <%=thisGroup.getLeader().getLongName()%><br /></a>
+		<li><a href="<%=target %>"><b><%=thisGroup.getName()%></b><br /> <%=thisGroup.getDesc()%><br />
+			<fmt:message key="group.role.leader" /> : <%=thisGroup.getLeader().getLongName()%><br />
+			<fmt:message key="group.created_date" /> : <%=thisGroup.getOpenDate().toLocalDateSimpleString()%><br />
+			<fmt:message key="group.members_count" /> : <%=thisGroup.getNumberOfGroupMember()%></a>
 		</li>
 	<%
 	// 부서인경우....

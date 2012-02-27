@@ -1,6 +1,7 @@
 package net.smartworks.model.community;
 
 import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.util.LocalDate;
 
 
 public class Group extends WorkSpace {
@@ -19,6 +20,8 @@ public class Group extends WorkSpace {
 	private User	leader = null;
 	private UserInfo[] 	members = null;
 	private User	owner = null;
+	private LocalDate openDate = null;
+	private int numberOfGroupMember = 0;
 	private String type = GROUP_TYPE_DEFAULT;
 
 	public String getType() {
@@ -62,6 +65,18 @@ public class Group extends WorkSpace {
 	}
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+	public LocalDate getOpenDate() {
+		return openDate;
+	}
+	public void setOpenDate(LocalDate openDate) {
+		this.openDate = openDate;
+	}
+	public int getNumberOfGroupMember() {
+		return numberOfGroupMember;
+	}
+	public void setNumberOfGroupMember(int numberOfGroupMember) {
+		this.numberOfGroupMember = numberOfGroupMember;
 	}
 
 	public Group(){

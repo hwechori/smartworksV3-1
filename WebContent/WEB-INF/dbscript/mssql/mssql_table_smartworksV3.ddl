@@ -606,6 +606,7 @@ CREATE TABLE aprapr (
     aprstatus varchar(50),
     aprtype varchar(50),
     aprapprover varchar(50),
+   	aprDueDate varchar(100),
     aprismanda tinyint,
     aprismodify tinyint,
     approvalline varchar(100),

@@ -20,15 +20,17 @@ public class AprApproval extends MisObject {
 
 	public static final String A_TYPE = "type";
 	public static final String A_APPROVER = "approver";
+	public static final String A_DUEDATE = "dueDate";
 	public static final String A_ISMANDATORY = "isMandatory";
 	public static final String A_ISMODIFIABLE = "isModifiable";
 
 	private String type;
 	private String approver;
+	private String dueDate;
 	private boolean isMandatory = true;
 	private boolean isModifiable = true;
 	private AprApprovalLine approvalLine;
-	
+
 	public AprApproval() {
 		super();
 	}
@@ -42,6 +44,7 @@ public class AprApproval extends MisObject {
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_TYPE, type, buf);
 		appendAttributeString(A_APPROVER, approver, buf);
+		appendAttributeString(A_DUEDATE, dueDate, buf);
 		appendAttributeString(A_ISMANDATORY, isMandatory, buf);
 		appendAttributeString(A_ISMODIFIABLE, isModifiable, buf);
 		return buf.toString();
@@ -62,12 +65,15 @@ public class AprApproval extends MisObject {
 		if (attrMap != null) {
 			Node type = attrMap.getNamedItem(A_TYPE);
 			Node approver = attrMap.getNamedItem(A_APPROVER);
+			Node dueDate = attrMap.getNamedItem(A_DUEDATE);
 			Node isMandatory = attrMap.getNamedItem(A_ISMANDATORY);
 			Node isModifiable = attrMap.getNamedItem(A_ISMODIFIABLE);
 			if (type != null)
 				obj.setType(type.getNodeValue());
 			if (approver != null)
 				obj.setApprover(approver.getNodeValue());
+			if (dueDate != null)
+				obj.setDueDate(dueDate.getNodeValue());
 			if (isMandatory != null)
 				obj.setMandatory(CommonUtil.toBoolean(isMandatory.getNodeValue()));
 			if (isModifiable != null)
@@ -184,6 +190,12 @@ public class AprApproval extends MisObject {
 	}
 	public void setApprover(String approver) {
 		this.approver = approver;
+	}
+	public String getDueDate() {
+		return dueDate;
+	}
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
 	}
 	public boolean isModifiable() {
 		return isModifiable;

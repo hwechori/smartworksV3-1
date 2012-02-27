@@ -83,7 +83,7 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 				buf.append(" name=:name, creationUser=:creationUser, creationDate=:creationDate");
 				buf.append(", modificationUser=:modificationUser, modificationDate=:modificationDate");
 				buf.append(", description=:description, status=:status");
-				buf.append(", type=:type, approver=:approver, isMandatory=:isMandatory, isModifiable=:isModifiable");
+				buf.append(", type=:type, approver=:approver, dueDate=:dueDate, isMandatory=:isMandatory, isModifiable=:isModifiable");
 				buf.append(" where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
 				query.setString(AprApproval.A_NAME, obj.getName());
@@ -96,6 +96,7 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 				query.setString(AprApproval.A_STATUS, obj.getStatus());
 				query.setString(AprApproval.A_TYPE, obj.getType());
 				query.setString(AprApproval.A_APPROVER, obj.getApprover());
+				query.setString(AprApproval.A_DUEDATE, obj.getDueDate());
 				query.setBoolean(AprApproval.A_ISMANDATORY, obj.isMandatory());
 				query.setBoolean(AprApproval.A_ISMODIFIABLE, obj.isModifiable());
 				query.setString(AprApproval.A_OBJID, obj.getObjId());
@@ -142,6 +143,7 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 		String status = null;
 		String type = null;
 		String approver = null;
+		String dueDate = null;
 		boolean isApprovalLineNull = false;
 		Property[] extProps = null;
 		
@@ -156,6 +158,7 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 			status = cond.getStatus();
 			type = cond.getType();
 			approver = cond.getApprover();
+			dueDate = cond.getDueDate();
 			isApprovalLineNull = cond.isApprovalLineNull();
 			extProps = cond.getExtendedProperties();
 		}
@@ -187,6 +190,8 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 				buf.append(" and obj.type = :type");
 			if (approver != null)
 				buf.append(" and obj.approver = :approver");
+			if (dueDate != null)
+				buf.append(" and obj.dueDate = :dueDate");
 			if (isApprovalLineNull)
 				buf.append(" and obj.approvalLine is null");
 			if (extProps != null && extProps.length != 0) {
@@ -225,6 +230,8 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 				query.setString("type", type);
 			if (approver != null)
 				query.setString("approver", approver);
+			if (dueDate != null)
+				query.setString("dueDate", dueDate);
 			if (extProps != null && extProps.length != 0) {
 				for (int i=0; i<extProps.length; i++) {
 					Property extProp = extProps[i];
@@ -265,7 +272,7 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 			} else {
 				buf.append(" obj.objId, obj.name, obj.creationUser, obj.creationDate, obj.modificationUser, obj.modificationDate");
 				buf.append(", obj.status, obj.description");
-				buf.append(", obj.type, obj.approver, obj.isMandatory, obj.isModifiable");
+				buf.append(", obj.type, obj.approver, obj.dueDate, obj.isMandatory, obj.isModifiable");
 			}
 			Query query = this.appendQuery(buf, cond);
 			List list = query.list();
@@ -287,6 +294,7 @@ public class AprManagerImpl extends AbstractManager implements IAprManager {
 					obj.setDescription(((String)fields[j++]));
 					obj.setType((String)fields[j++]);
 					obj.setApprover((String)fields[j++]);
+					obj.setDueDate((String)fields[j++]);
 					obj.setMandatory(CommonUtil.toBoolean(fields[j++]));
 					obj.setModifiable(CommonUtil.toBoolean(fields[j++]));
 					objList.add(obj);
