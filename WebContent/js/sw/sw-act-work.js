@@ -18,14 +18,23 @@ $(function() {
 	$('.js_select_action a').live('click',function(e) {
 		var input = $(e.target);
 		$('.js_select_action').find('a').removeClass('current');
-		input.parents('.up_icon_list').find('a').addClass('current');
-		var target = $('#upload_form_box');
+		var currentAction = input.parents('.up_icon_list');
+		currentAction.find('a').addClass('current');
+		$('.js_up_pointer').css({"left": (currentAction.position().left + currentAction.outerWidth()/2) + "px"});
 		var url = input.attr('href');
+		var target = $('.js_upload_form');
+		if(url === 'start_work.sw'){
+			target.hide().html('');
+			target = $('.js_start_work_form').show();
+		}else{
+			target.show();
+			$('.js_start_work_form').hide().html('');			
+		}
 		$.ajax({
 			url : url,
 			data : {},
 			success : function(data, status, jqXHR) {
-				target.html(data).slideDown(500);
+				target.html(data).show();
 				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
 					loadNewFileFields();
 				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
@@ -47,15 +56,26 @@ $(function() {
 
 	$('a.js_cancel_action').live('click',function(e) {
 		var input = $('.js_select_action').find('a:first');
+		if(!isEmpty($(e.target).parents('.js_pop_new_event_page'))){
+			smartPop.close();
+			return false;
+		}
 		$('.js_select_action').find('a').removeClass('current');
 		input.parents('.up_icon_list').find('a').addClass('current');
-		var target = $('#upload_form_box');
+		var target = $('.js_upload_form');
 		var url = input.attr('href');
+		if(url === 'start_work.sw'){
+			target.hide().html('');
+			target = $('.js_start_work_form').show();
+		}else{
+			target.show();
+			$('.js_start_work_form').hide().html('');			
+		}
 		$.ajax({
 			url : url,
 			data : {},
 			success : function(data, status, jqXHR) {
-				target.html(data).slideDown(500);
+				target.html(data).show();
 				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
 					loadNewFileFields();
 				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
@@ -76,14 +96,6 @@ $(function() {
 	});
 
 	/*
-	 * 새업무시작하기에서, 처음나오는 입력창을 클릭하면 실행되는 이벤트로, 우측에 전체업무찾기 버튼을 보여준다.
-	 */
-	$('.js_start_work').live( 'click', function(e) {
-		$(e.target).parents('div.js_start_work:first').find(
-						'#all_work_btn').show();
-	});
-
-	/*
 	 * 세업무시작하기에서, 입력창에 값을 입력하여 나오는 검색결과를 선택하면 실행되는 이벤트로, 검색결과항목의 href값으로 ajax를
 	 * 실행하여 가져온 값으로 id가 form_works 인 곳 화면을 그려서, 아래로 펼쳐준다.
 	 */
@@ -91,7 +103,7 @@ $(function() {
 		before : function(event) {
 			smartPop.progressCenter();
 			$('#form_works').html('').hide();
-			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work").hide();
+			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work_page").hide();
 		},
 		target : 'form_works',
 		after : function(event) {
@@ -1057,10 +1069,11 @@ $(function() {
         afterCopy:null
     });
 
-	$('a.js_pop_all_works').live('click', function(e) {
-		var startWork = $(e.target).parents('.js_start_work');
+	$('.js_pop_all_works').live('click', function(e) {
+		var startWork = $(e.target).parents('.js_start_work_page');
 		var target = startWork.find('.js_all_work_popup');
 		var width = startWork.find('.js_auto_complete:first').parent().width();
+		console.log('target=', target, ', width=', width);
 		smartPop.selectWork(target, width);
 		return false;
 	});

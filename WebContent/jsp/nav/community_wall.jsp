@@ -33,13 +33,13 @@
 		<ul>
 			<li>
 				<%
-				if(SmartUtil.getSpaceIdFromContentContext(cid).equals(cUser.getId())){				
+				if(SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, cid)){				
 				%>
-					<a href="user_space.sw?cid=<%=cid %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.my.all_items"/></a>
+					<a href="group_space.sw?cid=<%=cid %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.group.all_items"/></a>
 				<%
-				}else{				
+				}else if(SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE, cid)){				
 				%>
-					<a href="user_space.sw?cid=<%=cid %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.user.all_items"/></a>
+					<a href="department_space.sw?cid=<%=cid %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.department.all_items"/></a>
 				<%
 				}
 				%>
@@ -50,6 +50,7 @@
 						<li><a href="space_file_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.files"/></span></a></li>
 						<li><a href="space_event_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.events"/></span></a></li>
 						<li><a href="space_memo_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.memos"/></span></a></li>
+						<li><a href="space_board_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.boards"/></span></a></li>
 					</ul>
 				</div>
 			</li>

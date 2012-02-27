@@ -237,8 +237,10 @@ $(function() {
 		if(prevs==2) selectedItem.next().find('.js_up_field_item').hide();
 		if(nexts==0) selectedItem.prev().find('.js_down_field_item').hide();
 		selectedItem.remove();
-		if(selectedItem.find('input[name="rdoKeyField"]').is(':checked')){
-			$(displayFieldItems.find('tr')[2]).find('input[name="rdoKeyField"]').attr('checked', true);
+		if(selectedItem.find('.js_key_field').hasClass('checked')){
+			var newKeyField = $(displayFieldItems.find('tr')[2]).find('.js_key_field').addClass('checked');
+			newKeyField.parents('.keyOption').addClass('checked');
+			displayFieldItems.find('input[name="rdoKeyField"]').attr('value', newKeyField.attr('fieldId'));
 		}
 		var itemList = displayItemList.find('th');
 		$(itemList[prevs-2]).remove();
@@ -263,13 +265,15 @@ $(function() {
 		var fieldId = selectedItem.attr('fieldId');
 		var fieldName = selectedItem.find('td:last').html();
 		var displayItem = $(displayFieldItems.find('tr')[1]).clone().show();
-		displayItem.find('input[type="radio"]').attr('name', "rdoKeyField");
+		displayItem.find('.js_key_field').attr('fieldId', fieldId);
 		displayItem.find('.js_input_display_field').html('<input name="hdnDisplayFields" type="hidden" value="' + fieldId + '" fieldName="' + fieldName + '"/>' + fieldName);
 		displayItem.appendTo(displayFieldItems);
 
 		var displayItems = displayFieldItems.find('tr').length;
 		if(displayItems==3){
-			displayItem.find('input[name="rdoKeyField"]').attr('checked', true);
+			var newKeyField = displayItem.find('.js_key_field').addClass('checked');
+			newKeyField.parents('.keyOption').addClass('checked');
+			displayFieldItems.find('input[name="rdoKeyField"]').attr('value', newKeyField.attr('fieldId'));		
 			displayItem.find('.js_up_field_item').hide();
 		}else if(displayItems>3){
 			displayItem.prev().find('.js_down_field_item').show();
@@ -277,6 +281,15 @@ $(function() {
 		var itemList = displayItemList.find('th');
 		$(itemList[itemList.length-1]).clone().html(fieldName).show().insertBefore($(itemList[itemList.length-2]));
 		
+		return false;
+	});
+	
+	$('a .js_key_field').live('click', function(e){
+		var input = $(e.target);
+		if(input.hasClass('checked')) return false;
+		input.addClass('checked').parents('.keyOption').addClass('checked');
+		input.parents('tr:first').siblings().find('.keyOption').removeClass('checked').find('.js_key_field').removeClass('checked');
+		input.parents('.js_tab_work_settings_page').find('input[name="rdoKeyField"]').attr('value', input.attr('fieldId'));
 		return false;
 	});
 });

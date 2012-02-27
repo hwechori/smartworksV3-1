@@ -28,6 +28,7 @@ import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.IWInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
@@ -2081,11 +2082,11 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getEventInstanceList(String cid, RequestParams params) throws Exception {
+	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception {
 		
 		try{
-			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			return instanceInfoList;
+			EventInstanceInfo[] events = SmartTest.getEventInstances();
+			return events;
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();

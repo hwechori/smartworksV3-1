@@ -109,4 +109,10 @@ public class PopupController {
 
 		return SmartUtil.returnMnv(request, "jsp/popup/group_options_by_category.jsp", "");
 	}
+
+	@RequestMapping("/pop_new_event")
+	public ModelAndView popNewEvent(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/popup/pop_new_event.jsp", "");
+	}
 }

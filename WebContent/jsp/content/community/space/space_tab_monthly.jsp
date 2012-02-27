@@ -216,8 +216,6 @@
 					var url = input.next().attr('href');
 					var startMonth = new Date(selectedMonth.toString());
 					startMonth.setMonth(selectedMonth.getMonth() - 11, 1);
-					console.log('selected=', selectedMonth.toDateString(),
-							'start=', startMonth.toDateString());
 					$.ajax({
 						url : url,
 						data : {
