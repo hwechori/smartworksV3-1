@@ -12,9 +12,11 @@ import net.smartworks.model.calendar.WorkHour;
 import net.smartworks.model.calendar.WorkHourPolicy;
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
+import net.smartworks.model.community.Group;
 import net.smartworks.model.community.User;
 import net.smartworks.model.community.info.CommunityInfo;
 import net.smartworks.model.community.info.DepartmentInfo;
+import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -27,6 +29,7 @@ import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.common.util.StringUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.config.model.SwcEventDay;
 import net.smartworks.server.engine.config.model.SwcEventDayCond;
@@ -44,15 +47,20 @@ import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.service.ICalendarService;
+import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 import net.smartworks.util.SmartUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CalendarServiceImpl implements ICalendarService {
+
+	@Autowired
+	private ICommunityService communityService;
 
 	private ISwcManager getSwcManager() {
 		return SwManagerFactory.getInstance().getSwcManager();
@@ -162,7 +170,7 @@ public class CalendarServiceImpl implements ICalendarService {
 				SwcEventDay[] swcEventDays = getSwcManager().getEventdays(cUser.getId(), swcEventDayCond, IManager.LEVEL_LITE);
 
 				if(swcEventDays != null) {
-					CompanyEvent[] companyEvents = new CompanyEvent[swcEventDays.length];
+					CompanyEvent[] companyEvents = null;
 					List<CompanyEvent> companyEventList = new ArrayList<CompanyEvent>();
 					for(SwcEventDay swcEventDay : swcEventDays) {
 						CompanyEvent companyEvent = new CompanyEvent();
@@ -171,8 +179,10 @@ public class CalendarServiceImpl implements ICalendarService {
 						LocalDate plannedEnd = new LocalDate(swcEventDay.getEndDay().getTime());
 						String id = swcEventDay.getObjId();
 						String name = swcEventDay.getName();
+						GroupInfo[] groupInfos = communityService.getMyGroups();
+						Community[] relatedUsers = null;
+						List<Community> userList = new ArrayList<Community>();
 						if(swcEventDay.getReltdPerson() != null) {
-							List<Community> userList = new ArrayList<Community>();
 							String[] reltdUsers = swcEventDay.getReltdPerson().split(";");
 							if(reltdUsers != null && reltdUsers.length > 0) {
 								for(String reltdUser : reltdUsers) {
@@ -184,29 +194,46 @@ public class CalendarServiceImpl implements ICalendarService {
 										Department relatedUser = ModelConverter.getDepartmentByDepartmentId(reltdUser);
 										if(relatedUser != null)
 											userList.add(relatedUser);
+									} else {
+										if(!CommonUtil.isEmpty(groupInfos)) {
+											for(GroupInfo groupInfo : groupInfos) {
+												if(reltdUser.equals(groupInfo.getId())) {
+													Group relatedUser = ModelConverter.getGroupByGroupId(reltdUser);
+													if(relatedUser != null)
+														userList.add(relatedUser);
+												}
+											}
+										}
 									}
-		// TO DO					else if(reltdUser.getClass().equals(Group.class))
-		// TO DO						userList.add(ModelConverter.getGroupByGroupId(reltdUser));
 								}
 							}
-							Community[] relatedUsers = new Community[userList.size()];
-							userList.toArray(relatedUsers);
-							companyEvent.setRelatedUsers(relatedUsers);
+							if(userList.size() != 0) {
+								relatedUsers = new Community[userList.size()];
+								userList.toArray(relatedUsers);
+							}
 						}
+						companyEvent.setRelatedUsers(relatedUsers);
 						companyEvent.setId(id);
-						companyEvent.setName(name);
+						companyEvent.setName(StringUtil.subString(name, 0, 30, "..."));
 						companyEvent.setHoliday(isHoliDay);
 						companyEvent.setPlannedStart(plannedStart);
 						companyEvent.setPlannedEnd(plannedEnd);
-						companyEventList.add(companyEvent);
+						if(!CommonUtil.isEmpty(companyEvent.getRelatedUsers())) {
+							companyEventList.add(companyEvent);
+						} else if(swcEventDay.getCreationUser().equals(cUser.getId()) || swcEventDay.getModificationUser().equals(cUser.getId())) {
+							companyEventList.add(companyEvent);
+						}
 					}
-					companyEventList.toArray(companyEvents);
+					if(companyEventList.size() != 0) {
+						companyEvents = new CompanyEvent[companyEventList.size()];
+						companyEventList.toArray(companyEvents);
+					}
 					companyCalendar.setCompanyEvents(companyEvents);
 				}
 				companyCalendars[i] = companyCalendar;
 				fromDate = new LocalDate(fromDate.getTime() + LocalDate.ONE_DAY);
 			}
-	
+
 			for(int k = 0; k < companyCalendars.length; k++) {
 				if(companyCalendars[k] == null) {
 					companyCalendars[k] = new CompanyCalendar();
