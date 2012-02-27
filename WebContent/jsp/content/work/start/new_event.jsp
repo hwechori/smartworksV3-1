@@ -40,9 +40,7 @@ function submitForms() {
 	}
 	var content = form.find('textarea[name="txtEventContent"]').attr("value");
 	var formContent = newEvent.find('.js_hidden_form_content');
-	
 	if(!isEmpty(formContent)) {
-
 		var workId = newEvent.attr('workId');
 		$.ajax({
 			url : "get_form_xml.sw",
@@ -123,24 +121,21 @@ function submitForms() {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="up_wrap js_new_event_page" workId="<%=SmartWork.ID_EVENT_MANAGEMENT%>">
-	<div class="up_point posit_event"></div>
-	<div class="form_wrap up up_padding">
-		<!-- 폼- 확장 -->
-		<form name="frmNewEvent" class="form_title js_validation_required">
-			<!-- 새로운 이벤트를 등록하기 위한 입력화면을 스마트폼을 이용하여 자동으로 그린다.. -->
-			<!-- js_new_event_fields :  js/sw/sw-formFields.js 에서 loadNewEventFields()가 찾아서 이벤트입력화면을 이곳에 그려준다.. -->
-			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" 
-				startDateTitle="<fmt:message key='common.upload.event.start_date'/>" endDateTitle="<fmt:message key='common.upload.event.end_date'/>"  alarmPolicyTitle="<fmt:message key='common.upload.button.set_alarm'/>"
-				placeTitle="<fmt:message key='common.upload.event.place'/>" relatedUsersTitle="<fmt:message key='common.upload.event.related_users'/>" 
-				contentTitle="<fmt:message key='common.upload.event.content' />">
-			</div>
-		</form>
-		<div class="js_hidden_form_content" style="display:none">
+<div class="js_new_event_page" workId="<%=SmartWork.ID_EVENT_MANAGEMENT%>">
+	<!-- 폼- 확장 -->
+	<form name="frmNewEvent" class="form_title js_validation_required">
+		<!-- 새로운 이벤트를 등록하기 위한 입력화면을 스마트폼을 이용하여 자동으로 그린다.. -->
+		<!-- js_new_event_fields :  js/sw/sw-formFields.js 에서 loadNewEventFields()가 찾아서 이벤트입력화면을 이곳에 그려준다.. -->
+		<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" 
+			startDateTitle="<fmt:message key='common.upload.event.start_date'/>" endDateTitle="<fmt:message key='common.upload.event.end_date'/>"  alarmPolicyTitle="<fmt:message key='common.upload.button.set_alarm'/>"
+			placeTitle="<fmt:message key='common.upload.event.place'/>" relatedUsersTitle="<fmt:message key='common.upload.event.related_users'/>" 
+			contentTitle="<fmt:message key='common.upload.event.content' />">
 		</div>
-		<!-- 새이벤트를 등록하기위한 완료 버튼과 취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
-			<jsp:param value="<%=SmartWork.ID_EVENT_MANAGEMENT%>" name="workId"/>
-		</jsp:include>
+	</form>
+	<div class="js_hidden_form_content" style="display:none">
 	</div>
+	<!-- 새이벤트를 등록하기위한 완료 버튼과 취소 버튼 -->
+	<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+		<jsp:param value="<%=SmartWork.ID_EVENT_MANAGEMENT%>" name="workId"/>
+	</jsp:include>
 </div>

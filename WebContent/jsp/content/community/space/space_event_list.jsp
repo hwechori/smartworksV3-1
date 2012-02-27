@@ -132,7 +132,7 @@ $(document).ready(function(){
 		    '': 'H(:mm)'
 		},
 		dayClick: function(date, allDay, jsEvent, view){
-			
+			smartPop.createEvent(date);
 		},
 		eventClick: function(event, jsEvent, view){
 			
@@ -140,7 +140,6 @@ $(document).ready(function(){
 	    eventRender: function(event, element) {
 	    	var title = $(element).find('.fc-event-title');
 	    	var titleText = title.html();
-	    	console.log('event=', event, ', element=', element, ', text=', titleText );
 	    	var tokens = titleText.split('&amp;');
 	    	var titleHtml = (tokens.length==3) ? '<img class="profile_size_s" src="' + tokens[0] + '" title="' + tokens[1] + '"/>  ' +  tokens[2] : tokens[0]; 
 	    	title.html(titleHtml);

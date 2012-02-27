@@ -149,6 +149,9 @@ $(function() {
 			userInfoTimer = null;
 		}
 		var input = $(e.target).parent();
+		if(input.attr('userId') === currentUser.userId)
+			return;
+		
 		var picture = input.find('img');
 		var top = picture.offset().top+ picture.height();
 		var scrollHeight = $(window).scrollTop() + window.innerHeight;

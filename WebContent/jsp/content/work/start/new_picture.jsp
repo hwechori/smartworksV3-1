@@ -120,22 +120,19 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="up_wrap js_new_picture_page">
-	<div class="up_point posit_pic"></div>
-	<div class="up up_padding">
-		<form name="frmNewPicture" class="form_wrap js_validation_required">
-			<!-- 새로운 사진을 업로드하고 설명 정보를 입력하기 위한 화면을 스마트폼을 이용하여 자동으로 그린다... -->
-			<!-- js/sw/sw-formFields.js 에 있는 loadNewPictureFields() 함수를 호출하여 그린다. -->
-			<div class="js_new_picture_fields" pictureDescTitle="<fmt:message key='common.upload.picture.desc'/>"></div>
+<div class="js_new_picture_page">
+	<form name="frmNewPicture" class="form_wrap js_validation_required">
+		<!-- 새로운 사진을 업로드하고 설명 정보를 입력하기 위한 화면을 스마트폼을 이용하여 자동으로 그린다... -->
+		<!-- js/sw/sw-formFields.js 에 있는 loadNewPictureFields() 함수를 호출하여 그린다. -->
+		<div class="js_new_picture_fields" pictureDescTitle="<fmt:message key='common.upload.picture.desc'/>"></div>
 
-			<!-- 업로드 실행시 파일상세정보를 임시로 생성하여 서버로 보내기 위한 곳  -->
-			<div id="form_import"></div>
-		</form>
-		
-		<!-- 등록 취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
-			<jsp:param value="<%=SmartWork.ID_FILE_MANAGEMENT %>" name="workId"/>
-		</jsp:include>
-		<!-- 등록 취소 버튼 //-->
-	</div>
+		<!-- 업로드 실행시 파일상세정보를 임시로 생성하여 서버로 보내기 위한 곳  -->
+		<div id="form_import"></div>
+	</form>
+	
+	<!-- 등록 취소 버튼 -->
+	<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
+		<jsp:param value="<%=SmartWork.ID_FILE_MANAGEMENT %>" name="workId"/>
+	</jsp:include>
+	<!-- 등록 취소 버튼 //-->
 </div>

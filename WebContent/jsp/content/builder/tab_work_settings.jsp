@@ -139,42 +139,41 @@
 							<div class="left40 gray_style">
 								<table class="js_display_field_items">
 									<tr>
-										<th width="45px"><fmt:message key="builder.title.key_field"/></th>
-										<th width="65%"><fmt:message key="builder.title.display_fields"/></th>
-										<th width="25%"><fmt:message key="builder.title.move_item"/></th>
+										<th width="20px"><fmt:message key="builder.title.key_field"/></th>
+										<th><fmt:message key="builder.title.display_fields"/></th>
+										<th width="50px"><fmt:message key="builder.title.move_item"/></th>
 									</tr>
 									<tr class="list_action_item" style="display:none">
 										<td class="rdo_key_field" >
-										
-										<input type="radio"/>
-										
-										<div class="keyOption">
-											<div class="ico_key" workid="" title=""></div>
-										</div>
-										
+											<div class="keyOption">
+												<a href=""><div class="ico_key js_key_field"></div></a>
+											</div>										
 										</td>
 										<td class="js_input_display_field"></td>
 										<td class="btn_move_field" >
 											<span class="move_actions">
-												<span class="js_up_field_item" title="<fmt:message key="builder.button.move_up_item"/>"> ^ </span>
-												<span style="display:none" class="js_down_field_item" title="<fmt:message key="builder.button.move_down_item"/>"> v </span>
-												<span class="js_hide_field_item" title="<fmt:message key="builder.button.hide_item"/>"> - </span>
+												<span class="js_up_field_item" title="<fmt:message key="builder.button.move_up_item"/>"><a href="" class="ico_up"></a></span>
+												<span style="display:none" class="js_down_field_item" title="<fmt:message key="builder.button.move_down_item"/>"><a href="" class="ico_down"></a></span>
+												<span class="js_hide_field_item" title="<fmt:message key="builder.button.hide_item"/>"><a href="" class="ico_hide"></a></span>
 											</span>
 										</td>
 									</tr>
 									<%
 									if(!SmartUtil.isBlankObject(displayFields) && displayFields.length>0){
 										String keyId = (SmartUtil.isBlankObject(informationWork.getKeyField())) ? displayFields[0].getId() : informationWork.getKeyField().getId();
+									%>
+										<input name="rdoKeyField" type="hidden" value="<%=keyId%>"/>
+									<%
 										int count = 0;;
-										for(FormField formField : displayFields){									
+										for(FormField formField : displayFields){
+											String checkedClass = (formField.getId().equals(keyId)) ? "checked" : "";
 									%>
 											<tr class="list_action_item">
 												<td class="rdo_key_field" >
-												<%-- <input type="radio" name="rdoKeyField" value="<%=formField.getId() %>" <%if(keyId.equals(formField.getId())){%>checked<%} %> /> --%>
 													
 													<!-- key Option -->
-													<div class="keyOption" >
-														<a href=""><div class="ico_key" workid="" title=""></div></a>
+													<div class="keyOption <%=checkedClass %>" >
+														<a href=""><div class="ico_key js_key_field <%=checkedClass %>" fieldId="<%=formField.getId() %>"></div></a>
 													</div>
 										
 												</td>
@@ -184,7 +183,7 @@
 													<span class="move_actions">
 														<span <%if(count==0){ %>style="display:none"<%} %> class="js_up_field_item" title="<fmt:message key="builder.button.move_up_item"/>"><a href="" class="ico_up"></a></span>
 														<span <%if(count==displayFields.length-1){ %>style="display:none"<%} %> class="js_down_field_item ico_down" title="<fmt:message key="builder.button.move_down_item"/>" ><a href="" class="ico_down"></a></span>
-														<span class="js_hide_field_item ico_hide" title="<fmt:message key="builder.button.hide_item"/>"><a href="" class="ico_hide"></a></span>
+														<span class="js_hide_field_item" title="<fmt:message key="builder.button.hide_item"/>"><a href="" class="ico_hide"></a></span>
 													</span>
 												</td>
 											</tr>
@@ -201,8 +200,8 @@
 							<div class="right40 gray_style">
 								<table class="js_hidden_field_items">
 									<tr>
-										<th width="10%"><fmt:message key="builder.title.move_item"/></th>
-										<th width="90%"><fmt:message key="builder.title.hidden_fields"/></th>
+										<th width="20px"><fmt:message key="builder.title.move_item"/></th>
+										<th><fmt:message key="builder.title.hidden_fields"/></th>
 									</tr>
 									<tr class="list_action_item" style="display:none"> 
 										<td class="btn_move_field">

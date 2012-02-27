@@ -19,7 +19,7 @@
 	// wid(WorkSpace Id, 공간을 저정하는 변수) 를 가져옮..
 	String cid = request.getParameter("cid");
 	if (SmartUtil.isBlankObject(cid))
-		cid = ISmartWorks.CONTEXT_HOME;
+		cid = ISmartWorks.CONTEXT_PREFIX_HOME + cUser.getId();
 	String wid = request.getParameter("wid");
 	if (SmartUtil.isBlankObject(wid))
 		wid = cUser.getId();
@@ -33,9 +33,12 @@
 
 	<%
 	// 페이지 컨텍스트가 커뮤너티 공간인데 사용자 공간이 아니면, 커뮤너티 멤버들의 정보를 보여준다...
-	if (SmartUtil.isCommunitySpaceContextType(cid)){		
+	if (SmartUtil.isCommunitySpaceContextType(cid) && !SmartUtil.getSpaceIdFromContentContext(cid).equals(cUser.getId())){		
 		if(!SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_USER_SPACE, cid)) {
 	%>
+			<div class="nav_list">
+				<jsp:include page="/jsp/nav/community_wall.jsp" />
+			</div>	
 			<div class="nav_list">
 				<jsp:include page="/jsp/nav/community_members.jsp" />
 			</div>
@@ -51,6 +54,11 @@
 	// 나의 업무, 나의 커뮤너티, 메일 함들을 보여준다....
 	} else if (SmartUtil.isBlankObject(wid) || wid.equals(cUser.getId())) {
 	%>
+		<div class="nav_list">
+			<jsp:include page="/jsp/nav/user_wall.jsp" >
+				<jsp:param value="<%=cid %>" name="cid"/>
+			</jsp:include>
+		</div>	
 		<div class="nav_list">
 			<jsp:include page="/jsp/nav/works.jsp" />
 		</div>
