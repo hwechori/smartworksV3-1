@@ -379,7 +379,8 @@ public class ModelConverter {
 			if (files != null && files.size() != 0) {
 				String filePath = files.get(0).getFilePath();
 				filePath = StringUtils.replace(filePath, "\\", "/");
-				imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+				if (filePath.indexOf(companyId) != -1)
+					imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
 			}
 			tempWorkInstanceInfo.setImgSource(imgSrc);
 			tempWorkInstanceInfo.setContent(content);

@@ -3064,11 +3064,36 @@ public class InstanceServiceImpl implements IInstanceService {
 			TaskWorkCond cond = new TaskWorkCond();
 			cond.setTskAssigneeIdIns(userSelectStr.toString());
 			cond.setTskAssignee(userId);
+			
+			long totalSize = getWlmManager().getCastWorkListSize(userId, cond);
+			
 			cond.setTskModifyDateFrom(fromDate);
+			
+			cond.setPageNo(0);
+			cond.setPageSize(maxSize);
+			
 			cond.setOrders(new Order[]{new Order("tskcreatedate", false)});
 			
-			TaskWork[] tasks = getWlmManager().getCastWorkList(userId, cond);	
-			return ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);
+			TaskWork[] tasks = getWlmManager().getCastWorkList(userId, cond);
+			
+			TaskInstanceInfo[] taskInfos = ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);
+			
+			if (totalSize > taskInfos.length) {
+				TaskInstanceInfo[] tempTaskInfos = new TaskInstanceInfo[taskInfos.length + 1];
+				for (int i = 0; i < taskInfos.length + 1; i++) {
+					if (i == taskInfos.length) {
+						TaskInstanceInfo moreInstance = new TaskInstanceInfo();
+						moreInstance.setType(-21);
+						tempTaskInfos[i] = moreInstance;
+					} else {
+						tempTaskInfos[i] = taskInfos[i];
+					}
+				}
+				taskInfos = tempTaskInfos;
+			}
+			
+			return taskInfos;
+			//return ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);
 			//return SmartTest.getTaskInstancesByDate(null, null, null, null, maxSize);
 		}catch (Exception e){
 			// Exception Handling Required
