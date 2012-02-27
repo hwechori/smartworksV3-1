@@ -3065,10 +3065,8 @@ public class InstanceServiceImpl implements IInstanceService {
 			TaskWorkCond cond = new TaskWorkCond();
 			cond.setTskAssigneeIdIns(userSelectStr.toString());
 			cond.setTskAssignee(userId);
-			
-			long totalSize = getWlmManager().getCastWorkListSize(userId, cond);
-			
 			cond.setTskModifyDateFrom(fromDate);
+			long totalSize = getWlmManager().getCastWorkListSize(userId, cond);
 			
 			cond.setPageNo(0);
 			cond.setPageSize(maxSize);
@@ -3079,7 +3077,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			TaskInstanceInfo[] taskInfos = ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);
 			
-			if (totalSize > taskInfos.length) {
+			if (totalSize > maxSize) {
 				TaskInstanceInfo[] tempTaskInfos = new TaskInstanceInfo[taskInfos.length + 1];
 				for (int i = 0; i < taskInfos.length + 1; i++) {
 					if (i == taskInfos.length) {

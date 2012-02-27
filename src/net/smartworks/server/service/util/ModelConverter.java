@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.community.Community;
@@ -67,6 +66,7 @@ import net.smartworks.server.engine.authority.model.SwaResource;
 import net.smartworks.server.engine.authority.model.SwaResourceCond;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
+import net.smartworks.server.engine.category.model.CtgCategoryCond;
 import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.common.collection.model.ColList;
 import net.smartworks.server.engine.common.collection.model.ColListCond;
@@ -126,8 +126,6 @@ import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartUtil;
-
-import org.springframework.util.StringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -1022,7 +1020,31 @@ public class ModelConverter {
 		String ctgId = ctg.getObjId();
 		String ctgName = ctg.getName();
 		WorkCategoryInfo workCtg = new WorkCategoryInfo(ctgId, ctgName);
+		workCtg.setRunning(isExistRunningPackageByCategoryId(ctgId));
 		return workCtg;
+	}
+	private static boolean isExistRunningPackageByCategoryId(String categoryId) throws Exception {
+		PkgPackageCond cond = new PkgPackageCond();
+		cond.setCategoryId(categoryId);
+		cond.setStatus(PkgPackage.STATUS_DEPLOYED);
+		long runningPackageCount = getPkgManager().getPackageSize("ModelConverter", cond);
+		if (runningPackageCount > 0)
+			return true;
+		
+		CtgCategoryCond ctgCond = new CtgCategoryCond();
+		ctgCond.setParentId(categoryId);
+		
+		CtgCategory[] ctg = getCtgManager().getCategorys("ModelConverter", ctgCond, IManager.LEVEL_LITE);
+		if (ctg == null) {
+			return false;
+		} else {
+			for (int i = 0; i < ctg.length; i++) {
+				if(isExistRunningPackageByCategoryId(ctg[i].getObjId())) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 	
 	public static UserInfo getUserInfoByUserId(String userId) throws Exception {
