@@ -1813,7 +1813,7 @@ public class InstanceServiceImpl implements IInstanceService {
 										}
 										fieldData.setFileNames(fileNameList);
 									} else if(formatType.equals(FormField.TYPE_TEXT)) {
-										value = StringUtil.subString(value, 0, 24, "...");
+										value = StringUtil.subString(value, 0, 30, "...");
 									}
 									fieldData.setValue(value);
 									fieldDataList.add(fieldData);
