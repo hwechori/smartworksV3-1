@@ -163,10 +163,10 @@ public class SettingsServiceImpl implements ISettingsService {
 			String companyFileId = null;
 			String companyFileName = null;
 
-			while (itr.hasNext()) {
+			while(itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmCompanyGeneral.get(fieldId);
-				if (fieldValue instanceof LinkedHashMap) {
+				if(fieldValue instanceof LinkedHashMap) {
 					Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
 					if(fieldId.equals("imgCompanyLogo")) {
 						files = (ArrayList<Map<String,String>>)valueMap.get("files");
@@ -472,7 +472,7 @@ public class SettingsServiceImpl implements ISettingsService {
 				swcWorkHour.setCompanyId(companyId);
 				swcWorkHour.setType("0");
 			}
-			while (itr.hasNext()) {
+			while(itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditWorkHour.get(fieldId);
 				if(fieldValue instanceof String) {					
@@ -719,7 +719,7 @@ public class SettingsServiceImpl implements ISettingsService {
 				swcEventDay.setCompanyId(companyId);
 			}
 
-			while (itr.hasNext()) {
+			while(itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditCompanyEvent.get(fieldId);
 				if(fieldValue instanceof LinkedHashMap) {
@@ -830,8 +830,8 @@ public class SettingsServiceImpl implements ISettingsService {
 			AprApprovalLineDef[] approvalLineDefs = getAprManager().getApprovalLineDefs(userId, approvalLineDefCond, IManager.LEVEL_ALL);
 
 			ApprovalLine[] approvalLines = null;
+			List<ApprovalLine> approvalLineList = new ArrayList<ApprovalLine>();
 			if(approvalLineDefs != null) {
-				List<ApprovalLine> approvalLineList = new ArrayList<ApprovalLine>();
 				for(AprApprovalLineDef approvalLineDef : approvalLineDefs) {
 					ApprovalLine approvalLine = new ApprovalLine();
 					String id = approvalLineDef.getObjId();
@@ -843,20 +843,20 @@ public class SettingsServiceImpl implements ISettingsService {
 					approvalLine.setDesc(desc);
 					approvalLine.setApprovalLevel(approvalLevel);
 					AprApprovalDef[] approvalDefs = approvalLineDef.getApprovalDefs();
-					if(approvalDefs != null) {
+					if(!CommonUtil.isEmpty(approvalDefs)) {
 						List<Approval> approvalList = new ArrayList<Approval>();
 						for(AprApprovalDef approvalDef : approvalDefs) {
 							Approval approval = new Approval();
 							approval.setName(approvalDef.getAprName());
 							approval.setApproverType(Integer.parseInt(approvalDef.getType()));
 							approval.setApprover(ModelConverter.getUserByUserId(approvalDef.getAprPerson()));
-							String dueDate = approvalDef.getDueDate();
+							String dueDate = CommonUtil.toNotNull(approvalDef.getDueDate());
 							int meanTimeDays = 0;
 							int meanTimeHours = 0;
 							int meanTimeMinutes = 30;
 							int daysToMinutes = 60 * 24;
 							int hoursToMinutes = 60;
-							if(dueDate != null) {
+							if(!dueDate.equals("")) {
 								int meanTime = Integer.parseInt(dueDate);
 								meanTimeDays = meanTime / daysToMinutes;
 								meanTime = meanTime % daysToMinutes;
@@ -985,7 +985,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			}
 
 			int count = 0;
-			while (itr.hasNext()) {
+			while(itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditApprovalLine.get(fieldId);
 				if(fieldValue instanceof String) {
@@ -1274,7 +1274,7 @@ public class SettingsServiceImpl implements ISettingsService {
 
 			int inputCount = 0;
 			int returnCount = 0;
-			while (itr.hasNext()) {
+			while(itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditWebService.get(fieldId);
 				if(fieldValue instanceof String) {
@@ -1705,7 +1705,7 @@ public class SettingsServiceImpl implements ISettingsService {
 			Map<Integer, String> editFieldIdMap = new HashMap<Integer, String>();
 			Map<Integer, String> viewFieldIdMap = new HashMap<Integer, String>();
 			Map<Integer, String> returnFieldIdMap = new HashMap<Integer, String>();
-			while (itr.hasNext()) {
+			while(itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditExternalForm.get(fieldId);
 				if(fieldValue instanceof String) {
@@ -1862,7 +1862,7 @@ public class SettingsServiceImpl implements ISettingsService {
 				swoUser.setRetiree("N");
 			}
 
-			while (itr.hasNext()) {
+			while(itr.hasNext()) {
 				String fieldId = (String)itr.next();
 				Object fieldValue = frmEditMember.get(fieldId);
 				if(fieldValue instanceof String) {

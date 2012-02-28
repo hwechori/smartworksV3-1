@@ -2,6 +2,11 @@ ALTER TABLE SWEventday alter column reltdperson varchar(4000);
 
 ALTER TABLE SWDataRef alter column refRecordId varchar(4000);
 
+
+ALTER TABLE prcprcinst alter column prctitle varchar(255); --prctitle의 컬럼사이즈를 text_input의 컬럼사이즈인 255로 변경
+ALTER TABLE tsktask alter column tsktitle varchar(255); --tsktitle의 컬럼사이즈를 text_input의 컬럼사이즈인 255로 변경
+
+
 -- TO-DO : user_field 추가 시 컬럼 길이 4000으로 변경
 
 -- SWOrgUser locale, timeZone column add
@@ -18,6 +23,10 @@ ALTER TABLE tsktask add tskFromRefId varchar(100);
 -- 결재라인정의에 평균 소요시간 컬럼 추가
 ALTER TABLE apraprdef add dueDate varchar(100);
 
+ALTER TABLE aprapr add aprDueDate varchar(100);
+
+
+
 -- TO-DO : mode -> authmode 
 
 -- TO-DO : tsktask : tskWorkspaceId, prcprcinst : prcWorkspaceId
@@ -27,6 +36,7 @@ ALTER TABLE apraprdef add dueDate varchar(100);
 -- workspaceid column add
 ALTER TABLE TskTask add tskWorkspaceId varchar(100);
 ALTER TABLE TskTask add tskWorkSpaceType varchar(50);
+ALTER TABLE TskTask add tskRefType varchar(100);
 ALTER TABLE PrcprcInst add prcWorkspaceId varchar(100);
 ALTER TABLE PrcprcInst add prcWorkSpaceType varchar(50);
 

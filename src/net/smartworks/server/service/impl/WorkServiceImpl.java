@@ -358,11 +358,15 @@ public class WorkServiceImpl implements IWorkService {
 			pkgCond.setPackageId(workId);
 	
 			PkgPackage pkg = getPkgManager().getPackage(user.getId(), pkgCond, IManager.LEVEL_LITE);
-			
-			if (pkg.getType().equalsIgnoreCase("PROCESS") || pkg.getType().equalsIgnoreCase("GANTT")) {
-				return getProcessWorkById(user.getCompanyId(), user.getId(), workId);
+
+			if(pkg != null) {
+				if (pkg.getType().equalsIgnoreCase("PROCESS") || pkg.getType().equalsIgnoreCase("GANTT")) {
+					return getProcessWorkById(user.getCompanyId(), user.getId(), workId);
+				} else {
+					return getInfortmationWorkById(user.getCompanyId(), user.getId(), workId);
+				}
 			} else {
-				return getInfortmationWorkById(user.getCompanyId(), user.getId(), workId);
+				return null;
 			}
 		}catch (Exception e){
 			// Exception Handling Required
@@ -560,7 +564,7 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public SearchFilter getSearchFilterById(String filterId) throws Exception {
+	public SearchFilter getSearchFilterById(String type, String workId, String filterId) throws Exception {
 
 		try{
 			if(CommonUtil.toNotNull(filterId).equals(""))
@@ -571,7 +575,7 @@ public class WorkServiceImpl implements IWorkService {
 			else if(filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES)) return SearchFilter.getRecentInstancesFilter();
 			else if(filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES)) return SearchFilter.getMyRecentInstancesFilter(ModelConverter.getUserByUserId(user.getId()));
 			else if(filterId.equals(SearchFilter.FILTER_MY_RUNNING_INSTANCES)) return SearchFilter.getMyRunningInstancesFilter(ModelConverter.getUserByUserId(user.getId()));
-			else return ModelConverter.getSearchFilterByFilterId(filterId);
+			else return ModelConverter.getSearchFilterByFilterId(type, workId, filterId);
 		}catch (Exception e){
 			e.printStackTrace();
 			return null;
@@ -849,9 +853,9 @@ public class WorkServiceImpl implements IWorkService {
 						} else if(formatType.equals(FormField.TYPE_DATE)) {
 							if(value != null) {
 								try {
-									LocalDate localDate = LocalDate.convertGMTSimpleStringToLocalDate(value);
+									LocalDate localDate = LocalDate.convertGMTStringToLocalDate(value);
 									if(localDate != null)
-										value = LocalDate.convertGMTSimpleStringToLocalDate(value).toLocalDateSimpleString();
+										value = localDate.toLocalDateSimpleString();
 								} catch (Exception e) {
 								}
 							}
@@ -860,7 +864,7 @@ public class WorkServiceImpl implements IWorkService {
 								try {
 									LocalDate localDate = LocalDate.convertGMTTimeStringToLocalDate(value);
 									if(localDate != null)
-										value = LocalDate.convertGMTTimeStringToLocalDate(value).toLocalTimeShortString();
+										value = localDate.toLocalTimeShortString();
 								} catch (Exception e) {
 								}
 							}
@@ -869,7 +873,7 @@ public class WorkServiceImpl implements IWorkService {
 								try {
 									LocalDate localDate = LocalDate.convertGMTStringToLocalDate(value);
 									if(localDate != null)
-										value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
+										value = localDate.toLocalDateTimeSimpleString();
 								} catch (Exception e) {
 								}
 							}
@@ -900,7 +904,6 @@ public class WorkServiceImpl implements IWorkService {
 			List<Map<String, String>> frmSearchFilters = (ArrayList<Map<String,String>>)requestBody.get("frmSearchFilters");
 
 			String selFilterLeftOperand = null;
-			String leftOperandType = null;
 			String selFilterOperator = null;
 			String txtFilterStringOperand = null;
 			String txtFilterDateOperand = null;
@@ -908,6 +911,7 @@ public class WorkServiceImpl implements IWorkService {
 			String selFilterTimeOperand = null;
 			String rightOperand = null;
 			String rightOperandType = null;
+			String hdnFieldType = null;
 
 			SwfFormCond swfFormCond = new SwfFormCond();
 			swfFormCond.setCompanyId(companyId);
@@ -918,31 +922,46 @@ public class WorkServiceImpl implements IWorkService {
 			String lnkCorr = formId;
 
 			ColList colList = null;
+			ColObject[] colObjects = null;
+			List<ColObject> colObjectsList = new ArrayList<ColObject>();
 			ColListCond colListCond = new ColListCond();
 			if(!filterId.equals("") && !txtNewFilterName.equals("")) {
-				ColObject colObject = new ColObject();
-				colObject.setRef(filterId);
-				ColObject[] colObjects = new ColObject[1];
-				colObjects[0] = colObject;
-				colListCond.setItems(colObjects);
 				colListCond.setType(likType);
 				colListCond.setCorrelation(lnkCorr);
 				colList = getColManager().getList(userId, colListCond, IManager.LEVEL_ALL);
-			/*} else if(filterId.equals("") && !txtNewFilterName.equals("")) {
-				colList = new ColList();
-				colList.setType(likType);
-				colList.setCorrelation(lnkCorr);*/
+				if(colList != null) {
+					colObjects = colList.getItems();
+					if(!CommonUtil.isEmpty(colObjects)) {
+						for(int i=0; i<colObjects.length; i++) {
+							ColObject colObject = colObjects[i];
+							if(CommonUtil.toNotNull(colObject.getRef()).equals(filterId)) {
+								colObjectsList.add(colObject);
+							}
+						}
+					}
+					if(colObjectsList.size() > 0) {
+						colObjects = new ColObject[colObjectsList.size()];
+						colObjectsList.toArray(colObjects);
+					}
+					if (CommonUtil.isEmpty(colObjects) || colObjects.length != 1)
+						return null;
+				}
 			} else {
 				colListCond.setType(likType);
 				colListCond.setCorrelation(lnkCorr);
 				colList = getColManager().getList(userId, colListCond, IManager.LEVEL_ALL);
+				if(colList == null) {
+					colList = new ColList();
+					colList.setType(likType);
+					colList.setCorrelation(lnkCorr);
+				}
 			}
 
 			List<Filter> filterList = new ArrayList<Filter>();
 			Filter[] filters = null;
 			ColObject colObject = new ColObject();
 			if(frmSearchFilters != null) {
-				for(int i=0; i<frmSearchFilters.size(); i++) {
+				for(int i=1; i<frmSearchFilters.size(); i++) {
 					Filter filter = new Filter();
 					Map<String, String> filtersMap = frmSearchFilters.get(i);
 					selFilterLeftOperand = (String)filtersMap.get("selFilterLeftOperand");
@@ -951,6 +970,7 @@ public class WorkServiceImpl implements IWorkService {
 					txtFilterDateOperand = (String)filtersMap.get("txtFilterDateOperand");
 					txtFilterDateOperandNumber = (String)filtersMap.get("txtFilterDateOperandNumber");
 					selFilterTimeOperand = (String)filtersMap.get("selFilterTimeOperand");
+					hdnFieldType = (String)filtersMap.get("hdnFieldType");
 
 					if(selFilterOperator.equals(ConditionOperator.RECENT_DAYS.getId())) {
 						rightOperand = this.getRecentSomeDays(5);
@@ -988,16 +1008,21 @@ public class WorkServiceImpl implements IWorkService {
 						rightOperand = this.getRecentSomeMonths(Integer.parseInt(txtFilterDateOperandNumber));
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
 						rightOperandType = FormField.TYPE_DATE;
-					} else { 
+					} else {
 						if(txtFilterStringOperand != null) {
 							rightOperand = txtFilterStringOperand;
-							rightOperandType = FormField.TYPE_TEXT;
 						} else if(txtFilterDateOperand != null){
-							rightOperand = txtFilterDateOperand;
-							rightOperandType = FormField.TYPE_DATE;
+							rightOperand = LocalDate.convertLocalDateStringToLocalDate(txtFilterDateOperand).toGMTSimpleDateString();
 						} else if(selFilterTimeOperand != null){
-							rightOperand = selFilterTimeOperand;
-							rightOperandType = FormField.TYPE_TIME;
+							rightOperand = LocalDate.convertLocalTimeStringToLocalDate(selFilterTimeOperand).toGMTTimeString2();
+						}
+						if(hdnFieldType != null) {
+							if(hdnFieldType.equals(FormField.TYPE_DATETIME) || hdnFieldType.equals(FormField.TYPE_DATE) || hdnFieldType.equals(FormField.TYPE_TIME) 
+									|| hdnFieldType.equals(FormField.TYPE_USER) || hdnFieldType.equals(FormField.TYPE_OTHER_WORK)) {
+								rightOperandType = hdnFieldType;
+							} else {
+								rightOperandType = FormField.TYPE_TEXT;
+							}
 						}
 					}
 					filter.setLeftOperandType(rightOperandType);
@@ -1024,19 +1049,13 @@ public class WorkServiceImpl implements IWorkService {
 				colObject.setExpression(swdRecordCond.toString());
 			}
 
-			ColObject[] colObjects = (ColObject[])colList.getItems();
-			if(colObjects != null) {
-				/*for(ColObject colObj : colObjects) {
-					if(colObj == colObject)
-						colObjects = ColObject.remove(colObjects, colObj);
-				}*/
-				colObjects = ColObject.add(colObjects, colObject);
-			} else {
-				colObjects = new ColObject[1];
+			if(!CommonUtil.isEmpty(colObjects)) {
+				colList.removeItem(colObjects[0]);
 				colObjects[0] = colObject;
+				colList.addItem(colObjects[0]);
+			} else {
+				colList.addItem(colObject);
 			}
-
-			colList.setItems(colObjects);
 
 			getColManager().setList(userId, colList, IManager.LEVEL_ALL);
 
@@ -1046,6 +1065,61 @@ public class WorkServiceImpl implements IWorkService {
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	public void removeIworkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			String companyId = cUser.getCompanyId();
+
+			String workId = (String)requestBody.get("workId");
+			String filterId = (String)requestBody.get("filterId");
+
+			if(CommonUtil.isEmpty(workId) || CommonUtil.isEmpty(filterId))
+				return;
+
+			SwfFormCond swfFormCond = new SwfFormCond();
+			swfFormCond.setCompanyId(companyId);
+			swfFormCond.setPackageId(workId);
+			String formId = getSwfManager().getForms(userId, swfFormCond, IManager.LEVEL_LITE)[0].getId();
+
+			String likType = "record.cond." + userId;
+			String lnkCorr = formId;
+
+			ColList colList = null;
+			ColObject[] colObjects = null;
+			List<ColObject> colObjectsList = new ArrayList<ColObject>();
+			ColListCond colListCond = new ColListCond();
+
+			colListCond.setType(likType);
+			colListCond.setCorrelation(lnkCorr);
+			colList = getColManager().getList(userId, colListCond, IManager.LEVEL_ALL);
+			if(colList != null) {
+				colObjects = colList.getItems();
+				if(!CommonUtil.isEmpty(colObjects)) {
+					for(int i=0; i<colObjects.length; i++) {
+						ColObject colObject = colObjects[i];
+						if(CommonUtil.toNotNull(colObject.getRef()).equals(filterId)) {
+							colObjectsList.add(colObject);
+						}
+					}
+				}
+				if(colObjectsList.size() > 0) {
+					colObjects = new ColObject[colObjectsList.size()];
+					colObjectsList.toArray(colObjects);
+				}
+				if (CommonUtil.isEmpty(colObjects) || colObjects.length != 1)
+					return;
+			}
+			colList.removeItem(colObjects[0]);
+			getColManager().setList(userId, colList, IManager.LEVEL_ALL);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
 		}
 	}
 
@@ -1127,70 +1201,73 @@ public class WorkServiceImpl implements IWorkService {
 			String selFilterOperator = null;
 			String txtFilterStringOperand = null;
 			String txtFilterDateOperand = null;
-			String txtFilterTimeOperand = null;
-			String txtFiltetRightOperandType = null;
+			String txtFilterDateOperandNumber = null;
+			String selFilterTimeOperand = null;
 			String rightOperand = null;
+			String rightOperandType = null;
 
 			List<Condition> conditionList = new ArrayList<Condition>();
 
 			if(frmSearchFilters != null) {
 				for(int i = 0; i <  frmSearchFilters.subList(0, frmSearchFilters.size()).size(); i++) {
-					Map<String, Object> valueMap = frmSearchFilters.get(i);
+					Map<String, Object> filtersMap = frmSearchFilters.get(i);
 					Condition condition = new Condition();
-					selFilterLeftOperand = (String)valueMap.get("selFilterLeftOperand");
-					selFilterOperator = (String)valueMap.get("selFilterOperator");
-
-					txtFilterStringOperand = (String)valueMap.get("txtFilterStringOperand");
-					txtFilterDateOperand = (String)valueMap.get("txtFilterDateOperand");
-					txtFilterTimeOperand = (String)valueMap.get("txtFilterTimeOperand");
+					selFilterLeftOperand = (String)filtersMap.get("selFilterLeftOperand");
+					selFilterOperator = (String)filtersMap.get("selFilterOperator");
+					txtFilterStringOperand = (String)filtersMap.get("txtFilterStringOperand");
+					txtFilterDateOperand = (String)filtersMap.get("txtFilterDateOperand");
+					txtFilterDateOperandNumber = (String)filtersMap.get("txtFilterDateOperandNumber");
+					selFilterTimeOperand = (String)filtersMap.get("selFilterTimeOperand");
 
 					if(selFilterOperator.equals(ConditionOperator.RECENT_DAYS.getId())) {
 						rightOperand = this.getRecentSomeDays(5);
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
+						rightOperandType = FormField.TYPE_DATE;
 					} else if(selFilterOperator.equals(ConditionOperator.TODAY.getId())) {
 						rightOperand = this.getRecentSomeDays(1);
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
+						rightOperandType = FormField.TYPE_DATE;
 					} else if(selFilterOperator.equals(ConditionOperator.THIS_WEEK.getId())) {
 						rightOperand = this.getThisWeek();
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
+						rightOperandType = FormField.TYPE_DATE;
 					} else if(selFilterOperator.equals(ConditionOperator.THIS_MONTH.getId())) {
 						rightOperand = this.getRecentSomeMonths(1);
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
+						rightOperandType = FormField.TYPE_DATE;
 					} else if(selFilterOperator.equals(ConditionOperator.THIS_QUARTER.getId())) {
 						rightOperand = this.getThisQuarter();
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
+						rightOperandType = FormField.TYPE_DATE;
 					} else if(selFilterOperator.equals(ConditionOperator.THIS_HALF_YEAR.getId())) {
 						rightOperand = this.getThisHalfYear();
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
+						rightOperandType = FormField.TYPE_DATE;
 					} else if(selFilterOperator.equals(ConditionOperator.THIS_YEAR.getId())) {
 						rightOperand = this.getThisYear();
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
+						rightOperandType = FormField.TYPE_DATE;
 					} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_DAYS.getId())) {
-						rightOperand = this.getRecentSomeDays(Integer.parseInt(txtFilterTimeOperand));
+						rightOperand = this.getRecentSomeDays(Integer.parseInt(txtFilterDateOperandNumber));
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
+						rightOperandType = FormField.TYPE_DATE;
 					} else if(selFilterOperator.equals(ConditionOperator.RECENT_SOME_MONTHS.getId())) {
-						rightOperand = this.getRecentSomeMonths(Integer.parseInt(txtFilterTimeOperand));
+						rightOperand = this.getRecentSomeMonths(Integer.parseInt(txtFilterDateOperandNumber));
 						selFilterOperator = ConditionOperator.GREATER_EQUAL.getId();
-						txtFiltetRightOperandType = FormField.TYPE_DATE;
-					} else {
+						rightOperandType = FormField.TYPE_DATE;
+					} else { 
 						if(txtFilterStringOperand != null) {
 							rightOperand = txtFilterStringOperand;
-							txtFiltetRightOperandType = FormField.TYPE_TEXT;
+							rightOperandType = FormField.TYPE_TEXT;
 						} else if(txtFilterDateOperand != null){
-							rightOperand = txtFilterDateOperand;
-							txtFiltetRightOperandType = FormField.TYPE_DATE;
+							rightOperand = LocalDate.convertLocalDateStringToLocalDate(txtFilterDateOperand).toGMTSimpleDateString();
+							rightOperandType = FormField.TYPE_DATE;
+						} else if(selFilterTimeOperand != null){
+							rightOperand = LocalDate.convertLocalTimeStringToLocalDate(selFilterTimeOperand).toGMTTimeString2();
+							rightOperandType = FormField.TYPE_TIME;
 						}
 					}
-
-					condition.setLeftOperand(new FormField(selFilterLeftOperand, null, txtFiltetRightOperandType));
+					condition.setLeftOperand(new FormField(selFilterLeftOperand, null, rightOperandType));
 					condition.setRightOperand(rightOperand);
 					condition.setOperator(selFilterOperator);
 					conditionList.add(condition);

@@ -161,7 +161,7 @@ function loadNewFileFields() {
 	}
 };
 
-function loadNewEventFields() {
+function loadNewEventFields(startDate) {
 	var newEventFields = $('div.js_new_event_fields');
 	if(!isEmpty(newEventFields)) {
 		for(var i=0; i<newEventFields.length; i++) {
@@ -186,12 +186,16 @@ function loadNewEventFields() {
 				colSpan: 3,
 				required: true
 			});
-		  	
+	
+			var startDateStr = "";
+			if(!isEmpty(startDate))
+				startDateStr = startDate.format('yyyy.mm.dd hh:MM');
 			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
 			SmartWorks.FormRuntime.DateTimeChooserBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtEventStartDate",
 				fieldName: startDateTitle,
+				value: startDateStr,
 				columns: 3,
 				colSpan: 1,
 				required: true

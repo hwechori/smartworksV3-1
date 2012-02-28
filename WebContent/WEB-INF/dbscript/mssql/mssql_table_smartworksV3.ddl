@@ -606,6 +606,7 @@ CREATE TABLE aprapr (
     aprstatus varchar(50),
     aprtype varchar(50),
     aprapprover varchar(50),
+   	aprDueDate varchar(100),
     aprismanda tinyint,
     aprismodify tinyint,
     approvalline varchar(100),
@@ -834,7 +835,7 @@ CREATE TABLE prcprcinst (
     prcmodifyuser varchar(50),
     prcmodifydate datetime,
     prcstatus varchar(100),
-    prctitle varchar(100),
+    prctitle varchar(255),
     tskdesc text,
     tskpriority varchar(50),
     prcdid varchar(100),
@@ -869,7 +870,7 @@ CREATE TABLE tsktask (
     tskcorr varchar(50),
     tsktype varchar(100),
     tskprcinstid varchar(50),
-    tsktitle varchar(200),
+    tsktitle varchar(255),
     tskdesc text,
     tskpriority varchar(50),
     tskdoc text,
@@ -897,6 +898,7 @@ CREATE TABLE tsktask (
     tskFromRefId varchar(100),
     tskWorkspaceId varchar(100),
     tskWorkspaceType varchar(50),
+    tskRefType varchar(100),
 	primary key(tskobjid)
 );
 

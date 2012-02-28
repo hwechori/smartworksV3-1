@@ -321,7 +321,7 @@ smartPop = {
 					$('.js_pop_select_work').live( 'click', function(e){
 						var input = $(e.target).parents('li:first').find('a');
 						$('#form_works').html('').hide();
-						$('#upload_work_list').hide().parents(".js_start_work").hide();
+						$('#upload_work_list').hide().parents(".js_start_work_page").hide();
 						var href = input.attr('href');
 						$.get(href,  function(data){
 							$('#form_works').html(data);
@@ -485,6 +485,23 @@ smartPop = {
 				}
 			});
 		});
-	}
+	},
+
+	createEvent : function(startDate){
+		$.get("pop_new_event.sw", function(data){
+			$(data).modal({
+				opacity: 50,
+				overlayCss: {backgroundColor:"#000"},
+				containerCss:{
+					height:300,
+					width:800
+				},
+				overlayClose: false,
+				onShow: function(dialog){
+					loadNewEventFields(startDate);
+				}
+			});
+		});
+	}	
 	
 };

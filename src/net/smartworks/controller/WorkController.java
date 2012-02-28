@@ -200,4 +200,11 @@ public class WorkController extends ExceptionInterceptor {
 		mnv.setViewName("jsp/content/work/list/search_filter_list_box.jsp?workId=" + workId + "&filterId=" + filterId);
 		return mnv;
 	}
+
+	@RequestMapping(value = "/remove_iwork_search_filter", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody void removeIworkSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.removeIworkSearchFilter(requestBody, request);
+	}
+
 }

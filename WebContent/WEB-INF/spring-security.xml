@@ -7,15 +7,15 @@
 		http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
-	<http use-expressions="true">
+	<http auto-config="true" use-expressions="true">
 		<!-- access-decision-manager-ref="unanimousBased"> -->
 		<intercept-url pattern="/login.sw" access="permitAll" />
 		<intercept-url pattern="/css/*.css" access="permitAll" />
 		<intercept-url pattern="/images/*.*" access="permitAll" />
 		<intercept-url pattern="/admin/**/*" access="hasRole('ADMINISTRATOR') and fullyAuthenticated" />
 		<form-login login-page="/login.sw" login-processing-url="/j_spring_security_check" default-target-url="/home.sw" authentication-failure-url="/login.sw?type=failedLogin" />
-		<remember-me key="smartworksV3"/>
-		<logout logout-url="/logout.sw" logout-success-url="/login.sw?type=logout" />
+		<remember-me />
+		<logout invalidate-session="false" logout-success-url="/login.sw?type=logout" logout-url="/logout" />
 		<session-management invalid-session-url="/login.sw?type=expiredSession" session-authentication-error-url="/login.sw?type=unauthorized">
 			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
 		</session-management>

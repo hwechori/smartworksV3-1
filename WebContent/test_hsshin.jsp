@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.util.SmartUtil"%>
+<%@page import="net.smartworks.server.engine.common.util.StringUtil"%>
 <%@page import="net.smartworks.model.service.Variable"%>
 <%@page import="net.smartworks.model.service.WSDLOperation"%>
 <%@page import="net.smartworks.model.service.WSDLPort"%>
@@ -50,7 +52,6 @@
 <%@page import="net.smartworks.server.engine.organization.model.SwoUserCond"%>
 <%@page import="net.smartworks.server.engine.organization.model.SwoUser"%>
 <%@page import="net.smartworks.server.engine.organization.manager.ISwoManager"%>
-<%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.server.engine.process.link.model.LnkLink"%>
 <%@page import="net.smartworks.server.engine.process.link.manager.ILnkManager"%>
 <%@page import="net.smartworks.server.engine.process.process.model.PrcProcess"%>
@@ -258,6 +259,35 @@
 	GroupInfo[] groupInfo = communityService.getMyGroups();
 	System.out.println(groupInfo); */
 
+/* 	LocalDate localDate = LocalDate.convertLocalTimeStringToLocalDate("14:32");
+	System.out.println(localDate);
+	
+	String str = LocalDate.convertLocalTimeStringToLocalDate("14:32").toGMTTimeString();
+	System.out.println(str); */
+	
+	/* String aa = LocalDate.convertGMTTimeStringToLocalDate("06:14").toLocalTimeString2();
+	System.out.println(aa);
+	String bb = LocalDate.convertGMTSimple2StringToLocalDate("2012.02.23").toLocalDateSimpleString();
+	System.out.println(bb); */
+
+/* 	String cc = LocalDate.convertGMTStringToLocalDate("2012-02-23 15:00:00.0").toLocalDateSimpleString();
+	System.out.println(cc);
+
+	String dd = LocalDate.convertGMTStringToLocalDate("2012-02-23 15:00:00.0").toLocalDateTimeSimpleString();
+	System.out.println(dd); */
+
+	//숫자 - 9
+	//빈칸 - 12
+	//영어 - 2
+	//한글 - 5
+	//특수기호 - 24, 27
+
+	String str = "반갑습니다하하";
+	int endPoint = 24;
+	System.out.println("str.length() ::: " + str.length());
+	str = StringUtil.subString(str, 0, 7, "...");
+
+	System.out.println(str);
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>

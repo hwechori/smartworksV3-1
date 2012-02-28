@@ -20,10 +20,12 @@ public class AprApprovalCond extends MisObjectCond {
 
 	public static final String A_TYPE = "type";
 	public static final String A_APPROVER = "approver";
+	public static final String A_DUEDATE = "dueDate";
 	public static final String A_ISAPPROVALLINENULL = "isApprovalLineNull";
 	
 	private String type;
 	private String approver;
+	private String dueDate;
 	private boolean isApprovalLineNull;
 	public AprApprovalCond() {
 		super();
@@ -38,6 +40,7 @@ public class AprApprovalCond extends MisObjectCond {
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_TYPE, type, buf);
 		appendAttributeString(A_APPROVER, approver, buf);
+		appendAttributeString(A_DUEDATE, dueDate, buf);
 		appendAttributeString(A_ISAPPROVALLINENULL, isApprovalLineNull, buf);
 		return buf.toString();
 	}
@@ -57,11 +60,14 @@ public class AprApprovalCond extends MisObjectCond {
 		if (attrMap != null) {
 			Node type = attrMap.getNamedItem(A_TYPE);
 			Node approver = attrMap.getNamedItem(A_APPROVER);
+			Node dueDate = attrMap.getNamedItem(A_DUEDATE);
 			Node isApprovalLineNull = attrMap.getNamedItem(A_ISAPPROVALLINENULL);
 			if (type != null)
 				obj.setType(type.getNodeValue());
 			if (approver != null)
 				obj.setApprover(approver.getNodeValue());
+			if (dueDate != null)
+				obj.setDueDate(dueDate.getNodeValue());
 			if (isApprovalLineNull != null)
 				obj.setApprovalLineNull(CommonUtil.toBoolean(isApprovalLineNull.getNodeValue()));
 		}
@@ -169,6 +175,12 @@ public class AprApprovalCond extends MisObjectCond {
 	}
 	public void setApprover(String method) {
 		this.approver = method;
+	}
+	public String getDueDate() {
+		return dueDate;
+	}
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
 	}
 	public String getType() {
 		return type;

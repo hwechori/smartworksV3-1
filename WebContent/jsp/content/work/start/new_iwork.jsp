@@ -109,7 +109,7 @@ function submitForms() {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 js_form_wrap js_new_iwork_page" workId="<%=workId%>">
+<div class="margin_b2 js_form_wrap js_new_iwork_page" workId="<%=workId%>">
 	<div class="form_title js_form_header">
 		<!-- 해당 업무이름을 표시하는 곳 -->
 		<div class="ico_iworks title"><%=work.getFullpathName()%></div>

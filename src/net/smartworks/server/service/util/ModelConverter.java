@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
+import net.smartworks.model.approval.Approval;
 import net.smartworks.model.approval.ApprovalLine;
 import net.smartworks.model.community.Community;
 import net.smartworks.model.community.Department;
@@ -67,6 +67,7 @@ import net.smartworks.server.engine.authority.model.SwaResource;
 import net.smartworks.server.engine.authority.model.SwaResourceCond;
 import net.smartworks.server.engine.category.manager.ICtgManager;
 import net.smartworks.server.engine.category.model.CtgCategory;
+import net.smartworks.server.engine.category.model.CtgCategoryCond;
 import net.smartworks.server.engine.common.collection.manager.IColManager;
 import net.smartworks.server.engine.common.collection.model.ColList;
 import net.smartworks.server.engine.common.collection.model.ColListCond;
@@ -103,6 +104,11 @@ import net.smartworks.server.engine.organization.model.SwoUserExtend;
 import net.smartworks.server.engine.pkg.manager.IPkgManager;
 import net.smartworks.server.engine.pkg.model.PkgPackage;
 import net.smartworks.server.engine.pkg.model.PkgPackageCond;
+import net.smartworks.server.engine.process.approval.manager.IAprManager;
+import net.smartworks.server.engine.process.approval.model.AprApproval;
+import net.smartworks.server.engine.process.approval.model.AprApprovalCond;
+import net.smartworks.server.engine.process.approval.model.AprApprovalLine;
+import net.smartworks.server.engine.process.approval.model.AprApprovalLineCond;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
 import net.smartworks.server.engine.process.process.model.PrcProcessCond;
@@ -127,15 +133,13 @@ import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartUtil;
 
-import org.springframework.util.StringUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import commonj.sdo.Sequence;
 
-@Service
+@Component
 public class ModelConverter {
 	
 	private static ISwoManager getSwoManager() {
@@ -171,11 +175,14 @@ public class ModelConverter {
 	private static IDocFileManager getDocManager() {
 		return SwManagerFactory.getInstance().getDocManager();
 	}
+	private static IAprManager getAprManager() {
+		return SwManagerFactory.getInstance().getAprManager();
+	}
 
-	static IWorkService workService;
+	private static IWorkService workService;
 
-	@Autowired
-	public static void setWorkService(IWorkService workService) {
+	@Autowired(required=true)
+	public void setWorkService(IWorkService workService) {
 		ModelConverter.workService = workService;
 	}
 
@@ -379,7 +386,8 @@ public class ModelConverter {
 			if (files != null && files.size() != 0) {
 				String filePath = files.get(0).getFilePath();
 				filePath = StringUtils.replace(filePath, "\\", "/");
-				imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+				if (filePath.indexOf(companyId) != -1)
+					imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
 			}
 			tempWorkInstanceInfo.setImgSource(imgSrc);
 			tempWorkInstanceInfo.setContent(content);
@@ -429,7 +437,7 @@ public class ModelConverter {
 		lastTask.setWorkInstance(workInstanceInfo);
 		lastTask.setAssignee(getUserInfoByUserId(task.getLastTskAssignee()));
 		lastTask.setPerformer(getUserInfoByUserId(task.getLastTskAssignee()));
-		lastTask.setSubject(task.getPrcTitle());
+		lastTask.setSubject(StringUtil.subString(task.getPrcTitle(), 0, 30, "..."));
 		lastTask.setWork(workInfo);
 		lastTask.setWorkSpace(getWorkSpaceInfo(task.getLastTskWorkSpaceType(), task.getLastTskWorkSpaceId()));
 		lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
@@ -452,7 +460,7 @@ public class ModelConverter {
 			}
 			workInstanceInfo.setId(recordId);
 		}
-		workInstanceInfo.setSubject(task.getPrcTitle());
+		workInstanceInfo.setSubject(StringUtil.subString(task.getPrcTitle(), 0, 30, "..."));
 		//workInstanceInfo.setType(Instance.TYPE_WORK);
 		workInstanceInfo.setWork(workInfo);
 		workInstanceInfo.setWorkSpace(getWorkSpaceInfo(task.getPrcWorkSpaceType(), task.getPrcWorkSpaceId()));
@@ -1021,7 +1029,31 @@ public class ModelConverter {
 		String ctgId = ctg.getObjId();
 		String ctgName = ctg.getName();
 		WorkCategoryInfo workCtg = new WorkCategoryInfo(ctgId, ctgName);
+		workCtg.setRunning(isExistRunningPackageByCategoryId(ctgId));
 		return workCtg;
+	}
+	private static boolean isExistRunningPackageByCategoryId(String categoryId) throws Exception {
+		PkgPackageCond cond = new PkgPackageCond();
+		cond.setCategoryId(categoryId);
+		cond.setStatus(PkgPackage.STATUS_DEPLOYED);
+		long runningPackageCount = getPkgManager().getPackageSize("ModelConverter", cond);
+		if (runningPackageCount > 0)
+			return true;
+		
+		CtgCategoryCond ctgCond = new CtgCategoryCond();
+		ctgCond.setParentId(categoryId);
+		
+		CtgCategory[] ctg = getCtgManager().getCategorys("ModelConverter", ctgCond, IManager.LEVEL_LITE);
+		if (ctg == null) {
+			return false;
+		} else {
+			for (int i = 0; i < ctg.length; i++) {
+				if(isExistRunningPackageByCategoryId(ctg[i].getObjId())) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 	
 	public static UserInfo getUserInfoByUserId(String userId) throws Exception {
@@ -1485,10 +1517,13 @@ public class ModelConverter {
 			User owner = getUserByUserId(swoGroup.getCreationUser());
 			if(owner != null)
 				group.setOwner(owner);
-	
+
+			LocalDate openDate = new LocalDate(swoGroup.getCreationDate().getTime());
+			group.setOpenDate(openDate);
+
 			List<UserInfo> groupMemberList = new ArrayList<UserInfo>();
 			SwoGroupMember[] swoGroupMembers = swoGroup.getSwoGroupMembers();
-			if(swoGroupMembers != null) {
+			if(!CommonUtil.isEmpty(swoGroupMembers)) {
 				groupMemberList.add(getUserInfoByUserId(swoGroup.getGroupLeader()));
 				for(SwoGroupMember swoGroupMember : swoGroupMembers) {
 					if(!swoGroupMember.getUserId().equals(swoGroup.getGroupLeader())) {
@@ -1499,8 +1534,9 @@ public class ModelConverter {
 				UserInfo[] groupMembers = new UserInfo[groupMemberList.size()];
 				groupMemberList.toArray(groupMembers);
 				group.setMembers(groupMembers);
+				group.setNumberOfGroupMember(groupMembers.length);
 			}
-	
+
 			String picture = CommonUtil.toNotNull(swoGroup.getPicture());
 			if(!picture.equals("")) {
 				String extension = picture.lastIndexOf(".") > 0 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
@@ -1861,32 +1897,56 @@ public class ModelConverter {
 		return searchFilter;
 	}
 
-	public static SearchFilter getSearchFilterByFilterId(String filterId) throws Exception {
+	public static SearchFilter getSearchFilterByFilterId(String type, String workId, String filterId) throws Exception {
+		if(CommonUtil.isEmpty(workId) || CommonUtil.isEmpty(filterId))
+			return null;
 		User cUser = SmartUtil.getCurrentUser();
 		String userId = cUser.getId();
 
-		ColObject colObject = new ColObject();
-		colObject.setRef(filterId);
+		PkgPackageCond packageCond = new PkgPackageCond();
+		packageCond.setPackageId(workId);
+		PkgPackage pkgPackage = getPkgManager().getPackage(userId, packageCond, IManager.LEVEL_ALL);
 
-		ColObject[] colObjects = new ColObject[1];
-		colObjects[0] = colObject;
+		String lnkType = null;
+		String lnkCorr = null;
+		if(type.equalsIgnoreCase("PROCESS") || type.equalsIgnoreCase("GANTT")) {
+			lnkType = "processinst.cond." + userId;
+		} else {
+			lnkType = "record.cond." + userId;
+		}
+		lnkCorr = getResourceIdByPkgPackage(pkgPackage);
 
+		ColList colList = null;
+		ColObject[] colObjects = null;
+		List<ColObject> colObjectsList = new ArrayList<ColObject>();
 		ColListCond colListCond = new ColListCond();
-		colListCond.setItems(colObjects);
-		ColList colList = getColManager().getList(userId, colListCond, IManager.LEVEL_ALL);
+		colListCond.setType(lnkType);
+		colListCond.setCorrelation(lnkCorr);
 
-		if (colList == null)
+		colList = getColManager().getList(userId, colListCond, IManager.LEVEL_ALL);
+		if(colList != null) {
+			colObjects = colList.getItems();
+			if(!CommonUtil.isEmpty(colObjects)) {
+				for(int i=0; i<colObjects.length; i++) {
+					ColObject colObject = colObjects[i];
+					if(CommonUtil.toNotNull(colObject.getRef()).equals(filterId)) {
+						colObjectsList.add(colObject);
+					}
+				}
+			}
+		}
+		if(colObjectsList.size() > 0) {
+			colObjects = new ColObject[colObjectsList.size()];
+			colObjectsList.toArray(colObjects);
+		}
+
+		if (CommonUtil.isEmpty(colObjects) || colObjects.length != 1)
 			return null;
 
-		ColObject filterItem = colList.getItems()[0];
-
-		if (filterItem == null)
-			return null;
-
-		String type = "SINGLE";
-		String id = filterItem.getRef();
-		String name = filterItem.getLabel();
-		String conditionStr = filterItem.getExpression();
+		ColObject colObject = colObjects[0];
+		String id = colObject.getRef();
+		String name = colObject.getLabel();
+		String conditionStr = colObject.getExpression();
 
 		Condition[] conditions = null;
 		if (!CommonUtil.isEmpty(conditionStr)) {
@@ -1909,20 +1969,21 @@ public class ModelConverter {
 				Filter filter = filters[i];
 				String leftOperType = filter.getLeftOperandType();
 				String leftOperValue = filter.getLeftOperandValue();
-				String rightOperType = filter.getRightOperandType();
 				String rightOperValue = filter.getRightOperandValue();
 				String operator = filter.getOperator();
 				Object rightOperand = null;
-				if(rightOperType.equals(FormField.TYPE_USER)) {
+				if(leftOperType.equals(FormField.TYPE_USER)) {
 					rightOperand = getUserByUserId(rightOperValue);
-				} else if(rightOperType.equals(FormField.TYPE_OTHER_WORK)) {
+				} else if(leftOperType.equals(FormField.TYPE_OTHER_WORK)) {
 					rightOperand = workService.getWorkById(rightOperValue);
-				} else if(rightOperType.equals(FormField.TYPE_DATETIME)) {
+				} else if(leftOperType.equals(FormField.TYPE_DATETIME)) {
 					rightOperand = LocalDate.convertGMTStringToLocalDate(rightOperValue);
-				} else if(rightOperType.equals(FormField.TYPE_DATE)) {
-					rightOperand = LocalDate.convertGMTSimpleStringToLocalDate(rightOperValue);
-				} else if(rightOperType.equals(FormField.TYPE_TIME)) {
-					rightOperand = LocalDate.convertGMTTimeStringToLocalDate(rightOperValue);
+				} else if(leftOperType.equals(FormField.TYPE_DATE)) {
+					rightOperand = LocalDate.convertGMTSimple2StringToLocalDate(rightOperValue);
+				} else if(leftOperType.equals(FormField.TYPE_TIME)) {
+					rightOperand = LocalDate.convertGMTTimeStringToLocalDate2(rightOperValue);
+				} else {
+					rightOperand = (String)rightOperValue;
 				}
 				Condition cond = new Condition(new FormField(leftOperValue, null, leftOperType), operator, rightOperand);
 				condArray[i] = cond;
@@ -1965,7 +2026,7 @@ public class ModelConverter {
 			} else {
 				return form[0].getId();
 			}
-		} 
+		}
 		return null;
 	}
 	
@@ -2190,7 +2251,7 @@ public class ModelConverter {
 		SwdDomain swdDomain = getSwdManager().getDomain(userId, swdRecord.getDomainId(), IManager.LEVEL_LITE);
 		String titleField = swdDomain.getTitleFieldId();
 		String title = swdRecord.getDataFieldValue(titleField);
-		instance.setSubject(title);
+		instance.setSubject(StringUtil.subString(title, 0, 40, "..."));
 		instance.setCreatedDate(new LocalDate(swdRecord.getCreationDate().getTime()));
 
 		instance.setLastModifier(getUserByUserId(swdRecord.getModificationUser()));
@@ -2241,6 +2302,66 @@ public class ModelConverter {
 		return workInstance;
 	}
 
+	public static InformationWorkInstance getApprovalWorkInformationByInstanceId(InformationWorkInstance informationWorkInstance, String instanceId) throws Exception {
+		if (CommonUtil.isEmpty(instanceId))
+			return null;
+
+		User cUser = SmartUtil.getCurrentUser();
+		AprApprovalLineCond approvalLineCond = new AprApprovalLineCond();
+		Property[] extProps = new Property[] {new Property("recordId", instanceId)};
+		approvalLineCond.setExtendedProperties(extProps);
+		AprApprovalLine aprApprovalLine = getAprManager().getApprovalLine(cUser.getId(), approvalLineCond, IManager.LEVEL_ALL);
+
+		boolean isApprovalWork = false;
+		ApprovalLine approvalLine = new ApprovalLine();
+		Approval[] approvals = null;
+		if(aprApprovalLine != null) {
+			isApprovalWork = true;
+			AprApproval[] aprApprovals = aprApprovalLine.getApprovals();
+			List<Approval> approvalList = new ArrayList<Approval>();
+			if(!CommonUtil.isEmpty(aprApprovals)) {
+				for(AprApproval aprApproval : aprApprovals) {
+					Approval approval = new Approval();
+					approval.setName(aprApproval.getName());
+					approval.setApproverType(Integer.parseInt(CommonUtil.toNotNull(aprApproval.getType())));
+					approval.setApprover(getUserByUserId(aprApproval.getApprover()));
+					String dueDate = CommonUtil.toNotNull(aprApproval.getDueDate());
+					int meanTimeDays = 0;
+					int meanTimeHours = 0;
+					int meanTimeMinutes = 30;
+					int daysToMinutes = 60 * 24;
+					int hoursToMinutes = 60;
+					if(!dueDate.equals("")) {
+						int meanTime = Integer.parseInt(dueDate);
+						meanTimeDays = meanTime / daysToMinutes;
+						meanTime = meanTime % daysToMinutes;
+						meanTimeHours = meanTime / hoursToMinutes;
+						meanTimeMinutes = meanTime % hoursToMinutes;
+					}
+					approval.setMeanTimeDays(meanTimeDays);
+					approval.setMeanTimeHours(meanTimeHours);
+					approval.setMeanTimeMinutes(meanTimeMinutes);
+					approvalList.add(approval);
+				}
+				if(approvalList.size() > 0) {
+					approvals = new Approval[approvalList.size()];
+					approvalList.toArray(approvals);
+				}
+			}
+
+			String desc = aprApprovalLine.getDescription();
+			int approvalLevel = approvalList.size();
+
+			approvalLine.setDesc(desc);
+			approvalLine.setApprovalLevel(approvalLevel);
+			approvalLine.setApprovals(approvals);
+		}
+		informationWorkInstance.setApprovalWork(isApprovalWork);
+		informationWorkInstance.setApprovalLine(approvalLine);
+
+		return informationWorkInstance;
+	}
+
 	public static InformationWorkInstance getInformationWorkInstanceBySwdRecord(String userId, InformationWorkInstance informationWorkInstance, SwdRecord swdRecord) throws Exception {
 		if (swdRecord == null)
 			return null;
@@ -2250,10 +2371,10 @@ public class ModelConverter {
 		getWorkInstanceBySwdRecord(userId, informationWorkInstance, swdRecord);
 
 		int numberOfRelatedWorks = getSwfManager().getReferenceFormSize("", swdRecord.getRecordId());
-		
+
 		informationWorkInstance.setNumberOfRelatedWorks(numberOfRelatedWorks);
-		informationWorkInstance.setApprovalWork(false);
-		informationWorkInstance.setApprovalLine(new ApprovalLine());
+
+		getApprovalWorkInformationByInstanceId(informationWorkInstance, swdRecord.getRecordId());
 
 		return informationWorkInstance;
 	}

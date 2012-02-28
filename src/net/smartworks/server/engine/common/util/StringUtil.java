@@ -24,14 +24,11 @@ public class StringUtil {
 	 */
 	public static String subString(String str, int startPoint, int endPoint, String tag) {
 
-		for(int i=0; i<str.length(); i++) {
-		    if(Character.getType(str.charAt(i)) != 5 && Character.getType(str.charAt(i)) != 12) {
-		    	endPoint = endPoint + 1;
-		    }
+		str = CommonUtil.toNotNull(str);
+		if(!str.equals("")) {
+			if(str.length() > endPoint)
+				str = str.substring(startPoint, endPoint) + tag;
 		}
-
-		if(str.length() > endPoint)
-			str = str.substring(startPoint, endPoint) + tag;
 
 		return str; 
 	}
