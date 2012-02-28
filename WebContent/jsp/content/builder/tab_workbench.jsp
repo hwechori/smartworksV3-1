@@ -152,7 +152,7 @@
 					</tr>
 				</table>
 				<!-- 설명//-->
-				<div class="js_smart_workbench_editor"></div>
+				<div class="up p0 js_smart_workbench_editor"></div>
 			</div>
 			<!-- 컨텐츠 //-->
 		</ul>
