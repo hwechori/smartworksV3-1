@@ -470,12 +470,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; border-top: 1px solid #c7c7c7; overflow: hidden}
 .glo_btn_space .btn_finish {float:right; padding-right:10px;}
 
-.posit_works {left:15px; top:1px; position:relative; z-index:20;}
-.posit_pic {left:95px; top:1px; position:relative; z-index:20;}
-.posit_file {left:165px; top:1px; position:relative; z-index:20;}
-.posit_event {left:228px; top:1px; position:relative; z-index:20;}
-.posit_memo {left:302px; top:1px; position:relative; z-index:20;}
-.posit_board {left:369px; top:1px; position:relative; z-index:20;}
+.posit_works {left:40px; top:1px; position:relative; z-index:20;}
 
 .essen {border-left:2px solid #ef972b; border-top:1px solid #c7c7c7; border-right:1px solid #c7c7c7; border-bottom:1px solid #c7c7c7;}
 .essen_r {border-right:2px solid #ef972b; margin-right: 5px;}

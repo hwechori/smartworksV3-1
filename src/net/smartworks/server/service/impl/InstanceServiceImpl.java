@@ -158,7 +158,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception {
 
 		try{
-			String workId = SmartWork.ID_NOTICE_MANAGEMENT;
+			String workId = SmartWork.ID_BOARD_MANAGEMENT;
 	
 			User user = SmartUtil.getCurrentUser();
 	
@@ -2043,7 +2043,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
+	public InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception {
 		
 		try{
 			InstanceInfoList instanceInfoList = SmartTest.getWorkInstanceList1(params);
@@ -2056,7 +2056,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {
+	public InstanceInfoList getPictureInstanceList(String workSpaceId, RequestParams params) throws Exception {
 		
 		try{
 			InstanceInfoList instanceInfoList = new InstanceInfoList();
@@ -2069,7 +2069,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception {
+	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
 		
 		try{
 			InstanceInfoList instanceInfoList = new InstanceInfoList();
@@ -2082,7 +2082,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception {
+	public EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception {
 		
 		try{
 			EventInstanceInfo[] events = SmartTest.getEventInstances();
@@ -2095,7 +2095,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception {
+	public InstanceInfoList getMemoInstanceList(String workSpaceId, RequestParams params) throws Exception {
 		
 		try{
 			InstanceInfoList instanceInfoList = new InstanceInfoList();
@@ -2108,7 +2108,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception {
+	public InstanceInfoList getBoardInstanceList(String workSpaceId, RequestParams params) throws Exception {
 		
 		try{
 			InstanceInfoList instanceInfoList = new InstanceInfoList();

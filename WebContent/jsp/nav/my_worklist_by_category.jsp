@@ -33,9 +33,39 @@
 				workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
 				targetContent = "pwork_list.sw";
 			} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
-				iconType = "ico_iworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
-				targetContent = "iwork_list.sw";
+				if(work.getId().equals(SmartWork.ID_BOARD_MANAGEMENT)){
+					iconType = "ico_board";
+					workContext = ISmartWorks.CONTEXT_PREFIX_BOARD_LIST + work.getId();
+					targetContent = "iwork_list.sw";					
+				}else if(work.getId().equals(SmartWork.ID_EVENT_MANAGEMENT)){
+					iconType = "ico_event";
+					workContext = ISmartWorks.CONTEXT_PREFIX_EVENT_LIST + work.getId();
+					targetContent = "event_list.sw";					
+				}else if(work.getId().equals(SmartWork.ID_FILE_MANAGEMENT)){
+					iconType = "ico_file";
+					workContext = ISmartWorks.CONTEXT_PREFIX_FILE_LIST + work.getId();
+					targetContent = "file_list.sw";					
+				}else if(work.getId().equals(SmartWork.ID_MEMO_MANAGEMENT)){
+					iconType = "ico_memo";
+					workContext = ISmartWorks.CONTEXT_PREFIX_MEMO_LIST + work.getId();
+					targetContent = "iwork_list.sw";					
+				}else if(work.getId().equals(SmartWork.ID_FORUM_MANAGEMENT)){
+					iconType = "ico_forum";
+					workContext = ISmartWorks.CONTEXT_PREFIX_FORUM_LIST + work.getId();
+					targetContent = "iwork_list.sw";					
+				}else if(work.getId().equals(SmartWork.ID_CONTACTS_MANAGEMENT)){
+					iconType = "ico_contacts";
+					workContext = ISmartWorks.CONTEXT_PREFIX_CONTACTS_LIST + work.getId();
+					targetContent = "iwork_list.sw";					
+				}else if(work.getId().equals(SmartWork.ID_COMPANY_MANAGEMENT)){
+					iconType = "ico_company";
+					workContext = ISmartWorks.CONTEXT_PREFIX_COMPANY_LIST + work.getId();
+					targetContent = "iwork_list.sw";					
+				}else{
+					iconType = "ico_iworks";
+					workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
+					targetContent = "iwork_list.sw";										
+				}
 			} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
 				iconType = "ico_sworks";
 				workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();

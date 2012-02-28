@@ -261,11 +261,11 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	@RequestMapping(value = "/get_events_by_dates", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody Map<String, Object> getEventsByDates(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String contextId = request.getParameter("contextId");
+		String workSpaceId = request.getParameter("workSpaceId");
 		LocalDate fromDate = LocalDate.convertLocalDateStringToLocalDate(request.getParameter("fromDate"));
 		LocalDate toDate = LocalDate.convertLocalDateStringToLocalDate(request.getParameter("toDate"));
 		
-		EventInstanceInfo[] eventInstances = smartworks.getEventInstanceList(contextId, fromDate, toDate);
+		EventInstanceInfo[] eventInstances = smartworks.getEventInstanceList(workSpaceId, fromDate, toDate);
 		
 		class EventInfo{
 			String id;

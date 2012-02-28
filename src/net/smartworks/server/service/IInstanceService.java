@@ -38,17 +38,17 @@ public interface IInstanceService {
 
 	public InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 
-	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception;
+	public InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
-	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception;
+	public InstanceInfoList getPictureInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
-	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception;
+	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
-	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception;
+	public EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception;
 
-	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception;
+	public InstanceInfoList getMemoInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
-	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception;
+	public InstanceInfoList getBoardInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
 	public WorkInstance getWorkInstanceById(int workType, String workId, String instanceId) throws Exception;
 

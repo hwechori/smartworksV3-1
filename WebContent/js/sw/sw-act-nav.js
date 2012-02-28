@@ -212,7 +212,6 @@ $(function() {
 		if (url == 'undefined' || (isEmpty(categoryId) && isEmpty(groupId) && isEmpty(departmentId))) {
 			return false;
 		}
-		console.log('target=', target, 'children=', $(target).children());
 		if(isEmpty($(target).children())){
 			if(input.hasClass('js_popup'))
 				smartPop.progressCont(input.find('span:last'));

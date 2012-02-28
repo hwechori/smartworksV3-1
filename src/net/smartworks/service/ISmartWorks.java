@@ -102,6 +102,9 @@ public interface ISmartWorks {
 	public final static String CONTEXT_PREFIX_BOARD_LIST = "bd.li.";
 	public final static String CONTEXT_PREFIX_MAIL_LIST = "ml.li.";
 	public final static String CONTEXT_PREFIX_SAVED_LIST = "sv.li.";
+	public final static String CONTEXT_PREFIX_FORUM_LIST = "fr.li.";
+	public final static String CONTEXT_PREFIX_CONTACTS_LIST = "ct.li.";
+	public final static String CONTEXT_PREFIX_COMPANY_LIST = "cp.li.";
 
 	public final static String CONTEXT_PREFIX_IWORK_SPACE = "iw.sp.";
 	public final static String CONTEXT_PREFIX_PWORK_SPACE = "pw.sp.";
@@ -205,17 +208,17 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getPWorkInstanceList(String workId, RequestParams params) throws Exception;
 	
-	public abstract InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception;
+	public abstract InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	
-	public abstract InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception;
+	public abstract InstanceInfoList getPictureInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	
-	public abstract InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception;
+	public abstract InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	
-	public abstract EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception;
+	public abstract EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception;
 	
-	public abstract InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception;
+	public abstract InstanceInfoList getMemoInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	
-	public abstract InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception;
+	public abstract InstanceInfoList getBoardInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	
 	public abstract InstanceInfoList getMailInstanceList(String folderId, RequestParams params) throws Exception;
 

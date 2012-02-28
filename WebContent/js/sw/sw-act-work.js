@@ -20,21 +20,14 @@ $(function() {
 		$('.js_select_action').find('a').removeClass('current');
 		var currentAction = input.parents('.up_icon_list');
 		currentAction.find('a').addClass('current');
-		$('.js_up_pointer').css({"left": (currentAction.position().left + currentAction.outerWidth()/2) + "px"});
 		var url = input.attr('href');
 		var target = $('.js_upload_form');
-		if(url === 'start_work.sw'){
-			target.hide().html('');
-			target = $('.js_start_work_form').show();
-		}else{
-			target.show();
-			$('.js_start_work_form').hide().html('');			
-		}
 		$.ajax({
 			url : url,
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).show();
+				target.find('.js_up_pointer').css({"left": currentAction.position().left + currentAction.outerWidth()/2 + "px"});
 				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
 					loadNewFileFields();
 				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
@@ -56,26 +49,17 @@ $(function() {
 
 	$('a.js_cancel_action').live('click',function(e) {
 		var input = $('.js_select_action').find('a:first');
-		if(!isEmpty($(e.target).parents('.js_pop_new_event_page'))){
-			smartPop.close();
-			return false;
-		}
 		$('.js_select_action').find('a').removeClass('current');
-		input.parents('.up_icon_list').find('a').addClass('current');
+		var currentAction = input.parents('.up_icon_list');
+		currentAction.find('a').addClass('current');
 		var target = $('.js_upload_form');
 		var url = input.attr('href');
-		if(url === 'start_work.sw'){
-			target.hide().html('');
-			target = $('.js_start_work_form').show();
-		}else{
-			target.show();
-			$('.js_start_work_form').hide().html('');			
-		}
 		$.ajax({
 			url : url,
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).show();
+				$(data).find('.js_up_pointer').css({"left": (currentAction.position().left + currentAction.outerWidth()/2) + "px"});
 				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
 					loadNewFileFields();
 				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
@@ -102,8 +86,8 @@ $(function() {
 	$('.js_select_work').swnavi({
 		before : function(event) {
 			smartPop.progressCenter();
-			$('#form_works').html('').hide();
-			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work_page").hide();
+			$('#form_works').html('');
+			$(event.target).parents(".js_start_work_page").hide();
 		},
 		target : 'form_works',
 		after : function(event) {
@@ -116,7 +100,7 @@ $(function() {
 				requiredOnly : "true",
 				workId : workId,
 				onSuccess : function(){
-					$('#form_works').show();
+					$('#form_works').parent().show();
 					smartPop.closeProgress();					
 				},
 				onError : function(){
@@ -1073,7 +1057,6 @@ $(function() {
 		var startWork = $(e.target).parents('.js_start_work_page');
 		var target = startWork.find('.js_all_work_popup');
 		var width = startWork.find('.js_auto_complete:first').parent().width();
-		console.log('target=', target, ', width=', width);
 		smartPop.selectWork(target, width);
 		return false;
 	});
