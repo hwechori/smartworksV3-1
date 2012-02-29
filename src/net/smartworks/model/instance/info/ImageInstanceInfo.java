@@ -8,6 +8,8 @@ import net.smartworks.util.LocalDate;
 public class ImageInstanceInfo extends WorkInstanceInfo {
 
 	private String imgSource;
+	private	String originImgSource;
+
 	private String content;
 	
 	public String getImgSource() {
@@ -15,6 +17,12 @@ public class ImageInstanceInfo extends WorkInstanceInfo {
 	}
 	public void setImgSource(String imgSource) {
 		this.imgSource = imgSource;
+	}
+	public String getOriginImgSource() {
+		return originImgSource;
+	}
+	public void setOriginImgSource(String originImgSource) {
+		this.originImgSource = originImgSource;
 	}
 	public String getContent() {
 		return content;

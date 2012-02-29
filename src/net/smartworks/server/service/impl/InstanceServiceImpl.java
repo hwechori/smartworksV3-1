@@ -94,6 +94,7 @@ import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 import net.smartworks.server.engine.worklist.manager.IWorkListManager;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
+import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
@@ -137,10 +138,16 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	ICommunityService communityService;
-	
+	ICalendarService calendarService;
+
 	@Autowired
 	public void setCommunityService(ICommunityService communityService) {
 		this.communityService = communityService;
+	}
+
+	@Autowired
+	public void setCalendarService(ICalendarService calendarService) {
+		this.calendarService = calendarService;
 	}
 
 	/*
@@ -2043,82 +2050,63 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
-			InstanceInfoList instanceInfoList = SmartTest.getWorkInstanceList1(params);
+	public InstanceInfoList getInstanceInfoListByRefType(String cid, RequestParams params, String refType) throws Exception {
+
+		try {
+			if(CommonUtil.isEmpty(cid))
+				return null;
+
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+			int spaceType = SmartUtil.getSpaceTypeFromContentContext(cid);
+			String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
+
+			TaskWorkCond taskWorkCond = new TaskWorkCond();
+			taskWorkCond.setTskRefType(refType);
+			taskWorkCond.setTskWorkSpaceType(spaceType + "");
+			taskWorkCond.setTskWorkSpaceId(spaceId);
+			taskWorkCond.setOrders(new Order[]{new Order("tskCreatedate", false)});
+
+			TaskWork[] taskWorks = getWlmManager().getTaskWorkList(userId, taskWorkCond);
+
+			TaskInstanceInfo[] taskInstanceInfos = ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskWorks);
+			instanceInfoList.setInstanceDatas(taskInstanceInfos);
+	
+			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+
 			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
+
+		} catch (Exception e) {
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
+			return null;
 		}
+	}
+
+	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(cid, params, null);
 	}
 
 	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
-			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
+		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_IMAGE);
 	}
 
 	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
-			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
+		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_FILE);
 	}
 
 	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception {
-		
-		try{
-			EventInstanceInfo[] events = SmartTest.getEventInstances();
-			return events;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
+		String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
+		return calendarService.getEventInstanceInfosByWorkSpaceId(spaceId, fromDate, toDate);
 	}
 
 	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
-			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
+		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_MEMO);
 	}
 
 	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
-			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
+		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_BOARD);
 	}
 
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {

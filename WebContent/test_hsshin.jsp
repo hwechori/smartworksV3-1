@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.info.RequestParams"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.server.engine.common.util.StringUtil"%>
 <%@page import="net.smartworks.model.service.Variable"%>
@@ -276,18 +277,10 @@
 	String dd = LocalDate.convertGMTStringToLocalDate("2012-02-23 15:00:00.0").toLocalDateTimeSimpleString();
 	System.out.println(dd); */
 
-	//숫자 - 9
-	//빈칸 - 12
-	//영어 - 2
-	//한글 - 5
-	//특수기호 - 24, 27
+	RequestParams params = new RequestParams();
+	InstanceInfoList instanceInfoList = instanceService.getPictureInstanceList("us.sp.hsshin@maninsoft.co.kr", params);
 
-	String str = "반갑습니다하하";
-	int endPoint = 24;
-	System.out.println("str.length() ::: " + str.length());
-	str = StringUtil.subString(str, 0, 7, "...");
-
-	System.out.println(str);
+	System.out.println(instanceInfoList); 
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>

@@ -104,6 +104,7 @@ $(document).ready(function(){
 	            	toDate: end.format('yyyy.mm.dd')
 	            },
 	            success: function(data) {
+	            	console.log("data ::: ", data);
 	                var events = [];
 	                var eventInstances = data.events;
  	                if(!isEmpty(eventInstances)){

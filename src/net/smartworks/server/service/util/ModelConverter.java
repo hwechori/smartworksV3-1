@@ -384,12 +384,17 @@ public class ModelConverter {
 			String content = record.getDataFieldValue("4");
 			
 			List<IFileModel> files = getDocManager().findFileGroup(fileGroupId);
+			String originImgSrc = "";
 			String imgSrc = "";
 			if (files != null && files.size() != 0) {
 				String filePath = files.get(0).getFilePath();
+				String extension = filePath.lastIndexOf(".") > 1 ? filePath.substring(filePath.lastIndexOf(".")) : null;
 				filePath = StringUtils.replace(filePath, "\\", "/");
+				originImgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+				filePath = filePath.replaceAll(extension, "_thumb" + extension);
 				imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
 			}
+			tempWorkInstanceInfo.setOriginImgSource(originImgSrc);
 			tempWorkInstanceInfo.setImgSource(imgSrc);
 			tempWorkInstanceInfo.setContent(content);
 			
@@ -1438,7 +1443,14 @@ public class ModelConverter {
 		if (CommonUtil.isEmpty(groupId))
 			return null;
 		User cUser = SmartUtil.getCurrentUser();
-		SwoGroup swoGroup = getSwoManager().getGroup(cUser.getId(), groupId, IManager.LEVEL_ALL);
+		SwoGroup swoGroup = null;
+		try {
+			swoGroup = getSwoManager().getGroup(cUser.getId(), groupId, IManager.LEVEL_ALL);
+		} catch (Exception e) {
+			swoGroup = null;
+		}
+		if(swoGroup == null)
+			return null;
 		return getGroupInfoBySwoGroup(null, swoGroup);
 	}
 
