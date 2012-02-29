@@ -2065,16 +2065,63 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			TaskWorkCond taskWorkCond = new TaskWorkCond();
 			taskWorkCond.setTskRefType(refType);
-			taskWorkCond.setTskWorkSpaceType(spaceType + "");
+			//taskWorkCond.setTskWorkSpaceType(spaceType + "");
 			taskWorkCond.setTskWorkSpaceId(spaceId);
+
+			long totalCount = getWlmManager().getTaskWorkListSize(userId, taskWorkCond);
+
+			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
+
+			int currentPage = params.getCurrentPage();
+			if(currentPage == 0) currentPage = 1;
+
+			int totalPages = (int)totalCount % pageSize;
+
+			if(totalPages == 0)
+				totalPages = (int)totalCount / pageSize;
+			else
+				totalPages = (int)totalCount / pageSize + 1;
+
+			int result = 0;
+
+			if(params.getPagingAction() != 0) {
+				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+					result = (((currentPage - 1) / 10) * 10) + 11;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+					result = totalPages;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+					result = ((currentPage - 1) / 10) * 10;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+					result = 1;
+				}
+				currentPage = result;
+			}
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
+
+			if (currentPage > 0)
+				taskWorkCond.setPageNo(currentPage-1);
+
+			taskWorkCond.setPageSize(pageSize);
+
 			taskWorkCond.setOrders(new Order[]{new Order("tskCreatedate", false)});
 
 			TaskWork[] taskWorks = getWlmManager().getTaskWorkList(userId, taskWorkCond);
 
 			TaskInstanceInfo[] taskInstanceInfos = ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskWorks);
 			instanceInfoList.setInstanceDatas(taskInstanceInfos);
-	
+
 			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+			instanceInfoList.setPageSize(pageSize);
+			instanceInfoList.setTotalPages(totalPages);
+			instanceInfoList.setCurrentPage(currentPage);
 
 			return instanceInfoList;
 
@@ -2085,7 +2132,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, null);
+		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_NOTHING);
 	}
 
 	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {

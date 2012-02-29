@@ -338,87 +338,93 @@ public class CalendarServiceImpl implements ICalendarService {
 				for(int i=0; i < swdRecords.length; i++) {
 					EventInstanceInfo eventInstanceInfo = new EventInstanceInfo();
 					SwdRecord swdRecord = swdRecords[i];
-					if(!CommonUtil.isEmpty(workSpaceId)) {
-						if(CommonUtil.toNotNull(swdRecord.getWorkSpaceId()).equals(workSpaceId)) {
-							eventInstanceInfo.setId(swdRecord.getRecordId());
-							eventInstanceInfo.setOwner(ModelConverter.getUserInfoByUserId(swdRecord.getCreationUser()));
-							eventInstanceInfo.setCreatedDate(new LocalDate((swdRecord.getCreationDate()).getTime()));
-							int type = WorkInstance.TYPE_INFORMATION;
-							eventInstanceInfo.setType(type);
-							eventInstanceInfo.setStatus(WorkInstance.STATUS_COMPLETED);
-							eventInstanceInfo.setWorkSpace(null);
-		
-							WorkCategoryInfo workGroupInfo = null;
-							if (!CommonUtil.isEmpty(swdRecordExtends[0].getSubCtgId()))
-								workGroupInfo = new WorkCategoryInfo(swdRecordExtends[0].getSubCtgId(), swdRecordExtends[0].getSubCtg());
-		
-							WorkCategoryInfo workCategoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
-		
-							WorkInfo workInfo = new SmartWorkInfo(swdRecord.getFormId(), swdRecord.getFormName(), type, workGroupInfo, workCategoryInfo);
-		
-							eventInstanceInfo.setWork(workInfo);
-							eventInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
-							eventInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
-		
-							SwdDataField[] swdDataFields = swdRecord.getDataFields();
-							List<CommunityInfo> communityInfoList = new ArrayList<CommunityInfo>();
-							GroupInfo[] groupInfos = communityService.getMyGroups();
-							boolean isMyEventExist = false;
-							for(SwdDataField swdDataField : swdDataFields) {
-								String value = swdDataField.getValue();
-								String refRecordId = swdDataField.getRefRecordId();
-								if(swdDataField.getId().equals("0")) {
-									eventInstanceInfo.setSubject(value);
-								} else if(swdDataField.getId().equals("6")) {
-									eventInstanceInfo.setContent(value);
-								} else if(swdDataField.getId().equals("1")) {
-									LocalDate start = LocalDate.convertGMTStringToLocalDate(value);
-									eventInstanceInfo.setStart(start);
-								} else if(swdDataField.getId().equals("2")) {
-									if(value != null)
-										eventInstanceInfo.setEnd(LocalDate.convertGMTStringToLocalDate(value));
-								} else if(swdDataField.getId().equals("5")) {
-									CommunityInfo[] relatedUsers = null;
-									if(refRecordId != null) {
-										String[] reltdUsers = refRecordId.split(";");
-										for(String reltdUser : reltdUsers) {
-											UserInfo userInfo = ModelConverter.getUserInfoByUserId(reltdUser);
-											DepartmentInfo departmentInfo = ModelConverter.getDepartmentInfoByDepartmentId(reltdUser);
-											GroupInfo groupInfo = ModelConverter.getGroupInfoByGroupId(reltdUser);
-											if(userInfo != null) {
-												communityInfoList.add(userInfo);
-											} else if(departmentInfo != null) {
-												communityInfoList.add(departmentInfo);
-											} else if(groupInfo != null) {
-												communityInfoList.add(groupInfo);
-											}
-											if(reltdUser.equals(user.getId())) {
-												isMyEventExist = true;
-											} else if(reltdUser.equals(user.getDepartmentId())) {
-												isMyEventExist = true;
-											} else {
-												if(!CommonUtil.isEmpty(groupInfos)) {
-													for(GroupInfo group : groupInfos) {
-														if(reltdUser.equals(group.getId())) {
-															isMyEventExist = true;
-														}
-													}
+					eventInstanceInfo.setId(swdRecord.getRecordId());
+					eventInstanceInfo.setOwner(ModelConverter.getUserInfoByUserId(swdRecord.getCreationUser()));
+					eventInstanceInfo.setCreatedDate(new LocalDate((swdRecord.getCreationDate()).getTime()));
+					int type = WorkInstance.TYPE_INFORMATION;
+					eventInstanceInfo.setType(type);
+					eventInstanceInfo.setStatus(WorkInstance.STATUS_COMPLETED);
+					eventInstanceInfo.setWorkSpace(null);
+
+					WorkCategoryInfo workGroupInfo = null;
+					if (!CommonUtil.isEmpty(swdRecordExtends[0].getSubCtgId()))
+						workGroupInfo = new WorkCategoryInfo(swdRecordExtends[0].getSubCtgId(), swdRecordExtends[0].getSubCtg());
+
+					WorkCategoryInfo workCategoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
+
+					WorkInfo workInfo = new SmartWorkInfo(swdRecord.getFormId(), swdRecord.getFormName(), type, workGroupInfo, workCategoryInfo);
+
+					eventInstanceInfo.setWork(workInfo);
+					eventInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
+					eventInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
+
+					SwdDataField[] swdDataFields = swdRecord.getDataFields();
+					List<CommunityInfo> communityInfoList = new ArrayList<CommunityInfo>();
+					GroupInfo[] groupInfos = communityService.getMyGroups();
+					boolean isMyEventExist = false;
+					for(SwdDataField swdDataField : swdDataFields) {
+						String value = swdDataField.getValue();
+						String refRecordId = swdDataField.getRefRecordId();
+						if(swdDataField.getId().equals("0")) {
+							eventInstanceInfo.setSubject(value);
+						} else if(swdDataField.getId().equals("6")) {
+							eventInstanceInfo.setContent(value);
+						} else if(swdDataField.getId().equals("1")) {
+							LocalDate start = LocalDate.convertGMTStringToLocalDate(value);
+							eventInstanceInfo.setStart(start);
+						} else if(swdDataField.getId().equals("2")) {
+							if(value != null)
+								eventInstanceInfo.setEnd(LocalDate.convertGMTStringToLocalDate(value));
+						} else if(swdDataField.getId().equals("5")) {
+							CommunityInfo[] relatedUsers = null;
+							if(refRecordId != null) {
+								String[] reltdUsers = refRecordId.split(";");
+								for(String reltdUser : reltdUsers) {
+									UserInfo userInfo = ModelConverter.getUserInfoByUserId(reltdUser);
+									DepartmentInfo departmentInfo = ModelConverter.getDepartmentInfoByDepartmentId(reltdUser);
+									GroupInfo groupInfo = ModelConverter.getGroupInfoByGroupId(reltdUser);
+									if(userInfo != null) {
+										communityInfoList.add(userInfo);
+									} else if(departmentInfo != null) {
+										communityInfoList.add(departmentInfo);
+									} else if(groupInfo != null) {
+										communityInfoList.add(groupInfo);
+									}
+									if(reltdUser.equals(user.getId())) {
+										isMyEventExist = true;
+									} else if(reltdUser.equals(user.getDepartmentId())) {
+										isMyEventExist = true;
+									} else {
+										if(!CommonUtil.isEmpty(groupInfos)) {
+											for(GroupInfo group : groupInfos) {
+												if(reltdUser.equals(group.getId())) {
+													isMyEventExist = true;
 												}
 											}
 										}
-										if(communityInfoList.size() != 0) {
-											relatedUsers = new CommunityInfo[communityInfoList.size()];
-											communityInfoList.toArray(relatedUsers);
-										}
 									}
-									eventInstanceInfo.setRelatedUsers(relatedUsers);
+								}
+								if(communityInfoList.size() != 0) {
+									relatedUsers = new CommunityInfo[communityInfoList.size()];
+									communityInfoList.toArray(relatedUsers);
 								}
 							}
+							eventInstanceInfo.setRelatedUsers(relatedUsers);
+						}
+					}
+					if(!CommonUtil.isEmpty(workSpaceId)) {
+						if(CommonUtil.toNotNull(swdRecord.getWorkSpaceId()).equals(workSpaceId)) {
 							if(isMyEventExist) {
 								eventInstanceInfoList.add(eventInstanceInfo);
 							} else if(swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId())) {
 								eventInstanceInfoList.add(eventInstanceInfo);
 							}
+						}
+					} else {
+						if(isMyEventExist) {
+							eventInstanceInfoList.add(eventInstanceInfo);
+						} else if(swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId())) {
+							eventInstanceInfoList.add(eventInstanceInfo);
 						}
 					}
 				}
@@ -612,7 +618,7 @@ public class CalendarServiceImpl implements ICalendarService {
 	 */
 	@Override
 	public EventInstanceInfo[] getMyEventInstances(LocalDate fromDate, LocalDate toDate) throws Exception {
-
+/*
 		try{
 			String workId = SmartWork.ID_EVENT_MANAGEMENT;
 			User user = SmartUtil.getCurrentUser();
@@ -768,7 +774,8 @@ public class CalendarServiceImpl implements ICalendarService {
 			e.printStackTrace();
 			return null;			
 			// Exception Handling Required			
-		}
+		}*/
+		return getEventInstanceInfosByWorkSpaceId(null, fromDate, toDate);
 	}
 
 	/*

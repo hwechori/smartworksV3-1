@@ -18,6 +18,7 @@ import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.Data;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
@@ -321,7 +322,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 			public EventInfo(){
 			}
 		}
-		
+
 		EventInfo[] events = new EventInfo[eventInstances.length];
 		for(int i=0; i<eventInstances.length; i++){
 			EventInstanceInfo eventInstance = eventInstances[i];
@@ -329,7 +330,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 			event.id = eventInstance.getId();
 			event.name = eventInstance.getSubject();
 			event.start = eventInstance.getStart().toLocalDateTimeSimpleString();
-			event.end = eventInstance.getEnd().toLocalDateTimeSimpleString();
+			event.end = eventInstance.getEnd() != null ? eventInstance.getEnd().toLocalDateTimeSimpleString() : null;
 			event.ownerId = eventInstance.getOwner().getId();
 			event.ownerName = eventInstance.getOwner().getLongName();
 			event.ownerPicture = eventInstance.getOwner().getMinPicture();
