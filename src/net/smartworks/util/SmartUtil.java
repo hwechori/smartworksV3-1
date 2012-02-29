@@ -38,6 +38,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sun.xml.internal.bind.v2.TODO;
+
 public class SmartUtil {
 
 	public SmartUtil() {
@@ -315,6 +317,8 @@ public class SmartUtil {
 					user.setEmployeeId(login.getEmpNo());
 				}
 				return user;
+			} else {
+				//TO-DO
 			}
 		}
 		return null;
