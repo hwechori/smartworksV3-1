@@ -77,7 +77,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append(" 				and tskassignee != '' ");
 		queryBuffer.append(" 			) tsktask ");
 		if (fromDate != null)
-			queryBuffer.append(" 			where tsktask.tskModifyDate > :fromDate ");
+			queryBuffer.append(" 			where tsktask.tskModifyDate < :fromDate ");
 		queryBuffer.append(" 		) task,  ");
 		queryBuffer.append(" 		swform form  ");
 		queryBuffer.append(" 		left outer join  ");
@@ -165,7 +165,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 			StringBuffer buf = new StringBuffer();
 			buf.append("select");
 			buf.append(" count(*) ");
-			Query query = this.appendQuery(buf, cond);
+			Query query = this.appendCastQuery(buf, cond);
 			List list = query.list();
 			
 			long count =((Integer)list.get(0)).longValue();
@@ -197,8 +197,11 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 				obj.setTskObjId((String)fields[j++]);    
 				obj.setTskTitle((String)fields[j++]); 
 				Clob varData = (Clob)fields[j++];
-				long length=varData.length();
-				String tempCountStr=varData.getSubString(1, (int)length);
+				String tempCountStr = null;
+				if (varData != null) {
+					long length=varData.length();
+					tempCountStr=varData.getSubString(1, (int)length);
+				}
 				obj.setTskDoc(tempCountStr);
 				obj.setTskType((String)fields[j++]);     
 				obj.setTskRefType((String)fields[j++]);     
