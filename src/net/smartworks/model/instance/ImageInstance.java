@@ -8,6 +8,8 @@ public class ImageInstance extends WorkInstance {
 
 	private String groupId;
 	private String imgSource;
+	private	String originImgSource;
+
 	private String content;
 	
 	public String getGroupId() {
@@ -21,6 +23,12 @@ public class ImageInstance extends WorkInstance {
 	}
 	public void setImgSource(String imgSource) {
 		this.imgSource = imgSource;
+	}
+	public String getOriginImgSource() {
+		return originImgSource;
+	}
+	public void setOriginImgSource(String originImgSource) {
+		this.originImgSource = originImgSource;
 	}
 	public String getContent() {
 		return content;

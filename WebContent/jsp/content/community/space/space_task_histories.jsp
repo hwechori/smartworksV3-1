@@ -150,7 +150,7 @@
 						<div class="noti_in_m">
 							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
-							<div><a href="" class=""><img src="<%=image.getImgSource()%>" style="min-height:20px;width:300px;"></a></div>
+							<div><a href="" class=""><img src="<%=image.getImgSource()%>" style="min-height:20px;width:200px;"></a></div>
 							<%if(!SmartUtil.isBlankObject(image.getContent())){ %><div><%=image.getContent() %></div><%} %>
 							<!-- 인스턴스 마지막수정일자 -->
 							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>

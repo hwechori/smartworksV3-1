@@ -382,6 +382,8 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 			queryBuffer.append("where taskInfo.tskCreateDate < :lastInstanceDate ");
 		if (tskRefType != null)
 			queryBuffer.append("and taskInfo.tskRefType = :tskRefType ");
+		else
+			queryBuffer.append("and taskInfo.tskRefType is null ");
 		
 		this.appendOrderQuery(queryBuffer, "taskInfo", cond);
 		//queryBuffer.append("order by taskInfo.tskCreatedate desc ");
@@ -410,7 +412,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 			query.setString("prcStatus", prcStatus);
 		if (!CommonUtil.isEmpty(tskRefType)) 
 			query.setString("tskRefType", tskRefType);
-		
+
 		return query;
 	}
 	public long getTaskWorkListSize(String user, TaskWorkCond cond) throws Exception {

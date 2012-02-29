@@ -2414,6 +2414,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 	private static SizeMap groupMap = new SizeMap(100);
 	@Override
 	public SwoGroup getGroup(String user, String id, String level) throws SwoException {
+
 		try {
 			if (groupMap.containsKey(id))
 				return (SwoGroup)groupMap.get(id);
@@ -2433,8 +2434,7 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 				return objs[0];
 			}
 		} catch (Exception e) {
-			logger.error(e, e);
-			throw new SwoException(e);
+			return null;
 		}
 	}
 
