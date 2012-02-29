@@ -39,7 +39,7 @@
 					<span class="nav_subtitl_area"><%=workCategory.getName()%></span>
 				</a>
  				<%
-				if(!((WorkCategoryInfo)workCategory).isRunning()){
+				if(workCategory.getProvidedBy()!=Work.PROVIDED_BY_SYSTEM){
 				%>
 					<span class="ctgr_action">
 						<span title="<fmt:message key='builder.button.remove_category'/>" class="js_remove_work_category btn_remove_work_ca" categoryId="<%=workCategory.getId() %>" categoryName="<%=workCategory.getName()%>"></span>
