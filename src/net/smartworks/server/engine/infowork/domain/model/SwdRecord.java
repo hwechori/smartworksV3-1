@@ -87,6 +87,7 @@ public class SwdRecord extends BaseObject {
 		appendAttributeString(A_MODIFICATIONUSER, modificationUser, buf);
 		appendAttributeString(A_MODIFICATIONDATE, modificationDate, buf);
 		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
+		appendAttributeString(A_WORKSPACETYPE, workSpaceType, buf);
 		appendAttributeString(A_ACCESSLEVEL, accessLevel, buf);
 		appendAttributeString(A_ACCESSVALUE, accessValue, buf);
 		return buf.toString();
@@ -388,7 +389,6 @@ public class SwdRecord extends BaseObject {
 	public void setFormName(String formName) {
 		this.formName = formName;
 	}
-
 	public String getWorkSpaceId() {
 		return workSpaceId;
 	}
@@ -401,7 +401,6 @@ public class SwdRecord extends BaseObject {
 	public void setWorkSpaceType(String workSpaceType) {
 		this.workSpaceType = workSpaceType;
 	}
-
 	public String getAccessLevel() {
 		return accessLevel;
 	}

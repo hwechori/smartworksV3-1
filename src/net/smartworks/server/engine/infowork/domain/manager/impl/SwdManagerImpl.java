@@ -975,6 +975,10 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		Date modificationDateFrom = cond.getModificationDateFrom();
 		Date modificationDateTo = cond.getModificationDateTo();
 		String searchKey = cond.getSearchKey();
+		String workSpaceId = cond.getWorkSpaceId();
+		String workSpaceType = cond.getWorkSpaceType();
+		String accessLevel = cond.getAccessLevel();
+
 		if (recordId != null)
 			cond.addFilter(new Filter("=", "obj.id", recordId));
 		if (!CommonUtil.isEmpty(creationUser))
@@ -999,6 +1003,13 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				cond.addFilter(new Filter("like", "searchKey", field.getTableColumnName(), "", searchKey));
 			}
 		}
+		if (workSpaceId != null)
+			cond.addFilter(new Filter("=", "obj.workSpaceId", workSpaceId));
+		if (workSpaceType != null)
+			cond.addFilter(new Filter("=", "obj.workSpaceType", workSpaceType));
+		if (accessLevel != null)
+			cond.addFilter(new Filter("=", "obj.accessLevel", accessLevel));
+
 		Map<String, Filter> filterMap = new HashMap<String, Filter>();
 		Map<String, String> paramTypeMap = new HashMap<String, String>();
 		Wrapper iWrap = new Wrapper();

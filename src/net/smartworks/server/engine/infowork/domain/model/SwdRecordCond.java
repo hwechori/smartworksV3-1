@@ -44,7 +44,11 @@ public class SwdRecordCond extends ClassObjectCond {
 	public static final String A_REFERENCEDRECORDID = "referencedRecordId";
 	public static final String A_DISPLAYABLEDATAFILEDSONLY = "displayableDataFieldsOnly";
 	public static final String A_SEARCHKEY = "searchKey";
-	
+	public static final String A_WORKSPACEID = "workSpaceId";
+	public static final String A_WORKSPACETYPE = "workSpaceType";
+	public static final String A_ACCESSLEVEL = "accessLevel";
+	public static final String A_ACCESSVALUE = "accessValue";
+
 	private String recordId;
 	private String domainId;
 	private String formId;
@@ -58,6 +62,10 @@ public class SwdRecordCond extends ClassObjectCond {
 	private String referencedFormId;
 	private String referencedRecordId;
 	private boolean displayableDataFieldsOnly;
+	private String workSpaceId;
+	private String workSpaceType;
+	private String accessLevel;
+	private String accessValue;
 	
 	private String searchKey;
 	public SwdRecordCond() {
@@ -89,6 +97,10 @@ public class SwdRecordCond extends ClassObjectCond {
 		appendAttributeString(A_REFERENCEDRECORDID, referencedRecordId, buf);
 		appendAttributeString(A_DISPLAYABLEDATAFILEDSONLY, displayableDataFieldsOnly, buf);
 		appendAttributeString(A_SEARCHKEY, searchKey, true, buf);
+		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
+		appendAttributeString(A_WORKSPACETYPE, workSpaceType, buf);
+		appendAttributeString(A_ACCESSLEVEL, accessLevel, buf);
+		appendAttributeString(A_ACCESSVALUE, accessValue, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
@@ -119,6 +131,10 @@ public class SwdRecordCond extends ClassObjectCond {
 			Node referencedRecordId = attrMap.getNamedItem(A_REFERENCEDRECORDID);
 			Node displayableDataFieldsOnly = attrMap.getNamedItem(A_DISPLAYABLEDATAFILEDSONLY);
 			Node searchKey = attrMap.getNamedItem(A_SEARCHKEY);
+			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
+			Node workSpaceType = attrMap.getNamedItem(A_WORKSPACETYPE);
+			Node accessLevel = attrMap.getNamedItem(A_ACCESSLEVEL);
+			Node accessValue = attrMap.getNamedItem(A_ACCESSVALUE);
 			if (domainId != null)
 				obj.setDomainId(domainId.getNodeValue());
 			if (recordId != null)
@@ -145,6 +161,14 @@ public class SwdRecordCond extends ClassObjectCond {
 				obj.setDisplayableDataFieldsOnly(CommonUtil.toBoolean(displayableDataFieldsOnly.getNodeValue()));
 			if (searchKey != null)
 				obj.setSearchKey(searchKey.getNodeValue());
+			if (workSpaceId != null)
+				obj.setWorkSpaceId(workSpaceId.getNodeValue());
+			if (workSpaceType != null)
+				obj.setWorkSpaceType(workSpaceType.getNodeValue());
+			if (accessLevel != null)
+				obj.setAccessLevel(accessLevel.getNodeValue());
+			if (accessValue != null)
+				obj.setAccessValue(accessValue.getNodeValue());
 		}
 		
 		// elements 값 설정
@@ -331,6 +355,30 @@ public class SwdRecordCond extends ClassObjectCond {
 	}
 	public void setPackageId(String packageId) {
 		this.packageId = packageId;
+	}
+	public String getWorkSpaceId() {
+		return workSpaceId;
+	}
+	public void setWorkSpaceId(String workSpaceId) {
+		this.workSpaceId = workSpaceId;
+	}
+	public String getWorkSpaceType() {
+		return workSpaceType;
+	}
+	public void setWorkSpaceType(String workSpaceType) {
+		this.workSpaceType = workSpaceType;
+	}
+	public String getAccessLevel() {
+		return accessLevel;
+	}
+	public void setAccessLevel(String accessLevel) {
+		this.accessLevel = accessLevel;
+	}
+	public String getAccessValue() {
+		return accessValue;
+	}
+	public void setAccessValue(String accessValue) {
+		this.accessValue = accessValue;
 	}
 
 }
