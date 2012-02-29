@@ -20,6 +20,7 @@ import net.smartworks.model.community.info.GroupInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
+import net.smartworks.model.security.AccessPolicy;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.info.SmartWorkInfo;
@@ -329,9 +330,50 @@ public class CalendarServiceImpl implements ICalendarService {
 			swdRecordCond.setFilter(filters);
 
 			SwdRecord[] swdRecords = getSwdManager().getRecords(user.getId(), swdRecordCond, IManager.LEVEL_ALL);
-	
+
+			if(!CommonUtil.isEmpty(workSpaceId)) {
+				List<SwdRecord> swdRecordList = new ArrayList<SwdRecord>();
+				SwdRecord[] newSwdRecords = null;
+				if(!CommonUtil.isEmpty(swdRecords)) {
+					for(SwdRecord swdRecord : swdRecords) {
+						if(!CommonUtil.isEmpty(workSpaceId)) {
+							if(CommonUtil.toNotNull(swdRecord.getWorkSpaceId()).equals(workSpaceId)) {
+								if(Integer.parseInt(CommonUtil.toNotNull(swdRecord.getAccessLevel())) == AccessPolicy.LEVEL_PRIVATE) {
+									if(swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId()))
+										swdRecordList.add(swdRecord);
+								} else if(Integer.parseInt(CommonUtil.toNotNull(swdRecord.getAccessLevel())) == AccessPolicy.LEVEL_CUSTOM) {
+									String[] accessValues = swdRecord.getAccessValue().split(";");
+									if(!CommonUtil.isEmpty(accessValues)) {
+										for(String accessValue : accessValues) {
+											if(!swdRecord.getCreationUser().equals(accessValue) && !swdRecord.getModificationUser().equals(accessValue)) {
+												if(accessValue.equals(user.getId()))
+													swdRecordList.add(swdRecord);
+											}
+										}
+									}
+									if(swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId()))
+										swdRecordList.add(swdRecord);
+								} else {
+									swdRecordList.add(swdRecord);
+								}
+							} else {
+								if(user.getId().equals(workSpaceId)) {
+									if(swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId()))
+										swdRecordList.add(swdRecord);
+								}
+							}
+						}
+					}
+					if(swdRecordList.size() != 0) {
+						newSwdRecords = new SwdRecord[swdRecordList.size()];
+						swdRecordList.toArray(newSwdRecords);
+					}
+					swdRecords = newSwdRecords;
+				}
+			}
+
 			SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
-	
+
 			List<EventInstanceInfo> eventInstanceInfoList = new ArrayList<EventInstanceInfo>();
 			EventInstanceInfo[] eventInstanceInfos = null;
 			if(swdRecords != null) {
@@ -412,30 +454,21 @@ public class CalendarServiceImpl implements ICalendarService {
 							eventInstanceInfo.setRelatedUsers(relatedUsers);
 						}
 					}
-					if(!CommonUtil.isEmpty(workSpaceId)) {
-						if(CommonUtil.toNotNull(swdRecord.getWorkSpaceId()).equals(workSpaceId)) {
-							if(isMyEventExist) {
-								eventInstanceInfoList.add(eventInstanceInfo);
-							} else if(swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId())) {
-								eventInstanceInfoList.add(eventInstanceInfo);
-							}
-						}
+					if(CommonUtil.isEmpty(workSpaceId)) {
+						if(isMyEventExist || swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId()))
+							eventInstanceInfoList.add(eventInstanceInfo);
 					} else {
-						if(isMyEventExist) {
-							eventInstanceInfoList.add(eventInstanceInfo);
-						} else if(swdRecord.getCreationUser().equals(user.getId()) || swdRecord.getModificationUser().equals(user.getId())) {
-							eventInstanceInfoList.add(eventInstanceInfo);
-						}
+						eventInstanceInfoList.add(eventInstanceInfo);
 					}
 				}
-				if(eventInstanceInfoList.size() != 0) {
-					eventInstanceInfos = new EventInstanceInfo[eventInstanceInfoList.size()];
-					eventInstanceInfoList.toArray(eventInstanceInfos);
-				}
+			}
+			if(eventInstanceInfoList.size() != 0) {
+				eventInstanceInfos = new EventInstanceInfo[eventInstanceInfoList.size()];
+				eventInstanceInfoList.toArray(eventInstanceInfos);
 			}
 			return eventInstanceInfos;
 
-		}catch (Exception e){
+		} catch(Exception e) {
 			// Exception Handling Required
 			e.printStackTrace();
 			return null;			
