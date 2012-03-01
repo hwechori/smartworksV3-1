@@ -133,7 +133,6 @@
 	session.setAttribute("cid", cid);
 	session.setAttribute("wid", wid);
 	
-	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
 	User cUser = SmartUtil.getCurrentUser();
 
 %>
@@ -143,7 +142,7 @@
 <jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_space_work_list_page js_work_list_page" spaceId="<%=spaceId%>">
+<div class="section_portlet js_space_work_list_page js_work_list_page">
 	<div class="portlet_t"><div class="portlet_tl"></div></div>
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">

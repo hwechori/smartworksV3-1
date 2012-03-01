@@ -37,7 +37,7 @@
 	User cUser = SmartUtil.getCurrentUser();
 	String cid = (String)session.getAttribute("cid");
 	String wid = (String)session.getAttribute("wid");
-	InstanceInfoList instanceList = smartWorks.getImageInstanceList(wid, params);
+	InstanceInfoList instanceList = smartWorks.getBoardInstanceList(wid, params);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -113,7 +113,7 @@
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 //				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
-				String target = "";// ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
+				String target = "";//((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 				String statusImage = "";
 				String statusTitle = "";
 				switch (instanceInfo.getStatus()) {

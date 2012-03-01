@@ -210,7 +210,7 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	
-	public abstract InstanceInfoList getPictureInstanceList(String workSpaceId, RequestParams params) throws Exception;
+	public abstract InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	
 	public abstract InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	

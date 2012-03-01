@@ -113,7 +113,7 @@
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 //				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
-				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
+				String target = "";//((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 				String statusImage = "";
 				String statusTitle = "";
 				switch (instanceInfo.getStatus()) {

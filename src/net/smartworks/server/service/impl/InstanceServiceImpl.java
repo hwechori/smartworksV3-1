@@ -2130,7 +2130,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_NOTHING);
 	}
 
-	public InstanceInfoList getPictureInstanceList(String workSpaceId, RequestParams params) throws Exception {
+	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception {
 		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_IMAGE);
 	}
 

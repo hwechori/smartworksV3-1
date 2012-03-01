@@ -40,7 +40,7 @@ public interface IInstanceService {
 
 	public InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
-	public InstanceInfoList getPictureInstanceList(String workSpaceId, RequestParams params) throws Exception;
+	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
 	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception;
 

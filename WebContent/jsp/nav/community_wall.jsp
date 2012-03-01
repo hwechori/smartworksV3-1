@@ -4,6 +4,8 @@
 <!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
+<%@page import="net.smartworks.model.work.SmartWork"%>
+<%@page import="net.smartworks.model.work.Work"%>
 <%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
@@ -21,40 +23,40 @@
 	session.setAttribute("cid", cid);
 	session.setAttribute("wid", wid);	
 	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
+	WorkSpace workSpace = smartWorks.getWorkSpaceById(spaceId);
 	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="navi_list">
-	<div id="m_setting">
-		<!-- 내부 메뉴 -->
-		<ul>
-			<li>
+<ul class="navi_tit_default">
+	<li>
 				<%
 				if(SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE, cid)){				
 				%>
-					<a href="group_space.sw?cid=<%=cid %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.group.all_items"/></a>
+					<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId()%>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.group.all_items"/></a>
 				<%
 				}else if(SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE, cid)){				
 				%>
-					<a href="department_space.sw?cid=<%=cid %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.department.all_items"/></a>
+					<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId()%>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.department.all_items"/></a>
 				<%
 				}
 				%>
-				<div class="menu_2dep" style="display:none">
+	</li>
+</ul>
+
+<div class="navi_list" style="display:block">
+	<div id="m_setting">
+		<!-- 내부 메뉴 -->				
 					<ul>
-						<li><a href="space_work_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.works"/></span></a></li>
-						<li><a href="space_picture_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.pictures"/></span></a></li>
-						<li><a href="space_file_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.files"/></span></a></li>
-						<li><a href="space_event_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.events"/></span></a></li>
-						<li><a href="space_memo_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.memos"/></span></a></li>
-						<li><a href="space_board_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.boards"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_WORK_LIST %>?cid=<%=ISmartWorks.CONTEXT_ALL_WORKS_LIST %>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_ALL_WORKS%>"></span><span><fmt:message key="space.title.works"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_IMAGE_LIST %>?cid=<%=ISmartWorks.CONTEXT_PREFIX_IMAGE_LIST + SmartWork.ID_FILE_MANAGEMENT%>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_IMAGE_WORKS%>"></span><span><fmt:message key="space.title.pictures"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_FILE_LIST %>?cid=<%=ISmartWorks.CONTEXT_PREFIX_FILE_LIST + SmartWork.ID_FILE_MANAGEMENT%>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_FILE_WORKS%>"></span><span><fmt:message key="space.title.files"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_EVENT_LIST %>?cid=<%=ISmartWorks.CONTEXT_PREFIX_EVENT_LIST + SmartWork.ID_EVENT_MANAGEMENT%>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_EVENT_WORKS%>"></span><span><fmt:message key="space.title.events"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_MEMO_LIST %>?cid=<%=ISmartWorks.CONTEXT_PREFIX_MEMO_LIST + SmartWork.ID_MEMO_MANAGEMENT%>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_MEMO_WORKS%>"></span><spa><fmt:message key="space.title.memos"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_BOARD_LIST %>?cid=<%=ISmartWorks.CONTEXT_PREFIX_BOARD_LIST + SmartWork.ID_BOARD_MANAGEMENT%>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_BOARD_WORKS%>"></span><spa><fmt:message key="space.title.boards"/></span></a></li>
 					</ul>
-				</div>
-			</li>
-		</ul>
 		<!--내부메뉴//-->
 	</div>
 </div>

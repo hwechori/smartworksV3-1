@@ -364,8 +364,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public InstanceInfoList getPictureInstanceList(String workSpaceId, RequestParams params) throws Exception {
-		return instanceService.getPictureInstanceList(workSpaceId, params);
+	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return instanceService.getImageInstanceList(workSpaceId, params);
 	}
 
 	@Override
