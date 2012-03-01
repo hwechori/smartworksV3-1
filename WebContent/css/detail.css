@@ -244,10 +244,10 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .sel_date_section a:hover.btn_calendar {background: url("../images/bg_date_feild.jpg") no-repeat 100% 0; float: right}
 
 /* 상단 아이콘 */
-.ico_refer_w {background: url("../images/body_icon.png") no-repeat scroll 0 -364px transparent; height:16px; width:16px; display:inline-block;}
-.ico_link_w {background: url("../images/body_icon.png") no-repeat scroll -40px -364px transparent; height:16px; width:17px; display:inline-block;}
-.ico_print {background: url("../images/body_icon.png") no-repeat scroll -80px -364px transparent; height:16px; width:16px; display:inline-block;}
-.ico_mail {background: url("../images/body_icon.png") no-repeat scroll -124px -364px transparent; height:16px; width:17px; display:inline-block;}
+.icon_refer_w {background: url("../images/body_icon.png") no-repeat scroll 0 -364px transparent; height:16px; width:16px; display:inline-block;}
+.icon_link_w {background: url("../images/body_icon.png") no-repeat scroll -40px -364px transparent; height:16px; width:17px; display:inline-block;}
+.icon_print {background: url("../images/body_icon.png") no-repeat scroll -80px -364px transparent; height:16px; width:16px; display:inline-block;}
+.icon_mail {background: url("../images/body_icon.png") no-repeat scroll -124px -364px transparent; height:16px; width:17px; display:inline-block;}
 
 
 /* 사진 이미지 사이즈 */

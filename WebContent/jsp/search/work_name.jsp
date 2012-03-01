@@ -24,15 +24,15 @@
 			String targetContent = null;
 			switch (work.getType()) {
 			case SmartWork.TYPE_PROCESS:
-				iconType = "ico_pworks";
+				iconType = "icon_pworks";
 				targetContent = "start_pwork.sw";
 				break;
 			case SmartWork.TYPE_INFORMATION:
-				iconType = "ico_iworks";
+				iconType = "icon_iworks";
 				targetContent = "new_iwork.sw";
 				break;
 			case SmartWork.TYPE_SCHEDULE:
-				iconType = "ico_sworks";
+				iconType = "icon_sworks";
 				targetContent = "plan_swork.sw";
 				break;
 			}

@@ -42,19 +42,19 @@
 				<!-- 내부 메뉴 -->
 				<ul>
 					<li>
-						<a href=""><span class="ico_b1dep"><fmt:message key="settings.title.company_information"/></span></a>
+						<a href=""><span class="icon_b1dep"><fmt:message key="settings.title.company_information"/></span></a>
 						<div class="menu_2dep">
 							<ul>
-								<li><a href="company_general.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.general"/></span></a></li>
-								<li><a href="company_work_hour.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.work_hour"/></span></a></li>
-								<li><a href="company_event.sw" class="js_content"><span class="ico_b2dep"><fmt:message key="settings.title.company.event"/></span></a></li>
+								<li><a href="company_general.sw" class="js_content"><span class="icon_b2dep"><fmt:message key="settings.title.company.general"/></span></a></li>
+								<li><a href="company_work_hour.sw" class="js_content"><span class="icon_b2dep"><fmt:message key="settings.title.company.work_hour"/></span></a></li>
+								<li><a href="company_event.sw" class="js_content"><span class="icon_b2dep"><fmt:message key="settings.title.company.event"/></span></a></li>
 							</ul>
 						</div>
 					</li>
-					<li><a href="organization_management.sw" class="js_content"><span class="ico_b1dep"><fmt:message key="settings.title.organization_information"/></span></a></li>
-					<li><a href="approval_line.sw" class="js_content"><span class="ico_b1dep"><fmt:message key="settings.title.approval_information"/></span></a></li>
-					<li><a href="web_service.sw" class="js_content"><span class="ico_b1dep"><fmt:message key="settings.title.wservice_information"/></span></a></li>
-					<li><a href="external_form.sw" class="js_content"><span class="ico_b1dep"><fmt:message key="settings.title.eform_information"/></span></a></li>
+					<li><a href="organization_management.sw" class="js_content"><span class="icon_b1dep"><fmt:message key="settings.title.organization_information"/></span></a></li>
+					<li><a href="approval_line.sw" class="js_content"><span class="icon_b1dep"><fmt:message key="settings.title.approval_information"/></span></a></li>
+					<li><a href="web_service.sw" class="js_content"><span class="icon_b1dep"><fmt:message key="settings.title.wservice_information"/></span></a></li>
+					<li><a href="external_form.sw" class="js_content"><span class="icon_b1dep"><fmt:message key="settings.title.eform_information"/></span></a></li>
 				</ul>
 				<!--내부메뉴//-->
 			</div>

@@ -18,11 +18,12 @@ public class SmartWork extends Work {
 	public final static String ID_EVENT_MANAGEMENT = "pkg_c08a02b36192489fbc13fdb6bed6f5fc";
 	public final static String ID_MEMO_MANAGEMENT = "pkg_d391d4cd01864b2cada59ab5a9b12cd5";
 	public final static String ID_BOARD_MANAGEMENT = "pkg_62eeb90b11e1466b86d2d7c4dadf63ca";
-	public final static String ID_COMPANY_MANAGEMENT = "pkg_fbbd1761c3f144d49337dc38119caa28";
+	public final static String ID_USER_MANAGEMENT = "pkg_394ea78cec37434d922c73f09ab4b24e";
 	public final static String ID_DEPARTMENT_MANAGEMENT = "pkg_c2156de59c14435bb551c61c1593a442";
+	public final static String ID_GROUP_MANAGEMENT = "";
 	public final static String ID_FORUM_MANAGEMENT = "pkg_af2c5abbdc694feab78b2706c31f3bde";
 	public final static String ID_CONTACTS_MANAGEMENT = "pkg_dde3f719c50143cd821e6c46e8df8655";
-	
+		
 	private WorkCategory myGroup = null;
 	private WorkCategory myCategory = null;
 	private AccessPolicy accessPolicy = new AccessPolicy();

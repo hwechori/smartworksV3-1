@@ -87,11 +87,11 @@
 		<%
 		if(SmartUtil.isBlankObject(eventId)){
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.company.new_event"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.company.new_event"/></div>
 		<%
 		}else{
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.company.edit_event"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.company.edit_event"/></div>
 		<%
 		}
 		%>
@@ -110,16 +110,16 @@
 				<tr>
 					<th><fmt:message key="settings.title.company_event.start_date"/><span class="essen_n"></span></th>
 					<td>
-						<div class="ico_fb_space form_date_input">
+						<div class="icon_fb_space form_date_input">
 							<input name="datStartDate" class="fieldline js_todaypicker required" readonly="readonly" type="text" value="<%=event.getPlannedStart().toLocalDateSimpleString()%>">
-							<a href="" class="js_todaypicker_button"><span class="ico_fb_date"></span></a>
+							<a href="" class="js_todaypicker_button"><span class="icon_fb_date"></span></a>
 						</div>
 					</td>					
 					<th><fmt:message key="settings.title.company_event.end_date"/><span class="essen_n"></span></th>
 					<td>
-						<div class="ico_fb_space form_date_input">
+						<div class="icon_fb_space form_date_input">
 							<input name="datEndDate" class="fieldline js_todaypicker required" readonly="readonly" type="text" value="<%=event.getPlannedEnd().toLocalDateSimpleString()%>">
-							<a href="" class="js_todaypicker_button"><span class="ico_fb_date"></span></a>
+							<a href="" class="js_todaypicker_button"><span class="icon_fb_date"></span></a>
 						</div>					
 					</td>
 				</tr>
@@ -127,7 +127,7 @@
 					<th><fmt:message key="settings.title.company_event.related_users"/></th>
 					<td colspan="3">
 						<div class="js_type_userField" fieldId="usrRelatedUsers" multiUsers="true">
-							<div class="ico_fb_space form_value" >
+							<div class="icon_fb_space form_value" >
 								<div class="fieldline js_community_names">
 									<div class="js_selected_communities user_sel_area">
 										<%
@@ -155,7 +155,7 @@
 								</div>
 								<div class="js_community_list srch_list_nowid" style="display: none"></div>
 								<span class="js_community_popup"></span>
-								<a href="" class="js_userpicker_button"><span class="ico_fb_users"></span></a>
+								<a href="" class="js_userpicker_button"><span class="icon_fb_users"></span></a>
 							</div>
 						</div>
 					</td>

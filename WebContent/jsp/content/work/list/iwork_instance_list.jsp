@@ -90,8 +90,7 @@
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
-				String cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
-				String target = "iwork_space.sw?cid=" + cid + "&workId=" + workId;
+				String target = instanceInfo.getController() + "?cid=" + instanceInfo.getContextId() + "&workId=" + workId;
 			%>
 				<tr>
 					<%

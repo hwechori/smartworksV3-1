@@ -42,7 +42,7 @@
 					<ul>
 					<li>
 						<div class="info_ms_section">
-							<div class="info_img"><div class="ico_pop_info profile_size_s"></div></div>
+							<div class="info_img"><div class="icon_pop_info profile_size_s"></div></div>
 							<div class="info_list"><%=nMessage.getMessage()%><div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 								<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
 									<div class="btn_x js_remove_notice" ></div></a></div>
@@ -59,7 +59,7 @@
 				%>
 					<li>
 						<div class="info_ms_section">
-							<div class="info_img"><div class="ico_pop_event profile_size_s"></div></div>
+							<div class="info_img"><div class="icon_pop_event profile_size_s"></div></div>
 							<div class="info_list">
 								<b><%=event.getStart().toLocalString()%> </b><a href="event_space.sw?cid=<%=instContext%>&wid=<%=event.getWorkSpace().getId()%>"><%=event.getSubject()%></a>
 								<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>

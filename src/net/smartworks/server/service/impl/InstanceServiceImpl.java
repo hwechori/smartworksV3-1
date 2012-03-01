@@ -2050,18 +2050,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getInstanceInfoListByRefType(String cid, RequestParams params, String refType) throws Exception {
+	public InstanceInfoList getInstanceInfoListByRefType(String spaceId, RequestParams params, String refType) throws Exception {
 
 		try {
-			if(CommonUtil.isEmpty(cid))
-				return null;
-
 			User cUser = SmartUtil.getCurrentUser();
 			String userId = cUser.getId();
 
 			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			int spaceType = SmartUtil.getSpaceTypeFromContentContext(cid);
-			String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
 
 			TaskWorkCond taskWorkCond = new TaskWorkCond();
 			taskWorkCond.setTskRefType(refType);
@@ -2131,29 +2126,28 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_NOTHING);
+	public InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_NOTHING);
 	}
 
-	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_IMAGE);
+	public InstanceInfoList getPictureInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_IMAGE);
 	}
 
-	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_FILE);
+	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_FILE);
 	}
 
-	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception {
-		String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
-		return calendarService.getEventInstanceInfosByWorkSpaceId(spaceId, fromDate, toDate);
+	public EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception {
+		return calendarService.getEventInstanceInfosByWorkSpaceId(workSpaceId, fromDate, toDate);
 	}
 
-	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_MEMO);
+	public InstanceInfoList getMemoInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_MEMO);
 	}
 
-	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_BOARD);
+	public InstanceInfoList getBoardInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_BOARD);
 	}
 
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {

@@ -212,7 +212,7 @@
 				<!-- 목록 테이블 -->
  				<div class="list_contents">
 					<div id='work_instance_list_page'>
- 						<jsp:include page="/jsp/content/community/space/work_instance_list.jsp"/>
+ 						<jsp:include page="/jsp/content/work/list/work_instance_list.jsp"/>
 					</div>
 				</div>
 				<!-- 목록 테이블 //-->

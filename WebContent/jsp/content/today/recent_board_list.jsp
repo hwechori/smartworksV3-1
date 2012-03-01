@@ -38,18 +38,12 @@
 		WorkSpaceInfo workSpace = board.getWorkSpace();
 		String workSpaceIco = "";
 		UserInfo owner = board.getOwner();
-		String boardContext = ISmartWorks.CONTEXT_PREFIX_BOARD_SPACE + board.getId();
-		// 커뮤너티 타입(그룹, 부서)에 따라 공간아이콘값을 가져온다...
-		if(workSpace.getClass().equals(GroupInfo.class))
-			workSpaceIco = "images/ico_group_s.gif";
-		else if(workSpace.getClass().equals(DepartmentInfo.class))
-			workSpaceIco = "images/ico_division_s.gif";
 	
 	%>
 		<!-- 처음게시판(헤드라인 공지사항)을 표시한다 -->
 		<div class="headlineNotice">
-			<a href="board_list.sw?cid=<%=boardContext%>wid=<%=workSpace.getId() %>" class="more"><fmt:message key="common.button.view_all"/></a>
-			<a href="board_space.sw?cid=<%=boardContext%>">
+			<a href="<%=board.getController() %>?cid=<%=board.getContextId()%>wid=<%=workSpace.getId() %>" class="more"><fmt:message key="common.button.view_all"/></a>
+			<a href="<%=board.getController() %>?cid=<%=board.getContextId()%>">
 				<span class="title"><%=board.getSubject() %></span>
 				<span class="index">
 					<span class="t_name"><%=board.getOwner().getLongName() %></span> 
@@ -57,7 +51,7 @@
 					if(!workSpaceIco.equals("")){
 					%>
 						<span class="arr">▶</span>
-						<img src="<%=workSpaceIco%>"><%=workSpace.getName() %>
+						<span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span>
 					<%
 					}
 					%>
@@ -76,22 +70,15 @@
 				for(int i=1; i<boards.length; i++) {
 					board = boards[i];
 					workSpace = board.getWorkSpace();
-					boardContext = ISmartWorks.CONTEXT_PREFIX_BOARD_SPACE + board.getId();
-					if(workSpace.getClass().equals(GroupInfo.class))
-						workSpaceIco = "images/ico_group_s.gif";
-					else if(workSpace.getClass().equals(DepartmentInfo.class))
-						workSpaceIco = "images/ico_division_s.gif";
-					else
-						workSpaceIco = "";
 				%>			
 					<tr>
-						<td class="title"><a href="board_space.sw?cid=<%=boardContext%>"><%=board.getSubject()%></a> 
+						<td class="title"><a href="<%=board.getController() %>?cid=<%=board.getContextId()%>"><%=board.getSubject()%></a> 
 							<span class="t_name"><%=board.getOwner().getLongName() %></span> 
 							<%
 							if(!workSpaceIco.equals("")){
 							%>
 								<span class="arr">▶</span>
-								<img src="<%=workSpaceIco%>"><%=workSpace.getName()%>
+								<span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName()%></span>
 							<%
 							}
 							%>

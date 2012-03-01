@@ -14,7 +14,7 @@ $(function() {
 		var communityId = input.parents('ul.js_community_members').attr('communityId');
 		var target;
 		if (!isEmpty(input[0].value))
-			input.next('div').removeClass('srch_ico').removeClass('srch_ico_w').addClass('btn_im_x');
+			input.next('div').removeClass('srch_ico').removeClass('srch_icon_w').addClass('btn_im_x');
 		if (!isEmpty(startWork))
 			target = startWork.find('#upload_work_list');
 		else if(!isEmpty(chatter_name))
@@ -66,10 +66,12 @@ $(function() {
 		else
 			target = input.parent().nextAll('div');
 		setTimeout(function() {
-			if(!isEmpty(startWork))
-				input.next('div').removeClass('btn_im_x').addClass('srch_ico_w');
+			var searchButton = input.next('div');
+			searchButton.removeClass('btn_im_x');
+			if(searchButton.hasClass('js_icon_white'))
+				searchButton.addClass('srch_icon_w');
 			else
-				input.next('div').removeClass('btn_im_x').addClass('srch_ico');
+				searchButton.addClass('srch_ico');
 			target.html('').hide();
 		}, 500);
 	});

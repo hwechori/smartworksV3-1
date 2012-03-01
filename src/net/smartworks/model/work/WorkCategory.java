@@ -4,6 +4,15 @@ public class WorkCategory extends Work {
 
 	public final static int	TYPE_CATEGORY	= 11;
 	
+	private boolean isRunning;
+		
+	public boolean isRunning() {
+		return isRunning;
+	}
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
+
 	public WorkCategory(){
 		
 	}

@@ -339,6 +339,5 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("events", events);
 		return map;
-	}
-	
+	}	
 }

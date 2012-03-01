@@ -92,6 +92,8 @@ public interface ISmartWorks {
 	public final static String CONTEXT_PREFIX_GROUP_SPACE = "gp.sp.";
 	public final static String CONTEXT_PREFIX_DEPARTMENT_SPACE = "dp.sp.";
 
+	public final static String CONTEXT_ALL_WORKS_LIST = "aw.li";
+
 	public final static String CONTEXT_PREFIX_IWORK_LIST = "iw.li.";
 	public final static String CONTEXT_PREFIX_PWORK_LIST = "pw.li.";
 	public final static String CONTEXT_PREFIX_SWORK_LIST = "sw.li.";
@@ -104,7 +106,9 @@ public interface ISmartWorks {
 	public final static String CONTEXT_PREFIX_SAVED_LIST = "sv.li.";
 	public final static String CONTEXT_PREFIX_FORUM_LIST = "fr.li.";
 	public final static String CONTEXT_PREFIX_CONTACTS_LIST = "ct.li.";
-	public final static String CONTEXT_PREFIX_COMPANY_LIST = "cp.li.";
+	public final static String CONTEXT_PREFIX_USER_LIST = "us.li.";
+	public final static String CONTEXT_PREFIX_DEPARTMENT_LIST = "dp.li.";
+	public final static String CONTEXT_PREFIX_GROUP_LIST = "gp.li.";
 
 	public final static String CONTEXT_PREFIX_IWORK_SPACE = "iw.sp.";
 	public final static String CONTEXT_PREFIX_PWORK_SPACE = "pw.sp.";
@@ -115,10 +119,6 @@ public interface ISmartWorks {
 	public final static String CONTEXT_PREFIX_MEMO_SPACE = "mm.sp.";
 	public final static String CONTEXT_PREFIX_BOARD_SPACE = "bd.sp.";
 	public final static String CONTEXT_PREFIX_MAIL_SPACE = "ml.sp.";
-
-	public final static String CONTEXT_PREFIX_IWORK_TASK = "iw.ts.";
-	public final static String CONTEXT_PREFIX_PWORK_TASK = "pw.ts.";
-	public final static String CONTEXT_PREFIX_SWORK_TASK = "sw.ts.";
 
 	public final static String CONTEXT_PREFIX_BUILDER_SPACE = "bd.sp.";
 

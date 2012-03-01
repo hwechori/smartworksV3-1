@@ -45,12 +45,12 @@
 				%>
 				<div class="menu_2dep" style="display:none">
 					<ul>
-						<li><a href="space_work_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.works"/></span></a></li>
-						<li><a href="space_picture_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.pictures"/></span></a></li>
-						<li><a href="space_file_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.files"/></span></a></li>
-						<li><a href="space_event_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.events"/></span></a></li>
-						<li><a href="space_memo_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.memos"/></span></a></li>
-						<li><a href="space_board_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.boards"/></span></a></li>
+						<li><a href="space_work_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.works"/></span></a></li>
+						<li><a href="space_picture_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.pictures"/></span></a></li>
+						<li><a href="space_file_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.files"/></span></a></li>
+						<li><a href="space_event_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.events"/></span></a></li>
+						<li><a href="space_memo_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.memos"/></span></a></li>
+						<li><a href="space_board_list.sw?cid=<%=cid %>" class="js_content"><span class="icon_b2dep"><fmt:message key="space.title.boards"/></span></a></li>
 					</ul>
 				</div>
 			</li>

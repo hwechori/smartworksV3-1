@@ -38,7 +38,7 @@ SmartWorks.FormRuntime.TimeChooserBuilder.build = function(config) {
 	if(readOnly){
 		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>').text(value);
 	}else{	
-		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><div class="ico_fb_space form_time_input"><input readonly="readonly" type="text" name="' + id + '"' + required + '><a href="" class="js_timepicker_button"><span class="ico_fb_time"></span></a></div></div>');
+		$text = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"><div class="icon_fb_space form_time_input"><input readonly="readonly" type="text" name="' + id + '"' + required + '><a href="" class="js_timepicker_button"><span class="icon_fb_time"></span></a></div></div>');
 		$text.find('input').attr('value', value);
 	}
 	if ($graphic.attr('hidden') == 'true'){
