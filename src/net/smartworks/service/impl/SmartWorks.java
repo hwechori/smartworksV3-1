@@ -57,6 +57,7 @@ import net.smartworks.server.service.ISettingsService;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartTest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -430,6 +431,11 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getInstanceRelatedWorksById(instId);
 	}
 
+	@Override
+	public InstanceInfo[] getSpaceInstancesByDate(String spaceId, LocalDate fromDate, int maxSize) throws Exception {
+		return instanceService.getSpaceInstancesByDate(spaceId, fromDate, maxSize);
+	}
+	
 	/*
 	 * @Override >>>>>>> branch 'master' of
 	 * git@github.com:maninsoft/smartworksV3.git public String createFile(String

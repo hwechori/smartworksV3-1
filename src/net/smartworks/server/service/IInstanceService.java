@@ -15,6 +15,7 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartTest;
 
 public interface IInstanceService {
 
@@ -66,6 +67,8 @@ public interface IInstanceService {
 
 	public InstanceInfoList[] getInstanceRelatedWorksById(String instId) throws Exception;
 
+	public InstanceInfo[] getSpaceInstancesByDate(String spaceId, LocalDate fromDate, int maxSize) throws Exception;
+	
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;

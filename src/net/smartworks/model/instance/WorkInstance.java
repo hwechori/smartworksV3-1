@@ -10,9 +10,9 @@ import net.smartworks.util.LocalDate;
 
 public class WorkInstance extends Instance {
 
-	public static final int TYPE_PROCESS = 11;
-	public static final int TYPE_INFORMATION = 12;
-	public static final int TYPE_SCHEDULE = 13;
+	public static final int TYPE_PROCESS = 31;
+	public static final int TYPE_INFORMATION = 32;
+	public static final int TYPE_SCHEDULE = 33;
 
 	public static final String CONTROLLER_IWORK_SPACE = "iwork_space.sw";
 	public static final String CONTROLLER_PWORK_SPACE = "pwork_space.sw";
@@ -37,9 +37,10 @@ public class WorkInstance extends Instance {
 		this.numberOfSubInstances = numberOfSubInstances;
 	}
 	public String getController(){
-		switch(getType()){
+		if(getWork()==null) return "";
+		switch(getWork().getType()){
 		case SmartWork.TYPE_INFORMATION:
-			if(getId().equals(SmartWork.ID_FILE_MANAGEMENT))
+			if(getWork().getId().equals(SmartWork.ID_FILE_MANAGEMENT))
 				return WorkInstance.CONTROLLER_FILE_SPACE;
 			else
 				return WorkInstance.CONTROLLER_IWORK_SPACE;
@@ -54,13 +55,14 @@ public class WorkInstance extends Instance {
 	}
 	
 	public String getContextId(){
-		switch(getType()){
+		if(getWork()==null) return "";
+		switch(getWork().getType()){
 		case SmartWork.TYPE_INFORMATION:
-			if(getId().equals(SmartWork.ID_FILE_MANAGEMENT))
+			if(SmartWork.ID_FILE_MANAGEMENT.equals(getWork().getId()))
 				return ISmartWorks.CONTEXT_PREFIX_FILE_SPACE + getId();
-			else if(getId().equals(SmartWork.ID_DEPARTMENT_MANAGEMENT))
+			else if(SmartWork.ID_DEPARTMENT_MANAGEMENT.equals(getWork().getId()))
 				return ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + getId();
-			else if(getId().equals(SmartWork.ID_GROUP_MANAGEMENT))
+			else if(SmartWork.ID_GROUP_MANAGEMENT.equals(getWork().getId()))
 				return ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + getId();
 			else
 				return ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + getId();

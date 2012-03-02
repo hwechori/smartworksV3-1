@@ -129,6 +129,12 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		return SmartUtil.returnMnv(request, "jsp/content/work/start/new_board.jsp", "");
 	}
 
+	@RequestMapping("/more_space_sub_instances")
+	public ModelAndView moreSpaceSubInstances(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/space/more_space_sub_instances.jsp", "");
+	}
+
 //	@RequestMapping(value = "/refresh_data_fields", method = RequestMethod.POST)
 //	@ResponseStatus(HttpStatus.CREATED)
 //	public @ResponseBody Map<String, Object> refreshDataFields(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {

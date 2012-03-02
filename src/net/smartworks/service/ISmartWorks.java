@@ -47,6 +47,7 @@ import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartTest;
 
 public interface ISmartWorks {
 
@@ -238,6 +239,8 @@ public interface ISmartWorks {
 
 	public abstract InstanceInfoList[] getInstanceRelatedWorksById(String instId) throws Exception;
 
+	public abstract InstanceInfo[] getSpaceInstancesByDate(String spaceId, LocalDate fromDate, int maxSize) throws Exception;
+	
 	public abstract Report getReportById(String reportId) throws Exception;
 
 	public abstract SearchFilter getSearchFilterById(String workType, String workId, String filterId) throws Exception;

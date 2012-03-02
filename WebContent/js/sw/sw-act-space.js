@@ -120,6 +120,29 @@ $(function() {
 		return false;
 	});
 	
+	$('a.js_space_more_instance').live('click',function(e) {
+		var input = $(e.target);
+		var fromDate = input.attr('lastDate');
+		var target = input.parents('ul:first');
+		var spacePage = input.parents('.js_space_instance_list_page');
+		var spaceId = spacePage.attr('spaceId');		
+		$.ajax({
+			url : "more_space_sub_instances.sw",
+			data : {
+				spaceId : spaceId,
+				fromDate : fromDate,
+				maxSize : 20
+			},
+			success : function(data, status, jqXHR) {
+				input.parents('li:first').remove();
+				target.append(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+			}
+		});
+		return false;
+	});
+	
 	$('a.js_view_instance_diagram').live('click',function(e) {
 		var input = $(e.target);
 		input.parent().hide().next().show();

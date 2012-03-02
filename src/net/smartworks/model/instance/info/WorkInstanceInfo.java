@@ -10,11 +10,12 @@ import net.smartworks.util.LocalDate;
 
 public class WorkInstanceInfo extends InstanceInfo {
 
+	public static final int DEFAULT_CONNECTED_WORK_FETCH_COUNT = 3; 
+	
 	private TaskInstanceInfo lastTask;
 	private int lastTaskCount = -1;
-	private boolean haveNew = false;
-	private int commentCount;
-	private CommentInstanceInfo[] comments;
+	private int subInstanceCount;
+	private InstanceInfo[] subInstances;
 
 	public TaskInstanceInfo getLastTask() {
 		return lastTask;
@@ -28,28 +29,23 @@ public class WorkInstanceInfo extends InstanceInfo {
 	public void setLastTaskCount(int lastTaskCount) {
 		this.lastTaskCount = lastTaskCount;
 	}
-	public boolean isHaveNew() {
-		return haveNew;
+	public int getSubInstanceCount() {
+		return subInstanceCount;
 	}
-	public void setHaveNew(boolean haveNew) {
-		this.haveNew = haveNew;
+	public void setSubInstanceCount(int subInstanceCount) {
+		this.subInstanceCount = subInstanceCount;
 	}
-	public int getCommentCount() {
-		return commentCount;
+	public InstanceInfo[] getSubInstances() {
+		return subInstances;
 	}
-	public void setCommentCount(int commentCount) {
-		this.commentCount = commentCount;
-	}
-	public CommentInstanceInfo[] getComments() {
-		return comments;
-	}
-	public void setComments(CommentInstanceInfo[] comments) {
-		this.comments = comments;
+	public void setSubInstances(InstanceInfo[] subInstances) {
+		this.subInstances = subInstances;
 	}
 	public String getController(){
-		switch(getType()){
+		if(getWork()==null) return "";
+		switch(getWork().getType()){
 		case SmartWork.TYPE_INFORMATION:
-			if(getId().equals(SmartWork.ID_FILE_MANAGEMENT))
+			if(SmartWork.ID_FILE_MANAGEMENT.equals(getWork().getId()))
 				return WorkInstance.CONTROLLER_FILE_SPACE;
 			else
 				return WorkInstance.CONTROLLER_IWORK_SPACE;
@@ -64,13 +60,14 @@ public class WorkInstanceInfo extends InstanceInfo {
 	}
 	
 	public String getContextId(){
-		switch(getType()){
+		if(getWork()==null) return "";
+		switch(getWork().getType()){
 		case SmartWork.TYPE_INFORMATION:
-			if(getId().equals(SmartWork.ID_FILE_MANAGEMENT))
+			if(SmartWork.ID_FILE_MANAGEMENT.equals(getWork().getId()))
 				return ISmartWorks.CONTEXT_PREFIX_FILE_SPACE + getId();
-			else if(getId().equals(SmartWork.ID_DEPARTMENT_MANAGEMENT))
+			else if(SmartWork.ID_DEPARTMENT_MANAGEMENT.equals(getWork().getId()))
 				return ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + getId();
-			else if(getId().equals(SmartWork.ID_GROUP_MANAGEMENT))
+			else if(SmartWork.ID_GROUP_MANAGEMENT.equals(getWork().getId()))
 				return ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + getId();
 			else
 				return ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + getId();

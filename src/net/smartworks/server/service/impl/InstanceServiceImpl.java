@@ -232,7 +232,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 					WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
 		
-					WorkInfo workInfo = new SmartWorkInfo(formId, formName, type, groupInfo, categoryInfo);
+					WorkInfo workInfo = new SmartWorkInfo(formId, formName, SmartWork.TYPE_INFORMATION, groupInfo, categoryInfo);
 	
 					boardInstanceInfo.setWork(workInfo);
 					boardInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
@@ -1755,7 +1755,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 					WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
 		
-					WorkInfo workInfo = new SmartWorkInfo(formId, formName, type, groupInfo, categoryInfo);
+					WorkInfo workInfo = new SmartWorkInfo(formId, formName, SmartWork.TYPE_INFORMATION, groupInfo, categoryInfo);
 	
 					iWInstanceInfo.setWork(workInfo);
 					iWInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
@@ -1972,7 +1972,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					
 				WorkCategoryInfo categoryInfo = new WorkCategoryInfo(prcInst.getParentCtgId(), prcInst.getParentCtg());
 				
-				WorkInfo workInfo = new SmartWorkInfo(prcInst.getPrcDid(), prcInst.getPrcName(), type, groupInfo, categoryInfo);
+				WorkInfo workInfo = new SmartWorkInfo(prcInst.getPrcDid(), prcInst.getPrcName(), SmartWork.TYPE_PROCESS, groupInfo, categoryInfo);
 				pwInstInfo.setWork(workInfo);
 	
 				TaskInstanceInfo lastTaskInfo = null;
@@ -2985,6 +2985,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+
 	@Override
 	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		try{
@@ -3013,6 +3014,19 @@ public class InstanceServiceImpl implements IInstanceService {
 			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);
 
 			return (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);
+			
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public InstanceInfo[] getSpaceInstancesByDate(String spaceId, LocalDate fromDate, int maxSize) throws Exception {
+		try{
+			return SmartTest.getMyRecentInstances();
 			
 		}catch (Exception e){
 			// Exception Handling Required
@@ -3225,7 +3239,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 						WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
 			
-						WorkInfo workInfo = new SmartWorkInfo(formId, formName, type, groupInfo, categoryInfo);
+						WorkInfo workInfo = new SmartWorkInfo(formId, formName, SmartWork.TYPE_INFORMATION, groupInfo, categoryInfo);
 		
 						iWInstanceInfo.setWork(workInfo);
 						iWInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
