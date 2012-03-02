@@ -115,11 +115,11 @@ function submitForms() {
 		<div class="ico_iworks title"><%=work.getFullpathName()%></div>
 		
 		<!-- 전자결재, 업무전달 버튼들 -->
-		<div class="txt_btn">
-			<div class="po_right image_posi">
+		<div class="txt_btn mb2">
+			<div class="po_right">
 				<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
 			</div>
-			<div class="po_right image_posi">
+			<div class="po_right">
 				<a href="" class="js_toggle_forward_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
 			</div>
 		</div>

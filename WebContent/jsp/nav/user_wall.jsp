@@ -27,12 +27,9 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="navi_list">
-	<div id="m_setting">
-		<!-- 내부 메뉴 -->
-		<ul>
-			<li>
-				<%
+<ul class="navi_tit_default">
+	<li>
+		<%
 				if(SmartUtil.getSpaceIdFromContentContext(cid).equals(cUser.getId())){				
 				%>
 					<a href="user_space.sw?cid=<%=cid %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.my.all_items"/></a>
@@ -43,17 +40,19 @@
 				<%
 				}
 				%>
-				<div class="menu_2dep" style="display:none">
+	</li>
+</ul>
+
+<div class="navi_list" style="display:block">
+	<div id="m_setting">
+		<!-- 내부 메뉴 -->				
 					<ul>
-						<li><a href="space_work_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.works"/></span></a></li>
-						<li><a href="space_picture_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.pictures"/></span></a></li>
-						<li><a href="space_file_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.files"/></span></a></li>
-						<li><a href="space_event_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.events"/></span></a></li>
-						<li><a href="space_memo_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_b2dep"><fmt:message key="space.title.memos"/></span></a></li>
+						<li><a href="space_work_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_mywork"></span><span><fmt:message key="space.title.works"/></span></a></li>
+						<li><a href="space_picture_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_mypicture"></span><span><fmt:message key="space.title.pictures"/></span></a></li>
+						<li><a href="space_file_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_myfile"></span><span><fmt:message key="space.title.files"/></span></a></li>
+						<li><a href="space_event_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_myevent"></span><span><fmt:message key="space.title.events"/></span></a></li>
+						<li><a href="space_memo_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_mymemo"></span><spa><fmt:message key="space.title.memos"/></span></a></li>
 					</ul>
-				</div>
-			</li>
-		</ul>
 		<!--내부메뉴//-->
 	</div>
 </div>
