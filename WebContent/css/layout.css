@@ -155,24 +155,26 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
 .navi_list.coummi {min-height: 200px;}
 
-.icon_pworks {background: url("../images/icon_pwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_pworks {background: url("../images/icon_pworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
 .icon_cworks {background: url("../images/icon_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_sworks {background: url("../images/icon_swoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_sworks {background: url("../images/icon_sworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
 .icon_gworks {background: url("../images/icon_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_iworks {background: url("../images/icon_iwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_pworks_off {background: url("../images/icon_pwoks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_iworks {background: url("../images/icon_iworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_pworks_off {background: url("../images/icon_pworks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
 .icon_cworks_off {background: url("../images/icon_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_sworks_off {background: url("../images/icon_swoks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_sworks_off {background: url("../images/icon_sworks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
 .icon_gworks_off {background: url("../images/icon_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_iworks_off {background: url("../images/icon_iwoks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_iworks_off {background: url("../images/icon_iworks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
 
-.icon_stworks {background: url("../images/icon_stwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; height:17px;}
+.icon_stworks {background: url("../images/icon_stworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; height:17px;}
 
 .icon_depart {background: url("../images/icon_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
 .icon_group {background: url("../images/icon_group.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
 .icon_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
 .icon_b1dep {background: url("../images/nav_img.png") no-repeat 0 -348px transparent; display: inline-block; padding:0 0 0 13px}
 .icon_b2dep {background: url("../images/nav_img.png") no-repeat 0 -364px transparent; display: inline-block; padding:0 0 0 12px}
+.icon_folder {background: url("../images/ico_folder.gif") no-repeat 0 3px transparent; height:14px; padding:0 0 0 20px; font-weight:bold}
+.title_folder {height:14px; font-weight:bold; margin-top:3px}
 
 /* Nav MySpace */
 .icon_all_works {background: url("../images/body_icon.png") no-repeat -550px -348px; padding:0 7px 0 0; float: left; width:18px; height:15px}
@@ -701,6 +703,7 @@ td.form_col .btn_im_x {display:none;}
 .t_up_num {color:#e54b4b; font-weight:bold;}
 .t_bold {font-weight:bold;}
 .t_gbold {color:#656565; font-weight:bold;}
+.t_gray { color:#919191}
 .t_name {color:#23579e; position: relative;}
 .t_woname {color:#23579e; font-weight:bold;}
 .t_date, .t_text_s11, .t_s11,
