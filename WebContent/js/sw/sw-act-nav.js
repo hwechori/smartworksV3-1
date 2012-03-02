@@ -212,7 +212,6 @@ $(function() {
 		if (url == 'undefined' || (isEmpty(categoryId) && isEmpty(groupId) && isEmpty(departmentId))) {
 			return false;
 		}
-		console.log('target=', target, 'children=', $(target).children());
 		if(isEmpty($(target).children())){
 			if(input.hasClass('js_popup'))
 				smartPop.progressCont(input.find('span:last'));
@@ -229,8 +228,8 @@ $(function() {
 				success : function(data, status, jqXHR) {
 					target.show();
 					target.html(data);
-					target.siblings('li.js_drill_down').find('div').hide();
-					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
+					target.siblings('li.js_drill_down').find('.js_drill_down_target').hide();
+					target.parents('li.js_drill_down').siblings('li.js_drill_down').find('.js_drill_down_target').hide();
 					smartPop.closeProgress();											
 				},
 				error : function(xhr, ajaxOptions, thrownError){
@@ -239,8 +238,8 @@ $(function() {
 			});
 		}else if(!target.is(':visible')){
 			target.show();
-			target.siblings('li.js_drill_down').find('div').hide();
-			target.parents('li.js_drill_down').siblings('li.js_drill_down').find('div').hide();
+			target.siblings('li.js_drill_down').find('div').hide('.js_drill_down_target');
+			target.parents('li.js_drill_down').siblings('li.js_drill_down').find('.js_drill_down_target').hide();
 		}
 		return false;
 	});

@@ -105,10 +105,10 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="margin_b2 js_form_wrap js_start_pwork_page" workId="<%=workId%>">
+<div class="form_wrap up up_padding margin_b2 js_form_wrap js_start_pwork_page" workId="<%=workId%>">
 	<div class="form_title js_form_header">
 		<!-- 해당 업무이름을 표시하는 곳 -->
-		<div class="ico_pworks title"><%=work.getFullpathName() %></div>
+		<div class="icon_pworks title"><%=work.getFullpathName() %></div>
 
 		<!-- 전자결재, 업무전달 버튼들 -->
 		<div class="txt_btn">

@@ -26,14 +26,17 @@ public class Thumbnail {
 		File save = new File(saveFile);
 		RenderedOp rOp = JAI.create("fileload", loadFile);
 		BufferedImage im = rOp.getAsBufferedImage();
-		int width;
-		int height;
+		int width = 0;
+		int height = 0;
 		if(sizeType.equals("big")) {
 			width = 110;
 			height = 110;
-		} else {
+		} else if(sizeType.equals("small")) {
 			width = 48;
 			height = 48;
+		} else if(sizeType.equals("thumb")) {
+			width = 200;
+			height = 200;
 		}
 		BufferedImage thumb = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2 = thumb.createGraphics();						

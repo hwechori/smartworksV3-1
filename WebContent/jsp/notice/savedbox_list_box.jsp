@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.														 -->
 <!-- Created Date	: 2011.9.																 -->
 
+<%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.TaskInstanceInfo"%>
 <%@page import="net.smartworks.model.mail.MailFolder"%>
 <%@page import="net.smartworks.model.community.info.WorkSpaceInfo"%>
@@ -47,27 +48,22 @@
 				
 				// 업무인스턴스인 경우에는 정보관리업무만 임시저장 기능을 제공한다.
 				case Instance.TYPE_WORK:
-					if(work.getType() == SmartWork.TYPE_INFORMATION){
-						targetContent = "iwork_space.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instance.getId();
-						iconType = "ico_iworks";
-					}
+					WorkInstanceInfo workInstance = (WorkInstanceInfo)instance;
+					targetContent = workInstance.getController() + "?cid=" + workInstance.getContextId();
+					iconType = work.getIconClass();
 					break;
 				
 				// 태스크인스턴스인 경우에는 프로세스업무나 일정계획업무가 포함된다.
 				case Instance.TYPE_TASK:
-					if(work.getType() == SmartWork.TYPE_PROCESS){
-						targetContent = "pwork_space.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instance.getId();
-						iconType = "ico_iworks";
-					}else if(work.getType() == SmartWork.TYPE_SCHEDULE){
-						targetContent = "swork_space.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + instance.getId();						
-						iconType = "ico_iworks";
-					}
+					TaskInstanceInfo taskInstance = (TaskInstanceInfo)instance;
+					targetContent = taskInstance.getController() + "?cid=" + taskInstance.getContextId();
+					iconType = work.getIconClass();
 					break;
 				
 				// 이메일인 경우에는 이메일 임시저장함에 저장 관리 된다.
 				case Instance.TYPE_MAIL:
 					targetContent = "mail_space.sw?folderId=" + MailFolder.ID_DRAFTS + "msgId=" + instance.getId();
-					iconType = "ico_mail";					
+					iconType = "icon_mail";					
 					break;
 				}
 %>

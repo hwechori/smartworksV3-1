@@ -359,33 +359,33 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
-		return instanceService.getWorkInstanceList(cid, params);
+	public InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return instanceService.getWorkInstanceList(workSpaceId, params);
 	}
 
 	@Override
-	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {
-		return instanceService.getPictureInstanceList(cid, params);
+	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return instanceService.getImageInstanceList(workSpaceId, params);
 	}
 
 	@Override
-	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception {
-		return instanceService.getFileInstanceList(cid, params);
+	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return instanceService.getFileInstanceList(workSpaceId, params);
 	}
 
 	@Override
-	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception {
-		return instanceService.getEventInstanceList(cid, fromDate, toDate);
+	public EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception {
+		return instanceService.getEventInstanceList(workSpaceId, fromDate, toDate);
 	}
 
 	@Override
-	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception {
-		return instanceService.getMemoInstanceList(cid, params);
+	public InstanceInfoList getMemoInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return instanceService.getMemoInstanceList(workSpaceId, params);
 	}
 
 	@Override
-	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception {
-		return instanceService.getBoardInstanceList(cid, params);
+	public InstanceInfoList getBoardInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return instanceService.getBoardInstanceList(workSpaceId, params);
 	}
 
 	@Override

@@ -71,71 +71,33 @@
 			String runningTaskName = "";
 			if (taskInstance != null)
 				runningTaskName = taskInstance.getName();
-			String ownerContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
-
-			String targetContent, workContextId, workListContextId, workTypeClass;
-			// Work 타입별로 필요한 값들을 설정한다..
-			switch (work.getType()) {
-			
-			// Work타입이 정보관리업무인 경우....
-			case SmartWork.TYPE_INFORMATION:
-				workTypeClass = "ico_iworks";
-				targetContent = "iwork_";
-				workContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + workInstance.getId();
-				workListContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
-				break;
-				
-			// Work타입이 프로세스업무인 경우...
-			case SmartWork.TYPE_PROCESS:
-				workTypeClass = "ico_pworks";
-				targetContent = "pwork_";
-				workContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + workInstance.getId();
-				workListContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
-				break;
-			
-			// Work타입이 일정계획업무인 경우...
-			case SmartWork.TYPE_SCHEDULE:
-				workTypeClass = "ico_sworks";
-				targetContent = "swork_";
-				workContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
-				workListContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
-				break;
-			
-			// 기타 Work타입이 잘못되어 없는 경우...
-			default:
-				workTypeClass = "";
-				targetContent = "";
-				workContextId = "";
-				workListContextId = "";
-				break;
-			}
 
 			// 인스턴스가 할당태스크인 경우 중에...
 			if (isAssignedTask) {
 				switch (taskInstance.getStatus()) {
 				// 인스턴스가 현재 진행중인 경우..
 				case Instance.STATUS_RUNNING:
-					statusImage = "images/ic_status_running.jpg";
+					statusImage = "images/icon_status_running.jpg";
 					statusTitle = "content.status.running";
 					break;
 				// 인스턴스가 지연진행중인 경우....
 				case Instance.STATUS_DELAYED_RUNNING:
-					statusImage = "images/ic_status_d_running.jpg";
+					statusImage = "images/icon_status_d_running.jpg";
 					statusTitle = "content.status.delayed_running";
 					break;
 				// 인스턴스가 반려된 경우...
 				case Instance.STATUS_RETURNED:
-					statusImage = "images/ic_status_returned.jpg";
+					statusImage = "images/icon_status_returned.jpg";
 					statusTitle = "content.status.returned";
 					break;
 				// 기타 잘못되어 상태가 없는 경우..
 				default:
-					statusImage = "images/ic_status_not_yet.jpg";
+					statusImage = "images/icon_status_not_yet.jpg";
 					statusTitle = "content.status.not_yet";
 				}
 			// 인스턴스가 할당태스크가 아닌경우....
 			} else {
-				statusImage = "images/ic_status_running.jpg";
+				statusImage = "images/icon_status_running.jpg";
 				statusTitle = "content.status.running";
 			}
 %>
@@ -149,30 +111,21 @@
 				<!-- 인스턴스 상태 및 시작자 사진표시 -->
 				<td class="pic">
 					<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>" />
-					<a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img class="profile_size_m" src="<%=owner.getMidPicture()%>"/></a>
+					<a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img class="profile_size_m" src="<%=owner.getMidPicture()%>"/></a>
 				</td>
 				<!-- 인스턴스 상태 및 시작자 사진표시 -->
 				
 				<!-- 인스턴스 상세내용 표시 -->
 				<td>
 					<!--  시작자 이름 -->
-					<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span> </a>
+					<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span> </a>
 					<%
 					// 공간이 사람이 아닌 공간(그룹, 부서) 경우에는 공간 표시를 해준다...
 					if (!workInstance.getWorkSpace().getId().equals(owner.getId())) {
 						WorkSpaceInfo workSpace = workInstance.getWorkSpace();
-						String spaceContent = "";
-						String commContext = "";
-						if (workSpace.getClass().equals(Group.class)) {
-							targetContent = "group_space.sw";
-							commContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + workSpace.getId();
-						} else if (workSpace.getClass().equals(Department.class)) {
-							targetContent = "department_space.sw";
-							commContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + workSpace.getId();
-						}
 					%>
 						<span class="arr">▶</span>
-						<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="ico_division_s"><%=workSpace.getName()%></span> </a>
+						<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName()%></span> </a>
 					<%
 					}
 					// 인스턴스 타입에 할당태스크인 경우들 중에서....
@@ -184,7 +137,7 @@
 					%>
 							<fmt:message key="content.sentence.itask_assigned">
 								<fmt:param>
-									<a class="js_content" href='<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>'>
+									<a class="js_content" href='<%=((TaskInstanceInfo)taskInstance).getController()%>?cid=<%=((TaskInstanceInfo)taskInstance).getContextId()%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>'>
 										<span class='t_woname'><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -196,7 +149,7 @@
 						%>
 							<fmt:message key="content.sentence.itask_forwarded">
 								<fmt:param>
-									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
+									<a class="js_content" href="<%=((TaskInstanceInfo)taskInstance).getController()%>?cid=<%=((TaskInstanceInfo)taskInstance).getContextId()%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span>
 									</a>
 								</fmt:param>
@@ -208,7 +161,7 @@
 						%>
 							<fmt:message key="content.sentence.ptask_assigned">
 								<fmt:param>
-									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
+									<a class="js_content" href="<%=((TaskInstanceInfo)taskInstance).getController()%>?cid=<%=((TaskInstanceInfo)taskInstance).getContextId()%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -220,7 +173,7 @@
 						%>
 							<fmt:message key="content.sentence.ptask_forwarded">
 								<fmt:param>
-									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
+									<a class="js_content" href="<%=((TaskInstanceInfo)taskInstance).getController()%>?cid=<%=((TaskInstanceInfo)taskInstance).getContextId()%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -232,7 +185,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_assigned">
 								<fmt:param>
-									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
+									<a class="js_content" href="<%=((TaskInstanceInfo)taskInstance).getController()%>?cid=<%=((TaskInstanceInfo)taskInstance).getContextId()%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -244,7 +197,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_forwarded">
 								<fmt:param>
-									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
+									<a class="js_content" href="<%=((TaskInstanceInfo)taskInstance).getController()%>?cid=<%=((TaskInstanceInfo)taskInstance).getContextId()%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -256,7 +209,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_forwarded">
 								<fmt:param>
-									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>%>">
+									<a class="js_content" href="<%=((TaskInstanceInfo)taskInstance).getController()%>?cid=<%=((TaskInstanceInfo)taskInstance).getContextId()%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -268,7 +221,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_forwarded">
 								<fmt:param>
-									<a class="js_content" href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
+									<a class="js_content" href="<%=((TaskInstanceInfo)taskInstance).getController()%>?cid=<%=((TaskInstanceInfo)taskInstance).getContextId()%>&workId=<%=work.getId()%>&taskInstId=<%=taskInstance.getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -290,8 +243,6 @@
 							boolean firstRun = true;
 							for (TaskInstanceInfo assignedTask : assignedTasks) {
 								UserInfo assignee = assignedTask.getAssignee();
-								String userContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + assignee.getId();
-								String assignedContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + assignee.getId();
 								runningTaskName = assignedTask.getName();
 								if (firstRun) {
 									firstRun = false;
@@ -303,12 +254,12 @@
 								%>
 								<fmt:message key="content.sentence.task_by_assignee">
 									<fmt:param>
-										<a href="user_space.sw?cid=<%=userContextId%>" title="<%=assignee.getLongName()%>">
+										<a href="<%=assignee.getSpaceController() %>?cid=<%=assignee.getSpaceContextId()%>" title="<%=assignee.getLongName()%>">
 											<span class="t_name"><%=assignee.getName()%></span>
 										</a>
 									</fmt:param>
 									<fmt:param>
-										<a href="<%=targetContent%>space.sw?cid=<%=assignedContextId%>&workId=<%=workInstance.getWorkSpace().getId()%>">
+										<a href="<%=assignedTask.getController()%>?cid=<%=assignedTask.getContextId()%>&wid=<%=assignee.getId() %>&workId=<%=workInstance.getWorkSpace().getId()%>">
 											<span class="t_woname"><%=runningTaskName%></span> 
 										</a>
 									</fmt:param>
@@ -336,7 +287,7 @@
 							%>
 							<fmt:message key="content.sentence.and_user">
 								<fmt:param>
-									<a href="user_space.sw?cid=<%=userContextId%>" title="<%=forwardee.getLongName()%>">
+									<a href="<%=forwardee.getSpaceController() %>?cid=<%=forwardee.getSpaceContextId()%>" title="<%=forwardee.getLongName()%>">
 										<span class="t_name"><%=forwardee.getName()%></span>
 									</a>
 								</fmt:param>
@@ -356,11 +307,11 @@
 					}
 					%>
 					<br/>
-					<a href="<%=targetContent%>list.sw?cid=<%=workListContextId%>" class="js_content">
-						<span class="<%=workTypeClass%>"></span>
+					<a href="<%=work.getController()%>?cid=<%=work.getContextId()%>" class="js_content">
+						<span class="<%=work.getIconClass()%>"></span>
 						<span class="t_date"><%=work.getFullpathName()%></span>
 					</a>
-					<a href="<%=targetContent%>space.sw?cid=<%=workContextId%>&workId=<%=work.getId() %>" class="js_content">
+					<a href="<%=workInstance.getController()%>?cid=<%=workInstance.getContextId() %>&workId=<%=work.getId() %>" class="js_content">
 						<span class="t_bold"><%=workInstance.getSubject()%></span> 
 					</a>
 				</td>

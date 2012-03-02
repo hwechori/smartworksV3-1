@@ -147,12 +147,19 @@
 	 					<div class="title"><%=dayTitle%></div>
 						<ul>
 							<%
-							if(!SmartUtil.isBlankObject(tasksByWorkHours) && tasksByWorkHours.length ==3 && !SmartUtil.isBlankObject(tasksByWorkHours[2])){
-								session.setAttribute("taskHistories", tasksByWorkHours[2]);
+							int holidayTasks = 0;
+							if(!SmartUtil.isBlankObject(tasksByWorkHours) && tasksByWorkHours.length > 0){
+								for(int i=0; i<tasksByWorkHours.length; i++){
+									if(!SmartUtil.isBlankObject(tasksByWorkHours[i])){
+										holidayTasks++;
+										session.setAttribute("taskHistories", tasksByWorkHours[i]);
 							%>
-								<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
+										<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
 							<%
-							}else{
+									}
+								}
+							}
+							if(holidayTasks==0){
 							%>
 								<li class="t_nowork"><fmt:message key="common.message.no_work_task"/></li>
 							<%

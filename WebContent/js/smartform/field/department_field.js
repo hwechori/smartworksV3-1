@@ -45,13 +45,13 @@ SmartWorks.FormRuntime.DepartmentFieldBuilder.build = function(config) {
 		hideStyle = ' style="display:none" ';
 	}
 
-	var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
+	var $html = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"> <div class="icon_fb_space">\
 					<div ' + required + '">\
 						<div class="js_selected_communities user_sel_area"></div>\
 						<input class="js_auto_complete" href="community_name.sw" type="text"' + hideStyle + '>\
 						<div class="js_srch_x"' + hideStyle + '></div>\
 					</div>\
-					<div class="js_community_list commu_list" style="display: none"></div><a href="#" class="js_departpicker_button"><span class="ico_fb_user"></span></a></div></div>');
+					<div class="js_community_list commu_list" style="display: none"></div><a href="#" class="js_departpicker_button"><span class="icon_fb_user"></span></a></div></div>');
 
 	$html.find('.js_selected_communities').html(usersHtml);
 	

@@ -66,7 +66,6 @@
 <script type="">
 currentUser = {
 	userId : "<%=currentUser.getId()%>",
-	password : "<%=currentUser.getPassword()%>",
 	name : "<%=currentUser.getName()%>",
 	longName : "<%=currentUser.getLongName()%>",
 	companyId : "<%=currentUser.getCompanyId()%>",
@@ -133,15 +132,15 @@ currentUser = {
 <script type="text/javascript" src="js/ext/bootstrap.js"></script>
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
 
+<script type="text/javascript" src="js/sw/sw-common.js"></script>
+<script type="text/javascript" src="js/sw/sw-util.js"></script>
 <script type="text/javascript" src="js/sw/sw-language.js"></script>
 <script type="text/javascript" src="js/sw/sw-language-ko.js"></script>
 <script type="text/javascript" src="js/sw/sw-language-en.js"></script>
-<script type="text/javascript" src="js/sw/sw-util.js"></script>
 <script type="text/javascript" src="js/sw/sw-more.js"></script>
 <script type="text/javascript" src="js/sw/sw-nav.js"></script>
 <script type="text/javascript" src="js/sw/sw-validate.js"></script>
 <script type="text/javascript" src="js/sw/sw-flash.js"></script>
-<script type="text/javascript" src="js/sw/sw-common.js"></script>
 
 <script type="text/javascript" src="js/sw/sw-faye.js"></script>
 <script type="text/javascript" src="js/sw/sw-chat.js"></script>

@@ -187,7 +187,7 @@
 					<div class="form_wrap up form_layout padding_t10 padding_b10">
 						<!-- 타이틀 -->
 						<div class="form_title padding0 margin_b10">
-							<div class="ico_iworks title_noico"><%=work.getName() %></div>
+							<div class="<%=work.getIconClass() %> title_noico"><%=work.getName() %></div>
 							<div class="solid_line clear"></div>
 						</div>
 						<!-- 타이틀 //-->
@@ -219,7 +219,7 @@
 					<div class="form_wrap up form_layout padding_t10 padding_b10">
 						<!-- 타이틀 -->
 						<div class="form_title padding0 margin_b10">
-							<div class="ico_pworks title_noico"><%=work.getName() %></div>
+							<div class="icon_pworks title_noico"><%=work.getName() %></div>
 							<div class="solid_line clear"></div>
 						</div>
 						<!-- 타이틀 //-->
@@ -249,7 +249,7 @@
 							<div class="form_wrap up form_layout padding_t10 padding_b10">
 								<!-- 타이틀 -->
 								<div class="form_title padding0 margin_b10">
-									<div class="ico_iworks title_noico"><%=task.getName() %></div>
+									<div class="icon_iworks title_noico"><%=task.getName() %></div>
 									<div class="solid_line clear"></div>
 								</div>
 								<!-- 타이틀 //-->

@@ -2,6 +2,10 @@ package net.smartworks.model.instance;
 
 import net.smartworks.model.community.User;
 import net.smartworks.model.work.SmartForm;
+import net.smartworks.model.work.SmartWork;
+import net.smartworks.model.work.Work;
+import net.smartworks.model.work.WorkCategory;
+import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
 
 public class TaskInstance extends Instance {
@@ -22,7 +26,7 @@ public class TaskInstance extends Instance {
 	public final static int TYPE_APPROVAL_TASK_FORWARDED = 42;
 
 	public final static int TYPE_REMAINING_TASKS_SIZE = 99;
-	
+
 	private String name;
 	private int taskType=-1;
 	private WorkInstance workInstance;
@@ -74,7 +78,36 @@ public class TaskInstance extends Instance {
 	public void setSmartForm(SmartForm smartForm) {
 		this.smartForm = smartForm;
 	}
-
+	public String getController(){
+		if(getWork()==null) return "";
+		switch(getWork().getType()){
+		case SmartWork.TYPE_INFORMATION:
+			return WorkInstance.CONTROLLER_IWORK_SPACE;
+		case SmartWork.TYPE_PROCESS:
+			return WorkInstance.CONTROLLER_PWORK_SPACE;
+		case SmartWork.TYPE_SCHEDULE:
+			return WorkInstance.CONTROLLER_SWORK_SPACE;
+		case WorkCategory.TYPE_CATEGORY:
+			return "";
+		}
+		return "";
+	}
+	
+	public String getContextId(){
+		if(getWork()==null || getWorkInstance()==null) return "";
+		switch(getWork().getType()){
+		case SmartWork.TYPE_INFORMATION:
+			return ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + getWorkInstance().getId();
+		case SmartWork.TYPE_PROCESS:
+			return ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + getWorkInstance().getId();
+		case SmartWork.TYPE_SCHEDULE:
+			return ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + getWorkInstance().getId();
+		case WorkCategory.TYPE_CATEGORY:
+			return "";
+		}
+		return "";
+	}
+	
 	public TaskInstance() {
 		super();
 		super.setType(Instance.TYPE_TASK);

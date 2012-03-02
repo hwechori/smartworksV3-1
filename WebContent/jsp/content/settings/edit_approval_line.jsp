@@ -87,11 +87,11 @@
 		<%
 		if(SmartUtil.isBlankObject(lineId)){
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.approval.new"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.approval.new"/></div>
 		<%
 		}else{
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.approval.edit"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.approval.edit"/></div>
 		<%
 		}
 		%>
@@ -155,7 +155,7 @@
 									<option <%if(approval.getApproverType()== Approval.APPROVER_CHOOSE_USER){ %>selected<%} %> value="<%=Approval.APPROVER_CHOOSE_USER%>"><fmt:message key="settings.title.approver.select_user"/></option>
 								</select>
 								<div class="js_type_userField" fieldId="usrLevelApprover<%=count %>" multiUsers="false" <%if(approval.getApproverType()!=Approval.APPROVER_CHOOSE_USER){ %>style="display:none"<%} %>>
-									<div class="ico_fb_space form_value" >
+									<div class="icon_fb_space form_value" >
 										<div class="fieldline js_community_names sw_required">
 											<div class="js_selected_communities user_sel_area">
 												<%
@@ -175,7 +175,7 @@
 										</div>
 										<div class="js_community_list srch_list_nowid" style="display: none"></div>
 										<span class="js_community_popup"></span>
-										<a href="" class="js_userpicker_button"><span class="ico_fb_user"></span></a>
+										<a href="" class="js_userpicker_button"><span class="icon_fb_user"></span></a>
 									</div>
 								</div>								
 							</td>

@@ -20,6 +20,7 @@ import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.process.process.exception.PrcException;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstCond;
 import net.smartworks.server.engine.process.process.model.PrcProcessInstExtend;
+import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.server.engine.worklist.manager.IWorkListManager;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
@@ -380,9 +381,13 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 		queryBuffer.append("on taskInfo.tskPrcInstId = prcInstInfo.prcObjId ");
 		if (lastInstanceDate != null)
 			queryBuffer.append("where taskInfo.tskCreateDate < :lastInstanceDate ");
-		if (tskRefType != null)
-			queryBuffer.append("and taskInfo.tskRefType = :tskRefType ");
-		
+		if (tskRefType != null) {
+			if(tskRefType.equals(TskTask.TASKREFTYPE_NOTHING))
+				queryBuffer.append("and taskInfo.tskRefType is null ");
+			else 
+				queryBuffer.append("and taskInfo.tskRefType = :tskRefType ");
+		}
+
 		this.appendOrderQuery(queryBuffer, "taskInfo", cond);
 		//queryBuffer.append("order by taskInfo.tskCreatedate desc ");
 
@@ -410,7 +415,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 			query.setString("prcStatus", prcStatus);
 		if (!CommonUtil.isEmpty(tskRefType)) 
 			query.setString("tskRefType", tskRefType);
-		
+
 		return query;
 	}
 	public long getTaskWorkListSize(String user, TaskWorkCond cond) throws Exception {
@@ -450,8 +455,12 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 				obj.setTskObjId((String)fields[j++]);    
 				obj.setTskTitle((String)fields[j++]); 
 				Clob varData = (Clob)fields[j++];
-				long length=varData.length();
-				String tempCountStr=varData.getSubString(1, (int)length);
+				long length = 0;
+				String tempCountStr = "";
+				if(varData != null) {
+					length = varData.length();
+					tempCountStr = varData.getSubString(1, (int)length);
+				}
 				obj.setTskDoc(tempCountStr);
 				obj.setTskType((String)fields[j++]);     
 				obj.setTskRefType((String)fields[j++]);     

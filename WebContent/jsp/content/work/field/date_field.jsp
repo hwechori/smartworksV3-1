@@ -79,10 +79,10 @@
 <!--  좌측의 필드항목과 우측의 값을 계산하는 조건실행을 위한 오퍼레이터 선택박스 //-->
 
 <!-- 우측의 날짜를 비교할 수 있은 날짜 선택박스 -->
-<span class="ico_fb_space str_field js_operand_date js_right_operand" <%if (!selectedOperType.equals("js_operand_date")) {%> style="display: none"<%}%>>
+<span class="icon_fb_space str_field js_operand_date js_right_operand" <%if (!selectedOperType.equals("js_operand_date")) {%> style="display: none"<%}%>>
 	<input class="inputline js_todaypicker required" type="text" name="txtFilterDateOperand" readonly="readonly"
 		value="<%if (operandValue != null && !operandValue.equals("null")) {%><%=operandValue%><%} else {%><%=today%><%}%>">
-	<a href="" class="js_todaypicker_button"><span class="ico_fb_date"></span></a>
+	<a href="" class="js_todaypicker_button"><span class="icon_fb_date"></span></a>
 </span>
 
 <!--  가운데 계산자(오퍼레이터)가 지정된 시간들(오늘, 최근 5일등..)을 가지고 있는 경우에는 우측 값을 필요없음 -->

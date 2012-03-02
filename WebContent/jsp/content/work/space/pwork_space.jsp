@@ -74,7 +74,7 @@
 	                    <span class="t_date"><%=instance.getCreatedDate().toLocalString()%></span>
 	                    <div class="">
 	                    	<span class="title_picico float_left mr7"><%=instance.getSubject()%></span>
-	                    	<span class="ico_pworks t_date"> <%=work.getFullpathName() %></span> 
+	                    	<span class="icon_pworks t_date"> <%=work.getFullpathName() %></span> 
 	                    </div>
 	                </div>
 		                    
@@ -85,10 +85,10 @@
 	            
 				<!-- 전자결재, 업무전달 버튼들 -->
 				<div class="txt_btn image_posi">
-	                <div class="po_right ico_print">
+	                <div class="po_right icon_print">
 	                	<a href="" title="<fmt:message key='common.button.print'/>"></a>
 	                </div>
-	                <div class="po_right ico_mail">
+	                <div class="po_right icon_mail">
 	                	<a href="" title="<fmt:message key='common.button.email'/>"></a>
 	                </div>
 	                <div class="po_right"><a href="" class="js_view_instance_diagram"><fmt:message key="common.button.view_instance_diagram"/>▼</a></div>

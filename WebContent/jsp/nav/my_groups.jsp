@@ -20,11 +20,10 @@
 	<%
 	if (groups != null) {
 		for (GroupInfo group : groups) {
-			String groupContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + group.getId();
 	%>
 			<li>
-				<a href="group_space.sw?cid=<%=groupContext%>" title="<%=group.getDesc()%>">
-					<span class="ico_pe"><img src="<%=group.getMinPicture()%>" class="profile_size_s"></span> 
+				<a href="<%=group.getSpaceController() %>?cid=<%=group.getSpaceContextId()%>" title="<%=group.getDesc()%>">
+					<span class="icon_pe"><img src="<%=group.getMinPicture()%>" class="profile_size_s"></span> 
 					<span class="nav_subtitl_area"><%=group.getName()%></span>
 				</a>
 			</li>

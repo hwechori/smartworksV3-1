@@ -18,6 +18,7 @@ import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.Data;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
@@ -261,11 +262,11 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	@RequestMapping(value = "/get_events_by_dates", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody Map<String, Object> getEventsByDates(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String contextId = request.getParameter("contextId");
+		String workSpaceId = request.getParameter("workSpaceId");
 		LocalDate fromDate = LocalDate.convertLocalDateStringToLocalDate(request.getParameter("fromDate"));
 		LocalDate toDate = LocalDate.convertLocalDateStringToLocalDate(request.getParameter("toDate"));
 		
-		EventInstanceInfo[] eventInstances = smartworks.getEventInstanceList(contextId, fromDate, toDate);
+		EventInstanceInfo[] eventInstances = smartworks.getEventInstanceList(workSpaceId, fromDate, toDate);
 		
 		class EventInfo{
 			String id;
@@ -321,7 +322,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 			public EventInfo(){
 			}
 		}
-		
+
 		EventInfo[] events = new EventInfo[eventInstances.length];
 		for(int i=0; i<eventInstances.length; i++){
 			EventInstanceInfo eventInstance = eventInstances[i];
@@ -329,7 +330,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 			event.id = eventInstance.getId();
 			event.name = eventInstance.getSubject();
 			event.start = eventInstance.getStart().toLocalDateTimeSimpleString();
-			event.end = eventInstance.getEnd().toLocalDateTimeSimpleString();
+			event.end = eventInstance.getEnd() != null ? eventInstance.getEnd().toLocalDateTimeSimpleString() : null;
 			event.ownerId = eventInstance.getOwner().getId();
 			event.ownerName = eventInstance.getOwner().getLongName();
 			event.ownerPicture = eventInstance.getOwner().getMinPicture();
@@ -338,6 +339,5 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("events", events);
 		return map;
-	}
-	
+	}	
 }

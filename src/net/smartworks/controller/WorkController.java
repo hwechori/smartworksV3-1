@@ -80,6 +80,14 @@ public class WorkController extends ExceptionInterceptor {
 				"jsp/content/work/list/swork_list.jsp", "swork_list.tiles");
 	}
 
+	@RequestMapping("/work_list")
+	public ModelAndView workList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request,
+				"jsp/content/work/list/work_list.jsp", "work_list.tiles");
+	}
+
 	@RequestMapping("/board_list")
 	public ModelAndView boardList(HttpServletRequest request,
 			HttpServletResponse response) {

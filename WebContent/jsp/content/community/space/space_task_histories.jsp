@@ -55,19 +55,12 @@
 			UserInfo owner = workInstance.getOwner();
 			String userDetailInfo = SmartUtil.getUserDetailInfo(owner);
 			WorkSpaceInfo workSpace = workInstance.getWorkSpace();
-			String comClass = "";
 			if(SmartUtil.isBlankObject(workSpace)) workSpace = workInstance.getOwner();
 			boolean onWorkSpace = false;
-			String spaceContent = "";
-			String commContext = "";
 			if(workSpace.getClass().equals(DepartmentInfo.class)){
-				comClass = "ico_division_s";
 				onWorkSpace = true;
-				commContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + workSpace.getId();
 			}else if(workSpace.getClass().equals(GroupInfo.class)){
-				comClass = "ico_group_s";
 				onWorkSpace = true;
-				commContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + workSpace.getId();
 			}
 			BoardInstanceInfo board=null;
 			EventInstanceInfo event=null;
@@ -75,7 +68,6 @@
 			ImageInstanceInfo image=null;
 			MemoInstanceInfo memo=null;
 
-			String ownerContextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 			switch(workInstance.getType()){
 			
 			// 태스크가 게시판인 경우...									
@@ -84,10 +76,10 @@
 	%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
-							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
-							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
+							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
+							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 							<div><%=board.getSubject() %></div>
 							<div><%=board.getBriefContent() %></div>
 							<%if(!SmartUtil.isBlankObject(board.getAttachment())){ %><div><%=board.getAttachment() %></div><%} %>
@@ -105,10 +97,10 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
-							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
-							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
+							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
+							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 							<div><%=event.getSubject() %></div>
 							<div><fmt:message key="common.upload.event.start_date"/> : <%=event.getStart().toLocalString() %> 
 								<%if(!SmartUtil.isBlankObject(event.getEnd())) {%><fmt:message key="common.upload.event.end_date"/> : <%=event.getEnd().toLocalString() %> <%} %></div>
@@ -126,10 +118,10 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
-							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
-							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
+							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
+							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 							<div class="js_space_file_instance" groupId="<%=file.getGroupId() %>"></div>
 							<%if(!SmartUtil.isBlankObject(file.getContent())){ %><div><%=file.getContent() %></div><%} %>
 							<!-- 인스턴스 마지막수정일자 -->
@@ -146,11 +138,11 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
-							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
-							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
-							<div><a href="" class=""><img src="<%=image.getImgSource()%>" style="min-height:20px;width:300px;"></a></div>
+							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
+							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
+							<div><a href="" class=""><img src="<%=image.getImgSource()%>" style="min-height:20px;width:200px;"></a></div>
 							<%if(!SmartUtil.isBlankObject(image.getContent())){ %><div><%=image.getContent() %></div><%} %>
 							<!-- 인스턴스 마지막수정일자 -->
 							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
@@ -166,10 +158,10 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
-							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
-							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
+							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
+							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 							<div><%=memo.getContent() %></div>
 							<!-- 인스턴스 마지막수정일자 -->
 							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
@@ -183,57 +175,18 @@
 			%>
 				<li>
 					<div class="det_title">
-						<div class="noti_pic"><a class="js_pop_user_info" href="user_space.sw?cid=<%=ownerContextId%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
-							<a href="user_space.sw?cid=<%=ownerContextId%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
-							<a href="<%=spaceContent%>?cid=<%=commContext%>"><span class="<%=comClass%>"><%=workSpace.getName() %></span></a><%} %>
+							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
+							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 						<%
-						String targetContent, taskContextId, workContextId, workListContextId, workTypeClass;
-						// Work 타입별로 필요한 값들을 설정한다..
-						switch (work.getType()) {
-						// Work타입이 정보관리업무인 경우....
-						case SmartWork.TYPE_INFORMATION:
-							workTypeClass = "ico_iworks";
-							targetContent = "iwork_";
-							taskContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
-							workContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + workInstance.getId();
-							workListContextId = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
-							break;
-							
-						// Work타입이 프로세스업무인 경우...
-						case SmartWork.TYPE_PROCESS:
-							workTypeClass = "ico_pworks";
-							targetContent = "pwork_";
-							taskContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
-							workContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + workInstance.getId();
-							workListContextId = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
-							break;
-						
-						// Work타입이 일정계획업무인 경우...
-						case SmartWork.TYPE_SCHEDULE:
-							workTypeClass = "ico_sworks";
-							targetContent = "swork_";
-							taskContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_TASK + ((taskInstance != null) ? taskInstance.getId() : "");
-							workContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
-							workListContextId = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
-							break;
-						
-						// 기타 Work타입이 잘못되어 없는 경우...
-						default:
-							workTypeClass = "";
-							targetContent = "";
-							taskContextId = "";
-							workContextId = "";
-							workListContextId = "";
-							break;
-						}
 						String runningTaskName = taskInstance.getName();
 						switch(taskInstance.getTaskType()){
 						case TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED:
 						%>
 							<fmt:message key="content.sentence.stask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -244,7 +197,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -255,7 +208,7 @@
 						%>
 							<fmt:message key="content.sentence.itask_assigned">
 								<fmt:param>
-									<a href='<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>'>
+									<a href='<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>'>
 										<span class='t_woname'><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -270,7 +223,7 @@
 						%>
 							<fmt:message key="content.sentence.itask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span>
 									</a>
 								</fmt:param>
@@ -283,7 +236,7 @@
 						%>
 							<fmt:message key="content.sentence.ptask_assigned">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -294,7 +247,7 @@
 						%>
 							<fmt:message key="content.sentence.ptask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -305,7 +258,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_assigned">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -316,7 +269,7 @@
 						%>
 							<fmt:message key="content.sentence.stask_forwarded">
 								<fmt:param>
-									<a href="<%=targetContent%>task.sw?cid=<%=taskContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>">
+									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
 										<span class="t_woname"><%=runningTaskName%></span> 
 									</a>
 								</fmt:param>
@@ -327,11 +280,11 @@
 						%>
 						</div>			
 						<div>
-							<a href="<%=targetContent%>list.sw?cid=<%=workListContextId%>&wid=<%=cUser.getId()%>">
-								<span class="<%=workTypeClass%>"></span>
+							<a href="<%=work.getController()%>?cid=<%=work.getContextId()%>&wid=<%=cUser.getId()%>">
+								<span class="<%=work.getIconClass()%>"></span>
 								<span class="t_date"><%=work.getFullpathName()%></span>
 							</a>
-							<a href="<%=targetContent%>space.sw?cid=<%=workContextId%>&wid=<%=workInstance.getWorkSpace().getId()%>&workId=<%=work.getId()%>">
+							<a href="<%=((WorkInstanceInfo)workInstance).getController()%>?cid=<%=((WorkInstanceInfo)workInstance).getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>&workId=<%=work.getId()%>">
 								<span class="t_bold"><%=workInstance.getSubject()%></span> 
 							</a>
 						</div>

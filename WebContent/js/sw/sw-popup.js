@@ -73,9 +73,9 @@ smartPop = {
 						'</div>' +
 						'<div class="smartp_btn_space">' +
 							'<div class="float_right">' +
-								'<a href="" class="js_send_mail_to_user" userId="' + userId + '"><span class="pop_ico_mail"></span></a>' +
-								'<a href="" class="js_leave_message_for_user" userId="' + userId + '"><span class="pop_ico_message"></span></a>' + 
-								'<a href="" class="js_start_chat_with_user" userId="' + userId + '"><span class="pop_ico_chat"></span></a>' +
+								'<a href="" class="js_send_mail_to_user" userId="' + userId + '"><span class="pop_icon_mail"></span></a>' +
+								'<a href="" class="js_leave_message_for_user" userId="' + userId + '"><span class="pop_icon_message"></span></a>' + 
+								'<a href="" class="js_start_chat_with_user" userId="' + userId + '"><span class="pop_icon_chat"></span></a>' +
 							'</div>' +
 						'</div>' +
 					'</div>' +
@@ -124,7 +124,7 @@ smartPop = {
 		smartPop.overlayDark();
 		$('<div id="sw_pop_show_info" style="z-index:10001; position:absolute;" class="pop_corner_all smart_pop_section">' + 
 					'<div class="pop_contents">' + 
-						'<div class="ico_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
+						'<div class="icon_pop_' + infoType + '">' + smartMessage.get('popType'+infoType) + '</div>' +
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
@@ -323,6 +323,7 @@ smartPop = {
 						$('#form_works').html('').hide();
 						$('#upload_work_list').hide().parents(".js_start_work_page").hide();
 						var href = input.attr('href');
+						smartPop.progressCenter();
 						$.get(href,  function(data){
 							$('#form_works').html(data);
 							var formContent = $('#form_works').find('div.js_form_content');
@@ -333,13 +334,15 @@ smartPop = {
 								requiredOnly : 'true',
 								workId : workId,
 								onSuccess : function(){
-									$('#form_works').show();
+									$('#form_works').show().parent().show();
 									smartPop.close();
-									target.html('');											
+									target.html('');
+									smartPop.closeProgress();
 								},
 								onError : function(){
 									smartPop.close();
 									target.html('');											
+									smartPop.closeProgress();
 								}
 							});
 						});

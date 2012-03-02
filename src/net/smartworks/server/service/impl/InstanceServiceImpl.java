@@ -94,6 +94,7 @@ import net.smartworks.server.engine.process.task.model.TskTaskDefCond;
 import net.smartworks.server.engine.worklist.manager.IWorkListManager;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
+import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.util.ModelConverter;
@@ -137,10 +138,16 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	ICommunityService communityService;
-	
+	ICalendarService calendarService;
+
 	@Autowired
 	public void setCommunityService(ICommunityService communityService) {
 		this.communityService = communityService;
+	}
+
+	@Autowired
+	public void setCalendarService(ICalendarService calendarService) {
+		this.calendarService = calendarService;
 	}
 
 	/*
@@ -158,7 +165,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception {
 
 		try{
-			String workId = SmartWork.ID_NOTICE_MANAGEMENT;
+			String workId = SmartWork.ID_BOARD_MANAGEMENT;
 	
 			User user = SmartUtil.getCurrentUser();
 	
@@ -2043,82 +2050,104 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
-			InstanceInfoList instanceInfoList = SmartTest.getWorkInstanceList1(params);
-			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
-	}
+	public InstanceInfoList getInstanceInfoListByRefType(String spaceId, RequestParams params, String refType) throws Exception {
 
-	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+
 			InstanceInfoList instanceInfoList = new InstanceInfoList();
+
+			TaskWorkCond taskWorkCond = new TaskWorkCond();
+			taskWorkCond.setTskRefType(refType);
+			//taskWorkCond.setTskWorkSpaceType(spaceType + "");
+			taskWorkCond.setTskWorkSpaceId(spaceId);
+
+			long totalCount = getWlmManager().getTaskWorkListSize(userId, taskWorkCond);
+
+			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
+
+			int currentPage = params.getCurrentPage();
+			if(currentPage == 0) currentPage = 1;
+
+			int totalPages = (int)totalCount % pageSize;
+
+			if(totalPages == 0)
+				totalPages = (int)totalCount / pageSize;
+			else
+				totalPages = (int)totalCount / pageSize + 1;
+
+			int result = 0;
+
+			if(params.getPagingAction() != 0) {
+				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+					result = (((currentPage - 1) / 10) * 10) + 11;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+					result = totalPages;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+					result = ((currentPage - 1) / 10) * 10;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+					result = 1;
+				}
+				currentPage = result;
+			}
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
+
+			if (currentPage > 0)
+				taskWorkCond.setPageNo(currentPage-1);
+
+			taskWorkCond.setPageSize(pageSize);
+
+			taskWorkCond.setOrders(new Order[]{new Order("tskCreatedate", false)});
+
+			TaskWork[] taskWorks = getWlmManager().getTaskWorkList(userId, taskWorkCond);
+
+			TaskInstanceInfo[] taskInstanceInfos = ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskWorks);
+			instanceInfoList.setInstanceDatas(taskInstanceInfos);
+
+			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+			instanceInfoList.setPageSize(pageSize);
+			instanceInfoList.setTotalPages(totalPages);
+			instanceInfoList.setCurrentPage(currentPage);
+
 			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
+
+		} catch (Exception e) {
 			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
+			return null;
 		}
 	}
 
-	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
-			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
+	public InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_NOTHING);
 	}
 
-	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception {
-		
-		try{
-			EventInstanceInfo[] events = SmartTest.getEventInstances();
-			return events;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
+	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_IMAGE);
 	}
 
-	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
-			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
+	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_FILE);
 	}
 
-	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception {
-		
-		try{
-			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			return instanceInfoList;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
+	public EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception {
+		return calendarService.getEventInstanceInfosByWorkSpaceId(workSpaceId, fromDate, toDate);
+	}
+
+	public InstanceInfoList getMemoInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_MEMO);
+	}
+
+	public InstanceInfoList getBoardInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_BOARD);
 	}
 
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {

@@ -20,7 +20,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
-<div id="upload" class="js_select_action">
+<div id="upload" class="js_select_action js_select_upload_action_page">
 	<div class="up_works up_icon_list">
 		<a class="current" href="start_work.sw"><fmt:message key='common.upload.work' /></a>
 	</div>
@@ -61,12 +61,7 @@
 <!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 
 <!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-<div class="up_wrap">
-	<div class="up_point posit_works js_up_pointer"></div>
-	<div class="js_start_work_form">
-		<jsp:include page="/jsp/content/upload/start_work.jsp" />
-	</div>
-	<div class="form_wrap up up_padding js_upload_form" style="display:none">
-	</div>
+<div class="js_upload_form" id="upload_form_box">
+	<jsp:include page="/jsp/content/upload/start_work.jsp" />
 </div>
 <!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->

@@ -38,6 +38,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sun.xml.internal.bind.v2.TODO;
+
 public class SmartUtil {
 
 	public SmartUtil() {
@@ -120,19 +122,6 @@ public class SmartUtil {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.smartworks.service.impl.ISmartWorks#isTaskSpaceContextType(java.lang.String)
-	 */
-	public static boolean isTaskSpaceContextType(String contextId) throws Exception {
-		if (contextId == null || contextId.length() < 6)
-			return false;
-		if (contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IWORK_TASK)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_PWORK_TASK)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_TASK))
-			return true;
-		return false;
-	}
-
-	/* (non-Javadoc)
 	 * @see net.smartworks.service.impl.ISmartWorks#isCommunitySpaceContextType(java.lang.String)
 	 */
 	public static boolean isCommunitySpaceContextType(String contextId) throws Exception {
@@ -175,10 +164,6 @@ public class SmartUtil {
 				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MAIL_LIST)
 				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SAVED_LIST))
 			return ISmartWorks.SPACE_TYPE_WORK_LIST;
-		else if (contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IWORK_TASK)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_PWORK_TASK)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_TASK))
-			return ISmartWorks.SPACE_TYPE_TASK_INSTANCE;
 		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_USER_SPACE))
 			return ISmartWorks.SPACE_TYPE_USER;
 		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE))
@@ -208,13 +193,6 @@ public class SmartUtil {
 				return SmartWorks.CONTEXT_PREFIX_PWORK_SPACE;
 			if (smartWorkType == SmartWork.TYPE_SCHEDULE)
 				return SmartWorks.CONTEXT_PREFIX_SWORK_SPACE;
-		} else if(spaceType == SmartWorks.SPACE_TYPE_TASK_INSTANCE){
-			if (smartWorkType == SmartWork.TYPE_INFORMATION)
-				return SmartWorks.CONTEXT_PREFIX_IWORK_TASK;
-			if (smartWorkType == SmartWork.TYPE_PROCESS)
-				return SmartWorks.CONTEXT_PREFIX_PWORK_TASK;
-			if (smartWorkType == SmartWork.TYPE_SCHEDULE)
-				return SmartWorks.CONTEXT_PREFIX_SWORK_TASK;
 		}
 		return null;
 	}
@@ -315,6 +293,8 @@ public class SmartUtil {
 					user.setEmployeeId(login.getEmpNo());
 				}
 				return user;
+			} else {
+				//TO-DO
 			}
 		}
 		return null;

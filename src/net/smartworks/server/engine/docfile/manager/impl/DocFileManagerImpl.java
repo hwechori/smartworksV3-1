@@ -685,57 +685,64 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 
 	public void insertFiles(String workType, String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException {
 
-		//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
-		this.setFileDirectory(OSValidator.getImageDirectory());
-		
-		if (fileName.indexOf(File.separator) > 1)
-			fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
-
-		String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-
-		User user = SmartUtil.getCurrentUser();
-
-		File repository = this.getFileRepository(user.getCompanyId(), workType);
-		String fileId = tempFileId.split("temp_")[tempFileId.split("temp_").length-1];
-		if(workType.equals("Pictures"))
-			fileId = "pic_" + fileId;
-		else
-			fileId = "file_" + fileId;
-
-		String tempFile = this.getFileDirectory() + "/SmartFiles/" + user.getCompanyId() + "/" + "Temps" + "/" + tempFileId + "." + extension;
-		String realFile = repository.getAbsolutePath() + File.separator + fileId + "." + extension;
-
-		IFileModel formFile = new HbFileModel();
-		formFile.setId(fileId);
-		formFile.setFileName(fileName);
-		formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
-		formFile.setFilePath(realFile);
-		formFile.setFileSize(Long.parseLong(fileSize, 16));
-		formFile.setType(extension);
-		this.getHibernateTemplate().save(formFile);
-
 		try {
-			FileInputStream is = new FileInputStream(new File(tempFile));
-			FileOutputStream os = new FileOutputStream(new File(realFile));
-			IOUtils.copy(is, os);
-			is.close();
-			os.close();
+			//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
+			this.setFileDirectory(OSValidator.getImageDirectory());
+
+			if (fileName.indexOf(File.separator) > 1)
+				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+
+			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
+
+			User user = SmartUtil.getCurrentUser();
+
+			File repository = this.getFileRepository(user.getCompanyId(), workType);
+			String fileId = tempFileId.split("temp_")[tempFileId.split("temp_").length-1];
+			if(workType.equals("Pictures")) fileId = "pic_" + fileId;
+			else fileId = "file_" + fileId;
+
+			String tempFile = this.getFileDirectory() + "/SmartFiles/" + user.getCompanyId() + "/" + "Temps" + "/" + tempFileId + "." + extension;
+			String realFile = repository.getAbsolutePath() + File.separator + fileId + "." + extension;
+			if(workType.equals("Pictures")) {
+				String thumbFile = repository.getAbsolutePath() + File.separator + fileId + "_thumb." + extension;
+				Thumbnail.createImage(tempFile, thumbFile, "thumb", extension);
+			}
+
+			try {
+				FileInputStream is = new FileInputStream(new File(tempFile));
+				FileOutputStream os = new FileOutputStream(new File(realFile));
+				IOUtils.copy(is, os);
+				is.close();
+				os.close();
+			} catch (Exception e) {
+				throw new DocFileException("Failed to copy file [" + tempFile + "]!");
+			}
+
+			IFileModel formFile = new HbFileModel();
+			formFile.setId(fileId);
+			formFile.setFileName(fileName);
+			formFile.setWrittenTime(new Date(new LocalDate().getGMTDate()));
+			formFile.setFilePath(realFile);
+			formFile.setFileSize(Long.parseLong(fileSize, 16));
+			formFile.setType(extension);
+			this.getHibernateTemplate().save(formFile);
+
+			// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
+			if (groupId == null)
+				// 그룹아이디를 생성하여 문서 아이디와 매핑
+				groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
+
+			// 그룹아이디, 문서 아이디 쌍 저장
+			Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
+			query.executeUpdate();
+
+			File deleteFile = new File(tempFile);
+			if(deleteFile.exists())
+				deleteFile.delete();
 		} catch (Exception e) {
-			throw new DocFileException("Failed to copy file [" + tempFile + "]!");
+			e.printStackTrace();
+			return;
 		}
-
-		// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
-		if (groupId == null)
-			// 그룹아이디를 생성하여 문서 아이디와 매핑
-			groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
-
-		// 그룹아이디, 문서 아이디 쌍 저장
-		Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
-		query.executeUpdate();
-
-		File deleteFile = new File(tempFile);
-		if(deleteFile.exists())
-			deleteFile.delete();
 
 	}
 

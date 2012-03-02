@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
 <%@page import="net.smartworks.model.work.info.SmartTaskInfo"%>
 <%@page import="net.smartworks.model.instance.Instance"%>
 <%@page import="net.smartworks.model.instance.SortingField"%>
@@ -26,7 +27,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	ISmartWorks smartWorks = (ISmartWorks)request.getAttribute("smartWorks");
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	RequestParams params = (RequestParams)request.getAttribute("requestParams");
 	if(SmartUtil.isBlankObject(params)){
 		params = new RequestParams();
@@ -34,20 +35,9 @@
 		params.setCurrentPage(1);		
 	}
 	User cUser = SmartUtil.getCurrentUser();
-	ProcessWork work = (ProcessWork)session.getAttribute("smartWork");
-	SmartTaskInfo[] tasks = work.getDiagram().getTasks();
-	SmartTaskInfo startTask = null;
-	if(!SmartUtil.isBlankObject(tasks)){
-		for(int i=0; i<tasks.length; i++){
-			if(tasks[i].isStartTask()){
-				startTask = tasks[i];
-				break;
-			}
-		}
-		startTask = tasks[0];
-	}
-	String workId = work.getId();
-	InstanceInfoList instanceList = smartWorks.getPWorkInstanceList(workId, params);
+	String cid = (String)session.getAttribute("cid");
+	String wid = (String)session.getAttribute("wid");
+	InstanceInfoList instanceList = smartWorks.getBoardInstanceList(wid, params);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -57,7 +47,7 @@
 	<%
 	SortingField sortedField = new SortingField();
 	int pageSize = 20, totalPages = 1, currentPage = 1;
-	if (instanceList != null && work != null) {
+	if (instanceList != null) {
 		int type = instanceList.getType();
 		sortedField = instanceList.getSortedField();
 		if(sortedField==null) sortedField = new SortingField();
@@ -118,12 +108,12 @@
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
 		if(instanceList.getInstanceDatas() != null) {
-			PWInstanceInfo[] instanceInfos = (PWInstanceInfo[])instanceList.getInstanceDatas();
-			for (PWInstanceInfo instanceInfo : instanceInfos) {
+			InstanceInfo[] instanceInfos = (InstanceInfo[])instanceList.getInstanceDatas();
+			for (InstanceInfo instanceInfo : instanceInfos) {
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
-				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
-				String target = instanceInfo.getController() + "?cid=" + instanceInfo.getContextId() + "&workId=" + workId;
+//				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
+				String target = "";//((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 				String statusImage = "";
 				String statusTitle = "";
 				switch (instanceInfo.getStatus()) {
@@ -176,8 +166,8 @@
 						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%></a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=lastTask.getName()%></a>
-					</td>
+<%-- 						<a href="<%=target%>" class="js_content_pwork_space"><%=lastTask.getName()%></a>
+ --%>					</td>
 					<td>
 						<%
 						if(!SmartUtil.isBlankObject(lastModifier)){
@@ -199,7 +189,7 @@
 	<%
 			}
 		}
-	}else if(!SmartUtil.isBlankObject(work)){
+	}else{
 			sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
@@ -260,7 +250,7 @@
 <!-- 목록페이지 //-->
 
 <%
-if(instanceList == null || work == null || SmartUtil.isBlankObject(instanceList.getInstanceDatas())){
+if(instanceList == null || SmartUtil.isBlankObject(instanceList.getInstanceDatas())){
 %>
 	<div><fmt:message key="common.message.no_instance"/></div>
 

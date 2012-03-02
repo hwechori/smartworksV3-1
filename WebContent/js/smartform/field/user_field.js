@@ -41,22 +41,22 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	
 	var usersHtml = '';
 	var href = "user_name.sw";
-	var icoClass = ' class="ico_fb_user"';
+	var icoClass = ' class="icon_fb_user"';
 
 	if(multiUsers === 'true'){
 		for(var i=0; i<users.length; i++)
 			usersHtml = usersHtml +  "<span><span class='js_community_item user_select' comId='" + users[i].userId + "'>" + users[i].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";		
 		href = "community_name.sw";
-		icoClass = ' class="ico_fb_users"';
+		icoClass = ' class="icon_fb_users"';
 	}else if (!isEmpty(users)) {
 		usersHtml = "<span><span class='js_community_item user_select' comId='" + users[0].userId + "'>" + users[0].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
 	}
 
-	var $html = $('<div class="form_value" style="width:' + valueWidth + '%"> <div class="ico_fb_space">\
+	var $html = $('<div class="form_value" style="width:' + valueWidth + '%"> <div class="icon_fb_space">\
 					<div ' + required + '">\
 						<div class="js_selected_communities user_sel_area"></div>\
 						<input class="js_auto_complete" href="' + href + '" type="text">\
-						<div class="js_srch_x"></div>\
+						<div class="js_btn_x btn_im_x"></div>\
 					</div>\
 					<div class="js_community_list srch_list_nowid" style="display: none"></div><span class="js_community_popup"></span><a href="" class="js_userpicker_button"><span ' + icoClass + '></span></a></div></div>');
 

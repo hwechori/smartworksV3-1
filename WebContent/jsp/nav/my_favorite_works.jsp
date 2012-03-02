@@ -18,7 +18,6 @@
 
 	// 서버에서 현재사용자의 자주가는 업무들을 가져온다...
 	SmartWorkInfo[] works = smartWorks.getMyFavoriteWorks();
-	String iconType = null, workContext = null, targetContent = null;
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -27,23 +26,10 @@
 	<%
 	if (works != null) {
 		for (SmartWorkInfo work : works) {
-			if (work.getType() == SmartWork.TYPE_PROCESS) {
-				iconType = "ico_pworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
-				targetContent = "pwork_list.sw";
-			} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
-				iconType = "ico_iworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
-				targetContent = "iwork_list.sw";//"information_work_list.sw";
-			} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
-				iconType = "ico_sworks";
-				workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
-				targetContent = "swork_list.sw";//"schedule_work_list.sw";
-			}
 			%>
 			<li class="fvrt_item js_favorite_works">
-				<a href="<%=targetContent%>?cid=<%=workContext%>" class="js_content" title="<%=work.getFullpathName()%>">
-					<span class="<%=iconType%>"></span>
+				<a href="<%=work.getController()%>?cid=<%=work.getContextId()%>" class="js_content" title="<%=work.getFullpathName()%>">
+					<span class="<%=work.getIconClass()%>"></span>
 					<span><%=work.getName()%></span>
 				</a>
 				<div class="checkOption"><div title="<fmt:message key='common.button.delete'/>" class="js_check_favorite_work btn_im_x" workId="<%=work.getId() %>"></div></div>
