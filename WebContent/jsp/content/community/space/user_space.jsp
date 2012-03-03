@@ -9,11 +9,9 @@
 	
 	String cid = request.getParameter("cid");
 	String userId = SmartUtil.getSpaceIdFromContentContext(cid);
-
 	User user = (cUser.getId().equals(userId)) ? cUser : smartWorks.getUserById(userId);
-
 	session.setAttribute("cid", cid);
-	session.removeAttribute("wid");
+	session.setAttribute("wid", userId);
 	session.setAttribute("workSpace", user);
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->

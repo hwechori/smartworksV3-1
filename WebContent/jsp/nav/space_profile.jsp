@@ -60,7 +60,7 @@
 	<%
 	// 그룹인경우....
 	if (thisGroup != null) {
-		String target = thisGroup.getSpaceController() + "?cid=" + thisGroup.getSpaceContextId(); 
+		String target = thisGroup.getSpaceController() + "?cid=" + thisGroup.getSpaceContextId() + "&wid=" + thisGroup.getId(); 
 	%>
 		<li><a href="<%=target %>"><img class="profile_size_66" src="<%=thisGroup.getOrgPicture()%>"></a></li>
 		<li><a href="<%=target %>"><b><%=thisGroup.getName()%></b><br /> <%=thisGroup.getDesc()%><br />
@@ -71,7 +71,7 @@
 	<%
 	// 부서인경우....
 	} else if (thisDepartment != null) {
-		String target = thisDepartment.getSpaceController() + "?cid=" + thisDepartment.getSpaceContextId(); 
+		String target = thisDepartment.getSpaceController() + "?cid=" + thisDepartment.getSpaceContextId() + "&wid=" + thisDepartment.getId(); 
 	%>
 		<li><a href="<%=target %>"><img class="profile_size_66" src="<%=thisDepartment.getOrgPicture()%>"></a></li>
 		<li><a href="<%=target %>"><%=thisDepartment.getName()%><br /> <b><%=thisDepartment.getDesc()%></b><br />
@@ -80,7 +80,7 @@
 	<%
 	// 사용자인 경우....
 	} else if (thisUser != null) {
-		String target = thisUser.getSpaceController() + "?cid=" + thisUser.getSpaceContextId(); 
+		String target = thisUser.getSpaceController() + "?cid=" + thisUser.getSpaceContextId() + "&wid=" + thisUser.getId(); 
 	%>
 		<li><a href="<%=target %>"><img class="profile_size_66" src="<%=thisUser.getOrgPicture()%>"></a></li>
 		<li><a href="<%=target %>"><%=thisUser.getPosition()%><br /> <b><%=thisUser.getName()%></b><br />

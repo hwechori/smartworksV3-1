@@ -75,7 +75,7 @@
 				for (UserInfo member : members) {
 			%>
 					<li>
-						<a href="<%=member.getSpaceController() %>?cid=<%=member.getSpaceContextId()%>">
+						<a href="<%=member.getSpaceController() %>?cid=<%=member.getSpaceContextId()%>&wid=<%=member.getId()%>">
 							<span class="icon_pe"><img src="<%=member.getMinPicture()%>" class="profile_size_s"></span> 
 							<span class="nav_subtitl_area"><%=member.getLongName()%></span>
 						</a>
@@ -91,7 +91,7 @@
 					contextId = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + department.getId();
 			%>
 					<li>
-						<a href="<%=department.getSpaceController() %>?cid=<%=department.getSpaceContextId()%>">
+						<a href="<%=department.getSpaceController() %>?cid=<%=department.getSpaceContextId()%>&wid=<%=department.getId()%>">
 							<span class="icon_pe"><img src="<%=department.getMinPicture()%>" class="profile_size_s"></span> 
 							<span class="nav_subtitl_area"><%=department.getName()%></span>
 						</a>

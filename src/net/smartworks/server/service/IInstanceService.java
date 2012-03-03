@@ -10,6 +10,7 @@ import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
+import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
@@ -42,6 +43,8 @@ public interface IInstanceService {
 	public InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
 	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception;
+
+	public ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception;
 
 	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception;
 

@@ -55,6 +55,12 @@ public class ContentController {
 		return SmartUtil.returnMnv(request, "jsp/content/upload/start_work.jsp", "");
 	}
 
+	@RequestMapping("/upload_buttons")
+	public ModelAndView uploadButtons(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/upload/upload_buttons.jsp", "");
+	}
+
 	@RequestMapping("/empty_content")
 	public ModelAndView emptyContent(HttpServletRequest request, HttpServletResponse response) {
 

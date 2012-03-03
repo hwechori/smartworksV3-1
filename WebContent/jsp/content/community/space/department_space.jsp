@@ -10,11 +10,10 @@
 	
 	String cid = request.getParameter("cid");
 	String departmentId = SmartUtil.getSpaceIdFromContentContext(cid);
-
 	Department department = smartWorks.getDepartmentById(departmentId);
 
 	session.setAttribute("cid", cid);
-	session.removeAttribute("wid");
+	session.setAttribute("wid", departmentId);
 	session.setAttribute("workSpace", department);
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->

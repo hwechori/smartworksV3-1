@@ -772,7 +772,8 @@ qq.UploadButton = function(o){
         overflow: 'hidden',
         // Make sure browse button is in the right side
         // in Internet Explorer
-        direction: 'ltr'
+        direction: 'ltr',
+        width: '70px'
     });   
     
     this._input = this._createInput();

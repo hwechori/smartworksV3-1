@@ -18,6 +18,7 @@ import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.Data;
+import net.smartworks.model.work.SmartWork;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
@@ -135,6 +136,17 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		return SmartUtil.returnMnv(request, "jsp/content/work/space/more_space_sub_instances.jsp", "");
 	}
 
+	@RequestMapping("/image_instance_list")
+	public ModelAndView imageInstanceList(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/image_instance_list.jsp", "");
+	}
+	@RequestMapping("/more_image_instance_list")
+	public ModelAndView moreImageInstanceList(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/more_image_instance_list.jsp", "");
+	}
+
 //	@RequestMapping(value = "/refresh_data_fields", method = RequestMethod.POST)
 //	@ResponseStatus(HttpStatus.CREATED)
 //	public @ResponseBody Map<String, Object> refreshDataFields(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -152,7 +164,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		String workId = (String)requestBody.get("workId");
 		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + workSpaceId + "&workId=" + workId);
+		map.put("href", "iwork_list.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_LIST + workId);
 		return map;
 	}
 
@@ -164,7 +176,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
 		String workId = (String)requestBody.get("workId");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "iwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceId + "&wid=" + workSpaceId +"&workId=" + workId);
+		map.put("href", "image_list.sw?cid=" + SmartWorks.CONTEXT_PREFIX_IMAGE_LIST + SmartWork.ID_FILE_MANAGEMENT + "&wid=" + workSpaceId);
 		return map;
 	}
 
@@ -174,8 +186,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		String instanceId = smartworks.startProcessWorkInstance(requestBody, request);
 		// TO DO : Exception handler
 		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
+		String workId = (String)requestBody.get("workId");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "pwork_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_PWORK_SPACE + instanceId + "&wid=" + workSpaceId);
+		map.put("href", "pwork_list.sw?cid=" + SmartWorks.CONTEXT_PREFIX_PWORK_LIST + workId);
 		return map;
 	}
 
@@ -185,8 +198,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		// TO DO : Exception handler
 		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
+		String workId = (String)requestBody.get("workId");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "file_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_FILE_SPACE + instanceId + "&wid=" + workSpaceId);
+		map.put("href", "file_list.sw?cid=" + SmartWorks.CONTEXT_PREFIX_FILE_LIST + SmartWork.ID_FILE_MANAGEMENT + "&wid=" + workSpaceId);
 		return map;
 	}
 
@@ -195,8 +209,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	public @ResponseBody Map<String, Object> createNewEvent(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
+		String workId = (String)requestBody.get("workId");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "event_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_EVENT_SPACE + instanceId + "&wid=" + workSpaceId);
+		map.put("href", "event_list.sw?cid=" + SmartWorks.CONTEXT_PREFIX_EVENT_LIST + SmartWork.ID_EVENT_MANAGEMENT + "&wid=" + workSpaceId);
 		return map;
 	}
 
@@ -206,8 +221,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		// TO DO : Exception handler
 		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
+		String workId = (String)requestBody.get("workId");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "memo_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_MEMO_SPACE + instanceId + "&wid=" + workSpaceId);
+		map.put("href", "memo_list.sw?cid=" + SmartWorks.CONTEXT_PREFIX_MEMO_LIST + SmartWork.ID_MEMO_MANAGEMENT + "&wid=" + workSpaceId);
 		return map;
 	}
 
@@ -217,8 +233,9 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		String instanceId = smartworks.setInformationWorkInstance(requestBody, request);
 		// TO DO : Exception handler
 		String workSpaceId = (String)((Map<String, Object>)requestBody.get("frmAccessSpace")).get("selWorkSpace");
+		String workId = (String)requestBody.get("workId");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("href", "board_space.sw?cid=" + SmartWorks.CONTEXT_PREFIX_BOARD_SPACE + instanceId + "&wid=" + workSpaceId);
+		map.put("href", "board_list.sw?cid=" + SmartWorks.CONTEXT_PREFIX_BOARD_LIST + SmartWork.ID_BOARD_MANAGEMENT + "&wid=" + workSpaceId);
 		return map;
 	}
 

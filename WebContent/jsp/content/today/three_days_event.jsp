@@ -179,6 +179,8 @@
 						 										}
 						 										%>
 						 										<a href="<%=event.getController() %>?cid=<%=event.getContextId()%>&wid=<%=workSpace.getId()%>"><%=event.getSubject()%></a>
+																<%if(event.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=event.getSubInstanceCount() %></b>]</font><%} %>
+																<%if(event.isNew()){ %><span class="icon_new"></span><%} %>
 															</li>
 											<%
 													}

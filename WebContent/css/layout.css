@@ -386,6 +386,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
 .up_padding {padding:0; position:relative;}
 .up_width {width:450px;}
+.border_none {border:none;}
 
 .up_form {position:absolute;}
 .up_point {background: url("../images/up_point.gif") no-repeat left top; width:11px; height:7px;}
@@ -631,8 +632,9 @@ li.fvrt_item:hover .checkOption {display:block}
 #work_ing .titl_section {height:21px; padding-top:14px;}
 td.pic{width:85px}
 
-/* Ico */
+/* Icon */
 .icon_division_s {background: url("../images/icon_division_s.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px; color:#23579e;}
+.icon_new {background: url("../images/icon_new.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px;}
 
 /* Button */
 .btn {background-color:#666666; float:right; height:22px; position:absolute;}
@@ -714,6 +716,7 @@ td.form_col .btn_im_x {display:none;}
 .arr {font-size:10px; margin-right:2px;}
 .t_location {font-size:11px; color:#999897; position:relative; top:24px; margin-left:10px}
 .bul_dot {background: url("../images/dot_a.gif") no-repeat scroll left 9px transparent; font-size: 12px; font-weight: bold; padding: 0 0 5px 10px; vertical-align: top;}
+.t_sub_count {font-size:9px; color:#fc0c0c;}
 
 /* Line Style */
 .solid_line { border-top:2px solid #999999; width:100%}

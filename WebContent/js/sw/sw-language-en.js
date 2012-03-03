@@ -8,7 +8,7 @@ smartMessage.bundle['en'] = {
 	illegalAcountError : 'Illegal Account or Password error. Please check and try it again !',
 	logoutSucceed : 'Logout has been completed successfully.',
 	sessionTimeouted : 'Session Timeout occured. Please login again !',
-	uploadFile : 'File Upload',
+	uploadFile : 'File',
 	cancelUpload : 'Cancel',
 	uploadFailed : 'Failed',
 	uploadDropArea : 'Drop files here to upload',

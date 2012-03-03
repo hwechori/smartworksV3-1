@@ -118,7 +118,7 @@ function submitForms() {
 	<div class="form_wrap up up_padding">
 
 		<!-- 폼- 확장 -->
-		<form name="frmNewBoard" class="form_title js_validation_required">
+		<form name="frmNewBoard" class="form_title js_validation_required js_click_start_form">
 			<!-- 새로운 공지를 등록하기 위한 입력화면을 스마트폼을 이용하여 자동으로 그린다.. -->
 			<!-- js_new_board_fields :  js/sw/sw-formFields.js 에서 loadNewBoardFields()가 찾아서 공지입력화면을 이곳에 그려준다.. -->
 			<div class="js_new_board_fields" boardNameTitle="<fmt:message key='common.upload.board.name'/>" boardDetailsTitle="<fmt:message key='common.upload.board.details'/>" boardFilesTitle="<fmt:message key='common.upload.board.files'/>">
@@ -127,8 +127,9 @@ function submitForms() {
 		<div class="js_hidden_form_content" style="display:none">
 		</div>
 		<!-- 새공지를 등록하기위한 완료 버튼과 취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
-			<jsp:param value="<%=SmartWork.ID_BOARD_MANAGEMENT%>" name="workId"/>
-		</jsp:include>
+		<div class="js_upload_buttons"></div>
 	</div>
 </div>
+<script>
+	loadNewBoardFields();
+</script>
