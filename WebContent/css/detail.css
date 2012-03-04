@@ -4,7 +4,7 @@
 
 /* 본문- 타이틀 아이콘*/
 .body_titl { padding:0 15px 10px; overflow: hidden;} /* 본문 페이지 타이틀*/
-.body_titl .title {font-size: 16px; font-weight: bold; height: 29px; float:left}  /* 타이틀 우측으로 아이콘이 있을때 */
+.body_titl .title {font-size: 16px; font-weight: bold; height: 29px; float:left; background:none}  /* 타이틀 우측으로 아이콘이 있을때 */
 .body_titl .title_noico {font-size: 16px; font-weight: bold; height:29px}  /* 타이틀 우측으로 아이콘이 없을때 */
 .body_titl .myspace_h {padding: 7px 0 0;} 
 .body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding: 28px 0 4px 0; text-align: right} /* 타이틀 우측으로 버튼 */
@@ -43,8 +43,9 @@
 /* 공간 영역 */
 .space_section {padding-top: 8px;}
 .space_section .title {background: url("../images/body_icon.png") no-repeat 0 -418px transparent; font-weight:bold; padding:5px 0 0 20px; border-bottom: 1px solid #C7C7C7}
-.space_section .title_off {background: url("../images/body_icon.png") no-repeat 0 -390px transparent; font-weight:bold; padding:5px 0 0 20px; border-bottom: 1px solid #C7C7C7}
+.space_section .title_off {background: url("../images/body_icon.png") no-repeat 0 -389px transparent; font-weight:bold; padding:4px 0 1px 20px; border-bottom: 1px solid #C7C7C7}
 .space_section .imag_area { margin:4px 0;}
+.picture_section { overflow:hidden}
 .picture_section li { float:left; margin:20px 10px 0 10px}
 .picture_section .detail li { float:left; margin:0 10px 20px}
 .picture_section .folder_bg {background: url("../images/body_icon.png") no-repeat 0 -644px transparent; width:112px; height:107px; display:inline-block}
@@ -60,7 +61,7 @@
 .list_replay {margin:0;} /* 댓글 목록 */
 .replay_input {margin-top:10px;} /* 댓글 입력 영역 */
 .list_replay li, .replay li, .space_section li {border-bottom: 1px dashed #9c9c9c; vertical-align: middle; padding:5px 0;}
-.list_replay .end, .replay .end {border-bottom: none; vertical-align: middle;}
+.list_replay .end, .replay .end, .noborder li {border-bottom: none !important; vertical-align: middle;}
 .repl_tinfo {background: url("../images/header_nico.png") no-repeat 4px -267px; padding:0 0 0 20px;}
 .repl_write {background: url("../images/header_nico.png") no-repeat 0 -411px; padding: 2px 0 1px 17px; font-size: 11px; color: #23579E;  margin-left: 5px;}
 a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -435px; text-decoration: underline;}

@@ -106,7 +106,7 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 
 /*Search-white */
 .srch_wh {background: none repeat scroll 0 0 #FFF; border-color: #c7c7c7; border-style: solid; border-width: 1px; height:16px;}
-.srch_wh .nav_input {width:155px; background-color: #FFF; color: #999897; padding: 2px 0 0 1px;}
+.srch_wh .nav_input {width:155px; background-color: #FFF; color: #999897; padding:1px;}
 .srch_wh button, .srch_wh .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
 	
@@ -177,11 +177,11 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .title_folder {height:14px; font-weight:bold; margin-top:3px}
 
 /* Nav MySpace */
-.icon_all_works {background: url("../images/body_icon.png") no-repeat -550px -348px; padding:0 7px 0 0; float: left; width:18px; height:15px}
-.icon_image_works {background: url("../images/body_icon.png") no-repeat -550px -374px; padding:0 7px 0 0; float: left; width:18px; height:15px}
-.icon_file_works {background: url("../images/body_icon.png") no-repeat -550px -400px; padding:0 7px 0 0; float: left; width:18px; height:15px}
-.icon_event_works {background: url("../images/body_icon.png") no-repeat -550px -422px; padding:0 7px 0 0; float: left; width:18px; height:19px}
-.icon_memo_works {background: url("../images/body_icon.png") no-repeat -550px -451px; padding:0 7px 0 0; float: left; width:18px; height:15px}
+.icon_all_works {background: url("../images/body_icon.png") no-repeat -550px -453px; padding:0 7px 0 0; float: left; width:18px; height:15px}
+.icon_image_works {background: url("../images/body_icon.png") no-repeat -550px -479px; padding:0 7px 0 0; float: left; width:18px; height:15px}
+.icon_file_works {background: url("../images/body_icon.png") no-repeat -550px -505px; padding:0 7px 0 0; float: left; width:18px; height:15px}
+.icon_event_works {background: url("../images/body_icon.png") no-repeat -550px -527px; padding:0 7px 0 0; float: left; width:18px; height:19px}
+.icon_memo_works {background: url("../images/body_icon.png") no-repeat -550px -556px; padding:0 7px 0 0; float: left; width:18px; height:15px}
 
 /* Nav Mail Btn*/
 .icon_mail_inbox {background: url("../images/nav_img.png") no-repeat 0 0 transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
@@ -582,6 +582,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .noti_in { margin-left:35px; line-height: 16px;}
 .noti_in_s { margin-left:25px; line-height: 16px;}
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
+.noti_in_file {word-wrap: break-word; text-align:left; padding:0 0 0 44px; line-height: 16px;} /* Right Contents in Space - file */
 .noti_tit {background: url("../images/icon_notice_s.gif") no-repeat scroll 8px 2px transparent;
 		    padding:0 0 0 23px; display:block; font-weight:bold;}
 .noti_tit_snew {background: url("../images/icon_notice_s.gif") no-repeat scroll 8px 0 transparent;
@@ -631,8 +632,13 @@ li.fvrt_item:hover .checkOption {display:block}
 #work_ing .titl_section {height:21px; padding-top:14px;}
 td.pic{width:85px}
 
-/* Ico */
+/* Icon */
 .icon_division_s {background: url("../images/icon_division_s.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px; color:#23579e;}
+.icon_attach {background: url("../images/ico_attach.gif") no-repeat scroll 0 0 transparent; width:16px; height:16px; display:inline-block; margin-left: 3px; padding: 0 5px 0 0; vertical-align: middle}
+.icon_file {background: url("../images/files_icons.jpg") no-repeat; width:34px; height:43px; display:inline-block}
+.icon_file.jpg { background-position:-135px -20px}
+.icon_file.xls { background-position:-83px -177px}
+.icon_file.ppt { background-position: -291px -281px}
 
 /* Button */
 .btn {background-color:#666666; float:right; height:22px; position:absolute;}
@@ -703,9 +709,10 @@ td.form_col .btn_im_x {display:none;}
 .t_up_num {color:#e54b4b; font-weight:bold;}
 .t_bold {font-weight:bold;}
 .t_gbold {color:#656565; font-weight:bold;}
-.t_gray { color:#919191}
+.t_gray { color:#919191; font-weight:normal}
 .t_name {color:#23579e; position: relative;}
 .t_woname {color:#23579e; font-weight:bold;}
+.t_size11 {font-size:11px}
 .t_date, .t_text_s11, .t_s11,
 .t_date a, .t_text_s11 a, .t_s11 a {font-size:11px; color:#999897 !important;}
 .t_white {font-size:12px; font-weight:normal;}
