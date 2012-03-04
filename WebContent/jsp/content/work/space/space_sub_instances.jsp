@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.util.SmartTest"%>
 <%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>
 <%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
@@ -66,14 +67,15 @@
 			FileInstanceInfo file=null;
 			ImageInstanceInfo image=null;
 			MemoInstanceInfo memo=null;
-
-			switch(workInstance.getType()){
-			
-			// 태스크가 게시판인 경우...									
-			case Instance.TYPE_BOARD:
-				board = (BoardInstanceInfo)workInstance;
 	%>
-				<li>
+			<li class="sub_instance_list">
+				<%
+				switch(workInstance.getType()){
+				
+				// 태스크가 게시판인 경우...									
+				case Instance.TYPE_BOARD:
+					board = (BoardInstanceInfo)workInstance;
+				%>
 					<div class="det_title">
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
@@ -87,14 +89,12 @@
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
-				</li>							
-			<%
-				break;
-			// 태스크가 이벤트인 경우...									
-			case Instance.TYPE_EVENT:
-				event = (EventInstanceInfo)workInstance;
-			%>
-				<li>
+				<%
+					break;
+				// 태스크가 이벤트인 경우...									
+				case Instance.TYPE_EVENT:
+					event = (EventInstanceInfo)workInstance;
+				%>
 					<div class="det_title">
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
@@ -108,14 +108,12 @@
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
-				</li>
-			<%
-				break;
-			// 태스크가 파일인 경우...									
-			case Instance.TYPE_FILE:
-				file = (FileInstanceInfo)workInstance;
-			%>
-				<li>
+				<%
+					break;
+				// 태스크가 파일인 경우...									
+				case Instance.TYPE_FILE:
+					file = (FileInstanceInfo)workInstance;
+				%>
 					<div class="det_title">
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
@@ -128,14 +126,12 @@
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
-				</li>
-			<%
-				break;
-			// 태스크가 사진인 경우...									
-			case Instance.TYPE_IMAGE:
-				image = (ImageInstanceInfo)workInstance;
-			%>
-				<li>
+				<%
+					break;
+				// 태스크가 사진인 경우...									
+				case Instance.TYPE_IMAGE:
+					image = (ImageInstanceInfo)workInstance;
+				%>
 					<div class="det_title">
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
@@ -148,14 +144,12 @@
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
-				</li>
-			<%
-				break;
-			// 태스크가 메모인 경우...									
-			case Instance.TYPE_MEMO:
-				memo = (MemoInstanceInfo)workInstance;
-			%>
-				<li>
+				<%
+					break;
+				// 태스크가 메모인 경우...									
+				case Instance.TYPE_MEMO:
+					memo = (MemoInstanceInfo)workInstance;
+				%>
 					<div class="det_title">
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
@@ -167,26 +161,70 @@
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
-				</li>
-			<%
-				break;
-			default:
-			%>
-				<li>
-				<div class="det_title">
-					<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
-					<div class="noti_in_m">
-						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
-						<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
-						<div><%=workInstance.getSubject() %></div>
-						<!-- 인스턴스 마지막수정일자 -->
-						<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
-						<!-- 인스턴스 마지막수정일자 //-->
+				<%
+					break;
+				default:
+				%>
+					<div class="det_title">
+						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
+						<div class="noti_in_m">
+							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
+							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
+							<div><%=workInstance.getSubject() %></div>
+							<!-- 인스턴스 마지막수정일자 -->
+							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
+							<!-- 인스턴스 마지막수정일자 //-->
+						</div>
 					</div>
-				</div>
-			</li>							
-	<%
-			}
+				<%
+				}
+				%>		
+				<!-- 댓글 -->
+			   <div class="replay_point posit_default"></div>
+			   <div class="replay_section">  
+			        <div class="list_replay">
+			        	<%
+			        	WorkInstanceInfo instance = (WorkInstanceInfo)workInstance;
+			        	instance.setSubInstanceCount(21);
+			        	InstanceInfo[] instances = new InstanceInfo[]{SmartTest.getWorkInstanceInfo1(), SmartTest.getWorkInstanceInfo2(), SmartTest.getWorkInstanceInfo3()};
+			        	instance.setSubInstances(instances);
+			        	if(instance.getSubInstanceCount()>0){
+			        	%>
+				            <ul>
+					            <li><img class="repl_tinfo"><a href=""><strong><%=instance.getSubInstanceCount() %></strong>개의 댓글 모두 보기</a></li>
+								<%
+								if (instance.getSubInstances() != null) {
+									for (InstanceInfo subInstance : instance.getSubInstances()) {
+										UserInfo commentor = subInstance.getOwner();
+								%>
+										<li>
+											<div class="noti_pic">
+												<img src="<%=commentor.getMinPicture()%>" align="bottom" />
+											</div>
+											<div class="noti_in">
+												<span class="t_name"><%=commentor.getLongName()%></span><span
+													class="t_date"><%=subInstance.getLastModifiedDate().toLocalString()%></span>
+												<div><%=subInstance.getSubject()%></div>
+											</div>
+										</li>
+								<%
+									}
+								}
+								%>
+							</ul>
+						<%
+						}
+						%>
+			        </div>
+			        
+			        <div class="replay_input commentBox">
+						<textarea class="up_textarea" name="txtaEventContent" placeholder="<fmt:message key='work.message.leave_question'/>"></textarea>
+			        </div>
+			    
+			    </div>
+			    <!-- 댓글 //-->
+			</li>
+	<%							
 		}
 	}
 	%>

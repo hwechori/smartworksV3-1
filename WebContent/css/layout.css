@@ -272,6 +272,13 @@ li.fvrt_item:hover .checkOption {display:block}
 .icon_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
 .icon_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
 
+/* CommentBox */
+li.sub_instance_list .commentBox {display:none}
+li.sub_instance_list:hover .commentBox {display:block}
+
+.icon_fvrt {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
+.icon_fvrt.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
+
 .arr_off {background: url("../images/arr_off.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 

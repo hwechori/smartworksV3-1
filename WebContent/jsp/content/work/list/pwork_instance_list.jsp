@@ -173,7 +173,10 @@
 						</a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%></a>
+						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%>
+							<%if(instanceInfo.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=instanceInfo.getSubInstanceCount() %></b>]</font><%} %>
+							<%if(instanceInfo.isNew()){ %><span class="icon_new"></span><%} %>
+						</a>
 					</td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space"><%=lastTask.getName()%></a>

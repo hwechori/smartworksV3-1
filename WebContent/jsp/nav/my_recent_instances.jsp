@@ -4,6 +4,10 @@
 <!-- Author			: Maninsoft, Inc.										 -->
 <!-- Created Date	: 2011.9.												 -->
 
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
+<%@page import="net.smartworks.model.instance.info.EventInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.FileInstanceInfo"%>
+<%@page import="net.smartworks.model.instance.info.ImageInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
@@ -29,17 +33,53 @@
 		for (InstanceInfo workInstance : workInstances) {
 			SmartWorkInfo work = (SmartWorkInfo) workInstance.getWork();
 			UserInfo owner = workInstance.getOwner();
-	%>
-			<li>
-				<a href="<%=((WorkInstanceInfo)workInstance).getController()%>?cid=<%=((WorkInstanceInfo)workInstance).getContextId()%>&workId=<%=work.getId()%>" class="js_content" title="<%=work.getFullpathName()%>">
-					<span class="icon_pe">
-						<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s">
-					</span> 
-					<span class="nav_subtitl_area"><%=workInstance.getSubject()%></span>
-				</a>
-			</li>
-		<%
+			switch(workInstance.getType()){
+			case Instance.TYPE_IMAGE:
+				ImageInstanceInfo image = (ImageInstanceInfo)workInstance;
+	%>			
+				<li>
+					<a href="<%=image.getController()%>?cid=<%=image.getContextId()%>&workId=<%=work.getId()%>" class="js_content" title="<%=work.getFullpathName()%>">
+						<span class="icon_pe">
+							<img src="<%=image.getImgSource()%>" title="<%=CommonUtil.toNotNull(image.getContent())%>" class="profile_size_s">
+						</span> 
+						<span class="nav_subtitl_area"><%=image.getSubject()%>
+							<%if(image.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=image.getSubInstanceCount() %></b>]</font><%} %>
+						</span>
+					</a>
+				</li>
+			<%
+				break;
+			case Instance.TYPE_FILE:
+			case Instance.TYPE_EVENT:
+			case Instance.TYPE_BOARD:
+			case Instance.TYPE_MEMO:
+				WorkInstanceInfo socialInstance = (WorkInstanceInfo)workInstance;
+	%>			
+				<li>
+					<a href="<%=socialInstance.getController()%>?cid=<%=socialInstance.getContextId()%>&workId=<%=work.getId()%>" class="js_content" title="<%=work.getFullpathName()%>">
+						<span class="<%=work.getIconClass() %>"></span>
+						<span class="nav_subtitl_area"><%=socialInstance.getSubject()%>
+							<%if(socialInstance.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=socialInstance.getSubInstanceCount() %></b>]</font><%} %>
+						</span>
+					</a>
+				</li>
+			<%
+				break;
+			default:
+			%>	
+				<li>
+					<a href="<%=((WorkInstanceInfo)workInstance).getController()%>?cid=<%=((WorkInstanceInfo)workInstance).getContextId()%>&workId=<%=work.getId()%>" class="js_content" title="<%=work.getFullpathName()%>">
+						<span class="icon_pe">
+							<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s">
+						</span> 
+						<span class="nav_subtitl_area"><%=workInstance.getSubject()%>
+							<%if(((WorkInstanceInfo)workInstance).getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=((WorkInstanceInfo)workInstance).getSubInstanceCount() %></b>]</font><%} %>
+						</span>
+					</a>
+				</li>
+	<%	
 			}
 		}
-		%>
+	}
+	%>
 </ul>
