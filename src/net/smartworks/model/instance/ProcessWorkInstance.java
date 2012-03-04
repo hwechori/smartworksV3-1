@@ -8,6 +8,7 @@ public class ProcessWorkInstance extends WorkInstance {
 
 	public ProcessWorkInstance() {
 		super();
+		super.setType(WorkInstance.TYPE_PROCESS);
 	}
 
 	public ProcessWorkInstance(String id, String subject, Work work, User owner, User lastModifier,

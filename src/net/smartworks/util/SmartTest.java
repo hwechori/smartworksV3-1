@@ -46,7 +46,9 @@ import net.smartworks.model.service.Variable;
 import net.smartworks.model.service.WSDLDetail;
 import net.smartworks.model.service.WSDLOperation;
 import net.smartworks.model.service.WSDLPort;
+import net.smartworks.model.work.FileCategory;
 import net.smartworks.model.work.FormField;
+import net.smartworks.model.work.ImageCategory;
 import net.smartworks.model.work.InformationWork;
 import net.smartworks.model.work.ProcessWork;
 import net.smartworks.model.work.SmartDiagram;
@@ -55,9 +57,11 @@ import net.smartworks.model.work.SmartTask;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
+import net.smartworks.model.work.info.ImageCategoryInfo;
 import net.smartworks.model.work.info.SmartFormInfo;
 import net.smartworks.model.work.info.SmartTaskInfo;
 import net.smartworks.model.work.info.SmartWorkInfo;
+import net.smartworks.model.work.info.SocialWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
 
@@ -1362,5 +1366,37 @@ public class SmartTest {
 	    reportData.setyValueName("count");
 	    
 	    return reportData;
+	}
+	
+	public static ImageInstanceInfo getImageInstanceInfo() throws Exception{
+		ImageInstanceInfo image = new ImageInstanceInfo("imageInst1", "사진입니다", new WorkInfo(), SmartTest.getUserInfo1(), new LocalDate() );
+		image.setImgSource("http://localhost:8081/imageServer/Semiteq/Profiles/ysjung@maninsoft.co.kr_big.png");
+		image.setOriginImgSource("http://localhost:8081/imageServer/Semiteq/Profiles/ysjung@maninsoft.co.kr.png");
+		return image;
+	}
+	
+	public static ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception {
+		ImageCategoryInfo[] categories=null;
+		switch(displayType){
+		case FileCategory.DISPLAY_BY_CATEGORY:
+			ImageCategoryInfo c1 = new ImageCategoryInfo(ImageCategory.ID_UNCATEGORIZED, ImageCategory.NAME_UNCATEGORIZED);
+			c1.setLength(28);
+			c1.setFirstImage(SmartTest.getImageInstanceInfo());
+			categories = new ImageCategoryInfo[]{c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1};
+			return categories;
+		case FileCategory.DISPLAY_BY_YEAR:
+			ImageCategoryInfo c2 = new ImageCategoryInfo(ImageCategory.ID_UNCATEGORIZED, "2011년1월");
+			c2.setLength(28);
+			c2.setFirstImage(SmartTest.getImageInstanceInfo());
+			categories = new ImageCategoryInfo[]{c2, c2, c2, c2, c2};
+			return categories;
+		case FileCategory.DISPLAY_BY_OWNER:
+			ImageCategoryInfo c3 = new ImageCategoryInfo(ImageCategory.ID_UNCATEGORIZED, "과장 김 지숙");
+			c3.setLength(28);
+			c3.setFirstImage(SmartTest.getImageInstanceInfo());
+			categories = new ImageCategoryInfo[]{c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3};
+			return categories;
+		}
+		return categories;
 	}
 }

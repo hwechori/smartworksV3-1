@@ -28,17 +28,6 @@ $(function() {
 			success : function(data, status, jqXHR) {
 				target.html(data).show();
 				target.find('.js_up_pointer').css({"left": currentAction.position().left + currentAction.outerWidth()/2 + "px"});
-				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
-					loadNewFileFields();
-				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
-					loadNewPictureFields();							
-				}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
-					loadNewEventFields();
-				}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
-					loadNewMemoFields();
-				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
-					loadNewBoardFields();
-				}
 			},
 			error : function(xhr, ajaxOptions, thrownError){
 				
@@ -60,23 +49,66 @@ $(function() {
 			success : function(data, status, jqXHR) {
 				target.html(data).show();
 				$(data).find('.js_up_pointer').css({"left": (currentAction.position().left + currentAction.outerWidth()/2) + "px"});
-				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
-					loadNewFileFields();
-				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
-					loadNewPictureFields();							
-				}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
-					loadNewEventFields();
-				}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
-					loadNewMemoFields();
-				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
-					loadNewBoardFields();
-				}
 			},
 			error : function(xhr, ajaxOptions, thrownError){
 				
 			}
 		});
 		return false;
+	});
+	
+	$('.js_click_start_form').live('click', function(e){
+		var input = $(e.target).parents('.js_click_start_form:first');
+		var newMemo = input.parents('.js_new_memo_page');
+		var newPicture = input.parents('.js_new_picture_page');
+		var newFile = input.parents('.js_new_file_page');
+		var newEvent = input.parents('.js_new_event_page');
+		var newBoard = input.parents('.js_new_board_page');
+		var newIWork = input.parents('.js_new_iwork_page');
+		var startPWork = input.parents('.js_start_pwork_page');
+		var planSWork = input.parents('.js_plan_swork_page');
+		var workId = "";
+		var target = [];
+		if(!isEmpty(newMemo)){
+			input.find('textarea').removeClass('border_none').addClass('up_textarea');
+			workId = newMemo.attr('workId');
+			target = newMemo.find('.js_upload_buttons');
+		}else if(!isEmpty(newPicture)){
+			workId = newPicture.attr('workId');
+			target = newPicture.find('.js_upload_buttons');
+		}else if(!isEmpty(newFile)){
+			workId = newFile.attr('workId');
+			target = newFile.find('.js_upload_buttons');
+		}else if(!isEmpty(newEvent)){
+			workId = newEvent.attr('workId');
+			target = newEvent.find('.js_upload_buttons');
+		}else if(!isEmpty(newBoard)){
+			workId = newBoard.attr('workId');
+			target = newBoard.find('.js_upload_buttons');
+		}else if(!isEmpty(newIWork)){
+			workId = newIWork.attr('workId');
+			target = newIWork.find('.js_upload_buttons');
+		}else if(!isEmpty(startPWork)){
+			workId = startPWork.attr('workId');
+			target = startPWork.find('.js_upload_buttons');
+		}else if(!isEmpty(planSWork)){
+			workId = planSWork.attr('workId');
+			target = planSWork.find('.js_upload_buttons');
+		}
+		if(!isEmpty(target.html())) return true;
+		$.ajax({
+			url : 'upload_buttons.sw',
+			data : {
+				workId : workId
+			},
+			success : function(data, status, jqXHR) {
+				target.html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
+			}
+		});			
+		return true;
 	});
 
 	/*

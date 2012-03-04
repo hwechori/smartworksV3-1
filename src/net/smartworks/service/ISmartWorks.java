@@ -29,6 +29,7 @@ import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
+import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
@@ -42,11 +43,13 @@ import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WSDLDetail;
 import net.smartworks.model.service.WebService;
 import net.smartworks.model.work.Work;
+import net.smartworks.model.work.info.ImageCategoryInfo;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartTest;
 
 public interface ISmartWorks {
 
@@ -82,6 +85,8 @@ public interface ISmartWorks {
 	public final static int SPACE_TYPE_EVENT_LIST = 24;
 	public final static int SPACE_TYPE_MEMO_LIST = 25;
 	public final static int SPACE_TYPE_BOARD_LIST = 26;	
+	public final static int SPACE_TYPE_MAIL_LIST = 27;
+	public final static int SPACE_TYPE_SAVED_LIST = 28;	
 
 	public final static int CONTEXT_PREFIX_LENGTH = 6;
 	public final static String CONTEXT_PREFIX_HOME = "sf.hm.";
@@ -148,6 +153,8 @@ public interface ISmartWorks {
 
 	public abstract WorkInfo[] getAllWorksByCategoryId(String categoryId) throws Exception;
 
+	public abstract ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception;
+
 	public abstract InstanceInfo[] getMyRecentInstances() throws Exception;
 
 	public abstract DepartmentInfo[] getMyDepartments() throws Exception;
@@ -212,6 +219,8 @@ public interface ISmartWorks {
 	
 	public abstract InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	
+	public abstract ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception;
+
 	public abstract InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception;
 	
 	public abstract EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception;
@@ -238,6 +247,8 @@ public interface ISmartWorks {
 
 	public abstract InstanceInfoList[] getInstanceRelatedWorksById(String instId) throws Exception;
 
+	public abstract InstanceInfo[] getSpaceInstancesByDate(String spaceId, LocalDate fromDate, int maxSize) throws Exception;
+	
 	public abstract Report getReportById(String reportId) throws Exception;
 
 	public abstract SearchFilter getSearchFilterById(String workType, String workId, String filterId) throws Exception;

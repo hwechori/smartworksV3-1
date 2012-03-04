@@ -107,20 +107,14 @@ function submitForms() {
 	<div class="form_wrap up up_padding">
 
 		<!-- 폼- 확장 -->
-		<form name='frmNewMemo' class="form_title js_validation_required">
-			<!-- 새로운 메모를 등록하기 위한 입력화면을 스마트폼을 이용하여 자동으로 그린다.. -->
-			<!-- js_new_memo_fields :  js/sw/sw-formFields.js 에서 loadNewMemoFields()가 찾아서 메모입력화면을 이곳에 그려준다.. -->
-			<div class="js_new_memo_fields" memoNameTitle="<fmt:message key='common.upload.memo.name'/>">
-			</div>
-		</form>
+		<form name='frmNewMemo' class="form_title js_validation_required js_click_start_form">
+ 			<textarea name="txtMemo" class="border_none required" rows="1" placeholder="<fmt:message key="common.upload.message.memo"/>"/></textarea>
+ 		</form>
 		
 		<div class="js_hidden_form_content" style="display:none">
 		</div>
 
 		<!-- 새메모를 등록하기위한 완료 버튼과 취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
-			<jsp:param value="<%=SmartWork.ID_MEMO_MANAGEMENT %>" name="workId"/>
-		</jsp:include>
-
+		<div class="js_upload_buttons"></div>
 	</div>
 </div>

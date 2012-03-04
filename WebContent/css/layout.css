@@ -272,6 +272,13 @@ li.fvrt_item:hover .checkOption {display:block}
 .icon_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
 .icon_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
 
+/* CommentBox */
+li.sub_instance_list .commentBox {display:none}
+li.sub_instance_list:hover .commentBox {display:block}
+
+.icon_fvrt {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
+.icon_fvrt.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
+
 .arr_off {background: url("../images/arr_off.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 
@@ -386,6 +393,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
 .up_padding {padding:0; position:relative;}
 .up_width {width:450px;}
+.border_none {border:none;}
 
 .up_form {position:absolute;}
 .up_point {background: url("../images/up_point.gif") no-repeat left top; width:11px; height:7px;}
@@ -640,6 +648,8 @@ td.pic{width:85px}
 .icon_file.xls { background-position:-83px -177px}
 .icon_file.ppt { background-position: -291px -281px}
 
+.icon_new {background: url("../images/icon_new.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px;}
+
 /* Button */
 .btn {background-color:#666666; float:right; height:22px; position:absolute;}
 .Btn01Start {background: url("../images/btn_bg_left.jpg") repeat scroll 0 0 transparent;
@@ -721,6 +731,7 @@ td.form_col .btn_im_x {display:none;}
 .arr {font-size:10px; margin-right:2px;}
 .t_location {font-size:11px; color:#999897; position:relative; top:24px; margin-left:10px}
 .bul_dot {background: url("../images/dot_a.gif") no-repeat scroll left 9px transparent; font-size: 12px; font-weight: bold; padding: 0 0 5px 10px; vertical-align: top;}
+.t_sub_count {font-size:9px; color:#fc0c0c;}
 
 /* Line Style */
 .solid_line { border-top:2px solid #999999; width:100%}

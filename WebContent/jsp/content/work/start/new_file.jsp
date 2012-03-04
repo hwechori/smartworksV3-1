@@ -129,10 +129,10 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="up_wrap js_new_file_page">
+<div class="up_wrap js_new_file_page" workId="<%=SmartWork.ID_FILE_MANAGEMENT%>">
 	<div class="up_point posit_works js_up_pointer"></div>
 	<div class="up up_padding">
-		<form name="frmNewFile" class="form_wrap js_validation_required">
+		<form name="frmNewFile" class="form_wrap js_validation_required js_click_start_form">
 			<div class="form_title js_file_brief_form">
 				<!-- 새로운 파일들을 업로드하고 설명 정보를 입력하기 위한 화면을 스마트폼을 이용하여 자동으로 그린다... -->
 				<!-- js/sw/sw-formFields.js 에 있는 loadNewFileFields() 함수를 호출하여 그린다. -->
@@ -155,9 +155,10 @@ function submitForms(e) {
 			</div>
 		</form>
 		<!-- 하단 등록,취소 버튼 -->
-		<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
-			<jsp:param value="<%=SmartWork.ID_FILE_MANAGEMENT %>" name="workId"/>
-		</jsp:include>
+		<div class="js_upload_buttons"></div>
 		<!-- 하단 등록,취소 버튼 -->
 	</div>
 </div>
+<script>
+	loadNewFileFields();
+</script>

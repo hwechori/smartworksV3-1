@@ -10,11 +10,13 @@ import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
+import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartTest;
 
 public interface IInstanceService {
 
@@ -42,6 +44,8 @@ public interface IInstanceService {
 
 	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
+	public ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception;
+
 	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception;
 
 	public EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception;
@@ -66,6 +70,8 @@ public interface IInstanceService {
 
 	public InstanceInfoList[] getInstanceRelatedWorksById(String instId) throws Exception;
 
+	public InstanceInfo[] getSpaceInstancesByDate(String spaceId, LocalDate fromDate, int maxSize) throws Exception;
+	
 	public String setInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public void removeInformationWorkInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;

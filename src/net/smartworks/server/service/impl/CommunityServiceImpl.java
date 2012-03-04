@@ -460,7 +460,7 @@ public class CommunityServiceImpl implements ICommunityService {
 
 		try{
 			if (CommonUtil.isEmpty(workSpaceId))
-				return null;
+				return SmartUtil.getCurrentUser();
 			
 			String type = SwManagerFactory.getInstance().getSwoManager().getTypeByWorkspaceId(workSpaceId);
 	
@@ -477,11 +477,11 @@ public class CommunityServiceImpl implements ICommunityService {
 				}
 			}
 
-			return null;
+			return SmartUtil.getCurrentUser();
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
-			return null;			
+			return SmartUtil.getCurrentUser();			
 			// Exception Handling Required			
 		}
 	}

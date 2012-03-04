@@ -44,7 +44,10 @@
 		<div class="headlineNotice">
 			<a href="<%=board.getController() %>?cid=<%=board.getContextId()%>wid=<%=workSpace.getId() %>" class="more"><fmt:message key="common.button.view_all"/></a>
 			<a href="<%=board.getController() %>?cid=<%=board.getContextId()%>">
-				<span class="title"><%=board.getSubject() %></span>
+				<span class="title"><%=board.getSubject() %>
+					<%if(board.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=board.getSubInstanceCount() %></b>]</font><%} %>
+					<%if(board.isNew()){ %><span class="icon_new"></span><%} %>
+				</span>
 				<span class="index">
 					<span class="t_name"><%=board.getOwner().getLongName() %></span> 
 					<%
@@ -72,7 +75,10 @@
 					workSpace = board.getWorkSpace();
 				%>			
 					<tr>
-						<td class="title"><a href="<%=board.getController() %>?cid=<%=board.getContextId()%>"><%=board.getSubject()%></a> 
+						<td class="title">
+							<a href="<%=board.getController() %>?cid=<%=board.getContextId()%>"><%=board.getSubject()%></a> 
+							<%if(board.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=board.getSubInstanceCount() %></b>]</font><%} %>
+							<%if(board.isNew()){ %><span class="icon_new"></span><%} %>
 							<span class="t_name"><%=board.getOwner().getLongName() %></span> 
 							<%
 							if(!workSpaceIco.equals("")){

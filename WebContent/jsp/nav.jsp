@@ -23,6 +23,7 @@
 	String wid = request.getParameter("wid");
 	if (SmartUtil.isBlankObject(wid))
 		wid = cUser.getId();
+	WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
 %>
 
 	<!-- 현재공간의 사진및 정보를 나타낸다..  -->
@@ -33,8 +34,8 @@
 
 	<%
 	// 페이지 컨텍스트가 커뮤너티 공간인데 사용자 공간이 아니면, 커뮤너티 멤버들의 정보를 보여준다...
-	if (SmartUtil.isCommunitySpaceContextType(cid) && !SmartUtil.getSpaceIdFromContentContext(cid).equals(cUser.getId())){		
-		if(!SmartUtil.isSameContextPrefix(ISmartWorks.CONTEXT_PREFIX_USER_SPACE, cid)) {
+	if (!SmartUtil.getSpaceIdFromContentContext(cid).equals(cUser.getId())){		
+		if(!workSpace.getClass().equals(User.class)) {
 	%>
 			<div class="nav_list">
 				<jsp:include page="/jsp/nav/community_wall.jsp" />

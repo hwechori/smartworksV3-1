@@ -141,8 +141,11 @@ public class SmartUtil {
 	}
 
 	public static int getSpaceTypeFromContentContext(String contextId) throws Exception {
-		if (contextId == null || contextId.length() < 6)
+		if (contextId == null)
 			return 0;
+		if(contextId.length() == 5 && contextId.substring(0, 5).equals(ISmartWorks.CONTEXT_ALL_WORKS_LIST))
+			return ISmartWorks.SPACE_TYPE_AWORK_LIST;
+		if(contextId.length() < 6) return 0;
 		if (contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE)
 				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE)
 				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE)
@@ -155,15 +158,22 @@ public class SmartUtil {
 			return ISmartWorks.SPACE_TYPE_WORK_INSTANCE;
 		else if (contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IWORK_LIST)
 				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_PWORK_LIST)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_LIST)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_FILE_LIST)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IMAGE_LIST)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_EVENT_LIST)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MEMO_LIST)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_BOARD_LIST)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MAIL_LIST)
-				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SAVED_LIST))
+				|| contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SWORK_LIST))
 			return ISmartWorks.SPACE_TYPE_WORK_LIST;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_FILE_LIST))
+			return ISmartWorks.SPACE_TYPE_FILE_LIST;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_IMAGE_LIST))
+			return ISmartWorks.SPACE_TYPE_IMAGE_LIST;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_EVENT_LIST))
+			return ISmartWorks.SPACE_TYPE_EVENT_LIST;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MEMO_LIST))
+			return ISmartWorks.SPACE_TYPE_MEMO_LIST;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_BOARD_LIST))
+			return ISmartWorks.SPACE_TYPE_BOARD_LIST;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_MAIL_LIST))
+			return ISmartWorks.SPACE_TYPE_MAIL_LIST;
+		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_SAVED_LIST))
+			return ISmartWorks.SPACE_TYPE_SAVED_LIST;
 		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_USER_SPACE))
 			return ISmartWorks.SPACE_TYPE_USER;
 		else if(contextId.substring(0, 6).equals(ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE))

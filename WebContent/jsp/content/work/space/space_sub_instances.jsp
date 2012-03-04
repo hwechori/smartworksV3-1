@@ -33,7 +33,7 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
-	TaskInstanceInfo[] tasksHistories = (TaskInstanceInfo[])session.getAttribute("taskHistories");
+	InstanceInfo[] subInstances = (InstanceInfo[])session.getAttribute("subInstances");
 	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
@@ -41,17 +41,16 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 	<%
-	if(!SmartUtil.isBlankObject(tasksHistories) && tasksHistories.length > 0){
-		for(int i=0; i<tasksHistories.length; i++){
-			TaskInstanceInfo taskInstance = tasksHistories[i];
-			if(taskInstance.getType()<0){
-				String lastDateStr = (i>0) ? (new LocalDate(tasksHistories[i-1].getLastModifiedDate().getTime())).toLocalDateString2() : ""; 
+	if(!SmartUtil.isBlankObject(subInstances) && subInstances.length > 0){
+		for(int i=0; i<subInstances.length; i++){
+			InstanceInfo workInstance = subInstances[i];
+			if(workInstance.getType()<0){
+				String lastDateStr = (i>0) ? (new LocalDate(subInstances[i-1].getLastModifiedDate().getTime())).toLocalDateString2() : ""; 
 	%>
-				<li class="t_nowork"><a href="" class="js_space_more_history" lastDate="<%=lastDateStr%>"><fmt:message key="common.message.more_work_task"></fmt:message></a></li>
+				<li class="t_nowork"><a href="" class="js_space_more_instance" lastDate="<%=lastDateStr%>"><fmt:message key="common.message.more_work_task"></fmt:message></a></li>
 	<%
 				break;
 			}
-			InstanceInfo workInstance = taskInstance.getWorkInstance();
 			SmartWorkInfo work = (SmartWorkInfo)workInstance.getWork();
 			UserInfo owner = workInstance.getOwner();
 			String userDetailInfo = SmartUtil.getUserDetailInfo(owner);
@@ -82,13 +81,8 @@
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
-							<a href="<%=board.getController() %>?cid=<%=board.getContextId() %>&wid=<%=workSpace.getId() %>&workId=<%=work.getId() %>">
-								<div>
-									<span class="<%=work.getIconClass()%>"></span>
-									<div><%=board.getSubject() %></div>
-								</div>
-								<div><%=board.getBriefContent()%></div>
-							</a>
+							<div><%=board.getSubject() %></div>
+							<div><%=board.getBriefContent() %></div>
 							<%if(!SmartUtil.isBlankObject(board.getAttachment())){ %><div><%=board.getAttachment() %></div><%} %>
 							<!-- 인스턴스 마지막수정일자 -->
 							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
@@ -106,14 +100,9 @@
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
-							<a href="<%=event.getController() %>?cid=<%=event.getContextId() %>&wid=<%=workSpace.getId() %>&workId=<%=work.getId() %>">
-								<div>
-									<span class="<%=work.getIconClass()%>"></span>
-									<div><%=event.getSubject() %></div>
-								</div>
-								<div><fmt:message key="common.upload.event.start_date"/> : <%=event.getStart().toLocalString() %> 
-									<%if(!SmartUtil.isBlankObject(event.getEnd())) {%><fmt:message key="common.upload.event.end_date"/> : <%=event.getEnd().toLocalString() %> <%} %></div>
-							</a>
+							<div><%=event.getSubject() %></div>
+							<div><fmt:message key="common.upload.event.start_date"/> : <%=event.getStart().toLocalString() %> 
+								<%if(!SmartUtil.isBlankObject(event.getEnd())) {%><fmt:message key="common.upload.event.end_date"/> : <%=event.getEnd().toLocalString() %> <%} %></div>
 							<!-- 인스턴스 마지막수정일자 -->
 							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
 							<!-- 인스턴스 마지막수정일자 //-->
@@ -166,12 +155,7 @@
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
-							<a href="<%=memo.getController() %>?cid=<%=memo.getContextId() %>&wid=<%=workSpace.getId() %>&workId=<%=work.getId() %>">
-								<div>
-									<span class="<%=work.getIconClass()%>"></span>
-									<div><%=memo.getContent() %></div>
-								</div>
-							</a>
+							<div><%=memo.getContent() %></div>
 							<!-- 인스턴스 마지막수정일자 -->
 							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
 							<!-- 인스턴스 마지막수정일자 //-->
@@ -186,123 +170,15 @@
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
-						<%
-						String runningTaskName = taskInstance.getName();
-						switch(taskInstance.getTaskType()){
-						case TaskInstance.TYPE_APPROVAL_TASK_ASSIGNED:
-						%>
-							<fmt:message key="content.sentence.stask_forwarded">
-								<fmt:param>
-									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
-										<span class="t_woname"><%=runningTaskName%></span> 
-									</a>
-								</fmt:param>
-							</fmt:message>
-						<%
-							break;
-						case TaskInstance.TYPE_APPROVAL_TASK_FORWARDED:
-						%>
-							<fmt:message key="content.sentence.stask_forwarded">
-								<fmt:param>
-									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
-										<span class="t_woname"><%=runningTaskName%></span> 
-									</a>
-								</fmt:param>
-							</fmt:message>
-						<%
-							break;
-						case TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED:
-						%>
-							<fmt:message key="content.sentence.itask_assigned">
-								<fmt:param>
-									<a href='<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>'>
-										<span class='t_woname'><%=runningTaskName%></span> 
-									</a>
-								</fmt:param>
-							</fmt:message>
-						<%
-							break;
-						case TaskInstance.TYPE_INFORMATION_TASK_CREATED:
-							break;
-						case TaskInstance.TYPE_INFORMATION_TASK_DELETED:
-							break;
-						case TaskInstance.TYPE_INFORMATION_TASK_FORWARDED:
-						%>
-							<fmt:message key="content.sentence.itask_forwarded">
-								<fmt:param>
-									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
-										<span class="t_woname"><%=runningTaskName%></span>
-									</a>
-								</fmt:param>
-							</fmt:message>
-						<%
-							break;
-						case TaskInstance.TYPE_INFORMATION_TASK_UDATED:
-							break;
-						case TaskInstance.TYPE_PROCESS_TASK_ASSIGNED:
-						%>
-							<fmt:message key="content.sentence.ptask_assigned">
-								<fmt:param>
-									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
-										<span class="t_woname"><%=runningTaskName%></span> 
-									</a>
-								</fmt:param>
-							</fmt:message>
-							<%
-							break;
-						case TaskInstance.TYPE_PROCESS_TASK_FORWARDED:
-						%>
-							<fmt:message key="content.sentence.ptask_forwarded">
-								<fmt:param>
-									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
-										<span class="t_woname"><%=runningTaskName%></span> 
-									</a>
-								</fmt:param>
-							</fmt:message>
-						<%
-							break;
-						case TaskInstance.TYPE_SCHEDULE_TASK_ASSIGNED:
-						%>
-							<fmt:message key="content.sentence.stask_assigned">
-								<fmt:param>
-									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
-										<span class="t_woname"><%=runningTaskName%></span> 
-									</a>
-								</fmt:param>
-							</fmt:message>
-						<%
-							break;
-						case TaskInstance.TYPE_SCHEDULE_TASK_FORWARDED:
-						%>
-							<fmt:message key="content.sentence.stask_forwarded">
-								<fmt:param>
-									<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>">
-										<span class="t_woname"><%=runningTaskName%></span> 
-									</a>
-								</fmt:param>
-							</fmt:message>
-						<%
-							break;
-						}
-						%>
-						</div>			
-						<div>
-							<a href="<%=work.getController()%>?cid=<%=work.getContextId()%>&wid=<%=cUser.getId()%>">
-								<span class="<%=work.getIconClass()%>"></span>
-								<span class="t_date"><%=work.getFullpathName()%></span>
-							</a>
-							<a href="<%=((WorkInstanceInfo)workInstance).getController()%>?cid=<%=((WorkInstanceInfo)workInstance).getContextId()%>&wid=<%=workInstance.getWorkSpace().getId()%>&workId=<%=work.getId()%>">
-								<span class="t_bold"><%=workInstance.getSubject()%></span> 
-							</a>
+							<div><%=workInstance.getSubject() %></div>
+							<!-- 인스턴스 마지막수정일자 -->
+							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
+							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
-						<!-- 인스턴스 마지막수정일자 -->
-						<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
-						<!-- 인스턴스 마지막수정일자 //-->
 					</div>
 				<%
 				}
-				
-				%>
+				%>		
 				<!-- 댓글 -->
 			   <div class="replay_point posit_default"></div>
 			   <div class="replay_section">  
@@ -348,7 +224,7 @@
 			    </div>
 			    <!-- 댓글 //-->
 			</li>
-	<%		
+	<%							
 		}
 	}
 	%>

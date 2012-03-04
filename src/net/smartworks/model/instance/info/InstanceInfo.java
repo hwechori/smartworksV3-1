@@ -19,6 +19,9 @@ public class InstanceInfo{
 	private UserInfo lastModifier;
 	private LocalDate lastModifiedDate;
 	
+	public boolean isNew() {
+		return lastModifiedDate.isNew();
+	}
 	public String getId() {
 		return id;
 	}

@@ -23,7 +23,7 @@
 		for (DepartmentInfo department : departments) {
 	%>
 			<li>
-				<a href="<%=department.getSpaceController() %>?cid=<%=department.getSpaceContextId()%>" title="<%=department.getDesc()%>">
+				<a href="<%=department.getSpaceController() %>?cid=<%=department.getSpaceContextId()%>&wid=<%=department.getId() %>" title="<%=department.getDesc()%>">
 					<span class="icon_pe"><img src="<%=department.getMinPicture()%>" class="profile_size_s"></span> 
 					<span class="nav_subtitl_area"><%=department.getName()%></span>
 				</a>

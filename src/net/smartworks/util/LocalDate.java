@@ -260,6 +260,12 @@ public class LocalDate extends Date{
 		}
 	}
 	
+	public boolean isNew(){
+		if(this.getTime() >= ((new LocalDate(localNow)).getTime() - 2*LocalDate.ONE_DAY))
+			return true;
+		return false;		
+	}
+	
 	public static boolean isValidTimeZone(String timeZone){
 		String[] zoneIds = TimeZone.getAvailableIDs();
 		for(String str : zoneIds)
@@ -421,6 +427,7 @@ public class LocalDate extends Date{
 		if(day< Calendar.SUNDAY || day > Calendar.SATURDAY) return "";
 		return SmartMessage.getString("calendar.title.day." + day);
 	}
+
 	private boolean isToday(){
 		if(getLocalDateOnly(this).getTime() == getLocalDateOnly(new LocalDate(localNow)).getTime())
 			return true;

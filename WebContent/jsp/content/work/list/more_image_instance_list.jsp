@@ -1,4 +1,3 @@
-<%@page import="net.smartworks.model.instance.info.ImageInstanceInfo"%>
 <%@page import="net.smartworks.model.work.ImageCategory"%>
 <%@page import="net.smartworks.model.work.info.ImageCategoryInfo"%>
 <%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
@@ -36,15 +35,11 @@
 	String wid = (String) session.getAttribute("wid");
 	int displayBy = Integer.parseInt(request.getParameter("displayBy"));
 	String parentId = request.getParameter("parentId");
-	String strLastDate = request.getParameter("lastDate");
-	LocalDate lastDate = new LocalDate();
-	if(!SmartUtil.isBlankObject(strLastDate))		
-		lastDate = LocalDate.convertLocalStringToLocalDate(request.getParameter("lastDate"));
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<ul class="js_image_instance_list_page" parentId="<%=parentId %>" displayBy="<%=displayBy %>" spaceId="<%=wid%>">
+<ul class="image_instance_list_page">
 	<%
 	if(SmartUtil.isBlankObject(parentId)){
 		ImageCategoryInfo[] imageCategories = smartWorks.getImageCategoriesByType(displayBy, wid);
@@ -55,9 +50,7 @@
 				<!--폴더 목록1 -->
 				<li>
 					<div class="folder_bg">
-						<a href="image_instance_list.sw" class="js_image_instance_list" categoryId="<%=category.getId()%>">
-							<div class="thum_picture"><img style="width:70px;height:70px;" src="<%=category.getFirstImage().getImgSource()%>"></div>
-						</a>
+						<div class="thum_picture"><img href="image_instance_list.sw" class="" style="width:70px;height:70px;" src="<%=category.getFirstImage().getImgSource()%>"></div>
 					</div>
 					<div class="title_folder"><%=category.getName() %></div>
 					<div class="t_gray"><fmt:message key="space.title.image_count"><fmt:param><%=category.getLength() %></fmt:param></fmt:message></div>
@@ -71,24 +64,8 @@
 	<%
 		}
 	}else{
-		ImageInstanceInfo[] imageInstances = smartWorks.getImageInstancesByDate(displayBy, wid, parentId, lastDate, 64);
-		if(!SmartUtil.isBlankObject(imageInstances) && imageInstances.length>0 ){
-			for(int i=0; i<imageInstances.length; i++){
-				ImageInstanceInfo image = imageInstances[i];		
 	%>
-				<!--폴더 목록1 -->
-				<li>
-					<div class="picture_bg">
-						<a href="" class="" instanceId="<%=image.getId()%>">
-							<div class="detail_picture"><img style="width:155px;height:125px;" src="<%=image.getImgSource()%>"></div>
-						</a>
-						<div style="float:right"><%=image.getLastModifiedDate().toLocalString() %></div>
-					</div>
-				</li>
-				<!--폴더 목록1 //-->
 	<%
-			}
-		}
 	}
 	%>
 </ul>

@@ -8,7 +8,7 @@ smartMessage.bundle['ko'] = {
 	illegalAcountError : '로그인 계정이 없거나 암호가 잘못되었습니다. 확인 후 다시 시도하십시요!',
 	logoutSucceed : '정상적으로 로그아웃 되었습니다.',
 	sessionTimeouted : '로그인 후 사용하지 않은 시간이 오래 경과되었습니다. 다시 로그인 하시기 바랍니다 !',
-	uploadFile : '파일올리기',
+	uploadFile : '파일선택',
 	cancelUpload : '취소',
 	uploadFailed : '실패',
 	uploadDropArea : '업로드할 파일들을 이곳에 드롭하십시요!',

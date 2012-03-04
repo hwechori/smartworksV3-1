@@ -29,6 +29,7 @@ import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
+import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
@@ -42,6 +43,7 @@ import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WSDLDetail;
 import net.smartworks.model.service.WebService;
 import net.smartworks.model.work.Work;
+import net.smartworks.model.work.info.ImageCategoryInfo;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
@@ -57,6 +59,7 @@ import net.smartworks.server.service.ISettingsService;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartTest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -275,6 +278,11 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
+	public ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception {
+		return workService.getImageCategoriesByType(displayType, spaceId);
+	}
+
+	@Override
 	public InstanceInfo[] getMyRunningInstances(LocalDate lastInstanceDate, int requestSize, boolean assignedOnly) throws Exception {
 		return instanceService.getMyRunningInstances(lastInstanceDate, requestSize, assignedOnly);
 	}
@@ -369,6 +377,11 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
+	public ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception{
+		return instanceService.getImageInstancesByDate(displayBy, wid, parentId, lastDate, maxCount);
+	}
+	
+	@Override
 	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
 		return instanceService.getFileInstanceList(workSpaceId, params);
 	}
@@ -430,6 +443,11 @@ public class SmartWorks implements ISmartWorks {
 		return instanceService.getInstanceRelatedWorksById(instId);
 	}
 
+	@Override
+	public InstanceInfo[] getSpaceInstancesByDate(String spaceId, LocalDate fromDate, int maxSize) throws Exception {
+		return instanceService.getSpaceInstancesByDate(spaceId, fromDate, maxSize);
+	}
+	
 	/*
 	 * @Override >>>>>>> branch 'master' of
 	 * git@github.com:maninsoft/smartworksV3.git public String createFile(String

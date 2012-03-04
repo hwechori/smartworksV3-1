@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.						 -->
 <!-- Created Date	: 2011.9.								 -->
 
+<%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.model.instance.ProcessWorkInstance"%>
 <%@page import="net.smartworks.model.instance.WorkInstance"%>
@@ -25,25 +26,14 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	WorkInstance workInstance = (WorkInstance)session.getAttribute("workInstance");
-	String contextStr=null;
-	String workListHref = "";
-	String workListContext = "";
-	if(SmartUtil.isBlankObject(workInstance)) contextStr = "";
-	else if(workInstance.getClass().equals(ProcessWorkInstance.class)){
-		contextStr = ISmartWorks.CONTEXT_PWORK_SPACE;
-		workListHref = "pwork_list.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + workInstance.getWork().getId();;
-	}else if(workInstance.getClass().equals(InformationWorkInstance.class)){
-		contextStr = ISmartWorks.CONTEXT_IWORK_SPACE;
-		workListHref = "iwork_list.sw?cid=" + ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + workInstance.getWork().getId();
-	}
 	
-	TaskInstanceInfo[] tasks = smartWorks.getTaskInstancesByDate(contextStr, workInstance.getId(), new LocalDate(), null, 20); 
+	InstanceInfo[] subInstances = smartWorks.getSpaceInstancesByDate(workInstance.getId(), new LocalDate(), 20);
 	
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="js_space_instance_list_page"  contextId="<%=contextStr %>" spaceId="<%=workInstance.getId() %>">	
+<div class="js_space_instance_list_page"  contextId="<%=workInstance.getContextId() %>" spaceId="<%=workInstance.getId() %>">	
 	<!-- 댓글 영역 -->
 	<div class="gr_up_point posit_point"></div>
 	<!-- 댓글 목록 -->
@@ -62,10 +52,10 @@
 				<div class="replay">
 				    <ul>
 				    	<%
-						if(!SmartUtil.isBlankObject(tasks)){
-							session.setAttribute("taskHistories", tasks);
+						if(!SmartUtil.isBlankObject(subInstances)){
+							session.setAttribute("subInstances", subInstances);
 						%>
-							<jsp:include page="/jsp/content/community/space/space_task_histories.jsp"></jsp:include>
+							<jsp:include page="/jsp/content/work/space/space_sub_instances.jsp"></jsp:include>
 						<%
 						}else{
 						%>
@@ -88,7 +78,7 @@
 	<!-- 목록 버튼 -->
 	<div class="" style=" text-align:center">
 		<div class="btn_gray" >
-	    	<a href="<%=workListHref%>" class="js_content"> 
+	    	<a href="<%=workInstance.getWork().getController() %>?cid=<%=workInstance.getWork().getContextId() %>" class="js_content"> 
 	    		<span class="Btn01Start"></span> 
 	    		<span class="Btn01Center"><fmt:message key="common.button.list"/></span> 
 	    		<span class="Btn01End"></span>

@@ -22,8 +22,8 @@
 	String wid = request.getParameter("wid");
 	session.setAttribute("cid", cid);
 	session.setAttribute("wid", wid);	
-	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
-	WorkSpace workSpace = smartWorks.getWorkSpaceById(spaceId);
+	if(SmartUtil.isBlankObject(wid)) wid = cUser.getId();
+	WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
 	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
@@ -33,7 +33,7 @@
 <ul class="navi_tit_default">
 	<li>
 		<%
-				if(SmartUtil.getSpaceIdFromContentContext(cid).equals(cUser.getId())){				
+				if(wid.equals(cUser.getId())){				
 				%>
 					<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId() %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.my.all_items"/></a>
 				<%
