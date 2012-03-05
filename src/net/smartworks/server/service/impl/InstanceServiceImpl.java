@@ -1828,7 +1828,7 @@ public class InstanceServiceImpl implements IInstanceService {
 											fileNameMap.put("filePath", filePath);
 											fileNameList.add(fileNameMap);
 										}
-										fieldData.setFileNames(fileNameList);
+										fieldData.setFiles(fileNameList);
 									} else if(formatType.equals(FormField.TYPE_TEXT)) {
 										value = StringUtil.subString(value, 0, 30, "...");
 									}
@@ -3334,7 +3334,7 @@ public class InstanceServiceImpl implements IInstanceService {
 												fileNameMap.put("filePath", filePath);
 												fileNameList.add(fileNameMap);
 											}
-											fieldData.setFileNames(fileNameList);
+											fieldData.setFiles(fileNameList);
 										}
 										fieldData.setValue(value);
 										fieldDataList.add(fieldData);

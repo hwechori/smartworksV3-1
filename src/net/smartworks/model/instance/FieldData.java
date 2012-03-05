@@ -15,13 +15,13 @@ public class FieldData {
 	private String fieldType;
 	private String value;
 	private String symbol;
-	private List<Map<String, String>> fileNames;
+	private List<Map<String, String>> files;
 
-	public List<Map<String, String>> getFileNames() {
-		return fileNames;
+	public List<Map<String, String>> getFiles() {
+		return files;
 	}
-	public void setFileNames(List<Map<String, String>> fileNames) {
-		this.fileNames = fileNames;
+	public void setFiles(List<Map<String, String>> files) {
+		this.files = files;
 	}
 	public FieldData() {
 		super();
@@ -57,8 +57,8 @@ public class FieldData {
 		this.value = value;
 	}
 	
-	public String getFileNamesHtml(){
-		if(SmartUtil.isBlankObject(this.value) || SmartUtil.isBlankObject(this.fileNames)) return "";
-		return SmartUtil.getFileNamesDetailInfo(this.fileNames);
+	public String getFilesHtml(){
+		if(SmartUtil.isBlankObject(this.value) || SmartUtil.isBlankObject(this.files)) return "";
+		return SmartUtil.getFilesDetailInfo(this.files);
 	}
 }
