@@ -1817,18 +1817,24 @@ public class InstanceServiceImpl implements IInstanceService {
 										if(value != null)
 											value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
 									} else if(formatType.equals(FormField.TYPE_FILE)) { 
-										List<IFileModel> fileList = getDocManager().findFileGroup(value);
-										List<Map<String, String>> fileNameList = new ArrayList<Map<String,String>>();
-										for(int j=0; j<fileList.size(); j++) {
-											Map<String, String> fileNameMap = new LinkedHashMap<String, String>();
-											IFileModel fileModel = fileList.get(j);
+										List<IFileModel> fileModelList = getDocManager().findFileGroup(value);
+										List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
+										int fileModelListLength = fileModelList.size();
+										for(int j=0; j<fileModelListLength; j++) {
+											Map<String, String> fileMap = new LinkedHashMap<String, String>();
+											IFileModel fileModel = fileModelList.get(j);
+											String fileId = fileModel.getId();
 											String fileName = fileModel.getFileName();
-											String filePath = fileModel.getFilePath();
-											fileNameMap.put("fileName", fileName);
-											fileNameMap.put("filePath", filePath);
-											fileNameList.add(fileNameMap);
+											String fileType = fileModel.getType();
+											String fileSize = fileModel.getFileSize() + "";
+											fileMap.put("fileId", fileId);
+											fileMap.put("fileName", fileName);
+											fileMap.put("fileType", fileType);
+											fileMap.put("fileSize", fileSize);
+											fileList.add(fileMap);
 										}
-										fieldData.setFiles(fileNameList);
+										if(fileList.size() > 0)
+											fieldData.setFiles(fileList);
 									} else if(formatType.equals(FormField.TYPE_TEXT)) {
 										value = StringUtil.subString(value, 0, 30, "...");
 									}
@@ -3323,18 +3329,24 @@ public class InstanceServiceImpl implements IInstanceService {
 											if(value != null)
 												value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
 										} else if(formatType.equals(FormField.TYPE_FILE)) { 
-											List<IFileModel> fileList = getDocManager().findFileGroup(value);
-											List<Map<String, String>> fileNameList = new ArrayList<Map<String,String>>();
-											for(int j=0; j<fileList.size(); j++) {
-												Map<String, String> fileNameMap = new LinkedHashMap<String, String>();
-												IFileModel fileModel = fileList.get(j);
+											List<IFileModel> fileModelList = getDocManager().findFileGroup(value);
+											List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
+											int fileModelListLength = fileModelList.size();
+											for(int j=0; j<fileModelListLength; j++) {
+												Map<String, String> fileMap = new LinkedHashMap<String, String>();
+												IFileModel fileModel = fileModelList.get(j);
+												String fileId = fileModel.getId();
 												String fileName = fileModel.getFileName();
-												String filePath = fileModel.getFilePath();
-												fileNameMap.put("fileName", fileName);
-												fileNameMap.put("filePath", filePath);
-												fileNameList.add(fileNameMap);
+												String fileType = fileModel.getType();
+												String fileSize = fileModel.getFileSize() + "";
+												fileMap.put("fileId", fileId);
+												fileMap.put("fileName", fileName);
+												fileMap.put("fileType", fileType);
+												fileMap.put("fileSize", fileSize);
+												fileList.add(fileMap);
 											}
-											fieldData.setFiles(fileNameList);
+											if(fileList.size() > 0)
+												fieldData.setFiles(fileList);
 										}
 										fieldData.setValue(value);
 										fieldDataList.add(fieldData);
