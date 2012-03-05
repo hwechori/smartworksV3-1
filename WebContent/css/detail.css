@@ -4,9 +4,9 @@
 
 /* 본문- 타이틀 아이콘*/
 .body_titl { padding:0 15px 10px; overflow: hidden;} /* 본문 페이지 타이틀*/
-.body_titl .title {font-size: 16px; font-weight: bold; height: 29px; float:left; background:none}  /* 타이틀 우측으로 아이콘이 있을때 */
+.body_titl .title {font-size: 16px; font-weight: bold; height: 29px; float:left}  /* 타이틀 우측으로 아이콘이 있을때 */
 .body_titl .title_noico {font-size: 16px; font-weight: bold; height:29px}  /* 타이틀 우측으로 아이콘이 없을때 */
-.body_titl .myspace_h {padding: 7px 0 0;} 
+.body_titl .myspace_h {padding: 7px 0 0; background:none} 
 .body_titl .txt_btn {font-family: '돋움',Dotum; font-size: 11px; font-weight: normal; padding: 28px 0 4px 0; text-align: right} /* 타이틀 우측으로 버튼 */
 .body_titl .txt_btn .pho_user {width:22px;}
 .body_titl .bul_space {background: url("../images/body_icon.png") no-repeat 0 -619px transparent; height:7px; padding:0 0 0 10px; margin-left:3px; font-weight:bold; color:#919191}
