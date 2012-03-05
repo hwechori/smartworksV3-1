@@ -961,8 +961,9 @@ public class ModelConverter {
 	public static SmartWorkInfo[] getSmartWorkInfoArrayByPkgPackageArray(PkgPackage[] pkgs) throws Exception {
 		if (CommonUtil.isEmpty(pkgs))
 			return null;
-		SmartWorkInfo[] smartWorkInfos = new SmartWorkInfo[pkgs.length];
-		for (int i = 0; i < pkgs.length; i++) {
+		int pkgsLength = pkgs.length;
+		SmartWorkInfo[] smartWorkInfos = new SmartWorkInfo[pkgsLength];
+		for (int i = 0; i < pkgsLength; i++) {
 			PkgPackage pkg = pkgs[i];
 			smartWorkInfos[i] = getSmartWorkInfoByPkgPackage(null, pkg);
 		}
@@ -990,12 +991,16 @@ public class ModelConverter {
 		itemListCond.setUserId(user.getId());
 		ItmMenuItemList itmList = getItmManager().getMenuItemList(user.getId(), itemListCond, IManager.LEVEL_ALL);
 
+		String pkgId = pkg.getPackageId();
 		if(itmList != null) {
-			ItmMenuItem[] items = itmList.getMenuItems();	
+			ItmMenuItem[] items = itmList.getMenuItems();
 			if(items != null) {
-				for(ItmMenuItem item : items) {
+				int itemsLength = items.length;
+				for(int i=0; i<itemsLength; i++) {
+					ItmMenuItem item = items[i];
 					if(item != null) {
-						if(pkg.getPackageId().equals(item.getPackageId()))
+						String itemPkgId = item.getPackageId();
+						if(pkgId.equals(itemPkgId))
 							workInfo.setFavorite(true);
 					}
 				}
