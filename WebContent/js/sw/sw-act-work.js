@@ -1213,8 +1213,8 @@ $(function() {
 		}
 		var input = $(e.target);
 		var picture = input;
-		var top = picture.offset().top+ picture.height();
-		var left = picture.offset().left;
+		var top = picture.offset().top+ picture.height() + 5;
+		var left = picture.offset().left + picture.width() + 5;
 		smartPop.showFilesDetail(input, top, left);		
 	});
 

@@ -349,8 +349,8 @@ public class SmartUtil {
 			String fileType = file.get("fileType");
 			String fileSize = file.get("fileSize");
 			long size = (SmartUtil.isBlankObject(fileSize)) ? 0 : Long.parseLong(fileSize);
-			html = html + "<li><span class='icon_file_" + (SmartUtil.isBlankObject(fileType) ? "" : fileType.toLowerCase()) + "'><a href='download_file.sw?fileId=" + fileId + 
-							"&fileName=" + fileName + "' class='qq-upload-file'>" + fileName + "</a><span class='qq-upload-size'>" + SmartUtil.getBytesAsString(size) + "<span></li>";
+			html = html + "<li><span class='vAlignMiddle icon_file_" + (SmartUtil.isBlankObject(fileType) ? "" : fileType.toLowerCase()) + "'></span><a href='download_file.sw?fileId=" + fileId + 
+							"&fileName=" + fileName + "' class='qq-upload-file'>" + fileName + "</a><span class='qq-upload-size'>" + SmartUtil.getBytesAsString(size) + "</span></li>";
 		}
 		return html = html + "</ul>";
 	}
