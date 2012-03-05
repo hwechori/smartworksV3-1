@@ -1826,9 +1826,11 @@ public class InstanceServiceImpl implements IInstanceService {
 											String fileId = fileModel.getId();
 											String fileName = fileModel.getFileName();
 											String fileType = fileModel.getType();
+											String fileSize = fileModel.getFileSize() + "";
 											fileMap.put("fileId", fileId);
 											fileMap.put("fileName", fileName);
 											fileMap.put("fileType", fileType);
+											fileMap.put("fileSize", fileSize);
 											fileList.add(fileMap);
 										}
 										if(fileList.size() > 0)
@@ -3336,9 +3338,11 @@ public class InstanceServiceImpl implements IInstanceService {
 												String fileId = fileModel.getId();
 												String fileName = fileModel.getFileName();
 												String fileType = fileModel.getType();
+												String fileSize = fileModel.getFileSize() + "";
 												fileMap.put("fileId", fileId);
 												fileMap.put("fileName", fileName);
 												fileMap.put("fileType", fileType);
+												fileMap.put("fileSize", fileSize);
 												fileList.add(fileMap);
 											}
 											if(fileList.size() > 0)
