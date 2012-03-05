@@ -1204,5 +1204,40 @@ $(function() {
 		});
 		return false;
 	});
+	
+	var filesDetailTimer = null;
+	$('img.js_pop_files_detail').live('mouseenter', function(e){
+		if(filesDetailTimer!=null){
+			clearTimeout(filesDetailTimer);
+			filesDetailTimer = null;
+		}
+		var input = $(e.target);
+		var picture = input;
+		var top = picture.offset().top+ picture.height();
+		var left = picture.offset().left;
+		smartPop.showFilesDetail(input, top, left);		
+	});
+
+	$('img.js_pop_files_detail').live('mouseleave', function(e){
+		filesDetailTimer = setTimeout(function(){
+			smartPop.closeFilesDetail();
+			filesDetailTimer = null;
+		}, 300);
+	});
+	
+	$('#sw_pop_files_detail').live('mouseenter', function(e){
+		if(filesDetailTimer!=null){
+			clearTimeout(filesDetailTimer);
+			filesDetailTimer = null;
+		}		
+	});
+
+	$('#sw_pop_files_detail').live('mouseleave', function(e){
+		filesDetailTimer = setTimeout(function(){
+			smartPop.closeFilesDetail();
+			filesDetailTimer = null;
+		}, 300);
+	});
+	
 
 });
