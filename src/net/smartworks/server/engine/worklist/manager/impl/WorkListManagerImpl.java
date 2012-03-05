@@ -379,13 +379,21 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 			queryBuffer.append("		and prcInst.prcStatus = :prcStatus ");
 		queryBuffer.append(") prcInstInfo ");
 		queryBuffer.append("on taskInfo.tskPrcInstId = prcInstInfo.prcObjId ");
-		if (lastInstanceDate != null)
+		if (lastInstanceDate != null) {
 			queryBuffer.append("where taskInfo.tskCreateDate < :lastInstanceDate ");
-		if (tskRefType != null) {
-			if(tskRefType.equals(TskTask.TASKREFTYPE_NOTHING))
-				queryBuffer.append("and taskInfo.tskRefType is null ");
-			else 
-				queryBuffer.append("and taskInfo.tskRefType = :tskRefType ");
+			if (tskRefType != null) {
+				if(tskRefType.equals(TskTask.TASKREFTYPE_NOTHING))
+					queryBuffer.append("and taskInfo.tskReftype is null ");
+				else 
+					queryBuffer.append("and taskInfo.tskReftype = :tskRefType ");
+			}
+		} else {
+			if (tskRefType != null) {
+				if(tskRefType.equals(TskTask.TASKREFTYPE_NOTHING))
+					queryBuffer.append("where taskInfo.tskReftype is null ");
+				else 
+					queryBuffer.append("where taskInfo.tskReftype = :tskRefType ");
+			}
 		}
 
 		this.appendOrderQuery(queryBuffer, "taskInfo", cond);
@@ -413,7 +421,7 @@ public class WorkListManagerImpl extends AbstractManager implements IWorkListMan
 			query.setTimestamp("executionDateTo", executionDateTo);
 		if (!CommonUtil.isEmpty(prcStatus)) 
 			query.setString("prcStatus", prcStatus);
-		if (!CommonUtil.isEmpty(tskRefType)) 
+		if (!CommonUtil.isEmpty(tskRefType) && !tskRefType.equals(TskTask.TASKREFTYPE_NOTHING)) 
 			query.setString("tskRefType", tskRefType);
 
 		return query;
