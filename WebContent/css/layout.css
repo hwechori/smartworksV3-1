@@ -215,6 +215,15 @@ a .btn_my_group:hover,
  margin: 2px 5px 0 0;} 
  a .btn_my_group_add:hover {background: url("../images/nav_img.png") no-repeat -237px -219px ;} 
  
+ /* Community Btn in Body */ 
+.btn_b_my_depart {background: url("../images/nav_img.png") no-repeat -115px -121px transparent; height:20px; width:43px; display: inline-block; float:right;}
+a .btn_b_my_depart:hover,
+.btn_b_my_depart.current {background: url("../images/nav_img.png") no-repeat -115px -150px;}
+
+.btn_b_my_group {background: url("../images/nav_img.png") no-repeat -158px -121px transparent; height:20px; width:43px; display: inline-block; float:right;} 
+a .btn_b_my_group:hover,
+.btn_b_my_group.current {background: url("../images/nav_img.png") no-repeat -158px -150px;}
+ 
 /* Nav Works Btn */
 .btn_recent {background: url("../images/nav_img.png") no-repeat -115px -246px transparent; height:20px; width:43px; display: inline-block; float:right;}
 a .btn_recent:hover,
@@ -578,7 +587,7 @@ li.fvrt_item:hover .checkOption {display:block}
 
 .noti_pic {float:left; margin-right: 5px;}
 .noti_in_bodytitle {word-wrap: break-word; text-align:left; vertical-align:middle; float:left; line-height:16px; width:65%} /* Body Title로 들어갈 때 */
-.noti_in { margin-left:35px; line-height: 16px;}
+.noti_in { margin-left:25px; line-height: 16px;}
 .noti_in_s { margin-left:25px; line-height: 16px;}
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
 .noti_in_file {word-wrap: break-word; text-align:left; padding:0 0 0 44px; line-height: 16px;} /* Right Contents in Space - file */
