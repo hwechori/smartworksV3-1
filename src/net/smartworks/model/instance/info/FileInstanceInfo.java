@@ -12,7 +12,7 @@ public class FileInstanceInfo extends WorkInstanceInfo {
 
 	private String content;
 	private String fileGroupId;
-	private List<Map<String, String>> fileNames;
+	private List<Map<String, String>> files;
 
 	public String getFileGroupId() {
 		return fileGroupId;
@@ -20,11 +20,11 @@ public class FileInstanceInfo extends WorkInstanceInfo {
 	public void setFileGroupId(String fileGroupId) {
 		this.fileGroupId = fileGroupId;
 	}
-	public List<Map<String, String>> getFileNames() {
-		return fileNames;
+	public List<Map<String, String>> getFiles() {
+		return files;
 	}
-	public void setFileNames(List<Map<String, String>> fileNames) {
-		this.fileNames = fileNames;
+	public void setFiles(List<Map<String, String>> files) {
+		this.files = files;
 	}
 	public String getContent() {
 		return content;

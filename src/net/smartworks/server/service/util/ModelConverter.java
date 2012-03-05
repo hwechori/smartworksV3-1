@@ -330,21 +330,23 @@ public class ModelConverter {
 			String fileGroupId = record.getDataFieldValue("2");
 			if(!CommonUtil.isEmpty(fileGroupId)) {
 				tempWorkInstanceInfo.setFileGroupId(fileGroupId);
-				List<IFileModel> fileList = getDocManager().findFileGroup(fileGroupId);
-				List<Map<String, String>> fileNameList = new ArrayList<Map<String,String>>();
-				int fileListSize = fileList.size();
-				if(fileList != null && fileListSize > 0) {
-					for(int i=0; i<fileListSize; i++) {
-						Map<String, String> fileNameMap = new LinkedHashMap<String, String>();
-						IFileModel fileModel = fileList.get(i);
+				List<IFileModel> fileModelList = getDocManager().findFileGroup(fileGroupId);
+				List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
+				int fileModelListSize = fileModelList.size();
+				if(fileList != null && fileModelListSize > 0) {
+					for(int i=0; i<fileModelListSize; i++) {
+						Map<String, String> fileMap = new LinkedHashMap<String, String>();
+						IFileModel fileModel = fileModelList.get(i);
+						String fileId = fileModel.getId();
 						String fileName = fileModel.getFileName();
-						String filePath = fileModel.getFilePath();
-						fileNameMap.put("fileName", fileName);
-						fileNameMap.put("filePath", filePath);
-						fileNameList.add(fileNameMap);
+						String fileType = fileModel.getType();
+						fileMap.put("fileId", fileId);
+						fileMap.put("fileName", fileName);
+						fileMap.put("fileType", fileType);
+						fileList.add(fileMap);
 					}
-					if(fileNameList.size() > 0)
-						tempWorkInstanceInfo.setFileNames(fileNameList);
+					if(fileList.size() > 0)
+						tempWorkInstanceInfo.setFiles(fileList);
 				}
 			}
 			tempWorkInstanceInfo.setBriefContent(StringUtil.subString(content, 0, 44, "..."));
@@ -390,21 +392,23 @@ public class ModelConverter {
 			String fileGroupId = record.getDataFieldValue("5");
 			if(!CommonUtil.isEmpty(fileGroupId)) {
 				tempWorkInstanceInfo.setFileGroupId(fileGroupId);
-				List<IFileModel> fileList = getDocManager().findFileGroup(fileGroupId);
-				List<Map<String, String>> fileNameList = new ArrayList<Map<String,String>>();
-				int fileListSize = fileList.size();
-				if(fileList != null && fileListSize > 0) {
-					for(int i=0; i<fileListSize; i++) {
-						Map<String, String> fileNameMap = new LinkedHashMap<String, String>();
-						IFileModel fileModel = fileList.get(i);
+				List<IFileModel> fileModelList = getDocManager().findFileGroup(fileGroupId);
+				List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
+				int fileModelListSize = fileModelList.size();
+				if(fileList != null && fileModelListSize > 0) {
+					for(int i=0; i<fileModelListSize; i++) {
+						Map<String, String> fileMap = new LinkedHashMap<String, String>();
+						IFileModel fileModel = fileModelList.get(i);
+						String fileId = fileModel.getId();
 						String fileName = fileModel.getFileName();
-						String filePath = fileModel.getFilePath();
-						fileNameMap.put("fileName", fileName);
-						fileNameMap.put("filePath", filePath);
-						fileNameList.add(fileNameMap);
+						String fileType = fileModel.getType();
+						fileMap.put("fileId", fileId);
+						fileMap.put("fileName", fileName);
+						fileMap.put("fileType", fileType);
+						fileList.add(fileMap);
 					}
-					if(fileNameList.size() > 0)
-						tempWorkInstanceInfo.setFileNames(fileNameList);
+					if(fileList.size() > 0)
+						tempWorkInstanceInfo.setFiles(fileList);
 				}
 			}
 			String content = record.getDataFieldValue("4");
