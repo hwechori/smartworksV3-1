@@ -272,13 +272,6 @@ li.fvrt_item:hover .checkOption {display:block}
 .icon_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
 .icon_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
 
-/* CommentBox */
-li.sub_instance_list .commentBox {display:none}
-li.sub_instance_list:hover .commentBox {display:block}
-
-.icon_fvrt {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
-.icon_fvrt.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
-
 .arr_off {background: url("../images/arr_off.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 
@@ -349,7 +342,7 @@ li.sub_instance_list:hover .commentBox {display:block}
 
 /* UpLoad Search */
 .start_worksinput {position:relative; height:21px;}
-.start_worksinput .input_size {width:447px; padding: 2px 0 1px; position:absolute;}
+.start_worksinput .input_size {width:447px; padding: 2px 0 1px}
 .start_worksinput .srch input {width:422px; color:#999897;}
 .start_worksinput .srch {background: none repeat scroll 0 0 #FFF; border: 1px solid #c7c7c7; height: 16px;}
 .start_worksinput .srch .srch_icon_w {background-color:#FFFFFF; background:url("../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
@@ -391,9 +384,7 @@ li.sub_instance_list:hover .commentBox {display:block}
 /* Table Format */
 .up {border:1px solid #c7c7c7; padding:3px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
-.up_padding {padding:0; position:relative;}
-.up_width {width:450px;}
-.border_none {border:none;}
+.up_padding {padding:0; position:relative; width:743px}
 
 .up_form {position:absolute;}
 .up_point {background: url("../images/up_point.gif") no-repeat left top; width:11px; height:7px;}
@@ -401,6 +392,7 @@ li.sub_instance_list:hover .commentBox {display:block}
 .up_textarea {height:30px; width: 100%; vertical-align:top; border: 1px solid #c7c7c7;} /* 라인 포함된 textarea h50 */
 .input_1line_first { height:21px; padding-bottom: 5px; position:relative;} /* 한줄라인 input정보- 맨위줄*/
 .input_1line {overflow:hidden; width:100%; position:relative; margin:8px 0;} /* 한줄라인 input정보 */
+.border_none {border:none}
 
 .btn_posi {right:0; top:0; position:absolute;}
 .btn_ico {float:right; margin:0 0 2px 8px; height: 18px;}
@@ -422,7 +414,7 @@ li.sub_instance_list:hover .commentBox {display:block}
 .srch_list li, .srch_list_nowid li {position:relative; color:#454545;}
 .srch_list li a, .srch_list_nowid li a {padding:4px 8px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%; color:#454545;}
 /*.srch_list li a:hover {display:block; background-color:#fffccd; color:#454545;}*/
-.srch_list li.sw_hover, .srch_list_nowid li a:hover {display:block; background-color:#fffccd; color:#454545;}
+.srch_list li.sw_hover, .srch_list_nowid li a:hover {display:block; background-color:#ffeed9; color:#454545;}
 .srch_list .nav_subtitl_area {display: inline; float: left; position: relative; width: 410px;}
 .srch_list_nowid {z-index:100; position:absolute; margin-top: 1px; -webkit-box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;} /* */
 
@@ -648,8 +640,6 @@ td.pic{width:85px}
 .icon_file.xls { background-position:-83px -177px}
 .icon_file.ppt { background-position: -291px -281px}
 
-.icon_new {background: url("../images/icon_new.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px;}
-
 /* Button */
 .btn {background-color:#666666; float:right; height:22px; position:absolute;}
 .Btn01Start {background: url("../images/btn_bg_left.jpg") repeat scroll 0 0 transparent;
@@ -731,7 +721,6 @@ td.form_col .btn_im_x {display:none;}
 .arr {font-size:10px; margin-right:2px;}
 .t_location {font-size:11px; color:#999897; position:relative; top:24px; margin-left:10px}
 .bul_dot {background: url("../images/dot_a.gif") no-repeat scroll left 9px transparent; font-size: 12px; font-weight: bold; padding: 0 0 5px 10px; vertical-align: top;}
-.t_sub_count {font-size:9px; color:#fc0c0c;}
 
 /* Line Style */
 .solid_line { border-top:2px solid #999999; width:100%}

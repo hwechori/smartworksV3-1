@@ -30,13 +30,13 @@
 		</div>
 
 		<!-- 업무트리 팝업을 위한 버튼 -->
-		<div class="btn_gray btn_right" id="all_work_btn">
+		<%-- <div class="btn_gray btn_right" id="all_work_btn">
 			<a href="" class="js_pop_all_works"> 
 				<span class="Btn01Start"></span> 
 				<span class="Btn01Center"><fmt:message key="common.upload.button.all_works" /> </span> 
 				<span class="Btn01End"></span>
 			</a>
-		</div>
+		</div> --%>
 
 		<!-- 업무트리가 나타나는 곳 -->
 		<span class="js_all_work_popup"></span>
