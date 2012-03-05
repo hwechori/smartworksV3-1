@@ -74,15 +74,25 @@ $(function() {
 			workId = newMemo.attr('workId');
 			target = newMemo.find('.js_upload_buttons');
 		}else if(!isEmpty(newPicture)){
+			newPicture.find('tr').show();
 			workId = newPicture.attr('workId');
 			target = newPicture.find('.js_upload_buttons');
 		}else if(!isEmpty(newFile)){
+			newFile.find('td[fieldId="txtFileField"] .form_label').show();
+			newFile.find('tr').show();
+			newFile.find('.js_file_detail_form').show();
 			workId = newFile.attr('workId');
 			target = newFile.find('.js_upload_buttons');
 		}else if(!isEmpty(newEvent)){
+			newEvent.find('td[fieldId="txtEventName"] .form_label').show();
+			newEvent.find('td[fieldId="txtEventName"] .form_value input').addClass('fieldline');
+			newEvent.find('tr').show();
 			workId = newEvent.attr('workId');
 			target = newEvent.find('.js_upload_buttons');
 		}else if(!isEmpty(newBoard)){
+			newBoard.find('td[fieldId="txtBoardName"] .form_label').show();
+			newBoard.find('td[fieldId="txtBoardName"] .form_value input').addClass('fieldline');
+			newBoard.find('tr').show();
 			workId = newBoard.attr('workId');
 			target = newBoard.find('.js_upload_buttons');
 		}else if(!isEmpty(newIWork)){

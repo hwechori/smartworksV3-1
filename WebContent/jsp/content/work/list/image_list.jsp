@@ -40,9 +40,11 @@
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
 			<!-- 타이틀 -->
-			<div class="body_titl" style="overflow:inherit">
-				<div class="title myspace_h"><%=workSpace.getName() %>
-					<span class="bul_space"><fmt:message key="space.title.pictures"/></span>
+			<div class="body_titl">
+				<div class="body_titl_iworks title">
+					<div class="title myspace_h"><%=workSpace.getName() %>
+						<span class="bul_space"><fmt:message key="space.title.pictures"/></span>
+					</div>
 				</div>
                    
       			<!-- 필터 -->

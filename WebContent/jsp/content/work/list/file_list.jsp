@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.WorkSpace"%>
 <%@page import="net.smartworks.model.filter.info.SearchFilterInfo"%>
 <%@page import="net.smartworks.model.work.ProcessWork"%>
 <%@page import="net.smartworks.model.work.FormField"%>
@@ -134,6 +135,8 @@
 	session.setAttribute("wid", wid);
 	
 	User cUser = SmartUtil.getCurrentUser();
+	WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
+	String workSpaceName = (SmartUtil.isBlankObject(wid)) ? cUser.getCompany() : workSpace.getName(); 
 
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -147,20 +150,25 @@
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
 
-			<!-- 목록보기 -->
-			<div class=" contents_space">
-				<div>
-<%--  					<jsp:include page="/jsp/content/work/report/work_report.jsp"/>
- --%>				</div>
+			<!-- 타이틀 -->
+			<div class="body_titl">
+				<div class="body_titl_iworks title">
+					<div class="title myspace_h"><%=workSpaceName %>
+						<span class="bul_space"><fmt:message key="space.title.files"/></span>
+					</div>
+				</div>
+				<!-- 우측 버튼 -->
+				<div class="txt_btn">
+				</div>
+				<div class="solid_line"></div>
+			</div>
+			<!-- 타이틀 -->
 
+			<!-- 목록보기 -->
+			<div class=" contents_space">            
 				<!-- 목록보기 타이틀-->
 				<div class="list_title_space js_work_list_title margin_t15">
 					<div class="title"><fmt:message key="common.title.instance_list" /></div>
-					<div class="titleLineBtns">
-						<div class="btnIconsEdit">
-							<a href="search_filter.sw?workId=" class="js_edit_search_filter btnIconsTail"><fmt:message key='filter.button.edit_search_filter' /></a>
-						</div>
-					</div>
 					
 					<div class="titleLineOptions">
 						<form name="frmSearchInstance" class="po_left">
@@ -171,51 +179,59 @@
 							</div>
 						</form>
 
-						<form class="form_space po_left js_form_filter_name" name="frmPworkFilterName">
-							<select name="selFilterName" class="js_select_filter" href="search_filter.sw?workId=">
-								<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" selected>
-									<fmt:message key='filter.name.all_instances' />
-								</option>
-								<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>">
-									<fmt:message key='filter.name.my_instances' />
-								</option>
-								<option value="<%=SearchFilter.FILTER_RECENT_INSTANCES%>">
-									<fmt:message key='filter.name.recent_instances' />
-								</option>
-								<option value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES%>">
-									<fmt:message key='filter.name.my_recent_instances' />
-								</option>
-								<option value="<%=SearchFilter.FILTER_MY_RUNNING_INSTANCES%>">
-									<fmt:message key='filter.name.my_running_instances' />
-								</option>
-<%-- 								<%
-								SearchFilterInfo[] filters = work.getSearchFilters();
-								if (filters != null) {
-									for (SearchFilterInfo filter : filters) {
-								%>
-										<option value="<%=filter.getId()%>"><%=filter.getName()%></option>
-								<%
-									}
-								}
-								%>
- --%>							</select>
-						</form>
 					</div>
 				</div>
 				<!-- 목록보기 타이틀-->
-				
-				<!-- 상세필터 및 새업무등록하기 화면 -->
-				<div id="search_filter" class="filter_section js_new_work_form"></div>
-				<!-- 상세필터 -->
-
+					
 				<!-- 목록 테이블 -->
  				<div class="list_contents">
-					<div id='work_instance_list_page'>
- 						<jsp:include page="/jsp/content/work/list/file_instance_list.jsp"/>
+					<!-- Left -->
+					<div class="left30 ">
+						<table style="min-width:inherit">
+							<tbody>
+								<tr class="tit_bg">
+									<th class="" style="height:1px; padding:0; border-bottom:0"></th>
+								</tr>
+								<tr>
+									<td class="">
+										<div class="margin_t5">
+											<!-- 필 터 -->
+											<div class="float_left">
+											  <select name="">
+											    <option><fmt:message key="space.title.by_category"/></option>
+											    <option><fmt:message key="space.title.by_year"/></option>
+											    <option><fmt:message key="space.title.by_workspace"/></option>
+											    <option><fmt:message key="space.title.by_work"/></option>
+											    <option><fmt:message key="space.title.by_owner"/></option>
+											    <option><fmt:message key="space.title.by_filetype"/></option>
+											  </select>
+											</div>
+											<!-- 필 터 //-->
+											<!-- 우측 구분 -->
+											<div class="categ_link m0p0">검색공간</div>
+											<!-- 우측 구분 //-->
+											<!-- 카테고리 -->
+											<div class="pop_list_area ">
+												<ul>
+													<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span>대표이사</span> </a> </span></li>
+												</ul>
+											</div>
+											<!-- 카테고리 //-->
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
+					<!-- Left//-->
+              <!-- Right -->
+              <div class="right70">
+						<div id='work_instance_list_page'>
+	 						<jsp:include page="/jsp/content/work/list/file_instance_list.jsp"/>
+						</div>
 				</div>
-				<!-- 목록 테이블 //-->
-
+					</div>
+					<!-- 목록 테이블 //-->
 				<!-- 목록보기 -->
 			</div>
 		</ul>

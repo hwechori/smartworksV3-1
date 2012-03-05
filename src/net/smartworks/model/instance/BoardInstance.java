@@ -6,6 +6,7 @@ import java.util.Map;
 import net.smartworks.model.community.User;
 import net.smartworks.model.work.Work;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartUtil;
 
 public class BoardInstance extends WorkInstance {
 		
@@ -41,4 +42,9 @@ public class BoardInstance extends WorkInstance {
 			super(id, subject, work, owner, owner, lastModifiedDate);
 			super.setType(Instance.TYPE_BOARD);
 	}
+	
+	public String getFilesHtml(){
+		if(SmartUtil.isBlankObject(this.fileGroupId) || SmartUtil.isBlankObject(this.files)) return "";
+		return SmartUtil.getFilesDetailInfo(this.files);
+	}	
 }
