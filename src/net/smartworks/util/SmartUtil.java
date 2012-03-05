@@ -347,7 +347,7 @@ public class SmartUtil {
 			String fileId = file.get("fileId");
 			String fileName = file.get("fileName");
 			String fileType = file.get("fileType");
-			html = html + "<a href='download_file.sw?fileId=" + fileId + "&fileName=" + fileName + "'><div>" + i + ". <span class='icon_file_" + fileType + "'>" + fileName + "</span></div></a>";
+			html = html + "<span class='icon_file_" + (SmartUtil.isBlankObject(fileType) ? "" : fileType) + "'><a href='download_file.sw?fileId=" + fileId + "&fileName=" + fileName + "' class='qq-upload-file'><div>" + fileName + "</div></a>";
 		}
 		return html;
 	}
