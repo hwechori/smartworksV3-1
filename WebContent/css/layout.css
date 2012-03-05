@@ -106,7 +106,7 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 
 /*Search-white */
 .srch_wh {background: none repeat scroll 0 0 #FFF; border-color: #c7c7c7; border-style: solid; border-width: 1px; height:16px;}
-.srch_wh .nav_input {width:155px; background-color: #FFF; color: #999897; padding: 2px 0 0 1px;}
+.srch_wh .nav_input {width:155px; background-color: #FFF; color: #999897; padding:1px;}
 .srch_wh button, .srch_wh .srch_ico {background-color:#FFFFFF; background:url("../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
 	
@@ -155,38 +155,40 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
 .navi_list.coummi {min-height: 200px;}
 
-.ico_pworks {background: url("../images/ico_pwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.ico_cworks {background: url("../images/ico_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.ico_sworks {background: url("../images/ico_swoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.ico_gworks {background: url("../images/ico_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.ico_iworks {background: url("../images/ico_iwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.ico_pworks_off {background: url("../images/ico_pwoks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.ico_cworks_off {background: url("../images/ico_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.ico_sworks_off {background: url("../images/ico_swoks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.ico_gworks_off {background: url("../images/ico_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.ico_iworks_off {background: url("../images/ico_iwoks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_pworks {background: url("../images/icon_pworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_cworks {background: url("../images/icon_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_sworks {background: url("../images/icon_sworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_gworks {background: url("../images/icon_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_iworks {background: url("../images/icon_iworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_pworks_off {background: url("../images/icon_pworks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_cworks_off {background: url("../images/icon_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_sworks_off {background: url("../images/icon_sworks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_gworks_off {background: url("../images/icon_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_iworks_off {background: url("../images/icon_iworks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
 
-.ico_stworks {background: url("../images/ico_stwoks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; height:17px;}
+.icon_stworks {background: url("../images/icon_stworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; height:17px;}
 
-.ico_depart {background: url("../images/ico_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
-.ico_group {background: url("../images/ico_group.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
-.ico_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
-.ico_b1dep {background: url("../images/nav_img.png") no-repeat 0 -348px transparent; display: inline-block; padding:0 0 0 13px}
-.ico_b2dep {background: url("../images/nav_img.png") no-repeat 0 -364px transparent; display: inline-block; padding:0 0 0 12px}
+.icon_depart {background: url("../images/icon_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
+.icon_group {background: url("../images/icon_group.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
+.icon_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
+.icon_b1dep {background: url("../images/nav_img.png") no-repeat 0 -348px transparent; display: inline-block; padding:0 0 0 13px}
+.icon_b2dep {background: url("../images/nav_img.png") no-repeat 0 -364px transparent; display: inline-block; padding:0 0 0 12px}
+.icon_folder {background: url("../images/ico_folder.gif") no-repeat 0 3px transparent; height:14px; padding:0 0 0 20px; font-weight:bold}
+.title_folder {height:14px; font-weight:bold; margin-top:3px}
 
 /* Nav MySpace */
-.ico_mywork {background: url("../images/body_icon.png") no-repeat -550px -348px; padding:0 7px 0 0; float: left; width:18px; height:15px}
-.ico_mypicture {background: url("../images/body_icon.png") no-repeat -550px -374px; padding:0 7px 0 0; float: left; width:18px; height:15px}
-.ico_myfile {background: url("../images/body_icon.png") no-repeat -550px -400px; padding:0 7px 0 0; float: left; width:18px; height:15px}
-.ico_myevent {background: url("../images/body_icon.png") no-repeat -550px -422px; padding:0 7px 0 0; float: left; width:18px; height:19px}
-.ico_mymemo {background: url("../images/body_icon.png") no-repeat -550px -451px; padding:0 7px 0 0; float: left; width:18px; height:15px}
+.icon_all_works {background: url("../images/body_icon.png") no-repeat -550px -453px; padding:0 7px 0 0; float: left; width:18px; height:15px}
+.icon_image_works {background: url("../images/body_icon.png") no-repeat -550px -479px; padding:0 7px 0 0; float: left; width:18px; height:15px}
+.icon_file_works {background: url("../images/body_icon.png") no-repeat -550px -505px; padding:0 7px 0 0; float: left; width:18px; height:15px}
+.icon_event_works {background: url("../images/body_icon.png") no-repeat -550px -527px; padding:0 7px 0 0; float: left; width:18px; height:19px}
+.icon_memo_works {background: url("../images/body_icon.png") no-repeat -550px -556px; padding:0 7px 0 0; float: left; width:18px; height:15px}
 
 /* Nav Mail Btn*/
-.ico_mail_inbox {background: url("../images/nav_img.png") no-repeat 0 0 transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
-.ico_mail_sent {background: url("../images/nav_img.png") no-repeat 0 -24px transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
-.ico_mail_drafts {background: url("../images/nav_img.png") no-repeat 0 -46px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
-.ico_mail_junk {background: url("../images/nav_img.png") no-repeat 0 -69px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
-.ico_mail_trash {background: url("../images/nav_img.png") no-repeat 0 -93px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
+.icon_mail_inbox {background: url("../images/nav_img.png") no-repeat 0 0 transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
+.icon_mail_sent {background: url("../images/nav_img.png") no-repeat 0 -24px transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
+.icon_mail_drafts {background: url("../images/nav_img.png") no-repeat 0 -46px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
+.icon_mail_junk {background: url("../images/nav_img.png") no-repeat 0 -69px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
+.icon_mail_trash {background: url("../images/nav_img.png") no-repeat 0 -93px transparent; height:20px; padding:0 0 0 25px; display: inline-block;}
 
 a .btn_unread_mail {background: url("../images/nav_img.png") no-repeat 0 -125px transparent; height:20px; width:20px; display: inline-block; float:right;}
 a .btn_unread_mail:hover,
@@ -248,32 +250,39 @@ a .btn_apps:hover,
 .btn_remove_work_ca:hover, .btn_remove_work_de:hover {background: url("../images/nav_img.png") no-repeat -46px -417px transparent; height:15px;  width:12px; display: inline-block}
 
 /* Icon Builder*/
-.ico_down {background: url("../images/body_icon.png") no-repeat 0 -548px; width:13px; height:13px; display: inline-block}
-a.ico_down:hover {background: url("../images/body_icon.png") no-repeat 0 -571px; width:13px; height:13px; display: inline-block}
-.ico_up {background: url("../images/body_icon.png") no-repeat -14px -548px; width:13px; height:13px; display: inline-block}
-a.ico_up:hover {background: url("../images/body_icon.png") no-repeat -14px -571px; width:13px; height:13px; display: inline-block}
-.ico_hide {background: url("../images/body_icon.png") no-repeat -28px -548px; width:13px; height:13px; display: inline-block}
-a.ico_hide:hover {background: url("../images/body_icon.png") no-repeat -28px -571px; width:13px; height:13px; display: inline-block}
-.ico_show {background: url("../images/body_icon.png") no-repeat -42px -548px; width:13px; height:13px; display: inline-block}
-a.ico_show:hover {background: url("../images/body_icon.png") no-repeat -42px -571px; width:13px; height:13px; display: inline-block}
+.icon_down {background: url("../images/body_icon.png") no-repeat 0 -548px; width:13px; height:13px; display: inline-block}
+a.icon_down:hover {background: url("../images/body_icon.png") no-repeat 0 -571px; width:13px; height:13px; display: inline-block}
+.icon_up {background: url("../images/body_icon.png") no-repeat -14px -548px; width:13px; height:13px; display: inline-block}
+a.icon_up:hover {background: url("../images/body_icon.png") no-repeat -14px -571px; width:13px; height:13px; display: inline-block}
+.icon_hide {background: url("../images/body_icon.png") no-repeat -28px -548px; width:13px; height:13px; display: inline-block}
+a.icon_hide:hover {background: url("../images/body_icon.png") no-repeat -28px -571px; width:13px; height:13px; display: inline-block}
+.icon_show {background: url("../images/body_icon.png") no-repeat -42px -548px; width:13px; height:13px; display: inline-block}
+a.icon_show:hover {background: url("../images/body_icon.png") no-repeat -42px -571px; width:13px; height:13px; display: inline-block}
 
 /* CheckOption Nav */
 li.fvrt_item .checkOption {display:none; position:absolute; margin-top:-21px; margin-left:195px}
 li.fvrt_item:hover .checkOption {display:block}
-.ico_fvrt {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
-.ico_fvrt.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
+.icon_fvrt {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
+.icon_fvrt.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
 
 /* KeyOption Setting */
 .list_action_item .keyOption {display:none;}
 .list_action_item:hover .keyOption {display:block}
 .list_action_item .keyOption.checked {display:block}
-.ico_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
-.ico_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
+.icon_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
+.icon_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
+
+/* CommentBox */
+li.sub_instance_list .commentBox {display:none}
+li.sub_instance_list:hover .commentBox {display:block}
+
+.icon_fvrt {background: url("../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
+.icon_fvrt.checked {background: url("../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
 
 .arr_off {background: url("../images/arr_off.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 
-.ico_chatpe {padding:10px 2px 2px 0;}
+.icon_chatpe {padding:10px 2px 2px 0;}
 .nav_subtitl_area {display: inline;}
 
 
@@ -343,7 +352,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .start_worksinput .input_size {width:447px; padding: 2px 0 1px; position:absolute;}
 .start_worksinput .srch input {width:422px; color:#999897;}
 .start_worksinput .srch {background: none repeat scroll 0 0 #FFF; border: 1px solid #c7c7c7; height: 16px;}
-.start_worksinput .srch .srch_ico_w {background-color:#FFFFFF; background:url("../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
+.start_worksinput .srch .srch_icon_w {background-color:#FFFFFF; background:url("../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
 	width:13px; right:2px; padding:0; position:relative; float: right; top:1px;}
 
 
@@ -384,6 +393,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
 .up_padding {padding:0; position:relative;}
 .up_width {width:450px;}
+.border_none {border:none;}
 
 .up_form {position:absolute;}
 .up_point {background: url("../images/up_point.gif") no-repeat left top; width:11px; height:7px;}
@@ -461,7 +471,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .form_pop {margin-bottom:5px; border:1px solid #c7c7c7; padding:5px 5px 0; background-color:#f8f8f8;} /* 폼 안에서 팝업 - 반복 이벤트 설정 */
 
 .form_space {padding-right:3px;}
-.ico_space { padding-right:26px; position:relative;}
+.icon_space { padding-right:26px; position:relative;}
 .btn_space { padding-right:72px; position:relative;}
 .space_data {text-align:center; margin-right:5px; width:70px;}
 .nomal {padding: 0 0 0 14px;}
@@ -470,17 +480,12 @@ li.fvrt_item:hover .checkOption {display:block}
 /*.js_form_by_report_type span{margin-left:20px}
 .js_form_by_report_type span select{margin-left:5px}*/
 
-.ico_posi {position:absolute; right:0; top:0;} /* Icon Position Right */
+.icon_posi {position:absolute; right:0; top:0;} /* Icon Position Right */
 
 .glo_btn_space {background-color:#FFF; padding:8px 0; margin:0 10px; border-top: 1px solid #c7c7c7; overflow: hidden}
 .glo_btn_space .btn_finish {float:right; padding-right:10px;}
 
-.posit_works {left:15px; top:1px; position:relative; z-index:20;}
-.posit_pic {left:95px; top:1px; position:relative; z-index:20;}
-.posit_file {left:165px; top:1px; position:relative; z-index:20;}
-.posit_event {left:228px; top:1px; position:relative; z-index:20;}
-.posit_memo {left:302px; top:1px; position:relative; z-index:20;}
-.posit_board {left:369px; top:1px; position:relative; z-index:20;}
+.posit_works {left:40px; top:1px; position:relative; z-index:20;}
 
 .essen {border-left:2px solid #ef972b; border-top:1px solid #c7c7c7; border-right:1px solid #c7c7c7; border-bottom:1px solid #c7c7c7;}
 .essen_r {border-right:2px solid #ef972b; margin-right: 5px;}
@@ -585,9 +590,10 @@ li.fvrt_item:hover .checkOption {display:block}
 .noti_in { margin-left:35px; line-height: 16px;}
 .noti_in_s { margin-left:25px; line-height: 16px;}
 .noti_in_m {word-wrap: break-word; text-align:left; padding:2px 0 0 58px;} /* M사이즈 등록글 사용시*/
-.noti_tit {background: url("../images/ico_notice_s.gif") no-repeat scroll 8px 2px transparent;
+.noti_in_file {word-wrap: break-word; text-align:left; padding:0 0 0 44px; line-height: 16px;} /* Right Contents in Space - file */
+.noti_tit {background: url("../images/icon_notice_s.gif") no-repeat scroll 8px 2px transparent;
 		    padding:0 0 0 23px; display:block; font-weight:bold;}
-.noti_tit_snew {background: url("../images/ico_notice_s.gif") no-repeat scroll 8px 0 transparent;
+.noti_tit_snew {background: url("../images/icon_notice_s.gif") no-repeat scroll 8px 0 transparent;
 		    padding:0 0 0 23px; font-weight:bold;}
 		    
 /* Noice - 정연희 추가 작업분에 대한 style입니다 */
@@ -599,12 +605,12 @@ li.fvrt_item:hover .checkOption {display:block}
 .headlineNotice .title{display:block;font-size:13px;font-weight:bold;padding:7px 0 4px 0}
 .headlineNotice .info{display:block;font-size:11px;color:#696969}
 .headlineNotice .content{display:block;font-size:12px;border-top:1px dotted #cfcfcf;padding-top:2px;clear:right}
-.headlineNotice .ico_division_s{background-position:70px 0;padding-left:90px}
+.headlineNotice .icon_division_s{background-position:70px 0;padding-left:90px}
 .recentNotice td{border-bottom:1px dotted #DCDFE0}
 .recentNotice .title{background: url("../images/dotRed.gif") 1px 9px no-repeat;padding-left:10px}
 .recentNotice .title,.recentNotice .index{vertical-align:top}
 .recentNotice .title a{font-size:13px;font-weight:bold}
-.recentNotice .ico_division_s{background-position:0 3px;}
+.recentNotice .icon_division_s{background-position:0 3px;}
 .recentNotice .date{font-weight:normal;text-align:right;white-space:nowrap}
 .recentNotice .title img,.headlineNotice .index img{margin:0 3px 0 0}
 .headlineNotice .index{font-size:11px;color:#666;overflow:hidden}
@@ -634,8 +640,15 @@ li.fvrt_item:hover .checkOption {display:block}
 #work_ing .titl_section {height:21px; padding-top:14px;}
 td.pic{width:85px}
 
-/* Ico */
-.ico_division_s {background: url("../images/ico_division_s.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px; color:#23579e;}
+/* Icon */
+.icon_division_s {background: url("../images/icon_division_s.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px; color:#23579e;}
+.icon_attach {background: url("../images/ico_attach.gif") no-repeat scroll 0 0 transparent; width:16px; height:16px; display:inline-block; margin-left: 3px; padding: 0 5px 0 0; vertical-align: middle}
+.icon_file {background: url("../images/files_icons.jpg") no-repeat; width:34px; height:43px; display:inline-block}
+.icon_file.jpg { background-position:-135px -20px}
+.icon_file.xls { background-position:-83px -177px}
+.icon_file.ppt { background-position: -291px -281px}
+
+.icon_new {background: url("../images/icon_new.gif") no-repeat scroll 0 0 transparent; padding:0 0 0 21px;}
 
 /* Button */
 .btn {background-color:#666666; float:right; height:22px; position:absolute;}
@@ -685,12 +698,13 @@ td.pic{width:85px}
 /* close btn */
 .btn_x, .btn_im_x {background: url("../images/btn_im_x_gr.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
     padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;} 
-a .btn_x:hover, a .btn_im__x:hover {background-color:#d5d5d5;}
+a .btn_x:hover, a .btn_im_x:hover {background-color:#d5d5d5;}
+td.form_col:hover .btn_im_x{display:block;}
+td.form_col .btn_im_x {display:none;}
 
 .btn_right {left: 452px; position:relative;}
 .btn_x_gr {color:#c7c7c7; font-size:12px;}
 .btn_x_gr a:hover {background-color:#f2f2f2; text-decoration:none; font-size:12px;}
-.nav_srch .btn_im_x{top:-19px;right:8px}
     
 	
 /* 사람지정  */
@@ -705,8 +719,10 @@ a .btn_x:hover, a .btn_im__x:hover {background-color:#d5d5d5;}
 .t_up_num {color:#e54b4b; font-weight:bold;}
 .t_bold {font-weight:bold;}
 .t_gbold {color:#656565; font-weight:bold;}
+.t_gray { color:#919191; font-weight:normal}
 .t_name {color:#23579e; position: relative;}
 .t_woname {color:#23579e; font-weight:bold;}
+.t_size11 {font-size:11px}
 .t_date, .t_text_s11, .t_s11,
 .t_date a, .t_text_s11 a, .t_s11 a {font-size:11px; color:#999897 !important;}
 .t_white {font-size:12px; font-weight:normal;}
@@ -715,6 +731,7 @@ a .btn_x:hover, a .btn_im__x:hover {background-color:#d5d5d5;}
 .arr {font-size:10px; margin-right:2px;}
 .t_location {font-size:11px; color:#999897; position:relative; top:24px; margin-left:10px}
 .bul_dot {background: url("../images/dot_a.gif") no-repeat scroll left 9px transparent; font-size: 12px; font-weight: bold; padding: 0 0 5px 10px; vertical-align: top;}
+.t_sub_count {font-size:9px; color:#fc0c0c;}
 
 /* Line Style */
 .solid_line { border-top:2px solid #999999; width:100%}

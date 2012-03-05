@@ -72,7 +72,7 @@ function submitForms(e) {
 
 <div class="form_wrap up up_padding margin_b2 js_form_wrap js_plan_swork_page">
 	<div class="form_title js_form_header">
-		<div class="ico_sworks title"><%=work.getFullpathName()%></div>
+		<div class="icon_sworks title"><%=work.getFullpathName()%></div>
 		<div class="txt_btn">
 			<div class="po_right image_posi">
 				<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
@@ -88,7 +88,5 @@ function submitForms(e) {
 	<div class="js_form_content" workType="swork"></div>
 	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
 	<!-- 폼- 확장 //-->
-	<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
-		<jsp:param value="<%=workId %>" name="workId"/>
-	</jsp:include>
+	<div class="js_upload_buttons"></div>
 </div>

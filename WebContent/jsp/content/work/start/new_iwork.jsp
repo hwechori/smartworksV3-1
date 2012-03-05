@@ -109,10 +109,10 @@ function submitForms() {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="margin_b2 js_form_wrap js_new_iwork_page" workId="<%=workId%>">
+<div class="form_wrap up up_padding margin_b2 js_form_wrap js_new_iwork_page" workId="<%=workId%>">
 	<div class="form_title js_form_header">
 		<!-- 해당 업무이름을 표시하는 곳 -->
-		<div class="ico_iworks title"><%=work.getFullpathName()%></div>
+		<div class="<%=work.getIconClass() %> title"><%=work.getFullpathName()%></div>
 		
 		<!-- 전자결재, 업무전달 버튼들 -->
 		<div class="txt_btn mb2">
@@ -146,13 +146,11 @@ function submitForms() {
 	<div class="js_form_task_forward" style="display:none"></div>
 	
 	<!-- 스마트폼에서 해당 업무화면을 그려주는 곳 -->
-	<div class="js_form_content" workType="iwork"></div>
+	<div class="js_form_content js_click_start_form" workType="iwork"></div>
 	
 	<!-- 업무를 시작할 때 계획업무로 지정하는 화면 -->
 	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>
 	
 	<!-- 새업무를 시작하기위한 완료 버튼과 취소 버튼 -->
-	<jsp:include page="/jsp/content/upload/upload_buttons.jsp">
-		<jsp:param value="<%=workId %>" name="workId"/>
-	</jsp:include>
+	<div class="js_upload_buttons"></div>
 </div>

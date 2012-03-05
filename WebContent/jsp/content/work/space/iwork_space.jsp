@@ -62,11 +62,11 @@
                         <div class="noti_pic mb5 mr7"><img class="profile_size_m" src="<%=instance.getOwner().getMidPicture() %>" /></div>
                         <div class="noti_in_bodytitle mb5">
                             <span class="t_name"><%=instance.getOwner().getLongName()%></span>
-                            <%if(workSpace != null && !workSpace.getId().equals(owner.getId())){ %><span class="arr">▶</span><span class="ico_division_s"><%=workSpace.getName() %></span><%} %>
+                            <%if(workSpace != null && !workSpace.getId().equals(owner.getId())){ %><span class="arr">▶</span><span class="icon_division_s"><%=workSpace.getName() %></span><%} %>
                             <span class="t_date"><%=instance.getCreatedDate().toLocalString() %></span>
                             <div class="">
                            		<span class="title_picico float_left mr7"><%=instance.getSubject()%></span>
-                            	<span class="ico_iworks t_date"><%=work.getFullpathName() %></span> 
+                            	<span class="<%=work.getIconClass() %> t_date"><%=work.getFullpathName() %></span> 
                             </div>
                         </div>
                     </div>

@@ -17,16 +17,16 @@
 		if (works != null) {
 			for (WorkInfo work : works) {
 				if (work.getType() == SmartWork.TYPE_PROCESS) {
-					iconType = "ico_pworks";
+					iconType = "icon_pworks";
 					targetContent = "start_pwork.sw";
 				} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
-					iconType = "ico_iworks";
+					iconType = "icon_iworks";
 					targetContent = "new_iwork.sw";
 				} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
-					iconType = "ico_sworks";
+					iconType = "icon_sworks";
 					targetContent = "plan_swork.sw";
 				} else if (work.getType() == WorkCategory.TYPE_CATEGORY) {
-					iconType = "ico_gworks";
+					iconType = "icon_gworks";
 					targetContent = "pop_worklist_by_category.sw";
 				}
 				if (work.getType() != WorkCategory.TYPE_CATEGORY) {

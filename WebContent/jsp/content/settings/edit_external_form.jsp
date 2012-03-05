@@ -90,11 +90,11 @@
 		<%
 		if(SmartUtil.isBlankObject(formId)){
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.externalform.new"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.externalform.new"/></div>
 		<%
 		}else{
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.externalform.edit"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.externalform.edit"/></div>
 		<%
 		}
 		%>

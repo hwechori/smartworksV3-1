@@ -35,17 +35,17 @@
 				work = (SmartWorkInfo) workInstance.getWork();
 				switch (work.getType()) {
 				case SmartWork.TYPE_INFORMATION:
-					iconType = "ico_iworks";
+					iconType = "icon_iworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + workInstance.getId();
 					targetContent = "iwork_space.sw";
 					break;
 				case SmartWork.TYPE_PROCESS:
-					iconType = "ico_pworks";
+					iconType = "icon_pworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + workInstance.getId();
 					targetContent = "pwork_space.sw";
 					break;
 				case SmartWork.TYPE_SCHEDULE:
-					iconType = "ico_sworks";
+					iconType = "icon_sworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
 					targetContent = "swork_space.sw";
 					break;
@@ -56,17 +56,17 @@
 				work = (SmartWorkInfo) workInstance.getWork();
 				switch (work.getType()) {
 				case SmartWork.TYPE_INFORMATION:
-					iconType = "ico_iworks";
+					iconType = "icon_iworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_TASK + instance.getId();
 					targetContent = "iwork_task.sw";
 					break;
 				case SmartWork.TYPE_PROCESS:
-					iconType = "ico_pworks";
+					iconType = "icon_pworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_TASK + instance.getId();
 					targetContent = "pwork_task.sw";
 					break;
 				case SmartWork.TYPE_SCHEDULE:
-					iconType = "ico_sworks";
+					iconType = "icon_sworks";
 					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_TASK + instance.getId();
 					targetContent = "swork_taskz.sw";
 					break;

@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
+<%@page import="net.smartworks.model.community.WorkSpace"%>
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>
 <%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
@@ -28,10 +29,10 @@
 	
 	
 	String wid = (String)session.getAttribute("wid");
-	if(SmartUtil.isBlankObject(wid)) wid = cUser.getId();
+	String spaceId = (SmartUtil.isBlankObject(wid)) ? cUser.getId() : wid;
 
 	// cid를 가지고 현재 공간과 공간의 타입을 가져온다.
-	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
+	WorkSpace workSpace = smartWorks.getWorkSpaceById(spaceId);
 	int spaceType = SmartUtil.getSpaceTypeFromContentContext(cid);
 	
 	// 호출하면서 설정된 Work ID와 Instance ID 를 가져온다..
@@ -82,12 +83,20 @@
 		
 			<!--  현재사용자가 선택할 수 있는 업무공간들을 구성한다.. -->
 			<%
-			if((spaceType == ISmartWorks.SPACE_TYPE_DEPARTMENT)
-				|| (spaceType == ISmartWorks.SPACE_TYPE_GROUP)
-				|| (spaceType == ISmartWorks.SPACE_TYPE_USER)){
+			if(workSpace.getClass().equals(Department.class)){
 			%>
 				<input name="selWorkSpace" type="hidden" value="<%=spaceId%>">
-				<input name="selWorkSpaceType" type="hidden" value="<%=spaceType %>">
+				<input name="selWorkSpaceType" type="hidden" value="<%=ISmartWorks.SPACE_TYPE_DEPARTMENT %>">
+			<%
+			}else if(workSpace.getClass().equals(Group.class)){
+			%>
+				<input name="selWorkSpace" type="hidden" value="<%=spaceId%>">
+				<input name="selWorkSpaceType" type="hidden" value="<%=ISmartWorks.SPACE_TYPE_GROUP %>">
+			<%
+			}else if(workSpace.getClass().equals(User.class) && !workSpace.getId().equals(cUser.getId())){
+			%>
+				<input name="selWorkSpace" type="hidden" value="<%=spaceId%>">
+				<input name="selWorkSpaceType" type="hidden" value="<%=ISmartWorks.SPACE_TYPE_USER %>">
 			<%
 			}else if(spaceType == ISmartWorks.SPACE_TYPE_WORK_INSTANCE){
 			%>
@@ -96,9 +105,15 @@
 			<%
 			}else{
 			%>
-				<input name="selWorkSpaceType" type="hidden" value="<%=ISmartWorks.SPACE_TYPE_USER %>">
+				<input name="selWorkSpaceType" type="hidden" <%if(workId.equals(SmartWork.ID_BOARD_MANAGEMENT)){ %>value="<%=ISmartWorks.SPACE_TYPE_DEPARTMENT%>" <%}else{ %>value="<%=ISmartWorks.SPACE_TYPE_USER %>"<%} %>>
 				<select name="selWorkSpace" class="js_select_work_space">
-					<option  selected value="<%=cUser.getId()%>" workSpaceType="<%=ISmartWorks.SPACE_TYPE_USER%>"><fmt:message key="common.upload.space.self" /></option>
+					<%
+					if(!workId.equals(SmartWork.ID_BOARD_MANAGEMENT)){ 
+					%>
+						<option  selected value="<%=cUser.getId()%>" workSpaceType="<%=ISmartWorks.SPACE_TYPE_USER%>"><fmt:message key="common.upload.space.self" /></option>
+					<%
+					}
+					%>
 					<optgroup label="<fmt:message key="common.upload.space.department"/>">
 						<%
 						// 현재사용자가 속해있는 부서들을 선택하는 옵션들을 구성한다..
@@ -161,7 +176,7 @@
 		<div class="float_right form_space js_access_level_custom" <%if(work.getAccessPolicy().getLevel() != AccessPolicy.LEVEL_CUSTOM){ %> style="display:none"<%} %>>
 			<span class="js_type_userField" fieldId="txtAccessableUsers" multiUsers="true">
 				<div class="form_value">
-					<div class="ico_fb_space">
+					<div class="icon_fb_space">
 						<div class="fieldline js_community_names sw_required">
 							<div class="js_selected_communities user_sel_area">
 								<%
@@ -187,7 +202,7 @@
 							<div class="js_srch_x"></div>
 						</div>
 						<div class="js_community_list commu_list" style="display: none"></div>
-						<span class="js_community_popup"></span><a href="" class="js_userpicker_button"><span class="ico_fb_users"></span></a>
+						<span class="js_community_popup"></span><a href="" class="js_userpicker_button"><span class="icon_fb_users"></span></a>
 					</div>
 				</div>
 			</span>

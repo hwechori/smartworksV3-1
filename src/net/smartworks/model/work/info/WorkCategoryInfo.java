@@ -6,7 +6,7 @@ import net.smartworks.util.SmartUtil;
 public class WorkCategoryInfo extends WorkInfo {
 
 	private WorkCategoryInfo parent;
-	private boolean running;
+	private boolean isRunning;
 	
 	public WorkCategoryInfo getParent() {
 		return parent;
@@ -15,11 +15,12 @@ public class WorkCategoryInfo extends WorkInfo {
 		this.parent = parent;
 	}
 	public boolean isRunning() {
-		return running;
+		return isRunning;
 	}
-	public void setRunning(boolean running) {
-		this.running = running;
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
 	}
+		
 	public WorkCategoryInfo(){
 		super();
 		super.setType(WorkCategory.TYPE_CATEGORY);

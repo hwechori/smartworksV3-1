@@ -27,9 +27,9 @@
 				if (community.getClass().equals(UserInfo.class)) {
 					UserInfo user = (UserInfo)community;
 					if(user.getRole() == User.USER_ROLE_LEADER){
-						iconType = "ico_user_leader";
+						iconType = "icon_user_leader";
 					} else if(user.getRole() == User.USER_ROLE_MEMBER){
-						iconType = "ico_user_member";
+						iconType = "icon_user_member";
 					}
 		%>
 					<li>
@@ -43,7 +43,7 @@
 				<%
 				} else if (community.getClass().equals(DepartmentInfo.class)) {
 					DepartmentInfo department = (DepartmentInfo)community;
-					iconType = "ico_depart";
+					iconType = "icon_depart";
 				%>
 					<li class="js_drill_down">
 						<span class="dep">

@@ -41,10 +41,10 @@
 					<div class="noti_in_bodytitle">
 						<span class="t_name"><%=instance.getOwner().getLongName()%></span>
 						<span class="t_date"><%=instance.getCreatedDate().toLocalString()%></span>
-						<%--                             <div class=""><span class="ico_iworks t_date"><%=work.getFullpathName() %></span> <span class="title_picico"><%=instance.getSubject()%></span></div>
+						<%--                             <div class=""><span class="icon_iworks t_date"><%=work.getFullpathName() %></span> <span class="title_picico"><%=instance.getSubject()%></span></div>
  --%>
 						<div class="">
-							<span class="ico_iworks t_date">받은 편지함</span> <span
+							<span class="icon_iworks t_date">받은 편지함</span> <span
 								class="title_picico"><%=instance.getSubject()%></span>
 						</div>
 					</div>

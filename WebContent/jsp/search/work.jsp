@@ -31,15 +31,15 @@
 		for (SmartWorkInfo work : works) {
 			String iconType = null, workContext = null, targetContent = null;
 			if (work.getType() == SmartWork.TYPE_PROCESS) {
-				iconType = "ico_pworks";
+				iconType = "icon_pworks";
 				workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_LIST + work.getId();
 				targetContent = "pwork_list.sw";
 			} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
-				iconType = "ico_iworks";
+				iconType = "icon_iworks";
 				workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_LIST + work.getId();
 				targetContent = "iwork_list.sw";
 			} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
-				iconType = "ico_sworks";
+				iconType = "icon_sworks";
 				workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_LIST + work.getId();
 				targetContent = "swork_list.sw";
 			}

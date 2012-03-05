@@ -90,13 +90,13 @@
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
-				String cid = SmartWorks.CONTEXT_PREFIX_IWORK_SPACE + instanceInfo.getId();
-				String target = "iwork_space.sw?cid=" + cid + "&workId=" + workId;
+				String target = instanceInfo.getController() + "?cid=" + instanceInfo.getContextId() + "&workId=" + workId;
 			%>
 				<tr>
 					<%
 					if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
 						NumberFormat nf = NumberFormat.getNumberInstance();
+						int count = 0;
 						for (FieldData data : fieldDatas) {
 					%>
 							<td <%if(data.getFieldType().equals(FormField.TYPE_CURRENCY) || 
@@ -111,6 +111,14 @@
 												data.getFieldType().equals(FormField.TYPE_RICHTEXT_EDITOR) ||
 												data.getFieldType().equals(FormField.TYPE_DATA_GRID)){%>
 									<%}else{%><%=CommonUtil.toNotNull(data.getValue())%><%} %>
+									<%
+									if(displayFields[count++].getId().equals(work.getKeyField())){
+									%>
+										<%if(instanceInfo.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=instanceInfo.getSubInstanceCount() %></b>]</font><%} %>
+										<%if(instanceInfo.isNew()){ %><span class="icon_new"></span><%} %>
+									<%
+									}
+									%>
 								</a>
 							</td>
 					<%

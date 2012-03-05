@@ -93,11 +93,11 @@
 		<%
 		if(SmartUtil.isBlankObject(serviceId)){
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.webservice.new"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.webservice.new"/></div>
 		<%
 		}else{
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.webservice.edit"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.webservice.edit"/></div>
 		<%
 		}
 		%>

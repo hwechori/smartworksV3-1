@@ -32,6 +32,7 @@ public class InformationWorkInstance extends WorkInstance {
 
 	public InformationWorkInstance() {
 		super();
+		super.setType(WorkInstance.TYPE_INFORMATION);
 	}
 
 	public InformationWorkInstance(String id, String subject, Work work, User owner, User lastModifier,

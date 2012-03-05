@@ -85,11 +85,11 @@
 		<%
 		if(SmartUtil.isBlankObject(policyId)){
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.company.new_work_hour"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.company.new_work_hour"/></div>
 		<%
 		}else{
 		%>
-			<div class="ico_iworks title_noico"><fmt:message key="settings.title.company.edit_work_hour"/></div>
+			<div class="icon_iworks title_noico"><fmt:message key="settings.title.company.edit_work_hour"/></div>
 		<%
 		}
 		%>
@@ -106,12 +106,12 @@
 				<tr>
 					<th><fmt:message key="settings.title.work_hour.valid_from"/></th>
 					<td>
-						<div class="ico_fb_space form_date_input">
+						<div class="icon_fb_space form_date_input">
 							<%
 							String validFrom = (workHourPolicy.getValidFrom().getTime()!=0) ? workHourPolicy.getValidFrom().toLocalDateSimpleString() : "";
 							%>
 							<input name="datValidFrom" class="fieldline js_todaypicker" readonly="readonly" type="text" value="<%=validFrom%>">
-							<a href="" class="js_todaypicker_button"><span class="ico_fb_date"></span></a>
+							<a href="" class="js_todaypicker_button"><span class="icon_fb_date"></span></a>
 						</div>					
 					</td>
 				</tr>
@@ -150,14 +150,14 @@
 						<th class="end"><%=LocalDate.getDayLocalString(i) %></th>
 						<td class="end">
 							<span class="float_left mr5"><fmt:message key="settings.title.work_hour.start"/></span>
-							<div class="ico_fb_space form_time_input float_left mr10">
+							<div class="icon_fb_space form_time_input float_left mr10">
 								<input name="timWorkStart" class="fieldline js_timepicker workStart" readonly="readonly" type="text" value="<%=LocalDate.convertTimeToString(workHour.getStart()) %>">
-								<a href="" class="js_timepicker_button"><span class="ico_fb_time"></span></a>
+								<a href="" class="js_timepicker_button"><span class="icon_fb_time"></span></a>
 							</div>
 							<span class="float_left mr5"><fmt:message key="settings.title.work_hour.end"/></span>
-							<div class="ico_fb_space form_time_input float_left mr10">
+							<div class="icon_fb_space form_time_input float_left mr10">
 								<input name="timWorkEnd" class="fieldline js_timepicker workEnd" readonly="readonly" type="text" name="" value="<%=LocalDate.convertTimeToString(workHour.getEnd()) %>">
-								<a href="" class="js_timepicker_button"><span class="ico_fb_time"></span></a>
+								<a href="" class="js_timepicker_button"><span class="icon_fb_time"></span></a>
 							</div>
 						</td>
 					</tr>

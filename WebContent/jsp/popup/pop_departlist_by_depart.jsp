@@ -20,7 +20,7 @@
 	<%
 	if (!SmartUtil.isBlankObject(departments)) {
 		for (DepartmentInfo department : departments) {
-			iconType = "ico_depart";
+			iconType = "icon_depart";
 	%>
 			<li class="js_drill_down"><a
 				href="pop_departlist_by_depart.sw" departmentId="<%=department.getId()%>"><span class="<%=iconType%>"></span>

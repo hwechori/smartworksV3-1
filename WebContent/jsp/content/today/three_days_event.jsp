@@ -152,18 +152,7 @@
 													if (((cnt == 0) && today.isSameDate(event.getStart())) || ((cnt == 1) && tomorrow.isSameDate(event.getStart()))
 															|| ((cnt == 2) && tomorrow.isAfterDate(event.getStart()))) {
 														UserInfo owner = event.getOwner();
-														String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
-														String commContext = null;
-														String targetContent = null;
-														String eventContext = ISmartWorks.CONTEXT_PREFIX_EVENT_SPACE + event.getId();
 														WorkSpaceInfo workSpace = event.getWorkSpace();
-														if (workSpace != null && workSpace.getClass() == GroupInfo.class) {
-															targetContent = "group_space.sw";
-															commContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + workSpace.getId();
-														} else if (event.getWorkSpace() != null && workSpace.getClass() == DepartmentInfo.class) {
-															targetContent = "department_space.sw";
-															commContext = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + workSpace.getId();
-														}
 														if (cnt < 2) {
 											%>
 															<li>
@@ -177,7 +166,7 @@
 														}
 																if (!owner.getId().equals(cUser.getId())) {
 																%> 
-																	<span class="t_name"><a href="user_space.sw?cid=<%=userContext%>"><%=owner.getLongName()%></a></span>
+																	<span class="t_name"><a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><%=owner.getLongName()%></a></span>
 																	<span class="arr">▶</span> 
 																<%
 						 										}
@@ -185,11 +174,13 @@
 						 										<%
 						 										if (!workSpace.getId().equals(owner.getId())) {
 						 										%> 
-						 											<span class="ico_division_s"><a href="<%=targetContent%>?cid=<%=commContext%>"><%=workSpace.getName()%></a></span> 
+						 											<span class="<%=workSpace.getIconClass()%>"><a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><%=workSpace.getName()%></a></span> 
 						 										<%
 						 										}
 						 										%>
-						 										<a href="event_space.sw?cid=<%=eventContext%>&wid=<%=workSpace.getId()%>"><%=event.getSubject()%></a>
+						 										<a href="<%=event.getController() %>?cid=<%=event.getContextId()%>&wid=<%=workSpace.getId()%>"><%=event.getSubject()%></a>
+																<%if(event.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=event.getSubInstanceCount() %></b>]</font><%} %>
+																<%if(event.isNew()){ %><span class="icon_new"></span><%} %>
 															</li>
 											<%
 													}

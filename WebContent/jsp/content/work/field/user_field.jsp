@@ -52,7 +52,7 @@
 
 <!-- 사용자를 선택하는 입력화면 -->
 <div class="js_type_userField"> 
-	<div class="ico_fb_space"> 
+	<div class="icon_fb_space"> 
 		<div class='fieldline js_community_names sw_required'>
 			<div class="js_selected_communities user_sel_area">
 				<%if (operandValue != null) {%><span>
@@ -66,7 +66,7 @@
 		</div>
 		<div class="js_community_list commu_list" style="display: none"></div>
 		<span class="js_community_popup"></span>
-		<a href="" class="js_userpicker_button"><span class="ico_fb_user"></span></a>
+		<a href="" class="js_userpicker_button"><span class="icon_fb_user"></span></a>
 	</div>
 </div>
 <%-- 

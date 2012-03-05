@@ -19,54 +19,158 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
-<div id="upload" class="js_select_action">
-	<div class="up_works up_icon_list">
-		<a class="current" href="start_work.sw"><fmt:message key='common.upload.work' /></a>
+<%
+switch(spaceType){
+case ISmartWorks.SPACE_TYPE_MEMO_LIST:
+%>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
+	<div id="upload" class="js_select_action js_select_upload_action_page">
+		<div class="up_memo up_icon_list">
+			<a class="current" href="new_memo.sw"><fmt:message key='common.upload.memo' /> </a>
+		</div>
 	</div>
-	<div class="up_pic up_icon_list">
-		<a href="new_picture.sw"><fmt:message key='common.upload.picture' /> </a>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
+	
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
+	<div class="js_upload_form" id="upload_form_box">
+		<jsp:include page="/jsp/content/work/start/new_memo.jsp" />
 	</div>
-	<div class="up_file up_icon_list">
-		<a href="new_file.sw"><fmt:message key='common.upload.file' /> </a>
-	</div>	
-	<%
-	// 실행되는 위치가 태스크 공간일 경우에는 이벤트등록하는 기능은 제외한다...
-	if(spaceType != ISmartWorks.SPACE_TYPE_WORK_INSTANCE 
-		&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE 
-		&& spaceType != ISmartWorks.SPACE_TYPE_USER) {
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
+<%
+	break;
+case ISmartWorks.SPACE_TYPE_IMAGE_LIST:
 	%>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
+	<div id="upload" class="js_select_action js_select_upload_action_page">
+		<div class="up_pic up_icon_list">
+			<a class="current" href="new_picture.sw"><fmt:message key='common.upload.picture' /> </a>
+		</div>
+	</div>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
+	
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
+	<div class="js_upload_form" id="upload_form_box">
+		<jsp:include page="/jsp/content/work/start/new_picture.jsp" />
+	</div>
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
+<%
+	break;
+case ISmartWorks.SPACE_TYPE_FILE_LIST:
+	%>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
+	<div id="upload" class="js_select_action js_select_upload_action_page">
+		<div class="up_file up_icon_list">
+			<a class="current" href="new_file.sw"><fmt:message key='common.upload.file' /> </a>
+		</div>	
+	</div>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
+	
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
+	<div class="js_upload_form" id="upload_form_box">
+		<jsp:include page="/jsp/content/work/start/new_file.jsp" />
+	</div>
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
+<%
+	break;
+case ISmartWorks.SPACE_TYPE_EVENT_LIST:
+	%>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
+	<div id="upload" class="js_select_action js_select_upload_action_page">
 		<div class="up_event up_icon_list">
-			<a href="new_event.sw"><fmt:message key='common.upload.event' /></a>
+			<a class="current" href="new_event.sw"><fmt:message key='common.upload.event' /></a>
 		</div>
-	<%
-	} 
-	%>
-	<div class="up_memo up_icon_list">
-		<a href="new_memo.sw"><fmt:message key='common.upload.memo' /> </a>
 	</div>
-	<% 
-	// 실행되는 위치가 태스크 공간일 경우에는 공지등록하는 기능을 제외한다....
-	if(spaceType != ISmartWorks.SPACE_TYPE_WORK_INSTANCE 
-		&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE 
-		&& spaceType != ISmartWorks.SPACE_TYPE_USER) {
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
+	
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
+	<div class="js_upload_form" id="upload_form_box">
+		<jsp:include page="/jsp/content/work/start/new_event.jsp" />
+	</div>
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
+<%
+	break;
+case ISmartWorks.SPACE_TYPE_BOARD_LIST:
 	%>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
+	<div id="upload" class="js_select_action js_select_upload_action_page">
 		<div class="up_board up_icon_list">
-			<a href="new_board.sw"><fmt:message key='common.upload.board' /></a>
+			<a class="current" href="new_board.sw"><fmt:message key='common.upload.board' /></a>
 		</div>
-	<%
-	} 
+	</div>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
+	
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
+	<div class="js_upload_form" id="upload_form_box">
+		<jsp:include page="/jsp/content/work/start/new_board.jsp" />
+	</div>
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
+<%
+	break;
+case ISmartWorks.SPACE_TYPE_AWORK_LIST:
 	%>
-</div>
-<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
-
-<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-<div class="up_wrap">
-	<div class="up_point posit_works js_up_pointer"></div>
-	<div class="js_start_work_form">
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
+	<div id="upload" class="js_select_action js_select_upload_action_page">
+		<div class="up_works up_icon_list">
+			<a class="current" href="start_work.sw"><fmt:message key='common.upload.work' /></a>
+		</div>
+	</div>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
+	
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
+	<div class="js_upload_form" id="upload_form_box">
 		<jsp:include page="/jsp/content/upload/start_work.jsp" />
 	</div>
-	<div class="form_wrap up up_padding js_upload_form" style="display:none">
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
+<%
+	break;
+default:
+%>
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들  -->
+	<div id="upload" class="js_select_action js_select_upload_action_page">
+		<div class="up_memo up_icon_list">
+			<a class="current" href="new_memo.sw"><fmt:message key='common.upload.memo' /> </a>
+		</div>
+		<div class="up_pic up_icon_list">
+			<a href="new_picture.sw"><fmt:message key='common.upload.picture' /> </a>
+		</div>
+		<div class="up_file up_icon_list">
+			<a href="new_file.sw"><fmt:message key='common.upload.file' /> </a>
+		</div>	
+		<%
+		// 실행되는 위치가 태스크 공간일 경우에는 이벤트등록하는 기능은 제외한다...
+		if(spaceType != ISmartWorks.SPACE_TYPE_WORK_INSTANCE 
+			&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE 
+			&& spaceType != ISmartWorks.SPACE_TYPE_USER) {
+		%>
+			<div class="up_event up_icon_list">
+				<a href="new_event.sw"><fmt:message key='common.upload.event' /></a>
+			</div>
+		<%
+		} 
+		%>
+		<% 
+		// 실행되는 위치가 태스크 공간일 경우에는 공지등록하는 기능을 제외한다....
+		if(spaceType != ISmartWorks.SPACE_TYPE_WORK_INSTANCE 
+			&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE 
+			&& spaceType != ISmartWorks.SPACE_TYPE_USER) {
+		%>
+			<div class="up_board up_icon_list">
+				<a href="new_board.sw"><fmt:message key='common.upload.board' /></a>
+			</div>
+		<%
+		} 
+		%>
+		<div class="up_works up_icon_list">
+			<a href="start_work.sw"><fmt:message key='common.upload.work' /></a>
+		</div>
 	</div>
-</div>
-<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
+	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
+	
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
+	<div class="js_upload_form" id="upload_form_box">
+		<jsp:include page="/jsp/content/work/start/new_memo.jsp" />
+	</div>
+	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
+<%
+}
+%>	

@@ -1672,7 +1672,7 @@ public class ModelConverter {
 			processWork = new ProcessWork();
 		
 		getSmartWorkByPkgPackage(userId, processWork, pkg);
-		
+		processWork.setType(SmartWork.TYPE_PROCESS);
 		processWork.setHelpUrl("HELP URL");
 		processWork.setManualFileName("MANUAL FILE NAME");
 		processWork.setManualFilePath("MANUAL FILE PATH");
@@ -2206,7 +2206,7 @@ public class ModelConverter {
 			informationWork = new InformationWork();
 		
 		getSmartWorkByPkgPackage(userId, informationWork, pkg);
-		
+		informationWork.setType(SmartWork.TYPE_INFORMATION);
 		informationWork.setHelpUrl("HELP URL");
 		informationWork.setManualFileName("MANUAL FILE NAME");
 		informationWork.setManualFilePath("MANUAL FILE PATH");

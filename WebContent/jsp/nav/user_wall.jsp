@@ -4,6 +4,8 @@
 <!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
+<%@page import="net.smartworks.model.work.Work"%>
+<%@page import="net.smartworks.model.work.SmartWork"%>
 <%@page import="net.smartworks.model.community.info.DepartmentInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
@@ -20,7 +22,8 @@
 	String wid = request.getParameter("wid");
 	session.setAttribute("cid", cid);
 	session.setAttribute("wid", wid);	
-	String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
+	if(SmartUtil.isBlankObject(wid)) wid = cUser.getId();
+	WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
 	
 %>
 <!--  다국어 지원을 위해, 로케일 및 다국어 resource bundle 을 설정 한다. -->
@@ -30,13 +33,13 @@
 <ul class="navi_tit_default">
 	<li>
 		<%
-				if(SmartUtil.getSpaceIdFromContentContext(cid).equals(cUser.getId())){				
+				if(wid.equals(cUser.getId())){				
 				%>
-					<a href="user_space.sw?cid=<%=cid %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.my.all_items"/></a>
+					<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId() %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.my.all_items"/></a>
 				<%
 				}else{				
 				%>
-					<a href="user_space.sw?cid=<%=cid %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.user.all_items"/></a>
+					<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId() %>" class="js_content"><span class="js_collapse_detail arr_off"></span><fmt:message key="space.title.user.all_items"/></a>
 				<%
 				}
 				%>
@@ -47,11 +50,11 @@
 	<div id="m_setting">
 		<!-- 내부 메뉴 -->				
 					<ul>
-						<li><a href="space_work_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_mywork"></span><span><fmt:message key="space.title.works"/></span></a></li>
-						<li><a href="space_picture_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_mypicture"></span><span><fmt:message key="space.title.pictures"/></span></a></li>
-						<li><a href="space_file_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_myfile"></span><span><fmt:message key="space.title.files"/></span></a></li>
-						<li><a href="space_event_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_myevent"></span><span><fmt:message key="space.title.events"/></span></a></li>
-						<li><a href="space_memo_list.sw?cid=<%=cid %>" class="js_content"><span class="ico_mymemo"></span><spa><fmt:message key="space.title.memos"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_WORK_LIST %>?cid=<%=ISmartWorks.CONTEXT_ALL_WORKS_LIST %>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_ALL_WORKS%>"></span><span><fmt:message key="space.title.works"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_IMAGE_LIST %>?cid=<%=ISmartWorks.CONTEXT_PREFIX_IMAGE_LIST + SmartWork.ID_FILE_MANAGEMENT%>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_IMAGE_WORKS%>"></span><span><fmt:message key="space.title.pictures"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_FILE_LIST %>?cid=<%=ISmartWorks.CONTEXT_PREFIX_FILE_LIST + SmartWork.ID_FILE_MANAGEMENT%>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_FILE_WORKS%>"></span><span><fmt:message key="space.title.files"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_EVENT_LIST %>?cid=<%=ISmartWorks.CONTEXT_PREFIX_EVENT_LIST + SmartWork.ID_EVENT_MANAGEMENT%>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_EVENT_WORKS%>"></span><span><fmt:message key="space.title.events"/></span></a></li>
+						<li><a href="<%=Work.CONTROLLER_MEMO_LIST %>?cid=<%=ISmartWorks.CONTEXT_PREFIX_MEMO_LIST + SmartWork.ID_MEMO_MANAGEMENT%>&wid=<%=workSpace.getId() %>" class="js_content"><span class="<%=Work.ICON_CLASS_MEMO_WORKS%>"></span><spa><fmt:message key="space.title.memos"/></span></a></li>
 					</ul>
 		<!--내부메뉴//-->
 	</div>

@@ -26,10 +26,12 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.SortingField;
+import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.IWInstanceInfo;
+import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.PWInstanceInfo;
@@ -165,7 +167,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	public BoardInstanceInfo[] getMyRecentBoardInstances() throws Exception {
 
 		try{
-			String workId = SmartWork.ID_NOTICE_MANAGEMENT;
+			String workId = SmartWork.ID_BOARD_MANAGEMENT;
 	
 			User user = SmartUtil.getCurrentUser();
 	
@@ -232,7 +234,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 					WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
 		
-					WorkInfo workInfo = new SmartWorkInfo(formId, formName, type, groupInfo, categoryInfo);
+					WorkInfo workInfo = new SmartWorkInfo(formId, formName, SmartWork.TYPE_INFORMATION, groupInfo, categoryInfo);
 	
 					boardInstanceInfo.setWork(workInfo);
 					boardInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
@@ -1755,7 +1757,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		
 					WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
 		
-					WorkInfo workInfo = new SmartWorkInfo(formId, formName, type, groupInfo, categoryInfo);
+					WorkInfo workInfo = new SmartWorkInfo(formId, formName, SmartWork.TYPE_INFORMATION, groupInfo, categoryInfo);
 	
 					iWInstanceInfo.setWork(workInfo);
 					iWInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
@@ -1972,7 +1974,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					
 				WorkCategoryInfo categoryInfo = new WorkCategoryInfo(prcInst.getParentCtgId(), prcInst.getParentCtg());
 				
-				WorkInfo workInfo = new SmartWorkInfo(prcInst.getPrcDid(), prcInst.getPrcName(), type, groupInfo, categoryInfo);
+				WorkInfo workInfo = new SmartWorkInfo(prcInst.getPrcDid(), prcInst.getPrcName(), SmartWork.TYPE_PROCESS, groupInfo, categoryInfo);
 				pwInstInfo.setWork(workInfo);
 	
 				TaskInstanceInfo lastTaskInfo = null;
@@ -2050,18 +2052,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getInstanceInfoListByRefType(String cid, RequestParams params, String refType) throws Exception {
+	public InstanceInfoList getInstanceInfoListByRefType(String spaceId, RequestParams params, String refType) throws Exception {
 
 		try {
-			if(CommonUtil.isEmpty(cid))
-				return null;
-
 			User cUser = SmartUtil.getCurrentUser();
 			String userId = cUser.getId();
 
 			InstanceInfoList instanceInfoList = new InstanceInfoList();
-			int spaceType = SmartUtil.getSpaceTypeFromContentContext(cid);
-			String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
 
 			TaskWorkCond taskWorkCond = new TaskWorkCond();
 			taskWorkCond.setTskRefType(refType);
@@ -2131,29 +2128,48 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
-	public InstanceInfoList getWorkInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_NOTHING);
+	public InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_NOTHING);
 	}
 
-	public InstanceInfoList getPictureInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_IMAGE);
+	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_IMAGE);
+	}
+	
+	public ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception{
+		// 테스트용도이니 수정 바람//
+		// 테스트용도이니 수정 바람//
+		RequestParams params = new RequestParams();
+		params.setCurrentPage(1);
+		params.setPageSize(maxCount);
+		InstanceInfoList list =  getInstanceInfoListByRefType(wid, params, TskTask.TASKREFTYPE_IMAGE);
+		if(list.getInstanceDatas()!=null){
+			ImageInstanceInfo[] instances = new ImageInstanceInfo[list.getInstanceDatas().length];
+			for(int i=0; i<list.getInstanceDatas().length; i++){
+				TaskInstanceInfo task = (TaskInstanceInfo)list.getInstanceDatas()[i];
+				instances[i] = (ImageInstanceInfo)task.getWorkInstance();
+			}
+			return instances;
+		}
+		return null;
+		// 테스트용도이니 수정 바람//
+		// 테스트용도이니 수정 바람//		
 	}
 
-	public InstanceInfoList getFileInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_FILE);
+	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_FILE);
 	}
 
-	public EventInstanceInfo[] getEventInstanceList(String cid, LocalDate fromDate, LocalDate toDate) throws Exception {
-		String spaceId = SmartUtil.getSpaceIdFromContentContext(cid);
-		return calendarService.getEventInstanceInfosByWorkSpaceId(spaceId, fromDate, toDate);
+	public EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception {
+		return calendarService.getEventInstanceInfosByWorkSpaceId(workSpaceId, fromDate, toDate);
 	}
 
-	public InstanceInfoList getMemoInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_MEMO);
+	public InstanceInfoList getMemoInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_MEMO);
 	}
 
-	public InstanceInfoList getBoardInstanceList(String cid, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(cid, params, TskTask.TASKREFTYPE_BOARD);
+	public InstanceInfoList getBoardInstanceList(String workSpaceId, RequestParams params) throws Exception {
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_BOARD);
 	}
 
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {
@@ -2991,6 +3007,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+
 	@Override
 	public TaskInstanceInfo[] getTaskInstancesByDate(String contextId, String spaceId, LocalDate fromDate, LocalDate toDate, int maxSize) throws Exception {
 		try{
@@ -3019,6 +3036,19 @@ public class InstanceServiceImpl implements IInstanceService {
 			TaskWork[] tasks = getTaskWorkByFromToDate(contextId, spaceId, tempFromDate, tempToDate, maxSize);
 
 			return (TaskInstanceInfo[])ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, tasks);
+			
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+	
+	@Override
+	public InstanceInfo[] getSpaceInstancesByDate(String spaceId, LocalDate fromDate, int maxSize) throws Exception {
+		try{
+			return SmartTest.getMyRecentInstances();
 			
 		}catch (Exception e){
 			// Exception Handling Required
@@ -3231,7 +3261,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 						WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
 			
-						WorkInfo workInfo = new SmartWorkInfo(formId, formName, type, groupInfo, categoryInfo);
+						WorkInfo workInfo = new SmartWorkInfo(formId, formName, SmartWork.TYPE_INFORMATION, groupInfo, categoryInfo);
 		
 						iWInstanceInfo.setWork(workInfo);
 						iWInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));

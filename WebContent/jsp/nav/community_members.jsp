@@ -72,13 +72,11 @@
 		<ul>
 			<%
 			if (members != null) {
-				String contextId = null;
 				for (UserInfo member : members) {
-					contextId = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + member.getId();
 			%>
 					<li>
-						<a href="user_space.sw?cid=<%=contextId%>">
-							<span class="ico_pe"><img src="<%=member.getMinPicture()%>" class="profile_size_s"></span> 
+						<a href="<%=member.getSpaceController() %>?cid=<%=member.getSpaceContextId()%>&wid=<%=member.getId()%>">
+							<span class="icon_pe"><img src="<%=member.getMinPicture()%>" class="profile_size_s"></span> 
 							<span class="nav_subtitl_area"><%=member.getLongName()%></span>
 						</a>
 					</li>
@@ -93,8 +91,8 @@
 					contextId = ISmartWorks.CONTEXT_PREFIX_DEPARTMENT_SPACE + department.getId();
 			%>
 					<li>
-						<a href="department_space.sw?cid=<%=contextId%>">
-							<span class="ico_pe"><img src="<%=department.getMinPicture()%>" class="profile_size_s"></span> 
+						<a href="<%=department.getSpaceController() %>?cid=<%=department.getSpaceContextId()%>&wid=<%=department.getId()%>">
+							<span class="icon_pe"><img src="<%=department.getMinPicture()%>" class="profile_size_s"></span> 
 							<span class="nav_subtitl_area"><%=department.getName()%></span>
 						</a>
 					</li>

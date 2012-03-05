@@ -120,6 +120,29 @@ $(function() {
 		return false;
 	});
 	
+	$('a.js_space_more_instance').live('click',function(e) {
+		var input = $(e.target);
+		var fromDate = input.attr('lastDate');
+		var target = input.parents('ul:first');
+		var spacePage = input.parents('.js_space_instance_list_page');
+		var spaceId = spacePage.attr('spaceId');		
+		$.ajax({
+			url : "more_space_sub_instances.sw",
+			data : {
+				spaceId : spaceId,
+				fromDate : fromDate,
+				maxSize : 20
+			},
+			success : function(data, status, jqXHR) {
+				input.parents('li:first').remove();
+				target.append(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+			}
+		});
+		return false;
+	});
+	
 	$('a.js_view_instance_diagram').live('click',function(e) {
 		var input = $(e.target);
 		input.parent().hide().next().show();
@@ -184,5 +207,46 @@ $(function() {
 			smartPop.closeUserInfo();
 			userInfoTimer = null;
 		}, 300);
+	});
+	
+	$('.js_image_display_by').live('change', function(e){
+		var input = $(e.target);
+		var displayBy = input.attr('value');
+		$.ajax({
+			url : "image_instance_list.sw",
+			data : {
+				displayBy : displayBy,
+				parentId : ""
+			},
+			success : function(data, status, jqXHR) {
+				var target = input.parents('.js_image_list_page').find('.js_image_instance_list');
+				target.html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+			}
+		});
+		return false;
+		
+	});
+	$('a.js_image_instance_list').live('click', function(e){
+		var input = $(e.target).parents('a');
+		var imageInstanceList = input.parents('.js_image_instance_list_page');
+		var parentId = input.attr('categoryId');
+		var displayBy = imageInstanceList.attr('displayBy');
+		$.ajax({
+			url : "image_instance_list.sw",
+			data : {
+				displayBy : displayBy,
+				parentId : parentId
+			},
+			success : function(data, status, jqXHR) {
+				var target = input.parents('.js_image_list_page').find('.js_image_instance_list');
+				target.html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+			}
+		});
+		return false;
+		
 	});
 });

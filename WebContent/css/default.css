@@ -94,7 +94,7 @@ kbd, samp, code {
 img, button, select, textarea {
      vertical-align: middle;
 }
-textarea { width:99%}
+textarea {width:99%}
 input[type="image"], input[type="text"], input[type="submit"], input[type="password"], textarea {resize: none;}
 	
 input {border:0 none; outline:medium none; vertical-align: middle;}

@@ -21,7 +21,7 @@
 	
 	// 서버에서 전달된 카테고리아이디를 가지고 하위 카테고리와 업무들을 가져온다...
 	WorkInfo[] works = smartWorks.getAllWorksByCategoryId(request.getParameter("categoryId"));
-	String iconType = null, classType = "js_content", workContext = null, targetContent = null;
+	String classType = "js_content", workContext = null, targetContent = null;
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
@@ -33,14 +33,7 @@
 			if(work.getProvidedBy() == Work.PROVIDED_BY_SYSTEM || work.getProvidedBy() == Work.PROVIDED_BY_APPSTORE) continue;
 			workContext = ISmartWorks.CONTEXT_PREFIX_BUILDER_SPACE + work.getId();
 			targetContent = "tab_workbench.sw";
-			if (work.getType() == SmartWork.TYPE_PROCESS) {
-				iconType = ((SmartWorkInfo)work).isRunning() ? "ico_pworks" : "ico_pworks_off";
-			} else if (work.getType() == SmartWork.TYPE_INFORMATION) {
-				iconType = ((SmartWorkInfo)work).isRunning() ? "ico_iworks" : "ico_iworks_off";
-			} else if (work.getType() == SmartWork.TYPE_SCHEDULE) {
-				iconType = ((SmartWorkInfo)work).isRunning() ? "ico_sworks" : "ico_sworks_off";
-			} else if (work.getType() == WorkCategory.TYPE_CATEGORY) {
-				iconType = ((WorkCategoryInfo)work).isRunning() ? "ico_gworks" : "ico_gworks_off";
+			if (work.getType() == WorkCategory.TYPE_CATEGORY) {
 				targetContent = "worklist_by_category.sw";
 			}
 			
@@ -50,7 +43,7 @@
 				<li class="work_action_item">
 					
 					<a href="<%=targetContent%>?cid=<%=workContext%>" class="<%=classType%>">
-						<span class="<%=iconType%>"></span><%=work.getName()%><span></span>
+						<span class="<%=work.getIconClass()%>"></span><%=work.getName()%><span></span>
 					</a>
 					<%
 					if(work.getProvidedBy()!=Work.PROVIDED_BY_SYSTEM){
@@ -80,7 +73,7 @@
 				<!--  *** js_drill_down : sw_act_work.js에서 이클래스의 클릭이벤트를 받아서 트리구조르 드릴다운할수 있게 한다.. -->
 				<li class="js_drill_down group_action_item">
 					<a href="<%=targetContent%>" categoryId="<%=work.getId()%>">
-						<span class="<%=iconType%>"></span><span><%=work.getName()%></span>
+						<span class="<%=work.getIconClass()%>"></span><span><%=work.getName()%></span>
 					</a>
 					<%
 					if(work.getProvidedBy()!=Work.PROVIDED_BY_SYSTEM){

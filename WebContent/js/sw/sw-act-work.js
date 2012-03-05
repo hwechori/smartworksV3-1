@@ -20,32 +20,14 @@ $(function() {
 		$('.js_select_action').find('a').removeClass('current');
 		var currentAction = input.parents('.up_icon_list');
 		currentAction.find('a').addClass('current');
-		$('.js_up_pointer').css({"left": (currentAction.position().left + currentAction.outerWidth()/2) + "px"});
 		var url = input.attr('href');
 		var target = $('.js_upload_form');
-		if(url === 'start_work.sw'){
-			target.hide().html('');
-			target = $('.js_start_work_form').show();
-		}else{
-			target.show();
-			$('.js_start_work_form').hide().html('');			
-		}
 		$.ajax({
 			url : url,
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).show();
-				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
-					loadNewFileFields();
-				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
-					loadNewPictureFields();							
-				}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
-					loadNewEventFields();
-				}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
-					loadNewMemoFields();
-				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
-					loadNewBoardFields();
-				}
+				target.find('.js_up_pointer').css({"left": currentAction.position().left + currentAction.outerWidth()/2 + "px"});
 			},
 			error : function(xhr, ajaxOptions, thrownError){
 				
@@ -56,43 +38,77 @@ $(function() {
 
 	$('a.js_cancel_action').live('click',function(e) {
 		var input = $('.js_select_action').find('a:first');
-		if(!isEmpty($(e.target).parents('.js_pop_new_event_page'))){
-			smartPop.close();
-			return false;
-		}
 		$('.js_select_action').find('a').removeClass('current');
-		input.parents('.up_icon_list').find('a').addClass('current');
+		var currentAction = input.parents('.up_icon_list');
+		currentAction.find('a').addClass('current');
 		var target = $('.js_upload_form');
 		var url = input.attr('href');
-		if(url === 'start_work.sw'){
-			target.hide().html('');
-			target = $('.js_start_work_form').show();
-		}else{
-			target.show();
-			$('.js_start_work_form').hide().html('');			
-		}
 		$.ajax({
 			url : url,
 			data : {},
 			success : function(data, status, jqXHR) {
 				target.html(data).show();
-				if(!isEmpty(target.find('form[name="frmNewFile"]'))){
-					loadNewFileFields();
-				}else if(!isEmpty(target.find('form[name="frmNewPicture"]'))){
-					loadNewPictureFields();							
-				}else if(!isEmpty(target.find('form[name="frmNewEvent"]'))){
-					loadNewEventFields();
-				}else if(!isEmpty(target.find('form[name="frmNewMemo"]'))){
-					loadNewMemoFields();
-				}else if(!isEmpty(target.find('form[name="frmNewBoard"]'))){
-					loadNewBoardFields();
-				}
+				$(data).find('.js_up_pointer').css({"left": (currentAction.position().left + currentAction.outerWidth()/2) + "px"});
 			},
 			error : function(xhr, ajaxOptions, thrownError){
 				
 			}
 		});
 		return false;
+	});
+	
+	$('.js_click_start_form').live('click', function(e){
+		var input = $(e.target).parents('.js_click_start_form:first');
+		var newMemo = input.parents('.js_new_memo_page');
+		var newPicture = input.parents('.js_new_picture_page');
+		var newFile = input.parents('.js_new_file_page');
+		var newEvent = input.parents('.js_new_event_page');
+		var newBoard = input.parents('.js_new_board_page');
+		var newIWork = input.parents('.js_new_iwork_page');
+		var startPWork = input.parents('.js_start_pwork_page');
+		var planSWork = input.parents('.js_plan_swork_page');
+		var workId = "";
+		var target = [];
+		if(!isEmpty(newMemo)){
+			input.find('textarea').removeClass('border_none').addClass('up_textarea');
+			workId = newMemo.attr('workId');
+			target = newMemo.find('.js_upload_buttons');
+		}else if(!isEmpty(newPicture)){
+			workId = newPicture.attr('workId');
+			target = newPicture.find('.js_upload_buttons');
+		}else if(!isEmpty(newFile)){
+			workId = newFile.attr('workId');
+			target = newFile.find('.js_upload_buttons');
+		}else if(!isEmpty(newEvent)){
+			workId = newEvent.attr('workId');
+			target = newEvent.find('.js_upload_buttons');
+		}else if(!isEmpty(newBoard)){
+			workId = newBoard.attr('workId');
+			target = newBoard.find('.js_upload_buttons');
+		}else if(!isEmpty(newIWork)){
+			workId = newIWork.attr('workId');
+			target = newIWork.find('.js_upload_buttons');
+		}else if(!isEmpty(startPWork)){
+			workId = startPWork.attr('workId');
+			target = startPWork.find('.js_upload_buttons');
+		}else if(!isEmpty(planSWork)){
+			workId = planSWork.attr('workId');
+			target = planSWork.find('.js_upload_buttons');
+		}
+		if(!isEmpty(target.html())) return true;
+		$.ajax({
+			url : 'upload_buttons.sw',
+			data : {
+				workId : workId
+			},
+			success : function(data, status, jqXHR) {
+				target.html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				
+			}
+		});			
+		return true;
 	});
 
 	/*
@@ -102,8 +118,8 @@ $(function() {
 	$('.js_select_work').swnavi({
 		before : function(event) {
 			smartPop.progressCenter();
-			$('#form_works').html('').hide();
-			$(event.target).parents('#upload_work_list').hide().parents(".js_start_work_page").hide();
+			$('#form_works').html('');
+			$(event.target).parents(".js_start_work_page").hide();
 		},
 		target : 'form_works',
 		after : function(event) {
@@ -116,7 +132,7 @@ $(function() {
 				requiredOnly : "true",
 				workId : workId,
 				onSuccess : function(){
-					$('#form_works').show();
+					$('#form_works').parent().show();
 					smartPop.closeProgress();					
 				},
 				onError : function(){
@@ -1073,7 +1089,6 @@ $(function() {
 		var startWork = $(e.target).parents('.js_start_work_page');
 		var target = startWork.find('.js_all_work_popup');
 		var width = startWork.find('.js_auto_complete:first').parent().width();
-		console.log('target=', target, ', width=', width);
 		smartPop.selectWork(target, width);
 		return false;
 	});
