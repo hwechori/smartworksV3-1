@@ -33,7 +33,6 @@
 	if (noticeMessages != null) {
 		for (NoticeMessage nMessage : (NoticeMessage[]) noticeBox.getNoticeMessages()) {
 			if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_NOTIFICATION) {
-				String instContext = null, targetContent = null, userContext = null;
 				UserInfo owner = null;
 
 				// Notice message type 이 시스템 알림인 경우, 
@@ -54,14 +53,12 @@
 				} else if (nMessage.getType() == NoticeMessage.TYPE_EVENT_ALARM) {
 					EventInstanceInfo event = (EventInstanceInfo) nMessage.getEvent();
 					owner = event.getOwner();
-					instContext = ISmartWorks.CONTEXT_PREFIX_EVENT_SPACE + event.getId();
-					userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 				%>
 					<li>
 						<div class="info_ms_section">
 							<div class="info_img"><div class="icon_pop_event profile_size_s"></div></div>
 							<div class="info_list">
-								<b><%=event.getStart().toLocalString()%> </b><a href="event_space.sw?cid=<%=instContext%>&wid=<%=event.getWorkSpace().getId()%>"><%=event.getSubject()%></a>
+								<b><%=event.getStart().toLocalString()%> </b><a href="<%=event.getController()%> %>?cid=<%=event.getContextId()%>&wid=<%=event.getWorkSpace().getId()%>"><%=event.getSubject()%></a>
 								<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 									<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
 										<div class="btn_x js_remove_notice" ></div></a></div>
@@ -74,16 +71,14 @@
 					TaskInstanceInfo task = (TaskInstanceInfo) nMessage.getInstance();
 					owner = task.getOwner();
 					InstanceInfo work = (InstanceInfo) task.getWorkInstance();
-					instContext = ISmartWorks.CONTEXT_PREFIX_PWORK_TASK + task.getId();
-					userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 				%>
 					<li>
 						<div class="info_ms_section">
 							<div class="info_img">
-								<a href="user_space.sw?cid=<%=userContext%>"title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
+								<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 							</div>
 							<div class="info_list">
-								<a href="pwork_task.sw?cid=<%=instContext%>&wid=<%=task.getWorkSpace().getId()%>"><%=work.getSubject()%>▶<%=task.getName()%></a>
+								<a href="<%=task.getController() %>?cid=<%=task.getContextId()%>&wid=<%=task.getWorkSpace().getId()%>"><%=work.getSubject()%>▶<%=task.getName()%></a>
 								<fmt:message key="notice.message.task.delayed" />
 								<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 									<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
@@ -95,16 +90,14 @@
 				// Notice Message type 이 그룹 가입신청 알림인 경우 
 				} else if (nMessage.getType() == NoticeMessage.TYPE_JOIN_REQUEST) {
 					owner = nMessage.getIssuer();
-					instContext = ISmartWorks.CONTEXT_PREFIX_GROUP_SPACE + nMessage.getGroup().getId();
-					userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 				%>
 					<li>
 						<div class="info_ms_section">
 							<div class="info_img">
-								<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
+								<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 							</div>
 							<div class="info_list">
-								<a href="group_space.sw?cid=<%=instContext%>"><%=nMessage.getGroup().getName()%></a>
+								<a href="<%=nMessage.getGroup().getSpaceController() %>?cid=<%=nMessage.getGroup().getSpaceContextId()%>"><%=nMessage.getGroup().getName()%></a>
 								<fmt:message key="notice.message.join.request" />
 								<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 									<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>
@@ -115,20 +108,16 @@
 				<%
 				// Notice Message type 이 새로운 업무 생성 알림인 경우 
 				} else if (nMessage.getType() == NoticeMessage.TYPE_INSTANCE_CREATED) {
-					InstanceInfo instance = (InstanceInfo) nMessage.getInstance();
+					TaskInstanceInfo instance = (TaskInstanceInfo) nMessage.getInstance();
 					owner = instance.getOwner();
-					targetContent = SmartUtil.getTargetContentByWorkType(nMessage.getInstance().getWork().getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE);
-					instContext = SmartUtil.getContextPrefixByWorkType(nMessage.getInstance().getWork().getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE)
-							+ nMessage.getInstance().getOwner().getId();
-					userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 				%>
 					<li>
 						<div class="info_ms_section">
 							<div class="info_img">
-								<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
+								<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" title="<%=owner.getLongName()%>"><img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 							</div>
 							<div class="info_list">
-								<a href="<%=targetContent%>?cid=<%=instContext%>&wid=<%=instance.getWorkSpace().getId()%>"><%=instance.getSubject()%></a>
+								<a href="<%=instance.getController()%>?cid=<%=instance.getContextId()%>&wid=<%=instance.getWorkSpace().getId()%>"><%=instance.getSubject()%></a>
 								<fmt:message key="notice.message.instance.created" />
 								<div class="t_date"><%=nMessage.getIssuedDate().toLocalString()%>
 									<a href="" noticeId=<%=nMessage.getId() %> noticeType="<%=noticeType%>" lastNoticeId=<%=lastNoticeId %>>

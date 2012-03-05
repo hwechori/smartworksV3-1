@@ -26,7 +26,6 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.SortingField;
-import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -37,6 +36,7 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
+import net.smartworks.model.instance.info.WorkInstanceInfo;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
@@ -139,14 +139,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		return SwManagerFactory.getInstance().getWorkListManager();
 	}
 
-	ICommunityService communityService;
-	ICalendarService calendarService;
+	private ICommunityService communityService;
+	private ICalendarService calendarService;
 
 	@Autowired
 	public void setCommunityService(ICommunityService communityService) {
 		this.communityService = communityService;
 	}
-
 	@Autowired
 	public void setCalendarService(ICalendarService calendarService) {
 		this.calendarService = calendarService;
@@ -205,13 +204,18 @@ public class InstanceServiceImpl implements IInstanceService {
 			SwdRecordExtend[] swdRecordExtends = getSwdManager().getCtgPkg(workId);
 	
 			BoardInstanceInfo[] boardInstanceInfos = null;
-	
+
+			String subCtgId = swdRecordExtends[0].getSubCtgId();
+			String subCtgName = swdRecordExtends[0].getSubCtg();
+			String parentCtgId = swdRecordExtends[0].getParentCtgId();
+			String parentCtgName = swdRecordExtends[0].getParentCtg();
 			String formId = swdDomain.getFormId();
 			String formName = swdDomain.getFormName();
 
-			if(swdRecords != null) {
-				boardInstanceInfos = new BoardInstanceInfo[swdRecords.length];
-				for(int i=0; i < swdRecords.length; i++) {
+			if(!CommonUtil.isEmpty(swdRecords)) {
+				int swdRecordsLength = swdRecords.length;
+				boardInstanceInfos = new BoardInstanceInfo[swdRecordsLength];
+				for(int i=0; i < swdRecordsLength; i++) {
 					SwdRecord swdRecord = swdRecords[i];
 					BoardInstanceInfo boardInstanceInfo = new BoardInstanceInfo();
 					boardInstanceInfo.setId(swdRecord.getRecordId());
@@ -229,30 +233,33 @@ public class InstanceServiceImpl implements IInstanceService {
 					boardInstanceInfo.setWorkSpace(workSpaceInfo);
 
 					WorkCategoryInfo groupInfo = null;
-					if (!CommonUtil.isEmpty(swdRecordExtends[0].getSubCtgId()))
-						groupInfo = new WorkCategoryInfo(swdRecordExtends[0].getSubCtgId(), swdRecordExtends[0].getSubCtg());
-		
-					WorkCategoryInfo categoryInfo = new WorkCategoryInfo(swdRecordExtends[0].getParentCtgId(), swdRecordExtends[0].getParentCtg());
-		
+					if (!CommonUtil.isEmpty(subCtgId))
+						groupInfo = new WorkCategoryInfo(subCtgId, subCtgName);
+
+					WorkCategoryInfo categoryInfo = new WorkCategoryInfo(parentCtgId, parentCtgName);
+
 					WorkInfo workInfo = new SmartWorkInfo(formId, formName, SmartWork.TYPE_INFORMATION, groupInfo, categoryInfo);
-	
+
 					boardInstanceInfo.setWork(workInfo);
 					boardInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(swdRecord.getModificationUser()));
 					boardInstanceInfo.setLastModifiedDate(new LocalDate((swdRecord.getModificationDate()).getTime()));
-	
+
 					SwdDataField[] swdDataFields = swdRecord.getDataFields();
-					for(SwdDataField swdDataField : swdDataFields) {
-						String value = swdDataField.getValue();
-						if(swdDataField.getId().equals("0")) {
-							boardInstanceInfo.setSubject(StringUtil.subString(value, 0, 24, "..."));
-						} else if(swdDataField.getId().equals("1")) {
-							boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 40, "..."));
+					if(!CommonUtil.isEmpty(swdDataFields)) {
+						int swdDataFieldsLength = swdDataFields.length;
+						for(int j=0; j<swdDataFieldsLength; j++) {
+							SwdDataField swdDataField = swdDataFields[j];
+							String value = swdDataField.getValue();
+							if(swdDataField.getId().equals("0")) {
+								boardInstanceInfo.setSubject(StringUtil.subString(value, 0, 24, "..."));
+							} else if(swdDataField.getId().equals("1")) {
+								boardInstanceInfo.setBriefContent(StringUtil.subString(value, 0, 40, "..."));
+							}
 						}
 					}
 					boardInstanceInfos[i] = boardInstanceInfo;
 				}
 			}
-	
 			return boardInstanceInfos;
 		}catch (Exception e){
 			// Exception Handling Required
@@ -1810,18 +1817,24 @@ public class InstanceServiceImpl implements IInstanceService {
 										if(value != null)
 											value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
 									} else if(formatType.equals(FormField.TYPE_FILE)) { 
-										List<IFileModel> fileList = getDocManager().findFileGroup(value);
-										List<Map<String, String>> fileNameList = new ArrayList<Map<String,String>>();
-										for(int j=0; j<fileList.size(); j++) {
-											Map<String, String> fileNameMap = new LinkedHashMap<String, String>();
-											IFileModel fileModel = fileList.get(j);
+										List<IFileModel> fileModelList = getDocManager().findFileGroup(value);
+										List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
+										int fileModelListLength = fileModelList.size();
+										for(int j=0; j<fileModelListLength; j++) {
+											Map<String, String> fileMap = new LinkedHashMap<String, String>();
+											IFileModel fileModel = fileModelList.get(j);
+											String fileId = fileModel.getId();
 											String fileName = fileModel.getFileName();
-											String filePath = fileModel.getFilePath();
-											fileNameMap.put("fileName", fileName);
-											fileNameMap.put("filePath", filePath);
-											fileNameList.add(fileNameMap);
+											String fileType = fileModel.getType();
+											String fileSize = fileModel.getFileSize() + "";
+											fileMap.put("fileId", fileId);
+											fileMap.put("fileName", fileName);
+											fileMap.put("fileType", fileType);
+											fileMap.put("fileSize", fileSize);
+											fileList.add(fileMap);
 										}
-										fieldData.setFileNames(fileNameList);
+										if(fileList.size() > 0)
+											fieldData.setFiles(fileList);
 									} else if(formatType.equals(FormField.TYPE_TEXT)) {
 										value = StringUtil.subString(value, 0, 30, "...");
 									}
@@ -2112,8 +2125,8 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			TaskWork[] taskWorks = getWlmManager().getTaskWorkList(userId, taskWorkCond);
 
-			TaskInstanceInfo[] taskInstanceInfos = ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskWorks);
-			instanceInfoList.setInstanceDatas(taskInstanceInfos);
+			WorkInstanceInfo[] workInstanceInfos = ModelConverter.getWorkInstanceInfosByTaskWorks(taskWorks);
+			instanceInfoList.setInstanceDatas(workInstanceInfos);
 
 			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 			instanceInfoList.setPageSize(pageSize);
@@ -2137,23 +2150,25 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	
 	public ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception{
-		// 테스트용도이니 수정 바람//
-		// 테스트용도이니 수정 바람//
+
 		RequestParams params = new RequestParams();
 		params.setCurrentPage(1);
 		params.setPageSize(maxCount);
-		InstanceInfoList list =  getInstanceInfoListByRefType(wid, params, TskTask.TASKREFTYPE_IMAGE);
-		if(list.getInstanceDatas()!=null){
-			ImageInstanceInfo[] instances = new ImageInstanceInfo[list.getInstanceDatas().length];
-			for(int i=0; i<list.getInstanceDatas().length; i++){
-				TaskInstanceInfo task = (TaskInstanceInfo)list.getInstanceDatas()[i];
-				instances[i] = (ImageInstanceInfo)task.getWorkInstance();
+		InstanceInfoList instanceInfoList = getInstanceInfoListByRefType(wid, params, TskTask.TASKREFTYPE_IMAGE);
+		if(instanceInfoList != null) {
+			WorkInstanceInfo[] workInstanceInfos = (WorkInstanceInfo[])instanceInfoList.getInstanceDatas();
+			if(!CommonUtil.isEmpty(workInstanceInfos)) {
+				int workInstanceInfosLength = workInstanceInfos.length;
+				ImageInstanceInfo[] imageInstanceInfos = new ImageInstanceInfo[workInstanceInfosLength];
+				for(int i=0; i<workInstanceInfosLength; i++) {
+					ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfos[i];
+					imageInstanceInfos[i] = imageInstanceInfo;
+				}
+				return imageInstanceInfos;
 			}
-			return instances;
 		}
 		return null;
-		// 테스트용도이니 수정 바람//
-		// 테스트용도이니 수정 바람//		
+
 	}
 
 	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
@@ -3314,18 +3329,24 @@ public class InstanceServiceImpl implements IInstanceService {
 											if(value != null)
 												value = LocalDate.convertGMTStringToLocalDate(value).toLocalDateTimeSimpleString();
 										} else if(formatType.equals(FormField.TYPE_FILE)) { 
-											List<IFileModel> fileList = getDocManager().findFileGroup(value);
-											List<Map<String, String>> fileNameList = new ArrayList<Map<String,String>>();
-											for(int j=0; j<fileList.size(); j++) {
-												Map<String, String> fileNameMap = new LinkedHashMap<String, String>();
-												IFileModel fileModel = fileList.get(j);
+											List<IFileModel> fileModelList = getDocManager().findFileGroup(value);
+											List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
+											int fileModelListLength = fileModelList.size();
+											for(int j=0; j<fileModelListLength; j++) {
+												Map<String, String> fileMap = new LinkedHashMap<String, String>();
+												IFileModel fileModel = fileModelList.get(j);
+												String fileId = fileModel.getId();
 												String fileName = fileModel.getFileName();
-												String filePath = fileModel.getFilePath();
-												fileNameMap.put("fileName", fileName);
-												fileNameMap.put("filePath", filePath);
-												fileNameList.add(fileNameMap);
+												String fileType = fileModel.getType();
+												String fileSize = fileModel.getFileSize() + "";
+												fileMap.put("fileId", fileId);
+												fileMap.put("fileName", fileName);
+												fileMap.put("fileType", fileType);
+												fileMap.put("fileSize", fileSize);
+												fileList.add(fileMap);
 											}
-											fieldData.setFileNames(fileNameList);
+											if(fileList.size() > 0)
+												fieldData.setFiles(fileList);
 										}
 										fieldData.setValue(value);
 										fieldDataList.add(fieldData);

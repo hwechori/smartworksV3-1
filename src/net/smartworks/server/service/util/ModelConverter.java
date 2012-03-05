@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -297,17 +298,28 @@ public class ModelConverter {
 		resultInfoList.toArray(resultInfo);
 		return resultInfo;
 	}
+
+	public static WorkInstanceInfo[] getWorkInstanceInfosByTaskWorks(TaskWork[] tasks) throws Exception {
+		if(CommonUtil.isEmpty(tasks))
+			return null;
+		int tasksLength = tasks.length;
+		WorkInstanceInfo[] workInstanceInfos = new WorkInstanceInfo[tasksLength];
+		for(int i=0; i<tasksLength; i++) {
+			TaskWork task = tasks[i];
+			workInstanceInfos[i] = getWorkInstanceInfoByTaskWork(task);
+		}
+		return workInstanceInfos;
+	}
+
 	public static WorkInstanceInfo getWorkInstanceInfoByTaskWork(TaskWork task) throws Exception {
 		if (task == null)
 			return null;
 		User cUser = SmartUtil.getCurrentUser();
-		String userId = null;
 		String companyId = null;
 		if (cUser != null) {
-			userId = cUser.getId();
 			companyId = cUser.getCompanyId();
 		}
-		
+
 		WorkInstanceInfo workInstanceInfo = null;
 		
 		if (task.getTskRefType() != null && task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_BOARD)) {
@@ -315,10 +327,31 @@ public class ModelConverter {
 			tempWorkInstanceInfo.setType(Instance.TYPE_BOARD);
 			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
 			String content = record.getDataFieldValue("1");
-			
+			String fileGroupId = record.getDataFieldValue("2");
+			if(!CommonUtil.isEmpty(fileGroupId)) {
+				tempWorkInstanceInfo.setFileGroupId(fileGroupId);
+				List<IFileModel> fileModelList = getDocManager().findFileGroup(fileGroupId);
+				List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
+				int fileModelListSize = fileModelList.size();
+				if(fileList != null && fileModelListSize > 0) {
+					for(int i=0; i<fileModelListSize; i++) {
+						Map<String, String> fileMap = new LinkedHashMap<String, String>();
+						IFileModel fileModel = fileModelList.get(i);
+						String fileId = fileModel.getId();
+						String fileName = fileModel.getFileName();
+						String fileType = fileModel.getType();
+						String fileSize = fileModel.getFileSize() + "";
+						fileMap.put("fileId", fileId);
+						fileMap.put("fileName", fileName);
+						fileMap.put("fileType", fileType);
+						fileMap.put("fileSize", fileSize);
+						fileList.add(fileMap);
+					}
+					if(fileList.size() > 0)
+						tempWorkInstanceInfo.setFiles(fileList);
+				}
+			}
 			tempWorkInstanceInfo.setBriefContent(StringUtil.subString(content, 0, 44, "..."));
-			tempWorkInstanceInfo.setAttachment("attachment");
-			
 			workInstanceInfo = tempWorkInstanceInfo;
 		} else if (task.getTskRefType() != null && task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_EVENT)) {
 			EventInstanceInfo tempWorkInstanceInfo = new EventInstanceInfo();
@@ -358,19 +391,32 @@ public class ModelConverter {
 			FileInstanceInfo tempWorkInstanceInfo = new FileInstanceInfo();
 			tempWorkInstanceInfo.setType(Instance.TYPE_FILE);
 			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
-			String fileGroupId = record.getDataFieldValue("5");//TODO 첨부파일 파일 그룹아이디를 가져오기 위한 하드코딩
-			String content = record.getDataFieldValue("4");
-			
-			List<IFileModel> files = getDocManager().findFileGroup(fileGroupId);
-			tempWorkInstanceInfo.setGroupId(fileGroupId);
-			String[] fileNames = new String[files.size()];
-			for (int i = 0; i < files.size(); i++) {
-				String fileName = files.get(i).getFileName();
-				fileNames[i] = fileName;
+			String fileGroupId = record.getDataFieldValue("5");
+			if(!CommonUtil.isEmpty(fileGroupId)) {
+				tempWorkInstanceInfo.setFileGroupId(fileGroupId);
+				List<IFileModel> fileModelList = getDocManager().findFileGroup(fileGroupId);
+				List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
+				int fileModelListSize = fileModelList.size();
+				if(fileList != null && fileModelListSize > 0) {
+					for(int i=0; i<fileModelListSize; i++) {
+						Map<String, String> fileMap = new LinkedHashMap<String, String>();
+						IFileModel fileModel = fileModelList.get(i);
+						String fileId = fileModel.getId();
+						String fileName = fileModel.getFileName();
+						String fileType = fileModel.getType();
+						String fileSize = fileModel.getFileSize() + "";
+						fileMap.put("fileId", fileId);
+						fileMap.put("fileName", fileName);
+						fileMap.put("fileType", fileType);
+						fileMap.put("fileSize", fileSize);
+						fileList.add(fileMap);
+					}
+					if(fileList.size() > 0)
+						tempWorkInstanceInfo.setFiles(fileList);
+				}
 			}
-			tempWorkInstanceInfo.setFileNames(fileNames);
+			String content = record.getDataFieldValue("4");
 			tempWorkInstanceInfo.setContent(content);
-			
 			workInstanceInfo = tempWorkInstanceInfo;
 		} else if (task.getTskRefType() != null && task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_IMAGE)) {
 			ImageInstanceInfo tempWorkInstanceInfo = new ImageInstanceInfo();

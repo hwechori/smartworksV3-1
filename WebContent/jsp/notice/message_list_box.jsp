@@ -30,17 +30,15 @@
 	NoticeMessage[] noticeMessages = noticeBox.getNoticeMessages();
 	if (noticeMessages != null) {
 		for (NoticeMessage nMessage : (NoticeMessage[]) noticeBox.getNoticeMessages()) {
-			String instContext = null;
 			if (noticeBox != null && noticeBox.getNoticeType() == Notice.TYPE_MESSAGE) {
 				AsyncMessageInstanceInfo messageInstance = (AsyncMessageInstanceInfo) nMessage.getInstance();
 				UserInfo owner = messageInstance.getSender();
-				instContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 %>
 				<ul>
 				<li>
 				<div class="info_ms_section">
 					<div class="info_img">
-						<a href="user_space.sw?cid=<%=instContext%>" title="<%=owner.getLongName()%>"> <img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
+						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" title="<%=owner.getLongName()%>"> <img src="<%=owner.getMinPicture()%>"  class="profile_size_s"> </a>
 					</div>
 					<div class="info_list"><%=messageInstance.getMessage()%>
 						<div class="t_date"><%=messageInstance.getSendDate().toLocalString()%>

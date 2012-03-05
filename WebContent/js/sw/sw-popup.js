@@ -114,6 +114,26 @@ smartPop = {
 
 	},
 	
+	closeFilesDetail : function(){
+		smartPop.closeOverlay();
+		$('#sw_pop_files_detail').hide();		
+	},
+
+	showFilesDetail : function(input, top, left){
+		var filesDetail = input.attr("filesDetail");
+		var popFilesDetail = $('#sw_pop_files_detail');
+		if(!isEmpty(popFilesDetail)){
+			popFilesDetail.show();
+		}else{
+			$('<div id="sw_pop_files_detail" style="z-index:10001; position:absolute; left:' + left + 'px; top:' + top + 'px;">' +
+					'<div class="pop_corner_all pop_contents">' + filesDetail +
+					'</div>' +
+			'</div>').appendTo($(document.body));
+		}
+		popFilesDetail.css({"top": top + "px", "left": left + "px"});
+
+	},
+	
 	closeInfo : function(){
 		smartPop.closeOverlay();
 		$('#sw_pop_show_info').remove();		

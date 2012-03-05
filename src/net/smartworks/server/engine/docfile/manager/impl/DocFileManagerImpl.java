@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.smartworks.model.community.User;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
+import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.id.IDCreator;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
@@ -643,7 +644,9 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 				fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
 	
 			String extension = fileName.lastIndexOf(".") > 1 ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
-	
+			if(!CommonUtil.isEmpty(extension))
+				extension = extension.toLowerCase();
+
 			User user = SmartUtil.getCurrentUser();
 	
 			File repository = this.getFileRepository(user.getCompanyId(), "Profiles");

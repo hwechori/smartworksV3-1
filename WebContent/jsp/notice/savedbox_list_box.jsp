@@ -50,20 +50,17 @@
 				case Instance.TYPE_WORK:
 					WorkInstanceInfo workInstance = (WorkInstanceInfo)instance;
 					targetContent = workInstance.getController() + "?cid=" + workInstance.getContextId();
-					iconType = work.getIconClass();
 					break;
 				
 				// 태스크인스턴스인 경우에는 프로세스업무나 일정계획업무가 포함된다.
 				case Instance.TYPE_TASK:
 					TaskInstanceInfo taskInstance = (TaskInstanceInfo)instance;
 					targetContent = taskInstance.getController() + "?cid=" + taskInstance.getContextId();
-					iconType = work.getIconClass();
 					break;
 				
 				// 이메일인 경우에는 이메일 임시저장함에 저장 관리 된다.
 				case Instance.TYPE_MAIL:
 					targetContent = "mail_space.sw?folderId=" + MailFolder.ID_DRAFTS + "msgId=" + instance.getId();
-					iconType = "icon_mail";					
 					break;
 				}
 %>
@@ -71,7 +68,7 @@
 				<li>
 				<div class="info_ms_section">
 					<div class="info_img">
-						<div class="<%=iconType%>"><%=work.getName()%></div>
+						<div class="<%=work.getIconClass()%>"><%=work.getName()%></div>
 					</div>
 					<div class="info_list margin_l15">
 						<a href="<%=targetContent %>" ><%=instance.getSubject()%></a>		

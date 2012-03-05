@@ -3,6 +3,8 @@ package net.smartworks.model.instance;
 import java.util.List;
 import java.util.Map;
 
+import net.smartworks.util.SmartUtil;
+
 public class FieldData {
 
 	public static final int SIZE_DATETIME = 16;
@@ -13,13 +15,13 @@ public class FieldData {
 	private String fieldType;
 	private String value;
 	private String symbol;
-	private List<Map<String, String>> fileNames;
+	private List<Map<String, String>> files;
 
-	public List<Map<String, String>> getFileNames() {
-		return fileNames;
+	public List<Map<String, String>> getFiles() {
+		return files;
 	}
-	public void setFileNames(List<Map<String, String>> fileNames) {
-		this.fileNames = fileNames;
+	public void setFiles(List<Map<String, String>> files) {
+		this.files = files;
 	}
 	public FieldData() {
 		super();
@@ -53,5 +55,10 @@ public class FieldData {
 		this.fieldId = fieldId;
 		this.fieldType = fieldType;
 		this.value = value;
+	}
+	
+	public String getFilesHtml(){
+		if(SmartUtil.isBlankObject(this.value) || SmartUtil.isBlankObject(this.files)) return "";
+		return SmartUtil.getFilesDetailInfo(this.files);
 	}
 }

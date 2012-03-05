@@ -1,5 +1,8 @@
 package net.smartworks.model.instance.info;
 
+import java.util.List;
+import java.util.Map;
+
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.work.info.WorkInfo;
@@ -7,21 +10,21 @@ import net.smartworks.util.LocalDate;
 
 public class FileInstanceInfo extends WorkInstanceInfo {
 
-	private String groupId;
-	private String[] fileNames;
 	private String content;
-	
-	public String getGroupId() {
-		return groupId;
+	private String fileGroupId;
+	private List<Map<String, String>> files;
+
+	public String getFileGroupId() {
+		return fileGroupId;
 	}
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setFileGroupId(String fileGroupId) {
+		this.fileGroupId = fileGroupId;
 	}
-	public String[] getFileNames() {
-		return fileNames;
+	public List<Map<String, String>> getFiles() {
+		return files;
 	}
-	public void setFileNames(String[] fileNames) {
-		this.fileNames = fileNames;
+	public void setFiles(List<Map<String, String>> files) {
+		this.files = files;
 	}
 	public String getContent() {
 		return content;

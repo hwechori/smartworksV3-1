@@ -339,6 +339,20 @@ public class SmartUtil {
 		return info;
 	}
 	
+	public static String getFilesDetailInfo(List<Map<String, String>> files){
+		String html = "";
+		if(SmartUtil.isBlankObject(files)) return html;
+		for(int i=0; i<files.size(); i++){
+			Map<String, String> file = (Map<String, String>)files.get(i);
+			String fileId = file.get("fileId");
+			String fileName = file.get("fileName");
+			String fileType = file.get("fileType");
+			html = html + "<a href='download_file.sw?fileId=" + fileId + "&fileName=" + fileName + "'><div>" + i + ". <span class='icon_file_" + fileType + "'>" + fileName + "</span></div></a>";
+		}
+		return html;
+	}
+
+	
 	public static String getSubjectString(String userId){
 		return userId.replaceAll(".", "_");
 	}
