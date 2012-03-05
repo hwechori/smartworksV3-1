@@ -1,25 +1,28 @@
 package net.smartworks.model.instance;
 
+import java.util.List;
+import java.util.Map;
+
 import net.smartworks.model.community.User;
 import net.smartworks.model.work.Work;
 import net.smartworks.util.LocalDate;
 
 public class FileInstance extends WorkInstance {
 
-	private String groupId;
-	private String[] fileNames;
 	private String content;
-	
-	public String getGroupId() {
-		return groupId;
+	private String fileGroupId;
+	private List<Map<String, String>> fileNames;
+
+	public String getFileGroupId() {
+		return fileGroupId;
 	}
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setFileGroupId(String fileGroupId) {
+		this.fileGroupId = fileGroupId;
 	}
-	public String[] getFileNames() {
+	public List<Map<String, String>> getFileNames() {
 		return fileNames;
 	}
-	public void setFileNames(String[] fileNames) {
+	public void setFileNames(List<Map<String, String>> fileNames) {
 		this.fileNames = fileNames;
 	}
 	public String getContent() {
