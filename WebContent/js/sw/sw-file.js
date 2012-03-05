@@ -4,7 +4,7 @@ function getExt(fileName) {
 	var extTypes = new Array("asf", "avi", "bmp", "doc", "exe", "gif", "hwp", "jpg", "mid", "mp3",
 			"mpeg", "mpg", "pdf", "pds", "ppt", "rar", "txt", "wav", "wma", "wmv", "word", "xls", "zip");
 	if (pos != -1) {
-		var extTemp = fileName.substring( pos + 1, fileName.length);
+		var extTemp = fileName.substring( pos + 1, fileName.length).toLowerCase();
 		for(var i=0; i<extTypes.length; i++) {
 			if(extTemp === extTypes[i])
 				ext = extTemp;

@@ -89,7 +89,7 @@
 								</div>
 								<div><%=board.getBriefContent()%></div>
 							</a>
-							<%if(!SmartUtil.isBlankObject(board.getAttachment())){ %><div><%=board.getAttachment() %></div><%} %>
+							<%if(!SmartUtil.isBlankObject(board.getFiles())){ %><div><%=SmartUtil.getFilesDetailInfo(board.getFiles()) %></div><%} %>
 							<!-- 인스턴스 마지막수정일자 -->
 							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
 							<!-- 인스턴스 마지막수정일자 //-->
@@ -130,7 +130,7 @@
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a><%if(onWorkSpace){ %><span class="arr">▶</span>
 							<a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
-							<div class="js_space_file_instance" groupId="<%=file.getGroupId() %>"></div>
+							<%if(!SmartUtil.isBlankObject(file.getFiles())){ %><div><%=SmartUtil.getFilesDetailInfo(file.getFiles()) %></div><%} %>
 							<%if(!SmartUtil.isBlankObject(file.getContent())){ %><div><%=file.getContent() %></div><%} %>
 							<!-- 인스턴스 마지막수정일자 -->
 							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>

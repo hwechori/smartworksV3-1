@@ -51,7 +51,7 @@ var getBytesWithUnit = function( bytes ){
  
 	// Rounds to 3 decimals places.
         if( bytes.toString().length > bytes.toFixed(3).toString().length ){
-            bytes = bytes.toFixed(3);
+            bytes = bytes.toFixed(1);
         }
 	return bytes + units[i];
 };

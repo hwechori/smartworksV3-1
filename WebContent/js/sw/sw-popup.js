@@ -126,7 +126,7 @@ smartPop = {
 			popFilesDetail.show();
 		}else{
 			$('<div id="sw_pop_files_detail" style="z-index:10001; position:absolute; left:' + left + 'px; top:' + top + 'px;">' +
-					'<div class="pop_corner_all pop_contents js_files_detail">' + filesDetail +
+					'<div class="js_files_detail">' + filesDetail +
 					'</div>' +
 			'</div>').appendTo($(document.body));
 		}
