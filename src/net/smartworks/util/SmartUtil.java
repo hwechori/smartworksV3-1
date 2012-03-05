@@ -340,18 +340,30 @@ public class SmartUtil {
 	}
 	
 	public static String getFilesDetailInfo(List<Map<String, String>> files){
-		String html = "";
+		String html = "<ul>";
 		if(SmartUtil.isBlankObject(files)) return html;
 		for(int i=0; i<files.size(); i++){
 			Map<String, String> file = (Map<String, String>)files.get(i);
 			String fileId = file.get("fileId");
 			String fileName = file.get("fileName");
 			String fileType = file.get("fileType");
-			html = html + "<a href='download_file.sw?fileId=" + fileId + "&fileName=" + fileName + "'><div>" + i + ". <span class='icon_file_" + fileType + "'>" + fileName + "</span></div></a>";
+			String fileSize = file.get("fileSize");
+			long size = (SmartUtil.isBlankObject(fileSize)) ? 0 : Long.parseLong(fileSize);
+			html = html + "<li><span class='vAlignMiddle icon_file_" + (SmartUtil.isBlankObject(fileType) ? "" : fileType.toLowerCase()) + "'></span><a href='download_file.sw?fileId=" + fileId + 
+							"&fileName=" + fileName + "' class='qq-upload-file'>" + fileName + "</a><span class='qq-upload-size'>" + SmartUtil.getBytesAsString(size) + "</span></li>";
 		}
-		return html;
+		return html = html + "</ul>";
 	}
 
+	private static final String[] Q = new String[]{"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+	public static String getBytesAsString(long bytes){
+	    for (int i = 6; i > 0; i--)
+	    {
+	        double step = Math.pow(1024, i);
+	        if (bytes > step) return String.format("%3.1f %s", bytes / step, Q[i]);
+	    }
+	    return Long.toString(bytes);
+	}
 	
 	public static String getSubjectString(String userId){
 		return userId.replaceAll(".", "_");
