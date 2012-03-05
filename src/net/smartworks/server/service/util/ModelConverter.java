@@ -317,7 +317,7 @@ public class ModelConverter {
 			String content = record.getDataFieldValue("1");
 			
 			tempWorkInstanceInfo.setBriefContent(StringUtil.subString(content, 0, 44, "..."));
-			tempWorkInstanceInfo.setAttachment("attachment");
+//			tempWorkInstanceInfo.setAttachment("attachment");
 			
 			workInstanceInfo = tempWorkInstanceInfo;
 		} else if (task.getTskRefType() != null && task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_EVENT)) {

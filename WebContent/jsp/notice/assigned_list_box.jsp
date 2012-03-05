@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.												 -->
 <!-- Created Date	: 2011.9.														 -->
 
+<%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
 <%@page import="net.smartworks.model.work.info.WorkInfo"%>
 <%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
 <%@page import="net.smartworks.model.community.info.UserInfo"%>
@@ -41,23 +42,19 @@
 						|| taskType == TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED || taskType == TaskInstance.TYPE_INFORMATION_TASK_FORWARDED
 						|| taskType == TaskInstance.TYPE_PROCESS_TASK_FORWARDED) {
 					UserInfo owner = taskInstance.getOwner();
-					InstanceInfo workInstance = taskInstance.getWorkInstance();
+					WorkInstanceInfo workInstance = taskInstance.getWorkInstance();
 					WorkInfo work = workInstance.getWork();
-					String targetContent = SmartUtil.getTargetContentByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE);
-					String contextId = SmartUtil.getContextPrefixByWorkType(work.getType(), ISmartWorks.SPACE_TYPE_TASK_INSTANCE)
-							+ taskInstance.getId();
 					String workSpaceId = taskInstance.getWorkSpace().getId();
-					String userContext = ISmartWorks.CONTEXT_PREFIX_USER_SPACE + owner.getId();
 %>
 					<ul>
 					<li>
 					<div class="info_ms_section">
 						<div class="info_img">
-							<a href="user_space.sw?cid=<%=userContext%>" title="<%=owner.getLongName()%>">
+							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" title="<%=owner.getLongName()%>">
 								<img src="<%=owner.getMinPicture()%>"  class="profile_size_s"></a>
 						</div>
 						<div class="info_list">
-							<a href="<%=targetContent%>?cid=<%=contextId%>&wid=<%=workSpaceId%>"><%=workInstance.getSubject()%>▶<%=taskInstance.getName()%></a>
+							<a href="<%=workInstance.getController()%>?cid=<%=workInstance.getContextId()%>&wid=<%=workSpaceId%>"><%=workInstance.getSubject()%>▶<%=taskInstance.getName()%></a>
 							<div class="t_date"><%=taskInstance.getLastModifiedDate().toLocalString()%></div>
 						</div>
 						</div>

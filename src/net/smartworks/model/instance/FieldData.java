@@ -3,6 +3,8 @@ package net.smartworks.model.instance;
 import java.util.List;
 import java.util.Map;
 
+import net.smartworks.util.SmartUtil;
+
 public class FieldData {
 
 	public static final int SIZE_DATETIME = 16;
@@ -53,5 +55,10 @@ public class FieldData {
 		this.fieldId = fieldId;
 		this.fieldType = fieldType;
 		this.value = value;
+	}
+	
+	public String getFileNamesHtml(){
+		if(SmartUtil.isBlankObject(this.value) || SmartUtil.isBlankObject(this.fileNames)) return "";
+		return SmartUtil.getFileNamesDetailInfo(this.fileNames);
 	}
 }
