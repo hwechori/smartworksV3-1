@@ -26,7 +26,6 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.SortingField;
-import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
@@ -37,6 +36,7 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.PWInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
+import net.smartworks.model.instance.info.WorkInstanceInfo;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
@@ -139,14 +139,13 @@ public class InstanceServiceImpl implements IInstanceService {
 		return SwManagerFactory.getInstance().getWorkListManager();
 	}
 
-	ICommunityService communityService;
-	ICalendarService calendarService;
+	private ICommunityService communityService;
+	private ICalendarService calendarService;
 
 	@Autowired
 	public void setCommunityService(ICommunityService communityService) {
 		this.communityService = communityService;
 	}
-
 	@Autowired
 	public void setCalendarService(ICalendarService calendarService) {
 		this.calendarService = calendarService;
@@ -2112,8 +2111,8 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			TaskWork[] taskWorks = getWlmManager().getTaskWorkList(userId, taskWorkCond);
 
-			TaskInstanceInfo[] taskInstanceInfos = ModelConverter.getTaskInstanceInfoArrayByTaskWorkArray(userId, taskWorks);
-			instanceInfoList.setInstanceDatas(taskInstanceInfos);
+			WorkInstanceInfo[] workInstanceInfos = ModelConverter.getWorkInstanceInfosByTaskWorks(taskWorks);
+			instanceInfoList.setInstanceDatas(workInstanceInfos);
 
 			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 			instanceInfoList.setPageSize(pageSize);
@@ -2137,23 +2136,25 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	
 	public ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception{
-		// 테스트용도이니 수정 바람//
-		// 테스트용도이니 수정 바람//
+
 		RequestParams params = new RequestParams();
 		params.setCurrentPage(1);
 		params.setPageSize(maxCount);
-		InstanceInfoList list =  getInstanceInfoListByRefType(wid, params, TskTask.TASKREFTYPE_IMAGE);
-		if(list.getInstanceDatas()!=null){
-			ImageInstanceInfo[] instances = new ImageInstanceInfo[list.getInstanceDatas().length];
-			for(int i=0; i<list.getInstanceDatas().length; i++){
-				TaskInstanceInfo task = (TaskInstanceInfo)list.getInstanceDatas()[i];
-				instances[i] = (ImageInstanceInfo)task.getWorkInstance();
+		InstanceInfoList instanceInfoList = getInstanceInfoListByRefType(wid, params, TskTask.TASKREFTYPE_IMAGE);
+		if(instanceInfoList != null) {
+			WorkInstanceInfo[] workInstanceInfos = (WorkInstanceInfo[])instanceInfoList.getInstanceDatas();
+			if(!CommonUtil.isEmpty(workInstanceInfos)) {
+				int workInstanceInfosLength = workInstanceInfos.length;
+				ImageInstanceInfo[] imageInstanceInfos = new ImageInstanceInfo[workInstanceInfosLength];
+				for(int i=0; i<workInstanceInfosLength; i++) {
+					ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfos[i];
+					imageInstanceInfos[i] = imageInstanceInfo;
+				}
+				return imageInstanceInfos;
 			}
-			return instances;
 		}
 		return null;
-		// 테스트용도이니 수정 바람//
-		// 테스트용도이니 수정 바람//		
+
 	}
 
 	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
