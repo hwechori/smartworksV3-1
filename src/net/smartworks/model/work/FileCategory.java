@@ -15,6 +15,7 @@ public class FileCategory extends Work {
 	public final static int DISPLAY_BY_OWNER = 3;
 	public final static int DISPLAY_BY_COMMUNITY = 4;
 	public final static int DISPLAY_BY_WORK = 5;
+	public final static int DISPLAY_BY_FILE_TYPE = 6;
 	
 	private int length;
 	private FileCategoryInfo parent;

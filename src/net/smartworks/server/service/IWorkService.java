@@ -11,13 +11,13 @@ import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
 import net.smartworks.model.work.Work;
+import net.smartworks.model.work.info.FileCategoryInfo;
 import net.smartworks.model.work.info.ImageCategoryInfo;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.form.exception.SwfException;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
-import net.smartworks.util.SmartTest;
 
 public interface IWorkService {
 
@@ -26,6 +26,8 @@ public interface IWorkService {
 	public WorkInfo[] getAllWorksByCategoryId(String categoryId) throws Exception;
 
 	public ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception;
+
+	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception;
 
 	public SmartWorkInfo[] getMyFavoriteWorks() throws Exception;
 

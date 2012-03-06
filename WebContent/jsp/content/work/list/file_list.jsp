@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.server.engine.process.xpdl.xpdl2.Category"%>
+<%@page import="net.smartworks.model.work.info.FileCategoryInfo"%>
+<%@page import="net.smartworks.model.work.FileCategory"%>
 <%@page import="net.smartworks.model.community.WorkSpace"%>
 <%@page import="net.smartworks.model.filter.info.SearchFilterInfo"%>
 <%@page import="net.smartworks.model.work.ProcessWork"%>
@@ -136,7 +139,8 @@
 	
 	User cUser = SmartUtil.getCurrentUser();
 	WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
-	String workSpaceName = (SmartUtil.isBlankObject(wid)) ? cUser.getCompany() : workSpace.getName(); 
+	String workSpaceName = (SmartUtil.isBlankObject(wid)) ? cUser.getCompany() : workSpace.getName();
+	FileCategoryInfo[] categories = smartWorks.getFileCategoriesByType(FileCategory.DISPLAY_BY_CATEGORY, wid);
 
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -164,75 +168,84 @@
 			</div>
 			<!-- 타이틀 -->
 
-			<!-- 목록보기 -->
 			<div class=" contents_space">            
-				<!-- 목록보기 타이틀-->
-				<div class="list_title_space js_work_list_title margin_t15">
-					<div class="title"><fmt:message key="common.title.instance_list" /></div>
-					
-					<div class="titleLineOptions">
-						<form name="frmSearchInstance" class="po_left">
-							<span class="js_progress_span"></span>
-							<div class="srch_wh srch_wsize">
-								<input name="txtSearchInstance" class="nav_input" type="text" placeholder="<fmt:message key='search.search_instance' />">
-									<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
-							</div>
-						</form>
-
-					</div>
-				</div>
-				<!-- 목록보기 타이틀-->
-					
-				<!-- 목록 테이블 -->
- 				<div class="list_contents">
-					<!-- Left -->
-					<div class="left30 ">
-						<table style="min-width:inherit">
-							<tbody>
-								<tr class="tit_bg">
-									<th class="" style="height:1px; padding:0; border-bottom:0"></th>
-								</tr>
-								<tr>
-									<td class="">
-										<div class="margin_t5">
-											<!-- 필 터 -->
-											<div class="float_left">
-											  <select name="">
-											    <option><fmt:message key="space.title.by_category"/></option>
-											    <option><fmt:message key="space.title.by_year"/></option>
-											    <option><fmt:message key="space.title.by_workspace"/></option>
-											    <option><fmt:message key="space.title.by_work"/></option>
-											    <option><fmt:message key="space.title.by_owner"/></option>
-											    <option><fmt:message key="space.title.by_filetype"/></option>
-											  </select>
-											</div>
-											<!-- 필 터 //-->
-											<!-- 우측 구분 -->
-											<div class="categ_link m0p0">검색공간</div>
-											<!-- 우측 구분 //-->
-											<!-- 카테고리 -->
-											<div class="pop_list_area ">
-												<ul>
-													<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span>대표이사</span> </a> </span></li>
-												</ul>
-											</div>
-											<!-- 카테고리 //-->
+				<!-- Left -->
+				<div class="left30 ">
+					<table style="min-width:inherit">
+						<tbody>
+							<tr class="tit_bg">
+								<th class="" style="height:1px; padding:0; border-bottom:0"></th>
+							</tr>
+							<tr>
+								<td class="">
+									<div class="margin_t5">
+										<!-- 필 터 -->
+										<div class="float_left">
+										  <select name="">
+										    <option><fmt:message key="space.title.by_category"/></option>
+										    <option><fmt:message key="space.title.by_workspace"/></option>
+										    <option><fmt:message key="space.title.by_work"/></option>
+										    <option><fmt:message key="space.title.by_year"/></option>
+										    <option><fmt:message key="space.title.by_owner"/></option>
+										    <option><fmt:message key="space.title.by_filetype"/></option>
+										  </select>
 										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<!-- Left//-->
-              <!-- Right -->
-              <div class="right70">
-						<div id='work_instance_list_page'>
-	 						<jsp:include page="/jsp/content/work/list/file_instance_list.jsp"/>
-						</div>
+										<!-- 필 터 //-->
+										<!-- 우측 구분 -->
+										<div class="categ_link m0p0">검색공간</div>
+										<!-- 우측 구분 //-->
+										<!-- 카테고리 -->
+										<div class="pop_list_area ">
+											<ul>
+												<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span>모든 파일</span> </a> </span></li>
+												<%
+												if(!SmartUtil.isBlankObject(categories) && categories.length>0){
+													for(int i=0; i<categories.length; i++){
+														FileCategoryInfo category = categories[i];
+												%>
+														<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span><%=category.getName() %></span> </a> </span></li>
+												<%
+													}
+												}
+												%>
+											</ul>
+										</div>
+										<!-- 카테고리 //-->
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
+				<!-- Left//-->
+
+				<!-- Right -->
+				<div class="right70">
+				<!-- 목록보기 -->
+					<!-- 목록보기 타이틀-->
+					<div class="list_title_space js_work_list_title margin_t15">
+						<div class="title"><fmt:message key="common.title.instance_list" /></div>					
+							<div class="titleLineOptions">
+								<form name="frmSearchInstance" class="po_left">
+									<span class="js_progress_span"></span>
+									<div class="srch_wh srch_wsize">
+										<input name="txtSearchInstance" class="nav_input" type="text" placeholder="<fmt:message key='search.search_instance' />">
+										<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
+									</div>
+								</form>					
+							</div>
+					</div>
+					<!-- 목록보기 타이틀-->
+						
+					<!-- 목록 테이블 -->
+					<div class="list_contents">
+						<div id='work_instance_list_page'>
+							<jsp:include page="/jsp/content/work/list/file_instance_list.jsp"/>
+						</div>
 					</div>
 					<!-- 목록 테이블 //-->
-				<!-- 목록보기 -->
+					<!-- 목록보기 -->
+				</div>
 			</div>
 		</ul>
 	</div>
