@@ -5,15 +5,32 @@ import java.util.Map;
 
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.instance.Instance;
+import net.smartworks.model.work.FileCategory;
+import net.smartworks.model.work.info.FileCategoryInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.util.LocalDate;
+import net.smartworks.util.SmartUtil;
 
 public class FileInstanceInfo extends WorkInstanceInfo {
 
+	private FileCategoryInfo fileCategory;
+	private String fileType;
 	private String content;
 	private String fileGroupId;
 	private List<Map<String, String>> files;
 
+	public FileCategoryInfo getFileCategory() {
+		return fileCategory;
+	}
+	public void setFileCategory(FileCategoryInfo fileCategory) {
+		this.fileCategory = fileCategory;
+	}
+	public String getFileType() {
+		return fileType;
+	}
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
 	public String getFileGroupId() {
 		return fileGroupId;
 	}
@@ -43,4 +60,9 @@ public class FileInstanceInfo extends WorkInstanceInfo {
 		super.setType(Instance.TYPE_FILE);
 	}
 
+	public String getFilesHtml(){
+		if(SmartUtil.isBlankObject(this.fileGroupId) || SmartUtil.isBlankObject(this.files)) return "";
+		return SmartUtil.getFilesDetailInfo(this.files);
+	}
+	
 }

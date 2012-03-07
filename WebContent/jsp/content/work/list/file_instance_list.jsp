@@ -63,9 +63,9 @@
 				</a>				
 			</th>
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_TASK%>"><fmt:message key='common.title.last_task'/>
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_NAMES%>"><fmt:message key='common.title.file_names'/>
 			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
+					if(sortedField.getFieldId().equals(FormField.ID_FILE_NAMES)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>						
@@ -92,40 +92,14 @@
 				FileInstanceInfo fileInstance = (FileInstanceInfo)instanceInfo;
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
-//				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
-				String target = "";//((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
-				String statusImage = "";
-				String statusTitle = "";
-				switch (instanceInfo.getStatus()) {
-				// 인스턴스가 현재 진행중인 경우..
-				case Instance.STATUS_RUNNING:
-					statusImage = "images/icon_status_running.jpg";
-					statusTitle = "content.status.running";
-					break;
-				// 인스턴스가 지연진행중인 경우....
-				case Instance.STATUS_DELAYED_RUNNING:
-					statusImage = "images/icon_status_d_running.jpg";
-					statusTitle = "content.status.delayed_running";
-					break;
-				// 인스턴스가 반려된 경우...
-				case Instance.STATUS_RETURNED:
-					statusImage = "images/icon_status_returned.jpg";
-					statusTitle = "content.status.returned";
-					break;
-				// 인스턴스가 완료된 경우...
-				case Instance.STATUS_COMPLETED:
-					statusImage = "images/icon_status_completed.jpg";
-					statusTitle = "content.status.completed";
-					break;
-				// 기타 잘못되어 상태가 없는 경우..
-				default:
-					statusImage = "images/icon_status_not_yet.jpg";
-					statusTitle = "content.status.not_yet";
-				}
+				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 			%>
 				<tr>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%></a>
+					</td>
+					<td class="hAlignCenter">
+  						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%} %></a>
 					</td>
 					<td>
 						<%

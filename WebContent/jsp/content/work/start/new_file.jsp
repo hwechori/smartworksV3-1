@@ -141,7 +141,7 @@ function submitForms(e) {
 			<div class="form_contents">
 			
 				<!--  상세입력화면을 보여주고 숨기고하는 부분 -->
-				<div class="txt_btn txt_btn_height js_file_detail_form">
+				<div class="txt_btn txt_btn_height js_file_detail_form" style="display:none">
 					<div>
 						<a class="js_toggle_file_detail" href="file_detail_form.sw"><fmt:message key="common.upload.button.view_file_detail" /> </a>
 					</div>

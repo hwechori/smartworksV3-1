@@ -130,7 +130,7 @@ function submitForms() {
 		<form name="frmNewEvent" class="form_title js_validation_required js_click_start_form">
 			<!-- 새로운 이벤트를 등록하기 위한 입력화면을 스마트폼을 이용하여 자동으로 그린다.. -->
 			<!-- js_new_event_fields :  js/sw/sw-formFields.js 에서 loadNewEventFields()가 찾아서 이벤트입력화면을 이곳에 그려준다.. -->
-			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" 
+			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" placeHolderTitle="<fmt:message key='common.upload.message.event'/>"
 				startDateTitle="<fmt:message key='common.upload.event.start_date'/>" endDateTitle="<fmt:message key='common.upload.event.end_date'/>"  alarmPolicyTitle="<fmt:message key='common.upload.button.set_alarm'/>"
 				placeTitle="<fmt:message key='common.upload.event.place'/>" relatedUsersTitle="<fmt:message key='common.upload.event.related_users'/>" 
 				contentTitle="<fmt:message key='common.upload.event.content' />">

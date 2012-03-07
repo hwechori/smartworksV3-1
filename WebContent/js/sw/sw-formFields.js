@@ -115,6 +115,7 @@ function loadNewPictureFields() {
 			});
 
 			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			gridRow.hide();
 			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtPictureDesc",
@@ -147,8 +148,10 @@ function loadNewFileFields() {
 				columns: 1,
 				required: true
 			});
-
+			gridRow.find('.form_label').hide();
+			
 			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			gridRow.hide();
 			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtFileDesc",
@@ -171,6 +174,7 @@ function loadNewEventFields(startDate) {
 			var gridTable = SmartWorks.GridLayout.newGridTable();
 			newEventField.html(gridTable.html(gridRow));
 			
+			var placeHolderTitle = newEventField.attr("placeHolderTitle");
 			var eventNameTitle = newEventField.attr("eventNameTitle");
 			var startDateTitle = newEventField.attr("startDateTitle");
 			var endDateTitle = newEventField.attr("endDateTitle");
@@ -186,11 +190,14 @@ function loadNewEventFields(startDate) {
 				colSpan: 3,
 				required: true
 			});
+			gridRow.find('.form_label').hide();
+			gridRow.find('.form_value input').removeClass('fieldline').attr('placeholder', placeHolderTitle);
 	
 			var startDateStr = "";
 			if(!isEmpty(startDate))
 				startDateStr = startDate.format('yyyy.mm.dd hh:MM');
 			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			gridRow.hide();
 			SmartWorks.FormRuntime.DateTimeChooserBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtEventStartDate",
@@ -229,6 +236,7 @@ function loadNewEventFields(startDate) {
 			});
 		  	
 			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			gridRow.hide();
 			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtEventPlace",
@@ -239,6 +247,7 @@ function loadNewEventFields(startDate) {
 			});
 
 			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			gridRow.hide();
 			SmartWorks.FormRuntime.UserFieldBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtEventRelatedUsers",
@@ -250,6 +259,7 @@ function loadNewEventFields(startDate) {
 			});
 
 			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			gridRow.hide();
 			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtEventContent",
@@ -296,6 +306,7 @@ function loadNewBoardFields() {
 			var gridTable = SmartWorks.GridLayout.newGridTable();
 			newBoardField.html(gridTable.html(gridRow));
 			
+			var placeHolderTitle = newBoardField.attr("placeHolderTitle");
 			var boardNameTitle = newBoardField.attr("boardNameTitle");
 			var boardDetailsTitle = newBoardField.attr("boardDetailsTitle");
 			var boardFilesTitle = newBoardField.attr("boardFilesTitle");
@@ -307,8 +318,11 @@ function loadNewBoardFields() {
 				columns: 1,
 				required: true
 			});
+			gridRow.find('.form_label').hide();
+			gridRow.find('.form_value input').removeClass('fieldline').attr('placeholder', placeHolderTitle);
 			
 			var gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			gridRow.hide();
 			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtBoardDetails",
@@ -319,6 +333,7 @@ function loadNewBoardFields() {
 			});
 			
 			var gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
+			gridRow.hide();
 			SmartWorks.FormRuntime.FileFieldBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtBoardFiles",

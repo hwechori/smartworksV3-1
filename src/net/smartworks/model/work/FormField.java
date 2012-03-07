@@ -11,6 +11,8 @@ public class FormField extends BaseObject{
 	public static final String ID_LAST_TASK = "lastTask";
 	public static final String ID_PROCESS_TIME = "processTime";
 	public static final String ID_PROCESS_TYPE = "processType";
+	public static final String ID_WORK_NAME = "WorkName";
+	public static final String ID_FILE_NAMES = "FileNames";
 
 	public static final String ID_OWNER = "creator";
 	public static final String ID_CREATED_DATE = "createdTime";
