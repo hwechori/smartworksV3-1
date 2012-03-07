@@ -70,6 +70,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<beans:property name="schManager" ref="schManager"/>
 		<beans:property name="swcManager" ref="swcManager"/>
 		<beans:property name="sctManager" ref="sctXPathManager"/>
+		<beans:property name="fdrManager" ref="fdrManager"/>
 
 		<beans:property name="designtimeManager" ref="resourceDesigntimeManager"/>
 		<beans:property name="runtimeManager" ref="resourceRuntimeManager"/>
@@ -86,5 +87,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<beans:bean id="itmManager" class="net.smartworks.server.engine.common.menuitem.manager.impl.ItmManagerImpl"/>
 	<beans:bean id="workListManager" class="net.smartworks.server.engine.worklist.manager.impl.WorkListManagerImpl"/>
 	<beans:bean id="swcManager" class="net.smartworks.server.engine.config.manager.impl.SwcManagerImpl"/>
+	<beans:bean id="fdrManager" class="net.smartworks.server.engine.folder.manager.impl.FdrManagerImpl"/>
 
 </beans:beans>

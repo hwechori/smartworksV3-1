@@ -17,6 +17,7 @@ import net.smartworks.server.engine.common.script.manager.ISctManager;
 import net.smartworks.server.engine.common.searcher.manager.ISchManager;
 import net.smartworks.server.engine.config.manager.ISwcManager;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
+import net.smartworks.server.engine.folder.manager.IFdrManager;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
@@ -57,6 +58,7 @@ public class SwManagerFactory {
 	private ISchManager schManager;
 	private ISwcManager swcManager;
 	private ISctManager sctManager;
+	private IFdrManager fdrManager;
 	private IResourceDesigntimeManager designtimeManager;
 	private IResourceRuntimeManager runtimeManager;
 
@@ -195,6 +197,12 @@ public class SwManagerFactory {
 	}
 	public void setSctManager(ISctManager sctManager) {
 		this.sctManager = sctManager;
+	}
+	public IFdrManager getFdrManager() {
+		return fdrManager;
+	}
+	public void setFdrManager(IFdrManager fdrManager) {
+		this.fdrManager = fdrManager;
 	}
 	public IResourceDesigntimeManager getDesigntimeManager() {
 		return designtimeManager;

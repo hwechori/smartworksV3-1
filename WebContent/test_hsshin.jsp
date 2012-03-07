@@ -276,11 +276,6 @@
 
 	String dd = LocalDate.convertGMTStringToLocalDate("2012-02-23 15:00:00.0").toLocalDateTimeSimpleString();
 	System.out.println(dd); */
-
-	RequestParams params = new RequestParams();
-	InstanceInfoList instanceInfoList = instanceService.getPictureInstanceList("us.sp.hsshin@maninsoft.co.kr", params);
-
-	System.out.println(instanceInfoList); 
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>
