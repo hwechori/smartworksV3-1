@@ -138,8 +138,8 @@ function submitForms(e) {
 				<!-- js/sw/sw-formFields.js 에 있는 loadNewFileFields() 함수를 호출하여 그린다. -->
 				<div class="js_new_file_fields" fileNameTitle="<fmt:message key='common.upload.file.name'/>" fileDescTitle="<fmt:message key='common.upload.file.desc'/>"></div>
 			</div>
-			<div class="form_contents">
 			
+			<div class="">
 				<!--  상세입력화면을 보여주고 숨기고하는 부분 -->
 				<div class="txt_btn txt_btn_height js_file_detail_form" style="display:none">
 					<div>

@@ -413,7 +413,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .txt_btn .current { font-weight:bold;}
 .txt_btn a, .txt_btn a:focus, .txt_btn a:active, .txt_btn a:link, .txt_btn a:visited {text-decoration:none;}
 .txt_btn a:hover {text-decoration:underline; }
-.txt_btn_height {height:16px;}
+.txt_btn_height {height:16px; padding: 5px 0; text-align: center}
 .txt_btn_height25{height:25px}
 
 
@@ -574,6 +574,8 @@ li.fvrt_item:hover .checkOption {display:block}
     height:10px; margin-left:10px; position:relative;}
 .line_daspace_dateed {border-bottom:1px daspace_dateed #DCDFE0; margin:0 15px 0 0;}
 .event_space {position:relative; width:99%; display:inline-block; margin-left:10px; }
+.event_space li { width:33%}
+.event_space .eventCell li { width: auto}
 .space_left { margin-left:15px;}
 .space_right { float:right; margin-right:20px;}
 .space_top { margin-top:5px;}
