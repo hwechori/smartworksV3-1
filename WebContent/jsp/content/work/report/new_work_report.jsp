@@ -28,7 +28,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
 
-<div class="form_wrap up up_padding js_new_work_report_page">
+<div class="form_wrap up js_new_work_report_page">
 	<!-- 컨텐츠 -->
 	<div class="form_title">
 		<div class=" po_left"><fmt:message key="report.title.new_report" /></div>
