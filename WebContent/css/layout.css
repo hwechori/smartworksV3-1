@@ -155,6 +155,7 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
 .navi_list.coummi {min-height: 200px;}
 
+.icon_dworks {background: url("../images/icon_dworks.png") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:18px;}
 .icon_pworks {background: url("../images/icon_pworks.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
 .icon_cworks {background: url("../images/icon_category.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
 .icon_sworks {background: url("../images/icon_sworks.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
