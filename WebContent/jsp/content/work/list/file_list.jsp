@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
 <%@page import="net.smartworks.server.engine.process.xpdl.xpdl2.Category"%>
 <%@page import="net.smartworks.model.work.info.FileCategoryInfo"%>
 <%@page import="net.smartworks.model.work.FileCategory"%>
 <%@page import="net.smartworks.model.community.WorkSpace"%>
->>>>>>> branch 'master' of git@github.com:maninsoft/smartworksV3.git
 <%@page import="net.smartworks.model.filter.info.SearchFilterInfo"%>
 <%@page import="net.smartworks.model.work.ProcessWork"%>
 <%@page import="net.smartworks.model.work.FormField"%>
