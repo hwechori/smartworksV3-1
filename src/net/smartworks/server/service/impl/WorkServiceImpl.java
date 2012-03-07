@@ -28,6 +28,7 @@ import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
+import net.smartworks.model.work.info.FileCategoryInfo;
 import net.smartworks.model.work.info.ImageCategoryInfo;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
@@ -303,7 +304,23 @@ public class WorkServiceImpl implements IWorkService {
 	public ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception {
 
 		try{
+			/*
+			 * displayType 
+			 */
 			return SmartTest.getImageCategoriesByType(displayType, spaceId);
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception {
+
+		try{
+			return SmartTest.getFileCategoriesByType(displayType, spaceId);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();

@@ -40,13 +40,14 @@
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
 			<!-- 타이틀 -->
-			<div class="body_titl" style="overflow:inherit">
-				<div class="title myspace_h"><%=workSpace.getName() %>
-					<span class="bul_space"><fmt:message key="space.title.pictures"/></span>
-				</div>
-                   
+			<div class="body_titl">
+				<div class="body_titl_iworks title">
+					<div class="title myspace_h"><%=workSpace.getName() %>
+						<span class="bul_space"><fmt:message key="space.title.pictures"/></span>
+					</div>
+				</div>                   
       			<!-- 필터 -->
-           		<div class="txt_btn" style="padding:5px 0 4px">
+           		<div class="txt_btn">
        				<select class="js_image_display_by">
                			<option selected value="<%=FileCategory.DISPLAY_BY_CATEGORY%>"><fmt:message key="space.title.by_category"/></option>
            				<option value="<%=FileCategory.DISPLAY_BY_YEAR%>"><fmt:message key="space.title.by_year"/></option>

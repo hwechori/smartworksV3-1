@@ -249,4 +249,47 @@ $(function() {
 		return false;
 		
 	});
+	
+	$('.js_return_on_comment').live('keydown', function(e) {
+		if(e.which != $.ui.keyCode.ENTER) return;
+		var input = $(e.target);
+		var comment = input.attr('value');
+		if(isEmpty(content)) return;
+		var iworkManual = input.parents('.js_iwork_manual_page');
+		var pworkManual = input.parents('.js_pwork_manual_page');
+		var workId="", workInstanceId="", url="";
+		if(!isEmpty(iworkManual))
+			workId = iworkManual.attr('workId');
+		else if(!isEmpty(pworkManual))
+			workId = pworkManual.attr('workId');
+		else
+			workInstanceId = input.parents('li:first').attr('instanceId');
+		var paramsJson = {};
+		if(!isEmpty(workId)){
+			paramsJson['workId'] = workId;
+			url = "add_comment_on_work.sw";
+		}else if(!isEmpty(workInstanceId)){
+			paramsJson['workInstanceId'] = workInstanceId;
+			url = "add_comment_on_instance.sw";
+		}
+		paramsJson['comment'] = comment;
+		console.log(JSON.stringify(paramsJson));
+		$.ajax({
+			url : url,
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(paramsJson),
+			success : function(data, status, jqXHR) {
+				
+			},
+			error : function(e) {
+				// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get("addCommentError"), function(){
+				});
+				
+			}
+			
+		});
+		
+	});
 });

@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.community.WorkSpace"%>
 <%@page import="net.smartworks.model.filter.info.SearchFilterInfo"%>
 <%@page import="net.smartworks.model.work.ProcessWork"%>
 <%@page import="net.smartworks.model.work.FormField"%>
@@ -134,6 +135,8 @@
 	session.setAttribute("wid", wid);
 	
 	User cUser = SmartUtil.getCurrentUser();
+	WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
+	String workSpaceName = (SmartUtil.isBlankObject(wid)) ? cUser.getCompany() : workSpace.getName(); 
 
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -147,21 +150,25 @@
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
 
+			<!-- 타이틀 -->
+			<div class="body_titl">
+				<div class="body_titl_iworks title">
+					<div class="title myspace_h"><%=workSpaceName %>
+						<span class="bul_space"><fmt:message key="space.title.memos"/></span>
+					</div>
+				</div>
+				<!-- 우측 버튼 -->
+				<div class="txt_btn">
+				</div>
+				<div class="solid_line"></div>
+			</div>
+			<!-- 타이틀 -->
+
 			<!-- 목록보기 -->
 			<div class=" contents_space">
-				<div>
-<%--  					<jsp:include page="/jsp/content/work/report/work_report.jsp"/>
- --%>				</div>
-
 				<!-- 목록보기 타이틀-->
 				<div class="list_title_space js_work_list_title margin_t15">
-					<div class="title"><fmt:message key="common.title.instance_list" /></div>
-					<div class="titleLineBtns">
-						<div class="btnIconsEdit">
-							<a href="search_filter.sw?workId=" class="js_edit_search_filter btnIconsTail"><fmt:message key='filter.button.edit_search_filter' /></a>
-						</div>
-					</div>
-					
+					<div class="title"><fmt:message key="common.title.instance_list" /></div>					
 					<div class="titleLineOptions">
 						<form name="frmSearchInstance" class="po_left">
 							<span class="js_progress_span"></span>
@@ -171,35 +178,6 @@
 							</div>
 						</form>
 
-						<form class="form_space po_left js_form_filter_name" name="frmPworkFilterName">
-							<select name="selFilterName" class="js_select_filter" href="search_filter.sw?workId=">
-								<option value="<%=SearchFilter.FILTER_ALL_INSTANCES%>" selected>
-									<fmt:message key='filter.name.all_instances' />
-								</option>
-								<option value="<%=SearchFilter.FILTER_MY_INSTANCES%>">
-									<fmt:message key='filter.name.my_instances' />
-								</option>
-								<option value="<%=SearchFilter.FILTER_RECENT_INSTANCES%>">
-									<fmt:message key='filter.name.recent_instances' />
-								</option>
-								<option value="<%=SearchFilter.FILTER_MY_RECENT_INSTANCES%>">
-									<fmt:message key='filter.name.my_recent_instances' />
-								</option>
-								<option value="<%=SearchFilter.FILTER_MY_RUNNING_INSTANCES%>">
-									<fmt:message key='filter.name.my_running_instances' />
-								</option>
-<%-- 								<%
-								SearchFilterInfo[] filters = work.getSearchFilters();
-								if (filters != null) {
-									for (SearchFilterInfo filter : filters) {
-								%>
-										<option value="<%=filter.getId()%>"><%=filter.getName()%></option>
-								<%
-									}
-								}
-								%>
- --%>							</select>
-						</form>
 					</div>
 				</div>
 				<!-- 목록보기 타이틀-->
