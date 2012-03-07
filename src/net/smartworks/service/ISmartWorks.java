@@ -43,13 +43,13 @@ import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WSDLDetail;
 import net.smartworks.model.service.WebService;
 import net.smartworks.model.work.Work;
+import net.smartworks.model.work.info.FileCategoryInfo;
 import net.smartworks.model.work.info.ImageCategoryInfo;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.util.LocalDate;
-import net.smartworks.util.SmartTest;
 
 public interface ISmartWorks {
 
@@ -154,6 +154,8 @@ public interface ISmartWorks {
 	public abstract WorkInfo[] getAllWorksByCategoryId(String categoryId) throws Exception;
 
 	public abstract ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception;
+
+	public abstract FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception;
 
 	public abstract InstanceInfo[] getMyRecentInstances() throws Exception;
 
@@ -395,4 +397,8 @@ public interface ISmartWorks {
 
 	public abstract void setWorkDefinition(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
+	public abstract void addCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+
+	public abstract void addCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
 }

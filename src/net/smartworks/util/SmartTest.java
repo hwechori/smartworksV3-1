@@ -57,6 +57,7 @@ import net.smartworks.model.work.SmartTask;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
+import net.smartworks.model.work.info.FileCategoryInfo;
 import net.smartworks.model.work.info.ImageCategoryInfo;
 import net.smartworks.model.work.info.SmartFormInfo;
 import net.smartworks.model.work.info.SmartTaskInfo;
@@ -1379,22 +1380,58 @@ public class SmartTest {
 		ImageCategoryInfo[] categories=null;
 		switch(displayType){
 		case FileCategory.DISPLAY_BY_CATEGORY:
-			ImageCategoryInfo c1 = new ImageCategoryInfo(ImageCategory.ID_UNCATEGORIZED, ImageCategory.NAME_UNCATEGORIZED);
+			ImageCategoryInfo c1 = new ImageCategoryInfo(FileCategory.ID_UNCATEGORIZED, ImageCategory.NAME_UNCATEGORIZED);
 			c1.setLength(28);
 			c1.setFirstImage(SmartTest.getImageInstanceInfo());
 			categories = new ImageCategoryInfo[]{c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1};
 			return categories;
 		case FileCategory.DISPLAY_BY_YEAR:
-			ImageCategoryInfo c2 = new ImageCategoryInfo(ImageCategory.ID_UNCATEGORIZED, "2011년1월");
+			ImageCategoryInfo c2 = new ImageCategoryInfo("2011.01", "2011년1월");
 			c2.setLength(28);
 			c2.setFirstImage(SmartTest.getImageInstanceInfo());
 			categories = new ImageCategoryInfo[]{c2, c2, c2, c2, c2};
 			return categories;
 		case FileCategory.DISPLAY_BY_OWNER:
-			ImageCategoryInfo c3 = new ImageCategoryInfo(ImageCategory.ID_UNCATEGORIZED, "과장 김 지숙");
+			ImageCategoryInfo c3 = new ImageCategoryInfo("jskim@maninsoft.co.kr", "과장 김 지숙");
 			c3.setLength(28);
 			c3.setFirstImage(SmartTest.getImageInstanceInfo());
 			categories = new ImageCategoryInfo[]{c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3};
+			return categories;
+		}
+		return categories;
+	}
+	public static FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception {
+		FileCategoryInfo[] categories=null;
+		switch(displayType){
+		case FileCategory.DISPLAY_BY_CATEGORY:
+			FileCategoryInfo c1 = new FileCategoryInfo(FileCategory.ID_UNCATEGORIZED, ImageCategory.NAME_UNCATEGORIZED);
+			c1.setLength(28);
+			categories = new FileCategoryInfo[]{c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1, c1};
+			return categories;
+		case FileCategory.DISPLAY_BY_YEAR:
+			FileCategoryInfo c2 = new FileCategoryInfo("2011.01", "2011년1월");
+			c2.setLength(28);
+			categories = new FileCategoryInfo[]{c2, c2, c2, c2, c2};
+			return categories;
+		case FileCategory.DISPLAY_BY_OWNER:
+			FileCategoryInfo c3 = new FileCategoryInfo("jskim@maninsoft.co.kr", "과장 김 지숙");
+			c3.setLength(28);
+			categories = new FileCategoryInfo[]{c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3, c3};
+			return categories;
+		case FileCategory.DISPLAY_BY_COMMUNITY:
+			FileCategoryInfo c4 = new FileCategoryInfo(SmartTest.getGroup1().getId(), SmartTest.getGroup1().getName());
+			c4.setLength(28);
+			categories = new FileCategoryInfo[]{c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4, c4};
+			return categories;
+		case FileCategory.DISPLAY_BY_WORK:
+			FileCategoryInfo c5 = new FileCategoryInfo(SmartTest.getInformationWork1().getId(), SmartTest.getInformationWork1().getName());
+			c5.setLength(28);
+			categories = new FileCategoryInfo[]{c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5, c5};
+			return categories;
+		case FileCategory.DISPLAY_BY_FILE_TYPE:
+			FileCategoryInfo c6 = new FileCategoryInfo("pdf", SmartMessage.getString("file.type.pdf"));
+			c6.setLength(28);
+			categories = new FileCategoryInfo[]{c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6, c6};
 			return categories;
 		}
 		return categories;

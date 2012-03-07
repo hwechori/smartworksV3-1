@@ -55,20 +55,6 @@
 	%>
 		<tr class="tit_bg">
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_OWNER%>"><fmt:message key='common.title.owner'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_OWNER)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>/				
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_CREATED_DATE%>"><fmt:message key='common.title.created_date'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_CREATED_DATE)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>
-			</th>				
-			<th class="r_line">
 	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_SUBJECT%>"><fmt:message key='common.title.instance_subject'/>
 			 		<%
 					if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
@@ -103,28 +89,18 @@
 		if(instanceList.getInstanceDatas() != null) {
 			InstanceInfo[] instanceInfos = (InstanceInfo[])instanceList.getInstanceDatas();
 			for (InstanceInfo instanceInfo : instanceInfos) {
+				FileInstanceInfo fileInstance = (FileInstanceInfo)instanceInfo;
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 			%>
 				<tr>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space">
-							<div class="noti_pic">
-								<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s" />
-							</div>
-							<div class="noti_in">
-								<span class="t_name"><%=owner.getLongName()%></span>
-								<div class="t_date"><%if(instanceInfo.getCreatedDate()!=null){%><%=instanceInfo.getCreatedDate().toLocalString()%><%} %></div>
-							</div>
-						</a>
-					</td>
-					<td>
 						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%></a>
 					</td>
-					<td>
-<%--  						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(instanceInfo.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=instanceInfo.getFilesHtml()%>"><%} %></a>
- --%>					</td>
+					<td class="hAlignCenter">
+  						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%} %></a>
+					</td>
 					<td>
 						<%
 						if(!SmartUtil.isBlankObject(lastModifier)){

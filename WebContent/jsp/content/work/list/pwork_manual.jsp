@@ -34,7 +34,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 업무 설명 보기 -->
-<div class="contents_space js_pwork_manual_page">
+<div class="contents_space js_pwork_manual_page" workId="<%=work.getId()%>">
 
 	<!-- 보더 -->
 	<div class="border">
@@ -148,10 +148,8 @@
 				</ul>
 	        </div>
 	        
-	        <div class="replay_input">
-				<textarea class="up_textarea" rows="5" cols="" name="txtaEventContent"
-					placeholder="<fmt:message key='work.message.leave_question'/>"><fmt:message key='work.message.leave_question' />
-				</textarea>
+	        <div class="replay_input js_return_on_comment">
+				<textarea class="up_textarea" rows="5" cols="" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_question'/>"></textarea>
 	        </div>
 	    
 	    </div>

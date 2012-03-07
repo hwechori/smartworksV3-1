@@ -43,6 +43,7 @@ import net.smartworks.model.service.ExternalForm;
 import net.smartworks.model.service.WSDLDetail;
 import net.smartworks.model.service.WebService;
 import net.smartworks.model.work.Work;
+import net.smartworks.model.work.info.FileCategoryInfo;
 import net.smartworks.model.work.info.ImageCategoryInfo;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkInfo;
@@ -280,6 +281,11 @@ public class SmartWorks implements ISmartWorks {
 	@Override
 	public ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception {
 		return workService.getImageCategoriesByType(displayType, spaceId);
+	}
+
+	@Override
+	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception {
+		return workService.getFileCategoriesByType(displayType, spaceId);
 	}
 
 	@Override
@@ -828,4 +834,14 @@ public class SmartWorks implements ISmartWorks {
 		builderService.setWorkDefinition(requestBody, request);
 	}
 
+	@Override
+	public void addCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		instanceService.addCommentOnWork(requestBody, request);
+	}
+
+	@Override
+	public void addCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		instanceService.addCommentOnInstance(requestBody, request);
+	}
+	
 }

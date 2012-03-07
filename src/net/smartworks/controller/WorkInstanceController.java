@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.Data;
@@ -280,6 +281,20 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		mnv.setViewName(href);
 		return mnv;
 
+	}
+
+	@RequestMapping(value = "/add_comment_on_work", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody Map<String, Object> addCommentOnWork(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.addCommentOnWork(requestBody, request);
+		return null;
+	}
+
+	@RequestMapping(value = "/add_comment_on_instance", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody Map<String, Object> addCommentOnInstance(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		smartworks.addCommentOnInstance(requestBody, request);
+		return null;
 	}
 
 	@RequestMapping(value = "/get_events_by_dates", method = RequestMethod.GET)

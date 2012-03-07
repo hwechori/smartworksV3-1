@@ -1061,6 +1061,28 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 
+	@Override
+	public void addCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public void addCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+
+		try{
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			// Exception Handling Required			
+		}
+	}
+
 	private SwdRecord getSwdRecordByRequestBody_old(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
 		try{

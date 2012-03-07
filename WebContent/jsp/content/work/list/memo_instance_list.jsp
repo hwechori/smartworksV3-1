@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.info.MemoInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
 <%@page import="net.smartworks.model.work.info.SmartTaskInfo"%>
 <%@page import="net.smartworks.model.instance.Instance"%>
@@ -53,49 +54,17 @@
 		if(sortedField==null) sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
-			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_STATUS%>"><fmt:message key='common.title.status'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_STATUS)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>				
+			<th  style="width:40px">
 			</th>
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_OWNER%>"><fmt:message key='common.title.owner'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_OWNER)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>/				
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_CREATED_DATE%>"><fmt:message key='common.title.created_date'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_CREATED_DATE)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>
-			</th>				
-			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_SUBJECT%>"><fmt:message key='common.title.instance_subject'/>
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_SUBJECT%>"><fmt:message key='common.title.instance_content'/>
 			 		<%
 					if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>				
-			</th>
-			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_TASK%>"><fmt:message key='common.title.last_task'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>						
 			</th>
 			<th>
-				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIER %>">
-					<fmt:message key='common.title.last_modifier' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIER)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
-				</a>/
 				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
 					<fmt:message key='common.title.last_modified_date' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIED_DATE)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
@@ -112,70 +81,20 @@
 			for (InstanceInfo instanceInfo : instanceInfos) {
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
-//				TaskInstanceInfo lastTask = instanceInfo.getLastTask();
-				String target = "";//((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
-				String statusImage = "";
-				String statusTitle = "";
-				switch (instanceInfo.getStatus()) {
-				// 인스턴스가 현재 진행중인 경우..
-				case Instance.STATUS_RUNNING:
-					statusImage = "images/icon_status_running.jpg";
-					statusTitle = "content.status.running";
-					break;
-				// 인스턴스가 지연진행중인 경우....
-				case Instance.STATUS_DELAYED_RUNNING:
-					statusImage = "images/icon_status_d_running.jpg";
-					statusTitle = "content.status.delayed_running";
-					break;
-				// 인스턴스가 반려된 경우...
-				case Instance.STATUS_RETURNED:
-					statusImage = "images/icon_status_returned.jpg";
-					statusTitle = "content.status.returned";
-					break;
-				// 인스턴스가 완료된 경우...
-				case Instance.STATUS_COMPLETED:
-					statusImage = "images/icon_status_completed.jpg";
-					statusTitle = "content.status.completed";
-					break;
-				// 기타 잘못되어 상태가 없는 경우..
-				default:
-					statusImage = "images/icon_status_not_yet.jpg";
-					statusTitle = "content.status.not_yet";
-				}
+				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 			%>
 				<tr>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space">
-							<div class="noti_pic js_content_pwork_space">
-								<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>"/>
-							</div>
-						</a>
+						<a href="<%=target%>" class="js_content_pwork_space"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"/></a>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space">
-							<div class="noti_pic js_content_pwork_space">
-								<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s" />
-							</div>
-							<div class="noti_in">
-								<span class="t_name"><%=owner.getLongName()%></span>
-								<div class="t_date"><%if(instanceInfo.getCreatedDate()!=null){%><%=instanceInfo.getCreatedDate().toLocalString()%><%} %></div>
-							</div>
-						</a>
+						<a href="<%=target%>" class="js_content_pwork_space"><%=((MemoInstanceInfo)instanceInfo).getContent() %></a>
 					</td>
-					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%></a>
-					</td>
-					<td>
-<%-- 						<a href="<%=target%>" class="js_content_pwork_space"><%=lastTask.getName()%></a>
- --%>					</td>
-					<td>
+					<td class="hAlignRight">
 						<%
 						if(!SmartUtil.isBlankObject(lastModifier)){
 						%>
 							<a href="<%=target%>" class="js_content_pwork_space">
-								<div class="noti_pic js_content_pwork_space">
-									<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
-								</div>
 								<div class="noti_in">
 									<span class="t_name"><%=lastModifier.getLongName()%></span>
 									<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
