@@ -10,6 +10,7 @@ public class FileCategory extends Work {
 	public final static String ID_UNCATEGORIZED = "Uncategorized";
 	public final static String NAME_UNCATEGORIZED = SmartMessage.getString("common.title.uncategorized");
 	
+	public final static int DISPLAY_ALL = 0;
 	public final static int DISPLAY_BY_CATEGORY = 1;
 	public final static int DISPLAY_BY_YEAR = 2;
 	public final static int DISPLAY_BY_OWNER = 3;

@@ -140,13 +140,18 @@
 	User cUser = SmartUtil.getCurrentUser();
 	WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
 	String workSpaceName = (SmartUtil.isBlankObject(wid)) ? cUser.getCompany() : workSpace.getName();
-	FileCategoryInfo[] categories = smartWorks.getFileCategoriesByType(FileCategory.DISPLAY_BY_CATEGORY, wid);
 
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
+<%
+if(!SmartUtil.isBlankObject(wid)){
+%>
+	<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
+<%
+}
+%>
 
 <!-- 컨텐츠 레이아웃-->
 <div class="section_portlet js_work_list_page">
@@ -168,84 +173,125 @@
 			</div>
 			<!-- 타이틀 -->
 
-			<div class=" contents_space">            
-				<!-- Left -->
-				<div class="left30 ">
-					<table style="min-width:inherit">
-						<tbody>
-							<tr class="tit_bg">
-								<th class="" style="height:1px; padding:0; border-bottom:0"></th>
-							</tr>
-							<tr>
-								<td class="">
-									<div class="margin_t5">
-										<!-- 필 터 -->
-										<div class="float_left">
-										  <select name="">
-										    <option><fmt:message key="space.title.by_category"/></option>
-										    <option><fmt:message key="space.title.by_workspace"/></option>
-										    <option><fmt:message key="space.title.by_work"/></option>
-										    <option><fmt:message key="space.title.by_year"/></option>
-										    <option><fmt:message key="space.title.by_owner"/></option>
-										    <option><fmt:message key="space.title.by_filetype"/></option>
-										  </select>
-										</div>
-										<!-- 필 터 //-->
-										<!-- 우측 구분 -->
-										<div class="categ_link m0p0">검색공간</div>
-										<!-- 우측 구분 //-->
-										<!-- 카테고리 -->
-										<div class="pop_list_area ">
-											<ul>
-												<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span>모든 파일</span> </a> </span></li>
-												<%
-												if(!SmartUtil.isBlankObject(categories) && categories.length>0){
-													for(int i=0; i<categories.length; i++){
-														FileCategoryInfo category = categories[i];
-												%>
-														<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span><%=category.getName() %></span> </a> </span></li>
-												<%
+			<div class=" contents_space">  
+				<%
+				if(!SmartUtil.isBlankObject(wid)){
+				%>          
+					<!-- Left -->
+					<div class="left30 ">
+						<table style="min-width:inherit">
+							<tbody>
+								<tr class="tit_bg">
+									<th class="" style="height:1px; padding:0; border-bottom:0"></th>
+								</tr>
+								<tr>
+									<td class="">
+										<div class="">
+											<!-- 필 터 -->
+											<div class="float_left">
+											  <select name="">
+											    <option><fmt:message key="space.title.by_category"/></option>
+											    <option><fmt:message key="space.title.by_work"/></option>
+											    <option><fmt:message key="space.title.by_year"/></option>
+											    <option><fmt:message key="space.title.by_owner"/></option>
+											    <option><fmt:message key="space.title.by_filetype"/></option>
+											  </select>
+											</div>
+											<!-- 필 터 //-->
+											<!-- 우측 구분 -->
+											<div class="categ_link m0p0">검색공간</div>
+											<!-- 우측 구분 //-->
+											<!-- 카테고리 -->
+											<div class="pop_list_area ">
+												<ul>
+													<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span>모든 파일</span> </a> </span></li>
+													<%
+													FileCategoryInfo[] categories = smartWorks.getFileCategoriesByType(FileCategory.DISPLAY_BY_COMMUNITY, wid);
+													if(!SmartUtil.isBlankObject(categories) && categories.length>0){
+														for(int i=0; i<categories.length; i++){
+															FileCategoryInfo category = categories[i];
+													%>
+															<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span><%=category.getName() %></span> </a> </span></li>
+													<%
+														}
 													}
-												}
-												%>
-											</ul>
+													%>
+												</ul>
+											</div>
+											<!-- 카테고리 //-->
 										</div>
-										<!-- 카테고리 //-->
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<!-- Left//-->
-
-				<!-- Right -->
-				<div class="right70">
-				<!-- 목록보기 -->
-					<!-- 목록보기 타이틀-->
-					<div class="list_title_space js_work_list_title margin_t15">
-						<div class="title"><fmt:message key="common.title.instance_list" /></div>					
-							<div class="titleLineOptions">
-								<form name="frmSearchInstance" class="po_left">
-									<span class="js_progress_span"></span>
-									<div class="srch_wh srch_wsize">
-										<input name="txtSearchInstance" class="nav_input" type="text" placeholder="<fmt:message key='search.search_instance' />">
-										<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
-									</div>
-								</form>					
-							</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-					<!-- 목록보기 타이틀-->
-						
-					<!-- 목록 테이블 -->
-					<div class="list_contents">
-						<div id='work_instance_list_page'>
-							<jsp:include page="/jsp/content/work/list/file_instance_list.jsp"/>
-						</div>
-					</div>
-					<!-- 목록 테이블 //-->
+					<!-- Left//-->
+					<!-- Right -->	
+					<div class="right70">
 					<!-- 목록보기 -->
-				</div>
+						<!-- 목록보기 타이틀-->
+						<div class="list_title_space js_work_list_title margin_t15">
+							<div class="title"><fmt:message key="common.title.instance_list" /></div>					
+								<div class="titleLineOptions">
+									<form name="frmSearchInstance" class="po_left">
+										<span class="js_progress_span"></span>
+										<div class="srch_wh srch_wsize">
+											<input name="txtSearchInstance" class="nav_input" type="text" placeholder="<fmt:message key='search.search_instance' />">
+											<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
+										</div>
+									</form>					
+								</div>
+						</div>
+						<!-- 목록보기 타이틀-->
+							
+						<!-- 목록 테이블 -->
+						<div class="list_contents">
+							<div id='work_instance_list_page'>
+								<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
+									<jsp:param value="<%=FileCategory.DISPLAY_BY_COMMUNITY %>" name="displayType"/>
+									<jsp:param value="<%=wid %>" name="workSpaceId"/>
+								</jsp:include>
+								
+							</div>
+						</div>
+						<!-- 목록 테이블 //-->
+					</div>
+					<!-- 목록보기 -->
+				<%
+				}else{
+				%>
+					<!-- Right -->	
+					<div>
+					<!-- 목록보기 -->
+						<!-- 목록보기 타이틀-->
+						<div class="list_title_space js_work_list_title margin_t15">
+							<div class="title"><fmt:message key="common.title.instance_list" /></div>					
+								<div class="titleLineOptions">
+									<form name="frmSearchInstance" class="po_left">
+										<span class="js_progress_span"></span>
+										<div class="srch_wh srch_wsize">
+											<input name="txtSearchInstance" class="nav_input" type="text" placeholder="<fmt:message key='search.search_instance' />">
+											<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
+										</div>
+									</form>					
+								</div>
+						</div>
+						<!-- 목록보기 타이틀-->
+							
+						<!-- 목록 테이블 -->
+						<div class="list_contents">
+							<div id='work_instance_list_page'>
+								<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
+									<jsp:param value="<%=FileCategory.DISPLAY_ALL %>" name="displayType"/>
+								</jsp:include>
+							</div>
+						</div>
+						<!-- 목록 테이블 //-->
+					</div>
+					<!-- 목록보기 -->
+				<%
+				}
+				%>
 			</div>
 		</ul>
 	</div>

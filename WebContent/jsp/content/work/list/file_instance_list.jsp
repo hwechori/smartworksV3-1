@@ -89,6 +89,7 @@
 		if(instanceList.getInstanceDatas() != null) {
 			InstanceInfo[] instanceInfos = (InstanceInfo[])instanceList.getInstanceDatas();
 			for (InstanceInfo instanceInfo : instanceInfos) {
+				FileInstanceInfo fileInstance = (FileInstanceInfo)instanceInfo;
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
@@ -97,9 +98,9 @@
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%></a>
 					</td>
-					<td>
-<%--  						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(instanceInfo.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=instanceInfo.getFilesHtml()%>"><%} %></a>
- --%>					</td>
+					<td class="hAlignCenter">
+  						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%} %></a>
+					</td>
 					<td>
 						<%
 						if(!SmartUtil.isBlankObject(lastModifier)){

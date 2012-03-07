@@ -23,7 +23,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 
-<div class="contents_space js_iwork_manual_page">
+<div class="contents_space js_iwork_manual_page" workId="<%=work.getId()%>">
 	<div class="border">
 		
 		<!-- 업무 정의 영역 -->
@@ -83,10 +83,8 @@
 				</ul>
 	        </div>
 	        
-	        <div class="replay_input">
-				<textarea class="up_textarea" rows="5" cols="" name="txtaEventContent"
-					placeholder="<fmt:message key='work.message.leave_question'/>"><fmt:message key='work.message.leave_question' />
-				</textarea>
+	        <div class="replay_input js_return_on_comment">
+				<textarea class="up_textarea" rows="5" cols="" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_question'/>"></textarea>
 	        </div>
 	    
 	    </div>

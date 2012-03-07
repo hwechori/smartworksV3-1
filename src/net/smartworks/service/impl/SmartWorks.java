@@ -834,4 +834,14 @@ public class SmartWorks implements ISmartWorks {
 		builderService.setWorkDefinition(requestBody, request);
 	}
 
+	@Override
+	public void addCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		instanceService.addCommentOnWork(requestBody, request);
+	}
+
+	@Override
+	public void addCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		instanceService.addCommentOnInstance(requestBody, request);
+	}
+	
 }
