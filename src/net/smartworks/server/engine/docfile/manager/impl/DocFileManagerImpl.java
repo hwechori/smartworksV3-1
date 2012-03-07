@@ -686,7 +686,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 
 	}
 
-	public void insertFiles(String workType, String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException {
+	public void insertFiles(String workType, String taskInstId, String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException {
 
 		try {
 			//this.setFileDirectory(System.getenv("SMARTWORKS_FILE_DIRECTORY") == null ? System.getProperty("user.home") : System.getenv("SMARTWORKS_FILE_DIRECTORY"));
@@ -721,6 +721,16 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 				throw new DocFileException("Failed to copy file [" + tempFile + "]!");
 			}
 
+
+			// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
+			if (groupId == null)
+				groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
+
+			// 그룹아이디, 파일 아이디 쌍 저장
+			Query query = this.getSession().createSQLQuery("insert into SWDocGroup(tskInstanceId, groupId, docId) values ('" + taskInstId + "', '" + groupId + "', '" + fileId + "')");
+			query.executeUpdate();
+
+			// 파일 정보 저장
 			IFileModel formFile = new HbFileModel();
 			formFile.setId(fileId);
 			formFile.setFileName(fileName);
@@ -729,15 +739,6 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			formFile.setFileSize(Long.parseLong(fileSize, 16));
 			formFile.setType(extension);
 			this.getHibernateTemplate().save(formFile);
-
-			// 그룹 아이디가 넘어 오지 않았다면 그룹아이디 설정
-			if (groupId == null)
-				// 그룹아이디를 생성하여 문서 아이디와 매핑
-				groupId = IDCreator.createId(SmartServerConstant.DOCUMENT_GROUP_ABBR);
-
-			// 그룹아이디, 문서 아이디 쌍 저장
-			Query query = this.getSession().createSQLQuery("insert into SWDocGroup(groupId, docId) values ('" + groupId + "', '" + fileId + "')");
-			query.executeUpdate();
 
 			File deleteFile = new File(tempFile);
 			if(deleteFile.exists())

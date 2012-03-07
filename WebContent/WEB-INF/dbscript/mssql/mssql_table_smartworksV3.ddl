@@ -330,9 +330,10 @@ CREATE TABLE swfile (
 );
 
 CREATE TABLE swdocgroup (
-  	groupid varchar(50) NOT NULL,
-  	docid varchar(50) NOT NULL,
-  	primary key(groupid, docid)
+	tskInstanceId varchar(50) NOT NULL,
+  	groupId varchar(50) NOT NULL,
+  	docId varchar(50) NOT NULL,
+  	primary key(groupId, docId)
 );
 
 ---- 프로세스 엔진
@@ -2208,3 +2209,25 @@ CREATE TABLE swwebserviceparameter(
 --		[tskObjId]
 --	)
 --GO
+
+-- 3.0 추가
+CREATE TABLE SwFolder (
+	id varchar(50) NOT NULL,
+	companyid varchar(100),
+	parentid varchar(50),
+	name varchar(255),
+	disporder int,
+	description varchar(4000),
+	creator varchar(30),
+	createdtime datetime,
+	modifier varchar(30),
+	modifiedtime datetime,	
+	primary key (id)
+);
+
+CREATE TABLE SwFolderFile (
+	folderId varchar(50) NOT NULL,
+	fileId varchar(50) NOT NULL,
+	fileSeq int,
+  	primary key(folderId, fileId)
+);
