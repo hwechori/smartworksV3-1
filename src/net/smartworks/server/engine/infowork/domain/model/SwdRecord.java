@@ -10,6 +10,7 @@ package net.smartworks.server.engine.infowork.domain.model;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.smartworks.server.engine.common.model.BaseObject;
@@ -59,6 +60,7 @@ public class SwdRecord extends BaseObject {
 	private String workSpaceType;
 	private String accessLevel;
 	private String accessValue;
+	private Map<String, List<Map<String, String>>> fileGroupMap;
 
 	private SwdDataField[] dataFields;
 	private Map<String, SwdDataField> dataFieldMap;
@@ -412,6 +414,12 @@ public class SwdRecord extends BaseObject {
 	}
 	public void setAccessValue(String accessValue) {
 		this.accessValue = accessValue;
+	}
+	public Map<String, List<Map<String, String>>> getFileGroupMap() {
+		return fileGroupMap;
+	}
+	public void setFileGroupMap(Map<String, List<Map<String, String>>> fileGroupMap) {
+		this.fileGroupMap = fileGroupMap;
 	}
 
 }
