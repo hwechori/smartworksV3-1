@@ -284,8 +284,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception {
-		return workService.getFileCategoriesByType(displayType, spaceId);
+	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId, String parentId) throws Exception {
+		return workService.getFileCategoriesByType(displayType, spaceId, parentId);
 	}
 
 	@Override

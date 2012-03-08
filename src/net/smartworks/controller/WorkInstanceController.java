@@ -148,6 +148,24 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		return SmartUtil.returnMnv(request, "jsp/content/work/list/more_image_instance_list.jsp", "");
 	}
 
+	@RequestMapping("/categories_by_type")
+	public ModelAndView categoriesByType(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/categories_by_type.jsp", "");
+	}
+
+	@RequestMapping(value = "/set_file_instance_list", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public ModelAndView setIworkSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String filterId = smartworks.setIWorkSearchFilter(requestBody, request);
+		String workId = (String)requestBody.get("workId");
+		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
+		ModelAndView mnv = new ModelAndView();
+		mnv.addObject(smartworks);
+		mnv.setViewName("jsp/content/work/list/file_instance_list.jsp?displayType=" + workId + "&filterId=" + filterId);
+		return mnv;
+	}
+
 //	@RequestMapping(value = "/refresh_data_fields", method = RequestMethod.POST)
 //	@ResponseStatus(HttpStatus.CREATED)
 //	public @ResponseBody Map<String, Object> refreshDataFields(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {

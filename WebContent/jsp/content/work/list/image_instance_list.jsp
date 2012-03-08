@@ -34,7 +34,7 @@
 	User cUser = SmartUtil.getCurrentUser();
 	String cid = (String) session.getAttribute("cid");
 	String wid = (String) session.getAttribute("wid");
-	int displayBy = Integer.parseInt(request.getParameter("displayBy"));
+	int displayType = Integer.parseInt(request.getParameter("displayType"));
 	String parentId = request.getParameter("parentId");
 	String strLastDate = request.getParameter("lastDate");
 	LocalDate lastDate = new LocalDate();
@@ -44,10 +44,10 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<ul class="js_image_instance_list_page" parentId="<%=parentId %>" displayBy="<%=displayBy %>" spaceId="<%=wid%>">
+<ul class="js_image_instance_list_page" parentId="<%=parentId %>" displayType="<%=displayType %>" spaceId="<%=wid%>">
 	<%
 	if(SmartUtil.isBlankObject(parentId)){
-		ImageCategoryInfo[] imageCategories = smartWorks.getImageCategoriesByType(displayBy, wid);
+		ImageCategoryInfo[] imageCategories = smartWorks.getImageCategoriesByType(displayType, wid);
 		if(!SmartUtil.isBlankObject(imageCategories) && imageCategories.length>0 ){
 			for(int i=0; i<imageCategories.length; i++){
 				ImageCategoryInfo category = imageCategories[i];
@@ -71,7 +71,7 @@
 	<%
 		}
 	}else{
-		ImageInstanceInfo[] imageInstances = smartWorks.getImageInstancesByDate(displayBy, wid, parentId, lastDate, 64);
+		ImageInstanceInfo[] imageInstances = smartWorks.getImageInstancesByDate(displayType, wid, parentId, lastDate, 64);
 		if(!SmartUtil.isBlankObject(imageInstances) && imageInstances.length>0 ){
 			for(int i=0; i<imageInstances.length; i++){
 				ImageInstanceInfo image = imageInstances[i];		

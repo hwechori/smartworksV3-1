@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
 <%@page import="net.smartworks.model.work.FileCategory"%>
 <%@page import="net.smartworks.model.instance.info.FileInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
@@ -46,7 +47,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 목록페이지 -->
-<table>
+<table class="js_file_instance_list_page">
 	<%
 	SortingField sortedField = new SortingField();
 	int pageSize = 20, totalPages = 1, currentPage = 1;
@@ -103,7 +104,7 @@
 			}
 			%>			
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_INSTANCE_NAME%>"><fmt:message key='common.title.work_instance_name'/>
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_INSTANCE_NAME%>"><fmt:message key='common.title.instance_subject'/>
 			 		<%
 					if(sortedField.getFieldId().equals(FormField.ID_WORK_INSTANCE_NAME)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
@@ -123,7 +124,7 @@
 				if(displayType!=FileCategory.DISPLAY_BY_OWNER){
 				%>			
 					<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_OWNER %>">
-						<fmt:message key='common.title.onwer' /> <%if(sortedField.getFieldId().equals(FormField.ID_OWNER)){
+						<fmt:message key='common.title.owner' /> <%if(sortedField.getFieldId().equals(FormField.ID_OWNER)){
 							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
 					</a>/
 				<%
@@ -163,18 +164,21 @@
 					if(displayType!=FileCategory.DISPLAY_BY_CATEGORY){
 					%>
 						<td>
-							<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getFileCategory().getName()%></a>
-						</td>
+<%-- 							<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getFileCategory().getName()%></a>
+ --%>						</td>
 					<%
 					}
 					if(displayType!=FileCategory.DISPLAY_BY_WORK){
 					%>
 						<td>
-							<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWork().getName()%></a>
+							<a href="<%=target%>" class="js_content_pwork_space"><img class="<%=fileInstance.getWork().getIconClass()%>"/><%=((SmartWorkInfo)(fileInstance.getWork())).getFullpathName()%></a>
 						</td>
+					<%
+					}
+					%>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWorkInstance().getSubject()%></a>
-					</td>
+<%-- 						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWorkInstance().getSubject()%></a>
+ --%>					</td>
 					<td class="hAlignCenter">
   						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%} %></a>
 					</td>

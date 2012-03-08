@@ -64,7 +64,7 @@
 				<!-- 사진 목록 -->
 				<div class="picture_section js_image_instance_list">
 					<jsp:include page="/jsp/content/work/list/image_instance_list.jsp">
-						<jsp:param value="<%=FileCategory.DISPLAY_BY_CATEGORY %>" name="displayBy"/>
+						<jsp:param value="<%=FileCategory.DISPLAY_BY_CATEGORY %>" name="displayType"/>
 						<jsp:param value="" name="parentId"/>
 					</jsp:include>
 				</div>
