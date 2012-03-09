@@ -1,3 +1,16 @@
+<%@page import="net.smartworks.model.work.FileCategory"%>
+<%@page import="net.smartworks.server.engine.docfile.model.HbFileModel"%>
+<%@page import="net.smartworks.model.community.Community"%>
+<%@page import="org.springframework.util.StringUtils"%>
+<%@page import="net.smartworks.model.instance.info.ImageInstanceInfo"%>
+<%@page import="net.smartworks.server.engine.docfile.model.DocFile"%>
+<%@page import="net.smartworks.server.engine.common.model.Order"%>
+<%@page import="net.smartworks.server.engine.folder.model.FdrFolderCond"%>
+<%@page import="net.smartworks.server.engine.folder.model.FdrFolder"%>
+<%@page import="net.smartworks.server.engine.folder.model.FdrFolderFile"%>
+<%@page import="net.smartworks.server.engine.docfile.model.IFileModel"%>
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
+<%@page import="net.smartworks.model.work.info.ImageCategoryInfo"%>
 <%@page import="net.smartworks.model.instance.info.RequestParams"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.server.engine.common.util.StringUtil"%>
@@ -276,6 +289,85 @@
 
 	String dd = LocalDate.convertGMTStringToLocalDate("2012-02-23 15:00:00.0").toLocalDateTimeSimpleString();
 	System.out.println(dd); */
+
+
+	User cUser = SmartUtil.getCurrentUser();
+	String userId = cUser.getId();
+	String companyId = cUser.getCompanyId();
+	ImageCategoryInfo[] imageCategoryInfos = null;
+	List<ImageCategoryInfo> imageCategoryInfoList = new ArrayList<ImageCategoryInfo>();
+	TskTaskCond tskTaskCond = new TskTaskCond();
+	tskTaskCond.setWorkSpaceId("hsshin@maninsoft.co.kr");
+	tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
+	tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_CREATIONDATE, false)});
+	TskTask[] tskTasks = SwManagerFactory.getInstance().getTskManager().getTasks(userId, tskTaskCond, IManager.LEVEL_LITE);
+
+	if(!CommonUtil.isEmpty(tskTasks)) {
+		String prevMonthString = "";
+		imageCategoryInfos = new ImageCategoryInfo[tskTasks.length];
+		int i=-1;
+		int count = 0;
+		for(TskTask tskTask : tskTasks) {
+			String taskInstId = tskTask.getObjId();
+			IFileModel[] fileModels = SwManagerFactory.getInstance().getDocManager().getFilesByTaskInstId(taskInstId);
+			if(!CommonUtil.isEmpty(fileModels)) {
+				IFileModel fileModel = fileModels[0];
+				ImageCategoryInfo imageCategoryInfo = new ImageCategoryInfo();
+				String monthString = new LocalDate(fileModel.getWrittenTime().getTime()).toLocalMonthString();
+				String originImgSrc = "";
+				String imgSrc = "";
+				ImageInstanceInfo imageInstanceInfo = new ImageInstanceInfo();
+				if(!CommonUtil.isEmpty(fileModels)) {
+					String fileId = fileModels[0].getId();
+					if(fileModel != null) {
+						String filePath = fileModel.getFilePath();
+						String extension = filePath.lastIndexOf(".") > 1 ? filePath.substring(filePath.lastIndexOf(".")) : null;
+						filePath = StringUtils.replace(filePath, "\\", "/");
+						if(filePath.indexOf(companyId) != -1)
+							originImgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+						filePath = filePath.replaceAll(extension, "_thumb" + extension);
+						if(filePath.indexOf(companyId) != -1)
+							imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+					}
+				}
+				if(prevMonthString.equals(monthString)) {
+					count = count + 1;
+					imageCategoryInfo.setId(monthString);
+					imageCategoryInfo.setName(monthString);
+					imageCategoryInfo.setLength(count);
+					imageInstanceInfo.setOriginImgSource(originImgSrc);
+					imageInstanceInfo.setImgSource(imgSrc);
+					imageCategoryInfo.setFirstImage(imageInstanceInfo);
+					imageCategoryInfos[i] = imageCategoryInfo;
+				} else {
+					i = i+1;
+					count = count + 1;
+					imageCategoryInfo.setId(monthString);
+					imageCategoryInfo.setName(monthString);
+					imageCategoryInfo.setLength(count);
+					imageInstanceInfo.setOriginImgSource(originImgSrc);
+					imageInstanceInfo.setImgSource(imgSrc);
+					imageCategoryInfo.setFirstImage(imageInstanceInfo);
+					imageCategoryInfos[i] = imageCategoryInfo;
+					prevMonthString = monthString;
+				}
+			}
+		}
+	}
+	for(ImageCategoryInfo imageCategoryInfo : imageCategoryInfos) {
+		if(imageCategoryInfo != null) {
+			imageCategoryInfoList.add(imageCategoryInfo);
+		}
+	}
+	if(imageCategoryInfoList.size() > 0) {
+		imageCategoryInfos = new ImageCategoryInfo[imageCategoryInfoList.size()];
+		imageCategoryInfoList.toArray(imageCategoryInfos);
+	}
+	if(!CommonUtil.isEmpty(imageCategoryInfos)) {
+		for(ImageCategoryInfo imageCategoryInfo : imageCategoryInfos) {
+			
+		}
+	}
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>

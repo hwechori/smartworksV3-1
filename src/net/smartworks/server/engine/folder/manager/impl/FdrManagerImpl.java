@@ -16,7 +16,6 @@ import java.util.Map;
 
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.Filter;
-import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.folder.exception.FdrException;
@@ -114,9 +113,11 @@ public class FdrManagerImpl extends AbstractManager implements IFdrManager {
 		int displayOrder = -1;
 		Filter[] filters = null;
 		String logicalOperator = null;
-		Property[] extProps = null;
+		FdrFolderFile[] folderFiles = null;
 		String[] objIdNotIns = null;
-		
+		String workspaceId = null;
+		String refType = null;
+
 		if (cond != null) {
 			objId = cond.getObjId();
 			companyId = cond.getCompanyId();
@@ -126,13 +127,15 @@ public class FdrManagerImpl extends AbstractManager implements IFdrManager {
 			displayOrder = cond.getDisplayOrder();
 			filters = cond.getFilter();
 			logicalOperator = cond.getOperator();
-			extProps = cond.getExtendedProperties();
+			folderFiles = cond.getFolderFiles();
 			objIdNotIns = cond.getObjIdNotIns();
+			workspaceId = cond.getWorkspaceId();
+			refType = cond.getRefType();
 		}
 		buf.append(" from FdrFolder obj");
-		if (extProps != null && extProps.length != 0) {
-			for (int i=0; i<extProps.length; i++) {
-				buf.append(" left join obj.extendedProperties as extProp").append(i);
+		if (folderFiles != null && folderFiles.length != 0) {
+			for (int i=0; i<folderFiles.length; i++) {
+				buf.append(" left join obj.folderFiles as folderFile").append(i);
 			}
 		}
 		buf.append(" where obj.objId is not null");
@@ -150,6 +153,10 @@ public class FdrManagerImpl extends AbstractManager implements IFdrManager {
 				buf.append(" and obj.name like :nameLike");
 			if (displayOrder != -1)
 				buf.append(" and obj.displayOrder = :displayOrder");
+			if (workspaceId != null)
+				buf.append(" and obj.workspaceId = :workspaceId");
+			if (refType != null)
+				buf.append(" and obj.refType = :refType");
 			if (objIdNotIns != null && objIdNotIns.length != 0) {
 				buf.append(" and obj.objId not in (");
 				for (int i=0; i<objIdNotIns.length; i++) {
@@ -204,15 +211,15 @@ public class FdrManagerImpl extends AbstractManager implements IFdrManager {
 					}
 				}
 			}
-			if (extProps != null && extProps.length != 0) {
-				for (int i=0; i<extProps.length; i++) {
-					Property extProp = extProps[i];
-					String extName = extProp.getName();
-					String extValue = extProp.getValue();
-					if (extName != null)
-						buf.append(" and extProp").append(i).append(".name = :extName").append(i);
-					if (extValue != null)
-						buf.append(" and extProp").append(i).append(".value = :extValue").append(i);
+			if (folderFiles != null && folderFiles.length != 0) {
+				for (int i=0; i<folderFiles.length; i++) {
+					FdrFolderFile fdrFolderFile = folderFiles[i];
+					String folderId = fdrFolderFile.getFolderId();
+					String fileId = fdrFolderFile.getFileId();
+					if (folderId != null)
+						buf.append(" and folderFile").append(i).append(".folderId = :folderId").append(i);
+					if (fileId != null)
+						buf.append(" and folderFile").append(i).append(".fileId = :fileId").append(i);
 				}
 			}
 		}
@@ -232,6 +239,10 @@ public class FdrManagerImpl extends AbstractManager implements IFdrManager {
 				query.setString("nameLike", CommonUtil.toLikeString(nameLike));
 			if (displayOrder != -1)
 				query.setInteger("displayOrder", displayOrder);
+			if (workspaceId != null)
+				query.setString("workspaceId", workspaceId);
+			if (refType != null)
+				query.setString("refType", refType);
 			if (objIdNotIns != null && objIdNotIns.length !=0) {
 				for (int i=0; i<objIdNotIns.length; i++) {
 					query.setString("objIdNotIn"+i, objIdNotIns[i]);
@@ -274,15 +285,15 @@ public class FdrManagerImpl extends AbstractManager implements IFdrManager {
 					}
 				}
 			}
-			if (extProps != null && extProps.length != 0) {
-				for (int i=0; i<extProps.length; i++) {
-					Property extProp = extProps[i];
-					String extName = extProp.getName();
-					String extValue = extProp.getValue();
-					if (extName != null)
-						query.setString("extName"+i, extName);
-					if (extValue != null)
-						query.setString("extValue"+i, extValue);
+			if (folderFiles != null && folderFiles.length != 0) {
+				for (int i=0; i<folderFiles.length; i++) {
+					FdrFolderFile fdrFolderFile = folderFiles[i];
+					String folderId = fdrFolderFile.getFolderId();
+					String fileId = fdrFolderFile.getFileId();
+					if (folderId != null)
+						query.setString("folderId"+i, folderId);
+					if (fileId != null)
+						query.setString("fileId"+i, fileId);
 				}
 			}
 		}

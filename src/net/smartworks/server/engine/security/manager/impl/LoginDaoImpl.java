@@ -117,8 +117,8 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 			if(!picture.equals("")) {
 				String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
 				String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
-				login.setBigPictureName(pictureId + "_big" + "." + extension);
-				login.setSmallPictureName(pictureId + "_small" + "." + extension);
+				login.setBigPictureName(pictureId + "_thumb" + "." + extension);
+				login.setSmallPictureName(pictureId + "_thumb" + "." + extension);
 			} else {
 				login.setBigPictureName(rs.getString("picture"));
 				login.setSmallPictureName(rs.getString("picture"));

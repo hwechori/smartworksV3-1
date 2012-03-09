@@ -30,12 +30,17 @@ public class FdrFolderCond extends MisObjectCond {
 	public static final String A_DISPLAYORDER = "displayOrder";
 	public static final String A_TYPENOTIN = "objIdNotIn";
 	public static final String A_TYPENOTINS = "objIdNotIns";
+	public static final String A_WORKSPACEID = "workspaceId";
+	public static final String A_REFTYPE = "refType";
 
 	private String parentId;
 	private int displayOrder = -1;
-	
+	private String workspaceId;
+	private String refType;
+
 	private String[] objIdNotIn;
 	private String[] objIdNotIns;
+	private FdrFolderFile[] folderFiles;
 
 	public FdrFolderCond() {
 		super();
@@ -55,6 +60,8 @@ public class FdrFolderCond extends MisObjectCond {
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_PARENTID, parentId, buf);
 		appendAttributeString(A_DISPLAYORDER, displayOrder, buf);
+		appendAttributeString(A_WORKSPACEID, workspaceId, buf);
+		appendAttributeString(A_REFTYPE, refType, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node, BaseObject baseObj) throws Exception {
@@ -72,10 +79,16 @@ public class FdrFolderCond extends MisObjectCond {
 		if (attrMap != null) {
 			Node parentId = attrMap.getNamedItem(A_PARENTID);
 			Node displayOrder = attrMap.getNamedItem(A_DISPLAYORDER);
+			Node workspaceId = attrMap.getNamedItem(A_WORKSPACEID);
+			Node refType = attrMap.getNamedItem(A_REFTYPE);
 			if (parentId != null)
 				obj.setParentId(parentId.getNodeValue());
 			if (displayOrder != null)
-				obj.setDisplayOrder(CommonUtil.toInt(displayOrder.getNodeValue()));	
+				obj.setDisplayOrder(CommonUtil.toInt(displayOrder.getNodeValue()));
+			if(workspaceId !=null)
+				obj.setWorkspaceId(workspaceId.getNodeValue());	
+			if(refType !=null)
+				obj.setRefType(refType.getNodeValue());
 		}		
 		return obj;	
 	}
@@ -203,5 +216,22 @@ public class FdrFolderCond extends MisObjectCond {
 	public void setDisplayOrder(int displayOrder) {
 		this.displayOrder = displayOrder;
 	}
-
+	public String getWorkspaceId() {
+		return workspaceId;
+	}
+	public void setWorkspaceId(String workspaceId) {
+		this.workspaceId = workspaceId;
+	}
+	public String getRefType() {
+		return refType;
+	}
+	public void setRefType(String refType) {
+		this.refType = refType;
+	}
+	public FdrFolderFile[] getFolderFiles() {
+		return folderFiles;
+	}
+	public void setFolderFiles(FdrFolderFile[] folderFiles) {
+		this.folderFiles = folderFiles;
+	}
 }

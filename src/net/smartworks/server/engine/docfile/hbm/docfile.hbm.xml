@@ -12,7 +12,7 @@
 		<property name="fileSize" column="fileSize" type="long" length="2000"/>
 		<property name="writtenTime" column="writtenTime" type="timestamp"/>
 	</class> -->
-	<class name="HbDocumentModel" table="SWDocument">
+<!-- 	<class name="HbDocumentModel" table="SWDocument">
 		<id name="id" column="id" type="string" length="50">
 			<generator class="assigned"/>
 		</id>
@@ -23,7 +23,7 @@
 		<property name="fileGroupId" column="fileGroupId" type="string" length="50"/>
 		<property name="refType" column="refType" type="int"/>
 		<property name="refId" column="refId" type="string" length="50"/>
-	</class>
+	</class> -->
 		
 	<class name="HbFileModel" table="SWFile">
 		<id name="id" column="id" type="string" length="50">

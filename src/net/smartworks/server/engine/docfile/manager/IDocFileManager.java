@@ -48,5 +48,7 @@ public interface IDocFileManager extends IManager {
 	public List<String> findDocIdByGroupId(String fileGroupId) throws DocFileException;
 	public void deleteDocument(String documentId) throws DocFileException;
 	public IDocumentModel retrieveDocumentByRef(int refType, String refId) throws DocFileException;
+	public IFileModel[] getFilesByTaskInstId(String taskInstId) throws DocFileException;
+	public IFileModel getFileById(String fileId) throws DocFileException;
 
 }

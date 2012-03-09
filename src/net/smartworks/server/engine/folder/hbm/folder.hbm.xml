@@ -15,10 +15,12 @@
 		<property name="creationDate" column="createdTime" type="timestamp"/>
 		<property name="modificationUser" column="modifier" type="string" length="50"/>
 		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
-		<array name="folderFile" table="SWFolderFile">
+		<property name="workspaceId" column="tskWorkspaceId" type="string" length="50"/>
+		<property name="refType" column="tskRefType" type="string" length="50"/>
+		<array name="folderFiles" table="SWFolderFile">
 			<key column="folderId" foreign-key="FkSWFolderFile" />
 			<list-index column="fileSeq" />
-			<composite-element class="net.smartworks.server.engine.organization.model.SwoGroupMember">
+			<composite-element class="net.smartworks.server.engine.folder.model.FdrFolderFile">
 				<property name="fileId" type="string" length="50" not-null="true"/>
 			</composite-element>
 		</array>

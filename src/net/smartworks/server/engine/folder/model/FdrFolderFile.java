@@ -35,6 +35,11 @@ public class FdrFolderFile extends MisObject {
 	public FdrFolderFile() {
 		super();
 	}
+	public FdrFolderFile(String folderId, String fileId) {
+		this.folderId = folderId;
+		this.fileId = fileId;
+	}
+
 	public String toString(String name, String tab) {
 		if(name == null || name.trim().length() == 0)
 			name = NAME;

@@ -53,6 +53,11 @@ public class HbFileModel implements IFileModel, Serializable {
   	private MultipartFile multipartFile;
 
   	/**
+  	 * 태스크인스턴스아이디
+  	 */
+  	private String tskInstanceId;
+ 
+  	/**
 	 * @return the multipartFile
 	 */
 	public MultipartFile getMultipartFile() {
@@ -204,6 +209,16 @@ public class HbFileModel implements IFileModel, Serializable {
 	@Override
 	public InputStream getMultiPartInputStream() {
 		return inputStream;
+	}
+
+	@Override
+	public String getTskInstanceId() {
+		return this.tskInstanceId;
+	}
+
+	@Override
+	public void setTskInstanceId(String tskInstanceId) {
+		this.tskInstanceId = tskInstanceId;
 	}
 
 }

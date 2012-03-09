@@ -34,9 +34,14 @@ public class FdrFolder extends MisObject {
 
 	public static final String A_PARENTID = "parentId";
 	public static final String A_DISPLAYORDER = "displayOrder";
+	public static final String A_WORKSPACEID = "workspaceId";
+	public static final String A_REFTYPE = "refType";
 
 	private String parentId;
 	private int displayOrder;
+	private String workspaceId;
+	private String refType;
+	private FdrFolderFile[] folderFiles;
 
 	public FdrFolder() {
 		super();
@@ -56,6 +61,8 @@ public class FdrFolder extends MisObject {
 		buf.append(super.toAttributesString());
 		appendAttributeString(A_PARENTID, parentId, buf);
 		appendAttributeString(A_DISPLAYORDER, displayOrder, buf);
+		appendAttributeString(A_WORKSPACEID, workspaceId, buf);
+		appendAttributeString(A_REFTYPE, refType, buf);
 		return buf.toString();
 	}
 	public static BaseObject toObject(Node node,BaseObject baseObj)throws Exception {
@@ -74,10 +81,16 @@ public class FdrFolder extends MisObject {
 		if(attrMap != null) {
 			Node parentId = attrMap.getNamedItem(A_PARENTID);
 			Node displayOrder = attrMap.getNamedItem(A_DISPLAYORDER);
+			Node workspaceId = attrMap.getNamedItem(A_WORKSPACEID);
+			Node refType = attrMap.getNamedItem(A_REFTYPE);
 			if(parentId != null)
 				obj.setParentId(parentId.getNodeValue());
 			if(displayOrder !=null)
-				obj.setDisplayOrder(CommonUtil.toInt(displayOrder.getNodeValue()));	
+				obj.setDisplayOrder(CommonUtil.toInt(displayOrder.getNodeValue()));
+			if(workspaceId !=null)
+				obj.setWorkspaceId(workspaceId.getNodeValue());	
+			if(refType !=null)
+				obj.setRefType(refType.getNodeValue());	
 		}
 		return obj;
 	}
@@ -179,6 +192,21 @@ public class FdrFolder extends MisObject {
 			return null;
 		}
 	}
+
+	public void addFolderFile(FdrFolderFile folderFile) {
+		if (folderFile == null)
+			return;
+		this.setFolderFiles(FdrFolderFile.add(this.getFolderFiles(), folderFile));
+	}
+	public void removeFolderFile(FdrFolderFile folderFile) {
+		if (folderFile == null)
+			return;
+		this.setFolderFiles(FdrFolderFile.remove(this.getFolderFiles(), folderFile));
+	}
+	public void resetFolderFiles() {
+		this.folderFiles = null;
+	}
+
 	public String getParentId() {
 		return parentId;
 	}
@@ -190,5 +218,23 @@ public class FdrFolder extends MisObject {
 	}
 	public void setDisplayOrder(int displayorder) {
 		this.displayOrder = displayorder;
+	}
+	public String getWorkspaceId() {
+		return workspaceId;
+	}
+	public void setWorkspaceId(String workspaceId) {
+		this.workspaceId = workspaceId;
+	}
+	public String getRefType() {
+		return refType;
+	}
+	public void setRefType(String refType) {
+		this.refType = refType;
+	}
+	public FdrFolderFile[] getFolderFiles() {
+		return folderFiles;
+	}
+	public void setFolderFiles(FdrFolderFile[] folderFiles) {
+		this.folderFiles = folderFiles;
 	}
 }

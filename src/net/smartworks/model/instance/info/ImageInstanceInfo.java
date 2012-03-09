@@ -7,6 +7,7 @@ import net.smartworks.util.LocalDate;
 
 public class ImageInstanceInfo extends WorkInstanceInfo {
 
+	private String fileId;
 	private String imgSource;
 	private	String originImgSource;
 
@@ -30,7 +31,12 @@ public class ImageInstanceInfo extends WorkInstanceInfo {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
+	public String getFileId() {
+		return fileId;
+	}
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
+	}
 	public ImageInstanceInfo(){
 		super();
 		super.setType(Instance.TYPE_IMAGE);

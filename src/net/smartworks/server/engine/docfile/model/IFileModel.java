@@ -33,5 +33,7 @@ public interface IFileModel {
 	public void setMultipartFile(MultipartFile multipartFile);
 	public void setMultiPartInputStream(InputStream inputStream);
 	public InputStream getMultiPartInputStream();
+	public String getTskInstanceId();
+	public void setTskInstanceId(String tskInstanceId);
 	
 }

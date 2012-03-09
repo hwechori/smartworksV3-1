@@ -16,10 +16,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.URLDecoder;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -652,23 +655,23 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			File repository = this.getFileRepository(user.getCompanyId(), "Profiles");
 	
 			String communityPictureId = communityId + "." + extension;
-			String bigId = null;
-			String smallId = null;
+			//String bigId = null;
+			String thumbId = null;
 			String originId = null;
-			String realFile1 = null;
+			//String realFile1 = null;
 			String realFile2 = null;
 			String tempFile = this.getFileDirectory() + "/SmartFiles/" + user.getCompanyId() + "/" + "Temps" + "/" + fileId + "." + extension;
 
 			if(communityId.equals(user.getCompanyId())) {
 				originId = communityId;
 			} else {
-				bigId = communityId + "_big";
-				smallId = communityId + "_small";
+				//bigId = communityId + "_big";
+				thumbId = communityId + "_thumb";
 				originId = communityId + "_origin";
-				realFile1 = repository.getAbsolutePath() + "/" + bigId + "." + extension;
-				realFile2 = repository.getAbsolutePath() + "/" + smallId + "." + extension;
-				Thumbnail.createImage(tempFile, realFile1, "big", extension);
-				Thumbnail.createImage(tempFile, realFile2, "small", extension);
+				//realFile1 = repository.getAbsolutePath() + "/" + bigId + "." + extension;
+				realFile2 = repository.getAbsolutePath() + "/" + thumbId + "." + extension;
+				//Thumbnail.createImage(tempFile, realFile1, "big", extension);
+				Thumbnail.createImage(tempFile, realFile2, "thumb", extension);
 			}
 			String realFile = repository.getAbsolutePath() + "/" + originId + "." + extension;
 
@@ -779,6 +782,74 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		}
 
 		return returnValue;
+	}
+
+	public IFileModel[] getFilesByTaskInstId(String taskInstId) throws DocFileException {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("select doc.tskinstanceid, docfile.id, docfile.type, docfile.fileName, docfile.filePath, docfile.fileSize, docfile.writtentime");
+		stringBuffer.append("  from swdocgroup doc, swfile docfile");
+		stringBuffer.append(" where doc.docid = docfile.id");
+		stringBuffer.append("   and doc.tskinstanceid = :taskInstId");
+
+		Query query = this.getSession().createSQLQuery(stringBuffer.toString());
+		if (!CommonUtil.isEmpty(taskInstId))
+			query.setString("taskInstId", taskInstId);
+
+		List list = query.list();
+
+		if (CommonUtil.isEmpty(list))
+			return null;
+		List<IFileModel> objList = new ArrayList<IFileModel>();
+		for (Iterator itr = list.iterator(); itr.hasNext();) {
+			Object[] fields = (Object[]) itr.next();
+			IFileModel obj = new HbFileModel();
+			int j = 0;
+			obj.setTskInstanceId((String)fields[j++]);
+			obj.setId((String)fields[j++]);
+			obj.setType((String)fields[j++]);
+			obj.setFileName((String)fields[j++]);
+			obj.setFilePath((String)fields[j++]);
+			obj.setFileSize(Long.parseLong(String.valueOf(fields[j++])));
+			obj.setWrittenTime((Timestamp)fields[j++]);
+			objList.add(obj);
+		}
+		IFileModel[] fileModels = new HbFileModel[objList.size()];
+		objList.toArray(fileModels);
+
+		return fileModels;
+	}
+
+	public IFileModel getFileById(String fileId) throws DocFileException {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("select id, type, fileName, filePath, fileSize, writtenTime");
+		stringBuffer.append("  from HbFileModel");
+		stringBuffer.append(" where id = :id");
+
+		Query query = this.getSession().createQuery(stringBuffer.toString());
+		if (!CommonUtil.isEmpty(fileId))
+			query.setString("id", fileId);
+
+		List list = query.list();
+		if (CommonUtil.isEmpty(list))
+			return null;
+
+		List<IFileModel> objList = new ArrayList<IFileModel>();
+		for (Iterator itr = list.iterator(); itr.hasNext();) {
+			Object[] fields = (Object[]) itr.next();
+			IFileModel obj = new HbFileModel();
+			int j = 0;
+			obj.setId((String)fields[j++]);
+			obj.setType((String)fields[j++]);
+			obj.setFileName((String)fields[j++]);
+			obj.setFilePath((String)fields[j++]);
+			obj.setFileSize(Long.parseLong(String.valueOf(fields[j++])));
+			obj.setWrittenTime((Timestamp)fields[j++]);
+			objList.add(obj);
+		}
+		IFileModel[] fileModels = new HbFileModel[objList.size()];
+		objList.toArray(fileModels);
+
+		return fileModels[0];
 	}
 
 }
