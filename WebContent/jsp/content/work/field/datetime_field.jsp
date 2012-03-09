@@ -83,9 +83,9 @@
 <!--  좌측의 필드항목과 우측의 값을 계산하는 조건실행을 위한 오퍼레이터 선택박스 //-->
 
 <!-- 우측의 날짜시간을 비교할 수 있은 날짜시간 선택박스 -->
-<span class="icon_fb_space str_field js_operand_date js_right_operand"
+<span class="icon_fb_cl_space float_left js_operand_date js_right_operand"
 	<%if (!selectedOperType.equals("js_operand_date")) {%> style="display: none" <%}%>> 
-	<input class="inputline  js_todaytimepicker required" type="text" name="txtFilterDateOperand" readonly="readonly"
+	<input class="inputline form_datetime_input js_todaytimepicker required" type="text" name="txtFilterDateOperand" readonly="readonly"
 		value="<%if (!SmartUtil.isBlankObject(operandValue) && !operandValue.equals("null")) {%><%=operandValue%><%} else {%><%=today%><%}%>">
 	<a href="" class="js_todaytimepicker_button"><span class="icon_fb_time"></span></a>
 </span>
@@ -96,11 +96,11 @@
 
 <!--  가운데 계산자(오퍼레이터)가 숫자는 지정된 않고 의미만 가지고 있는 경우(최근 몇일, 최근 몇개월 등...)에는 숫자를 입력하는 박스 필요 -->
 <span class="str_field js_operand_number js_right_operand" <%if (!selectedOperType.equals("js_operand_number")) {%> style="display: none"<%}%>>
-	<input class="inputline required positiveNumber" type="text" name="txtFilterTimeOperand" value=""> 
+	<input class="fieldline required positiveNumber" type="text" name="txtFilterTimeOperand" value=""> 
 </span>
 
 <!--  현재 콘디션을 삭제할 수 있는 샂제 버튼 -->
-<span class="btn_x_grb_posi">
-	<button class="btn_x_grb js_remove_condition"></button>
+<span class="btn_delete_posi">
+	<button class="btn_delete js_remove_condition"></button>
 </span>
 
