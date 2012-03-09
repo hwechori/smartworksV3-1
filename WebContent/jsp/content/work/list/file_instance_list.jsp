@@ -32,15 +32,34 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	RequestParams params = (RequestParams)request.getAttribute("requestParams");
+	int displayType = Integer.parseInt(request.getParameter("displayType"));
 	if(SmartUtil.isBlankObject(params)){
 		params = new RequestParams();
 		params.setPageSize(20);
-		params.setCurrentPage(1);		
+		params.setCurrentPage(1);
+		SearchFilter searchFilter = null;
+		switch(displayType){
+		case FileCategory.DISPLAY_BY_CATEGORY:
+			searchFilter = SearchFilter.getByFileCategoryIdFilter(FileCategory.ID_ALL_FILES);
+			break;
+		case FileCategory.DISPLAY_BY_WORK:
+			searchFilter = SearchFilter.getByWorkIdFilter(FileCategory.ID_ALL_FILES);
+			break;
+		case FileCategory.DISPLAY_BY_YEAR:
+			searchFilter = SearchFilter.getByCreatedDateFilter(FileCategory.ID_ALL_FILES);
+			break;
+		case FileCategory.DISPLAY_BY_OWNER:
+			searchFilter = SearchFilter.getByOwnerFilter(FileCategory.ID_ALL_FILES);
+			break;
+		case FileCategory.DISPLAY_BY_FILE_TYPE:
+			searchFilter = SearchFilter.getByFileTypeFilter(FileCategory.ID_ALL_FILES);
+			break;
+		}
+		params.setSearchFilter(searchFilter);
 	}
 	User cUser = SmartUtil.getCurrentUser();
 	String cid = (String)session.getAttribute("cid");
 	String wid = (String)session.getAttribute("wid");
-	int displayType = Integer.parseInt(request.getParameter("displayType"));
 	InstanceInfoList instanceList = smartWorks.getFileInstanceList(wid, params);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -69,9 +88,9 @@
 			if(displayType==FileCategory.DISPLAY_ALL){
 			%>
 				<th class="r_line">
-		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_SPACE_NAME%>"><fmt:message key='common.title.work_space_name'/>
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_SPACE%>"><fmt:message key='common.title.work_space_name'/>
 				 		<%
-						if(sortedField.getFieldId().equals(FormField.ID_WORK_SPACE_NAME)){
+						if(sortedField.getFieldId().equals(FormField.ID_WORK_SPACE)){
 							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 						%>
 					</a>				
@@ -81,9 +100,9 @@
 			if(displayType!=FileCategory.DISPLAY_BY_CATEGORY){
 			%>			
 				<th class="r_line">
-		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_CATEGORY_NAME%>"><fmt:message key='common.title.category_name'/>
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_CATEGORY%>"><fmt:message key='common.title.category_name'/>
 				 		<%
-						if(sortedField.getFieldId().equals(FormField.ID_CATEGORY_NAME)){
+						if(sortedField.getFieldId().equals(FormField.ID_FILE_CATEGORY)){
 							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 						%>
 					</a>				
@@ -93,9 +112,9 @@
 			if(displayType!=FileCategory.DISPLAY_BY_WORK){
 			%>			
 				<th class="r_line">
-		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_NAME%>"><fmt:message key='common.title.work_name'/>
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK%>"><fmt:message key='common.title.work_name'/>
 				 		<%
-						if(sortedField.getFieldId().equals(FormField.ID_WORK_NAME)){
+						if(sortedField.getFieldId().equals(FormField.ID_WORK)){
 							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 						%>
 					</a>				
@@ -104,9 +123,9 @@
 			}
 			%>			
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_INSTANCE_NAME%>"><fmt:message key='common.title.instance_subject'/>
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_INSTANCE%>"><fmt:message key='common.title.instance_subject'/>
 			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_WORK_INSTANCE_NAME)){
+					if(sortedField.getFieldId().equals(FormField.ID_WORK_INSTANCE)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>				

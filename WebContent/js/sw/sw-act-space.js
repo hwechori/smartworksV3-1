@@ -266,12 +266,20 @@ $(function() {
 				var target = fileList.find('.js_file_categories');
 				target.html(data);
 				fileList.attr('displayType', displayType);
+				fileList.attr('categoryId', "AllFiles");
+				selectListParam();
 			},
 			error : function(xhr, ajaxOptions, thrownError){
 			}
 		});
 		return false;
 		
+	});
+	$('.js_file_category_list').live('click', function(e){
+		var input = $(e.target).parents('a');
+		input.parents('.js_file_list_page').attr('categoryId', input.attr('categoryId'));
+		selectListParam();
+		return false;		
 	});
 	
 	$('a.js_file_instance_list').live('click', function(e){

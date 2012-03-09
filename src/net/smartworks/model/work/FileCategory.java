@@ -5,9 +5,11 @@ import net.smartworks.util.SmartMessage;
 
 public class FileCategory extends Work {
 
-	public final static int	TYPE_FILE_CATEGORY	= 21;
+	public final static int	TYPE_FILE_CATEGORY	= 12;
 	
+	public final static String ID_ALL_FILES = "AllFiles";
 	public final static String ID_UNCATEGORIZED = "Uncategorized";
+	public final static String NAME_ALL_FILES = SmartMessage.getString("common.title.all_files");
 	public final static String NAME_UNCATEGORIZED = SmartMessage.getString("common.title.uncategorized");
 	
 	public final static int DISPLAY_ALL = 0;

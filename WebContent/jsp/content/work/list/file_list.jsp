@@ -28,7 +28,7 @@
 		else
 			smartPop.progressCont(progressSpan);
 		console.log(JSON.stringify(paramsJson));
-		var url = "set_instance_list_params.sw";
+		var url = "set_file_list_params.sw";
 		$.ajax({
 			url : url,
 			contentType : 'application/json',
@@ -40,18 +40,21 @@
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				smartPop.closeProgress();
-				smartPop.showInfo(smartPop.ERROR, smartMessage.get('pworkListError'));
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('fileListError'));
 			}
 		});
 	};
 	
 	selectListParam = function(progressSpan, isGray){
 		var fileList = $('.js_file_list_page');
-		var forms = pworkList.find('form:visible');
+		var forms = fileList.find('form:visible');
+		var displayType = fileList.attr("displayType");
+		var categoryId = fileList.attr("categoryId");
 		var paramsJson = {};
-		var workId = fileList.attr('workId');
-		paramsJson["href"] = "jsp/content/work/list/file_instance_list.jsp";
-		var searchFilters = pworkList.find('form[name="frmSearchFilter"]');
+		paramsJson["displayType"] = displayType;
+		paramsJson["categoryId"] = categoryId;
+		paramsJson["href"] = "jsp/content/work/list/file_instance_list.jsp?displayType=" + displayType;
+		var searchFilters = fileList.find('form[name="frmSearchFilter"]');
 		for(var i=0; i<forms.length; i++){
 			var form = $(forms[i]);
 			if(form.attr('name') !== "frmSearchFilter" && !(!isEmpty(searchFilters) && form.attr('name') === "frmSearchInstance")){
@@ -67,7 +70,7 @@
 			}
 			paramsJson['frmSearchFilters'] = searchFilterArray;
 		}
-		if(isEmpty(progressSpan)) grogressSpan = pworkList.find('.js_search_filter').next('span.js_progress_span:first');
+		if(isEmpty(progressSpan)) grogressSpan = fileList.find('.js_search_filter').next('span.js_progress_span:first');
 		getIntanceList(paramsJson, progressSpan, isGray);		
 	};
 </script>
@@ -96,7 +99,7 @@ if(!SmartUtil.isBlankObject(wid)){
 %>
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_file_list_page" workId="<%=SmartWork.ID_FILE_MANAGEMENT %>" displayType="<%=FileCategory.DISPLAY_BY_CATEGORY%>" workSpaceId="<%=wid%>" categoryId="">
+<div class="section_portlet js_file_list_page" workId="<%=SmartWork.ID_FILE_MANAGEMENT %>" displayType="<%=FileCategory.DISPLAY_BY_CATEGORY%>" workSpaceId="<%=wid%>" categoryId="<%=FileCategory.ID_ALL_FILES%>">
 	<div class="portlet_t"><div class="portlet_tl"></div></div>
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">

@@ -1,6 +1,8 @@
 package net.smartworks.model.work.info;
 
 import net.smartworks.model.BaseObject;
+import net.smartworks.model.work.FileCategory;
+import net.smartworks.model.work.ImageCategory;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
@@ -63,8 +65,12 @@ public class WorkInfo extends BaseObject {
 			else if(getId().equals(WorkCategory.ID_DOWNLOADED_CATEGORY))
 				return Work.ICON_CLASS_DOWNLOADED_CATEGORY;
 			return ((WorkCategoryInfo)this).isRunning() ? Work.ICON_CLASS_CWORKS_ON : Work.ICON_CLASS_CWORKS_OFF;
+		case FileCategory.TYPE_FILE_CATEGORY:
+			return "";
+		case ImageCategory.TYPE_IMAGE_CATEGORY:
+			return "";
 		}
-		return null;
+		return "";
 	}
 
 	public String getController(){

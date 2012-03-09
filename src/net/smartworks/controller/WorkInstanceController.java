@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.community.info.UserInfo;
+import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.Data;
+import net.smartworks.model.work.FileCategory;
 import net.smartworks.model.work.SmartWork;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
@@ -291,6 +293,41 @@ public class WorkInstanceController extends ExceptionInterceptor {
 	@ResponseStatus(HttpStatus.OK)
 	public ModelAndView setInstanceListParams(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		RequestParams requestParams = smartworks.setInstanceListParams(requestBody, request);
+		String href = (String)requestBody.get("href");
+		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
+		ModelAndView mnv = new ModelAndView();
+		mnv.addObject(smartworks);
+		mnv.addObject("requestParams", requestParams);
+		mnv.setViewName(href);
+		return mnv;
+
+	}
+
+	@RequestMapping(value = "/set_file_list_params", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public ModelAndView setFileListParams(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		RequestParams requestParams = smartworks.setInstanceListParams(requestBody, request);
+		int displayType = Integer.parseInt((String)requestBody.get("displayType"));
+		String categoryId = (String)requestBody.get("categoryId");
+		SearchFilter searchFilter = null;
+		switch(displayType){
+		case FileCategory.DISPLAY_BY_CATEGORY:
+			searchFilter = SearchFilter.getByFileCategoryIdFilter(categoryId);
+			break;
+		case FileCategory.DISPLAY_BY_WORK:
+			searchFilter = SearchFilter.getByWorkIdFilter(categoryId);
+			break;
+		case FileCategory.DISPLAY_BY_YEAR:
+			searchFilter = SearchFilter.getByCreatedDateFilter(categoryId);
+			break;
+		case FileCategory.DISPLAY_BY_OWNER:
+			searchFilter = SearchFilter.getByOwnerFilter(categoryId);
+			break;
+		case FileCategory.DISPLAY_BY_FILE_TYPE:
+			searchFilter = SearchFilter.getByFileTypeFilter(categoryId);
+			break;
+		}
+		requestParams.setSearchFilter(searchFilter);
 		String href = (String)requestBody.get("href");
 		ISmartWorks smartworks = (ISmartWorks)SmartUtil.getBean("smartWorks", request);
 		ModelAndView mnv = new ModelAndView();

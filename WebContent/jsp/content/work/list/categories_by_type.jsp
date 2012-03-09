@@ -25,8 +25,8 @@ if(!SmartUtil.isBlankObject(categories) && categories.length>0){
 %>
 		<li>
 			<span class="dep">
-				<a class="js_category_instance_list" href="" categoryId="<%=category.getId()%>"> 
-					<span class=""></span>
+				<a class="js_file_category_list" href="" categoryId="<%=category.getId()%>"> 
+					<span class="<%=category.getIconClass()%>"></span>
 					<span><%=category.getName() %></span> 
 				</a> 
 			</span>

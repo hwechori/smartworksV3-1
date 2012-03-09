@@ -92,9 +92,9 @@ public class SearchFilter extends BaseObject{
 				});
 	}
 
-	public static SearchFilter getByOwnerFilter(User owner){
+	public static SearchFilter getByOwnerFilter(String ownerId){
 		return new SearchFilter(FILTER_BY_OWNER, FILTER_BY_OWNER, new Condition[] {
-					new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), owner )
+					new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), ownerId )
 				});
 	}
 

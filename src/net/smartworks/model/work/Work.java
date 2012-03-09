@@ -101,8 +101,12 @@ public class Work extends BaseObject{
 			else if(getId().equals(WorkCategory.ID_DOWNLOADED_CATEGORY))
 				return Work.ICON_CLASS_DOWNLOADED_CATEGORY;
 			return ((WorkCategory)this).isRunning() ? Work.ICON_CLASS_CWORKS_ON : Work.ICON_CLASS_CWORKS_OFF;
+		case FileCategory.TYPE_FILE_CATEGORY:
+			return "";
+		case ImageCategory.TYPE_IMAGE_CATEGORY:
+			return "";
 		}
-		return null;
+		return "";
 	}
 
 	public String getController(){
