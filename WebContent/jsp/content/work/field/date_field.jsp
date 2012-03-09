@@ -16,7 +16,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <script>
 	// 스마트웍스 공통 모듈에서 오늘값을 기본값으로 가지고 있는 DateTime 선택자를 살린다.
-	smartCommon.liveDatePicker();
+	smartCommon.liveTodayPicker();
 
 </script>
 <%
@@ -86,7 +86,7 @@
 </span>
 
 <!--  가운데 계산자(오퍼레이터)가 지정된 시간들(오늘, 최근 5일등..)을 가지고 있는 경우에는 우측 값을 필요없음 -->
-<span class="str_filed js_operand_none  js_right_operand" <%if (!selectedOperType.equals("js_operand_none")) {%> style="display: none"<%}%>></span>
+<span class="str_field js_operand_none  js_right_operand" <%if (!selectedOperType.equals("js_operand_none")) {%> style="display: none"<%}%>></span>
 
 <!--  가운데 계산자(오퍼레이터)가 숫자는 지정된 않고 의미만 가지고 있는 경우(최근 몇일, 최근 몇개월 등...)에는 숫자를 입력하는 박스 필요 -->
 <span class="str_field js_operand_number  js_right_operand" <%if (!selectedOperType.equals("js_operand_number")) {%> style="display: none" <%}%>> 
