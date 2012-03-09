@@ -140,6 +140,7 @@
 	User cUser = SmartUtil.getCurrentUser();
 	WorkSpace workSpace = smartWorks.getWorkSpaceById(wid);
 	String workSpaceName = (SmartUtil.isBlankObject(wid)) ? cUser.getCompany() : workSpace.getName();
+	int displayType = (SmartUtil.isBlankObject(wid)) ? FileCategory.DISPLAY_ALL : FileCategory.DISPLAY_BY_CATEGORY;
 
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
@@ -154,7 +155,7 @@ if(!SmartUtil.isBlankObject(wid)){
 %>
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_work_list_page">
+<div class="section_portlet js_file_list_page" displayType="<%=FileCategory.DISPLAY_BY_CATEGORY%>" workSpaceId="<%=wid%>" categoryId="">
 	<div class="portlet_t"><div class="portlet_tl"></div></div>
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
@@ -175,7 +176,7 @@ if(!SmartUtil.isBlankObject(wid)){
 
 			<div class=" contents_space">  
 				<%
-				if(!SmartUtil.isBlankObject(wid)){
+				if(displayType!=FileCategory.DISPLAY_ALL){
 				%>          
 					<!-- Left -->
 					<div class="left30 ">
@@ -189,12 +190,12 @@ if(!SmartUtil.isBlankObject(wid)){
 										<div class="">
 											<!-- 필 터 -->
 											<div class="float_left">
-											  <select name="">
-											    <option><fmt:message key="space.title.by_category"/></option>
-											    <option><fmt:message key="space.title.by_work"/></option>
-											    <option><fmt:message key="space.title.by_year"/></option>
-											    <option><fmt:message key="space.title.by_owner"/></option>
-											    <option><fmt:message key="space.title.by_filetype"/></option>
+											  <select class="js_file_display_by">
+											    <option value=<%=FileCategory.DISPLAY_BY_CATEGORY %>><fmt:message key="space.title.by_category"/></option>
+											    <option value=<%=FileCategory.DISPLAY_BY_WORK %>><fmt:message key="space.title.by_work"/></option>
+											    <option value=<%=FileCategory.DISPLAY_BY_YEAR %>><fmt:message key="space.title.by_year"/></option>
+											    <option value=<%=FileCategory.DISPLAY_BY_OWNER %>><fmt:message key="space.title.by_owner"/></option>
+											    <option value=<%=FileCategory.DISPLAY_BY_FILE_TYPE %>><fmt:message key="space.title.by_filetype"/></option>
 											  </select>
 											</div>
 											<!-- 필 터 //-->
@@ -203,19 +204,12 @@ if(!SmartUtil.isBlankObject(wid)){
 											<!-- 우측 구분 //-->
 											<!-- 카테고리 -->
 											<div class="pop_list_area ">
-												<ul>
-													<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span>모든 파일</span> </a> </span></li>
-													<%
-													FileCategoryInfo[] categories = smartWorks.getFileCategoriesByType(FileCategory.DISPLAY_BY_COMMUNITY, wid);
-													if(!SmartUtil.isBlankObject(categories) && categories.length>0){
-														for(int i=0; i<categories.length; i++){
-															FileCategoryInfo category = categories[i];
-													%>
-															<li> <span class="dep"> <a class="" departmentid="" href=""> <span class="icon_depart"></span> <span><%=category.getName() %></span> </a> </span></li>
-													<%
-														}
-													}
-													%>
+												<ul class="js_file_categories">
+													<jsp:include page="/jsp/content/work/list/categories_by_type.jsp">
+														<jsp:param value="<%=displayType%>" name="displayType"/>
+														<jsp:param value="<%=wid%>" name="wid"/>
+														<jsp:param value="" name="parentId"/>
+													</jsp:include>
 												</ul>
 											</div>
 											<!-- 카테고리 //-->
@@ -245,14 +239,11 @@ if(!SmartUtil.isBlankObject(wid)){
 						<!-- 목록보기 타이틀-->
 							
 						<!-- 목록 테이블 -->
-						<div class="list_contents">
-							<div id='work_instance_list_page'>
-								<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
-									<jsp:param value="<%=FileCategory.DISPLAY_BY_COMMUNITY %>" name="displayType"/>
-									<jsp:param value="<%=wid %>" name="workSpaceId"/>
-								</jsp:include>
-								
-							</div>
+						<div class="list_contents js_file_instance_list">
+							<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
+								<jsp:param value="<%=FileCategory.DISPLAY_BY_WORK %>" name="displayType"/>
+								<jsp:param value="<%=wid %>" name="workSpaceId"/>
+							</jsp:include>
 						</div>
 						<!-- 목록 테이블 //-->
 					</div>

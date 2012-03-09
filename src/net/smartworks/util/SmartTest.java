@@ -1400,7 +1400,7 @@ public class SmartTest {
 		}
 		return categories;
 	}
-	public static FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception {
+	public static FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId, String parentId) throws Exception {
 		FileCategoryInfo[] categories=null;
 		switch(displayType){
 		case FileCategory.DISPLAY_BY_CATEGORY:

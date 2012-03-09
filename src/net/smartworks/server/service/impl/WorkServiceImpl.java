@@ -317,10 +317,10 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception {
+	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId, String parentId) throws Exception {
 
 		try{
-			return SmartTest.getFileCategoriesByType(displayType, spaceId);
+			return SmartTest.getFileCategoriesByType(displayType, spaceId, parentId);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
