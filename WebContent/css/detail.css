@@ -75,7 +75,7 @@ a .repl_write:hover {background: url("../images/header_nico.png") no-repeat 0 -4
 .list_title_space .title, .list_title, .default_title_space .title {background: url("../images/iconTitle.gif") 0 2px no-repeat;font-size:14px;font-weight:bold; padding: 0 8px 0 20px; float:left;}
 
 .list_contents { clear:both}
-.list_contents table {min-width:700px;}
+/*.list_contents table {min-width:700px;}*/
 .list_contents table tr, .list_contents table td, .list_contents table th {border-bottom: 1px solid #DCDFE}
 .list_contents table tr .end, .list_contents table td .end {border-bottom: 0 none}
 .list_contents table .tit_bg {background: url("../images/bg_thGradient.gif") 0 100% repeat-x}
@@ -166,8 +166,12 @@ a .proc_btn_next:hover {background: url("../images/proc_bg.png") no-repeat -129p
 .str_field {width:200px; text-align:left; float:left;}
 
 .btn_plus {padding-bottom:8px; width:25px;}
+.btn_delete {background: url("../images/btn_ic_delet.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 11px;
+    padding: 0; width: 11px; position: relative;} /* 필터 안에 삭제버튼 */
+	
 .filter_btn_space {background-color:#FFF; padding:8px 0 0; height:22px; border-top: 1px solid #c7c7c7;}
-.btn_x_grb_posi {padding: 0 5px 0 6px; line-height: 23px;}
+.btn_delete_posi {padding: 0 5px 0 6px; line-height: 23px;}
+
 
 
 /* 페이징 */
@@ -301,7 +305,7 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .btnIconsCreate{background: url("../images/bgBtnIcons.gif") 0 -42px no-repeat;height:21px;display:inline-block;padding-left:22px}
 .btnIconsExcel{background: url("../images/bgBtnIcons.gif") 0 -63px no-repeat;height:21px;display:inline-block;padding-left:22px}
 .btnIconStart{background: url("../images/bgBtnIcons.gif") 0 -84px no-repeat;height:21px;display:inline-block;padding-left:5px}
-.btnIconsTail{background: url("../images/bgBtnIconsTail.gif") 100% 0 no-repeat;height:21px;display:inline-block;padding-right:5px;line-height:1.8}
+.btnIconsTail{background: url("../images/bgBtnIconsTail.gif") 100% 0 no-repeat;height:21px;display:inline-block;padding-right:5px;line-height:1.8; font-size:11px}
 
 .btn_s_modi {background: url("../images/btn_modi.gif") 0 0; height:21px; width:40px; display:inline-block;}
 .btn_s_del {background: url("../images/bt_delete.gif") 0 0; height:21px; width:40px; display:inline-block;}
