@@ -15,7 +15,15 @@ public class SearchFilter extends BaseObject{
 	public static final String FILTER_MY_RECENT_INSTANCES = SYSTEM_FILTER_PREFIX + "myRecentInstances";
 	public static final String FILTER_MY_RUNNING_INSTANCES = SYSTEM_FILTER_PREFIX + "myRunningInstances";
 	public static final String FILTER_MY_ASSIGEND_INSTANCES = SYSTEM_FILTER_PREFIX + "myAssignedInstances";
-
+	public static final String FILTER_BY_WORK = SYSTEM_FILTER_PREFIX + "byWork";
+	public static final String FILTER_BY_WORK_INSTANCE = SYSTEM_FILTER_PREFIX + "byWorkInstance";
+	public static final String FILTER_BY_WORK_SPACE = SYSTEM_FILTER_PREFIX + "byWorkSpace";
+	public static final String FILTER_BY_FILE_CATEGORY = SYSTEM_FILTER_PREFIX + "byFileCategory";
+	public static final String FILTER_BY_FILE_TYPE = SYSTEM_FILTER_PREFIX + "byFileType";
+	public static final String FILTER_BY_WORK_ID = SYSTEM_FILTER_PREFIX + "byWork";
+	public static final String FILTER_BY_WORK_SPACE_ID = SYSTEM_FILTER_PREFIX + "byWorkSpace";
+	public static final String FILTER_BY_FILE_CATEGORY_ID = SYSTEM_FILTER_PREFIX + "byFileCategory";
+	
 	private Condition[] conditions;
 
 	public Condition[] getConditions() {
@@ -47,20 +55,48 @@ public class SearchFilter extends BaseObject{
 		return new SearchFilter(FILTER_ALL_INSTANCES, FILTER_ALL_INSTANCES, new Condition[]{});
 	}
 	public static SearchFilter getMyInstancesFilter(User currentUser){
-		return new SearchFilter(FILTER_MY_INSTANCES, FILTER_MY_INSTANCES, new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser )});
+		return new SearchFilter(FILTER_MY_INSTANCES, FILTER_MY_INSTANCES, new Condition[] {
+						new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser )
+					});
 	}
 
 	public static SearchFilter getRecentInstancesFilter(){
-		return new SearchFilter(FILTER_RECENT_INSTANCES, FILTER_RECENT_INSTANCES, new Condition[] {new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.RECENT_DAYS.getId(), null)});
+		return new SearchFilter(FILTER_RECENT_INSTANCES, FILTER_RECENT_INSTANCES, new Condition[] {
+					new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.RECENT_DAYS.getId(), null)
+				});
 	}
 	public static SearchFilter getMyRecentInstancesFilter(User currentUser){
-		return new SearchFilter(FILTER_MY_RECENT_INSTANCES, FILTER_MY_RECENT_INSTANCES, new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
-				new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.RECENT_DAYS.getId(), null)});
+		return new SearchFilter(FILTER_MY_RECENT_INSTANCES, FILTER_MY_RECENT_INSTANCES, new Condition[] {
+					new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
+					new Condition(FormField.FIELD_LAST_MODIFIED_DATE, ConditionOperator.RECENT_DAYS.getId(), null)
+				});
 	}
 	public static SearchFilter getMyRunningInstancesFilter(User currentUser){
-		return new SearchFilter(FILTER_MY_RUNNING_INSTANCES, FILTER_MY_RUNNING_INSTANCES, new Condition[] {new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
-				new Condition(FormField.FIELD_STATUS, ConditionOperator.NOT_EQUAL.getId(), WorkInstance.STATUS_NOT_YET ),
-				new Condition(FormField.FIELD_STATUS, ConditionOperator.NOT_EQUAL.getId(), WorkInstance.STATUS_COMPLETED )});
+		return new SearchFilter(FILTER_MY_RUNNING_INSTANCES, FILTER_MY_RUNNING_INSTANCES, new Condition[] {
+					new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), currentUser ),
+					new Condition(FormField.FIELD_STATUS, ConditionOperator.NOT_EQUAL.getId(), WorkInstance.STATUS_NOT_YET ),
+					new Condition(FormField.FIELD_STATUS, ConditionOperator.NOT_EQUAL.getId(), WorkInstance.STATUS_COMPLETED )
+				});
+	}
+	public static SearchFilter getByWorkIdFilter(String workId){
+		return new SearchFilter(FILTER_BY_WORK_ID, FILTER_BY_WORK_ID, new Condition[] {
+					new Condition(FormField.FIELD_WORK_ID, ConditionOperator.EQUAL.getId(), workId )
+				});
+	}
+	public static SearchFilter getByWorkSpaceIdFilter(String workSpaceId){
+		return new SearchFilter(FILTER_BY_WORK_SPACE_ID, FILTER_BY_WORK_SPACE_ID, new Condition[] {
+					new Condition(FormField.FIELD_WORK_SPACE_ID, ConditionOperator.EQUAL.getId(), workSpaceId )
+				});
+	}
+	public static SearchFilter getByFileCategoryIdFilter(String categoryId){
+		return new SearchFilter(FILTER_BY_FILE_CATEGORY_ID, FILTER_BY_FILE_CATEGORY_ID, new Condition[] {
+					new Condition(FormField.FIELD_FILE_CATEGORY_ID, ConditionOperator.EQUAL.getId(), categoryId )
+				});
+	}
+	public static SearchFilter getByFileTypeFilter(String fileType){
+		return new SearchFilter(FILTER_BY_FILE_TYPE, FILTER_BY_FILE_TYPE, new Condition[] {
+					new Condition(FormField.FIELD_FILE_TYPE, ConditionOperator.EQUAL.getId(), fileType )
+				});
 	}
 
 }

@@ -207,15 +207,6 @@ if(!SmartUtil.isBlankObject(wid)){
 						<!-- 목록보기 타이틀-->
 						<div class="list_title_space js_work_list_title margin_t15">
 							<div class="title"><fmt:message key="common.title.instance_list" /></div>					
-							<div class="titleLineOptions">
-								<form name="frmSearchInstance" class="po_left">
-									<span class="js_progress_span"></span>
-									<div class="srch_wh srch_wsize">
-										<input name="txtSearchInstance" class="nav_input" type="text" placeholder="<fmt:message key='search.search_instance' />">
-										<button title="<fmt:message key='search.search_instance'/>" onclick="selectListParam($('.js_work_list_title').find('.js_progress_span:first'), false);return false;"></button>
-									</div>
-								</form>					
-							</div>
 							<div class="titleLineBtns">
 								<div class="btnIconsEdit">
 									<a href="search_filter.sw?workId=<%=SmartWork.ID_FILE_MANAGEMENT%>" class="js_edit_search_filter btnIconsTail"><fmt:message key='filter.button.edit_search_filter' /></a>

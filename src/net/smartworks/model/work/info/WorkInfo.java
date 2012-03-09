@@ -58,6 +58,10 @@ public class WorkInfo extends BaseObject {
 		case SmartWork.TYPE_SCHEDULE:
 			return ((SmartWorkInfo)this).isRunning() ? Work.ICON_CLASS_SWORKS_ON : Work.ICON_CLASS_SWORKS_OFF;
 		case WorkCategory.TYPE_CATEGORY:
+			if(getId().equals(WorkCategory.ID_DEFAULT_CATEGORY))
+				return Work.ICON_CLASS_DEFAULT_CATEGORY;
+			else if(getId().equals(WorkCategory.ID_DOWNLOADED_CATEGORY))
+				return Work.ICON_CLASS_DOWNLOADED_CATEGORY;
 			return ((WorkCategoryInfo)this).isRunning() ? Work.ICON_CLASS_CWORKS_ON : Work.ICON_CLASS_CWORKS_OFF;
 		}
 		return null;

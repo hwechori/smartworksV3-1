@@ -89,10 +89,6 @@ public class Work extends BaseObject{
 				return Work.ICON_CLASS_DEPARTMENT_WORKS;
 			else if(getId().equals(SmartWork.ID_GROUP_MANAGEMENT))
 				return Work.ICON_CLASS_GROUP_WORKS;
-			else if(getId().equals(WorkCategory.ID_DEFAULT_CATEGORY))
-				return Work.ICON_CLASS_DEFAULT_CATEGORY;
-			else if(getId().equals(WorkCategory.ID_DOWNLOADED_CATEGORY))
-				return Work.ICON_CLASS_DOWNLOADED_CATEGORY;
 			else
 				return ((SmartWork)this).isRunning() ? Work.ICON_CLASS_IWORKS_ON : Work.ICON_CLASS_IWORKS_OFF;
 		case SmartWork.TYPE_PROCESS:
@@ -100,6 +96,10 @@ public class Work extends BaseObject{
 		case SmartWork.TYPE_SCHEDULE:
 			return ((SmartWork)this).isRunning() ? Work.ICON_CLASS_SWORKS_ON : Work.ICON_CLASS_SWORKS_OFF;
 		case WorkCategory.TYPE_CATEGORY:
+			if(getId().equals(WorkCategory.ID_DEFAULT_CATEGORY))
+				return Work.ICON_CLASS_DEFAULT_CATEGORY;
+			else if(getId().equals(WorkCategory.ID_DOWNLOADED_CATEGORY))
+				return Work.ICON_CLASS_DOWNLOADED_CATEGORY;
 			return ((WorkCategory)this).isRunning() ? Work.ICON_CLASS_CWORKS_ON : Work.ICON_CLASS_CWORKS_OFF;
 		}
 		return null;
