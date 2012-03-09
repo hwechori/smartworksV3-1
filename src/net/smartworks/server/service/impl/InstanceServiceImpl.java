@@ -2201,7 +2201,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					FdrFolder fdrFolder = new FdrFolder();
 					if(parentId.equals(FileCategory.ID_UNCATEGORIZED)) {
 						TskTaskCond tskTaskCond = new TskTaskCond();
-						tskTaskCond.setWorkSpaceId("hsshin@maninsoft.co.kr");
+						tskTaskCond.setWorkSpaceId(spaceId);
 						tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
 						tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_CREATIONDATE, false)});
 						TskTask[] tskTasks = getTskManager().getTasks(userId, tskTaskCond, IManager.LEVEL_LITE);
