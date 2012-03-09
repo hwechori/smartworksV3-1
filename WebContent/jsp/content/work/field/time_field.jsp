@@ -53,8 +53,8 @@
 </select>
 
 <!-- 우측의 날짜를 비교할 수 있은 시간 선택박스 -->
-<span class="icon_fb_space str_field">
-	<input name="selFilterTimeOperand" class="inputline js_timepicker required" type="text"
+<span class="icon_fb_cl_space float_left">
+	<input name="selFilterTimeOperand" class="inputline form_time_input js_timepicker required" type="text"
 		value="<%if (operandValue != null) {%><%=operandValue%><%} else {%><%=curTime%><%}%>">
 	<a href="" class="js_timepicker_button"><span class="icon_fb_time"></span></a>
 </span>

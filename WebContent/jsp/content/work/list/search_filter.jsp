@@ -278,8 +278,10 @@
 			 	}
 			 	%>
 			</td>
-			<td valign="bottom" class="btn_plus"><img
-				src="images/btn_plus.gif" class="js_add_condition" />
+			
+			<!-- 추가 버튼  -->
+			<td class="btn_plus_space">
+			<a href=""><span class="btn_plus js_add_condition" /> </span></a>
 			</td>
 		</tr>
 	</table>

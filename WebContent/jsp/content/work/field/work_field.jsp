@@ -50,7 +50,7 @@
 
 <!-- 비교값이 문자이므로 문자입력박스를 제공 -->
 <span class="str_field"> 
-	<input class="inputline required" type="text" name="txtFilterStringOperand" 
+	<input class="fieldline required" type="text" name="txtFilterStringOperand" 
 		value="<%if(operandValue!=null){ %><%=operandValue%><%} %>" id="<%if(operandId!=null){ %><%=operandId%><%}%>">
 	</input>
 </span>
