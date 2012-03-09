@@ -4,6 +4,9 @@ public class WorkCategory extends Work {
 
 	public final static int	TYPE_CATEGORY	= 11;
 	
+	public final static String ID_DEFAULT_CATEGORY = "40288afb1b25f00b011b25f3c7950001";
+	public final static String ID_DOWNLOADED_CATEGORY = "52fca4b219fef4f50119ffcd871b0000";
+	
 	private boolean isRunning;
 		
 	public boolean isRunning() {
