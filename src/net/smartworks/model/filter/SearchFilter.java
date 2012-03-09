@@ -98,7 +98,7 @@ public class SearchFilter extends BaseObject{
 				});
 	}
 
-	public static SearchFilter getByCreatedDateFilter(LocalDate date){
+	public static SearchFilter getByCreatedDateFilter(String date){
 		return new SearchFilter(FILTER_BY_CREATED_DATE, FILTER_BY_CREATED_DATE, new Condition[] {
 					new Condition(FormField.FIELD_CREATED_DATE, ConditionOperator.EQUAL.getId(), date)
 				});

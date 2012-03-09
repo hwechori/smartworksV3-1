@@ -37,11 +37,11 @@
 				<%
 				if(workSpace.getClass().equals(Group.class)){				
 				%>
-					<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId()%>" class="js_content"><span class="js_collapse_detail arr_off"></span><span class="icon_user_space"><fmt:message key="space.title.group.all_items"/></span></a>
+					<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId()%>" class="js_content"><span class="js_collapse_detail arr_off float_left"></span><span class="icon_user_space"><fmt:message key="space.title.group.all_items"/></span></a>
 				<%
 				}else if(workSpace.getClass().equals(Department.class)){				
 				%>
-					<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId()%>" class="js_content"><span class="js_collapse_detail arr_off"></span><span class="icon_user_space"><fmt:message key="space.title.department.all_items"/></span></a>
+					<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId()%>" class="js_content"><span class="js_collapse_detail arr_off float_left"></span><span class="icon_user_space"><fmt:message key="space.title.department.all_items"/></span></a>
 				<%
 				}
 				%>

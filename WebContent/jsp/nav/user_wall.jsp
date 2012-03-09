@@ -38,11 +38,11 @@
 			<%
 			if(wid.equals(cUser.getId())){				
 			%>
-				<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId() %>" class="js_content"><span class="js_collapse_detail  arr_off"></span><span class="icon_user_space"><fmt:message key="space.title.my.all_items"/></span></a>
+				<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId() %>" class="js_content"><span class="js_collapse_detail  arr_off float_left"></span><span class="icon_user_space"><fmt:message key="space.title.my.all_items"/></span></a>
 			<%
 			}else{				
 			%>
-				<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId() %>" class="js_content"><span class="js_collapse_detail arr_off"></span><span class="icon_user_space"><fmt:message key="space.title.user.all_items"/></span></a>
+				<a href="<%=workSpace.getSpaceController() %>?cid=<%=workSpace.getSpaceContextId() %>" class="js_content"><span class="js_collapse_detail arr_off float_left"></span><span class="icon_user_space"><fmt:message key="space.title.user.all_items"/></span></a>
 			<%
 			}
 			%>
