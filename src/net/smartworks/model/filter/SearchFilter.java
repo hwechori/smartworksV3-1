@@ -5,6 +5,7 @@ import net.smartworks.model.community.User;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.security.AccessPolicy;
 import net.smartworks.model.work.FormField;
+import net.smartworks.util.LocalDate;
 
 public class SearchFilter extends BaseObject{
 	
@@ -15,14 +16,11 @@ public class SearchFilter extends BaseObject{
 	public static final String FILTER_MY_RECENT_INSTANCES = SYSTEM_FILTER_PREFIX + "myRecentInstances";
 	public static final String FILTER_MY_RUNNING_INSTANCES = SYSTEM_FILTER_PREFIX + "myRunningInstances";
 	public static final String FILTER_MY_ASSIGEND_INSTANCES = SYSTEM_FILTER_PREFIX + "myAssignedInstances";
-	public static final String FILTER_BY_WORK = SYSTEM_FILTER_PREFIX + "byWork";
-	public static final String FILTER_BY_WORK_INSTANCE = SYSTEM_FILTER_PREFIX + "byWorkInstance";
-	public static final String FILTER_BY_WORK_SPACE = SYSTEM_FILTER_PREFIX + "byWorkSpace";
-	public static final String FILTER_BY_FILE_CATEGORY = SYSTEM_FILTER_PREFIX + "byFileCategory";
+	public static final String FILTER_BY_WORK_ID = SYSTEM_FILTER_PREFIX + "byWorkId";
+	public static final String FILTER_BY_FILE_CATEGORY_ID = SYSTEM_FILTER_PREFIX + "byFileCategoryId";
 	public static final String FILTER_BY_FILE_TYPE = SYSTEM_FILTER_PREFIX + "byFileType";
-	public static final String FILTER_BY_WORK_ID = SYSTEM_FILTER_PREFIX + "byWork";
-	public static final String FILTER_BY_WORK_SPACE_ID = SYSTEM_FILTER_PREFIX + "byWorkSpace";
-	public static final String FILTER_BY_FILE_CATEGORY_ID = SYSTEM_FILTER_PREFIX + "byFileCategory";
+	public static final String FILTER_BY_OWNER = SYSTEM_FILTER_PREFIX + "byOwner";
+	public static final String FILTER_BY_CREATED_DATE = SYSTEM_FILTER_PREFIX + "byCreatedDate";
 	
 	private Condition[] conditions;
 
@@ -83,11 +81,6 @@ public class SearchFilter extends BaseObject{
 					new Condition(FormField.FIELD_WORK_ID, ConditionOperator.EQUAL.getId(), workId )
 				});
 	}
-	public static SearchFilter getByWorkSpaceIdFilter(String workSpaceId){
-		return new SearchFilter(FILTER_BY_WORK_SPACE_ID, FILTER_BY_WORK_SPACE_ID, new Condition[] {
-					new Condition(FormField.FIELD_WORK_SPACE_ID, ConditionOperator.EQUAL.getId(), workSpaceId )
-				});
-	}
 	public static SearchFilter getByFileCategoryIdFilter(String categoryId){
 		return new SearchFilter(FILTER_BY_FILE_CATEGORY_ID, FILTER_BY_FILE_CATEGORY_ID, new Condition[] {
 					new Condition(FormField.FIELD_FILE_CATEGORY_ID, ConditionOperator.EQUAL.getId(), categoryId )
@@ -96,6 +89,18 @@ public class SearchFilter extends BaseObject{
 	public static SearchFilter getByFileTypeFilter(String fileType){
 		return new SearchFilter(FILTER_BY_FILE_TYPE, FILTER_BY_FILE_TYPE, new Condition[] {
 					new Condition(FormField.FIELD_FILE_TYPE, ConditionOperator.EQUAL.getId(), fileType )
+				});
+	}
+
+	public static SearchFilter getByOwnerFilter(User owner){
+		return new SearchFilter(FILTER_BY_OWNER, FILTER_BY_OWNER, new Condition[] {
+					new Condition(FormField.FIELD_OWNER, ConditionOperator.EQUAL.getId(), owner )
+				});
+	}
+
+	public static SearchFilter getByCreatedDateFilter(LocalDate date){
+		return new SearchFilter(FILTER_BY_CREATED_DATE, FILTER_BY_CREATED_DATE, new Condition[] {
+					new Condition(FormField.FIELD_CREATED_DATE, ConditionOperator.EQUAL.getId(), date)
 				});
 	}
 

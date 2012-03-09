@@ -17,6 +17,7 @@ public class RequestParams {
 	private SortingField sortingField;
 	private String searchKey;
 	private String filterId;
+	private String filterValue;
 	private SearchFilter searchFilter;
 	
 	public int getPageSize() {
@@ -42,6 +43,12 @@ public class RequestParams {
 	}
 	public void setFilterId(String filterId) {
 		this.filterId = filterId;
+	}
+	public String getFilterValue() {
+		return filterValue;
+	}
+	public void setFilterValue(String filterValue) {
+		this.filterValue = filterValue;
 	}
 	public SortingField getSortingField() {
 		return sortingField;
