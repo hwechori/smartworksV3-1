@@ -155,7 +155,7 @@ public interface ISmartWorks {
 
 	public abstract ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception;
 
-	public abstract FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception;
+	public abstract FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId, String parentId) throws Exception;
 
 	public abstract InstanceInfo[] getMyRecentInstances() throws Exception;
 

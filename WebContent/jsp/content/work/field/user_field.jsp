@@ -51,8 +51,8 @@
 </select>
 
 <!-- 사용자를 선택하는 입력화면 -->
-<div class="js_type_userField"> 
-	<div class="icon_fb_space"> 
+<div class="js_type_userField float_left"> 
+	<div class="icon_fb_us_space"> 
 		<div class='fieldline js_community_names sw_required'>
 			<div class="js_selected_communities user_sel_area">
 				<%if (operandValue != null) {%><span>
@@ -79,6 +79,6 @@
  --%>
 
 <!--  현재 콘디션을 삭제할 수 있는 샂제 버튼 -->
-<span class="btn_x_grb_posi">
-	<button class="btn_x_grb js_remove_condition"></button> 
+<span class="btn_delete_posi">
+	<button class="btn_delete js_remove_condition"></button> 
 </span>

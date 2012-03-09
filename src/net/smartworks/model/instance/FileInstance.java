@@ -13,23 +13,23 @@ import net.smartworks.util.SmartUtil;
 
 public class FileInstance extends WorkInstance {
 
+	private WorkInstance workInstance;
 	private FileCategory fileCategory;
-	private String fileType;
 	private String content;
 	private String fileGroupId;
 	private List<Map<String, String>> files;
 
+	public WorkInstance getWorkInstance() {
+		return workInstance;
+	}
+	public void setWorkInstance(WorkInstance workInstance) {
+		this.workInstance = workInstance;
+	}
 	public FileCategory getFileCategory() {
 		return fileCategory;
 	}
 	public void setFileCategory(FileCategory fileCategory) {
 		this.fileCategory = fileCategory;
-	}
-	public String getFileType() {
-		return fileType;
-	}
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
 	}
 	public String getFileGroupId() {
 		return fileGroupId;

@@ -27,7 +27,7 @@ public interface IWorkService {
 
 	public ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception;
 
-	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception;
+	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId, String parentId) throws Exception;
 
 	public SmartWorkInfo[] getMyFavoriteWorks() throws Exception;
 

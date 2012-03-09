@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.work.SocialWork"%>
 <%@page import="net.smartworks.server.engine.infowork.form.model.SwfFormModel"%>
 <%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="com.sun.xml.internal.txw2.Document"%>
@@ -42,13 +43,16 @@
 	} else{
 		fields = new FormField[] {};		
 	}
-	String workType = "";
+	
+	int workType = work.getType();
+	if(work.getId().equals(SmartWork.ID_FILE_MANAGEMENT)) workType = SocialWork.TYPE_FILE;
+	String formType = "";
 	if (work != null && !SmartUtil.isBlankObject(filterId)) {
 		if(work.getClass().equals(InformationWork.class))
-			workType = SwfFormModel.TYPE_SINGLE;
+			formType = SwfFormModel.TYPE_SINGLE;
 		else if(work.getClass().equals(ProcessWork.class))
-			workType = SwfFormModel.TYPE_PROCESS;
-		filter = smartWorks.getSearchFilterById(workType, workId, filterId);
+			formType = SwfFormModel.TYPE_PROCESS;
+		filter = smartWorks.getSearchFilterById(formType, workId, filterId);
 	}
 	if(!filterId.equals(SearchFilter.FILTER_ALL_INSTANCES) && !filterId.equals(SearchFilter.FILTER_MY_INSTANCES) && !filterId.equals(SearchFilter.FILTER_RECENT_INSTANCES) &&
 			!filterId.equals(SearchFilter.FILTER_MY_RECENT_INSTANCES) && !filterId.equals(SearchFilter.FILTER_MY_RUNNING_INSTANCES))
@@ -77,7 +81,7 @@
 						}
 						%>
 						<jsp:include page="/jsp/content/work/field/default_fields.jsp">
-							<jsp:param name="workType" value="<%=work.getType() %>" />
+							<jsp:param name="workType" value="<%=workType %>" />
 						</jsp:include>
 					</select> 
 					<span class="js_filter_operator">
@@ -158,7 +162,7 @@
 									}
 									%>
 									<jsp:include page="/jsp/content/work/field/default_fields.jsp">
-										<jsp:param name="workType" value="<%=work.getType() %>" />
+										<jsp:param name="workType" value="<%=workType %>" />
 										<jsp:param name="fieldId" value="<%=leftOperand.getId() %>" />
 									</jsp:include>
 								</select> 
@@ -278,8 +282,10 @@
 			 	}
 			 	%>
 			</td>
-			<td valign="bottom" class="btn_plus"><img
-				src="images/btn_plus.gif" class="js_add_condition" />
+			
+			<!-- 추가 버튼  -->
+			<td class="btn_plus_space">
+				<a href=""><span class="btn_plus js_add_condition" /> </span></a>
 			</td>
 		</tr>
 	</table>

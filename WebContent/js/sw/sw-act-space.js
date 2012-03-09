@@ -211,11 +211,11 @@ $(function() {
 	
 	$('.js_image_display_by').live('change', function(e){
 		var input = $(e.target);
-		var displayBy = input.attr('value');
+		var displayType = input.attr('value');
 		$.ajax({
 			url : "image_instance_list.sw",
 			data : {
-				displayBy : displayBy,
+				displayType : displayType,
 				parentId : ""
 			},
 			success : function(data, status, jqXHR) {
@@ -232,15 +232,69 @@ $(function() {
 		var input = $(e.target).parents('a');
 		var imageInstanceList = input.parents('.js_image_instance_list_page');
 		var parentId = input.attr('categoryId');
-		var displayBy = imageInstanceList.attr('displayBy');
+		var displayType = imageInstanceList.attr('displayType');
 		$.ajax({
 			url : "image_instance_list.sw",
 			data : {
-				displayBy : displayBy,
+				displayType : displayType,
 				parentId : parentId
 			},
 			success : function(data, status, jqXHR) {
 				var target = input.parents('.js_image_list_page').find('.js_image_instance_list');
+				target.html(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+			}
+		});
+		return false;
+		
+	});
+	
+	$('.js_file_display_by').live('change', function(e){
+		var input = $(e.target);
+		var fileList = input.parents('.js_file_list_page');
+		var displayType = input.attr('value');
+		var wid = fileList.attr("workSpaceId");
+		$.ajax({
+			url : "categories_by_type.sw",
+			data : {
+				displayType : displayType,
+				wid : wid,
+				parentId : ""
+			},
+			success : function(data, status, jqXHR) {
+				var target = fileList.find('.js_file_categories');
+				target.html(data);
+				fileList.attr('displayType', displayType);
+				fileList.attr('categoryId', "AllFiles");
+				selectListParam();
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+			}
+		});
+		return false;
+		
+	});
+	$('.js_file_category_list').live('click', function(e){
+		var input = $(e.target).parents('a');
+		input.parents('.js_file_list_page').attr('categoryId', input.attr('categoryId'));
+		selectListParam();
+		return false;		
+	});
+	
+	$('a.js_file_instance_list').live('click', function(e){
+		var input = $(e.target).parents('a');
+		var fileList = input.parents('.js_file_list_page');
+		var categoryId = input.attr('categoryId');
+		var displayType = fileList.attr('displayType');
+		$.ajax({
+			url : "set_file_instance_list.sw",
+			data : {
+				displayType : displayType,
+				catetoryId : categoryId
+			},
+			success : function(data, status, jqXHR) {
+				var target = fileList.find('.js_file_instance_list');
 				target.html(data);
 			},
 			error : function(xhr, ajaxOptions, thrownError){
