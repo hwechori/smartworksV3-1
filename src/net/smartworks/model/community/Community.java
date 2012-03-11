@@ -30,18 +30,21 @@ public class Community extends BaseObject {
 	private String bigPictureName;
 	private String smallPictureName;
 
-	public String getOrgPictureName() {
-		return this.bigPictureName;
+	public String getBigPictureName() {
+		return bigPictureName;
 	}
-	public String getMidPictureName() {
-		return this.smallPictureName;
+	public void setBigPictureName(String bigPictureName) {
+		this.bigPictureName = bigPictureName;
 	}
-	public String getMinPictureName() {
-		return this.smallPictureName;
+	public String getSmallPictureName() {
+		return smallPictureName;
+	}
+	public void setSmallPictureName(String smallPictureName) {
+		this.smallPictureName = smallPictureName;
 	}
 
 	public String getOrgPicture() {
-		if(this.getOrgPictureName() == null || this.getOrgPictureName().equals("")) {
+		if(this.getBigPictureName() == null || this.getBigPictureName().equals("")) {
 			if(this.getClass().equals(Login.class) || this.getClass().equals(User.class))
 				return NO_PICTURE_PATH + User.NO_USER_PICTURE + ".jpg";
 			else if(this.getClass().equals(Department.class))
@@ -49,11 +52,11 @@ public class Community extends BaseObject {
 			else if(this.getClass().equals(Group.class))
 				return NO_PICTURE_PATH + Group.DEFAULT_GROUP_PICTURE + ".gif";
 		}
-		return getPath() + this.getOrgPictureName();
+		return getPath() + this.getBigPictureName();
 	}
 
 	public String getMidPicture() {
-		if(this.getMidPictureName() == null || this.getMidPictureName().equals("")) {
+		if(this.getSmallPictureName() == null || this.getSmallPictureName().equals("")) {
 			if(this.getClass().equals(Login.class) || this.getClass().equals(User.class))
 				return NO_PICTURE_PATH + User.NO_USER_PICTURE + "_mid.jpg";
 			else if(this.getClass().equals(Department.class))
@@ -61,11 +64,11 @@ public class Community extends BaseObject {
 			else if(this.getClass().equals(Group.class))
 				return NO_PICTURE_PATH + Group.DEFAULT_GROUP_PICTURE + "_mid.gif";
 		}
-		return getPath() + this.getMidPictureName();
+		return getPath() + this.getSmallPictureName();
 	}
 
 	public String getMinPicture() {
-		if(this.getMinPictureName() == null || this.getMinPictureName().equals("")) {
+		if(this.getSmallPictureName() == null || this.getSmallPictureName().equals("")) {
 			if(this.getClass().equals(Login.class) || this.getClass().equals(User.class))
 				return NO_PICTURE_PATH + User.NO_USER_PICTURE + "_min.jpg";
 			else if(this.getClass().equals(Department.class))
@@ -73,19 +76,13 @@ public class Community extends BaseObject {
 			else if(this.getClass().equals(Group.class))
 				return NO_PICTURE_PATH + Group.DEFAULT_GROUP_PICTURE + "_min.gif";
 		}
-		return getPath() + this.getMinPictureName();
+		return getPath() + this.getSmallPictureName();
 	}
 
 	public String getPath(){
 		if(SmartUtil.getCurrentUser() == null)
 			return null;
 		return PICTURE_PATH + SmartUtil.getCurrentUser().getCompanyId() + "/" + PROFILES_DIR + "/";
-	}
-	public void setBigPictureName(String bigPictureName) {
-		this.bigPictureName = bigPictureName;
-	}
-	public void setSmallPictureName(String smallPictureName) {
-		this.smallPictureName = smallPictureName;
 	}
 	public String getIconClass(){
 		if(this.getClass().equals(Department.class))

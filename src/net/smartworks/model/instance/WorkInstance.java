@@ -18,8 +18,10 @@ public class WorkInstance extends Instance {
 	public static final String CONTROLLER_PWORK_SPACE = "pwork_space.sw";
 	public static final String CONTROLLER_SWORK_SPACE = "swork_space.sw";
 	public static final String CONTROLLER_FILE_SPACE = "file_space.sw";
-	
 
+	public static final int DEFAULT_SUB_INSTANCE_FETCH_COUNT = 3; 
+	public static final int FETCH_ALL_SUB_INSTANCE = -1; 
+	
 	private TaskInstanceInfo[] tasks;
 	private int numberOfSubInstances; 
 	

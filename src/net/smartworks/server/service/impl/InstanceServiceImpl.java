@@ -28,6 +28,7 @@ import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.SortingField;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.CommentInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.IWInstanceInfo;
 import net.smartworks.model.instance.info.ImageInstanceInfo;
@@ -1598,9 +1599,27 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
-	public CommentInstance[] getRecentCommentsInWorkManual(String workId, int length) throws Exception {
+	public CommentInstanceInfo[] getRecentCommentsInWorkManual(String workId, int length) throws Exception {
 		try{
-			return SmartTest.getCommentInstances();
+			if(length==WorkInstance.FETCH_ALL_SUB_INSTANCE)
+				return SmartTest.getAllCommentInstances();
+			else
+				return SmartTest.getCommentInstances();
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+
+	@Override
+	public InstanceInfo[] getRecentSubInstancesInInstance(String instanceId, int length) throws Exception {
+		try{
+			if(length==WorkInstance.FETCH_ALL_SUB_INSTANCE)
+				return SmartTest.getAllInstances();
+			else
+				return SmartTest.getInstances();
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();

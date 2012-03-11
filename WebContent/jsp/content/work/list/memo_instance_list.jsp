@@ -54,6 +54,9 @@
 		if(sortedField==null) sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<th  style="width:40px">
 			</th>
 			<th class="r_line">
@@ -64,18 +67,22 @@
 					%>
 				</a>				
 			</th>
-			<th>
+			<th class="r_line">
 				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
 					<fmt:message key='common.title.last_modified_date' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIED_DATE)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
 				</a>
 				<span class="js_progress_span"></span>
 			</th>
+	 		<th style="width:40px;">
+				<span><fmt:message key="common.title.views"/></span>
+			</th>
 		</tr>	
 		<%	
 		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
+		int currentCount = instanceList.getTotalSize()-(currentPage-1)*pageSize;
 		if(instanceList.getInstanceDatas() != null) {
 			InstanceInfo[] instanceInfos = (InstanceInfo[])instanceList.getInstanceDatas();
 			for (InstanceInfo instanceInfo : instanceInfos) {
@@ -84,6 +91,7 @@
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 			%>
 				<tr>
+					<td class="hAlignCenter"><%=currentCount%></td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"/></a>
 					</td>
@@ -104,14 +112,19 @@
 						}
 						%>
 					</td>
+					<td class="hAlignCenter"><%=((MemoInstanceInfo)instanceInfo).getViews() %>
 				</tr>
 	<%
+				currentCount--;
 			}
 		}
 	}else{
 			sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<th class="r_line">
 	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_STATUS%>"><fmt:message key='common.title.status'/>
 			 		<%
@@ -160,6 +173,9 @@
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
 				</a>
 				<span class="js_progress_span"></span>
+			</th>
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.views"/></span>
 			</th>
 		</tr>	
 	<%		

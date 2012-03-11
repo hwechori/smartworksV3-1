@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.util.SmartTest"%>
 <%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
 <%@page import="net.smartworks.model.community.info.GroupInfo"%>
@@ -68,7 +69,7 @@
 			ImageInstanceInfo image=null;
 			MemoInstanceInfo memo=null;
 	%>
-			<li class="sub_instance_list">
+			<li class="sub_instance_list js_sub_instance_list" instanceId="<%=workInstance.getId() %>" >
 				<%
 				switch(workInstance.getType()){
 				
@@ -185,45 +186,57 @@
 				}
 				%>		
 				<!-- 댓글 -->
-			   <div class="replay_point posit_default"></div>
-			   <div class="replay_section">  
-			        <div class="list_replay">
+			   <div class="reply_point posit_default"></div>
+			   <div class="reply_section">  
+			        <div class="list_reply">
 			        	<%
 			        	WorkInstanceInfo instance = (WorkInstanceInfo)workInstance;
+// TEST PURPOSE
 			        	instance.setSubInstanceCount(21);
-			        	InstanceInfo[] instances = new InstanceInfo[]{SmartTest.getWorkInstanceInfo1(), SmartTest.getWorkInstanceInfo2(), SmartTest.getWorkInstanceInfo3()};
-			        	instance.setSubInstances(instances);
-			        	if(instance.getSubInstanceCount()>0){
+// TEST PURPOSE
 			        	%>
-				            <ul>
-					            <li><img class="repl_tinfo"><a href=""><strong><%=instance.getSubInstanceCount() %></strong>개의 댓글 모두 보기</a></li>
-								<%
-								if (instance.getSubInstances() != null) {
-									for (InstanceInfo subInstance : instance.getSubInstances()) {
-										UserInfo commentor = subInstance.getOwner();
-								%>
-										<li>
-											<div class="noti_pic">
-												<img src="<%=commentor.getMinPicture()%>" align="bottom" />
-											</div>
-											<div class="noti_in">
-												<span class="t_name"><%=commentor.getLongName()%></span><span
-													class="t_date"><%=subInstance.getLastModifiedDate().toLocalString()%></span>
-												<div><%=subInstance.getSubject()%></div>
-											</div>
-										</li>
-								<%
-									}
-								}
-								%>
-							</ul>
-						<%
-						}
-						%>
+			            <ul class="js_comment_list">
+			            	<li class="js_comment_instance" style="display:none">
+								<div class="noti_pic">
+									<a class="js_pop_user_info" href="<%=cUser.getSpaceController() %>?cid=<%=cUser.getSpaceContextId()%>" userId="<%=cUser.getId()%>" profile="<%=cUser.getOrgPicture()%>" userDetail="<%=SmartUtil.getUserDetailInfo(cUser.getUserInfo())%>">
+										<img src="<%=cUser.getMinPicture()%>" align="bottom" class="profile_size_c"/>
+									</a>
+								</div>
+								<div class="noti_in">
+									<a href="<%=cUser.getSpaceController() %>?cid=<%=cUser.getSpaceContextId()%>">
+										<span class="t_name"><%=cUser.getLongName()%></span>
+									</a>
+									<span class="t_date"><%=(new LocalDate()).toLocalString()%></span>
+									<div class="js_comment_content"></div>
+								</div>
+			            	</li>
+			            	<%
+			            	if(instance.getSubInstanceCount()>WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT){
+								session.setAttribute("subComments", instance.getSubInstances());
+			            	%>
+				            	<li>
+				            		<img class="repl_tinfo">
+			            			<a href="sub_instances_in_instance.sw?instanceId=<%=instance.getId()%>&fetchCount=<%=WorkInstance.FETCH_ALL_SUB_INSTANCE %>" class="js_show_all_comments">
+			            				<span><strong><fmt:message key="common.title.show_all_comments"><fmt:param><%=instance.getSubInstanceCount() %></fmt:param><</fmt:message></strong></span>
+			            			</a>
+				            	</li>
+								<jsp:include page="/jsp/content/work/list/sub_instances_in_instance.jsp" >
+									<jsp:param value="<%=instance.getId() %>" name="instanceId"/>
+									<jsp:param value="<%=WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT %>" name="fetchCount"/>
+								</jsp:include>
+							<%
+							}
+							%>
+						</ul>
 			        </div>
 			        
-			        <div class="replay_input commentBox js_return_on_comment">
-						<textarea class="up_textarea" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_comment'/>"></textarea>
+			        <div class="reply_input commentBox js_return_on_comment">
+						<div class="noti_pic">
+							<img src="<%=cUser.getMinPicture()%>" class="profile_size_c"/>
+						</div>
+						<div class="noti_in">
+							<textarea style="width:95%" class="up_textarea" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_comment'/>"></textarea>
+						</div>
 			        </div>
 			    
 			    </div>

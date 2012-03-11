@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
 <%@page import="net.smartworks.model.work.info.WorkInfo"%>
 <%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
@@ -55,10 +56,13 @@
 		if(sortedField==null) sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_NAME%>"><fmt:message key='common.title.work_name'/>
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK%>"><fmt:message key='common.title.work_name'/>
 			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_WORK_NAME)){
+					if(sortedField.getFieldId().equals(FormField.ID_WORK)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>				
@@ -109,6 +113,7 @@
 		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
+		int currentCount = instanceList.getTotalSize()-(currentPage-1)*pageSize;
 		if(instanceList.getInstanceDatas() != null) {
 			InstanceInfo[] instanceInfos = (InstanceInfo[])instanceList.getInstanceDatas();
 			for (InstanceInfo instanceInfo : instanceInfos) {
@@ -119,6 +124,7 @@
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 				%>
 				<tr>
+					<td class="hAlignCenter"><%=currentCount%></td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space">
 							<div class="noti_pic">
@@ -165,12 +171,16 @@
 					</td>
 				</tr>
 	<%
+				currentCount--;
 			}
 		}
 	}else{
 			sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<th class="r_line">
 	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_STATUS%>"><fmt:message key='common.title.status'/>
 			 		<%

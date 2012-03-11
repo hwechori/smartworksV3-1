@@ -90,13 +90,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<%
-if(!SmartUtil.isBlankObject(wid)){
-%>
-	<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
-<%
-}
-%>
+<jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
 
 <!-- 컨텐츠 레이아웃-->
 <div class="section_portlet js_file_list_page" workId="<%=SmartWork.ID_FILE_MANAGEMENT %>" displayType="<%=FileCategory.DISPLAY_BY_CATEGORY%>" workSpaceId="<%=wid%>" categoryId="<%=FileCategory.ID_ALL_FILES%>">

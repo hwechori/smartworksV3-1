@@ -9,8 +9,15 @@ import net.smartworks.util.LocalDate;
 
 public class IWInstanceInfo extends WorkInstanceInfo {
 
+	private int views;
 	private FieldData[] displayDatas;
 
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
 	public FieldData[] getDisplayDatas() {
 		return displayDatas;
 	}

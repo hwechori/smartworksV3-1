@@ -9,6 +9,7 @@ public class InformationWork extends SmartWork {
 	private String helpUrl;
 	private String manualFilePath;
 	private String manualFileName;
+	private int commentCount;
 	
 	public SmartForm getForm() {
 		return form;
@@ -52,6 +53,13 @@ public class InformationWork extends SmartWork {
 	public void setManualFileName(String manualFileName) {
 		this.manualFileName = manualFileName;
 	}
+	public int getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+	
 	public InformationWork(){
 		super();
 		super.setType(TYPE_INFORMATION);
