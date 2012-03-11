@@ -2291,7 +2291,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					newWorkInstanceInfoList.toArray(workInstanceInfos);
 				} else if(displayBy == FileCategory.DISPLAY_BY_YEAR) {
 					/*TskTaskCond tskTaskCond = new TskTaskCond();
-					tskTaskCond.setWorkSpaceId("hsshin@maninsoft.co.kr");
+					tskTaskCond.setWorkSpaceId(spaceId);
 					tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
 					tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_CREATIONDATE, false)});
 					TskTask[] tskTasks = getTskManager().getTasks(userId, tskTaskCond, IManager.LEVEL_LITE);

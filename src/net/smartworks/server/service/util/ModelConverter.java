@@ -2467,7 +2467,7 @@ public class ModelConverter {
 				FdrFolderCond fdrFolderCond = new FdrFolderCond();
 				fdrFolderCond.setCompanyId(companyId);
 				fdrFolderCond.setCreationUser(userId);
-				fdrFolderCond.setWorkspaceId("hsshin@maninsoft.co.kr");
+				fdrFolderCond.setWorkspaceId(spaceId);
 				fdrFolderCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
 				fdrFolderCond.setOrders(new Order[]{new Order(FdrFolderCond.A_DISPLAYORDER, true)});
 				FdrFolder[] fdrFolders = getFdrManager().getFolders(userId, fdrFolderCond, IManager.LEVEL_ALL);
@@ -2484,7 +2484,7 @@ public class ModelConverter {
 						String folderName = fdrFolder.getName();
 						if(folderId.equals(FileCategory.ID_UNCATEGORIZED)) {
 							TskTaskCond tskTaskCond = new TskTaskCond();
-							tskTaskCond.setWorkSpaceId("hsshin@maninsoft.co.kr");
+							tskTaskCond.setWorkSpaceId(spaceId);
 							tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
 							tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_CREATIONDATE, false)});
 
@@ -2572,7 +2572,7 @@ public class ModelConverter {
 				return imageCategoryInfos;
 			case FileCategory.DISPLAY_BY_YEAR:
 				TskTaskCond tskTaskCond = new TskTaskCond();
-				tskTaskCond.setWorkSpaceId("hsshin@maninsoft.co.kr");
+				tskTaskCond.setWorkSpaceId(spaceId);
 				tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
 				tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_CREATIONDATE, false)});
 				TskTask[] tskTasks = SwManagerFactory.getInstance().getTskManager().getTasks(userId, tskTaskCond, IManager.LEVEL_LITE);
