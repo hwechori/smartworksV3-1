@@ -112,7 +112,6 @@ import net.smartworks.util.SmartUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.envers.entities.mapper.relation.lazy.proxy.SortedMapProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -2203,7 +2202,7 @@ public class InstanceServiceImpl implements IInstanceService {
 						TskTaskCond tskTaskCond = new TskTaskCond();
 						tskTaskCond.setWorkSpaceId(spaceId);
 						tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
-						tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_CREATIONDATE, false)});
+						tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_MODIFICATIONDATE, false)});
 						TskTask[] tskTasks = getTskManager().getTasks(userId, tskTaskCond, IManager.LEVEL_LITE);
 		
 						List<IFileModel[]> fileModelsList = new ArrayList<IFileModel[]>();
@@ -2234,7 +2233,7 @@ public class InstanceServiceImpl implements IInstanceService {
 										FdrFolderCond fdrFolderCond = new FdrFolderCond();
 										fdrFolderCond.setCreationUser(userId);
 										fdrFolderCond.setFolderFiles(fdrFolderFiles);
-										fdrFolderCond.setOrders(new Order[]{new Order(FdrFolderCond.A_CREATIONDATE, false)});
+										fdrFolderCond.setOrders(new Order[]{new Order(FdrFolderCond.A_MODIFICATIONDATE, false)});
 										FdrFolder unFdrFolder = getFdrManager().getFolder(userId, fdrFolderCond, IManager.LEVEL_ALL);
 										if(unFdrFolder == null) {
 											FdrFolderFile fdrFolderFile2 = new FdrFolderFile();
@@ -2268,40 +2267,43 @@ public class InstanceServiceImpl implements IInstanceService {
 							}
 						}
 					}
-					workInstanceInfos = new WorkInstanceInfo[newWorkInstanceInfoList.size()];
-					newWorkInstanceInfoList.toArray(workInstanceInfos);
 				} else if(displayBy == FileCategory.DISPLAY_BY_YEAR) {
-					/*TskTaskCond tskTaskCond = new TskTaskCond();
-					tskTaskCond.setWorkSpaceId("hsshin@maninsoft.co.kr");
-					tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
-					tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_CREATIONDATE, false)});
-					TskTask[] tskTasks = getTskManager().getTasks(userId, tskTaskCond, IManager.LEVEL_LITE);
-	
-					List<IFileModel[]> fileModelsList = new ArrayList<IFileModel[]>();
-					if(!CommonUtil.isEmpty(tskTasks)) {
-						int taskLength = tskTasks.length;
-						for(int i=0; i<taskLength; i++) {
-							String taskInstId = tskTasks[i].getObjId();
-							IFileModel[] fileModels = getDocManager().getFilesByTaskInstId(taskInstId);
-							if(!CommonUtil.isEmpty(fileModels))
-								fileModelsList.add(fileModels);
-						}
-					}
 					for(WorkInstanceInfo workInstanceInfo : workInstanceInfos) {
 						ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfo;
-						String newMonthString = new LocalDate(imageInstanceInfo.getLastModifiedDate().getTime()).toLocalMonthString();
-						if(fileModelsList.size() > 0) {
-							for(int j=0; j<fileModelsList.size(); j++) {
-								if(newMonthString.equals(parentId)) {
-									newWorkInstanceInfoList.add(imageInstanceInfo);
-								}
+						String taskInstId = imageInstanceInfo.getLastTask().getId();
+						IFileModel[] fileModels = SwManagerFactory.getInstance().getDocManager().getFilesByTaskInstId(taskInstId);
+						String monthString = new LocalDate(imageInstanceInfo.getCreatedDate().getTime()).toLocalMonthString();
+						if(!CommonUtil.isEmpty(fileModels)) {
+							if(monthString.equals(parentId)) {
+								newWorkInstanceInfoList.add(imageInstanceInfo);
 							}
 						}
 					}
-					workInstanceInfos = new WorkInstanceInfo[newWorkInstanceInfoList.size()];
-					newWorkInstanceInfoList.toArray(workInstanceInfos);*/
 				} else if(displayBy == FileCategory.DISPLAY_BY_OWNER) {
-					
+					for(WorkInstanceInfo workInstanceInfo : workInstanceInfos) {
+						ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfo;
+						String taskInstId = imageInstanceInfo.getLastTask().getId();
+						IFileModel[] fileModels = SwManagerFactory.getInstance().getDocManager().getFilesByTaskInstId(taskInstId);
+						String ownerId = imageInstanceInfo.getOwner().getId();
+						if(!CommonUtil.isEmpty(fileModels)) {
+							if(ownerId.equals(parentId)) {
+								newWorkInstanceInfoList.add(imageInstanceInfo);
+							}
+						}
+					}
+				}
+				if(newWorkInstanceInfoList.size() > 0) {
+					workInstanceInfos = new WorkInstanceInfo[newWorkInstanceInfoList.size()];
+					newWorkInstanceInfoList.toArray(workInstanceInfos);
+				} else {
+					workInstanceInfos = null;
+				}
+			} else if(refType.equals(TskTask.TASKREFTYPE_FILE)) {
+				if(displayBy == FileCategory.DISPLAY_BY_CATEGORY) {
+				} else if(displayBy == FileCategory.DISPLAY_BY_WORK) {
+				} else if(displayBy == FileCategory.DISPLAY_BY_YEAR) {
+				} else if(displayBy == FileCategory.DISPLAY_BY_OWNER) {
+				} else if(displayBy == FileCategory.DISPLAY_BY_FILE_TYPE) {
 				}
 			}
 
@@ -2321,11 +2323,11 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	public InstanceInfoList getWorkInstanceList(String workSpaceId, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_NOTHING, 0, "");
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_NOTHING, -1, "");
 	}
 
 	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_IMAGE, 0, "");
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_IMAGE, -1, "");
 	}
 	
 	public ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception{
@@ -2351,7 +2353,22 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_FILE, 0, "");
+		SearchFilter searchFilter = params.getSearchFilter();
+		int displayBy = 0;
+		String rightOperand = "";
+		if(searchFilter != null) {
+			 String searchFilterId = searchFilter.getId();
+			 if(searchFilterId.equals(SearchFilter.FILTER_BY_FILE_CATEGORY_ID)) displayBy = FileCategory.DISPLAY_BY_CATEGORY;
+			 if(searchFilterId.equals(SearchFilter.FILTER_BY_WORK_ID)) displayBy = FileCategory.DISPLAY_BY_WORK;
+			 if(searchFilterId.equals(SearchFilter.FILTER_BY_CREATED_DATE)) displayBy = FileCategory.DISPLAY_BY_YEAR;
+			 if(searchFilterId.equals(SearchFilter.FILTER_BY_OWNER)) displayBy = FileCategory.DISPLAY_BY_OWNER;
+			 if(searchFilterId.equals(SearchFilter.FILTER_BY_FILE_TYPE)) displayBy = FileCategory.DISPLAY_BY_FILE_TYPE;
+			 Condition[] conditions = searchFilter.getConditions();
+			 if(!CommonUtil.isEmpty(conditions)) {
+				 rightOperand = String.valueOf(conditions[0].getRightOperand());
+			 }
+		}
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_FILE, displayBy, rightOperand);
 	}
 
 	public EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception {
@@ -2359,11 +2376,11 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	public InstanceInfoList getMemoInstanceList(String workSpaceId, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_MEMO, 0, "");
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_MEMO, -1, "");
 	}
 
 	public InstanceInfoList getBoardInstanceList(String workSpaceId, RequestParams params) throws Exception {
-		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_BOARD, 0, "");
+		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_BOARD, -1, "");
 	}
 
 	public InstanceInfoList getPWorkInstanceList_bak(String workId, RequestParams params) throws Exception {

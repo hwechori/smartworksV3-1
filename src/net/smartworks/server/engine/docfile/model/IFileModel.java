@@ -35,5 +35,6 @@ public interface IFileModel {
 	public InputStream getMultiPartInputStream();
 	public String getTskInstanceId();
 	public void setTskInstanceId(String tskInstanceId);
+	public int compareTo(HbFileModel o);
 	
 }

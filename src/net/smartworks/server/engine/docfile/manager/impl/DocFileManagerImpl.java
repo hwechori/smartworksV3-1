@@ -790,6 +790,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		stringBuffer.append("  from swdocgroup doc, swfile docfile");
 		stringBuffer.append(" where doc.docid = docfile.id");
 		stringBuffer.append("   and doc.tskinstanceid = :taskInstId");
+		stringBuffer.append(" order by docfile.writtenTime desc");
 
 		Query query = this.getSession().createSQLQuery(stringBuffer.toString());
 		if (!CommonUtil.isEmpty(taskInstId))
