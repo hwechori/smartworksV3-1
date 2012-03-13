@@ -58,6 +58,8 @@ import net.smartworks.server.engine.config.model.SwcWorkHour;
 import net.smartworks.server.engine.config.model.SwcWorkHourCond;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
+import net.smartworks.server.engine.docfile.model.FileWork;
+import net.smartworks.server.engine.docfile.model.FileWorkCond;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.folder.manager.IFdrManager;
@@ -2370,10 +2372,108 @@ public class InstanceServiceImpl implements IInstanceService {
 
 	}
 
+	public InstanceInfoList getInstanceInfoListByFileList(String workSpaceId, RequestParams params, int displayBy) {
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+
+			FileWorkCond fileWorkCond = new FileWorkCond();
+			fileWorkCond.setTskAssigneeOrSpaceId(workSpaceId);
+
+			long totalCount = getDocManager().getFileWorkListSize(userId, fileWorkCond);
+
+			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
+
+			int currentPage = params.getCurrentPage();
+			if(currentPage == 0) currentPage = 1;
+
+			int totalPages = (int)totalCount % pageSize;
+
+			if(totalPages == 0)
+				totalPages = (int)totalCount / pageSize;
+			else
+				totalPages = (int)totalCount / pageSize + 1;
+
+			int result = 0;
+
+			if(params.getPagingAction() != 0) {
+				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+					result = (((currentPage - 1) / 10) * 10) + 11;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+					result = totalPages;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+					result = ((currentPage - 1) / 10) * 10;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+					result = 1;
+				}
+				currentPage = result;
+			}
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
+
+			if (currentPage > 0)
+				fileWorkCond.setPageNo(currentPage-1);
+
+			fileWorkCond.setPageSize(pageSize);
+			fileWorkCond.setOrders(new Order[]{new Order("tskCreatedate", false)});
+
+
+			SearchFilter searchFilter = params.getSearchFilter();
+			Condition[] conditions = searchFilter.getConditions();
+			Filters filters = new Filters();
+			List<Filter> filterList = new ArrayList<Filter>();
+			for(Condition condition : conditions) {
+				Filter filter = new Filter();
+				FormField leftOperand = condition.getLeftOperand();
+				String lefOperandType = leftOperand.getType();
+				String operator = condition.getOperator();
+				Object rightOperand = condition.getRightOperand();
+				String rightOperandValue = String.valueOf(rightOperand);
+				filter.setLeftOperandType(lefOperandType);
+				filter.setLeftOperandValue(leftOperand.getId());
+				filter.setOperator(operator);
+				filter.setRightOperandType(lefOperandType);
+				filter.setRightOperandValue(rightOperandValue);
+				filterList.add(filter);
+			}
+			Filter[] searchfilters = null;
+			if(filterList.size() != 0) {
+				searchfilters = new Filter[filterList.size()];
+				filterList.toArray(searchfilters);
+				filters.setFilter(searchfilters);
+			}
+			fileWorkCond.addFilters(filters);
+
+			FileWork[] fileWorks = getDocManager().getFileWorkList(userId, fileWorkCond);
+			WorkInstanceInfo[] workInstanceInfos = null;
+			if(!CommonUtil.isEmpty(fileWorks)) {
+				workInstanceInfos = ModelConverter.getWorkInstanceInfosByFileWorks(fileWorks);
+			}
+
+			instanceInfoList.setInstanceDatas(workInstanceInfos);
+			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+			instanceInfoList.setPageSize(pageSize);
+			instanceInfoList.setTotalPages(totalPages);
+			instanceInfoList.setCurrentPage(currentPage);
+
+			return instanceInfoList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public InstanceInfoList getFileInstanceList(String workSpaceId, RequestParams params) throws Exception {
 		SearchFilter searchFilter = params.getSearchFilter();
 		int displayBy = 0;
-		String rightOperand = "";
 		if(searchFilter != null) {
 			 String searchFilterId = searchFilter.getId();
 			 if(searchFilterId.equals(SearchFilter.FILTER_BY_FILE_CATEGORY_ID)) displayBy = FileCategory.DISPLAY_BY_CATEGORY;
@@ -2381,12 +2481,8 @@ public class InstanceServiceImpl implements IInstanceService {
 			 if(searchFilterId.equals(SearchFilter.FILTER_BY_CREATED_DATE)) displayBy = FileCategory.DISPLAY_BY_YEAR;
 			 if(searchFilterId.equals(SearchFilter.FILTER_BY_OWNER)) displayBy = FileCategory.DISPLAY_BY_OWNER;
 			 if(searchFilterId.equals(SearchFilter.FILTER_BY_FILE_TYPE)) displayBy = FileCategory.DISPLAY_BY_FILE_TYPE;
-			 Condition[] conditions = searchFilter.getConditions();
-			 if(!CommonUtil.isEmpty(conditions)) {
-				 rightOperand = String.valueOf(conditions[0].getRightOperand());
-			 }
 		}
-		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_FILE, displayBy, rightOperand);
+		return getInstanceInfoListByFileList(workSpaceId, params, displayBy);
 	}
 
 	public EventInstanceInfo[] getEventInstanceList(String workSpaceId, LocalDate fromDate, LocalDate toDate) throws Exception {

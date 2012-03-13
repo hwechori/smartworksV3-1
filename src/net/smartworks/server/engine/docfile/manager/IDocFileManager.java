@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
+import net.smartworks.server.engine.docfile.model.FileWork;
+import net.smartworks.server.engine.docfile.model.FileWorkCond;
 import net.smartworks.server.engine.docfile.model.IDocumentModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 
@@ -50,5 +52,7 @@ public interface IDocFileManager extends IManager {
 	public IDocumentModel retrieveDocumentByRef(int refType, String refId) throws DocFileException;
 	public IFileModel[] getFilesByTaskInstId(String taskInstId) throws DocFileException;
 	public IFileModel getFileById(String fileId) throws DocFileException;
+	public long getFileWorkListSize(String user, FileWorkCond cond) throws Exception;
+	public FileWork[] getFileWorkList(String user, FileWorkCond cond) throws Exception;
 
 }

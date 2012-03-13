@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.net.URLDecoder;
+import java.sql.Clob;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,15 +30,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.community.User;
 import net.smartworks.server.engine.common.manager.AbstractManager;
+import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.id.IDCreator;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
 import net.smartworks.server.engine.docfile.manager.IDocFileManager;
+import net.smartworks.server.engine.docfile.model.FileWork;
+import net.smartworks.server.engine.docfile.model.FileWorkCond;
 import net.smartworks.server.engine.docfile.model.HbDocumentModel;
 import net.smartworks.server.engine.docfile.model.HbFileModel;
 import net.smartworks.server.engine.docfile.model.IDocumentModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
+import net.smartworks.server.engine.process.process.exception.PrcException;
+import net.smartworks.server.engine.process.task.model.TskTask;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.OSValidator;
 import net.smartworks.util.SmartConfUtil;
@@ -851,6 +856,336 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		objList.toArray(fileModels);
 
 		return fileModels[0];
+	}
+
+	private Query appendQuery(StringBuffer queryBuffer, FileWorkCond cond) throws Exception {
+
+		String tskAssignee = cond.getTskAssignee();
+		String tskAssigneeOrTskSpaceId = cond.getTskAssigneeOrSpaceId();
+		//assingnedOnly 값이 true 라면 실행중인(11) 태스크만 조회를 한다.
+		String tskStatus =  cond.getTskStatus();
+		String prcStatus = cond.getPrcStatus();
+		Date lastInstanceDate = cond.getLastInstanceDate();
+		String tskRefType = cond.getTskRefType();
+		int pageNo = cond.getPageNo();
+		int pageSize = cond.getPageSize();
+
+		String worksSpaceId = cond.getTskWorkSpaceId();
+		String workCategoryName = cond.getFolderName();
+		String workName = cond.getTskName();
+		String workTitle = cond.getTskTitle();
+		String fileType = cond.getFileType();
+		Date executionDateFrom = cond.getTskExecuteDateFrom();
+		Date executionDateTo = cond.getTskExecuteDateTo();
+		Filter[] filters = cond.getFilter();
+
+		queryBuffer.append("from ");
+		queryBuffer.append("( ");
+		queryBuffer.append("  select docfile.id as fileId ");
+		queryBuffer.append("	    , docfile.type as fileType ");
+		queryBuffer.append("	    , docfile.fileName ");
+		queryBuffer.append("	    , docfile.filePath ");
+		queryBuffer.append("	    , docfile.fileSize ");
+		queryBuffer.append("	    , docfile.writtenTime ");
+		queryBuffer.append("	    , docgroup.groupId ");
+		queryBuffer.append("	    , folder.id as folderId ");
+		queryBuffer.append("	    , folder.name as folderName ");
+		queryBuffer.append("	    , task.tskobjId ");
+		queryBuffer.append("		, task.tsktitle ");
+		queryBuffer.append("		, task.tskDoc ");
+		queryBuffer.append("		, task.tsktype ");
+		queryBuffer.append("		, task.tskReftype ");
+		queryBuffer.append("		, task.tskstatus ");
+		queryBuffer.append("		, task.tskassignee ");
+		queryBuffer.append("		, case when task.tskstatus='11' then task.tskassigndate else task.tskexecuteDate end as taskLastModifyDate ");
+		queryBuffer.append("		, task.tskcreatedate ");
+		queryBuffer.append("		, task.tskname ");
+		queryBuffer.append("		, task.tskprcinstid ");
+		queryBuffer.append("		, task.tskform ");
+		queryBuffer.append("		, task.isStartActivity ");
+		queryBuffer.append("		, task.tskWorkSpaceId ");//workSpaceId
+		queryBuffer.append("		, task.tskDef ");//workSpaceId
+		queryBuffer.append("		, form.packageId ");
+		queryBuffer.append("		, pkg.name as packageName ");
+		queryBuffer.append("		, ctg.id as childCtgId ");
+		queryBuffer.append("		, ctg.name as childCtgName ");
+		queryBuffer.append("		, case when ctg.parentId = '_PKG_ROOT_' then null else ctg2.id end as parentCtgId ");
+		queryBuffer.append("		, case when ctg.parentId = '_PKG_ROOT_' then null else ctg2.name end as parentCtgName ");
+		queryBuffer.append("	from tsktask task ");
+		queryBuffer.append("		right outer join ");
+		queryBuffer.append("		swdocgroup docgroup ");
+		queryBuffer.append("		on task.tskobjid = docgroup.tskinstanceId ");
+		queryBuffer.append("		left outer join ");
+		queryBuffer.append("		swfile docfile ");
+		queryBuffer.append("		on docgroup.docId = docfile.id ");
+		queryBuffer.append("		left outer join ");
+		queryBuffer.append("		swfolderfile folderfile ");
+		queryBuffer.append("		on folderfile.fileid = docfile.id ");
+		queryBuffer.append("		left outer join ");
+		queryBuffer.append("		swfolder folder ");
+		queryBuffer.append("		on folder.id = folderfile.folderid ");
+		queryBuffer.append("		, swform form ");
+		queryBuffer.append("		left outer join ");
+		queryBuffer.append("		swpackage pkg ");
+		queryBuffer.append("		on form.packageId = pkg.packageId ");
+		queryBuffer.append("		left outer join ");
+		queryBuffer.append("		swcategory ctg ");
+		queryBuffer.append("		on ctg.id = pkg.categoryId ");
+		queryBuffer.append("		left outer join ");
+		queryBuffer.append("		swcategory ctg2 ");
+		queryBuffer.append("		on ctg.parentId = ctg2.id ");
+		queryBuffer.append("	where tsktype not in ('and','route','SUBFLOW','xor') ");
+		queryBuffer.append("	and task.tskform = form.formid ");
+		if (!CommonUtil.isEmpty(filters)) {
+			for(Filter filter : filters) {
+				String leftOperandValue = filter.getLeftOperandValue();
+				String operator = filter.getOperator();
+				String rightOperandValue = filter.getRightOperandValue();
+				queryBuffer.append("and ").append(leftOperandValue).append(" ").append(operator).append(" :").append(rightOperandValue).append(" ");
+			}
+		}
+/*		if (!CommonUtil.isEmpty(workCategoryName))
+			queryBuffer.append("	and folder.name like :workCategoryName ");
+		if (!CommonUtil.isEmpty(workName))
+			queryBuffer.append("	and task.tskname like :workName ");
+		if (!CommonUtil.isEmpty(workTitle))
+			queryBuffer.append("	and task.tsktitle like :workTitle ");
+		if (!CommonUtil.isEmpty(fileType))
+			queryBuffer.append("	and docfile.type like :fileType ");*/
+		if (!CommonUtil.isEmpty(tskAssignee))
+			queryBuffer.append("	and task.tskassignee = :tskAssignee ");
+		if (!CommonUtil.isEmpty(tskAssigneeOrTskSpaceId))
+			queryBuffer.append("	and (task.tskassignee = :tskAssigneeOrTskSpaceId or task.tskWorkSpaceId = :tskAssigneeOrTskSpaceId) ");
+		if (!CommonUtil.isEmpty(tskStatus))
+			queryBuffer.append("	and task.tskstatus = :tskStatus ");
+		if (!CommonUtil.isEmpty(worksSpaceId))
+			queryBuffer.append("	and task.tskWorkSpaceId = :worksSpaceId ");
+		if (executionDateFrom != null)
+			queryBuffer.append("	and task.tskExecuteDate > :executionDateFrom ");
+		if (executionDateTo != null)
+			queryBuffer.append("	and task.tskExecuteDate < :executionDateTo ");
+		queryBuffer.append(") taskInfo ");
+		//queryBuffer.append("left outer join ");
+		queryBuffer.append("join ");
+		queryBuffer.append("( ");
+		queryBuffer.append("	select ");
+		queryBuffer.append("		 prcInst.prcObjId ");
+		queryBuffer.append("		, prcInst.prcTitle ");
+		queryBuffer.append("		, prcInst.prcType ");
+		queryBuffer.append("		, prcInst.prcStatus ");
+		queryBuffer.append("		, prcInst.prcCreateUser ");
+		queryBuffer.append("		, prcInst.prcDid ");
+		queryBuffer.append("		, prcInst.prcPrcId ");
+		queryBuffer.append("		, prcInst.prcCreateDate ");
+		queryBuffer.append("		, prcInst.prcWorkSpaceId "); //workSpaceId
+		queryBuffer.append("		, prcInstInfo.lastTask_tskobjid ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskname ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskcreateuser ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskcreateDate ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskstatus ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tsktype ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tsktitle ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskassignee ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskexecuteDate ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskduedate ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskform ");
+		queryBuffer.append("		, prcInstInfo.lastTask_tskWorkSpaceId "); //workSpaceId
+		queryBuffer.append("		, (select count(*) from tsktask where tskstatus='11' and tsktype='common' and tskprcInstId = prcInst.prcObjid) as lastTaskCount ");
+		queryBuffer.append("	from  ");
+		queryBuffer.append("		prcprcinst prcInst,  ");
+		queryBuffer.append("		( ");
+		queryBuffer.append("			select a.tskprcinstid as lastTask_tskprcinstid ");
+		queryBuffer.append("					, task.tskobjid as lastTask_tskobjid ");
+		queryBuffer.append("					, task.tskname as lastTask_tskname ");
+		queryBuffer.append("					, task.tskcreateuser as lastTask_tskcreateuser ");
+		queryBuffer.append("					, task.tskcreateDate as lastTask_tskcreateDate ");
+		queryBuffer.append("					, task.tskstatus as lastTask_tskstatus ");
+		queryBuffer.append("					, task.tsktype as lastTask_tsktype ");
+		queryBuffer.append("					, task.tsktitle as lastTask_tsktitle ");
+		queryBuffer.append("					, task.tskassignee as lastTask_tskassignee ");
+		queryBuffer.append("					, task.tskexecuteDate as lastTask_tskexecuteDate ");
+		queryBuffer.append("					, task.tskduedate as lastTask_tskduedate ");
+		queryBuffer.append("					, task.tskform as lastTask_tskform ");
+		queryBuffer.append("					, task.tskWorkSpaceId as lastTask_tskWorkSpaceId "); //workSpaceId
+		queryBuffer.append("			from ( ");
+		queryBuffer.append("					select tskprcinstId , max(tskCreatedate) as createDate  ");
+		queryBuffer.append("					from tsktask  ");
+		queryBuffer.append("					where tsktype not in ('and','route','SUBFLOW','xor') ");
+		queryBuffer.append("					group by tskprcinstid ");
+		queryBuffer.append("				  ) a,	 ");
+		queryBuffer.append("				  TskTask task		 ");
+		queryBuffer.append("			where  ");
+		queryBuffer.append("				a.createDate = task.tskcreatedate ");
+		queryBuffer.append("		) prcInstInfo	 ");
+		queryBuffer.append("	where ");
+		queryBuffer.append("		prcInst.prcobjid=prcInstInfo.lastTask_tskprcinstid ");
+		if (!CommonUtil.isEmpty(prcStatus))
+			queryBuffer.append("		and prcInst.prcStatus = :prcStatus ");
+		queryBuffer.append(") prcInstInfo ");
+		queryBuffer.append("on taskInfo.tskPrcInstId = prcInstInfo.prcObjId ");
+		if (lastInstanceDate != null) {
+			queryBuffer.append("where taskInfo.tskCreateDate < :lastInstanceDate ");
+			if (tskRefType != null) {
+				if(tskRefType.equals(TskTask.TASKREFTYPE_NOTHING))
+					queryBuffer.append("and taskInfo.tskReftype is null ");
+				else 
+					queryBuffer.append("and taskInfo.tskReftype = :tskRefType ");
+			}
+		} else {
+			if (tskRefType != null) {
+				if(tskRefType.equals(TskTask.TASKREFTYPE_NOTHING))
+					queryBuffer.append("where taskInfo.tskReftype is null ");
+				else 
+					queryBuffer.append("where taskInfo.tskReftype = :tskRefType ");
+			}
+		}
+
+		this.appendOrderQuery(queryBuffer, "taskInfo", cond);
+		//queryBuffer.append("order by taskInfo.tskCreatedate desc ");
+
+		Query query = this.getSession().createSQLQuery(queryBuffer.toString());
+
+		if (pageSize > 0 || pageNo >= 0) {
+			query.setFirstResult(pageNo * pageSize);
+			query.setMaxResults(pageSize);
+		}
+
+		if (!CommonUtil.isEmpty(workCategoryName))
+			query.setString("workCategoryName", workCategoryName);
+		if (!CommonUtil.isEmpty(workName))
+			query.setString("workName", workName);
+		if (!CommonUtil.isEmpty(workTitle))
+			query.setString("workTitle", workTitle);
+		if (!CommonUtil.isEmpty(fileType))
+			query.setString("fileType", fileType);
+		if (!CommonUtil.isEmpty(tskAssignee))
+			query.setString("tskAssignee", tskAssignee);
+		if (!CommonUtil.isEmpty(tskAssigneeOrTskSpaceId))
+			query.setString("tskAssigneeOrTskSpaceId", tskAssigneeOrTskSpaceId);
+		if (!CommonUtil.isEmpty(tskStatus))
+			query.setString("tskStatus", tskStatus);
+		if (lastInstanceDate != null)
+			query.setTimestamp("lastInstanceDate", lastInstanceDate);
+		if (!CommonUtil.isEmpty(worksSpaceId))
+			query.setString("worksSpaceId", worksSpaceId);
+		if (executionDateFrom != null)
+			query.setTimestamp("executionDateFrom", executionDateFrom);
+		if (executionDateTo != null)
+			query.setTimestamp("executionDateTo", executionDateTo);
+		if (!CommonUtil.isEmpty(prcStatus)) 
+			query.setString("prcStatus", prcStatus);
+		if (!CommonUtil.isEmpty(tskRefType) && !tskRefType.equals(TskTask.TASKREFTYPE_NOTHING)) 
+			query.setString("tskRefType", tskRefType);
+
+		return query;
+	}
+
+	@Override
+	public long getFileWorkListSize(String user, FileWorkCond cond) throws Exception {
+		try {
+			StringBuffer buf = new StringBuffer();
+			buf.append("select");
+			buf.append(" count(*) ");
+			Query query = this.appendQuery(buf, cond);
+			List list = query.list();
+			
+			long count =((Integer)list.get(0)).longValue();
+			return count;
+		} catch (PrcException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new PrcException(e);
+		}
+	}
+
+	@Override
+	public FileWork[] getFileWorkList(String user, FileWorkCond cond) throws Exception {
+		try {
+			StringBuffer queryBuffer = new StringBuffer();
+			queryBuffer.append(" select taskInfo.*, ");
+			queryBuffer.append(" prcInstInfo.* ");
+			
+			Query query = this.appendQuery(queryBuffer, cond);
+		
+			List list = query.list();
+			if (list == null || list.isEmpty())
+				return null;
+			List objList = new ArrayList();
+			for (Iterator itr = list.iterator(); itr.hasNext();) {
+				Object[] fields = (Object[]) itr.next();
+				FileWork obj = new FileWork();
+				int j = 0;
+
+				obj.setFileId((String)fields[j++]);
+				obj.setFileType((String)fields[j++]);
+				obj.setFileName((String)fields[j++]);
+				obj.setFilePath((String)fields[j++]);
+				obj.setFileSize(Long.parseLong(String.valueOf(fields[j++])));
+				obj.setWrittenTime((Timestamp)fields[j++]);
+				obj.setGroupId((String)fields[j++]);
+				obj.setFolderId((String)fields[j++]);
+				obj.setFolderName((String)fields[j++]);
+				obj.setTskObjId((String)fields[j++]);
+				obj.setTskTitle((String)fields[j++]);
+				Clob varData = (Clob)fields[j++];
+				long length = 0;
+				String tempCountStr = "";
+				if(varData != null) {
+					length = varData.length();
+					tempCountStr = varData.getSubString(1, (int)length);
+				}
+				obj.setTskDoc(tempCountStr);
+				obj.setTskType((String)fields[j++]);     
+				obj.setTskRefType((String)fields[j++]);     
+				obj.setTskStatus((String)fields[j++]);   
+				obj.setTskAssignee((String)fields[j++]); 
+				obj.setTaskLastModifyDate((Timestamp)fields[j++]);
+				obj.setTskCreateDate((Timestamp)fields[j++]);
+				obj.setTskName((String)fields[j++]);     
+				obj.setTskPrcInstId((String)fields[j++]);
+				obj.setTskForm((String)fields[j++]);     
+				obj.setIsStartActivity((String)fields[j++]); 
+				obj.setTskWorkSpaceId((String)fields[j++]);     
+				obj.setTskDef((String)fields[j++]);     
+				obj.setPackageId((String)fields[j++]);     
+				obj.setPackageName((String)fields[j++]);   
+				obj.setChildCtgId((String)fields[j++]);  
+				obj.setChildCtgName((String)fields[j++]);
+				obj.setParentCtgId((String)fields[j++]); 
+				obj.setParentCtgName((String)fields[j++]);
+				obj.setPrcObjId((String)fields[j++]);                           
+				obj.setPrcTitle((String)fields[j++]);                           
+				obj.setPrcType((String)fields[j++]);                            
+				obj.setPrcStatus((String)fields[j++]);                          
+				obj.setPrcCreateUser((String)fields[j++]);                      
+				obj.setPrcDid((String)fields[j++]);                             
+				obj.setPrcPrcId((String)fields[j++]); 
+				obj.setPrcCreateDate((Timestamp)fields[j++]);                    
+				obj.setPrcWorkSpaceId((String)fields[j++]); 
+				obj.setLastTskObjId((String)fields[j++]);                       
+				obj.setLastTskName((String)fields[j++]);                        
+				obj.setLastTskCreateUser((String)fields[j++]);                  
+				obj.setLastTskCreateDate((Timestamp)fields[j++]);                  
+				obj.setLastTskStatus((String)fields[j++]);                      
+				obj.setLastTskType((String)fields[j++]);                        
+				obj.setLastTskTitle((String)fields[j++]);                       
+				obj.setLastTskAssignee((String)fields[j++]);                    
+				obj.setLastTskExecuteDate((Timestamp)fields[j++]);                 
+				obj.setLastTskDueDate((Timestamp)fields[j++]); 
+				obj.setLastTskForm((String)fields[j++]);    
+				obj.setLastTskWorkSpaceId((String)fields[j++]);                    
+				int lastTaskCount = (Integer)fields[j] == null ? -1 : (Integer)fields[j];
+				obj.setLastTskCount(lastTaskCount == 0 ? 1 : lastTaskCount);
+				objList.add(obj);
+			}
+			list = objList;
+			FileWork[] objs = new FileWork[list.size()];
+			list.toArray(objs);
+			return objs;
+				
+		} catch (Exception e) {
+			throw new DocFileException(e);
+		}
 	}
 
 }
