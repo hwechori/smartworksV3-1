@@ -22,12 +22,12 @@ import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.filter.SearchFilter;
-import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.CommentInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
@@ -211,7 +211,9 @@ public interface ISmartWorks {
 
 	public abstract CommunityInfo[] getMyCommunities() throws Exception;
 
-	public abstract CommentInstance[] getRecentCommentsInWorkManual(String workId, int length) throws Exception;
+	public abstract CommentInstanceInfo[] getRecentCommentsInWorkManual(String workId, int length) throws Exception;
+	
+	public abstract InstanceInfo[] getRecentSubInstancesInInstance(String workId, int length) throws Exception;
 	
 	public abstract InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception;
 	

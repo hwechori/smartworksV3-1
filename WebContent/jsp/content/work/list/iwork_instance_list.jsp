@@ -50,6 +50,9 @@
 		if(sortedField==null) sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<%
 			FormField[] fields = work.getDisplayFields();
 			if (fields != null) {
@@ -68,7 +71,7 @@
 				}
 			}
 			%>
-			<th>
+			<th class="r_line">
 				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIER %>">
 					<fmt:message key='common.title.last_modifier' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIER)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
@@ -79,11 +82,15 @@
 				</a>
 				<span class="js_progress_span"></span>
 			</th>		
+	 		<th style="width:40px;">
+				<span><fmt:message key="common.title.views"/></span>
+			</th>
 		</tr>	
-	<%		
+	<%
 		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
+		int currentCount = instanceList.getTotalSize()-(currentPage-1)*pageSize;
 		FormField[] displayFields = work.getDisplayFields();
 		if(instanceList.getInstanceDatas() != null) {
 			IWInstanceInfo[] instanceInfos = (IWInstanceInfo[]) instanceList.getInstanceDatas();
@@ -94,7 +101,9 @@
 				String target = instanceInfo.getController() + "?cid=" + instanceInfo.getContextId() + "&workId=" + workId;
 			%>
 				<tr>
+					<td class="hAlignCenter"><%=currentCount%></td>
 					<%
+					currentCount--;
 					if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
 						NumberFormat nf = NumberFormat.getNumberInstance();
 						int count = 0;
@@ -142,6 +151,7 @@
 							</div>
 						</a>
 					</td>
+					<td class="hAlignCenter"><%=instanceInfo.getViews() %>
 				</tr>
 		<%
 			}
@@ -149,6 +159,9 @@
 	}else if(!SmartUtil.isBlankObject(work)){
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<%
 			sortedField = new SortingField();
 			FormField[] fields = work.getDisplayFields();
@@ -179,6 +192,9 @@
 				</a>
 				<span class="js_progress_span"></span>
 			</th>		
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.views"/></span>
+			</th>
 		</tr>	
 	<%
 	}

@@ -4,11 +4,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.CommentInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
@@ -16,7 +16,6 @@ import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
 import net.smartworks.util.LocalDate;
-import net.smartworks.util.SmartTest;
 
 public interface IInstanceService {
 
@@ -32,7 +31,9 @@ public interface IInstanceService {
 
 	public InstanceInfo[] searchMyRunningInstance(String key) throws Exception;
 
-	public CommentInstance[] getRecentCommentsInWorkManual(String workId, int length) throws Exception;
+	public CommentInstanceInfo[] getRecentCommentsInWorkManual(String workId, int length) throws Exception;
+
+	public InstanceInfo[] getRecentSubInstancesInInstance(String workId, int length) throws Exception;
 
 	public InstanceInfoList getIWorkInstanceList(String workId, RequestParams params) throws Exception;
 

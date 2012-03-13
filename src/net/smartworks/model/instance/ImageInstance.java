@@ -6,12 +6,20 @@ import net.smartworks.util.LocalDate;
 
 public class ImageInstance extends WorkInstance {
 
+	private int views;
 	private String groupId;
 	private String imgSource;
 	private	String originImgSource;
 
 	private String content;
 	
+	
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
 	public String getGroupId() {
 		return groupId;
 	}

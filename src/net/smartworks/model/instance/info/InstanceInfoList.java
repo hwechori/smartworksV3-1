@@ -14,6 +14,7 @@ public class InstanceInfoList {
 	private int pageSize;
 	private int	totalPages;
 	private int currentPage;
+	private int totalSize;
 	
 	public int getType() {
 		return type;
@@ -50,6 +51,12 @@ public class InstanceInfoList {
 	}
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
+	}
+	public int getTotalSize() {
+		return totalSize;
+	}
+	public void setTotalSize(int totalSize) {
+		this.totalSize = totalSize;
 	}
 	public InstanceInfoList(){
 		super();

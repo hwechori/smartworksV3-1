@@ -124,6 +124,12 @@ public class WorkController extends ExceptionInterceptor {
 		return SmartUtil.returnMnv(request, "jsp/content/work/list/search_filter.jsp", "");
 	}
 
+	@RequestMapping("/comment_list_in_manual")
+	public ModelAndView commentListInManual(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/comment_list_in_manual.jsp", "");
+	}
+
 	@RequestMapping(value = "/get_form_xml", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<String> getFormXml(HttpServletRequest request, HttpServletResponse response) {

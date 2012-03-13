@@ -18,7 +18,6 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .vAlignMiddle{vertical-align:middle}
 .vAlignBottom{vertical-align:bottom}
 
-
 /*Header*/
 #header {background: url("../images/header_bg.jpg") repeat scroll left top transparent; height:34px; width:100%; z-index:40; position:relative; }
 
@@ -40,9 +39,9 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .i_note a:hover {background: url("../images/header_nico.png") no-repeat scroll -42px -55px transparent; display:block; height:30px; position:relative;}
 .i_note .current, .i_note a.current:hover{background: url("../images/header_nico.png") no-repeat scroll -42px -94px transparent; display:block; height:31px; position:relative;}
 
-.i_replay a {background: url("../images/header_nico.png") no-repeat scroll -79px -14px transparent; display:block; height:30px; position:relative;}
-.i_replay a:hover {background: url("../images/header_nico.png") no-repeat scroll -79px -55px transparent; display:block; height:30px; position:relative;}
-.i_replay .current, .i_replay a.current:hover {background: url("../images/header_nico.png") no-repeat scroll -79px -94px transparent; display:block; height:31px; position:relative;}
+.i_reply a {background: url("../images/header_nico.png") no-repeat scroll -79px -14px transparent; display:block; height:30px; position:relative;}
+.i_reply a:hover {background: url("../images/header_nico.png") no-repeat scroll -79px -55px transparent; display:block; height:30px; position:relative;}
+.i_reply .current, .i_reply a.current:hover {background: url("../images/header_nico.png") no-repeat scroll -79px -94px transparent; display:block; height:31px; position:relative;}
 
 .i_assworks a {background: url("../images/header_nico.png") no-repeat scroll -116px -14px transparent; display:block; height:30px; position:relative;}
 .i_assworks a:hover {background: url("../images/header_nico.png") no-repeat scroll -116px -55px transparent; display:block; height:30px; position:relative;}
@@ -55,7 +54,6 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .i_imsave a {background: url("../images/header_nico.png") no-repeat scroll -190px -14px transparent; display:block; height:30px; position:relative;}
 .i_imsave a:hover {background: url("../images/header_nico.png") no-repeat scroll -190px -55px transparent; display:block; height:30px; position:relative;}
 .i_imsave .current, .i_imsave a.current:hover {background: url("../images/header_nico.png") no-repeat scroll -190px -94px transparent; display:block; height:31px; position:relative;}
-
 
 .num_ic { background: url("../images/header_nico.png") no-repeat scroll -321px -102px transparent; 
 		display:inline-block; font-family: Tahoma, dotum; font-size:9px; color:#FFF; height:12px; letter-spacing:0; line-height:13px; padding-right:5px; position:absolute;
@@ -83,7 +81,6 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .top_menu ul li.idx3 .current {width:68px; background-position:-170px -60px;}
 
 .top_menu ul li span a {display:block; padding-top:8px;}
-
 
 /*Search*/
 .global_srch {position:absolute; left:635px; top:5px;}
@@ -175,7 +172,9 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .icon_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
 .icon_b1dep {background: url("../images/nav_img.png") no-repeat 0 -348px transparent; display: inline-block; padding:0 0 0 13px}
 .icon_b2dep {background: url("../images/nav_img.png") no-repeat 0 -364px transparent; display: inline-block; padding:0 0 0 12px}
-.icon_folder {background: url("../images/ico_folder.gif") no-repeat 0 3px transparent; height:14px; padding:0 0 0 22px; font-weight:bold}
+.icon_folder {background: url("../images/icon_folder.gif") no-repeat 0 3px transparent; height:14px; padding:0 0 0 22px; font-weight:bold}
+/* new Icon added by ysjung */
+.icon_new {background: url("../images/icon_new.gif") no-repeat 5px 10px transparent;display:inline-block;height:20px;width:30px;}
 .title_folder {height:14px; font-weight:bold; margin-top:3px}
 
 /* Nav MySpace */
@@ -286,6 +285,10 @@ li.fvrt_item:hover .checkOption {display:block}
 .list_action_item .keyOption.checked {display:block}
 .icon_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
 .icon_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
+
+/* CommentsBox added by ysjung */
+.sub_instance_list .commentBox {display:none;}
+.sub_instance_list:hover .commentBox {display:block}
 
 .arr_off {background: url("../images/arr_off.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}

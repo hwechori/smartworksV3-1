@@ -6,8 +6,15 @@ import net.smartworks.util.LocalDate;
 
 public class MemoInstance extends WorkInstance {
 
+	private int views;
 	private String content;
 	
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
 	public String getContent() {
 		return content;
 	}

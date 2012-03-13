@@ -156,6 +156,12 @@ public class WorkInstanceController extends ExceptionInterceptor {
 		return SmartUtil.returnMnv(request, "jsp/content/work/list/categories_by_type.jsp", "");
 	}
 
+	@RequestMapping("/sub_instances_in_instance")
+	public ModelAndView subInstancesInInstance(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/sub_instances_in_instance.jsp", "");
+	}
+
 	@RequestMapping(value = "/set_file_instance_list", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public ModelAndView setIworkSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {

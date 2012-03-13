@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.instance.WorkInstance"%>
+<%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.model.instance.CommentInstance"%>
 <%@page import="net.smartworks.model.instance.MemoInstance"%>
 <%@page import="net.smartworks.model.community.User"%>
@@ -17,13 +19,12 @@
 
 	InformationWork work = (InformationWork)session.getAttribute("smartWork");
 	String workId = work.getId();
-	CommentInstance[] comments = smartWorks.getRecentCommentsInWorkManual(workId, 3);
 %>
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 
-<div class="contents_space js_iwork_manual_page" workId="<%=work.getId()%>">
+<div class="contents_space js_iwork_manual_page js_sub_instance_list" workId="<%=work.getId()%>">
 	<div class="border">
 		
 		<!-- 업무 정의 영역 -->
@@ -56,35 +57,57 @@
 		<!-- 업무 설명 영역 //-->
 	
 	   <!-- 댓글 -->
-	   <div class="replay_point posit_default"></div>
-	   <div class="replay_section">  
-	        <div class="list_replay">
-	            <ul>
-		            <li><img class="repl_tinfo"><a href=""><strong>7</strong>개의 댓글 모두 보기</a></li>
+	   <div class="reply_point posit_default"></div>
+	   <div class="reply_section">  
+	        <div class="list_reply">
+	            <ul class="js_comment_list">
+	            	<li class="js_comment_instance" style="display:none">
+						<div class="noti_pic">
+							<a class="js_pop_user_info" href="<%=cUser.getSpaceController() %>?cid=<%=cUser.getSpaceContextId()%>" userId="<%=cUser.getId()%>" profile="<%=cUser.getOrgPicture()%>" userDetail="<%=SmartUtil.getUserDetailInfo(cUser.getUserInfo())%>">
+								<img src="<%=cUser.getMinPicture()%>" class="profile_size_c"/>
+							</a>
+						</div>
+						<div class="noti_in">
+							<a href="<%=cUser.getSpaceController() %>?cid=<%=cUser.getSpaceContextId()%>">
+								<span class="t_name"><%=cUser.getLongName()%></span>
+							</a>
+							<span class="t_date"><%=(new LocalDate()).toLocalString()%></span>
+							<div class="js_comment_content"></div>
+						</div>
+	            	</li>
+	            	<%
+// TEST PURPOSE
+					work.setCommentCount(8);
+// TEST PURPOSE
+	            	if(work.getCommentCount()>WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT){
+	            	%>
+		            	<li>
+		            		<img class="repl_tinfo">
+	            			<a href="comment_list_in_manual.sw?workId=<%=work.getId()%>&fetchCount=<%=WorkInstance.FETCH_ALL_SUB_INSTANCE %>" class="js_show_all_comments">
+	            				<span><strong><fmt:message key="common.title.show_all_comments"><fmt:param><%=work.getCommentCount() %></fmt:param><</fmt:message></strong></span>
+	            			</a>
+		            	</li>
 					<%
-					if (comments != null) {
-						for (CommentInstance comment : comments) {
-							User commentor = comment.getCommentor();
+	            	}
+					if(work.getCommentCount()>0) {
 					%>
-							<li>
-								<div class="noti_pic">
-									<img src="<%=commentor.getMinPicture()%>" align="bottom" />
-								</div>
-								<div class="noti_in">
-									<span class="t_name"><%=commentor.getLongName()%></span><span
-										class="t_date"><%=comment.getLastModifiedDate().toLocalString()%></span>
-									<div><%=comment.getComment()%></div>
-								</div>
-							</li>
+						<jsp:include page="/jsp/content/work/list/comment_list_in_manual.jsp">
+							<jsp:param value="<%=work.getId()%>" name="workId"/>
+							<jsp:param value="<%=WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT%>" name="fetchCount"/>
+						</jsp:include>
 					<%
-						}
 					}
 					%>
 				</ul>
 	        </div>
 	        
-	        <div class="replay_input js_return_on_comment">
-				<textarea class="up_textarea" rows="5" cols="" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_question'/>"></textarea>
+	        <div class="reply_input js_return_on_comment">
+				<div class="noti_pic">
+					<img src="<%=cUser.getMinPicture()%>" class="profile_size_c"/>
+				</div>
+				<div class="noti_in">
+					<textarea style="width:95%" class="up_textarea" rows="2" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_question'/>"></textarea>
+				</div>
 	        </div>
 	    
 	    </div>

@@ -13,12 +13,19 @@ import net.smartworks.util.SmartUtil;
 
 public class FileInstanceInfo extends WorkInstanceInfo {
 
+	private int views;
 	private WorkInstanceInfo workInstance;
 	private FileCategoryInfo fileCategory;
 	private String content;
 	private String fileGroupId;
 	private List<Map<String, String>> files;
 
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
 	public WorkInstanceInfo getWorkInstance() {
 		return workInstance;
 	}

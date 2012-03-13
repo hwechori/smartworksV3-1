@@ -166,12 +166,12 @@ $(function() {
 	});
 	
 	var userInfoTimer = null;
-	$('a.js_pop_user_info').live('mouseenter', function(e){
+	$('.js_pop_user_info').live('mouseenter', function(e){
 		if(userInfoTimer!=null){
 			clearTimeout(userInfoTimer);
 			userInfoTimer = null;
 		}
-		var input = $(e.target).parent();
+		var input = $(e.target).parents('.js_pop_user_info');
 		if(input.attr('userId') === currentUser.userId)
 			return;
 		
@@ -307,8 +307,9 @@ $(function() {
 	$('.js_return_on_comment').live('keydown', function(e) {
 		if(e.which != $.ui.keyCode.ENTER) return;
 		var input = $(e.target);
+		var subInstanceList = input.parents('.js_sub_instance_list');
 		var comment = input.attr('value');
-		if(isEmpty(content)) return;
+		if(isEmpty(comment)) return false;
 		var iworkManual = input.parents('.js_iwork_manual_page');
 		var pworkManual = input.parents('.js_pwork_manual_page');
 		var workId="", workInstanceId="", url="";
@@ -334,7 +335,17 @@ $(function() {
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				
+				var target = subInstanceList.find('.js_comment_list');
+				var showAllComments = target.find('.js_show_all_comments');
+				if(!isEmpty(showAllComments)){
+					showAllComments.find('span').click();
+					input.attr('value', '');
+				}else{
+					var newComment = target.find('.js_comment_instance').clone().show().removeClass('js_comment_instance');
+					newComment.find('.js_comment_content').html(comment).append("<span class='icon_new'></span>");
+					target.append(newComment);
+					input.attr('value', '');
+				}
 			},
 			error : function(e) {
 				// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
@@ -345,5 +356,28 @@ $(function() {
 			
 		});
 		
+	});
+	
+	$('.js_show_all_comments').live('click', function(e) {
+		var input = $(e.target).parents('.js_show_all_comments');
+		var subInstanceList = input.parents('.js_sub_instance_list');
+		var href = input.attr('href');
+		$.ajax({
+			url : href,
+			data : {},
+			success : function(data, status, jqXHR) {
+				var target = subInstanceList.find('.js_comment_list');
+				target.find(':visible').remove();
+				target.append(data);
+			},
+			error : function(e) {
+				// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get("addCommentError"), function(){
+				});
+				
+			}
+			
+		});
+		return false;
 	});
 });

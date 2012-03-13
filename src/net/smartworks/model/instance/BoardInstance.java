@@ -10,10 +10,17 @@ import net.smartworks.util.SmartUtil;
 
 public class BoardInstance extends WorkInstance {
 		
+	private int views;
 	private String content;
 	private String fileGroupId;
 	private List<Map<String, String>> files;
 
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
 	public String getFileGroupId() {
 		return fileGroupId;
 	}

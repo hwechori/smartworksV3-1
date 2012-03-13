@@ -64,4 +64,12 @@ public class Department extends WorkSpace {
 		this.members = members;
 		this.head = head;
 	}
+
+	public DepartmentInfo getDepartmentInfo(){
+		DepartmentInfo departmentInfo = new DepartmentInfo(getId(), getName());
+		departmentInfo.setBigPictureName(getBigPictureName());
+		departmentInfo.setDesc(getDesc());
+		departmentInfo.setSmallPictureName(getSmallPictureName());
+		return departmentInfo;
+	}
 }
