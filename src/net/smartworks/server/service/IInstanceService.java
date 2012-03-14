@@ -15,6 +15,7 @@ import net.smartworks.model.instance.info.InstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfoList;
 import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.instance.info.TaskInstanceInfo;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartTest;
 
@@ -83,7 +84,9 @@ public interface IInstanceService {
 	public String setEventInstance(HttpServletRequest request) throws Exception;
 
 	public String setMemoInstance(HttpServletRequest request) throws Exception;
-
+	
+	public SwdRecord refreshDataFields(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	
 	public String setBoardInstance(HttpServletRequest request) throws Exception;
 	
 	public String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception ;
