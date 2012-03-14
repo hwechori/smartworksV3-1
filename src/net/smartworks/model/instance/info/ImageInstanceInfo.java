@@ -5,7 +5,7 @@ import net.smartworks.model.instance.Instance;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.util.LocalDate;
 
-public class ImageInstanceInfo extends WorkInstanceInfo {
+public class ImageInstanceInfo extends FileInstanceInfo {
 
 	private int views;
 	private String fileId;
@@ -50,7 +50,7 @@ public class ImageInstanceInfo extends WorkInstanceInfo {
 	}
 
 	public ImageInstanceInfo(String id, String subject, WorkInfo work, UserInfo owner, LocalDate lastModifiedDate){
-		super(id, subject, owner, owner, lastModifiedDate);
+		super();
 		super.setType(Instance.TYPE_IMAGE);
 	}
 

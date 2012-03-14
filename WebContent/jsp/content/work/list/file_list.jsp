@@ -35,6 +35,8 @@
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
+				console.log("page ::::: ",$('#file_instance_list_page'));
+				console.log("data ::::: ",data);
 				$('#file_instance_list_page').html(data);
 				smartPop.closeProgress();
 			},
@@ -177,11 +179,13 @@
 						<!-- 목록보기 타이틀-->
 							
 						<!-- 목록 테이블 -->
-						<div class="list_contents js_file_instance_list">
-							<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
-								<jsp:param value="<%=FileCategory.DISPLAY_BY_CATEGORY %>" name="displayType"/>
-								<jsp:param value="<%=wid %>" name="workSpaceId"/>
-							</jsp:include>
+						<div class="list_contents">
+							<div id="file_instance_list_page">
+								<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
+									<jsp:param value="<%=FileCategory.DISPLAY_BY_CATEGORY %>" name="displayType"/>
+									<jsp:param value="<%=wid %>" name="workSpaceId"/>
+								</jsp:include>
+							</div>
 						</div>
 						<!-- 목록 테이블 //-->
 					</div>
@@ -259,7 +263,7 @@
 							
 						<!-- 목록 테이블 -->
 						<div class="list_contents">
-							<div id='file_instance_list_page'>
+							<div id="file_instance_list_page">
 								<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
 									<jsp:param value="<%=FileCategory.DISPLAY_ALL %>" name="displayType"/>
 								</jsp:include>
