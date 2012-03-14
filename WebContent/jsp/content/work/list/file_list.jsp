@@ -179,7 +179,7 @@
 						<!-- 목록 테이블 -->
 						<div class="list_contents js_file_instance_list">
 							<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
-								<jsp:param value="<%=FileCategory.DISPLAY_BY_WORK %>" name="displayType"/>
+								<jsp:param value="<%=FileCategory.DISPLAY_BY_CATEGORY %>" name="displayType"/>
 								<jsp:param value="<%=wid %>" name="workSpaceId"/>
 							</jsp:include>
 						</div>

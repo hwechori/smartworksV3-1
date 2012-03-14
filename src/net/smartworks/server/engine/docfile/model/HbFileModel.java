@@ -12,11 +12,12 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 
+import net.smartworks.model.work.info.FileCategoryInfo;
 import net.smartworks.server.engine.common.util.XmlUtil;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class HbFileModel implements IFileModel, Serializable {
+public class HbFileModel implements IFileModel, Serializable, Comparable<HbFileModel> {
 
 	private static final long serialVersionUID = 1L;
 	/**
@@ -219,6 +220,11 @@ public class HbFileModel implements IFileModel, Serializable {
 	@Override
 	public void setTskInstanceId(String tskInstanceId) {
 		this.tskInstanceId = tskInstanceId;
+	}
+
+	@Override
+	public int compareTo(HbFileModel o) {
+		return String.valueOf(this.getWrittenTime()).compareTo(String.valueOf(((HbFileModel)o).getWrittenTime()));
 	}
 
 }

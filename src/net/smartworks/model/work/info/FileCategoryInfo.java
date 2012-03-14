@@ -1,10 +1,9 @@
 package net.smartworks.model.work.info;
 
 import net.smartworks.model.work.FileCategory;
-import net.smartworks.model.work.WorkCategory;
 import net.smartworks.util.SmartUtil;
 
-public class FileCategoryInfo extends WorkInfo {
+public class FileCategoryInfo extends WorkInfo implements Comparable<FileCategoryInfo> {
 
 	private int length;
 	private FileCategoryInfo parent;
@@ -38,4 +37,9 @@ public class FileCategoryInfo extends WorkInfo {
 		}
 		return fullPathName + getName();
 	}
+	@Override
+	public int compareTo(FileCategoryInfo o) {
+		return String.valueOf(super.getId()).compareTo(String.valueOf(((FileCategoryInfo)o).getId()));
+	}
+
 }
