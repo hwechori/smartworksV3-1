@@ -37,7 +37,7 @@
 	<!-- Nav Title//-->
 	<!-- Nav List -->
 	<div class="nav_list">
-		<div class="nav_list">
+		<div class="nav_sub_list">
 			<div id="m_setting">
 				<!-- 내부 메뉴 -->
 				<ul>

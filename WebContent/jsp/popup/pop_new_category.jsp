@@ -126,26 +126,26 @@
 			<span class="js_progress_span"></span>
 			<span class="btn_gray">
 				<a href="" onclick='submitForms(); return false;'>
-					<span class="Btn01Start"></span>
+					<span class="txt_btn_start"></span>
 					<%
 					if(SmartUtil.isBlankObject(categoryId)){
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.create"/></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.create"/></span>
 					<%
 					}else{
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.modify"/></span>
 					<%
 					}
 					%>
-					<span class="Btn01End"></span>
+					<span class="txt_btn_end"></span>
 				</a> 
 			</span>
 			 <span class="btn_gray ml5"> 
 				 <a href="" class="js_close_new_category"> 
-				 	<span class="Btn01Start"></span>
-				 	<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>
-				 	<span class="Btn01End"></span> 
+				 	<span class="txt_btn_start"></span>
+				 	<span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span>
+				 	<span class="txt_btn_end"></span> 
 				 </a>
 			</span>
 		</div>

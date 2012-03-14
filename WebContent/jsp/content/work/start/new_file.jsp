@@ -130,7 +130,7 @@ function submitForms(e) {
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <div class="up_wrap js_new_file_page" workId="<%=SmartWork.ID_FILE_MANAGEMENT%>">
-	<div class="up_point posit_works js_up_pointer"></div>
+	<div class="up_point pos_works js_up_pointer"></div>
 	<div class="up up_padding">
 		<form name="frmNewFile" class="form_wrap js_validation_required js_click_start_form">
 			<div class="form_title js_file_brief_form">

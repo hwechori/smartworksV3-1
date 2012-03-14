@@ -299,8 +299,8 @@
 					<input class="fieldline" style="width:160px;" type="text" name="txtNewFilterName" value="<%=filterName %>" />
 				</span>
 				<span class="btn_wh">
-					<a href="" class="js_search_filter_saveas"><span class="Btn01Start"></span>
-						<span class="Btn01Center"><fmt:message key="common.button.save_as"/></span><span class="Btn01End"></span> 
+					<a href="" class="js_search_filter_saveas"><span class="txt_btn_start"></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.save_as"/></span><span class="txt_btn_end"></span> 
 					</a> 
 				</span> 
 	 			<%
@@ -308,26 +308,26 @@
 	 				if(!SmartUtil.isBlankObject(filter))
 	 			%>
 					<span class="btn_wh"> 
-						<a href="" class="js_search_filter_save"><span class="Btn01Start"></span>
-							<span class="Btn01Center"><fmt:message key="common.button.save"/></span><span class="Btn01End"></span> 
+						<a href="" class="js_search_filter_save"><span class="txt_btn_start"></span>
+							<span class="txt_btn_center"><fmt:message key="common.button.save"/></span><span class="txt_btn_end"></span> 
 						</a>
 					</span> 
 					<span class="btn_wh"> 
-						<a href="" class="js_search_filter_delete"><span class="Btn01Start"></span>
-							<span class="Btn01Center"><fmt:message key="common.button.delete"/></span><span class="Btn01End"></span>
+						<a href="" class="js_search_filter_delete"><span class="txt_btn_start"></span>
+							<span class="txt_btn_center"><fmt:message key="common.button.delete"/></span><span class="txt_btn_end"></span>
 						</a>
 					</span> 
 				<%
 				}
 				%>
 				<span class="btn_wh"> 
-					<a href="" class="js_search_filter_execute"><span class="Btn01Start"></span>
-						<span class="Btn01Center"><fmt:message key="common.button.execute"/></span><span class="Btn01End"></span>
+					<a href="" class="js_search_filter_execute"><span class="txt_btn_start"></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.execute"/></span><span class="txt_btn_end"></span>
 					</a>
 				</span> 
 				<span class="btn_wh">
-					<a href="" class="js_search_filter_close"><span class="Btn01Start"></span>
-						<span class="Btn01Center"><fmt:message key="common.button.close"/></span> <span class="Btn01End"></span>
+					<a href="" class="js_search_filter_close"><span class="txt_btn_start"></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.close"/></span> <span class="txt_btn_end"></span>
 					</a>
 				</span>
 			</div>

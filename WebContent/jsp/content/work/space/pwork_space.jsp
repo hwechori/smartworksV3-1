@@ -200,30 +200,30 @@
 
 					<span class="btn_gray ml5 js_btn_complete" style="display:none">
 			        	<a href="" class="js_perform_task_instance">
-				            <span class="Btn01Start"></span>
-				            <span class="Btn01Center"><fmt:message key="common.button.complete"/></span>
-				            <span class="Btn01End"></span>
+				            <span class="txt_btn_start"></span>
+				            <span class="txt_btn_center"><fmt:message key="common.button.complete"/></span>
+				            <span class="txt_btn_end"></span>
 				    	</a>
 			   		</span>
 					<span class="btn_gray ml5 js_btn_return" style="display:none">
 			        	<a href="" class="js_return_task_instance">
-				            <span class="Btn01Start"></span>
-				            <span class="Btn01Center"><fmt:message key="common.button.return"/></span>
-				            <span class="Btn01End"></span>
+				            <span class="txt_btn_start"></span>
+				            <span class="txt_btn_center"><fmt:message key="common.button.return"/></span>
+				            <span class="txt_btn_end"></span>
 				    	</a>
 			   		</span>
 					<span class="btn_gray ml5 js_btn_reassign" style="display:none">
 			        	<a href="" class="js_reassign_task_instance">
-				            <span class="Btn01Start"></span>
-				            <span class="Btn01Center"><fmt:message key="common.button.reassign"/></span>
-				            <span class="Btn01End"></span>
+				            <span class="txt_btn_start"></span>
+				            <span class="txt_btn_center"><fmt:message key="common.button.reassign"/></span>
+				            <span class="txt_btn_end"></span>
 				    	</a>
 			   		</span>
 					<span class="btn_gray ml5 js_btn_temp_save" style="display:none">
 			        	<a href="" class="js_temp_save_task_instance">
-				            <span class="Btn01Start"></span>
-				            <span class="Btn01Center"><fmt:message key="common.button.temp_save"/></span>
-				            <span class="Btn01End"></span>
+				            <span class="txt_btn_start"></span>
+				            <span class="txt_btn_center"><fmt:message key="common.button.temp_save"/></span>
+				            <span class="txt_btn_end"></span>
 				    	</a>
 			   		</span>
 				</div>

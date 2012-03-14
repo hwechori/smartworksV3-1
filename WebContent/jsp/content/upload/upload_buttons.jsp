@@ -60,18 +60,18 @@
 		<span class="btn_gray"> 
 			<!--  완료버튼을 클릭시 해당 업로드 화면페이지에 있는 submitForms()함수를 실행한다.. -->
 			<a href="" onclick='submitForms();return false;'> 
-				<span class="Btn01Start"></span>
-				<span class="Btn01Center"><fmt:message key="common.button.complete"/></span> 
-				<span class="Btn01End"></span> 
+				<span class="txt_btn_start"></span>
+				<span class="txt_btn_center"><fmt:message key="common.button.complete"/></span> 
+				<span class="txt_btn_end"></span> 
 			</a>
 		</span> 
 				
 		<span class="btn_gray">
 			<!--  취소버튼을 클릭시 sw_act_work 에서 click event 로 정의 되어있는 함수를 실행한다... -->
 			<a href="" class="js_cancel_action"> 
-				<span class="Btn01Start"></span> 
-				<span class="Btn01Center"><fmt:message key="common.button.cancel" /></span> 
-				<span class="Btn01End"></span> 
+				<span class="txt_btn_start"></span> 
+				<span class="txt_btn_center"><fmt:message key="common.button.cancel" /></span> 
+				<span class="txt_btn_end"></span> 
 			</a> 
 		</span>
 	</div>
@@ -201,7 +201,7 @@
 							<input class="js_auto_complete" href="community_name.sw" type="text">
 							<div class="js_srch_x"></div>
 						</div>
-						<div class="js_community_list commu_list" style="display: none"></div>
+						<div class="js_community_list com_list" style="display: none"></div>
 						<span class="js_community_popup"></span><a href="" class="js_userpicker_button"><span class="icon_fb_users"></span></a>
 					</div>
 				</div>

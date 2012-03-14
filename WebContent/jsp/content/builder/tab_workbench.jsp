@@ -101,51 +101,51 @@
 						<td class=" tr" width="60%">
 							<span class="btn_gray" <%if(work.isRunning() || work.isEditing()){%>style="display:none"<%} %>>
 								<a href="" class="js_start_work_service">
-									<span class="Btn01Start"></span>
-										<span class="Btn01Center"><fmt:message key="builder.button.start_service"/></span>
-									<span class="Btn01End"></span>
+									<span class="txt_btn_start"></span>
+										<span class="txt_btn_center"><fmt:message key="builder.button.start_service"/></span>
+									<span class="txt_btn_end"></span>
 								</a>
 							</span>
 							<span class="btn_gray" <%if(!work.isRunning()){%>style="display:none"<%} %>>
 								<a href="" class="js_stop_work_service">
-									<span class="Btn01Start"></span>
-										<span class="Btn01Center"><fmt:message key="builder.button.stop_service"/></span>
-									<span class="Btn01End"></span>
+									<span class="txt_btn_start"></span>
+										<span class="txt_btn_center"><fmt:message key="builder.button.stop_service"/></span>
+									<span class="txt_btn_end"></span>
 								</a>
 							</span>
 							<span class="btn_gray" <%if(work.isRunning() || work.isEditing()){%>style="display:none"<%} %>>
 								<a href="" class="js_start_work_editing">
-									<span class="Btn01Start"></span>
-										<span class="Btn01Center"><fmt:message key="builder.button.start_edit"/></span>
-									<span class="Btn01End"></span>
+									<span class="txt_btn_start"></span>
+										<span class="txt_btn_center"><fmt:message key="builder.button.start_edit"/></span>
+									<span class="txt_btn_end"></span>
 								</a>
 							</span>
 							<span class="btn_gray" <%if(!work.isEditing()){%>style="display:none"<%} %>>
 								<a href="" class="js_stop_work_editing">
-									<span class="Btn01Start"></span>
-										<span class="Btn01Center"><fmt:message key="builder.button.stop_edit"/></span>
-									<span class="Btn01End"></span>
+									<span class="txt_btn_start"></span>
+										<span class="txt_btn_center"><fmt:message key="builder.button.stop_edit"/></span>
+									<span class="txt_btn_end"></span>
 								</a>
 							</span>
 							<span class="btn_gray" <%if(work.isRunning() || work.isEditing()){%>style="display:none"<%} %>>
 								<a href="" class="js_delete_work_definition">
-									<span class="Btn01Start"></span>
-										<span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
-									<span class="Btn01End"></span>
+									<span class="txt_btn_start"></span>
+										<span class="txt_btn_center"><fmt:message key="common.button.delete"/></span>
+									<span class="txt_btn_end"></span>
 								</a>
 							</span>
 							<span class="btn_gray" <%if(work.isEditing()){%>style="display:none"<%} %>>
 								<a href="" class="js_copy_work_definition">
-									<span class="Btn01Start"></span>
-										<span class="Btn01Center"><fmt:message key="common.button.copy"/></span>
-									<span class="Btn01End"></span>
+									<span class="txt_btn_start"></span>
+										<span class="txt_btn_center"><fmt:message key="common.button.copy"/></span>
+									<span class="txt_btn_end"></span>
 								</a>
 							</span>
 							<span class="btn_gray" <%if(work.isRunning() || work.isEditing()){%>style="display:none"<%} %>>
 								<a href="" class="js_move_work_definition">
-									<span class="Btn01Start"></span>
-										<span class="Btn01Center"><fmt:message key="common.button.move"/></span>
-									<span class="Btn01End"></span>
+									<span class="txt_btn_start"></span>
+										<span class="txt_btn_center"><fmt:message key="common.button.move"/></span>
+									<span class="txt_btn_end"></span>
 								</a>
 							</span>
 						</td>

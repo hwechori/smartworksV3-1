@@ -54,7 +54,7 @@
 		<div class="srch srch_wsize">
 			<input id="" class="nav_input js_auto_complete" type="text" title="<fmt:message key='search.search_people'/>"
 				placeholder="<fmt:message key='search.search_people'/>" href="community_member.sw">
-			<div class='srch_ico js_srch_x'></div>
+			<div class='srch_icon js_srch_x'></div>
 		</div>
 		<!-- nav 검색 리스트 -->
 		<div class="nav_srch_list" style="display: none"></div>
@@ -66,7 +66,7 @@
 <!-- 커뮤너티멤버 와 검색박스가 있는 헤더 // -->
 
 <!--  커뮤너티멤버를 찾을수 있는 트리 화면  -->
-<div class='nav_list js_collapsible js_nav_com_members'>
+<div class='nav_sub_list js_collapsible js_nav_com_members'>
 	<!-- 내부 메뉴 -->
 	<div id='community_members'>
 		<ul>

@@ -150,8 +150,8 @@ smartPop = {
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
 					 	'<div class="fr">' +
-					 		'<span class="btn_gray"> <a class="js_btn_close" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonClose') + '</span> <span class="Btn01End"></span>' +
+					 		'<span class="btn_gray"> <a class="js_btn_close" href=""> <span class="txt_btn_start"></span>' +
+					 			'<span class="txt_btn_center">' + smartMessage.get('buttonClose') + '</span> <span class="txt_btn_end"></span>' +
 					 		'</a> </span>' +
 					 	'</div>' +
 					 '</div>' +
@@ -179,11 +179,11 @@ smartPop = {
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
 					 	'<div class="fr">' +
-					 		'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonConfirm') + '</span> <span class="Btn01End"></span>' +
+					 		'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="txt_btn_start"></span>' +
+					 			'<span class="txt_btn_center">' + smartMessage.get('buttonConfirm') + '</span> <span class="txt_btn_end"></span>' +
 					 		'</a> </span>' + 
-				 			'<span class="btn_gray ml5"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
-				 				'<span class="Btn01Center">'  + smartMessage.get('buttonCancel') + '</span> <span class="Btn01End"></span>' +
+				 			'<span class="btn_gray ml5"> <a class="js_btn_cancel" href=""> <span class="txt_btn_start"></span>' +
+				 				'<span class="txt_btn_center">'  + smartMessage.get('buttonCancel') + '</span> <span class="txt_btn_end"></span>' +
 				 			'</a> </span>' +
 				 		'</div>' +
 					 '</div>' +

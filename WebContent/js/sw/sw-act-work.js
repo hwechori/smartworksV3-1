@@ -70,7 +70,7 @@ $(function() {
 		var workId = "";
 		var target = [];
 		if(!isEmpty(newMemo)){
-			input.find('textarea').removeClass('border_none').addClass('up_textarea');
+			input.find('textarea').removeClass('bn').addClass('up_textarea');
 			workId = newMemo.attr('workId');
 			target = newMemo.find('.js_upload_buttons');
 		}else if(!isEmpty(newPicture)){

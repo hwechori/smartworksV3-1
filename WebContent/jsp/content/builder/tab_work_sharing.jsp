@@ -286,9 +286,9 @@
 					<span class="js_progress_span"></span>
 					<span class="btn_gray">
 						<a href="" onclick='submitForms(); return false;'>
-							<span class="Btn01Start"></span> 
-							<span class="Btn01Center"><span class="btn_app_shar_go"></span><fmt:message key="builder.button.sharing_to_appstore"/></span> 
-							<span class="Btn01End"></span> 
+							<span class="txt_btn_start"></span> 
+							<span class="txt_btn_center"><span class="btn_app_shar_go"></span><fmt:message key="builder.button.sharing_to_appstore"/></span> 
+							<span class="txt_btn_end"></span> 
 						</a>
 					</span>
 				</div>

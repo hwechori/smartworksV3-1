@@ -28,12 +28,12 @@
 	
 			<div class="fr">
 				<span class="btn_gray"> <a class="js_pop_select_users" href=""> <span
-				class="Btn01Start"></span> <span class="Btn01Center"><fmt:message key="common.button.complete"/></span> <span
-				class="Btn01End"></span> </a> </span>
+				class="txt_btn_start"></span> <span class="txt_btn_center"><fmt:message key="common.button.complete"/></span> <span
+				class="txt_btn_end"></span> </a> </span>
 				
 				<span class="btn_gray"> <a href="" onclick="$.modal.close();return false;"> <span
-				class="Btn01Start"></span> <span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> <span
-				class="Btn01End"></span> </a> </span>
+				class="txt_btn_start"></span> <span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span> <span
+				class="txt_btn_end"></span> </a> </span>
 			</div>
 	
 		</div>

@@ -38,7 +38,7 @@
 <!--  전체 레이아웃 -->
 <div class="border_noTopLine">
 <form name="frmWorkReport" class="form_contents js_validation_required js_work_report_edit_page" workId="<%=workId%>" reportId="<%=reportId%>">
-	<table class="table_nomal js_report_title">
+	<table class="table_normal report_title js_report_title">
 		<tr style="display:none" class="js_work_report_name">
 			<th><fmt:message key="report.title.report_name" /><span class="essen_n"></span></th>
 			<td colspan="4">
@@ -61,7 +61,7 @@
 			</td>
 		</tr>
 	</table>
-	<table class="table_nomal js_form_by_report_type">
+	<table class="table_normal report_title js_form_by_report_title">
 		<%
 		if (reportType == Report.TYPE_CHART || reportType == Report.TYPE_MATRIX) {
 		%>
@@ -81,7 +81,7 @@
 		%>
 	</table>
 
-		<table class="table_nomal js_form_by_report_type">
+		<table class="table_normal js_form_by_report_type">
 		<tr class="js_report_search_filter">
 			<th><fmt:message key="report.title.search_filter" /></th>
 			<td colspan="4" class="">
@@ -112,39 +112,39 @@
 	<div class="fr">
 		<span class="btn_gray js_button_save_as"> 
 			<a href="" class="js_work_report_saveas"> 
-				<span class="Btn01Start"></span> 
-				<span class="Btn01Center"><fmt:message key="common.button.save_as"/></span> 
-				<span class="Btn01End"></span>
+				<span class="txt_btn_start"></span> 
+				<span class="txt_btn_center"><fmt:message key="common.button.save_as"/></span> 
+				<span class="txt_btn_end"></span>
 			</a> 
 		</span> 
 		
 		<span class="btn_gray" <%if(SmartUtil.isBlankObject(report) || report.isSystemReport()){ %>style="display:none" <%} %>> 
 			<a href="" class="js_work_report_delete"> 
-				<span class="Btn01Start"></span> 
-				<span class="Btn01Center"><fmt:message key="common.button.delete"/></span> 
-				<span class="Btn01End"></span>
+				<span class="txt_btn_start"></span> 
+				<span class="txt_btn_center"><fmt:message key="common.button.delete"/></span> 
+				<span class="txt_btn_end"></span>
 			</a> 
 		</span> 
 		<span class="btn_gray js_button_save"  <%if(!SmartUtil.isBlankObject(report) && report.isSystemReport()){ %>style="display:none" <%} %>> 
 			<a href="" class="js_work_report_save"> 
-				<span class="Btn01Start"></span> 
-				<span class="Btn01Center"><fmt:message key="common.button.save"/></span> 
-				<span class="Btn01End"></span>
+				<span class="txt_btn_start"></span> 
+				<span class="txt_btn_center"><fmt:message key="common.button.save"/></span> 
+				<span class="txt_btn_end"></span>
 			</a> 
 		</span>
 
 		<span class="btn_gray"> 
 			<a href="" class="js_work_report_execute"> 
-				<span class="Btn01Start"></span> 
-				<span class="Btn01Center"><fmt:message key="common.button.execute"/></span> 
-				<span class="Btn01End"></span>
+				<span class="txt_btn_start"></span> 
+				<span class="txt_btn_center"><fmt:message key="common.button.execute"/></span> 
+				<span class="txt_btn_end"></span>
 			</a> 
 		</span> 
 		<span class="btn_gray ml5">
 			<a href="" class="js_work_report_close"> 
-				<span class="Btn01Start"></span> 
-				<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> 
-				<span class="Btn01End"></span> 
+				<span class="txt_btn_start"></span> 
+				<span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span> 
+				<span class="txt_btn_end"></span> 
 			</a> 
 		</span>
 	</div>

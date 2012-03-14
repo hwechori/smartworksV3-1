@@ -255,7 +255,7 @@ a:hover.btn_arr_next2 {background: url("../images/body_icon.png") no-repeat -78p
 .bu_file {background: url("../images/body_icon.png") no-repeat scroll -163px -364px transparent; height:20px; width:16px; display:inline-block;}
 
 /*프로파일 화면 구성*/
-.section_portlet .photo_section,.section_portlet .table_nomal600{float:left; clear:both}
+.section_portlet .photo_section,.section_portlet .table_normal600{float:left; clear:both}
 .section_portlet .photo_section{width:200px}
 .t_text_s11{margin:30px 0 0 28px;text-align:center;width:110px}
 .section_portlet .qq-upload-button{top:115px;left:30px}

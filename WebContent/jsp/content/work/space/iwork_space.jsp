@@ -134,9 +134,9 @@
 						%>
 					        <span class="btn_gray js_btn_modify">
 					        	<a href="" class="js_modify_iwork_instance">
-						            <span class="Btn01Start"></span>
-						            <span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
-						            <span class="Btn01End"></span>
+						            <span class="txt_btn_start"></span>
+						            <span class="txt_btn_center"><fmt:message key="common.button.modify"/></span>
+						            <span class="txt_btn_end"></span>
 					            </a>
 					   		</span>
 					   	<%
@@ -145,25 +145,25 @@
 				
 				        <span class="btn_gray js_btn_do_forward" style="display:none">
 				        	<a href="" class="js_forward_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.do_forward"/></span>
-					            <span class="Btn01End"></span>
+					            <span class="txt_btn_start"></span>
+					            <span class="txt_btn_center"><fmt:message key="common.button.do_forward"/></span>
+					            <span class="txt_btn_end"></span>
 				            </a>
 				   		</span>
 				
 				        <span class="btn_gray js_btn_do_approval" style="display:none">
 				        	<a href="" class="js_approval_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.do_approval"/></span>
-					            <span class="Btn01End"></span>
+					            <span class="txt_btn_start"></span>
+					            <span class="txt_btn_center"><fmt:message key="common.button.do_approval"/></span>
+					            <span class="txt_btn_end"></span>
 				            </a>
 				   		</span>
 				
 				        <span class="btn_gray js_btn_do_email" style="display:none">
 				        	<a href="" class="js_email_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.do_email"/></span>
-					            <span class="Btn01End"></span>
+					            <span class="txt_btn_start"></span>
+					            <span class="txt_btn_center"><fmt:message key="common.button.do_email"/></span>
+					            <span class="txt_btn_end"></span>
 				            </a>
 				   		</span>
 				
@@ -172,16 +172,16 @@
 						%>
 							<span class="btn_gray ml5 js_btn_delete">
 					        	<a href="" class="js_delete_iwork_instance">
-						            <span class="Btn01Start"></span>
-						            <span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
-						            <span class="Btn01End"></span>
+						            <span class="txt_btn_start"></span>
+						            <span class="txt_btn_center"><fmt:message key="common.button.delete"/></span>
+						            <span class="txt_btn_end"></span>
 						    	</a>
 					   		</span>
 					        <span class="btn_gray js_btn_save" style="display:none">
 					        	<a href="" class="js_save_iwork_instance">
-						            <span class="Btn01Start"></span>
-						            <span class="Btn01Center"><fmt:message key="common.button.save"/></span>
-						            <span class="Btn01End"></span>
+						            <span class="txt_btn_start"></span>
+						            <span class="txt_btn_center"><fmt:message key="common.button.save"/></span>
+						            <span class="txt_btn_end"></span>
 					            </a>
 					   		</span>
 					   	<%
@@ -190,9 +190,9 @@
 				
 						<span class="btn_gray ml5 js_btn_cancel" style="display:none">
 				        	<a href="" class="js_cancel_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>
-					            <span class="Btn01End"></span>
+					            <span class="txt_btn_start"></span>
+					            <span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span>
+					            <span class="txt_btn_end"></span>
 					    	</a>
 				   		</span>
 					</div>

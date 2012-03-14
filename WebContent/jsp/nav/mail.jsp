@@ -31,9 +31,9 @@
 <!-- 메일 해더 부분  //-->
 	
 <!-- 메일 폴더및 관련기능들  -->
-<div class='nav_list js_collapsible'>
+<div class='nav_sub_list js_collapsible'>
 	<!-- 내부 메뉴 -->
-	<div class="categ_link js_nav_tab_mail">
+	<div class="tab_buttons js_nav_tab_mail">
 		<a href="fetch_unread_mails.sw" title="<fmt:message key='nav.mail.fetch_unread_mails'/>"><span class="btn_unread_mail"/></span></a>
 		<a href="write_new_mail.sw" title="<fmt:message key='nav.mail.new_mail'/>"><span class="btn_new_mail"></span></a>
 		<a href="create_new_folder.sw" title="<fmt:message key='nav.mail.new_folder'/>"><span class="btn_folder_add"></span></a>

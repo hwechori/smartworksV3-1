@@ -29,7 +29,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="nav_list noline" style="display:block">
+<div class="nav_sub_list noline" style="display:block">
 	<div id="m_setting">
 		<!-- 내부 메뉴 -->				
 		<ul>

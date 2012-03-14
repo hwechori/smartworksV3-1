@@ -95,7 +95,7 @@
 						<div class="js_my_profile_field js_auto_load_profile"></div>
 						<div class="t_text_s11"><fmt:message key="profile.title.size_desc"/></div>
 					</div>					
-					<span class="table_nomal600 ">
+					<span class="table_normal600 ">
 						<table>
 							<tr>
 								<td><fmt:message key="profile.title.user_id" /></td>
@@ -196,16 +196,16 @@
 					<span class="js_progress_span"></span>
 					<span class="btn_gray">
 						<a href="" onclick='submitForms(); return false;'>
-							<span class="Btn01Start"></span>
-							<span class="Btn01Center"><fmt:message key="popup.button.modify_my_profile"/></span>
-							<span class="Btn01End"></span>
+							<span class="txt_btn_start"></span>
+							<span class="txt_btn_center"><fmt:message key="popup.button.modify_my_profile"/></span>
+							<span class="txt_btn_end"></span>
 						</a> 
 					</span>
 					 <span class="btn_gray ml5"> 
 						 <a href="" onclick="return true;"> 
-						 	<span class="Btn01Start"></span>
-						 	<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>
-						 	<span class="Btn01End"></span> 
+						 	<span class="txt_btn_start"></span>
+						 	<span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span>
+						 	<span class="txt_btn_end"></span> 
 						 </a>
 					</span>
 				</div>

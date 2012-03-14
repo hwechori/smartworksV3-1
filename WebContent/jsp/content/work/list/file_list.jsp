@@ -117,45 +117,32 @@
 				if(displayType!=FileCategory.DISPLAY_ALL){
 				%>          
 					<!-- Left -->
-					<div class="left30 ">
-						<table style="min-width:inherit">
-							<tbody>
-								<tr class="tit_bg">
-									<th class="" style="height:1px; padding:0; border-bottom:0"></th>
-								</tr>
-								<tr>
-									<td class="">
-										<div class="">
-											<!-- 필 터 -->
-											<div class="fl">
-											  <select class="js_file_display_by">
-											    <option value=<%=FileCategory.DISPLAY_BY_CATEGORY %>><fmt:message key="space.title.by_category"/></option>
-											    <option value=<%=FileCategory.DISPLAY_BY_WORK %>><fmt:message key="space.title.by_work"/></option>
-											    <option value=<%=FileCategory.DISPLAY_BY_YEAR %>><fmt:message key="space.title.by_year"/></option>
-											    <option value=<%=FileCategory.DISPLAY_BY_OWNER %>><fmt:message key="space.title.by_owner"/></option>
-											    <option value=<%=FileCategory.DISPLAY_BY_FILE_TYPE %>><fmt:message key="space.title.by_filetype"/></option>
-											  </select>
-											</div>
-											<!-- 필 터 //-->
-											<!-- 우측 구분 -->
-											<div class="categ_link m0p0">검색공간</div>
-											<!-- 우측 구분 //-->
-											<!-- 카테고리 -->
-											<div class="pop_list_area ">
-												<ul class="js_file_categories">
-													<jsp:include page="/jsp/content/work/list/categories_by_type.jsp">
-														<jsp:param value="<%=displayType%>" name="displayType"/>
-														<jsp:param value="<%=wid%>" name="wid"/>
-														<jsp:param value="" name="parentId"/>
-													</jsp:include>
-												</ul>
-											</div>
-											<!-- 카테고리 //-->
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="left30 mt13 ">
+						<!-- 필 터 -->
+						<div class="fl">
+							<select class="js_file_display_by">
+							  <option value=<%=FileCategory.DISPLAY_BY_CATEGORY %>><fmt:message key="space.title.by_category"/></option>
+							  <option value=<%=FileCategory.DISPLAY_BY_WORK %>><fmt:message key="space.title.by_work"/></option>
+							  <option value=<%=FileCategory.DISPLAY_BY_YEAR %>><fmt:message key="space.title.by_year"/></option>
+							  <option value=<%=FileCategory.DISPLAY_BY_OWNER %>><fmt:message key="space.title.by_owner"/></option>
+							  <option value=<%=FileCategory.DISPLAY_BY_FILE_TYPE %>><fmt:message key="space.title.by_filetype"/></option>
+							</select>
+							<!-- 우측 구분 -->
+							<span>검색공간</span>
+							<!-- 우측 구분 //-->
+						</div>
+						<!-- 필 터 //-->
+						<!-- 카테고리 -->
+						<div class="pop_list_area mt25">
+							<ul class="js_file_categories">
+								<jsp:include page="/jsp/content/work/list/categories_by_type.jsp">
+									<jsp:param value="<%=displayType%>" name="displayType"/>
+									<jsp:param value="<%=wid%>" name="wid"/>
+									<jsp:param value="" name="parentId"/>
+								</jsp:include>
+							</ul>
+						</div>
+						<!-- 카테고리 //-->
 					</div>
 					<!-- Left//-->
 					<!-- Right -->	

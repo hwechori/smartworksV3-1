@@ -82,7 +82,7 @@
 					<input id="" class="input js_auto_complete" type="text"
 						href="chatter_name.sw" placeholder="사람,부서,그룹 찾기"
 						title="사람,부서,그룹 찾기">
-					<div class="srch_ico js_srch_x"></div>
+					<div class="srch_icon js_srch_x"></div>
 				</div>
 			</div>
 		</div>

@@ -39,7 +39,7 @@
 									<!-- 상단 우측 버튼//-->
 					
 									<!-- 회사정보 -->
-									<div class="gray_style table_nomal600 mb10">
+									<div class="gray_style table_normal600 mb10">
 										<table>
 											<tbody>
 												<tr>

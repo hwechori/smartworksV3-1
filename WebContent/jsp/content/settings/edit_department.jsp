@@ -121,19 +121,19 @@
 			<span class="js_progress_span"></span>
 			<span class="btn_gray">
 				<a href="" onclick='submitForms(); return false;'>
-					<span class="Btn01Start"></span>
+					<span class="txt_btn_start"></span>
 					<%
 					if(SmartUtil.isBlankObject(departId)){
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.add_new"/></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.add_new"/></span>
 					<%
 					}else{
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.modify"/></span>
 					<%
 					}
 					%>
-					<span class="Btn01End"></span>
+					<span class="txt_btn_end"></span>
 				</a>
 			</span>
 			<%
@@ -141,9 +141,9 @@
 			%>
 				<span class="btn_gray">
 					<a href="" class="js_delete_department">
-						<span class="Btn01Start"></span>
-							<span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
-						<span class="Btn01End"></span>
+						<span class="txt_btn_start"></span>
+							<span class="txt_btn_center"><fmt:message key="common.button.delete"/></span>
+						<span class="txt_btn_end"></span>
 					</a>
 				</span>
 			<%

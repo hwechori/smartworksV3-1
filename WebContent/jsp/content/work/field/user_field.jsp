@@ -64,7 +64,7 @@
 			<input name="txtFilterStringOperand" class="js_auto_complete" href="user_name.sw" type="text" id="<%if (operandId != null) {%><%=operandId%><%}%>">
 			<div class="js_srch_x"></div>
 		</div>
-		<div class="js_community_list commu_list" style="display: none"></div>
+		<div class="js_community_list com_list" style="display: none"></div>
 		<span class="js_community_popup"></span>
 		<a href="" class="js_userpicker_button"><span class="icon_fb_user"></span></a>
 	</div>
