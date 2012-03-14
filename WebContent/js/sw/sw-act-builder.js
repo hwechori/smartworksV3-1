@@ -239,7 +239,7 @@ $(function() {
 		selectedItem.remove();
 		if(selectedItem.find('.js_key_field').hasClass('checked')){
 			var newKeyField = $(displayFieldItems.find('tr')[2]).find('.js_key_field').addClass('checked');
-			newKeyField.parents('.keyOption').addClass('checked');
+			newKeyField.parents('.key_option').addClass('checked');
 			displayFieldItems.find('input[name="rdoKeyField"]').attr('value', newKeyField.attr('fieldId'));
 		}
 		var itemList = displayItemList.find('th');
@@ -272,7 +272,7 @@ $(function() {
 		var displayItems = displayFieldItems.find('tr').length;
 		if(displayItems==3){
 			var newKeyField = displayItem.find('.js_key_field').addClass('checked');
-			newKeyField.parents('.keyOption').addClass('checked');
+			newKeyField.parents('.key_option').addClass('checked');
 			displayFieldItems.find('input[name="rdoKeyField"]').attr('value', newKeyField.attr('fieldId'));		
 			displayItem.find('.js_up_field_item').hide();
 		}else if(displayItems>3){
@@ -287,8 +287,8 @@ $(function() {
 	$('a .js_key_field').live('click', function(e){
 		var input = $(e.target);
 		if(input.hasClass('checked')) return false;
-		input.addClass('checked').parents('.keyOption').addClass('checked');
-		input.parents('tr:first').siblings().find('.keyOption').removeClass('checked').find('.js_key_field').removeClass('checked');
+		input.addClass('checked').parents('.key_option').addClass('checked');
+		input.parents('tr:first').siblings().find('.key_option').removeClass('checked').find('.js_key_field').removeClass('checked');
 		input.parents('.js_tab_work_settings_page').find('input[name="rdoKeyField"]').attr('value', input.attr('fieldId'));
 		return false;
 	});

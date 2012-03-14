@@ -189,7 +189,7 @@
 			
 			<!-- 버튼 영역 -->
 			<div class="glo_btn_space">
-				<div class="float_right padding_r10">
+				<div class="fr pr10">
 					<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 					<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 					<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
@@ -201,7 +201,7 @@
 							<span class="Btn01End"></span>
 						</a> 
 					</span>
-					 <span class="btn_gray space_l5"> 
+					 <span class="btn_gray ml5"> 
 						 <a href="" onclick="return true;"> 
 						 	<span class="Btn01Start"></span>
 						 	<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>

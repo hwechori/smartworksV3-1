@@ -101,7 +101,7 @@
 				String target = instanceInfo.getController() + "?cid=" + instanceInfo.getContextId() + "&workId=" + workId;
 			%>
 				<tr>
-					<td class="hAlignCenter"><%=currentCount%></td>
+					<td class="tc"><%=currentCount%></td>
 					<%
 					currentCount--;
 					if ((fieldDatas != null) && (fieldDatas.length == displayFields.length)) {
@@ -112,9 +112,9 @@
 						<td <%if(data.getFieldType().equals(FormField.TYPE_CURRENCY) || 
 								data.getFieldType().equals(FormField.TYPE_NUMBER) || 
 								data.getFieldType().equals(FormField.TYPE_PERCENT)){ %>
-									class="hAlignRight"
+									class="tr pr10"
 								<%}else if(data.getFieldType().equals(FormField.TYPE_FILE)){%>
-									class="hAlignCenter"
+									class="tc"
 								<%}%>>
 								<a href="<%=target%>" class="js_content_iwork_space">
 									<%if(data.getFieldType().equals(FormField.TYPE_FILE) && !SmartUtil.isBlankObject(data.getValue())){
@@ -151,7 +151,7 @@
 							</div>
 						</a>
 					</td>
-					<td class="hAlignCenter"><%=instanceInfo.getViews() %>
+					<td class="tc"><%=instanceInfo.getViews() %>
 				</tr>
 		<%
 			}

@@ -146,7 +146,7 @@
 					String titleClassEnd = ((weekEnd.getDayOfWeek()==Calendar.SUNDAY) ? "t_sunday" : (weekEnd.getDayOfWeek()==Calendar.SATURDAY) ? "t_saturday" : "");
 					String toDateStr = (new LocalDate(weekEnd.getTime() + LocalDate.ONE_DAY)).toLocalDateString2();
 				%>
-					<div class="space_section margin_t10 js_space_monthly_week" weekEnd="<%=weekEnd.toLocalDateSimpleString()%>" toDate="<%=toDateStr%>">
+					<div class="space_section mt10 js_space_monthly_week" weekEnd="<%=weekEnd.toLocalDateSimpleString()%>" toDate="<%=toDateStr%>">
 						<%
 						if(weekStart.getTime() == weekEnd.getTime()){
 						%>

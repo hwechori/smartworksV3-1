@@ -152,7 +152,7 @@
 				}
 			%>
 				<tr>
-					<td class="hAlignCenter"><%=currentCount%></td>
+					<td class="tc"><%=currentCount%></td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space">
 							<div class="noti_pic js_content_pwork_space">
@@ -194,7 +194,7 @@
 						}
 						%>
 					</td>
-					<td class="hAlignCenter"><%=((BoardInstanceInfo)instanceInfo).getViews() %>
+					<td class="tc"><%=((BoardInstanceInfo)instanceInfo).getViews() %>
 				</tr>
 	<%
 				currentCount--;

@@ -83,7 +83,7 @@ currentUser = {
 </script>
 
 <link href="css/default.css" type="text/css" rel="stylesheet" />
-<link href="css/layout.css" type="text/css" rel="stylesheet" />
+<link href="css/black/layout.css" type="text/css" rel="stylesheet" />
 <link href="css/detail.css" type="text/css" rel="stylesheet" />
 <link href="css/chat.css" type="text/css" rel="stylesheet" />
 <link href="css/form.css" type="text/css" rel="stylesheet" />

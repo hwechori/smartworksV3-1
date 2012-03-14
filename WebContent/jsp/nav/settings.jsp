@@ -1,7 +1,7 @@
 
 <!-- Name 			: settings.jsp										 	 -->
 <!-- Description	: 화면 왼쪽의 Navigation Bar 를 구성하는 화면  				 -->
-<!-- Author			: Y.S. JUNG												 -->
+<!-- Author			: Maninsoft, Inc.										 -->
 <!-- Created Date	: 2011.9.												 -->
 
 <%@page import="net.smartworks.util.SmartUtil"%>
@@ -31,13 +31,13 @@
 	<div class="personal_info">
 		<ul>
 			<li class="setting"></li>
-			<li class="margin_t25"><span class="t_nav"><fmt:message key="settings.title.settings"/></span></li>
+			<li class="mt25"><span class="t_nav"><fmt:message key="settings.title.settings"/></span></li>
 		</ul>
 	</div>
 	<!-- Nav Title//-->
 	<!-- Nav List -->
 	<div class="nav_list">
-		<div class="navi_list">
+		<div class="nav_list">
 			<div id="m_setting">
 				<!-- 내부 메뉴 -->
 				<ul>

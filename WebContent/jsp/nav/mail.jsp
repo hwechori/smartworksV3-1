@@ -20,7 +20,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 메일 해더 부분  -->
-<ul class="navi_tit_mail">
+<ul class="nav_tit_mail">
 	<li>
 		<!-- 메일 라벨과 클릭시 아래의 메일폴더선택트리화면을 접었다 폈다하는 기능 제공  -->
 		<!-- *** js_collapse_parent_siblings : sw_act_nav.js 에서 이클래스의 클릭이벤트를 받아서 -->
@@ -31,7 +31,7 @@
 <!-- 메일 해더 부분  //-->
 	
 <!-- 메일 폴더및 관련기능들  -->
-<div class='navi_list js_collapsible'>
+<div class='nav_list js_collapsible'>
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_mail">
 		<a href="fetch_unread_mails.sw" title="<fmt:message key='nav.mail.fetch_unread_mails'/>"><span class="btn_unread_mail"/></span></a>

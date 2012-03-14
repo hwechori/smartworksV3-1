@@ -70,7 +70,7 @@
 					<div class="info_img">
 						<div class="<%=work.getIconClass()%>"><%=work.getName()%></div>
 					</div>
-					<div class="info_list margin_l15">
+					<div class="info_list ml15">
 						<a href="<%=targetContent %>" ><%=instance.getSubject()%></a>		
 						<div class="t_date"><%=instance.getCreatedDate().toLocalString()%></div>
 					</div>

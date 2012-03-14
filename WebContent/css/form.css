@@ -58,8 +58,7 @@ a .btn_plus:hover {background-position:0 -16px}
 .btn_delete_posi {padding:0 0 0 9px}
 
 /* Icon */
-.icon_fb_us_space {padding-right: 27px; position: relative;} /* 아이콘이 들어가 있는 영역- 유저아이콘 영역 */
-.icon_fb_cl_space {padding-right: 23px; position: relative;} /* 아이콘이 들어가 있는 영역- 캘린더아이콘 영역 */
+.icon_fb_space {padding-right: 24px; position: relative;} /* 아이콘이 들어가 있는 영역- 캘린더아이콘 영역 */
 .btn_fb_space {padding-right: 65px; position: relative;} /* 버튼4자 들어가 있는 영역 */
 .btn_fb_space5 {padding-right: 75px; position: relative;} /* 버튼5자 들어가 있는 영역 */
 .icon_fb_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}

@@ -92,7 +92,7 @@
 		<!-- 타이틀 영역 //-->
 		
 		<form name="frmEditDepartment" class="boTb js_validation_required">
-			<table class="margin_t10">
+			<table class="mt10">
 				<tbody>
 					<tr>
 						<%
@@ -114,7 +114,7 @@
 		</form>
 	
 		<!-- Btn -->
-		<div class="text_align_r margin_t8">
+		<div class="tr mt8">
 			<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 			<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 			<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->

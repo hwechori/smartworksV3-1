@@ -56,7 +56,7 @@
 <div class="glo_btn_space js_upload_buttons_page">
 
 	<!--  완료 및 취소 버튼 -->
-	<div class="float_right">
+	<div class="fr">
 		<span class="btn_gray"> 
 			<!--  완료버튼을 클릭시 해당 업로드 화면페이지에 있는 submitForms()함수를 실행한다.. -->
 			<a href="" onclick='submitForms();return false;'> 
@@ -78,8 +78,8 @@
 	<!--  완료 및 취소 버튼 //-->
 
 	<!--  접근권한 및 등록할 공간정보를 선택하는 박스들 -->
-	<form name="frmAccessSpace" class="float_right padding_r10 js_validation_required">
-		<div id="" class="float_right form_space">
+	<form name="frmAccessSpace" class="fr pr10 js_validation_required">
+		<div id="" class="fr form_space">
 		
 			<!--  현재사용자가 선택할 수 있는 업무공간들을 구성한다.. -->
 			<%
@@ -144,7 +144,7 @@
 			%>
 		</div>
 
-		<div id="" class="float_right form_space">
+		<div id="" class="fr form_space">
 			<!--  현재업무의 접근(읽기)권한 중에 선택가능한 권한들을 구성한다... -->
 			<select name="selAccessLevel" class="js_select_access_level">
 				<%
@@ -173,7 +173,7 @@
 		</div>
 
 		<!-- 접근권한이 사용자지정인 경우에 공개할 사용자들을 선택하는 화면 -->
-		<div class="float_right form_space js_access_level_custom" <%if(work.getAccessPolicy().getLevel() != AccessPolicy.LEVEL_CUSTOM){ %> style="display:none"<%} %>>
+		<div class="fr form_space js_access_level_custom" <%if(work.getAccessPolicy().getLevel() != AccessPolicy.LEVEL_CUSTOM){ %> style="display:none"<%} %>>
 			<span class="js_type_userField" fieldId="txtAccessableUsers" multiUsers="true">
 				<div class="form_value">
 					<div class="icon_fb_space">
@@ -210,7 +210,7 @@
 		<!-- 접근권한이 사용자지정인 경우에 공개할 사용자들을 선택하는 화면 //-->
 		
 		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
-		<div class="float_right form_space js_progress_span" ></div>
+		<div class="fr form_space js_progress_span" ></div>
 		
 		<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 		<span class="form_space sw_error_message js_upload_error_message" style="text-align:right; color: red"></span>

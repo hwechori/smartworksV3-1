@@ -9,7 +9,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <!-- 나의 커뮤너티 와 검색박스가 있는 헤더  -->
-<ul class="navi_tit">
+<ul class="nav_tit">
 
 	<!-- 나의 커뮤너티 라벨과 클릭시 아래의 커뮤너티선택트리화면을 접었다 폈다하는 기능 제공  -->
 	<!-- *** js_collapse_parent_siblings : sw_act_nav.js 에서 이클래스의 클릭이벤트를 받아서 -->
@@ -36,7 +36,7 @@
 <!-- 나의 커뮤너티 와 검색박스가 있는 헤더 // -->
 
 <!--  나의부서, 나의 그룹에서 커뮤너티를 찾을수 있는 트리 화면  -->
-<div class='navi_list js_collapsible js_nav_my_com'>
+<div class='nav_list js_collapsible js_nav_my_com'>
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_com">
 	

@@ -185,7 +185,7 @@
 				<!-- 목록보기 -->
 				<div>
 					<!-- 목록보기 타이틀-->
-					<div class="list_title_space js_work_list_title margin_t15">
+					<div class="list_title_space js_work_list_title mt15">
 						<div class="title"><fmt:message key="common.title.instance_list" /></div>
 						<div class="titleLineBtns">
 							<div class="btnIconsEdit">

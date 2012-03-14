@@ -32,18 +32,18 @@
 							<tr>
 								<td width="35%" class="vt"><div class="pop_list_area "><jsp:include page="/jsp/content/settings/comlist_by_depart.jsp"></jsp:include></div></td>
 								<td width="65%" class="vt">
-									<div class="text_align_r margin_b2">
+									<div class="tr mb2">
 										<span class="btnIconsCreate"><a class="btnIconsTail js_new_department" href=""><fmt:message key="settings.button.add_department"/></a></span>
 										<span class="btnIconsCreate"><a class="btnIconsTail js_new_member" href=""><fmt:message key="settings.button.add_member"/></a></span>
 									</div>
 									<!-- 상단 우측 버튼//-->
 					
 									<!-- 회사정보 -->
-									<div class="gray_style table_nomal600 margin_b10">
+									<div class="gray_style table_nomal600 mb10">
 										<table>
 											<tbody>
 												<tr>
-													<th class="text_align_c"><fmt:message key="profile.title.company"/></th>
+													<th class="tc"><fmt:message key="profile.title.company"/></th>
 													<td><%=CommonUtil.toNotNull(cUser.getCompany()) %></td>
 												</tr>
 											</tbody>

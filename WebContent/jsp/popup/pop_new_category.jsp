@@ -122,7 +122,7 @@
 			<div class="sw_error_message js_pop_error_message" style="color: red"></div>
 			<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 			
-		<div class="float_right padding_r10">
+		<div class="fr pr10">
 			<span class="js_progress_span"></span>
 			<span class="btn_gray">
 				<a href="" onclick='submitForms(); return false;'>
@@ -141,7 +141,7 @@
 					<span class="Btn01End"></span>
 				</a> 
 			</span>
-			 <span class="btn_gray space_l5"> 
+			 <span class="btn_gray ml5"> 
 				 <a href="" class="js_close_new_category"> 
 				 	<span class="Btn01Start"></span>
 				 	<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>

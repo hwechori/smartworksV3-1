@@ -88,26 +88,26 @@
 						for (int cnt = 0; cnt < threeDaysCC.length; cnt++) {
 						%>
 							<!-- 하루씩 증가하면서 이벤트박스 생성  -->
-							<li class="float_left eventCell<%=cnt%>">
+							<li class="fl eventCell<%=cnt%>">
 								<div>
 									<div class="eventCell" style="display: block;">
 										<ul style="display: block;">
 											<%
 											if (cnt == 0) {
 											%>
-												<li class="line_dashed center">
+												<li class="line_dashed tc">
 													<span class="cellDate"><span class="t_bold"><fmt:message key='content.threedays.today' /> </span> <%=today.toLocalDateShortString()%></span>
 												</li>
 											<%
 											} else if (cnt == 1) {
 											%>
-												<li class="line_dashed center">
+												<li class="line_dashed tc">
 													<span class="cellDate"><span class="t_bold"><fmt:message key='content.threedays.tomorrow' /> </span> <%=tomorrow.toLocalDateShortString()%></span>
 												</li>
 											<%
 											} else if (cnt == 2) {
 											%>
-												<li class="line_dashed center">
+												<li class="line_dashed tc">
 													<span class="cellDate"><span class="t_bold"><fmt:message key='content.threedays.after' /> </span></span>
 												</li>
 											<%

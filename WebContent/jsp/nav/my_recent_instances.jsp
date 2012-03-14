@@ -42,7 +42,7 @@
 						<span class="icon_pe">
 							<img src="<%=image.getImgSource()%>" title="<%=CommonUtil.toNotNull(image.getContent())%>" class="profile_size_s">
 						</span> 
-						<span class="nav_subtitl_area"><%=image.getSubject()%>
+						<span class="nav_sub_area"><%=image.getSubject()%>
 							<%if(image.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=image.getSubInstanceCount() %></b>]</font><%} %>
 						</span>
 					</a>
@@ -58,7 +58,7 @@
 				<li>
 					<a href="<%=socialInstance.getController()%>?cid=<%=socialInstance.getContextId()%>&workId=<%=work.getId()%>" class="js_content" title="<%=work.getFullpathName()%>">
 						<span class="<%=work.getIconClass() %>"></span>
-						<span class="nav_subtitl_area"><%=socialInstance.getSubject()%>
+						<span class="nav_sub_area"><%=socialInstance.getSubject()%>
 							<%if(socialInstance.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=socialInstance.getSubInstanceCount() %></b>]</font><%} %>
 						</span>
 					</a>
@@ -72,7 +72,7 @@
 						<span class="icon_pe">
 							<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s">
 						</span> 
-						<span class="nav_subtitl_area"><%=workInstance.getSubject()%>
+						<span class="nav_sub_area"><%=workInstance.getSubject()%>
 							<%if(((WorkInstanceInfo)workInstance).getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=((WorkInstanceInfo)workInstance).getSubInstanceCount() %></b>]</font><%} %>
 						</span>
 					</a>

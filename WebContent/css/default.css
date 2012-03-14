@@ -2,11 +2,10 @@
 
 html {
      font-size: 12px;
+     font-family: dotum,Helvetica,sans-serif;
 }
 
 body {
-     font-size: 12px;
-     font-family: dotum,Helvetica,sans-serif;
 	 scrollbar-face-color:#FFFFFF;
 	 scrollbar-highlight-color:#C7C7C7;
 	 scrollbar-shadow-color:#C7C7C7;
@@ -16,17 +15,13 @@ body {
 	 scrollbar-darkshadow-color:#FFFFFF;
 }
 
-label {
-     cursor: pointer;
-     font-size: 11px;
+html, body {
+	color:#454545; height:100%; line-height:1.5em;
 }
 
-a:link, a:visited {
+a:link, a:visited, a:hover, a:focus, a:active {
      text-decoration: none;
-}
-
-a:hover, a:focus, a:active {
-     text-decoration: none;
+     color:#454545;
 }
 
 a, abbr, acronym, address, applet, article, aside, audio, b, blockquote, big, body, center, canvas, caption, cite, code, command, datalist, dd, del, details, dfn, dl, div, dt, em, embed, fieldset, figcaption, figure, font, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, keygen, label, legend, li, meter, nav, menu, object, ol, output, p, pre, progress, q, s, samp, section, small, span, source, strike, strong, sub, sup, table, tbody, tfoot, thead, th, tr, tdvideo, tt, u, ul, var {
@@ -36,46 +31,36 @@ a, abbr, acronym, address, applet, article, aside, audio, b, blockquote, big, bo
 
 h1, h2, h3, h4, h5, h6, th, td, button, textarea, sub {
 	 text-align:left;
-	 padding:2px 0;
+	 padding:2px 1px;
 }
 
 body, button, select, input, textarea, sub {
-     font-family: dotum, sans-serif;
+     font-family: dotum, Helvetica, sans-serif;
 	 font-size: 12px;
 }
-
-select, input, textarea {color:#868686}
-textarea {width:99%}
-
-
-input.error {
-	border: 1px solid red;
+ 
+input[type="text"], textarea {
+	width:100%;
 }
 
-textarea.error {
-	border: 1px solid red;
+
+select, input, textarea {
+	color:#868686;
 }
 
-select.error {
+/* 
+input[type="text"]:focus, textarea:focus {
+	border: 1.5px solid #7dc4ff;
+}
+.srch input:focus, .srch_wh input:focus{
+	outline: none;
+}
+*/
+
+input.error, textarea.error, select.error, 
+input.sw_error, textarea.sw_error, div.sw_error, fieldset.sw_error {
 	border: 1px solid red;
 }
-
-input.sw_error {
-	border: 1px solid red;
-}
-
-textarea.sw_error {
-	border: 1px solid red;
-}
-
-div.sw_error {
-	border: 1px solid red;
-}
-
-fieldset.sw_error {
-	border: 1px solid red;
-}
-
 span.sw_error {
 	border: 1px solid red;
 	width: 100%;
@@ -84,49 +69,48 @@ span.sw_error {
 }
 
 em, cite, address, optgroup {
-     font-style: normal;
+	font-style: normal;
 }
 
 kbd, samp, code {
-     font-family: monospace;
+	font-family: monospace;
 }
 
-img, button, select, textarea {
-     vertical-align: middle;
+img, button, textarea, input {
+	border:0 none;
+	outline:medium none;
+  	vertical-align: middle;
 }
-input[type="image"], input[type="text"], input[type="submit"], input[type="password"], textarea {resize: none;}
+
+select {
+  	vertical-align: middle;
+	border:1px solid #C7C7C7;
+}
+
+input[type="image"], input[type="text"], input[type="submit"],
+input[type="password"], textarea {
+	resize: none;
+}
 	
-input {border:0 none; outline:medium none; vertical-align: middle;}
-
-select { border:1px solid #C7C7C7; }
-
-select.error {
-	border: 1px solid red;
-}
-
 ul, ol, li {
-     list-style: none outside none;
-}
-
-img, a img, fieldset, iframe {
-     border: 0 none;
+	list-style: none outside none;
 }
 
 abbr, acronym {
-     border-bottom: 1px dotted black;
-     cursor: help;
+	border-bottom: 1px dotted black;
+	cursor: help;
 }
 
 table {
-     border-spacing: 0pt;
-     width: 100%;
+	border-spacing: 0pt;
+	width: 100%;
 }
 
 legend, hr {
-     left: 0pt;
-     overflow: hidden;
-     position: absolute;
-     top: 0pt;
+	left: 0pt;
+	overflow: hidden;
+	position: absolute;
+	top: 0pt;
 }
 
 legend, hr, caption {
@@ -137,7 +121,9 @@ legend, hr, caption {
      width: 0pt;
 }
 
-article, aside, audio, canvas, command, datalist, details, embed, figcaption, figure, footer, header, hgroup, keygen, meter, nav, output, progress, section, source, video {
+article, aside, audio, canvas, command, datalist, details, embed,
+figcaption, figure, footer, header, hgroup, keygen, meter, nav,
+output, progress, section, source, video {
      display: block;
 }
 
@@ -145,63 +131,61 @@ mark, rp, rt, ruby, summary, time {
      display: inline;
 }
 
-.float_left {float:left}
-/* .float_left_nowidth {float:left;} */
-.float_right {float:right;}
+.fl {float:left}
+.fr {float:right;}
 .fn {float:none}
-.clear {display:block; clear:both;}
+.cb {display:block; clear:both;}
 
-.space_r2 {margin-right:2px !important}
-.space_r10 {margin-right:10px !important}
-.space_l5 {margin-left:5px !important}
-.space_l10 {margin-left:10px !important}
-
-.m0p0 {padding:0px !important; margin:0px !important}
-.padding0, .p0 {padding:0px !important}
-.padding_l5 {padding-left:5px !important}
-.padding_l20 {padding-left:20px !important}
-.padding_l10 {padding-left:10px !important}
-
-.padding_r3 { padding-right:3px !important}
-.padding_r5 { padding-right:5px !important}
-.padding_r10 { padding-right:10px !important}
-.padding_r30 { padding-right:30px !important}
-.padding_t5 {padding-top:5px !important}
-.padding_t10 {padding-top:10px !important}
-.padding_t15 {padding-top:15px !important}
-.padding_t20 {padding-top:20px !important}
-.padding_b2 {padding-bottom:2px !important}
-.padding_b6 {padding-bottom:6px !important}
-.padding_b10 {padding-bottom:10px !important}
-
-.margin_t2 {margin-top:2px !important}
-.margin_t5 {margin-top:5px !important}
-.margin_t8 {margin-top:8px !important}
-.margin_t10 {margin-top:10px !important}
-.mt13 {margin-top:13px !important}
-.margin_t15 {margin-top:15px !important}
-.margin_t25 {margin-top:25px !important}
-.margin_t20 {margin-top:20px !important}
-.margin_b2 {margin-bottom:2px !important}
-.mb2 {margin-bottom:2px !important}
-.mb3 {margin-bottom:3px !important}
-.margin_b5, .mb5 {margin-bottom:5px !important}
-.margin_b10 {margin-bottom:10px !important}
+.mr2 {margin-right:2px !important}
+.mr3 {margin-right:3px !important}
 .mr5 {margin-right:5px !important}
 .mr7 {margin-right:7px !important}
 .mr10 {margin-right:10px !important}
-.margin_l15 {margin-left:15px !important}
+
 .ml4 {margin-left:4px !important}
-.margin_l10 {margin-left:10px !important}
+.ml5 {margin-left:5px !important}
+.ml10 {margin-left:10px !important}
+.ml15 {margin-left:15px !important}
 
-.text_align_l {text-align:left !important}
-.text_align_c {text-align:center !important}
-.text_align_r {text-align:right !important}
-.center {text-align:center;}
+.mt2 {margin-top:2px !important}
+.mt5 {margin-top:5px !important}
+.mt8 {margin-top:8px !important}
+.mt10 {margin-top:10px !important}
+.mt13 {margin-top:13px !important}
+.mt15 {margin-top:15px !important}
+.mt25 {margin-top:25px !important}
+.mt20 {margin-top:20px !important}
 
-.li_height13 {line-height: 13px;}
+.mb2 {margin-bottom:2px !important}
+.mb3 {margin-bottom:3px !important}
+.mb5 {margin-bottom:5px !important}
+.mb10 {margin-bottom:10px !important}
 
-.posi_ab {position:absolute;}
+.m0p0 {padding:0px !important; margin:0px !important}
+
+.p0 {padding:0px !important}
+.pl5 {padding-left:5px !important}
+.pl10 {padding-left:10px !important}
+.pl20 {padding-left:20px !important}
+
+.pr3 { padding-right:3px !important}
+.pr5 { padding-right:5px !important}
+.pr10 { padding-right:10px !important}
+.pr30 { padding-right:30px !important}
+
+.pt5 {padding-top:5px !important}
+.pt10 {padding-top:10px !important}
+.pt15 {padding-top:15px !important}
+.pt20 {padding-top:20px !important}
+
+.pb2 {padding-bottom:2px !important}
+.pb6 {padding-bottom:6px !important}
+.pb10 {padding-bottom:10px !important}
+
+.tl {text-align:left !important}
+.tc {text-align:center !important}
+.tr {text-align:right !important}
 
 .vt {vertical-align:top}
-
+.vm{vertical-align:middle}
+.vb{vertical-align:bottom}

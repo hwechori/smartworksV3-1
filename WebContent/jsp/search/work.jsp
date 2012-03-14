@@ -47,7 +47,7 @@
 			<li>
 				<a href="<%=targetContent%>?cid=<%=workContext%>" class="js_content">
 					<span class="<%=iconType%>"></span>
-					<span class="nav_subtitl_area"><%=work.getFullpathName()%></span>
+					<span class="nav_sub_area"><%=work.getFullpathName()%></span>
 				</a>
 			</li>
 	<%

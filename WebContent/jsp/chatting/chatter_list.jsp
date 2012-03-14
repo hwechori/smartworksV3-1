@@ -41,7 +41,7 @@
 		<!-- 상단 -->
 		<div class="top_group">
 			<a href="" class="js_toggle_chatter_list">
-				<div class="chatic_titl posi_ab">
+				<div class="chatic_titl">
 					채 팅 <span class="t_white js_chatters_number">(<%=chatters.length%>)</span>
 				</div> </a>
 			<!-- 상단우측 아이콘-->

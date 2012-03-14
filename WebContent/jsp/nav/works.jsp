@@ -9,7 +9,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <!-- 나의 업무 와 검색박스가 있는 헤더  -->
-<ul class="navi_tit">
+<ul class="nav_tit">
 
 	<!-- 나의 업무 라벨과 클릭시 아래의 업무선택트리화면을 접었다 폈다하는 기능 제공  -->
 	<!-- *** js_collapse_parent_siblings : sw_act_nav.js 에서 이클래스의 클릭이벤트를 받아서 -->
@@ -39,7 +39,7 @@
 <!-- 나의 업무 와 검색박스가 있는 헤더  //-->
 
 <!--  최근업무, 즐겨찾는 업무, 전체업무들의 업무선택 트리 화면  -->
-<div class="navi_list js_collapsible  js_nav_my_works">
+<div class="nav_list js_collapsible  js_nav_my_works">
 	<!-- 내부 메뉴 -->
 	<div class="categ_link js_nav_tab_work">
 	

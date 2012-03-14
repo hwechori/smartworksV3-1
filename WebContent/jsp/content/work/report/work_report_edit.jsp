@@ -109,7 +109,7 @@
 
 <!-- 등록 취소 버튼 -->
 <div class="glo_btn_space js_button_space">
-	<div class="float_right">
+	<div class="fr">
 		<span class="btn_gray js_button_save_as"> 
 			<a href="" class="js_work_report_saveas"> 
 				<span class="Btn01Start"></span> 
@@ -140,7 +140,7 @@
 				<span class="Btn01End"></span>
 			</a> 
 		</span> 
-		<span class="btn_gray space_l5">
+		<span class="btn_gray ml5">
 			<a href="" class="js_work_report_close"> 
 				<span class="Btn01Start"></span> 
 				<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> 
@@ -149,20 +149,20 @@
 		</span>
 	</div>
 
-	<form name="frmAccessPolicy" class="float_right padding_r10 js_validation_required">
-		<div class="float_right form_space">	
+	<form name="frmAccessPolicy" class="fr pr10 js_validation_required">
+		<div class="fr form_space">	
 			<select name="selAccessPolicy">
 				<option value="<%=AccessPolicy.LEVEL_PUBLIC%>"><fmt:message key="common.security.access.public"/></option>
 				<option value="<%=AccessPolicy.LEVEL_PRIVATE%>"><fmt:message key="common.security.access.private"/></option>
 			</select>
 		</div>
-		<div class="float_right form_space">
-			<span class="bu_read margin_t2"></span> 
+		<div class="fr form_space">
+			<span class="bu_read mt2"></span> 
 		</div>
 	</form>
 
 	<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
-	<div class="float_right form_space js_progress_span" ></div>
+	<div class="fr form_space js_progress_span" ></div>
 	
 	<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 	<span class="form_space sw_error_message js_report_error_message" style="text-align:right; color: red"></span>

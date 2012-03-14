@@ -127,7 +127,7 @@
 									<td class="">
 										<div class="">
 											<!-- 필 터 -->
-											<div class="float_left">
+											<div class="fl">
 											  <select class="js_file_display_by">
 											    <option value=<%=FileCategory.DISPLAY_BY_CATEGORY %>><fmt:message key="space.title.by_category"/></option>
 											    <option value=<%=FileCategory.DISPLAY_BY_WORK %>><fmt:message key="space.title.by_work"/></option>
@@ -162,7 +162,7 @@
 					<div class="right70">
 					<!-- 목록보기 -->
 						<!-- 목록보기 타이틀-->
-						<div class="list_title_space js_work_list_title margin_t15">
+						<div class="list_title_space js_work_list_title mt15">
 							<div class="title"><fmt:message key="common.title.instance_list" /></div>					
 								<div class="titleLineOptions">
 									<form name="frmSearchInstance" class="po_left">
@@ -202,7 +202,7 @@
 					<div>
 					<!-- 목록보기 -->
 						<!-- 목록보기 타이틀-->
-						<div class="list_title_space js_work_list_title margin_t15">
+						<div class="list_title_space js_work_list_title mt15">
 							<div class="title"><fmt:message key="common.title.instance_list" /></div>					
 							<div class="titleLineBtns">
 								<div class="btnIconsEdit">

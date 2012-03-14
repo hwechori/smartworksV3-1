@@ -291,7 +291,7 @@
 	</table>
 	<div class="filter_btn_space">
 		<form name="frmSearchFilterActions" class="js_validation_required">
-			<div class="float_right">
+			<div class="fr">
 				<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 				<span class="form_space sw_error_message js_filter_error_message" style="text-align:right; color: red"></span>
 				<span class="js_progress_span"></span>

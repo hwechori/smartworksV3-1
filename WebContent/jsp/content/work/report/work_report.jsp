@@ -36,7 +36,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<div class="js_work_report_page margin_t15" workId="<%=workId %>" reportId="<%=lastReportId%>" reportType="<%=lastReportType %>" chartType="<%=lastChartType%>">
+<div class="js_work_report_page mt15" workId="<%=workId %>" reportId="<%=lastReportId%>" reportType="<%=lastReportType %>" chartType="<%=lastChartType%>">
 	<div class="list_title_space solid_line_sb">
 		<div class="title"><fmt:message key="report.title.report" /></div>
 		<div class="titleLineOptions">

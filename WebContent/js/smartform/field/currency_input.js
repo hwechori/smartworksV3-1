@@ -30,9 +30,9 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$label.addClass('required_label');
-		required = " class='js_currency_input fieldline text_align_r required' ";
+		required = " class='js_currency_input fieldline tr required' ";
 	}else{
-		required = " class='js_currency_input fieldline text_align_r' ";
+		required = " class='js_currency_input fieldline tr' ";
 	}
 	$label.appendTo(options.container);
 	

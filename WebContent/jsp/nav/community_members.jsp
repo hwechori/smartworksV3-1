@@ -39,7 +39,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 커뮤너티 멤버와 검색박스가 있는 헤더  -->
-<ul class="navi_tit js_community_members" communityId="<%=communityId%>">
+<ul class="nav_tit js_community_members" communityId="<%=communityId%>">
 
 	<!-- 커뮤너티멤버 라벨과 클릭시 아래의 멤버선택트리화면을 접었다 폈다하는 기능 제공  -->
 	<!-- *** js_collapse_parent_siblings : sw_act_nav.js 에서 이클래스의 클릭이벤트를 받아서 -->
@@ -66,7 +66,7 @@
 <!-- 커뮤너티멤버 와 검색박스가 있는 헤더 // -->
 
 <!--  커뮤너티멤버를 찾을수 있는 트리 화면  -->
-<div class='navi_list js_collapsible js_nav_com_members'>
+<div class='nav_list js_collapsible js_nav_com_members'>
 	<!-- 내부 메뉴 -->
 	<div id='community_members'>
 		<ul>
@@ -77,7 +77,7 @@
 					<li>
 						<a href="<%=member.getSpaceController() %>?cid=<%=member.getSpaceContextId()%>&wid=<%=member.getId()%>">
 							<span class="icon_pe"><img src="<%=member.getMinPicture()%>" class="profile_size_s"></span> 
-							<span class="nav_subtitl_area"><%=member.getLongName()%></span>
+							<span class="nav_sub_area"><%=member.getLongName()%></span>
 						</a>
 					</li>
 			<%
@@ -93,7 +93,7 @@
 					<li>
 						<a href="<%=department.getSpaceController() %>?cid=<%=department.getSpaceContextId()%>&wid=<%=department.getId()%>">
 							<span class="icon_pe"><img src="<%=department.getMinPicture()%>" class="profile_size_s"></span> 
-							<span class="nav_subtitl_area"><%=department.getName()%></span>
+							<span class="nav_sub_area"><%=department.getName()%></span>
 						</a>
 					</li>
 			<%

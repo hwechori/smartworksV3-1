@@ -58,7 +58,7 @@
 
 /* 채占쏙옙창 占쏙옙占쏙옙, Default */
 .chat_close_section, .chat_de_section {border:1px solid #232323; background-color:#454645; min-width: 105px; margin-left:10px; z-index:102; color:#FFF; bottom: 0; position: fixed; right: 0;}
-.chatic_titl {background: url("../images/chat_img.png") no-repeat scroll 0 -74px transparent; display:inline-block; padding: 0 0 1px 24px; height:20px; color:#FFF;}
+.chatic_titl {background: url("../images/chat_img.png") no-repeat scroll 0 -74px transparent; display:inline-block; padding: 0 0 1px 24px; height:20px; color:#FFF; position:absolute;}
 .chat_close_section  a .top_group:hover { background:none; background-color:#454545;}
 .chat_de_section .chat_de_list {background-color:#FFF; margin: 0 2px; max-height:300px; width:190px; color:#454545; overflow-y:auto;}
 

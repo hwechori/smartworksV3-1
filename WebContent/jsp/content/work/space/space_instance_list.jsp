@@ -76,7 +76,7 @@
 <!-- 댓글 영역 //-->
 
 	<!-- 목록 버튼 -->
-	<div class="" style=" text-align:center">
+	<div class="tc">
 		<div class="btn_gray" >
 	    	<a href="<%=workInstance.getWork().getController() %>?cid=<%=workInstance.getWork().getContextId() %>" class="js_content"> 
 	    		<span class="Btn01Start"></span> 

@@ -15,7 +15,7 @@
 <!-- 업무계획하기 -->
 <div class="form_add_a">
 	<form name='frmTaskForward' class="input_1line js_validation_required">
-		<span class="float_left">
+		<span class="fl">
 			<div class="js_task_approval_fields" subjectTitle="<fmt:message key='common.forward.title.subject'/>" forwardeeTitle="<fmt:message key='common.forward.title.forwardee'/>" CommentsTitle="<fmt:message key="common.forward.title.comments" />"></div>
 		</span>
 	</form>

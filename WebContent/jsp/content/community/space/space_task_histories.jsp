@@ -92,7 +92,7 @@
 							</a>
 							<%if(!SmartUtil.isBlankObject(board.getFiles())){ %><div><%=SmartUtil.getFilesDetailInfo(board.getFiles()) %></div><%} %>
 							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
+							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
@@ -116,7 +116,7 @@
 									<%if(!SmartUtil.isBlankObject(event.getEnd())) {%><fmt:message key="common.upload.event.end_date"/> : <%=event.getEnd().toLocalString() %> <%} %></div>
 							</a>
 							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
+							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
@@ -134,7 +134,7 @@
 							<%if(!SmartUtil.isBlankObject(file.getFiles())){ %><div><%=SmartUtil.getFilesDetailInfo(file.getFiles()) %></div><%} %>
 							<%if(!SmartUtil.isBlankObject(file.getContent())){ %><div><%=file.getContent() %></div><%} %>
 							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
+							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
@@ -152,7 +152,7 @@
 							<div><a href="" class=""><img src="<%=image.getImgSource()%>" style="min-height:20px;width:200px;"></a></div>
 							<%if(!SmartUtil.isBlankObject(image.getContent())){ %><div><%=image.getContent() %></div><%} %>
 							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
+							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
@@ -174,7 +174,7 @@
 								</div>
 							</a>
 							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
+							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
 							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
@@ -297,7 +297,7 @@
 							</a>
 						</div>
 						<!-- 인스턴스 마지막수정일자 -->
-						<div class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
+						<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
 						<!-- 인스턴스 마지막수정일자 //-->
 					</div>
 				<%
@@ -349,7 +349,7 @@
 						</ul>
 			        </div>
 			        
-			        <div class="reply_input commentBox js_return_on_comment">
+			        <div class="reply_input comment_box js_return_on_comment">
 						<div class="noti_pic">
 							<img src="<%=cUser.getMinPicture()%>" class="profile_size_c"/>
 						</div>

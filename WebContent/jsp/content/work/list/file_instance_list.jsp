@@ -176,7 +176,7 @@
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 			%>
 				<tr>
-					<td class="hAlignCenter"><%=currentCount%></td>
+					<td class="tc"><%=currentCount%></td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getSubject()%></a>
 					</td>
@@ -206,7 +206,7 @@
 					<td>
 <%-- 						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWorkInstance().getSubject()%></a>
  --%>					</td>
-					<td class="hAlignCenter">
+					<td class="tc">
   						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%} %></a>
 					</td>
 					<td>
@@ -232,7 +232,7 @@
 						}
 						%>
 					</td>
-					<td class="hAlignCenter"><%=((FileInstanceInfo)instanceInfo).getViews() %>
+					<td class="tc"><%=((FileInstanceInfo)instanceInfo).getViews() %>
 				</tr>
 	<%
 				currentCount--;

@@ -87,11 +87,11 @@
 							<col width="30%" />
 							<col width="70%" />
 						</colgroup>
-						<tbody><tr><th class="text_align_c"><fmt:message key="profile.title.company"/></th><td><%=companyGeneral.getName() %></td></tr></tbody>
+						<tbody><tr><th class="tc"><fmt:message key="profile.title.company"/></th><td><%=companyGeneral.getName() %></td></tr></tbody>
 					</table>
 				</div>
 				<!-- 목록영역 -->
-				<div class="default_title_space padding_t20"><div class="title"><fmt:message key="settings.title.company.logo_setting"/></div></div>
+				<div class="default_title_space pt20"><div class="title"><fmt:message key="settings.title.company.logo_setting"/></div></div>
 				
 				<div class="boTb">
 					<table>
@@ -112,7 +112,7 @@
 					</table>
 				</div>
 				<!-- 목록영역 -->
-				<div class="default_title_space padding_t20">
+				<div class="default_title_space pt20">
 					<div class="title"><fmt:message key="settings.title.company.mail_setting"/></div>
 				</div>
 				
@@ -156,7 +156,7 @@
 					<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 					<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 					<span class="js_progress_span"></span>
-					<div class="text_align_r margin_t5">
+					<div class="tr mt5">
 						<span class="btn_gray"> 
 							<a href="" onclick='submitForms(); return false;'>
 								<span class="Btn01Start"></span> 

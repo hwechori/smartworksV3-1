@@ -65,7 +65,7 @@
                             <%if(workSpace != null && !workSpace.getId().equals(owner.getId())){ %><span class="arr">▶</span><span class="icon_division_s"><%=workSpace.getName() %></span><%} %>
                             <span class="t_date"><%=instance.getCreatedDate().toLocalString() %></span>
                             <div class="">
-                           		<span class="title_picico float_left mr7"><%=instance.getSubject()%></span>
+                           		<span class="title_picico fl mr7"><%=instance.getSubject()%></span>
                             	<span class="<%=work.getIconClass() %> t_date"><%=work.getFullpathName() %></span> 
                             </div>
                         </div>
@@ -93,7 +93,7 @@
 					</div>
 					<!-- 전자결재, 업무전달 버튼들 //-->
 		                    
-                	<div class="solid_line clear"></div>
+                	<div class="solid_line cb"></div>
                 </div>
 		            <!-- 타이틀 -->
 		            
@@ -122,7 +122,7 @@
 					</div>     
 
 					<!-- 수정, 삭제버튼 -->
-				    <div class="float_right">
+				    <div class="fr">
 						<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 						<div class="form_space js_progress_span" ></div>
 						
@@ -170,7 +170,7 @@
 						<%
 						if(work.getEditPolicy().isEditableForMe(owner.getId())){
 						%>
-							<span class="btn_gray space_l5 js_btn_delete">
+							<span class="btn_gray ml5 js_btn_delete">
 					        	<a href="" class="js_delete_iwork_instance">
 						            <span class="Btn01Start"></span>
 						            <span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
@@ -188,7 +188,7 @@
 					   	}
 					   	%>
 				
-						<span class="btn_gray space_l5 js_btn_cancel" style="display:none">
+						<span class="btn_gray ml5 js_btn_cancel" style="display:none">
 				        	<a href="" class="js_cancel_iwork_instance">
 					            <span class="Btn01Start"></span>
 					            <span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>

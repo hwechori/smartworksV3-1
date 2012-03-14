@@ -51,8 +51,8 @@
 </select>
 
 <!-- 사용자를 선택하는 입력화면 -->
-<div class="js_type_userField float_left"> 
-	<div class="icon_fb_us_space"> 
+<div class="js_type_userField fl"> 
+	<div class="icon_fb_space"> 
 		<div class='fieldline js_community_names sw_required'>
 			<div class="js_selected_communities user_sel_area">
 				<%if (operandValue != null) {%><span>

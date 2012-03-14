@@ -102,7 +102,7 @@
 		<!-- 타이틀 영역 //-->
 		
 		<form name="frmEditMember" class="boTb js_validation_required">
-			<table class="margin_t10">
+			<table class="mt10">
 				<tbody>
 					<tr>
 						<th width="22%" ><fmt:message key="profile.title.department"/></th>
@@ -137,7 +137,7 @@
 								</div>
 						</div>
 						
-						<div class="t_s11 float_left"><fmt:message key="settings.sentence.use_email"/></div>
+						<div class="t_s11 fl"><fmt:message key="settings.sentence.use_email"/></div>
 						
 						</td>
 					</tr>
@@ -217,7 +217,7 @@
 		</form>
 		
 		<!-- Btn -->
-		<div class="text_align_r margin_t8">
+		<div class="tr mt8">
 			<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 			<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 			<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->

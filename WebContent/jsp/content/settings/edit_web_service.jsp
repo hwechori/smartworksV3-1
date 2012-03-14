@@ -88,7 +88,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 clear js_edit_web_service_page" serviceId="<%=CommonUtil.toNotNull(serviceId)%>">
+<div class="form_wrap up up_padding mb2 cb js_edit_web_service_page" serviceId="<%=CommonUtil.toNotNull(serviceId)%>">
 	<div class="form_title">
 		<%
 		if(SmartUtil.isBlankObject(serviceId)){
@@ -101,10 +101,10 @@
 		<%
 		}
 		%>
-		<div class="solid_line clear"></div>
+		<div class="solid_line cb"></div>
 	</div>
 
-	<form name="frmEditWebService" class="form_layout con margin_b10 js_validation_required">
+	<form name="frmEditWebService" class="form_layout con mb10 js_validation_required">
 		<table>
 			<tbody class="js_edit_webservice_tbody">
 				<tr>
@@ -140,7 +140,7 @@
 		<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 		<span class="js_progress_span"></span>
-		<div class="float_right">
+		<div class="fr">
 			<span class="btn_gray"> 
 				<a href="" onclick='submitForms(); return false;'>
 					<span class="Btn01Start"></span>

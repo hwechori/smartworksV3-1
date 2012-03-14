@@ -67,7 +67,7 @@
 			<jsp:include page="/jsp/nav/communities.jsp" />
 		</div>
 		<div class="nav_list">
-			<jsp:include page="nav/mail.jsp" />
+			<jsp:include page="/jsp/nav/mail.jsp" />
 		</div>
 	<%
 	}
