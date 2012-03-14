@@ -22,12 +22,12 @@ import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.company.CompanyGeneral;
 import net.smartworks.model.filter.SearchFilter;
-import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.MailInstance;
 import net.smartworks.model.instance.RunningCounts;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.CommentInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.instance.info.InstanceInfo;
@@ -284,8 +284,8 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception {
-		return workService.getFileCategoriesByType(displayType, spaceId);
+	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId, String parentId) throws Exception {
+		return workService.getFileCategoriesByType(displayType, spaceId, parentId);
 	}
 
 	@Override
@@ -319,8 +319,13 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
-	public CommentInstance[] getRecentCommentsInWorkManual(String workId, int length) throws Exception {
+	public CommentInstanceInfo[] getRecentCommentsInWorkManual(String workId, int length) throws Exception {
 		return instanceService.getRecentCommentsInWorkManual(workId, length);
+	}
+
+	@Override
+	public InstanceInfo[] getRecentSubInstancesInInstance(String workId, int length) throws Exception {
+		return instanceService.getRecentSubInstancesInInstance(workId, length);
 	}
 
 	@Override

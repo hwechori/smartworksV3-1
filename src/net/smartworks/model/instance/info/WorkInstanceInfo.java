@@ -10,8 +10,6 @@ import net.smartworks.util.LocalDate;
 
 public class WorkInstanceInfo extends InstanceInfo {
 
-	public static final int DEFAULT_CONNECTED_WORK_FETCH_COUNT = 3; 
-	
 	private TaskInstanceInfo lastTask;
 	private int lastTaskCount = -1;
 	private int subInstanceCount;

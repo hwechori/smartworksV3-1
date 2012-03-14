@@ -750,19 +750,44 @@ public class SmartTest {
 
 	}
 
-	public static CommentInstance[] getCommentInstances() throws Exception{
-		CommentInstance commentInstance1 = new CommentInstance("comments1", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "조금더 보강해야 될것 같은데요????",
-				SmartTest.getUser3(), new LocalDate());
-		commentInstance1.setWork(SmartTest.getInformationWork1());
+	public static CommentInstanceInfo[] getCommentInstances() throws Exception{
+		CommentInstanceInfo commentInstance1 = new CommentInstanceInfo("comments1", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "조금더 보강해야 될것 같은데요????",
+				SmartTest.getUserInfo1(), new LocalDate());
+		commentInstance1.setWork(SmartTest.getInformationWorkInfo1());
 
-		CommentInstance commentInstance2 = new CommentInstance("comments2", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "잘모르겠습니다. ㅠㅠ",
-				SmartTest.getUser1(), new LocalDate());
-		commentInstance2.setWork(SmartTest.getInformationWork1());
+		CommentInstanceInfo commentInstance2 = new CommentInstanceInfo("comments2", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "잘모르겠습니다. ㅠㅠ",
+				SmartTest.getUserInfo2(), new LocalDate());
+		commentInstance2.setWork(SmartTest.getInformationWorkInfo1());
 
-		CommentInstance commentInstance3 = new CommentInstance("comments3", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "휴가잘다녀오세요!!!",
-				SmartTest.getUser2(), new LocalDate());
-		commentInstance3.setWork(SmartTest.getInformationWork1());
-		return new CommentInstance[] {commentInstance1, commentInstance2, commentInstance3};
+		CommentInstanceInfo commentInstance3 = new CommentInstanceInfo("comments3", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "휴가잘다녀오세요!!!",
+				SmartTest.getUserInfo3(), new LocalDate());
+		commentInstance3.setWork(SmartTest.getInformationWorkInfo1());
+		return new CommentInstanceInfo[] {commentInstance1, commentInstance2, commentInstance3};
+		
+	}
+
+	public static CommentInstanceInfo[] getAllCommentInstances() throws Exception{
+		CommentInstanceInfo commentInstance1 = new CommentInstanceInfo("comments1", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "조금더 보강해야 될것 같은데요????",
+				SmartTest.getUserInfo1(), new LocalDate());
+		commentInstance1.setWork(SmartTest.getInformationWorkInfo1());
+
+		CommentInstanceInfo commentInstance2 = new CommentInstanceInfo("comments2", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "잘모르겠습니다. ㅠㅠ",
+				SmartTest.getUserInfo2(), new LocalDate());
+		commentInstance2.setWork(SmartTest.getInformationWorkInfo1());
+
+		CommentInstanceInfo commentInstance3 = new CommentInstanceInfo("comments3", CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL, "휴가잘다녀오세요!!!",
+				SmartTest.getUserInfo3(), new LocalDate());
+		commentInstance3.setWork(SmartTest.getInformationWorkInfo1());
+		return new CommentInstanceInfo[] {commentInstance1, commentInstance2, commentInstance3, commentInstance1, commentInstance2, commentInstance3};
+		
+	}
+	public static InstanceInfo[] getInstances() throws Exception{
+		return new InstanceInfo[] {SmartTest.getEventInstanceInfo1(), SmartTest.getImageInstanceInfo(), SmartTest.getWorkInstanceInfo1()};
+		
+	}
+
+	public static InstanceInfo[] getAllInstances() throws Exception{
+		return new InstanceInfo[] {SmartTest.getEventInstanceInfo1(), SmartTest.getImageInstanceInfo(), SmartTest.getWorkInstanceInfo1(), SmartTest.getEventInstanceInfo1(), SmartTest.getImageInstanceInfo(), SmartTest.getWorkInstanceInfo1()};
 		
 	}
 	public static NoticeMessage[] getCommentsMessages() throws Exception {
@@ -1400,7 +1425,7 @@ public class SmartTest {
 		}
 		return categories;
 	}
-	public static FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception {
+	public static FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId, String parentId) throws Exception {
 		FileCategoryInfo[] categories=null;
 		switch(displayType){
 		case FileCategory.DISPLAY_BY_CATEGORY:

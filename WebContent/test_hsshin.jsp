@@ -1,3 +1,23 @@
+<%@page import="java.util.LinkedHashMap"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="net.smartworks.util.SmartMessage"%>
+<%@page import="net.smartworks.model.work.info.FileCategoryInfo"%>
+<%@page import="net.smartworks.server.engine.docfile.model.FileWork"%>
+<%@page import="net.smartworks.server.engine.docfile.model.FileWorkCond"%>
+<%@page import="net.smartworks.server.engine.docfile.manager.IDocFileManager"%>
+<%@page import="net.smartworks.model.work.FileCategory"%>
+<%@page import="net.smartworks.server.engine.docfile.model.HbFileModel"%>
+<%@page import="net.smartworks.model.community.Community"%>
+<%@page import="org.springframework.util.StringUtils"%>
+<%@page import="net.smartworks.model.instance.info.ImageInstanceInfo"%>
+<%@page import="net.smartworks.server.engine.docfile.model.DocFile"%>
+<%@page import="net.smartworks.server.engine.common.model.Order"%>
+<%@page import="net.smartworks.server.engine.folder.model.FdrFolderCond"%>
+<%@page import="net.smartworks.server.engine.folder.model.FdrFolder"%>
+<%@page import="net.smartworks.server.engine.folder.model.FdrFolderFile"%>
+<%@page import="net.smartworks.server.engine.docfile.model.IFileModel"%>
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
+<%@page import="net.smartworks.model.work.info.ImageCategoryInfo"%>
 <%@page import="net.smartworks.model.instance.info.RequestParams"%>
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@page import="net.smartworks.server.engine.common.util.StringUtil"%>
@@ -277,10 +297,7 @@
 	String dd = LocalDate.convertGMTStringToLocalDate("2012-02-23 15:00:00.0").toLocalDateTimeSimpleString();
 	System.out.println(dd); */
 
-	RequestParams params = new RequestParams();
-	InstanceInfoList instanceInfoList = instanceService.getPictureInstanceList("us.sp.hsshin@maninsoft.co.kr", params);
 
-	System.out.println(instanceInfoList); 
 %>
 <textarea style="width:800px;height:400px;">
 </textarea>

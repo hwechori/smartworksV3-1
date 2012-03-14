@@ -7,11 +7,18 @@ import net.smartworks.util.LocalDate;
 
 public class EventInstanceInfo extends WorkInstanceInfo {
 
+	private int 			views;
 	private String			content;
 	private CommunityInfo[]	relatedUsers;
 	private LocalDate		start;
 	private LocalDate		end;
 
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
 	public String getContent() {
 		return content;
 	}

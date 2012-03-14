@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
+import net.smartworks.server.engine.docfile.model.FileWork;
+import net.smartworks.server.engine.docfile.model.FileWorkCond;
 import net.smartworks.server.engine.docfile.model.IDocumentModel;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 
@@ -41,12 +43,16 @@ public interface IDocFileManager extends IManager {
 	public List<IFileModel> findFileGroup(String groupId) throws DocFileException;
 	public List<String> findFileIdListByGroup(String groupId) throws DocFileException;
 	public String insertProfilesFile(String fileId, String fileName, String communityId) throws DocFileException;
-	public void insertFiles(String workType, String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException;
+	public void insertFiles(String workType, String tskInstanceId, String groupId, String tempFileId, String fileName, String fileSize) throws DocFileException;
 	public void updateDocument(String userId, IDocumentModel document) throws DocFileException;
 	public IDocumentModel retrieveDocument(String documentId) throws DocFileException;
 	public IDocumentModel retrieveDocumentByGroupId(String fileGroupId) throws DocFileException;
 	public List<String> findDocIdByGroupId(String fileGroupId) throws DocFileException;
 	public void deleteDocument(String documentId) throws DocFileException;
 	public IDocumentModel retrieveDocumentByRef(int refType, String refId) throws DocFileException;
+	public IFileModel[] getFilesByTaskInstId(String taskInstId) throws DocFileException;
+	public IFileModel getFileById(String fileId) throws DocFileException;
+	public long getFileWorkListSize(String user, FileWorkCond cond) throws Exception;
+	public FileWork[] getFileWorkList(String user, FileWorkCond cond) throws Exception;
 
 }

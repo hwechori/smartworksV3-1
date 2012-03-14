@@ -63,6 +63,9 @@
 		if(sortedField==null) sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<th class="r_line">
 	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_STATUS%>"><fmt:message key='common.title.status'/>
 			 		<%
@@ -117,6 +120,7 @@
 		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
+		int currentCount = instanceList.getTotalSize()-(currentPage-1)*pageSize;
 		if(instanceList.getInstanceDatas() != null) {
 			PWInstanceInfo[] instanceInfos = (PWInstanceInfo[])instanceList.getInstanceDatas();
 			for (PWInstanceInfo instanceInfo : instanceInfos) {
@@ -154,6 +158,7 @@
 				}
 			%>
 				<tr>
+					<td class="hAlignCenter"><%=currentCount%></td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space">
 							<div class="noti_pic js_content_pwork_space">
@@ -200,12 +205,16 @@
 					</td>
 				</tr>
 	<%
+				currentCount--;
 			}
 		}
 	}else if(!SmartUtil.isBlankObject(work)){
 			sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<th class="r_line">
 	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_STATUS%>"><fmt:message key='common.title.status'/>
 			 		<%

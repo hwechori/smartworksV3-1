@@ -6,6 +6,25 @@ ALTER TABLE SWDataRef alter column refRecordId varchar(4000);
 ALTER TABLE prcprcinst alter column prctitle varchar(255); --prctitle의 컬럼사이즈를 text_input의 컬럼사이즈인 255로 변경
 ALTER TABLE tsktask alter column tsktitle varchar(255); --tsktitle의 컬럼사이즈를 text_input의 컬럼사이즈인 255로 변경
 
+CREATE TABLE SwFolder (
+	id varchar(50) NOT NULL,
+	companyid varchar(100),
+	parentid varchar(50),
+	name varchar(255),
+	disporder int,
+	description varchar(4000),
+	creator varchar(30),
+	createdtime datetime,
+	modifier varchar(30),
+	modifiedtime datetime,	
+	primary key (id)
+);
+
+CREATE TABLE SwFolderFile (
+	folderId varchar(50) NOT NULL,
+	fileId varchar(50) NOT NULL,
+  	primary key(folderId, fileId)
+);
 
 -- TO-DO : user_field 추가 시 컬럼 길이 4000으로 변경
 
@@ -25,6 +44,12 @@ ALTER TABLE apraprdef add dueDate varchar(100);
 
 ALTER TABLE aprapr add aprDueDate varchar(100);
 
+-- swdocgroup 정보에 tskInstanceId, categoryId 추가
+ALTER TABLE swdocgroup add tskInstanceId varchar(50);
+
+-- swfolder table 생성 : 사용자별 folder
+
+-- swfolderfile table 생성 : folder 별 file 목록
 
 
 -- TO-DO : mode -> authmode 

@@ -2,6 +2,8 @@ package net.smartworks.model.community;
 
 import java.util.TimeZone;
 
+import net.smartworks.model.community.info.DepartmentInfo;
+import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.LocaleInfo;
 
@@ -130,5 +132,16 @@ public class User extends WorkSpace {
 	public int getTimeOffsetInHour(){
 		if(timeZone==null) return 0;
 		return TimeZone.getTimeZone(timeZone).getRawOffset()/LocalDate.ONE_HOUR;
+	}
+	public UserInfo getUserInfo(){
+		UserInfo userInfo = new UserInfo(getId(), getName());
+		userInfo.setBigPictureName(getBigPictureName());
+		userInfo.setSmallPictureName(getSmallPictureName());
+		userInfo.setCellPhoneNo(getCellPhoneNo());
+		userInfo.setDepartment(new DepartmentInfo(getDepartmentId(), getDepartment()));
+		userInfo.setPhoneNo(getPhoneNo());
+		userInfo.setPosition(getPosition());
+		userInfo.setRole(getRole());
+		return userInfo;
 	}
 }

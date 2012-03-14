@@ -2143,8 +2143,8 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 		if(!picture.equals("")) {
 			String extension = picture.lastIndexOf(".") > 0 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
 			String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
-			userExtend.setBigPictureName(pictureId + "_big" + "." + extension);
-			userExtend.setSmallPictureName(pictureId + "_small" + "." + extension);
+			userExtend.setBigPictureName(pictureId + "_thumb" + "." + extension);
+			userExtend.setSmallPictureName(pictureId + "_thumb" + "." + extension);
 		} else {
 			userExtend.setBigPictureName(picture);
 			userExtend.setSmallPictureName(picture);
@@ -2316,8 +2316,8 @@ public class SwoManagerImpl extends AbstractManager implements ISwoManager {
 			if(!picture.equals("")) {
 				String extension = picture.lastIndexOf(".") > 1 ? picture.substring(picture.lastIndexOf(".") + 1) : null;
 				String pictureId = picture.substring(0, (picture.length() - extension.length())-1);
-				swoUserExtends[i].setBigPictureName(pictureId + "_big" + "." + extension);
-				swoUserExtends[i].setSmallPictureName(pictureId + "_small" + "." + extension);
+				swoUserExtends[i].setBigPictureName(pictureId + "_thumb" + "." + extension);
+				swoUserExtends[i].setSmallPictureName(pictureId + "_thumb" + "." + extension);
 			} else {
 				swoUserExtends[i].setBigPictureName(picture);
 				swoUserExtends[i].setSmallPictureName(picture);

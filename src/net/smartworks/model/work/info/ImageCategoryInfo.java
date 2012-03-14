@@ -1,5 +1,7 @@
 package net.smartworks.model.work.info;
 
+import java.util.Comparator;
+
 import net.smartworks.model.instance.info.ImageInstanceInfo;
 import net.smartworks.model.work.ImageCategory;
 import net.smartworks.util.SmartUtil;
@@ -31,4 +33,5 @@ public class ImageCategoryInfo extends FileCategoryInfo {
 		}
 		return fullPathName + getName();
 	}
+
 }

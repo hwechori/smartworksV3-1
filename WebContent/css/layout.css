@@ -18,7 +18,6 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .vAlignMiddle{vertical-align:middle}
 .vAlignBottom{vertical-align:bottom}
 
-
 /*Header*/
 #header {background: url("../images/header_bg.jpg") repeat scroll left top transparent; height:34px; width:100%; z-index:40; position:relative; }
 
@@ -40,9 +39,9 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .i_note a:hover {background: url("../images/header_nico.png") no-repeat scroll -42px -55px transparent; display:block; height:30px; position:relative;}
 .i_note .current, .i_note a.current:hover{background: url("../images/header_nico.png") no-repeat scroll -42px -94px transparent; display:block; height:31px; position:relative;}
 
-.i_replay a {background: url("../images/header_nico.png") no-repeat scroll -79px -14px transparent; display:block; height:30px; position:relative;}
-.i_replay a:hover {background: url("../images/header_nico.png") no-repeat scroll -79px -55px transparent; display:block; height:30px; position:relative;}
-.i_replay .current, .i_replay a.current:hover {background: url("../images/header_nico.png") no-repeat scroll -79px -94px transparent; display:block; height:31px; position:relative;}
+.i_reply a {background: url("../images/header_nico.png") no-repeat scroll -79px -14px transparent; display:block; height:30px; position:relative;}
+.i_reply a:hover {background: url("../images/header_nico.png") no-repeat scroll -79px -55px transparent; display:block; height:30px; position:relative;}
+.i_reply .current, .i_reply a.current:hover {background: url("../images/header_nico.png") no-repeat scroll -79px -94px transparent; display:block; height:31px; position:relative;}
 
 .i_assworks a {background: url("../images/header_nico.png") no-repeat scroll -116px -14px transparent; display:block; height:30px; position:relative;}
 .i_assworks a:hover {background: url("../images/header_nico.png") no-repeat scroll -116px -55px transparent; display:block; height:30px; position:relative;}
@@ -55,7 +54,6 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .i_imsave a {background: url("../images/header_nico.png") no-repeat scroll -190px -14px transparent; display:block; height:30px; position:relative;}
 .i_imsave a:hover {background: url("../images/header_nico.png") no-repeat scroll -190px -55px transparent; display:block; height:30px; position:relative;}
 .i_imsave .current, .i_imsave a.current:hover {background: url("../images/header_nico.png") no-repeat scroll -190px -94px transparent; display:block; height:31px; position:relative;}
-
 
 .num_ic { background: url("../images/header_nico.png") no-repeat scroll -321px -102px transparent; 
 		display:inline-block; font-family: Tahoma, dotum; font-size:9px; color:#FFF; height:12px; letter-spacing:0; line-height:13px; padding-right:5px; position:absolute;
@@ -83,7 +81,6 @@ a:link, a:visited, a:link, a:visited, a:hover, a:focus, a:active{color:#454545; 
 .top_menu ul li.idx3 .current {width:68px; background-position:-170px -60px;}
 
 .top_menu ul li span a {display:block; padding-top:8px;}
-
 
 /*Search*/
 .global_srch {position:absolute; left:635px; top:5px;}
@@ -138,7 +135,7 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .global_menu .pop_admin {position:absolute; top:23px; right:0; z-index:38;}
 
 /*Personal Info*/
-.personal_info {background: url("../images/personal_info_bg.jpg")repeat-x scroll 0 0; padding:11px 22px; height:80px; width:182px;}
+.personal_info {background: url("../images/personal_info_bg.jpg")repeat-x scroll 0 0; padding:11px 22px; height:69px; width:182px;}
 .personal_info ul {position:absolute;}
 .personal_info li {float:left; vertical-align:bottom; margin-right:6px; color:#dddddd; line-height: 1.3em; } 
 .personal_info .pic {background: url("../images/pic_personal_info.jpg"); display:inline; width:66px; height:66px; position:relative;}
@@ -150,37 +147,46 @@ tr.list_action_item:hover td.btn_move_field .move_actions{display:block; cursor:
 .nav_current {color:#fcab4c; text-decoration:underline;}
 .navi_tit {background: url("../images/naviti_bg.jpg") repeat-x scroll 0 0; width:206px; height:38px; padding:7px 10px 10px;}
 .navi_list {border:2px solid #363636; border-top:none; padding-bottom: 10px; background-color:#6b6b6b}
+.navi_list.noline { border:none; background-color:#444444; padding:5px 0}
 .navi_tit_mail, .navi_tit_default {background: url("../images/naviti_mail_bg.jpg") repeat-x scroll 0 0; width:206px; padding:4px 10px 4px; height:17px}
 .navi_tit_chat {background-color:#363636; border-top:1px solid #969696; width:205px; padding:10px}
 .navi_list.coummi {min-height: 200px;}
 
-.icon_pworks {background: url("../images/icon_pworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_cworks {background: url("../images/icon_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_sworks {background: url("../images/icon_sworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_gworks {background: url("../images/icon_category.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_iworks {background: url("../images/icon_iworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_pworks_off {background: url("../images/icon_pworks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_cworks_off {background: url("../images/icon_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_sworks_off {background: url("../images/icon_sworks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_gworks_off {background: url("../images/icon_category_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
-.icon_iworks_off {background: url("../images/icon_iworks_off.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; float: left; height:17px;}
+.icon_aworks {background: url("../images/icon_aworks.png") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:18px;}
+.icon_dworks {background: url("../images/icon_dworks.png") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:18px;}
+.icon_pworks {background: url("../images/icon_pworks.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
+.icon_cworks {background: url("../images/icon_category.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
+.icon_sworks {background: url("../images/icon_sworks.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
+.icon_gworks {background: url("../images/icon_category.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
+.icon_iworks {background: url("../images/icon_iworks.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
+.icon_pworks_off {background: url("../images/icon_pworks_off.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
+.icon_cworks_off {background: url("../images/icon_category_off.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
+.icon_sworks_off {background: url("../images/icon_sworks_off.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
+.icon_gworks_off {background: url("../images/icon_category_off.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
+.icon_iworks_off {background: url("../images/icon_iworks_off.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; float: left; height:17px;}
 
-.icon_stworks {background: url("../images/icon_stworks.gif") no-repeat left top transparent; padding:0 0 0 20px; line-height:18px; height:17px;}
+.icon_stworks {background: url("../images/icon_stworks.gif") no-repeat left top transparent; padding:0 0 0 22px; line-height:18px; height:17px;}
 
-.icon_depart {background: url("../images/icon_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
-.icon_group {background: url("../images/icon_group.gif") no-repeat left top transparent; height:20px; padding:0 0 0 25px; display: inline-block; float:left;}
+.icon_depart {background: url("../images/icon_depart.gif") no-repeat left top transparent; height:20px; padding:0 0 0 22px; display: inline-block; float:left;}
+.icon_group {background: url("../images/icon_group.gif") no-repeat left top transparent; height:20px; padding:0 0 0 22px; display: inline-block; float:left;}
 .icon_pe {height:20px; padding:0 5px 0 0; display: inline-block; float:left;}
 .icon_b1dep {background: url("../images/nav_img.png") no-repeat 0 -348px transparent; display: inline-block; padding:0 0 0 13px}
 .icon_b2dep {background: url("../images/nav_img.png") no-repeat 0 -364px transparent; display: inline-block; padding:0 0 0 12px}
-.icon_folder {background: url("../images/ico_folder.gif") no-repeat 0 3px transparent; height:14px; padding:0 0 0 20px; font-weight:bold}
+.icon_folder {background: url("../images/icon_folder.gif") no-repeat 0 3px transparent; height:14px; padding:0 0 0 22px; font-weight:bold}
+/* new Icon added by ysjung */
+.icon_new {background: url("../images/icon_new.gif") no-repeat 5px 10px transparent;display:inline-block;height:20px;width:30px;}
 .title_folder {height:14px; font-weight:bold; margin-top:3px}
 
 /* Nav MySpace */
-.icon_all_works {background: url("../images/body_icon.png") no-repeat -550px -453px; padding:0 7px 0 0; float: left; width:18px; height:15px}
-.icon_image_works {background: url("../images/body_icon.png") no-repeat -550px -479px; padding:0 7px 0 0; float: left; width:18px; height:15px}
-.icon_file_works {background: url("../images/body_icon.png") no-repeat -550px -505px; padding:0 7px 0 0; float: left; width:18px; height:15px}
-.icon_event_works {background: url("../images/body_icon.png") no-repeat -550px -527px; padding:0 7px 0 0; float: left; width:18px; height:19px}
-.icon_memo_works {background: url("../images/body_icon.png") no-repeat -550px -556px; padding:0 7px 0 0; float: left; width:18px; height:15px}
+.icon_user_space {background: url("../images/body_icon.png") no-repeat -551px -579px; padding:0 0 0 22px; float: left; height:18px}
+.icon_all_works {background: url("../images/body_icon.png") no-repeat -551px -453px; padding:0 0 0 22px; float: left; height:18px}
+.icon_image_works {background: url("../images/body_icon.png") no-repeat -551px -478px; padding:0 0 0 22px; float: left; height:18px}
+.icon_file_works {background: url("../images/body_icon.png") no-repeat -551px -503px; padding:0 0 0 22px; float: left; height:18px}
+.icon_event_works {background: url("../images/body_icon.png") no-repeat -551px -529px; padding:0 0 0 22px; float: left; height:19px}
+.icon_memo_works {background: url("../images/body_icon.png") no-repeat -551px -556px; padding:0 0 0 22px; float: left; height:18px}
+.icon_board_works {background: url("../images/body_icon.png") no-repeat -551px -606px; padding:0 0 0 22px; float: left; height:18px}
+.icon_forum_works {background: url("../images/body_icon.png") no-repeat -551px -627px; padding:0 0 0 22px; float: left; height:18px}
+.icon_contacts_works {background: url("../images/body_icon.png") no-repeat -551px -650px; padding:0 0 0 22px; float: left; height:18px}
 
 /* Nav Mail Btn*/
 .icon_mail_inbox {background: url("../images/nav_img.png") no-repeat 0 0 transparent; height:16px; padding:0 0 0 25px; display: inline-block;}
@@ -280,6 +286,10 @@ li.fvrt_item:hover .checkOption {display:block}
 .icon_key {background: url("../images/nav_img.png") no-repeat -115px -430px transparent; height:10px; width:18px}
 .icon_key.checked {background: url("../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
 
+/* CommentsBox added by ysjung */
+.sub_instance_list .commentBox {display:none;}
+.sub_instance_list:hover .commentBox {display:block}
+
 .arr_off {background: url("../images/arr_off.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 .arr_on {background: url("../images/arr_on.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 
@@ -294,21 +304,20 @@ li.fvrt_item:hover .checkOption {display:block}
 #my_mail li,
 #community_members li,
 #m_setting li {position:relative;}
-#m_setting {padding-top:5px}
 
 #all_works li a,
 #my_works li a, 
 #my_communities li a,
 #my_mail li a,
-#community_members li a,
-#m_setting li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#community_members li a {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
+#m_setting li a {padding:4px 0 4px 20px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 
 #all_works li a:hover, 
 #my_works li a:hover, 
 #my_communities li a:hover,
 #my_mail li a:hover,
-#community_members li a:hover,
-#m_setting li a:hover {display:block; background-color:#4e4e4e;}
+#community_members li a:hover  {display:block; background-color:#4e4e4e;}
+#m_setting li a:hover {display:block; background-color:#6b6b6b;}
 
 #all_works .nav_subtitl_area, 
 #my_works .nav_subtitl_area, 
@@ -413,7 +422,7 @@ li.fvrt_item:hover .checkOption {display:block}
 .txt_btn .current { font-weight:bold;}
 .txt_btn a, .txt_btn a:focus, .txt_btn a:active, .txt_btn a:link, .txt_btn a:visited {text-decoration:none;}
 .txt_btn a:hover {text-decoration:underline; }
-.txt_btn_height {height:16px;}
+.txt_btn_height {height:16px; padding: 5px 0; text-align: center}
 .txt_btn_height25{height:25px}
 
 
@@ -574,6 +583,8 @@ li.fvrt_item:hover .checkOption {display:block}
     height:10px; margin-left:10px; position:relative;}
 .line_daspace_dateed {border-bottom:1px daspace_dateed #DCDFE0; margin:0 15px 0 0;}
 .event_space {position:relative; width:99%; display:inline-block; margin-left:10px; }
+.event_space li { width:33%}
+.event_space .eventCell li { width: auto}
 .space_left { margin-left:15px;}
 .space_right { float:right; margin-right:20px;}
 .space_top { margin-top:5px;}
@@ -703,8 +714,9 @@ td.form_col .btn_im_x {display:none;}
 .btn_right {left: 452px; position:relative;}
 .btn_x_gr {color:#c7c7c7; font-size:12px;}
 .btn_x_gr a:hover {background-color:#f2f2f2; text-decoration:none; font-size:12px;}
+
+
     
-	
 /* 사람지정  */
 .user_select {background: none repeat scroll 0 0 #E5F3FF; border: 1px solid #97bee2; color: #333333;padding: 0 6px 0 5px; margin: 0 2px 0 0;
 -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;font-size:11px;}

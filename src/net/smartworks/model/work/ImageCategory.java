@@ -4,7 +4,7 @@ import net.smartworks.model.instance.info.ImageInstanceInfo;
 
 public class ImageCategory extends FileCategory {
 
-	public final static int	TYPE_IMAGE_CATEGORY	= 22;
+	public final static int	TYPE_IMAGE_CATEGORY	= 13;
 
 	private ImageInstanceInfo firstImage;
 	

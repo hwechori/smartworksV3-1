@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="net.smartworks.server.engine.folder.model" default-lazy="false">
+
+	<class name="FdrFolder" table="SWFolder">
+		<id name="objId" column="id" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="companyId" type="string" length="100"/>
+		<property name="parentId" column="parentId" type="string" length="50"/>
+		<property name="name" type="string" length="255"/>
+		<property name="displayOrder" column="dispOrder" type="int"/>
+		<property name="description" type="text"/>
+		<property name="creationUser" column="creator" type="string" length="50"/>
+		<property name="creationDate" column="createdTime" type="timestamp"/>
+		<property name="modificationUser" column="modifier" type="string" length="50"/>
+		<property name="modificationDate" column="modifiedTime" type="timestamp"/>
+		<property name="workspaceId" column="tskWorkspaceId" type="string" length="50"/>
+		<property name="refType" column="tskRefType" type="string" length="50"/>
+		<array name="folderFiles" table="SWFolderFile">
+			<key column="folderId" foreign-key="FkSWFolderFile" />
+			<list-index column="fileSeq" />
+			<composite-element class="net.smartworks.server.engine.folder.model.FdrFolderFile">
+				<property name="fileId" type="string" length="50" not-null="true"/>
+			</composite-element>
+		</array>
+	</class>
+
+	<class name="FdrFolderFile" table="SWFolderFile">
+		<id name="folderId" type="string" length="50" unsaved-value="undefined">
+			<generator class="net.smartworks.server.engine.common.model.util.IdGen"/>
+		</id>
+		<property name="fileId" type="string" length="50" not-null="true"/>
+	</class>
+
+</hibernate-mapping>

@@ -41,113 +41,93 @@ public class WorkController extends ExceptionInterceptor {
 	}
 
 	@RequestMapping("/iwork_list")
-	public ModelAndView iworkList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView iworkList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/iwork_list.jsp", "iwork_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/iwork_list.jsp", "iwork_list.tiles");
 	}
 
 	@RequestMapping("/iwork_manual")
-	public ModelAndView iworkManual(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView iworkManual(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/iwork_manual.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/iwork_manual.jsp", "");
 	}
 
 	@RequestMapping("/pwork_list")
-	public ModelAndView pworkList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView pworkList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/pwork_list.jsp", "pwork_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/pwork_list.jsp", "pwork_list.tiles");
 	}
 
 	@RequestMapping("/pwork_manual")
-	public ModelAndView pworkManual(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView pworkManual(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/pwork_manual.jsp", "");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/pwork_manual.jsp", "");
 	}
 
 	@RequestMapping("/swork_list")
-	public ModelAndView sworkList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView sworkList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/swork_list.jsp", "swork_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/swork_list.jsp", "swork_list.tiles");
 	}
 
 	@RequestMapping("/work_list")
-	public ModelAndView workList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView workList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/work_list.jsp", "work_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/work_list.jsp", "work_list.tiles");
 	}
 
 	@RequestMapping("/board_list")
-	public ModelAndView boardList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView boardList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/board_list.jsp", "board_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/board_list.jsp", "board_list.tiles");
 	}
 
 	@RequestMapping("/event_list")
-	public ModelAndView eventList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView eventList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/event_list.jsp", "event_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/event_list.jsp", "event_list.tiles");
 	}
 
 	@RequestMapping("/file_list")
-	public ModelAndView fileList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView fileList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/file_list.jsp", "file_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/file_list.jsp", "file_list.tiles");
 	}
 
 	@RequestMapping("/image_list")
-	public ModelAndView imageList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView imageList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/image_list.jsp", "image_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/image_list.jsp", "image_list.tiles");
 	}
 
 	@RequestMapping("/memo_list")
-	public ModelAndView memoList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView memoList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/memo_list.jsp", "memo_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/memo_list.jsp", "memo_list.tiles");
 	}
 
 	@RequestMapping("/mail_list")
-	public ModelAndView mailList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView mailList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/mail_list.jsp", "mail_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/mail_list.jsp", "mail_list.tiles");
 	}
 
 	@RequestMapping("/saved_list")
-	public ModelAndView savedList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView savedList(HttpServletRequest request, HttpServletResponse response) {
 
-		return SmartUtil.returnMnv(request,
-				"jsp/content/work/list/saved_list.jsp", "saved_list.tiles");
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/saved_list.jsp", "saved_list.tiles");
 	}
 
 	@RequestMapping("/search_filter")
 	public ModelAndView searchFilter(HttpServletRequest request, HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request, "jsp/content/work/list/search_filter.jsp", "");
+	}
+
+	@RequestMapping("/comment_list_in_manual")
+	public ModelAndView commentListInManual(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "jsp/content/work/list/comment_list_in_manual.jsp", "");
 	}
 
 	@RequestMapping(value = "/get_form_xml", method = RequestMethod.GET)

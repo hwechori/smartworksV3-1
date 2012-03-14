@@ -22,6 +22,7 @@ import net.smartworks.model.instance.info.RequestParams;
 import net.smartworks.model.report.ChartReport;
 import net.smartworks.model.report.Data;
 import net.smartworks.model.report.Report;
+import net.smartworks.model.work.FileCategory;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.InformationWork;
 import net.smartworks.model.work.SmartForm;
@@ -303,12 +304,21 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	public ImageCategoryInfo[] getImageCategoriesByType(int displayType, String spaceId) throws Exception {
 
-		try{
+		try {
+			switch (displayType) {
+			case FileCategory.DISPLAY_BY_CATEGORY:
+				break;
+			case FileCategory.DISPLAY_BY_YEAR:
+				break;
+			case FileCategory.DISPLAY_BY_OWNER:
+				break;
+			}
 			/*
 			 * displayType 
 			 */
-			return SmartTest.getImageCategoriesByType(displayType, spaceId);
-		}catch (Exception e){
+			//return SmartTest.getImageCategoriesByType(displayType, spaceId);
+			return ModelConverter.getImageCategoriesByType(displayType, spaceId);
+		} catch(Exception e) {
 			// Exception Handling Required
 			e.printStackTrace();
 			return null;			
@@ -317,10 +327,11 @@ public class WorkServiceImpl implements IWorkService {
 	}
 
 	@Override
-	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId) throws Exception {
+	public FileCategoryInfo[] getFileCategoriesByType(int displayType, String spaceId, String parentId) throws Exception {
 
 		try{
-			return SmartTest.getFileCategoriesByType(displayType, spaceId);
+			//return SmartTest.getFileCategoriesByType(displayType, spaceId, parentId);
+			return ModelConverter.getFileCategoriesByType(displayType, spaceId, parentId);
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();

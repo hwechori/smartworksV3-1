@@ -299,7 +299,7 @@ $(function() {
 					var pworkManual = $('.js_pwork_manual_page');
 					if(isEmpty(pworkManual)){
 						smartPop.closeProgress();
-						reutrn;
+						return;
 					}
 					var manualTasksHolder = pworkManual.find(".js_manual_tasks_holder");
 					var manualTasks = manualTasksHolder.find(".js_manual_tasks");

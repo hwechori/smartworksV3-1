@@ -105,7 +105,7 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 js_form_wrap js_start_pwork_page" workId="<%=workId%>">
+<div class="form_wrap up margin_b2 js_form_wrap js_start_pwork_page" workId="<%=workId%>">
 	<div class="form_title js_form_header">
 		<!-- 해당 업무이름을 표시하는 곳 -->
 		<div class="icon_pworks title"><%=work.getFullpathName() %></div>
@@ -140,7 +140,7 @@ function submitForms(e) {
 	<div class="js_form_task_forward" style="display:none"></div>
 
 	<!-- 스마트폼에서 해당 업무화면을 그려주는 곳 -->
-	<div class="js_form_content" workType="pwork"></div>
+	<div class="js_form_content js_click_start_form" workType="pwork"></div>
 	
 	<!-- 업무를 시작할 때 계획업무로 지정하는 화면 -->
 	<jsp:include page="/jsp/content/upload/check_schedule_work.jsp"></jsp:include>

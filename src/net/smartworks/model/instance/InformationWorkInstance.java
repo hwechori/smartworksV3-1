@@ -7,10 +7,17 @@ import net.smartworks.util.LocalDate;
 
 public class InformationWorkInstance extends WorkInstance {
 
+	private int views =0;
 	private int numberOfRelatedWorks = 0;
 	private boolean isApprovalWork;
 	private ApprovalLine approvalLine;
 	
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
 	public int getNumberOfRelatedWorks() {
 		return numberOfRelatedWorks;
 	}

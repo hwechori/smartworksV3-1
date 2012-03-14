@@ -5,7 +5,7 @@ $(function() {
 		return false;
 	});
 
-	$('img.js_add_condition').live('click', function(e) {
+	$('.js_add_condition').live('click', function(e) {
 		var target = $(e.target).parents('div.js_search_filter_page').find('form.js_filter_condition').parent();
 		var newCondition = target.find('form.js_new_condition:first').clone().show().removeClass('js_new_condition');
 		target.append(newCondition.show());

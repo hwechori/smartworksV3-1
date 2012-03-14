@@ -74,5 +74,9 @@ public class SmartServerConstant {
 	 * 첨부파일 그룹 축약어 - dg
 	 */
 	public static final String DOCUMENT_GROUP_ABBR = "fg";
+	/**
+	 * 폴더 축약어 - folder
+	 */
+	public static final String FOLDER_APPR = "fdr";
 
 }

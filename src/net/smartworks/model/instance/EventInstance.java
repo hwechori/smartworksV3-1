@@ -17,7 +17,8 @@ public class EventInstance extends WorkInstance {
 	public final static int ALARM_ON_TIME			= 1;
 	public final static int ALARM_ON_ALARM_TIME		= 2;
 	public final static int ALARM_ON_BOTH_TIME		= 3;
-		
+
+	private int 			views;
 	private String			content;
 	private Community[]		relatedUsers;
 	private LocalDate		start;
@@ -25,6 +26,12 @@ public class EventInstance extends WorkInstance {
 	private int				alarmOption=-1; 	// 시작시간에 한번만, 미리알림시간에 한번만, 미리알리시간과 시작시간에 한번씩, 미리알미리알미리알림없음 
 	private Date			alarmTime;
 
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
 	public String getContent() {
 		return content;
 	}

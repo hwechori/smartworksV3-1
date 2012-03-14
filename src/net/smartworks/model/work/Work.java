@@ -18,6 +18,8 @@ public class Work extends BaseObject{
 	public final static String ICON_CLASS_PWORKS_ON = "icon_pworks";
 	public final static String ICON_CLASS_SWORKS_ON = "icon_sworks";
 	public final static String ICON_CLASS_CWORKS_ON = "icon_cworks";
+	public final static String ICON_CLASS_DEFAULT_CATEGORY = "icon_dworks";
+	public final static String ICON_CLASS_DOWNLOADED_CATEGORY = "icon_aworks";
 	public final static String ICON_CLASS_IWORKS_OFF = "icon_iworks_off";
 	public final static String ICON_CLASS_PWORKS_OFF = "icon_pworks_off";
 	public final static String ICON_CLASS_SWORKS_OFF = "icon_sworks_off";
@@ -94,9 +96,17 @@ public class Work extends BaseObject{
 		case SmartWork.TYPE_SCHEDULE:
 			return ((SmartWork)this).isRunning() ? Work.ICON_CLASS_SWORKS_ON : Work.ICON_CLASS_SWORKS_OFF;
 		case WorkCategory.TYPE_CATEGORY:
+			if(getId().equals(WorkCategory.ID_DEFAULT_CATEGORY))
+				return Work.ICON_CLASS_DEFAULT_CATEGORY;
+			else if(getId().equals(WorkCategory.ID_DOWNLOADED_CATEGORY))
+				return Work.ICON_CLASS_DOWNLOADED_CATEGORY;
 			return ((WorkCategory)this).isRunning() ? Work.ICON_CLASS_CWORKS_ON : Work.ICON_CLASS_CWORKS_OFF;
+		case FileCategory.TYPE_FILE_CATEGORY:
+			return "";
+		case ImageCategory.TYPE_IMAGE_CATEGORY:
+			return "";
 		}
-		return null;
+		return "";
 	}
 
 	public String getController(){

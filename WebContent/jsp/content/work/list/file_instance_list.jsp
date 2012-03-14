@@ -1,3 +1,5 @@
+<%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
+<%@page import="net.smartworks.model.work.FileCategory"%>
 <%@page import="net.smartworks.model.instance.info.FileInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.info.WorkInstanceInfo"%>
 <%@page import="net.smartworks.model.work.info.SmartTaskInfo"%>
@@ -30,10 +32,30 @@
 <%
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	RequestParams params = (RequestParams)request.getAttribute("requestParams");
+	int displayType = Integer.parseInt(request.getParameter("displayType"));
 	if(SmartUtil.isBlankObject(params)){
 		params = new RequestParams();
 		params.setPageSize(20);
-		params.setCurrentPage(1);		
+		params.setCurrentPage(1);
+		SearchFilter searchFilter = null;
+		switch(displayType){
+		case FileCategory.DISPLAY_BY_CATEGORY:
+			searchFilter = SearchFilter.getByFileCategoryIdFilter(FileCategory.ID_ALL_FILES);
+			break;
+		case FileCategory.DISPLAY_BY_WORK:
+			searchFilter = SearchFilter.getByWorkIdFilter(FileCategory.ID_ALL_FILES);
+			break;
+		case FileCategory.DISPLAY_BY_YEAR:
+			searchFilter = SearchFilter.getByCreatedDateFilter(FileCategory.ID_ALL_FILES);
+			break;
+		case FileCategory.DISPLAY_BY_OWNER:
+			searchFilter = SearchFilter.getByOwnerFilter(FileCategory.ID_ALL_FILES);
+			break;
+		case FileCategory.DISPLAY_BY_FILE_TYPE:
+			searchFilter = SearchFilter.getByFileTypeFilter(FileCategory.ID_ALL_FILES);
+			break;
+		}
+		params.setSearchFilter(searchFilter);
 	}
 	User cUser = SmartUtil.getCurrentUser();
 	String cid = (String)session.getAttribute("cid");
@@ -44,7 +66,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 목록페이지 -->
-<table>
+<table class="js_file_instance_list_page">
 	<%
 	SortingField sortedField = new SortingField();
 	int pageSize = 20, totalPages = 1, currentPage = 1;
@@ -54,10 +76,59 @@
 		if(sortedField==null) sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<th class="r_line">
 	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_SUBJECT%>"><fmt:message key='common.title.instance_subject'/>
 			 		<%
 					if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
+						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+					%>
+				</a>				
+			</th>
+			<%
+			if(displayType==FileCategory.DISPLAY_ALL){
+			%>
+				<th class="r_line">
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_SPACE%>"><fmt:message key='common.title.work_space_name'/>
+				 		<%
+						if(sortedField.getFieldId().equals(FormField.ID_WORK_SPACE)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+						%>
+					</a>				
+				</th>
+			<%
+			}
+			if(displayType!=FileCategory.DISPLAY_BY_CATEGORY){
+			%>			
+				<th class="r_line">
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_CATEGORY%>"><fmt:message key='common.title.category_name'/>
+				 		<%
+						if(sortedField.getFieldId().equals(FormField.ID_FILE_CATEGORY)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+						%>
+					</a>				
+				</th>
+			<%
+			}
+			if(displayType!=FileCategory.DISPLAY_BY_WORK){
+			%>			
+				<th class="r_line">
+		 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK%>"><fmt:message key='common.title.work_name'/>
+				 		<%
+						if(sortedField.getFieldId().equals(FormField.ID_WORK)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+						%>
+					</a>				
+				</th>
+			<%
+			}
+			%>			
+			<th class="r_line">
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_WORK_INSTANCE%>"><fmt:message key='common.title.instance_subject'/>
+			 		<%
+					if(sortedField.getFieldId().equals(FormField.ID_WORK_INSTANCE)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>				
@@ -70,22 +141,32 @@
 					%>
 				</a>						
 			</th>
-			<th>
-				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIER %>">
-					<fmt:message key='common.title.last_modifier' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIER)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
-				</a>/
+			<th class="r_line">
+				<%
+				if(displayType!=FileCategory.DISPLAY_BY_OWNER){
+				%>			
+					<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_OWNER %>">
+						<fmt:message key='common.title.owner' /> <%if(sortedField.getFieldId().equals(FormField.ID_OWNER)){
+							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
+					</a>/
+				<%
+				}
+				%>
 				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
 					<fmt:message key='common.title.last_modified_date' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIED_DATE)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
 				</a>
 				<span class="js_progress_span"></span>
 			</th>
+	 		<th style="width:40px;">
+				<span><fmt:message key="common.title.views"/></span>
+			</th>
 		</tr>	
 		<%	
 		pageSize = instanceList.getPageSize();
 		totalPages = instanceList.getTotalPages();
 		currentPage = instanceList.getCurrentPage();
+		int currentCount = instanceList.getTotalSize()-(currentPage-1)*pageSize;
 		if(instanceList.getInstanceDatas() != null) {
 			InstanceInfo[] instanceInfos = (InstanceInfo[])instanceList.getInstanceDatas();
 			for (InstanceInfo instanceInfo : instanceInfos) {
@@ -95,9 +176,36 @@
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 			%>
 				<tr>
+					<td class="hAlignCenter"><%=currentCount%></td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%></a>
+						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getSubject()%></a>
 					</td>
+					<%
+					if(displayType==FileCategory.DISPLAY_ALL){
+					%>
+						<td>
+							<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWorkSpace().getName()%></a>
+						</td>
+					<%
+					}
+					if(displayType!=FileCategory.DISPLAY_BY_CATEGORY){
+					%>
+						<td>
+<%-- 							<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getFileCategory().getName()%></a>
+ --%>						</td>
+					<%
+					}
+					if(displayType!=FileCategory.DISPLAY_BY_WORK){
+					%>
+						<td>
+							<a href="<%=target%>" class="js_content_pwork_space"><img class="<%=fileInstance.getWork().getIconClass()%>"/><%=((SmartWorkInfo)(fileInstance.getWork())).getFullpathName()%></a>
+						</td>
+					<%
+					}
+					%>
+					<td>
+<%-- 						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWorkInstance().getSubject()%></a>
+ --%>					</td>
 					<td class="hAlignCenter">
   						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%} %></a>
 					</td>
@@ -106,9 +214,15 @@
 						if(!SmartUtil.isBlankObject(lastModifier)){
 						%>
 							<a href="<%=target%>" class="js_content_pwork_space">
-								<div class="noti_pic js_content_pwork_space">
-									<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
-								</div>
+								<%
+								if(displayType!=FileCategory.DISPLAY_BY_OWNER){
+								%>
+									<div class="noti_pic js_content_pwork_space">
+										<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
+									</div>
+								<%
+								}
+								%>
 								<div class="noti_in">
 									<span class="t_name"><%=lastModifier.getLongName()%></span>
 									<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
@@ -118,14 +232,19 @@
 						}
 						%>
 					</td>
+					<td class="hAlignCenter"><%=((FileInstanceInfo)instanceInfo).getViews() %>
 				</tr>
 	<%
+				currentCount--;
 			}
 		}
 	}else{
 			sortedField = new SortingField();
 	%>
 		<tr class="tit_bg">
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.number"/></span>
+			</th>
 			<th class="r_line">
 	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_STATUS%>"><fmt:message key='common.title.status'/>
 			 		<%
@@ -174,6 +293,9 @@
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
 				</a>
 				<span class="js_progress_span"></span>
+			</th>
+	 		<th class="r_line" style="width:40px;">
+				<span><fmt:message key="common.title.views"/></span>
 			</th>
 		</tr>	
 	<%		

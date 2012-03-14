@@ -11,7 +11,11 @@ public class FormField extends BaseObject{
 	public static final String ID_LAST_TASK = "lastTask";
 	public static final String ID_PROCESS_TIME = "processTime";
 	public static final String ID_PROCESS_TYPE = "processType";
-	public static final String ID_WORK_NAME = "WorkName";
+	public static final String ID_WORK = "Work";
+	public static final String ID_WORK_INSTANCE = "WorkInstance";
+	public static final String ID_WORK_SPACE = "WorkSpace";
+	public static final String ID_FILE_CATEGORY = "FileCategory";
+	public static final String ID_FILE_TYPE = "FileType";
 	public static final String ID_FILE_NAMES = "FileNames";
 
 	public static final String ID_OWNER = "creator";
@@ -19,10 +23,11 @@ public class FormField extends BaseObject{
 	public static final String ID_LAST_MODIFIER = "modifier";
 	public static final String ID_LAST_MODIFIED_DATE = "modifiedTime";
 
+	public static final String TYPE_OBJECT_ID = "objectId"; // work
 	public static final String TYPE_TEXT = "textInput"; //string
 	public static final String TYPE_USER = "userField"; //user
 	public static final String TYPE_FILE = "fileField"; //file
-	public static final String TYPE_OTHER_WORK = "refFormField"; // work
+	public static final String TYPE_OTHER_WORK = "refFormField"; // form field of the referred work
 	public static final String TYPE_RICHTEXT_EDITOR = "richEditor"; //string
 	public static final String TYPE_NUMBER = "numberInput"; //number
 	public static final String TYPE_CURRENCY = "currencyInput"; //number
@@ -59,6 +64,14 @@ public class FormField extends BaseObject{
 	public static final FormField FIELD_LAST_TASK = new FormField(ID_LAST_TASK, SmartMessage.getString("common.title.last_task"), TYPE_TEXT);
 	public static final FormField FIELD_PROCESS_TIME = new FormField(ID_PROCESS_TIME, SmartMessage.getString("common.title.process_time"), TYPE_TIME);
 	public static final FormField FIELD_PROCESS_TYPE = new FormField(ID_PROCESS_TYPE, SmartMessage.getString("common.title.process_type"), TYPE_COMBO);
+	public static final FormField FIELD_WORK = new FormField(ID_WORK, SmartMessage.getString("common.title.work_name"), TYPE_TEXT);
+	public static final FormField FIELD_WORK_INSTANCE = new FormField(ID_WORK_INSTANCE, SmartMessage.getString("common.title.instance_subject"), TYPE_TEXT);
+	public static final FormField FIELD_WORK_SPACE = new FormField(ID_WORK_SPACE, SmartMessage.getString("common.title.work_space_name"), TYPE_TEXT);
+	public static final FormField FIELD_FILE_CATEGORY = new FormField(ID_FILE_CATEGORY, SmartMessage.getString("common.title.category_name"), TYPE_TEXT);
+	public static final FormField FIELD_FILE_TYPE = new FormField(ID_FILE_TYPE, SmartMessage.getString("common.title.file_type"), TYPE_TEXT);
+	public static final FormField FIELD_WORK_ID = new FormField(ID_WORK, SmartMessage.getString("common.title.work_name"), TYPE_OBJECT_ID);
+	public static final FormField FIELD_WORK_SPACE_ID = new FormField(ID_WORK_SPACE, SmartMessage.getString("common.title.work_space_name"), TYPE_OBJECT_ID);
+	public static final FormField FIELD_FILE_CATEGORY_ID = new FormField(ID_FILE_CATEGORY, SmartMessage.getString("common.title.category_name"), TYPE_OBJECT_ID);
 
 	public static final FormField FIELD_OWNER = new FormField(ID_OWNER, SmartMessage.getString("common.title.owner"), TYPE_USER);
 	public static final FormField FIELD_CREATED_DATE = new FormField(ID_CREATED_DATE, SmartMessage.getString("common.title.created_date"), TYPE_DATE);

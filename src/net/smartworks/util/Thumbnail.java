@@ -8,6 +8,7 @@
 
 package net.smartworks.util;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,29 +26,44 @@ public class Thumbnail {
 		File file = new File(saveFile);
 		RenderedOp renderedOp = JAI.create("fileload", loadFile);
 		BufferedImage bufferedImage = renderedOp.getAsBufferedImage();
-		int width = 0;
-		int height = 0;
-		if(sizeType.equals("big")) {
-			width = 110;
-			height = 110;
+		int width = bufferedImage.getWidth();
+		int height = bufferedImage.getHeight();
+		if(sizeType.equals("thumb")) {
+			if(width >= 300) {
+				width = 300;
+				//height = 300;
+			} else {
+				width = 110;
+				//height = 110;
+			}
+		}
+				//가로, 세로 사이즈 유지
+		  		Image image = bufferedImage.getScaledInstance(width, -1, Image.SCALE_SMOOTH);
+				BufferedImage thumb = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+				thumb.getGraphics().drawImage(image, 0, 0, null);
+				ImageIO.write(thumb, extension, file);
+
+
+		/*if(sizeType.equals("big")) {
+			width = 300;
+			height = 300;
 		} else if(sizeType.equals("small")) {
-			width = 48;
-			height = 48;
-		} else if(sizeType.equals("thumb")) {
 			width = 200;
 			height = 200;
+		} else */if(sizeType.equals("thumb")) {
+			if(width > 300 || height > 300) {
+				width = 300;
+				//height = 300;
+			} else {
+				width = 110;
+				//height = 110;
+			}
 		}
-		BufferedImage thumb = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+/*		BufferedImage thumb = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		thumb.createGraphics().drawImage(bufferedImage, 0, 0, width, height, null);
-		ImageIO.write(thumb, extension, file);
+		ImageIO.write(thumb, extension, file);*/
 
-/*		가로, 세로 사이즈 유지
- * 		Image image = bufferedImage.getScaledInstance(width, -1, Image.SCALE_SMOOTH);
-		BufferedImage thumb = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
-		thumb.getGraphics().drawImage(image, 0, 0, null);
-		ImageIO.write(thumb, extension, save);
-*
-*/
+
 
 	}
 
