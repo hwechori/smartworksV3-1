@@ -29,8 +29,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.work.FileCategory;
+import net.smartworks.model.work.FormField;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.Filter;
+import net.smartworks.server.engine.common.model.Filters;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.id.IDCreator;
@@ -51,6 +54,7 @@ import net.smartworks.util.SmartUtil;
 import net.smartworks.util.Thumbnail;
 
 import org.apache.commons.io.IOUtils;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -828,12 +832,12 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 	public IFileModel getFileById(String fileId) throws DocFileException {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("select id, type, fileName, filePath, fileSize, writtenTime");
-		stringBuffer.append("  from HbFileModel");
-		stringBuffer.append(" where id = :id");
+		stringBuffer.append("  from SwFile");
+		stringBuffer.append(" where id = :fileId");
 
-		Query query = this.getSession().createQuery(stringBuffer.toString());
+		Query query = this.getSession().createSQLQuery(stringBuffer.toString());
 		if (!CommonUtil.isEmpty(fileId))
-			query.setString("id", fileId);
+			query.setString("fileId", fileId);
 
 		List list = query.list();
 		if (CommonUtil.isEmpty(list))
@@ -871,13 +875,9 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		int pageSize = cond.getPageSize();
 
 		String worksSpaceId = cond.getTskWorkSpaceId();
-		String workCategoryName = cond.getFolderName();
-		String workName = cond.getTskName();
-		String workTitle = cond.getTskTitle();
-		String fileType = cond.getFileType();
 		Date executionDateFrom = cond.getTskExecuteDateFrom();
 		Date executionDateTo = cond.getTskExecuteDateTo();
-		Filter[] filters = cond.getFilter();
+		Filters[] filtersArray = cond.getFilters();
 
 		queryBuffer.append("from ");
 		queryBuffer.append("( ");
@@ -936,22 +936,24 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		queryBuffer.append("		on ctg.parentId = ctg2.id ");
 		queryBuffer.append("	where tsktype not in ('and','route','SUBFLOW','xor') ");
 		queryBuffer.append("	and task.tskform = form.formid ");
-		if (!CommonUtil.isEmpty(filters)) {
-			for(Filter filter : filters) {
-				String leftOperandValue = filter.getLeftOperandValue();
-				String operator = filter.getOperator();
-				String rightOperandValue = filter.getRightOperandValue();
-				queryBuffer.append("and ").append(leftOperandValue).append(" ").append(operator).append(" :").append(rightOperandValue).append(" ");
+		if (!CommonUtil.isEmpty(filtersArray)) {
+			for(Filters filters : filtersArray) {
+				Filter[] filterArray = filters.getFilter();
+				if (!CommonUtil.isEmpty(filterArray)) {
+					for(Filter filter : filterArray) {
+						String leftOperandValue = filter.getLeftOperandValue();
+						String operator = filter.getOperator();
+						String rightOperandValue = filter.getRightOperandValue();
+						if(rightOperandValue.equals(FileCategory.ID_UNCATEGORIZED)) {
+							queryBuffer.append("and ").append(leftOperandValue).append(" is null ");
+						} else {
+							if(!leftOperandValue.equals("writtenTime"))
+								queryBuffer.append("and ").append(leftOperandValue).append(" ").append(operator).append(" :").append(leftOperandValue).append(" ");
+						}
+					}
+				}
 			}
 		}
-/*		if (!CommonUtil.isEmpty(workCategoryName))
-			queryBuffer.append("	and folder.name like :workCategoryName ");
-		if (!CommonUtil.isEmpty(workName))
-			queryBuffer.append("	and task.tskname like :workName ");
-		if (!CommonUtil.isEmpty(workTitle))
-			queryBuffer.append("	and task.tsktitle like :workTitle ");
-		if (!CommonUtil.isEmpty(fileType))
-			queryBuffer.append("	and docfile.type like :fileType ");*/
 		if (!CommonUtil.isEmpty(tskAssignee))
 			queryBuffer.append("	and task.tskassignee = :tskAssignee ");
 		if (!CommonUtil.isEmpty(tskAssigneeOrTskSpaceId))
@@ -1050,14 +1052,21 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			query.setMaxResults(pageSize);
 		}
 
-		if (!CommonUtil.isEmpty(workCategoryName))
-			query.setString("workCategoryName", workCategoryName);
-		if (!CommonUtil.isEmpty(workName))
-			query.setString("workName", workName);
-		if (!CommonUtil.isEmpty(workTitle))
-			query.setString("workTitle", workTitle);
-		if (!CommonUtil.isEmpty(fileType))
-			query.setString("fileType", fileType);
+		if (!CommonUtil.isEmpty(filtersArray)) {
+			for(Filters filters : filtersArray) {
+				Filter[] filterArray = filters.getFilter();
+				if (!CommonUtil.isEmpty(filterArray)) {
+					for(Filter filter : filterArray) {
+						String leftOperandValue = filter.getLeftOperandValue();
+						String rightOperandValue = filter.getRightOperandValue();
+						if(!rightOperandValue.equals(FileCategory.ID_UNCATEGORIZED)) {
+							if(!leftOperandValue.equals("writtenTime"))
+								query.setString(leftOperandValue, rightOperandValue);
+						}
+					}
+				}
+			}
+		}
 		if (!CommonUtil.isEmpty(tskAssignee))
 			query.setString("tskAssignee", tskAssignee);
 		if (!CommonUtil.isEmpty(tskAssigneeOrTskSpaceId))
@@ -1106,7 +1115,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			queryBuffer.append(" prcInstInfo.* ");
 			
 			Query query = this.appendQuery(queryBuffer, cond);
-		
+
 			List list = query.list();
 			if (list == null || list.isEmpty())
 				return null;

@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -77,10 +79,14 @@ import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
+import net.smartworks.server.engine.infowork.form.model.SwfFieldMapping;
+import net.smartworks.server.engine.infowork.form.model.SwfFieldRef;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormLink;
 import net.smartworks.server.engine.infowork.form.model.SwfFormModel;
+import net.smartworks.server.engine.infowork.form.model.SwfFormRef;
+import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
@@ -106,6 +112,7 @@ import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IInstanceService;
+import net.smartworks.server.service.SmartApi;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartMessage;
@@ -116,6 +123,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class InstanceServiceImpl implements IInstanceService {
@@ -496,23 +504,17 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
-
-	private SwdRecord getSwdRecordByJsonFormData(Map<String, Object> jsonFormDataMap) throws Exception {
-		try{
-			return null;
-		}catch (Exception e){
-			// Exception Handling Required
-			e.printStackTrace();
-			return null;			
-			// Exception Handling Required			
-		}
-	}
-	public SwdRecord refreshDataFields(Map<String, Object> requestBody) throws Exception {
+	public SwdRecord refreshDataFields(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
 		try{
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			if (cuser != null)
+				userId = cuser.getId();
+			
 			String formId = (String)requestBody.get("formId");
 			String formName = (String)requestBody.get("formName");// 사용?
-			SwdRecord record = this.getSwdRecordByJsonFormData((Map<String, Object>)requestBody.get("frmSmartForm"));
+			
 			boolean isFirstSetMode = true; //초기 데이터 입력인지 수정인지를 판단한다
 			
 			//레코드 폼정보를 가져온다
@@ -524,78 +526,32 @@ public class InstanceServiceImpl implements IInstanceService {
 			SwfField[] fields = form.getFields();
 			if (CommonUtil.isEmpty(fields))
 				return null;
-			
-			//폼에 연결된 연결업무 링크 정보를 가져온다
-			/*<formLink id="8" name="test" targetFormId="frm_b5d88ed991dd4677a9f0d482f412fb55">
-				<conds operator="and">
-					<cond operator="=">
-						<first type="other" fieldId="0"/>
-						<second type="self" fieldId="0"/>
-					</cond>
-				</conds>
-			</formLink>*/
-			SwfFormLink[] formLinks = form.getMappingForms();
-			Map<String, SwfFormLink> formLinkMap = new HashMap<String, SwfFormLink>();
-			if (!CommonUtil.isEmpty(formLinks)) {
-				for (SwfFormLink formLink:formLinks)
-					formLinkMap.put(formLink.getId(), formLink);
+
+			SwfField[] formFields = form.getFields();
+			List domainFieldList = new ArrayList();
+			for (SwfField field: formFields) {
+				SwdField domainField = new SwdField();
+				domainField.setFormFieldId(field.getId());
+				domainField.setFormFieldName(field.getName());
+				domainField.setFormFieldType(field.getSystemType());
+				domainField.setArray(field.isArray());
+				domainField.setSystemField(field.isSystem());
+				domainFieldList.add(domainField);
 			}
+			SwdField[] domainFields = new SwdField[domainFieldList.size()];
+			domainFieldList.toArray(domainFields);
 			
-	
-			// 업무연결아이디와 해당 업무 맵 ??????//
-			Map<String, SwdRecord[]> formLinkIdRecordMap = new HashMap<String, SwdRecord[]>();
-	
+			SwdRecord record = getSwdRecordByRequestBody(userId, domainFields, requestBody, request);
+			
 			//새로 값이 셋팅되어 변경될 레코드 클론
 			SwdRecord oldRecord = (SwdRecord)record.clone();
 			SwdRecord newRecord = (SwdRecord)record.clone();
-	
 			
+			Map<String, SwdDataField> resultMap = new HashMap<String, SwdDataField>();
 			
 			// 각 필드들 마다 가져오기 맵핑을 확인하여 값을 셋팅한다
 			for (SwfField field : fields) {
-				// 가져오기 매핑정의가 있는지 확인 시작
-				SwfMappings mappings = field.getMappings();
-				if (mappings == null)
-					continue;
-				SwfMapping[] preMappings = mappings.getPreMappings();
-				if (CommonUtil.isEmpty(preMappings))
-					continue;
-				// 가져오기 매핑정의가 있는지 확인 끝
-	
-				String fieldId = field.getId();
-				String fieldType = field.getSystemType();
-	
-				//가져오기 셋팅이 여러개 일수 있다
-				for (SwfMapping preMapping : preMappings) {
-					//초기 데이터 가져오기 호출이 아니고 매번호출이 아니라면 스킵
-					//초기 데이터 가져오기내용 검토 필요(초기인지 아닌지 알수 있나?)
-					if (!isFirstSetMode && !preMapping.isEachTime())
-						continue;
-	
-					String mappingType = preMapping.getType();
-	//				mappingType = TYPE_SIMPLE = "mapping_form"; 단순 맵핑
-	//				mappingTYpe = TYPE_EXPRESSION = "expression"; 계산식
-					
-					if (SwfMapping.TYPE_SIMPLE.equalsIgnoreCase(mappingType)) {
-						//단순 맵핑 (현재업무화면, 다른업무화면, 프로세스업무화면, 시스템함수, 웹서비스)
-						String mappingFormType = preMapping.getMappingFormType();
-						if (CommonUtil.isEmpty(mappingFormType))
-							continue;
-						// 현재업무항목
-						if (SwfMapping.MAPPINGTYPE_SELFFORM.equalsIgnoreCase(mappingFormType)) {
-							
-							
-						} 
-						
-					} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingType)) {
-						//계산식
-						
-						
-					}
-					
-					
-					
-				}
+				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord);
 			}
 			
 			return null; 
@@ -606,26 +562,53 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
-	private void setResultFieldMapByFields(String userId, Map<String, Object> resultMap, SwfField field, SwdRecord oldRecord) throws Exception {
+	private void setResultFieldMapByFields(String userId, SwfForm form, Map<String, SwdDataField> resultMap, SwfField field, SwdRecord newRecord, SwdRecord oldRecord) throws Exception {
 		
 		try{
-			SwfMappings mappings = field.getMappings();
-			if (mappings == null)
-				return;
-			SwfMapping[] preMappings = mappings.getPreMappings();
-			if (CommonUtil.isEmpty(preMappings))
-				return;
-			// 가져오기 매핑정의가 있는지 확인 끝
-	
+			if (resultMap == null)
+				resultMap = new HashMap<String, SwdDataField>();
+			
 			String fieldId = field.getId();
 			String fieldType = field.getSystemType();
+			
+			SwfMappings mappings = field.getMappings();
+			if (mappings == null) {
+				resultMap.put(fieldId, oldRecord.getDataField(fieldId));
+				newRecord.setDataField(fieldId, oldRecord.getDataField(fieldId));
+				return;
+			}	
+			SwfMapping[] preMappings = mappings.getPreMappings();
+			if (CommonUtil.isEmpty(preMappings)){
+				resultMap.put(fieldId, oldRecord.getDataField(fieldId));
+				newRecord.setDataField(fieldId, oldRecord.getDataField(fieldId));
+				return;
+			}	
+			// 가져오기 매핑정의가 있는지 확인 끝
+
+			// 연결 업무 목록
+			SwfFormLink[] formLinks = form.getMappingForms();
+			Map<String, SwfFormLink> formLinkMap = new HashMap<String, SwfFormLink>();
+			if (!CommonUtil.isEmpty(formLinks)) {
+				for (SwfFormLink formLink:formLinks)
+					formLinkMap.put(formLink.getId(), formLink);
+			}
+			
+			
+			boolean isFirst = true;
+			//현재폼, 외부폼, 프로세스폼의 우선 적용순위를 정하기위한 트리맵(소팅맵)
+			Map<Long, SwdDataField> resultTreeMap = new HashMap<Long, SwdDataField>();
+			//함수, 웹서비스, 계산식의 순서중 마지막 값을 취하기위한 스텍
+			Stack<SwdDataField> resultStack = new Stack<SwdDataField>();
 			
 			//가져오기 셋팅이 여러개 일수 있다
 			for (SwfMapping preMapping : preMappings) {
 				//초기 데이터 가져오기 호출이 아니고 매번호출이 아니라면 스킵
 				//초기 데이터 가져오기내용 검토 필요(초기인지 아닌지 알수 있나?)
-				if (!preMapping.isEachTime())
+				if (!preMapping.isEachTime() && !isFirst){
+					//resultMap.put(fieldId, oldRecord.getDataField(fieldId));
+					//newRecord.setDataField(fieldId, oldRecord.getDataField(fieldId));
 					continue;
+				}	
 	
 				String mappingType = preMapping.getType();
 	//			mappingType = TYPE_SIMPLE = "mapping_form"; 단순 맵핑
@@ -634,27 +617,258 @@ public class InstanceServiceImpl implements IInstanceService {
 				if (SwfMapping.TYPE_SIMPLE.equalsIgnoreCase(mappingType)) {
 					//단순 맵핑 (현재업무화면, 다른업무화면, 프로세스업무화면, 시스템함수, 웹서비스)
 					String mappingFormType = preMapping.getMappingFormType();
-					if (CommonUtil.isEmpty(mappingFormType))
-						continue;
 					// 현재업무항목
 					if (SwfMapping.MAPPINGTYPE_SELFFORM.equalsIgnoreCase(mappingFormType)) {
-						
-						
 						//현재 업무 항목이라면 재귀 함수호출로 호출되는쪽의 데이터 맵핑이 있는지를 다시 살핀다
+						String mappingFieldId = CommonUtil.toNull(preMapping.getFieldId());
+						if (CommonUtil.isEmpty(mappingFieldId))
+							continue;
+						SwfField[] fields = form.getFields();
+						SwfField targetField = null;
+						for (SwfField tempField : fields) {
+							if (tempField.getId().equalsIgnoreCase(mappingFieldId)) {
+								targetField = tempField;
+								break;
+							}
+						}
+						if (targetField == null) {
+							logger.warn("TargetMapping Field Is Null!!! Check Change Field Id!!");
+							continue;
+						}
+						//재귀 호출
+						if (!resultMap.containsKey(targetField.getId()))
+							setResultFieldMapByFields(userId, form, resultMap, targetField, newRecord, oldRecord);
+						
+						SwdDataField dataField = (SwdDataField)resultMap.get(mappingFieldId);
+						
+						SwdDataField myDataField = new SwdDataField();
+						myDataField.setId(fieldId);
+						myDataField.setType(fieldType);
+						if (dataField != null)
+							myDataField.setValue(dataField.getValue());
+						//resultMap.put(fieldId, new SwdDataField());
+						
+						long timeKey = oldRecord.getCreationDate().getTime();
+						if (!resultTreeMap.containsKey(timeKey)) {
+							resultTreeMap.put(timeKey, myDataField);
+						}
+					} else if (SwfMapping.MAPPINGTYPE_OTHERFORM.equalsIgnoreCase(mappingFormType)) {
+					//외부업무 화면
+						String formLinkId = preMapping.getMappingFormId();
+						String mappingFieldId = preMapping.getFieldId();
+						SwfFieldMapping[] fieldMappings = preMapping.getFieldMappings();
+						
+						if (CommonUtil.isEmpty(formLinkId) || !formLinkMap.containsKey(formLinkId) || 
+							(CommonUtil.isEmpty(mappingFieldId) && CommonUtil.isEmpty(fieldMappings))) {
+							continue;
+						}
+						
+						String valueFunc = preMapping.getValueFunc();
+						if (valueFunc == null || valueFunc.equalsIgnoreCase("value")) {
+							SwdRecord[] mappingRecords = null;
+							if (!CommonUtil.isEmpty(mappingFieldId)) {
+								SwdRecord mappingRecord = getSwdManager().getRecordByMappingForm(userId, oldRecord,  formLinkMap.get(formLinkId));
+								if (mappingRecord != null)
+									mappingRecords = new SwdRecord[] {mappingRecord};
+							} else {
+								mappingRecords = getSwdManager().getRecordsByMappingForm(userId, oldRecord,  formLinkMap.get(formLinkId));
+							}
+							
+							if (CommonUtil.isEmpty(mappingRecords)) 
+								continue;
+							
+							if (!CommonUtil.isEmpty(mappingFieldId)) {
+								
+								SwdRecord mappingRecord = mappingRecords[0];
+								SwdDataField mappingDataField = mappingRecord.getDataField(mappingFieldId);
+								
+								SwdDataField dataField = oldRecord.getDataField(fieldId);
+								if (dataField == null) {
+									dataField = new SwdDataField();
+									dataField.setId(fieldId);
+									dataField.setType(fieldType);
+								}
+								if (mappingDataField == null) {
+									dataField.setValue(null);
+									dataField.setRefRecordId(null);
+								} else {
+									dataField.setValue(mappingDataField.getValue());
+									dataField.setRefRecordId(mappingDataField.getRefRecordId());
+								}
+								//setResultTreeMap
+								long timeKey = mappingRecord.getCreationDate().getTime();
+								if (!resultTreeMap.containsKey(timeKey)) 
+									resultTreeMap.put(timeKey, dataField);
+								
+								SwfFormat format = field.getFormat();
+								if (format == null)
+									continue;
+								String formatType = format.getType();
+								if (!"refFormField".equalsIgnoreCase(formatType))
+									continue;
+								SwfFormRef formRef = format.getRefForm();
+								if (formRef == null)
+									continue;
+								dataField.setRefForm(formRef.getId());
+								SwfFieldRef fieldRef = formRef.getField();
+								if (fieldRef == null)
+									continue;
+								dataField.setRefFormField(fieldRef.getId());
+								if (CommonUtil.toNull(dataField.getRefRecordId()) == null &&
+										CommonUtil.toNull(dataField.getRefForm()) != null && 
+										CommonUtil.toNull(dataField.getRefFormField()) != null && 
+										CommonUtil.toNull(dataField.getValue()) != null) {
+									dataField.setRefRecordId(mappingRecord.getRecordId());
+								}
+								
+							} else {
+								//Sw 2.0 에서 구현 되어 있지만 3.0에서는 미구현! mappingFieldId 가 비어 있는 경우가 없어 보인다! 만약에 아래 오류를 발견한다면
+								//2.0의 executionService.jsp 소스에서 refreshData 부분을 참고하여 코드를 작성해야 한다
+								throw new Exception("InstanceServiceImpl Exception : mappingFieldId is Empty (InstanceServiceImpl.java 760Line)");
+							}
+						} else {
+							double value = getSwdManager().getRecordValueByMappingForm(userId, oldRecord, formLinkMap.get(formLinkId), mappingFieldId, valueFunc);
+							SwdDataField dataField = new SwdDataField();
+							dataField.setId(fieldId);
+							dataField.setType(fieldType);
+							dataField.setRefRecordId(null);
+							dataField.setRefForm(null);
+							dataField.setRefFormField(null);
+							dataField.setValue(value + "");
+							resultStack.add(dataField);
+						}
+					} else if (SwfMapping.MAPPINGTYPE_PROCESSFORM.equalsIgnoreCase(mappingFormType)) {
+					//프로세스 업무
+						String mappingFormId = preMapping.getMappingFormId();
+						if (!mappingFormId.equalsIgnoreCase("processParam"))
+							continue;
+					} else if (SwfMapping.MAPPINGTYPE_SYSTEM.equalsIgnoreCase(mappingFormType)) {
+					//시스템 함수
+						ISwoManager mgr = SwManagerFactory.getInstance().getSwoManager();
+						SwoUser func = mgr.getUser(userId, userId, "all");
+						String functionId = CommonUtil.toNull(preMapping.getFieldId());
+						String funcDeptId = "";
+						String funcDeptName = "";
+						String funcTeamLeader = "";
+						if (CommonUtil.isEmpty(functionId))
+							continue;
+						if (functionId.equals("mis:generateId")) {
+							SwdDataField dataField = new SwdDataField();
+							dataField.setId(fieldId);
+							dataField.setType(fieldType);
+							dataField.setRefRecordId(null);
+							dataField.setRefForm(null);
+							dataField.setRefFormField(null);
+							dataField.setValue(CommonUtil.newId());
+							resultStack.add(dataField);
+							
+						} else if (functionId.equals("mis:getCurrentDate")) {
+							SwdDataField dataField = new SwdDataField();
+							dataField.setId(fieldId);
+							dataField.setType(fieldType);
+							dataField.setRefRecordId(null);
+							dataField.setRefForm(null);
+							dataField.setRefFormField(null);
+							dataField.setValue(DateUtil.toXsdDateString(new Date()));
+							resultStack.add(dataField);
+							
+						} else if (functionId.equals("mis:getCurrentUser")) {
+							SwdDataField dataField = toDataField(userId, field, userId);
+							dataField.setId(fieldId);
+							resultStack.add(dataField);
+							
+						} else if (functionId.equals("mis:getDeptId")){		
+							if(func != null){
+							funcDeptId = func.getDeptId();
+							SwoDepartment funcdept = mgr.getDepartment(userId, funcDeptId, "all");
+								if(funcdept != null){
+									funcDeptName = funcdept.getName();
+								}
+							}
+							SwdDataField dataField = toDataField(userId, field, funcDeptName);
+							dataField.setId(fieldId);
+							resultStack.add(dataField);
+							
+						} else if (functionId.equals("mis:getTeamLeaderId")){
+							if(func != null){
+								funcDeptId = func.getDeptId();
+								SwoUserCond cond = new SwoUserCond();
+								cond.setDeptId(funcDeptId);
+								cond.setRoleId("DEPT LEADER");
+								
+								SwoUser[] funcs = mgr.getUsers(userId, cond, "all");
+								if(funcs != null){
+									funcTeamLeader = funcs[0].getId();
+								}
+							}
+							SwdDataField dataField = toDataField(userId, field, funcTeamLeader);
+							dataField.setId(fieldId);
+							resultStack.add(dataField);
+							
+						} else if (functionId.equals("mis:getEmpNo")){
+							String funcEmpNo = func.getEmpNo();
+							SwdDataField dataField = toDataField(userId, field, funcEmpNo);
+							dataField.setId(fieldId);
+							resultStack.add(dataField);
+							
+						} else if (functionId.equals("mis:getMobileNo")){
+							String funcMobileNo = func.getMobileNo();
+							SwdDataField dataField = toDataField(userId, field, funcMobileNo);
+							dataField.setId(fieldId);
+							resultStack.add(dataField);
+							
+						} else if (functionId.equals("mis:getInternalNo")){
+							String funcExtensionNo = func.getExtensionNo();
+							SwdDataField dataField = toDataField(userId, field, funcExtensionNo);
+							dataField.setId(fieldId);
+							resultStack.add(dataField);
+							
+						}
+				//web Service
+					} else if ("service_form".equalsIgnoreCase(mappingFormType)) {
+						//TODO web service
 						
 						
 						
 						
-					} 
+						
+						
+						
+						
+						
+						
+					} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingFormType)) {
+						String value = preMapping.getFieldName();
+						value = StringUtils.replace(value, "'", "");
+						SwdDataField dataField = toDataField(userId, field, value);
+						dataField.setId(fieldId);
+						resultStack.add(dataField);
+					}
 					
 				} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingType)) {
 					//계산식
 					
 					
+					
+					
+					
+					
+					
+					
 				}
 				
 				
-				
+				if (resultTreeMap != null) {
+					TreeMap<Long, SwdDataField> sortMap = new TreeMap<Long, SwdDataField>(resultTreeMap);
+					resultMap.put(fieldId, sortMap.get(sortMap.lastKey()) );
+					newRecord.setDataField(fieldId, sortMap.get(sortMap.lastKey()));
+				} else if (resultStack != null) {
+					resultMap.put(fieldId, resultStack.pop());
+					newRecord.setDataField(fieldId, resultStack.pop());
+				} else {
+					resultMap.put(fieldId, oldRecord.getDataField(fieldId));
+					newRecord.setDataField(fieldId, oldRecord.getDataField(fieldId));
+				}
 			}
 		
 		}catch (Exception e){
@@ -663,6 +877,34 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}	
+	private SwdDataField toDataField(String user, SwfField field, String id) throws Exception {
+		if (CommonUtil.isEmpty(id))
+			return null;
+		SwfFormat fieldFormat = field.getFormat();
+		SwdDataField obj = null;
+		if (fieldFormat == null || !"userField".equals(fieldFormat.getType())) {
+			obj = new SwdDataField();
+			obj.setId(field.getId());
+			obj.setType(field.getSystemType());
+			obj.setValue(id);
+		} else {
+			obj = toUserDataField(user, id);
+		}
+		return obj;
+	}
+	private SwdDataField toUserDataField(String user, String id) throws Exception {
+		if (CommonUtil.isEmpty(id))
+			return null;
+		SwoUser userModel = getSwoManager().getUser(user, id, IManager.LEVEL_LITE);
+		if (userModel == null)
+			return null;
+		SwdDataField dataField = new SwdDataField();
+		dataField.setRefForm("frm_user_SYSTEM");
+		dataField.setRefFormField("4");
+		dataField.setRefRecordId(id);
+		dataField.setValue(userModel.getPosition() + " " + userModel.getName());
+		return dataField;
+	}
 	public String setInformationWorkInstance_old(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
 		try{
@@ -1939,6 +2181,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				instanceInfoList.setInstanceDatas(iWInstanceInfos);
 			}
 
+			instanceInfoList.setTotalSize((int)totalCount);
 			instanceInfoList.setSortedField(sortingField);
 			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 			instanceInfoList.setPageSize(pageSize);
@@ -2138,7 +2381,8 @@ public class InstanceServiceImpl implements IInstanceService {
 				if (ext != 0)
 					totalPages += 1;
 			}
-			
+
+			instanceInfoList.setTotalSize((int)totalCount);
 			instanceInfoList.setSortedField(sf);
 			instanceInfoList.setTotalPages(totalPages);
 			instanceInfoList.setCurrentPage(currentPage+1);
@@ -2214,121 +2458,8 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			WorkInstanceInfo[] workInstanceInfos = ModelConverter.getWorkInstanceInfosByTaskWorks(taskWorks);
 
-			if(refType.equals(TskTask.TASKREFTYPE_IMAGE)) {
-				List<WorkInstanceInfo> newWorkInstanceInfoList = new ArrayList<WorkInstanceInfo>();
-				if(displayBy == FileCategory.DISPLAY_BY_CATEGORY) {
-					FdrFolder fdrFolder = new FdrFolder();
-					if(parentId.equals(FileCategory.ID_UNCATEGORIZED)) {
-						TskTaskCond tskTaskCond = new TskTaskCond();
-						tskTaskCond.setWorkSpaceId(spaceId);
-						tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
-						tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_MODIFICATIONDATE, false)});
-						TskTask[] tskTasks = getTskManager().getTasks(userId, tskTaskCond, IManager.LEVEL_LITE);
-		
-						List<IFileModel[]> fileModelsList = new ArrayList<IFileModel[]>();
-						if(!CommonUtil.isEmpty(tskTasks)) {
-							int taskLength = tskTasks.length;
-							for(int i=0; i<taskLength; i++) {
-								String taskInstId = tskTasks[i].getObjId();
-								IFileModel[] fileModels = getDocManager().getFilesByTaskInstId(taskInstId);
-								if(!CommonUtil.isEmpty(fileModels))
-									fileModelsList.add(fileModels);
-							}
-						}
-						List<FdrFolderFile> fdrFolderFileList = new ArrayList<FdrFolderFile>();
-						FdrFolderFile[] fdrFolderFiles = null;
-						FdrFolderFile[] fdrFolderFiles2 = null;
-						if(!CommonUtil.isEmpty(fileModelsList)) {
-							int fileModelsListSize = fileModelsList.size();
-							for(int j=0; j<fileModelsListSize; j++) {
-								IFileModel[] fileModels = fileModelsList.get(j);
-								if(!CommonUtil.isEmpty(fileModels)) {
-									int fileModelsLength = fileModels.length;
-									for(int k=0; k<fileModelsLength; k++) {
-										String fileId = fileModels[k].getId();
-										fdrFolderFiles = new FdrFolderFile[1];
-										FdrFolderFile fdrFolderFile = new FdrFolderFile();
-										fdrFolderFile.setFileId(fileId);
-										fdrFolderFiles[0] = fdrFolderFile;
-										FdrFolderCond fdrFolderCond = new FdrFolderCond();
-										fdrFolderCond.setCreationUser(userId);
-										fdrFolderCond.setFolderFiles(fdrFolderFiles);
-										fdrFolderCond.setOrders(new Order[]{new Order(FdrFolderCond.A_MODIFICATIONDATE, false)});
-										FdrFolder unFdrFolder = getFdrManager().getFolder(userId, fdrFolderCond, IManager.LEVEL_ALL);
-										if(unFdrFolder == null) {
-											FdrFolderFile fdrFolderFile2 = new FdrFolderFile();
-											IFileModel fileModel = getDocManager().getFileById(fileId);
-											fdrFolderFile2.setFileId(fileModel.getId());
-											fdrFolderFileList.add(fdrFolderFile2);
-										}
-									}
-								}
-							}
-							if(fdrFolderFileList.size() > 0) {
-								fdrFolderFiles2 = new FdrFolderFile[fdrFolderFileList.size()];
-								fdrFolderFileList.toArray(fdrFolderFiles2);
-								fdrFolder.setFolderFiles(fdrFolderFiles2);
-							}
-						}
-					} else {
-						fdrFolder = getFdrManager().getFolder(userId, parentId, IManager.LEVEL_ALL);
-					}
-					FdrFolderFile[] fdrFolderFiles = null;
-					if(fdrFolder != null) {
-						fdrFolderFiles = fdrFolder.getFolderFiles();
-					}
-					for(WorkInstanceInfo workInstanceInfo : workInstanceInfos) {
-						ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfo;
-						if(!CommonUtil.isEmpty(fdrFolderFiles)) {
-							for(FdrFolderFile fdrFolderFile : fdrFolderFiles) {
-								if(imageInstanceInfo.getFileId().equals(fdrFolderFile.getFileId())) {
-									newWorkInstanceInfoList.add(imageInstanceInfo);
-								}
-							}
-						}
-					}
-				} else if(displayBy == FileCategory.DISPLAY_BY_YEAR) {
-					for(WorkInstanceInfo workInstanceInfo : workInstanceInfos) {
-						ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfo;
-						String taskInstId = imageInstanceInfo.getLastTask().getId();
-						IFileModel[] fileModels = SwManagerFactory.getInstance().getDocManager().getFilesByTaskInstId(taskInstId);
-						String monthString = new LocalDate(imageInstanceInfo.getCreatedDate().getTime()).toLocalMonthString();
-						if(!CommonUtil.isEmpty(fileModels)) {
-							if(monthString.equals(parentId)) {
-								newWorkInstanceInfoList.add(imageInstanceInfo);
-							}
-						}
-					}
-				} else if(displayBy == FileCategory.DISPLAY_BY_OWNER) {
-					for(WorkInstanceInfo workInstanceInfo : workInstanceInfos) {
-						ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfo;
-						String taskInstId = imageInstanceInfo.getLastTask().getId();
-						IFileModel[] fileModels = SwManagerFactory.getInstance().getDocManager().getFilesByTaskInstId(taskInstId);
-						String ownerId = imageInstanceInfo.getOwner().getId();
-						if(!CommonUtil.isEmpty(fileModels)) {
-							if(ownerId.equals(parentId)) {
-								newWorkInstanceInfoList.add(imageInstanceInfo);
-							}
-						}
-					}
-				}
-				if(newWorkInstanceInfoList.size() > 0) {
-					workInstanceInfos = new WorkInstanceInfo[newWorkInstanceInfoList.size()];
-					newWorkInstanceInfoList.toArray(workInstanceInfos);
-				} else {
-					workInstanceInfos = null;
-				}
-			} else if(refType.equals(TskTask.TASKREFTYPE_FILE)) {
-				if(displayBy == FileCategory.DISPLAY_BY_CATEGORY) {
-				} else if(displayBy == FileCategory.DISPLAY_BY_WORK) {
-				} else if(displayBy == FileCategory.DISPLAY_BY_YEAR) {
-				} else if(displayBy == FileCategory.DISPLAY_BY_OWNER) {
-				} else if(displayBy == FileCategory.DISPLAY_BY_FILE_TYPE) {
-				}
-			}
-
+			instanceInfoList.setTotalSize((int)totalCount);
 			instanceInfoList.setInstanceDatas(workInstanceInfos);
-
 			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 			instanceInfoList.setPageSize(pageSize);
 			instanceInfoList.setTotalPages(totalPages);
@@ -2346,33 +2477,12 @@ public class InstanceServiceImpl implements IInstanceService {
 		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_NOTHING, -1, "");
 	}
 
+	
 	public InstanceInfoList getImageInstanceList(String workSpaceId, RequestParams params) throws Exception {
 		return getInstanceInfoListByRefType(workSpaceId, params, TskTask.TASKREFTYPE_IMAGE, -1, "");
 	}
-	
-	public ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception{
 
-		RequestParams params = new RequestParams();
-		params.setCurrentPage(1);
-		params.setPageSize(maxCount);
-		InstanceInfoList instanceInfoList = getInstanceInfoListByRefType(wid, params, TskTask.TASKREFTYPE_IMAGE, displayBy , parentId);
-		if(instanceInfoList != null) {
-			WorkInstanceInfo[] workInstanceInfos = (WorkInstanceInfo[])instanceInfoList.getInstanceDatas();
-			if(!CommonUtil.isEmpty(workInstanceInfos)) {
-				int workInstanceInfosLength = workInstanceInfos.length;
-				ImageInstanceInfo[] imageInstanceInfos = new ImageInstanceInfo[workInstanceInfosLength];
-				for(int i=0; i<workInstanceInfosLength; i++) {
-					ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfos[i];
-					imageInstanceInfos[i] = imageInstanceInfo;
-				}
-				return imageInstanceInfos;
-			}
-		}
-		return null;
-
-	}
-
-	public InstanceInfoList getInstanceInfoListByFileList(String workSpaceId, RequestParams params, int displayBy) {
+	public InstanceInfoList getInstanceInfoListByImageList(String workSpaceId, RequestParams params, int displayBy, String parentId) {
 		try {
 			User cUser = SmartUtil.getCurrentUser();
 			String userId = cUser.getId();
@@ -2381,8 +2491,29 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			FileWorkCond fileWorkCond = new FileWorkCond();
 			fileWorkCond.setTskAssigneeOrSpaceId(workSpaceId);
+			fileWorkCond.setTskRefType(TskTask.TASKREFTYPE_IMAGE);
 
 			long totalCount = getDocManager().getFileWorkListSize(userId, fileWorkCond);
+
+			SortingField sf = params.getSortingField();
+			String columnName = "";
+			boolean isAsc;
+
+			if (sf != null) {
+				String defaultSortingField = sf.getFieldId();
+				if(defaultSortingField.equals(FormField.ID_LAST_MODIFIED_DATE))
+					defaultSortingField = "taskLastModifyDate";
+				columnName  = CommonUtil.toDefault(defaultSortingField, FormField.ID_LAST_MODIFIED_DATE);
+				isAsc = sf.isAscending();
+			} else {
+				columnName = "taskLastModifyDate";
+				isAsc = false;
+			}
+			SortingField sortingField = new SortingField();
+			sortingField.setFieldId(columnName);
+			sortingField.setAscending(isAsc);
+
+			fileWorkCond.setOrders(new Order[]{new Order(columnName, isAsc)});
 
 			int pageSize = params.getPageSize();
 			if(pageSize == 0) pageSize = 20;
@@ -2424,41 +2555,179 @@ public class InstanceServiceImpl implements IInstanceService {
 				fileWorkCond.setPageNo(currentPage-1);
 
 			fileWorkCond.setPageSize(pageSize);
-			fileWorkCond.setOrders(new Order[]{new Order("tskCreatedate", false)});
-
-
-			SearchFilter searchFilter = params.getSearchFilter();
-			Condition[] conditions = searchFilter.getConditions();
-			Filters filters = new Filters();
-			List<Filter> filterList = new ArrayList<Filter>();
-			for(Condition condition : conditions) {
-				Filter filter = new Filter();
-				FormField leftOperand = condition.getLeftOperand();
-				String lefOperandType = leftOperand.getType();
-				String operator = condition.getOperator();
-				Object rightOperand = condition.getRightOperand();
-				String rightOperandValue = String.valueOf(rightOperand);
-				filter.setLeftOperandType(lefOperandType);
-				filter.setLeftOperandValue(leftOperand.getId());
-				filter.setOperator(operator);
-				filter.setRightOperandType(lefOperandType);
-				filter.setRightOperandValue(rightOperandValue);
-				filterList.add(filter);
-			}
-			Filter[] searchfilters = null;
-			if(filterList.size() != 0) {
-				searchfilters = new Filter[filterList.size()];
-				filterList.toArray(searchfilters);
-				filters.setFilter(searchfilters);
-			}
-			fileWorkCond.addFilters(filters);
+			//fileWorkCond.setOrders(new Order[]{new Order("tskCreatedate", false)});
 
 			FileWork[] fileWorks = getDocManager().getFileWorkList(userId, fileWorkCond);
 			WorkInstanceInfo[] workInstanceInfos = null;
 			if(!CommonUtil.isEmpty(fileWorks)) {
-				workInstanceInfos = ModelConverter.getWorkInstanceInfosByFileWorks(fileWorks);
+				workInstanceInfos = ModelConverter.getWorkInstanceInfosByFileWorks(fileWorks, TskTask.TASKREFTYPE_IMAGE, displayBy);
 			}
 
+			List<WorkInstanceInfo> newWorkInstanceInfoList = new ArrayList<WorkInstanceInfo>();
+			for(WorkInstanceInfo workInstanceInfo : workInstanceInfos) {
+				ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfo;
+				if(imageInstanceInfo.getFileCategory().getId().equals(parentId)) {
+					newWorkInstanceInfoList.add(workInstanceInfo);
+				}
+			}
+			if(newWorkInstanceInfoList.size() > 0) {
+				workInstanceInfos = new WorkInstanceInfo[newWorkInstanceInfoList.size()];
+				newWorkInstanceInfoList.toArray(workInstanceInfos);
+			} else {
+				workInstanceInfos = null;
+			}
+
+			instanceInfoList.setTotalSize((int)totalCount);
+			instanceInfoList.setInstanceDatas(workInstanceInfos);
+			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
+			instanceInfoList.setPageSize(pageSize);
+			instanceInfoList.setTotalPages(totalPages);
+			instanceInfoList.setCurrentPage(currentPage);
+
+			return instanceInfoList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public ImageInstanceInfo[] getImageInstancesByDate(int displayBy, String wid, String parentId, LocalDate lastDate, int maxCount) throws Exception{
+
+		ImageInstanceInfo[] imageInstanceInfos = null;
+		RequestParams params = new RequestParams();
+		params.setPageSize(maxCount);
+		InstanceInfoList instanceInfoList = getInstanceInfoListByImageList(wid, params, displayBy, parentId);
+		if(instanceInfoList != null) {
+			WorkInstanceInfo[] workInstanceInfos = (WorkInstanceInfo[])instanceInfoList.getInstanceDatas();
+			if(!CommonUtil.isEmpty(workInstanceInfos)) {
+				int workInstanceInfosLength = workInstanceInfos.length;
+				imageInstanceInfos = new ImageInstanceInfo[workInstanceInfosLength];
+				for(int i=0; i<workInstanceInfosLength; i++) {
+					ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfos[i];
+					imageInstanceInfos[i] = imageInstanceInfo;
+				}
+				return imageInstanceInfos;
+			}
+		}
+		return null;
+
+	}
+
+	public InstanceInfoList getInstanceInfoListByFileList(String workSpaceId, RequestParams params, int displayBy) {
+		try {
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+
+			InstanceInfoList instanceInfoList = new InstanceInfoList();
+
+			FileWorkCond fileWorkCond = new FileWorkCond();
+			fileWorkCond.setTskAssigneeOrSpaceId(workSpaceId);
+
+			SearchFilter searchFilter = params.getSearchFilter();
+			if(searchFilter != null) {
+				Condition[] conditions = searchFilter.getConditions();
+				Filters filters = new Filters();
+				List<Filter> filterList = new ArrayList<Filter>();
+				for(Condition condition : conditions) {
+					Filter filter = new Filter();
+					FormField leftOperand = condition.getLeftOperand();
+					String leftOperandValue = leftOperand.getId();
+					String operator = condition.getOperator();
+					Object rightOperand = condition.getRightOperand();
+					String rightOperandValue = String.valueOf(rightOperand);
+					if(!rightOperandValue.equals(FileCategory.ID_ALL_FILES)) {
+						if(leftOperandValue.equals(FormField.ID_FILE_CATEGORY)) leftOperandValue = "folderId";
+						else if(leftOperandValue.equals(FormField.ID_WORK)) leftOperandValue = "form.packageId";
+						else if(leftOperandValue.equals(FormField.ID_CREATED_DATE)) leftOperandValue = "writtenTime";
+						else if(leftOperandValue.equals(FormField.ID_OWNER)) leftOperandValue = "tskassignee";
+						else if(leftOperandValue.equals(FormField.ID_FILE_TYPE)) leftOperandValue = "docfile.type";
+						filter.setLeftOperandValue(leftOperandValue);
+						filter.setOperator(operator);
+						filter.setRightOperandValue(rightOperandValue);
+						filterList.add(filter);
+					}
+				}
+
+				Filter[] searchfilters = null;
+				if(filterList.size() != 0) {
+					searchfilters = new Filter[filterList.size()];
+					filterList.toArray(searchfilters);
+					filters.setFilter(searchfilters);
+				}
+				fileWorkCond.addFilters(filters);
+			}
+
+			long totalCount = getDocManager().getFileWorkListSize(userId, fileWorkCond);
+
+			SortingField sf = params.getSortingField();
+			String columnName = "";
+			boolean isAsc;
+
+			if (sf != null) {
+				String defaultSortingField = sf.getFieldId();
+				if(defaultSortingField.equals(FormField.ID_LAST_MODIFIED_DATE))
+					defaultSortingField = "taskLastModifyDate";
+				columnName  = CommonUtil.toDefault(defaultSortingField, FormField.ID_LAST_MODIFIED_DATE);
+				isAsc = sf.isAscending();
+			} else {
+				columnName = "taskLastModifyDate";
+				isAsc = false;
+			}
+			SortingField sortingField = new SortingField();
+			sortingField.setFieldId(columnName);
+			sortingField.setAscending(isAsc);
+
+			fileWorkCond.setOrders(new Order[]{new Order(columnName, isAsc)});
+
+			int pageSize = params.getPageSize();
+			if(pageSize == 0) pageSize = 20;
+
+			int currentPage = params.getCurrentPage();
+			if(currentPage == 0) currentPage = 1;
+
+			int totalPages = (int)totalCount % pageSize;
+
+			if(totalPages == 0)
+				totalPages = (int)totalCount / pageSize;
+			else
+				totalPages = (int)totalCount / pageSize + 1;
+
+			int result = 0;
+
+			if(params.getPagingAction() != 0) {
+				if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXT10) {
+					result = (((currentPage - 1) / 10) * 10) + 11;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_NEXTEND) {
+					result = totalPages;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREV10) {
+					result = ((currentPage - 1) / 10) * 10;
+				} else if(params.getPagingAction() == RequestParams.PAGING_ACTION_PREVEND) {
+					result = 1;
+				}
+				currentPage = result;
+			}
+
+			if(previousPageSize != pageSize)
+				currentPage = 1;
+
+			previousPageSize = pageSize;
+
+			if((long)((pageSize * (currentPage - 1)) + 1) > totalCount)
+				currentPage = 1;
+
+			if (currentPage > 0)
+				fileWorkCond.setPageNo(currentPage-1);
+
+			fileWorkCond.setPageSize(pageSize);
+			//fileWorkCond.setOrders(new Order[]{new Order("tskCreatedate", false)});
+
+			FileWork[] fileWorks = getDocManager().getFileWorkList(userId, fileWorkCond);
+			WorkInstanceInfo[] workInstanceInfos = null;
+			if(!CommonUtil.isEmpty(fileWorks)) {
+				workInstanceInfos = ModelConverter.getWorkInstanceInfosByFileWorks(fileWorks, TskTask.TASKREFTYPE_FILE, 0);
+			}
+
+			instanceInfoList.setTotalSize((int)totalCount);
 			instanceInfoList.setInstanceDatas(workInstanceInfos);
 			instanceInfoList.setType(InstanceInfoList.TYPE_INFORMATION_INSTANCE_LIST);
 			instanceInfoList.setPageSize(pageSize);
