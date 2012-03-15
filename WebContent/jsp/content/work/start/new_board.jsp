@@ -114,7 +114,7 @@ function submitForms() {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <div class="up_wrap js_new_board_page" workId="<%=SmartWork.ID_BOARD_MANAGEMENT%>">
-	<div class="up_point posit_works js_up_pointer"></div>
+	<div class="up_point pos_works js_up_pointer"></div>
 	<div class="form_wrap up up_padding">
 
 		<!-- 폼- 확장 -->

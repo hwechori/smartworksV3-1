@@ -51,9 +51,9 @@
 </select>
 
 <!-- 사용자를 선택하는 입력화면 -->
-<div class="js_type_userField float_left"> 
-	<div class="icon_fb_us_space"> 
-		<div class='fieldline js_community_names sw_required'>
+<div class="js_type_userField fl"> 
+	<div class="icon_fb_space"> 
+		<div class='fieldline community_names js_community_names sw_required'>
 			<div class="js_selected_communities user_sel_area">
 				<%if (operandValue != null) {%><span>
 					<span class='js_community_item user_select' comId='<%=operandValueSecond%>'><%=operandValue%><span class='btn_x_gr'>
@@ -64,7 +64,7 @@
 			<input name="txtFilterStringOperand" class="js_auto_complete" href="user_name.sw" type="text" id="<%if (operandId != null) {%><%=operandId%><%}%>">
 			<div class="js_srch_x"></div>
 		</div>
-		<div class="js_community_list commu_list" style="display: none"></div>
+		<div class="js_community_list com_list" style="display: none"></div>
 		<span class="js_community_popup"></span>
 		<a href="" class="js_userpicker_button"><span class="icon_fb_user"></span></a>
 	</div>

@@ -85,9 +85,9 @@
 		<!--  메시지박스 닫기 버튼  -->
 		<div class="btn_black js_close_message">
 			<a href="">
-				<span class="Btn01Start"></span> 
-				<span class="Btn01Center"><fmt:message key="notice.message.box.close" /></span>
-				<span class="Btn01End"></span>
+				<span class="txt_btn_start"></span> 
+				<span class="txt_btn_center"><fmt:message key="notice.message.box.close" /></span>
+				<span class="txt_btn_end"></span>
 			</a>
 		</div>
 		<!--  메시지박스 닫기 버튼  //-->
@@ -95,9 +95,9 @@
 		<!--  메시지박스 전체보기 버튼  -->
 		<div class="btn_black js_detail_message">
 			<a href=""> 
-				<span class="Btn01Start"></span> 
-				<span class="Btn01Center"><fmt:message key="notice.message.box.detail" /></span>
-				<span class="Btn01End"></span>
+				<span class="txt_btn_start"></span> 
+				<span class="txt_btn_center"><fmt:message key="notice.message.box.detail" /></span>
+				<span class="txt_btn_end"></span>
 			</a>
 		</div>
 		<!--  메시지박스 전체보기 버튼  //-->

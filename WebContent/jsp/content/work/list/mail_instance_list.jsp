@@ -69,7 +69,7 @@
  		<th class="r_line"><a href="" class="js_select_field_sorting" fieldId="<%=field.getId()%>"><%=field.getName()%> <%if(sortedField.getFieldId().equals(field.getId())){
  				if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %></a>
 		</th>
-<%-- 		<th class="r_line"><%=field.getName()%> <img class="bu_arr_b">
+<%-- 		<th class="r_line"><%=field.getName()%> <img class="icon_btn_arrb">
 		</th>
  --%>			<%
 				}

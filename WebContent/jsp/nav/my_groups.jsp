@@ -24,7 +24,7 @@
 			<li>
 				<a href="<%=group.getSpaceController() %>?cid=<%=group.getSpaceContextId()%>&wid=<%=group.getId() %>" title="<%=group.getDesc()%>">
 					<span class="icon_pe"><img src="<%=group.getMinPicture()%>" class="profile_size_s"></span> 
-					<span class="nav_subtitl_area"><%=group.getName()%></span>
+					<span class="nav_sub_area"><%=group.getName()%></span>
 				</a>
 			</li>
 	<%

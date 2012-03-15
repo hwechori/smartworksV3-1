@@ -152,7 +152,7 @@
 					String toDateStr = (new LocalDate(calendars[i].getDate().getTime() + LocalDate.ONE_DAY)).toLocalDateString2();
 				%>
 					<!-- 5일 -->					
-					<div class="space_section margin_t10 js_space_weekly_day" toDate="<%=toDateStr%>">
+					<div class="space_section mt10 js_space_weekly_day" toDate="<%=toDateStr%>">
 						<div class="<%=titleClass%>"><%=calendars[i].getDate().toLocalDateLongString() + calendars[i].toCompanyEventsString()%></div>
 						<ul>
 							<%

@@ -19,7 +19,7 @@ function updateNoticeCount(message){
 	var count = message.body.count;
 	var data = "<span></span>";
 	if (count > 0)
-		data = "<em class='num_ic'>" + count + "<span></span></em>";
+		data = "<em class='icon_number'>" + count + "<span></span></em>";
 
 	if (type == 0) {
 		$('#notification_count').html(data);
@@ -59,17 +59,17 @@ function updateNoticeCount(message){
 <!-- 회사 로고 및 연결 링크 //-->
 
 <!-- Notice 아이콘들 및 연결 기능  -->
-<div class="notice_ico js_notice_icons_area">
+<div class="notice_icons js_notice_icons_area">
 	<ul>
 		<!--  Notification 알림 영역 -->
 		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="i_info js_notice_count">
+		<li class="icon_info js_notice_count">
 			<a id="notification_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_NOTIFICATION%>" 
 				title="<fmt:message key='header.notice.icon.notification'/>">
 				<%
 	 			if (notices.length > Notice.TYPE_NOTIFICATION && notices[Notice.TYPE_NOTIFICATION].getLength() > 0) {
 	 			%> 
-	 				<em class="num_ic"><%=notices[Notice.TYPE_NOTIFICATION].getLength()%><span></span></em>
+	 				<em class="icon_number"><%=notices[Notice.TYPE_NOTIFICATION].getLength()%><span></span></em>
 				<%
 				}
 				%>
@@ -79,13 +79,13 @@ function updateNoticeCount(message){
 
 		<!-- 쪽지 알림 영역 -->
 		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="i_note js_notice_count">
+		<li class="icon_note js_notice_count">
 			<a id="message_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_MESSAGE%>"
 				title="<fmt:message key='header.notice.icon.message'/>"> 
 				<%
 	 			if (notices.length > Notice.TYPE_MESSAGE && notices[Notice.TYPE_MESSAGE].getLength() > 0) {
 	 			%> 
-	 				<em class="num_ic"><%=notices[Notice.TYPE_MESSAGE].getLength()%><span></span></em> 
+	 				<em class="icon_number"><%=notices[Notice.TYPE_MESSAGE].getLength()%><span></span></em> 
 				<%
 				}
 				%>
@@ -95,13 +95,13 @@ function updateNoticeCount(message){
 
 		<!-- 댓글 알림 영역  -->
 		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="i_reply js_notice_count">
+		<li class="icon_reply js_notice_count">
 			<a id="comment_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_COMMENT%>"
 				title="<fmt:message key='header.notice.icon.comments'/>">
 				<%
 			 	if (notices.length > Notice.TYPE_COMMENT && notices[Notice.TYPE_COMMENT].getLength() > 0) {
 			 	%> 
-				 	<em class="num_ic"><%=notices[Notice.TYPE_COMMENT].getLength()%><span></span></em> 
+				 	<em class="icon_number"><%=notices[Notice.TYPE_COMMENT].getLength()%><span></span></em> 
 				<%
 				}
 				%>
@@ -111,13 +111,13 @@ function updateNoticeCount(message){
 
 		<!-- 할당업무 알림 영역  -->
 		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="i_assworks js_notice_count">
+		<li class="icon_assworks js_notice_count">
 			<a id="assigned_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_ASSIGNED%>"
 				title="<fmt:message key='header.notice.icon.assigned'/>">
 				<%
 			 	if (notices.length > Notice.TYPE_ASSIGNED && notices[Notice.TYPE_ASSIGNED].getLength() > 0) {
 			 	%> 
-				 	<em class="num_ic"><%=notices[Notice.TYPE_ASSIGNED].getLength()%><span></span></em>
+				 	<em class="icon_number"><%=notices[Notice.TYPE_ASSIGNED].getLength()%><span></span></em>
 				<%
 				}
 				%>
@@ -127,13 +127,13 @@ function updateNoticeCount(message){
 
 		<!-- 메일 알림 영역  -->
 		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="i_mail js_notice_count">
+		<li class="icon_mail js_notice_count">
 			<a id="mailbox_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_MAILBOX%>"
 				title="<fmt:message key='header.notice.icon.mailbox'/>">
 				<%
 			 	if (notices.length > Notice.TYPE_MAILBOX && notices[Notice.TYPE_MAILBOX].getLength() > 0) {
 				%> 
-					<em class="num_ic"><%=notices[Notice.TYPE_MAILBOX].getLength()%><span></span></em> 
+					<em class="icon_number"><%=notices[Notice.TYPE_MAILBOX].getLength()%><span></span></em> 
 				<%
 				}
 				%>
@@ -143,13 +143,13 @@ function updateNoticeCount(message){
 
 		<!-- 임시저장 알림 영역  -->
 		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="i_imsave js_notice_count">
+		<li class="icon_saved js_notice_count">
 			<a id="savedbox_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_SAVEDBOX%>"
 				title="<fmt:message key='header.notice.icon.savedbox'/>"> 
 				<%
 			 	if (notices.length > Notice.TYPE_SAVEDBOX && notices[Notice.TYPE_SAVEDBOX].getLength() > 0) {
 			 	%> 
-			 		<em class="num_ic"><%=notices[Notice.TYPE_SAVEDBOX].getLength()%><span></span></em> 
+			 		<em class="icon_number"><%=notices[Notice.TYPE_SAVEDBOX].getLength()%><span></span></em> 
 				<%
 				}
 				%>

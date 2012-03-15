@@ -34,7 +34,7 @@
 		%>
 					<li>
 						<span class="dep">
-							<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox float_left_nowidth" comName="<%=user.getLongName() %>" value="<%=user.getId()%>"/><%} %>						
+							<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox fl_nowidth" comName="<%=user.getLongName() %>" value="<%=user.getId()%>"/><%} %>						
 							<a <%if(!isMultiSelectable){ %>href="" class="js_pop_select_user"<%} %> userId="<%=user.getId()%>">
 								<img src="<%=user.getMinPicture() %>" class="profile_size_s"><span class="<%=iconType%>"></span><%=user.getLongName()%>
 							</a>
@@ -47,7 +47,7 @@
 				%>
 					<li class="js_drill_down">
 						<span class="dep">
-							<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox float_left_nowidth" comName="<%=department.getName() %>" value="<%=department.getId()%>"/><%} %>
+							<%if(isMultiSelectable){ %><input type="checkbox" class="js_checkbox fl_nowidth" comName="<%=department.getName() %>" value="<%=department.getId()%>"/><%} %>
 							<a href="pop_userlist_by_depart.sw?multiUsers=<%=isMultiSelectable %>" departmentId="<%=department.getId()%>" class="js_popup">
 								<span class="<%=iconType%>"></span>
 								<span><%=department.getName()%></span>

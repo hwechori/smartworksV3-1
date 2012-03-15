@@ -32,11 +32,11 @@
 				<div class="titl_section">
 				
 					<!-- 타이틀을 나타내는 곳 -->
-					<div class="tit padding_r10"><fmt:message key="content.my_running_instance_list" /></div>					
+					<div class="tit pr10"><fmt:message key="content.my_running_instance_list" /></div>					
 					<!-- 타이틀을 나타내는 곳 // -->
 					
 					<!-- 자동완성 검색창과 검색결과 리스트 공간 -->
-					<div class="nav_srch padding_b2">
+					<div class="nav_srch pb2">
 						<div class="srch_wh srch_wsize2">
 							<input id="" class="nav_input js_auto_complete" type="text" title="<fmt:message key="search.search_running_instance"/>"
 								placeholder="<fmt:message key="search.search_running_instance"/>" href="my_running_instance.sw">
@@ -47,7 +47,7 @@
 					<!-- 자동완성 검색창과 검색결과 리스트 공간 //-->
 					
 					<!-- 전체/할당업무만의 갯수와 선택버튼들 -->
-					<div class="txt_btn float_right js_instance_counts">
+					<div class="txt_btn fr js_instance_counts">
 						<div class="po_right">
 							<a href="" class="current js_view_my_running_instances" instanceCount="<%=runningCounts.getTotal()%>"><fmt:message key="content.my_running_instance_count"/> 
 								<span class="t_red_bold js_all_running_count">[<%=runningCounts.getTotal() %>]</span>

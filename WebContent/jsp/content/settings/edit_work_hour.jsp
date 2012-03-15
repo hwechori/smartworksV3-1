@@ -80,7 +80,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 clear js_edit_work_hour_page" policyId="<%=CommonUtil.toNotNull(policyId)%>">
+<div class="form_wrap up up_padding mb2 cb js_edit_work_hour_page" policyId="<%=CommonUtil.toNotNull(policyId)%>">
 	<div class="form_title">
 		<%
 		if(SmartUtil.isBlankObject(policyId)){
@@ -93,10 +93,10 @@
 		<%
 		}
 		%>
-		<div class="solid_line clear"></div>
+		<div class="solid_line cb"></div>
 	</div>
 
-	<form name="frmEditWorkHour" class="form_layout con margin_b10 js_validation_required">
+	<form name="frmEditWorkHour" class="form_layout con mb10 js_validation_required">
 		<table>
 			<colgroup>
 				<col widtd="15%" />
@@ -149,13 +149,13 @@
 					<tr class="js_work_hour" <%if(i<workHourPolicy.getFirstDayOfWeek() || i>=workHourPolicy.getFirstDayOfWeek()+workHourPolicy.getWorkingDays()){ %> style="display:none"<%} %>>
 						<th class="end"><%=LocalDate.getDayLocalString(i) %></th>
 						<td class="end">
-							<span class="float_left mr5"><fmt:message key="settings.title.work_hour.start"/></span>
-							<div class="icon_fb_space form_time_input float_left mr10">
+							<span class="fl mr5"><fmt:message key="settings.title.work_hour.start"/></span>
+							<div class="icon_fb_space form_time_input fl mr10">
 								<input name="timWorkStart" class="fieldline js_timepicker workStart" readonly="readonly" type="text" value="<%=LocalDate.convertTimeToString(workHour.getStart()) %>">
 								<a href="" class="js_timepicker_button"><span class="icon_fb_time"></span></a>
 							</div>
-							<span class="float_left mr5"><fmt:message key="settings.title.work_hour.end"/></span>
-							<div class="icon_fb_space form_time_input float_left mr10">
+							<span class="fl mr5"><fmt:message key="settings.title.work_hour.end"/></span>
+							<div class="icon_fb_space form_time_input fl mr10">
 								<input name="timWorkEnd" class="fieldline js_timepicker workEnd" readonly="readonly" type="text" name="" value="<%=LocalDate.convertTimeToString(workHour.getEnd()) %>">
 								<a href="" class="js_timepicker_button"><span class="icon_fb_time"></span></a>
 							</div>
@@ -174,29 +174,29 @@
 		<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 		<span class="js_progress_span"></span>
-		<div class="float_right">
+		<div class="fr">
 			<span class="btn_gray"> 
 				<a href="" onclick='submitForms(); return false;'>
-					<span class="Btn01Start"></span>
+					<span class="txt_btn_start"></span>
 					<%
 					if(SmartUtil.isBlankObject(policyId)){
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.add_new"/></span> 
+						<span class="txt_btn_center"><fmt:message key="common.button.add_new"/></span> 
 					<%
 					}else{
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.modify"/></span>
 					<%
 					}
 					%>
-					<span class="Btn01End"></span>
+					<span class="txt_btn_end"></span>
 				</a>
 			</span> 
 			<span class="btn_gray"> 
 				<a href="" onclick='closePage();return false;'>
-					<span class="Btn01Start"></span>
-					<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> 
-					<span class="Btn01End"></span>
+					<span class="txt_btn_start"></span>
+					<span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span> 
+					<span class="txt_btn_end"></span>
 				</a>
 			</span>
 		</div>

@@ -91,14 +91,14 @@
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 			%>
 				<tr>
-					<td class="hAlignCenter"><%=currentCount%></td>
+					<td class="tc"><%=currentCount%></td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"/></a>
 					</td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space"><%=((MemoInstanceInfo)instanceInfo).getContent() %></a>
 					</td>
-					<td class="hAlignRight">
+					<td class="tr pr10">
 						<%
 						if(!SmartUtil.isBlankObject(lastModifier)){
 						%>
@@ -112,7 +112,7 @@
 						}
 						%>
 					</td>
-					<td class="hAlignCenter"><%=((MemoInstanceInfo)instanceInfo).getViews() %>
+					<td class="tc"><%=((MemoInstanceInfo)instanceInfo).getViews() %>
 				</tr>
 	<%
 				currentCount--;

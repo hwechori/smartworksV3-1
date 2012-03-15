@@ -9,7 +9,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <!-- 나의 커뮤너티 와 검색박스가 있는 헤더  -->
-<ul class="navi_tit">
+<ul class="nav_tit">
 
 	<!-- 나의 커뮤너티 라벨과 클릭시 아래의 커뮤너티선택트리화면을 접었다 폈다하는 기능 제공  -->
 	<!-- *** js_collapse_parent_siblings : sw_act_nav.js 에서 이클래스의 클릭이벤트를 받아서 -->
@@ -24,7 +24,7 @@
 		<div class="srch srch_wsize">
 			<input id="" class="nav_input js_auto_complete" type="text" title="<fmt:message key='search.search_people_depart_group'/>"
 				placeholder="<fmt:message key='search.search_people_depart_group'/>" href="community.sw">
-			<div class='srch_ico js_srch_x'></div>
+			<div class='srch_icon js_srch_x'></div>
 		</div>
 		<!-- nav 검색 리스트 -->
 		<div class="nav_srch_list" style="display: none"></div>
@@ -36,14 +36,14 @@
 <!-- 나의 커뮤너티 와 검색박스가 있는 헤더 // -->
 
 <!--  나의부서, 나의 그룹에서 커뮤너티를 찾을수 있는 트리 화면  -->
-<div class='navi_list js_collapsible js_nav_my_com'>
+<div class='nav_sub_list js_collapsible js_nav_my_com'>
 	<!-- 내부 메뉴 -->
-	<div class="categ_link js_nav_tab_com">
+	<div class="tab_buttons js_nav_tab_com">
 	
-		<!-- 아래 class="btn_my_group_add"는 그룹 추가 버튼입니다 -->
+		<!-- 아래 class="btn_add_group"는 그룹 추가 버튼입니다 -->
 		<a href="my_groups.sw" title="<fmt:message key='nav.communities.my_groups'/>">
 			<span class="btn_my_group">
-				<span class="btn_my_group_add js_add_new_group" title="<fmt:message key='nav.communities.add_group'/>" style="display:none"></span>
+				<span class="btn_add_group js_add_new_group" title="<fmt:message key='nav.communities.add_group'/>" style="display:none"></span>
 			</span>
 		</a>
 		<a href="my_departments.sw" class="" title="<fmt:message key='nav.communities.my_departments'/>">

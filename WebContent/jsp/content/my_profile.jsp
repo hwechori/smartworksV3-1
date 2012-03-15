@@ -95,7 +95,7 @@
 						<div class="js_my_profile_field js_auto_load_profile"></div>
 						<div class="t_text_s11"><fmt:message key="profile.title.size_desc"/></div>
 					</div>					
-					<span class="table_nomal600 ">
+					<span class="table_normal600 ">
 						<table>
 							<tr>
 								<td><fmt:message key="profile.title.user_id" /></td>
@@ -189,23 +189,23 @@
 			
 			<!-- 버튼 영역 -->
 			<div class="glo_btn_space">
-				<div class="float_right padding_r10">
+				<div class="fr pr10">
 					<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 					<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 					<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 					<span class="js_progress_span"></span>
 					<span class="btn_gray">
 						<a href="" onclick='submitForms(); return false;'>
-							<span class="Btn01Start"></span>
-							<span class="Btn01Center"><fmt:message key="popup.button.modify_my_profile"/></span>
-							<span class="Btn01End"></span>
+							<span class="txt_btn_start"></span>
+							<span class="txt_btn_center"><fmt:message key="popup.button.modify_my_profile"/></span>
+							<span class="txt_btn_end"></span>
 						</a> 
 					</span>
-					 <span class="btn_gray space_l5"> 
+					 <span class="btn_gray ml5"> 
 						 <a href="" onclick="return true;"> 
-						 	<span class="Btn01Start"></span>
-						 	<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>
-						 	<span class="Btn01End"></span> 
+						 	<span class="txt_btn_start"></span>
+						 	<span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span>
+						 	<span class="txt_btn_end"></span> 
 						 </a>
 					</span>
 				</div>

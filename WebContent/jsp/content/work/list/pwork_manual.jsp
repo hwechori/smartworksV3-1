@@ -51,10 +51,10 @@
 		       <a href="" class="js_manual_tasks_left" style="display:block"><div class="proc_btn_prev" style="margin: 22px 0 0 35px;"></div></a>
 			<!-- 방향 Prev //-->
 			
-	        <div class="proce_section">
+	        <div class="process_section">
 	        
 				<!--  태스크 시작 -->
-				<div class="proce_space js_manual_tasks_holder" style="overflow:hidden">
+				<div class="process_space js_manual_tasks_holder" style="overflow:hidden">
 					<div class="js_manual_tasks">
 						<ul>
 						<%
@@ -179,20 +179,20 @@
 	    <!-- 댓글 //-->
 
 	    <!-- 라인 -->
-		<div class="solid_line_s margin_t10 margin_b5"></div>		
+		<div class="solid_line_s mt10 mb5"></div>		
 
 		<!-- 우측 버튼 -->
 		<div class="txt_btn txt_btn_height25">	
 
 			<!-- 수정하기 -->
-			<div class="float_right space_l5">
+			<div class="fr ml5">
 				<%
 				if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
 				%>
 					<span class="btn_gray"> 
-						<span class="Btn01Start"></span>
-						<span class="Btn01Center"><fmt:message key='common.button.modify' /> </span> 
-						<span class="Btn01End"></span>
+						<span class="txt_btn_start"></span>
+						<span class="txt_btn_center"><fmt:message key='common.button.modify' /> </span> 
+						<span class="txt_btn_end"></span>
 					</span>
 				<%
 				}
@@ -212,12 +212,12 @@
 				<%
 				if (work.getManualFileName() != null) {
 				%>
-					<a href="" class="bu_video space_r2" title="<fmt:message key='work.title.manual_file'/>"></a> 
+					<a href="" class="icon_btn_video mr2" title="<fmt:message key='work.title.manual_file'/>"></a> 
 				<%
 				}
 				if (work.getHelpUrl() != null) {
 				%> 
-					<a href="<%=work.getHelpUrl()%>" class="bu_webex" title="<fmt:message key='work.title.help_url'/>" target="_blank"></a>
+					<a href="<%=work.getHelpUrl()%>" class="icon_btn_webex" title="<fmt:message key='work.title.help_url'/>" target="_blank"></a>
 				<%
 				}
 				%>
@@ -229,57 +229,57 @@
 				switch (work.getAccessPolicy().getLevel()) {
 				case AccessPolicy.LEVEL_PUBLIC:
 				%>
-					<span class="ch_right margin_t5"><fmt:message key="common.security.access.public" /></span>
+					<span class="ch_right mt5"><fmt:message key="common.security.access.public" /></span>
 				<%
 					break;
 				case AccessPolicy.LEVEL_PRIVATE:
 				%>
-					<span class="ch_right margin_t5"><fmt:message key="common.security.access.private" /></span>
+					<span class="ch_right mt5"><fmt:message key="common.security.access.private" /></span>
 				<%
 					break;
 				case AccessPolicy.LEVEL_CUSTOM:
 				%>
-					<span class="ch_right margin_t5"><fmt:message key="common.security.access.custom" /></span>
+					<span class="ch_right mt5"><fmt:message key="common.security.access.custom" /></span>
 				<%
 					break;
 				}
 				%>
 		
-				<span class="float_right margin_t5"><span class="bu_read"  title="<fmt:message key='common.security.title.access'/>"></span></span>
+				<span class="fr mt5"><span class="icon_body_read"  title="<fmt:message key='common.security.title.access'/>"></span></span>
 		
 				<%
 				switch (work.getWritePolicy().getLevel()) {
 				case WritePolicy.LEVEL_PUBLIC:
 				%>
-					<span class="ch_right  margin_t5"><fmt:message key="common.security.write.public" /></span>
+					<span class="ch_right  mt5"><fmt:message key="common.security.write.public" /></span>
 				<%
 					break;
 				case WritePolicy.LEVEL_CUSTOM:
 				%>
-					<span class="ch_right  margin_t5"><fmt:message key="common.security.write.custom" /></span>
+					<span class="ch_right  mt5"><fmt:message key="common.security.write.custom" /></span>
 				<%
 					break;
 				}
 				%>
 		
-				<span class="float_right margin_t5"><span class="bu_regit" title="<fmt:message key='common.security.title.write'/>"></span></span>
+				<span class="fr mt5"><span class="icon_body_register" title="<fmt:message key='common.security.title.write'/>"></span></span>
 		
 				<%
 				switch (work.getEditPolicy().getLevel()) {
 				case EditPolicy.LEVEL_WIKI:
 				%>
-					<span class="ch_right  margin_t5"><fmt:message key="common.security.edit.wiki" /></span>
+					<span class="ch_right  mt5"><fmt:message key="common.security.edit.wiki" /></span>
 				<%
 					break;
 				case EditPolicy.LEVEL_BLOG:
 				%>
-					<span class="ch_right  margin_t5"><fmt:message key="common.security.edit.blog" /></span>
+					<span class="ch_right  mt5"><fmt:message key="common.security.edit.blog" /></span>
 				<%
 					break;
 				}
 				%>
 		
-				<span class="float_right margin_t5"><span class="bu_modfy" title="<fmt:message key='common.security.title.edit'/>"></span></span>
+				<span class="fr mt5"><span class="icon_body_modify" title="<fmt:message key='common.security.title.edit'/>"></span></span>
 		
 			</span>
 			<!-- 우측 권한 아이콘//-->

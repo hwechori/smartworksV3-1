@@ -82,7 +82,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 clear js_edit_approval_line_page" lineId="<%=CommonUtil.toNotNull(lineId)%>">
+<div class="form_wrap up up_padding mb2 cb js_edit_approval_line_page" lineId="<%=CommonUtil.toNotNull(lineId)%>">
 	<div class="form_title">
 		<%
 		if(SmartUtil.isBlankObject(lineId)){
@@ -95,10 +95,10 @@
 		<%
 		}
 		%>
-		<div class="solid_line clear"></div>
+		<div class="solid_line cb"></div>
 	</div>
 
-	<form name="frmEditApprovalLine" class="form_layout con margin_b10 js_validation_required">
+	<form name="frmEditApprovalLine" class="form_layout con mb10 js_validation_required">
 		<table>
 			<tbody>
 				<tr>
@@ -156,7 +156,7 @@
 								</select>
 								<div class="js_type_userField" fieldId="usrLevelApprover<%=count %>" multiUsers="false" <%if(approval.getApproverType()!=Approval.APPROVER_CHOOSE_USER){ %>style="display:none"<%} %>>
 									<div class="icon_fb_space form_value" >
-										<div class="fieldline js_community_names sw_required">
+										<div class="fieldline community_names js_community_names sw_required">
 											<div class="js_selected_communities user_sel_area">
 												<%
 												if(!SmartUtil.isBlankObject(approval.getApprover())){
@@ -217,29 +217,29 @@
 		<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 		<span class="js_progress_span"></span>
-		<div class="float_right">
+		<div class="fr">
 			<span class="btn_gray"> 
 				<a href="" onclick='submitForms(); return false;'>
-					<span class="Btn01Start"></span>
+					<span class="txt_btn_start"></span>
 					<%
 					if(SmartUtil.isBlankObject(lineId)){
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.add_new"/></span> 
+						<span class="txt_btn_center"><fmt:message key="common.button.add_new"/></span> 
 					<%
 					}else{
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.modify"/></span>
 					<%
 					}
 					%>
-					<span class="Btn01End"></span>
+					<span class="txt_btn_end"></span>
 				</a>
 			</span> 
 			<span class="btn_gray"> 
 				<a href="" onclick='closePage();return false;'>
-					<span class="Btn01Start"></span>
-					<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> 
-					<span class="Btn01End"></span>
+					<span class="txt_btn_start"></span>
+					<span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span> 
+					<span class="txt_btn_end"></span>
 				</a>
 			</span>
 		</div>

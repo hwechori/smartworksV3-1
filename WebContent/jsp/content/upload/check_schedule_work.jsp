@@ -25,8 +25,8 @@
 	<div class="dash_line"></div>
 	<form name='frmScheduleWork' class="form_layout">
 		<!-- 계획업무를 선택하는 선택박스 -->
-		<div class="padding_r10">
-			<input name="chkScheduleWork" class="padding_l15 js_toggle_schedule_work" type="checkbox"/><fmt:message key="common.upload.button.schedule" />
+		<div class="pr10">
+			<input name="chkScheduleWork" class="pl15 js_toggle_schedule_work" type="checkbox"/><fmt:message key="common.upload.button.schedule" />
 		</div>
 		
 		<!-- 계획업무로 선택된경우 계획업무 지정을 위한 화면들을 스마트폼을 이용해 자동으로 그려준다.. -->

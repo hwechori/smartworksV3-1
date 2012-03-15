@@ -107,15 +107,15 @@
 				<div class="body_titl_iworks title"><%=work.getName() %></div>
 				<span class="t_location"><%=work.getFullpathName() %></span>
 				<!-- tab -->
-				<div id="" class="tab_adm float_right">
-					<ul class="clear">
+				<div id="" class="tab_adm fr">
+					<ul class="cb">
 						<li><div><a href="tab_workbench.sw?cid=<%=cid %>" class="js_tab_smart_builder"><span class="btn_wo_adm"></span><fmt:message key="builder.title.work_definition"/></a></div></li>
 						<li><div><a href="tab_work_settings.sw?cid=<%=cid %>" class="js_tab_smart_builder"><span class="btn_set_adm"></span><fmt:message key="builder.title.work_settings"/></a></div></li>
 						<li class="current"><div class="end"><a><span class="btn_app_shar"></span><fmt:message key="builder.title.work_sharing"/></a></div></li>
 					</ul>
 				</div>
 				<!-- tab//-->
-				<div class="solid_line clear"></div>
+				<div class="solid_line cb"></div>
 			</div>
 			<!-- 타이틀 -->
 			<!-- 컨텐츠 -->
@@ -126,7 +126,7 @@
 				</div>
 				<!-- 타이틀 영역// -->
 				<!-- 업무설명 -->
-				<div class="form_wrap up form_layout padding_t10 padding_b10">
+				<div class="form_wrap up form_layout pt10 pb10">
 					<div class="left_im"><img src="<%=workPicture%>" /></div>
 					<div class="right_auto">
 						<table>
@@ -175,7 +175,7 @@
 					<!-- 업무 설명 //-->
 				</div>
 				<!-- 타이틀 영역 -->
-				<div class="default_title_space margin_t20">
+				<div class="default_title_space mt20">
 					<div class="title"><fmt:message key="builder.title.work_guide"/> (<%=work.getName()%>)</div>
 				</div>
 				<!-- 타이틀 영역// -->
@@ -184,11 +184,11 @@
 					InformationWork informationWork = (InformationWork)work;
 				%>
 					<!-- 사용자 가이드 -->
-					<div class="form_wrap up form_layout padding_t10 padding_b10">
+					<div class="form_wrap up form_layout pt10 pb10">
 						<!-- 타이틀 -->
-						<div class="form_title padding0 margin_b10">
+						<div class="form_title p0 mb10">
 							<div class="<%=work.getIconClass() %> title_noico"><%=work.getName() %></div>
-							<div class="solid_line clear"></div>
+							<div class="solid_line cb"></div>
 						</div>
 						<!-- 타이틀 //-->
 						<div class="left_im2">
@@ -216,11 +216,11 @@
 					SmartDiagram diagram =  processWork.getDiagram();
 				%>
 					<!-- 사용자 가이드 -->
-					<div class="form_wrap up form_layout padding_t10 padding_b10">
+					<div class="form_wrap up form_layout pt10 pb10">
 						<!-- 타이틀 -->
-						<div class="form_title padding0 margin_b10">
+						<div class="form_title p0 mb10">
 							<div class="icon_pworks title_noico"><%=work.getName() %></div>
-							<div class="solid_line clear"></div>
+							<div class="solid_line cb"></div>
 						</div>
 						<!-- 타이틀 //-->
 						<div class="left_im2">
@@ -246,11 +246,11 @@
 						for(SmartTaskInfo task : diagram.getTasks()){						
 					%>
 							<!-- 사용자 가이드 -->
-							<div class="form_wrap up form_layout padding_t10 padding_b10">
+							<div class="form_wrap up form_layout pt10 pb10">
 								<!-- 타이틀 -->
-								<div class="form_title padding0 margin_b10">
+								<div class="form_title p0 mb10">
 									<div class="icon_iworks title_noico"><%=task.getName() %></div>
-									<div class="solid_line clear"></div>
+									<div class="solid_line cb"></div>
 								</div>
 								<!-- 타이틀 //-->
 								<div class="left_im2">
@@ -279,16 +279,16 @@
 				}
 				%>
 				<!-- 하단버튼 영역 -->
-				<div class="text_align_c margin_t10 clear">
+				<div class="tc mt10 cb">
 					<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 					<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 					<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 					<span class="js_progress_span"></span>
 					<span class="btn_gray">
 						<a href="" onclick='submitForms(); return false;'>
-							<span class="Btn01Start"></span> 
-							<span class="Btn01Center"><span class="btn_app_shar_go"></span><fmt:message key="builder.button.sharing_to_appstore"/></span> 
-							<span class="Btn01End"></span> 
+							<span class="txt_btn_start"></span> 
+							<span class="txt_btn_center"><span class="btn_app_shar_go"></span><fmt:message key="builder.button.sharing_to_appstore"/></span> 
+							<span class="txt_btn_end"></span> 
 						</a>
 					</span>
 				</div>

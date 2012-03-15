@@ -83,7 +83,7 @@
 <!--  좌측의 필드항목과 우측의 값을 계산하는 조건실행을 위한 오퍼레이터 선택박스 //-->
 
 <!-- 우측의 날짜시간을 비교할 수 있은 날짜시간 선택박스 -->
-<span class="icon_fb_cl_space float_left js_operand_date js_right_operand"
+<span class="icon_fb_space fl js_operand_date js_right_operand"
 	<%if (!selectedOperType.equals("js_operand_date")) {%> style="display: none" <%}%>> 
 	<input class="inputline form_datetime_input js_todaytimepicker required" type="text" name="txtFilterDateOperand" readonly="readonly"
 		value="<%if (!SmartUtil.isBlankObject(operandValue) && !operandValue.equals("null")) {%><%=operandValue%><%} else {%><%=today%><%}%>">

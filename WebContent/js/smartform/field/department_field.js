@@ -29,9 +29,9 @@ SmartWorks.FormRuntime.DepartmentFieldBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$label.addClass('required_label');
-		required = " class='fieldline js_community_names sw_required'";
+		required = " class='fieldline community_names js_community_names sw_required'";
 	}else{
-		required = " class='fieldline js_community_names'";
+		required = " class='fieldline community_names js_community_names'";
 	}
 	$label.appendTo(options.container);
 	
@@ -51,7 +51,7 @@ SmartWorks.FormRuntime.DepartmentFieldBuilder.build = function(config) {
 						<input class="js_auto_complete" href="community_name.sw" type="text"' + hideStyle + '>\
 						<div class="js_srch_x"' + hideStyle + '></div>\
 					</div>\
-					<div class="js_community_list commu_list" style="display: none"></div><a href="#" class="js_departpicker_button"><span class="icon_fb_user"></span></a></div></div>');
+					<div class="js_community_list com_list" style="display: none"></div><a href="#" class="js_departpicker_button"><span class="icon_fb_user"></span></a></div></div>');
 
 	$html.find('.js_selected_communities').html(usersHtml);
 	

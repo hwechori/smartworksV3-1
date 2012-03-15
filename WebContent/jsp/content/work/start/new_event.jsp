@@ -124,7 +124,7 @@ function submitForms() {
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <div class="up_wrap js_new_event_page" workId="<%=SmartWork.ID_EVENT_MANAGEMENT%>">
-	<div class="up_point posit_works js_up_pointer"></div>
+	<div class="up_point pos_works js_up_pointer"></div>
 	<div class="form_wrap up up_padding">
 		<!-- 폼- 확장 -->
 		<form name="frmNewEvent" class="form_title js_validation_required js_click_start_form">

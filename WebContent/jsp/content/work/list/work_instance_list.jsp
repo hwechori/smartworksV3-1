@@ -124,7 +124,7 @@
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 				%>
 				<tr>
-					<td class="hAlignCenter"><%=currentCount%></td>
+					<td class="tc"><%=currentCount%></td>
 					<td>
 						<a href="<%=target%>" class="js_content_pwork_space">
 							<div class="noti_pic">

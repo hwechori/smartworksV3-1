@@ -31,10 +31,10 @@ $(function() {
 			smartPop.progressNavGray($(event.target).parents('.js_nav_tab_com span.js_progress_span:first'));
 			var input = $(event.target).parent('a');
 			input.find('span:first').addClass('current');
-			input.find('.btn_my_group_add').show();
+			input.find('.btn_add_group').show();
 			
 			input.siblings().find('span:first').removeClass('current');
-			input.siblings().find('.btn_my_group_add').hide();
+			input.siblings().find('.btn_add_group').hide();
 		},
 		target : 'my_communities',
 		after : function(event) {

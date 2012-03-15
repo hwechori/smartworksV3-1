@@ -12,8 +12,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="css/default.css" type="text/css" rel="stylesheet" /></link>
-		<link href="css/pop.css" type="text/css" rel="stylesheet" /></link>
-		<link href="css/login_r.css" type="text/css" rel="stylesheet" /></link>
+		<link href="css/black/pop.css" type="text/css" rel="stylesheet" /></link>
+		<link href="css/black/login.css" type="text/css" rel="stylesheet" /></link>
 		<script type="text/javascript" src="js/jquery/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript" src="js/sw/sw-language.js"></script>
 		<script type="text/javascript" src="js/sw/sw-language-ko.js"></script>
@@ -33,20 +33,20 @@
 	
 				<form class="lo_idp t_wh" action="j_spring_security_check" method="post">
 				
-					<div class="float_left mr7" >
+					<div class="fl mr7" >
 					<div class="mb2"><fmt:message key="profile.title.email"/></div>
 					<input id="j_username" name="j_username" maxlength="50" type="text" style="height:21px; width:142px"/>
 					</div>
 					
-					<div class="float_left">
+					<div class="fl">
 					<div class="mb2"><fmt:message key="profile.title.password"/></div>
 					<input id="j_password" name="j_password" maxlength="50" type="password" style="height:21px; width:142px"/>
 					</div>
 					
-					<input class="float_right btn_login" type="submit" value="<fmt:message key="login.button.login"/>">
+					<input class="fr btn_login" type="submit" value="<fmt:message key="login.button.login"/>">
 					
 					
-					<div class="lo_checkbox clear"><fmt:message key="login.title.remember_me"/> <input name="_spring_security_remember_me" type="checkbox" value="true" style="margin-right: 3px;" tabindex="3" /></div>
+					<div class="lo_checkbox cb"><span><fmt:message key="login.title.remember_me"/></span><input class="mr3" name="_spring_security_remember_me" type="checkbox" value="true" tabindex="3" /></div>
 				</form>
 			</div>
 			<!-- Header //-->

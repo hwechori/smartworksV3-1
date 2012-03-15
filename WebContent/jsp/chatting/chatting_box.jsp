@@ -58,8 +58,8 @@
 					<div class='js_srch_x'></div>
 				</div>
 				<a href="" class="js_add_chatters"><span class="btn_wh">
-						<span class="Btn01Start"></span> <span class="Btn01Center"><fmt:message key="chat.button.invite_users"/></span>
-						<span class="Btn01End"></span> </span> </a>
+						<span class="txt_btn_start"></span> <span class="txt_btn_center"><fmt:message key="chat.button.invite_users"/></span>
+						<span class="txt_btn_end"></span> </span> </a>
 			</div>
 
 			<div class="js_chatter_list chatter_list_area" style="display: none"></div>

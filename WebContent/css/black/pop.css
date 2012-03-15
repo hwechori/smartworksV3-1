@@ -6,10 +6,7 @@
 .smart_userinfo_section {width:300px; border: 1px solid #c7c7c7; background-color:#FFF;}
 .pop_contents {padding: 10px; overflow:hidden;}
 
-
 .pop_title {font-weight:bold; font-size:14px; position:absolute; color:#454545;}
-
-
 
 /* Layer popup list */
 .pop_list_area {border: 1px solid #c7c7c7; text-align: left; background-color: #FFF; margin-top: 1px; font-size: 11px;}
@@ -41,18 +38,18 @@
 .pop_i_info .info_list {padding:0 0 0 5px;width:215px}
 
 /* icon */
-.icon_pop_info {background: url("../images/header_nico.png") no-repeat -159px -267px transparent; height:20px; width:20px; display: inline-block;}
-.icon_pop_event {background: url("../images/header_nico.png") no-repeat -195px -267px transparent; height:20px; width:20px; display: inline-block;}
+.icon_pop_info {background: url("../../images/header_nico.png") no-repeat -159px -267px transparent; height:20px; display: inline-block;}
+.icon_pop_event {background: url("../../images/header_nico.png") no-repeat -195px -267px transparent; height:20px; display: inline-block;}
 
 /* close btn */
-a .pop_btn_x {background: url("../images/pop_btn_x.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 15px;
+a .pop_btn_x {background: url("../../images/pop_btn_x.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 15px;
     padding: 0; position: relative; right: 3px; top:2px; width: 15px; float: right;} 
 a:hover .pop_btn_x {background-color:#e5e5e5;}
 
 /* pop title */
 .pop_title_space {padding:15px 0 5px; overflow:hidden;border-bottom:2px solid #999}
-.pop_title_space .title_work {background: url("../images/body_icon.png") no-repeat scroll -547px -146px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
-.pop_title_space .title_user {background: url("../images/body_icon.png") no-repeat scroll -547px -187px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
+.pop_title_space .title_work {background: url("../../images/body_icon.png") no-repeat scroll -547px -146px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
+.pop_title_space .title_user {background: url("../../images/body_icon.png") no-repeat scroll -547px -187px transparent;font-size:14px; font-weight:bold; padding: 0 8px 0 28px; float:left; line-height: 20px;}
 .pop_title_space.w_margin {margin: 0 20px;}
 
 
@@ -60,19 +57,18 @@ a:hover .pop_btn_x {background-color:#e5e5e5;}
 .pop_notice_section {padding-left: 10px; text-align: left; color:#7d7d7d}
 .pop_message_h {padding:10px 0;}
 
-.icon_pop_Info {background: url("../images/body_icon.png") no-repeat scroll -547px -257px transparent; display: block; font-size: 14px; font-weight: bold; line-height: 20px; padding: 2px 0 0 33px; text-align: left; margin-bottom: 10px}
-.icon_pop_Warn {background: url("../images/body_icon.png") no-repeat scroll -547px -227px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 3px 0 0 33px; text-align: left; margin-bottom: 10px}
-.icon_pop_Error {background: url("../images/body_icon.png") no-repeat scroll -547px -283px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 4px 0 0 33px; text-align: left; margin-bottom: 10px}
+.icon_pop_Info {background: url("../../images/body_icon.png") no-repeat scroll -547px -257px transparent; display: block; font-size: 14px; font-weight: bold; line-height: 20px; padding: 2px 0 0 33px; text-align: left; margin-bottom: 10px}
+.icon_pop_Warn {background: url("../../images/body_icon.png") no-repeat scroll -547px -227px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 3px 0 0 33px; text-align: left; margin-bottom: 10px}
+.icon_pop_Error {background: url("../../images/body_icon.png") no-repeat scroll -547px -283px transparent; display: block; font-size: 14px; font-weight: bold; height: 26px; line-height: 20px; padding: 4px 0 0 33px; text-align: left; margin-bottom: 10px}
 
 
 /* Smart User Info */
-.use_pic { float:left;}
 .smartp_name { font-weight:bold; color:#3B5998;}
 .smartp_info {}
 .smartp_btn_space {background-color: #c7c7c7; height: 19px; padding: 4px 5px 2px;}
-.pop_icon_chat {background: url("../images/nav_img.png") no-repeat scroll -151px 0 transparent; display: inline-block; height: 19px; width:20px;}
-.pop_icon_mail {background: url("../images/nav_img.png") no-repeat scroll -177px 0 transparent; display: inline-block; height: 19px; width:20px;}
-.pop_icon_message {background: url("../images/nav_img.png") no-repeat scroll -202px 0 transparent; display: inline-block; height: 19px; width:20px;}
+.pop_icon_chat {background: url("../../images/nav_img.png") no-repeat scroll -151px 0 transparent; display: inline-block; height: 19px; width:20px;}
+.pop_icon_mail {background: url("../../images/nav_img.png") no-repeat scroll -177px 0 transparent; display: inline-block; height: 19px; width:20px;}
+.pop_icon_message {background: url("../../images/nav_img.png") no-repeat scroll -202px 0 transparent; display: inline-block; height: 19px; width:20px;}
 
 a .pop_icon_chat:hover { background-position:-151px -34px}
 a .pop_icon_mail:hover { background-position:-177px -34px}

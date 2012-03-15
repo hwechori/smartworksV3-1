@@ -66,7 +66,7 @@
 					}else if(folder.getType() == MailFolder.TYPE_SYSTEM_JUNK){
 					%>
 						<span class="icon_pe"><img class="icon_mail_junk"></span> 
-						<span class="nav_subtitl_area"><fmt:message key="mail.title.folder.junk"/></span>
+						<span class="nav_sub_area"><fmt:message key="mail.title.folder.junk"/></span>
 						<%if (folder.getUnreadItemCount() > 0) {%><span>(<%=folder.getUnreadItemCount()%>)</span><%}%>						
 					<%
 					// 사용자 정의 폴더인 경우  
