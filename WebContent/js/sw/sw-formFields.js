@@ -98,7 +98,6 @@ function loadNewPictureFields() {
 	if(!isEmpty(newPictureFields)) {
 		for(var i=0; i<newPictureFields.length; i++) {
 			var newPictureField = $(newPictureFields[i]);
-			
 			var gridRow = SmartWorks.GridLayout.newGridRow();
 			var gridTable = SmartWorks.GridLayout.newGridTable();
 			newPictureField.html(gridTable.html(gridRow));
@@ -133,7 +132,6 @@ function loadNewFileFields() {
 	if(!isEmpty(newFileFields)) {
 		for(var i=0; i<newFileFields.length; i++) {
 			var newFileField = $(newFileFields[i]);
-			
 			var gridRow = SmartWorks.GridLayout.newGridRow();
 			var gridTable = SmartWorks.GridLayout.newGridTable();
 			newFileField.html(gridTable.html(gridRow));
@@ -169,7 +167,6 @@ function loadNewEventFields(startDate) {
 	if(!isEmpty(newEventFields)) {
 		for(var i=0; i<newEventFields.length; i++) {
 			var newEventField = $(newEventFields[i]);
-			
 			var gridRow = SmartWorks.GridLayout.newGridRow();
 			var gridTable = SmartWorks.GridLayout.newGridTable();
 			newEventField.html(gridTable.html(gridRow));
@@ -273,35 +270,11 @@ function loadNewEventFields(startDate) {
 	}
 };
 
-function loadNewMemoFields() {
-	var newMemoFields = $('div.js_new_memo_fields');
-	if(!isEmpty(newMemoFields)) {
-		for(var i=0; i<newMemoFields.length; i++) {
-			var newMemoField = $(newMemoFields[i]);
-			
-			var gridRow = SmartWorks.GridLayout.newGridRow();
-			var gridTable = SmartWorks.GridLayout.newGridTable();
-			newMemoField.html(gridTable.html(gridRow));
-			
-			var memoNameTitle = newMemoField.attr("memoNameTitle");
-			SmartWorks.FormRuntime.TextInputBuilder.buildEx({
-				container: gridRow,
-				fieldId: "txtMemo",
-				fieldName: memoNameTitle,
-				columns: 1,
-				multiLines: 2,
-				required: true
-			});
-		}		
-	}
-};
-
 function loadNewBoardFields() {
 	var newBoardFields = $('div.js_new_board_fields');
 	if(!isEmpty(newBoardFields)) {
 		for(var i=0; i<newBoardFields.length; i++) {
 			var newBoardField = $(newBoardFields[i]);
-			
 			var gridRow = SmartWorks.GridLayout.newGridRow();
 			var gridTable = SmartWorks.GridLayout.newGridTable();
 			newBoardField.html(gridTable.html(gridRow));
@@ -437,6 +410,3 @@ function loadNewGroupFields() {
 		}		
 	}
 };
-
-$(function() {	
-});
