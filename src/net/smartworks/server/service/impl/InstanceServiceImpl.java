@@ -1854,10 +1854,43 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public InstanceInfo[] getRecentSubInstancesInInstance(String instanceId, int length) throws Exception {
 		try{
-			if(length==WorkInstance.FETCH_ALL_SUB_INSTANCE)
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			if (cuser != null)
+				userId = cuser.getId();
+			
+			TaskWorkCond cond = new TaskWorkCond();
+			cond.setTskWorkSpaceId(instanceId);
+			cond.setTskStatus(TskTask.TASKSTATUS_COMPLETE);
+			cond.setOrders(new Order[]{new Order("taskLastModifyDate", false)});
+			cond.setPageNo(0);
+			if(length != WorkInstance.FETCH_ALL_SUB_INSTANCE)
+				cond.setPageSize(length);
+			TaskWork[] tasks = getWlmManager().getTaskWorkList(userId, cond);
+			if (tasks == null || tasks.length == 0)
+				return null;
+			
+			List<InstanceInfo> InstanceInfoList = new ArrayList<InstanceInfo>();
+			List<String> prcInstIdList = new ArrayList<String>();
+			for (int i = 0; i < tasks.length; i++) {
+				TaskWork task = tasks[i];
+				if (InstanceInfoList.size() == 10)
+					break;
+				if (prcInstIdList.contains(task.getTskPrcInstId()))
+					continue;
+				prcInstIdList.add(task.getTskPrcInstId());
+				InstanceInfoList.add(ModelConverter.getWorkInstanceInfoByTaskWork(task));
+			}
+			InstanceInfo[] subInstancesInInstance = new InstanceInfo[InstanceInfoList.size()];
+			InstanceInfoList.toArray(subInstancesInInstance);
+
+			return subInstancesInInstance;
+
+			/*if(length==WorkInstance.FETCH_ALL_SUB_INSTANCE) {
 				return SmartTest.getAllInstances();
-			else
+			} else {
 				return SmartTest.getInstances();
+			}*/
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -2401,9 +2434,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			InstanceInfoList instanceInfoList = new InstanceInfoList();
 
 			TaskWorkCond taskWorkCond = new TaskWorkCond();
-			taskWorkCond.setTskRefType(refType);
-			//taskWorkCond.setTskWorkSpaceType(spaceType + "");
-			taskWorkCond.setTskWorkSpaceId(spaceId);
+			taskWorkCond.setTskAssigneeOrSpaceId(spaceId);
 
 			long totalCount = getWlmManager().getTaskWorkListSize(userId, taskWorkCond);
 
@@ -3678,8 +3709,37 @@ public class InstanceServiceImpl implements IInstanceService {
 	@Override
 	public InstanceInfo[] getSpaceInstancesByDate(String spaceId, LocalDate fromDate, int maxSize) throws Exception {
 		try{
-			return SmartTest.getMyRecentInstances();
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			if (cuser != null)
+				userId = cuser.getId();
 			
+			TaskWorkCond cond = new TaskWorkCond();
+			cond.setTskWorkSpaceId(spaceId);
+			cond.setTskStatus(TskTask.TASKSTATUS_COMPLETE);
+			cond.setOrders(new Order[]{new Order("taskLastModifyDate", false)});
+			cond.setPageNo(0);
+			cond.setPageSize(maxSize);
+			cond.setTskExecuteDateTo(new LocalDate(fromDate.getGMTDate()));
+			TaskWork[] tasks = getWlmManager().getTaskWorkList(userId, cond);
+			if (tasks == null || tasks.length == 0)
+				return null;
+			
+			List<InstanceInfo> InstanceInfoList = new ArrayList<InstanceInfo>();
+			List<String> prcInstIdList = new ArrayList<String>();
+			for (int i = 0; i < tasks.length; i++) {
+				TaskWork task = tasks[i];
+				if (InstanceInfoList.size() == 10)
+					break;
+				if (prcInstIdList.contains(task.getTskPrcInstId()))
+					continue;
+				prcInstIdList.add(task.getTskPrcInstId());
+				InstanceInfoList.add(ModelConverter.getWorkInstanceInfoByTaskWork(task));
+			}
+			InstanceInfo[] spaceInstances = new InstanceInfo[InstanceInfoList.size()];
+			InstanceInfoList.toArray(spaceInstances);
+
+			return spaceInstances;
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
