@@ -65,9 +65,6 @@ import net.smartworks.server.engine.docfile.model.FileWorkCond;
 import net.smartworks.server.engine.docfile.model.IFileModel;
 import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.folder.manager.IFdrManager;
-import net.smartworks.server.engine.folder.model.FdrFolder;
-import net.smartworks.server.engine.folder.model.FdrFolderCond;
-import net.smartworks.server.engine.folder.model.FdrFolderFile;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
@@ -112,7 +109,6 @@ import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.ICalendarService;
 import net.smartworks.server.service.ICommunityService;
 import net.smartworks.server.service.IInstanceService;
-import net.smartworks.server.service.SmartApi;
 import net.smartworks.server.service.util.ModelConverter;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.SmartMessage;
@@ -2493,6 +2489,18 @@ public class InstanceServiceImpl implements IInstanceService {
 			fileWorkCond.setTskAssigneeOrSpaceId(workSpaceId);
 			fileWorkCond.setTskRefType(TskTask.TASKREFTYPE_IMAGE);
 
+			switch (displayBy) {
+			case FileCategory.DISPLAY_BY_CATEGORY:
+				fileWorkCond.setFolderId(parentId);
+				break;
+			case FileCategory.DISPLAY_BY_YEAR:
+				fileWorkCond.setWrittenTimeMonthString(parentId);
+				break;
+			case FileCategory.DISPLAY_BY_OWNER:
+				fileWorkCond.setTskAssignee(parentId);
+				break;
+			}
+
 			long totalCount = getDocManager().getFileWorkListSize(userId, fileWorkCond);
 
 			SortingField sf = params.getSortingField();
@@ -2563,7 +2571,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				workInstanceInfos = ModelConverter.getWorkInstanceInfosByFileWorks(fileWorks, TskTask.TASKREFTYPE_IMAGE, displayBy);
 			}
 
-			List<WorkInstanceInfo> newWorkInstanceInfoList = new ArrayList<WorkInstanceInfo>();
+/*			List<WorkInstanceInfo> newWorkInstanceInfoList = new ArrayList<WorkInstanceInfo>();
 			for(WorkInstanceInfo workInstanceInfo : workInstanceInfos) {
 				ImageInstanceInfo imageInstanceInfo = (ImageInstanceInfo)workInstanceInfo;
 				if(imageInstanceInfo.getFileCategory().getId().equals(parentId)) {
@@ -2575,7 +2583,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				newWorkInstanceInfoList.toArray(workInstanceInfos);
 			} else {
 				workInstanceInfos = null;
-			}
+			}*/
 
 			instanceInfoList.setTotalSize((int)totalCount);
 			instanceInfoList.setInstanceDatas(workInstanceInfos);
@@ -2626,6 +2634,34 @@ public class InstanceServiceImpl implements IInstanceService {
 			SearchFilter searchFilter = params.getSearchFilter();
 			if(searchFilter != null) {
 				Condition[] conditions = searchFilter.getConditions();
+				if(!CommonUtil.isEmpty(conditions) && conditions.length == 1) {
+					Condition condition = conditions[0];
+					String rightOperand = String.valueOf(condition.getRightOperand());
+					if(!rightOperand.equals(FileCategory.ID_ALL_FILES)) {
+						switch (displayBy) {
+						case FileCategory.DISPLAY_BY_CATEGORY:
+							fileWorkCond.setFolderId(rightOperand);
+							break;
+						case FileCategory.DISPLAY_BY_WORK:
+							fileWorkCond.setPackageId(rightOperand);
+							break;
+						case FileCategory.DISPLAY_BY_YEAR:
+							fileWorkCond.setWrittenTimeMonthString(rightOperand);
+							break;
+						case FileCategory.DISPLAY_BY_OWNER:
+							fileWorkCond.setTskAssignee(rightOperand);
+							break;
+						case FileCategory.DISPLAY_BY_FILE_TYPE:
+							fileWorkCond.setFileType(rightOperand);
+							break;
+						}
+					}
+				}
+			}
+
+			/*SearchFilter searchFilter = params.getSearchFilter();
+			if(searchFilter != null) {
+				Condition[] conditions = searchFilter.getConditions();
 				Filters filters = new Filters();
 				List<Filter> filterList = new ArrayList<Filter>();
 				for(Condition condition : conditions) {
@@ -2655,7 +2691,7 @@ public class InstanceServiceImpl implements IInstanceService {
 					filters.setFilter(searchfilters);
 				}
 				fileWorkCond.addFilters(filters);
-			}
+			}*/
 
 			long totalCount = getDocManager().getFileWorkListSize(userId, fileWorkCond);
 

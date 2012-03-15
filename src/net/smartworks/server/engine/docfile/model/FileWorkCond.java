@@ -23,6 +23,7 @@ public class FileWorkCond extends Cond {
 	private String filePath;
 	private long fileSize;
 	private Date writtenTime;
+	private String writtenTimeMonthString;
 	private String groupId;
 	private String folderId;
 	private String folderName;
@@ -109,6 +110,12 @@ public class FileWorkCond extends Cond {
 	}
 	public void setWrittenTime(Date writtenTime) {
 		this.writtenTime = writtenTime;
+	}
+	public String getWrittenTimeMonthString() {
+		return writtenTimeMonthString;
+	}
+	public void setWrittenTimeMonthString(String writtenTimeMonthString) {
+		this.writtenTimeMonthString = writtenTimeMonthString;
 	}
 	public String getGroupId() {
 		return groupId;

@@ -2480,7 +2480,6 @@ public class ModelConverter {
 			FileWork[] fileWorks = getDocManager().getFileWorkList(userId, fileWorkCond);
 			switch (displayType) {
 			case FileCategory.DISPLAY_BY_CATEGORY:
-				
 				FdrFolderCond fdrFolderCond = new FdrFolderCond();
 				fdrFolderCond.setCompanyId(companyId);
 				fdrFolderCond.setCreationUser(userId);
@@ -2970,6 +2969,7 @@ public class ModelConverter {
 				fileCategoryInfo.setId(categoryId);
 				fileCategoryInfo.setName(categoryName);
 				tempWorkInstanceInfo.setFileCategory(fileCategoryInfo);
+				tempWorkInstanceInfo.setLastModifiedDate(new LocalDate(task.getWrittenTime().getTime()));
 			}
 			String fileId = task.getFileId();
 			String originImgSrc = "";
@@ -3117,7 +3117,12 @@ public class ModelConverter {
 		if(!CommonUtil.isEmpty(fileWorks)) {
 			switch (displayType) {
 			case FileCategory.DISPLAY_BY_CATEGORY:
-/*				if(!CommonUtil.isEmpty(fileWorks)) {
+				FdrFolderCond fdrFolderCond = new FdrFolderCond();
+				fdrFolderCond.setCreationUser(userId);
+				fdrFolderCond.setWorkspaceId(spaceId);
+				fdrFolderCond.setOrders(new Order[]{new Order(FdrFolderCond.A_DISPLAYORDER, true)});
+				FdrFolder[] fdrFolders = getFdrManager().getFolders(userId, fdrFolderCond, IManager.LEVEL_ALL);
+				if(!CommonUtil.isEmpty(fileWorks)) {
 					for(FileWork fileWork : fileWorks) {
 						int length = 1;
 						FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
@@ -3135,6 +3140,20 @@ public class ModelConverter {
 						fileCategoryMap.put(folderId, fileCategoryInfo);
 					}
 				}
+				if(!CommonUtil.isEmpty(fdrFolders)) {
+					for(FdrFolder fdrFolder : fdrFolders) {
+						if(CommonUtil.isEmpty(fdrFolder.getFolderFiles())) {
+							FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
+							String folderId = fdrFolder.getObjId();
+							String folderName = fdrFolder.getName();
+							int length = 0;
+							fileCategoryInfo.setId(folderId);
+							fileCategoryInfo.setName(folderName);
+							fileCategoryInfo.setLength(length);
+							fileCategoryMap.put(folderId, fileCategoryInfo);
+						}
+					}
+				}
 				if(!CommonUtil.isEmpty(fileCategoryMap)) {
 					for(Map.Entry<String, FileCategoryInfo> entry : fileCategoryMap.entrySet()) {
 						FileCategoryInfo fileCategoryInfo = entry.getValue();
@@ -3143,37 +3162,6 @@ public class ModelConverter {
 				}
 				if(fileCategoryInfoList.size() > 0) {
 					fileCategoryInfos = new FileCategoryInfo[fileCategoryInfoList.size()];
-					fileCategoryInfoList.toArray(fileCategoryInfos);
-				}
-				return fileCategoryInfos;*/
-				FdrFolderCond fdrFolderCond = new FdrFolderCond();
-				fdrFolderCond.setCreationUser(userId);
-				fdrFolderCond.setWorkspaceId(spaceId);
-				fdrFolderCond.setOrders(new Order[]{new Order(FdrFolderCond.A_DISPLAYORDER, true)});
-				FdrFolder[] fdrFolders = getFdrManager().getFolders(userId, fdrFolderCond, IManager.LEVEL_ALL);
-				FdrFolder addFdrFolder = new FdrFolder();
-				addFdrFolder.setObjId(FileCategory.ID_UNCATEGORIZED);
-				addFdrFolder.setName(SmartMessage.getString("common.title.uncategorized"));
-				fdrFolders = FdrFolder.add(fdrFolders, addFdrFolder);
-				if(!CommonUtil.isEmpty(fdrFolders)) {
-					for(int i=0; i<fdrFolders.length; i++) {
-						FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
-						FdrFolder fdrFolder = fdrFolders[i];
-						String folderId = fdrFolder.getObjId();
-						String folderName = fdrFolder.getName();
-						int length = 0;
-						FdrFolderFile[] fdrFolderFiles = fdrFolder.getFolderFiles();
-						if(!CommonUtil.isEmpty(fdrFolderFiles))
-						length = fdrFolderFiles.length;
-						fileCategoryInfo.setId(folderId);
-						fileCategoryInfo.setName(folderName);
-						fileCategoryInfo.setLength(length);
-						fileCategoryInfoList.add(fileCategoryInfo);
-					}
-				}
-				int listSize = fileCategoryInfoList.size();
-				if(listSize > 0) {
-					fileCategoryInfos = new FileCategoryInfo[listSize];
 					fileCategoryInfoList.toArray(fileCategoryInfos);
 				}
 				return fileCategoryInfos;
