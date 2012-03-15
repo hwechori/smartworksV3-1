@@ -30,9 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.community.User;
 import net.smartworks.model.work.FileCategory;
-import net.smartworks.model.work.FormField;
 import net.smartworks.server.engine.common.manager.AbstractManager;
-import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Filters;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.CommonUtil;
@@ -54,8 +52,12 @@ import net.smartworks.util.SmartUtil;
 import net.smartworks.util.Thumbnail;
 
 import org.apache.commons.io.IOUtils;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.hibernate.dialect.Dialect;
+import org.hibernate.dialect.PostgreSQLDialect;
+import org.hibernate.dialect.SQLServerDialect;
+import org.hibernate.engine.SessionFactoryImplementor;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,6 +68,8 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		if (logger.isInfoEnabled())
 			logger.info(this.getClass().getName() + " created");
 	}
+
+	private String dbType;
 
 	/**
 	 * 파일 저장 위치
@@ -871,6 +875,10 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		String prcStatus = cond.getPrcStatus();
 		Date lastInstanceDate = cond.getLastInstanceDate();
 		String tskRefType = cond.getTskRefType();
+		String folderId = cond.getFolderId();
+		String writtenTimeMonthString = cond.getWrittenTimeMonthString();
+		String packageId = cond.getPackageId();
+		String fileType = cond.getFileType();
 		int pageNo = cond.getPageNo();
 		int pageSize = cond.getPageSize();
 
@@ -936,7 +944,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		queryBuffer.append("		on ctg.parentId = ctg2.id ");
 		queryBuffer.append("	where tsktype not in ('and','route','SUBFLOW','xor') ");
 		queryBuffer.append("	and task.tskform = form.formid ");
-		if (!CommonUtil.isEmpty(filtersArray)) {
+		/*if (!CommonUtil.isEmpty(filtersArray)) {
 			for(Filters filters : filtersArray) {
 				Filter[] filterArray = filters.getFilter();
 				if (!CommonUtil.isEmpty(filterArray)) {
@@ -953,7 +961,22 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 					}
 				}
 			}
+		}*/
+		if (!CommonUtil.isEmpty(folderId)) {
+			if(folderId.equals(FileCategory.ID_UNCATEGORIZED)) queryBuffer.append("	and folder.id is null ");
+			else queryBuffer.append("	and folder.id = :folderId ");
 		}
+		if (!CommonUtil.isEmpty(packageId)) {
+			queryBuffer.append("	and form.packageId = :packageId ");
+		}
+		if (!CommonUtil.isEmpty(writtenTimeMonthString)) {
+			if(this.getDbType().equalsIgnoreCase("sqlserver"))
+				queryBuffer.append("	and datename(yy, docfile.writtenTime) + '.' + datename(mm, docfile.writtenTime) = :writtenTimeMonthString ");
+			else if(this.getDbType().equalsIgnoreCase("oracle"))
+				queryBuffer.append("	and to_char(docfile.writtenTime, 'YYYY') || '.' || to_char(docfile.writtenTime, 'MM') = :writtenTimeMonthString ");
+		}
+		if (!CommonUtil.isEmpty(fileType))
+			queryBuffer.append("	and docfile.type = :fileType ");
 		if (!CommonUtil.isEmpty(tskAssignee))
 			queryBuffer.append("	and task.tskassignee = :tskAssignee ");
 		if (!CommonUtil.isEmpty(tskAssigneeOrTskSpaceId))
@@ -1052,7 +1075,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			query.setMaxResults(pageSize);
 		}
 
-		if (!CommonUtil.isEmpty(filtersArray)) {
+		/*if (!CommonUtil.isEmpty(filtersArray)) {
 			for(Filters filters : filtersArray) {
 				Filter[] filterArray = filters.getFilter();
 				if (!CommonUtil.isEmpty(filterArray)) {
@@ -1066,7 +1089,15 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 					}
 				}
 			}
-		}
+		}*/
+		if (!CommonUtil.isEmpty(folderId) && !folderId.equals(FileCategory.ID_UNCATEGORIZED))
+			query.setString("folderId", folderId);
+		if (!CommonUtil.isEmpty(packageId))
+			query.setString("packageId", packageId);
+		if (!CommonUtil.isEmpty(writtenTimeMonthString))
+			query.setString("writtenTimeMonthString", writtenTimeMonthString);
+		if (!CommonUtil.isEmpty(fileType))
+			query.setString("fileType", fileType);
 		if (!CommonUtil.isEmpty(tskAssignee))
 			query.setString("tskAssignee", tskAssignee);
 		if (!CommonUtil.isEmpty(tskAssigneeOrTskSpaceId))
@@ -1195,6 +1226,24 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		} catch (Exception e) {
 			throw new DocFileException(e);
 		}
+	}
+	public String getDbType() {
+		if (dbType == null) {
+			SessionFactory sf = getSessionFactory();
+			SessionFactoryImplementor sfi = (SessionFactoryImplementor)sf;
+			Dialect dialect = sfi.getDialect();
+			if (dialect instanceof PostgreSQLDialect) {
+				dbType = "postgresql";
+			} else if (dialect instanceof SQLServerDialect) {
+				dbType = "sqlserver";
+			} else {
+				dbType = "oracle";
+			}
+		}
+		return dbType;
+	}
+	public void setDbType(String dbType) {
+		this.dbType = dbType;
 	}
 
 }

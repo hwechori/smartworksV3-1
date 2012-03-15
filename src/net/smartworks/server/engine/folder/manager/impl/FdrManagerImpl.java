@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.smartworks.model.work.FileCategory;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.util.CommonUtil;
@@ -216,8 +217,10 @@ public class FdrManagerImpl extends AbstractManager implements IFdrManager {
 					FdrFolderFile fdrFolderFile = folderFiles[i];
 					String folderId = fdrFolderFile.getFolderId();
 					String fileId = fdrFolderFile.getFileId();
-					if (folderId != null)
-						buf.append(" and folderFile").append(i).append(".folderId = :folderId").append(i);
+					if (folderId != null) {
+						if(folderId.equals(FileCategory.ID_UNCATEGORIZED)) buf.append(" and folderFile").append(i).append(".folderId is null").append(i);
+						else buf.append(" and folderFile").append(i).append(".folderId = :folderId").append(i);
+					}
 					if (fileId != null)
 						buf.append(" and folderFile").append(i).append(".fileId = :fileId").append(i);
 				}
@@ -290,7 +293,7 @@ public class FdrManagerImpl extends AbstractManager implements IFdrManager {
 					FdrFolderFile fdrFolderFile = folderFiles[i];
 					String folderId = fdrFolderFile.getFolderId();
 					String fileId = fdrFolderFile.getFileId();
-					if (folderId != null)
+					if (folderId != null && !folderId.equals(FileCategory.ID_UNCATEGORIZED))
 						query.setString("folderId"+i, folderId);
 					if (fileId != null)
 						query.setString("fileId"+i, fileId);
