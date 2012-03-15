@@ -1,3 +1,5 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
 <%@page import="net.smartworks.model.work.FileCategory"%>
 <%@page import="net.smartworks.model.instance.info.FileInstanceInfo"%>
@@ -80,12 +82,20 @@
 				<span><fmt:message key="common.title.number"/></span>
 			</th>
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_SUBJECT%>"><fmt:message key='common.title.instance_subject'/>
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_NAME%>"><fmt:message key='common.title.file_name'/>
 			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
+					if(sortedField.getFieldId().equals(FormField.ID_FILE_NAME)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
-				</a>				
+				</a>						
+			</th>
+			<th class="r_line">
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_SIZE%>"><fmt:message key='common.title.file_size'/>
+			 		<%
+					if(sortedField.getFieldId().equals(FormField.ID_FILE_SIZE)){
+						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+					%>
+				</a>						
 			</th>
 			<%
 			if(displayType==FileCategory.DISPLAY_ALL){
@@ -134,14 +144,6 @@
 				</a>				
 			</th>
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_NAMES%>"><fmt:message key='common.title.file_names'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_FILE_NAMES)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>						
-			</th>
-			<th class="r_line">
 				<%
 				if(displayType!=FileCategory.DISPLAY_BY_OWNER){
 				%>			
@@ -174,11 +176,19 @@
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
+				List<Map<String, String>> fileNames = fileInstance.getFiles();
+				String fileName = (fileNames.size()==1) ? fileNames.get(0).get("fileName") : "";
+				String fileSize = (fileNames.size()==1) ? fileNames.get(0).get("fileSize") : "";
+				long size = (SmartUtil.isBlankObject(fileSize)) ? 0 : Long.parseLong(fileSize);
+				fileSize = SmartUtil.getBytesAsString(size);
 			%>
 				<tr>
 					<td class="tc"><%=currentCount%></td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getSubject()%></a>
+  						<a href="<%=target%>" class="js_content_pwork_space js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%=fileName %></a>
+					</td>
+					<td class="tr">
+  						<a href="<%=target%>" class="js_content_pwork_space"><%=fileSize %></a>
 					</td>
 					<%
 					if(displayType==FileCategory.DISPLAY_ALL){
@@ -191,8 +201,8 @@
 					if(displayType!=FileCategory.DISPLAY_BY_CATEGORY){
 					%>
 						<td>
-<%-- 							<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getFileCategory().getName()%></a>
- --%>						</td>
+ 							<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileCategory())){%><%=fileInstance.getFileCategory().getName()%><%} %></a>
+ 						</td>
 					<%
 					}
 					if(displayType!=FileCategory.DISPLAY_BY_WORK){
@@ -204,10 +214,7 @@
 					}
 					%>
 					<td>
-<%-- 						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWorkInstance().getSubject()%></a>
- --%>					</td>
-					<td class="tc">
-  						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%} %></a>
+ 						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getWorkInstance())){%><%=fileInstance.getWorkInstance().getSubject()%><%} %></a>
 					</td>
 					<td>
 						<%

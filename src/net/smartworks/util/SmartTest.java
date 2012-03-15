@@ -782,12 +782,12 @@ public class SmartTest {
 		
 	}
 	public static InstanceInfo[] getInstances() throws Exception{
-		return new InstanceInfo[] {SmartTest.getEventInstanceInfo1(), SmartTest.getImageInstanceInfo(), SmartTest.getWorkInstanceInfo1()};
+		return new InstanceInfo[] {SmartTest.getEventInstanceInfo1(), SmartTest.getWorkInstanceInfo1()};
 		
 	}
 
 	public static InstanceInfo[] getAllInstances() throws Exception{
-		return new InstanceInfo[] {SmartTest.getEventInstanceInfo1(), SmartTest.getImageInstanceInfo(), SmartTest.getWorkInstanceInfo1(), SmartTest.getEventInstanceInfo1(), SmartTest.getImageInstanceInfo(), SmartTest.getWorkInstanceInfo1()};
+		return new InstanceInfo[] {SmartTest.getEventInstanceInfo1(), SmartTest.getWorkInstanceInfo1(), SmartTest.getEventInstanceInfo1(),  SmartTest.getWorkInstanceInfo1()};
 		
 	}
 	public static NoticeMessage[] getCommentsMessages() throws Exception {

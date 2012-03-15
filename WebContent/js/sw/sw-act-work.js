@@ -71,28 +71,33 @@ $(function() {
 		var target = [];
 		if(!isEmpty(newMemo)){
 			input.find('textarea').removeClass('bn').addClass('up_textarea');
+			newMemo.find('form[name="frmNewMemo"]').addClass('form_title');
 			workId = newMemo.attr('workId');
 			target = newMemo.find('.js_upload_buttons');
 		}else if(!isEmpty(newPicture)){
 			newPicture.find('tr').show();
+			newPicture.find('form[name="frmNewPicture"]').addClass('form_title');
 			workId = newPicture.attr('workId');
 			target = newPicture.find('.js_upload_buttons');
 		}else if(!isEmpty(newFile)){
 			newFile.find('td[fieldId="txtFileField"] .form_label').show();
 			newFile.find('tr').show();
 			newFile.find('.js_file_detail_form').show();
+			newFile.find('form[name="frmNewFile"]').addClass('form_title');
 			workId = newFile.attr('workId');
 			target = newFile.find('.js_upload_buttons');
 		}else if(!isEmpty(newEvent)){
 			newEvent.find('td[fieldId="txtEventName"] .form_label').show();
 			newEvent.find('td[fieldId="txtEventName"] .form_value input').addClass('fieldline');
 			newEvent.find('tr').show();
+			newEvent.find('form[name="frmNewEvent"]').addClass('form_title');
 			workId = newEvent.attr('workId');
 			target = newEvent.find('.js_upload_buttons');
 		}else if(!isEmpty(newBoard)){
 			newBoard.find('td[fieldId="txtBoardName"] .form_label').show();
 			newBoard.find('td[fieldId="txtBoardName"] .form_value input').addClass('fieldline');
 			newBoard.find('tr').show();
+			newBoard.find('form[name="frmNewBoard"]').addClass('form_title');
 			workId = newBoard.attr('workId');
 			target = newBoard.find('.js_upload_buttons');
 		}else if(!isEmpty(newIWork)){

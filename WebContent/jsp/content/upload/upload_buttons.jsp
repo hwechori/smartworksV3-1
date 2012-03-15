@@ -26,8 +26,7 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	String cid = (String)session.getAttribute("cid");
-	
-	
+		
 	String wid = (String)session.getAttribute("wid");
 	String spaceId = (SmartUtil.isBlankObject(wid)) ? cUser.getId() : wid;
 
@@ -100,7 +99,7 @@
 			<%
 			}else if(spaceType == ISmartWorks.SPACE_TYPE_WORK_INSTANCE){
 			%>
-				<input name="selWorkSpace" type="hidden" value="<%=instId%>">
+				<input name="selWorkSpace" type="hidden" value="<%=SmartUtil.getSpaceIdFromContentContext(cid)%>">
 				<input name="selWorkSpaceType" type="hidden" value="<%=spaceType %>">
 			<%
 			}else{

@@ -773,7 +773,7 @@ qq.UploadButton = function(o){
         // Make sure browse button is in the right side
         // in Internet Explorer
         direction: 'ltr',
-        width: '70px'
+        width: '66px'
     });   
     
     this._input = this._createInput();
