@@ -45,7 +45,7 @@
 							String desc = work.getForm().getDescription();
 						%>
 							<td><img src="<%=work.getForm().getOrgImage()%>" width="349" height="289" /></td>
-							<td class ="dotlineLeftGray pl10"><%if(!SmartUtil.isBlankObject(desc)){%><%=desc%><%}else{ %><fmt:message key="common.message.no_form_desc"/><%} %></td>
+							<td class ="dline_left_gray pl10"><%if(!SmartUtil.isBlankObject(desc)){%><%=desc%><%}else{ %><fmt:message key="common.message.no_form_desc"/><%} %></td>
 						<%
 						}
 						%>
@@ -147,12 +147,12 @@
 				<%
 				if (work.getManualFileName() != null) {
 				%>
-					<a href="" class="bu_video mr2" title="<fmt:message key='work.title.manual_file'/>"></a> 
+					<a href="" class="icon_btn_video mr2" title="<fmt:message key='work.title.manual_file'/>"></a> 
 				<%
 				}
 				if (work.getHelpUrl() != null) {
 				%> 
-					<a href="<%=work.getHelpUrl()%>" class="bu_webex" title="<fmt:message key='work.title.help_url'/>" target="_blank"></a>
+					<a href="<%=work.getHelpUrl()%>" class="icon_btn_webex" title="<fmt:message key='work.title.help_url'/>" target="_blank"></a>
 				<%
 				}
 				%>
@@ -180,7 +180,7 @@
 				}
 				%>
 					
-				<div class="fr mt5"><span class="bu_read" title="<fmt:message key='common.security.title.access'/>"></span></div>
+				<div class="fr mt5"><span class="icon_body_read" title="<fmt:message key='common.security.title.access'/>"></span></div>
 				<%
 				switch (work.getWritePolicy().getLevel()) {
 				case WritePolicy.LEVEL_PUBLIC:
@@ -196,7 +196,7 @@
 				}
 				%>
 					
-				<div class="fr mt5"><span class="bu_regit"  title="<fmt:message key='common.security.title.write'/>"></span></div> 
+				<div class="fr mt5"><span class="icon_body_register"  title="<fmt:message key='common.security.title.write'/>"></span></div> 
 				<%
 				switch (work.getEditPolicy().getLevel()) {
 				case EditPolicy.LEVEL_WIKI:
@@ -211,7 +211,7 @@
 				 	break;
 				 }
 				 %>
-				<div class="fr  mt5"><span class="bu_modfy"  title="<fmt:message key='common.security.title.edit'/>"></span></div> 
+				<div class="fr  mt5"><span class="icon_body_modify"  title="<fmt:message key='common.security.title.edit'/>"></span></div> 
 			</span>
 			<!-- 우측 권한 아이콘-->
 		</div>

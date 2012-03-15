@@ -156,7 +156,7 @@
 								</select>
 								<div class="js_type_userField" fieldId="usrLevelApprover<%=count %>" multiUsers="false" <%if(approval.getApproverType()!=Approval.APPROVER_CHOOSE_USER){ %>style="display:none"<%} %>>
 									<div class="icon_fb_space form_value" >
-										<div class="fieldline js_community_names sw_required">
+										<div class="fieldline community_names js_community_names sw_required">
 											<div class="js_selected_communities user_sel_area">
 												<%
 												if(!SmartUtil.isBlankObject(approval.getApprover())){

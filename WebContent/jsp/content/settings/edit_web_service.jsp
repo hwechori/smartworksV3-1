@@ -122,9 +122,9 @@
 					<td>
 						<div class="btn_fb_space js_webservice_wsdl">
 							<input name="txtWebServiceWSDL" <%if(!SmartUtil.isBlankObject(webService.getWsdlUri())){ %>readonly<%} %> class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(webService.getWsdlUri())%>">
-							<div class="btnIconStart po_rbtn">
-								<a class="btnIconsTail js_fetch_webservice_wsdl" <%if(!SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.fetch"/></a>
-								<a class="btnIconsTail js_change_webservice_wsdl" <%if(SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.change"/></a>
+							<div class="icon_btn_start po_rbtn">
+								<a class="icon_btn_tail js_fetch_webservice_wsdl" <%if(!SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.fetch"/></a>
+								<a class="icon_btn_tail js_change_webservice_wsdl" <%if(SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.change"/></a>
 							</div>
 						</div>
 					</td>

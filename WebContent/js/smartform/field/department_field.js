@@ -29,9 +29,9 @@ SmartWorks.FormRuntime.DepartmentFieldBuilder.build = function(config) {
 	var required = $entity[0].getAttribute('required');
 	if(required === 'true' && !readOnly){
 		$label.addClass('required_label');
-		required = " class='fieldline js_community_names sw_required'";
+		required = " class='fieldline community_names js_community_names sw_required'";
 	}else{
-		required = " class='fieldline js_community_names'";
+		required = " class='fieldline community_names js_community_names'";
 	}
 	$label.appendTo(options.container);
 	

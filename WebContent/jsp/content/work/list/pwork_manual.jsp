@@ -51,10 +51,10 @@
 		       <a href="" class="js_manual_tasks_left" style="display:block"><div class="proc_btn_prev" style="margin: 22px 0 0 35px;"></div></a>
 			<!-- 방향 Prev //-->
 			
-	        <div class="proce_section">
+	        <div class="process_section">
 	        
 				<!--  태스크 시작 -->
-				<div class="proce_space js_manual_tasks_holder" style="overflow:hidden">
+				<div class="process_space js_manual_tasks_holder" style="overflow:hidden">
 					<div class="js_manual_tasks">
 						<ul>
 						<%
@@ -212,12 +212,12 @@
 				<%
 				if (work.getManualFileName() != null) {
 				%>
-					<a href="" class="bu_video mr2" title="<fmt:message key='work.title.manual_file'/>"></a> 
+					<a href="" class="icon_btn_video mr2" title="<fmt:message key='work.title.manual_file'/>"></a> 
 				<%
 				}
 				if (work.getHelpUrl() != null) {
 				%> 
-					<a href="<%=work.getHelpUrl()%>" class="bu_webex" title="<fmt:message key='work.title.help_url'/>" target="_blank"></a>
+					<a href="<%=work.getHelpUrl()%>" class="icon_btn_webex" title="<fmt:message key='work.title.help_url'/>" target="_blank"></a>
 				<%
 				}
 				%>
@@ -245,7 +245,7 @@
 				}
 				%>
 		
-				<span class="fr mt5"><span class="bu_read"  title="<fmt:message key='common.security.title.access'/>"></span></span>
+				<span class="fr mt5"><span class="icon_body_read"  title="<fmt:message key='common.security.title.access'/>"></span></span>
 		
 				<%
 				switch (work.getWritePolicy().getLevel()) {
@@ -262,7 +262,7 @@
 				}
 				%>
 		
-				<span class="fr mt5"><span class="bu_regit" title="<fmt:message key='common.security.title.write'/>"></span></span>
+				<span class="fr mt5"><span class="icon_body_register" title="<fmt:message key='common.security.title.write'/>"></span></span>
 		
 				<%
 				switch (work.getEditPolicy().getLevel()) {
@@ -279,7 +279,7 @@
 				}
 				%>
 		
-				<span class="fr mt5"><span class="bu_modfy" title="<fmt:message key='common.security.title.edit'/>"></span></span>
+				<span class="fr mt5"><span class="icon_body_modify" title="<fmt:message key='common.security.title.edit'/>"></span></span>
 		
 			</span>
 			<!-- 우측 권한 아이콘//-->

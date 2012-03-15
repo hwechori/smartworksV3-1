@@ -128,7 +128,7 @@
 					<td colspan="3">
 						<div class="js_type_userField" fieldId="usrRelatedUsers" multiUsers="true">
 							<div class="icon_fb_space form_value" >
-								<div class="fieldline js_community_names">
+								<div class="fieldline community_names js_community_names">
 									<div class="js_selected_communities user_sel_area">
 										<%
 										if(!SmartUtil.isBlankObject(event.getRelatedUsers())){

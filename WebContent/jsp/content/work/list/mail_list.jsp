@@ -166,7 +166,7 @@
 						<a href="work_report.sw?workId=<%=work.getId()%>"
 							class="js_new_work_report"><fmt:message key="report.button.new_work_report"/></a>
 					</div>
-					<div class="po_right bu_stat">
+					<div class="po_right icon_btn_stat">
 						<select name="selMyReportList" class="js_select_work_report"
 							href="work_report_view.sw?workId=<%=work.getId()%>&workType=<%=work.getType()%>">
 							<%

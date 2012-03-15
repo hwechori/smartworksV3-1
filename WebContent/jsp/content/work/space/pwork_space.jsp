@@ -107,12 +107,12 @@
         		<a href="" class="js_instance_tasks_left"><div class="proc_btn_prev" style="display:block"></div></a>
 	        	<!-- 방향 Prev //-->
 	        	
-				<div class="proce_section js_instance_tasks_holder">
+				<div class="process_section js_instance_tasks_holder">
 			        <div class="proc_start_compl fl js_task_start js_instance_task"><fmt:message key="process.task.start"/></div>
 			        <div class="proc_arr_next fl js_instance_task_arrow"></div>
 			        
 			        <!-- 태스크 시작-->
-			        <div class="proce_space js_instance_tasks">			        
+			        <div class="process_space js_instance_tasks">			        
 						<ul>
 				        	<%
 				        	if(!SmartUtil.isBlankObject(taskHistories)){	
@@ -183,7 +183,7 @@
 			<!-- 버튼 영역 -->
 			<div class="glo_btn_space">
 			
-				<div class="txt_btn info_repl">
+				<div class="txt_btn task_information">
 				    <div class="po_left"><fmt:message key="common.title.last_modification"/> :  
 				    	<a href=""><img src="<%=instance.getLastModifier().getMinPicture() %>" class="profile_size_s" /> <%=instance.getLastModifier().getLongName() %></a>
 				    	<span class="t_date"> <%= instance.getLastModifiedDate().toLocalString() %> </span>

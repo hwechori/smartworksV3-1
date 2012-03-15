@@ -177,7 +177,7 @@
 			<span class="js_type_userField" fieldId="txtAccessableUsers" multiUsers="true">
 				<div class="form_value">
 					<div class="icon_fb_space">
-						<div class="fieldline js_community_names sw_required">
+						<div class="fieldline community_names js_community_names sw_required">
 							<div class="js_selected_communities user_sel_area">
 								<%
 								if(!SmartUtil.isBlankObject(work.getAccessPolicy().getCommunitiesToOpen())){

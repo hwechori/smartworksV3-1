@@ -125,7 +125,7 @@
 					<td class="js_type_userField" fieldId="txtGroupMembers" multiUsers="true">
 						<div class="form_value">
 							<div>
-								<div class="fieldline js_community_names">
+								<div class="fieldline community_names js_community_names">
 									<div class="js_selected_communities user_sel_area"></div>
 									<input class="js_auto_complete" href="community_name.sw" type="text">
 									<div class="js_srch_x"></div>

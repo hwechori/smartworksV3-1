@@ -36,7 +36,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 <!--  전체 레이아웃 -->
-<div class="border_noTopLine">
+<div class="border_no_topline">
 <form name="frmWorkReport" class="form_contents js_validation_required js_work_report_edit_page" workId="<%=workId%>" reportId="<%=reportId%>">
 	<table class="table_normal report_title js_report_title">
 		<tr style="display:none" class="js_work_report_name">
@@ -157,7 +157,7 @@
 			</select>
 		</div>
 		<div class="fr form_space">
-			<span class="bu_read mt2"></span> 
+			<span class="icon_body_read mt2"></span> 
 		</div>
 	</form>
 

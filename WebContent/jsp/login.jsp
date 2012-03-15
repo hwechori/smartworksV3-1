@@ -12,8 +12,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="css/default.css" type="text/css" rel="stylesheet" /></link>
-		<link href="css/pop.css" type="text/css" rel="stylesheet" /></link>
-		<link href="css/login_r.css" type="text/css" rel="stylesheet" /></link>
+		<link href="css/black/pop.css" type="text/css" rel="stylesheet" /></link>
+		<link href="css/black/login.css" type="text/css" rel="stylesheet" /></link>
 		<script type="text/javascript" src="js/jquery/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript" src="js/sw/sw-language.js"></script>
 		<script type="text/javascript" src="js/sw/sw-language-ko.js"></script>
