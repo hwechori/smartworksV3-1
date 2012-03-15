@@ -355,14 +355,14 @@ public class SmartUtil {
 		return html = html + "</ul>";
 	}
 
-	private static final String[] Q = new String[]{"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+	private static final String[] Q = new String[]{" B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
 	public static String getBytesAsString(long bytes){
 	    for (int i = 6; i > 0; i--)
 	    {
 	        double step = Math.pow(1024, i);
 	        if (bytes > step) return String.format("%3.1f %s", bytes / step, Q[i]);
 	    }
-	    return Long.toString(bytes);
+	    return Long.toString(bytes) + Q[0];
 	}
 	
 	public static String getSubjectString(String userId){

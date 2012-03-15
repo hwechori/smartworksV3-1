@@ -95,7 +95,7 @@
 <jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_file_list_page" workId="<%=SmartWork.ID_FILE_MANAGEMENT %>" displayType="<%=FileCategory.DISPLAY_BY_CATEGORY%>" workSpaceId="<%=wid%>" categoryId="<%=FileCategory.ID_ALL_FILES%>">
+<div class="section_portlet js_file_list_page" workId="<%=SmartWork.ID_FILE_MANAGEMENT %>" displayType="<%=displayType%>" workSpaceId="<%=wid%>" categoryId="<%=FileCategory.ID_ALL_FILES%>">
 	<div class="portlet_t"><div class="portlet_tl"></div></div>
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">

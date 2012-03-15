@@ -16,7 +16,8 @@ public class FormField extends BaseObject{
 	public static final String ID_WORK_SPACE = "WorkSpace";
 	public static final String ID_FILE_CATEGORY = "FileCategory";
 	public static final String ID_FILE_TYPE = "FileType";
-	public static final String ID_FILE_NAMES = "FileNames";
+	public static final String ID_FILE_NAME = "FileName";
+	public static final String ID_FILE_SIZE = "FileSize";
 
 	public static final String ID_OWNER = "creator";
 	public static final String ID_CREATED_DATE = "createdTime";
