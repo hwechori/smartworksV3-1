@@ -323,6 +323,7 @@ public class SmartUtil {
 	}
 	
 	public static String getUserDetailInfo(UserInfo user){
+		if(SmartUtil.isBlankObject(user)) return "";
 		String roleStr = (user.getRole() == User.USER_ROLE_LEADER) ? SmartMessage.getString("department.role.head") : SmartMessage.getString("department.role.member");
 		String info = "<div><span class='smartp_name'>" + user.getLongName() + "</span><div>";
 		if(!SmartUtil.isBlankObject(user.getDepartment())){
