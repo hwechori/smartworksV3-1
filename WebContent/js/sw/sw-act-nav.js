@@ -64,6 +64,17 @@ $(function() {
 		}
 	});
 
+	$('tr.js_content').swnavi({
+		history : true,
+		before : function(event){
+			smartPop.progressCenter();				
+		},
+		target : 'content',
+		after : function(event){
+			smartPop.closeProgress();
+		}
+	});
+
 	$('a.js_location').live('click', function(e){
 		
 		var input = $(event.target);
@@ -80,7 +91,7 @@ $(function() {
 		}
 	});
 
-	$('a.js_content_iwork_space').swnavi({
+	$('.js_content_iwork_space').swnavi({
 		history : true,
 		before : function(e){
 			smartPop.progressCenter();
@@ -91,7 +102,7 @@ $(function() {
 		}
 	});
 
-	$('a.js_content_pwork_space').swnavi({
+	$('.js_content_pwork_space').swnavi({
 		history : true,
 		before : function(e){
 			smartPop.progressCenter();

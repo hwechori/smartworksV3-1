@@ -139,8 +139,9 @@ a .proc_btn_next:hover {background: url("../../images/proc_bg.png") no-repeat -1
 .proc_task.entrust {background-color: #ceeeee} /* 위임 */
 			
 /* 프로세스 포인트 위치 */
-.posit_default {left: 58px; position: relative; top: 1px; margin-top:5px; z-index: 20;}
-.posit_reply {left: 40px; position: relative; top: 1px; z-index: 20;}
+.pos_default {left: 58px; position: relative; top: 1px; margin-top:5px; z-index: 20;}
+.pos_reply_point {left: 86px; position: relative; top: 1px; z-index: 20;}
+.pos_reply {left: 60px; position: relative; top: 1px; z-index: 20;}
 
 /* 페이징 */
 .paginate {padding-top: 10px; position: relative; text-align: center;}

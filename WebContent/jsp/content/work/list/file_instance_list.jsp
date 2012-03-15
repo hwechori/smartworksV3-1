@@ -182,59 +182,53 @@
 				long size = (SmartUtil.isBlankObject(fileSize)) ? 0 : Long.parseLong(fileSize);
 				fileSize = SmartUtil.getBytesAsString(size);
 			%>
-				<tr>
+				<tr class="instance_list js_content_iwork_space" href="<%=target%>">
 					<td class="tc"><%=currentCount%></td>
 					<td>
-  						<a href="<%=target%>" class="js_content_pwork_space js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%=fileName %></a>
+  						<span class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%=fileName %></span>
 					</td>
-					<td class="tr">
-  						<a href="<%=target%>" class="js_content_pwork_space"><%=fileSize %></a>
-					</td>
+					<td class="tr"><%=fileSize %></a></td>
 					<%
 					if(displayType==FileCategory.DISPLAY_ALL){
 					%>
-						<td>
-							<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWorkSpace().getName()%></a>
-						</td>
+						<td><%=fileInstance.getWorkSpace().getName()%></td>
 					<%
 					}
 					if(displayType!=FileCategory.DISPLAY_BY_CATEGORY){
 					%>
 						<td>
- 							<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileCategory())){%><%=fileInstance.getFileCategory().getName()%><%} %></a>
+ 							<%if(!SmartUtil.isBlankObject(fileInstance.getFileCategory())){%><%=fileInstance.getFileCategory().getName()%><%} %>
  						</td>
 					<%
 					}
 					if(displayType!=FileCategory.DISPLAY_BY_WORK){
 					%>
 						<td>
-							<a href="<%=target%>" class="js_content_pwork_space"><img class="<%=fileInstance.getWork().getIconClass()%>"/><%=((SmartWorkInfo)(fileInstance.getWork())).getFullpathName()%></a>
+							<img class="<%=fileInstance.getWork().getIconClass()%>"/><%=((SmartWorkInfo)(fileInstance.getWork())).getFullpathName()%>
 						</td>
 					<%
 					}
 					%>
 					<td>
- 						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getWorkInstance())){%><%=fileInstance.getWorkInstance().getSubject()%><%} %></a>
+ 						<%if(!SmartUtil.isBlankObject(fileInstance.getWorkInstance())){%><%=fileInstance.getWorkInstance().getSubject()%><%} %>
 					</td>
 					<td>
 						<%
 						if(!SmartUtil.isBlankObject(lastModifier)){
 						%>
-							<a href="<%=target%>" class="js_content_pwork_space">
-								<%
-								if(displayType!=FileCategory.DISPLAY_BY_OWNER){
-								%>
-									<div class="noti_pic js_content_pwork_space">
-										<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
-									</div>
-								<%
-								}
-								%>
-								<div class="noti_in">
-									<span class="t_name"><%=lastModifier.getLongName()%></span>
-									<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+							<%
+							if(displayType!=FileCategory.DISPLAY_BY_OWNER){
+							%>
+								<div class="noti_pic js_content_pwork_space">
+									<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
 								</div>
-							</a>
+							<%
+							}
+							%>
+							<div class="noti_in">
+								<span class="t_name"><%=lastModifier.getLongName()%></span>
+								<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+							</div>
 						<%
 						}
 						%>

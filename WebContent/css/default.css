@@ -187,8 +187,10 @@ mark, rp, rt, ruby, summary, time {
 .tc {text-align:center !important}
 .tr {text-align:right !important}
 
-.vt {vertical-align:top}
-.vm{vertical-align:middle}
-.vb{vertical-align:bottom}
+.vt {vertical-align:top !important}
+.vm{vertical-align:middle !important}
+.vb{vertical-align:bottom !important}
 
-.bn {border:none}
+.bn {border:none !important}
+
+.w100 {width:100% !important}

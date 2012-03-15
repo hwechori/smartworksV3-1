@@ -260,8 +260,17 @@ li.fvrt_item:hover .check_option {display:block}
 .icon_key.checked {background: url("../../images/nav_img.png") no-repeat -138px -430px transparent; height:10px; width:18px}
 
 /* CommentsBox added by ysjung */
-.sub_instance_list .comment_box {display:none;}
-.sub_instance_list:hover .comment_box {display:block}
+tr.instance_list {}
+tr.instance_list:hover {background-color:#fffccd; cursor:pointer;}
+
+li.sub_instance_list .comment_box {display:none;}
+li.sub_instance_list:hover .comment_box {display:block}
+
+li.sub_instance_list > div.det_title {}
+li.sub_instance_list > div.det_title:hover {background-color:#fffccd; cursor:pointer;}
+
+li.comment_list {}
+li.comment_list:hover {background-color:#fffccd; cursor:pointer;}
 
 .arr_off {background: url("../../images/arr_off.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
 .arr_on {background: url("../../images/arr_on.gif") no-repeat left 1px transparent; height:9px; padding:0 0 10px 13px;}
@@ -288,11 +297,9 @@ li.fvrt_item:hover .check_option {display:block}
 #all_works li .menu_2dep li div li a, #my_works li .menu_2dep li div li a, #m_setting li .menu_2dep li div li a {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 #my_works li .menu_2dep li div li a:hover, #m_setting li .menu_2dep li div li a:hover {display:block; background-color:#4e4e4e;}
 
-
 /*Tab buttons */
 .tab_buttons {margin:0 2px 8px 0; height:20px; font-family:'돋움',Dotum; font-size: 11px; color:#c5c5c5; padding-top:2px;}
 #nav .tab_buttons a:hover, #nav .tab_buttons a:focus, #nav .tab_buttons a:active, #nav .tab_buttons a:visited {color:#FFF; text-decoration:underline;}
-
 
 /* Contents*/
 #content {margin:15px 10px 10px 240px; color:#454545; font-family: '돋움',dotum,Helvetica,sans-serif; line-height:1.5em; z-index:20}
@@ -305,7 +312,6 @@ li.fvrt_item:hover .check_option {display:block}
 
 .up_wrap {position:relative; margin: 0 3px 10px;}
 .detail_up_wrap {margin:0 15px 15px;} /* 상세보기 페이지의 up_wrap */ 
-
 
 /* UpLoad Search */
 .start_works_input {position:relative}
@@ -506,13 +512,16 @@ li.fvrt_item:hover .check_option {display:block}
     height:10px; margin-left:10px; position:relative;}
 .line_daspace_dateed {border-bottom:1px daspace_dateed #DCDFE0; margin:0 15px 0 0;}
 .event_space {position:relative; width:99%; display:inline-block; margin-left:10px; }
-.event_space li { width:33%}
+.event_space > ul > li { width:33%}
 .event_space .eventCell li { width: auto}
 .space_left { margin-left:15px;}
 .space_right { float:right; margin-right:20px;}
 .space_top { margin-top:5px;}
 .event_cell{margin:0 7px;padding:0 7px}
 .cell_date{display:inline-block;border-bottom:1px dotted #cfcfcf;padding:0 5px 1px 5px;margin-bottom:3px}
+
+.event_cell li.event_list {}
+.event_cell li.event_list:hover {background-color:#fffccd; cursor:pointer; text-decoration: none;}
 
 /* Noice */
 #notice {clear:both; margin:0 30px 5px 5px; padding-top:10px;}
@@ -548,6 +557,9 @@ li.fvrt_item:hover .check_option {display:block}
 .recent_notice .title img,.headline_notice .index img{margin:0 3px 0 0}
 .headline_notice .index{font-size:11px;color:#666;overflow:hidden}
 .headline_notice .index span.date{float:right;margin-right:9px;font-weight:normal;}
+
+.headline_notice > div {}
+.headline_notice > div:hover {background-color:#fffccd; cursor:pointer; text-decoration: none;}
 
 /* 3일 업무표시 디자인교체 - 정연희 추가 작업분에 대한 style입니다 */
 .red_stroke{background: url("../../images/bgRoundRedStrokeLeft.gif") no-repeat;height:40px;text-align:center}

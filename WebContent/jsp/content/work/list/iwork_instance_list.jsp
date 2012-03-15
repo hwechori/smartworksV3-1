@@ -100,7 +100,7 @@
 				FieldData[] fieldDatas = instanceInfo.getDisplayDatas();
 				String target = instanceInfo.getController() + "?cid=" + instanceInfo.getContextId() + "&workId=" + workId;
 			%>
-				<tr>
+				<tr class="instance_list js_content_iwork_space" href="<%=target%>">
 					<td class="tc"><%=currentCount%></td>
 					<%
 					currentCount--;
@@ -109,14 +109,13 @@
 						int count = 0;
 						for (FieldData data : fieldDatas) {
 					%>
-						<td <%if(data.getFieldType().equals(FormField.TYPE_CURRENCY) || 
+							<td <%if(data.getFieldType().equals(FormField.TYPE_CURRENCY) || 
 								data.getFieldType().equals(FormField.TYPE_NUMBER) || 
 								data.getFieldType().equals(FormField.TYPE_PERCENT)){ %>
-									class="tr pr10"
-								<%}else if(data.getFieldType().equals(FormField.TYPE_FILE)){%>
-									class="tc"
-								<%}%>>
-								<a href="<%=target%>" class="js_content_iwork_space">
+										class="tr pr10"
+									<%}else if(data.getFieldType().equals(FormField.TYPE_FILE)){%>
+										class="tc"
+									<%}%>>
 									<%if(data.getFieldType().equals(FormField.TYPE_FILE) && !SmartUtil.isBlankObject(data.getValue())){
 										%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=data.getFilesHtml()%>">
 									<%}else if(data.getFieldType().equals(FormField.TYPE_NUMBER)){%><%=data.getValue() != null ? CommonUtil.toNotNull(nf.format(Float.parseFloat(data.getValue()))) : CommonUtil.toNotNull(data.getValue())%>
@@ -134,22 +133,19 @@
 									<%
 									}
 									%>
-								</a>
-						</td>
+							</td>
 					<%
 						}
 					}
 					%>
 					<td>
-						<a href="<%=target%>" class="js_content_iwork_space">
-							<div class="noti_pic js_content_iwork_space">
-								<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
-							</div>
-							<div class="noti_in">
-								<span class="t_name"><%=lastModifier.getLongName()%></span>
-								<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
-							</div>
-						</a>
+						<div class="noti_pic js_content_iwork_space">
+							<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
+						</div>
+						<div class="noti_in">
+							<span class="t_name"><%=lastModifier.getLongName()%></span>
+							<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+						</div>
 					</td>
 					<td class="tc"><%=instanceInfo.getViews() %>
 				</tr>

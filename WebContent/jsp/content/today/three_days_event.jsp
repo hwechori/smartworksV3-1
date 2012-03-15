@@ -147,6 +147,7 @@
 											</li>
 											<%
 											if (events != null && events.length>0) {
+												boolean hasTodayEvent=false, hasTomorrowEvent=false, hasAfterEvent=false;
 												// Start 이벤트가 있으면 있는 만큼 돌면서 리스트를 만든다...
 												for (EventInstanceInfo event : events) {
 													if (((cnt == 0) && today.isSameDate(event.getStart())) || ((cnt == 1) && tomorrow.isSameDate(event.getStart()))
@@ -154,34 +155,42 @@
 														UserInfo owner = event.getOwner();
 														WorkSpaceInfo workSpace = event.getWorkSpace();
 														if (cnt < 2) {
+															if(cnt==0) hasTodayEvent = true;
+															else hasTomorrowEvent = true;
 											%>
-															<li>
+															<li class="event_list">
 																<span class="t_gbold"><%=event.getStart().toLocalTimeShortString()%></span>
 														<%
 														} else {
+															hasAfterEvent = true;
 														%>
-															<li>
+															<li class="event_list">
 																<span class="t_gbold"><%=event.getStart().toLocalString()%></span>
 														<%
 														}
-																if (!owner.getId().equals(cUser.getId())) {
-																%> 
-																	<span class="t_name"><a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><%=owner.getLongName()%></a></span>
-																	<span class="arr">▶</span> 
-																<%
-						 										}
-						 										%> 
-						 										<%
-						 										if (!workSpace.getId().equals(owner.getId())) {
-						 										%> 
-						 											<span class="<%=workSpace.getIconClass()%>"><a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><%=workSpace.getName()%></a></span> 
-						 										<%
-						 										}
-						 										%>
-						 										<a href="<%=event.getController() %>?cid=<%=event.getContextId()%>&wid=<%=workSpace.getId()%>"><%=event.getSubject()%></a>
-																<%if(event.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=event.getSubInstanceCount() %></b>]</font><%} %>
-																<%if(event.isNew()){ %><span class="icon_new"></span><%} %>
-															</li>
+														if (!owner.getId().equals(cUser.getId())) {
+														%> 
+															<span class="t_name"><a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><%=owner.getLongName()%></a></span>
+															<span class="arr">▶</span> 
+														<%
+				 										}
+				 										%> 
+				 										<%
+				 										if (!workSpace.getId().equals(owner.getId())) {
+				 										%> 
+				 											<span class="<%=workSpace.getIconClass()%>"><a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><%=workSpace.getName()%></a></span> 
+				 										<%
+				 										}
+				 										%>
+				 										<a href="<%=event.getController() %>?cid=<%=event.getContextId()%>&wid=<%=workSpace.getId()%>"><%=event.getSubject()%></a>
+														<%if(event.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=event.getSubInstanceCount() %></b>]</font><%} %>
+														<%if(event.isNew()){ %><span class="icon_new"></span><%} %>
+													</li>
+													<%
+													}
+													if(cnt==0 && !hasTodayEvent || cnt==1 && !hasTomorrowEvent || cnt==2 && !hasAfterEvent){
+													%>
+														<li><fmt:message key="common.message.no_event"/></li>
 											<%
 													}
 												}
@@ -189,7 +198,7 @@
 											// 이벤트가 없으면 이벤트가 없습니다라고 표시한다..
 											}else{
 											%>
-												<li><span><fmt:message key="common.message.no_event"/></span></li>
+												<li><fmt:message key="common.message.no_event"/></li>
 											<%
 											}
 											%>

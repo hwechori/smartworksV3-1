@@ -96,7 +96,7 @@
 				if(form!=null){
 		%>
 					<div class="js_task_manual" id="<%=tasks[i].getId() %>" <%if(i!=0){ %>style="display:none"<%} %>>
-						<div class="up_point posit_default"></div>
+						<div class="up_point pos_default"></div>
 						<div class="form_wrap up up_padding">
 							<div class="area">
 								<!-- 업무설명 -->

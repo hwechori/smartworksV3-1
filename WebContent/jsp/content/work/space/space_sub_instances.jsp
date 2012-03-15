@@ -192,7 +192,7 @@
 				}
 				%>		
 				<!-- 댓글 -->
-			   <div class="reply_point posit_default"></div>
+			   <div class="reply_point pos_reply"></div>
 			   <div class="reply_section">  
 			        <div class="list_reply">
 			        	<%

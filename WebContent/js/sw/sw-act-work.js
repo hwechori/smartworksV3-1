@@ -1221,7 +1221,7 @@ $(function() {
 	});
 	
 	var filesDetailTimer = null;
-	$('img.js_pop_files_detail').live('mouseenter', function(e){
+	$('.js_pop_files_detail').live('mouseenter', function(e){
 		if(filesDetailTimer!=null){
 			clearTimeout(filesDetailTimer);
 			filesDetailTimer = null;
@@ -1233,7 +1233,7 @@ $(function() {
 		smartPop.showFilesDetail(input, top, left);		
 	});
 
-	$('img.js_pop_files_detail').live('mouseleave', function(e){
+	$('.js_pop_files_detail').live('mouseleave', function(e){
 		filesDetailTimer = setTimeout(function(){
 			smartPop.closeFilesDetail();
 			filesDetailTimer = null;

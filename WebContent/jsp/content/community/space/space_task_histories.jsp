@@ -82,6 +82,9 @@
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
+							<!-- 인스턴스 마지막수정일자 -->
+							<span class="t_date vb pl10"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
+							<!-- 인스턴스 마지막수정일자 //-->
 							<%if(onWorkSpace){ %><span class="arr">▶</span><a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 							<a href="<%=board.getController() %>?cid=<%=board.getContextId() %>&wid=<%=workSpace.getId() %>&workId=<%=work.getId() %>">
 								<div>
@@ -91,9 +94,6 @@
 								<div><%=board.getBriefContent()%></div>
 							</a>
 							<%if(!SmartUtil.isBlankObject(board.getFiles())){ %><div><%=SmartUtil.getFilesDetailInfo(board.getFiles()) %></div><%} %>
-							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
-							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
 				<%
@@ -106,6 +106,7 @@
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
+							<span class="t_date vb pl10"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 							<%if(onWorkSpace){ %><span class="arr">▶</span><a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 							<a href="<%=event.getController() %>?cid=<%=event.getContextId() %>&wid=<%=workSpace.getId() %>&workId=<%=work.getId() %>">
 								<div>
@@ -115,9 +116,6 @@
 								<div><fmt:message key="common.upload.event.start_date"/> : <%=event.getStart().toLocalString() %> 
 									<%if(!SmartUtil.isBlankObject(event.getEnd())) {%><fmt:message key="common.upload.event.end_date"/> : <%=event.getEnd().toLocalString() %> <%} %></div>
 							</a>
-							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
-							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
 				<%
@@ -130,12 +128,10 @@
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
+							<span class="t_date vb pl10"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 							<%if(onWorkSpace){ %><span class="arr">▶</span><a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 							<%if(!SmartUtil.isBlankObject(file.getFiles())){ %><div><%=SmartUtil.getFilesDetailInfo(file.getFiles()) %></div><%} %>
 							<%if(!SmartUtil.isBlankObject(file.getContent())){ %><div><%=file.getContent() %></div><%} %>
-							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
-							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
 				<%
@@ -148,12 +144,10 @@
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
+							<span class="t_date vb pl10"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 							<%if(onWorkSpace){ %><span class="arr">▶</span><a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 							<div><a href="" class=""><img src="<%=image.getImgSource()%>" style="min-height:20px;width:200px;"></a></div>
 							<%if(!SmartUtil.isBlankObject(image.getContent())){ %><div><%=image.getContent() %></div><%} %>
-							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
-							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
 				<%
@@ -166,6 +160,7 @@
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
+							<span class="t_date vb pl10"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 							<%if(onWorkSpace){ %><span class="arr">▶</span><a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 							<a href="<%=memo.getController() %>?cid=<%=memo.getContextId() %>&wid=<%=workSpace.getId() %>&workId=<%=work.getId() %>">
 								<div>
@@ -173,9 +168,6 @@
 									<div><%=memo.getContent() %></div>
 								</div>
 							</a>
-							<!-- 인스턴스 마지막수정일자 -->
-							<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
-							<!-- 인스턴스 마지막수정일자 //-->
 						</div>
 					</div>
 				<%
@@ -186,6 +178,7 @@
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
 							<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
+							<span class="t_date vb pl10"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 							<%if(onWorkSpace){ %><span class="arr">▶</span><a href="<%=workSpace.getSpaceController()%>?cid=<%=workSpace.getSpaceContextId()%>"><span class="<%=workSpace.getIconClass()%>"><%=workSpace.getName() %></span></a><%} %>
 						<%
 						String runningTaskName = taskInstance.getName();
@@ -296,28 +289,20 @@
 								<span class="t_bold"><%=workInstance.getSubject()%></span> 
 							</a>
 						</div>
-						<!-- 인스턴스 마지막수정일자 -->
-						<div class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></div>
-						<!-- 인스턴스 마지막수정일자 //-->
 					</div>
 				<%
 				}
 				
 				%>
 				<!-- 댓글 -->
-			   <div class="reply_point posit_default"></div>
-			   <div class="reply_section">  
+			   <div class="reply_point pos_reply_point"></div>
+			   <div class="reply_section pos_reply">  
 			        <div class="list_reply">
 			        	<%
 			        	WorkInstanceInfo instance = (WorkInstanceInfo)workInstance;
-/// TEST PURPOSE			        	
-/// TEST PURPOSE			        	
-			        	instance.setSubInstanceCount(21);
-/// TEST PURPOSE			        	
-/// TEST PURPOSE			        	
 			        	%>
 			            <ul class="js_comment_list">
-			            	<li class="js_comment_instance" style="display:none">
+			            	<li class="comment_list js_comment_instance" style="display:none">
 								<div class="noti_pic">
 									<a class="js_pop_user_info" href="<%=cUser.getSpaceController() %>?cid=<%=cUser.getSpaceContextId()%>" userId="<%=cUser.getId()%>" profile="<%=cUser.getOrgPicture()%>" userDetail="<%=SmartUtil.getUserDetailInfo(cUser.getUserInfo())%>">
 										<img src="<%=cUser.getMinPicture()%>" align="bottom" class="profile_size_c"/>
