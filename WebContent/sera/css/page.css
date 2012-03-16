@@ -130,7 +130,7 @@
 .photo_bg .rgt_name { font-weight:bold; margin:10px 0 0 0; text-align:center}
 .grade { float:left; margin:5px 0 0 0}
 .grade div { margin-bottom:6px}
-.point {background: url("../images/pb_point.png") no-repeat; width:14px; height:18px; float:left; position:relative; left:1px; top:23px}
+.point {background: url("../images/pb_point.png") no-repeat; width:14px; height:20px; float:left; position:relative; left:1px; top:23px}
 
 /* Content in Panel Section, Content Section */
 .panel_block, 
