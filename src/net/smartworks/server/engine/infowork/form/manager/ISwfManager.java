@@ -30,5 +30,7 @@ public interface ISwfManager extends IManager {
 	public int getReferenceFormSize(String user, String recordId) throws SwfException;
 
 	public Map<String, Integer> getReferenceFormIdSizeMap(String user, String recordId) throws SwfException;
+	
+	public String getFormContent(String userId, String formId) throws SwfException;
 
 }

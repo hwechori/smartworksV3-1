@@ -83,9 +83,11 @@ public interface IInstanceService {
 	public String setFileInstance(HttpServletRequest request) throws Exception;
 
 	public String setEventInstance(HttpServletRequest request) throws Exception;
-
+	
 	public String setMemoInstance(HttpServletRequest request) throws Exception;
 	
+	public SwdRecord refreshDataFields(SwdRecord record) throws Exception;
+
 	public SwdRecord refreshDataFields(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 	
 	public String setBoardInstance(HttpServletRequest request) throws Exception;
