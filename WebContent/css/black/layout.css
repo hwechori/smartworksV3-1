@@ -311,11 +311,12 @@ li.comment_list:hover {background-color:#fffccd; cursor:pointer;}
 #upload div {float:left; padding-right:15px;}
 
 .up_wrap {position:relative; margin: 0 3px 10px;}
+.upload_up_wrap {width:743px;}
 .detail_up_wrap {margin:0 15px 15px;} /* 상세보기 페이지의 up_wrap */ 
 
 /* UpLoad Search */
 .start_works_input {position:relative}
-.start_works_input .input_size {width:743px; padding:1px}
+.start_works_input .input_size {width:743px;}
 .start_works_input .srch input {width:718px; color:#999897;}
 .start_works_input .srch {background: none repeat scroll 0 0 #FFF; border: 1px solid #c7c7c7; height: 18px;}
 .start_works_input .srch .srch_icon_w {background-color:#FFFFFF; background:url("../../images/btn_srch_w.gif") no-repeat 0 0 transparent; border:0 none; cursor:pointer;  height:13px;
@@ -345,7 +346,7 @@ li.comment_list:hover {background-color:#fffccd; cursor:pointer;}
 /* Table Format */
 .up {border:1px solid #c7c7c7; padding:3px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
-.up_padding {padding:0; position:relative; width:743px}
+.up_padding {padding:0; position:relative; width:100%}
 
 .up_form {position:absolute;}
 .up_point {background: url("../../images/up_point.gif") no-repeat left top; width:11px; height:7px;}
@@ -559,7 +560,7 @@ li.comment_list:hover {background-color:#fffccd; cursor:pointer;}
 .headline_notice .index span.date{float:right;margin-right:9px;font-weight:normal;}
 
 .headline_notice > div {}
-.headline_notice > div:hover {background-color:#fffccd; cursor:pointer; text-decoration: none;}
+.headline_notice > div:hover {cursor:pointer; text-decoration: none;}
 
 /* 3일 업무표시 디자인교체 - 정연희 추가 작업분에 대한 style입니다 */
 .red_stroke{background: url("../../images/bgRoundRedStrokeLeft.gif") no-repeat;height:40px;text-align:center}

@@ -64,7 +64,7 @@ $(function() {
 		}
 	});
 
-	$('tr.js_content').swnavi({
+	$('.js_content').swnavi({
 		history : true,
 		before : function(event){
 			smartPop.progressCenter();				

@@ -1103,7 +1103,7 @@ $(function() {
 	$('.js_pop_all_works').live('click', function(e) {
 		var startWork = $(e.target).parents('.js_start_work_page');
 		var target = startWork.find('.js_all_work_popup');
-		var width = startWork.find('.js_auto_complete:first').parent().width();
+		var width = startWork.find('.js_auto_complete:first').parent().outerWidth();
 		smartPop.selectWork(target, width);
 		return false;
 	});

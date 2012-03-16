@@ -10,18 +10,22 @@
 
 /* Layer popup list */
 .pop_list_area {border: 1px solid #c7c7c7; text-align: left; background-color: #FFF; margin-top: 1px; font-size: 11px;}
+
+.pop_list_area li {}
+.pop_list_area li:hover {text-decoration: none !important;}
+
 .pop_list_area li .dep {padding:4px 0 4px 10px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
 
-.pop_list_area li .dep:hover {display:block; background-color:#fffccd;}
+.pop_list_area li .dep:hover {display:block; background-color:#fffccd;text-decoration: none;}
 
 .pop_list_area li .menu_2dep li .dep {padding:2px 0 2px 24px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-.pop_list_area li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
+.pop_list_area li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;text-decoration: none;}
 
 .pop_list_area li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 34px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-.pop_list_area li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
+.pop_list_area li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;text-decoration: none;}
 
 .pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep {padding:2px 0 2px 44px; display:block; overflow: hidden; vertical-align:middle; position:relative; top:50%;}
-.pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;}
+.pop_list_area li .menu_2dep li .menu_2dep li .menu_2dep li .dep:hover {display:block; background-color:#fffccd;text-decoration: none;}
 
 
 /*popup information*/

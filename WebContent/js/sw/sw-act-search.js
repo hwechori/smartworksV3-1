@@ -8,19 +8,21 @@ $(function() {
 	$('input.js_auto_complete').live('keyup', function(e) {
 		if(e.which>=9 && e.which<=45) return;
 		var input = $(e.target);
-		var listWidth = input.parent().width();
+		var listWidth = input.outerWidth();
 		var startWork = input.parents('div.js_start_work_page');
 		var chatter_name = input.parents('div.js_chatter_names');
 		var communityId = input.parents('ul.js_community_members').attr('communityId');
 		var target;
 		if (!isEmpty(input[0].value))
 			input.next('div').removeClass('srch_icon').removeClass('srch_icon_w').addClass('btn_im_x');
-		if (!isEmpty(startWork))
+		if (!isEmpty(startWork)){
 			target = startWork.find('#upload_work_list');
-		else if(!isEmpty(chatter_name))
+			listWidth = input.parent().outerWidth();
+		}else if(!isEmpty(chatter_name)){
 			target = chatter_name.siblings('div.js_chatter_list');
-		else
+		}else{
 			target = input.parent().next('div');
+		}
 		var url = input.attr('href');
 		var lastValue = input[0].value;
 		setTimeout(function() {
