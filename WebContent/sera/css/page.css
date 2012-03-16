@@ -1,0 +1,237 @@
+#wrap {position: relative; width: 100%}
+#wrap_bb {position: relative; background-color:#f0f0ff; width: 100%}
+#header {background: url("../images/top_bg.jpg") repeat-x scroll 0 0 transparent; clear: both; height:91px; margin: 0 auto;  width: 100%;}
+#header_bb {background: url("../images/top_bg_b.jpg") repeat-x scroll 0 0 transparent; clear: both; height:91px; margin: 0 auto;  width: 100%;}
+#header .top {background: url("../images/sub_top.gif") no-repeat scroll 0 0 transparent; clear: both; height: 45px; margin: 0 auto; position: relative; width: 1004px}
+#header .top h1 {float: left; font-size: 0; height: 30px; margin: 7px 5px 0 25px; width: 158px}
+#header .top .srch_box {background: url("../images/sub_top_search.gif") no-repeat scroll 0 0 transparent; float: right; height: 30px; margin: 7px 30px 0 0; padding-left: 10px; width: 231px}
+#header .status {clear: both; height: 31px; margin: 0 auto; position: relative; width: 1004px}
+#header .status .login {float: left; font: 11px ,'Dotum'; height: 20px; margin: 7px 0 0 30px; width: 440px}
+#header .status .register ul {list-style: none outside none; margin: 0; padding: 0}
+#header .status .register ul li {display: inline; font: 11px ,'Dotum'}
+
+/* Global Navigation Bar*/
+.gnb {clear: both; height:29px; margin: 0 auto; position: relative; width:1004px;}
+.gnb .login_info {float: left; height: 25px; padding-top: 6px; width: 360px;}
+.gnb .login_info li {background: url("../images/sera2_main_ico_user.png") no-repeat scroll 0 0 transparent; height: 14px; padding: 2px 0 0 20px;}
+.gnb .top_menu2 {float: left; height: 28px; width: 303px;}
+.gnb .util_menu {float: right; height: 19px; overflow: hidden; padding-top: 5px}
+.gnb .util_menu .about {color: #333333; float: left; font: 11px/10px,'Dotum'; height: 19px; letter-spacing: -0.1em; margin-right: 10px; padding-top: 5px; width: 65px;}
+.gnb .util_menu .seminar {color: #333333; float: left; font: 11px/10px,'Dotum'; height: 19px; letter-spacing: -0.1em; margin-right: 10px; padding-top: 5px; width: 68px;}
+.gnb .util_menu .news {color: #333333; float: left; font: 11px/10px,'Dotum'; height: 19px; letter-spacing: -0.1em; margin-right: 10px; padding-top: 5px; width: 45px;}
+.gnb .util_menu .btnLogin {float: left; height: 19px; width: 49px;}
+.hd_shadow {background: url("../images/top_bg_im.jpg") no-repeat scroll 0 0 transparent; width:1004px; height:91px; margin:0 auto}
+.hd_shadow.bb {background: url("../images/top_bg_im_b.jpg") no-repeat scroll 0 0 transparent !important}
+.top_navi {width:1004px; margin-right:5px; clear:both; padding:5px 0 0 0; overflow:hidden}
+.personal_info { font-size:11px; color:#FFF; font-weight:bold}
+.profile_pic {width:34px; height:34px; margin-right:5px; border:1px solid #5b5d5f}
+.pofile_con { float:left;line-height:28px; margin-top:5px}
+.btn_log {background: url("../images/icon.png") no-repeat scroll 0 0 transparent; width:22px; height:9px; display:inline-block}
+.btn_log.on {background-position:0 -17px}
+.btn_log.off {background-position:-29px -17px}
+.nick_name { width:120px}
+.bul_down a {background: url("../images/icon.png") no-repeat scroll -90px -34px transparent; width:9px; height:9px; display:inline-block; margin-left:3px}
+.bul_down a:hover { background-position: 0 0}
+.gni li { float:left; margin-left:15px; font-size:0}
+
+/* Btn in GNB */
+.btn_gnb { font-size:12px; color:#717171; line-height:21px; float:left; font-size:11px; font-weight:normal; padding-top:15px}
+.btn_gnb_l {background: url("../images/btn_topbg_l.jpg") no-repeat scroll 0 0; height:19px}
+.btn_gnb_r {background: url("../images/btn_topbg_r.jpg") no-repeat scroll 100% 0; height:19px; padding:0 10px}
+
+/* Icon in GNB */
+.icon_alarm a {background: url("../images/icon.png") no-repeat scroll -267px -6px; width:28px; height:45px; display:block}
+.icon_mycourse a {background: url("../images/icon.png") no-repeat scroll -307px -6px; width:40px; height:45px; display:block}
+.icon_chatting a {background: url("../images/icon.png") no-repeat scroll -354px -6px; width:34px; height:45px; display:block}
+.icon_message a {background: url("../images/icon.png") no-repeat scroll -400px -6px; width:39px; height:45px; display:block}
+.icon_chaledar a {background: url("../images/icon.png") no-repeat scroll -448px -6px; width:42px; height:45px; display:block}
+.icon_badge a {background: url("../images/icon.png") no-repeat scroll -500px -6px; width:35px; height:45px; display:block}
+.icon_event a {background: url("../images/icon.png") no-repeat scroll -545px -6px; width:40px; height:45px; display:block}
+
+/* Body */
+#container {background: url("../images/mypage_body_bg.gif") repeat-y scroll 0 0 transparent; clear: both; height: auto; margin: 0 auto; position: relative; width: 1004px}
+#container_bb {background: url("../images/mypage_body_bg_b.gif") repeat-y scroll 0 0 transparent; clear: both; height: auto; margin: 0 auto; position: relative; width: 1004px}
+#container:after {clear: both; content: ""; display: block}
+#content {float: left; height: auto; padding: 15px 0; width:700px}
+.snb {background: url("../images/mypage_snb_bg.gif") no-repeat scroll 0 0 transparent; float: left; height: auto; margin-bottom: 30px; overflow: hidden; padding: 0 9px 0 25px; position: relative; width: 205px}
+.aside {background: url("../images/aside_bar.jpg") no-repeat 0 0; float: right; height: auto; overflow: hidden; position: relative; width: 266px; margin:15px 1px 0}
+
+/* My Comment */
+.my_comment_section { overflow:hidden; margin-bottom:20px}
+.my_photo { float:left; width:119px; height:118px; border:1px solid #b4b2b2; margin-right:15px}
+.my_comment { float:left; width:564px}
+.my_comment .header { font-size:14px; color:#333333; font-weight:bold; margin-bottom:14px}
+.my_comment .comment_txt {line-height:18px; height:88px}
+.my_comment textarea { height:100%}
+.my_comment .option { float:left; display:block; width:250px}
+.attach_file {height: 28px; margin-top: 5px; overflow: hidden; float:right}
+.attach_file li {float:left}
+
+/* Btn in Body*/
+.btn_wstyle_l {background: url("../images/btn_wstyle_l.gif") no-repeat scroll 0 0; height:24px; float:left}
+.btn_wstyle_r {background: url("../images/btn_wstyle_r.gif") no-repeat scroll 100% 0; height:24px; padding:0 7px; line-height:26px; font-weight:bold}
+
+.btn_default_l {background: url("../images/btn_default_l.png") no-repeat scroll 0 0; height:28px; float:left}
+.btn_default_r {background: url("../images/btn_default_r.png") no-repeat scroll 100% 0; height:28px; padding:0 15px; line-height:30px; font-weight:bold; font-size:12px; color:#555555}
+
+.btn_mid_l {background: url("../images/btn_mid_l.png") no-repeat scroll 0 0; height:21px; float:left}
+.btn_mid_r {background: url("../images/btn_mid_r.png") no-repeat scroll 100% 0; height:21px; padding:0 10px; line-height:21px; font-size:12px; color:#555555; font-weight:normal}
+
+/* Icon in Mypage */
+.icon_video a {background: url("../images/icon.png") no-repeat scroll -29px -75px; width:34px; height:28px; display:block}
+.icon_video a:hover {background-position:-29px -103px}
+.icon_photo a {background: url("../images/icon.png") no-repeat scroll -63px -75px; width:33px; height:28px; display:block}
+.icon_photo a:hover {background-position:-63px -103px}
+.icon_link a {background: url("../images/icon.png") no-repeat scroll -96px -75px; width:33px; height:28px; display:block}
+.icon_link a:hover {background-position:-96px -103px}
+.icon_mytext a {background: url("../images/icon.png") no-repeat scroll -165px -75px; height:15px; display:block; padding:0 0 0 20px}
+.icon_newsfeed a {}
+.icon_date {background: url("../images/icon.png") no-repeat scroll -165px -74px; height:15px; display:block; padding:0 0 0 20px; color:#666666; margin-top:5px}
+.icon_like a {color:#608eba !important; background: url("../images/icon.png") no-repeat scroll -165px -96px; height:12px; padding-left:13px; display: inline-block}
+.icon_reply a {color:#608eba !important}
+.icon_sm_message, .icon_sm_message a {color:#006699 !important; font-weight:bold; background: url("../images/icon.png") no-repeat scroll -165px -157px; height:15px;  padding-left:19px}
+.icon_open a { background: url("../images/icon.png") no-repeat scroll -166px -117px; width:11px; height:11px; display:block; padding:0; font-size:0}
+.icon_open a:hover {background-position:-180px -117px}
+.icon_close a {background: url("../images/icon.png") no-repeat scroll -165px -129px; width:11px; height:11px; display:block; font-size:0}
+.icon_close a:hover {background-position:-180px -129px}
+.icon_mentor {background: url("../images/icon.png") no-repeat scroll -29px -157px; width:16px; height:15px; display:block; font-size:0}
+.icon_mentor.current { background-position:-63px -157px}
+.icon_star {background: url("../images/icon.png") no-repeat scroll -29px -178px; width:16px; height:15px; display:block; font-size:0}
+.icon_star.current { background-position:-63px -178px}
+.icon_heart {background: url("../images/icon.png") no-repeat scroll -29px -199px; width:16px; height:15px; display:block; font-size:0}
+.icon_heart.current { background-position:-63px -199px}
+.icon_more {background: url("../images/icon.png") no-repeat scroll -166px -175px; padding-left:10px}
+.icon_as_mycourse {background: url("../images/icon.png") no-repeat scroll -166px -199px; height:25px; padding-left:30px; width:70%}
+.icon_as_badge {background: url("../images/icon.png") no-repeat scroll -166px -237px; height:25px; padding-left:30px; width:70%}
+.icon_as_friend {background: url("../images/icon.png") no-repeat scroll -166px -276px; height:25px; padding-left:30px; width:70%}
+.icon_as_srtrend {background: url("../images/icon.png") no-repeat scroll -166px -310px; height:25px; padding-left:30px; width:70%}
+
+.icon_as_more a {background: url("../images/icon.png") no-repeat scroll -166px -347px; height:5px; width:34px; display:inline-block; float:right}
+.icon_as_more a:hover { background-position:-166px -357px}
+
+/* Icon in Course */
+.icon_cs_mentorname {background: url("../images/icon.png") no-repeat scroll -166px -397px; padding:0 0 0 40px}
+.icon_cs_openday {background: url("../images/icon.png") no-repeat scroll -166px -442px; padding:0 0 0 40px}
+.icon_cs_menteenum {background: url("../images/icon.png") no-repeat scroll -166px -442px; padding:0 0 0 40px}
+.icon_blu_down {background: url("../images/icon.png") no-repeat scroll 0 -237px; width:8px; height:8px; display:inline-block}
+.icon_facebook a {background: url("../images/icon.png") no-repeat scroll 0 -257px; width:22px; height:22px; display:block; font-size:0}
+.icon_twitter a {background: url("../images/icon.png") no-repeat scroll -27px -257px; width:22px; height:22px; display:block; font-size:0}
+
+/* Panel Section */
+.panel_section { overflow:hidden; clear:both}
+.panel_section .header {border-bottom:5px solid #559fcc; height:21px}
+.panel_section .header .current { color:#608eba}
+.panel_section .header div { float:left; margin-right:5px; color:#dddddd}
+.panel_section .header div a {color:#333333; font-weight:bold}
+
+.panel_area, .content_area {margin:15px 0 0 0; overflow:hidden}
+.panel_area li { float:left}
+.photo_bg {background: url("../images/photo_default_bg.png") no-repeat; width:73px; height:84px; display: inline; float: left; padding: 5px 15px 0 4px}
+.photo_bg .rgt_name { font-weight:bold; margin:10px 0 0 0; text-align:center}
+.grade { float:left; margin:5px 0 0 0}
+.grade div { margin-bottom:6px}
+.point {background: url("../images/pb_point.png") no-repeat; width:14px; height:18px; float:left; position:relative; left:1px; top:23px}
+
+/* Content in Panel Section, Content Section */
+.panel_block, 
+.content_block { border:1px solid #cccccc; width:560px; line-height:16px; overflow:hidden; background-color:#FFF; box-shadow:1px 1px 1px #eeeeee; -moz-box-shadow:1px 1px 1px #eeeeee; -webkit-box-shadow:1px 1px 1px #eeeeee; margin:0 2px 2px 0}
+.panel_block dt,
+.content_block dt { margin-bottom:5px}
+.panel_block .content,
+.content_block .content {padding:10px; overflow:hidden} 
+.panel_block .name,
+.content_block .name {font-weight:bold; color:#006699}
+.panel_block .text,
+.content_block .text { float:left; width:75%; margin-right:10px} /* content txt */
+.panel_block .message,
+.content_block .message { width:100%} /* ÂÊÁö */
+.panel_block .thum_image,
+.content_block .thum_image {width:120px; height:66px; float:right}
+.util { clear:both; padding:10px 0 0; font-size:11px}
+.util span {color:#dddddd}
+.date {font-size:11px; color:#888888 !important}
+
+/* Reply */
+.reply_section {background-color:#f0f7f9; border-bottom: 1px dotted #CCCCCC; padding:10px; overflow:hidden}
+.reply_section .photo { border:1px solid #606060; width:48px; height:48px; float:left; margin-right:10px}
+.reply_section .reply_text {float: right; width:475px}
+.reply_section.end {border-bottom: none}
+.stat_notice { font-size:11px; padding:5px 0 2px 10px}
+
+.more {display:block; border:1px solid #bbb9b9; background-color:#edecec; padding:5px; margin:10px 0 0; cursor:pointer}
+
+/* Course */
+.course_section { overflow:hidden; clear:both}
+.course_section .header {border-bottom:1px solid #559fcc; height:21px}
+.course_section .header div {color:#333333; font-weight:bold; font-size:14px}
+.content_block dl { border-bottom:1px solid #cccccc}
+.content_block dl.bor_no { border-bottom:none}
+
+
+
+/* Aside */
+.aside_block {display:block; margin-top:10px; padding:15px 12px; border-bottom:1px dotted #cdcdcd}
+.aside_block .header { font-size:14px; color:#333333; line-height:27px; font-weight:bold}
+.aside_block .content { clear:both; padding:10px 0 0 5px; color:#666666; line-height:18px}
+.aside_block .content dt {background: url("../images/icon.png") no-repeat -166px -366px; padding:0 0 0 8px; font-weight:bold; margin-bottom:3px}
+.aside_block .content dd { margin-left:5px}
+.aside_block .list { clear:both; padding:10px 0 0 0; color:#666666; line-height:18px}
+.aside_block .list dd { display:inline; margin:0 2px}
+.num_cus { color:#ed1c24}
+
+/* Badge */
+.badge_df {background: url("../images/badge_df.gif") no-repeat scroll 0 0; width:40px; height:40px; display:inline-block}
+
+
+/* Friend */
+.friend_df {background: url("../images/friend_df.gif") no-repeat scroll 0 0; width:41px; height:41px; display:inline-block}
+
+/* Course */
+/* Course Define */
+.course_df_section { overflow:hidden; margin-bottom:20px; background-color:#FFF; box-shadow:1px 1px 1px #eeeeee; -moz-box-shadow:1px 1px 1px #eeeeee; -webkit-box-shadow:1px 1px 1px #eeeeee; margin:0 2px 22px 0; border:1px solid #cccccc}
+.course_df_img {float:left; width:119px; height:118px; border-right:1px solid #cccccc; margin-right:15px}
+.course_df { float:left; width:350px; margin-top:10px}
+.course_df h1 { font-size:14px}
+.course_df ul { display:block}
+.course_df li { float:left; width:105px; margin-right:10px;}
+.course_df li div { border-bottom:1px solid #cccccc; height:34px; padding-bottom:10px; margin-bottom:10px}
+.course_df li div span { position:relative; top:22px; font-weight:normal; text-align:left}
+.course_df li span { font-weight:bold; display:block; text-align:right}
+.course_info { width:193px; float:right; margin-top:10px; line-height:19px}
+.course_info dt {background: url("../images/icon.png") no-repeat -166px -525px; padding:0 0 0 20px; font-weight:bold; margin-bottom:3px}
+.course_menu { clear:both; background: url("../images/cus_df_bg.gif") repeat-x scroll 0 0; height:35px; padding:0 10px 0 25px; vertical-align:middle}
+.course_menu ul { vertical-align:middle; margin:4px 0 0 0}
+.course_menu li { float:left; margin:6px 5px 0; font-size:14px; color:#FFF; font-weight:bold; text-align:center; width:80px}
+
+
+/* Text Style */
+.t_s11 { font-size:11px}
+.t_s14 { font-size:14px}
+.t_red {color:#F00}
+.t_redb {color:#ed1c24; font-weight:bold}
+.t_blue { color:#006699}
+.t_blueb { color:#006699; font-weight:bold}
+.tb { font-weight:bold}
+
+/* Bullet */
+.bullet {background: url("../images/common/bullet1.gif") no-repeat scroll 0 3px transparent; padding-left: 8px}
+.bullet1 {background: url("../images/common/bullet1.gif") no-repeat scroll 0 7px transparent; padding: 3px 0 0 8px}
+
+/* Paging */
+.paging {clear: both; height: auto; margin: 10px auto; overflow: hidden; width: 150px}
+.paging .pre {float: left; margin-right: 10px}
+.paging .num {float: left}
+.paging .next {float: left; margin-left: 10px}
+
+/* Footer */
+#footer {background: none repeat scroll 0 0 #172537; clear: both; height:28px; width: 100%; font-size:11px}
+.footerBox {clear: both; margin: 0 auto; width: 993px;}
+.footerBox .copyright {float: left; height: 20px; width: 270px; padding-top:5px}
+.footerBox .policy {color: #FFFFFF; float: right; font: 11px,'Dotum'; height: 10px; padding-top:9px}
+.footerBox .policy a {color: #FFFFFF;}
+.footerBox .policy a:hover {color: #CCCCCC;}
+
+#footer .info {height: 15px; margin: 0 auto; padding-top: 13px; width: 912px}
+#footer .company {color: #777777; float: right; font: 11px,'Dotum'}
+#footer .company a {color: #777777; text-decoration: none}
+#footer .company a:hover {color: #333333; text-decoration: none}
