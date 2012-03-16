@@ -16,7 +16,7 @@ body {
 }
 
 html, body {
-	color:#454545; height:100%; line-height:1.5em;
+	color:#454545; height:100%
 }
 
 a:link, a:visited, a:hover, a:focus, a:active {
@@ -157,6 +157,7 @@ mark, rp, rt, ruby, summary, time {
 .mt2 {margin-top:2px !important}
 .mt4 {margin-top: 4px !important}
 .mt5 {margin-top:5px !important}
+.mt6 {margin-top:6px !important}
 .mt8 {margin-top:8px !important}
 .mt10 {margin-top:10px !important}
 .mt13 {margin-top:13px !important}
