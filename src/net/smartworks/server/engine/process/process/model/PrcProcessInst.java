@@ -38,6 +38,8 @@ public class PrcProcessInst extends MisObject {
 	public static final String A_INSTVARIABLE = "instVariable";
 	public static final String A_WORKSPACEID = "workSpaceId";
 	public static final String A_WORKSPACETYPE = "workSpaceType";
+	public static final String A_ACCESSLEVEL = "accessLevel";
+	public static final String A_ACCESSVALUE = "accessValue";
 	
 	private String title;
 	private String type;
@@ -51,6 +53,8 @@ public class PrcProcessInst extends MisObject {
 	private String instVariable;
 	private String workSpaceId;
 	private String workSpaceType;
+	private String accessLevel;
+	private String accessValue;
 
 	public PrcProcessInst() {
 		super();
@@ -72,6 +76,8 @@ public class PrcProcessInst extends MisObject {
 		appendAttributeString(A_ISSUBINSTANCE, isSubInstance, buf);
 		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
 		appendAttributeString(A_WORKSPACETYPE, workSpaceType, buf);
+		appendAttributeString(A_ACCESSLEVEL, accessLevel, buf);
+		appendAttributeString(A_ACCESSVALUE, accessValue, buf);
 		return buf.toString();
 	}
 	public String toElementsString(String tab) {
@@ -106,6 +112,8 @@ public class PrcProcessInst extends MisObject {
 			Node isSubInstance = attrMap.getNamedItem(A_ISSUBINSTANCE);
 			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
 			Node workSpaceType = attrMap.getNamedItem(A_WORKSPACETYPE);
+			Node accessLevel = attrMap.getNamedItem(A_ACCESSLEVEL);
+			Node accessValue = attrMap.getNamedItem(A_ACCESSVALUE);
 			if (priority != null)
 				obj.setPriority(priority.getNodeValue());
 			if (type != null)
@@ -124,6 +132,10 @@ public class PrcProcessInst extends MisObject {
 				obj.setWorkSpaceId(workSpaceId.getNodeValue());
 			if (workSpaceType != null)
 				obj.setWorkSpaceType(workSpaceType.getNodeValue());
+			if (accessLevel != null)
+				obj.setAccessLevel(accessLevel.getNodeValue());
+			if (accessValue != null)
+				obj.setAccessValue(accessValue.getNodeValue());
 		}
 		
 		NodeList childNodeList = node.getChildNodes();
@@ -312,5 +324,17 @@ public class PrcProcessInst extends MisObject {
 	}
 	public void setWorkSpaceType(String workSpaceType) {
 		this.workSpaceType = workSpaceType;
+	}
+	public String getAccessLevel() {
+		return accessLevel;
+	}
+	public void setAccessLevel(String accessLevel) {
+		this.accessLevel = accessLevel;
+	}
+	public String getAccessValue() {
+		return accessValue;
+	}
+	public void setAccessValue(String accessValue) {
+		this.accessValue = accessValue;
 	}
 }

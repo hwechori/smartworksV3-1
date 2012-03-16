@@ -8,20 +8,30 @@
 
 package net.smartworks.server.engine.infowork.form.model;
 
+import java.io.IOException;
 import java.util.Date;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.ClassObject;
+import net.smartworks.server.engine.common.model.MappingService;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.common.util.XmlUtil;
+import net.smartworks.server.engine.process.deploy.model.AcpActualParameter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import com.sun.org.apache.xpath.internal.XPathAPI;
 
 public class SwfForm extends ClassObject {
 
@@ -394,5 +404,93 @@ public class SwfForm extends ClassObject {
 	public void setPackageId(String packageId) {
 		this.packageId = packageId;
 	}
+	
+	public MappingService[] getMappingService() throws Exception {
+		if (this.objString == null)
+			return null;
+		
+		Document fullDoc = XmlUtil.toDocument(objString);
+		Element DocumentRoot = fullDoc.getDocumentElement();
+		
+		NodeList mappingServiceRoot = XmlUtil.getXpathNodeList(DocumentRoot, "/form/mappingServices/mappingService");
+		
+		if (mappingServiceRoot == null || mappingServiceRoot.getLength() == 0)
+			return null;
+		int mappingSize = mappingServiceRoot.getLength();
+		MappingService[] resultMappings = new MappingService[mappingSize];
+		
+		for (int i = 0; i < mappingSize; i++) {
+			resultMappings[i] = new MappingService();
+			Node mappingService = mappingServiceRoot.item(i);
+			
+			if (mappingService.getNodeType() != Node.ELEMENT_NODE)
+				continue;
+			
+			Element mappingRoot = (Element)mappingService;
+			
+			String mappingId = mappingRoot.getAttribute("id");
+			String mappingName = mappingRoot.getAttribute("name");
+			String mappingTargetServiceId = mappingRoot.getAttribute("targetServiceId");
+			String mappingExecution = mappingRoot.getAttribute("Execution");
 
+			resultMappings[i].setId(mappingId);
+			resultMappings[i].setName(mappingName);
+			resultMappings[i].setTargetServiceId(mappingTargetServiceId);
+			resultMappings[i].setExecution(mappingExecution);
+			
+//				NodeList itemNodeList = doc.getElementsByTagName("ActualParmeter");
+			NodeList itemNodeList = XmlUtil.getXpathNodeList(DocumentRoot, "/form/mappingServices/mappingService/ActualParameters/ActualParmeter");
+			AcpActualParameter[] actualParameters = new AcpActualParameter[itemNodeList.getLength()];
+			for (int j = 0; j < itemNodeList.getLength(); j++) {
+				AcpActualParameter actualParameter = new AcpActualParameter();
+				Node itemNode = itemNodeList.item(j);
+				if (itemNode.getNodeType() != Node.ELEMENT_NODE)
+					continue;
+				
+				NamedNodeMap nodeMap = itemNode.getAttributes();
+				
+				Node paramIdNode = nodeMap.getNamedItem("Id");
+				if (paramIdNode != null)
+					actualParameter.setId(paramIdNode.getNodeValue());
+				
+				Node paramNameNode = nodeMap.getNamedItem("Name");
+				if (paramNameNode != null)
+					actualParameter.setName(paramNameNode.getNodeValue());
+				
+				Node paramDataTypeNode = nodeMap.getNamedItem("DataType");
+				if (paramDataTypeNode != null)
+					actualParameter.setDataType(paramDataTypeNode.getNodeValue());
+				
+				Node paramModeNode = nodeMap.getNamedItem("Mode");
+				if (paramModeNode != null)
+					actualParameter.setMode(paramModeNode.getNodeValue());
+				
+				Node paramTargetTypeNode = nodeMap.getNamedItem("TargetType");
+				if (paramTargetTypeNode != null){
+					actualParameter.setTargetType(paramTargetTypeNode.getNodeValue());
+					
+					Node paramFieldIdNode = nodeMap.getNamedItem("FieldId");
+					if (paramFieldIdNode != null)
+						actualParameter.setFieldId(paramFieldIdNode.getNodeValue());
+					Node paramFieldNameNode = nodeMap.getNamedItem("FieldName");
+					if (paramFieldNameNode != null)
+						actualParameter.setFieldName(paramFieldNameNode.getNodeValue());
+				}
+				
+				Node paramValueTypeNode = nodeMap.getNamedItem("ValueType");
+				if (paramValueTypeNode != null)
+					actualParameter.setValueType(paramValueTypeNode.getNodeValue());
+				
+				Node paramExpressionNode = nodeMap.getNamedItem("Expression");
+				if (paramExpressionNode != null)
+					actualParameter.setExpression(paramExpressionNode.getNodeValue());
+				
+				actualParameters[j] = actualParameter;
+			}
+			resultMappings[i].setActualParameters(actualParameters);
+		}
+
+		return resultMappings;
+	
+	}
 }

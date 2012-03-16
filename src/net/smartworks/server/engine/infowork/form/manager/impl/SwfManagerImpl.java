@@ -201,7 +201,26 @@ public class SwfManagerImpl extends AbstractManager implements ISwfManager {
 			result.add(fieldDefIt.next());
 		return result;
 	}
+	
+	
+	public String getFormContent(String userId, String formId) throws SwfException {
 
+		Session session = this.getSession();
+		StringBuffer hql = new StringBuffer("from SwfFormContent where formId = :formId ");
+
+		Query query = session.createQuery(hql.toString());
+		query.setString("formId", formId);
+
+		SwfFormContent formContent = (SwfFormContent) query.uniqueResult();
+		if (formContent == null || formContent.getContent() == null)
+			return null;
+		else
+			return formContent.getContent();
+		
+	}
+	
+	
+	
 	@Override
 	public Map<String, Integer> getReferenceFormIdSizeMap(String user, String recordId) throws SwfException {
 		if (recordId == null)

@@ -568,7 +568,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			if(e.getSQLState().equals("42S22")) {
 				this.addTableColumn("", domain.getTableName(), "workspaceId", "varchar(100)");
 				this.addTableColumn("", domain.getTableName(), "workspaceType", "varchar(50)");
-				this.addTableColumn("", domain.getTableName(), "accessLevel", "varchar(1)");
+				this.addTableColumn("", domain.getTableName(), "accessLevel", "varchar(50)");
 				this.addTableColumn("", domain.getTableName(), "accessValue", "varchar(4000)");
 				return setRecord(user, obj, level);
 			}
@@ -699,7 +699,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 				SwdDomain domain = getDomain(user, cond);
 				this.addTableColumn("", domain.getTableName(), "workspaceId", "varchar(100)");
 				this.addTableColumn("", domain.getTableName(), "workspaceType", "varchar(50)");
-				this.addTableColumn("", domain.getTableName(), "accessLevel", "varchar(1)");
+				this.addTableColumn("", domain.getTableName(), "accessLevel", "varchar(50)");
 				this.addTableColumn("", domain.getTableName(), "accessValue", "varchar(4000)");
 				return getRecordSize(user, cond);
 			}
@@ -867,7 +867,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			if(e.getSQLState().equals("42S22")) {
 				this.addTableColumn("", domain.getTableName(), "workspaceId", "varchar(100)");
 				this.addTableColumn("", domain.getTableName(), "workspaceType", "varchar(50)");
-				this.addTableColumn("", domain.getTableName(), "accessLevel", "varchar(1)");
+				this.addTableColumn("", domain.getTableName(), "accessLevel", "varchar(50)");
 				this.addTableColumn("", domain.getTableName(), "accessValue", "varchar(4000)");
 				return this.getRecords(user, cond, level);
 			}
@@ -978,6 +978,7 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 		String workSpaceId = cond.getWorkSpaceId();
 		String workSpaceType = cond.getWorkSpaceType();
 		String accessLevel = cond.getAccessLevel();
+		String accessValue = cond.getAccessValue();
 
 		if (recordId != null)
 			cond.addFilter(new Filter("=", "obj.id", recordId));
@@ -1009,6 +1010,8 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 			cond.addFilter(new Filter("=", "obj.workSpaceType", workSpaceType));
 		if (accessLevel != null)
 			cond.addFilter(new Filter("=", "obj.accessLevel", accessLevel));
+		if (accessValue != null)
+			cond.addFilter(new Filter("=", "obj.accessValue", accessValue));
 
 		Map<String, Filter> filterMap = new HashMap<String, Filter>();
 		Map<String, String> paramTypeMap = new HashMap<String, String>();

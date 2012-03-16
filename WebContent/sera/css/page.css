@@ -1,14 +1,14 @@
 #wrap {position: relative; width: 100%}
 #wrap_bb {position: relative; background-color:#f0f0ff; width: 100%}
-#header {background: url("../images/top_bg.jpg") repeat-x scroll 0 0 transparent; clear: both; height:91px; margin: 0 auto;  width: 100%;}
-#header_bb {background: url("../images/top_bg_b.jpg") repeat-x scroll 0 0 transparent; clear: both; height:91px; margin: 0 auto;  width: 100%;}
-#header .top {background: url("../images/sub_top.gif") no-repeat scroll 0 0 transparent; clear: both; height: 45px; margin: 0 auto; position: relative; width: 1004px}
-#header .top h1 {float: left; font-size: 0; height: 30px; margin: 7px 5px 0 25px; width: 158px}
-#header .top .srch_box {background: url("../images/sub_top_search.gif") no-repeat scroll 0 0 transparent; float: right; height: 30px; margin: 7px 30px 0 0; padding-left: 10px; width: 231px}
-#header .status {clear: both; height: 31px; margin: 0 auto; position: relative; width: 1004px}
-#header .status .login {float: left; font: 11px ,'Dotum'; height: 20px; margin: 7px 0 0 30px; width: 440px}
-#header .status .register ul {list-style: none outside none; margin: 0; padding: 0}
-#header .status .register ul li {display: inline; font: 11px ,'Dotum'}
+#sera_header {background: url("../images/top_bg.jpg") repeat-x scroll 0 0 transparent; clear: both; height:91px; margin: 0 auto;  width: 100%;}
+#sera_header_bb {background: url("../images/top_bg_b.jpg") repeat-x scroll 0 0 transparent; clear: both; height:91px; margin: 0 auto;  width: 100%;}
+#sera_header .top {background: url("../images/sub_top.gif") no-repeat scroll 0 0 transparent; clear: both; height: 45px; margin: 0 auto; position: relative; width: 1004px}
+#sera_header .top h1 {float: left; font-size: 0; height: 30px; margin: 7px 5px 0 25px; width: 158px}
+#sera_header .top .srch_box {background: url("../images/sub_top_search.gif") no-repeat scroll 0 0 transparent; float: right; height: 30px; margin: 7px 30px 0 0; padding-left: 10px; width: 231px}
+#sera_header .status {clear: both; height: 31px; margin: 0 auto; position: relative; width: 1004px}
+#sera_header .status .login {float: left; font: 11px ,'Dotum'; height: 20px; margin: 7px 0 0 30px; width: 440px}
+#sera_header .status .register ul {list-style: none outside none; margin: 0; padding: 0}
+#sera_header .status .register ul li {display: inline; font: 11px ,'Dotum'}
 
 /* Global Navigation Bar*/
 .gnb {clear: both; height:29px; margin: 0 auto; position: relative; width:1004px;}
@@ -52,38 +52,46 @@
 #container {background: url("../images/mypage_body_bg.gif") repeat-y scroll 0 0 transparent; clear: both; height: auto; margin: 0 auto; position: relative; width: 1004px}
 #container_bb {background: url("../images/mypage_body_bg_b.gif") repeat-y scroll 0 0 transparent; clear: both; height: auto; margin: 0 auto; position: relative; width: 1004px}
 #container:after {clear: both; content: ""; display: block}
-#content {float: left; height: auto; padding: 15px 0; width:700px}
-.snb {background: url("../images/mypage_snb_bg.gif") no-repeat scroll 0 0 transparent; float: left; height: auto; margin-bottom: 30px; overflow: hidden; padding: 0 9px 0 25px; position: relative; width: 205px}
+#sera_content {float: left; height: auto; padding: 15px 0; width:700px}
+/* .snb {background: url("../images/mypage_snb_bg.gif") no-repeat scroll 0 0 transparent; float: left; height: auto; margin-bottom: 30px; overflow: hidden; padding: 0 9px 0 25px; position: relative; width: 205px} */
+#sera_content textarea { border:1px solid #cccccc}
 .aside {background: url("../images/aside_bar.jpg") no-repeat 0 0; float: right; height: auto; overflow: hidden; position: relative; width: 266px; margin:15px 1px 0}
 
 /* My Comment */
 .my_comment_section { overflow:hidden; margin-bottom:20px}
-.my_photo { float:left; width:119px; height:118px; border:1px solid #b4b2b2; margin-right:15px}
+.my_photo,.photo_line { float:left; width:118px; height:118px; border:1px solid #b4b2b2; margin-right:15px}
 .my_comment { float:left; width:564px}
 .my_comment .header { font-size:14px; color:#333333; font-weight:bold; margin-bottom:14px}
 .my_comment .comment_txt {line-height:18px; height:88px}
-.my_comment textarea { height:100%}
+.my_comment .comment_txt textarea { border:1px solid #cccccc}
+.my_comment textarea { height:100%; width:99.4%}
 .my_comment .option { float:left; display:block; width:250px}
 .attach_file {height: 28px; margin-top: 5px; overflow: hidden; float:right}
 .attach_file li {float:left}
+.fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;}
 
 /* Btn in Body*/
 .btn_wstyle_l {background: url("../images/btn_wstyle_l.gif") no-repeat scroll 0 0; height:24px; float:left}
 .btn_wstyle_r {background: url("../images/btn_wstyle_r.gif") no-repeat scroll 100% 0; height:24px; padding:0 7px; line-height:26px; font-weight:bold}
 
+.btn_large_l {background: url("../images/btn_large_l.png") no-repeat scroll 0 0; height:39px; float:left}
+.btn_large_r {background: url("../images/btn_large_r.png") no-repeat scroll 100% 0; height:39px; padding:0 7px; line-height:41px; font-weight:bold; font-size:12px; color:#555555}
+
 .btn_default_l {background: url("../images/btn_default_l.png") no-repeat scroll 0 0; height:28px; float:left}
-.btn_default_r {background: url("../images/btn_default_r.png") no-repeat scroll 100% 0; height:28px; padding:0 15px; line-height:30px; font-weight:bold; font-size:12px; color:#555555}
+.btn_default_r {background: url("../images/btn_default_r.png") no-repeat scroll 100% 0; height:28px; padding:0 12px; line-height:30px; font-weight:bold; font-size:12px; color:#555555}
 
 .btn_mid_l {background: url("../images/btn_mid_l.png") no-repeat scroll 0 0; height:21px; float:left}
 .btn_mid_r {background: url("../images/btn_mid_r.png") no-repeat scroll 100% 0; height:21px; padding:0 10px; line-height:21px; font-size:12px; color:#555555; font-weight:normal}
 
 /* Icon in Mypage */
-.icon_video a {background: url("../images/icon.png") no-repeat scroll -29px -75px; width:34px; height:28px; display:block}
-.icon_video a:hover {background-position:-29px -103px}
-.icon_photo a {background: url("../images/icon.png") no-repeat scroll -63px -75px; width:33px; height:28px; display:block}
-.icon_photo a:hover {background-position:-63px -103px}
-.icon_link a {background: url("../images/icon.png") no-repeat scroll -96px -75px; width:33px; height:28px; display:block}
-.icon_link a:hover {background-position:-96px -103px}
+.icon_memo a {background: url("../images/icon.png") no-repeat scroll -18px -75px; width:34px; height:28px; display:block}
+.icon_memo a:hover {background-position:-18px -103px}
+.icon_video a {background: url("../images/icon.png") no-repeat scroll -52px -75px; width:34px; height:28px; display:block}
+.icon_video a:hover {background-position:-52px -103px}
+.icon_photo a {background: url("../images/icon.png") no-repeat scroll -85px -75px; width:33px; height:28px; display:block}
+.icon_photo a:hover {background-position:-85px -103px}
+.icon_link a {background: url("../images/icon.png") no-repeat scroll -118px -75px; width:33px; height:28px; display:block}
+.icon_link a:hover {background-position:-118px -103px}
 .icon_mytext a {background: url("../images/icon.png") no-repeat scroll -165px -75px; height:15px; display:block; padding:0 0 0 20px}
 .icon_newsfeed a {}
 .icon_date {background: url("../images/icon.png") no-repeat scroll -165px -74px; height:15px; display:block; padding:0 0 0 20px; color:#666666; margin-top:5px}
@@ -116,6 +124,9 @@
 .icon_blu_down {background: url("../images/icon.png") no-repeat scroll 0 -237px; width:8px; height:8px; display:inline-block}
 .icon_facebook a {background: url("../images/icon.png") no-repeat scroll 0 -257px; width:22px; height:22px; display:block; font-size:0}
 .icon_twitter a {background: url("../images/icon.png") no-repeat scroll -27px -257px; width:22px; height:22px; display:block; font-size:0}
+.icon_star_score {background: url("../images/icon.png") no-repeat scroll -17px -293px; width:9px; height:9px; display:block; margin-right:3px}
+.icon_star_score.current {background-position:0 -293px}
+.icon_blu_down2 {background: url("../images/icon.png") no-repeat scroll 0 -320px; width:14px; height:11px; display:inline-block}
 
 /* Panel Section */
 .panel_section { overflow:hidden; clear:both}
@@ -125,28 +136,24 @@
 .panel_section .header div a {color:#333333; font-weight:bold}
 
 .panel_area, .content_area {margin:15px 0 0 0; overflow:hidden}
-.panel_area li { float:left}
+.panel_area li, .content_area li { float:left}
+.panel_area .cb li, .content_area .cb li { float:none}
 .photo_bg {background: url("../images/photo_default_bg.png") no-repeat; width:73px; height:84px; display: inline; float: left; padding: 5px 15px 0 4px}
 .photo_bg .rgt_name { font-weight:bold; margin:10px 0 0 0; text-align:center}
 .grade { float:left; margin:5px 0 0 0}
 .grade div { margin-bottom:6px}
-.point {background: url("../images/pb_point.png") no-repeat; width:14px; height:18px; float:left; position:relative; left:1px; top:23px}
+.point {background: url("../images/pb_point.png") no-repeat; width:14px; height:20px; float:left; position:relative; left:1px; top:23px}
 
 /* Content in Panel Section, Content Section */
-.panel_block, 
-.content_block { border:1px solid #cccccc; width:560px; line-height:16px; overflow:hidden; background-color:#FFF; box-shadow:1px 1px 1px #eeeeee; -moz-box-shadow:1px 1px 1px #eeeeee; -webkit-box-shadow:1px 1px 1px #eeeeee; margin:0 2px 2px 0}
-.panel_block dt,
-.content_block dt { margin-bottom:5px}
-.panel_block .content,
-.content_block .content {padding:10px; overflow:hidden} 
-.panel_block .name,
-.content_block .name {font-weight:bold; color:#006699}
-.panel_block .text,
-.content_block .text { float:left; width:75%; margin-right:10px} /* content txt */
-.panel_block .message,
-.content_block .message { width:100%} /* 쪽지 */
-.panel_block .thum_image,
-.content_block .thum_image {width:120px; height:66px; float:right}
+.panel_block { border:1px solid #cccccc; width:560px; line-height:16px; overflow:hidden; background-color:#FFF; box-shadow:1px 1px 1px #eeeeee; -moz-box-shadow:1px 1px 1px #eeeeee; -webkit-box-shadow:1px 1px 1px #eeeeee; margin:0 2px 2px 0}
+.panel_block dt { margin-bottom:5px}
+.panel_block .content {padding:10px; overflow:hidden} 
+.panel_block .name {font-weight:bold; color:#006699}
+.panel_block .text { float:left; width:75%; margin-right:10px} /* content txt */
+.panel_block .message { width:100%} /* 쪽지 */
+.panel_block .thum_image {width:120px; height:66px; float:right}
+.panel_block dl.bor {border-bottom:1px solid #cccccc}
+.panel_block dl.bor_no { border-bottom:none}
 .util { clear:both; padding:10px 0 0; font-size:11px}
 .util span {color:#dddddd}
 .date {font-size:11px; color:#888888 !important}
@@ -164,8 +171,8 @@
 .course_section { overflow:hidden; clear:both}
 .course_section .header {border-bottom:1px solid #559fcc; height:21px}
 .course_section .header div {color:#333333; font-weight:bold; font-size:14px}
-.content_block dl { border-bottom:1px solid #cccccc}
-.content_block dl.bor_no { border-bottom:none}
+.star_score {margin:0 12px; overflow:hidden; text-align:center; padding-top:5px}
+.star_score li { float:left !important}
 
 
 
@@ -211,11 +218,14 @@
 .t_redb {color:#ed1c24; font-weight:bold}
 .t_blue { color:#006699}
 .t_blueb { color:#006699; font-weight:bold}
+.t_gray { color:#9a9a9a}
 .tb { font-weight:bold}
 
+/* Width */
+.w375 {width:375px !important}
+
 /* Bullet */
-.bullet {background: url("../images/common/bullet1.gif") no-repeat scroll 0 3px transparent; padding-left: 8px}
-.bullet1 {background: url("../images/common/bullet1.gif") no-repeat scroll 0 7px transparent; padding: 3px 0 0 8px}
+.bullet_dot {background: url("../images/icon.png") no-repeat -166px -369px; padding:0 0 0 8px; color:#9a9a9a}
 
 /* Paging */
 .paging {clear: both; height: auto; margin: 10px auto; overflow: hidden; width: 150px}
@@ -223,15 +233,22 @@
 .paging .num {float: left}
 .paging .next {float: left; margin-left: 10px}
 
+/* Gauge Box */
+.gaugeBox {clear: both; height: 10px; width:390px;}
+.gaugeBox .gaugeOutline {background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #D2D2D2; border-radius: 10px 10px 10px 10px; float: left; height: 7px; padding: 1px; width: 390px}
+.gaugeBox .gaugeOutline .gauge {background: none repeat scroll 0 0 #559FCC; border-radius: 10px 10px 10px 10px; height: 7px; display:block}
+.process {float: right; height: 12px; margin: 5px 20px 0 0; width: 38px; color:#999999}
+.mission_info { float:left; width:200px; margin: 5px 0 0 0; color:#999999}
+
 /* Footer */
-#footer {background: none repeat scroll 0 0 #172537; clear: both; height:28px; width: 100%; font-size:11px}
+#sera_footer {background: none repeat scroll 0 0 #172537; clear: both; height:28px; width: 100%; font-size:11px}
 .footerBox {clear: both; margin: 0 auto; width: 993px;}
 .footerBox .copyright {float: left; height: 20px; width: 270px; padding-top:5px}
 .footerBox .policy {color: #FFFFFF; float: right; font: 11px,'Dotum'; height: 10px; padding-top:9px}
 .footerBox .policy a {color: #FFFFFF;}
 .footerBox .policy a:hover {color: #CCCCCC;}
 
-#footer .info {height: 15px; margin: 0 auto; padding-top: 13px; width: 912px}
-#footer .company {color: #777777; float: right; font: 11px,'Dotum'}
-#footer .company a {color: #777777; text-decoration: none}
-#footer .company a:hover {color: #333333; text-decoration: none}
+#sera_footer .info {height: 15px; margin: 0 auto; padding-top: 13px; width: 912px}
+#sera_footer .company {color: #777777; float: right; font: 11px,'Dotum'}
+#sera_footer .company a {color: #777777; text-decoration: none}
+#sera_footer .company a:hover {color: #333333; text-decoration: none}

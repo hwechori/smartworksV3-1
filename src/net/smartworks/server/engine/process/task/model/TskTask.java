@@ -71,6 +71,8 @@ public class TskTask extends MisObject {
 	public static final String A_FROMREFID = "fromRefId";
 	public static final String A_WORKSPACEID = "workSpaceId";
 	public static final String A_WORKSPACETYPE = "workSpaceType";
+	public static final String A_ACCESSLEVEL = "accessLevel";
+	public static final String A_ACCESSVALUE = "accessValue";
 	
 	private String correlation;
 	
@@ -100,6 +102,8 @@ public class TskTask extends MisObject {
 	private String fromRefId;
 	private String workSpaceId;
 	private String workSpaceType;
+	private String accessLevel;
+	private String accessValue;
 	
 	public TskTask() {
 		super();
@@ -133,6 +137,8 @@ public class TskTask extends MisObject {
 		appendAttributeString(A_FROMREFID, fromRefId, buf);
 		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
 		appendAttributeString(A_WORKSPACETYPE, workSpaceType, buf);
+		appendAttributeString(A_ACCESSLEVEL, accessLevel, buf);
+		appendAttributeString(A_ACCESSVALUE, accessValue, buf);
 		appendAttributeString(A_STEP, getStep(), buf);
 		return buf.toString();
 	}
@@ -181,6 +187,8 @@ public class TskTask extends MisObject {
 			Node fromRefId = attrMap.getNamedItem(A_FROMREFID);
 			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
 			Node workSpaceType = attrMap.getNamedItem(A_WORKSPACETYPE);
+			Node accessLevel = attrMap.getNamedItem(A_ACCESSLEVEL);
+			Node accessValue = attrMap.getNamedItem(A_ACCESSVALUE);
 			Node step = attrMap.getNamedItem(A_STEP);
 			if (correlation != null)
 				obj.setCorrelation(correlation.getNodeValue());
@@ -226,6 +234,10 @@ public class TskTask extends MisObject {
 				obj.setWorkSpaceType(workSpaceType.getNodeValue());
 			if (step != null)
 				obj.setStep(Integer.parseInt(step.getNodeValue()));
+			if (accessLevel != null)
+				obj.setAccessLevel(accessLevel.getNodeValue());
+			if (accessValue != null)
+				obj.setAccessValue(accessValue.getNodeValue());
 		}
 		
 		NodeList childNodeList = node.getChildNodes();
@@ -549,5 +561,17 @@ public class TskTask extends MisObject {
 	}
 	public void setWorkSpaceType(String workSpaceType) {
 		this.workSpaceType = workSpaceType;
+	}
+	public String getAccessLevel() {
+		return accessLevel;
+	}
+	public void setAccessLevel(String accessLevel) {
+		this.accessLevel = accessLevel;
+	}
+	public String getAccessValue() {
+		return accessValue;
+	}
+	public void setAccessValue(String accessValue) {
+		this.accessValue = accessValue;
 	}
 }

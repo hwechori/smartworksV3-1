@@ -24,6 +24,8 @@ public class TskTaskExtend {
 	private String isStartActivity;
 	private String tskWorkSpaceId;
 	private String tskWorkSpaceType;
+	private String tskAccessLevel;
+	private String tskAccessValue;
 	private String parentCtgId;
 	private String parentCtg;
 	private String subCtgId;
@@ -124,6 +126,18 @@ public class TskTaskExtend {
 	}
 	public void setTskWorkSpaceType(String tskWorkSpaceType) {
 		this.tskWorkSpaceType = tskWorkSpaceType;
+	}
+	public String getTskAccessLevel() {
+		return tskAccessLevel;
+	}
+	public void setTskAccessLevel(String tskAccessLevel) {
+		this.tskAccessLevel = tskAccessLevel;
+	}
+	public String getTskAccessValue() {
+		return tskAccessValue;
+	}
+	public void setTskAccessValue(String tskAccessValue) {
+		this.tskAccessValue = tskAccessValue;
 	}
 	public String getParentCtgId() {
 		return parentCtgId;
