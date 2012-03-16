@@ -90,15 +90,15 @@
 				<div class="body_titl_iworks title"><%=work.getName() %></div>
 				<span class="t_location"><%=work.getFullpathName() %></span>
 				<!-- tab -->
-				<div id="" class="tab_adm float_right">
-					<ul class="clear">
+				<div id="" class="tab_adm fr">
+					<ul class="cb">
 						<li><div><a href="tab_workbench.sw?cid=<%=cid %>" class="js_tab_smart_builder"><span class="btn_wo_adm"></span><fmt:message key="builder.title.work_definition"/></a></div></li>
 						<li class="current"><div><a><span class="btn_set_adm"></span><fmt:message key="builder.title.work_settings"/></a></div></li>
 						<li><div class="end"><a href="tab_work_sharing.sw?cid=<%=cid %>" class="js_tab_smart_builder"><span class="btn_app_shar"></span><fmt:message key="builder.title.work_sharing"/></a></div></li>
 					</ul>
 				</div>
 				<!-- tab//-->
-				<div class="solid_line clear"></div>
+				<div class="solid_line cb"></div>
 			</div>
 			<!-- 타이틀 -->
 			<!-- 컨텐츠 -->
@@ -135,7 +135,7 @@
 						FormField[] displayFields = informationWork.getDisplayFields();
 					%>
 						<!-- 보이는 항목,안보이는 항목 설정-->
-						<div class="clear">
+						<div class="cb">
 							<div class="left40 gray_style">
 								<table class="js_display_field_items">
 									<tr>
@@ -145,7 +145,7 @@
 									</tr>
 									<tr class="list_action_item" style="display:none">
 										<td class="rdo_key_field" >
-											<div class="keyOption">
+											<div class="key_option">
 												<a href=""><div class="icon_key js_key_field"></div></a>
 											</div>										
 										</td>
@@ -172,7 +172,7 @@
 												<td class="rdo_key_field" >
 													
 													<!-- key Option -->
-													<div class="keyOption <%=checkedClass %>" >
+													<div class="key_option <%=checkedClass %>" >
 														<a href=""><div class="icon_key js_key_field <%=checkedClass %>" fieldId="<%=formField.getId() %>"></div></a>
 													</div>
 										
@@ -236,7 +236,7 @@
 						</div>
 						<!-- 보이는 항목, 안보이는 항목 //-->
 	
-						<div class=" clear padding_t20">
+						<div class=" cb pt20">
 							<table>
 								<tbody class="js_display_field_list">
 									<tr class="tit_bg">
@@ -270,7 +270,7 @@
 					int editLevel = (SmartUtil.isBlankObject(work.getEditPolicy())) ? EditPolicy.LEVEL_DEFAULT : work.getEditPolicy().getLevel();
 					
 					%>
-					<div class="margin_t10 gray_style">
+					<div class="mt10 gray_style">
 						<table>
 							<tr>
 								<th width="30%"><fmt:message key="common.security.title.access"/></th>
@@ -288,7 +288,7 @@
 					<!-- 권한 //-->
 
 					<!-- 권한 -->
-					<div class="margin_t10 gray_style">
+					<div class="mt10 gray_style">
 						<table>
 							<tr>
 								<th width="30%"><fmt:message key="common.security.title.write"/></th>
@@ -303,7 +303,7 @@
 					<!-- 권한 //-->
 
 					<!-- 권한 -->
-					<div class="margin_t10 gray_style">
+					<div class="mt10 gray_style">
 						<table>
 							<tr>
 								<th width="30%"><fmt:message key="common.security.title.edit"/></th>
@@ -328,12 +328,12 @@
 					<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 					<span class="js_progress_span"></span>
 					
-					<div class="float_right">
+					<div class="fr">
 						<span class="btn_gray"> 
 							<a href="" onclick='submitForms(); return false;'>
-								<span class="Btn01Start"></span>
-								<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
-								<span class="Btn01End"></span>
+								<span class="txt_btn_start"></span>
+								<span class="txt_btn_center"><fmt:message key="common.button.modify"/></span>
+								<span class="txt_btn_end"></span>
 							</a>
 						</span> 
 					</div>

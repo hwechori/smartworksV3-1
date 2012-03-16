@@ -26,8 +26,7 @@
 	User cUser = SmartUtil.getCurrentUser();
 
 	String cid = (String)session.getAttribute("cid");
-	
-	
+		
 	String wid = (String)session.getAttribute("wid");
 	String spaceId = (SmartUtil.isBlankObject(wid)) ? cUser.getId() : wid;
 
@@ -56,30 +55,30 @@
 <div class="glo_btn_space js_upload_buttons_page">
 
 	<!--  완료 및 취소 버튼 -->
-	<div class="float_right">
+	<div class="fr">
 		<span class="btn_gray"> 
 			<!--  완료버튼을 클릭시 해당 업로드 화면페이지에 있는 submitForms()함수를 실행한다.. -->
 			<a href="" onclick='submitForms();return false;'> 
-				<span class="Btn01Start"></span>
-				<span class="Btn01Center"><fmt:message key="common.button.complete"/></span> 
-				<span class="Btn01End"></span> 
+				<span class="txt_btn_start"></span>
+				<span class="txt_btn_center"><fmt:message key="common.button.complete"/></span> 
+				<span class="txt_btn_end"></span> 
 			</a>
 		</span> 
 				
 		<span class="btn_gray">
 			<!--  취소버튼을 클릭시 sw_act_work 에서 click event 로 정의 되어있는 함수를 실행한다... -->
 			<a href="" class="js_cancel_action"> 
-				<span class="Btn01Start"></span> 
-				<span class="Btn01Center"><fmt:message key="common.button.cancel" /></span> 
-				<span class="Btn01End"></span> 
+				<span class="txt_btn_start"></span> 
+				<span class="txt_btn_center"><fmt:message key="common.button.cancel" /></span> 
+				<span class="txt_btn_end"></span> 
 			</a> 
 		</span>
 	</div>
 	<!--  완료 및 취소 버튼 //-->
 
 	<!--  접근권한 및 등록할 공간정보를 선택하는 박스들 -->
-	<form name="frmAccessSpace" class="float_right padding_r10 js_validation_required">
-		<div id="" class="float_right form_space">
+	<form name="frmAccessSpace" class="fr pr10 js_validation_required">
+		<div id="" class="fr form_space">
 		
 			<!--  현재사용자가 선택할 수 있는 업무공간들을 구성한다.. -->
 			<%
@@ -100,7 +99,7 @@
 			<%
 			}else if(spaceType == ISmartWorks.SPACE_TYPE_WORK_INSTANCE){
 			%>
-				<input name="selWorkSpace" type="hidden" value="<%=instId%>">
+				<input name="selWorkSpace" type="hidden" value="<%=SmartUtil.getSpaceIdFromContentContext(cid)%>">
 				<input name="selWorkSpaceType" type="hidden" value="<%=spaceType %>">
 			<%
 			}else{
@@ -144,7 +143,7 @@
 			%>
 		</div>
 
-		<div id="" class="float_right form_space">
+		<div id="" class="fr form_space">
 			<!--  현재업무의 접근(읽기)권한 중에 선택가능한 권한들을 구성한다... -->
 			<select name="selAccessLevel" class="js_select_access_level">
 				<%
@@ -173,11 +172,11 @@
 		</div>
 
 		<!-- 접근권한이 사용자지정인 경우에 공개할 사용자들을 선택하는 화면 -->
-		<div class="float_right form_space js_access_level_custom" <%if(work.getAccessPolicy().getLevel() != AccessPolicy.LEVEL_CUSTOM){ %> style="display:none"<%} %>>
+		<div class="fr form_space js_access_level_custom" <%if(work.getAccessPolicy().getLevel() != AccessPolicy.LEVEL_CUSTOM){ %> style="display:none"<%} %>>
 			<span class="js_type_userField" fieldId="txtAccessableUsers" multiUsers="true">
 				<div class="form_value">
 					<div class="icon_fb_space">
-						<div class="fieldline js_community_names sw_required">
+						<div class="fieldline community_names js_community_names sw_required">
 							<div class="js_selected_communities user_sel_area">
 								<%
 								if(!SmartUtil.isBlankObject(work.getAccessPolicy().getCommunitiesToOpen())){
@@ -201,7 +200,7 @@
 							<input class="js_auto_complete" href="community_name.sw" type="text">
 							<div class="js_srch_x"></div>
 						</div>
-						<div class="js_community_list commu_list" style="display: none"></div>
+						<div class="js_community_list com_list" style="display: none"></div>
 						<span class="js_community_popup"></span><a href="" class="js_userpicker_button"><span class="icon_fb_users"></span></a>
 					</div>
 				</div>
@@ -210,7 +209,7 @@
 		<!-- 접근권한이 사용자지정인 경우에 공개할 사용자들을 선택하는 화면 //-->
 		
 		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
-		<div class="float_right form_space js_progress_span" ></div>
+		<div class="fr form_space js_progress_span" ></div>
 		
 		<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 		<span class="form_space sw_error_message js_upload_error_message" style="text-align:right; color: red"></span>

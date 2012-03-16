@@ -50,6 +50,7 @@ if (instances != null) {
 		TaskInstanceInfo[] assignedTasks = null;
 		TaskInstanceInfo[] forwardedTasks = null;
 		boolean isAssignedTask = false;
+		String trTarget = "";
 		
 		// 인스턴스 타입이 Work인경우.....
 		if (instance.getType() == Instance.TYPE_WORK) {
@@ -64,12 +65,14 @@ if (instances != null) {
 						forwardedList.add(lastTask);
 			assignedTasks = (TaskInstanceInfo[]) assignedList.toArray(new TaskInstanceInfo[0]);
 			forwardedTasks = (TaskInstanceInfo[]) forwardedList.toArray(new TaskInstanceInfo[0]);
+			trTarget = workInstance.getController() + "?cid=" + workInstance.getContextId() + "&workId=" + workInstance.getWork().getId();
 		// 인스턴스타입이 태스크인 경우.....
 		} else if (instance.getType() == Instance.TYPE_TASK) {
 			isAssignedTask = true;
 			workInstance = (WorkInstanceInfo)((TaskInstanceInfo) instance).getWorkInstance();
 			
 			taskInstance = (TaskInstanceInfo) instance;
+			trTarget = taskInstance.getController() + "?cid=" + taskInstance.getContextId() + "&workId=" + workInstance.getWork().getId() + "&taskInstId=" + taskInstance.getId();
 		}
 		UserInfo owner = workInstance.getOwner();
 		String userDetailInfo = SmartUtil.getUserDetailInfo(owner);
@@ -108,8 +111,7 @@ if (instances != null) {
 		}
 %>
 		<!-- 진행중인 업무 아이템 -->
-		<tr class="working_br js_more_instance_item" dateValue="<%=workInstance.getLastModifiedDate().toLocalDateString2()%>">
-		
+		<tr class="working_br instance_list js_more_instance_item js_content" href="<%=trTarget%>" dateValue="<%=workInstance.getLastModifiedDate().toLocalDateString2()%>">
 			<!-- 인스턴스 상태 및 시작자 사진표시 -->
 			<td class="pic">
 				<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>" />
@@ -322,7 +324,7 @@ if (instances != null) {
 			<!-- 인스턴스 상세내용 표시 //-->
 			
 			<!-- 인스턴스 마지막수정일자 -->
-			<td class="vAlignBottom hAlignRight"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></td>
+			<td class="vb tr pr10"><span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span></td>
 			<!-- 인스턴스 마지막수정일자 //-->
 		</tr>
 		<!-- 진행중인 업무 아이템 //-->

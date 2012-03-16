@@ -1,0 +1,79 @@
+@charset "utf-8";
+.chat_warp {position: fixed; bottom:0; right:0;}
+.chat_space { direction: ltr; height: 25px; position: fixed; right: 0; z-index: 300; bottom: 0;}
+.chat_section {border:1px solid #232323; background-color:#454645; max-width: 273px; min-width: 110px; float:right; margin-left:10px; bottom:0; position:fixed; z-index: 300;}
+.chat_section .top_group, .chat_close_section .top_group, .chat_de_section .top_group, .chat_num_section .top_group
+{background: url("../images/bg_chat.jpg") repeat-x 0 0 transparent; font-weight:bold; color:#FFF; padding:5px 5px 0; height:21px;}
+.chat_section .top_area { position:absolute;}
+
+.chat_section .btn_min a, .chat_de_section .btn_min a
+ {background: url("../images/chat_img.png") no-repeat scroll 0 0 transparent; display:block; height:18px; width:14px;}
+.chat_section .btn_min a:hover, .chat_de_section .btn_min a:hover
+ {background: url("../images/chat_img.png") no-repeat scroll 0 -25px transparent;}
+
+.chat_section .btn_admin a, .chat_de_section .btn_admin a
+ {background: url("../images/chat_img.png") no-repeat scroll -18px 0 transparent; display:block; height:18px; width:14px;}
+.chat_section .btn_admin a:hover, .chat_de_section .btn_admin a:hover
+ {background: url("../images/chat_img.png") no-repeat scroll -18px -25px transparent;}
+
+.chat_section .btn_x a, .chat_de_section .btn_x a, .pop_top .btn_x a
+{background: url("../images/chat_img.png") no-repeat scroll -36px 0 transparent; display:block; height:18px; width:14px;}
+.chat_section .btn_x a:hover, .chat_de_section .btn_x a:hover, .pop_top .btn_x a:hover
+{background: url("../images/chat_img.png") no-repeat scroll -36px -25px transparent;}
+ 
+.chat_section .btn_addf a, chat_de_section .btn_addf a
+ {background: url("../images/chat_img.png") no-repeat scroll -53px 0 transparent; display:block; height:18px; width:14px;}
+.chat_section .btn_addf a:hover, .chat_de_section .btn_addf a:hover 
+ {background: url("../images/chat_img.png") no-repeat scroll -53px -25px transparent;}
+
+.chat_section .chat_body {background-color:#FFF; margin: 0 2px; min-height:100px; max-height:300px; width:269px; color:#454545; overflow-y:auto;}
+.chat_input_area { border-top:1px solid #9C9C9C; padding: 0 3px;}
+.chat_textarea {vertical-align: top; width:100%; border:none; max-height:35px; min-height:16px; outline: medium none; overflow-y:auto;}
+
+.chat_list li {border-bottom:1px dashed #9C9C9C; margin:5px 10px 0; color:#454545; vertical-align: middle; padding: 2px 0; overflow:hidden;}	
+.chat_list li.end {border-bottom:none;}
+
+/* 占시쏙옙占쏙옙 占쌨쇽옙占쏙옙 */
+.msg_section {background-color:#f5f3ec; color:#454545; font-size:11px; padding:5px; margin: 0 2px; border-bottom: 1px solid #FFFFFF;}
+.msg_section .ic_add_friend {background: url("../images/chat_img.png") no-repeat scroll 0 -49px transparent; display:inline-block; padding-right:4px; height:16px; width:14px;}
+
+.addfriend_section {background-color:#FFF; overflow:hidden; margin: 0 2px;}
+.addfriend_group {padding: 5px 0 0 5px; background-color:#FFF; margin-bottom: -2px; overflow:hidden;}
+.addfriend_h { padding-bottom:4px;}
+.user_sel_area {float:left; padding:2px;}
+.addf_line {border:1px solid #c7c7c7; left:0px; margin:0 2px 4px 0; width: 204px; padding: 1px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; float:left;}
+.js_community_names .user_sel_area{float:left;padding:0;margin-left:3px;padding:0;position:relative;top:-2px}
+
+.info_list {padding:0 0 2px 18px; line-height:16px; }
+
+.chat_input_section {margin: 0 2px 2px 2px; background-color:#FFF;}
+.chatter_list_area {padding: 5px; border:1px solid #c7c7c7; background-color: #FFF; margin: 0 5px 5px; width: 194px; z-index: 200; position: absolute;}
+.chatter_list_area li a, .chat_de_list li a { padding: 4px 5px; vertical-align: top; color: #454545; font-size:11px; display:block;}
+.chatter_list_area li a, .chat_de_list li a:hover { display:block; background-color:#fffccd;}
+.chat_online {background: url("../images/chat_img.png") no-repeat scroll 0 -99px transparent; display:inline-block; height: 10px; margin-top: 7px; position: absolute; right: 7px; width: 10px;}
+.chat_offline {background: url("../images/chat_img.png") no-repeat scroll 0 -117px transparent; display:inline-block; height: 10px; margin-top: 7px; position: absolute; right: 7px; width: 10px;}
+.chatter_list_area li.chat_off_user, .chat_de_list li.chat_off_user {color:#b6b6b6;}
+
+
+
+/* 채占쏙옙창 占쏙옙占쏙옙, Default */
+.chat_close_section, .chat_de_section {border:1px solid #232323; background-color:#454645; min-width: 105px; margin-left:10px; z-index:102; color:#FFF; bottom: 0; position: fixed; right: 0;}
+.chatic_titl {background: url("../images/chat_img.png") no-repeat scroll 0 -74px transparent; display:inline-block; padding: 0 0 1px 24px; height:20px; color:#FFF; position:absolute;}
+.chat_close_section  a .top_group:hover { background:none; background-color:#454545;}
+.chat_de_section .chat_de_list {background-color:#FFF; margin: 0 2px; max-height:300px; width:190px; color:#454545; overflow-y:auto;}
+
+
+/* 占싱듸옙 화占쏙옙표 */
+.chat_num_section {border:1px solid #232323; background-color:#454645; margin-left:10px; z-index:102; color:#FFF; position: fixed; bottom: 0;}
+.cha_next {background: url("../images/chat_img.png") no-repeat scroll 0 -162px transparent; display:inline-block; width:12px; height:15px; color:#FFF;}
+.cha_prev {background: url("../images/chat_img.png") no-repeat scroll 0 -137px transparent; display:inline-block; width:12px; height:15px; color:#FFF;}
+.cha_num {padding:0 5px 2px 0}
+
+
+
+/* 채占쏙옙 창 占쏙옙占쏙옙 */
+.clearfix:after { clear: both;  content: "."; display: block; font-size: 0; height: 0; line-height: 0; visibility: hidden;}
+.chat_group {float: left; position: relative;}
+.chat_container {float: right;}
+.chat_duck {margin: 0 15px;}
+.chat_duck_right {left: auto;}

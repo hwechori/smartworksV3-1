@@ -102,7 +102,7 @@
 		<!-- 타이틀 영역 //-->
 		
 		<form name="frmEditMember" class="boTb js_validation_required">
-			<table class="margin_t10">
+			<table class="mt10">
 				<tbody>
 					<tr>
 						<th width="22%" ><fmt:message key="profile.title.department"/></th>
@@ -131,13 +131,13 @@
 						
 								<input name="txtMemberId" <%if(!SmartUtil.isBlankObject(userId)){ %>class="sw_dup_checked fieldline required email" readonly<%}else{ %>class="fieldline required email" <%} %> type="text" value="<%=CommonUtil.toNotNull(user.getId()) %>" />
 								
-								<div class="btnIconStart icon_posi">
-								<a class="btnIconsTail js_check_id_duplication" href="" <%if(!SmartUtil.isBlankObject(userId)){%>style="display:none"<%} %>><fmt:message key="settings.button.duplication_check"/></a>
-								<a class="btnIconsTail js_change_id" href="" <%if(SmartUtil.isBlankObject(userId)){%>style="display:none"<%} %>><fmt:message key="settings.button.change_id"/></a>
+								<div class="icon_btn_start icon_pos_right">
+								<a class="icon_btn_tail js_check_id_duplication" href="" <%if(!SmartUtil.isBlankObject(userId)){%>style="display:none"<%} %>><fmt:message key="settings.button.duplication_check"/></a>
+								<a class="icon_btn_tail js_change_id" href="" <%if(SmartUtil.isBlankObject(userId)){%>style="display:none"<%} %>><fmt:message key="settings.button.change_id"/></a>
 								</div>
 						</div>
 						
-						<div class="t_s11 float_left"><fmt:message key="settings.sentence.use_email"/></div>
+						<div class="t_s11 fl"><fmt:message key="settings.sentence.use_email"/></div>
 						
 						</td>
 					</tr>
@@ -217,26 +217,26 @@
 		</form>
 		
 		<!-- Btn -->
-		<div class="text_align_r margin_t8">
+		<div class="tr mt8">
 			<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 			<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 			<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 			<span class="js_progress_span"></span>
 			<span class="btn_gray">
 				<a href="" onclick='submitForms(); return false;'>
-					<span class="Btn01Start"></span>
+					<span class="txt_btn_start"></span>
 					<%
 					if(SmartUtil.isBlankObject(userId)){
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.add_new"/></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.add_new"/></span>
 					<%
 					}else{
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.modify"/></span>
 					<%
 					}
 					%>
-					<span class="Btn01End"></span>
+					<span class="txt_btn_end"></span>
 				</a>
 			</span>
 			<%
@@ -244,9 +244,9 @@
 			%>
 				<span class="btn_gray">
 					<a href="" class="js_delete_member">
-						<span class="Btn01Start"></span>
-							<span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
-						<span class="Btn01End"></span>
+						<span class="txt_btn_start"></span>
+							<span class="txt_btn_center"><fmt:message key="common.button.delete"/></span>
+						<span class="txt_btn_end"></span>
 					</a>
 				</span>
 			<%

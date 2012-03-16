@@ -70,7 +70,7 @@ function submitForms(e) {
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 js_form_wrap js_plan_swork_page">
+<div class="form_wrap up up_padding mb2 js_form_wrap js_plan_swork_page">
 	<div class="form_title js_form_header">
 		<div class="icon_sworks title"><%=work.getFullpathName()%></div>
 		<div class="txt_btn">

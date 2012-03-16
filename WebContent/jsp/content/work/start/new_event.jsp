@@ -124,10 +124,10 @@ function submitForms() {
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <div class="up_wrap js_new_event_page" workId="<%=SmartWork.ID_EVENT_MANAGEMENT%>">
-	<div class="up_point posit_works js_up_pointer"></div>
+	<div class="up_point pos_works js_up_pointer"></div>
 	<div class="form_wrap up up_padding">
 		<!-- 폼- 확장 -->
-		<form name="frmNewEvent" class="form_title js_validation_required js_click_start_form">
+		<form name="frmNewEvent" class="js_validation_required js_click_start_form">
 			<!-- 새로운 이벤트를 등록하기 위한 입력화면을 스마트폼을 이용하여 자동으로 그린다.. -->
 			<!-- js_new_event_fields :  js/sw/sw-formFields.js 에서 loadNewEventFields()가 찾아서 이벤트입력화면을 이곳에 그려준다.. -->
 			<div class="js_new_event_fields" eventNameTitle="<fmt:message key='common.upload.event.name'/>" placeHolderTitle="<fmt:message key='common.upload.message.event'/>"

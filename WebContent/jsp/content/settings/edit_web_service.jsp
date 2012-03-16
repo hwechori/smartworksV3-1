@@ -88,7 +88,7 @@
 <fmt:setLocale value="<%=cUser.getLocale() %>" scope="request" />
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
-<div class="form_wrap up up_padding margin_b2 clear js_edit_web_service_page" serviceId="<%=CommonUtil.toNotNull(serviceId)%>">
+<div class="form_wrap up up_padding mb2 cb js_edit_web_service_page" serviceId="<%=CommonUtil.toNotNull(serviceId)%>">
 	<div class="form_title">
 		<%
 		if(SmartUtil.isBlankObject(serviceId)){
@@ -101,10 +101,10 @@
 		<%
 		}
 		%>
-		<div class="solid_line clear"></div>
+		<div class="solid_line cb"></div>
 	</div>
 
-	<form name="frmEditWebService" class="form_layout con margin_b10 js_validation_required">
+	<form name="frmEditWebService" class="form_layout con mb10 js_validation_required">
 		<table>
 			<tbody class="js_edit_webservice_tbody">
 				<tr>
@@ -122,9 +122,9 @@
 					<td>
 						<div class="btn_fb_space js_webservice_wsdl">
 							<input name="txtWebServiceWSDL" <%if(!SmartUtil.isBlankObject(webService.getWsdlUri())){ %>readonly<%} %> class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(webService.getWsdlUri())%>">
-							<div class="btnIconStart po_rbtn">
-								<a class="btnIconsTail js_fetch_webservice_wsdl" <%if(!SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.fetch"/></a>
-								<a class="btnIconsTail js_change_webservice_wsdl" <%if(SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.change"/></a>
+							<div class="icon_btn_start po_rbtn">
+								<a class="icon_btn_tail js_fetch_webservice_wsdl" <%if(!SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.fetch"/></a>
+								<a class="icon_btn_tail js_change_webservice_wsdl" <%if(SmartUtil.isBlankObject(webService.getWsdlUri())){ %>style="display:none"<%} %> href=""><fmt:message key="settings.button.wsdl.change"/></a>
 							</div>
 						</div>
 					</td>
@@ -140,29 +140,29 @@
 		<span class="form_space sw_error_message js_profile_error_message" style="text-align:right; color: red"></span>
 		<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 		<span class="js_progress_span"></span>
-		<div class="float_right">
+		<div class="fr">
 			<span class="btn_gray"> 
 				<a href="" onclick='submitForms(); return false;'>
-					<span class="Btn01Start"></span>
+					<span class="txt_btn_start"></span>
 					<%
 					if(SmartUtil.isBlankObject(serviceId)){
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.add_new"/></span> 
+						<span class="txt_btn_center"><fmt:message key="common.button.add_new"/></span> 
 					<%
 					}else{
 					%>
-						<span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
+						<span class="txt_btn_center"><fmt:message key="common.button.modify"/></span>
 					<%
 					}
 					%>
-					<span class="Btn01End"></span>
+					<span class="txt_btn_end"></span>
 				</a>
 			</span> 
 			<span class="btn_gray"> 
 				<a href="" onclick='closePage();return false;'>
-					<span class="Btn01Start"></span>
-					<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span> 
-					<span class="Btn01End"></span>
+					<span class="txt_btn_start"></span>
+					<span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span> 
+					<span class="txt_btn_end"></span>
 				</a>
 			</span>
 		</div>

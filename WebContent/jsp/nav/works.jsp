@@ -9,7 +9,7 @@
 <%@ page import="net.smartworks.service.ISmartWorks"%>
 
 <!-- 나의 업무 와 검색박스가 있는 헤더  -->
-<ul class="navi_tit">
+<ul class="nav_tit">
 
 	<!-- 나의 업무 라벨과 클릭시 아래의 업무선택트리화면을 접었다 폈다하는 기능 제공  -->
 	<!-- *** js_collapse_parent_siblings : sw_act_nav.js 에서 이클래스의 클릭이벤트를 받아서 -->
@@ -25,7 +25,7 @@
 			<!-- *** js_auto_complete : js_act_search.js에서 이 클래스의 keyup, focusout, keydown등을 받아서 처리한다. -->
 			<input id="" class="nav_input js_auto_complete" type="text" title="<fmt:message key='search.search_work'/>"
 				placeholder="<fmt:message key='search.search_work'/>" href="work.sw" />
-			<div class='srch_ico js_srch_x'></div>
+			<div class='srch_icon js_srch_x'></div>
 		</div>
 		
 		<!-- nav 검색 리스트 -->
@@ -39,14 +39,14 @@
 <!-- 나의 업무 와 검색박스가 있는 헤더  //-->
 
 <!--  최근업무, 즐겨찾는 업무, 전체업무들의 업무선택 트리 화면  -->
-<div class="navi_list js_collapsible  js_nav_my_works">
+<div class="nav_sub_list js_collapsible  js_nav_my_works">
 	<!-- 내부 메뉴 -->
-	<div class="categ_link js_nav_tab_work">
+	<div class="tab_buttons js_nav_tab_work">
 	
  		<a href="my_all_works.sw" title="<fmt:message key='nav.works.my_all_works' />"><span class="btn_all_works"/></span></a>
  		<a href="my_favorite_works.sw" title="<fmt:message key='nav.works.my_favorite_works' />"><span class="btn_favorite"/></span></a>
  		<a href="my_recent_instances.sw" title="<fmt:message key='nav.works.my_recent_instances' />" ><span class="btn_recent current"></span></a>
-		<span class="js_progress_span" style="float:righ;" ></span><!--  프로그래스아이콘이 실행되는 곳 -->
+		<span class="fr ml2 js_progress_span"></span><!--  프로그래스아이콘이 실행되는 곳 -->
  		
 	</div>
 	

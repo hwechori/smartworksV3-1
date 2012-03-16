@@ -73,7 +73,7 @@
 	                    <span class="t_name"><%=instance.getOwner().getLongName()%></span>
 	                    <span class="t_date"><%=instance.getCreatedDate().toLocalString()%></span>
 	                    <div class="">
-	                    	<span class="title_picico float_left mr7"><%=instance.getSubject()%></span>
+	                    	<span class="title_picico fl mr7"><%=instance.getSubject()%></span>
 	                    	<span class="icon_pworks t_date"> <%=work.getFullpathName() %></span> 
 	                    </div>
 	                </div>
@@ -96,7 +96,7 @@
 	            </div>
 	            <!-- 우측 버튼 -->
 		                    
-               	<div class="solid_line clear"></div>
+               	<div class="solid_line cb"></div>
 			</div>
 			<!-- 타이틀 -->
 					 		            
@@ -107,12 +107,12 @@
         		<a href="" class="js_instance_tasks_left"><div class="proc_btn_prev" style="display:block"></div></a>
 	        	<!-- 방향 Prev //-->
 	        	
-				<div class="proce_section js_instance_tasks_holder">
-			        <div class="proc_start_compl float_left js_task_start js_instance_task"><fmt:message key="process.task.start"/></div>
-			        <div class="proc_arr_next float_left js_instance_task_arrow"></div>
+				<div class="process_section js_instance_tasks_holder">
+			        <div class="proc_start_compl fl js_task_start js_instance_task"><fmt:message key="process.task.start"/></div>
+			        <div class="proc_arr_next fl js_instance_task_arrow"></div>
 			        
 			        <!-- 태스크 시작-->
-			        <div class="proce_space js_instance_tasks">			        
+			        <div class="process_space js_instance_tasks">			        
 						<ul>
 				        	<%
 				        	if(!SmartUtil.isBlankObject(taskHistories)){	
@@ -150,7 +150,7 @@
 						            </li>
 				            		<!-- 태스크 //--> 
 						            <!--화살표-->
-						            <li class="proc_arr_next float_left js_instance_task_arrow"></li>
+						            <li class="proc_arr_next fl js_instance_task_arrow"></li>
 						            <!--화살표-->
 			            	<%
 				        		}
@@ -162,7 +162,7 @@
            			<%
            			if(taskHistories[taskHistories.length-1].getStatus() == Instance.STATUS_COMPLETED){
            			%>
-				        <div class="proc_start_compl float_left js_task_stop js_instance_task"><fmt:message key="process.task.stop"/></div>
+				        <div class="proc_start_compl fl js_task_stop js_instance_task"><fmt:message key="process.task.stop"/></div>
 			        <%
 			        }
 			        %>			        
@@ -176,14 +176,14 @@
 				
 			<!-- 상세보기 컨텐츠 -->
 			<div class="contents_space">
-				<div class="up_point posit_default js_form_content_pointer"></div>
+				<div class="up_point pos_default js_form_content_pointer"></div>
 				<div class="form_wrap up up_padding form_read js_form_content"></div>
 			</div>
 	
 			<!-- 버튼 영역 -->
 			<div class="glo_btn_space">
 			
-				<div class="txt_btn info_repl">
+				<div class="txt_btn task_information">
 				    <div class="po_left"><fmt:message key="common.title.last_modification"/> :  
 				    	<a href=""><img src="<%=instance.getLastModifier().getMinPicture() %>" class="profile_size_s" /> <%=instance.getLastModifier().getLongName() %></a>
 				    	<span class="t_date"> <%= instance.getLastModifiedDate().toLocalString() %> </span>
@@ -191,39 +191,39 @@
 				</div>     
 
 				<!-- 수정, 삭제버튼 -->
-			    <div class="float_right">
+			    <div class="fr">
 					<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 					<div class="form_space js_progress_span" ></div>
 					
 					<!-- 실행시 데이터 유효성 검사이상시 에러메시지를 표시할 공간 -->
 					<span class="form_space sw_error_message js_space_error_message" style="text-align:right; color: red"></span>
 
-					<span class="btn_gray space_l5 js_btn_complete" style="display:none">
+					<span class="btn_gray ml5 js_btn_complete" style="display:none">
 			        	<a href="" class="js_perform_task_instance">
-				            <span class="Btn01Start"></span>
-				            <span class="Btn01Center"><fmt:message key="common.button.complete"/></span>
-				            <span class="Btn01End"></span>
+				            <span class="txt_btn_start"></span>
+				            <span class="txt_btn_center"><fmt:message key="common.button.complete"/></span>
+				            <span class="txt_btn_end"></span>
 				    	</a>
 			   		</span>
-					<span class="btn_gray space_l5 js_btn_return" style="display:none">
+					<span class="btn_gray ml5 js_btn_return" style="display:none">
 			        	<a href="" class="js_return_task_instance">
-				            <span class="Btn01Start"></span>
-				            <span class="Btn01Center"><fmt:message key="common.button.return"/></span>
-				            <span class="Btn01End"></span>
+				            <span class="txt_btn_start"></span>
+				            <span class="txt_btn_center"><fmt:message key="common.button.return"/></span>
+				            <span class="txt_btn_end"></span>
 				    	</a>
 			   		</span>
-					<span class="btn_gray space_l5 js_btn_reassign" style="display:none">
+					<span class="btn_gray ml5 js_btn_reassign" style="display:none">
 			        	<a href="" class="js_reassign_task_instance">
-				            <span class="Btn01Start"></span>
-				            <span class="Btn01Center"><fmt:message key="common.button.reassign"/></span>
-				            <span class="Btn01End"></span>
+				            <span class="txt_btn_start"></span>
+				            <span class="txt_btn_center"><fmt:message key="common.button.reassign"/></span>
+				            <span class="txt_btn_end"></span>
 				    	</a>
 			   		</span>
-					<span class="btn_gray space_l5 js_btn_temp_save" style="display:none">
+					<span class="btn_gray ml5 js_btn_temp_save" style="display:none">
 			        	<a href="" class="js_temp_save_task_instance">
-				            <span class="Btn01Start"></span>
-				            <span class="Btn01Center"><fmt:message key="common.button.temp_save"/></span>
-				            <span class="Btn01End"></span>
+				            <span class="txt_btn_start"></span>
+				            <span class="txt_btn_center"><fmt:message key="common.button.temp_save"/></span>
+				            <span class="txt_btn_end"></span>
 				    	</a>
 			   		</span>
 				</div>

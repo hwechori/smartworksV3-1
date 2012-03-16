@@ -139,8 +139,8 @@ if (subInstances != null) {
 						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
 						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 						<div><a href="" class=""><img src="<%=image.getImgSource()%>" style="min-height:20px;width:100px;"></a>
-							<%if(((WorkInstanceInfo)workInstance).getSubInstanceCount()>0){ %><font class="vAlignTop t_sub_count">[<b><%=((WorkInstanceInfo)workInstance).getSubInstanceCount() %></b>]</font><%} %>
-							<%if(workInstance.isNew()){ %><span class="vAlignTop icon_new"></span><%} %>
+							<%if(((WorkInstanceInfo)workInstance).getSubInstanceCount()>0){ %><font class="vt t_sub_count">[<b><%=((WorkInstanceInfo)workInstance).getSubInstanceCount() %></b>]</font><%} %>
+							<%if(workInstance.isNew()){ %><span class="vt icon_new"></span><%} %>
 						</div>
 						<%if(!SmartUtil.isBlankObject(image.getContent())){ %><div><%=image.getContent() %></div><%} %>
 					</div>

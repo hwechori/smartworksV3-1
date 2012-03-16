@@ -19,7 +19,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 업무계획하기 -->
-<div class="column1">
+<div>
 	<form name='frmTaskForward' class="form_layout js_validation_required">
 		<span>
 			<!-- 업무전달을 위한 입력화면들을 자동으로 그려주는 곳 -->

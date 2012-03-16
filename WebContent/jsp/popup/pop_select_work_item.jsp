@@ -51,10 +51,10 @@
 	<!-- 하단버튼영역 -->
 	<div class="glo_btn_space">
 
-		<div class="float_right">
+		<div class="fr">
 			<span class="btn_gray"> <a onclick="$.modal.close();return false;" href=""> <span
-					class="Btn01Start"></span> <span class="Btn01Center">닫기</span> <span
-					class="Btn01End"></span> </a> </span>
+					class="txt_btn_start"></span> <span class="txt_btn_center">닫기</span> <span
+					class="txt_btn_end"></span> </a> </span>
 		</div>
 
 	</div>

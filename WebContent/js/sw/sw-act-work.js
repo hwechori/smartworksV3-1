@@ -70,29 +70,34 @@ $(function() {
 		var workId = "";
 		var target = [];
 		if(!isEmpty(newMemo)){
-			input.find('textarea').removeClass('border_none').addClass('up_textarea');
+			input.find('textarea').removeClass('bn').addClass('up_textarea');
+			newMemo.find('form[name="frmNewMemo"]').addClass('form_title');
 			workId = newMemo.attr('workId');
 			target = newMemo.find('.js_upload_buttons');
 		}else if(!isEmpty(newPicture)){
 			newPicture.find('tr').show();
+			newPicture.find('form[name="frmNewPicture"]').addClass('form_title');
 			workId = newPicture.attr('workId');
 			target = newPicture.find('.js_upload_buttons');
 		}else if(!isEmpty(newFile)){
 			newFile.find('td[fieldId="txtFileField"] .form_label').show();
 			newFile.find('tr').show();
 			newFile.find('.js_file_detail_form').show();
+			newFile.find('form[name="frmNewFile"]').addClass('form_title');
 			workId = newFile.attr('workId');
 			target = newFile.find('.js_upload_buttons');
 		}else if(!isEmpty(newEvent)){
 			newEvent.find('td[fieldId="txtEventName"] .form_label').show();
 			newEvent.find('td[fieldId="txtEventName"] .form_value input').addClass('fieldline');
 			newEvent.find('tr').show();
+			newEvent.find('form[name="frmNewEvent"]').addClass('form_title');
 			workId = newEvent.attr('workId');
 			target = newEvent.find('.js_upload_buttons');
 		}else if(!isEmpty(newBoard)){
 			newBoard.find('td[fieldId="txtBoardName"] .form_label').show();
 			newBoard.find('td[fieldId="txtBoardName"] .form_value input').addClass('fieldline');
 			newBoard.find('tr').show();
+			newBoard.find('form[name="frmNewBoard"]').addClass('form_title');
 			workId = newBoard.attr('workId');
 			target = newBoard.find('.js_upload_buttons');
 		}else if(!isEmpty(newIWork)){
@@ -1098,7 +1103,7 @@ $(function() {
 	$('.js_pop_all_works').live('click', function(e) {
 		var startWork = $(e.target).parents('.js_start_work_page');
 		var target = startWork.find('.js_all_work_popup');
-		var width = startWork.find('.js_auto_complete:first').parent().width();
+		var width = startWork.find('.js_auto_complete:first').parent().outerWidth();
 		smartPop.selectWork(target, width);
 		return false;
 	});
@@ -1216,7 +1221,7 @@ $(function() {
 	});
 	
 	var filesDetailTimer = null;
-	$('img.js_pop_files_detail').live('mouseenter', function(e){
+	$('.js_pop_files_detail').live('mouseenter', function(e){
 		if(filesDetailTimer!=null){
 			clearTimeout(filesDetailTimer);
 			filesDetailTimer = null;
@@ -1228,7 +1233,7 @@ $(function() {
 		smartPop.showFilesDetail(input, top, left);		
 	});
 
-	$('img.js_pop_files_detail').live('mouseleave', function(e){
+	$('.js_pop_files_detail').live('mouseleave', function(e){
 		filesDetailTimer = setTimeout(function(){
 			smartPop.closeFilesDetail();
 			filesDetailTimer = null;

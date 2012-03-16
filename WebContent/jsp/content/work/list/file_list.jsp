@@ -35,6 +35,8 @@
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
+				console.log("page ::::: ",$('#file_instance_list_page'));
+				console.log("data ::::: ",data);
 				$('#file_instance_list_page').html(data);
 				smartPop.closeProgress();
 			},
@@ -93,7 +95,7 @@
 <jsp:include page="/jsp/content/upload/select_upload_action.jsp"></jsp:include>
 
 <!-- 컨텐츠 레이아웃-->
-<div class="section_portlet js_file_list_page" workId="<%=SmartWork.ID_FILE_MANAGEMENT %>" displayType="<%=FileCategory.DISPLAY_BY_CATEGORY%>" workSpaceId="<%=wid%>" categoryId="<%=FileCategory.ID_ALL_FILES%>">
+<div class="section_portlet js_file_list_page" workId="<%=SmartWork.ID_FILE_MANAGEMENT %>" displayType="<%=displayType%>" workSpaceId="<%=wid%>" categoryId="<%=FileCategory.ID_ALL_FILES%>">
 	<div class="portlet_t"><div class="portlet_tl"></div></div>
 	<div class="portlet_l" style="display: block;">
 		<ul class="portlet_r" style="display: block;">
@@ -117,54 +119,41 @@
 				if(displayType!=FileCategory.DISPLAY_ALL){
 				%>          
 					<!-- Left -->
-					<div class="left30 ">
-						<table style="min-width:inherit">
-							<tbody>
-								<tr class="tit_bg">
-									<th class="" style="height:1px; padding:0; border-bottom:0"></th>
-								</tr>
-								<tr>
-									<td class="">
-										<div class="">
-											<!-- 필 터 -->
-											<div class="float_left">
-											  <select class="js_file_display_by">
-											    <option value=<%=FileCategory.DISPLAY_BY_CATEGORY %>><fmt:message key="space.title.by_category"/></option>
-											    <option value=<%=FileCategory.DISPLAY_BY_WORK %>><fmt:message key="space.title.by_work"/></option>
-											    <option value=<%=FileCategory.DISPLAY_BY_YEAR %>><fmt:message key="space.title.by_year"/></option>
-											    <option value=<%=FileCategory.DISPLAY_BY_OWNER %>><fmt:message key="space.title.by_owner"/></option>
-											    <option value=<%=FileCategory.DISPLAY_BY_FILE_TYPE %>><fmt:message key="space.title.by_filetype"/></option>
-											  </select>
-											</div>
-											<!-- 필 터 //-->
-											<!-- 우측 구분 -->
-											<div class="categ_link m0p0">검색공간</div>
-											<!-- 우측 구분 //-->
-											<!-- 카테고리 -->
-											<div class="pop_list_area ">
-												<ul class="js_file_categories">
-													<jsp:include page="/jsp/content/work/list/categories_by_type.jsp">
-														<jsp:param value="<%=displayType%>" name="displayType"/>
-														<jsp:param value="<%=wid%>" name="wid"/>
-														<jsp:param value="" name="parentId"/>
-													</jsp:include>
-												</ul>
-											</div>
-											<!-- 카테고리 //-->
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="left30 mt13 ">
+						<!-- 필 터 -->
+						<div class="fl">
+							<select class="js_file_display_by">
+							  <option value=<%=FileCategory.DISPLAY_BY_CATEGORY %>><fmt:message key="space.title.by_category"/></option>
+							  <option value=<%=FileCategory.DISPLAY_BY_WORK %>><fmt:message key="space.title.by_work"/></option>
+							  <option value=<%=FileCategory.DISPLAY_BY_YEAR %>><fmt:message key="space.title.by_year"/></option>
+							  <option value=<%=FileCategory.DISPLAY_BY_OWNER %>><fmt:message key="space.title.by_owner"/></option>
+							  <option value=<%=FileCategory.DISPLAY_BY_FILE_TYPE %>><fmt:message key="space.title.by_filetype"/></option>
+							</select>
+							<!-- 우측 구분 -->
+							<span>검색공간</span>
+							<!-- 우측 구분 //-->
+						</div>
+						<!-- 필 터 //-->
+						<!-- 카테고리 -->
+						<div class="pop_list_area mt25">
+							<ul class="js_file_categories">
+								<jsp:include page="/jsp/content/work/list/categories_by_type.jsp">
+									<jsp:param value="<%=displayType%>" name="displayType"/>
+									<jsp:param value="<%=wid%>" name="wid"/>
+									<jsp:param value="" name="parentId"/>
+								</jsp:include>
+							</ul>
+						</div>
+						<!-- 카테고리 //-->
 					</div>
 					<!-- Left//-->
 					<!-- Right -->	
 					<div class="right70">
 					<!-- 목록보기 -->
 						<!-- 목록보기 타이틀-->
-						<div class="list_title_space js_work_list_title margin_t15">
+						<div class="list_title_space js_work_list_title mt15">
 							<div class="title"><fmt:message key="common.title.instance_list" /></div>					
-								<div class="titleLineOptions">
+								<div class="title_line_options">
 									<form name="frmSearchInstance" class="po_left">
 										<span class="js_progress_span"></span>
 										<div class="srch_wh srch_wsize">
@@ -177,11 +166,13 @@
 						<!-- 목록보기 타이틀-->
 							
 						<!-- 목록 테이블 -->
-						<div class="list_contents js_file_instance_list">
-							<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
-								<jsp:param value="<%=FileCategory.DISPLAY_BY_CATEGORY %>" name="displayType"/>
-								<jsp:param value="<%=wid %>" name="workSpaceId"/>
-							</jsp:include>
+						<div class="list_contents">
+							<div id="file_instance_list_page">
+								<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
+									<jsp:param value="<%=FileCategory.DISPLAY_BY_CATEGORY %>" name="displayType"/>
+									<jsp:param value="<%=wid %>" name="workSpaceId"/>
+								</jsp:include>
+							</div>
 						</div>
 						<!-- 목록 테이블 //-->
 					</div>
@@ -202,15 +193,15 @@
 					<div>
 					<!-- 목록보기 -->
 						<!-- 목록보기 타이틀-->
-						<div class="list_title_space js_work_list_title margin_t15">
+						<div class="list_title_space js_work_list_title mt15">
 							<div class="title"><fmt:message key="common.title.instance_list" /></div>					
-							<div class="titleLineBtns">
-								<div class="btnIconsEdit">
-									<a href="search_filter.sw?workId=<%=SmartWork.ID_FILE_MANAGEMENT%>" class="js_edit_search_filter btnIconsTail"><fmt:message key='filter.button.edit_search_filter' /></a>
+							<div class="title_line_btns">
+								<div class="icon_btn_edit">
+									<a href="search_filter.sw?workId=<%=SmartWork.ID_FILE_MANAGEMENT%>" class="js_edit_search_filter icon_btn_tail"><fmt:message key='filter.button.edit_search_filter' /></a>
 								</div>
 							</div>
 						
-							<div class="titleLineOptions">
+							<div class="title_line_options">
 								<form name="frmSearchInstance" class="po_left">
 									<span class="js_progress_span"></span>
 									<div class="srch_wh srch_wsize">
@@ -259,7 +250,7 @@
 							
 						<!-- 목록 테이블 -->
 						<div class="list_contents">
-							<div id='file_instance_list_page'>
+							<div id="file_instance_list_page">
 								<jsp:include page="/jsp/content/work/list/file_instance_list.jsp">
 									<jsp:param value="<%=FileCategory.DISPLAY_ALL %>" name="displayType"/>
 								</jsp:include>

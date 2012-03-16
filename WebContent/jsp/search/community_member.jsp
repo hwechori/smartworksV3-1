@@ -37,7 +37,7 @@
 			<li>
 				<a href="user_space.sw?cid=<%=comContext%>&wid=<%=user.getId()%>" class="js_location">
 					<img src="<%=user.getMinPicture()%>" class="profile_size_s">
-					<span class="nav_subtitl_area"><%=user.getLongName()%></span>
+					<span class="nav_sub_area"><%=user.getLongName()%></span>
 				</a>
 			</li>
 	<%

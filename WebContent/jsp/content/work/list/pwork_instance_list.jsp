@@ -157,48 +157,39 @@
 					statusTitle = "content.status.not_yet";
 				}
 			%>
-				<tr>
-					<td class="hAlignCenter"><%=currentCount%></td>
+				<tr class="instance_list js_content_pwork_space" href="<%=target%>">
+					<td class="tc"><%=currentCount%></td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space">
-							<div class="noti_pic js_content_pwork_space">
-								<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>"/>
-							</div>
-						</a>
+						<div>
+							<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>"/>
+						</div>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space">
-							<div class="noti_pic js_content_pwork_space">
-								<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s" />
-							</div>
-							<div class="noti_in">
-								<span class="t_name"><%=owner.getLongName()%></span>
-								<div class="t_date"><%if(instanceInfo.getCreatedDate()!=null){%><%=instanceInfo.getCreatedDate().toLocalString()%><%} %></div>
-							</div>
-						</a>
+						<div class="noti_pic">
+							<img src="<%=owner.getMinPicture()%>" title="<%=owner.getLongName()%>" class="profile_size_s" />
+						</div>
+						<div class="noti_in">
+							<span class="t_name"><%=owner.getLongName()%></span>
+							<div class="t_date"><%if(instanceInfo.getCreatedDate()!=null){%><%=instanceInfo.getCreatedDate().toLocalString()%><%} %></div>
+						</div>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=instanceInfo.getSubject()%>
-							<%if(instanceInfo.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=instanceInfo.getSubInstanceCount() %></b>]</font><%} %>
-							<%if(instanceInfo.isNew()){ %><span class="icon_new"></span><%} %>
-						</a>
+						<%=instanceInfo.getSubject()%>
+						<%if(instanceInfo.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=instanceInfo.getSubInstanceCount() %></b>]</font><%} %>
+						<%if(instanceInfo.isNew()){ %><span class="icon_new"></span><%} %>
 					</td>
-					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=lastTask.getName()%></a>
-					</td>
+					<td><%=lastTask.getName()%></td>
 					<td>
 						<%
 						if(!SmartUtil.isBlankObject(lastModifier)){
 						%>
-							<a href="<%=target%>" class="js_content_pwork_space">
-								<div class="noti_pic js_content_pwork_space">
-									<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
-								</div>
-								<div class="noti_in">
-									<span class="t_name"><%=lastModifier.getLongName()%></span>
-									<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
-								</div>
-							</a>
+							<div class="noti_pic">
+								<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
+							</div>
+							<div class="noti_in">
+								<span class="t_name"><%=lastModifier.getLongName()%></span>
+								<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+							</div>
 						<%
 						}
 						%>

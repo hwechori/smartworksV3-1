@@ -65,7 +65,7 @@
                             <%if(workSpace != null && !workSpace.getId().equals(owner.getId())){ %><span class="arr">▶</span><span class="icon_division_s"><%=workSpace.getName() %></span><%} %>
                             <span class="t_date"><%=instance.getCreatedDate().toLocalString() %></span>
                             <div class="">
-                           		<span class="title_picico float_left mr7"><%=instance.getSubject()%></span>
+                           		<span class="title_picico fl mr7"><%=instance.getSubject()%></span>
                             	<span class="<%=work.getIconClass() %> t_date"><%=work.getFullpathName() %></span> 
                             </div>
                         </div>
@@ -93,7 +93,7 @@
 					</div>
 					<!-- 전자결재, 업무전달 버튼들 //-->
 		                    
-                	<div class="solid_line clear"></div>
+                	<div class="solid_line cb"></div>
                 </div>
 		            <!-- 타이틀 -->
 		            
@@ -112,7 +112,7 @@
 				<!-- 버튼 영역 -->
 				<div class="glo_btn_space">
 				
-					<div class="txt_btn info_repl">
+					<div class="txt_btn task_information">
 					    <%if(numberOfRelatedWorks > 0){ %><div class="po_left"><a href=""><fmt:message key="common.title.refering_works"/> <span class="t_up_num">[<%=numberOfRelatedWorks %>]</span></a></div><%} %>
 					    <%if(numberOfHistories > 0){ %><div class="po_left"><a href=""><fmt:message key="common.title.update_history"/> <span class="t_up_num">[<%=numberOfHistories %>]</span></a></div><%} %>
 					    <div class="po_left"><fmt:message key="common.title.last_modification"/> :  
@@ -122,7 +122,7 @@
 					</div>     
 
 					<!-- 수정, 삭제버튼 -->
-				    <div class="float_right">
+				    <div class="fr">
 						<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 						<div class="form_space js_progress_span" ></div>
 						
@@ -134,9 +134,9 @@
 						%>
 					        <span class="btn_gray js_btn_modify">
 					        	<a href="" class="js_modify_iwork_instance">
-						            <span class="Btn01Start"></span>
-						            <span class="Btn01Center"><fmt:message key="common.button.modify"/></span>
-						            <span class="Btn01End"></span>
+						            <span class="txt_btn_start"></span>
+						            <span class="txt_btn_center"><fmt:message key="common.button.modify"/></span>
+						            <span class="txt_btn_end"></span>
 					            </a>
 					   		</span>
 					   	<%
@@ -145,54 +145,54 @@
 				
 				        <span class="btn_gray js_btn_do_forward" style="display:none">
 				        	<a href="" class="js_forward_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.do_forward"/></span>
-					            <span class="Btn01End"></span>
+					            <span class="txt_btn_start"></span>
+					            <span class="txt_btn_center"><fmt:message key="common.button.do_forward"/></span>
+					            <span class="txt_btn_end"></span>
 				            </a>
 				   		</span>
 				
 				        <span class="btn_gray js_btn_do_approval" style="display:none">
 				        	<a href="" class="js_approval_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.do_approval"/></span>
-					            <span class="Btn01End"></span>
+					            <span class="txt_btn_start"></span>
+					            <span class="txt_btn_center"><fmt:message key="common.button.do_approval"/></span>
+					            <span class="txt_btn_end"></span>
 				            </a>
 				   		</span>
 				
 				        <span class="btn_gray js_btn_do_email" style="display:none">
 				        	<a href="" class="js_email_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.do_email"/></span>
-					            <span class="Btn01End"></span>
+					            <span class="txt_btn_start"></span>
+					            <span class="txt_btn_center"><fmt:message key="common.button.do_email"/></span>
+					            <span class="txt_btn_end"></span>
 				            </a>
 				   		</span>
 				
 						<%
 						if(work.getEditPolicy().isEditableForMe(owner.getId())){
 						%>
-							<span class="btn_gray space_l5 js_btn_delete">
+							<span class="btn_gray ml5 js_btn_delete">
 					        	<a href="" class="js_delete_iwork_instance">
-						            <span class="Btn01Start"></span>
-						            <span class="Btn01Center"><fmt:message key="common.button.delete"/></span>
-						            <span class="Btn01End"></span>
+						            <span class="txt_btn_start"></span>
+						            <span class="txt_btn_center"><fmt:message key="common.button.delete"/></span>
+						            <span class="txt_btn_end"></span>
 						    	</a>
 					   		</span>
 					        <span class="btn_gray js_btn_save" style="display:none">
 					        	<a href="" class="js_save_iwork_instance">
-						            <span class="Btn01Start"></span>
-						            <span class="Btn01Center"><fmt:message key="common.button.save"/></span>
-						            <span class="Btn01End"></span>
+						            <span class="txt_btn_start"></span>
+						            <span class="txt_btn_center"><fmt:message key="common.button.save"/></span>
+						            <span class="txt_btn_end"></span>
 					            </a>
 					   		</span>
 					   	<%
 					   	}
 					   	%>
 				
-						<span class="btn_gray space_l5 js_btn_cancel" style="display:none">
+						<span class="btn_gray ml5 js_btn_cancel" style="display:none">
 				        	<a href="" class="js_cancel_iwork_instance">
-					            <span class="Btn01Start"></span>
-					            <span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>
-					            <span class="Btn01End"></span>
+					            <span class="txt_btn_start"></span>
+					            <span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span>
+					            <span class="txt_btn_end"></span>
 					    	</a>
 				   		</span>
 					</div>

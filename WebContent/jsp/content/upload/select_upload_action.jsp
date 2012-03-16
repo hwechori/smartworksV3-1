@@ -32,7 +32,7 @@ case ISmartWorks.SPACE_TYPE_MEMO_LIST:
 	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 	
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-	<div class="js_upload_form" id="upload_form_box">
+	<div class="upload_up_wrap js_upload_form" id="upload_form_box">
 		<jsp:include page="/jsp/content/work/start/new_memo.jsp" />
 	</div>
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
@@ -49,7 +49,7 @@ case ISmartWorks.SPACE_TYPE_IMAGE_LIST:
 	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 	
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-	<div class="js_upload_form" id="upload_form_box">
+	<div class="upload_up_wrap js_upload_form" id="upload_form_box">
 		<jsp:include page="/jsp/content/work/start/new_picture.jsp" />
 	</div>
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
@@ -66,7 +66,7 @@ case ISmartWorks.SPACE_TYPE_FILE_LIST:
 	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 	
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-	<div class="js_upload_form" id="upload_form_box">
+	<div class="upload_up_wrap js_upload_form" id="upload_form_box">
 		<jsp:include page="/jsp/content/work/start/new_file.jsp" />
 	</div>
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
@@ -83,7 +83,7 @@ case ISmartWorks.SPACE_TYPE_EVENT_LIST:
 	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 	
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-	<div class="js_upload_form" id="upload_form_box">
+	<div class="upload_up_wrap js_upload_form" id="upload_form_box">
 		<jsp:include page="/jsp/content/work/start/new_event.jsp" />
 	</div>
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
@@ -100,7 +100,7 @@ case ISmartWorks.SPACE_TYPE_BOARD_LIST:
 	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 	
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-	<div class="js_upload_form" id="upload_form_box">
+	<div class="upload_up_wrap js_upload_form" id="upload_form_box">
 		<jsp:include page="/jsp/content/work/start/new_board.jsp" />
 	</div>
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
@@ -117,7 +117,7 @@ case ISmartWorks.SPACE_TYPE_AWORK_LIST:
 	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 	
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-	<div class="js_upload_form" id="upload_form_box">
+	<div class="upload_up_wrap js_upload_form" id="upload_form_box">
 		<jsp:include page="/jsp/content/upload/start_work.jsp" />
 	</div>
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->
@@ -167,7 +167,7 @@ default:
 	<!--  업로드할 항목(새업무, 사진, 파일, 이벤트, 메모, 공지)을 선택하는 아이콘들 // -->
 	
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... -->
-	<div class="js_upload_form" id="upload_form_box">
+	<div class="upload_up_wrap js_upload_form" id="upload_form_box">
 		<jsp:include page="/jsp/content/work/start/new_memo.jsp" />
 	</div>
 	<!-- 새업무 등록시에는 업무를 선택하는 자동검색 및 전체업무찾기 버튼을 을 보여준다... //-->

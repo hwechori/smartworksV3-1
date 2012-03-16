@@ -2467,15 +2467,98 @@ public class ModelConverter {
 			String companyId = cUser.getCompanyId();
 			ImageCategoryInfo[] imageCategoryInfos = null;
 			List<ImageCategoryInfo> imageCategoryInfoList = new ArrayList<ImageCategoryInfo>();
-			TskTaskCond tskTaskCond = null;
-			TskTask[] tskTasks = null;
 			String fileId = "";
 			String originImgSrc = "";
 			String imgSrc = "";
 			ImageInstanceInfo imageInstanceInfo = null;
+			Map<String, ImageCategoryInfo> imageCategoryMap = new LinkedHashMap<String, ImageCategoryInfo>();
+
+			FileWorkCond fileWorkCond = new FileWorkCond();
+			fileWorkCond.setTskAssigneeOrSpaceId(spaceId);
+			fileWorkCond.setTskRefType(TskTask.TASKREFTYPE_IMAGE);
+			fileWorkCond.setOrders(new Order[]{new Order("tskCreatedate", true)});
+			FileWork[] fileWorks = getDocManager().getFileWorkList(userId, fileWorkCond);
 			switch (displayType) {
 			case FileCategory.DISPLAY_BY_CATEGORY:
 				FdrFolderCond fdrFolderCond = new FdrFolderCond();
+				fdrFolderCond.setCompanyId(companyId);
+				fdrFolderCond.setCreationUser(userId);
+				fdrFolderCond.setWorkspaceId(spaceId);
+				fdrFolderCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
+				fdrFolderCond.setOrders(new Order[]{new Order(FdrFolderCond.A_DISPLAYORDER, true)});
+				FdrFolder[] fdrFolders = getFdrManager().getFolders(userId, fdrFolderCond, IManager.LEVEL_ALL);
+				if(!CommonUtil.isEmpty(fileWorks)) {
+					for(FileWork fileWork : fileWorks) {
+						int length = 1;
+						ImageCategoryInfo imageCategoryInfo = new ImageCategoryInfo();
+						imageInstanceInfo = new ImageInstanceInfo();
+						String folderId = fileWork.getFolderId();
+						String folderName = fileWork.getFolderName();
+						if(CommonUtil.isEmpty(folderId)) {
+							folderId = FileCategory.ID_UNCATEGORIZED;
+							folderName = SmartMessage.getString("common.title.uncategorized");
+						}
+						imageCategoryInfo.setId(folderId);
+						imageCategoryInfo.setName(folderName);
+						fileId = fileWork.getFileId();
+						IFileModel fileModel = getDocManager().getFileById(fileId);
+						if(fileModel != null) {
+							String filePath = fileModel.getFilePath();
+							String extension = filePath.lastIndexOf(".") > 1 ? filePath.substring(filePath.lastIndexOf(".")) : null;
+							filePath = StringUtils.replace(filePath, "\\", "/");
+							if(filePath.indexOf(companyId) != -1)
+								originImgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+							filePath = filePath.replaceAll(extension, "_thumb" + extension);
+							if(filePath.indexOf(companyId) != -1)
+								imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+						}
+						imageInstanceInfo.setFileId(fileId);
+						imageInstanceInfo.setOriginImgSource(originImgSrc);
+						imageInstanceInfo.setImgSource(imgSrc);
+						imageCategoryInfo.setFirstImage(imageInstanceInfo);
+						if(!CommonUtil.isEmpty(imageCategoryMap)) {
+							for(Map.Entry<String, ImageCategoryInfo> entry : imageCategoryMap.entrySet()) {
+								if(entry.getKey().equals(imageCategoryInfo.getId()))
+									length = entry.getValue().getLength() + 1;
+							}
+						}
+						imageCategoryInfo.setLength(length);
+						imageCategoryMap.put(folderId, imageCategoryInfo);
+					}
+					if(!CommonUtil.isEmpty(fdrFolders)) {
+						for(FdrFolder fdrFolder : fdrFolders) {
+							if(CommonUtil.isEmpty(fdrFolder.getFolderFiles())) {
+								ImageCategoryInfo imageCategoryInfo = new ImageCategoryInfo();
+								imageInstanceInfo = new ImageInstanceInfo();
+								String folderId = fdrFolder.getObjId();
+								String folderName = fdrFolder.getName();
+								int length = 0;
+								imageCategoryInfo.setId(folderId);
+								imageCategoryInfo.setName(folderName);
+								imageCategoryInfo.setLength(length);
+								imageInstanceInfo.setFileId("");
+								imageInstanceInfo.setOriginImgSource("");
+								imageInstanceInfo.setImgSource("");
+								imageCategoryInfo.setFirstImage(imageInstanceInfo);
+								imageCategoryMap.put(folderId, imageCategoryInfo);
+							}
+						}
+					}
+				}
+
+				if(!CommonUtil.isEmpty(imageCategoryMap)) {
+					for(Map.Entry<String, ImageCategoryInfo> entry : imageCategoryMap.entrySet()) {
+						ImageCategoryInfo imageCategoryInfo = entry.getValue();
+						imageCategoryInfoList.add(imageCategoryInfo);
+					}
+				}
+				if(imageCategoryInfoList.size() > 0) {
+					Collections.sort(imageCategoryInfoList, Collections.reverseOrder());
+					imageCategoryInfos = new ImageCategoryInfo[imageCategoryInfoList.size()];
+					imageCategoryInfoList.toArray(imageCategoryInfos);
+				}
+				return imageCategoryInfos;
+/*				FdrFolderCond fdrFolderCond = new FdrFolderCond();
 				fdrFolderCond.setCompanyId(companyId);
 				fdrFolderCond.setCreationUser(userId);
 				fdrFolderCond.setWorkspaceId(spaceId);
@@ -2586,9 +2669,56 @@ public class ModelConverter {
 					imageCategoryInfos = new ImageCategoryInfo[imageCategoryInfoList.size()];
 					imageCategoryInfoList.toArray(imageCategoryInfos);
 				}
-				return imageCategoryInfos;
+				return imageCategoryInfos;*/
 			case FileCategory.DISPLAY_BY_YEAR:
-				tskTaskCond = new TskTaskCond();
+				if(!CommonUtil.isEmpty(fileWorks)) {
+					for(FileWork fileWork : fileWorks) {
+						int length = 1;
+						ImageCategoryInfo imageCategoryInfo = new ImageCategoryInfo();
+						imageInstanceInfo = new ImageInstanceInfo();
+						String writtenId = new LocalDate(fileWork.getWrittenTime().getTime()).toLocalMonthString();
+						String writtenName = new LocalDate(fileWork.getWrittenTime().getTime()).toLocalMonthString();
+						imageCategoryInfo.setId(writtenId);
+						imageCategoryInfo.setName(writtenName);
+						fileId = fileWork.getFileId();
+						IFileModel fileModel = getDocManager().getFileById(fileId);
+						if(fileModel != null) {
+							String filePath = fileModel.getFilePath();
+							String extension = filePath.lastIndexOf(".") > 1 ? filePath.substring(filePath.lastIndexOf(".")) : null;
+							filePath = StringUtils.replace(filePath, "\\", "/");
+							if(filePath.indexOf(companyId) != -1)
+								originImgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+							filePath = filePath.replaceAll(extension, "_thumb" + extension);
+							if(filePath.indexOf(companyId) != -1)
+								imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+						}
+						imageInstanceInfo.setFileId(fileId);
+						imageInstanceInfo.setOriginImgSource(originImgSrc);
+						imageInstanceInfo.setImgSource(imgSrc);
+						imageCategoryInfo.setFirstImage(imageInstanceInfo);
+						if(!CommonUtil.isEmpty(imageCategoryMap)) {
+							for(Map.Entry<String, ImageCategoryInfo> entry : imageCategoryMap.entrySet()) {
+								if(entry.getKey().equals(imageCategoryInfo.getId()))
+									length = entry.getValue().getLength() + 1;
+							}
+						}
+						imageCategoryInfo.setLength(length);
+						imageCategoryMap.put(writtenId, imageCategoryInfo);
+					}
+				}
+				if(!CommonUtil.isEmpty(imageCategoryMap)) {
+					for(Map.Entry<String, ImageCategoryInfo> entry : imageCategoryMap.entrySet()) {
+						ImageCategoryInfo imageCategoryInfo = entry.getValue();
+						imageCategoryInfoList.add(imageCategoryInfo);
+					}
+				}
+				if(imageCategoryInfoList.size() > 0) {
+					Collections.sort(imageCategoryInfoList, Collections.reverseOrder());
+					imageCategoryInfos = new ImageCategoryInfo[imageCategoryInfoList.size()];
+					imageCategoryInfoList.toArray(imageCategoryInfos);
+				}
+				return imageCategoryInfos;
+				/*tskTaskCond = new TskTaskCond();
 				tskTaskCond.setWorkSpaceId(spaceId);
 				tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
 				tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_MODIFICATIONDATE, true)});
@@ -2662,9 +2792,56 @@ public class ModelConverter {
 					imageCategoryInfos = new ImageCategoryInfo[imageCategoryInfoList.size()];
 					imageCategoryInfoList.toArray(imageCategoryInfos);
 				}
-				return imageCategoryInfos;
+				return imageCategoryInfos;*/
 			case FileCategory.DISPLAY_BY_OWNER:
-				tskTaskCond = new TskTaskCond();
+				if(!CommonUtil.isEmpty(fileWorks)) {
+					for(FileWork fileWork : fileWorks) {
+						int length = 1;
+						ImageCategoryInfo imageCategoryInfo = new ImageCategoryInfo();
+						imageInstanceInfo = new ImageInstanceInfo();
+						String ownerId = fileWork.getTskAssignee();
+						String ownerName = getUserInfoByUserId(ownerId).getLongName();
+						imageCategoryInfo.setId(ownerId);
+						imageCategoryInfo.setName(ownerName);
+						fileId = fileWork.getFileId();
+						IFileModel fileModel = getDocManager().getFileById(fileId);
+						if(fileModel != null) {
+							String filePath = fileModel.getFilePath();
+							String extension = filePath.lastIndexOf(".") > 1 ? filePath.substring(filePath.lastIndexOf(".")) : null;
+							filePath = StringUtils.replace(filePath, "\\", "/");
+							if(filePath.indexOf(companyId) != -1)
+								originImgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+							filePath = filePath.replaceAll(extension, "_thumb" + extension);
+							if(filePath.indexOf(companyId) != -1)
+								imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+						}
+						imageInstanceInfo.setFileId(fileId);
+						imageInstanceInfo.setOriginImgSource(originImgSrc);
+						imageInstanceInfo.setImgSource(imgSrc);
+						imageCategoryInfo.setFirstImage(imageInstanceInfo);
+						if(!CommonUtil.isEmpty(imageCategoryMap)) {
+							for(Map.Entry<String, ImageCategoryInfo> entry : imageCategoryMap.entrySet()) {
+								if(entry.getKey().equals(imageCategoryInfo.getId()))
+									length = entry.getValue().getLength() + 1;
+							}
+						}
+						imageCategoryInfo.setLength(length);
+						imageCategoryMap.put(ownerId, imageCategoryInfo);
+					}
+				}
+				if(!CommonUtil.isEmpty(imageCategoryMap)) {
+					for(Map.Entry<String, ImageCategoryInfo> entry : imageCategoryMap.entrySet()) {
+						ImageCategoryInfo imageCategoryInfo = entry.getValue();
+						imageCategoryInfoList.add(imageCategoryInfo);
+					}
+				}
+				if(imageCategoryInfoList.size() > 0) {
+					Collections.sort(imageCategoryInfoList, Collections.reverseOrder());
+					imageCategoryInfos = new ImageCategoryInfo[imageCategoryInfoList.size()];
+					imageCategoryInfoList.toArray(imageCategoryInfos);
+				}
+				return imageCategoryInfos;
+				/*tskTaskCond = new TskTaskCond();
 				tskTaskCond.setWorkSpaceId(spaceId);
 				tskTaskCond.setRefType(TskTask.TASKREFTYPE_IMAGE);
 				tskTaskCond.setOrders(new Order[]{new Order(FdrFolderCond.A_MODIFICATIONDATE, true)});
@@ -2735,7 +2912,7 @@ public class ModelConverter {
 					imageCategoryInfos = new ImageCategoryInfo[imageCategoryInfoList.size()];
 					imageCategoryInfoList.toArray(imageCategoryInfos);
 				}
-				return imageCategoryInfos;
+				return imageCategoryInfos;*/
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2744,44 +2921,119 @@ public class ModelConverter {
 		return null;
 	}
 
-	public static WorkInstanceInfo[] getWorkInstanceInfosByFileWorks(FileWork[] tasks) throws Exception {
+	public static WorkInstanceInfo[] getWorkInstanceInfosByFileWorks(FileWork[] tasks, String tskRefType, int displayBy) throws Exception {
 		if(CommonUtil.isEmpty(tasks))
 			return null;
 		int tasksLength = tasks.length;
 		WorkInstanceInfo[] workInstanceInfos = new WorkInstanceInfo[tasksLength];
 		for(int i=0; i<tasksLength; i++) {
 			FileWork task = tasks[i];
-			workInstanceInfos[i] = getWorkInstanceInfoByFileWork(task);
+			workInstanceInfos[i] = getWorkInstanceInfoByFileWork(task, tskRefType, displayBy);
 		}
 		return workInstanceInfos;
 	}
 
-	public static WorkInstanceInfo getWorkInstanceInfoByFileWork(FileWork task) throws Exception {
+	public static WorkInstanceInfo getWorkInstanceInfoByFileWork(FileWork task, String tskRefType, int displayBy) throws Exception {
 		if (task == null)
 			return null;
 		User cUser = SmartUtil.getCurrentUser();
+		String companyId = cUser.getCompanyId();
 
 		WorkInstanceInfo workInstanceInfo = null;
-		
-		FileInstanceInfo tempWorkInstanceInfo = new FileInstanceInfo();
-		tempWorkInstanceInfo.setType(Instance.TYPE_FILE);
 
-		Map<String, String> fileMap = new LinkedHashMap<String, String>();
-		List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
-		String fileGroupId = task.getGroupId();
-		String fileId = task.getFileId();
-		String fileName = task.getFileName();
-		String fileType = task.getFileType();
-		String fileSize = String.valueOf(task.getFileSize());
-		fileMap.put("fileId", fileId);
-		fileMap.put("fileName", fileName);
-		fileMap.put("fileType", fileType);
-		fileMap.put("fileSize", fileSize);
-		fileList.add(fileMap);
-		if(fileList.size() > 0)
-			tempWorkInstanceInfo.setFiles(fileList);
-		tempWorkInstanceInfo.setFileGroupId(fileGroupId);
-		workInstanceInfo = tempWorkInstanceInfo;
+		if(tskRefType.equals(TskTask.TASKREFTYPE_IMAGE)) {
+			ImageInstanceInfo tempWorkInstanceInfo = new ImageInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_IMAGE);
+			FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
+			String categoryId = "";
+			String categoryName = "";
+			if(displayBy != 0) {
+				switch (displayBy) {
+				case FileCategory.DISPLAY_BY_CATEGORY:
+					categoryId = task.getFolderId();
+					categoryName = task.getFolderName();
+					if(CommonUtil.isEmpty(categoryId)) {
+						categoryId = FileCategory.ID_UNCATEGORIZED;
+						categoryName = SmartMessage.getString("common.title.uncategorized");
+					}
+					break;
+				case FileCategory.DISPLAY_BY_YEAR:
+					categoryId = new LocalDate(task.getWrittenTime().getTime()).toLocalMonthString();
+					categoryName = new LocalDate(task.getWrittenTime().getTime()).toLocalMonthString();
+					break;
+				case FileCategory.DISPLAY_BY_OWNER:
+					categoryId = task.getTskAssignee();
+					categoryName = getUserInfoByUserId(task.getTskAssignee()).getLongName();
+					break;
+				}
+				fileCategoryInfo.setId(categoryId);
+				fileCategoryInfo.setName(categoryName);
+				tempWorkInstanceInfo.setFileCategory(fileCategoryInfo);
+				tempWorkInstanceInfo.setLastModifiedDate(new LocalDate(task.getWrittenTime().getTime()));
+			}
+			String fileId = task.getFileId();
+			String originImgSrc = "";
+			String imgSrc = "";
+			if(!CommonUtil.isEmpty(fileId)) {
+				IFileModel fileModel = getDocManager().getFileById(fileId);
+				if(fileModel != null) {
+					String filePath = fileModel.getFilePath();
+					String extension = filePath.lastIndexOf(".") > 1 ? filePath.substring(filePath.lastIndexOf(".")) : null;
+					filePath = StringUtils.replace(filePath, "\\", "/");
+					if(filePath.indexOf(companyId) != -1)
+						originImgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+					filePath = filePath.replaceAll(extension, "_thumb" + extension);
+					if(filePath.indexOf(companyId) != -1)
+						imgSrc = Community.PICTURE_PATH + filePath.substring(filePath.indexOf(companyId), filePath.length());
+				}
+			}
+			tempWorkInstanceInfo.setFileId(fileId);
+			tempWorkInstanceInfo.setOriginImgSource(originImgSrc);
+			tempWorkInstanceInfo.setImgSource(imgSrc);
+			workInstanceInfo = tempWorkInstanceInfo;
+		} else {
+			FileInstanceInfo tempWorkInstanceInfo = new FileInstanceInfo();
+			tempWorkInstanceInfo.setType(Instance.TYPE_FILE);
+			FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
+			String categoryId = "";
+			String categoryName = "";
+			if(displayBy != 0) {
+				switch (displayBy) {
+				case FileCategory.DISPLAY_BY_CATEGORY:
+					categoryId = task.getFolderId();
+					categoryName = task.getFolderName();
+					if(CommonUtil.isEmpty(categoryId)) {
+						categoryId = FileCategory.ID_UNCATEGORIZED;
+						categoryName = SmartMessage.getString("common.title.uncategorized");
+					}
+				case FileCategory.DISPLAY_BY_YEAR:
+					categoryId = new LocalDate(task.getWrittenTime().getTime()).toLocalMonthString();
+					categoryName = new LocalDate(task.getWrittenTime().getTime()).toLocalMonthString();
+				case FileCategory.DISPLAY_BY_OWNER:
+					categoryId = task.getTskAssignee();
+					categoryName = getUserInfoByUserId(task.getTskAssignee()).getLongName(); 
+				}
+				fileCategoryInfo.setId(categoryId);
+				fileCategoryInfo.setName(categoryName);
+				tempWorkInstanceInfo.setFileCategory(fileCategoryInfo);
+			}
+			Map<String, String> fileMap = new LinkedHashMap<String, String>();
+			List<Map<String, String>> fileList = new ArrayList<Map<String,String>>();
+			String fileGroupId = task.getGroupId();
+			String fileId = task.getFileId();
+			String fileName = task.getFileName();
+			String fileType = task.getFileType();
+			String fileSize = String.valueOf(task.getFileSize());
+			fileMap.put("fileId", fileId);
+			fileMap.put("fileName", fileName);
+			fileMap.put("fileType", fileType);
+			fileMap.put("fileSize", fileSize);
+			fileList.add(fileMap);
+			if(fileList.size() > 0)
+				tempWorkInstanceInfo.setFiles(fileList);
+			tempWorkInstanceInfo.setFileGroupId(fileGroupId);
+			workInstanceInfo = tempWorkInstanceInfo;
+		}
 
 		SmartWorkInfo workInfo = new SmartWorkInfo();
 		workInfo.setId(task.getPackageId());
@@ -2865,7 +3117,12 @@ public class ModelConverter {
 		if(!CommonUtil.isEmpty(fileWorks)) {
 			switch (displayType) {
 			case FileCategory.DISPLAY_BY_CATEGORY:
-/*				if(!CommonUtil.isEmpty(fileWorks)) {
+				FdrFolderCond fdrFolderCond = new FdrFolderCond();
+				fdrFolderCond.setCreationUser(userId);
+				fdrFolderCond.setWorkspaceId(spaceId);
+				fdrFolderCond.setOrders(new Order[]{new Order(FdrFolderCond.A_DISPLAYORDER, true)});
+				FdrFolder[] fdrFolders = getFdrManager().getFolders(userId, fdrFolderCond, IManager.LEVEL_ALL);
+				if(!CommonUtil.isEmpty(fileWorks)) {
 					for(FileWork fileWork : fileWorks) {
 						int length = 1;
 						FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
@@ -2883,6 +3140,20 @@ public class ModelConverter {
 						fileCategoryMap.put(folderId, fileCategoryInfo);
 					}
 				}
+				if(!CommonUtil.isEmpty(fdrFolders)) {
+					for(FdrFolder fdrFolder : fdrFolders) {
+						if(CommonUtil.isEmpty(fdrFolder.getFolderFiles())) {
+							FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
+							String folderId = fdrFolder.getObjId();
+							String folderName = fdrFolder.getName();
+							int length = 0;
+							fileCategoryInfo.setId(folderId);
+							fileCategoryInfo.setName(folderName);
+							fileCategoryInfo.setLength(length);
+							fileCategoryMap.put(folderId, fileCategoryInfo);
+						}
+					}
+				}
 				if(!CommonUtil.isEmpty(fileCategoryMap)) {
 					for(Map.Entry<String, FileCategoryInfo> entry : fileCategoryMap.entrySet()) {
 						FileCategoryInfo fileCategoryInfo = entry.getValue();
@@ -2891,37 +3162,6 @@ public class ModelConverter {
 				}
 				if(fileCategoryInfoList.size() > 0) {
 					fileCategoryInfos = new FileCategoryInfo[fileCategoryInfoList.size()];
-					fileCategoryInfoList.toArray(fileCategoryInfos);
-				}
-				return fileCategoryInfos;*/
-				FdrFolderCond fdrFolderCond = new FdrFolderCond();
-				fdrFolderCond.setCreationUser(userId);
-				fdrFolderCond.setWorkspaceId(spaceId);
-				fdrFolderCond.setOrders(new Order[]{new Order(FdrFolderCond.A_DISPLAYORDER, true)});
-				FdrFolder[] fdrFolders = getFdrManager().getFolders(userId, fdrFolderCond, IManager.LEVEL_ALL);
-				FdrFolder addFdrFolder = new FdrFolder();
-				addFdrFolder.setObjId(FileCategory.ID_UNCATEGORIZED);
-				addFdrFolder.setName(SmartMessage.getString("common.title.uncategorized"));
-				fdrFolders = FdrFolder.add(fdrFolders, addFdrFolder);
-				if(!CommonUtil.isEmpty(fdrFolders)) {
-					for(int i=0; i<fdrFolders.length; i++) {
-						FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
-						FdrFolder fdrFolder = fdrFolders[i];
-						String folderId = fdrFolder.getObjId();
-						String folderName = fdrFolder.getName();
-						int length = 0;
-						FdrFolderFile[] fdrFolderFiles = fdrFolder.getFolderFiles();
-						if(!CommonUtil.isEmpty(fdrFolderFiles))
-						length = fdrFolderFiles.length;
-						fileCategoryInfo.setId(folderId);
-						fileCategoryInfo.setName(folderName);
-						fileCategoryInfo.setLength(length);
-						fileCategoryInfoList.add(fileCategoryInfo);
-					}
-				}
-				int listSize = fileCategoryInfoList.size();
-				if(listSize > 0) {
-					fileCategoryInfos = new FileCategoryInfo[listSize];
 					fileCategoryInfoList.toArray(fileCategoryInfos);
 				}
 				return fileCategoryInfos;
@@ -3020,8 +3260,8 @@ public class ModelConverter {
 					for(FileWork fileWork : fileWorks) {
 						int length = 1;
 						FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
-						String typeId = fileWork.getFileType();
-						String typeName = fileWork.getFileType();
+						String typeId = fileWork.getFileType().toLowerCase();
+						String typeName = fileWork.getFileType().toLowerCase();
 						fileCategoryInfo.setId(typeId);
 						fileCategoryInfo.setName(typeName);
 						if(!CommonUtil.isEmpty(fileCategoryMap)) {

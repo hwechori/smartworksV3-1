@@ -124,14 +124,14 @@
 				<div class="txt_btn">
 
 					<!-- 수정하기 -->
-					<div class="float_right space_l5">
+					<div class="fr ml5">
 					<%
 					if (cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR) {
 					%>
 						<span class="btn_gray"> 
-							<span class="Btn01Start"></span> 
-							<span class="Btn01Center"><fmt:message key='common.button.modify' /> </span>
-							<span class="Btn01End"></span>
+							<span class="txt_btn_start"></span> 
+							<span class="txt_btn_center"><fmt:message key='common.button.modify' /> </span>
+							<span class="txt_btn_end"></span>
 						</span>
 					<%
 					}
@@ -140,7 +140,7 @@
 					<!-- 수정하기 //-->
 
 <%-- 					<!-- 최종수정자 -->
-					<div class="float_right">
+					<div class="fr">
 						<img class="pho_user" title="<fmt:message key="common.title.last_modifier" />"
 							src="<%=work.getLastModifier().getMinPicture()%>"> 
 						<span class="t_name"><%=work.getLastModifier().getLongName()%></span>
@@ -160,13 +160,13 @@
 			<div class="contents_space">
 
 				<!--통계메뉴 영역-->
-				<div class="txt_btn margin_b5 margin_t10 js_work_report">
+				<div class="txt_btn mb5 mt10 js_work_report">
 
 					<div class="po_right">
 						<a href="work_report.sw?workId=<%=work.getId()%>"
 							class="js_new_work_report"><fmt:message key="report.button.new_work_report"/></a>
 					</div>
-					<div class="po_right bu_stat">
+					<div class="po_right icon_btn_stat">
 						<select name="selMyReportList" class="js_select_work_report"
 							href="work_report_view.sw?workId=<%=work.getId()%>&workType=<%=work.getType()%>">
 							<%
@@ -196,14 +196,14 @@
 					</div>
 				</div>
 				<!--통계메뉴 영역//-->
-				<div class="js_work_report_form margin_b5"></div>
+				<div class="js_work_report_form mb5"></div>
 
 				<!-- 목록보기 -->
 				<div>
 
 					<!-- 목록보기 타이틀-->
 					<div class="list_title_space js_work_list_title">
-						<div class="txt_btn posi_ab">
+						<div class="txt_btn">
 							<div class="title"><fmt:message key="common.title.instance_list" /></div>
 							<form name="frmSearchInstance" class="po_left">
 								<div class="srch_wh srch_wsize">

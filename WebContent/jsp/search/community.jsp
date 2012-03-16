@@ -58,7 +58,7 @@
 			<li>
 				<a href="<%=targetContent%>?cid=<%=comContext%>&wid=<%=comId%>" class="js_location">
 					<img src="<%=picName%>" class="profile_size_s">
-					<span class="nav_subtitl_area"><%=comName%></span>
+					<span class="nav_sub_area"><%=comName%></span>
 				</a>
 			</li>
 	<%

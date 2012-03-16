@@ -90,29 +90,27 @@
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
 			%>
-				<tr>
-					<td class="hAlignCenter"><%=currentCount%></td>
+				<tr class="instance_list js_content_iwork_space" href="<%=target%>">
+					<td class="tc"><%=currentCount%></td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"/></a>
+						<img src="<%=owner.getMidPicture()%>" class="profile_size_m"/>
 					</td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=((MemoInstanceInfo)instanceInfo).getContent() %></a>
+						<%=((MemoInstanceInfo)instanceInfo).getContent() %>
 					</td>
-					<td class="hAlignRight">
+					<td class="tr pr10">
 						<%
 						if(!SmartUtil.isBlankObject(lastModifier)){
 						%>
-							<a href="<%=target%>" class="js_content_pwork_space">
-								<div class="noti_in">
-									<span class="t_name"><%=lastModifier.getLongName()%></span>
-									<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
-								</div>
-							</a>
+							<div class="noti_in">
+								<span class="t_name"><%=lastModifier.getLongName()%></span>
+								<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+							</div>
 						<%
 						}
 						%>
 					</td>
-					<td class="hAlignCenter"><%=((MemoInstanceInfo)instanceInfo).getViews() %>
+					<td class="tc"><%=((MemoInstanceInfo)instanceInfo).getViews() %>
 				</tr>
 	<%
 				currentCount--;

@@ -41,9 +41,9 @@
 	
 	%>
 		<!-- 처음게시판(헤드라인 공지사항)을 표시한다 -->
-		<div class="headlineNotice">
+		<div class="headline_notice">
 			<a href="<%=board.getController() %>?cid=<%=board.getContextId()%>wid=<%=workSpace.getId() %>" class="more"><fmt:message key="common.button.view_all"/></a>
-			<a href="<%=board.getController() %>?cid=<%=board.getContextId()%>">
+			<div class="js_content" href="<%=board.getController() %>?cid=<%=board.getContextId()%>">
 				<span class="title"><%=board.getSubject() %>
 					<%if(board.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=board.getSubInstanceCount() %></b>]</font><%} %>
 					<%if(board.isNew()){ %><span class="icon_new"></span><%} %>
@@ -62,21 +62,21 @@
 				</span>
 				<span class="info"></span>
 				<span class="content"><%=board.getBriefContent() %></span>
-			</a>
+			</div>
 		</div>
 		<!-- 처음게시판(헤드라인 공지사항)을 표시한다 //-->
 
 		<!-- 나머지 4개를 리스트로 표시한다 -->
-		<div class="recentNotice">
+		<div class="recent_notice">
 			<table>
 				<%
 				for(int i=1; i<boards.length; i++) {
 					board = boards[i];
 					workSpace = board.getWorkSpace();
 				%>			
-					<tr>
+					<tr class="instance_list js_content" href="<%=board.getController() %>?cid=<%=board.getContextId()%>">
 						<td class="title">
-							<a href="<%=board.getController() %>?cid=<%=board.getContextId()%>"><%=board.getSubject()%></a> 
+							<span><%=board.getSubject()%></span> 
 							<%if(board.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=board.getSubInstanceCount() %></b>]</font><%} %>
 							<%if(board.isNew()){ %><span class="icon_new"></span><%} %>
 							<span class="t_name"><%=board.getOwner().getLongName() %></span> 

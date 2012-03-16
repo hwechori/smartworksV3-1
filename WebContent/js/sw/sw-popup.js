@@ -68,11 +68,11 @@ smartPop = {
 					'<div class="up_point" style="left: 10px; top: 1px; position: relative;display:none;"></div>' + 
 					'<div class="pop_corner_all smart_userinfo_section">' + 
 						'<div class="pop_contents">' + 
-							'<img src="' + profile + '" class="profile_size_110 float_left">' + 
+							'<img src="' + profile + '" class="profile_size_110 fl">' + 
 							' <div class="pop_notice_section js_user_information"></div>' +
 						'</div>' +
 						'<div class="smartp_btn_space">' +
-							'<div class="float_right">' +
+							'<div class="fr">' +
 								'<a href="" class="js_send_mail_to_user" userId="' + userId + '"><span class="pop_icon_mail"></span></a>' +
 								'<a href="" class="js_leave_message_for_user" userId="' + userId + '"><span class="pop_icon_message"></span></a>' + 
 								'<a href="" class="js_start_chat_with_user" userId="' + userId + '"><span class="pop_icon_chat"></span></a>' +
@@ -149,9 +149,9 @@ smartPop = {
 					 	'<div class="pop_notice_section">' + message + '</div>' +
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
-					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a class="js_btn_close" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonClose') + '</span> <span class="Btn01End"></span>' +
+					 	'<div class="fr">' +
+					 		'<span class="btn_gray"> <a class="js_btn_close" href=""> <span class="txt_btn_start"></span>' +
+					 			'<span class="txt_btn_center">' + smartMessage.get('buttonClose') + '</span> <span class="txt_btn_end"></span>' +
 					 		'</a> </span>' +
 					 	'</div>' +
 					 '</div>' +
@@ -175,15 +175,15 @@ smartPop = {
 		smartPop.overlayDark();
 		$('<div id="sw_pop_confirm" class="pop_corner_all smart_pop_section" style="z-index:10001; position:absolute;">' + 
 					'<div class="pop_contents">' + 
-					 	'<div class="pop_notice_section margin_t10">' + message + '</div>' +
+					 	'<div class="pop_notice_section mt10">' + message + '</div>' +
 					 '</div>' +
 					 '<div class="glo_btn_space">' +
-					 	'<div class="float_right">' +
-					 		'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="Btn01Start"></span>' +
-					 			'<span class="Btn01Center">' + smartMessage.get('buttonConfirm') + '</span> <span class="Btn01End"></span>' +
+					 	'<div class="fr">' +
+					 		'<span class="btn_gray"> <a class="js_btn_ok" href=""> <span class="txt_btn_start"></span>' +
+					 			'<span class="txt_btn_center">' + smartMessage.get('buttonConfirm') + '</span> <span class="txt_btn_end"></span>' +
 					 		'</a> </span>' + 
-				 			'<span class="btn_gray space_l5"> <a class="js_btn_cancel" href=""> <span class="Btn01Start"></span>' +
-				 				'<span class="Btn01Center">'  + smartMessage.get('buttonCancel') + '</span> <span class="Btn01End"></span>' +
+				 			'<span class="btn_gray ml5"> <a class="js_btn_cancel" href=""> <span class="txt_btn_start"></span>' +
+				 				'<span class="txt_btn_center">'  + smartMessage.get('buttonCancel') + '</span> <span class="txt_btn_end"></span>' +
 				 			'</a> </span>' +
 				 		'</div>' +
 					 '</div>' +

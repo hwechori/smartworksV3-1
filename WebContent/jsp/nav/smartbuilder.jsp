@@ -31,16 +31,16 @@
 	<div class="personal_info">
 		<ul>
 			<li class="builder"></li>
-			<li class="margin_t25"><span class="t_nav"><fmt:message key="header.global_menu.smartbuilder"/></span></li>
+			<li class="mt25"><span class="t_nav"><fmt:message key="header.global_menu.smartbuilder"/></span></li>
 		</ul>
 	</div>
 	<!-- Nav Title//-->
 	<!-- Nav List -->
 	<div class="nav_list">
-		<div class="navi_list">		
-			<div class="categ_link">
+		<div class="nav_sub_list">		
+			<div class="tab_buttons">
 				<a class="js_download_form_appstore" title="<fmt:message key='builder.button.download_from_appstore'/>" href=""><span class="btn_apps"></span></a>
-				<a class="js_add_work_category" title="<fmt:message key='builder.button.add_category'/>" href=""><span class="btn_cate_add"></span></a>
+				<a class="js_add_work_category" title="<fmt:message key='builder.button.add_category'/>" href=""><span class="btn_add_category"></span></a>
 			</div>
 
 			<div id="all_works">

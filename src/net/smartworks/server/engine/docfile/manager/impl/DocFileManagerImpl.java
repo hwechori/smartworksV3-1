@@ -29,8 +29,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.smartworks.model.community.User;
+import net.smartworks.model.work.FileCategory;
 import net.smartworks.server.engine.common.manager.AbstractManager;
-import net.smartworks.server.engine.common.model.Filter;
+import net.smartworks.server.engine.common.model.Filters;
 import net.smartworks.server.engine.common.model.SmartServerConstant;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.id.IDCreator;
@@ -52,6 +53,11 @@ import net.smartworks.util.Thumbnail;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.hibernate.dialect.Dialect;
+import org.hibernate.dialect.PostgreSQLDialect;
+import org.hibernate.dialect.SQLServerDialect;
+import org.hibernate.engine.SessionFactoryImplementor;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,6 +68,8 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		if (logger.isInfoEnabled())
 			logger.info(this.getClass().getName() + " created");
 	}
+
+	private String dbType;
 
 	/**
 	 * 파일 저장 위치
@@ -828,12 +836,12 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 	public IFileModel getFileById(String fileId) throws DocFileException {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("select id, type, fileName, filePath, fileSize, writtenTime");
-		stringBuffer.append("  from HbFileModel");
-		stringBuffer.append(" where id = :id");
+		stringBuffer.append("  from SwFile");
+		stringBuffer.append(" where id = :fileId");
 
-		Query query = this.getSession().createQuery(stringBuffer.toString());
+		Query query = this.getSession().createSQLQuery(stringBuffer.toString());
 		if (!CommonUtil.isEmpty(fileId))
-			query.setString("id", fileId);
+			query.setString("fileId", fileId);
 
 		List list = query.list();
 		if (CommonUtil.isEmpty(list))
@@ -867,17 +875,17 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		String prcStatus = cond.getPrcStatus();
 		Date lastInstanceDate = cond.getLastInstanceDate();
 		String tskRefType = cond.getTskRefType();
+		String folderId = cond.getFolderId();
+		String writtenTimeMonthString = cond.getWrittenTimeMonthString();
+		String packageId = cond.getPackageId();
+		String fileType = cond.getFileType();
 		int pageNo = cond.getPageNo();
 		int pageSize = cond.getPageSize();
 
 		String worksSpaceId = cond.getTskWorkSpaceId();
-		String workCategoryName = cond.getFolderName();
-		String workName = cond.getTskName();
-		String workTitle = cond.getTskTitle();
-		String fileType = cond.getFileType();
 		Date executionDateFrom = cond.getTskExecuteDateFrom();
 		Date executionDateTo = cond.getTskExecuteDateTo();
-		Filter[] filters = cond.getFilter();
+		Filters[] filtersArray = cond.getFilters();
 
 		queryBuffer.append("from ");
 		queryBuffer.append("( ");
@@ -936,22 +944,39 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		queryBuffer.append("		on ctg.parentId = ctg2.id ");
 		queryBuffer.append("	where tsktype not in ('and','route','SUBFLOW','xor') ");
 		queryBuffer.append("	and task.tskform = form.formid ");
-		if (!CommonUtil.isEmpty(filters)) {
-			for(Filter filter : filters) {
-				String leftOperandValue = filter.getLeftOperandValue();
-				String operator = filter.getOperator();
-				String rightOperandValue = filter.getRightOperandValue();
-				queryBuffer.append("and ").append(leftOperandValue).append(" ").append(operator).append(" :").append(rightOperandValue).append(" ");
+		/*if (!CommonUtil.isEmpty(filtersArray)) {
+			for(Filters filters : filtersArray) {
+				Filter[] filterArray = filters.getFilter();
+				if (!CommonUtil.isEmpty(filterArray)) {
+					for(Filter filter : filterArray) {
+						String leftOperandValue = filter.getLeftOperandValue();
+						String operator = filter.getOperator();
+						String rightOperandValue = filter.getRightOperandValue();
+						if(rightOperandValue.equals(FileCategory.ID_UNCATEGORIZED)) {
+							queryBuffer.append("and ").append(leftOperandValue).append(" is null ");
+						} else {
+							if(!leftOperandValue.equals("writtenTime"))
+								queryBuffer.append("and ").append(leftOperandValue).append(" ").append(operator).append(" :").append(leftOperandValue).append(" ");
+						}
+					}
+				}
 			}
+		}*/
+		if (!CommonUtil.isEmpty(folderId)) {
+			if(folderId.equals(FileCategory.ID_UNCATEGORIZED)) queryBuffer.append("	and folder.id is null ");
+			else queryBuffer.append("	and folder.id = :folderId ");
 		}
-/*		if (!CommonUtil.isEmpty(workCategoryName))
-			queryBuffer.append("	and folder.name like :workCategoryName ");
-		if (!CommonUtil.isEmpty(workName))
-			queryBuffer.append("	and task.tskname like :workName ");
-		if (!CommonUtil.isEmpty(workTitle))
-			queryBuffer.append("	and task.tsktitle like :workTitle ");
+		if (!CommonUtil.isEmpty(packageId)) {
+			queryBuffer.append("	and form.packageId = :packageId ");
+		}
+		if (!CommonUtil.isEmpty(writtenTimeMonthString)) {
+			if(this.getDbType().equalsIgnoreCase("sqlserver"))
+				queryBuffer.append("	and datename(yy, docfile.writtenTime) + '.' + datename(mm, docfile.writtenTime) = :writtenTimeMonthString ");
+			else if(this.getDbType().equalsIgnoreCase("oracle"))
+				queryBuffer.append("	and to_char(docfile.writtenTime, 'YYYY') || '.' || to_char(docfile.writtenTime, 'MM') = :writtenTimeMonthString ");
+		}
 		if (!CommonUtil.isEmpty(fileType))
-			queryBuffer.append("	and docfile.type like :fileType ");*/
+			queryBuffer.append("	and docfile.type = :fileType ");
 		if (!CommonUtil.isEmpty(tskAssignee))
 			queryBuffer.append("	and task.tskassignee = :tskAssignee ");
 		if (!CommonUtil.isEmpty(tskAssigneeOrTskSpaceId))
@@ -1050,12 +1075,27 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			query.setMaxResults(pageSize);
 		}
 
-		if (!CommonUtil.isEmpty(workCategoryName))
-			query.setString("workCategoryName", workCategoryName);
-		if (!CommonUtil.isEmpty(workName))
-			query.setString("workName", workName);
-		if (!CommonUtil.isEmpty(workTitle))
-			query.setString("workTitle", workTitle);
+		/*if (!CommonUtil.isEmpty(filtersArray)) {
+			for(Filters filters : filtersArray) {
+				Filter[] filterArray = filters.getFilter();
+				if (!CommonUtil.isEmpty(filterArray)) {
+					for(Filter filter : filterArray) {
+						String leftOperandValue = filter.getLeftOperandValue();
+						String rightOperandValue = filter.getRightOperandValue();
+						if(!rightOperandValue.equals(FileCategory.ID_UNCATEGORIZED)) {
+							if(!leftOperandValue.equals("writtenTime"))
+								query.setString(leftOperandValue, rightOperandValue);
+						}
+					}
+				}
+			}
+		}*/
+		if (!CommonUtil.isEmpty(folderId) && !folderId.equals(FileCategory.ID_UNCATEGORIZED))
+			query.setString("folderId", folderId);
+		if (!CommonUtil.isEmpty(packageId))
+			query.setString("packageId", packageId);
+		if (!CommonUtil.isEmpty(writtenTimeMonthString))
+			query.setString("writtenTimeMonthString", writtenTimeMonthString);
 		if (!CommonUtil.isEmpty(fileType))
 			query.setString("fileType", fileType);
 		if (!CommonUtil.isEmpty(tskAssignee))
@@ -1106,7 +1146,7 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 			queryBuffer.append(" prcInstInfo.* ");
 			
 			Query query = this.appendQuery(queryBuffer, cond);
-		
+
 			List list = query.list();
 			if (list == null || list.isEmpty())
 				return null;
@@ -1186,6 +1226,24 @@ public class DocFileManagerImpl extends AbstractManager implements IDocFileManag
 		} catch (Exception e) {
 			throw new DocFileException(e);
 		}
+	}
+	public String getDbType() {
+		if (dbType == null) {
+			SessionFactory sf = getSessionFactory();
+			SessionFactoryImplementor sfi = (SessionFactoryImplementor)sf;
+			Dialect dialect = sfi.getDialect();
+			if (dialect instanceof PostgreSQLDialect) {
+				dbType = "postgresql";
+			} else if (dialect instanceof SQLServerDialect) {
+				dbType = "sqlserver";
+			} else {
+				dbType = "oracle";
+			}
+		}
+		return dbType;
+	}
+	public void setDbType(String dbType) {
+		this.dbType = dbType;
 	}
 
 }

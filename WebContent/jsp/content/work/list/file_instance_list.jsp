@@ -1,3 +1,5 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@page import="net.smartworks.model.work.info.SmartWorkInfo"%>
 <%@page import="net.smartworks.model.work.FileCategory"%>
 <%@page import="net.smartworks.model.instance.info.FileInstanceInfo"%>
@@ -80,12 +82,20 @@
 				<span><fmt:message key="common.title.number"/></span>
 			</th>
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_SUBJECT%>"><fmt:message key='common.title.instance_subject'/>
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_NAME%>"><fmt:message key='common.title.file_name'/>
 			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
+					if(sortedField.getFieldId().equals(FormField.ID_FILE_NAME)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
-				</a>				
+				</a>						
+			</th>
+			<th class="r_line">
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_SIZE%>"><fmt:message key='common.title.file_size'/>
+			 		<%
+					if(sortedField.getFieldId().equals(FormField.ID_FILE_SIZE)){
+						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
+					%>
+				</a>						
 			</th>
 			<%
 			if(displayType==FileCategory.DISPLAY_ALL){
@@ -134,14 +144,6 @@
 				</a>				
 			</th>
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_NAMES%>"><fmt:message key='common.title.file_names'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_FILE_NAMES)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>						
-			</th>
-			<th class="r_line">
 				<%
 				if(displayType!=FileCategory.DISPLAY_BY_OWNER){
 				%>			
@@ -174,65 +176,64 @@
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
 				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
+				List<Map<String, String>> fileNames = fileInstance.getFiles();
+				String fileName = (fileNames.size()==1) ? fileNames.get(0).get("fileName") : "";
+				String fileSize = (fileNames.size()==1) ? fileNames.get(0).get("fileSize") : "";
+				long size = (SmartUtil.isBlankObject(fileSize)) ? 0 : Long.parseLong(fileSize);
+				fileSize = SmartUtil.getBytesAsString(size);
 			%>
-				<tr>
-					<td class="hAlignCenter"><%=currentCount%></td>
+				<tr class="instance_list js_content_iwork_space" href="<%=target%>">
+					<td class="tc"><%=currentCount%></td>
 					<td>
-						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getSubject()%></a>
+  						<span class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%=fileName %></span>
 					</td>
+					<td class="tr"><%=fileSize %></a></td>
 					<%
 					if(displayType==FileCategory.DISPLAY_ALL){
 					%>
-						<td>
-							<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWorkSpace().getName()%></a>
-						</td>
+						<td><%=fileInstance.getWorkSpace().getName()%></td>
 					<%
 					}
 					if(displayType!=FileCategory.DISPLAY_BY_CATEGORY){
 					%>
 						<td>
-<%-- 							<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getFileCategory().getName()%></a>
- --%>						</td>
+ 							<%if(!SmartUtil.isBlankObject(fileInstance.getFileCategory())){%><%=fileInstance.getFileCategory().getName()%><%} %>
+ 						</td>
 					<%
 					}
 					if(displayType!=FileCategory.DISPLAY_BY_WORK){
 					%>
 						<td>
-							<a href="<%=target%>" class="js_content_pwork_space"><img class="<%=fileInstance.getWork().getIconClass()%>"/><%=((SmartWorkInfo)(fileInstance.getWork())).getFullpathName()%></a>
+							<img class="<%=fileInstance.getWork().getIconClass()%>"/><%=((SmartWorkInfo)(fileInstance.getWork())).getFullpathName()%>
 						</td>
 					<%
 					}
 					%>
 					<td>
-<%-- 						<a href="<%=target%>" class="js_content_pwork_space"><%=fileInstance.getWorkInstance().getSubject()%></a>
- --%>					</td>
-					<td class="hAlignCenter">
-  						<a href="<%=target%>" class="js_content_pwork_space"><%if(!SmartUtil.isBlankObject(fileInstance.getFileGroupId())){%><img src="images/icon_file.gif" class="js_pop_files_detail" filesDetail="<%=fileInstance.getFilesHtml()%>"><%} %></a>
+ 						<%if(!SmartUtil.isBlankObject(fileInstance.getWorkInstance())){%><%=fileInstance.getWorkInstance().getSubject()%><%} %>
 					</td>
 					<td>
 						<%
 						if(!SmartUtil.isBlankObject(lastModifier)){
 						%>
-							<a href="<%=target%>" class="js_content_pwork_space">
-								<%
-								if(displayType!=FileCategory.DISPLAY_BY_OWNER){
-								%>
-									<div class="noti_pic js_content_pwork_space">
-										<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
-									</div>
-								<%
-								}
-								%>
-								<div class="noti_in">
-									<span class="t_name"><%=lastModifier.getLongName()%></span>
-									<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+							<%
+							if(displayType!=FileCategory.DISPLAY_BY_OWNER){
+							%>
+								<div class="noti_pic js_content_pwork_space">
+									<img src="<%=lastModifier.getMinPicture()%>" title="<%=lastModifier.getLongName()%>" class="profile_size_s" />
 								</div>
-							</a>
+							<%
+							}
+							%>
+							<div class="noti_in">
+								<span class="t_name"><%=lastModifier.getLongName()%></span>
+								<div class="t_date"><%=instanceInfo.getLastModifiedDate().toLocalString()%></div>
+							</div>
 						<%
 						}
 						%>
 					</td>
-					<td class="hAlignCenter"><%=((FileInstanceInfo)instanceInfo).getViews() %>
+					<td class="tc"><%=((FileInstanceInfo)instanceInfo).getViews() %>
 				</tr>
 	<%
 				currentCount--;

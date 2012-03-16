@@ -27,7 +27,7 @@
 			<li class="js_drill_down">
 				<a href="my_worklist_by_category.sw" categoryId="<%=workCategory.getId()%>">
 					<span class="<%=workCategory.getIconClass()%>"></span>
-					<span class="nav_subtitl_area"><%=workCategory.getName()%></span>
+					<span class="nav_sub_area"><%=workCategory.getName()%></span>
 				</a>
 				<div class="menu_2dep js_drill_down_target" style="display: none"></div>
 			</li>

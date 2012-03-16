@@ -194,7 +194,7 @@
 					<!-- 근무시간 전//-->
 	
 					<!-- 근무시간 -->
-					<div class="space_section margin_t10 js_space_dayly_work_hour" toDate="<%=workEndStr%>">
+					<div class="space_section mt10 js_space_dayly_work_hour" toDate="<%=workEndStr%>">
 						<div class="title"><fmt:message key="common.title.work_hour"/>(<%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getStart())%> ~ <%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getEnd())%>)</div>
 	
 						<ul>
@@ -215,7 +215,7 @@
 					<!-- 근무시간//-->
 	
 					<!-- 근무시간 후 -->
-					<div class="space_section margin_t10 js_space_dayly_work_hour" toDate="<%=toDateStr%>">
+					<div class="space_section mt10 js_space_dayly_work_hour" toDate="<%=toDateStr%>">
 						<div class="title_off"><fmt:message key="common.title.after_work"/>(<%=LocalDate.convertTimeToString(selectedCalendar.getWorkHour().getEnd())%> ~ )</div>
 						<ul>
 							<%

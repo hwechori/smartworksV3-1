@@ -125,12 +125,12 @@
 					<td class="js_type_userField" fieldId="txtGroupMembers" multiUsers="true">
 						<div class="form_value">
 							<div>
-								<div class="fieldline js_community_names">
+								<div class="fieldline community_names js_community_names">
 									<div class="js_selected_communities user_sel_area"></div>
 									<input class="js_auto_complete" href="community_name.sw" type="text">
 									<div class="js_srch_x"></div>
 								</div>
-								<div class="js_community_list commu_list" style="display: none"></div>
+								<div class="js_community_list com_list" style="display: none"></div>
 							</div>
 						</div>
 					</td>
@@ -146,20 +146,20 @@
 		<div class="sw_error_message js_pop_error_message" style="color: red"></div>
 	<!--  실행시 표시되는 프로그래스아이콘을 표시할 공간 -->
 	
-		<div class="float_right padding_r10">
+		<div class="fr pr10">
 			<span class="js_progress_span"></span>
 			<span class="btn_gray">
 				<a href="" onclick='submitForms(); return false;'>
-					<span class="Btn01Start"></span>
-					<span class="Btn01Center"><fmt:message key="common.button.create"/></span>
-					<span class="Btn01End"></span>
+					<span class="txt_btn_start"></span>
+					<span class="txt_btn_center"><fmt:message key="common.button.create"/></span>
+					<span class="txt_btn_end"></span>
 				</a> 
 			</span>
-			 <span class="btn_gray space_l5"> 
+			 <span class="btn_gray ml5"> 
 				 <a href="" class="js_close_new_group"> 
-				 	<span class="Btn01Start"></span>
-				 	<span class="Btn01Center"><fmt:message key="common.button.cancel"/></span>
-				 	<span class="Btn01End"></span> 
+				 	<span class="txt_btn_start"></span>
+				 	<span class="txt_btn_center"><fmt:message key="common.button.cancel"/></span>
+				 	<span class="txt_btn_end"></span> 
 				 </a>
 			</span>
 		</div>

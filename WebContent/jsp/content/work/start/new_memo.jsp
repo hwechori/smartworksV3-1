@@ -103,12 +103,14 @@ function submitForms() {
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <div class="up_wrap js_new_memo_page" workId="<%=SmartWork.ID_MEMO_MANAGEMENT%>">
-	<div class="up_point posit_works js_up_pointer"></div>
+	<div class="up_point pos_works js_up_pointer"></div>
 	<div class="form_wrap up up_padding">
 
 		<!-- 폼- 확장 -->
-		<form name='frmNewMemo' class="form_title js_validation_required js_click_start_form">
- 			<textarea name="txtMemo" class="border_none required" rows="1" placeholder="<fmt:message key="common.upload.message.memo"/>"/></textarea>
+		<form name='frmNewMemo' class="js_validation_required js_click_start_form">
+			<div class="form_col">
+ 				<textarea name="txtMemo" class="bn required" rows="1" placeholder="<fmt:message key="common.upload.message.memo"/>"/></textarea>
+ 			</div>
  		</form>
 		
 		<div class="js_hidden_form_content" style="display:none">
