@@ -63,6 +63,7 @@ if (subInstances != null) {
 						</a>
 					</div>
 					<div class="noti_in">
+						<div><%=((SmartWorkInfo)workInstance.getWork()).getFullpathName()%></div>
 						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
 						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 						<a href="<%=board.getController() %>?cid=<%=board.getContextId() %>&wid=<%=workSpace.getId() %>&workId=<%=work.getId() %>">
@@ -91,6 +92,7 @@ if (subInstances != null) {
 						</a>
 					</div>
 					<div class="noti_in">
+						<div><%=((SmartWorkInfo)workInstance.getWork()).getFullpathName()%></div>
 						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
 						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 						<div><%=event.getSubject() %>
@@ -114,6 +116,7 @@ if (subInstances != null) {
 						</a>
 					</div>
 					<div class="noti_in">
+						<div><%=((SmartWorkInfo)workInstance.getWork()).getFullpathName()%></div>
 						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
 						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 						<%if(!SmartUtil.isBlankObject(file.getFiles())){ %><div><%=SmartUtil.getFilesDetailInfo(file.getFiles()) %>
@@ -136,6 +139,7 @@ if (subInstances != null) {
 						</a>
 					</div>
 					<div class="noti_in">
+						<div><%=((SmartWorkInfo)workInstance.getWork()).getFullpathName()%></div>
 						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
 						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 						<div><a href="" class=""><img src="<%=image.getImgSource()%>" style="min-height:20px;width:100px;"></a>
@@ -158,6 +162,7 @@ if (subInstances != null) {
 						</a>
 					</div>
 					<div class="noti_in">
+						<div><%=((SmartWorkInfo)workInstance.getWork()).getFullpathName()%></div>
 						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
 						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 						<div><%=memo.getContent() %>
@@ -179,6 +184,7 @@ if (subInstances != null) {
 						</a>
 					</div>
 					<div class="noti_in">
+						<div><%=((SmartWorkInfo)workInstance.getWork()).getFullpathName()%></div>
 						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
 						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 						<div><%=comment.getComment() %>
@@ -198,6 +204,7 @@ if (subInstances != null) {
 						</a>
 					</div>
 					<div class="noti_in">
+						<div><%=((SmartWorkInfo)workInstance.getWork()).getFullpathName()%></div>
 						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
 						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 						<div><%=workInstance.getSubject() %>

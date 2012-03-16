@@ -849,6 +849,8 @@ CREATE TABLE prcprcinst (
     prcType varchar(100),
     prcWorkspaceId varchar(100),
     prcWorkSpaceType varchar(50),
+    prcAccessLevel varchar(50),
+    prcAccessValue varchar(4000),
 	primary key(prcobjid)
 );
 
@@ -899,6 +901,8 @@ CREATE TABLE tsktask (
     tskFromRefId varchar(100),
     tskWorkspaceId varchar(100),
     tskWorkspaceType varchar(50),
+    tskAccessLevel varchar(50),
+    tskAccessValue varchar(4000),
     tskRefType varchar(100),
 	primary key(tskobjid)
 );

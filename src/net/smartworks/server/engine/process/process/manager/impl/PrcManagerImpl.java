@@ -89,7 +89,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				buf.append(", status=:status, title=:title, type=:type, packageId=:packageId, priority=:priority");
 				buf.append(", diagramId=:diagramId, diagramVersion=:diagramVersion");
 				buf.append(", processId=:processId, diagram=:diagram, isSubInstance=:isSubInstance");
-				buf.append(", instVariable=:instVariable, workSpaceId=:workSpaceId, workSpaceType=:workSpaceType ");
+				buf.append(", instVariable=:instVariable, workSpaceId=:workSpaceId, workSpaceType=:workSpaceType");
+				buf.append(", accessLevel=:accessLevel, accessValue=:accessValue");
 				//buf.append(", companyId=:companyId");
 				buf.append(" where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
@@ -112,6 +113,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				query.setString(PrcProcessInst.A_INSTVARIABLE, obj.getInstVariable());
 				query.setString(PrcProcessInst.A_WORKSPACEID, obj.getWorkSpaceId());
 				query.setString(PrcProcessInst.A_WORKSPACETYPE, obj.getWorkSpaceType());
+				query.setString(PrcProcessInst.A_ACCESSLEVEL, obj.getAccessLevel());
+				query.setString(PrcProcessInst.A_ACCESSVALUE, obj.getAccessValue());
 				//query.setString(PrcProcessInst.A_COMPANYID, obj.getCompanyId());
 				query.setString(ClassObject.A_OBJID, obj.getObjId());
 				query.executeUpdate();
@@ -151,6 +154,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		String diagram = null;
 		String workSpaceId = null;
 		String workSpaceType = null;
+		String accessLevel = null;
+		String accessValue = null;
 		//String companyId = null;
 		Property[] extProps = null;
 		String[] priorityIns = null;
@@ -179,6 +184,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			diagram = cond.getDiagram();
 			workSpaceId = cond.getWorkSpaceId();
 			workSpaceType = cond.getWorkSpaceType();
+			accessLevel = cond.getAccessLevel();
+			accessValue = cond.getAccessValue();
 			//companyId = cond.getCompanyId();
 			extProps = cond.getExtendedProperties();
 			priorityIns = cond.getPriorityIns();
@@ -235,6 +242,10 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				buf.append(" and obj.workSpaceId = :workSpaceId");
 			if (workSpaceType != null)
 				buf.append(" and obj.workSpaceType = :workSpaceType");
+			if (accessLevel != null)
+				buf.append(" and obj.accessLevel = :accessLevel");
+			if (accessValue != null)
+				buf.append(" and obj.accessValue = :accessValue");
 			//if (companyId != null)
 			//	buf.append(" and obj.companyId = :companyId");
 			if (extProps != null && extProps.length != 0) {
@@ -394,6 +405,10 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				query.setString("workSpaceId", workSpaceId);
 			if (workSpaceType != null)
 				query.setString("workSpaceType", workSpaceType);
+			if (accessLevel != null)
+				query.setString("accessLevel", accessLevel);
+			if (accessValue != null)
+				query.setString("accessValue", accessValue);
 			//if (companyId != null)
 			//	query.setString("companyId", companyId);
 			if (extProps != null && extProps.length != 0) {
@@ -497,7 +512,7 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 				buf.append(" obj.objId, obj.name, obj.creationUser, obj.creationDate, obj.modificationUser, obj.modificationDate");
 				buf.append(", obj.status, obj.title, obj.type, obj.packageId, obj.priority");
 				buf.append(", obj.diagramId, obj.diagramVersion, obj.processId, obj.diagram, obj.isSubInstance");
-				buf.append(", obj.instVariable, obj.workSpaceId, obj.workSpaceType ");
+				buf.append(", obj.instVariable, obj.workSpaceId, obj.workSpaceType, obj.accessLevel, obj.accessValue ");
 				//buf.append(", obj.companyId");
 			}
 			Query query = this.appendQuery(buf, cond);
@@ -529,6 +544,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 					obj.setInstVariable((String)fields[j++]);
 					obj.setWorkSpaceId((String)fields[j++]);
 					obj.setWorkSpaceType((String)fields[j++]);
+					obj.setAccessLevel(((String)fields[j++]));
+					obj.setAccessValue(((String)fields[j++]));
 					//obj.setCompanyId(((String)fields[j++]));
 					objList.add(obj);
 				}
@@ -570,6 +587,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		queryBuffer.append(" 			, prcInst.prcPrcId ");
 		queryBuffer.append(" 			, prcInst.prcWorkSpaceId ");
 		queryBuffer.append(" 			, prcInst.prcWorkSpaceType ");
+		queryBuffer.append(" 			, prcInst.prcAccessLevel ");
+		queryBuffer.append(" 			, prcInst.prcAccessValue ");
 		queryBuffer.append(" 			, prcInstInfo.lastTask_tskobjid ");
 		queryBuffer.append(" 			, prcInstInfo.lastTask_tskname ");
 		queryBuffer.append(" 			, prcInstInfo.lastTask_tskcreateuser ");
@@ -583,6 +602,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		queryBuffer.append(" 			, prcInstInfo.lastTask_tskform ");
 		queryBuffer.append(" 			, prcInstInfo.lastTask_tskWorkSpaceId ");
 		queryBuffer.append(" 			, prcInstInfo.lastTask_tskWorkSpaceType ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskAccessLevel ");
+		queryBuffer.append(" 			, prcInstInfo.lastTask_tskAccessValue ");
 		queryBuffer.append(" 			, (select count(*) from tsktask where tskstatus='11' and tsktype='common' and tskprcInstId = prcInst.prcObjid) as lastTaskCount ");
 		queryBuffer.append(" 		from  ");
 		queryBuffer.append(" 			prcprcinst prcInst,  ");
@@ -601,6 +622,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 		queryBuffer.append(" 						, task.tskform as lastTask_tskform ");
 		queryBuffer.append(" 						, task.tskWorkSpaceId as lastTask_tskWorkSpaceId ");
 		queryBuffer.append(" 						, task.tskWorkSpaceType as lastTask_tskWorkSpaceType ");
+		queryBuffer.append(" 						, task.tskAccessLevel as lastTask_tskAccessLevel ");
+		queryBuffer.append(" 						, task.tskAccessValue as lastTask_tskAccessValue ");
 		queryBuffer.append(" 				from ( ");
 		queryBuffer.append(" 						select tskprcinstId , max(tskCreatedate) as createDate  ");
 		queryBuffer.append(" 						from tsktask  ");
@@ -724,6 +747,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			obj.setPrcPrcId((String)fields[j++]);
 			obj.setPrcWorkSpaceId((String)fields[j++]);
 			obj.setPrcWorkSpaceType((String)fields[j++]);
+			obj.setPrcAccessLevel((String)fields[j++]);
+			obj.setPrcAccessValue((String)fields[j++]);
 			obj.setLastTask_tskObjId((String)fields[j++]);
 			obj.setLastTask_tskName((String)fields[j++]);
 			obj.setLastTask_tskCreateUser((String)fields[j++]);
@@ -737,6 +762,8 @@ public class PrcManagerImpl extends AbstractManager implements IPrcManager {
 			obj.setLastTask_tskForm((String)fields[j++]);
 			obj.setLastTask_tskWorkSpaceId((String)fields[j++]);
 			obj.setLastTask_tskWorkSpaceType((String)fields[j++]);
+			obj.setLastTask_tskAccessLevel((String)fields[j++]);
+			obj.setLastTask_tskAccessValue((String)fields[j++]);
 			int lastTaskCount = (Integer)fields[j++];
 			obj.setLastTask_tskCount(lastTaskCount == 0 ? 1 : lastTaskCount);
 			objList.add(obj);

@@ -24,6 +24,8 @@
 		<property name="instVariable" column="prcInstVariable" type="text"/>
 		<property name="workSpaceId" column="prcWorkSpaceId" type="string" length="100"/>
 		<property name="workSpaceType" column="prcWorkSpaceType" type="string" length="50"/>
+		<property name="accessLevel" column="prcAccessLevel" type="string" length="50"/>
+		<property name="accessValue" column="prcAccessValue" type="string" length="4000"/>
 		<array name="extendedProperties" table="PrcPrcInstExtProp">
 			<key column="prcObjId" foreign-key="FkPrcPrcInstExtProp"/>
 			<list-index column="prcSeq"/>
