@@ -24,19 +24,10 @@
 	<div class="start_works_input">
 
 		<!-- 업무검색을 위한 자동완성검색 -->
-		<div class="input_size srch">
+		<div class="form_col input_size srch">
 			<input class="js_auto_complete" type="text" href="work_name.sw" placeholder="<fmt:message key='common.upload.message.work'/>">
 			<div class="srch_icon_w js_icon_white js_pop_all_works"></div>
 		</div>
-
-		<!-- 업무트리 팝업을 위한 버튼 -->
-		<%-- <div class="btn_gray btn_right" id="all_work_btn">
-			<a href="" class="js_pop_all_works"> 
-				<span class="txt_btn_start"></span> 
-				<span class="txt_btn_center"><fmt:message key="common.upload.button.all_works" /> </span> 
-				<span class="txt_btn_end"></span>
-			</a>
-		</div> --%>
 
 		<!-- 업무트리가 나타나는 곳 -->
 		<span class="js_all_work_popup"></span>

@@ -75,6 +75,8 @@ import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordCond;
 import net.smartworks.server.engine.infowork.domain.model.SwdRecordExtend;
 import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
+import net.smartworks.server.engine.infowork.form.model.SwfCondition;
+import net.smartworks.server.engine.infowork.form.model.SwfConditions;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfFieldMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfFieldRef;
@@ -86,6 +88,7 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormRef;
 import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
+import net.smartworks.server.engine.infowork.form.model.SwfOperand;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
@@ -500,6 +503,46 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+	public SwdRecord refreshDataFields(SwdRecord record) throws Exception {
+		try{
+			User cuser = SmartUtil.getCurrentUser();
+			String userId = null;
+			if (cuser != null)
+				userId = cuser.getId();
+			
+			String formId = record.getFormId();
+			if (CommonUtil.isEmpty(formId))
+				return null;
+			SwfForm form = SwManagerFactory.getInstance().getSwfManager().getForm(null, formId);
+			if (form == null)
+				return null;
+			SwfField[] fields = form.getFields();
+			if (CommonUtil.isEmpty(fields))
+				return null;
+			
+			boolean isFirstSetMode = true; //초기 데이터 입력인지 수정인지를 판단한다
+			
+			//새로 값이 셋팅되어 변경될 레코드 클론
+			SwdRecord oldRecord = (SwdRecord)record.clone();
+			SwdRecord newRecord = (SwdRecord)record.clone();
+			
+			Map<String, SwdDataField> resultMap = new HashMap<String, SwdDataField>();
+			
+			// 각 필드들 마다 가져오기 맵핑을 확인하여 값을 셋팅한다
+			for (SwfField field : fields) {
+				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord);
+			}
+			System.out.println(newRecord);
+			return null; 
+		}catch (Exception e){
+			// Exception Handling Required
+			e.printStackTrace();
+			return null;			
+			// Exception Handling Required			
+		}
+	}
+	
+	
 	public SwdRecord refreshDataFields(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
 		try{
@@ -659,15 +702,53 @@ public class InstanceServiceImpl implements IInstanceService {
 							continue;
 						}
 						
+						//외부폼에서 가져오기를 하기전에 외부폼과 연결되어 있는 자신의 폼의 필드들의 값을 먼저 채운다
+						SwfFormLink formLink = formLinkMap.get(formLinkId);
+						SwfConditions condsObj = formLink.getConds();
+						SwfCondition[] conds = condsObj.getCond();
+						for (int i = 0; i < conds.length; i++) {
+							SwfCondition swfCondition = conds[i];
+							
+							SwfOperand first = swfCondition.getFirst();
+							SwfOperand second = swfCondition.getSecond();
+							
+							String selfFieldId = null;
+							if (first != null && first.getType() != null && first.getType().equalsIgnoreCase("self")) {
+								selfFieldId = first.getFieldId();
+							}
+							if (second != null && second.getType() != null && second.getType().equalsIgnoreCase("self")) {
+								selfFieldId = second.getFieldId();
+							}	
+							if (selfFieldId == null)
+								continue;
+							
+							SwfField[] fields = form.getFields();
+							SwfField targetField = null;
+							for (SwfField tempField : fields) {
+								if (tempField.getId().equalsIgnoreCase(selfFieldId)) {
+									targetField = tempField;
+									break;
+								}
+							}
+							if (targetField == null) {
+								logger.warn("TargetMapping Field Is Null!!! Check Change Field Id!!");
+								continue;
+							}
+							//재귀 호출
+							if (!resultMap.containsKey(targetField.getId()))
+								setResultFieldMapByFields(userId, form, resultMap, targetField, newRecord, oldRecord);
+							
+						}
+						
 						String valueFunc = preMapping.getValueFunc();
 						if (valueFunc == null || valueFunc.equalsIgnoreCase("value")) {
 							SwdRecord[] mappingRecords = null;
 							if (!CommonUtil.isEmpty(mappingFieldId)) {
-								SwdRecord mappingRecord = getSwdManager().getRecordByMappingForm(userId, oldRecord,  formLinkMap.get(formLinkId));
+								SwdRecord mappingRecord = getSwdManager().getRecordByMappingForm(userId, newRecord,  formLinkMap.get(formLinkId));
 								if (mappingRecord != null)
 									mappingRecords = new SwdRecord[] {mappingRecord};
 							} else {
-								mappingRecords = getSwdManager().getRecordsByMappingForm(userId, oldRecord,  formLinkMap.get(formLinkId));
+								mappingRecords = getSwdManager().getRecordsByMappingForm(userId, newRecord,  formLinkMap.get(formLinkId));
 							}
 							
 							if (CommonUtil.isEmpty(mappingRecords)) 
@@ -731,7 +812,7 @@ public class InstanceServiceImpl implements IInstanceService {
 							dataField.setRefForm(null);
 							dataField.setRefFormField(null);
 							dataField.setValue(value + "");
-							resultStack.add(dataField);
+							resultStack.push(dataField);
 						}
 					} else if (SwfMapping.MAPPINGTYPE_PROCESSFORM.equalsIgnoreCase(mappingFormType)) {
 					//프로세스 업무
@@ -756,7 +837,7 @@ public class InstanceServiceImpl implements IInstanceService {
 							dataField.setRefForm(null);
 							dataField.setRefFormField(null);
 							dataField.setValue(CommonUtil.newId());
-							resultStack.add(dataField);
+							resultStack.push(dataField);
 							
 						} else if (functionId.equals("mis:getCurrentDate")) {
 							SwdDataField dataField = new SwdDataField();
@@ -766,12 +847,12 @@ public class InstanceServiceImpl implements IInstanceService {
 							dataField.setRefForm(null);
 							dataField.setRefFormField(null);
 							dataField.setValue(DateUtil.toXsdDateString(new Date()));
-							resultStack.add(dataField);
+							resultStack.push(dataField);
 							
 						} else if (functionId.equals("mis:getCurrentUser")) {
 							SwdDataField dataField = toDataField(userId, field, userId);
 							dataField.setId(fieldId);
-							resultStack.add(dataField);
+							resultStack.push(dataField);
 							
 						} else if (functionId.equals("mis:getDeptId")){		
 							if(func != null){
@@ -783,7 +864,7 @@ public class InstanceServiceImpl implements IInstanceService {
 							}
 							SwdDataField dataField = toDataField(userId, field, funcDeptName);
 							dataField.setId(fieldId);
-							resultStack.add(dataField);
+							resultStack.push(dataField);
 							
 						} else if (functionId.equals("mis:getTeamLeaderId")){
 							if(func != null){
@@ -799,31 +880,31 @@ public class InstanceServiceImpl implements IInstanceService {
 							}
 							SwdDataField dataField = toDataField(userId, field, funcTeamLeader);
 							dataField.setId(fieldId);
-							resultStack.add(dataField);
+							resultStack.push(dataField);
 							
 						} else if (functionId.equals("mis:getEmpNo")){
 							String funcEmpNo = func.getEmpNo();
 							SwdDataField dataField = toDataField(userId, field, funcEmpNo);
 							dataField.setId(fieldId);
-							resultStack.add(dataField);
+							resultStack.push(dataField);
 							
 						} else if (functionId.equals("mis:getMobileNo")){
 							String funcMobileNo = func.getMobileNo();
 							SwdDataField dataField = toDataField(userId, field, funcMobileNo);
 							dataField.setId(fieldId);
-							resultStack.add(dataField);
+							resultStack.push(dataField);
 							
 						} else if (functionId.equals("mis:getInternalNo")){
 							String funcExtensionNo = func.getExtensionNo();
 							SwdDataField dataField = toDataField(userId, field, funcExtensionNo);
 							dataField.setId(fieldId);
-							resultStack.add(dataField);
+							resultStack.push(dataField);
 							
 						}
 				//web Service
 					} else if ("service_form".equalsIgnoreCase(mappingFormType)) {
 						//TODO web service
-						
+						System.out.println("service_form");
 						
 						
 						
@@ -838,7 +919,7 @@ public class InstanceServiceImpl implements IInstanceService {
 						value = StringUtils.replace(value, "'", "");
 						SwdDataField dataField = toDataField(userId, field, value);
 						dataField.setId(fieldId);
-						resultStack.add(dataField);
+						resultStack.push(dataField);
 					}
 					
 				} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingType)) {
@@ -852,21 +933,19 @@ public class InstanceServiceImpl implements IInstanceService {
 					
 					
 				}
-				
-				
-				if (resultTreeMap != null) {
-					TreeMap<Long, SwdDataField> sortMap = new TreeMap<Long, SwdDataField>(resultTreeMap);
-					resultMap.put(fieldId, sortMap.get(sortMap.lastKey()) );
-					newRecord.setDataField(fieldId, sortMap.get(sortMap.lastKey()));
-				} else if (resultStack != null) {
-					resultMap.put(fieldId, resultStack.pop());
-					newRecord.setDataField(fieldId, resultStack.pop());
-				} else {
-					resultMap.put(fieldId, oldRecord.getDataField(fieldId));
-					newRecord.setDataField(fieldId, oldRecord.getDataField(fieldId));
-				}
 			}
-		
+
+			if (resultTreeMap != null && resultTreeMap.size() != 0) {
+				TreeMap<Long, SwdDataField> sortMap = new TreeMap<Long, SwdDataField>(resultTreeMap);
+				resultMap.put(fieldId, sortMap.get(sortMap.lastKey()) );
+				newRecord.setDataField(fieldId, sortMap.get(sortMap.lastKey()));
+			} else if (resultStack != null && resultStack.size() != 0) {
+				resultMap.put(fieldId, resultStack.peek());
+				newRecord.setDataField(fieldId, resultStack.peek());
+			} else {
+				resultMap.put(fieldId, oldRecord.getDataField(fieldId));
+				newRecord.setDataField(fieldId, oldRecord.getDataField(fieldId));
+			}
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
