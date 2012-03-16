@@ -46,7 +46,7 @@
 			}
 		}
 	} else {
-		response.sendRedirect("login.sw");
+		response.sendRedirect("logins.sw");
 		return;
 	}
 
@@ -60,7 +60,7 @@
 
 %>
 <fmt:setLocale value="<%=currentUser.getLocale() %>" scope="request" />
-<fmt:setBundle basename="resource.smartworksMessage" scope="request" />
+<fmt:setBundle basename="resource.seraMessage" scope="request" />
 
 <head>
 <script type="">
@@ -83,11 +83,7 @@ currentUser = {
 </script>
 
 <link href="css/default.css" type="text/css" rel="stylesheet" />
-<link href="css/black/layout.css" type="text/css" rel="stylesheet" />
-<link href="css/black/detail.css" type="text/css" rel="stylesheet" />
-<link href="css/black/chat.css" type="text/css" rel="stylesheet" />
-<link href="css/black/form.css" type="text/css" rel="stylesheet" />
-<link href="css/black/pop.css" type="text/css" rel="stylesheet" />
+<link href="sera/css/page.css" type="text/css" rel="stylesheet" />
 
 <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" title="ui-theme" />
 <link href="css/ext/ext-all.css" type="text/css" rel="stylesheet" />
@@ -193,35 +189,32 @@ currentUser = {
 
 	<div id="wrap">
 		<!-- Header -->
-		<div id="header">
-			<tiles:insertAttribute name="header" />
+		<div id="sera_header">
+			<tiles:insertAttribute name="sera_header" />
 		</div>
 		<!-- Header//-->
-
-		<!-- Navigation -->
-		<div id="nav">
-			<tiles:insertAttribute name="nav" />
+		
+		<!-- Container -->
+		<div id="container">
+		    <!-- Content -->
+		    <div id="sera_content">
+				<tiles:insertAttribute name="sera_content" />
+		    </div>
+		    <!-- Content //-->
+		    
+			<!-- Aside -->
+			<div class="sera_aside">
+				<tiles:insertAttribute name="sera_aside" />
+			</div>
+			<!-- Aside //-->
 		</div>
-		<!-- Navigation// -->
+		<!-- Container// -->
 
-		<!-- Broadcasting Board -->
-		<div id="board">
-			<tiles:insertAttribute name="board" />
+		<!--  Footer -->
+		<div id="sera_footer">
+			<tiles:insertAttribute name="sera_footer" />
 		</div>
-		<!-- Broadcasting Board//-->
-
-		<!-- Contents-->
-		<div id="content">
-			<tiles:insertAttribute name="content" />
-		</div>
-		<!-- Contents//-->
-
-		<!-- Footer-->
-		<div id="footer">
-			<tiles:insertAttribute name="footer" />
-		</div>
-		<!-- Footer //-->
-
+		<!--  Footer// -->
 	</div>
  	<jsp:include page="/jsp/chatting/chatter_list.jsp" />
 

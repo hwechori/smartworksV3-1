@@ -1,17 +1,8 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 
 <!-- Footer-->
-
-<a target="_blank" href="http://www.smartWorks.net/"><img src="images/logo_smartworks.gif" alt="maninsoft" class="vb"/></a>
-<span class="ml4">
-	Copyrightⓒ Maninsoft, Inc.
-	<span class="pl5 pt5">
-		<a target="_blank" href="http://www.maninsoft.co.kr/">회사소개</a> | 
-		<a target="_bland" href="http://www.maninsoft.co.kr/">이용약관</a> | 
-		<a target="_bland" href="http://www.maninsoft.co.kr/">개인정보취급방침</a> | 
-		<a target="_bland" href="http://www.maninsoft.co.kr/">제휴문의</a>
-	</span>
-</span>
-
+<ul class="footerBox">
+	<li class="copyright"> <img width="270" height="20" src="../../sera/images/sera2_footer_Copyright.png"> </li>
+	<li class="policy"> <a href="">회사소개</a> | <a href="">이용약관</a> | <a href="">개인정보취급방침</a> | <a href="">고객센터</a> </li>
+</ul>
 <!-- Footer//-->
-

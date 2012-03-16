@@ -1,9 +1,3 @@
-
-<!-- Name 			: header.jsp									 -->
-<!-- Description	: 화면구성중에 Header 에 해당 되는 부분을 표현하는 화면 	 -->
-<!-- Author			: Y.S. JUNG										 -->
-<!-- Created Date	: 2011.9.										 -->
-
 <%@page import="net.smartworks.util.SmartUtil"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -51,202 +45,52 @@ function updateNoticeCount(message){
 	Notice[] notices = smartWorks.getNoticesForMe();
 %>
 
-<!-- 회사 로고 및 연결 링크 -->
-<div>
-	<a class="company_logo"
-		href="home.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_HOME + cUser.getId()%>"></a>
-</div>
-<!-- 회사 로고 및 연결 링크 //-->
-
-<!-- Notice 아이콘들 및 연결 기능  -->
-<div class="notice_icons js_notice_icons_area">
-	<ul>
-		<!--  Notification 알림 영역 -->
-		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="icon_info js_notice_count">
-			<a id="notification_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_NOTIFICATION%>" 
-				title="<fmt:message key='header.notice.icon.notification'/>">
-				<%
-	 			if (notices.length > Notice.TYPE_NOTIFICATION && notices[Notice.TYPE_NOTIFICATION].getLength() > 0) {
-	 			%> 
-	 				<em class="icon_number"><%=notices[Notice.TYPE_NOTIFICATION].getLength()%><span></span></em>
-				<%
-				}
-				%>
-			</a>
-		</li>
-		<!--  Notification 알림 영역 //-->
-
-		<!-- 쪽지 알림 영역 -->
-		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="icon_note js_notice_count">
-			<a id="message_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_MESSAGE%>"
-				title="<fmt:message key='header.notice.icon.message'/>"> 
-				<%
-	 			if (notices.length > Notice.TYPE_MESSAGE && notices[Notice.TYPE_MESSAGE].getLength() > 0) {
-	 			%> 
-	 				<em class="icon_number"><%=notices[Notice.TYPE_MESSAGE].getLength()%><span></span></em> 
-				<%
-				}
-				%>
-			</a>
-		</li>
-		<!-- 쪽지 알림 영역 //-->
-
-		<!-- 댓글 알림 영역  -->
-		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="icon_reply js_notice_count">
-			<a id="comment_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_COMMENT%>"
-				title="<fmt:message key='header.notice.icon.comments'/>">
-				<%
-			 	if (notices.length > Notice.TYPE_COMMENT && notices[Notice.TYPE_COMMENT].getLength() > 0) {
-			 	%> 
-				 	<em class="icon_number"><%=notices[Notice.TYPE_COMMENT].getLength()%><span></span></em> 
-				<%
-				}
-				%>
-			</a>
-		</li>
-		<!-- 댓글 알림 영역  //-->
-
-		<!-- 할당업무 알림 영역  -->
-		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="icon_assworks js_notice_count">
-			<a id="assigned_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_ASSIGNED%>"
-				title="<fmt:message key='header.notice.icon.assigned'/>">
-				<%
-			 	if (notices.length > Notice.TYPE_ASSIGNED && notices[Notice.TYPE_ASSIGNED].getLength() > 0) {
-			 	%> 
-				 	<em class="icon_number"><%=notices[Notice.TYPE_ASSIGNED].getLength()%><span></span></em>
-				<%
-				}
-				%>
-			</a>
-		</li>
-		<!-- 할당업무 알림 영역  //-->
-
-		<!-- 메일 알림 영역  -->
-		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="icon_mail js_notice_count">
-			<a id="mailbox_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_MAILBOX%>"
-				title="<fmt:message key='header.notice.icon.mailbox'/>">
-				<%
-			 	if (notices.length > Notice.TYPE_MAILBOX && notices[Notice.TYPE_MAILBOX].getLength() > 0) {
-				%> 
-					<em class="icon_number"><%=notices[Notice.TYPE_MAILBOX].getLength()%><span></span></em> 
-				<%
-				}
-				%>
-			</a>
-		</li>
-		<!-- 메일 알림 영역  //-->
-
-		<!-- 임시저장 알림 영역  -->
-		<!-- *** js_notice_count : sw_act_nav.sw에서 이벤트를 받아 Message List Box를 보여준다. --> 
-		<li class="icon_saved js_notice_count">
-			<a id="savedbox_count" href="notice_message_box.sw?noticeType=<%=Notice.TYPE_SAVEDBOX%>"
-				title="<fmt:message key='header.notice.icon.savedbox'/>"> 
-				<%
-			 	if (notices.length > Notice.TYPE_SAVEDBOX && notices[Notice.TYPE_SAVEDBOX].getLength() > 0) {
-			 	%> 
-			 		<em class="icon_number"><%=notices[Notice.TYPE_SAVEDBOX].getLength()%><span></span></em> 
-				<%
-				}
-				%>
-			</a>
-		</li>
-		<!-- 임시저장 알림 영역  -->
-		<li></li>
-	</ul>
-	<ul></ul>
-</div>
-<!-- Notice 아이콘들 및 연결 기능  //-->
-
-<!-- Notice icon들을 클릭했을때 보여주는 메시지 리스트 박스 -->
-<div class="pop_i_info" id="notice_message_box" style="display: none">
-</div>
-
-<!-- 헤더에 있는 메뉴들 및 연결 기능 -->
-<div class="top_menu">
-	<ul>
-		<!--  홈메뉴  -->
-		<li class="idx1">
-			<span>
-				<a href="home.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_HOME + cUser.getId()%>"><fmt:message key="header.top_menu.home" /></a>
-			</span> 
-		</li>
-		<!--  홈메뉴  //-->
-
-		<!--  스마트케스트 메뉴  -->
-		<li class="idx2">
- 			<span>
- 				<a href="smartcaster.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_SMARTCASTER + cUser.getId()%>"><fmt:message key="header.top_menu.smartcaster" /></a> 
- 			</span> 
-		</li>
-		<!--  스마트케스트 메뉴 // -->
-
-		<!--  대시보드 메뉴  -->
-		<li class="idx3">
- 			<span>
- 				<a href="dashboard.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_DASHBOARD + cUser.getId()%>"><fmt:message key="header.top_menu.dashboard" /></a> 
- 			</span> 
-		</li>
-		<!--  대시보드 메뉴  //-->
-	</ul>
-</div>
-<!-- 헤더에 있는 메뉴들 및 연결 기능 // -->
-
-<!-- 통합 검색 기능  -->
-<div class="global_srch">
-	<div class="srch srch_wsize">
-		<input id="" class="nav_input" type="text" title="<fmt:message key='search.global_search'/>" placeholder="<fmt:message key='search.global_search'/>">
-		<button title="<fmt:message key='search.search'/>" onclick=""></button>
-	</div>
-</div>
-<!-- 통합 검색 기능  //-->
-
-<!--  전체 메뉴  -->
-<div class="global_menu">
-
-	<!-- 도움말 연결  -->
-	<div>
-		<a title="<fmt:message key='header.global_menu.help'/>" target="_blank" href="http://manual.smartWorks.net/"><fmt:message key="header.global_menu.help" /> </a>
-	</div>
-	<!-- 도움말 연결  //-->
-
-	<%
-	if(cUser.getUserLevel() == User.USER_LEVEL_AMINISTRATOR || cUser.getUserLevel() == User.USER_LEVEL_SYSMANAGER){
-	%>
-		<!-- 관리자 권한이 있는 사용자에게 제공되는 시스템설정, 스마트빌더, 앱스토어 버튼들  -->
-		<div class="pop_admin">
-			<a href="settings_home.sw"><span class="btn_setting" title="<fmt:message key='header.global_menu.settings'/>" ></span></a>
-<%-- 
-			<a href="http://appstore.smartworks.net" target="_blank"><span class="btn_appstore" title="<fmt:message key='header.global_menu.appstore'/>"></span></a>
- --%>
-			<a href="builder_home.sw"><span class="btn_builder" title="<fmt:message key='header.global_menu.smartbuilder'/>"></span></a>
-		</div>
-	<%
-	}
-	%>
-	<!-- 개인정보수정 및 로그아웃 영역  -->
-	<div>
-		<a href="" onclick="$(this).parent().next('div').toggle(); return false;"><%=cUser.getLongName()%>▼ </a>
-	</div>
-
-	<!-- 위의 사용자정보 클릭시 나타나는 개인정보수정 및 로그아웃 버튼들  -->
-	<div class="pop" style="display: none">
-		<ul>
-			<li><a
-				href="my_profile.sw?cid=<%=ISmartWorks.CONTEXT_PREFIX_MYPROFILE + cUser.getId()%>"><fmt:message
-						key="header.global_menu.edit_my_profile" /> </a>
-			</li>
-			<li><a href="logout"><fmt:message key="header.global_menu.logout" />
-			</a>
-			</li>
+<div class="hd_shadow">
+	<!-- GNB -->
+	<div class="gnb">
+		<ul class="login_info">
+			<li> <a href="">lumia</a> 님 안녕하세요 </li>
+		</ul>
+		<ul class="top_menu2">
+			<li class="fl"> <a href=""> <img width="101" height="28" title="Course" alt="Course" src="../../images/sera2_main_btnTopMenu1_off.png"> </a> </li>
+			<li class="fl"> <a href=""> <img width="101" height="28" title="myPAGE" alt="myPAGE" src="../../images/sera2_main_btnTopMenu2_on.png"> </a> </li>
+			<li class="fl"> <a href=""> <img width="101" height="28" title="seraCLUB" alt="seraCLUB" src="../../images/sera2_main_btnTopMenu3_off.png"> </a> </li>
+		</ul>
+		<ul class="util_menu">
+			<li class="seminar"></li>
+			<li class="about"> <a href="">about SERA</a> </li>
+			<li class="news"> <a href="">sera 소식</a> </li>
+			<li class="btnLogin"> <a href=""> <img width="49" height="19" title="로그아웃" alt="로그아웃" src="../../images/sera2_main_btnLogout.png"> </a> </li>
 		</ul>
 	</div>
-	<!-- // -->
-	<!-- 개인정보수정 및 로그아웃 영역  //-->
-
+	<!-- GNB //-->
+	<!-- Top Navi -->
+	<div class="top_navi">
+		<div class="personal_info fl mt5">
+			<div class="profile_pic fl"> <img src="../../images/photo_sm34.jpg"> </div>
+			<div class="pofile_con">
+				<div class="btn_log on"> </div>
+				<div class="nick_name">닉네임은일곱자님<span class="bul_down"><a href=""></a></span></div>
+			</div>
+			<!-- Btn in Gnb - 코스 만들기-->
+			<div class="btn_gnb">
+				<div class="btn_gnb_l">
+				  <div class="btn_gnb_r">코스 만들기</div>
+				</div>
+			</div>
+		</div>
+		<!-- Global Navi Icon -->
+		<div class="gni fr">
+			<ul>
+				<li class="icon_alarm"><a href="">알림</a></li>
+				<li class="icon_mycourse"><a href="">내코스</a></li>
+				<li class="icon_chatting"><a href="">친구</a></li>
+				<li class="icon_message"><a href="">쪽지</a></li>
+				<li class="icon_chaledar"><a href="">캘린더</a></li>
+				<li class="icon_badge"><a href="">뱃지</a></li>
+				<li class="icon_event"><a href="">이벤트</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- Top Navi //-->
 </div>
-<!--  전체 메뉴  //-->
