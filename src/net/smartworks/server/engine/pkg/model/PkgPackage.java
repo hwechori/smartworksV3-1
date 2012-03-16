@@ -16,7 +16,7 @@ public class PkgPackage extends MisObject{
 	private static final long serialVersionUID = 1L;
 	private static Log logger = LogFactory.getLog(PkgPackage.class);
 
-	protected static final String PREFIX = "Swp";
+	protected static final String PREFIX = "Pkg";
 	private static final String NAME = CommonUtil.toName(PkgPackage.class, PREFIX);
 
 	public static final String STATUS_UNDER_DEVEL = "CHECKED-OUT";	

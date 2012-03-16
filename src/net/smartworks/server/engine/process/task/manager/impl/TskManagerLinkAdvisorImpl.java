@@ -791,14 +791,20 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 		String prcInstId = toTaskProcessInstId(context, data, def);
 		String workSpaceId = context.getWorkSpaceId();
 		String workSpaceType = context.getWorkSpaceType();
+		String accessLevel = context.getAccessLevel();
+		String accessValue = context.getAccessValue();
 		if (workSpaceId == null || workSpaceType == null) {
 			PrcProcessInst prcInst = getPrcManager().getProcessInst("", prcInstId, IManager.LEVEL_LITE);
 			if (prcInst == null) {
 				workSpaceId = null;
 				workSpaceType = null;
+				accessLevel = null;
+				accessValue = null;
 			} else {
 				workSpaceId = prcInst.getWorkSpaceId();
 				workSpaceType = prcInst.getWorkSpaceType();
+				accessLevel = prcInst.getAccessLevel();
+				accessValue = prcInst.getAccessValue();
 			}
 		}
 		String type = toTaskType(context, data, def);
@@ -871,6 +877,8 @@ public class TskManagerLinkAdvisorImpl extends AbstractTskManagerAdvisor {
 			task.setDef(defId);
 			task.setWorkSpaceId(workSpaceId);
 			task.setWorkSpaceType(workSpaceType);
+			task.setAccessLevel(accessLevel);
+			task.setAccessValue(accessValue);
 			task.setMultiInstId(miId);
 			task.setMultiInstFlowCondition(miFlowCond);
 			task.setMultiInstOrdering(miOrder);

@@ -1,3 +1,7 @@
+<%@page import="net.smartworks.server.engine.config.model.SwcWebServiceParameter"%>
+<%@page import="net.smartworks.server.engine.config.model.SwcWebService"%>
+<%@page import="net.smartworks.server.engine.config.model.SwcWebServiceCond"%>
+<%@page import="net.smartworks.server.engine.config.manager.ISwcManager"%>
 <%@ page language="java" contentType="text/xml; charset=UTF-8" pageEncoding="UTF-8"%>  
 <%@page import="net.smartworks.server.engine.resource.util.lang.ExceptionUtil"%>
 <%@page import="net.smartworks.server.engine.resource.model.IFormModelList"%>
@@ -237,9 +241,11 @@
 		
 		//for(ICategoryModel cat : categoryList)
 		//	str += cat.toString();
-		for (int i = 0; i < packagesList.length; i++) {
-			PkgPackage pkg = (PkgPackage) packagesList[i];
-			str.append(StringUtils.replace(StringUtils.replace(pkg.toString(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), "<package ", "<workPackage "));
+		if (packagesList != null) {
+			for (int i = 0; i < packagesList.length; i++) {
+				PkgPackage pkg = (PkgPackage) packagesList[i];
+				str.append(StringUtils.replace(StringUtils.replace(pkg.toString(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), "<package ", "<workPackage "));
+			}
 		}
 		
 		str.append("</Result>");
@@ -251,11 +257,12 @@
 		
 		//for(ICategoryModel cat : categoryList)
 		//	str += cat.toString();
-		for (int i = 0; i < categoryList.length; i++) {
-			CtgCategory cat = (CtgCategory) categoryList[i];
-			str += StringUtils.replace(cat.toString(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
+		if (categoryList != null) {
+			for (int i = 0; i < categoryList.length; i++) {
+				CtgCategory cat = (CtgCategory) categoryList[i];
+				str += StringUtils.replace(cat.toString(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
+			}
 		}
-		
 		str += "</Result>";
 		return str;
 	}
@@ -1090,19 +1097,184 @@
 		} else if(method.equals("getApprovalLineDefs")) {
 			throw new Exception("method : getApprovalLineDefs - Not Include From V2");
 		} else if(method.equals("retrieveRootCategory")) {
-			throw new Exception("method : retrieveRootCategory - Not Include From V2");
+			CtgCategory category = SwManagerFactory.getInstance().getCtgManager().getCategory(userId, CtgCategory.CATEGORY_ROOT_NAME_PKG, IManager.LEVEL_LITE);
+			buffer.append(convert(category));
 		} else if(method.equals("retrieveParentCategory")) {
 			throw new Exception("method : retrieveParentCategory - Not Include From V2");
 		} else if(method.equals("retrieveCategory")) {
 			throw new Exception("method : retrieveCategory - Not Include From V2");
 		} else if(method.equals("retrieveChildrenByCategoryId")) {
-			throw new Exception("method : retrieveChildrenByCategoryId - Not Include From V2");
+			String categoryId = request.getParameter("categoryId");
+			
+			CtgCategoryCond cond = new CtgCategoryCond();
+			if (CommonUtil.isEmpty(compId))
+				throw new Exception("SmartApi_companyId is null.");
+			cond.setCompanyId(compId);
+			cond.setParentId(categoryId);
+
+			Order orderObj = new Order();
+			orderObj.setField("displayOrder");
+			orderObj.setAsc(true);
+			
+			Order orderObj2 = new Order();
+			orderObj2.setField("name");
+			orderObj2.setAsc(true);
+			
+			Order[] orders = new Order[2];
+			orders[0] = orderObj;
+			orders[1] = orderObj2;
+			cond.setOrders(orders);
+			
+			CtgCategory[] categoryList = SwManagerFactory.getInstance().getCtgManager().getCategorys(userId, cond, IManager.LEVEL_LITE);
+			buffer.append(convert(categoryList));
 		} else if(method.equals("retrievePackageByCategoryId")) {
-			throw new Exception("method : retrievePackageByCategoryId - Not Include From V2");
+
+			String categoryId = request.getParameter("categoryId");
+
+			PkgPackageCond packageCond = new PkgPackageCond();
+			//packageCond.setStatus("DEPLOYED");
+			packageCond.setCategoryId(categoryId);
+			packageCond.setOrders(new Order[] {new Order("name", true)});
+			
+			PkgPackage[] pkgs = SwManagerFactory.getInstance().getPkgManager().getPackages(userId, packageCond, null);
+			for (PkgPackage pkg : pkgs) {
+				if ("SINGLE".equals(pkg.getType()) && CommonUtil.isEmpty(pkg.getExtendedAttributeValue("formId"))) {
+					SwfFormCond formCond = new SwfFormCond();
+					formCond.setPackageId(pkg.getPackageId());
+					SwfForm[] forms = SwManagerFactory.getInstance().getSwfManager().getForms(userId, formCond, null);
+					if (!CommonUtil.isEmpty(forms))
+						pkg.setExtendedAttributeValue("formId", forms[forms.length-1].getId());
+				}
+				
+				// 카테고리 정보
+				String catId = pkg.getCategoryId();
+				if (catId == null)
+					continue;
+				CtgCategory cat = SwManagerFactory.getInstance().getCtgManager().getCategory(compId, userId, catId);
+				if (cat == null)
+					continue;
+				CtgCategory superCat = getParentCategory(compId, userId, catId);
+				if (superCat == null || superCat.getObjId().equals("_PKG_ROOT_")) {
+					pkg.setExtendedAttributeValue("categoryName", cat.getName());
+					continue;
+				}
+				pkg.setExtendedAttributeValue("categoryName", superCat.getName());
+				pkg.setExtendedAttributeValue("groupName", cat.getName());
+			}
+			buffer.append(convert(pkgs));
+			
+			
 		} else if(method.equals("deployGanttProcessContent")) {
 			throw new Exception("method : deployGanttProcessContent - Not Include From V2");
 		} else if(method.equals("webServiceList")) {
-			throw new Exception("method : webServiceList - Not Include From V2");
+
+			
+			
+			
+			String objId = request.getParameter("objId");
+			String companyId = request.getParameter("companyId");
+			
+			SwManagerFactory factory = SwManagerFactory.getInstance();
+			ISwcManager webMgr = factory.getSwcManager();
+			SwcWebServiceCond cond = new SwcWebServiceCond();
+			SwcWebService[] webService = null;
+			
+			if(objId != null) {
+				cond.setObjId(objId);
+				webService = webMgr.getWebServices(userId, cond, "all");	
+			} else if(compId != null) {
+				cond.setCompanyId(compId);
+				webService = webMgr.getWebServices(userId, cond, "all");
+			}
+			
+			StringBuffer buffers = new StringBuffer();
+			StringBuffer inparmeter = new StringBuffer();
+			StringBuffer outparmeter = new StringBuffer();
+			
+			if(webService != null) {
+				
+				buffer.append(" <Result status=\"OK\">");
+				buffer.append(" <webServiceList size=\""+webService.length+"\"> ");
+				
+				for (int j=0; j<webService.length; j++) {
+					String webcompanyId = webService[j].getCompanyId();
+					String serviceAddress = webService[j].getWebServiceAddress();
+					String serviceName = webService[j].getWebServiceName();
+					String wsdlAddress = webService[j].getWsdlAddress();
+					String portName = webService[j].getPortName();
+					String webobjId = webService[j].getObjId();
+					String opName = webService[j].getOperationName();
+					String description = webService[j].getDescription();
+					
+					buffers.append(" <webService compId=\""+ webcompanyId +"\" objId=\""+webobjId+"\" webServiceName=\""+serviceName+"\" webServiceAddress=\""+serviceAddress+"\" wsdlAddress=\""+wsdlAddress+"\" portName=\""+portName+"\" operationName=\""+opName+"\"> ");
+					buffers.append(" <description><![CDATA[ ");
+					buffers.append(description);
+					buffers.append(" ]]></description> ");	
+					
+					SwcWebServiceParameter[] params = webService[j].getSwcWebServiceParameters();
+					
+					int incount=0;
+					int outcount=0;
+					
+					List count = new ArrayList();
+					for(int u=0; u<params.length; u++) {
+						String type = params[u].getType();
+						if(type.equals("I")) {
+							count.add(type);
+						incount = count.size();
+						}
+					}			
+					if(params != null) {					
+						boolean inFirst = true;
+						boolean outFirst = true;
+						for(int i=0; i<params.length; i++) {
+						String type = params[i].getType();
+						
+						if(type.equalsIgnoreCase("I")){
+							String inputName = params[i].getParameterName();
+							String inputType = params[i].getParameterType();
+							String variable = params[i].getVariableName();
+							if(inFirst){
+								buffers.append("<webServiceInputParameters>");
+							}
+								buffers.append("<webServiceInputParameter inputName=\"" +inputName+"\" inputType=\""+inputType+"\" inputVariableName=\""+variable+"\">");
+								buffers.append("</webServiceInputParameter>");
+							
+							if((incount-1) == i) {//0:1 //1:1
+								buffers.append("</webServiceInputParameters>");
+							}
+							inFirst = false;	
+						} else if(type.equalsIgnoreCase("O")) {
+							String outputName = params[i].getParameterName();
+							String outputType = params[i].getParameterType();
+							String variable = params[i].getVariableName();
+							if(outFirst){
+								buffers.append("<webServiceOutputParameters>");
+							}	
+								buffers.append("<webServiceOutputParameter outputName=\"" +outputName+"\" outputType=\""+outputType+"\" outputVariableName=\""+variable+"\">");
+								buffers.append("</webServiceOutputParameter>");	
+							if(params.length-1 == i) {//4-1:3
+								buffers.append("</webServiceOutputParameters>");
+							}
+							outFirst = false;
+						}
+							}
+							buffers.append("</webService>");
+						}
+					}
+				buffer.append(buffers.toString());
+				buffer.append("</webServiceList>");
+				buffer.append("</Result>");
+			
+			
+			
+			}
+			
+			
+			
+			
+			
+			
 		} else if(method.equals("webAppServiceList") ) {
 			throw new Exception("method : webAppServiceList - Not Include From V2");
 		} else {

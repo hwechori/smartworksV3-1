@@ -1,3 +1,6 @@
+<%@page import="net.smartworks.server.engine.infowork.domain.model.SwdDataField"%>
+<%@page import="net.smartworks.server.engine.infowork.domain.model.SwdRecord"%>
+<%@page import="net.smartworks.server.service.IInstanceService"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
@@ -52,22 +55,39 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%!public static Object getBean(String beanName, HttpServletRequest request) {
+<%!
+
+public static Object getBean(String beanName, HttpServletRequest request) {
 
 	WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
 
 	return (Object) wac.getBean(beanName);
 }
-	protected final Log logger = LogFactory.getLog(getClass());
-
 
 
 %>
 <%
+	IInstanceService is = (IInstanceService)getBean("instanceServiceImpl", request);
 
-	logger.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-	System.out.println("prctest");
 
+	SwdRecord record = new SwdRecord();
+	record.setFormId("frm_b3d8e20aae294d0fb35ac3ac35c98eb3");
+	record.setCreationDate(new Date());
+	
+	
+
+	/* SwdDataField dataField = new SwdDataField();
+	dataField.setId("1");
+	dataField.setType("string");
+	dataField.setRefRecordId(null);
+	dataField.setRefForm(null);
+	dataField.setRefFormField(null);
+	dataField.setValue("test");
+	record.setDataField("1", dataField); */
+	
+	
+	
+	is.refreshDataFields(record);
 %>
 
 </body>

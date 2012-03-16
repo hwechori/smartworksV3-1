@@ -64,6 +64,8 @@ public class TskTaskCond extends MisObjectCond{
 	public static final String A_FORMINS = "formIns";
 	public static final String A_WORKSPACEID = "workSpaceId";
 	public static final String A_WORKSPACETYPE = "workSpaceType";
+	public static final String A_ACCESSLEVEL = "accessLevel";
+	public static final String A_ACCESSVALUE = "accessValue";
 	
 	private String creationUser;
 	private String modificationUser;
@@ -101,6 +103,8 @@ public class TskTaskCond extends MisObjectCond{
 	private int step = -1;
 	private String workSpaceId;
 	private String workSpaceType;
+	private String accessLevel;
+	private String accessValue;
 	
 	private String[] typeIns;
 	private String[] typeNotIns;
@@ -148,6 +152,8 @@ public class TskTaskCond extends MisObjectCond{
 		appendAttributeString(A_FROMREFID, fromRefId, buf);
 		appendAttributeString(A_WORKSPACEID, workSpaceId, buf);
 		appendAttributeString(A_WORKSPACETYPE , workSpaceType, buf);
+		appendAttributeString(A_ACCESSLEVEL, accessLevel, buf);
+		appendAttributeString(A_ACCESSVALUE, accessValue, buf);
 		appendAttributeString(A_STEP, step, buf);
 		return buf.toString();
 	}
@@ -206,6 +212,8 @@ public class TskTaskCond extends MisObjectCond{
 			Node fromRefId = attrMap.getNamedItem(A_FROMREFID);
 			Node workSpaceId = attrMap.getNamedItem(A_WORKSPACEID);
 			Node workSpaceType = attrMap.getNamedItem(A_WORKSPACETYPE);
+			Node accessLevel = attrMap.getNamedItem(A_ACCESSLEVEL);
+			Node accessValue = attrMap.getNamedItem(A_ACCESSVALUE);
 			Node loopCounter = attrMap.getNamedItem(A_LOOPCOUNTER);
 			Node step = attrMap.getNamedItem(A_STEP);
 			if (correlation != null)
@@ -262,6 +270,10 @@ public class TskTaskCond extends MisObjectCond{
 				obj.setWorkSpaceId(workSpaceId.getNodeValue());
 			if (workSpaceType != null)
 				obj.setWorkSpaceType(workSpaceType.getNodeValue());
+			if (accessLevel != null)
+				obj.setAccessLevel(accessLevel.getNodeValue());
+			if (accessValue != null)
+				obj.setAccessValue(accessValue.getNodeValue());
 			if (step != null)
 				obj.setStep(Integer.parseInt(step.getNodeValue()));
 		}
@@ -670,5 +682,17 @@ public class TskTaskCond extends MisObjectCond{
 	}
 	public void setWorkSpaceType(String workSpaceType) {
 		this.workSpaceType = workSpaceType;
+	}
+	public String getAccessLevel() {
+		return accessLevel;
+	}
+	public void setAccessLevel(String accessLevel) {
+		this.accessLevel = accessLevel;
+	}
+	public String getAccessValue() {
+		return accessValue;
+	}
+	public void setAccessValue(String accessValue) {
+		this.accessValue = accessValue;
 	}
 }

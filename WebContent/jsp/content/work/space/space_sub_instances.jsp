@@ -198,7 +198,7 @@
 			        	<%
 			        	WorkInstanceInfo instance = (WorkInstanceInfo)workInstance;
 // TEST PURPOSE
-			        	instance.setSubInstanceCount(21);
+			        	//instance.setSubInstanceCount(21);
 // TEST PURPOSE
 			        	%>
 			            <ul class="js_comment_list">
@@ -218,7 +218,6 @@
 			            	</li>
 			            	<%
 			            	if(instance.getSubInstanceCount()>WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT){
-								session.setAttribute("subComments", instance.getSubInstances());
 			            	%>
 				            	<li>
 				            		<img class="repl_tinfo">
@@ -231,8 +230,16 @@
 									<jsp:param value="<%=WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT %>" name="fetchCount"/>
 								</jsp:include>
 							<%
-							}
+							} else {
+								session.setAttribute("subComments", instance.getSubInstances());
 							%>
+								<jsp:include page="/jsp/content/work/list/sub_instances_in_instance.jsp" >
+									<jsp:param value="<%=instance.getId() %>" name="instanceId"/>
+									<jsp:param value="<%=WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT %>" name="fetchCount"/>
+								</jsp:include>
+							<%
+							}
+			            	%>
 						</ul>
 			        </div>
 			        
