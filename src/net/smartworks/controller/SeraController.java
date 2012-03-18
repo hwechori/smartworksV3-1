@@ -19,18 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class SeraCampusController {
+public class SeraController {
 	
 	@RequestMapping("/seraCampus")
 	public ModelAndView seraCampus(HttpServletRequest request, HttpServletResponse response) {
 
 		return SmartUtil.returnMnv(request, "sera/jsp/layouts.jsp", "seraCampus.tiles");
-	}
-
-	@RequestMapping("/myPAGE")
-	public ModelAndView myPAGE(HttpServletRequest request, HttpServletResponse response) {
-
-		return SmartUtil.returnMnv(request, "sera/jsp/content/my_page.jsp", "myPAGE.tiles");
 	}
 
 	@RequestMapping("/logins")
@@ -40,6 +34,18 @@ public class SeraCampusController {
 		mnv.addObject("type", type);
 		mnv.setViewName("sera/jsp/login.jsp");
 		return mnv;
+	}
+
+	@RequestMapping("/myPAGE")
+	public ModelAndView myPAGE(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "sera/jsp/content/my_page.jsp", "myPAGE.tiles");
+	}
+
+	@RequestMapping("/Course")
+	public ModelAndView Course(HttpServletRequest request, HttpServletResponse response) {
+
+		return SmartUtil.returnMnv(request, "sera/jsp/content/course.jsp", "Course.tiles");
 	}
 
 }

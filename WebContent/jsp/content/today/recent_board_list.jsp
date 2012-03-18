@@ -43,7 +43,7 @@
 		<!-- 처음게시판(헤드라인 공지사항)을 표시한다 -->
 		<div class="headline_notice">
 			<a href="<%=board.getController() %>?cid=<%=board.getContextId()%>wid=<%=workSpace.getId() %>" class="more"><fmt:message key="common.button.view_all"/></a>
-			<div class="js_content" href="<%=board.getController() %>?cid=<%=board.getContextId()%>">
+			<div class="js_content_list" href="<%=board.getController() %>?cid=<%=board.getContextId()%>">
 				<span class="title"><%=board.getSubject() %>
 					<%if(board.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=board.getSubInstanceCount() %></b>]</font><%} %>
 					<%if(board.isNew()){ %><span class="icon_new"></span><%} %>
@@ -74,7 +74,7 @@
 					board = boards[i];
 					workSpace = board.getWorkSpace();
 				%>			
-					<tr class="instance_list js_content" href="<%=board.getController() %>?cid=<%=board.getContextId()%>">
+					<tr class="instance_list js_content_list" href="<%=board.getController() %>?cid=<%=board.getContextId()%>">
 						<td class="title">
 							<span><%=board.getSubject()%></span> 
 							<%if(board.getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=board.getSubInstanceCount() %></b>]</font><%} %>

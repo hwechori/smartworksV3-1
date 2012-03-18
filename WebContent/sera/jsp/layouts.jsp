@@ -68,6 +68,7 @@ currentUser = {
 	userId : "<%=currentUser.getId()%>",
 	name : "<%=currentUser.getName()%>",
 	longName : "<%=currentUser.getLongName()%>",
+	nickName : "<%=currentUser.getNickName()%>",
 	companyId : "<%=currentUser.getCompanyId()%>",
 	department : "<%=currentUser.getDepartment()%>",
 	departmentId : "<%=currentUser.getDepartmentId()%>",
@@ -83,6 +84,8 @@ currentUser = {
 </script>
 
 <link href="css/default.css" type="text/css" rel="stylesheet" />
+<link href="css/black/pop.css" type="text/css" rel="stylesheet" />
+<link href="css/black/chat.css" type="text/css" rel="stylesheet" />
 <link href="sera/css/page.css" type="text/css" rel="stylesheet" />
 
 <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" title="ui-theme" />
@@ -155,6 +158,8 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-act-settings.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-builder.js"></script>
 
+<script type="text/javascript" src="sera/js/sera-act-nav.js"></script>
+
 <script type="text/javascript" src='js/smartform/smartworks.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-layout.js'></script>
 <script type="text/javascript" src='js/smartform/sw-form-field-builder.js'></script>
@@ -203,8 +208,8 @@ currentUser = {
 		    <!-- Content //-->
 		    
 			<!-- Aside -->
-			<div class="sera_aside">
-				<tiles:insertAttribute name="sera_aside" />
+			<div class="aside">
+				<tiles:insertAttribute name="aside" />
 			</div>
 			<!-- Aside //-->
 		</div>
@@ -215,6 +220,7 @@ currentUser = {
 			<tiles:insertAttribute name="sera_footer" />
 		</div>
 		<!--  Footer// -->
+
 	</div>
  	<jsp:include page="/jsp/chatting/chatter_list.jsp" />
 

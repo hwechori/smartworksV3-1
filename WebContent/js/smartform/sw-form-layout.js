@@ -55,7 +55,7 @@ SmartWorks.GridLayout = function(config) {
 		for(var i=index; i<this.spanWidths.length && i<index+span; i++){
 			columnWidth = columnWidth + this.spanWidths[i];
 		}
-		return 10.0/columnWidth*100.0;
+		return 12.0/columnWidth*100.0;
 	};
 
 	this.getTable = function() {
@@ -83,6 +83,11 @@ SmartWorks.GridLayout = function(config) {
 		var dataFields = this_.options.formValues.dataFields;
 		if(!isEmpty(formValues)) dataFields = formValues.dataFields;
 
+		var totalWidth = 0;
+		for(var i = 0 ; i < $columns.length ; i++){
+			totalWidth += parseFloat($columns.eq(i).attr('size'));
+		}
+		
 		for ( var i = 0; i < $rows.length; i++) {
 			var $row = $rows.eq(i);
 			
@@ -111,7 +116,7 @@ SmartWorks.GridLayout = function(config) {
 					}
 				}
 				
-				var $html_cell = $('<td class="form_col" fieldId="'+id+'" colspan="'+colspan+'" width="'+width+'" ></td>');			
+				var $html_cell = $('<td class="form_col" fieldId="'+id+'" colspan="'+colspan+'" width="'+width/totalWidth*100 +'%" ></td>');			
 				$html_cell.appendTo($html_row);					
 				if(rowspan)
 					$html_cell.attr('rowspan', rowspan);

@@ -49,28 +49,28 @@ function updateNoticeCount(message){
 	<!-- GNB -->
 	<div class="gnb">
 		<ul class="login_info">
-			<li> <a href="">lumia</a> 님 안녕하세요 </li>
+			<li> <a href=""><%=cUser.getNickName() %></a> 님 안녕하세요 </li>
 		</ul>
 		<ul class="top_menu2">
-			<li class="fl"> <a href=""> <img width="101" height="28" title="Course" alt="Course" src="../../images/sera2_main_btnTopMenu1_off.png"> </a> </li>
-			<li class="fl"> <a href=""> <img width="101" height="28" title="myPAGE" alt="myPAGE" src="../../images/sera2_main_btnTopMenu2_on.png"> </a> </li>
-			<li class="fl"> <a href=""> <img width="101" height="28" title="seraCLUB" alt="seraCLUB" src="../../images/sera2_main_btnTopMenu3_off.png"> </a> </li>
+			<li class="fl"> <a href="Course.sw" class="js_sera_content"> <img width="101" height="28" title="Course" alt="Course" src="sera/images/sera2_main_btnTopMenu1_off.png"> </a> </li>
+			<li class="fl"> <a href="myPAGE.sw" class="js_sera_content"> <img width="101" height="28" title="myPAGE" alt="myPAGE" src="sera/images/sera2_main_btnTopMenu2_on.png"> </a> </li>
+			<li class="fl"> <a href="seraCLUB.sw" class="js_sera_content"> <img width="101" height="28" title="seraCLUB" alt="seraCLUB" src="sera/images/sera2_main_btnTopMenu3_off.png"> </a> </li>
 		</ul>
 		<ul class="util_menu">
 			<li class="seminar"></li>
 			<li class="about"> <a href="">about SERA</a> </li>
 			<li class="news"> <a href="">sera 소식</a> </li>
-			<li class="btnLogin"> <a href=""> <img width="49" height="19" title="로그아웃" alt="로그아웃" src="../../images/sera2_main_btnLogout.png"> </a> </li>
+			<li class="btnLogin"> <a href="logout"> <img width="49" height="19" title="로그아웃" alt="로그아웃" src="sera/images/sera2_main_btnLogout.png"> </a> </li>
 		</ul>
 	</div>
 	<!-- GNB //-->
 	<!-- Top Navi -->
 	<div class="top_navi">
 		<div class="personal_info fl mt5">
-			<div class="profile_pic fl"> <img src="../../images/photo_sm34.jpg"> </div>
+			<div class="profile_pic fl"> <img width="34" height="34" src="<%=cUser.getMidPicture()%>"> </div>
 			<div class="pofile_con">
 				<div class="btn_log on"> </div>
-				<div class="nick_name">닉네임은일곱자님<span class="bul_down"><a href=""></a></span></div>
+				<div class="nick_name"><%=cUser.getNickName() %><span class="bul_down"><a href=""></a></span></div>
 			</div>
 			<!-- Btn in Gnb - 코스 만들기-->
 			<div class="btn_gnb">
@@ -82,13 +82,13 @@ function updateNoticeCount(message){
 		<!-- Global Navi Icon -->
 		<div class="gni fr">
 			<ul>
-				<li class="icon_alarm"><a href="">알림</a></li>
-				<li class="icon_mycourse"><a href="">내코스</a></li>
-				<li class="icon_chatting"><a href="">친구</a></li>
-				<li class="icon_message"><a href="">쪽지</a></li>
-				<li class="icon_chaledar"><a href="">캘린더</a></li>
-				<li class="icon_badge"><a href="">뱃지</a></li>
-				<li class="icon_event"><a href="">이벤트</a></li>
+				<li class="icon_alarm"><a href="" title="알림">알림</a></li>
+				<li class="icon_mycourse"><a href="" title="내코스">내코스</a></li>
+				<li class="icon_chatting"><a href="" title="친구">친구</a></li>
+				<li class="icon_message"><a href="" title="쪽지">쪽지</a></li>
+				<li class="icon_chaledar"><a href="" title="캘린더">캘린더</a></li>
+				<li class="icon_badge"><a href="" title="뱃지">뱃지</a></li>
+				<li class="icon_event"><a href="" title="이벤트">이벤트</a></li>
 			</ul>
 		</div>
 	</div>

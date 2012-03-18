@@ -102,7 +102,7 @@
 		<table>
 			<tbody>
 				<tr>
-					<th width="20%"><fmt:message key="settings.title.approval.name"/><span class="essen_n"></span></th>
+					<th class="required_label" width="20%"><fmt:message key="settings.title.approval.name"/></th>
 					<td colspan="3" width="80%" ><input name="txtApprovalLineName" type="text" class="fieldline required" value="<%=CommonUtil.toNotNull(approvalLine.getName())%>"/>
 					</td>
 				</tr>
@@ -123,7 +123,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.approval.level_name"/><span class="essen_n"></span></th>
+					<th class="required_label"><fmt:message key="settings.title.approval.level_name"/></th>
 					<%
 					if(approvalLine.getApprovalLevel()!=0){
 						int widthVal = 80/approvalLine.getApprovalLevel();
@@ -185,7 +185,7 @@
 					%>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.approval.mean_time"/><span class="essen_n"></span></th>
+					<th class="required_label"><fmt:message key="settings.title.approval.mean_time"/></th>
 					<%
 					if(approvalLine.getApprovalLevel()!=0){
 						int widthVal = 80/approvalLine.getApprovalLevel();

@@ -247,10 +247,10 @@ a.icon_hide:hover {background: url("../../images/body_icon.png") no-repeat -28px
 a.icon_show:hover {background: url("../../images/body_icon.png") no-repeat -42px -571px; width:13px; height:13px; display: inline-block}
 
 /* CheckOption Nav */
-li.fvrt_item .check_option {display:none; position:absolute; margin-top:-21px; margin-left:195px}
+li.fvrt_item .check_option {display:none; position:absolute; margin-top:-22px; margin-left:210px}
 li.fvrt_item:hover .check_option {display:block}
-.icon_fvrt {background: url("../../images/nav_img.png") no-repeat -115px -317px transparent; height:16px; width:16px}
-.icon_fvrt.checked {background: url("../../images/nav_img.png") no-repeat -138px -317px transparent; height:16px; width:16px}
+.icon_fvrt {background: url("../../images/nav_img.png") no-repeat -115px -317px transparent; margin-left:-5px; margin-top:4px; height:16px; width:16px; float:right}
+.icon_fvrt.checked {background: url("../../images/nav_img.png") no-repeat -138px -317px transparent; margin-top:4px; height:16px; width:16px; float:right}
 
 /* KeyOption Setting */
 .list_action_item .key_option {display:none;}
@@ -345,7 +345,7 @@ li.comment_list:hover {background-color:#fffccd; cursor:pointer;}
 
 /* Table Format */
 .up {border:1px solid #c7c7c7; padding:3px 0; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle;} /* 높이가 있는 라인박스 쓸때 */
-.fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
+.fieldline {margin-top:0; border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;} /* 한줄 input, text박스 쓸때 */
 .up_padding {padding:0; position:relative; width:100%}
 
 .up_form {position:absolute;}
@@ -365,7 +365,7 @@ li.comment_list:hover {background-color:#fffccd; cursor:pointer;}
 .txt_btn a:hover {text-decoration:underline; }
 .txt_btn_height {height:16px; padding: 5px 0; text-align: center}
 .txt_btn_height25{height:25px}
-
+.txt_btn .image_pos {position: relative; bottom:2px;} /* 우측 메뉴중 이미지가 올때 위치 조정 */
 
 /* 검색- 자동 완성어 list, layer_pop list */
 .srch_list {z-index:100; position:absolute; width:447px; margin-top: 1px; -webkit-box-shadow: 0px 2px 10px #505050; -moz-box-shadow: 0px 2px 10px #505050; box-shadow: 0px 2px 10px #505050; background:#FFF; border: 1px solid #c7c7c7; font-family: '돋움',dotum,Helvetica,sans-serif;}
@@ -426,10 +426,6 @@ li.comment_list:hover {background-color:#fffccd; cursor:pointer;}
 
 .pos_works {left:40px; top:1px; position:relative; z-index:20;}
 
-.essen {border-left:2px solid #ef972b; border-top:1px solid #c7c7c7; border-right:1px solid #c7c7c7; border-bottom:1px solid #c7c7c7;}
-.essen_r {border-right:2px solid #ef972b; margin-right: 5px;}
-.essen_n {background: url("../../images/body_icon.png") no-repeat scroll 0 -452px transparent; width:15px; height:18px; display: inline-block; float: right;}
-.essen_gn {background: url("../../images/body_icon.png") no-repeat scroll 0 -453px transparent; padding: 0 0 0 12px;}
 .space_tit {padding: 0 0 0 14px;}
 
 /* Table - Nomal */
@@ -634,12 +630,14 @@ td.pic{width:85px}
 .btn_hpadding {margin:7px 0;}
 			
 /* close btn */
-.btn_x, .btn_im_x {background: url("../../images/btn_im_x_gr.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
-    padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;} 
-a .btn_x:hover, a .btn_im_x:hover {background-color:#d5d5d5;}
-td.form_col:hover .btn_im_x{display:block;}
-td.form_col .btn_im_x {display:none;}
-
+.btn_x{
+	background: url("../../images/btn_im_x_gr.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 13px;
+    padding: 0; position: relative; right: 3px; top:2px; width: 13px; float: right;
+} 
+a .btn_x:hover {background-color:#d5d5d5;}
+/* td.form_col:hover .btn_x{display:inline;}
+td.form_col .btn_x {display:none;}
+ */
 .btn_right {left: 452px; position:relative;}
 .btn_x_gr {color:#c7c7c7; font-size:12px;}
 .btn_x_gr a:hover {background-color:#f2f2f2; text-decoration:none; font-size:12px;}
@@ -674,7 +672,7 @@ td.form_col .btn_im_x {display:none;}
 .table_line { border-top:2px solid #e5e5e5; width:100%;}
 .solid_line_s { border-top:1px solid #c7c7c7; width:100%;}
 .solid_line_sb { border-bottom:1px solid #c7c7c7; width:100%;}
-.dash_line {border-top:1px dashed #9c9c9c;}
+.dash_line {border-top:1px dashed #9c9c9c; margin: 0 20px;}
 .line_width {padding:0 10px;}
 
 

@@ -91,9 +91,7 @@
 								&& (!SmartUtil.isBlankObject(ports[selectedPort].getOperations()[selectedOperation].getInputVariables()) && ports[selectedPort].getOperations()[selectedOperation].getInputVariables().length>0))
 								? true : false;
 	%>
-	<td><fmt:message key="settings.title.webservice.input_variables"/>
-		<%if(inputVarExisting){%><span class="essen_n"></span><%} %>
-	</td>
+	<td <%if(inputVarExisting){%>class="required_label"<%} %>><fmt:message key="settings.title.webservice.input_variables"/></td>
 	<td>
 		<table style="width:100%">
 			<tr>
@@ -126,9 +124,7 @@
 								&& (!SmartUtil.isBlankObject(ports[selectedPort].getOperations()[selectedOperation].getReturnVariables()) && ports[selectedPort].getOperations()[selectedOperation].getReturnVariables().length>0))
 								? true : false;
 	%>
-	<td><fmt:message key="settings.title.webservice.return_variables"/>
-		<%if(returnVarExisting){ %><span class="essen_n"></span><%} %>
-	</td>
+	<td <%if(returnVarExisting){ %>class="required_label"<%} %>><fmt:message key="settings.title.webservice.return_variables"/></td>
 	<td>
 		<table style="width:100%">
 			<tr>

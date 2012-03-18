@@ -6,6 +6,7 @@ import net.smartworks.model.community.info.DepartmentInfo;
 import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.util.LocalDate;
 import net.smartworks.util.LocaleInfo;
+import net.smartworks.util.SmartUtil;
 
 public class User extends WorkSpace {
 
@@ -22,6 +23,7 @@ public class User extends WorkSpace {
 	public static final String USER_ID_SYSTEM = "system@smartworks.net";
 	public static final String USER_ID_NONE_EXISTING = "noneexisting@smartworks.net";
 
+	private String nickName;
 	private int	userLevel = USER_LEVEL_DEFAULT;
 	private int role = USER_ROLE_MEMBER;
 	private String position;
@@ -36,6 +38,13 @@ public class User extends WorkSpace {
 	private String company;
 	private String companyId;
 
+	public String getNickName() {
+		if(SmartUtil.isBlankObject(nickName)) return getName();
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 	public int getRole() {
 		return role;
 	}

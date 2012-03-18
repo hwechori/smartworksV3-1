@@ -1,18 +1,26 @@
+<%@page import="net.smartworks.util.SmartUtil"%>
+<%@page import="net.smartworks.model.community.User"%>
 <%@page import="net.smartworks.service.ISmartWorks"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 
 <%
-	session.setAttribute("cid", ISmartWorks.CONTEXT_HOME);
-	session.removeAttribute("wid");
+	// 스마트웍스 서비스들을 사용하기위한 핸들러를 가져온다. 그리고 현재사용자 정보도 가져온다.	
+	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
+	User cUser = SmartUtil.getCurrentUser();
+	String cid = request.getParameter("cid");
+	if (SmartUtil.isBlankObject(cid))
+		cid = ISmartWorks.CONTEXT_PREFIX_HOME + cUser.getId();
+	String wid = request.getParameter("wid");
+	if (SmartUtil.isBlankObject(wid))
+		wid = cUser.getId();
 %>
 <div class="my_comment_section">
-	<div class="my_photo"> <img src="../../../sera/images/photo_larg118.jpg"/> </div>
+	<div class="my_photo"> <img width="120px" height="120px" src="<%=cUser.getMidPicture()%>"/> </div>
 	<!-- My Comment -->
 	<div class="my_comment">
-		<div class="header"> 닉네임은 일곱자님 </div>
+		<div class="header"><%=cUser.getNickName() %></div>
 		<div class="comment_txt">
-			<textarea name="" cols="" rows="5">전공 공부만큼 영어를 좋아했는데 입사하고 나니 영어에는 손을 뚝 끊어버리게 되네요~ 전공 공부만큼 영어를 좋아했는데 입사하고 나니 영어에는 손을 뚝 끊어버리게 되네요~전공 공부만큼 영어를 좋아했는데 입사하고 나니 영어에는 손을 뚝 끊어버리게 되네요~전공 공부만큼 영어를 좋아했는데 입사하고 나니 영어에는 손을 뚝 끊어버리게 되네요~전공 공부만큼 영어를
-			</textarea>
+			<textarea name="" cols="" rows="5" placeholder="전공 공부만큼 영어를 좋아했는데 입사하고 나니 영어에는 손을 뚝 끊어버리게 되네요~ 전공 공부만큼 영어를 좋아했는데 입사하고 나니 영어에는 손을 뚝 끊어버리게 되네요~전공 공부만큼 영어를 좋아했는데 입사하고 나니 영어에는 손을 뚝 끊어버리게 되네요~전공 공부만큼 영어를 좋아했는데 입사하고 나니 영어에는 손을 뚝 끊어버리게 되네요~전공 공부만큼 영어를"></textarea>
 		</div>
 		<!-- 좌측 영역 -->
 		<div class="option">
@@ -61,7 +69,7 @@
 		<ul class="panel_area">
 			<!-- photo-->
 			<li class="">
-				<div class="photo_bg"> <img src="../../../sera/images/photo_default72.jpg" />
+				<div class="photo_bg"> <img src="sera/images/photo_default72.jpg" />
 					<div class="rgt_name">사랑사랑</div>
 				</div>
 				<div class="grade">
@@ -80,7 +88,7 @@
 						<dd>
 							<div class="text"> 시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~ </div>
 							<!-- Thum Image-->
-							<div class="thum_image"> <img src="../../../sera/images/thum_image.jpg"/> </div>
+							<div class="thum_image"> <img src="sera/images/thum_image.jpg"/> </div>
 							<!-- Thum Image//-->
 						</dd>
 						<!-- Util -->
@@ -90,7 +98,7 @@
 					<div class="stat_notice"> 7개의 덧글이 있습니다 <span class="t_blueb">더보기</span> </div>
 					<!-- Reply-->
 					<div class="reply_section">
-						<div class="photo"> <img src="../../../sera/images/photo_mid48.jpg" /> </div>
+						<div class="photo"> <img src="sera/images/photo_mid48.jpg" /> </div>
 						<div class="reply_text"> <span class="name">닉네임은 일곱자 : </span> 점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~
 							<div class="icon_date">3월 5일</div>
 						</div>
@@ -98,7 +106,7 @@
 					<!-- Reply//-->
 					<!-- Reply-->
 					<div class="reply_section">
-						<div class="photo"> <img src="../../../sera/images/photo_mid48.jpg" /> </div>
+						<div class="photo"> <img src="sera/images/photo_mid48.jpg" /> </div>
 						<div class="reply_text"> <span class="name">닉네임은 일곱자 : </span> 점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~점점 시간이 지날수록 얼굴이 찐빵으로 그려지네요~~
 							<div class="icon_date">3월 5일</div>
 						</div>
@@ -123,7 +131,7 @@
 		<ul class="panel_area">
 			<!-- photo-->
 			<li class="">
-				<div class="photo_bg"> <img src="../../../sera/images/photo_default72_2.jpg"/>
+				<div class="photo_bg"> <img src="sera/images/photo_default72_2.jpg"/>
 					<div class="rgt_name">사랑사랑</div>
 				</div>
 				<div class="grade">
@@ -157,7 +165,7 @@
 		<ul class="panel_area">
 			<!-- photo-->
 			<li class="">
-				<div class="photo_bg"> <img src="../../../sera/images/photo_default72_2.jpg"/>
+				<div class="photo_bg"> <img src="sera/images/photo_default72_2.jpg"/>
 					<div class="rgt_name">사랑사랑</div>
 				</div>
 				<div class="grade">

@@ -132,7 +132,7 @@
 						<table>
 							<tbody>
 								<tr>
-									<th width="20%"><fmt:message key="builder.title.sharing_name"/><span class="essen_n"></span></th>
+									<th class="required_label" width="20%"><fmt:message key="builder.title.sharing_name"/></th>
 									<td colspan="3" width="80%"><input name="txtSharingName" class="fieldline required" type="text" value="<%=work.getName() %>" /></td>
 								</tr>
 								<tr>
@@ -142,13 +142,13 @@
 									<td width="30%">&nbsp;<%=workType %></td>
 								</tr>
 								<tr>
-									<th><fmt:message key="builder.title.work_industry"/><span class="essen_n"></span></th>
+									<th class="required_label"><fmt:message key="builder.title.work_industry"/></span></th>
 									<td>
 										<select name="selSharingIndustry">
 											<option></option>
 										</select>
 									</td>
-									<th><fmt:message key="builder.title.work_job"/><span class="essen_n"></span></th>
+									<th class="required_label"><fmt:message key="builder.title.work_job"/></th>
 									<td>
 										<select name="selSharingJobType">
 											<option></option>
@@ -156,7 +156,7 @@
 									</td>
 								</tr>
 								<tr>
-									<th><fmt:message key="common.title.desc"/><span class="essen_n"></span></th>
+									<th class="required_label"><fmt:message key="common.title.desc"/></th>
 									<td colspan="3">
 										<textarea name="txtaSharingDesc" class="fieldline required" name="" id="" cols="" rows="5"><%=CommonUtil.toNotNull(work.getDesc()) %></textarea>
 									</td>
