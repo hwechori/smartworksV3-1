@@ -199,6 +199,7 @@ $(function() {
 	});
 
 	$('.js_drill_down').live('click', function(e) {
+		if($(e.target).hasClass('js_checkbox')) return true;
 		var input = $(e.target).parents('li.js_drill_down:first').find('a');
 		var target = input.siblings('div.js_drill_down_target:first');
 		if(input.hasClass('js_popup')) target = input.parent().siblings('div.js_drill_down_target:first');

@@ -9,6 +9,7 @@ SmartWorks.GridLayout = function(config) {
 		formId : null,
 		recordId : null,
 		taskInstId : null,
+		refreshData : null,
 		onSuccess : null,
 		onError : null
 	};
@@ -147,17 +148,46 @@ SmartWorks.GridLayout = function(config) {
 		
 	SmartWorks.extend(this.options, config);
 	this.options.target.html('');
+	var workId = this.options.workId;
+	var formId = this.options.formId;
+	var recordId = this.options.recordId;
+	var taskInstId = this.options.taskInstId;
+	var formValues = this.options.formValues;
+	var onError = this.options.onError;
+	var getLayout = this.getLayout;
+	var refreshTarget = null;
+	var refreshData = this.options.refreshData;
+	var this_ = this;
 
-	if(isEmpty(this.options.formXml) && !isEmpty(this.options.workId)){
-		var workId = this.options.workId;
-		var formId = this.options.formId;
-		var recordId = this.options.recordId;
-		var taskInstId = this.options.taskInstId;
-		var formValues = this.options.formValues;
-		var onError = this.options.onError;
-		var getLayout = this.getLayout;
-		var refreshTarget = this.options.target.hide();
-		var this_ = this;
+	if(!isEmpty(refreshData)){
+		$.ajax({
+			url : "get_form_xml.sw",
+			data : {
+				workId : workId,
+				formId : formId
+			},
+			success : function(formXml, status, jqXHR) {
+				$.ajax({
+					url : "refresh_record.sw",
+					contentType : 'application/json',
+					type : 'POST',
+					data : JSON.stringify(refreshData),
+					success : function(formData, status, jqXHR) {
+						return getLayout(formXml, formData.record, this_);
+					},
+					error : function(e) {
+						return getLayout(formXml, null, this_);
+					}
+				});					
+			},
+			error : function(xhr, ajaxOptions, thrownError){
+				if($.isFunction(onError))
+					onError(xhr, ajaxOptions, thrownError);
+				return;
+			}
+		});
+	}else if(isEmpty(this.options.formXml) && !isEmpty(this.options.workId)){
+		refreshTarget = this.options.target.hide();
 		$.ajax({
 			url : "get_form_xml.sw",
 			data : {
@@ -293,10 +323,7 @@ SmartWorks.GridLayout = function(config) {
 			}
 		});
 	}else if(isEmpty(this.options.formValues) && (!isEmpty(this.options.workId)) && (!isEmpty(this.options.recordId))){
-		var onError = this.options.onError;
-		var getLayout = this.getLayout;
-		var refreshTarget = this.options.target.hide();
-		var this_ = this;
+		refreshTarget = this.options.target.hide();
 		$.ajax({
 			url : "get_record.sw",
 			data : {
@@ -308,7 +335,7 @@ SmartWorks.GridLayout = function(config) {
 				var forms = refreshTarget.find('form');
 				var paramsJson = {};
 				paramsJson['workId'] = this.options.workId;
-				paramsJson['recordId'] = this.options.workId;
+				paramsJson['recordId'] = this.options.recordId;
 				for(var i=0; i<forms.length; i++){
 					var form = $(forms[i]);
 					

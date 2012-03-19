@@ -262,7 +262,7 @@ smartPop = {
 				onShow: function(dialog){
 
 					var selectionProc = function(comId, comName){
-						var userField = userInput.parents('.js_type_userField:first');
+						var userField = target.parents('.js_type_userField:first');
 						var inputTarget = userField.find('input.js_auto_complete:first');
 						if(inputTarget.parents('.sw_required').hasClass('sw_error')){
 							inputTarget.parents('.sw_required').removeClass('sw_error');
@@ -284,6 +284,7 @@ smartPop = {
 									+ "<a class='js_remove_community' href=''>&nbsp;x</a></span>").insertBefore(inputTarget);
 						}
 						inputTarget.focus();
+						userField.find('.js_community_names').change();
 					};
 					
 					$('a.js_pop_select_user').die('click');
@@ -371,6 +372,7 @@ smartPop = {
 	},
 
 	selectWorkItem : function(formId, target){
+		console.log('formId=', formId, ', target=', target);
 		if(isEmpty(formId) || isEmpty(target)) return;
 		$.get("pop_select_work_item.sw", {formId: formId}, function(data){
 			$(data).modal({
@@ -397,6 +399,7 @@ smartPop = {
 							inputTarget.removeClass('sw_error');
 							$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 						}
+						target.change();
 						smartPop.close();
 						return false;
 					});

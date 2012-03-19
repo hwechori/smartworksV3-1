@@ -45,15 +45,7 @@
 	workId = work.getId();
 	
 	TaskInstanceInfo[] taskHistories = instance.getTasks();
-	TaskInstanceInfo selectedTask = (SmartUtil.isBlankObject(taskHistories)) ? null : taskHistories[0];
-	if(!SmartUtil.isBlankObject(taskInstId)){
-		for(TaskInstanceInfo taskInstance : taskHistories){
-			if(taskInstance.getId().equals(taskInstId)){
-				selectedTask = taskInstance;
-				break;
-			}
-		}
-	}
+
 	session.setAttribute("cid", cid);
 	session.removeAttribute("wid");
 	session.setAttribute("workInstance", instance);
@@ -273,6 +265,7 @@
 			pworkSpace.find('.js_btn_reassign').hide();
 			pworkSpace.find('.js_btn_temp_save').hide();			
 		}
+		pworkSpace.attr("taskInstId", instId);
 	}
 	
 	var getTasksWidth = function(tasks, arrows){
