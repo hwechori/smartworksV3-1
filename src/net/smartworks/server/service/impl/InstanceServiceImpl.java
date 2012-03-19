@@ -95,6 +95,8 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
 import net.smartworks.server.engine.infowork.form.model.SwfOperand;
+import net.smartworks.server.engine.opinion.manager.IOpinionManager;
+import net.smartworks.server.engine.opinion.model.Opinion;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
@@ -161,6 +163,9 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	private static IFdrManager getFdrManager() {
 		return SwManagerFactory.getInstance().getFdrManager();
+	}
+	private static IOpinionManager getOpinionManager() {
+		return SwManagerFactory.getInstance().getOpinionManager();
 	}
 
 	private ICommunityService communityService;
@@ -1544,6 +1549,7 @@ public class InstanceServiceImpl implements IInstanceService {
 	public void addCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
+			System.out.println("addCommentOnWork");
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -1555,6 +1561,47 @@ public class InstanceServiceImpl implements IInstanceService {
 	public void addCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
+			User cUser = SmartUtil.getCurrentUser();
+			String userId = cUser.getId();
+			if(CommonUtil.isEmpty(userId))
+				return;
+
+			int workType = Integer.parseInt((String)requestBody.get("workType"));
+			String workInstanceId = (String)requestBody.get("workInstanceId");
+			String comment = (String)requestBody.get("comment");
+			int refType = 0;
+			String refDomainId = null; 
+			String refFormId = null;
+			TskTaskCond tskCond = new TskTaskCond();
+			TskTask[] tskTasks = null;
+			TskTask tskTask = null;
+			if(!CommonUtil.isEmpty(workInstanceId)) {
+				if(workType == SmartWork.TYPE_INFORMATION) {
+					tskCond.setExtendedProperties(new Property[] {new Property("recordId", workInstanceId)});
+					tskCond.setOrders(new Order[]{new Order(TskTaskCond.A_MODIFICATIONDATE, false)});
+					tskTasks = SwManagerFactory.getInstance().getTskManager().getTasks(userId, tskCond, IManager.LEVEL_LITE);
+					tskTask = tskTasks[0];
+					String def = tskTask.getDef();
+					if (!CommonUtil.isEmpty(def)) {
+						String[] defArray = StringUtils.tokenizeToStringArray(def, "|");	
+						refDomainId = defArray[0];
+					}
+					refFormId = tskTask.getForm();
+					refType = 4;
+				} else if(workType == SmartWork.TYPE_PROCESS) {
+					refType = 2;
+				}
+			}
+
+			Opinion opinion = new Opinion();
+			opinion.setRefType(refType);
+			opinion.setRefId(workInstanceId);
+			opinion.setRefDomainId(refDomainId);
+			opinion.setRefFormId(refFormId);
+			opinion.setOpinion(comment);
+
+			getOpinionManager().setOpinion(userId, opinion, IManager.LEVEL_ALL);
+
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
