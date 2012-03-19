@@ -58,7 +58,6 @@ import net.smartworks.model.work.ProcessWork;
 import net.smartworks.model.work.SmartDiagram;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
-import net.smartworks.model.work.SocialWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.WorkCategory;
 import net.smartworks.model.work.info.FileCategoryInfo;
@@ -96,6 +95,7 @@ import net.smartworks.server.engine.factory.SwManagerFactory;
 import net.smartworks.server.engine.folder.manager.IFdrManager;
 import net.smartworks.server.engine.folder.model.FdrFolder;
 import net.smartworks.server.engine.folder.model.FdrFolderCond;
+import net.smartworks.server.engine.folder.model.FdrFolderFile;
 import net.smartworks.server.engine.infowork.domain.manager.ISwdManager;
 import net.smartworks.server.engine.infowork.domain.model.SwdDataField;
 import net.smartworks.server.engine.infowork.domain.model.SwdDomain;
@@ -487,24 +487,10 @@ public class ModelConverter {
 		/*TYPE_INFORMATION = 21;
 		TYPE_PROCESS = 22;
 		TYPE_SCHEDULE = 23;*/
-		if(task.getTskRefType() != null) {
-			if(task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_BOARD))
-				workInfo.setType(SocialWork.TYPE_BOARD);
-			else if(task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_EVENT))
-				workInfo.setType(SocialWork.TYPE_EVENT);
-			else if(task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_FILE))
-				workInfo.setType(SocialWork.TYPE_FILE);
-			else if(task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_IMAGE))
-				workInfo.setType(SocialWork.TYPE_IMAGE);
-			else if(task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_MEMO))
-				workInfo.setType(SocialWork.TYPE_MEMO);
-			else if(task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_MOVIE))
-				workInfo.setType(SocialWork.TYPE_MOVIE);
-		} else {
-			if(task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON))
-				workInfo.setType(SmartWork.TYPE_PROCESS);
-			else if(task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE))
-				workInfo.setType(SmartWork.TYPE_INFORMATION);
+		if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON)) {
+			workInfo.setType(SmartWork.TYPE_PROCESS);
+		} else if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE)) {
+			workInfo.setType(SmartWork.TYPE_INFORMATION);
 		}
 		if (task.getParentCtgId() != null) {
 			workInfo.setMyCategory(new WorkCategoryInfo(task.getParentCtgId(), task.getParentCtgName()));

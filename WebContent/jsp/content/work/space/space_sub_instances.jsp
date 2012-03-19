@@ -248,7 +248,7 @@
 							<img src="<%=cUser.getMinPicture()%>" class="profile_size_c"/>
 						</div>
 						<div class="noti_in">
-							<textarea workType="<%=work.getType() %>" style="width:95%" class="up_textarea" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_comment'/>"></textarea>
+							<textarea style="width:95%" class="up_textarea" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_comment'/>"></textarea>
 						</div>
 			        </div>
 			    

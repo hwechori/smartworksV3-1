@@ -207,7 +207,6 @@
 		workId : workId,
 		recordId : instId,
 		onSuccess : function(){
-			
 		}
 	});
 </script>

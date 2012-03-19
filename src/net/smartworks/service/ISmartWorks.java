@@ -301,8 +301,6 @@ public interface ISmartWorks {
 
 	public abstract SwdRecord getRecord(HttpServletRequest request) throws Exception;
 
-	public abstract SwdRecord refreshDataFields(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
 	public abstract String setIWorkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
 	public abstract void removeIworkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
@@ -403,14 +401,6 @@ public interface ISmartWorks {
 
 	public abstract void addCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
-	public abstract void updateCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
-	public abstract void removeCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
 	public abstract void addCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
-	public abstract void updateCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
-	public abstract void removeCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
+	
 }

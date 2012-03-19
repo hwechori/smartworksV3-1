@@ -39,10 +39,19 @@
 .btn_gnb_l {background: url("../images/btn_topbg_l.jpg") no-repeat scroll 0 0; height:19px}
 .btn_gnb_r {background: url("../images/btn_topbg_r.jpg") no-repeat scroll 100% 0; height:19px; padding:0 10px}
 
+
+/* Header Title */
+.header_tit { height:87px; width:700px; margin-bottom:15px; color:#858585}
+.header_tit .tit_mycourse {background: url("../images/header.jpg") no-repeat scroll 0 0; height:35px; padding:52px 25px 0}
+.header_tit .tit_event {background: url("../images/header.jpg") no-repeat scroll 0 -88px; height:35px; padding:49px 25px 0}
+.header_tit .tit_message {background: url("../images/header.jpg") no-repeat scroll 0 -175px; height:35px; padding:52px 25px 0}
+.header_tit .tit_friend {background: url("../images/header.jpg") no-repeat scroll 0 -262px; height:35px; padding:52px 25px 0}
+.header_tit .tit_newcourse {background: url("../images/header.jpg") no-repeat scroll 0 -349px; height:35px; padding:52px 25px 0}
+
 /* Icon in GNB */
 .icon_alarm a {background: url("../images/icon.png") no-repeat scroll -267px -6px; width:28px; height:45px; display:block}
 .icon_mycourse a {background: url("../images/icon.png") no-repeat scroll -307px -6px; width:40px; height:45px; display:block}
-.icon_chatting a {background: url("../images/icon.png") no-repeat scroll -354px -6px; width:34px; height:45px; display:block}
+.icon_friend a {background: url("../images/icon.png") no-repeat scroll -354px -6px; width:34px; height:45px; display:block}
 .icon_message a {background: url("../images/icon.png") no-repeat scroll -400px -6px; width:39px; height:45px; display:block}
 .icon_chaledar a {background: url("../images/icon.png") no-repeat scroll -448px -6px; width:42px; height:45px; display:block}
 .icon_badge a {background: url("../images/icon.png") no-repeat scroll -500px -6px; width:35px; height:45px; display:block}
@@ -55,7 +64,8 @@
 #sera_content {float: left; height: auto; padding: 15px 0; width:700px}
 /* .snb {background: url("../images/mypage_snb_bg.gif") no-repeat scroll 0 0 transparent; float: left; height: auto; margin-bottom: 30px; overflow: hidden; padding: 0 9px 0 25px; position: relative; width: 205px} */
 #sera_content textarea { border:1px solid #cccccc}
-.aside {background: url("../images/aside_bar.jpg") no-repeat 0 0; float: right; height: auto; overflow: hidden; position: relative; width: 266px; margin:15px 1px 0}
+.aside {background: url("../images/aside_bar.jpg") no-repeat 0 0; float: right; height: auto; overflow: hidden; position: relative; width: 267px; margin:15px 1px 0}
+.aside.srch_area {margin:45px 1px 0 !important}
 
 /* My Comment */
 .my_comment_section { overflow:hidden; margin-bottom:20px}
@@ -65,7 +75,7 @@
 .my_comment .comment_txt {line-height:18px; height:88px}
 .my_comment .comment_txt textarea { border:1px solid #cccccc}
 .my_comment textarea { height:100%; width:99.4%}
-.my_comment .option { float:left; display:block; width:250px}
+.option { float:left; display:block; width:250px}
 .attach_file {height: 28px; margin-top: 5px; overflow: hidden; float:right}
 .attach_file li {float:left}
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;}
@@ -95,11 +105,23 @@
 .icon_photo a:hover {background-position:-85px -103px}
 .icon_link a {background: url("../images/icon.png") no-repeat scroll -118px -75px; width:33px; height:28px; display:block}
 .icon_link a:hover {background-position:-118px -103px}
+/* Background Blue */
+.icon_memo.bb a {background-position:-18px -397px}
+.icon_memo.bb a:hover {background-position:-18px -425px}
+.icon_video.bb a {background-position: -52px -397px}
+.icon_video.bb a:hover {background-position:-52px -425px}
+.icon_photo.bb a {background-position: -85px -397px}
+.icon_photo.bb a:hover {background-position:-85px -425px}
+.icon_link.bb a {background-position: -118px -397px}
+.icon_link.bb a:hover {background-position:-118px -425px}
+
 .icon_mytext a {background: url("../images/icon.png") no-repeat scroll -165px -75px; height:15px; display:block; padding:0 0 0 20px}
 .icon_newsfeed a {}
 .icon_date {background: url("../images/icon.png") no-repeat scroll -165px -74px; height:15px; display:block; padding:0 0 0 20px; color:#666666; margin-top:5px}
 .icon_like a {color:#608eba !important; background: url("../images/icon.png") no-repeat scroll -165px -96px; height:12px; padding-left:13px; display: inline-block}
 .icon_reply a {color:#608eba !important}
+.icon_answer a {color:#608eba !important}
+
 .icon_sm_message, .icon_sm_message a {color:#006699 !important; font-weight:bold; background: url("../images/icon.png") no-repeat scroll -165px -157px; height:15px;  padding-left:19px}
 .icon_open a { background: url("../images/icon.png") no-repeat scroll -166px -117px; width:11px; height:11px; display:block; padding:0; font-size:0}
 .icon_open a:hover {background-position:-180px -117px}
@@ -132,6 +154,9 @@
 .icon_blu_down2 {background: url("../images/icon.png") no-repeat scroll 0 -320px; width:14px; height:11px; display:inline-block}
 .icon_green_down {background: url("../images/icon.png") no-repeat scroll 0 -346px; width:9px; height:6px; display:inline-block}
 
+/* Icon Aside */
+.icon_admin {background: url("../images/icon.png") no-repeat scroll 0 -357px; width:23px; height:21px; display:inline-block}
+
 /* Panel Section */
 .panel_section { overflow:hidden; clear:both}
 .panel_section .header {border-bottom:5px solid #559fcc; height:21px}
@@ -139,9 +164,9 @@
 .panel_section .header div { float:left; margin-right:5px; color:#dddddd}
 .panel_section .header div a {color:#333333; font-weight:bold}
 
-.panel_area, .content_area {margin:15px 0 0 0; overflow:hidden}
-.panel_area li, .content_area li { float:left}
-.panel_area .cb li, .content_area .cb li { float:none}
+.panel_area {margin:15px 0 0 0; overflow:hidden}
+.panel_area li { float:left}
+.panel_area .cb li { float:none}
 .photo_bg {background: url("../images/photo_default_bg.png") no-repeat; width:73px; height:84px; display: inline; float: left; padding: 5px 15px 0 4px}
 .photo_bg .rgt_name { font-weight:bold; margin:10px 0 0 0; text-align:center}
 .grade { float:left; margin:5px 0 0 0}
@@ -149,18 +174,25 @@
 .point {background: url("../images/pb_point.png") no-repeat; width:14px; height:20px; float:left; position:relative; left:1px; top:23px}
 .grade_heart { padding-top:15px; color:#7fccff; font-weight:bold}
 
-/* Content in Panel Section, Content Section */
+/* Content in Panel Section */
 .panel_block { border:1px solid #cccccc; width:560px; line-height:16px; overflow:hidden; background-color:#FFF; box-shadow:1px 1px 1px #dfdfdf; -moz-box-shadow:1px 1px 1px #dfdfdf; -webkit-box-shadow:1px 1px 1px #dfdfdf; margin:0 2px 2px 0}
-.panel_block dt { margin-bottom:5px}
+.panel_block dt { margin-bottom:5px; overflow:hidden}
 .panel_block .content {padding:10px; overflow:hidden} 
 .panel_block .name {font-weight:bold; color:#006699}
 .panel_block .text { float:left; width:75%; margin-right:10px} /* content txt */
-.panel_block .message { width:100%} /* ï¿½ï¿½ï¿½ï¿½ */
+.panel_block .message { width:100%} /* ÂÊÁö */
 .panel_block .thum_image {width:120px; height:66px; float:right}
+.panel_block .detail_image {width:540px; border:1px solid #cccccc; height:auto; clear:both}
 .panel_block dl.bor {border-bottom:1px solid #cccccc}
 .panel_block dl.bor_no { border-bottom:none}
+/* Event */
+.panel_block .event_info { width:70%; float:left}
+.panel_block .event_name {font-weight:bold; color:#333333}
+.panel_block .event_more_info {font-weight:bold; color:#0066cc}
+
 .util { clear:both; padding:10px 0 0; font-size:11px}
 .util span {color:#dddddd}
+.util span a {color:#608eba !important}
 .date {font-size:11px; color:#888888 !important}
 
 
@@ -174,12 +206,11 @@
 .more {display:block; border:1px solid #bbb9b9; background-color:#edecec; padding:5px; margin:10px 0 0; cursor:pointer}
 
 /* Course */
-.course_section { overflow:hidden; clear:both}
-.course_section .header {border-bottom:1px solid #559fcc; height:21px}
-.course_section .header div {color:#333333; font-weight:bold; font-size:14px}
+.course_section, .content_section { overflow:hidden; clear:both}
+.course_section .header, .content_section .header {border-bottom:1px solid #559fcc; height:21px}
+.course_section .header div, .content_section .header div {color:#333333; font-weight:bold; font-size:14px}
 .star_score {margin:0 12px; overflow:hidden; text-align:center; padding-top:5px}
 .star_score li { float:left !important}
-
 
 
 /* Aside */
@@ -191,13 +222,15 @@
 .aside_block .list { clear:both; padding:10px 0 0 0; color:#666666; line-height:18px}
 .aside_block .list dd { display:inline; margin:0 2px}
 .num_cus { color:#ed1c24}
-
 /* Badge */
 .badge_df {background: url("../images/badge_df.gif") no-repeat scroll 0 0; width:40px; height:40px; display:inline-block}
-
-
 /* Friend */
 .friend_df {background: url("../images/friend_df.gif") no-repeat scroll 0 0; width:41px; height:41px; display:inline-block}
+
+/* Search Section */
+.srch_section {float:right; margin:15px 10px 5px; width:248px}
+.srch { border:3px solid #8d8d8d; width:160px; float:left}
+.srch input[type="text"] { width:130px; float:left; margin:2px}
 
 /* Course */
 /* Course Define */
@@ -237,7 +270,10 @@
 .tb { font-weight:bold}
 
 /* Width */
+.w100p { width:100% !important}
 .w375 {width:375px !important}
+.w_auto { width:auto !important}
+.w170 {width:170px !important}
 
 /* Bullet */
 .bullet_dot {background: url("../images/icon.png") no-repeat -166px -369px; padding:0 0 0 8px; color:#9a9a9a}
@@ -248,20 +284,42 @@
 .paging .num {float: left}
 .paging .next {float: left; margin-left: 10px}
 
+/* Category List */
+.category_list { margin:10px 0 0 0; overflow:hidden}
+.category_box {float: left; height: 325px; margin: 0 20px 20px 0; width: 220px;}
+.category_box .photo {border: 1px solid #D1D1D1; clear: both; height: 148px; margin-bottom: 13px; width: 218px;}
+.category_box .subject {clear: both; color: #333333; font: bold 13px 'dotum','Helvetica','sans-serif'; height: 12px; margin-bottom: 10px; width: 220px;}
+.category_box .subject a {color: #333333;}
+.category_box .subject a:hover {color: #666666;}
+.category_box .maker {background: url("../images/sera2_main_ico_creator.png") no-repeat scroll 0 0 transparent; clear: both; color: #559FCC; font: bold 12px 'dotum','Helvetica','sans-serif'; height: 14px; margin-bottom: 10px; padding-left: 20px; width: 200px;}
+.category_box .info {clear: both; color: #333333; font: 12px 'dotum','Helvetica','sans-serif'; height: 14px; margin-bottom: 13px; width: 220px;}
+.category_box .info dl {height: 14px; width: 220px;}
+.category_box .info dl .menteeNo {background: url("../images/sera2_main_ico_menteeNo.png") no-repeat scroll 0 0 transparent; float: left; height: 14px; padding-left: 20px; width: 35px;}
+.category_box .info dl .makeDate {background: url("../images/sera2_main_ico_calendar.png") no-repeat scroll 0 0 transparent; float: left; height: 14px; padding-left: 20px; width: 70px;}
+.category_box .info dl .category {background: url("../images/sera2_main_ico_category.png") no-repeat scroll 0 0 transparent; float: left; height: 14px; padding-left: 20px; width: 50px;}
+.category_box .detail {clear: both; color: #666666; font: 12px 'dotum','Helvetica','sans-serif'; height: 70px; text-align: justify; width: 220px;}
+.category_box .detail a { color: #666666;}
+.category_box .detail a:hover {color: #999999;}
+.category_box .gauge_box { clear: both; height: 10px; width: 220px;}
+.category_box .gauge_box .gauge_outline {background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #D2D2D2; border-radius: 10px 10px 10px 10px; float: left; height: 7px; padding: 1px; width: 170px;}
+.category_box .gauge_box .gauge_outline .gauge {background: none repeat scroll 0 0 #559FCC; border-radius: 10px 10px 10px 10px; height: 7px;}
+.category_box .gauge_box .process {float: right; height: 12px; margin-left: 5px; width: 38px;}
+.category_box.end { margin:0 0 20px 0 !important; float:right !important}
+
 /* Gauge Box */
-.gaugeBox {clear: both; height: 10px; width:390px;}
-.gaugeBox .gaugeOutline {background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #D2D2D2; border-radius: 10px 10px 10px 10px; float: left; height: 7px; padding: 1px; width: 390px}
-.gaugeBox .gaugeOutline .gauge {background: none repeat scroll 0 0 #559FCC; border-radius: 10px 10px 10px 10px; height: 7px; display:block}
-.process {float: right; height: 12px; margin: 5px 20px 0 0; width: 38px; color:#999999}
+.gauge_box {clear: both; height: 10px; width:390px;}
+.gauge_box .gauge_outline {background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #D2D2D2; border-radius: 10px 10px 10px 10px; float: left; height: 7px; padding: 1px; width: 390px}
+.gauge_box .gauge_outline .gauge {background: none repeat scroll 0 0 #559FCC; border-radius: 10px 10px 10px 10px; height: 7px; display:block}
+.process {float: right; height: 12px; width: 38px; color:#999999}
 .mission_info { float:left; width:200px; margin: 5px 0 0 0; color:#999999}
 
 /* Footer */
 #sera_footer {background: none repeat scroll 0 0 #172537; clear: both; height:28px; width: 100%; font-size:11px}
-.footerBox {clear: both; margin: 0 auto; width: 993px;}
-.footerBox .copyright {float: left; height: 20px; width: 270px; padding-top:5px}
-.footerBox .policy {color: #FFFFFF; float: right; font: 11px,'Dotum'; height: 10px; padding-top:9px}
-.footerBox .policy a {color: #FFFFFF;}
-.footerBox .policy a:hover {color: #CCCCCC;}
+.footer_box {clear: both; margin: 0 auto; width: 993px;}
+.footer_box .copyright {float: left; height: 20px; width: 270px; padding-top:5px}
+.footer_box .policy {color: #FFFFFF; float: right; font: 11px,'Dotum'; height: 10px; padding-top:9px}
+.footer_box .policy a {color: #FFFFFF;}
+.footer_box .policy a:hover {color: #CCCCCC;}
 
 #sera_footer .info {height: 15px; margin: 0 auto; padding-top: 13px; width: 912px}
 #sera_footer .company {color: #777777; float: right; font: 11px,'Dotum'}

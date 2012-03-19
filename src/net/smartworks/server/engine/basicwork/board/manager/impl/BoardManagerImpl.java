@@ -124,61 +124,61 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 		Date creationDate = null;
 		String modificationUser = null;
 		Date modificationDate = null;
-
-		if (cond != null) {
-			objId = cond.getObjId();
-			title = cond.getTitle();
-			content = cond.getContent();
-			fileGroupId = cond.getFileGroupId();
-			creationUser = cond.getCreationUser();
-			creationDate = cond.getCreationDate();
-			modificationUser = cond.getModificationUser();
-			modificationDate = cond.getModificationDate();
-		}
-		buf.append(" from Board obj");
-		buf.append(" where obj.objId is not null");
-		//TODO 시간 검색에 대한 확인 필요
-		if (cond != null) {
-			if (objId != null) 
-				buf.append(" and obj.objId = :objId");
-			if (title != null) 
-				buf.append(" and obj.title = :title");
-			if (content != null) 
-				buf.append(" and obj.content = :content");
-			if (fileGroupId != null) 
-				buf.append(" and obj.fileGroupId = :fileGroupId");
-			if (creationUser != null)
-				buf.append(" and obj.creationUser = :creationUser");
-			if (creationDate != null)
-				buf.append(" and obj.creationDate = :creationDate");
-			if (modificationUser != null)
-				buf.append(" and obj.modificationUser = :modificationUser");
-			if (modificationDate != null)
-				buf.append(" and obj.modificationDate = :modificationDate");
-			}
-			this.appendOrderQuery(buf, "obj", cond);
-			
-			Query query = this.createQuery(buf.toString(), cond);
+		
 			if (cond != null) {
-				if (objId != null)
-					query.setString("objId", objId);
-				if (title != null)
-					query.setString("title", title);
-				if (content != null)
-					query.setString("content", content);
-				if (fileGroupId != null)
-					query.setString("fileGroupId", fileGroupId);
-				if (creationUser != null)
-					query.setString("creationUser", creationUser);
-				if (creationDate != null)
-					query.setTimestamp("creationDate", creationDate);
-				if (modificationUser != null)
-					query.setString("modificationUser", modificationUser);
-				if (modificationDate != null)
-					query.setTimestamp("modificationDate", modificationDate);
+				objId = cond.getObjId();
+				title = cond.getTitle();
+				content = cond.getContent();
+				fileGroupId = cond.getFileGroupId();
+				creationUser = cond.getCreationUser();
+				creationDate = cond.getCreationDate();
+				modificationUser = cond.getModificationUser();
+				modificationDate = cond.getModificationDate();
 			}
-		return query;
-
+			buf.append(" from Board obj");
+			buf.append(" where obj.objId is not null");
+			//TODO 시간 검색에 대한 확인 필요
+			if (cond != null) {
+				if (objId != null) 
+					buf.append(" and obj.objId = :objId");
+				if (title != null) 
+					buf.append(" and obj.title = :title");
+				if (content != null) 
+					buf.append(" and obj.content = :content");
+				if (fileGroupId != null) 
+					buf.append(" and obj.fileGroupId = :fileGroupId");
+				if (creationUser != null)
+					buf.append(" and obj.creationUser = :creationUser");
+				if (creationDate != null)
+					buf.append(" and obj.creationDate = :creationDate");
+				if (modificationUser != null)
+					buf.append(" and obj.modificationUser = :modificationUser");
+				if (modificationDate != null)
+					buf.append(" and obj.modificationDate = :modificationDate");
+				}
+				this.appendOrderQuery(buf, "obj", cond);
+				
+				Query query = this.createQuery(buf.toString(), cond);
+				if (cond != null) {
+					if (objId != null)
+						query.setString("objId", objId);
+					if (title != null)
+						query.setString("title", title);
+					if (content != null)
+						query.setString("content", content);
+					if (fileGroupId != null)
+						query.setString("fileGroupId", fileGroupId);
+					if (creationUser != null)
+						query.setString("creationUser", creationUser);
+					if (creationDate != null)
+						query.setTimestamp("creationDate", creationDate);
+					if (modificationUser != null)
+						query.setString("modificationUser", modificationUser);
+					if (modificationDate != null)
+						query.setTimestamp("modificationDate", modificationDate);
+				}
+			return query;
+			
 	}
 	public long getBoardSize(String user, BoardCond cond) throws BoardException {
 		try {

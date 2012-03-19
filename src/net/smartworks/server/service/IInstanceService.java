@@ -92,24 +92,16 @@ public interface IInstanceService {
 	
 	public String setBoardInstance(HttpServletRequest request) throws Exception;
 	
-	public String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	public String performTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception ;
 
-	public String returnTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	public String returnTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception ;
 
-	public String reassignTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	public String reassignTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception ;
 
-	public String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
+	public String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception ;
 
 	public void addCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
 
-	public void updateCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
-	public void removeCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
 	public void addCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
-	public void updateCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
-	public void removeCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception;
-
+	
 }

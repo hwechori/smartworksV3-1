@@ -1,4 +1,3 @@
-<%@page import="net.smartworks.server.engine.opinion.model.Opinion"%>
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="net.smartworks.util.SmartMessage"%>
@@ -298,32 +297,6 @@
 	String dd = LocalDate.convertGMTStringToLocalDate("2012-02-23 15:00:00.0").toLocalDateTimeSimpleString();
 	System.out.println(dd); */
 
-	User user = SmartUtil.getCurrentUser();
-	String userId = user.getId();
-	Opinion opinion = new Opinion();
-	String workInstanceId = "dr_402880ed3614eeda0136150157930004";
-	String comment = "";
-
-	TskTaskCond tskCond = new TskTaskCond();
-	tskCond.setExtendedProperties(new Property[] {new Property("recordId", workInstanceId)});
-	tskCond.setModificationUser(userId);
-	tskCond.setOrders(new Order[]{new Order(TskTaskCond.A_CREATIONDATE, false)});
-	TskTask[] tskTasks = SwManagerFactory.getInstance().getTskManager().getTasks(userId, tskCond, IManager.LEVEL_LITE);
-	TskTask tskTask = tskTasks[0];
-	String taskInstId = tskTask.getObjId();
-	String def = tskTask.getDef();
-	String formId = tskTask.getForm();
-	
-	String singleWorkInfos = def;
-	String domainId = null;
-	if (!CommonUtil.isEmpty(singleWorkInfos)) {
-		String[] singleWorkInfo = StringUtils.tokenizeToStringArray(singleWorkInfos, "|");	
-		domainId = singleWorkInfo[0];
-	}
-
-	/* opinion.setRefId(workInstanceId);
-	opinion.setOpinion(comment);
-	SwManagerFactory.getInstance().getOpinionManager().setOpinion(userId, opinion, IManager.LEVEL_ALL); */
 
 %>
 <textarea style="width:800px;height:400px;">

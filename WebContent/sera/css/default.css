@@ -2,7 +2,7 @@
 
 html {
      font-size: 12px;
-     font-family: dotum,Helvetica,sans-serif
+     font-family: dotum,Helvetica,sans-serif;
 }
 
 body {
@@ -76,7 +76,7 @@ kbd, samp, code {
 	font-family: monospace;
 }
 
-img, button, textarea, input, fieldset {
+img, button, textarea, input {
 	border:0 none;
 	outline:medium none;
   	vertical-align: middle;
@@ -188,7 +188,6 @@ mark, rp, rt, ruby, summary, time {
 .pl15 {padding-left: 15px !important}
 .pl20 {padding-left:20px !important}
 
-.pr2 { padding-right:2px !important}
 .pr3 { padding-right:3px !important}
 .pr5 { padding-right:5px !important}
 .pr10 { padding-right:10px !important}
@@ -224,6 +223,3 @@ mark, rp, rt, ruby, summary, time {
 .bn {border:none !important}
 
 .w100 {width:100% !important}
-.w99 {width:99% !important}
-
-.oh {overflow:hidden !important}

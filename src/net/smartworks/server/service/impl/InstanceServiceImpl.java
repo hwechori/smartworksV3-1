@@ -6,11 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TimeZone;
@@ -45,7 +43,6 @@ import net.smartworks.model.work.FileCategory;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
-import net.smartworks.model.work.SocialWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
@@ -53,16 +50,12 @@ import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.server.engine.common.manager.IManager;
 import net.smartworks.server.engine.common.model.Filter;
 import net.smartworks.server.engine.common.model.Filters;
-import net.smartworks.server.engine.common.model.MappingService;
 import net.smartworks.server.engine.common.model.Order;
 import net.smartworks.server.engine.common.model.Property;
 import net.smartworks.server.engine.common.util.CommonUtil;
 import net.smartworks.server.engine.common.util.DateUtil;
 import net.smartworks.server.engine.common.util.StringUtil;
-import net.smartworks.server.engine.common.util.WebServiceUtil;
 import net.smartworks.server.engine.config.manager.ISwcManager;
-import net.smartworks.server.engine.config.model.SwcWebService;
-import net.smartworks.server.engine.config.model.SwcWebServiceParameter;
 import net.smartworks.server.engine.config.model.SwcWorkHour;
 import net.smartworks.server.engine.config.model.SwcWorkHourCond;
 import net.smartworks.server.engine.docfile.exception.DocFileException;
@@ -96,14 +89,11 @@ import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.infowork.form.model.SwfMapping;
 import net.smartworks.server.engine.infowork.form.model.SwfMappings;
 import net.smartworks.server.engine.infowork.form.model.SwfOperand;
-import net.smartworks.server.engine.opinion.manager.IOpinionManager;
-import net.smartworks.server.engine.opinion.model.Opinion;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoDepartment;
 import net.smartworks.server.engine.organization.model.SwoDepartmentCond;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserCond;
-import net.smartworks.server.engine.process.deploy.model.AcpActualParameter;
 import net.smartworks.server.engine.process.process.exception.PrcException;
 import net.smartworks.server.engine.process.process.manager.IPrcManager;
 import net.smartworks.server.engine.process.process.model.PrcProcess;
@@ -164,9 +154,6 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 	private static IFdrManager getFdrManager() {
 		return SwManagerFactory.getInstance().getFdrManager();
-	}
-	private static IOpinionManager getOpinionManager() {
-		return SwManagerFactory.getInstance().getOpinionManager();
 	}
 
 	private ICommunityService communityService;
@@ -543,18 +530,10 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			// 각 필드들 마다 가져오기 맵핑을 확인하여 값을 셋팅한다
 			for (SwfField field : fields) {
-				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord, isFirstSetMode);
+				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord);
 			}
-
-			if (logger.isInfoEnabled()) {
-				StringBuffer infoBuff = new StringBuffer();
-				infoBuff.append("Refresh Data Field \r\n[\r\n Original Record : \r\n").append(oldRecord.toString());
-				infoBuff.append(", \r\n New Record : \r\n").append(newRecord.toString()).append(" \r\n]\r\n");
-				logger.info(infoBuff.toString());
-			}
-			
-			return newRecord; 
-			
+			System.out.println(newRecord);
+			return null; 
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
@@ -563,7 +542,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}
 	}
 	
-	@Override
+	
 	public SwdRecord refreshDataFields(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
 		try{
@@ -573,6 +552,7 @@ public class InstanceServiceImpl implements IInstanceService {
 				userId = cuser.getId();
 			
 			String formId = (String)requestBody.get("formId");
+			String formName = (String)requestBody.get("formName");// 사용?
 			
 			boolean isFirstSetMode = true; //초기 데이터 입력인지 수정인지를 판단한다
 			
@@ -602,6 +582,9 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			SwdRecord record = getSwdRecordByRequestBody(userId, domainFields, requestBody, request);
 			
+			if (record.getCreationDate() == null)
+				record.setCreationDate(new LocalDate());
+			
 			//새로 값이 셋팅되어 변경될 레코드 클론
 			SwdRecord oldRecord = (SwdRecord)record.clone();
 			SwdRecord newRecord = (SwdRecord)record.clone();
@@ -610,26 +593,19 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			// 각 필드들 마다 가져오기 맵핑을 확인하여 값을 셋팅한다
 			for (SwfField field : fields) {
-				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord, isFirstSetMode);
-			}
-
-			if (logger.isInfoEnabled()) {
-				StringBuffer infoBuff = new StringBuffer();
-				infoBuff.append("Refresh Data Field \r\n[\r\n Original Record : \r\n").append(oldRecord.toString());
-				infoBuff.append(", \r\n New Record : \r\n").append(newRecord.toString()).append(" \r\n]\r\n");
-				logger.info(infoBuff.toString());
+				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord);
 			}
 			
-			return newRecord; 
-			
+			return null; 
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
+			logger.error(e);
 			return null;			
 			// Exception Handling Required			
 		}
 	}
-	private void setResultFieldMapByFields(String userId, SwfForm form, Map<String, SwdDataField> resultMap, SwfField field, SwdRecord newRecord, SwdRecord oldRecord, boolean isFirst) throws Exception {
+	private void setResultFieldMapByFields(String userId, SwfForm form, Map<String, SwdDataField> resultMap, SwfField field, SwdRecord newRecord, SwdRecord oldRecord) throws Exception {
 		
 		try{
 			if (resultMap == null)
@@ -660,6 +636,8 @@ public class InstanceServiceImpl implements IInstanceService {
 					formLinkMap.put(formLink.getId(), formLink);
 			}
 			
+			
+			boolean isFirst = true;
 			//현재폼, 외부폼, 프로세스폼의 우선 적용순위를 정하기위한 트리맵(소팅맵)
 			Map<Long, SwdDataField> resultTreeMap = new HashMap<Long, SwdDataField>();
 			//함수, 웹서비스, 계산식의 순서중 마지막 값을 취하기위한 스텍
@@ -702,7 +680,7 @@ public class InstanceServiceImpl implements IInstanceService {
 						}
 						//재귀 호출
 						if (!resultMap.containsKey(targetField.getId()))
-							setResultFieldMapByFields(userId, form, resultMap, targetField, newRecord, oldRecord, isFirst);
+							setResultFieldMapByFields(userId, form, resultMap, targetField, newRecord, oldRecord);
 						
 						SwdDataField dataField = (SwdDataField)resultMap.get(mappingFieldId);
 						
@@ -762,7 +740,7 @@ public class InstanceServiceImpl implements IInstanceService {
 							}
 							//재귀 호출
 							if (!resultMap.containsKey(targetField.getId()))
-								setResultFieldMapByFields(userId, form, resultMap, targetField, newRecord, oldRecord, isFirst);
+								setResultFieldMapByFields(userId, form, resultMap, targetField, newRecord, oldRecord);
 							
 						}
 						
@@ -927,135 +905,20 @@ public class InstanceServiceImpl implements IInstanceService {
 							resultStack.push(dataField);
 							
 						}
+				//web Service
 					} else if ("service_form".equalsIgnoreCase(mappingFormType)) {
-					//웹서비스
-						MappingService[] mappingServices = form.getMappingService();
-						if (mappingServices == null || mappingServices.length == 0)
-							continue;
+						//TODO web service
+						System.out.println("service_form");
 						
-						for (int i = 0; i < mappingServices.length; i++) {
-							MappingService mappingService = mappingServices[i];
-							
-							String serviceId = mappingService.getId();
-							String targetServiceId = mappingService.getTargetServiceId();
-							String execution = mappingService.getExecution();
-							
-							SwcWebService webServiceInfo = getSwcManager().getWebService(userId, targetServiceId, IManager.LEVEL_ALL);
-							if (webServiceInfo == null)
-								continue;
-
-							String mappingServiceId = preMapping.getMappingServiceId();
-							if (mappingServiceId == null || !mappingServiceId.equalsIgnoreCase(serviceId))
-								continue;
-							
-							String endPoint = CommonUtil.toNotNull(webServiceInfo.getWebServiceAddress());
-							String wsdlUrl = CommonUtil.toNotNull(webServiceInfo.getWsdlAddress());
-							if(wsdlUrl.indexOf(".jws")>-1){
-								if(!(endPoint.indexOf(".jws")>-1)){
-									if(!endPoint.equals(""))
-										endPoint = endPoint+".jws";
-								}
-							}
-							String operation = webServiceInfo.getOperationName();
-							AcpActualParameter[] actualParameters = mappingService.getActualParameters();
-							SwcWebServiceParameter[] params = webServiceInfo.getSwcWebServiceParameters();
-							
-							Queue<SwdDataField> inputDataFieldQueue = new LinkedList<SwdDataField>();
-							String outPutType = null;
-							
-							for(int j = 0 ; j < params.length; j++){
-								SwcWebServiceParameter param = params[j];
-								if(param.getType().equalsIgnoreCase("I")){
-									if(actualParameters != null){
-										for(AcpActualParameter actualParameter : actualParameters){
-											if(!actualParameter.getId().equals(param.getParameterName()))
-												continue;
-												
-											String targetFieldId = actualParameter.getFieldId();
-											
-											//연결된 폼필드의 값부터 채운후 그값을 가지고 웹서비스를 호출한다
-											SwfField[] fields = form.getFields();
-											SwfField targetField = null;
-											for (SwfField tempField : fields) {
-												if (tempField.getId().equalsIgnoreCase(targetFieldId)) {
-													targetField = tempField;
-													break;
-												}
-											}
-											if (targetField == null) {
-												logger.warn("TargetMapping Field Is Null!!! Check Change Field Id!!");
-												continue;
-											}
-											//재귀 호출
-											if (!resultMap.containsKey(targetField.getId()))
-												setResultFieldMapByFields(userId, form, resultMap, targetField, newRecord, oldRecord, isFirst);
-											inputDataFieldQueue.offer(newRecord.getDataField(targetFieldId));
-										}
-									}
-								}else if(param.getType().equalsIgnoreCase("O")){
-									outPutType = param.getParameterType();
-								}
-							}
-							if(CommonUtil.isEmpty(execution) || execution.equalsIgnoreCase("before")){
-								int size = inputDataFieldQueue.size();
-								String[] inputParams = new String[size];
-								for (int j = 0; j < size; j++) {
-									SwdDataField dataField = inputDataFieldQueue.poll();
-									inputParams[j] = dataField.getValue();
-								}
-								String[] returnWebService = WebServiceUtil.invokeWebService(endPoint,operation, inputParams, outPutType);
-								if(returnWebService !=null){
-									
-									if (outPutType.equalsIgnoreCase("ArrayOf_xsd_string")) {
-										//SwdDataField dataField = toDataField(userId, field, oldRecord.getDataFieldValue(fieldId));
-										SwfFormat fieldFormat = field.getFormat();
-										SwdDataField dataField = new SwdDataField();
-										if (fieldFormat == null || !"userField".equals(fieldFormat.getType())) {
-											dataField.setId(field.getId());
-											//dataField.setType(field.getSystemType());
-											dataField.setType("ArrayOf_xsd_string");
-											dataField.setValue(oldRecord.getDataFieldValue(fieldId));
-										} else {
-											dataField = toUserDataField(userId, oldRecord.getDataFieldValue(fieldId));
-										}
-										
-										SwdDataField[] subDataFields = new SwdDataField[returnWebService.length];
-										for (int j = 0; j < returnWebService.length; j++) {
-											
-											SwdDataField subDataField = new SwdDataField();
-											if (fieldFormat == null || !"userField".equals(fieldFormat.getType())) {
-												subDataField.setId(field.getId());
-												subDataField.setType(field.getSystemType());
-												subDataField.setValue(returnWebService[j]);
-											} else {
-												subDataField = toUserDataField(userId, returnWebService[j]);
-											}
-											subDataFields[j] = subDataField;
-										}
-										dataField.setDataFields(subDataFields);
-										resultStack.push(dataField);
-									} else {
-										SwfFormat fieldFormat = field.getFormat();
-										SwdDataField dataField = new SwdDataField();
-										if (fieldFormat == null || !"userField".equals(fieldFormat.getType())) {
-											dataField.setId(field.getId());
-											dataField.setType(field.getSystemType());
-											dataField.setValue(returnWebService[0]);
-										} else {
-											dataField = toUserDataField(userId, returnWebService[0]);
-										}
-										resultStack.push(dataField);
-									}
-								} else {
-									SwdDataField dataField = toDataField(userId, field, "Empty");
-									resultStack.push(dataField);
-								}
-							} else {
-								//TODO after invoke
-							}
-						}
+						
+						
+						
+						
+						
+						
+						
+						
 					} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingFormType)) {
-					//직접입력
 						String value = preMapping.getFieldName();
 						value = StringUtils.replace(value, "'", "");
 						SwdDataField dataField = toDataField(userId, field, value);
@@ -1065,13 +928,14 @@ public class InstanceServiceImpl implements IInstanceService {
 					
 				} else if (SwfMapping.TYPE_EXPRESSION.equalsIgnoreCase(mappingType)) {
 					//계산식
-					String expr = preMapping.getExpression();
-					String value = "";
-					if (!CommonUtil.isEmpty(expr)) {
-						value = getSwdManager().executeExpression(userId, preMapping.getExpression(), newRecord, formLinks);
-					}
-					SwdDataField dataField = toDataField(userId, field, value);
-					resultStack.push(dataField);
+					
+					
+					
+					
+					
+					
+					
+					
 				}
 			}
 
@@ -1089,9 +953,10 @@ public class InstanceServiceImpl implements IInstanceService {
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
+			logger.error(e);
 			// Exception Handling Required			
 		}
-	}
+	}	
 	private SwdDataField toDataField(String user, SwfField field, String id) throws Exception {
 		if (CommonUtil.isEmpty(id))
 			return null;
@@ -1550,89 +1415,22 @@ public class InstanceServiceImpl implements IInstanceService {
 	public void addCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
-			System.out.println("addCommentOnWork");
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
 			// Exception Handling Required			
 		}
-	}
-
-	@Override
-	public void updateCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void addCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
-			User cUser = SmartUtil.getCurrentUser();
-			String userId = cUser.getId();
-			if(CommonUtil.isEmpty(userId))
-				return;
-
-			int workType = Integer.parseInt((String)requestBody.get("workType"));
-			String workInstanceId = (String)requestBody.get("workInstanceId");
-			String comment = (String)requestBody.get("comment");
-			int refType = 0;
-			String refDomainId = null; 
-			String refFormId = null;
-			TskTaskCond tskCond = new TskTaskCond();
-			TskTask[] tskTasks = null;
-			TskTask tskTask = null;
-			if(!CommonUtil.isEmpty(workInstanceId)) {
-				if(workType == SmartWork.TYPE_INFORMATION || workType == SocialWork.TYPE_MEMO || workType == SocialWork.TYPE_EVENT || workType == SocialWork.TYPE_BOARD
-						 || workType == SocialWork.TYPE_FILE || workType == SocialWork.TYPE_IMAGE || workType == SocialWork.TYPE_MOVIE) {
-					tskCond.setExtendedProperties(new Property[] {new Property("recordId", workInstanceId)});
-					tskCond.setOrders(new Order[]{new Order(TskTaskCond.A_MODIFICATIONDATE, false)});
-					tskTasks = SwManagerFactory.getInstance().getTskManager().getTasks(userId, tskCond, IManager.LEVEL_LITE);
-					tskTask = tskTasks[0];
-					String def = tskTask.getDef();
-					if (!CommonUtil.isEmpty(def)) {
-						String[] defArray = StringUtils.tokenizeToStringArray(def, "|");	
-						refDomainId = defArray[0];
-					}
-					refFormId = tskTask.getForm();
-					refType = 4;
-				} else if(workType == SmartWork.TYPE_PROCESS) {
-					refType = 2;
-				}
-			}
-
-			Opinion opinion = new Opinion();
-			opinion.setRefType(refType);
-			opinion.setRefId(workInstanceId);
-			opinion.setRefDomainId(refDomainId);
-			opinion.setRefFormId(refFormId);
-			opinion.setOpinion(comment);
-
-			getOpinionManager().setOpinion(userId, opinion, IManager.LEVEL_ALL);
-
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
 			// Exception Handling Required			
 		}
-	}
-
-	@Override
-	public void updateCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 
 	private SwdRecord getSwdRecordByRequestBody_old(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
@@ -4699,5 +4497,4 @@ public class InstanceServiceImpl implements IInstanceService {
 	public String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		return executeTask(requestBody, request, "save");
 	}
-
 }

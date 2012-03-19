@@ -165,15 +165,6 @@ public class WorkController extends ExceptionInterceptor {
 		return map;
 	}
 
-	@RequestMapping(value = "/refresh_record", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody Map<String, Object> refreshRecord(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		SwdRecord swdRecord = smartworks.refreshDataFields(requestBody, request);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("record", swdRecord);
-		return map;
-	}
-
 	@RequestMapping(value = "/set_iwork_search_filter", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public ModelAndView setIworkSearchFilter(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {

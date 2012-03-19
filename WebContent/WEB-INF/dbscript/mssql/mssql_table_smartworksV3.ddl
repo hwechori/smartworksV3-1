@@ -257,14 +257,12 @@ CREATE TABLE swopinion (
 	reftype int,
 	groupid varchar(50),
 	refid varchar(50),
-	domainid varchar(400),
-	formid varchar(400),
-	title varchar(255),
-	opinion varchar(4000),
 	writer varchar(30),
 	writtentime datetime,
-	modifier varchar(30),
-	modifiedTime datetime,
+	title varchar(255),
+	opinion varchar(4000),
+	domainid varchar(400),
+	formid varchar(400),
 	primary key (id)	
 );
 
