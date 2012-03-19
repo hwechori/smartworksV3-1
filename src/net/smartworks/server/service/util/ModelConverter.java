@@ -105,6 +105,7 @@ import net.smartworks.server.engine.infowork.form.manager.ISwfManager;
 import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
+import net.smartworks.server.engine.infowork.form.model.SwfFormModel;
 import net.smartworks.server.engine.infowork.form.model.SwfFormat;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoDepartmentExtend;
@@ -137,7 +138,9 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.Activity;
 import net.smartworks.server.engine.process.xpdl.xpdl2.PackageType;
 import net.smartworks.server.engine.process.xpdl.xpdl2.ProcessType1;
 import net.smartworks.server.engine.process.xpdl.xpdl2.WorkflowProcesses;
+import net.smartworks.server.engine.worklist.manager.IWorkListManager;
 import net.smartworks.server.engine.worklist.model.TaskWork;
+import net.smartworks.server.engine.worklist.model.TaskWorkCond;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
@@ -191,6 +194,9 @@ public class ModelConverter {
 	}
 	private static IFdrManager getFdrManager() {
 		return SwManagerFactory.getInstance().getFdrManager();
+	}
+	private static IWorkListManager getWlmManager() {
+		return SwManagerFactory.getInstance().getWorkListManager();
 	}
 
 	private static IWorkService workService;
@@ -329,8 +335,10 @@ public class ModelConverter {
 		if (task == null)
 			return null;
 		User cUser = SmartUtil.getCurrentUser();
+		String userId = null;
 		String companyId = null;
 		if (cUser != null) {
+			userId = cUser.getId();
 			companyId = cUser.getCompanyId();
 		}
 
@@ -505,7 +513,7 @@ public class ModelConverter {
 		lastTask.setWorkInstance(workInstanceInfo);
 		lastTask.setAssignee(getUserInfoByUserId(task.getLastTskAssignee()));
 		lastTask.setPerformer(getUserInfoByUserId(task.getLastTskAssignee()));
-		lastTask.setSubject(StringUtil.subString(task.getPrcTitle(), 0, 30, "..."));
+		lastTask.setSubject(task.getPrcTitle());
 		lastTask.setWork(workInfo);
 		lastTask.setWorkSpace(getWorkSpaceInfo(task.getLastTskWorkSpaceType(), task.getLastTskWorkSpaceId()));
 		lastTask.setStatus(task.getLastTskStatus().equalsIgnoreCase(PrcProcessInst.PROCESSINSTSTATUS_RUNNING) ? TaskInstance.STATUS_RUNNING : TaskInstance.STATUS_COMPLETED);
@@ -528,7 +536,23 @@ public class ModelConverter {
 			}
 			workInstanceInfo.setId(recordId);
 		}
-		workInstanceInfo.setSubject(StringUtil.subString(task.getPrcTitle(), 0, 30, "..."));
+
+		TaskWorkCond cond = new TaskWorkCond();
+		String tskWorkSpaceId = task.getTskObjId();
+		if(task.getTskType().equals(SwfFormModel.TYPE_SINGLE)) {
+			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
+			tskWorkSpaceId = record.getRecordId();
+		}
+		cond.setTskWorkSpaceId(tskWorkSpaceId);
+		cond.setTskStatus(TskTask.TASKSTATUS_COMPLETE);
+		long subInstanceCount = getWlmManager().getTaskWorkListSize(userId, cond);
+		workInstanceInfo.setSubInstanceCount((int)subInstanceCount);
+		TaskWork[] subInstances = getWlmManager().getTaskWorkList(userId, cond);
+		WorkInstanceInfo[] workInstanceInfos = null;
+		if(!CommonUtil.isEmpty(subInstances))
+			workInstanceInfos = getWorkInstanceInfosByTaskWorks(subInstances);
+		workInstanceInfo.setSubInstances(workInstanceInfos);
+		workInstanceInfo.setSubject(task.getPrcTitle());
 		//workInstanceInfo.setType(Instance.TYPE_WORK);
 		workInstanceInfo.setWork(workInfo);
 		workInstanceInfo.setWorkSpace(getWorkSpaceInfo(task.getPrcWorkSpaceType(), task.getPrcWorkSpaceId()));

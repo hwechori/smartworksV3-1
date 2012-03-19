@@ -1959,15 +1959,53 @@ public class InstanceServiceImpl implements IInstanceService {
 			task.setForm(taskDef.getForm());
 			task.setDef(taskDef.getObjId());
 			task.setIsStartActivity("true");
-			
-			Map<String, Object> frmAccessSpace = (Map<String, Object>)requestBody.get("frmAccessSpace");
-			String workSpaceId = (String)frmAccessSpace.get("selWorkSpace");
-			String workSpaceType = (String)frmAccessSpace.get("selWorkSpaceType");
-			task.setWorkSpaceId(workSpaceId);
-			task.setWorkSpaceType(workSpaceType);
-			
+
+			Map<String, Object> frmAccessSpaceMap = (Map<String, Object>)requestBody.get("frmAccessSpace");
+			if(!CommonUtil.isEmpty(frmAccessSpaceMap)) {
+				Set<String> keySet = frmAccessSpaceMap.keySet();
+				Iterator<String> itr = keySet.iterator();
+				List<Map<String, String>> users = null;
+				String workSpaceId = null;
+				String workSpaceType = null;
+				String accessLevel = null;
+				String accessValue = null;
+
+				while (itr.hasNext()) {
+					String fieldId = (String)itr.next();
+					Object fieldValue = frmAccessSpaceMap.get(fieldId);
+					if (fieldValue instanceof LinkedHashMap) {
+						Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+						users = (ArrayList<Map<String,String>>)valueMap.get("users");
+						if(!CommonUtil.isEmpty(users)) {
+							String symbol = ";";
+							if(users.size() == 1) {
+								accessValue = users.get(0).get("id");
+							} else {
+								accessValue = "";
+								for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+									Map<String, String> user = users.get(i);
+									accessValue += user.get("id") + symbol;
+								}
+							}
+						}
+					} else if(fieldValue instanceof String) {
+						if(fieldId.equals("selWorkSpace")) {
+							workSpaceId = (String)fieldValue;
+						} else if(fieldId.equals("selWorkSpaceType")) {
+							workSpaceType = (String)fieldValue;
+						} else if(fieldId.equals("selAccessLevel")) {
+							accessLevel = (String)fieldValue;
+						}
+					}
+				}
+
+				task.setWorkSpaceId(workSpaceId);
+				task.setWorkSpaceType(workSpaceType);
+				task.setAccessLevel(accessLevel);
+				task.setAccessValue(accessValue);
+			}
 			task.setDocument(taskDocument);
-			
+
 			//date to localdate - Date now = new Date();
 			LocalDate now = new LocalDate();
 			task.setExpectStartDate(new LocalDate(now.getTime()));
@@ -2075,10 +2113,8 @@ public class InstanceServiceImpl implements IInstanceService {
 			TaskWorkCond cond = new TaskWorkCond();
 			cond.setTskWorkSpaceId(instanceId);
 			cond.setTskStatus(TskTask.TASKSTATUS_COMPLETE);
-			cond.setOrders(new Order[]{new Order("taskLastModifyDate", false)});
-			cond.setPageNo(0);
-			if(length != WorkInstance.FETCH_ALL_SUB_INSTANCE)
-				cond.setPageSize(length);
+			cond.setOrders(new Order[]{new Order("taskLastModifyDate", true)});
+			cond.setPageSize(length);
 			TaskWork[] tasks = getWlmManager().getTaskWorkList(userId, cond);
 			if (tasks == null || tasks.length == 0)
 				return null;
@@ -2648,6 +2684,7 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			TaskWorkCond taskWorkCond = new TaskWorkCond();
 			taskWorkCond.setTskAssigneeOrSpaceId(spaceId);
+			taskWorkCond.setTskRefType(refType);
 
 			long totalCount = getWlmManager().getTaskWorkListSize(userId, taskWorkCond);
 
@@ -4345,7 +4382,52 @@ public class InstanceServiceImpl implements IInstanceService {
 				task.setRealStartDate(new LocalDate(new Date().getTime()));
 			task.setRealEndDate(new LocalDate(new Date().getTime()));
 			//태스크를 실행한다
-			
+
+			Map<String, Object> frmAccessSpaceMap = (Map<String, Object>)requestBody.get("frmAccessSpace");
+			if(!CommonUtil.isEmpty(frmAccessSpaceMap)) {
+				Set<String> keySet = frmAccessSpaceMap.keySet();
+				Iterator<String> itr = keySet.iterator();
+				List<Map<String, String>> users = null;
+				String workSpaceId = null;
+				String workSpaceType = null;
+				String accessLevel = null;
+				String accessValue = null;
+
+				while (itr.hasNext()) {
+					String fieldId = (String)itr.next();
+					Object fieldValue = frmAccessSpaceMap.get(fieldId);
+					if (fieldValue instanceof LinkedHashMap) {
+						Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+						users = (ArrayList<Map<String,String>>)valueMap.get("users");
+						if(!CommonUtil.isEmpty(users)) {
+							String symbol = ";";
+							if(users.size() == 1) {
+								accessValue = users.get(0).get("id");
+							} else {
+								accessValue = "";
+								for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+									Map<String, String> user = users.get(i);
+									accessValue += user.get("id") + symbol;
+								}
+							}
+						}
+					} else if(fieldValue instanceof String) {
+						if(fieldId.equals("selWorkSpace")) {
+							workSpaceId = (String)fieldValue;
+						} else if(fieldId.equals("selWorkSpaceType")) {
+							workSpaceType = (String)fieldValue;
+						} else if(fieldId.equals("selAccessLevel")) {
+							accessLevel = (String)fieldValue;
+						}
+					}
+				}
+
+				task.setWorkSpaceId(workSpaceId);
+				task.setWorkSpaceType(workSpaceType);
+				task.setAccessLevel(accessLevel);
+				task.setAccessValue(accessValue);
+			}
+
 			if (action.equalsIgnoreCase("save")) {
 				getTskManager().setTask(userId, task, IManager.LEVEL_ALL);
 			} else {
@@ -4390,6 +4472,52 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			if (logger.isInfoEnabled())
 				logger.info("Delegate Task "+ task.getName() +"("+taskInstId+") From " + userId + " To " + delegateUserId);
+
+			Map<String, Object> frmAccessSpaceMap = (Map<String, Object>)requestBody.get("frmAccessSpace");
+			if(!CommonUtil.isEmpty(frmAccessSpaceMap)) {
+				Set<String> keySet = frmAccessSpaceMap.keySet();
+				Iterator<String> itr = keySet.iterator();
+				List<Map<String, String>> users = null;
+				String workSpaceId = null;
+				String workSpaceType = null;
+				String accessLevel = null;
+				String accessValue = null;
+
+				while (itr.hasNext()) {
+					String fieldId = (String)itr.next();
+					Object fieldValue = frmAccessSpaceMap.get(fieldId);
+					if (fieldValue instanceof LinkedHashMap) {
+						Map<String, Object> valueMap = (Map<String, Object>)fieldValue;
+						users = (ArrayList<Map<String,String>>)valueMap.get("users");
+						if(!CommonUtil.isEmpty(users)) {
+							String symbol = ";";
+							if(users.size() == 1) {
+								accessValue = users.get(0).get("id");
+							} else {
+								accessValue = "";
+								for(int i=0; i < users.subList(0, users.size()).size(); i++) {
+									Map<String, String> user = users.get(i);
+									accessValue += user.get("id") + symbol;
+								}
+							}
+						}
+					} else if(fieldValue instanceof String) {
+						if(fieldId.equals("selWorkSpace")) {
+							workSpaceId = (String)fieldValue;
+						} else if(fieldId.equals("selWorkSpaceType")) {
+							workSpaceType = (String)fieldValue;
+						} else if(fieldId.equals("selAccessLevel")) {
+							accessLevel = (String)fieldValue;
+						}
+					}
+				}
+
+				task.setWorkSpaceId(workSpaceId);
+				task.setWorkSpaceType(workSpaceType);
+				task.setAccessLevel(accessLevel);
+				task.setAccessValue(accessValue);
+			}
+
 			getTskManager().setTask(userId, task, IManager.LEVEL_ALL);
 			return taskInstId;
 		}

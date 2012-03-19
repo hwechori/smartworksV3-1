@@ -140,4 +140,19 @@
 		<put-attribute name="nav" value="/jsp/nav/smartbuilder.jsp" />
 		<put-attribute name="content" value="/jsp/content/builder/tab_work_sharing.jsp" />
 	</definition>
+
+
+	<definition name="seraCampus" template="/sera/jsp/layouts.jsp">
+		<put-attribute name="sera_header" value="/sera/jsp/header.jsp" />
+		<put-attribute name="sera_content" value="/sera/jsp/content/my_page.jsp" />
+		<put-attribute name="aside" value="/sera/jsp/aside/aside_my_page.jsp" />
+		<put-attribute name="sera_footer" value="/sera/jsp/footer.jsp" />
+	</definition>
+	<definition name="myPAGE" extends="seraCampus">
+		<put-attribute name="sera_content" value="/sera/jsp/content/my_page.jsp" />
+	</definition>
+	<definition name="Course" extends="seraCampus">
+		<put-attribute name="sera_content" value="/sera/jsp/content/course.jsp" />
+	</definition>
+
 </tiles-definitions>

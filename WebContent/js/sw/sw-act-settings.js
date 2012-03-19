@@ -563,7 +563,7 @@ $(function() {
 		var itemTable = input.parents('table:first');
 		newItem.appendTo(itemTable);
 		if(itemTable.find('tr').length == 3)
-			itemTable.parents('tr:first').find('span.essen_n').show();
+			itemTable.parents('tr:first td:first').addClass('required_label');
 		return false;
 	});
 
@@ -572,7 +572,7 @@ $(function() {
 		var itemTable = input.parents('table:first');
 		input.parents('tr:first').remove();
 		if(itemTable.find('tr').length == 2){
-			itemTable.parents('tr:first').find('span.essen_n').hide();
+			itemTable.parents('tr:first td:first').removeClass('required_label');
 		}
 		return false;
 	});

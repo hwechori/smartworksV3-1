@@ -78,7 +78,7 @@
 
 				<!-- 우측 버튼 -->
 				<div class="txt_btn">
-					<div class="po_right essen_gn"><fmt:message key="profile.title.required_field" /></div>
+					<div class="fr"><span class="vb icon_required"></span><fmt:message key="profile.title.required_field" /></div>
 				</div>
 				<!-- 우측 버튼 //-->
 				<div class="solid_line"></div>
@@ -95,94 +95,92 @@
 						<div class="js_my_profile_field js_auto_load_profile"></div>
 						<div class="t_text_s11"><fmt:message key="profile.title.size_desc"/></div>
 					</div>					
-					<span class="table_normal600 ">
-						<table>
-							<tr>
-								<td><fmt:message key="profile.title.user_id" /></td>
-								<td>
-									<input name="txtUserProfileUserId" type="text" readonly="readonly"
-										value="<%=CommonUtil.toNotNull(cUser.getId())%>">
-								</td>
-							</tr>		
-							<tr>
-								<td><fmt:message key="profile.title.user_name" /><span class="essen_n"></span></td>
-								<td>
-									<input name="txtUserProfileUserName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(cUser.getName())%>">		
-								</td>
-							</tr>
-							<tr>
-								<td><fmt:message key="profile.title.employee_id" /></td>
-								<td>
-									<input name="txtUserProfileEmpId" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(cUser.getEmployeeId())%>">		
-								</td>
-							</tr>		
-							<tr>
-								<td><fmt:message key="profile.title.password" /><span class="essen_n"></span></td>
-								<td>
-									<input name="pwUserProfilePW" class="fieldline required" type="password" value="<%=CommonUtil.toNotNull(cUser.getPassword())%>">		
-								</td>
-							</tr>
-							<tr>
-								<td><fmt:message key="profile.title.password_confirm" /><span class="essen_n"></span></td>
-								<td>
-									<input name="pwUserProfilePWCfm" type="password" class="required fieldline" value="<%=CommonUtil.toNotNull(cUser.getPassword())%>">		
-								</td>
-							</tr>
-							<tr>
-								<td><fmt:message key="profile.title.department" /><span class="essen_n"></span></td>
-								<td>
-									<input name="txtUserProfileDepartment" type="text" class="required fieldline" companyId="<%=cUser.getCompanyId()%>" value="<%=CommonUtil.toNotNull(cUser.getDepartment())%>">		
-								</td>
-							</tr>
-							<tr>
-								<td><fmt:message key="profile.title.position" /><span class="essen_n"></span></td>
-								<td>
-									<input name="txtUserProfilePosition" type="text" class="required fieldline" value="<%=CommonUtil.toNotNull(cUser.getPosition())%>">		
-								</td>
-							</tr>
-							<tr>
-								<td><fmt:message key="profile.title.locale" /><span class="essen_n"></span></td>
-								<td>
-									<select name="selUserProfileLocale">
-										<%
-										for (String locale : LocaleInfo.supportingLocales) {
-											String strKey = "common.title.locale." + locale;
-										%>
-											<option value="<%=locale%>" <%if (cUser.getLocale().equals(locale)) {%> selected <%}%>><fmt:message key="<%=strKey%>" /></option>
-										<%
-										}
-										%>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td><fmt:message key="profile.title.timezone" /><span class="essen_n"></span></td>
-								<td>
-									<select name="selUserProfileTimeZone">
-										<%
-										for (KeyMap timeZoneName : timeZoneNames) {
-										%>
-											<option value="<%=timeZoneName.getId()%>" <%if (cUser.getTimeZone().equals(timeZoneName.getId())) {%> selected <%}%>><%=timeZoneName.getKey()%></option>
-										<%
-										}
-										%>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td><fmt:message key="profile.title.phone_no" /></td>
-								<td>
-									<input name="txtUserProfilePhoneNo" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(cUser.getPhoneNo())%>" title="">
-								</td>
-							</tr>
-							<tr>
-								<td><fmt:message key="profile.title.cell_phone_no" /></td>
-								<td>
-									<input name="txtUserProfileCellNo" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(cUser.getCellPhoneNo())%>" title="">
-								</td>
-							</tr>
-						</table>
-					</span>
+					<table class="table_normal600" style="width:70%">
+						<tr>
+							<td><fmt:message key="profile.title.user_id" /></td>
+							<td>
+								<input name="txtUserProfileUserId" type="text" readonly="readonly"
+									value="<%=CommonUtil.toNotNull(cUser.getId())%>">
+							</td>
+						</tr>		
+						<tr>
+							<td class="required_label"><fmt:message key="profile.title.user_name" /></td>
+							<td>
+								<input name="txtUserProfileUserName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(cUser.getName())%>">		
+							</td>
+						</tr>
+						<tr>
+							<td><fmt:message key="profile.title.employee_id" /></td>
+							<td>
+								<input name="txtUserProfileEmpId" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(cUser.getEmployeeId())%>">		
+							</td>
+						</tr>		
+						<tr>
+							<td class="required_label"><fmt:message key="profile.title.password" /></td>
+							<td>
+								<input name="pwUserProfilePW" class="fieldline required" type="password" value="<%=CommonUtil.toNotNull(cUser.getPassword())%>">		
+							</td>
+						</tr>
+						<tr>
+							<td class="required_label"><fmt:message key="profile.title.password_confirm" /></td>
+							<td>
+								<input name="pwUserProfilePWCfm" type="password" class="required fieldline" value="<%=CommonUtil.toNotNull(cUser.getPassword())%>">		
+							</td>
+						</tr>
+						<tr>
+							<td class="required_label"><fmt:message key="profile.title.department" /></td>
+							<td>
+								<input name="txtUserProfileDepartment" type="text" class="required fieldline" companyId="<%=cUser.getCompanyId()%>" value="<%=CommonUtil.toNotNull(cUser.getDepartment())%>">		
+							</td>
+						</tr>
+						<tr>
+							<td class="required_label"><fmt:message key="profile.title.position" /></td>
+							<td>
+								<input name="txtUserProfilePosition" type="text" class="required fieldline" value="<%=CommonUtil.toNotNull(cUser.getPosition())%>">		
+							</td>
+						</tr>
+						<tr>
+							<td class="required_label"><fmt:message key="profile.title.locale" /></td>
+							<td>
+								<select name="selUserProfileLocale">
+									<%
+									for (String locale : LocaleInfo.supportingLocales) {
+										String strKey = "common.title.locale." + locale;
+									%>
+										<option value="<%=locale%>" <%if (cUser.getLocale().equals(locale)) {%> selected <%}%>><fmt:message key="<%=strKey%>" /></option>
+									<%
+									}
+									%>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td  class="required_label"><fmt:message key="profile.title.timezone" /></td>
+							<td>
+								<select name="selUserProfileTimeZone">
+									<%
+									for (KeyMap timeZoneName : timeZoneNames) {
+									%>
+										<option value="<%=timeZoneName.getId()%>" <%if (cUser.getTimeZone().equals(timeZoneName.getId())) {%> selected <%}%>><%=timeZoneName.getKey()%></option>
+									<%
+									}
+									%>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td><fmt:message key="profile.title.phone_no" /></td>
+							<td>
+								<input name="txtUserProfilePhoneNo" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(cUser.getPhoneNo())%>" title="">
+							</td>
+						</tr>
+						<tr>
+							<td><fmt:message key="profile.title.cell_phone_no" /></td>
+							<td>
+								<input name="txtUserProfileCellNo" class="fieldline" type="text" value="<%=CommonUtil.toNotNull(cUser.getCellPhoneNo())%>" title="">
+							</td>
+						</tr>
+					</table>
 				</form>
 			</div>
 			<!-- 컨텐츠 //-->

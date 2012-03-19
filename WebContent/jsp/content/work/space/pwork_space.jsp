@@ -80,19 +80,19 @@
 		                    
 	            <!-- 우측 버튼-->
 	            <div class="txt_btn">
-	                <div class="po_right t_s11"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
+	                <div class="fr t_s11"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
 	            </div>
 	            
 				<!-- 전자결재, 업무전달 버튼들 -->
-				<div class="txt_btn image_posi">
-	                <div class="po_right icon_print">
+				<div class="txt_btn image_posi fr">
+	                <div class="icon_print_w">
 	                	<a href="" title="<fmt:message key='common.button.print'/>"></a>
 	                </div>
-	                <div class="po_right icon_mail">
+	                <div class="icon_mail_w">
 	                	<a href="" title="<fmt:message key='common.button.email'/>"></a>
 	                </div>
-	                <div class="po_right"><a href="" class="js_view_instance_diagram"><fmt:message key="common.button.view_instance_diagram"/>▼</a></div>
-	                <div class="po_right" style="display:none"><a href="" class="js_close_instance_diagram"><fmt:message key="common.button.close_instance_diagram"/>▼</a></div>
+	                <div><a href="" class="js_view_instance_diagram"><fmt:message key="common.button.view_instance_diagram"/>▼</a></div>
+	                <div style="display:none"><a href="" class="js_close_instance_diagram"><fmt:message key="common.button.close_instance_diagram"/>▼</a></div>
 	            </div>
 	            <!-- 우측 버튼 -->
 		                    
@@ -137,16 +137,14 @@
 				        		
 				        	%>
 			            			<!-- 태스크 --> 
-						            <li class="<%=statusClass %> js_instance_task">
-						                <a <%if(isSelectable){ %> href="" class="js_select_task_instance" <%} %> formId="<%=task.getFormId() %>" taskInstId="<%=task.getId()%>" formMode=<%=formMode %>>
-						                    <!-- task 정보 -->
-						                    <img src="<%=task.getOwner().getMinPicture()%>" class="noti_pic profile_size_s">
-						                    <div class="noti_in_s">
-							                    <%=i+1%>) <%=task.getName() %>
-							                    <div class="t_date"><%=task.getLastModifiedDate().toLocalString() %></div>
-						                    </div>
-						                    <!-- task 정보 //-->
-						                </a>
+						            <li class="<%=statusClass %> js_instance_task <%if(isSelectable){%>js_select_task_instance<%} %>" formId="<%=task.getFormId() %>" taskInstId="<%=task.getId()%>" formMode="<%=formMode %>">
+					                    <!-- task 정보 -->
+					                    <img src="<%=task.getOwner().getMinPicture()%>" class="noti_pic profile_size_s">
+					                    <div class="noti_in_s">
+						                    <%=i+1%>) <%=task.getName() %>
+						                    <div class="t_date"><%=task.getLastModifiedDate().toLocalString() %></div>
+					                    </div>
+					                    <!-- task 정보 //-->
 						            </li>
 				            		<!-- 태스크 //--> 
 						            <!--화살표-->
@@ -245,7 +243,9 @@
 		var instId = input.attr("taskInstId");
 		var formContent = pworkSpace.find('div.js_form_content');
 		var formContentPointer = pworkSpace.find('div.js_form_content_pointer');
-		var selectedTask = input.parents('.js_instance_task');
+		var selectedTask = input;
+		pworkSpace.find('.js_instance_task').removeClass('selected');
+		selectedTask.addClass('selected');
 		formContentPointer.css({"left": selectedTask.position().left + selectedTask.outerWidth()/2 + "px"});
 		new SmartWorks.GridLayout({
 			target : formContent,
@@ -337,9 +337,9 @@
 			
  	}
 	
-	if(!isEmpty(selectedTask)) clickOnTask(selectedTask.find('a'));
+	if(!isEmpty(selectedTask)) clickOnTask(selectedTask);
 		
- </script>
+</script>
 
 <jsp:include page="/jsp/content/work/space/space_instance_list.jsp">
 	<jsp:param value="<%=work.getId() %>" name="workId"/>

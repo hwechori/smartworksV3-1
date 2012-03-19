@@ -28,6 +28,8 @@ public class PrcProcessInstExtend {
 	private String prcPrcId;
 	private String prcWorkSpaceId;
 	private String prcWorkSpaceType;
+	private String prcAccessLevel;
+	private String prcAccessValue;
 	private String lastTask_tskObjId;
 	private String lastTask_tskName;
 	private String lastTask_tskCreateUser;
@@ -41,6 +43,8 @@ public class PrcProcessInstExtend {
 	private String lastTask_tskForm;
 	private String lastTask_tskWorkSpaceId;
 	private String lastTask_tskWorkSpaceType;
+	private String lastTask_tskAccessLevel;
+	private String lastTask_tskAccessValue;
 	
 	private int lastTask_tskCount;
 	
@@ -218,10 +222,34 @@ public class PrcProcessInstExtend {
 	public void setPrcWorkSpaceType(String prcWorkSpaceType) {
 		this.prcWorkSpaceType = prcWorkSpaceType;
 	}
+	public String getPrcAccessLevel() {
+		return prcAccessLevel;
+	}
+	public void setPrcAccessLevel(String prcAccessLevel) {
+		this.prcAccessLevel = prcAccessLevel;
+	}
+	public String getPrcAccessValue() {
+		return prcAccessValue;
+	}
+	public void setPrcAccessValue(String prcAccessValue) {
+		this.prcAccessValue = prcAccessValue;
+	}
 	public String getLastTask_tskWorkSpaceType() {
 		return lastTask_tskWorkSpaceType;
 	}
 	public void setLastTask_tskWorkSpaceType(String lastTask_tskWorkSpaceType) {
 		this.lastTask_tskWorkSpaceType = lastTask_tskWorkSpaceType;
+	}
+	public String getLastTask_tskAccessLevel() {
+		return lastTask_tskAccessLevel;
+	}
+	public void setLastTask_tskAccessLevel(String lastTask_tskAccessLevel) {
+		this.lastTask_tskAccessLevel = lastTask_tskAccessLevel;
+	}
+	public String getLastTask_tskAccessValue() {
+		return lastTask_tskAccessValue;
+	}
+	public void setLastTask_tskAccessValue(String lastTask_tskAccessValue) {
+		this.lastTask_tskAccessValue = lastTask_tskAccessValue;
 	}
 }

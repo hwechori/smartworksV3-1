@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/jdbc
+		http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<http auto-config="true" use-expressions="true">
+		<!-- access-decision-manager-ref="unanimousBased"> -->
+		<intercept-url pattern="/logins.sw" access="permitAll" />
+		<intercept-url pattern="/css/*.css" access="permitAll" />
+		<intercept-url pattern="/images/*.*" access="permitAll" />
+		<intercept-url pattern="/admin/**/*" access="hasRole('ADMINISTRATOR') and fullyAuthenticated" />
+		<intercept-url pattern="/**" access="permitAll" />
+		<form-login login-page="/logins.sw" login-processing-url="/j_spring_security_check" default-target-url="/myPAGE.sw" authentication-failure-url="/logins.sw?type=failedLogin" />
+		<remember-me />
+		<logout invalidate-session="false" logout-success-url="/logins.sw?type=logout" logout-url="/logout" />
+		<session-management invalid-session-url="/logins.sw?type=expiredSession" session-authentication-error-url="/logins.sw?type=unauthorized">
+			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+		</session-management>
+	</http>
+
+	<beans:bean class="org.springframework.security.access.vote.UnanimousBased"
+		id="unanimousBased">
+		<beans:property name="decisionVoters">
+			<beans:list>
+				<beans:ref bean="roleVoter" />
+				<beans:ref bean="authenticatedVoter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	<beans:bean class="org.springframework.security.access.vote.RoleVoter"
+		id="roleVoter" />
+	<beans:bean
+		class="org.springframework.security.access.vote.AuthenticatedVoter"
+		id="authenticatedVoter" />
+	
+	<beans:bean class="net.smartworks.server.engine.security.SwPasswordEncoder" id="swPasswordEncoder"/>
+	
+	<beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" id="saltSource" >
+		<beans:property name="userPropertyToUse" value="username"/>
+	</beans:bean>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="authenticationDao">
+			<password-encoder ref="passwordEncoder">
+				<salt-source ref="saltSource"/>
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="myLogoutSuccessHandler"
+		class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/" />
+		<beans:property name="alwaysUseDefaultTargetUrl" value="true" />
+	</beans:bean>
+	
+	<beans:bean id="passwordEncoder" class="net.smartworks.server.engine.security.SwPasswordEncoder"/>
+	
+	<beans:bean id="authenticationDao" class="net.smartworks.server.engine.security.manager.impl.AuthenticationDaoImpl">
+		<beans:property name="loginDao" ref="loginDao"/>
+	</beans:bean>
+
+	<beans:bean id="loginDao" class="net.smartworks.server.engine.security.manager.impl.LoginDaoImpl">
+		<beans:property name="dataSource" ref="misDs"/>
+	</beans:bean>
+	
+</beans:beans>

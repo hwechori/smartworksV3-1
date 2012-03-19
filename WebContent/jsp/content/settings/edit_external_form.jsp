@@ -105,7 +105,7 @@
 		<table>
 			<tbody>
 				<tr>
-					<th width="20%"><fmt:message key="settings.title.externalform.name"/><span class="essen_n"></span></th>
+					<th class="required_label" width="20%"><fmt:message key="settings.title.externalform.name"/></th>
 					<td colspan="3" width="80%" ><input name="txtExternalFormName" type="text" class="fieldline required" value="<%=CommonUtil.toNotNull(externalForm.getName())%>"/>
 					</td>
 				</tr>
@@ -115,7 +115,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.externalform.url"/><span class="essen_n"></span></th>
+					<th class="required_label"><fmt:message key="settings.title.externalform.url"/></th>
 					<td>
 						
 							<input name="txtExternalFormURL" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(externalForm.getUrl())%>">
@@ -123,19 +123,19 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.externalform.edit_method"/><span class="essen_n"></span></th>
+					<th class="required_label"><fmt:message key="settings.title.externalform.edit_method"/></span></th>
 					<td>
 						<input name="txtEditMethod" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(externalForm.getEditMethod())%>">
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.externalform.view_method"/><span class="essen_n"></span></th>
+					<th class="required_label"><fmt:message key="settings.title.externalform.view_method"/></span></th>
 					<td>
 						<input name="txtViewMethod" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(externalForm.getViewMethod())%>">
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.externalform.edit_variables"/><span class="essen_n"></span></th>
+					<th class="required_label"><fmt:message key="settings.title.externalform.edit_variables"/></th>
 					<td>
 						<table style="width:100%">
 							<tr>
@@ -195,7 +195,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.externalform.view_variables"/><span class="essen_n"></span></th>
+					<th class="required_label"><fmt:message key="settings.title.externalform.view_variables"/></th>
 					<td>
 						<table style="width:100%">
 							<tr>
@@ -255,7 +255,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="settings.title.externalform.return_variables"/><span class="essen_n"></span></th>
+					<th class="required_label"><fmt:message key="settings.title.externalform.return_variables"/></th>
 					<td>
 						<table style="width:100%">
 							<tr>

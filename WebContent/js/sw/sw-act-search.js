@@ -5,16 +5,15 @@ $(function() {
 	 * 보여주고, 그렇지 않으면 내부모와 같은 수준에 있는 div 영역에 보여준다.
 	 */
 	var requestedValue = "";
+	var timeoutId = null;
 	$('input.js_auto_complete').live('keyup', function(e) {
-		if(e.which>=9 && e.which<=45) return;
+		if(e.keyCode>=9 && e.keyCode<=45) return;
 		var input = $(e.target);
-		var listWidth = input.outerWidth();
+		var listWidth = input.parent().outerWidth();
 		var startWork = input.parents('div.js_start_work_page');
 		var chatter_name = input.parents('div.js_chatter_names');
 		var communityId = input.parents('ul.js_community_members').attr('communityId');
 		var target;
-		if (!isEmpty(input[0].value))
-			input.next('div').removeClass('srch_icon').removeClass('srch_icon_w').addClass('btn_im_x');
 		if (!isEmpty(startWork)){
 			target = startWork.find('#upload_work_list');
 			listWidth = input.parent().outerWidth();
@@ -25,7 +24,9 @@ $(function() {
 		}
 		var url = input.attr('href');
 		var lastValue = input[0].value;
-		setTimeout(function() {
+		if(timeoutId != null) clearTimeout(timeoutId);
+		timeoutId = setTimeout(function() {
+			timeoutId = null;
 			var currentValue = input[0].value;
 			if (lastValue === currentValue && currentValue !== requestedValue) {
 				requestedValue = currentValue;
@@ -69,11 +70,8 @@ $(function() {
 			target = input.parent().nextAll('div');
 		setTimeout(function() {
 			var searchButton = input.next('div');
-			searchButton.removeClass('btn_im_x');
 			if(searchButton.hasClass('js_icon_white'))
 				searchButton.addClass('srch_icon_w');
-			else
-				searchButton.addClass('srch_icon');
 			target.html('').hide();
 		}, 500);
 	});
@@ -131,25 +129,24 @@ $(function() {
 	$('div.js_srch_x').live('click', function(e) {
 		var input = $(e.target).prev();
 		input.value = "";
-		input.next('div').removeClass('btn_im_x').addClass('srch_icon');
+		input.next('div').removeClass('btn_x').addClass('srch_icon');
 		return false;
 	});
 
 	$('.js_select_community').live( 'click', function(e) {
 		var input = $(e.target);
+		if(!input.hasClass('js_select_community')) input.parents('.js_select_community:first');
 		var comName = input.attr('comName');
 		var comId = input.attr('comId');
-		var target = input.parents('.js_community_list').prev().find('.js_selected_communities');				
-		var userField = target.parents('.js_type_userField');
+		var communityItems = input.parents('.js_community_list').prev().find('.js_community_item');				
+		var userField = input.parents('.js_type_userField');
 		var inputTarget = userField.find('input.js_auto_complete');
 		if(inputTarget.parents('.sw_required').hasClass('sw_error')){
 			inputTarget.parents('.sw_required').removeClass('sw_error');
 			$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 		}
-		var oldHTML = target.html();
-		if (oldHTML == null || (!isEmpty(userField) && userField.attr('multiUsers') !== 'true'))
-			oldHTML = "";
-		var communityItems = $(target).find('span.js_community_item');
+		if (isEmpty(communityItems) || (!isEmpty(userField) && userField.attr('multiUsers') !== 'true'))
+			communityItems.remove();
 		var isSameId = false;
 		for(var i=0; i<communityItems.length; i++){
 			var oldComId = $(communityItems[i]).attr('comId');
@@ -159,13 +156,10 @@ $(function() {
 			}
 		}
 		if(!isSameId){
-			var newHTML = oldHTML
-				+ "<span class='js_community_item user_select' comId='" + comId+ "'>"
-				+ comName
-				+ "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
-			target.html(newHTML);
+			$("<span class='js_community_item user_select' comId='" + comId+ "'>" + comName
+					+ "<a class='js_remove_community' href=''>&nbsp;x</a></span>").insertBefore(inputTarget);
 		}
-		target.next().focus();
+		inputTarget.focus();
 		return false;
 	});
 
@@ -174,7 +168,7 @@ $(function() {
 		
 		var userField = input.parents('.js_type_userField');
 		if(!isEmpty(userField) && userField.attr('multiUsers') !== 'true') {
-			var inputTarget = userField.find('input.js_auto_complete')
+			var inputTarget = userField.find('input.js_auto_complete');
 			inputTarget.show();
 			inputTarget.next('.js_srch_x').show();
 		}

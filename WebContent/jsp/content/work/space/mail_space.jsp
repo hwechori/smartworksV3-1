@@ -81,26 +81,23 @@
 				</table>
 				<!-- 메일 헤더 // -->
 
-				<!-- 우측 버튼-->
-				<div class="txt_btn">
-					<div class="po_right">
-						<a class="js_copy_address" href=""><fmt:message
-								key="common.button.copy_url" />
-						</a>
-					</div>
-				</div>
-
-				<div class="txt_btn">
-					<div class="po_right">
-						<a href=""><img src="images/btn_print.gif" alt="프린트" />
-						</a>
-					</div>
-					<div class="po_right">
-						<a href=""><img src="images/btn_mail.gif" alt="메일" />
-						</a>
-					</div>
-				</div>
-				<!-- 우측 버튼 -->
+	            <!-- 우측 버튼-->
+	            <div class="txt_btn">
+	                <div class="po_right t_s11"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
+	            </div>
+	            
+				<!-- 전자결재, 업무전달 버튼들 -->
+				<div class="txt_btn image_posi fr">
+	                <div class="icon_print_w">
+	                	<a href="" title="<fmt:message key='common.button.print'/>"></a>
+	                </div>
+	                <div class="icon_mail_w">
+	                	<a href="" title="<fmt:message key='common.button.email'/>"></a>
+	                </div>
+	                <div><a href="" class="js_view_instance_diagram"><fmt:message key="common.button.view_instance_diagram"/>▼</a></div>
+	                <div style="display:none"><a href="" class="js_close_instance_diagram"><fmt:message key="common.button.close_instance_diagram"/>▼</a></div>
+	            </div>
+	            <!-- 우측 버튼 -->
 
 				<div class="solid_line"></div>
 			</div>
