@@ -83,6 +83,9 @@
 .btn_mid_l {background: url("../images/btn_mid_l.png") no-repeat scroll 0 0; height:21px; float:left}
 .btn_mid_r {background: url("../images/btn_mid_r.png") no-repeat scroll 100% 0; height:21px; padding:0 10px; line-height:21px; font-size:12px; color:#555555; font-weight:normal}
 
+.btn_green_l {background: url("../images/btn_green_l.png") no-repeat scroll 0 0; height:19px; float:left}
+.btn_green_r {background: url("../images/btn_green_r.png") no-repeat scroll 100% 0; height:19px; padding:0 17px; line-height:21px; font-size:12px; color:#717171; font-weight:normal}
+
 /* Icon in Mypage */
 .icon_memo a {background: url("../images/icon.png") no-repeat scroll -18px -75px; width:34px; height:28px; display:block}
 .icon_memo a:hover {background-position:-18px -103px}
@@ -102,11 +105,11 @@
 .icon_open a:hover {background-position:-180px -117px}
 .icon_close a {background: url("../images/icon.png") no-repeat scroll -165px -129px; width:11px; height:11px; display:block; font-size:0}
 .icon_close a:hover {background-position:-180px -129px}
-.icon_mentor {background: url("../images/icon.png") no-repeat scroll -29px -157px; width:16px; height:15px; display:block; font-size:0}
+.icon_mentor {background: url("../images/icon.png") no-repeat scroll -29px -157px; width:16px; height:15px; display:block}
 .icon_mentor.current { background-position:-63px -157px}
-.icon_star {background: url("../images/icon.png") no-repeat scroll -29px -178px; width:16px; height:15px; display:block; font-size:0}
+.icon_star {background: url("../images/icon.png") no-repeat scroll -29px -178px; width:16px; height:15px; display:block}
 .icon_star.current { background-position:-63px -178px}
-.icon_heart {background: url("../images/icon.png") no-repeat scroll -29px -199px; width:16px; height:15px; display:block; font-size:0}
+.icon_heart {background: url("../images/icon.png") no-repeat scroll -29px -199px; width:16px; height:15px; display:block}
 .icon_heart.current { background-position:-63px -199px}
 .icon_more {background: url("../images/icon.png") no-repeat scroll -166px -175px; padding-left:10px}
 .icon_as_mycourse {background: url("../images/icon.png") no-repeat scroll -166px -199px; height:25px; padding-left:30px; width:70%}
@@ -127,6 +130,7 @@
 .icon_star_score {background: url("../images/icon.png") no-repeat scroll -17px -293px; width:9px; height:9px; display:block; margin-right:3px}
 .icon_star_score.current {background-position:0 -293px}
 .icon_blu_down2 {background: url("../images/icon.png") no-repeat scroll 0 -320px; width:14px; height:11px; display:inline-block}
+.icon_green_down {background: url("../images/icon.png") no-repeat scroll 0 -346px; width:9px; height:6px; display:inline-block}
 
 /* Panel Section */
 .panel_section { overflow:hidden; clear:both}
@@ -143,9 +147,10 @@
 .grade { float:left; margin:5px 0 0 0}
 .grade div { margin-bottom:6px}
 .point {background: url("../images/pb_point.png") no-repeat; width:14px; height:20px; float:left; position:relative; left:1px; top:23px}
+.grade_heart { padding-top:15px; color:#7fccff; font-weight:bold}
 
 /* Content in Panel Section, Content Section */
-.panel_block { border:1px solid #cccccc; width:560px; line-height:16px; overflow:hidden; background-color:#FFF; box-shadow:1px 1px 1px #eeeeee; -moz-box-shadow:1px 1px 1px #eeeeee; -webkit-box-shadow:1px 1px 1px #eeeeee; margin:0 2px 2px 0}
+.panel_block { border:1px solid #cccccc; width:560px; line-height:16px; overflow:hidden; background-color:#FFF; box-shadow:1px 1px 1px #dfdfdf; -moz-box-shadow:1px 1px 1px #dfdfdf; -webkit-box-shadow:1px 1px 1px #dfdfdf; margin:0 2px 2px 0}
 .panel_block dt { margin-bottom:5px}
 .panel_block .content {padding:10px; overflow:hidden} 
 .panel_block .name {font-weight:bold; color:#006699}
@@ -157,6 +162,7 @@
 .util { clear:both; padding:10px 0 0; font-size:11px}
 .util span {color:#dddddd}
 .date {font-size:11px; color:#888888 !important}
+
 
 /* Reply */
 .reply_section {background-color:#f0f7f9; border-bottom: 1px dotted #CCCCCC; padding:10px; overflow:hidden}
@@ -195,7 +201,7 @@
 
 /* Course */
 /* Course Define */
-.course_df_section { overflow:hidden; margin-bottom:20px; background-color:#FFF; box-shadow:1px 1px 1px #eeeeee; -moz-box-shadow:1px 1px 1px #eeeeee; -webkit-box-shadow:1px 1px 1px #eeeeee; margin:0 2px 22px 0; border:1px solid #cccccc}
+.course_df_section { overflow:hidden; margin-bottom:20px; background-color:#FFF; box-shadow:1px 1px 1px #dfdfdf; -moz-box-shadow:1px 1px 1px #dfdfdf; -webkit-box-shadow:1px 1px 1px #dfdfdf; margin:0 2px 22px 0; border:1px solid #cccccc}
 .course_df_img {float:left; width:119px; height:118px; border-right:1px solid #cccccc; margin-right:15px}
 .course_df { float:left; width:350px; margin-top:10px}
 .course_df h1 { font-size:14px}
@@ -206,10 +212,19 @@
 .course_df li span { font-weight:bold; display:block; text-align:right}
 .course_info { width:193px; float:right; margin-top:10px; line-height:19px}
 .course_info dt {background: url("../images/icon.png") no-repeat -166px -525px; padding:0 0 0 20px; font-weight:bold; margin-bottom:3px}
-.course_menu { clear:both; background: url("../images/cus_df_bg.gif") repeat-x scroll 0 0; height:35px; padding:0 10px 0 25px; vertical-align:middle}
-.course_menu ul { vertical-align:middle; margin:4px 0 0 0}
-.course_menu li { float:left; margin:6px 5px 0; font-size:14px; color:#FFF; font-weight:bold; text-align:center; width:80px}
-
+.course_menu { clear:both; background: url("../images/cus_df_bg.gif") repeat-x scroll 0 0; height:35px; padding:0 10px; vertical-align:middle}
+.course_menu_d1 { float: left; margin:0 0 0 10px}
+.course_menu_d1 ul { vertical-align:middle; margin:6px 0 0 0}
+.course_menu_d1 li { float:left; margin:0 5px; font-size:12px; color:#FFF; text-align:center; width:80px; line-height:29px}
+.course_menu_d1 li:hover { background-color:#FFF; color:#454545; font-weight:bold}
+.course_menu_d2 { background: url("../images/cus_df_subbg.jpg") repeat-x scroll 0 0; height:35px; line-height:34px}
+.course_menu_d2 .menu001 {left:; position:relative}
+.course_menu_d2 .menu002 {left:210px; position:relative}
+.course_menu_d2 .menu003 {left:; position:relative}
+.course_menu_d2 .menu004 {left:64px; position:relative}
+.course_menu_d2 li { float:left; padding:0 10px; background: url("../images/li_gab.gif") no-repeat 100% 48%}
+.course_menu_d2 li a:hover { font-weight:bold; color:#4e90b7}
+.course_menu_d2 li.end { background:none}
 
 /* Text Style */
 .t_s11 { font-size:11px}
