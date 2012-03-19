@@ -312,8 +312,6 @@ $(function() {
 		if(isEmpty(comment)) return false;
 		var iworkManual = input.parents('.js_iwork_manual_page');
 		var pworkManual = input.parents('.js_pwork_manual_page');
-		var iworkSpace = input.parents('.js_iwork_space_page');
-		var pworkSpace = input.parents('.js_pwork_space_page');
 		var workType=-1, workId="", workInstanceId="", url="";
 		if(!isEmpty(iworkManual)){
 			workType = 21;
@@ -321,11 +319,8 @@ $(function() {
 		}else if(!isEmpty(pworkManual)){
 			workType = 22;
 			workId = pworkManual.attr('workId');
-		}else if(!isEmpty(iworkSpace)){
-			workType = 21;
-			workInstanceId = input.parents('li:first').attr('instanceId');
-		}else if(!isEmpty(pworkSpace)){
-			workType = 22;
+		}else{
+			workType = parseInt(input.attr('workType'));
 			workInstanceId = input.parents('li:first').attr('instanceId');
 		}
 		var paramsJson = {};
