@@ -32,7 +32,7 @@
 					<span class="<%=work.getIconClass()%>"></span>
 					<span><%=work.getName()%></span>
 				</a>
-				<div class="check_option"><div title="<fmt:message key='common.button.delete'/>" class="js_check_favorite_work btn_im_x" workId="<%=work.getId() %>"></div></div>
+				<div class="check_option"><div title="<fmt:message key='common.button.delete'/>" class="js_check_favorite_work btn_x" workId="<%=work.getId() %>"></div></div>
 			</li>
 		<%
 			}

@@ -111,7 +111,7 @@ if (instances != null) {
 		}
 %>
 		<!-- 진행중인 업무 아이템 -->
-		<tr class="working_br instance_list js_more_instance_item js_content" href="<%=trTarget%>" dateValue="<%=workInstance.getLastModifiedDate().toLocalDateString2()%>">
+		<tr class="working_br instance_list js_more_instance_item js_content_list" href="<%=trTarget%>" dateValue="<%=workInstance.getLastModifiedDate().toLocalDateString2()%>">
 			<!-- 인스턴스 상태 및 시작자 사진표시 -->
 			<td class="pic">
 				<img src="<%=statusImage%>" title="<fmt:message key='<%=statusTitle%>'/>" />

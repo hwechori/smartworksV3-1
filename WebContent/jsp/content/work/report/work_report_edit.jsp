@@ -40,7 +40,7 @@
 <form name="frmWorkReport" class="form_contents js_validation_required js_work_report_edit_page" workId="<%=workId%>" reportId="<%=reportId%>">
 	<table class="table_normal report_title js_report_title">
 		<tr style="display:none" class="js_work_report_name">
-			<th><fmt:message key="report.title.report_name" /><span class="essen_n"></span></th>
+			<th class="required_label"><fmt:message key="report.title.report_name" /></th>
 			<td colspan="4">
 				<input name="txtWorkReportName" type="text" class="fieldline required">
 			</td>

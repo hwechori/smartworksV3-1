@@ -21,7 +21,7 @@
 <fmt:setBundle basename="resource.smartworksMessage" scope="request" />
 
 <!-- 업무계획하기 -->
-<div class="column3">
+<div>
 	<div class="dash_line"></div>
 	<form name='frmScheduleWork' class="form_layout">
 		<!-- 계획업무를 선택하는 선택박스 -->

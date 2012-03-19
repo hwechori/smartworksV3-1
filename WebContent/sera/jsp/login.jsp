@@ -82,10 +82,10 @@ $(function() {
 	<%
 	} else if(type.equals("expiredSession")) {
 	%>
-		if(top.document.location.href === "login.sw")
+		if(top.document.location.href === "logins.sw")
 			smartPop.showInfo(smartPop.WARN, smartMessage.get('sessionTimeouted'));
 		else
-			top.document.location.href = "login.sw";			
+			top.document.location.href = "logins.sw";			
 	<%
 	}
 	%>

@@ -73,23 +73,15 @@
 		                    
 		            <!-- 우측 버튼-->
 		            <div class="txt_btn t_s11">
-		                <div class="po_right"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
+		                <div class="fr"><a class="js_copy_address" href=""><fmt:message key="common.button.copy_url"/></a></div>
 		            </div>
 		            
 					<!-- 전자결재, 업무전달 버튼들 -->
-					<div class="txt_btn image_posi">
-		                <div class="po_right">
-		                	<a href=""><img src="images/btn_print.gif" title="<fmt:message key='common.button.print'/>" /></a>
-		                </div>
-		                <div class="po_right">
-		                	<a href=""><img src="images/btn_mail.gif" title="<fmt:message key='common.button.email'/>" /></a>
-		                </div>
-						<div class="po_right">
-							<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
-						</div>
-						<div class="po_right">
-							<a href="" class="js_toggle_forward_btn"><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
-						</div>
+					<div class="txt_btn image_posi fr vb">
+						<span class="icon_refer_w"><a href="" title="<fmt:message key='common.button.forward'/>"></a></span>
+						<span class="icon_link_w"><a href="" title="<fmt:message key='common.button.approval'/>"></a></span>
+	                	<span class="icon_mail_w"><a href="" title="<fmt:message key='common.button.email'/>"></a></span>
+	                	<span class="icon_print_w"><a href="" title="<fmt:message key='common.button.print'/>"></a></span>
 					</div>
 					<!-- 전자결재, 업무전달 버튼들 //-->
 		                    
@@ -105,7 +97,7 @@
 				
 				<!-- 상세보기 컨텐츠 -->
 				<div class="contents_space">				            
-			       <div class="list_contents js_form_content">      
+			       <div class="list_contents up form_read js_form_content">      
 			       </div>
 				</div>
 		
