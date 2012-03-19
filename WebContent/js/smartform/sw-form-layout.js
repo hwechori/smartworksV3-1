@@ -306,6 +306,7 @@ SmartWorks.GridLayout = function(config) {
 	return this;
 };
 
+
 SmartWorks.GridLayout.newGridTable = function(){
 	return $('<table><tbody></tbody></table>');
 };
