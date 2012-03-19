@@ -40,6 +40,7 @@ public class TskTask extends MisObject {
 	public static final String TASKREFTYPE_BOARD = "BOARD";
 	public static final String TASKREFTYPE_EVENT = "EVENT";
 	public static final String TASKREFTYPE_FILE = "FILE";
+	public static final String TASKREFTYPE_MOVIE = "MOVIE";
 	public static final String TASKREFTYPE_NOTHING = "NOTHING";
 
 	public static final String[] NOTUSERTASKTYPES = new String[]{"route", "and", "xor", "SUBFLOW", "SERVICE"};

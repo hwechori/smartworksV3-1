@@ -45,6 +45,7 @@ import net.smartworks.model.work.FileCategory;
 import net.smartworks.model.work.FormField;
 import net.smartworks.model.work.SmartForm;
 import net.smartworks.model.work.SmartWork;
+import net.smartworks.model.work.SocialWork;
 import net.smartworks.model.work.Work;
 import net.smartworks.model.work.info.SmartWorkInfo;
 import net.smartworks.model.work.info.WorkCategoryInfo;
@@ -1558,6 +1559,18 @@ public class InstanceServiceImpl implements IInstanceService {
 	}
 
 	@Override
+	public void updateCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeCommentOnWork(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void addCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 
 		try{
@@ -1576,7 +1589,8 @@ public class InstanceServiceImpl implements IInstanceService {
 			TskTask[] tskTasks = null;
 			TskTask tskTask = null;
 			if(!CommonUtil.isEmpty(workInstanceId)) {
-				if(workType == SmartWork.TYPE_INFORMATION) {
+				if(workType == SmartWork.TYPE_INFORMATION || workType == SocialWork.TYPE_MEMO || workType == SocialWork.TYPE_EVENT || workType == SocialWork.TYPE_BOARD
+						 || workType == SocialWork.TYPE_FILE || workType == SocialWork.TYPE_IMAGE || workType == SocialWork.TYPE_MOVIE) {
 					tskCond.setExtendedProperties(new Property[] {new Property("recordId", workInstanceId)});
 					tskCond.setOrders(new Order[]{new Order(TskTaskCond.A_MODIFICATIONDATE, false)});
 					tskTasks = SwManagerFactory.getInstance().getTskManager().getTasks(userId, tskCond, IManager.LEVEL_LITE);
@@ -1607,6 +1621,18 @@ public class InstanceServiceImpl implements IInstanceService {
 			e.printStackTrace();
 			// Exception Handling Required			
 		}
+	}
+
+	@Override
+	public void updateCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeCommentOnInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private SwdRecord getSwdRecordByRequestBody_old(String userId, SwdField[] swdFields, Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
@@ -4673,4 +4699,5 @@ public class InstanceServiceImpl implements IInstanceService {
 	public String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		return executeTask(requestBody, request, "save");
 	}
+
 }
