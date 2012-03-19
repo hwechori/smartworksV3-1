@@ -256,6 +256,7 @@ SmartWorks.GridLayout = function(config) {
 				}else{
 					var paramsJson = {};
 					paramsJson['workId'] = workId;
+					paramsJson['formId'] = formId;
 					console.log(JSON.stringify(paramsJson));
 					$.ajax({
 						url : "refresh_record.sw",
