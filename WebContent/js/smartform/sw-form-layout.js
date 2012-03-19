@@ -184,7 +184,36 @@ SmartWorks.GridLayout = function(config) {
 							}
 						});
 				}else{
-					return getLayout(formXml, null, this_);
+					getLayout(formXml, null, this_, refreshTarget);
+					var forms = refreshTarget.find('form');
+					var paramsJson = {};
+					paramsJson['workId'] = workId;
+					for(var i=0; i<forms.length; i++){
+						var form = $(forms[i]);
+						
+						// 폼이 스마트폼이면 formId와 formName 값을 전달한다...
+						if(form.attr('name') === 'frmSmartForm'){
+							paramsJson['formId'] = form.attr('formId');
+							paramsJson['formName'] = form.attr('formName');
+						}
+						
+						// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
+						paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+					}
+					refreshTarget.html("").show();
+					console.log(JSON.stringify(paramsJson));
+					$.ajax({
+						url : "refresh_record.sw",
+						contentType : 'application/json',
+						type : 'POST',
+						data : JSON.stringify(paramsJson),
+						success : function(formData, status, jqXHR) {
+							return getLayout(formXml, formData.record, this_);
+						},
+						error : function(e) {
+							return getLayout(formXml, null, this_);
+						}
+					});					
 				}
 			},
 			error : function(xhr, ajaxOptions, thrownError){
