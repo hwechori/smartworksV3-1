@@ -582,6 +582,9 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			SwdRecord record = getSwdRecordByRequestBody(userId, domainFields, requestBody, request);
 			
+			if (record.getCreationDate() == null)
+				record.setCreationDate(new LocalDate());
+			
 			//새로 값이 셋팅되어 변경될 레코드 클론
 			SwdRecord oldRecord = (SwdRecord)record.clone();
 			SwdRecord newRecord = (SwdRecord)record.clone();
@@ -597,6 +600,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
+			logger.error(e);
 			return null;			
 			// Exception Handling Required			
 		}
@@ -949,6 +953,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
+			logger.error(e);
 			// Exception Handling Required			
 		}
 	}	
