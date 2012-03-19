@@ -25,61 +25,30 @@
 	<%
 	if (instances != null) {
 		for (InstanceInfo instance : instances) {
-			String iconType = null;
-			String workContext = null;
-			String targetContent = null;
 			SmartWorkInfo work = null;
 			WorkInstanceInfo workInstance = null;
 			if (instance.getClass().equals(WorkInstanceInfo.class)) {
 				workInstance = (WorkInstanceInfo) instance;
 				work = (SmartWorkInfo) workInstance.getWork();
-				switch (work.getType()) {
-				case SmartWork.TYPE_INFORMATION:
-					iconType = "icon_iworks";
-					workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_SPACE + workInstance.getId();
-					targetContent = "iwork_space.sw";
-					break;
-				case SmartWork.TYPE_PROCESS:
-					iconType = "icon_pworks";
-					workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_SPACE + workInstance.getId();
-					targetContent = "pwork_space.sw";
-					break;
-				case SmartWork.TYPE_SCHEDULE:
-					iconType = "icon_sworks";
-					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_SPACE + workInstance.getId();
-					targetContent = "swork_space.sw";
-					break;
-				default:
-				}
+	%>
+				<li>
+					<a href="<%=workInstance.getController()%>?cid=<%=workInstance.getContextId()%>" workId="<%=work.getId() %>" class="js_content">
+						<img class="<%=work.getIconClass()%>" border="0"><%=work.getFullpathName()%><%=workInstance.getSubject()%>
+					</a>
+				</li>
+			<%
 			} else if (instance.getClass().equals(TaskInstanceInfo.class)) {
+				TaskInstanceInfo taskInstance = (TaskInstanceInfo)instance;
 				workInstance = ((TaskInstanceInfo) instance).getWorkInstance();
 				work = (SmartWorkInfo) workInstance.getWork();
-				switch (work.getType()) {
-				case SmartWork.TYPE_INFORMATION:
-					iconType = "icon_iworks";
-					workContext = ISmartWorks.CONTEXT_PREFIX_IWORK_TASK + instance.getId();
-					targetContent = "iwork_task.sw";
-					break;
-				case SmartWork.TYPE_PROCESS:
-					iconType = "icon_pworks";
-					workContext = ISmartWorks.CONTEXT_PREFIX_PWORK_TASK + instance.getId();
-					targetContent = "pwork_task.sw";
-					break;
-				case SmartWork.TYPE_SCHEDULE:
-					iconType = "icon_sworks";
-					workContext = ISmartWorks.CONTEXT_PREFIX_SWORK_TASK + instance.getId();
-					targetContent = "swork_taskz.sw";
-					break;
-				default:
-				}
-			}
-	%>
-			<li>
-				<a href="<%=targetContent%>?cid=<%=workContext%>" class="js_content">
-					<img class="<%=iconType%>" border="0"><%=work.getFullpathName()%><%=workInstance.getSubject()%>
-				</a>
-			</li>
+			%>
+				<li>
+					<a href="<%=taskInstance.getController()%>?cid=<%=taskInstance.getContextId()%>" workId="<%=work.getId() %>" taskInstId="<%=taskInstance.getId() %>" class="js_content">
+						<img class="<%=work.getIconClass()%>" border="0"><%=work.getFullpathName()%><%=workInstance.getSubject()%>
+					</a>
+				</li>
 	<%
+			}
 		}
 	}else{
 	%>
