@@ -1,12 +1,12 @@
 /*	
  * $Id$
  * created by    : hsshin
- * creation-date : 2011. 11. 16.
+ * creation-date : 2012. 3. 19.
  * =========================================================
- * Copyright (c) 2011 ManinSoft, Inc. All rights reserved.
+ * Copyright (c) 2012 ManinSoft, Inc. All rights reserved.
  */
 
-package net.smartworks.server.engine.basicwork.board.manager.impl;
+package net.smartworks.server.engine.opinion.manager.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -14,55 +14,62 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import net.smartworks.server.engine.basicwork.board.exception.BoardException;
-import net.smartworks.server.engine.basicwork.board.manager.IBoardManager;
 import net.smartworks.server.engine.basicwork.board.model.Board;
-import net.smartworks.server.engine.basicwork.board.model.BoardCond;
 import net.smartworks.server.engine.common.manager.AbstractManager;
 import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.opinion.exception.OpinionException;
+import net.smartworks.server.engine.opinion.manager.IOpinionManager;
+import net.smartworks.server.engine.opinion.model.Opinion;
+import net.smartworks.server.engine.opinion.model.OpinionCond;
 
 import org.hibernate.Query;
 
-public class BoardManagerImpl extends AbstractManager implements IBoardManager {
+public class OpinionManagerImpl extends AbstractManager implements IOpinionManager {
 
-	public BoardManagerImpl() {
+	public OpinionManagerImpl() {
 		super();
 		if (logger.isInfoEnabled())
 			logger.info(this.getClass().getName() + " created");
 	}
-	public Board getBoard(String user, String objId, String level) throws BoardException {
+
+	@Override
+	public Opinion getOpinion(String user, String objId, String level) throws OpinionException {
 		if (level == null)
 			level = LEVEL_ALL;
 		if (level.equals(LEVEL_ALL)) {
 			try {
-				Board obj = (Board)get(Board.class, objId);
+				Opinion obj = (Opinion)get(Opinion.class, objId);
 				return obj;
 			} catch (Exception e) {
-				throw new BoardException(e);
+				throw new OpinionException(e);
 			}
 		} else {
-			BoardCond cond = new BoardCond();
+			OpinionCond cond = new OpinionCond();
 			cond.setObjId(objId);
-			Board[] objs = this.getBoards(user, cond, level);
+			Opinion[] objs = this.getOpinions(user, cond, level);
 			if (CommonUtil.isEmpty(objs))
 				return null;
 			return objs[0];
 		}
 	}
-	public Board getBoard(String user, BoardCond cond, String level)throws BoardException {
+
+	@Override
+	public Opinion getOpinion(String user, OpinionCond cond, String level) throws OpinionException {
 		if (cond == null)
 			return null;
 		if (level == null)
 			level = LEVEL_ALL;
 		cond.setPageSize(2);
-		Board[] senders = getBoards(user, cond, level);
-		if (CommonUtil.isEmpty(senders))
+		Opinion[] opinions = getOpinions(user, cond, level);
+		if (CommonUtil.isEmpty(opinions))
 			return null;
-		if (senders.length > 1)
-			throw new BoardException("More than 1 sender. ");
-		return senders[0];
+		if (opinions.length > 1)
+			throw new OpinionException("More than 1 opinion. ");
+		return opinions[0];
 	}
-	public void setBoard(String user, Board obj, String level) throws BoardException {
+
+	@Override
+	public void setOpinion(String user, Opinion obj, String level) throws OpinionException {
 		if (level == null)
 			level = LEVEL_ALL;
 		try {
@@ -71,55 +78,60 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 				set(obj);
 			} else {
 				StringBuffer buf = new StringBuffer();
-				buf.append("update Board set ");
-				buf.append(" title=:title, content=:content, fileGroupId=:fileGroupId,");
-				buf.append(" creationDate=:creationDate, creationUser=:creationUser, modificationUser=:modificationUser,");
-				buf.append(" modificationDate=:modificationDate where objId=:objId");
+				buf.append("update Opinion set ");
+				buf.append(" title=:title, opinion=:opinion, modificationUser=:modificationUser, modificationDate=:modificationDate");
+				buf.append(" where objId=:objId");
 				Query query = this.getSession().createQuery(buf.toString());
-				query.setString(Board.A_TITLE, obj.getTitle());
-				query.setString(Board.A_CONTENT, obj.getContent());
-				query.setString(Board.A_FILEGROUPID, obj.getFileGroupId());
-				query.setTimestamp(Board.A_CREATIONDATE, obj.getCreationDate());
-				query.setString(Board.A_CREATIONUSER, obj.getCreationUser());
-				query.setString(Board.A_MODIFICATIONUSER, obj.getModificationUser());
-				query.setTimestamp(Board.A_MODIFICATIONDATE, obj.getModificationDate());
-				query.setString(Board.A_OBJID, obj.getObjId());
+				query.setString(Opinion.A_TITLE, obj.getTitle());
+				query.setString(Opinion.A_OPINION, obj.getOpinion());
+				query.setString(Opinion.A_MODIFICATIONUSER, obj.getModificationUser());
+				query.setTimestamp(Opinion.A_MODIFICATIONDATE, obj.getModificationDate());
+				query.setString(Opinion.A_OBJID, obj.getObjId());
 				query.executeUpdate();
 			}
 		} catch (Exception e) {
 			logger.error(e, e);
-			throw new BoardException(e);
+			throw new OpinionException(e);
 		}
 	}
 
-	public void createBoard(String user, Board obj) throws BoardException {
+	@Override
+	public void createOpinion(String user, Opinion obj) throws OpinionException {
 		try {
 			fill(user, obj);
 			create(obj);
 		} catch (Exception e) {
 			logger.error(e, e);
-			throw new BoardException(e);
+			throw new OpinionException(e);
 		}
 	}
-	public void removeBoard(String user, String objId) throws BoardException {
+
+	@Override
+	public void removeOpinion(String user, String objId) throws OpinionException {
 		try {
 			remove(Board.class, objId);
 		} catch (Exception e) {
-			throw new BoardException(e);
+			throw new OpinionException(e);
 		}
 	}
-	public void removeBoard(String user, BoardCond cond) throws BoardException {
-		Board obj = getBoard(user, cond, null);
+
+	@Override
+	public void removeOpinion(String user, OpinionCond cond) throws OpinionException {
+		Opinion obj = getOpinion(user, cond, null);
 		if (obj == null)
 			return;
-		removeBoard(user, obj.getObjId());
-
+		removeOpinion(user, obj.getObjId());
 	}
-	private Query appendQuery(StringBuffer buf, BoardCond cond) throws Exception {
+
+	private Query appendQuery(StringBuffer buf, OpinionCond cond) throws Exception {
 		String objId = null;
+		int refType = 0;
+		String refId = null;
+		String groupId = null;
 		String title = null;
-		String content = null;
-		String fileGroupId = null;
+		String opinion = null;
+		String refDomainId = null;
+		String refFormId = null;
 		String creationUser = null;
 		Date creationDate = null;
 		String modificationUser = null;
@@ -127,26 +139,38 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 
 		if (cond != null) {
 			objId = cond.getObjId();
+			refType = cond.getRefType();
+			groupId = cond.getGroupId();
+			refId = cond.getRefId();
+			refDomainId = cond.getRefDomainId();
+			refFormId = cond.getRefFormId();
 			title = cond.getTitle();
-			content = cond.getContent();
-			fileGroupId = cond.getFileGroupId();
+			opinion = cond.getOpinion();
 			creationUser = cond.getCreationUser();
 			creationDate = cond.getCreationDate();
 			modificationUser = cond.getModificationUser();
 			modificationDate = cond.getModificationDate();
 		}
-		buf.append(" from Board obj");
+		buf.append(" from Opinion obj");
 		buf.append(" where obj.objId is not null");
 		//TODO 시간 검색에 대한 확인 필요
 		if (cond != null) {
 			if (objId != null) 
 				buf.append(" and obj.objId = :objId");
+			if (refType != 0)
+				buf.append(" and obj.refType = :refType");
+			if (groupId != null) 
+				buf.append(" and obj.groupId = :groupId");
+			if (refId != null) 
+				buf.append(" and obj.refId = :refId");
+			if (refDomainId != null) 
+				buf.append(" and obj.refDomainId = :refDomainId");
+			if (refFormId != null)
+				buf.append(" and obj.refFormId = :refFormId");
 			if (title != null) 
 				buf.append(" and obj.title = :title");
-			if (content != null) 
-				buf.append(" and obj.content = :content");
-			if (fileGroupId != null) 
-				buf.append(" and obj.fileGroupId = :fileGroupId");
+			if (opinion != null) 
+				buf.append(" and obj.opinion = :opinion");
 			if (creationUser != null)
 				buf.append(" and obj.creationUser = :creationUser");
 			if (creationDate != null)
@@ -162,12 +186,20 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 			if (cond != null) {
 				if (objId != null)
 					query.setString("objId", objId);
+				if (refType != 0)
+					query.setInteger("refType", refType);
+				if (groupId != null)
+					query.setString("groupId", groupId);
+				if (refId != null)
+					query.setString("refId", refId);
+				if (refDomainId != null)
+					query.setString("refDomainId", refDomainId);
+				if (refFormId != null)
+					query.setString("refFormId", refFormId);
 				if (title != null)
 					query.setString("title", title);
-				if (content != null)
-					query.setString("content", content);
-				if (fileGroupId != null)
-					query.setString("fileGroupId", fileGroupId);
+				if (opinion != null)
+					query.setString("opinion", opinion);
 				if (creationUser != null)
 					query.setString("creationUser", creationUser);
 				if (creationDate != null)
@@ -180,7 +212,9 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 		return query;
 
 	}
-	public long getBoardSize(String user, BoardCond cond) throws BoardException {
+
+	@Override
+	public long getOpinionSize(String user, OpinionCond cond) throws OpinionException {
 		try {
 			StringBuffer buf = new StringBuffer();
 			buf.append("select");
@@ -191,11 +225,12 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 			return count;
 		} catch (Exception e) {
 			logger.error(e, e);
-			throw new BoardException(e);
+			throw new OpinionException(e);
 		}
-	
 	}
-	public Board[] getBoards(String user, BoardCond cond, String level) throws BoardException {
+
+	@Override
+	public Opinion[] getOpinions(String user, OpinionCond cond, String level) throws OpinionException {
 		try {
 			if (level == null)
 				level = LEVEL_LITE;
@@ -204,7 +239,8 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 			if (level.equals(LEVEL_ALL)) {
 				buf.append(" obj");
 			} else {
-				buf.append(" obj.objId, obj.title, obj.content, obj.fileGroupId,");
+				buf.append(" obj.objId, obj.refType, obj.groupId, obj.refId,");
+				buf.append(" obj.refDomainId, obj.refFormId, obj.title, obj.opinion,");
 				buf.append(" obj.creationUser, obj.creationDate, obj.modificationUser, obj.modificationDate");
 			}
 			Query query = this.appendQuery(buf, cond);
@@ -215,12 +251,16 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 				List objList = new ArrayList();
 				for (Iterator itr = list.iterator(); itr.hasNext();) {
 					Object[] fields = (Object[]) itr.next();
-					Board obj = new Board();
+					Opinion obj = new Opinion();
 					int j = 0;
 					obj.setObjId((String)fields[j++]);
+					obj.setRefType((Integer)fields[j++]);
+					obj.setGroupId((String)fields[j++]);
+					obj.setRefId((String)fields[j++]);
+					obj.setRefDomainId((String)fields[j++]);
+					obj.setRefFormId((String)fields[j++]);
 					obj.setTitle((String)fields[j++]);
-					obj.setContent((String)fields[j++]);
-					obj.setFileGroupId((String)fields[j++]);
+					obj.setOpinion((String)fields[j++]);
 					obj.setCreationUser(((String)fields[j++]));
 					obj.setCreationDate(((Timestamp)fields[j++]));
 					obj.setModificationUser(((String)fields[j++]));
@@ -229,12 +269,12 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 				}
 				list = objList;
 			}
-			Board[] objs = new Board[list.size()];
+			Opinion[] objs = new Opinion[list.size()];
 			list.toArray(objs);
 			return objs;
 		} catch (Exception e) {
 			logger.error(e, e);
-			throw new BoardException(e);
+			throw new OpinionException(e);
 		}
 	}
 

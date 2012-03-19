@@ -26,6 +26,11 @@ CREATE TABLE SwFolderFile (
   	primary key(folderId, fileId)
 );
 
+-- SwOpinion Table (댓글)에 컬럼 추가
+ALTER TABLE SwOpinion add modifier varchar(30);
+ALTER TABLE SwOpinion add modifiedTime datetime;
+
+
 -- TO-DO : user_field 추가 시 컬럼 길이 4000으로 변경
 
 -- SWOrgUser locale, timeZone column add
