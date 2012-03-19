@@ -159,45 +159,6 @@
 			<!-- 목록영역  -->
 			<div class="contents_space">
 
-				<!--통계메뉴 영역-->
-				<div class="txt_btn mb5 mt10 js_work_report">
-
-					<div class="po_right">
-						<a href="work_report.sw?workId=<%=work.getId()%>"
-							class="js_new_work_report"><fmt:message key="report.button.new_work_report"/></a>
-					</div>
-					<div class="po_right icon_btn_stat">
-						<select name="selMyReportList" class="js_select_work_report"
-							href="work_report_view.sw?workId=<%=work.getId()%>&workType=<%=work.getType()%>">
-							<%
-							Report[] infoReports = ChartReport.DEFAULT_CHARTS_INFORMATION;
-							if (infoReports != null) {
-								for (Report report : infoReports) {
-									String chartType = null;
-									if(report.getType() == Report.TYPE_CHART) chartType = ((ChartReport)report).getChartTypeInString();
-							%>
-							<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>>
-								<fmt:message key="<%=report.getName()%>" />
-							</option>
-							<%
-								}
-							}
-							ReportInfo[] reports = null;//work.getReports();
-							if (reports != null) {
-								for (ReportInfo report : reports) {
-									String chartType = report.getChartTypeInString();
-							%>
-							<option value="<%=report.getId()%>" reportType="<%=report.getType()%>" <%if(chartType!=null){ %>chartType="<%=chartType%>"<%}%>><%=report.getName()%></option>
-							<%
-								}
-							}
-							%>
-						</select>
-					</div>
-				</div>
-				<!--통계메뉴 영역//-->
-				<div class="js_work_report_form mb5"></div>
-
 				<!-- 목록보기 -->
 				<div>
 
@@ -238,12 +199,6 @@
 							</a>
 						</div>
 
-						<div class="txt_btn">
-							<div class="po_right"><a href="">엑셀로 등록하기</a></div>
-							<div class="po_right">
-								<a href="new_iwork.sw?workId=<%=work.getId()%>" class="js_create_new_work" workId="<%=work.getId()%>">새항목 등록하기</a>
-							</div>
-						</div>
 					</div>
 					<!-- 목록보기 타이틀-->
 

@@ -85,6 +85,7 @@ a .repl_write:hover {background: url("../../images/header_nico.png") no-repeat 0
 /* GR 포인트 */
 .gr_up_point {background: url("../../images/up_point_gr.gif") no-repeat scroll left top transparent; height: 13px; width: 23px;}
 .posit_point {left:30px; position: relative; top:7px; z-index:90;}
+.posit_default {left: 58px; position: relative; top: 1px; margin-top:5px; z-index: 20;}
 
 /* GR 포틀릿 */
 .gr_portlet {
@@ -122,6 +123,13 @@ a .repl_write:hover {background: url("../../images/header_nico.png") no-repeat 0
 .process_section { position:relative; float: left; height: 59px; width:100%}
 .process_space {line-height:15px}
 .process_space li { float:left}
+
+.process_space li.js_select_task_manual {}
+.process_space li.js_select_task_manual:hover, .process_space li.selected { border: 1px solid red; cursor:pointer;}
+
+.process_space li.js_select_task_instance {}
+.process_space li.js_select_task_instance:hover, .process_space li.selected { border: 1px solid red; cursor:pointer;}
+
 .proc_btn_prev {background: url("../../images/proc_bg.png") no-repeat -70px 0 transparent; width:11px; height:19px; position: absolute; left: 0; margin: 22px 0 0 20px;}
 a .proc_btn_prev:hover {background: url("../../images/proc_bg.png") no-repeat -70px -28px transparent;}
 .proc_btn_next {background: url("../../images/proc_bg.png") no-repeat -129px 0 transparent; width:11px; height:19px; position: absolute; right: 0; margin: 22px 20px 0 0}
@@ -225,8 +233,8 @@ a:hover.btn_arr_next2 {background: url("../../images/body_icon.png") no-repeat -
 /* 상단 아이콘 */
 .icon_refer_w {background: url("../../images/body_icon.png") no-repeat scroll 0 -364px transparent; height:16px; width:16px; display:inline-block;}
 .icon_link_w {background: url("../../images/body_icon.png") no-repeat scroll -40px -364px transparent; height:16px; width:17px; display:inline-block;}
-.icon_print {background: url("../../images/body_icon.png") no-repeat scroll -80px -364px transparent; height:16px; width:16px; display:inline-block;}
-.icon_mail {background: url("../../images/body_icon.png") no-repeat scroll -124px -364px transparent; height:16px; width:17px; display:inline-block;}
+.icon_print_w {background: url("../../images/body_icon.png") no-repeat scroll -80px -364px transparent; height:16px; width:16px; display:inline-block;}
+.icon_mail_w {background: url("../../images/body_icon.png") no-repeat scroll -124px -364px transparent; height:16px; width:17px; display:inline-block;}
 
 /* 사진 이미지 사이즈 */
 .profile_size_b {width:110px; height:110px;}
@@ -255,10 +263,10 @@ a:hover.btn_arr_next2 {background: url("../../images/body_icon.png") no-repeat -
 .icon_btn_file {background: url("../../images/body_icon.png") no-repeat scroll -163px -364px transparent; height:20px; width:16px; display:inline-block;}
 
 /*프로파일 화면 구성*/
-.section_portlet .photo_section,.section_portlet .table_normal600{float:left; clear:both}
-.section_portlet .photo_section{width:200px}
+.photo_section {width:200px; float:left}
+.section_portlet .table_normal600{float:left;}
+.photo_section .qq-upload-button{top:115px;left:40px}
 .t_text_s11{margin:30px 0 0 28px;text-align:center;width:110px}
-.section_portlet .qq-upload-button{top:115px;left:30px}
 
 /* Icon button style */
 .title_line_btns{float:right;position:relative;top:-3px;}
@@ -303,4 +311,4 @@ a:hover.btn_arr_next2 {background: url("../../images/body_icon.png") no-repeat -
 .right_auto2 { display: block; padding-left:320px; width:auto}
 .left_im2 table, .right_auto2 table { width:100% ; min-width:inherit}
 
-.community_names .user_sel_area{float:left;padding:0;margin-left:3px;padding:0;position:relative;top:-2px}
+.community_names .user_select{padding: 0 3px;margin:0;margin-left:3px;position:relative;top:0;}

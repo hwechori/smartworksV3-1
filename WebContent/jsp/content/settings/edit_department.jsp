@@ -106,7 +106,7 @@
 						</td>	
 					</tr>
 					<tr>
-						<th><fmt:message key="profile.title.department"/><span class="essen_n"></span></th>
+						<th class="required_label"><fmt:message key="profile.title.department"/></th>
 						<td><input name="txtDepartmentName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(department.getName()) %>" /></td>
 					</tr>
 				</tbody>

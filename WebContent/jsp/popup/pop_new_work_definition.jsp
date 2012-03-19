@@ -126,7 +126,7 @@
 				}
 				%>
 				<tr>
-					<td><fmt:message key="builder.title.work_name" /><span class="essen_n"></span></td>
+					<td class="required_label"><fmt:message key="builder.title.work_name" /></td>
 					<td>
 						<input name="txtWorkName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(workName)%>">		
 					</td>

@@ -120,11 +120,11 @@
 						%>
 					</tr>
 					<tr>
-						<th><fmt:message key="profile.title.user_name"/><span class="essen_n"></span></th>
+						<th class="required_label"><fmt:message key="profile.title.user_name"/></th>
 						<td><input name="txtMemberName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(user.getName()) %>" /></td>
 					</tr>
 					<tr>
-						<th><fmt:message key="profile.title.user_id"/><span class="essen_n"></span></th>
+						<th class="required_label"><fmt:message key="profile.title.user_id"/></th>
 						<td>
 						
 						<div class="btn_fb_space5">
@@ -142,11 +142,11 @@
 						</td>
 					</tr>
 					<tr>
-						<th><fmt:message key="profile.title.password"/><span class="essen_n"></span></th>
+						<th class="required_label"><fmt:message key="profile.title.password"/></th>
 						<td><input name="pasMemberPassword" class="fieldline required" type="password" value="<%=CommonUtil.toNotNull(user.getPassword()) %>" /></td>
 					</tr>
 					<tr>
-						<th><fmt:message key="profile.title.password_confirm"/><span class="essen_n"></span></th>
+						<th class="required_label"><fmt:message key="profile.title.password_confirm"/></th>
 						<td><input name="pasMemberPasswordConfirm" class="fieldline required" type="password" value="<%=CommonUtil.toNotNull(user.getPassword()) %>" /></td>
 					</tr>
 					<tr>
@@ -176,7 +176,7 @@
 						</select></td>
 					</tr>
 					<tr>
-						<th><fmt:message key="profile.title.locale" /><span class="essen_n"></span></th>
+						<th class="required_label"><fmt:message key="profile.title.locale" /></th>
 						<td>
 							<select name="selMemberLocale">
 								<%
@@ -191,7 +191,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th><fmt:message key="profile.title.timezone" /><span class="essen_n"></span></th>
+						<th class="required_label"><fmt:message key="profile.title.timezone" /></th>
 						<td>
 							<select name="selMemberTimeZone">
 								<%

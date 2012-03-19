@@ -116,11 +116,11 @@ function submitForms() {
 		
 		<!-- 전자결재, 업무전달 버튼들 -->
 		<div class="txt_btn mb2">
-			<div class="po_right">
+			<div class="fr image_pos">
 				<a href="" class="js_toggle_approval_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.approval'/>" /> </a>
 			</div>
-			<div class="po_right">
-				<a href="" class="js_toggle_forward_btn"><img src="images/btn_approvep.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
+			<div class="fr image_pos">
+				<a href="" class="js_toggle_forward_btn"><img src="images/btn_referw.gif" title="<fmt:message key='common.button.forward'/>" /> </a>
 			</div>
 		</div>
 		<!-- 전자결재, 업무전달 버튼들 //-->
@@ -130,10 +130,10 @@ function submitForms() {
 	<!-- 스마트폼 화면을 필수항목만 또는 모든항목을 표시하게하는 버튼 -->
 	<!-- js_toggle_form_detail : js/sw/sw-act-work.js 에서 해당 항목의 click 이벤트에 라이브를 걸어 toggle 해준다. -->
 	<div class="txt_btn txt_btn_height js_form_detail_buttons">
-		<div class="po_right">
+		<div>
 			<a href="" class="js_toggle_form_detail" requiredOnly="false" workId="<%=workId%>"><fmt:message key="common.upload.button.detail" /> </a>
 		</div>
-		<div class="po_right" style="display: none">
+		<div style="display: none">
 			<a href="" class="js_toggle_form_detail" requiredOnly="true" workId="<%=workId%>"><fmt:message key="common.upload.button.brief" /> </a>
 		</div>
 	</div>

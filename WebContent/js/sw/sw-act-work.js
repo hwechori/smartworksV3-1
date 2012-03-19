@@ -161,7 +161,7 @@ $(function() {
 		var input = $(event.target);
 		input.parent().hide().siblings().show();
 		var formContent = $('#form_works').find('div.js_form_content');
-		if(isEmpty(formContent)) formContent = input.parents('.js_iwork_list_page').find('div.js_form_content');
+		if(isEmpty(formContent)) formContent = input.parents('.js_work_list_page').find('div.js_form_content');
 		var workId = input.attr('workId');
 		var requiredOnly = input.attr('requiredOnly');
 		formContent.html('');
@@ -332,13 +332,14 @@ $(function() {
 		return false;
 	});
 
-	$('a.js_select_task_manual').live('click', function(e){
-		var input = $(e.target).parents('a.js_select_task_manual:first');
-		var manualTasksHolder = input.parents('.js_pwork_manual_page').find('.js_manual_tasks_holder');
-		
+	$('.js_select_task_manual').live('click', function(e){
+		var input = $(e.target);
+		if(!input.hasClass('js_select_task_manual')) input = input.parents('.js_select_task_manual:first');
 		var target = $("#"+input.attr("taskId"));
 		var target_point = $(target).find("div.up_point:first");
-		var selectedManualTask = input.parents('.js_manual_task');
+		var selectedManualTask = input;
+		input.parents('.js_pwork_manual_page').find('.js_manual_task').removeClass('selected');
+		selectedManualTask.addClass('selected');
 		target_point.css({"left": (selectedManualTask.position().left + selectedManualTask.outerWidth()/2) + "px"});
 		$(target).show().siblings('div.js_task_manual').hide();
 		return false;
@@ -395,7 +396,7 @@ $(function() {
 		}
 		
 		if(tasksVisible.length>0)
-			$(tasksVisible[i-1]).find('div:first').click();
+			$(tasksVisible[i-1]).click();
 		return false;
 	});
 	
@@ -439,13 +440,14 @@ $(function() {
 		}
 
 		if(tasksVisible.length>0)
-			$(tasksVisible[0]).find('div:first').click();
+			$(tasksVisible[0]).click();
 		return false;
 	});
 	
-	$('a.js_select_task_instance').live("click", function(e){
+	$('.js_select_task_instance').live("click", function(e){
 		smartPop.progressCenter();
-		var input = $(e.target).parents('a');
+		var input = $(e.target);
+		if(!input.hasClass('js_select_task_instance')) input = input.parents('.js_select_task_instance:first');		
 		clickOnTask(input);
 		return false;
 	});
@@ -504,7 +506,7 @@ $(function() {
 		}
 		
 		if(tasksVisible.length>0)
-			$(tasksVisible[i-1]).find('img:first').click();
+			$(tasksVisible[i-1]).click();
 		return false;
 	});
 	
@@ -550,7 +552,7 @@ $(function() {
 		}
 
 		if(tasksVisible.length>0)
-			$(tasksVisible[0]).find('img:first').click();
+			$(tasksVisible[0]).click();
 		return false;
 	});
 
@@ -1128,11 +1130,11 @@ $(function() {
 
 	$('a.js_userpicker_button').live('click', function(e) {
 		var userField = $(e.target).parents('.js_type_userField:first');
-		var userInput = userField.find('.js_selected_communities:first');
+		var communityItems = userField.find('.js_community_item');
 		var target = userField.find('.js_community_popup:first');
 		var width = userField.find('.form_value').find('div:first').width();
 		var isMultiUsers = userField.attr('multiUsers');
-		smartPop.selectUser(userInput, target, width, isMultiUsers);
+		smartPop.selectUser(communityItems, target, width, isMultiUsers);
 		return false;
 	});
 

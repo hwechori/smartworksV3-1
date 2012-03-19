@@ -82,19 +82,18 @@
 	<!-- 컨텐츠 -->
 	<form name="frmNewGroupProfile" class="js_validation_required">
 		<div class="contents_space">
-			<div><fmt:message key="group.title.picture" />
-				<span class="photo_section">			
-					<!--  *** js_group_profile_field : sw_act_work.js에서 화면로딩이 완료되면 이 클래스로 찾아서,  	-->
-					<!--      현재 커뮤너티 그룹의 사진을 보여주고, 다른 사진을 올리줄 있도록하는 기능을 제공한다. 			-->
-					<div class="js_group_profile_field js_auto_load_group_profile"></div>
-					<div class="t_text_s11"><fmt:message key="profile.title.size_desc"/></div>
-				</span>					
-			</div>
 			<table>
 				<tr>
+					<td style="width:20%"><fmt:message key="group.title.picture" /></td>
+					<td class="photo_section fl">			
+						<!--  *** js_group_profile_field : sw_act_work.js에서 화면로딩이 완료되면 이 클래스로 찾아서,  	-->
+						<!--      현재 커뮤너티 그룹의 사진을 보여주고, 다른 사진을 올리줄 있도록하는 기능을 제공한다. 			-->
+						<div class="js_group_profile_field js_auto_load_group_profile"></div>
+						<div class="t_text_s11"><fmt:message key="profile.title.size_desc"/></div>
+					</td>					
 				</tr>
 				<tr>
-					<td><fmt:message key="group.title.name" /><span class="essen_n"></span></td>
+					<td class="required_label"  style="width:12%"><fmt:message key="group.title.name" /></td>
 					<td>
 						<input name="txtGroupName" class="fieldline required" type="text">		
 					</td>
@@ -123,15 +122,13 @@
 				<tr>
 					<td><fmt:message key="group.title.members" /></td>
 					<td class="js_type_userField" fieldId="txtGroupMembers" multiUsers="true">
-						<div class="form_value">
-							<div>
-								<div class="fieldline community_names js_community_names">
-									<div class="js_selected_communities user_sel_area"></div>
-									<input class="js_auto_complete" href="community_name.sw" type="text">
-									<div class="js_srch_x"></div>
-								</div>
-								<div class="js_community_list com_list" style="display: none"></div>
+						<div class="form_value w100">
+							<div class="fieldline community_names js_community_names">
+								<div class="js_selected_communities user_sel_area"></div>
+								<input class="m0 w99 js_auto_complete" href="community_name.sw" type="text">
+								<div class="js_srch_x"></div>
 							</div>
+							<div class="js_community_list com_list" style="display: none"></div>
 						</div>
 					</td>
 				</tr>

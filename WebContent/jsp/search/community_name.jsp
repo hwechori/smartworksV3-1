@@ -28,9 +28,8 @@
 			String comId = community.getId();
 	%>
 				<li>
-					<a href="" comName="<%=comName%>" comId="<%=comId %>" class="js_select_community">
-						<img src="<%=picName%>" class="profile_size_s"><%=comName%>
-					</a>
+					<a comName="<%=comName%>" comId="<%=comId %>" class="js_select_community">
+						<img src="<%=picName%>" class="profile_size_s"><%=comName%></a>
 				</li>
 	<%
 		}

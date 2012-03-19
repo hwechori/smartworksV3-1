@@ -45,23 +45,20 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 
 	if(multiUsers === 'true'){
 		for(var i=0; i<users.length; i++)
-			usersHtml = usersHtml +  "<span><span class='js_community_item user_select' comId='" + users[i].userId + "'>" + users[i].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";		
+			usersHtml = usersHtml +  "<span class='js_community_item user_select' comId='" + users[i].userId + "'>" + users[i].longName + "<a class='js_remove_community' href=''>&nbsp;x</a></span>";		
 		href = "community_name.sw";
 		icoClass = ' class="icon_fb_users"';
 	}else if (!isEmpty(users)) {
-		usersHtml = "<span><span class='js_community_item user_select' comId='" + users[0].userId + "'>" + users[0].longName + "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span></span>";
+		usersHtml = "<span class='js_community_item user_select' comId='" + users[0].userId + "'>" + users[0].longName + "<a class='js_remove_community' href=''> x</a></span>";
 	}
 
 	var $html = $('<div class="form_value" style="width:' + valueWidth + '%"> <div class="icon_fb_space">\
-					<div ' + required + '">\
-						<div class="js_selected_communities user_sel_area"></div>\
-						<input class="js_auto_complete" href="' + href + '" type="text">\
-						<div class="js_btn_x btn_im_x"></div>\
+					<div ' + required + '>\
+						' + usersHtml + '\
+						<input class="m0 js_auto_complete" style="width:100px" href="' + href + '" type="text">\
 					</div>\
 					<div class="js_community_list srch_list_nowid" style="display: none"></div><span class="js_community_popup"></span><a href="" class="js_userpicker_button"><span ' + icoClass + '></span></a></div></div>');
 
-	$html.find('.js_selected_communities').html(usersHtml);
-	
 	if(readOnly){
 		$user = $('<div class="form_value" style="width:' + valueWidth + '%"></div>');
 		usersHtml = '';
@@ -106,13 +103,13 @@ SmartWorks.FormRuntime.UserFieldBuilder.buildEx = function(config){
 	};
 	SmartWorks.extend(options, config);
 
-	var labelWidth = 10;
-	if(options.columns >= 1 && options.columns <= 4 && options.colSpan <= options.columns) labelWidth = 10 * options.columns/options.colSpan;
+	var labelWidth = 12;
+	if(options.columns >= 1 && options.columns <= 4 && options.colSpan <= options.columns) labelWidth = 12 * options.columns/options.colSpan;
 	$formEntity =  $('<formEntity id="' + options.fieldId + '" name="' + options.fieldName + '" systemType="string" required="' + options.required + '" system="false">' +
 						'<format type="userField" viewingType="userField"/>' +
 					    '<graphic hidden="false" readOnly="'+ options.readOnly +'" labelWidth="'+ labelWidth + '" multipleUsers="' + options.multiUsers+ '"/>' +
 					'</formEntity>');
-	var $formCol = $('<td class="form_col js_type_userField" fieldid="' + options.fieldId+ '" colspan="' + options.colSpan + '" width="500.61775800946384" rowspan="1">');
+	var $formCol = $('<td class="form_col js_type_userField" fieldid="' + options.fieldId+ '" colspan="' + options.colSpan + '" width="' + options.colSpan/options.columns*100 + '%" rowspan="1">');
 	$formCol.appendTo(options.container);
 	SmartWorks.FormRuntime.UserFieldBuilder.build({
 			mode : options.readOnly, // view or edit

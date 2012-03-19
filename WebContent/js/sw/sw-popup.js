@@ -245,8 +245,7 @@ smartPop = {
 		$.modal.close();
 	},
 	
-	selectUser : function(userInput, target, width, isMultiUsers){
-		if(isEmpty(userInput)) return;
+	selectUser : function(communityItems, target, width, isMultiUsers){
 		target.html('');
 		var conWidth = (!isEmpty(width) && width>0) ? width : 360;
 		$.get("pop_select_user.sw?multiUsers="+isMultiUsers, function(data){
@@ -270,10 +269,8 @@ smartPop = {
 							$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 						}
 
-						var oldHTML = userInput.html();
-						if (oldHTML == null  || (userField.attr('multiUsers') !== 'true'))
-							oldHTML = "";
-						var communityItems = $(userInput).find('span.js_community_item:first');
+						if (isEmpty(communityItems) || (!isEmpty(userField) && userField.attr('multiUsers') !== 'true'))
+							communityItems.remove();
 						var isSameId = false;
 						for(var i=0; i<communityItems.length; i++){
 							var oldComId = $(communityItems[i]).attr('comId');
@@ -283,11 +280,10 @@ smartPop = {
 							}
 						}
 						if(!isSameId){
-							var newHTML = oldHTML + "<span class='js_community_item user_select' comId='" + comId+ "'>"
-								+ comName
-								+ "<span class='btn_x_gr'><a class='js_remove_community' href=''> x</a></span></span>";
-							userInput.html(newHTML);
+							$("<span class='js_community_item user_select' comId='" + comId+ "'>" + comName
+									+ "<a class='js_remove_community' href=''>&nbsp;x</a></span>").insertBefore(inputTarget);
 						}
+						inputTarget.focus();
 					};
 					
 					$('a.js_pop_select_user').die('click');

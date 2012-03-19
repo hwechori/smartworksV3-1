@@ -101,7 +101,7 @@
 		<div class="contents_space">
 			<table>
 				<tr>
-					<td><fmt:message key="builder.title.category_name" /><span class="essen_n"></span></td>
+					<td  class="required_label"><fmt:message key="builder.title.category_name" /></td>
 					<td>
 						<input name="txtCategoryName" class="fieldline required" type="text" value="<%=CommonUtil.toNotNull(categoryName)%>">		
 					</td>

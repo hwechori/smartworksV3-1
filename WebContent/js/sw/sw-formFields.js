@@ -53,7 +53,8 @@ function loadCheckScheduleFields() {
 			var checkScheduleField = $(checkScheduleFields[i]);
 			
 			var gridRow = SmartWorks.GridLayout.newGridRow();
-			checkScheduleField.html(SmartWorks.GridLayout.newGridTable().html(gridRow));
+			var gridTable = SmartWorks.GridLayout.newGridTable();
+			checkScheduleField.html(gridTable.html(gridRow));
 
 			var startDateName = checkScheduleField.attr("startDateName");
 			var endDateName = checkScheduleField.attr("endDateName");
@@ -62,7 +63,7 @@ function loadCheckScheduleFields() {
 				container: gridRow,
 				fieldId: "txtScheduleStartDate",
 				fieldName: startDateName,
-				columns: 3,
+				columns: 2,
 				colSpan: 1,
 				required: true
 			});
@@ -71,16 +72,17 @@ function loadCheckScheduleFields() {
 				container: gridRow,
 				fieldId: "txtScheduleEndDate",
 				fieldName: endDateName,
-				columns: 3,
+				columns: 2,
 				colSpan: 1,
 				required: true
 			});
 		  	
+			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
 			SmartWorks.FormRuntime.UserFieldBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtSchedulePerformer",
 				fieldName: performerName,
-				columns: 3,
+				columns: 2,
 				colSpan: 1,
 				multiUsers: false,
 				required: true,
@@ -377,7 +379,7 @@ function loadGroupProfileField() {
 				container: gridRow,
 				fieldId: "imgGroupProfile",
 				fieldName: "group profile",
-				imgSource: "images/default_group_picture.jpg",
+				imgSource: "images/default_group_picture.gif",
 				pictureWidth: 110,
 				pictureHeight: 110,
 				required: false
