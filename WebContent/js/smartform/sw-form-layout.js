@@ -147,6 +147,7 @@ SmartWorks.GridLayout = function(config) {
 		var formValues = this.options.formValues;
 		var onError = this.options.onError;
 		var getLayout = this.getLayout;
+		var layoutData = null;
 		var this_ = this;
 		$.ajax({
 			url : "get_form_xml.sw",
@@ -163,10 +164,12 @@ SmartWorks.GridLayout = function(config) {
 							recordId : recordId
 						},
 						success : function(formData, status, jqXHR) {
-							return getLayout(formXml, formData.record, this_);
+//							return getLayout(formXml, formData.record, this_);
+							layoutData = getLayout(formXml, formData.record, this_);
 						},
 						error : function(){
-							return getLayout(formXm, null, this_);
+//							return getLayout(formXm, null, this_);
+							layoutData = getLayout(formXm, null, this_);
 						}
 					});
 				}else if(isEmpty(formValues) && (!isEmpty(workId)) && (!isEmpty(taskInstId))){
@@ -177,15 +180,20 @@ SmartWorks.GridLayout = function(config) {
 								taskInstId : taskInstId
 							},
 							success : function(formData, status, jqXHR) {
-								return getLayout(formXml, formData.record, this_);
+//								return getLayout(formXml, formData.record, this_);
+								layoutData = getLayout(formXml, formData.record, this_);
 							},
 							error : function(){
-								return getLayout(formXml, null, this_);
+//								return getLayout(formXml, null, this_);
+								layoutData = getLayout(formXml, null, this_);
 							}
 						});
 				}else{
-					return getLayout(formXml, null, this_);
+//					return getLayout(formXml, null, this_);
+					layoutData = getLayout(formXml, null, this_);
 				}
+console.log('data=', layoutData);
+				return layoutData;
 			},
 			error : function(xhr, ajaxOptions, thrownError){
 				if($.isFunction(onError))
@@ -204,7 +212,10 @@ SmartWorks.GridLayout = function(config) {
 				recordId : this.options.recordId
 			},
 			success : function(formData, status, jqXHR) {
-				return getLayout(null, formData, this_);
+//				return getLayout(null, formData, this_);
+				layoutData = getLayout(null, formData, this_);
+console.log('data=', layoutData);
+				return layoutData;
 			},
 			error : function(xhr, ajaxOptions, thrownError){
 				if($.isFunction(onError))
