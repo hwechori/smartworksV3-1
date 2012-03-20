@@ -75,10 +75,8 @@ SmartWorks.GridLayout = function(config) {
 		$htmlForm.attr("formName", $form.attr('name'));
 		
 		var mode = this_.options.mode;
-		if(isEmpty(refreshTarget) && !refreshOnly){
-			$htmlForm.appendTo(this_.options.target);			
-		}else if(!isEmpty(refreshTarget)){
-			$htmlForm.appendTo(refreshTarget);
+		this_.options.target.html($htmlForm);			
+		if(!isEmpty(refreshTarget)){
 			mode = "edit";
 		}
 		
@@ -202,9 +200,9 @@ SmartWorks.GridLayout = function(config) {
 							recordId : recordId
 						},
 						success : function(formData, status, jqXHR) {
-							var refreshTarget = this_.options.target;
+							var refreshTarget = this_.options.target.hide();
 							getLayout(formXml, formData.record, this_, refreshTarget);
-							var forms = refreshTarget.find('form');
+							var forms = this_.options.target.find('form');
 							var paramsJson = {};
 							paramsJson['workId'] = workId;
 							paramsJson['recordId'] = recordId;
@@ -226,11 +224,22 @@ SmartWorks.GridLayout = function(config) {
 								contentType : 'application/json',
 								type : 'POST',
 								data : JSON.stringify(paramsJson),
-								success : function(formData, status, jqXHR) {
-									return getLayout(formXml, formData.record, this_, null, true);
+								success : function(refreshData, status, jqXHR) {
+									if(this_.options.mode==="edit"){
+										this_.options.target.show();
+										return getLayout(formXml, refreshData.record, this_, null, true);
+									}else{
+										this_.options.target.html('').show();
+										return getLayout(formXml, refreshData.record, this_);										
+									}
 								},
 								error : function(e) {
-									return getLayout(formXml, null, this_);
+									if(this_.options.mode==="edit"){
+										this_.options.target.show();
+									}else{
+										this_.options.target.html('').show();
+										return getLayout(formXml, formData.record, this_);										
+									}
 								}
 							});					
 						},
@@ -246,9 +255,9 @@ SmartWorks.GridLayout = function(config) {
 								taskInstId : taskInstId
 							},
 							success : function(formData, status, jqXHR) {
-								var refreshTarget = this_.options.target;
+								var refreshTarget = this_.options.target.hide();
 								getLayout(formXml, formData.record, this_, refreshTarget);
-								var forms = refreshTarget.find('form');
+								var forms = this_.options.target.find('form');
 								var paramsJson = {};
 								paramsJson['workId'] = workId;
 								paramsJson['taskInstId'] = taskInstId;
@@ -270,11 +279,22 @@ SmartWorks.GridLayout = function(config) {
 									contentType : 'application/json',
 									type : 'POST',
 									data : JSON.stringify(paramsJson),
-									success : function(formData, status, jqXHR) {
-										return getLayout(formXml, formData.record, this_, null, true);
+									success : function(refreshData, status, jqXHR) {
+										if(this_.options.mode==="edit"){
+											this_.options.target.show();
+											return getLayout(formXml, refreshData.record, this_, null, true);
+										}else{
+											this_.options.target.html('').show();
+											return getLayout(formXml, refreshData.record, this_);										
+										}
 									},
 									error : function(e) {
-										return getLayout(formXml, null, this_);
+										if(this_.options.mode==="edit"){
+											this_.options.target.show();
+										}else{
+											this_.options.target.html('').show();
+											return getLayout(formXml, formData.record, this_);										
+										}
 									}
 								});					
 							},
@@ -283,9 +303,9 @@ SmartWorks.GridLayout = function(config) {
 							}
 						});
 				}else{
-					var refreshTarget = this_.options.target;
+					var refreshTarget = this_.options.target.hide();
 					getLayout(formXml, null, this_, refreshTarget);
-					var forms = refreshTarget.find('form');
+					var forms = this_.options.target.find('form');
 					var paramsJson = {};
 					paramsJson['workId'] = workId;
 					for(var i=0; i<forms.length; i++){
@@ -306,11 +326,22 @@ SmartWorks.GridLayout = function(config) {
 						contentType : 'application/json',
 						type : 'POST',
 						data : JSON.stringify(paramsJson),
-						success : function(formData, status, jqXHR) {
-							return getLayout(formXml, formData.record, this_, null, true);
+						success : function(refreshData, status, jqXHR) {
+							if(this_.options.mode==="edit"){
+								this_.options.target.show();
+								return getLayout(formXml, refreshData.record, this_, null, true);
+							}else{
+								this_.options.target.html('').show();
+								return getLayout(formXml, refreshData.record, this_);										
+							}
 						},
 						error : function(e) {
-							return getLayout(formXml, null, this_);
+							if(this_.options.mode==="edit"){
+								this_.options.target.show();
+							}else{
+								this_.options.target.html('').show();
+								return getLayout(formXml, formData.record, this_);										
+							}
 						}
 					});					
 				}
@@ -330,9 +361,9 @@ SmartWorks.GridLayout = function(config) {
 				recordId : this.options.recordId
 			},
 			success : function(formData, status, jqXHR) {
-				var refreshTarget = this_.options.target;
+				var refreshTarget = this_.options.target.hide();
 				getLayout(null, formData.record, this_, refreshTarget);
-				var forms = refreshTarget.find('form');
+				var forms = this_.options.target.find('form');
 				var paramsJson = {};
 				paramsJson['workId'] = this.options.workId;
 				paramsJson['recordId'] = this.options.recordId;
@@ -354,11 +385,22 @@ SmartWorks.GridLayout = function(config) {
 					contentType : 'application/json',
 					type : 'POST',
 					data : JSON.stringify(paramsJson),
-					success : function(formData, status, jqXHR) {
-						return getLayout(null, formData.record, this_, null, true);
+					success : function(refreshData, status, jqXHR) {
+						if(this_.options.mode==="edit"){
+							this_.options.target.show();
+							return getLayout(formXml, refreshData.record, this_, null, true);
+						}else{
+							this_.options.target.html('').show();
+							return getLayout(formXml, refreshData.record, this_);										
+						}
 					},
 					error : function(e) {
-						return getLayout(null, null, this_);
+						if(this_.options.mode==="edit"){
+							this_.options.target.show();
+						}else{
+							this_.options.target.html('').show();
+							return getLayout(formXml, formData.record, this_);										
+						}
 					}
 				});					
 			},
