@@ -203,6 +203,7 @@ SmartWorks.GridLayout = function(config) {
 							var refreshTarget = this_.options.target.hide();
 							getLayout(formXml, formData.record, this_, refreshTarget);
 							var forms = this_.options.target.find('form');
+							console.log('pwork_space=', this_.options.target.parents('.js_pwork_space_page'));
 							var paramsJson = {};
 							paramsJson['workId'] = workId;
 							paramsJson['recordId'] = recordId;
