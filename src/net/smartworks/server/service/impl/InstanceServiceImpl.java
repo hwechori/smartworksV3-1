@@ -511,6 +511,75 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+
+	private SwdRecord setDataFieldsInfo(SwdRecord swdRecord, SwfForm swfForm) throws Exception {
+		if (swdRecord == null || swfForm == null)
+			return null;
+		
+		SwfField[] swfFields = swfForm.getFields();
+		SwdDataField[] swdDataFields = swdRecord.getDataFields();
+		for(SwdDataField swdDataField : swdDataFields) {
+			for(SwfField swfField : swfFields) {
+				if(swdDataField.getId().equals(swfField.getId())) {
+					String formatType = swfField.getFormat().getType();
+					String value = swdDataField.getValue();
+					String refRecordId = swdDataField.getRefRecordId();
+					List<Map<String, String>> resultUsers = null;
+					if(formatType.equals(FormField.TYPE_USER)) {
+						if(value != null && refRecordId != null) {
+							String[] values = value.split(";");
+							String[] refRecordIds = refRecordId.split(";");
+							resultUsers = new ArrayList<Map<String,String>>();
+							if(values.length > 0 && refRecordIds.length > 0) {
+								for(int j=0; j<values.length; j++) {
+									Map<String, String> map = new LinkedHashMap<String, String>();
+									map.put("userId", refRecordIds[j]);
+									map.put("longName", values[j]);
+									resultUsers.add(map);
+								}
+							} else {
+								Map<String, String> map = new LinkedHashMap<String, String>();
+								map.put("userId", refRecordId);
+								map.put("longName", value);
+								resultUsers.add(map);
+							}
+						}
+						swdDataField.setUsers(resultUsers);
+					} else if(formatType.equals(FormField.TYPE_DATE)) {
+						if(value != null) {
+							try {
+								LocalDate localDate = LocalDate.convertGMTStringToLocalDate(value);
+								if(localDate != null)
+									value = localDate.toLocalDateSimpleString();
+							} catch (Exception e) {
+							}
+						}
+					} else if(formatType.equals(FormField.TYPE_TIME)) {
+						if(value != null) {
+							try {
+								LocalDate localDate = LocalDate.convertGMTTimeStringToLocalDate(value);
+								if(localDate != null)
+									value = localDate.toLocalTimeShortString();
+							} catch (Exception e) {
+							}
+						}
+					} else if(formatType.equals(FormField.TYPE_DATETIME)) {
+						if(value != null) {
+							try {
+								LocalDate localDate = LocalDate.convertGMTStringToLocalDate(value);
+								if(localDate != null)
+									value = localDate.toLocalDateTimeSimpleString();
+							} catch (Exception e) {
+							}
+						}
+					}
+					swdDataField.setValue(value);
+				}
+			}
+		}
+		return swdRecord;
+		
+	}
 	public SwdRecord refreshDataFields(SwdRecord record) throws Exception {
 		try{
 			User cuser = SmartUtil.getCurrentUser();
@@ -528,7 +597,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			if (CommonUtil.isEmpty(fields))
 				return null;
 			
-			boolean isFirstSetMode = true; //초기 데이터 입력인지 수정인지를 판단한다
+			boolean isFirstSetMode = false; //초기 데이터 입력인지 수정인지를 판단한다
 			
 			//새로 값이 셋팅되어 변경될 레코드 클론
 			SwdRecord oldRecord = (SwdRecord)record.clone();
@@ -541,6 +610,8 @@ public class InstanceServiceImpl implements IInstanceService {
 				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord, isFirstSetMode);
 			}
 
+			setDataFieldsInfo(newRecord, form);
+			
 			if (logger.isInfoEnabled()) {
 				StringBuffer infoBuff = new StringBuffer();
 				infoBuff.append("Refresh Data Field \r\n[\r\n Original Record : \r\n").append(oldRecord.toString());
@@ -557,7 +628,6 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
-	
 	@Override
 	public SwdRecord refreshDataFields(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
@@ -569,7 +639,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			String formId = (String)requestBody.get("formId");
 			
-			boolean isFirstSetMode = true; //초기 데이터 입력인지 수정인지를 판단한다
+			boolean isFirstSetMode = false; //초기 데이터 입력인지 수정인지를 판단한다
 			
 			//레코드 폼정보를 가져온다
 			if (CommonUtil.isEmpty(formId))
@@ -611,6 +681,8 @@ public class InstanceServiceImpl implements IInstanceService {
 				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord, isFirstSetMode);
 			}
 
+			setDataFieldsInfo(newRecord, form);
+			
 			if (logger.isInfoEnabled()) {
 				StringBuffer infoBuff = new StringBuffer();
 				infoBuff.append("Refresh Data Field \r\n[\r\n Original Record : \r\n").append(oldRecord.toString());
