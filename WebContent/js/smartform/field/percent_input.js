@@ -8,11 +8,13 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : '',
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
 	var value = (options.dataField && parseFloat(options.dataField.value)) || 0;
 	$entity = options.entity;
@@ -33,7 +35,8 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 	}else{
 		required = " class='js_percent_input fieldline tr' ";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var percentValue = value + '%';
 		
@@ -50,7 +53,14 @@ SmartWorks.FormRuntime.PercentInputBuilder.build = function(config) {
 		$label.hide();
 		$percent.hide();		
 	}
-	$percent.appendTo(options.container);
+	if(!options.refreshData){
+		$percent.appendTo(options.container);
+	}else{
+		if(readOnly)
+			options.container.find('.form_value').text(value);
+		else
+			options.container.find('.form_value input').attr('value', value);
+	}
 	return options.container;
 };
 

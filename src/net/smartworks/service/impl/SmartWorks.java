@@ -571,6 +571,11 @@ public class SmartWorks implements ISmartWorks {
 	}
 
 	@Override
+	public SwdRecord refreshDataFields(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
+		return instanceService.refreshDataFields(requestBody, request);
+	}
+
+	@Override
 	public String setIWorkSearchFilter(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		return workService.setIWorkSearchFilter(requestBody, request);
 	}

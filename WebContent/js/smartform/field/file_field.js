@@ -8,10 +8,14 @@ SmartWorks.FormRuntime.FileFieldBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
+
+	if(options.refreshData) return options.container;
+	
 	options.container.html('');
 
 	var value = (options.dataField && options.dataField.value) || '';
