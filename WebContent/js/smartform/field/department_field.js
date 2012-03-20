@@ -8,11 +8,14 @@ SmartWorks.FormRuntime.DepartmentFieldBuilder.build = function(config) {
 		container : $('<td></td>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+
+	if(!options.refreshData)
+		options.container.html('');
 
 	var departments = (options.dataField && options.dataField.departments) || new Array();
 
@@ -33,7 +36,8 @@ SmartWorks.FormRuntime.DepartmentFieldBuilder.build = function(config) {
 	}else{
 		required = " class='fieldline community_names js_community_names'";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $department = null;
 	
@@ -56,7 +60,7 @@ SmartWorks.FormRuntime.DepartmentFieldBuilder.build = function(config) {
 	$html.find('.js_selected_communities').html(usersHtml);
 	
 	if(readOnly){
-		$user = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>');
+		$department = $('<div class="form_value form_value_max_width" style="width:' + valueWidth + '%"></div>');
 		departmentsHtml = '';
 		for(var i=0; i<users.length; i++)
 			departmentsHtml = departmentsHtml + '<a class="js_pop_depart_info" href="pop_depart_info.sw?departmentId=' + departments[i].departmentId + '"><span>' + departments[i].departmentName + '</span></a>';
@@ -68,7 +72,11 @@ SmartWorks.FormRuntime.DepartmentFieldBuilder.build = function(config) {
 		$label.hide();
 		$department.hide();		
 	}
-	$department.appendTo(options.container);
+	if(!options.refreshData){
+		$department.appendTo(options.container);
+	}else{
+		options.container.find('.form_value').html($department.children());
+	}
 
 	return options.container;
 };

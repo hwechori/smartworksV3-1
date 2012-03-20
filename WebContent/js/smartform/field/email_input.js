@@ -8,11 +8,14 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+
+	if(!options.refreshData)	
+		options.container.html('');
 
 	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
@@ -32,7 +35,8 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 	}else{
 		required = " class='fieldline email' ";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)	
+		$label.appendTo(options.container);
 	
 	var $email = null;
 	if(readOnly){
@@ -44,7 +48,14 @@ SmartWorks.FormRuntime.EmailInputBuilder.build = function(config) {
 		$label.hide();
 		$email.hide();		
 	}
-	$email.appendTo(options.container);
+	if(!options.refreshData){	
+		$email.appendTo(options.container);
+	}else{
+		if(readOnly)
+			options.container.find('.form_value').text(value);
+		else
+			options.container.find('.form_value input').attr('value', value);
+	}
 
 	return options.container;
 };

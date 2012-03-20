@@ -8,11 +8,13 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
 	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
@@ -34,7 +36,8 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 		required = " class='form_select_box' ";		
 	}
 		
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $staticItems = $format.find('list staticItems staticItem');
 	
@@ -56,7 +59,11 @@ SmartWorks.FormRuntime.ComboBoxBuilder.build = function(config) {
 		
 		$option.appendTo($input.find('select'));
 	}
-	$input.appendTo(options.container);
+
+	if(!options.refreshData)
+		$input.appendTo(options.container);
+	else
+		options.container.find('.form_value').html($input.children());
 
 	if ($graphic.attr('hidden') == 'true') {
 		$label.hide();
