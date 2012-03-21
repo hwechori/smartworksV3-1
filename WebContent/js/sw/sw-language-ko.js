@@ -122,7 +122,7 @@ smartMessage.bundle['ko'] = {
 	reassignTaskInstanceError : "태스크 위임 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다.",
 	tempSaveTaskInstanceSucceed : "태스크가 성공적으로 임시저장되었습니다.",
 	tempSaveTaskInstanceError : "태스크 임시저장 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다.",
-	iworkListError : "업무목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
+	workListError : "업무목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	workHourListError : "업무시간정책 목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	companyEventListError : "회사이벤트 목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",
 	approvalLineListError : "결재선 목록을 가져오는 중에 오류가 발생하였습니다. 관리자에게 확인바랍니다!",

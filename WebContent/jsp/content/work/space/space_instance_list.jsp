@@ -4,6 +4,7 @@
 <!-- Author			: Maninsoft, Inc.						 -->
 <!-- Created Date	: 2011.9.								 -->
 
+<%@page import="net.smartworks.server.engine.common.util.CommonUtil"%>
 <%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
 <%@page import="net.smartworks.util.LocalDate"%>
 <%@page import="net.smartworks.model.instance.ProcessWorkInstance"%>
@@ -25,6 +26,7 @@
 	ISmartWorks smartWorks = (ISmartWorks) request.getAttribute("smartWorks");
 	User cUser = SmartUtil.getCurrentUser();
 
+	String wid = (String)session.getAttribute("wid");
 	WorkInstance workInstance = (WorkInstance)session.getAttribute("workInstance");
 	
 	InstanceInfo[] subInstances = smartWorks.getSpaceInstancesByDate(workInstance.getId(), new LocalDate(), 20);
@@ -78,7 +80,7 @@
 	<!-- 목록 버튼 -->
 	<div class="tc">
 		<div class="btn_gray" >
-	    	<a href="<%=workInstance.getWork().getController() %>?cid=<%=workInstance.getWork().getContextId() %>" class="js_content"> 
+	    	<a href="<%=workInstance.getWork().getController(wid) %>?cid=<%=workInstance.getWork().getContextId() %>&wid=<%=CommonUtil.toNotNull(wid) %>" class="js_content"> 
 	    		<span class="txt_btn_start"></span> 
 	    		<span class="txt_btn_center"><fmt:message key="common.button.list"/></span> 
 	    		<span class="txt_btn_end"></span>

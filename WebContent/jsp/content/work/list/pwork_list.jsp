@@ -35,7 +35,7 @@
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				smartPop.closeProgress();
-				smartPop.showInfo(smartPop.ERROR, smartMessage.get('pworkListError'));
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('workListError'));
 			}
 		});
 	};

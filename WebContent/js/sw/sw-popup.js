@@ -521,6 +521,7 @@ smartPop = {
 				},
 				overlayClose: false,
 				onShow: function(dialog){
+					$('.js_new_event_page').find('.js_up_pointer').next().removeClass('up').prev().remove();					
 					loadNewEventFields(startDate);
 				}
 			});

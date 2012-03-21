@@ -2,6 +2,7 @@ package net.smartworks.model.work;
 
 import net.smartworks.model.BaseObject;
 import net.smartworks.service.ISmartWorks;
+import net.smartworks.util.SmartUtil;
 
 public class Work extends BaseObject{
 
@@ -126,6 +127,27 @@ public class Work extends BaseObject{
 			return "";
 		}
 		return "";
+	}
+	
+	public String getController(String wid){
+		if(SmartUtil.isBlankObject(wid)) return getController();
+		switch(getType()){
+		case SmartWork.TYPE_INFORMATION:
+			if(getId().equals(SmartWork.ID_FILE_MANAGEMENT))
+				return Work.CONTROLLER_FILE_LIST;
+			else if(getId().equals(SmartWork.ID_EVENT_MANAGEMENT))
+				return Work.CONTROLLER_EVENT_LIST;
+			else if(getId().equals(SmartWork.ID_MEMO_MANAGEMENT))
+				return Work.CONTROLLER_MEMO_LIST;
+			else if(getId().equals(SmartWork.ID_BOARD_MANAGEMENT))
+				return Work.CONTROLLER_BOARD_LIST;
+			else
+				return Work.CONTROLLER_WORK_LIST;
+		case SmartWork.TYPE_PROCESS:
+		case SmartWork.TYPE_SCHEDULE:
+			return Work.CONTROLLER_WORK_LIST;
+		}
+		return getController();
 	}
 	
 	public String getContextId(){

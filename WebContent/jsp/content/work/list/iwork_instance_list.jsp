@@ -199,7 +199,7 @@
 <%
 if(instanceList == null || work == null || SmartUtil.isBlankObject(instanceList.getInstanceDatas())){
 %>
-	<div><fmt:message key="common.message.no_instance"/></div>
+	<div class="tc"><fmt:message key="common.message.no_instance"/></div>
 <%
 }
 if(!SmartUtil.isBlankObject(sortedField)){

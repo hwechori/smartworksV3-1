@@ -118,7 +118,7 @@ smartMessage.bundle['en'] = {
 	performTaskInstanceError : "Error has been occured while performing Task Instance. Please contact the Administrator!",
 	returnTaskInstanceSucceed : "Task Instance has been returned successfully...",
 	returnTaskInstanceError : "Error has been occured while returning Task Instance. Please contact the Administrator!",
-	iworkListError : "Error has been occured while loading work list. Please contact the Administrator!",
+	workListError : "Error has been occured while loading work list. Please contact the Administrator!",
 	workHourListError : "Error has been occured while loading Work Hour Policy list. Please contact the Administrator!",
 	companyEventListError : "Error has been occured while loading Company Event list. Please contact the Administrator!",
 	approvalLineListError : "Error has been occured while loading Approval Line list. Please contact the Administrator!",

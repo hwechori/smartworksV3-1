@@ -88,6 +88,7 @@
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>						
+				<span class="js_progress_span"></span>
 			</th>
 			<th class="r_line">
 	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_FILE_SIZE%>"><fmt:message key='common.title.file_size'/>
@@ -96,6 +97,7 @@
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>						
+				<span class="js_progress_span"></span>
 			</th>
 			<%
 			if(displayType==FileCategory.DISPLAY_ALL){
@@ -107,6 +109,7 @@
 							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 						%>
 					</a>				
+					<span class="js_progress_span"></span>
 				</th>
 			<%
 			}
@@ -119,6 +122,7 @@
 							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 						%>
 					</a>				
+					<span class="js_progress_span"></span>
 				</th>
 			<%
 			}
@@ -131,6 +135,7 @@
 							if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 						%>
 					</a>				
+					<span class="js_progress_span"></span>
 				</th>
 			<%
 			}
@@ -142,6 +147,7 @@
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>				
+				<span class="js_progress_span"></span>
 			</th>
 			<th class="r_line">
 				<%
@@ -308,7 +314,7 @@
 <%
 if(instanceList == null || SmartUtil.isBlankObject(instanceList.getInstanceDatas())){
 %>
-	<div><fmt:message key="common.message.no_instance"/></div>
+	<div class="tc"><fmt:message key="common.message.no_instance"/></div>
 
 <%
 }

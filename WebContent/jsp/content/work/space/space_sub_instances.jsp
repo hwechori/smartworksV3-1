@@ -197,9 +197,6 @@
 			        <div class="list_reply">
 			        	<%
 			        	WorkInstanceInfo instance = (WorkInstanceInfo)workInstance;
-// TEST PURPOSE
-			        	//instance.setSubInstanceCount(21);
-// TEST PURPOSE
 			        	%>
 			            <ul class="js_comment_list">
 			            	<li class="js_comment_instance" style="display:none">

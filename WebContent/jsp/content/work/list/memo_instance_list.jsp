@@ -66,6 +66,7 @@
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>				
+				<span class="js_progress_span"></span>
 			</th>
 			<th class="r_line">
 				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
@@ -88,7 +89,9 @@
 			for (InstanceInfo instanceInfo : instanceInfos) {
 				UserInfo owner = instanceInfo.getOwner();
 				UserInfo lastModifier = instanceInfo.getLastModifier();
-				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" + ((WorkInstanceInfo)instanceInfo).getContextId();
+				String target = ((WorkInstanceInfo)instanceInfo).getController() + "?cid=" 
+									+ ((WorkInstanceInfo)instanceInfo).getContextId() + "&wid=" + wid
+									+ "&workId=" + SmartWork.ID_MEMO_MANAGEMENT;
 			%>
 				<tr class="instance_list js_content_iwork_space" href="<%=target%>">
 					<td class="tc"><%=currentCount%></td>
@@ -123,56 +126,25 @@
 	 		<th class="r_line" style="width:40px;">
 				<span><fmt:message key="common.title.number"/></span>
 			</th>
-			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_STATUS%>"><fmt:message key='common.title.status'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_STATUS)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>				
+			<th  style="width:40px">
 			</th>
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_OWNER%>"><fmt:message key='common.title.owner'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_OWNER)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>/				
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_CREATED_DATE%>"><fmt:message key='common.title.created_date'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_CREATED_DATE)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>
-			</th>				
-			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_SUBJECT%>"><fmt:message key='common.title.instance_subject'/>
+	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_SUBJECT%>"><fmt:message key='common.title.instance_content'/>
 			 		<%
 					if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
 					%>
 				</a>				
+				<span class="js_progress_span"></span>
 			</th>
 			<th class="r_line">
-	 			<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_TASK%>"><fmt:message key='common.title.last_task'/>
-			 		<%
-					if(sortedField.getFieldId().equals(FormField.ID_SUBJECT)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} 
-					%>
-				</a>						
-			</th>
-			<th>
-				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIER %>">
-					<fmt:message key='common.title.last_modifier' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIER)){
-						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
-				</a>/
 				<a href="" class="js_select_field_sorting" fieldId="<%=FormField.ID_LAST_MODIFIED_DATE%>">
 					<fmt:message key='common.title.last_modified_date' /> <%if(sortedField.getFieldId().equals(FormField.ID_LAST_MODIFIED_DATE)){
 						if(sortedField.isAscending()){ %>▼<%}else{ %>▼<%}} %>
 				</a>
 				<span class="js_progress_span"></span>
 			</th>
-	 		<th class="r_line" style="width:40px;">
+	 		<th style="width:40px;">
 				<span><fmt:message key="common.title.views"/></span>
 			</th>
 		</tr>	
@@ -185,7 +157,7 @@
 <%
 if(instanceList == null || SmartUtil.isBlankObject(instanceList.getInstanceDatas())){
 %>
-	<div><fmt:message key="common.message.no_instance"/></div>
+	<div class="tc"><fmt:message key="common.message.no_instance"/></div>
 
 <%
 }

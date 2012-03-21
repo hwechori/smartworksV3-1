@@ -35,14 +35,12 @@
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				console.log("page ::::: ",$('#file_instance_list_page'));
-				console.log("data ::::: ",data);
 				$('#file_instance_list_page').html(data);
 				smartPop.closeProgress();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				smartPop.closeProgress();
-				smartPop.showInfo(smartPop.ERROR, smartMessage.get('fileListError'));
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('workListError'));
 			}
 		});
 	};
