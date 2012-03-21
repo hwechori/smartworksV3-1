@@ -19,6 +19,7 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	var users = (options.dataField && options.dataField.users) || new Array();
 
 	var $entity = options.entity;
+	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
 	var multiUsers = $graphic.attr('multipleUsers');

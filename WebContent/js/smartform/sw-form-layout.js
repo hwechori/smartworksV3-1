@@ -202,9 +202,9 @@ SmartWorks.GridLayout = function(config) {
 							recordId : recordId
 						},
 						success : function(formData, status, jqXHR) {
-							var refreshTarget = this_.options.target.hide();
+							var refreshTarget = this_.options.target;
 							getLayout(formXml, formData.record, this_, refreshTarget);
-							var forms = this_.options.target.find('form');
+							var forms = refreshTarget.find('form');
 							var paramsJson = {};
 							paramsJson['workId'] = workId;
 							paramsJson['recordId'] = recordId;
@@ -218,7 +218,7 @@ SmartWorks.GridLayout = function(config) {
 								}
 								
 								// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
-								paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form, false));
+								paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 							}
 							console.log(JSON.stringify(paramsJson));
 							$.ajax({
@@ -226,22 +226,11 @@ SmartWorks.GridLayout = function(config) {
 								contentType : 'application/json',
 								type : 'POST',
 								data : JSON.stringify(paramsJson),
-								success : function(refreshData, status, jqXHR) {
-									if(this_.options.mode==="edit"){
-										this_.options.target.show();
-										return getLayout(formXml, refreshData.record, this_, null, true);
-									}else{
-										this_.options.target.html('').show();
-										return getLayout(formXml, refreshData.record, this_);										
-									}
+								success : function(formData, status, jqXHR) {
+									return getLayout(formXml, formData.record, this_, null, true);
 								},
 								error : function(e) {
-									if(this_.options.mode==="edit"){
-										this_.options.target.show();
-									}else{
-										this_.options.target.html('').show();
-										return getLayout(formXml, formData.record, this_);										
-									}
+									return getLayout(formXml, null, this_);
 								}
 							});					
 						},
@@ -257,9 +246,9 @@ SmartWorks.GridLayout = function(config) {
 								taskInstId : taskInstId
 							},
 							success : function(formData, status, jqXHR) {
-								var refreshTarget = this_.options.target.hide();
+								var refreshTarget = this_.options.target;
 								getLayout(formXml, formData.record, this_, refreshTarget);
-								var forms = this_.options.target.find('form');
+								var forms = refreshTarget.find('form');
 								var paramsJson = {};
 								paramsJson['workId'] = workId;
 								paramsJson['taskInstId'] = taskInstId;
@@ -273,7 +262,7 @@ SmartWorks.GridLayout = function(config) {
 									}
 									
 									// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
-									paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form, false));
+									paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 								}
 								console.log(JSON.stringify(paramsJson));
 								$.ajax({
@@ -281,22 +270,11 @@ SmartWorks.GridLayout = function(config) {
 									contentType : 'application/json',
 									type : 'POST',
 									data : JSON.stringify(paramsJson),
-									success : function(refreshData, status, jqXHR) {
-										if(this_.options.mode==="edit"){
-											this_.options.target.show();
-											return getLayout(formXml, refreshData.record, this_, null, true);
-										}else{
-											this_.options.target.html('').show();
-											return getLayout(formXml, refreshData.record, this_);										
-										}
+									success : function(formData, status, jqXHR) {
+										return getLayout(formXml, formData.record, this_, null, true);
 									},
 									error : function(e) {
-										if(this_.options.mode==="edit"){
-											this_.options.target.show();
-										}else{
-											this_.options.target.html('').show();
-											return getLayout(formXml, formData.record, this_);										
-										}
+										return getLayout(formXml, null, this_);
 									}
 								});					
 							},
@@ -305,9 +283,9 @@ SmartWorks.GridLayout = function(config) {
 							}
 						});
 				}else{
-					var refreshTarget = this_.options.target.hide();
+					var refreshTarget = this_.options.target;
 					getLayout(formXml, null, this_, refreshTarget);
-					var forms = this_.options.target.find('form');
+					var forms = refreshTarget.find('form');
 					var paramsJson = {};
 					paramsJson['workId'] = workId;
 					for(var i=0; i<forms.length; i++){
@@ -320,7 +298,7 @@ SmartWorks.GridLayout = function(config) {
 						}
 						
 						// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
-						paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form, false));
+						paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 					}
 					console.log(JSON.stringify(paramsJson));
 					$.ajax({
@@ -328,22 +306,11 @@ SmartWorks.GridLayout = function(config) {
 						contentType : 'application/json',
 						type : 'POST',
 						data : JSON.stringify(paramsJson),
-						success : function(refreshData, status, jqXHR) {
-							if(this_.options.mode==="edit"){
-								this_.options.target.show();
-								return getLayout(formXml, refreshData.record, this_, null, true);
-							}else{
-								this_.options.target.html('').show();
-								return getLayout(formXml, refreshData.record, this_);										
-							}
+						success : function(formData, status, jqXHR) {
+							return getLayout(formXml, formData.record, this_, null, true);
 						},
 						error : function(e) {
-							if(this_.options.mode==="edit"){
-								this_.options.target.show();
-							}else{
-								this_.options.target.html('').show();
-								return getLayout(formXml, formData.record, this_);										
-							}
+							return getLayout(formXml, null, this_);
 						}
 					});					
 				}
@@ -363,9 +330,9 @@ SmartWorks.GridLayout = function(config) {
 				recordId : this.options.recordId
 			},
 			success : function(formData, status, jqXHR) {
-				var refreshTarget = this_.options.target.hide();
+				var refreshTarget = this_.options.target;
 				getLayout(null, formData.record, this_, refreshTarget);
-				var forms = this_.options.target.find('form');
+				var forms = refreshTarget.find('form');
 				var paramsJson = {};
 				paramsJson['workId'] = this.options.workId;
 				paramsJson['recordId'] = this.options.recordId;
@@ -379,7 +346,7 @@ SmartWorks.GridLayout = function(config) {
 					}
 					
 					// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
-					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form, false));
+					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
 				}
 				console.log(JSON.stringify(paramsJson));
 				$.ajax({
@@ -387,22 +354,11 @@ SmartWorks.GridLayout = function(config) {
 					contentType : 'application/json',
 					type : 'POST',
 					data : JSON.stringify(paramsJson),
-					success : function(refreshData, status, jqXHR) {
-						if(this_.options.mode==="edit"){
-							this_.options.target.show();
-							return getLayout(formXml, refreshData.record, this_, null, true);
-						}else{
-							this_.options.target.html('').show();
-							return getLayout(formXml, refreshData.record, this_);										
-						}
+					success : function(formData, status, jqXHR) {
+						return getLayout(null, formData.record, this_, null, true);
 					},
 					error : function(e) {
-						if(this_.options.mode==="edit"){
-							this_.options.target.show();
-						}else{
-							this_.options.target.html('').show();
-							return getLayout(formXml, formData.record, this_);										
-						}
+						return getLayout(null, null, this_);
 					}
 				});					
 			},
@@ -427,12 +383,11 @@ SmartWorks.GridLayout.newGridRow = function(){
 };
 
 
-SmartWorks.GridLayout.serializeObject = function(form, valueChanged){
-	if(valueChanged != false) valueChanged=true;
+SmartWorks.GridLayout.serializeObject = function(form){
 	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.serializeObject(form.find('.js_type_fileField'));
 	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.serializeObject(form.find('.js_type_userField'));
 	var departmentFields = {};//SmartWorks.FormRuntime.DepartmentFieldBuilder.serializeObject(form.find('.js_type_departmentField'));
-	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.serializeObject(form.find('.js_type_richEditor'), valueChanged);
+	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.serializeObject(form.find('.js_type_richEditor'));
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject(form.find('.js_type_imageBox'));
 	var numberInputs = SmartWorks.FormRuntime.NumberInputBuilder.serializeObject(form.find('.js_type_numberInput'));

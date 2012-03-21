@@ -36,17 +36,19 @@
 
 /* Btn in GNB */
 .btn_gnb { font-size:12px; color:#717171; line-height:21px; float:left; font-size:11px; font-weight:normal; padding-top:15px}
-.btn_gnb_l {background: url("../images/btn_topbg_l.jpg") no-repeat scroll 0 0; height:19px}
+.btn_gnb_l {background: url("../images/btn_topbg_l.jpg") no-repeat scroll 0 0; height:19px; cursor:pointer}
 .btn_gnb_r {background: url("../images/btn_topbg_r.jpg") no-repeat scroll 100% 0; height:19px; padding:0 10px}
 
 
 /* Header Title */
-.header_tit { height:87px; width:700px; margin-bottom:15px; color:#858585}
-.header_tit .tit_course {background: url("../images/header.jpg") no-repeat scroll 0 0; height:35px; padding:52px 25px 0}
-.header_tit .tit_event {background: url("../images/header.jpg") no-repeat scroll 0 -88px; height:35px; padding:49px 25px 0}
-.header_tit .tit_notes {background: url("../images/header.jpg") no-repeat scroll 0 -175px; height:35px; padding:52px 25px 0}
-.header_tit .tit_friend {background: url("../images/header.jpg") no-repeat scroll 0 -261px; height:35px; padding:52px 25px 0}
-.header_tit .tit_newcourse {background: url("../images/header.jpg") no-repeat scroll 0 -349px; height:35px; padding:52px 25px 0}
+.header_tit {width:700px; margin-bottom:15px; color:#858585; overflow:hidden}
+.header_tit .tit_course {background: url("../images/header.png") no-repeat scroll 0 0; height:35px; padding:52px 25px 0}
+.header_tit .tit_event {background: url("../images/header.png") no-repeat scroll 0 -88px; height:35px; padding:49px 25px 0}
+.header_tit .tit_notes {background: url("../images/header.png") no-repeat scroll 0 -175px; height:35px; padding:52px 25px 0}
+.header_tit .tit_friend {background: url("../images/header.png") no-repeat scroll 0 -261px; height:35px; padding:52px 25px 0}
+.header_tit .tit_newcourse {background: url("../images/header.png") no-repeat scroll 0 -349px; height:35px; padding:49px 25px 0}
+.header_tit .tit_dep2 {background: url("../images/header.png") no-repeat scroll 0 -462px; padding:5px 0 0 50px; margin: 20px 0 0; line-height:17px}
+.header_tit .tit_dep2 h2 { font-size:14px; font-weight:bold; color:#454545}
 
 /* Icon in GNB */
 .icon_alarm a {background: url("../images/icon.png") no-repeat scroll -267px -6px; width:28px; height:45px; display:block}
@@ -81,20 +83,23 @@
 .fieldline {border:1px solid #c7c7c7; left:0px; background: none repeat scroll 0 0 #FFFFFF; vertical-align:middle; text-align:left; width:100%;}
 
 /* Btn in Body*/
-.btn_wstyle_l {background: url("../images/btn_wstyle_l.gif") no-repeat scroll 0 0; height:24px; float:left}
+.btn_wstyle_l {background: url("../images/btn_wstyle_l.gif") no-repeat scroll 0 0; height:24px; float:left; cursor:pointer}
 .btn_wstyle_r {background: url("../images/btn_wstyle_r.gif") no-repeat scroll 100% 0; height:24px; padding:0 7px; line-height:26px; font-weight:bold}
 
-.btn_large_l {background: url("../images/btn_large_l.png") no-repeat scroll 0 0; height:39px; float:left}
+.btn_large_l {background: url("../images/btn_large_l.png") no-repeat scroll 0 0; height:39px; float:left; cursor:pointer}
 .btn_large_r {background: url("../images/btn_large_r.png") no-repeat scroll 100% 0; height:39px; padding:0 7px; line-height:41px; font-weight:bold; font-size:12px; color:#555555}
 
-.btn_default_l {background: url("../images/btn_default_l.png") no-repeat scroll 0 0; height:28px; float:left}
+.btn_default_l {background: url("../images/btn_default_l.png") no-repeat scroll 0 0; height:28px; float:left; cursor:pointer}
 .btn_default_r {background: url("../images/btn_default_r.png") no-repeat scroll 100% 0; height:28px; padding:0 12px; line-height:30px; font-weight:bold; font-size:12px; color:#555555}
 
-.btn_mid_l {background: url("../images/btn_mid_l.png") no-repeat scroll 0 0; height:21px; float:left}
-.btn_mid_r {background: url("../images/btn_mid_r.png") no-repeat scroll 100% 0; height:21px; padding:0 10px; line-height:21px; font-size:12px; color:#555555; font-weight:normal}
+.btn_mid_l {background: url("../images/btn_mid_l.png") no-repeat scroll 0 0; height:19px !important; float:left; cursor:pointer}
+.btn_mid_r {background: url("../images/btn_mid_r.png") no-repeat scroll 100% 0; height:19px !important; padding:0 10px; line-height:21px; font-size:12px; color:#555555; font-weight:normal}
 
-.btn_green_l {background: url("../images/btn_green_l.png") no-repeat scroll 0 0; height:19px; float:left}
-.btn_green_r {background: url("../images/btn_green_r.png") no-repeat scroll 100% 0; height:19px; padding:0 17px; line-height:21px; font-size:12px; color:#717171; font-weight:normal}
+.btn_green_l {background: url("../images/btn_green_l.png") no-repeat scroll 0 0; height:19px !important; float:left; cursor:pointer}
+.btn_green_r {background: url("../images/btn_green_r.png") no-repeat scroll 100% 0; height:19px !important; padding:0 17px; line-height:21px; font-size:12px; color:#717171; font-weight:normal}
+
+.btn_blu_l {background: url("../images/btn_blu_l.png") no-repeat scroll 0 0; height:34px; float:left; cursor:pointer}
+.btn_blu_r {background: url("../images/btn_blu_r.png") no-repeat scroll 100% 0; height:34px; padding:0 12px; line-height:36px; font-weight:bold; font-size:12px; color:#FFF}
 
 button {background: -moz-linear-gradient(center top , #FFFFFF, #EBEBEB) repeat scroll 0 0 #FFFFFF; border: 1px solid #A1A1A1; border-radius: 3px; color: #777777; cursor: pointer; display: inline-block; letter-spacing: 0; margin: 0; overflow: visible; padding: 3px 4px 2px; text-decoration: none !important; vertical-align: middle; font-size:11px; height:19px; line-height:12px}
 
@@ -199,6 +204,7 @@ button {background: -moz-linear-gradient(center top , #FFFFFF, #EBEBEB) repeat s
 .panel_rds_block ul { padding:5px; overflow:hidden}
 .panel_rds_block li { float:left; padding:0 10px}
 .panel_rds_block li.bo_r { border-right:1px solid #cccccc; height:48px}
+.panel_rds_block li.bo_l { border-left:1px solid #cccccc; height:48px}
 .panel_rds_block li span { display: table-cell; vertical-align:middle; height:48px}
 
 .util { clear:both; padding:10px 0 0; font-size:11px}
@@ -274,6 +280,9 @@ button {background: -moz-linear-gradient(center top , #FFFFFF, #EBEBEB) repeat s
 .course_menu_d2 li a:hover { font-weight:bold; color:#4e90b7}
 .course_menu_d2 li.end { background:none}
 
+/* Bottom Btn Space */
+.btn_space { margin:10px auto 0; text-align:center; overflow:hidden }
+
 /* Text Style */
 .t_s11 { font-size:11px}
 .t_s14 { font-size:14px}
@@ -285,14 +294,19 @@ button {background: -moz-linear-gradient(center top , #FFFFFF, #EBEBEB) repeat s
 .t_gray { color:#9a9a9a}
 .tb { font-weight:bold}
 .t_id, .t_email {color:#608eba; display:block !important; height: auto !important }
+.t_refe { font-size:11px; color:#999999}
 
 /* Width */
-.w100p { width:100% !important}
-.w375 {width:375px !important}
 .w_auto { width:auto !important}
+.w90 {width:90px !important}
+.w101 {width:101px !important}
 .w170 {width:170px !important}
-.w420 {width:420px !important}
+.w310 {width:310px !important}
 .w370 {width:370px !important}
+.w375 {width:375px !important}
+.w420 {width:420px !important}
+.w470 {width:470px !important}
+.w580 {width:580px !important}
 
 /* Bullet */
 .bullet_dot {background: url("../images/icon.png") no-repeat -166px -369px; padding:0 0 0 8px; color:#9a9a9a}
