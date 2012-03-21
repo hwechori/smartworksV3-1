@@ -154,8 +154,8 @@ $(document).ready(function(){
 			            		title: ownerHtml,
 			                	start: new Date(event.start),
 			                 	end: new Date(event.end),
-			                 	allDay: false,
-			                 	editable: (event.ownerId === currentUser.userId) ? true : false,
+			                 	allDay: isEmpty(event.end),
+			                 	editable: false,
 			                 	backgroundColor: "#ffffff",
 			                 	textColor: "#000000",
 			                 	borderColor: "#ffffff",
@@ -176,7 +176,11 @@ $(document).ready(function(){
 		    '': 'H(:mm)'
 		},
  		dayClick: function(date, allDay, jsEvent, view){
-			smartPop.createEvent(date);
+ 			var toDate = null;
+ 			console.log('hours=', date.getHours());
+ 			if(date.getHours()>0) toDate = new Date(date.getTime() + 60*60*1000);
+			loadNewEventFields(date, toDate);
+			$('div.js_new_event_fields .form_value:first input').click();			
 		},
 		
 		eventClick: function(event, jsEvent, view){

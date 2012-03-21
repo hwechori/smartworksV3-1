@@ -508,24 +508,5 @@ smartPop = {
 				}
 			});
 		});
-	},
-
-	createEvent : function(startDate){
-		$.get("pop_new_event.sw", function(data){
-			$(data).modal({
-				opacity: 50,
-				overlayCss: {backgroundColor:"#000"},
-				containerCss:{
-					height:300,
-					width:800
-				},
-				overlayClose: false,
-				onShow: function(dialog){
-					$('.js_new_event_page').find('.js_up_pointer').next().removeClass('up').prev().remove();					
-					loadNewEventFields(startDate);
-				}
-			});
-		});
 	}	
-	
 };

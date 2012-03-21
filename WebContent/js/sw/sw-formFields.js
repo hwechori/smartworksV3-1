@@ -164,7 +164,7 @@ function loadNewFileFields() {
 	}
 };
 
-function loadNewEventFields(startDate) {
+function loadNewEventFields(startDate, endDate) {
 	var newEventFields = $('div.js_new_event_fields');
 	if(!isEmpty(newEventFields)) {
 		for(var i=0; i<newEventFields.length; i++) {
@@ -191,10 +191,12 @@ function loadNewEventFields(startDate) {
 			});
 			gridRow.find('.form_label').hide();
 			gridRow.find('.form_value input').removeClass('fieldline').attr('placeholder', placeHolderTitle);
-	
 			var startDateStr = "";
-			if(!isEmpty(startDate))
-				startDateStr = startDate.format('yyyy.mm.dd hh:MM');
+			if(isEmpty(startDate)){
+				var today = new Date();
+				startDate = new Date(today.getTime() - today.getHours()*60*60*1000 - today.getMinutes()*60*1000);
+			}
+			startDateStr = startDate.format('yyyy.mm.dd hh:MM');
 			gridRow = SmartWorks.GridLayout.newGridRow().appendTo(gridTable);
 			gridRow.hide();
 			SmartWorks.FormRuntime.DateTimeChooserBuilder.buildEx({
@@ -206,10 +208,15 @@ function loadNewEventFields(startDate) {
 				colSpan: 1,
 				required: true
 			});
+
+			var endDateStr = "";
+			if(!isEmpty(endDate))
+				endDateStr = endDate.format('yyyy.mm.dd hh:MM');
 			SmartWorks.FormRuntime.DateTimeChooserBuilder.buildEx({
 				container: gridRow,
 				fieldId: "txtEventEndDate",
 				fieldName: endDateTitle,
+				value: endDateStr,
 				columns: 3,
 				colSpan: 1,
 				required: false
