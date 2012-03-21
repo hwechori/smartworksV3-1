@@ -16,7 +16,7 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	if(!options.refreshData)
 		options.container.html('');
 
-	var value = (options.dataField && options.dataField.value) || 'false';
+	var value = (options.dataField && (options.dataField.value=== 'on' || options.dataField.value=== 'true') ) || false;
 	var $entity = options.entity;
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
