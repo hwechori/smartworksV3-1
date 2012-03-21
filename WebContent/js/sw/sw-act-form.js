@@ -56,6 +56,25 @@ $(function() {
 		refreshRecord(input, paramsJson);
 	});
 
+	$('form[name="frmSmartForm"] .form_value fieldset input').live('change', function(e) {
+		var input = $(e.target);
+		var forms = input.parents('form[name="frmSmartForm"]');
+		var paramsJson = {};
+		for(var i=0; i<forms.length; i++){
+			var form = $(forms[i]);
+			
+			// 폼이 스마트폼이면 formId와 formName 값을 전달한다...
+			if(form.attr('name') === 'frmSmartForm'){
+				paramsJson['formId'] = form.attr('formId');
+				paramsJson['formName'] = form.attr('formName');
+			}
+			
+			// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
+			paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+		}
+		refreshRecord(input, paramsJson);
+	});
+
 	$('form[name="frmSmartForm"] .form_value > select').live('change', function(e) {
 		var input = $(e.target);
 		var forms = input.parents('form[name="frmSmartForm"]');
@@ -75,7 +94,7 @@ $(function() {
 		refreshRecord(input, paramsJson);
 	});
 	
-	$('form[name="frmSmartForm"] .form_value input.js_currency_input').live('blur', function(e) {
+	$('form[name="frmSmartForm"] .form_value input.js_number_input').live('blur', function(e) {
 		var input = $(e.target);
 		var forms = input.parents('form[name="frmSmartForm"]');
 		var paramsJson = {};
@@ -94,7 +113,7 @@ $(function() {
 		refreshRecord(input, paramsJson);
 	});
 
-	$('form[name="frmSmartForm"] .form_value input.js_number_input').live('blur', function(e) {
+	$('form[name="frmSmartForm"] .form_value input.js_currency_input').live('blur', function(e) {
 		var input = $(e.target);
 		var forms = input.parents('form[name="frmSmartForm"]');
 		var paramsJson = {};
