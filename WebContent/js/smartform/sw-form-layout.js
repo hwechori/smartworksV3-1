@@ -75,8 +75,10 @@ SmartWorks.GridLayout = function(config) {
 		$htmlForm.attr("formName", $form.attr('name'));
 		
 		var mode = this_.options.mode;
-		this_.options.target.html($htmlForm);			
-		if(!isEmpty(refreshTarget)){
+		if(isEmpty(refreshTarget) && !refreshOnly){
+			$htmlForm.appendTo(this_.options.target);			
+		}else if(!isEmpty(refreshTarget)){
+			$htmlForm.appendTo(refreshTarget);
 			mode = "edit";
 		}
 		
@@ -217,7 +219,7 @@ SmartWorks.GridLayout = function(config) {
 								}
 								
 								// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
-								paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+								paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form, false));
 							}
 							console.log(JSON.stringify(paramsJson));
 							$.ajax({
@@ -272,7 +274,7 @@ SmartWorks.GridLayout = function(config) {
 									}
 									
 									// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
-									paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+									paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form, false));
 								}
 								console.log(JSON.stringify(paramsJson));
 								$.ajax({
@@ -319,7 +321,7 @@ SmartWorks.GridLayout = function(config) {
 						}
 						
 						// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
-						paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+						paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form, false));
 					}
 					console.log(JSON.stringify(paramsJson));
 					$.ajax({
@@ -378,7 +380,7 @@ SmartWorks.GridLayout = function(config) {
 					}
 					
 					// 폼이름 키값으로 하여 해당 폼에 있는 모든 입력항목들을 JSON형식으로 Serialize 한다...
-					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form));
+					paramsJson[form.attr('name')] = mergeObjects(form.serializeObject(), SmartWorks.GridLayout.serializeObject(form, false));
 				}
 				console.log(JSON.stringify(paramsJson));
 				$.ajax({
@@ -426,11 +428,12 @@ SmartWorks.GridLayout.newGridRow = function(){
 };
 
 
-SmartWorks.GridLayout.serializeObject = function(form){
+SmartWorks.GridLayout.serializeObject = function(form, valueChanged){
+	if(valueChanged != false) valueChanged=true;
 	var fileFields = SmartWorks.FormRuntime.FileFieldBuilder.serializeObject(form.find('.js_type_fileField'));
 	var userFields = SmartWorks.FormRuntime.UserFieldBuilder.serializeObject(form.find('.js_type_userField'));
 	var departmentFields = {};//SmartWorks.FormRuntime.DepartmentFieldBuilder.serializeObject(form.find('.js_type_departmentField'));
-	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.serializeObject(form.find('.js_type_richEditor'));
+	var richEditors = SmartWorks.FormRuntime.RichEditorBuilder.serializeObject(form.find('.js_type_richEditor'), valueChanged);
 	var refFormFields = SmartWorks.FormRuntime.RefFormFieldBuilder.serializeObject(form.find('.js_type_refFormField'));
 	var imageBoxs = SmartWorks.FormRuntime.ImageBoxBuilder.serializeObject(form.find('.js_type_imageBox'));
 	var numberInputs = SmartWorks.FormRuntime.NumberInputBuilder.serializeObject(form.find('.js_type_numberInput'));

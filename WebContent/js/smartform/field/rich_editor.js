@@ -99,12 +99,12 @@ SmartWorks.FormRuntime.RichEditorBuilder.buildEx = function(config){
 	
 };
 
-SmartWorks.FormRuntime.RichEditorBuilder.serializeObject = function(richEditors){
+SmartWorks.FormRuntime.RichEditorBuilder.serializeObject = function(richEditors, valueChanged){
 	var richEditorsJson = {};
 	for(var i=0; i<richEditors.length; i++){
 		var richEditor = $(richEditors[i]);
 		var id = richEditor.attr('fieldId');
-		if(!isEmpty(oEditors) && !isEmpty(oEditors.getById[id])){
+		if(valueChanged && !isEmpty(oEditors) && !isEmpty(oEditors.getById[id])){
 			oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
 		}
 		richEditorsJson[richEditor.attr('fieldId')] = richEditor.find('textarea')[0].value;
