@@ -211,6 +211,8 @@ mark, rp, rt, ruby, summary, time {
 .pt3r2 {padding: 3px 2px 0 0 !important}
 .pt3r5l5 {padding: 3px 10px 0 5px !important}
 .pr5pl5 {padding: 0 5px !important}
+.pl0pr10 { padding:0 10px 0 0 !important}
+.pl10pr0 { padding:0 0 0 10px !important}
 
 .tl {text-align:left !important}
 .tc {text-align:center !important}

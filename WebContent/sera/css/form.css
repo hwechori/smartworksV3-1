@@ -2,7 +2,7 @@
 /* CSS Document */
 
 .form_layout {}
-.form_layout table {background-color:#ededed; border-bottom:1px solid #73afd3; padding:15px 5px}
+.form_layout table {background-color:#ededed; border-bottom:1px solid #73afd3; padding:15px 5px 10px}
 .form_layout table td,
 .form_layout table th {padding:3px 10px}
 .form_label { font-weight:bold; line-height:18px; width:90px}
