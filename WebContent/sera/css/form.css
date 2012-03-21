@@ -4,11 +4,23 @@
 .form_layout {}
 .form_layout table {background-color:#ededed; border-bottom:1px solid #73afd3; padding:15px 5px 10px}
 .form_layout table td,
-.form_layout table th {padding:3px 10px}
+.form_layout table th {padding:7px 10px}
 .form_label { font-weight:bold; line-height:18px; width:90px}
 .form_value {}
 .form_label, .form_value {float:left}
 .form_value input[type="text"] {width:100%; vertical-align:middle; text-align:left}
+
+/* Icon */
+.icon_fb_space {padding-right: 24px; position: relative;} /* 아이콘이 들어가 있는 영역- 캘린더아이콘 영역 */
+.btn_fb_space {padding-right: 65px; position: relative;} /* 버튼4자 들어가 있는 영역 */
+.btn_fb_space5 {padding-right: 75px; position: relative;} /* 버튼5자 들어가 있는 영역 */
+.icon_fb_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_users {background: url("../images/btn_s_persons.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_date {background: url("../images/btn_s_calendar.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_time {background: url("../images/btn_s_time.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_work {background: url("../images/btn_s_work.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_depart {background: url("../images/btn_s_depart.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_group {background: url("../images/btn_s_group.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
 
 /* 상세필터 */
 .filter_section {overflow:hidden;}
@@ -23,32 +35,10 @@
 .form_time_input {width:60px !important} /*time input 사이즈, 상세필터 공용*/
 .form_datetime_input {width:118px !important}
 
-/* Icon */
-.icon_fb_space {padding-right: 24px; position: relative;} /* 아이콘이 들어가 있는 영역- 캘린더아이콘 영역 */
-.btn_fb_space {padding-right: 65px; position: relative;} /* 버튼4자 들어가 있는 영역 */
-.btn_fb_space5 {padding-right: 75px; position: relative;} /* 버튼5자 들어가 있는 영역 */
-.icon_fb_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
-.icon_fb_users {background: url("../images/btn_s_persons.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
-.icon_fb_date {background: url("../images/btn_s_calendar.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
-.icon_fb_time {background: url("../images/btn_s_time.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
-.icon_fb_work {background: url("../images/btn_s_work.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
-.icon_fb_depart {background: url("../images/btn_s_depart.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
-.icon_fb_group {background: url("../images/btn_s_group.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0;}
-
 /* label check icon add */
 .required_label{background: url("../images/icon_check.png") 93% 3px no-repeat;}
 .required_label span{padding-right:12px}
 
-.form_number_input {text-align:right; max-width:300px;}
-.form_radio_btn
-.form_check_box
-.form_select_box {min-width:100px;}
 
-.btn_plus_space {padding-bottom:8px; width:25px;}
-.btn_plus {background: url("../images/btn_plus.gif") no-repeat 0 0 transparent; border: 0 none; cursor: pointer; height: 16px; padding: 0; width: 16px; display:inline-block}
-a .btn_plus:hover {background-position:0 -16px}
-.btn_delete {background: url("../images/btn_ic_delet.gif") no-repeat scroll left top transparent; border: 0 none; cursor: pointer; height: 11px;
-    padding: 0; width: 11px; position: relative;} /* 필터 안에 삭제버튼 */
-	
-.filter_btn_space {background-color:#FFF; padding:8px 0 0; height:22px; border-top: 1px solid #c7c7c7;}
-.btn_delete_posi {padding:0 0 0 9px}
+/* Input Type */
+label { margin:0 10px 0 0}
