@@ -11,6 +11,7 @@ smartCommon= {
 			hourGrid: 4,
 			minuteGrid: 10,
 			onSelect: function(date) {
+				$(this).change();
 				if(!isEmpty($('form.js_validation_required').find('.error'))){
 					$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 				}
@@ -24,6 +25,7 @@ smartCommon= {
 			defaultDate : new Date(),
 			dateFormat : 'yy.mm.dd',
 			onSelect: function(date) {
+				$(this).change();
 				if(!isEmpty($('form.js_validation_required').find('.error'))){
 					$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 				}
@@ -38,6 +40,7 @@ smartCommon= {
 			hourGrid: 4,
 			minuteGrid: 10,
 			onSelect: function(date) {
+				$(this).change();
 				if(!isEmpty($('form.js_validation_required').find('.error'))){
 					$('form.js_validation_required').validate({ showErrors: showErrors}).form();
 				}

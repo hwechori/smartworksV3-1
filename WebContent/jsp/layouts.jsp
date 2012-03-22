@@ -156,6 +156,7 @@ currentUser = {
 <script type="text/javascript" src="js/sw/sw-act-filter.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-work.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-space.js"></script>
+<script type="text/javascript" src="js/sw/sw-act-form.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-settings.js"></script>
 <script type="text/javascript" src="js/sw/sw-act-builder.js"></script>
 

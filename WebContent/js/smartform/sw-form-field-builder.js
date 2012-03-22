@@ -1,5 +1,5 @@
 SmartWorks.FormFieldBuilder = {};
-SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, layoutInstance) {
+SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, layoutInstance, refreshData) {
 	var type = $entity.find('format').attr('type');
 	$target.addClass('js_type_'+ type);
 	switch(type) {
@@ -9,6 +9,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;		
@@ -18,6 +19,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;		
@@ -27,6 +29,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;		
@@ -36,6 +39,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;
@@ -45,6 +49,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;
@@ -54,6 +59,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;
@@ -63,6 +69,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;
@@ -72,6 +79,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;
@@ -81,6 +89,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;
@@ -90,6 +99,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;
@@ -99,6 +109,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;
@@ -108,6 +119,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;
@@ -117,6 +129,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;	
@@ -126,6 +139,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;	
@@ -135,6 +149,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;	
@@ -144,6 +159,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;	
@@ -153,6 +169,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;	
@@ -165,6 +182,7 @@ SmartWorks.FormFieldBuilder.build = function(mode, $target, $entity, dataField, 
 			container : $target,
 			entity : $entity,
 			dataField : dataField,
+			refreshData : refreshData,
 			layoutInstance : layoutInstance
 		});
 		return;

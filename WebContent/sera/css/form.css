@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+
+.form_layout {}
+.form_layout table {background-color:#ededed; border-bottom:1px solid #73afd3; padding:15px 5px 10px}
+.form_layout table td,
+.form_layout table th {padding:7px 10px}
+.form_label { font-weight:bold; line-height:18px; width:90px}
+.form_value {}
+.form_label, .form_value {float:left}
+.form_value input[type="text"] {width:100%; vertical-align:middle; text-align:left}
+
+/* Icon */
+.icon_fb_space {padding-right: 24px; position: relative;} /* 아이콘이 들어가 있는 영역- 캘린더아이콘 영역 */
+.btn_fb_space {padding-right: 65px; position: relative;} /* 버튼4자 들어가 있는 영역 */
+.btn_fb_space5 {padding-right: 75px; position: relative;} /* 버튼5자 들어가 있는 영역 */
+.icon_fb_user {background: url("../images/btn_s_person.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_users {background: url("../images/btn_s_persons.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_date {background: url("../images/btn_s_calendar.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_time {background: url("../images/btn_s_time.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_work {background: url("../images/btn_s_work.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_depart {background: url("../images/btn_s_depart.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+.icon_fb_group {background: url("../images/btn_s_group.jpg") no-repeat 0 0; height:18px; width:19px; position: absolute; right: 0; top: 0; display:inline-block; vertical-align:middle}
+
+/* 상세필터 */
+.filter_section {overflow:hidden;}
+.filter_group {border:1px solid #e2e2e2; padding:5px; margin:0 0 3px 0;}
+.filter_group table { margin:0; text-align:right; } 
+.filter_area {padding:1px 0; clear:both; float:right;}
+.filter_area .selb_size_fir {float:left; margin-right:5px;}
+.filter_area .selb_size_sec {float:left; margin-right:5px; width:120px;}
+.str_field {width:200px; text-align:left; float:left;}
+
+.form_date_input {width:80px !important} /*date input 사이즈, 상세필터 공용*/
+.form_time_input {width:60px !important} /*time input 사이즈, 상세필터 공용*/
+.form_datetime_input {width:118px !important}
+
+/* label check icon add */
+.required_label{background: url("../images/icon_check.png") 93% 3px no-repeat;}
+.required_label span{padding-right:12px}
+
+
+/* Input Type */
+label { margin:0 10px 0 0}

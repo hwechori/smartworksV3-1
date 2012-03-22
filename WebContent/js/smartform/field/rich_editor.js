@@ -9,11 +9,13 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
 	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
@@ -34,11 +36,12 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 	}else{
 		required = "";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $textarea = null;
 	if(readOnly){
-				$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').html(value);
+		$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"></div>').html(value);
 	}else{	
 		$textarea = $('<div class="form_value" style="width:' + valueWidth + '%"><span' + required + '><textarea style="width:100%; height:' + height + 'px;display:none" id="' + id + '">'+value+'</textarea></span></div>');
 	}
@@ -46,16 +49,23 @@ SmartWorks.FormRuntime.RichEditorBuilder.build = function(config) {
 		$label.hide();
 		$textarea.hide();		
 	}
-	$textarea.appendTo(options.container);
-
-	if (!readOnly) {
-		nhn.husky.EZCreator.createInIFrame({
-			oAppRef: oEditors,
-			elPlaceHolder: id,
-			sSkinURI: "smarteditor/SEditorSkinKOR.html",
-			fCreator: "createSEditorInIFrame"
-		});
+	if(!options.refreshData){
+		$textarea.appendTo(options.container);
+		if (!readOnly) {
+			nhn.husky.EZCreator.createInIFrame({
+				oAppRef: oEditors,
+				elPlaceHolder: id,
+				sSkinURI: "smarteditor/SEditorSkinKOR.html",
+				fCreator: "createSEditorInIFrame"
+			});
+		}
+	}else{
+		if(readOnly)
+			options.container.find('.form_value').text(value);
+		else
+			options.container.find('.form_value textarea').attr('value', value);		
 	}
+
 	return options.container;
 };
 
@@ -89,12 +99,14 @@ SmartWorks.FormRuntime.RichEditorBuilder.buildEx = function(config){
 	
 };
 
-SmartWorks.FormRuntime.RichEditorBuilder.serializeObject = function(richEditors){
+SmartWorks.FormRuntime.RichEditorBuilder.serializeObject = function(richEditors, valueChanged){
 	var richEditorsJson = {};
 	for(var i=0; i<richEditors.length; i++){
 		var richEditor = $(richEditors[i]);
 		var id = richEditor.attr('fieldId');
-		if(!isEmpty(oEditors) && !isEmpty(oEditors.getById[id])) oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
+		if(valueChanged && !isEmpty(oEditors) && !isEmpty(oEditors.getById[id])){
+			oEditors.getById[id].exec("UPDATE_IR_FIELD", []);
+		}
 		richEditorsJson[richEditor.attr('fieldId')] = richEditor.find('textarea')[0].value;
 	}
 	return richEditorsJson;

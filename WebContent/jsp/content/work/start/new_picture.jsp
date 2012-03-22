@@ -94,9 +94,7 @@ function submitForms(e) {
 							data : JSON.stringify(paramsJson),
 							success : function(data, status, jqXHR) {
 								smartPop.closeProgress();
-								smartPop.showInfo(smartPop.INFO, smartMessage.get("uploadPictureSucceed"), function(){
-									document.location.href = data.href;
-								});
+								document.location.href = data.href;
 							},
 							error : function(e) {
 								smartPop.closeProgress();

@@ -312,19 +312,14 @@ $(function() {
 		if(isEmpty(comment)) return false;
 		var iworkManual = input.parents('.js_iwork_manual_page');
 		var pworkManual = input.parents('.js_pwork_manual_page');
-		var workType=-1, workId="", workInstanceId="", url="";
-		if(!isEmpty(iworkManual)){
-			workType = 21;
+		var workId="", workInstanceId="", url="";
+		if(!isEmpty(iworkManual))
 			workId = iworkManual.attr('workId');
-		}else if(!isEmpty(pworkManual)){
-			workType = 22;
+		else if(!isEmpty(pworkManual))
 			workId = pworkManual.attr('workId');
-		}else{
-			workType = parseInt(input.attr('workType'));
+		else
 			workInstanceId = input.parents('li:first').attr('instanceId');
-		}
 		var paramsJson = {};
-		paramsJson['workType'] = workType;
 		if(!isEmpty(workId)){
 			paramsJson['workId'] = workId;
 			url = "add_comment_on_work.sw";

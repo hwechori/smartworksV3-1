@@ -8,11 +8,13 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 	
 	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
@@ -32,7 +34,8 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 	}else{
 		required = " class='fieldline js_todaypicker' ";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $text = null;
 	if(readOnly){
@@ -45,9 +48,16 @@ SmartWorks.FormRuntime.DateChooserBuilder.build = function(config) {
 		$label.hide();
 		$text.hide();		
 	}
-	$text.appendTo(options.container);
-	
-	smartCommon.liveTodayPicker();
+
+	if(!options.refreshData){
+		$text.appendTo(options.container);		
+		smartCommon.liveTodayPicker();
+	}else{
+		if(readOnly)
+			options.container.find('.form_value').text(value);
+		else
+			options.container.find('.form_value input').attr('value', value);
+	}
 	
 	return options.container;
 };

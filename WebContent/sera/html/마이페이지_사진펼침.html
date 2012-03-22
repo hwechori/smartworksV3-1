@@ -3,8 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
-<link type="text/css" rel="stylesheet" href="../../css/default.css">
-<link type="text/css" rel="stylesheet" href="../../sera/css/page.css">
+<link type="text/css" rel="stylesheet" href="../css/default.css">
+<link type="text/css" rel="stylesheet" href="../css/page.css">
+<link type="text/css" rel="stylesheet" href="../css/form.css">
 </head>
 <body>
 <div id="wrap">
@@ -48,8 +49,8 @@
           <ul>
             <li class="icon_alarm"><a href="">알림</a></li>
             <li class="icon_mycourse"><a href="">내코스</a></li>
-            <li class="icon_chatting"><a href="">친구</a></li>
-            <li class="icon_message"><a href="">쪽지</a></li>
+            <li class="icon_friend"><a href="">친구</a></li>
+            <li class="icon_notes"><a href="">쪽지</a></li>
             <li class="icon_chaledar"><a href="">캘린더</a></li>
             <li class="icon_badge"><a href="">뱃지</a></li>
             <li class="icon_event"><a href="">이벤트</a></li>
@@ -94,7 +95,7 @@
           <!-- 우측 버튼 영역 -->
           <div class="attach_file">
             <ul>
-              <li class="t_s11"> <span class="t_red">0</span>/1000kbyte</li>
+              <li class="t_s11"> <span class="t_red">0</span> /1000kbyte</li>
               <li class="icon_memo ml10"><a href=""> </a></li>
               <li class="icon_video"><a href=""> </a></li>
               <li class="icon_photo"><a href=""> </a></li>
@@ -127,9 +128,9 @@
                 <div class="rgt_name">사랑사랑</div>
               </div>
               <div class="grade">
-                <div class="icon_mentor current">왕관</div>
-                <div class="icon_star">별</div>
-                <div class="icon_heart">하트</div>
+                <div class="icon_mentor current"></div>
+                <div class="icon_star"></div>
+                <div class="icon_heart"></div>
               </div>
             </li>
             <!-- photo//-->
@@ -138,18 +139,21 @@
               <div class="point"></div>
               <div class="panel_block fr">
                 <dl class="content">
-                  <dt class="name">몽슈니 <span class="t_redb">[미션1. 자화상 그리기]</span> <span class="icon_open fr"><a href="">펼침</a></span></dt>
+                  <dt class="name">코스명 <span class="t_redb">[미션1. 자화상 그리기]</span> <span class="icon_open fr" style="display:none"><a href="">펼침</a></span></dt>
                   <dd>
-                    <div class="text"> 시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~ </div>
+                    <div class="text w100"> 시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~ </div>
                     <!-- Thum Image-->
-                    <div class="thum_image"> <img src="../images/thum_image.jpg"/> </div>
+                    <div class="thum_image" style="display:none"> <img src="../images/thum_image.jpg"/> </div>
                     <!-- Thum Image//-->
+                    <!-- Detail Image -->
+                    <div class="detail_image" style="display:block"><img src="../images/detail_img-w540.jpg"/></div>
+                    <!-- Detail Image//-->
                   </dd>
                   <!-- Util -->
-                  <dd class="util"> <span class="icon_reply"><a href="">댓글달기</a> | </span> <span class="icon_like"><a href="">공감취소</a> | </span> <span class="date">2012 년 03 월 09 일</span> </dd>
+                  <dd class="util"> <span><a href="">댓글달기</a> | </span> <span><a href="">공감하기</a> | </span> <span class="date">2012 년 03 월 09 일</span> </dd>
                   <!-- Util //-->
                 </dl>
-                <div class="stat_notice"> 7개의 덧글이 있습니다 <span class="t_blueb">더보기</span> </div>
+                <div class="stat_notice"> 7개의 댓글이 모두보기</div>
                 <!-- Reply-->
                 <div class="reply_section">
                   <div class="photo"> <img src="../images/photo_mid48.jpg" /> </div>
@@ -165,15 +169,20 @@
                     <div class="icon_date">3월 5일</div>
                   </div>
                 </div>
-                <!-- Reply//-->
+                <!-- Reply//--> 
                 <!-- Reply-->
-                <div class="reply_section end">
-                  <textarea name="" cols="" rows="" class="fl" style="width:470px" placeholder="댓글을 남겨주세요!"></textarea>
-                  <div class="btn_default_l ml10">
-                    <div class="btn_default_r"> 등록 </div>
-                  </div>
-                </div>
-                <!-- Reply//-->
+            <div class="reply_section end">
+             <div class="photo"> <img src="../images/photo_mid48.jpg" /> 
+             <div class="name mt2">닉네임은</div>
+             </div>
+              <div class="reply_text">
+              	<textarea name="" cols="" rows="" class="fr" style="width:100%" placeholder="댓글을 남겨주세요!"></textarea>
+              </div>
+              <div class="btn_default_l cb fr mt5">
+                <div class="btn_default_r"> 등록 </div>
+              </div>
+            </div>
+            <!-- Reply//-->
               </div>
             </li>
             <!-- comment //-->
@@ -189,9 +198,9 @@
                 <div class="rgt_name">사랑사랑</div>
               </div>
               <div class="grade">
-                <div class="icon_mentor">왕관</div>
-                <div class="icon_star current">별</div>
-                <div class="icon_heart">하트</div>
+                <div class="icon_mentor"></div>
+                <div class="icon_star current"></div>
+                <div class="icon_heart"></div>
               </div>
             </li>
             <!-- photo//-->
@@ -200,12 +209,12 @@
               <div class="point"></div>
               <div class="panel_block fr">
                 <dl class="content">
-                  <dt class="icon_sm_message">쪽지 <span class="icon_open fr"><a href="">펼침</a></span></dt>
+                  <dt class="icon_sm_notes">쪽지 <span class="icon_delete fr"><a href="">삭제</a></span></dt>
                   <dd>
-                    <div class="message"> 시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~ </div>
+                    <div class="notes"> 시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~ </div>
                   </dd>
                   <!-- Util -->
-                  <dd class="util"> <span class="icon_reply"><a href="">댓글달기</a></span> <span class="icon_like"> | <a href="">공감취소</a></span> <span> | <span class="date">2012 년 03 월 09 일</span></span> </dd>
+                   <dd class="util"> <span><a href="">댓글달기</a></span> <span> | <a href="">공감하기</a></span> <span> | <a href="">더보기</a></span> <span> | <span class="date">2012 년 03 월 09 일</span></span> </dd>
                   <!-- Util //-->
                 </dl>
               </div>
@@ -223,9 +232,9 @@
                 <div class="rgt_name">사랑사랑</div>
               </div>
               <div class="grade">
-                <div class="icon_mentor">왕관</div>
-                <div class="icon_star current">별</div>
-                <div class="icon_heart">하트</div>
+                <div class="icon_mentor"></div>
+                <div class="icon_star current"></div>
+                <div class="icon_heart"></div>
               </div>
             </li>
             <!-- photo//-->
@@ -234,12 +243,12 @@
               <div class="point"></div>
               <div class="panel_block fr">
                 <dl class="content">
-                  <dt class="icon_sm_message">쪽지 <span class="icon_open fr"><a href="">펼침</a></span></dt>
+                  <dt class="icon_sm_notes">쪽지 <span class="icon_delete fr"><a href="">삭제</a></span></dt>
                   <dd>
-                    <div class="message"> 시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~ </div>
+                    <div class="notes"> 시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~시간이 지날수록 제 얼굴이 찐빵으로 그려지네요~ </div>
                   </dd>
                   <!-- Util -->
-                  <dd class="util"> <span class="icon_reply"><a href="">댓글달기</a></span> <span class="icon_like"> | <a href="">공감취소</a></span> <span> | <span class="date">2012 년 03 월 09 일</span></span> </dd>
+                  <dd class="util"> <span><a href="">댓글달기</a></span> <span> | <a href="">공감하기</a></span> <span> | <a href="">더보기</a></span> <span> | <span class="date">2012 년 03 월 09 일</span></span> </dd>
                   <!-- Util //-->
                 </dl>
               </div>
@@ -363,7 +372,7 @@
     <!-- Aside //-->
   </div>
   <div id="sera_footer">
-    <ul class="footerBox">
+    <ul class="footer_box">
       <li class="copyright"> <img width="270" height="20" src="../images/sera2_footer_Copyright.png"> </li>
       <li class="policy"> <a href="">회사소개</a> | <a href="">이용약관</a> | <a href="">개인정보취급방침</a> | <a href="">고객센터</a> </li>
     </ul>

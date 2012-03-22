@@ -8,15 +8,16 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
-	var value = (options.dataField && options.dataField.value) || 'false';
+	var value = (options.dataField && (options.dataField.value=== 'on' || options.dataField.value=== 'true') ) || false;
 	var $entity = options.entity;
-	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
 	var id = $entity.attr('id');
@@ -32,7 +33,8 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 	}else{
 		required = "";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 
 	var checked = (value) ? 'checked' : '' ;
 	
@@ -47,7 +49,14 @@ SmartWorks.FormRuntime.CheckBoxBuilder.build = function(config) {
 		$label.hide();
 		$check.hide();		
 	}
-	$check.appendTo(options.container);
+	if(!options.refreshData){
+		$check.appendTo(options.container);
+	}else{
+		if(readOnly)
+			options.container.find('.form_value').text(smartMessage.get((value==="true") ? "trueText" : "falseText"));
+		else
+			options.container.find('.form_value input').attr('checked', value);
+	}
 
 	return options.container;
 };

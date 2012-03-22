@@ -220,9 +220,6 @@
 		        	<%
 		        	if(!(workInstance.getType() == Instance.TYPE_COMMENT)) {
 			        	WorkInstanceInfo instance = (WorkInstanceInfo)workInstance;
-// TEST PURPOSE
-			        	//instance.setSubInstanceCount(21);
-// TEST PURPOSE
 			        	%>
 			            <ul class="js_comment_list">
 			            	<li class="js_comment_instance" style="display:none">
@@ -241,6 +238,7 @@
 			            	</li>
 			            	<%
 			            	if(instance.getSubInstanceCount()>WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT){
+			            		session.setAttribute("subComments", null);
 			            	%>
 				            	<li>
 				            		<img class="repl_tinfo">
@@ -271,7 +269,7 @@
 							<img src="<%=cUser.getMinPicture()%>" class="profile_size_c"/>
 						</div>
 						<div class="noti_in">
-							<textarea workType="<%=work.getType() %>" style="width:95%" class="up_textarea" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_comment'/>"></textarea>
+							<textarea style="width:95%" class="up_textarea" name="txtaCommentContent" placeholder="<fmt:message key='work.message.leave_comment'/>"></textarea>
 						</div>
 			        </div>
 			    

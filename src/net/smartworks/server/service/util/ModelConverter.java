@@ -146,6 +146,7 @@ import net.smartworks.server.engine.process.xpdl.xpdl2.WorkflowProcesses;
 import net.smartworks.server.engine.worklist.manager.IWorkListManager;
 import net.smartworks.server.engine.worklist.model.TaskWork;
 import net.smartworks.server.engine.worklist.model.TaskWorkCond;
+import net.smartworks.server.service.IInstanceService;
 import net.smartworks.server.service.IWorkService;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.util.LocalDate;
@@ -208,10 +209,15 @@ public class ModelConverter {
 	}
 
 	private static IWorkService workService;
+	private static IInstanceService instanceService;
 
 	@Autowired(required=true)
 	public void setWorkService(IWorkService workService) {
 		ModelConverter.workService = workService;
+	}
+	@Autowired(required=true)
+	public void setInstanceService(IInstanceService instanceService) {
+		ModelConverter.instanceService = instanceService;
 	}
 
 	private static PkgPackage getPkgPackageByPackageId(String packageId) throws Exception {
@@ -494,7 +500,7 @@ public class ModelConverter {
 		/*TYPE_INFORMATION = 21;
 		TYPE_PROCESS = 22;
 		TYPE_SCHEDULE = 23;*/
-		if(task.getTskRefType() != null) {
+/*		if(task.getTskRefType() != null) {
 			if(task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_BOARD))
 				workInfo.setType(SocialWork.TYPE_BOARD);
 			else if(task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_EVENT))
@@ -507,12 +513,12 @@ public class ModelConverter {
 				workInfo.setType(SocialWork.TYPE_MEMO);
 			else if(task.getTskRefType().equalsIgnoreCase(TskTask.TASKREFTYPE_MOVIE))
 				workInfo.setType(SocialWork.TYPE_MOVIE);
-		} else {
+		} else {*/
 			if(task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_COMMON))
 				workInfo.setType(SmartWork.TYPE_PROCESS);
 			else if(task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE))
 				workInfo.setType(SmartWork.TYPE_INFORMATION);
-		}
+		//}
 		if (task.getParentCtgId() != null) {
 			workInfo.setMyCategory(new WorkCategoryInfo(task.getParentCtgId(), task.getParentCtgName()));
 			workInfo.setMyGroup(new WorkCategoryInfo(task.getChildCtgId(), task.getChildCtgName()));
@@ -558,60 +564,18 @@ public class ModelConverter {
 			workInstanceInfo.setId(recordId);
 		}
 
-		List<InstanceInfo> instanceInfoList = new ArrayList<InstanceInfo>();
-
-		TaskWorkCond cond = new TaskWorkCond();
 		String tskWorkSpaceId = task.getTskPrcInstId();
 		if(task.getTskType().equals(SwfFormModel.TYPE_SINGLE)) {
 			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
 			tskWorkSpaceId = record.getRecordId();
 		}
-		cond.setTskWorkSpaceId(tskWorkSpaceId);
-		cond.setTskStatus(TskTask.TASKSTATUS_COMPLETE);
-		long subInstanceCount = getWlmManager().getTaskWorkListSize(userId, cond);
-		TaskWork[] subInstances = null;
-		if(subInstanceCount > 0)
-			subInstances = getWlmManager().getTaskWorkList(userId, cond);
-		OpinionCond opinionCond = new OpinionCond();
-		opinionCond.setRefId(tskWorkSpaceId);
-		long opinionCount = getOpinionManager().getOpinionSize(userId, opinionCond);
-		Opinion[] opinions = null;
-		if(opinionCount > 0)
-			opinions = getOpinionManager().getOpinions(userId, opinionCond, IManager.LEVEL_ALL);
-
-		if(!CommonUtil.isEmpty(opinions)) {
-			int opinionLength = opinions.length;
-			for(int i=0; i<opinionLength; i++) {
-				Opinion opinion = opinions[i];
-				CommentInstanceInfo commentInstanceInfo = new CommentInstanceInfo();
-				commentInstanceInfo.setId(opinion.getObjId());
-				commentInstanceInfo.setCommentType(CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL);
-				commentInstanceInfo.setComment(opinion.getOpinion());
-				commentInstanceInfo.setCommentor(ModelConverter.getUserInfoByUserId(opinion.getCreationUser()));
-				commentInstanceInfo.setLastModifiedDate(new LocalDate(opinion.getModificationDate().getTime()));
-				commentInstanceInfo.setType(Instance.TYPE_COMMENT);
-				commentInstanceInfo.setOwner(ModelConverter.getUserInfoByUserId(opinion.getCreationUser()));
-				commentInstanceInfo.setCreatedDate(new LocalDate(opinion.getCreationDate().getTime()));
-				commentInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(opinion.getModificationUser()));;
-				instanceInfoList.add(commentInstanceInfo);
-			}
-		}
 		InstanceInfo[] subInstancesInInstances = null;
-		WorkInstanceInfo[] workInstanceInfos = null;
-		if(!CommonUtil.isEmpty(subInstances))
-			subInstancesInInstances = getWorkInstanceInfosByTaskWorks(subInstances);
+		subInstancesInInstances = instanceService.getRecentSubInstancesInInstance(tskWorkSpaceId, -1);
+		int subInstanceCount = 0;
+		if(!CommonUtil.isEmpty(subInstancesInInstances))
+			subInstanceCount = subInstancesInInstances.length;
 
-		if(!CommonUtil.isEmpty(workInstanceInfos)) {
-			for(InstanceInfo instanceInfo : subInstancesInInstances) {
-				instanceInfoList.add(instanceInfo);
-			}
-		}
-		subInstanceCount = subInstanceCount + opinionCount;
-		if(instanceInfoList.size() > 0) {
-			subInstancesInInstances = new InstanceInfo[instanceInfoList.size()];
-			instanceInfoList.toArray(subInstancesInInstances);
-		}
-		workInstanceInfo.setSubInstanceCount((int)subInstanceCount);
+		workInstanceInfo.setSubInstanceCount(subInstanceCount);
 		workInstanceInfo.setSubInstances(subInstancesInInstances);
 		workInstanceInfo.setSubject(task.getPrcTitle());
 		//workInstanceInfo.setType(Instance.TYPE_WORK);

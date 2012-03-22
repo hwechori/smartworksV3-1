@@ -22,12 +22,17 @@ function submitForms() {
 	var newEvent = $('.js_new_event_page');
 
 	// new_event 에 있는 활성화되어 있는 모든 입력화면들을 validation하여 이상이 없으면 submit를 진행한다...
-	if(!SmartWorks.GridLayout.validate(newEvent.find('form.js_validation_required'), $('.js_upload_error_message'))) return
+	if(!SmartWorks.GridLayout.validate(newEvent.find('form.js_validation_required'), $('.js_upload_error_message'))) return;
 
 	var form = newEvent.find('form[name="frmNewEvent"]');
 	var name = form.find('input[name="txtEventName"]').attr("value");
 	var startDate = form.find('input[name="txtEventStartDate"]').attr("value");
 	var endDate = form.find('input[name="txtEventEndDate"]').attr("value");
+	if(!isEmpty(startDate) && !isEmpty(endDate)){
+		var start = new Date(startDate);
+		var end = new Date(endDate);
+		if(start.getTime()>(end.getTime()-30*60*1000)) endDate = (new Date(start.getTime() + 60*60*1000)).format('yyyy.mm.dd');
+	}
 	var alarmPolicy = form.find('select[name="selEventAlarmPolicy"]').attr("value");
 	var place = form.find('input[name="txtEventPlace"]').attr("value");
 	var relatedUserField = form.find('.js_type_userField .js_community_item');
@@ -97,9 +102,7 @@ function submitForms() {
 					success : function(data, status, jqXHR) {
 						// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
 						smartPop.closeProgress();
-						smartPop.showInfo(smartPop.INFO, smartMessage.get("createEventSucceed"), function(){
-							document.location.href = data.href;
-						});
+						document.location.href = data.href;
 					},
 					error : function(e) {
 						// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...

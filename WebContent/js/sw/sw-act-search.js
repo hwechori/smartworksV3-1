@@ -159,7 +159,7 @@ $(function() {
 			$("<span class='js_community_item user_select' comId='" + comId+ "'>" + comName
 					+ "<a class='js_remove_community' href=''>&nbsp;x</a></span>").insertBefore(inputTarget);
 		}
-		inputTarget.focus();
+		inputTarget.focus().parents('.js_community_names').change();
 		return false;
 	});
 
@@ -172,9 +172,9 @@ $(function() {
 			inputTarget.show();
 			inputTarget.next('.js_srch_x').show();
 		}
-		var selected_users = input.parents('.js_selected_communities');
 		input.parents('span.js_community_item').remove();
-		selected_users.next().focus();
+		userField.find('.js_community_names').change();
+		userField.find('input.js_auto_complete').focus();
 		return false;
 	});
 });

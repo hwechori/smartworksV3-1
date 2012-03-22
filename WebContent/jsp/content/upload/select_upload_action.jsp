@@ -139,8 +139,7 @@ default:
 		<%
 		// 실행되는 위치가 태스크 공간일 경우에는 이벤트등록하는 기능은 제외한다...
 		if(spaceType != ISmartWorks.SPACE_TYPE_WORK_INSTANCE 
-			&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE 
-			&& spaceType != ISmartWorks.SPACE_TYPE_USER) {
+			&& spaceType != ISmartWorks.SPACE_TYPE_TASK_INSTANCE) {
 		%>
 			<div class="up_event up_icon_list">
 				<a href="new_event.sw"><fmt:message key='common.upload.event' /></a>

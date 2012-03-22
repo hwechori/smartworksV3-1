@@ -520,6 +520,75 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
+
+	private SwdRecord setDataFieldsInfo(SwdRecord swdRecord, SwfForm swfForm) throws Exception {
+		if (swdRecord == null || swfForm == null)
+			return null;
+		
+		SwfField[] swfFields = swfForm.getFields();
+		SwdDataField[] swdDataFields = swdRecord.getDataFields();
+		for(SwdDataField swdDataField : swdDataFields) {
+			for(SwfField swfField : swfFields) {
+				if(swdDataField.getId().equals(swfField.getId())) {
+					String formatType = swfField.getFormat().getType();
+					String value = swdDataField.getValue();
+					String refRecordId = swdDataField.getRefRecordId();
+					List<Map<String, String>> resultUsers = null;
+					if(formatType.equals(FormField.TYPE_USER)) {
+						if(value != null && refRecordId != null) {
+							String[] values = value.split(";");
+							String[] refRecordIds = refRecordId.split(";");
+							resultUsers = new ArrayList<Map<String,String>>();
+							if(values.length > 0 && refRecordIds.length > 0) {
+								for(int j=0; j<values.length; j++) {
+									Map<String, String> map = new LinkedHashMap<String, String>();
+									map.put("userId", refRecordIds[j]);
+									map.put("longName", values[j]);
+									resultUsers.add(map);
+								}
+							} else {
+								Map<String, String> map = new LinkedHashMap<String, String>();
+								map.put("userId", refRecordId);
+								map.put("longName", value);
+								resultUsers.add(map);
+							}
+						}
+						swdDataField.setUsers(resultUsers);
+					} else if(formatType.equals(FormField.TYPE_DATE)) {
+						if(value != null) {
+							try {
+								LocalDate localDate = LocalDate.convertGMTStringToLocalDate(value);
+								if(localDate != null)
+									value = localDate.toLocalDateSimpleString();
+							} catch (Exception e) {
+							}
+						}
+					} else if(formatType.equals(FormField.TYPE_TIME)) {
+						if(value != null) {
+							try {
+								LocalDate localDate = LocalDate.convertGMTTimeStringToLocalDate(value);
+								if(localDate != null)
+									value = localDate.toLocalTimeShortString();
+							} catch (Exception e) {
+							}
+						}
+					} else if(formatType.equals(FormField.TYPE_DATETIME)) {
+						if(value != null) {
+							try {
+								LocalDate localDate = LocalDate.convertGMTStringToLocalDate(value);
+								if(localDate != null)
+									value = localDate.toLocalDateTimeSimpleString();
+							} catch (Exception e) {
+							}
+						}
+					}
+					swdDataField.setValue(value);
+				}
+			}
+		}
+		return swdRecord;
+		
+	}
 	public SwdRecord refreshDataFields(SwdRecord record) throws Exception {
 		try{
 			User cuser = SmartUtil.getCurrentUser();
@@ -537,7 +606,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			if (CommonUtil.isEmpty(fields))
 				return null;
 			
-			boolean isFirstSetMode = true; //초기 데이터 입력인지 수정인지를 판단한다
+			boolean isFirstSetMode = false; //초기 데이터 입력인지 수정인지를 판단한다
 			
 			//새로 값이 셋팅되어 변경될 레코드 클론
 			SwdRecord oldRecord = (SwdRecord)record.clone();
@@ -550,6 +619,8 @@ public class InstanceServiceImpl implements IInstanceService {
 				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord, isFirstSetMode);
 			}
 
+			setDataFieldsInfo(newRecord, form);
+			
 			if (logger.isInfoEnabled()) {
 				StringBuffer infoBuff = new StringBuffer();
 				infoBuff.append("Refresh Data Field \r\n[\r\n Original Record : \r\n").append(oldRecord.toString());
@@ -566,7 +637,6 @@ public class InstanceServiceImpl implements IInstanceService {
 			// Exception Handling Required			
 		}
 	}
-	
 	@Override
 	public SwdRecord refreshDataFields(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		
@@ -578,7 +648,7 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			String formId = (String)requestBody.get("formId");
 			
-			boolean isFirstSetMode = true; //초기 데이터 입력인지 수정인지를 판단한다
+			boolean isFirstSetMode = false; //초기 데이터 입력인지 수정인지를 판단한다
 			
 			//레코드 폼정보를 가져온다
 			if (CommonUtil.isEmpty(formId))
@@ -606,6 +676,9 @@ public class InstanceServiceImpl implements IInstanceService {
 			
 			SwdRecord record = getSwdRecordByRequestBody(userId, domainFields, requestBody, request);
 			
+			if (record.getCreationDate() == null)
+				record.setCreationDate(new LocalDate());
+			
 			//새로 값이 셋팅되어 변경될 레코드 클론
 			SwdRecord oldRecord = (SwdRecord)record.clone();
 			SwdRecord newRecord = (SwdRecord)record.clone();
@@ -617,6 +690,8 @@ public class InstanceServiceImpl implements IInstanceService {
 				setResultFieldMapByFields(userId, form, resultMap, field, newRecord, oldRecord, isFirstSetMode);
 			}
 
+			setDataFieldsInfo(newRecord, form);
+			
 			if (logger.isInfoEnabled()) {
 				StringBuffer infoBuff = new StringBuffer();
 				infoBuff.append("Refresh Data Field \r\n[\r\n Original Record : \r\n").append(oldRecord.toString());
@@ -629,6 +704,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
+			logger.error(e);
 			return null;			
 			// Exception Handling Required			
 		}
@@ -1093,6 +1169,7 @@ public class InstanceServiceImpl implements IInstanceService {
 		}catch (Exception e){
 			// Exception Handling Required
 			e.printStackTrace();
+			logger.error(e);
 			// Exception Handling Required			
 		}
 	}
@@ -2290,7 +2367,8 @@ public class InstanceServiceImpl implements IInstanceService {
 			cond.setTskWorkSpaceId(instanceId);
 			cond.setTskStatus(TskTask.TASKSTATUS_COMPLETE);
 			cond.setOrders(new Order[]{new Order("taskLastModifyDate", true)});
-			cond.setPageSize(length);
+			if(length == WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT)
+				cond.setPageSize(length);
 			TaskWork[] tasks = getWlmManager().getTaskWorkList(userId, cond);
 
 			InstanceInfo[] subInstancesInInstances = null;
@@ -2310,7 +2388,8 @@ public class InstanceServiceImpl implements IInstanceService {
 
 			OpinionCond opinionCond = new OpinionCond();
 			opinionCond.setRefId(instanceId);
-			opinionCond.setPageSize(length);
+			if(length == WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT)
+				opinionCond.setPageSize(length);
 			Opinion[] opinions = getOpinionManager().getOpinions(userId, opinionCond, IManager.LEVEL_ALL);
 			if(!CommonUtil.isEmpty(opinions)) {
 				int opinionLength = opinions.length;
@@ -2335,8 +2414,8 @@ public class InstanceServiceImpl implements IInstanceService {
 				instanceInfoList.toArray(subInstancesInInstances);
 			}
 
-			if(!CommonUtil.isEmpty(subInstancesInInstances)) {
-				if(length > 0) {
+			if(length == WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT) {
+				if(!CommonUtil.isEmpty(subInstancesInInstances)) {
 					if(subInstancesInInstances.length > length) {
 						List<InstanceInfo> resultInstanceInfoList = new ArrayList<InstanceInfo>();
 						for(int i=0; i<length; i++) {
@@ -4877,5 +4956,4 @@ public class InstanceServiceImpl implements IInstanceService {
 	public String tempSaveTaskInstance(Map<String, Object> requestBody, HttpServletRequest request) throws Exception {
 		return executeTask(requestBody, request, "save");
 	}
-
 }

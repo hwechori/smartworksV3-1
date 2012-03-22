@@ -8,11 +8,13 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 	
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
 	var $entity = options.entity;
 	var $refForm = $entity.find('refForm');	
@@ -38,7 +40,8 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 	}else{
 		required = "class='fieldline' ";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $refForm = null;
 	if(readOnly){
@@ -51,7 +54,11 @@ SmartWorks.FormRuntime.RefFormFieldBuilder.build = function(config) {
 		$label.hide();
 		$refForm.hide();		
 	}
-	$refForm.appendTo(options.container);
+	if(!options.refreshData){
+		$refForm.appendTo(options.container);
+	}else{
+		options.container.find('.form_value').html($refForm.children());		
+	}
 
 	return options.container;
 };

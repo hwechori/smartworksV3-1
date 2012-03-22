@@ -8,11 +8,13 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
 	var value = (options.dataField && parseFloat(options.dataField.value)) || 0;
 	var $entity = options.entity;
@@ -34,7 +36,8 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 	}else{
 		required = " class='js_currency_input fieldline tr' ";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $currency = null;
 	if(readOnly){
@@ -47,7 +50,15 @@ SmartWorks.FormRuntime.CurrencyInputBuilder.build = function(config) {
 		$label.hide();
 		$currency.hide();		
 	}
-	$currency.appendTo(options.container);
+	if(!options.refreshData){
+		$currency.appendTo(options.container);
+	}else{
+		if(readOnly)
+			options.container.find('.form_value').text(value);
+		else
+			options.container.find('.form_value input').attr('value', value);
+	}
+		
 	return options.container;
 };
 

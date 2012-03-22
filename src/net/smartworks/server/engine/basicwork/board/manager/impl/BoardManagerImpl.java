@@ -155,28 +155,28 @@ public class BoardManagerImpl extends AbstractManager implements IBoardManager {
 				buf.append(" and obj.modificationUser = :modificationUser");
 			if (modificationDate != null)
 				buf.append(" and obj.modificationDate = :modificationDate");
-			}
-			this.appendOrderQuery(buf, "obj", cond);
-			
-			Query query = this.createQuery(buf.toString(), cond);
-			if (cond != null) {
-				if (objId != null)
-					query.setString("objId", objId);
-				if (title != null)
-					query.setString("title", title);
-				if (content != null)
-					query.setString("content", content);
-				if (fileGroupId != null)
-					query.setString("fileGroupId", fileGroupId);
-				if (creationUser != null)
-					query.setString("creationUser", creationUser);
-				if (creationDate != null)
-					query.setTimestamp("creationDate", creationDate);
-				if (modificationUser != null)
-					query.setString("modificationUser", modificationUser);
-				if (modificationDate != null)
-					query.setTimestamp("modificationDate", modificationDate);
-			}
+		}
+		this.appendOrderQuery(buf, "obj", cond);
+		
+		Query query = this.createQuery(buf.toString(), cond);
+		if (cond != null) {
+			if (objId != null)
+				query.setString("objId", objId);
+			if (title != null)
+				query.setString("title", title);
+			if (content != null)
+				query.setString("content", content);
+			if (fileGroupId != null)
+				query.setString("fileGroupId", fileGroupId);
+			if (creationUser != null)
+				query.setString("creationUser", creationUser);
+			if (creationDate != null)
+				query.setTimestamp("creationDate", creationDate);
+			if (modificationUser != null)
+				query.setString("modificationUser", modificationUser);
+			if (modificationDate != null)
+				query.setTimestamp("modificationDate", modificationDate);
+		}
 		return query;
 
 	}

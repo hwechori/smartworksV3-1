@@ -132,10 +132,11 @@ $(document).ready(function(){
 		},
 	    events: function(start, end, callback) {
 	    	smartPop.progressCenter();
+	    	var workSpaceId = $('.js_event_list_page').attr('workSpaceId');
 	        $.ajax({
 	            url: 'get_events_by_dates.sw',
 	            data: {
-	            	workSpaceId: $('.js_event_list_page').attr('workSpaceId'),
+	            	workSpaceId: workSpaceId,
 	            	fromDate: start.format('yyyy.mm.dd'),
 	            	toDate: end.format('yyyy.mm.dd')
 	            },
@@ -146,16 +147,19 @@ $(document).ready(function(){
 		                for(var i=0; i<eventInstances.length; i++){
 		                	var event = eventInstances[i];
 		                	var ownerHtml = "";
-	                		ownerHtml = event.ownerPicture + '&' + event.ownerName + '&';
+	                		ownerHtml = event.ownerPicture + '&' + event.ownerName + '&' + event.name;
 
 	                		events.push({
 			                 	id: event.id,
-			            		title: ownerHtml + event.name,
+			            		title: ownerHtml,
 			                	start: new Date(event.start),
 			                 	end: new Date(event.end),
-			                 	allDay: false,
-			                 	editable: (event.ownerId === currentUser.userId) ? true : false,
-			                  	url: ""
+			                 	allDay: isEmpty(event.end),
+			                 	editable: false,
+			                 	backgroundColor: "#ffffff",
+			                 	textColor: "#000000",
+			                 	borderColor: "#ffffff",
+			                  	url: "iwork_space.sw?cid=iw.sp." + event.id  + "&wid=" + event.workSpaceId + "&workId=" + event.workId
 			            	});
 		                }
 	                }
@@ -171,18 +175,26 @@ $(document).ready(function(){
 		    agenda: 'H:mm{ - H:mm}',
 		    '': 'H(:mm)'
 		},
-		dayClick: function(date, allDay, jsEvent, view){
-			smartPop.createEvent(date);
+ 		dayClick: function(date, allDay, jsEvent, view){
+ 			var toDate = null;
+ 			console.log('hours=', date.getHours());
+ 			if(date.getHours()>0) toDate = new Date(date.getTime() + 60*60*1000);
+			loadNewEventFields(date, toDate);
+			$('div.js_new_event_fields .form_value:first input').click();			
 		},
+		
 		eventClick: function(event, jsEvent, view){
-			
+	    	smartPop.progressCenter();
 		},
+		
 	    eventRender: function(event, element) {
 	    	var title = $(element).find('.fc-event-title');
 	    	var titleText = title.html();
 	    	var tokens = titleText.split('&amp;');
 	    	var titleHtml = (tokens.length==3) ? '<img class="profile_size_s" src="' + tokens[0] + '" title="' + tokens[1] + '"/>  ' +  tokens[2] : tokens[0]; 
 	    	title.html(titleHtml);
+	    	var eventTime = $(element).find('.fc-event-time').html();
+	    	if(eventTime === '0') $(element).find('.fc-event-time').html('');
 	    },
 		firstDay: 1,
 		weekMode: 'liquid',

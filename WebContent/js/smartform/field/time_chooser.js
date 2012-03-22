@@ -8,15 +8,16 @@ SmartWorks.FormRuntime.TimeChooserBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
 	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
-	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
 	var id = $entity.attr('id');
@@ -32,7 +33,8 @@ SmartWorks.FormRuntime.TimeChooserBuilder.build = function(config) {
 	}else{
 		required = " class='fieldline js_timepicker' ";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $text = null;
 	if(readOnly){
@@ -45,9 +47,15 @@ SmartWorks.FormRuntime.TimeChooserBuilder.build = function(config) {
 		$label.hide();
 		$text.hide();		
 	}
-	$text.appendTo(options.container);
-
-	smartCommon.liveTimePicker();
+	if(!options.refreshData){
+		$text.appendTo(options.container);
+		smartCommon.liveTimePicker();
+	}else{
+		if(readOnly)
+			options.container.find('.form_value').text(value);
+		else
+			options.container.find('.form_value input').attr('value', value);
+	}
 	
 	return options.container;
 };

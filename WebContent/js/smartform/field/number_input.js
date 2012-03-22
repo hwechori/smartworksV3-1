@@ -8,11 +8,13 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 		container : $('<div></div>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
 	var value = (options.dataField && parseFloat(options.dataField.value)) || 0;
 	var $entity = options.entity;
@@ -32,7 +34,8 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 	}else{
 		required = " class='js_number_input fieldline tr' ";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $number = null;
 	if(readOnly){
@@ -45,7 +48,15 @@ SmartWorks.FormRuntime.NumberInputBuilder.build = function(config) {
 		$label.hide();
 		$number.hide();		
 	}
-	$number.appendTo(options.container);
+	
+	if(!options.refreshData){
+		$number.appendTo(options.container);
+	}else{
+		if(readOnly)
+			options.container.find('.form_value').text(value);
+		else
+			options.container.find('.form_value input').attr('value', value);
+	}
 
 	return options.container;
 };

@@ -60,15 +60,7 @@ function submitForms(e) {
 			success : function(data, status, jqXHR) {
 				// 성공시에 프로그래스바를 제거하고 성공메시지를 보여준다...
 				smartPop.closeProgress();
-				smartPop.confirm(smartMessage.get("startPWorkSucceed"), 
-						function(){
-							// 사용자가 해당페이지로 이동하기를 원하면 해당페이지로 이동한다...
-							document.location.href = data.href;					
-						},
-						function(){
-							// 사용자가 현재페이지에 있기를 원하면 그대로 있는다...
-							document.location.href = document.location.href;
-						});
+				document.location.href = data.href;					
 			},
 			error : function(e) {
 				// 서비스 에러시에는 메시지를 보여주고 현재페이지에 그래도 있는다...

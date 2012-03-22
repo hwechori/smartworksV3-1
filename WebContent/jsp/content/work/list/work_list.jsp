@@ -31,12 +31,12 @@
 			type : 'POST',
 			data : JSON.stringify(paramsJson),
 			success : function(data, status, jqXHR) {
-				$('#pwork_instance_list_page').html(data);
+				$('#work_instance_list_page').html(data);
 				smartPop.closeProgress();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				smartPop.closeProgress();
-				smartPop.showInfo(smartPop.ERROR, smartMessage.get('pworkListError'));
+				smartPop.showInfo(smartPop.ERROR, smartMessage.get('workListError'));
 			}
 		});
 	};

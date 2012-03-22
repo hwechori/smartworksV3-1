@@ -14,11 +14,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.smartworks.model.community.info.UserInfo;
 import net.smartworks.model.filter.SearchFilter;
+import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.RequestParams;
+import net.smartworks.model.report.Data;
 import net.smartworks.model.work.FileCategory;
 import net.smartworks.model.work.SmartWork;
+import net.smartworks.server.engine.common.util.CommonUtil;
+import net.smartworks.server.engine.infowork.domain.model.SwdRecord;
 import net.smartworks.service.ISmartWorks;
 import net.smartworks.service.impl.SmartWorks;
 import net.smartworks.util.LocalDate;
@@ -153,7 +158,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 
 	@RequestMapping("/sub_instances_in_instance")
 	public ModelAndView subInstancesInInstance(HttpServletRequest request, HttpServletResponse response) {
-
+		request.getSession().setAttribute("subComments", null);
 		return SmartUtil.returnMnv(request, "jsp/content/work/list/sub_instances_in_instance.jsp", "");
 	}
 
@@ -398,48 +403,34 @@ public class WorkInstanceController extends ExceptionInterceptor {
 			String ownerId;
 			String ownerName;
 			String ownerPicture;
+			String workSpaceId;
 			
 			public String getId() {
 				return id;
 			}
-			public void setId(String id) {
-				this.id = id;
-			}
 			public String getName() {
 				return name;
-			}
-			public void setName(String name) {
-				this.name = name;
 			}
 			public String getStart() {
 				return start;
 			}
-			public void setStart(String start) {
-				this.start = start;
-			}
 			public String getEnd() {
 				return end;
-			}
-			public void setEnd(String end) {
-				this.end = end;
 			}
 			public String getOwnerId() {
 				return ownerId;
 			}
-			public void setOwnerId(String ownerId) {
-				this.ownerId = ownerId;
-			}
 			public String getOwnerName() {
 				return ownerName;
-			}
-			public void setOwnerName(String ownerName) {
-				this.ownerName = ownerName;
 			}
 			public String getOwnerPicture() {
 				return ownerPicture;
 			}
-			public void setOwnerPicture(String ownerPicture) {
-				this.ownerPicture = ownerPicture;
+			public String getWorkSpaceId() {
+				return workSpaceId;
+			}
+			public String getWorkId() {
+				return SmartWork.ID_EVENT_MANAGEMENT;
 			}
 			public EventInfo(){
 			}
@@ -456,6 +447,7 @@ public class WorkInstanceController extends ExceptionInterceptor {
 			event.ownerId = eventInstance.getOwner().getId();
 			event.ownerName = eventInstance.getOwner().getLongName();
 			event.ownerPicture = eventInstance.getOwner().getMinPicture();
+			event.workSpaceId = eventInstance.getWorkSpace().getId();
 			events[i] = event;
 		}
 		Map<String, Object> map = new HashMap<String, Object>();

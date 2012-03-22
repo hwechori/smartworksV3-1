@@ -9,11 +9,13 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 		entity : null,
 		value : '',
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
 	var value = (options.dataField && options.dataField.value) || '';
 	var $entity = options.entity;
@@ -34,7 +36,8 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	}else{
 		required = "";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $staticItems = $format.find('list staticItems staticItem');
 	var $input_container = $('<div class="form_value" style="width:' + valueWidth + '%"></div>');
@@ -59,7 +62,10 @@ SmartWorks.FormRuntime.RadioButtonBuilder.build = function(config) {
 	}
 	$fieldset.appendTo($input_container);
 
-	$input_container.appendTo(options.container);
+	if(!options.refreshData)	
+		$input_container.appendTo(options.container);
+	else
+		options.container.find('.form_value').html($input_container.children());
 
 	if ($graphic.attr('hidden') == 'true') {
 		$label.hide();

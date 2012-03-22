@@ -8,16 +8,17 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		container : $('<td></td>'),
 		entity : null,
 		dataField : '',
+		refreshData : false,
 		layoutInstance : null
 	};
 
 	SmartWorks.extend(options, config);
-	options.container.html('');
+	if(!options.refreshData)
+		options.container.html('');
 
 	var users = (options.dataField && options.dataField.users) || new Array();
 
 	var $entity = options.entity;
-	//var $graphic = $entity.children('graphic');
 	var $graphic = $entity.children('graphic');
 	var readOnly = $graphic.attr('readOnly') === 'true' || options.mode === 'view';
 	var multiUsers = $graphic.attr('multipleUsers');
@@ -35,7 +36,8 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 	}else{
 		required = " class='fieldline community_names js_community_names'";
 	}
-	$label.appendTo(options.container);
+	if(!options.refreshData)
+		$label.appendTo(options.container);
 	
 	var $user = null;
 	
@@ -84,7 +86,10 @@ SmartWorks.FormRuntime.UserFieldBuilder.build = function(config) {
 		$label.hide();
 		$user.hide();		
 	}
-	$user.appendTo(options.container);
+	if(!options.refreshData)
+		$user.appendTo(options.container);
+	else
+		options.container.find('.form_value').html($user.children());
 
 	return options.container;
 };

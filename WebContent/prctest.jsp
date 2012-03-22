@@ -71,11 +71,16 @@ public static Object getBean(String beanName, HttpServletRequest request) {
 
 
 	SwdRecord record = new SwdRecord();
-	record.setFormId("frm_b3d8e20aae294d0fb35ac3ac35c98eb3");
+	record.setFormId("frm_5a08a4c62def404db0302fb3cf8f6d45");
 	record.setCreationDate(new Date());
+	record.setDataFieldValue("3", "string", null);
+	record.setDataFieldValue("2", "string", null);
+	record.setDataFieldValue("1", "string", null);
+	record.setDataFieldValue("0", "string", null);
+	record.setDataFieldValue("26", "string", null);
 	
 	
-
+	System.out.println(record);
 	/* SwdDataField dataField = new SwdDataField();
 	dataField.setId("1");
 	dataField.setType("string");
