@@ -57,6 +57,7 @@ public interface ISwdManager extends IManager {
 	public void removeDataRef(String user, String objId) throws SwdException;
 	public long getDataRefSize(String user, SwdDataRefCond cond) throws SwdException;
 	public SwdDataRef[] getDataRefs(String user, SwdDataRefCond cond, String level) throws SwdException;
+	public int getTableRowCount(String tableName) throws SwdException;
 
 	/**
 	 * 이전 매핑을 처리합니다.

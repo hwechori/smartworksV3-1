@@ -33,12 +33,14 @@ import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.filter.Condition;
 import net.smartworks.model.filter.SearchFilter;
 import net.smartworks.model.filter.info.SearchFilterInfo;
+import net.smartworks.model.instance.CommentInstance;
 import net.smartworks.model.instance.InformationWorkInstance;
 import net.smartworks.model.instance.Instance;
 import net.smartworks.model.instance.ProcessWorkInstance;
 import net.smartworks.model.instance.TaskInstance;
 import net.smartworks.model.instance.WorkInstance;
 import net.smartworks.model.instance.info.BoardInstanceInfo;
+import net.smartworks.model.instance.info.CommentInstanceInfo;
 import net.smartworks.model.instance.info.EventInstanceInfo;
 import net.smartworks.model.instance.info.FileInstanceInfo;
 import net.smartworks.model.instance.info.IWInstanceInfo;
@@ -107,6 +109,9 @@ import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormModel;
 import net.smartworks.server.engine.infowork.form.model.SwfFormat;
+import net.smartworks.server.engine.opinion.manager.IOpinionManager;
+import net.smartworks.server.engine.opinion.model.Opinion;
+import net.smartworks.server.engine.opinion.model.OpinionCond;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoDepartmentExtend;
 import net.smartworks.server.engine.organization.model.SwoGroup;
@@ -198,6 +203,9 @@ public class ModelConverter {
 	private static IWorkListManager getWlmManager() {
 		return SwManagerFactory.getInstance().getWorkListManager();
 	}
+	private static IOpinionManager getOpinionManager() {
+		return SwManagerFactory.getInstance().getOpinionManager();
+	}
 
 	private static IWorkService workService;
 
@@ -262,7 +270,6 @@ public class ModelConverter {
 		for (int i = 0; i < tasks.length; i++) {
 			TaskWork task = tasks[i];
 			TaskInstanceInfo taskInfo = new TaskInstanceInfo();
-			
 			taskInfo.setId(task.getTskObjId());
 			taskInfo.setSubject(task.getPrcTitle());
 			if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_APPROVAL)) {
@@ -274,7 +281,7 @@ public class ModelConverter {
 			} else if (task.getTskType().equalsIgnoreCase(TskTask.TASKTYPE_SINGLE)) {
 				taskInfo.setTaskType(TaskInstance.TYPE_INFORMATION_TASK_ASSIGNED);
 			}
-			
+
 			SmartWorkInfo workInfo = new SmartWorkInfo();
 			workInfo.setId(task.getPackageId());
 			workInfo.setName(task.getPackageName());
@@ -551,8 +558,10 @@ public class ModelConverter {
 			workInstanceInfo.setId(recordId);
 		}
 
+		List<InstanceInfo> instanceInfoList = new ArrayList<InstanceInfo>();
+
 		TaskWorkCond cond = new TaskWorkCond();
-		String tskWorkSpaceId = task.getTskObjId();
+		String tskWorkSpaceId = task.getTskPrcInstId();
 		if(task.getTskType().equals(SwfFormModel.TYPE_SINGLE)) {
 			SwdRecord record = (SwdRecord)SwdRecord.toObject(task.getTskDoc());
 			tskWorkSpaceId = record.getRecordId();
@@ -560,12 +569,50 @@ public class ModelConverter {
 		cond.setTskWorkSpaceId(tskWorkSpaceId);
 		cond.setTskStatus(TskTask.TASKSTATUS_COMPLETE);
 		long subInstanceCount = getWlmManager().getTaskWorkListSize(userId, cond);
-		workInstanceInfo.setSubInstanceCount((int)subInstanceCount);
-		TaskWork[] subInstances = getWlmManager().getTaskWorkList(userId, cond);
+		TaskWork[] subInstances = null;
+		if(subInstanceCount > 0)
+			subInstances = getWlmManager().getTaskWorkList(userId, cond);
+		OpinionCond opinionCond = new OpinionCond();
+		opinionCond.setRefId(tskWorkSpaceId);
+		long opinionCount = getOpinionManager().getOpinionSize(userId, opinionCond);
+		Opinion[] opinions = null;
+		if(opinionCount > 0)
+			opinions = getOpinionManager().getOpinions(userId, opinionCond, IManager.LEVEL_ALL);
+
+		if(!CommonUtil.isEmpty(opinions)) {
+			int opinionLength = opinions.length;
+			for(int i=0; i<opinionLength; i++) {
+				Opinion opinion = opinions[i];
+				CommentInstanceInfo commentInstanceInfo = new CommentInstanceInfo();
+				commentInstanceInfo.setId(opinion.getObjId());
+				commentInstanceInfo.setCommentType(CommentInstance.COMMENT_TYPE_ON_WORK_MANUAL);
+				commentInstanceInfo.setComment(opinion.getOpinion());
+				commentInstanceInfo.setCommentor(ModelConverter.getUserInfoByUserId(opinion.getCreationUser()));
+				commentInstanceInfo.setLastModifiedDate(new LocalDate(opinion.getModificationDate().getTime()));
+				commentInstanceInfo.setType(Instance.TYPE_COMMENT);
+				commentInstanceInfo.setOwner(ModelConverter.getUserInfoByUserId(opinion.getCreationUser()));
+				commentInstanceInfo.setCreatedDate(new LocalDate(opinion.getCreationDate().getTime()));
+				commentInstanceInfo.setLastModifier(ModelConverter.getUserInfoByUserId(opinion.getModificationUser()));;
+				instanceInfoList.add(commentInstanceInfo);
+			}
+		}
+		InstanceInfo[] subInstancesInInstances = null;
 		WorkInstanceInfo[] workInstanceInfos = null;
 		if(!CommonUtil.isEmpty(subInstances))
-			workInstanceInfos = getWorkInstanceInfosByTaskWorks(subInstances);
-		workInstanceInfo.setSubInstances(workInstanceInfos);
+			subInstancesInInstances = getWorkInstanceInfosByTaskWorks(subInstances);
+
+		if(!CommonUtil.isEmpty(workInstanceInfos)) {
+			for(InstanceInfo instanceInfo : subInstancesInInstances) {
+				instanceInfoList.add(instanceInfo);
+			}
+		}
+		subInstanceCount = subInstanceCount + opinionCount;
+		if(instanceInfoList.size() > 0) {
+			subInstancesInInstances = new InstanceInfo[instanceInfoList.size()];
+			instanceInfoList.toArray(subInstancesInInstances);
+		}
+		workInstanceInfo.setSubInstanceCount((int)subInstanceCount);
+		workInstanceInfo.setSubInstances(subInstancesInInstances);
 		workInstanceInfo.setSubject(task.getPrcTitle());
 		//workInstanceInfo.setType(Instance.TYPE_WORK);
 		workInstanceInfo.setWork(workInfo);
@@ -581,7 +628,7 @@ public class ModelConverter {
 	public static InstanceInfo[] getInstanceInfoArrayByTaskWorkArray(String userId, TaskWork[] tasks) throws  Exception {
 		
 		List<InstanceInfo> resultInfoList = new ArrayList<InstanceInfo>();
-		
+
 		for (int i = 0; i < tasks.length; i++) {
 			TaskWork task = tasks[i];
 			if (task.getPrcObjId() == null)
@@ -1780,7 +1827,13 @@ public class ModelConverter {
 		processWork.setManualFilePath("MANUAL FILE PATH");
 		
 		processWork.setDiagram(getSmartDiagramByPkgInfo(userId, pkg));
-		
+
+		OpinionCond opinionCond = new OpinionCond();
+		opinionCond.setRefId(pkg.getPackageId());
+		opinionCond.setRefType(6);
+		long commentCount = getOpinionManager().getOpinionSize(userId, opinionCond);
+		processWork.setCommentCount((int)commentCount);
+
 		return processWork;
 	}
 	private static SmartDiagram getSmartDiagramByPkgInfo(String userId, PkgPackage pkg) throws Exception {

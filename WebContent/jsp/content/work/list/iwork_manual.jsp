@@ -76,9 +76,6 @@
 						</div>
 	            	</li>
 	            	<%
-// TEST PURPOSE
-					work.setCommentCount(8);
-// TEST PURPOSE
 	            	if(work.getCommentCount()>WorkInstance.DEFAULT_SUB_INSTANCE_FETCH_COUNT){
 	            	%>
 		            	<li>

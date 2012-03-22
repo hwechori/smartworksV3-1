@@ -1,3 +1,4 @@
+<%@page import="net.smartworks.model.instance.info.CommentInstanceInfo"%>
 <%@page import="net.smartworks.model.instance.WorkInstance"%>
 <%@page import="net.smartworks.util.SmartTest"%>
 <%@page import="net.smartworks.model.instance.info.InstanceInfo"%>
@@ -68,6 +69,7 @@
 			FileInstanceInfo file=null;
 			ImageInstanceInfo image=null;
 			MemoInstanceInfo memo=null;
+			CommentInstanceInfo comment=null;
 	%>
 			<li class="sub_instance_list js_sub_instance_list" instanceId="<%=workInstance.getId() %>" >
 				<%
@@ -173,9 +175,29 @@
 						</div>
 					</div>
 				<%
-					break;
+				break;
+				// 태스크가 댓글인 경우...									
+				case Instance.TYPE_COMMENT:
+					comment = (CommentInstanceInfo)workInstance;
+			%>
+				<div class="det_title">
+					<div class="noti_pic">
+						<a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>">
+							<img src="<%=owner.getMidPicture()%>" class="profile_size_c">
+						</a>
+					</div>
+					<div class="noti_in">
+						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
+						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
+						<div><%=comment.getComment() %>
+							<%if(workInstance.isNew()){ %><span class="icon_new"></span><%} %>
+						</div>
+					</div>
+				</div>
+			<%
+				break;
 				default:
-				%>
+			%>
 					<div class="det_title">
 						<div class="noti_pic"><a class="js_pop_user_info" href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>" userId="<%=owner.getId()%>" profile="<%=owner.getOrgPicture()%>" userDetail="<%=userDetailInfo%>"><img src="<%=owner.getMidPicture()%>" class="profile_size_m"></a></div>
 						<div class="noti_in_m">
@@ -190,12 +212,13 @@
 					</div>
 				<%
 				}
-				%>		
+				%>
 				<!-- 댓글 -->
 			   <div class="reply_point pos_reply"></div>
 			   <div class="reply_section">  
 			        <div class="list_reply">
-			        	<%
+		        	<%
+		        	if(!(workInstance.getType() == Instance.TYPE_COMMENT)) {
 			        	WorkInstanceInfo instance = (WorkInstanceInfo)workInstance;
 // TEST PURPOSE
 			        	//instance.setSubInstanceCount(21);
@@ -255,7 +278,8 @@
 			    </div>
 			    <!-- 댓글 //-->
 			</li>
-	<%							
+	<%		
+			}					
 		}
 	}
 	%>

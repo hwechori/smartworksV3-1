@@ -1,3 +1,11 @@
+<%@page import="net.smartworks.server.engine.infowork.domain.model.SwdDomain"%>
+<%@page import="net.smartworks.server.engine.infowork.domain.model.SwdDomainCond"%>
+<%@page import="net.smartworks.server.engine.category.model.CtgCategory"%>
+<%@page import="net.smartworks.server.engine.category.model.CtgCategoryCond"%>
+<%@page import="net.smartworks.server.engine.process.process.model.PrcProcessInst"%>
+<%@page import="net.smartworks.server.engine.process.process.model.PrcProcessInstCond"%>
+<%@page import="net.smartworks.server.engine.pkg.model.PkgPackageCond"%>
+<%@page import="net.smartworks.server.engine.pkg.model.PkgPackage"%>
 <%@page import="net.smartworks.server.engine.opinion.model.Opinion"%>
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="java.util.HashMap"%>
@@ -298,7 +306,7 @@
 	String dd = LocalDate.convertGMTStringToLocalDate("2012-02-23 15:00:00.0").toLocalDateTimeSimpleString();
 	System.out.println(dd); */
 
-	User user = SmartUtil.getCurrentUser();
+/* 	User user = SmartUtil.getCurrentUser();
 	String userId = user.getId();
 	Opinion opinion = new Opinion();
 	String workInstanceId = "dr_402880ed3614eeda0136150157930004";
@@ -319,11 +327,151 @@
 	if (!CommonUtil.isEmpty(singleWorkInfos)) {
 		String[] singleWorkInfo = StringUtils.tokenizeToStringArray(singleWorkInfos, "|");	
 		domainId = singleWorkInfo[0];
+	} */
+
+ 	User user = SmartUtil.getCurrentUser();
+	String userId = user.getId();
+	PkgPackageCond pkgPackageCond = new PkgPackageCond();
+	pkgPackageCond.setStatus("DEPLOYED");
+	pkgPackageCond.setOrders(new Order[]{new Order("categoryId", true)});
+	PkgPackage[] pkgPackages = SwManagerFactory.getInstance().getPkgManager().getPackages(userId, pkgPackageCond, IManager.LEVEL_LITE);
+
+	Map<String, FileCategoryInfo> informationMap = new LinkedHashMap<String, FileCategoryInfo>();
+	Map<String, FileCategoryInfo> prcInstMap = new LinkedHashMap<String, FileCategoryInfo>();
+
+	FileCategoryInfo[] fileCategoryInfos = null;
+	List<FileCategoryInfo> fileCategoryInfoList = new ArrayList<FileCategoryInfo>();
+	List<FileCategoryInfo> fileCategoryInfoList2 = new ArrayList<FileCategoryInfo>();
+	if(!CommonUtil.isEmpty(pkgPackages)) {
+		for(PkgPackage pkgPackage : pkgPackages) {
+			if(pkgPackage.getType().equalsIgnoreCase("SINGLE")) {
+				SwfFormCond formCond = new SwfFormCond();
+				formCond.setPackageId(pkgPackage.getPackageId());
+				SwfForm[] swfForms = SwManagerFactory.getInstance().getSwfManager().getForms(userId, formCond, IManager.LEVEL_LITE);
+				if(!CommonUtil.isEmpty(swfForms)) {
+					for(SwfForm swfForm : swfForms) {
+						String formId = swfForm.getId();
+						SwdDomainCond domainCond = new SwdDomainCond();
+						domainCond.setFormId(formId);
+						SwdDomain[] swdDomains = SwManagerFactory.getInstance().getSwdManager().getDomains(userId, domainCond, IManager.LEVEL_LITE);
+						String id = swfForm.getPackageId();
+						String name = swfForm.getName();
+						int length = 0; 
+						if(!CommonUtil.isEmpty(swdDomains)) {
+							SwdDomain swdDomain = swdDomains[0];
+							FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
+							String packageId = id;
+							String packageName = name;
+							String tableName = swdDomain.getTableName();
+							length = SwManagerFactory.getInstance().getSwdManager().getTableRowCount(tableName);
+							fileCategoryInfo.setId(packageId);
+							fileCategoryInfo.setName(packageName);
+							fileCategoryInfo.setLength(length);
+							informationMap.put(packageId, fileCategoryInfo);
+						}
+					}
+				}
+				
+			} else if(pkgPackage.getType().equalsIgnoreCase("PROCESS")) {
+				PrcProcessInstCond prcProcessInstCond = new PrcProcessInstCond();
+				prcProcessInstCond.setDiagramId(pkgPackage.getPackageId());
+				PrcProcessInst[] prcProcessInsts = SwManagerFactory.getInstance().getPrcManager().getProcessInsts(userId, prcProcessInstCond, IManager.LEVEL_LITE);
+				if(!CommonUtil.isEmpty(prcProcessInsts)) {
+					for(PrcProcessInst prcProcessInst : prcProcessInsts) {
+						String diagramId = prcProcessInst.getDiagramId();
+						if(!CommonUtil.isEmpty(diagramId)) {
+							FileCategoryInfo fileCategoryInfo = new FileCategoryInfo();
+							String prcName = prcProcessInst.getName();
+							int length = 0;
+							fileCategoryInfo.setId(diagramId);
+							fileCategoryInfo.setName(prcName);
+							if(prcInstMap.size() > 0) {
+								for(Map.Entry<String, FileCategoryInfo> entry : prcInstMap.entrySet()) {
+									if(entry.getKey().equals(fileCategoryInfo.getId()))
+										length = entry.getValue().getLength() + 1;
+								}
+							}
+							fileCategoryInfo.setLength(length);
+							prcInstMap.put(diagramId, fileCategoryInfo);
+						}
+					}
+				}
+			}
+		}
+	}
+	if(!CommonUtil.isEmpty(informationMap)) {
+		for(Map.Entry<String, FileCategoryInfo> entry : informationMap.entrySet()) {
+			FileCategoryInfo fileCategoryInfo = entry.getValue();
+			fileCategoryInfoList.add(fileCategoryInfo);
+		}
+	}
+	if(fileCategoryInfoList.size() > 0) {
+		fileCategoryInfos = new FileCategoryInfo[fileCategoryInfoList.size()];
+		fileCategoryInfoList.toArray(fileCategoryInfos);
+	}
+	if(!CommonUtil.isEmpty(fileCategoryInfos)) {
+		for(FileCategoryInfo fileCategoryInfo : fileCategoryInfos) {
+			PkgPackageCond packageCond = new PkgPackageCond();
+			packageCond.setPackageId(fileCategoryInfo.getId());
+			PkgPackage pkgPackage = SwManagerFactory.getInstance().getPkgManager().getPackage(userId, packageCond, IManager.LEVEL_LITE);
+			if(pkgPackage != null) {
+				String categoryId = pkgPackage.getCategoryId();
+				CtgCategoryCond categoryCond = new CtgCategoryCond();
+				categoryCond.setObjId(categoryId);
+				CtgCategory ctgCategory = SwManagerFactory.getInstance().getCtgManager().getCategory(userId, categoryCond, IManager.LEVEL_LITE);
+				if(ctgCategory != null) {
+					String ctgName = ctgCategory.getName();
+					String parentId = ctgCategory.getParentId();
+					categoryCond = new CtgCategoryCond();
+					categoryCond.setObjId(parentId);
+					ctgCategory = SwManagerFactory.getInstance().getCtgManager().getCategory(userId, categoryCond, IManager.LEVEL_LITE);
+					String parentName = "";
+					if(ctgCategory != null) {
+						if(!ctgCategory.getObjId().equals("_PKG_ROOT_"))
+							parentName = ctgCategory.getName() + " > ";
+					}
+					System.out.println("정보관리업무명 : " + parentName + ctgName + " > " + fileCategoryInfo.getName() + ", 등록건수 : " + fileCategoryInfo.getLength());
+				}
+			}
+		}
 	}
 
-	/* opinion.setRefId(workInstanceId);
-	opinion.setOpinion(comment);
-	SwManagerFactory.getInstance().getOpinionManager().setOpinion(userId, opinion, IManager.LEVEL_ALL); */
+	if(!CommonUtil.isEmpty(prcInstMap)) {
+		for(Map.Entry<String, FileCategoryInfo> entry : prcInstMap.entrySet()) {
+			FileCategoryInfo fileCategoryInfo = entry.getValue();
+			fileCategoryInfoList2.add(fileCategoryInfo);
+		}
+	}
+	if(fileCategoryInfoList2.size() > 0) {
+		fileCategoryInfos = new FileCategoryInfo[fileCategoryInfoList2.size()];
+		fileCategoryInfoList2.toArray(fileCategoryInfos);
+	}
+	if(!CommonUtil.isEmpty(fileCategoryInfos)) {
+		for(FileCategoryInfo fileCategoryInfo : fileCategoryInfos) {
+			PkgPackageCond packageCond = new PkgPackageCond();
+			packageCond.setPackageId(fileCategoryInfo.getId());
+			PkgPackage pkgPackage = SwManagerFactory.getInstance().getPkgManager().getPackage(userId, packageCond, IManager.LEVEL_LITE);
+			if(pkgPackage != null) {
+				String categoryId = pkgPackage.getCategoryId();
+				CtgCategoryCond categoryCond = new CtgCategoryCond();
+				categoryCond.setObjId(categoryId);
+				CtgCategory ctgCategory = SwManagerFactory.getInstance().getCtgManager().getCategory(userId, categoryCond, IManager.LEVEL_LITE);
+				if(ctgCategory != null) {
+					String ctgName = ctgCategory.getName();
+					String parentId = ctgCategory.getParentId();
+					categoryCond = new CtgCategoryCond();
+					categoryCond.setObjId(parentId);
+					ctgCategory = SwManagerFactory.getInstance().getCtgManager().getCategory(userId, categoryCond, IManager.LEVEL_LITE);
+					String parentName = "";
+					if(ctgCategory != null) {
+						if(!ctgCategory.getObjId().equals("_PKG_ROOT_"))
+							parentName = ctgCategory.getName() + " > ";
+					}
+					System.out.println("프로세스업무명 : " + parentName + ctgName + " > " + fileCategoryInfo.getName() + ", 등록건수 : " + fileCategoryInfo.getLength());
+				}
+			}
+		}
+	}
 
 %>
 <textarea style="width:800px;height:400px;">

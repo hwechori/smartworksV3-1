@@ -2262,4 +2262,14 @@ public class SwdManagerImpl extends AbstractManager implements ISwdManager {
 
 	}
 
+	@Override
+	public int getTableRowCount(String tableName) throws SwdException {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("select count(*) from ");
+		stringBuffer.append(tableName);
+		Query query = this.getSession().createSQLQuery(stringBuffer.toString());
+		int count = (Integer)query.uniqueResult();
+		return count;
+	}
+
 }

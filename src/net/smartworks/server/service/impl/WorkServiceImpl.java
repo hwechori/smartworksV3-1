@@ -65,6 +65,9 @@ import net.smartworks.server.engine.infowork.form.model.SwfField;
 import net.smartworks.server.engine.infowork.form.model.SwfForm;
 import net.smartworks.server.engine.infowork.form.model.SwfFormCond;
 import net.smartworks.server.engine.infowork.form.model.SwfFormFieldDef;
+import net.smartworks.server.engine.opinion.manager.IOpinionManager;
+import net.smartworks.server.engine.opinion.model.Opinion;
+import net.smartworks.server.engine.opinion.model.OpinionCond;
 import net.smartworks.server.engine.organization.manager.ISwoManager;
 import net.smartworks.server.engine.organization.model.SwoUser;
 import net.smartworks.server.engine.organization.model.SwoUserExtend;
@@ -121,6 +124,9 @@ public class WorkServiceImpl implements IWorkService {
 	}
 	private IColManager getColManager() {
 		return SwManagerFactory.getInstance().getColManager();
+	}
+	private IOpinionManager getOpinionManager() {
+		return SwManagerFactory.getInstance().getOpinionManager();
 	}
 
 	private AuthenticationManager authenticationManager;
@@ -577,6 +583,13 @@ public class WorkServiceImpl implements IWorkService {
 					}
 				}
 			}
+
+			OpinionCond opinionCond = new OpinionCond();
+			opinionCond.setRefId(workId);
+			opinionCond.setRefType(6);
+			long commentCount = getOpinionManager().getOpinionSize(userId, opinionCond);
+			resultwork.setCommentCount((int)commentCount);
+
 			return resultwork;
 		} catch(Exception e) {
 			e.printStackTrace();

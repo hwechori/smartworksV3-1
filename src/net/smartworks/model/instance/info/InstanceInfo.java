@@ -5,7 +5,7 @@ import net.smartworks.model.community.info.WorkSpaceInfo;
 import net.smartworks.model.work.info.WorkInfo;
 import net.smartworks.util.LocalDate;
 
-public class InstanceInfo{
+public class InstanceInfo implements Comparable<InstanceInfo> {
 
 	private String id;
 	private String subject;
@@ -103,5 +103,9 @@ public class InstanceInfo{
 		this.owner = owner;
 		this.lastModifier = lastModifier;
 		this.lastModifiedDate = lastModifiedDate;
+	}
+	@Override
+	public int compareTo(InstanceInfo o) {
+		return this.getLastModifiedDate().compareTo(((InstanceInfo)o).getLastModifiedDate());
 	}
 }

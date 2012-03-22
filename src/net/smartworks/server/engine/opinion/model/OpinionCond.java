@@ -8,6 +8,8 @@
 
 package net.smartworks.server.engine.opinion.model;
 
+import java.util.Date;
+
 import net.smartworks.server.engine.common.model.BaseObject;
 import net.smartworks.server.engine.common.model.MisObject;
 import net.smartworks.server.engine.common.model.MisObjectCond;
@@ -43,6 +45,8 @@ public class OpinionCond extends MisObjectCond {
 	private String refFormId;
 	private String title;
 	private String opinion;
+	private Date writtenDateFrom;
+	private Date writtenDateTo;
 
 	public OpinionCond() {
 		super();
@@ -253,6 +257,18 @@ public class OpinionCond extends MisObjectCond {
 	}
 	public void setRefFormId(String refFormId) {
 		this.refFormId = refFormId;
+	}
+	public Date getWrittenDateFrom() {
+		return writtenDateFrom;
+	}
+	public void setWrittenDateFrom(Date writtenDateFrom) {
+		this.writtenDateFrom = writtenDateFrom;
+	}
+	public Date getWrittenDateTo() {
+		return writtenDateTo;
+	}
+	public void setWrittenDateTo(Date writtenDateTo) {
+		this.writtenDateTo = writtenDateTo;
 	}
 
 }

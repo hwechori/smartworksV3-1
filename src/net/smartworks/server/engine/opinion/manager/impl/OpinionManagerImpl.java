@@ -136,6 +136,8 @@ public class OpinionManagerImpl extends AbstractManager implements IOpinionManag
 		Date creationDate = null;
 		String modificationUser = null;
 		Date modificationDate = null;
+		Date writtenDateFrom = null;
+		Date writtenDateTo = null;
 
 		if (cond != null) {
 			objId = cond.getObjId();
@@ -150,6 +152,8 @@ public class OpinionManagerImpl extends AbstractManager implements IOpinionManag
 			creationDate = cond.getCreationDate();
 			modificationUser = cond.getModificationUser();
 			modificationDate = cond.getModificationDate();
+			writtenDateFrom = cond.getWrittenDateFrom();
+			writtenDateTo = cond.getWrittenDateTo();
 		}
 		buf.append(" from Opinion obj");
 		buf.append(" where obj.objId is not null");
@@ -179,36 +183,45 @@ public class OpinionManagerImpl extends AbstractManager implements IOpinionManag
 				buf.append(" and obj.modificationUser = :modificationUser");
 			if (modificationDate != null)
 				buf.append(" and obj.modificationDate = :modificationDate");
-			}
-			this.appendOrderQuery(buf, "obj", cond);
-			
-			Query query = this.createQuery(buf.toString(), cond);
-			if (cond != null) {
-				if (objId != null)
-					query.setString("objId", objId);
-				if (refType != 0)
-					query.setInteger("refType", refType);
-				if (groupId != null)
-					query.setString("groupId", groupId);
-				if (refId != null)
-					query.setString("refId", refId);
-				if (refDomainId != null)
-					query.setString("refDomainId", refDomainId);
-				if (refFormId != null)
-					query.setString("refFormId", refFormId);
-				if (title != null)
-					query.setString("title", title);
-				if (opinion != null)
-					query.setString("opinion", opinion);
-				if (creationUser != null)
-					query.setString("creationUser", creationUser);
-				if (creationDate != null)
-					query.setTimestamp("creationDate", creationDate);
-				if (modificationUser != null)
-					query.setString("modificationUser", modificationUser);
-				if (modificationDate != null)
-					query.setTimestamp("modificationDate", modificationDate);
-			}
+			if (writtenDateFrom != null)
+				buf.append(" and obj.creationDate > :writtenDateFrom ");
+			if (writtenDateTo != null)
+				buf.append(" and obj.creationDate < :writtenDateTo ");
+		}
+		this.appendOrderQuery(buf, "obj", cond);
+		
+		Query query = this.createQuery(buf.toString(), cond);
+		if (cond != null) {
+			if (objId != null)
+				query.setString("objId", objId);
+			if (refType != 0)
+				query.setInteger("refType", refType);
+			if (groupId != null)
+				query.setString("groupId", groupId);
+			if (refId != null)
+				query.setString("refId", refId);
+			if (refDomainId != null)
+				query.setString("refDomainId", refDomainId);
+			if (refFormId != null)
+				query.setString("refFormId", refFormId);
+			if (title != null)
+				query.setString("title", title);
+			if (opinion != null)
+				query.setString("opinion", opinion);
+			if (creationUser != null)
+				query.setString("creationUser", creationUser);
+			if (creationDate != null)
+				query.setTimestamp("creationDate", creationDate);
+			if (modificationUser != null)
+				query.setString("modificationUser", modificationUser);
+			if (modificationDate != null)
+				query.setTimestamp("modificationDate", modificationDate);
+			if (writtenDateFrom != null)
+				query.setTimestamp("writtenDateFrom", writtenDateFrom);
+			if (writtenDateTo != null)
+				query.setTimestamp("writtenDateTo", writtenDateTo);
+		}
+
 		return query;
 
 	}

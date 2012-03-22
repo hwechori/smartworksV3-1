@@ -173,7 +173,7 @@ if (subInstances != null) {
 				</div>
 			<%
 				break;
-			// 태스크가 메모인 경우...									
+			// 태스크가 댓글인 경우...									
 			case Instance.TYPE_COMMENT:
 				comment = (CommentInstanceInfo)workInstance;
 			%>
@@ -184,11 +184,9 @@ if (subInstances != null) {
 						</a>
 					</div>
 					<div class="noti_in">
-						<div><%=((SmartWorkInfo)workInstance.getWork()).getFullpathName()%></div>
 						<a href="<%=owner.getSpaceController() %>?cid=<%=owner.getSpaceContextId()%>"><span class="t_name"><%=owner.getLongName()%></span></a>
 						<span class="t_date"><%=workInstance.getLastModifiedDate().toLocalString()%></span>
 						<div><%=comment.getComment() %>
-							<%if(((WorkInstanceInfo)workInstance).getSubInstanceCount()>0){ %><font class="t_sub_count">[<b><%=((WorkInstanceInfo)workInstance).getSubInstanceCount() %></b>]</font><%} %>
 							<%if(workInstance.isNew()){ %><span class="icon_new"></span><%} %>
 						</div>
 					</div>
